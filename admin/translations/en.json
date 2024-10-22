@@ -415,6 +415,9 @@
             "unprocessable": "Invalid file",
             "error": "Could not save SCO whitelist",
             "success": "SCO whitelist saved"
+          },
+          "export": {
+            "button": "Export whitelist as CSV"
           }
         },
         "scoring-simulator": {

@@ -32,77 +32,106 @@ module('Integration | Component | administration/certification/sco-whitelist-con
     window.fetch.restore();
   });
 
-  module('when import succeeds', function (hooks) {
-    hooks.beforeEach(function () {
-      fetchStub
-        .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'text/csv',
-            Accept: 'application/json',
-          },
-          method: 'POST',
-          body: file,
-        })
-        .resolves(fetchResponse({ status: 201 }));
+  module('importScoWhitelist', function () {
+    module('when import succeeds', function (hooks) {
+      hooks.beforeEach(function () {
+        fetchStub
+          .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'text/csv',
+              Accept: 'application/json',
+            },
+            method: 'POST',
+            body: file,
+          })
+          .resolves(fetchResponse({ status: 201 }));
+      });
+
+      test('it displays a success notification', async function (assert) {
+        // when
+        const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
+        const input = await screen.getByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.success')));
+      });
     });
 
-    test('it displays a success notification', async function (assert) {
-      // when
-      const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
-      const input = await screen.getByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
-      await triggerEvent(input, 'change', { files: [file] });
+    module('when import fails', function () {
+      test('it displays an error notification', async function (assert) {
+        // given
+        fetchStub
+          .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'text/csv',
+              Accept: 'application/json',
+            },
+            method: 'POST',
+            body: file,
+          })
+          .rejects();
+        // when
+        const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
+        const input = await screen.findByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
+        await triggerEvent(input, 'change', { files: [file] });
 
-      // then
-      assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.success')));
+        // then
+        assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.error')));
+      });
+    });
+
+    module('when file is invalid', function () {
+      test('it displays an error notification', async function (assert) {
+        // given
+        fetchStub
+          .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'text/csv',
+              Accept: 'application/json',
+            },
+            method: 'POST',
+            body: file,
+          })
+          .resolves({ status: 422 });
+        // when
+        const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
+        const input = await screen.findByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.unprocessable')));
+      });
     });
   });
 
-  module('when import fails', function () {
-    test('it displays an error notification', async function (assert) {
-      // given
-      fetchStub
-        .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'text/csv',
-            Accept: 'application/json',
-          },
-          method: 'POST',
-          body: file,
-        })
-        .rejects();
-      // when
-      const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
-      const input = await screen.findByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
-      await triggerEvent(input, 'change', { files: [file] });
+  module('exportScoWhitelist', function () {
+    module('when export succeeds', function () {
+      test('it triggers a download with the right endpoint', async function (assert) {
+        // when
+        const fileSaverSaveStub = sinon.stub();
 
-      // then
-      assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.error')));
-    });
-  });
+        class FileSaverStub extends Service {
+          save = fileSaverSaveStub;
+        }
 
-  module('when file is invalid', function () {
-    test('it displays an error notification', async function (assert) {
-      // given
-      fetchStub
-        .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'text/csv',
-            Accept: 'application/json',
-          },
-          method: 'POST',
-          body: file,
-        })
-        .resolves({ status: 422 });
-      // when
-      const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
-      const input = await screen.findByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
-      await triggerEvent(input, 'change', { files: [file] });
+        this.owner.register('service:fileSaver', FileSaverStub);
+        const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
+        // await this.pauseTest();
+        const button = await screen.getByText(t('pages.administration.certification.sco-whitelist.export.button'));
+        await triggerEvent(button, 'click');
 
-      // then
-      assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.unprocessable')));
+        // then
+        sinon.assert.calledWith(fileSaverSaveStub, {
+          url: `${ENV.APP.API_HOST}/api/admin/sco-whitelist`,
+          fileName: 'whatever.csv',
+          token: accessToken,
+        });
+        assert.ok(true);
+      });
     });
   });
 });

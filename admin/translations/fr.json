@@ -425,6 +425,9 @@
             "unprocessable": "Fichier invalide",
             "error": "Échec de l'enregistrement de la liste blanche",
             "success": "Liste blanche enregistrée"
+          },
+          "export": {
+            "button": "Exporter la liste blanche au format CSV"
           }
         },
         "scoring-simulator": {
