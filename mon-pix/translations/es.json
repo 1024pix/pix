@@ -563,15 +563,10 @@
       "steps": {
         "1": {
           "paragraphs": {
-            "1": {
-              "text": "'<strong>'Se trata de una prueba adaptativa'</strong>'. En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real."
-            },
-            "2": {
-              "text": "Si no puedes responder a una pregunta, '<strong>'tienes la opción de \"saltarte\" esa pregunta'</strong>'. '<br>'Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer."
-            },
-            "3": {
-              "text": "'<strong>'Es importante completar la prueba'</strong>', y por tanto gestionar bien el tiempo. Se aplicará una '<strong>'penalización'</strong>' teniendo en cuenta el número de preguntas restantes."
-            }
+            "1": "'<strong>'Se trata de una prueba adaptativa'</strong>'. En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real.",
+            "2": "Si no puedes responder a una pregunta, '<strong>'tienes la opción de \"saltarte\" esa pregunta'</strong>'. '<br>'Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer.",
+            "3": "'<strong>'Es importante completar la prueba'</strong>', y por tanto gestionar bien el tiempo. Se aplicará una '<strong>'penalización'</strong>' teniendo en cuenta el número de preguntas restantes.",
+            "4": "To obtain a score as close as possible to your ability, '<strong>'you need to complete the test'</strong>'."
           },
           "question": "¿Cómo funciona la prueba de certificación?",
           "title": "Bienvenido a la certificación Pix"
@@ -582,15 +577,10 @@
             "text": "1 H 45 min"
           },
           "paragraphs": {
-            "1": {
-              "question": "¿El número de preguntas?",
-              "text": "La certificación contiene '<strong>'32 preguntas'</strong>'."
-            },
-            "2": {
-              "light-text": "*excluyendo cualquier tiempo adicional.",
-              "question": "¿Cuánto durará la prueba?",
-              "text": "Tienes un máximo de '<strong>'1h45*'</strong>'."
-            }
+            "1": "La certificación contiene '<strong>'32 preguntas'</strong>'.",
+            "2": "Tienes un máximo de '<strong>'1h45*'</strong>'.",
+            "3": "*excluyendo cualquier tiempo adicional.",
+            "4": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
           },
           "title": "¿Cómo funciona la prueba de certificación?"
         },
@@ -612,21 +602,27 @@
           "title": "Dos tipos de preguntas"
         },
         "4": {
-          "paragraph": {
-            "text": "'<strong>'En caso de problema técnico'</strong>' (por ejemplo, la imagen se niega a mostrarse), siga estos pasos: '<br><br>' haga clic en '<strong>'\"Informar de un problema con la pregunta\"'</strong>', luego en \"Sí, estoy seguro\" e informe a su supervisor."
+          "list": {
+            "1": "Go to the bottom of the page",
+            "2": "Select “Report a problem with the question”",
+            "3": "Click on “Yes, I'm sure”",
+            "4": "Call the invigilator who will intervene to help you"
           },
+          "text": "'<strong>'En caso de problema técnico'</strong>' (por ejemplo, la imagen se niega a mostrarse), siga estos pasos:",
           "title": "¿Qué hacer en caso de problema?"
         },
         "5": {
           "checkbox-label": "Al marcar esta casilla, reconozco que he leído estas normas y me comprometo a cumplirlas.",
           "list": {
-            "miscellaneous": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción.",
-            "no-artificial-intelligence": "'<strong>'Utilizar un sistema de inteligencia artificial'</strong>' o un chatbot",
-            "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (físicas o electrónicas), recursos de spoilers o notas personales.",
-            "no-communication": "'<strong>'Comunicarse con otra persona'</strong>', dentro o fuera de la sala, por medios físicos o electrónicos.",
-            "no-connected-device": "'<strong>'Utilizar un teléfono móvil o cualquier dispositivo conectado'</strong>' (distinto del ordenador utilizado en la certificación)",
-            "no-forum": "'<strong>'Consulta un foro de autoayuda'</strong>' proporcionando directamente la respuesta a un test"
+            "1": "'<strong>'Comunicarse con otra persona'</strong>', dentro o fuera de la sala, por medios físicos o electrónicos..",
+            "2": "'<strong>'Utilizar un teléfono móvil o cualquier dispositivo conectado'</strong>' (distinto del ordenador utilizado en la certificación)",
+            "3": "'<strong>'Utilizar un sistema de inteligencia artificial'</strong>' o un chatbot",
+            "4": "'<strong>'Consulta un foro de autoayuda'</strong>' proporcionando directamente la respuesta a un test",
+            "5": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción.",
+            "6": "'<strong>'Use another browser'</strong>' other than the one you are using for your Pix Certification test.",
+            "7": "'<strong>'Impersonate'</strong>' another person."
           },
+          "pix-companion": "Access to certain sites is prohibited during the certification test, thanks to an extension installed on the browser. Any proven fraud (attempt to bypass the extension or failure to comply with the behaviors listed above) may invalidate your certification.",
           "text": "En certificación, está prohibido :",
           "title": "Normas que deben respetarse"
         }

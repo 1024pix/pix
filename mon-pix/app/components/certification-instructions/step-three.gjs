@@ -18,7 +18,7 @@ import { t } from 'ember-intl';
       <dt class="instructions-content__title--bold">
         {{t "pages.certification-instructions.steps.3.paragraphs.1.title"}}
       </dt>
-      <dd class="instructions-description-list__first-description">
+      <dd>
         {{t "pages.certification-instructions.steps.3.paragraphs.1.text" htmlSafe=true}}
       </dd>
 

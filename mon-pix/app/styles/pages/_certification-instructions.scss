@@ -59,9 +59,9 @@
   flex-direction: column;
 
   &__title {
-    &--bold {
-      @extend %pix-title-xs;
+    @extend %pix-title-xs;
 
+    &--bold {
       padding-bottom: var(--pix-spacing-3x);
       font-weight: 700;
       line-height: 2.1;
@@ -77,8 +77,9 @@
   &__paragraph {
     padding-bottom: var(--pix-spacing-4x);
 
-    &:last-child {
-      padding-bottom: 0;
+    &--light {
+      font-size: 0.875rem;
+      padding-bottom: var(--pix-spacing-6x);
     }
   }
 
@@ -119,21 +120,20 @@
   }
 }
 
-.instructions-content-step-two {
-  display: flex;
-  flex-direction: column;
+ul.instructions-content-list {
+  list-style: disc;
+}
 
-  &__paragraph {
-    padding-bottom: var(--pix-spacing-8x);
-  }
+ol.instructions-content-list {
+  list-style: decimal;
 }
 
 .instructions-content-list {
+  padding-left: var(--pix-spacing-12x);
   padding-bottom: var(--pix-spacing-4x);
 
   li {
-    margin-left: var(--pix-spacing-4x);
-    list-style: disc;
+    padding-left: var(--pix-spacing-4x);
   }
 }
 
@@ -142,7 +142,7 @@
   flex-direction: column;
   padding-bottom: var(--pix-spacing-3x);
 
-  &__first-description {
+  > dd:first-of-type {
     margin-bottom: var(--pix-spacing-8x);
   }
 }

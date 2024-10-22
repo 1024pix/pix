@@ -570,17 +570,12 @@
       "steps": {
         "1": {
           "paragraphs": {
-            "1": {
-              "text": "'<strong>'Il s'agit d'un test adaptatif'</strong>'. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes."
-            },
-            "2": {
-              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
-            },
-            "3": {
-              "text": "'<strong>'Il est important d'aller jusqu'au bout du test'</strong>', et donc de bien gérer votre temps. Une '<strong>'pénalité'</strong>' tenant compte du nombre de questions restantes sera appliquée."
-            }
+            "1": "La Certification Pix est un '<strong>'test adaptatif'</strong>' permettant d’évaluer votre niveau sur l’'<strong>'ensemble des 16 compétences numériques du référentiel Pix'</strong>'.",
+            "2": "La '<strong>'difficulté des questions s’adapte en temps réel'</strong>' en fonction des réponses apportées.",
+            "3": "Si certaines questions vous semblent difficiles, c’est parce que le test de certification cherche à mesurer votre niveau maximum. '<strong>'Si vous ne savez pas répondre à une question, vous avez la possibilité de la \"passer\"'</strong>' : celle-ci ne sera pas proposée à nouveau au cours de cette certification et ne sera pas validée.",
+            "4": "Pour obtenir un score au plus proche de votre capacité '<strong>'il est nécessaire d'aller au bout du test'</strong>'."
           },
-          "question": "Comment fonctionne le test de certification ?",
+          "question": "Comment se déroule le test ?",
           "title": "Bienvenue à la certification Pix"
         },
         "2": {
@@ -589,15 +584,12 @@
             "text": "1 H 45 min"
           },
           "paragraphs": {
-            "1": {
-              "question": "Le nombre de questions ?",
-              "text": "La certification contient '<strong>'32 questions'</strong>'."
-            },
+            "1": "Le test de certification est composé de '<strong>'32 questions'</strong>'",
             "2": {
-              "light-text": "*sauf éventuel temps majoré.",
-              "question": "La durée du test ?",
-              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
-            }
+              "light": "*hors éventuel temps majoré",
+              "text": "Vous avez au maximum '<strong>'1h45'</strong>' pour y répondre*"
+            },
+            "3": "Si vous traitez '<strong>'moins de 20 questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
           },
           "title": "Comment se passe le test de certification ?"
         },
@@ -608,7 +600,7 @@
           },
           "paragraphs": {
             "1": {
-              "text": "Pour les questions en '<strong>'mode libre'</strong>', signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition.",
+              "text": "Pour les questions en '<strong>'mode libre'</strong>' signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition.<br>Toutefois, '<strong>'certains sites ne seront pas accessibles en certification'</strong>'.",
               "title": "Le mode libre :"
             },
             "2": {
@@ -619,21 +611,27 @@
           "title": "Deux modes de questions"
         },
         "4": {
-          "paragraph": {
-            "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur '<strong>'\"Signaler un problème avec la question\"'</strong>', puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          "list": {
+            "1": "Rendez-vous en bas de la page",
+            "2": "Sélectionnez “Signaler un problème avec la question”",
+            "3": "Cliquez sur “Oui, je suis sûr(e)”",
+            "4": "Appelez le surveillant qui interviendra pour vous aider"
           },
+          "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l’image refuse de s’afficher), suivez ces étapes : ",
           "title": "Que faire en cas de problème ?"
         },
         "5": {
           "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.",
           "list": {
-            "miscellaneous": "'<strong>'Mobiliser tout autre moyen délivrant directement la réponse'</strong>', sans avoir effectué le travail requis par la consigne.",
-            "no-artificial-intelligence": "'<strong>'Avoir recours à un système d’intelligence artificielle'</strong>' ou un chatbot",
-            "no-cheat-sheet": "'<strong>'Utiliser des antisèches'</strong>' (physiques ou électroniques), des ressources de spoil ou des notes personnelles",
-            "no-communication": "'<strong>'Communiquer avec quelqu’un d’autre'</strong>', dans la salle ou à l’extérieur, par voie physique ou électronique",
-            "no-connected-device": "'<strong>'Utiliser un téléphone mobile ou tout appareil connecté'</strong>' (autre que l’ordinateur mobilisé dans le cadre de la certification)",
-            "no-forum": "'<strong>'Consulter un forum d’entraide'</strong>' apportant directement la réponse à une épreuve"
+            "1": "'<strong>'Communiquer avec quelqu’un d’autre'</strong>', dans la salle ou à l’extérieur, par voie physique ou électronique.",
+            "2": "'<strong>'Utiliser un téléphone mobile ou tout appareil électronique connecté'</strong>' (autre que l’ordinateur sur lequel vous passez la certification).",
+            "3": "'<strong>'Avoir recours à un système d’intelligence artificielle'</strong>' ou un chatbot.",
+            "4": "'<strong>'Consulter un forum d’entraide'</strong>' apportant directement la réponse à une question.",
+            "5": "'<strong>'Mobiliser tout autre moyen délivrant directement la réponse à la question'</strong>', sans avoir effectué le travail requis par la consigne.",
+            "6": "'<strong>'Utiliser un autre navigateur'</strong>' que celui sur lequel vous effectuez votre test de Certification Pix.",
+            "7": "'<strong>'Usurper l’identité'</strong>' d’une autre personne."
           },
+          "pix-companion": "L'accès à certains sites est interdit dans le cadre du test de certification, grâce à une extension installée sur le navigateur. Toute fraude avérée (tentative de contournement de l'extension ou non-respect des comportements listés ci-dessus) peut entraîner l'invalidation de la certification.",
           "text": "En certification, il est interdit de :",
           "title": "Règles à respecter"
         }

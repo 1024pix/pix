@@ -18,24 +18,21 @@ import { t } from 'ember-intl';
     </div>
 
     <div class="instructions-content">
-      <h3 class="instructions-content__title--bold">
-        {{t "pages.certification-instructions.steps.2.paragraphs.1.question"}}
-      </h3>
-
-      <p class="instructions-content-step-two__paragraph">
-        {{t "pages.certification-instructions.steps.2.paragraphs.1.text" htmlSafe=true}}
+      <p class="instructions-content__paragraph">
+        {{t "pages.certification-instructions.steps.2.paragraphs.1" htmlSafe=true}}
       </p>
 
-      <h3 class="instructions-content__title--bold">
-        {{t "pages.certification-instructions.steps.2.paragraphs.2.question"}}
-      </h3>
       <p>
         {{t "pages.certification-instructions.steps.2.paragraphs.2.text" htmlSafe=true}}
 
         <br />
         <span class="instructions-content__text--light">
-          {{t "pages.certification-instructions.steps.2.paragraphs.2.light-text"}}
+          {{t "pages.certification-instructions.steps.2.paragraphs.2.light"}}
         </span>
+      </p>
+
+      <p class="instructions-content__paragraph">
+        <em>{{t "pages.certification-instructions.steps.2.paragraphs.3" htmlSafe=true}}</em>
       </p>
     </div>
   </div>

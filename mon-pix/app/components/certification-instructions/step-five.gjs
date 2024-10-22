@@ -18,25 +18,17 @@ export default class StepFive extends Component {
     <div class="instructions-content" tabindex="0">
       <span class="instructions-content__title--bold">{{t "pages.certification-instructions.steps.5.text"}}</span>
       <ul class="instructions-content-list">
-        <li>
-          {{t "pages.certification-instructions.steps.5.list.no-communication" htmlSafe=true}}
-        </li>
-        <li>
-          {{t "pages.certification-instructions.steps.5.list.no-connected-device" htmlSafe=true}}
-        </li>
-        <li>
-          {{t "pages.certification-instructions.steps.5.list.no-cheat-sheet" htmlSafe=true}}
-        </li>
-        <li>
-          {{t "pages.certification-instructions.steps.5.list.no-artificial-intelligence" htmlSafe=true}}
-        </li>
-        <li>
-          {{t "pages.certification-instructions.steps.5.list.no-forum" htmlSafe=true}}
-        </li>
-        <li>
-          {{t "pages.certification-instructions.steps.5.list.miscellaneous" htmlSafe=true}}
-        </li>
+        <li>{{t "pages.certification-instructions.steps.5.list.1" htmlSafe=true}}</li>
+        <li>{{t "pages.certification-instructions.steps.5.list.2" htmlSafe=true}}</li>
+        <li>{{t "pages.certification-instructions.steps.5.list.3" htmlSafe=true}}</li>
+        <li>{{t "pages.certification-instructions.steps.5.list.4" htmlSafe=true}}</li>
+        <li>{{t "pages.certification-instructions.steps.5.list.5" htmlSafe=true}}</li>
+        <li>{{t "pages.certification-instructions.steps.5.list.6" htmlSafe=true}}</li>
+        <li>{{t "pages.certification-instructions.steps.5.list.7" htmlSafe=true}}</li>
       </ul>
+      <p class="instructions-content__paragraph--light">
+        <em>{{t "pages.certification-instructions.steps.5.pix-companion"}}</em>
+      </p>
       <PixCheckbox {{on "change" this.onChange}}>
         <:label>{{t "pages.certification-instructions.steps.5.checkbox-label"}}</:label>
       </PixCheckbox>
