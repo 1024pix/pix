@@ -5,9 +5,12 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import dayjs from 'dayjs';
 import { t } from 'ember-intl';
+import Dropdown from '../dropdown/icon-trigger'
+import DropdownItemp from '../dropdown/item.hbs'
 
 import CertificabilityCell from '../certificability/cell';
 import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip';
+import { fn } from "@ember/helper";
 
 export default class TableRow extends Component {
   @service currentUser;
@@ -111,6 +114,19 @@ export default class TableRow extends Component {
           />
         </td>
       {{/unless}}
+
+      {{#if @isAdminInOrganization}}
+        <Dropdown
+          @icon="ellipsis-vertical"
+          @dropdownButtonClass="organization-participant-list-page__dropdown-button"
+          @dropdownContentClass="organization-participant-list-page__dropdown-content"
+          @ariaLabel={{t "pages.sup-organization-participants.actions.show-actions"}}
+        >
+          <DropdownItemp @onClick={{fn @openEditStudentNumberModal @participant}}>
+            {{t "pages.sup-organization-participants.actions.edit-student-number"}}
+          </DropdownItemp>
+        </Dropdown>
+      {{/if}}
     </tr>
   </template>
 }

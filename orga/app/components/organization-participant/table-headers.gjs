@@ -77,6 +77,12 @@ export default class TableHeaders extends Component {
           </div>
         </Header>
       {{/unless}}
-    </tr>
+
+      {{#if @isAdminInOrganization}}
+        <Header  @size="small" class="table__column--last-col">
+          {{t "common.actions.global"}}
+        </Header>
+      {{/if}}
+      </tr>
   </template>
 }

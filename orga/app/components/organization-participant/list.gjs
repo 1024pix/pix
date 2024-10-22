@@ -20,8 +20,12 @@ export default class List extends Component {
 
   @service currentUser;
 
+  get isAdminInOrganization () {
+    return !!this.currentUser.isAdminInOrganization
+  }
+
   get showCheckbox() {
-    return this.currentUser.isAdminInOrganization && !this.currentUser.hasLearnerImportFeature;
+    return this.isAdminInOrganization && !this.currentUser.hasLearnerImportFeature;
   }
 
   get headerId() {
@@ -85,6 +89,10 @@ export default class List extends Component {
     toggleParticipant();
   }
 
+  @action
+  openEditStudentNumberModal() {
+    window.alert('wesh');
+  }
   <template>
     <div id={{this.filtersId}} />
 
@@ -96,12 +104,18 @@ export default class List extends Component {
         <tbody>
           <SelectableList @items={{@participants}}>
             <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
+              {{log "allSelected" allSelected}}
+              {{log "someSelected" someSelected}}
+              {{log "toggleAll" toggleAll}}
+              {{log "selectedParticipants" selectedParticipants}}
+              {{log "reset" reset}}
               <InElement @destinationId={{this.headerId}}>
                 <TableHeaders
                   @allSelected={{allSelected}}
                   @someSelected={{someSelected}}
                   @showCheckbox={{this.showCheckbox}}
                   @hasParticipants={{this.hasParticipants}}
+                  @isAdminInOrganization={{this.isAdminInOrganization}}
                   @onToggleAll={{toggleAll}}
                   @lastnameSort={{@lastnameSort}}
                   @customHeadings={{this.customColumns}}
@@ -180,6 +194,8 @@ export default class List extends Component {
                 @customRows={{this.customColumns}}
                 @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
                 @hasOrganizationParticipantPage={{@hasOrganizationParticipantPage}}
+                @isAdminInOrganization={{this.isAdminInOrganization}}
+                @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
               />
             </:item>
           </SelectableList>
