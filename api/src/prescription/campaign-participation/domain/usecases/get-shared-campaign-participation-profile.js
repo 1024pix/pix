@@ -2,7 +2,7 @@ import { constants } from '../../../../shared/domain/constants.js';
 import { NoCampaignParticipationForUserAndCampaign } from '../../../../shared/domain/errors.js';
 import { SharedProfileForCampaign } from '../../../../shared/domain/read-models/SharedProfileForCampaign.js';
 
-const getUserProfileSharedForCampaign = async function ({
+const getSharedCampaignParticipationProfile = async function ({
   userId,
   campaignId,
   campaignParticipationRepository,
@@ -52,4 +52,4 @@ const getUserProfileSharedForCampaign = async function ({
   });
 };
 
-export { getUserProfileSharedForCampaign };
+export { getSharedCampaignParticipationProfile };

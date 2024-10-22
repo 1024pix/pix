@@ -84,7 +84,7 @@ const register = async function (server) {
             assign: 'requestedUserIsAuthenticatedUser',
           },
         ],
-        handler: learnerParticipationController.getUserProfileSharedForCampaign,
+        handler: learnerParticipationController.getSharedCampaignParticipationProfile,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération du profil d’un utilisateur partagé (**userId**) pour la campagne donnée (**campaignId**)\n' +

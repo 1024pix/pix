@@ -180,7 +180,7 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
     });
   });
 
-  describe('#getUserProfileSharedForCampaign', function () {
+  describe('#getSharedCampaignParticipationProfile', function () {
     let campaignId,
       dependencies,
       locale,
@@ -190,7 +190,7 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       userId;
 
     beforeEach(function () {
-      sinon.stub(usecases, 'getUserProfileSharedForCampaign');
+      sinon.stub(usecases, 'getSharedCampaignParticipationProfile');
       campaignId = Symbol('campaignId');
       userId = Symbol('userId');
       locale = Symbol('locale');
@@ -214,7 +214,7 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       // given
       requestResponseUtilsStub.extractUserIdFromRequest.returns(100);
       requestResponseUtilsStub.extractLocaleFromRequest.returns(locale);
-      usecases.getUserProfileSharedForCampaign.resolves({});
+      usecases.getSharedCampaignParticipationProfile.resolves({});
       const serializedCampaignProfileShared = Symbol('campaignProfileShared');
       dependencies.sharedProfileForCampaignSerializer.serialize.resolves(serializedCampaignProfileShared);
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
@@ -222,10 +222,10 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       });
 
       // when
-      await learnerParticipationController.getUserProfileSharedForCampaign(request, hFake, dependencies);
+      await learnerParticipationController.getSharedCampaignParticipationProfile(request, hFake, dependencies);
 
       // then
-      expect(usecases.getUserProfileSharedForCampaign).to.have.been.calledOnceWith({
+      expect(usecases.getSharedCampaignParticipationProfile).to.have.been.calledOnceWith({
         campaignId,
         userId,
         locale,

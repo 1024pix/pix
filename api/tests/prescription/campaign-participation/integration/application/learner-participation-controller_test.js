@@ -9,7 +9,7 @@ describe('Integration | Application | Campaign-participation | learner-participa
   beforeEach(async function () {
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
 
-    sinon.stub(usecases, 'getUserProfileSharedForCampaign');
+    sinon.stub(usecases, 'getSharedCampaignParticipationProfile');
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -19,7 +19,7 @@ describe('Integration | Application | Campaign-participation | learner-participa
     sinon.restore();
   });
 
-  describe('#getUserProfileSharedForCampaign', function () {
+  describe('#getSharedCampaignParticipationProfile', function () {
     context('Error cases', function () {
       it('should return a 403 HTTP response', async function () {
         // given

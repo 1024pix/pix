@@ -44,7 +44,7 @@ const beginImprovement = async function (request) {
   });
 };
 
-const getUserProfileSharedForCampaign = async function (
+const getSharedCampaignParticipationProfile = async function (
   request,
   h,
   dependencies = {
@@ -56,7 +56,7 @@ const getUserProfileSharedForCampaign = async function (
   const campaignId = request.params.campaignId;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
-  const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({
+  const sharedProfileForCampaign = await usecases.getSharedCampaignParticipationProfile({
     userId: authenticatedUserId,
     campaignId,
     locale,
@@ -69,7 +69,7 @@ const learnerParticipationController = {
   save,
   shareCampaignResult,
   beginImprovement,
-  getUserProfileSharedForCampaign,
+  getSharedCampaignParticipationProfile,
 };
 
 export { learnerParticipationController };

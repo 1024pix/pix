@@ -53,7 +53,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
 
     it('returns 200', async function () {
       // given
-      sinon.stub(learnerParticipationController, 'getUserProfileSharedForCampaign').returns('ok');
+      sinon.stub(learnerParticipationController, 'getSharedCampaignParticipationProfile').returns('ok');
       sinon
         .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
         .callsFake((request, h) => h.response(true));
