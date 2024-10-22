@@ -1,0 +1,346 @@
+{
+    "id": "59bd32d9-459a-4983-8ed1-b87d114ccf88",
+    "slug": "trier-filtrer-donnees-tableur",
+    "title": "Trier et filtrer des données avec un tableur",
+    "details": {
+      "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+      "description": "TODO",
+      "duration": 10,
+      "level": "Intermédiaire",
+      "objectives": [
+        "Savoir filtrer et trier des données sur tableur selon un critère",
+        "Choisir de filtrer et/ou trier selon la situation",
+        "Préparer un tableau afin de le trier ou le filtrer "
+      ]
+    },
+    "transitionTexts": [
+      {
+        "grainId": "a7a76bbc-6d63-4890-b4f6-d6b1c47b500f",
+        "content": "Austin est un producteur de miel.<span aria-hidden=\"true\">&nbsp;🐝 🍯</span><p>Tous les ans, il va faire des mesures sur ses ruches pour vérifier leur production.</p><p>Dans ce module, nous allons trier et filtrer le tableau de mesures d'Austin pour l'aider à améliorer sa production de miel.<span aria-hidden=\"true\">&nbsp;📈</span></p>"
+      },
+      {
+        "grainId": "0b2ff0d8-3948-40cf-b5b4-bab37f1eb67f",
+        "content": " Pour commencer, vous allez étudier la structure du tableau de mesures d'Austin. C’est parti !"
+      },
+      {
+        "grainId": "60b4e215-1955-4b1a-866a-393a0371521d",
+        "content": "<p>Dans cette vidéo, nous allons maintenant voir comment trier ce tableau pour aider Austin à trouver les données qu’il cherche.<span aria-hidden=\"true\">&nbsp;📺</span></p>"
+      },
+      {
+        "grainId": "0c12a28f-7c9f-4734-87c6-f94f7e4a0594",
+        "content": "À vous de jouer ! Vous allez trier le tableau pour trouver la ruche qu’Austin va devoir repeupler."
+      },
+      {
+        "grainId": "68b1f460-432a-4b2d-a1a6-d522c741acb4",
+        "content": "Austin aimerait aussi connaître le nombre de ruches qui ont produit le miel de meilleure qualité (A). Dans ce cas, il faut filtrer le tableau. Démonstration en vidéo !"
+      },
+      {
+        "grainId": "791ca754-f7c3-4dda-8ad2-c30b8e848734",
+        "content": "À vous de jouer ! Vous allez filtrer le tableau pour trouver le nombre ruches dont il faut améliorer la qualité du miel."
+      },
+      {
+        "grainId": "579fd5b8-edde-478f-a833-13081ab5b5c7",
+        "content": "Pour finir, Austin veut maintenant identifier de petites ruches de qualité B pour les faire passer en qualité A l'an prochain.<span aria-hidden=\"true\">&nbsp;↗️</span> Aidez-le dans cette analyse !"
+      }
+    ],
+    "grains": [
+      {
+        "id": "a7a76bbc-6d63-4890-b4f6-d6b1c47b500f",
+        "type": "lesson",
+        "title": "Téléchargement des mesures d'Asutin",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "c2579b16-ab92-402e-a01e-eff9927c6e31",
+              "type": "text",
+              "content": "Dans le document à télécharger, vous trouverez le tableau des mesures prises par Austin cette année. <span aria-hidden=\"true\">&nbsp;👉</span> <a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "5c74d2de-4e88-40f2-afc2-066bedb457f5",
+              "type": "text",
+              "content": "<p>Pour chaque ruche, il relève le <strong>nombre d’abeilles</strong>, la <strong>quantité de miel</strong> produite et le niveau de <strong>qualité du miel</strong>. Il va donc pouvoir déterminer par exemple  la ruche qui a produit le plus de miel cette année.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "id": "0b2ff0d8-3948-40cf-b5b4-bab37f1eb67f",
+        "type": "activity",
+        "title": "La structure du tableau",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "e5775646-5ca0-4081-a40a-31938ff39a10",
+              "type": "text",
+              "content": "Pour chacune des 3 affirmations suivantes, répondez par vrai ou par faux."
+            }
+          },
+          {
+            "type": "stepper",
+            "steps": [
+              {
+                "elements": [
+                  {
+                    "id": "9a35881c-5f88-465e-bf8a-8054f33251ec",
+                    "type": "qcu",
+                    "instruction": "Le tableau d’Austin a 96 lignes.",
+                    "proposals": [
+                      {
+                        "id": "1",
+                        "content": "Vrai"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Faux"
+                      }
+                    ],
+                    "feedbacks": {
+                      "valid": "Correct",
+                      "invalid": "Incorrect"
+                    },
+                    "solution": "2"
+                  }
+                ]
+              },
+              {
+                "elements": [
+                  {
+                    "id": "88f17860-17ab-40ef-a709-ce2ad2905b5b",
+                    "type": "qcu",
+                    "instruction": "Le miel d’Austin a 4 niveaux de qualité.",
+                    "proposals": [
+                      {
+                        "id": "1",
+                        "content": "Vrai"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Faux"
+                      }
+                    ],
+                    "feedbacks": {
+                      "valid": "Correct",
+                      "invalid": "Incorrect"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              },
+              {
+                "elements": [
+                  {
+                    "id": "ea4d32d1-0066-4970-955e-dd6316c941ae",
+                    "type": "qcu",
+                    "instruction": "On peut trouver le nom de la ruche qui a le plus petit nombre d'abeilles.",
+                    "proposals": [
+                      {
+                        "id": "1",
+                        "content": "Vrai"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Faux"
+                      }
+                    ],
+                    "feedbacks": {
+                      "valid": "Correct",
+                      "invalid": "Incorrect"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "60b4e215-1955-4b1a-866a-393a0371521d",
+        "type": "lesson",
+        "title": "Méthode pour trier des données avec un tableur",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "1caa50d4-50c3-4e2e-bc51-ef1ae60fb9e1",
+              "type": "text",
+              "content": "À la suite de cette vidéo, vous devrez reproduire ces étapes de tri sur un autre exemple."
+            }
+          },
+          {
+            "type": "element",
+            "element":
+              {
+                    "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
+                    "type": "text",
+                    "content": "<iframe width=\"700\" height=\"410\" src=\"https://www.youtube.com/embed/GZfOnHUOe5g\" title=\"[V0]\"></iframe>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "0c12a28f-7c9f-4734-87c6-f94f7e4a0594",
+        "type": "activity",
+        "title": "Trier un tableau sur un critère",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "3f92d5b6-0908-4536-8532-cdb1f9c926ac",
+              "type": "qcu",
+              "instruction": "Quelle est la ruche d’Austin qui a le plus <strong>petit</strong> nombre d’abeilles ?",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "La Ruche de l'Île"
+                },
+                {
+                  "id": "2",
+                  "content": "Le Royaume de la Ruche"
+                },
+                {
+                  "id": "3",
+                  "content": "La Forteresse de la Reine"
+                },
+                {
+                  "id": "4",
+                  "content": "La Tanière des Abeilles"
+                }
+              ],
+              "feedbacks": {
+                "valid": "Correct",
+                "invalid": "Incorrect"
+              },
+              "solution": "2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "68b1f460-432a-4b2d-a1a6-d522c741acb4",
+        "type": "lesson",
+        "title": "Méthode pour filtrer des données avec un tableur",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "08118a97-c323-4c2a-afff-bb90682c3eb9",
+              "type": "text",
+              "content": "À la suite de cette vidéo, vous devrez reproduire ces étapes sur un autre exemple."
+            }
+          },
+          {
+            "type": "element",
+            "element":
+              {
+                    "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
+                    "type": "text",
+                    "content": "<iframe width=\"700\" height=\"410\" src=\"https://www.youtube.com/embed/-q8rGEsWACY\" title=\"[V0]\"></iframe>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "791ca754-f7c3-4dda-8ad2-c30b8e848734",
+        "type": "activity",
+        "title": "Filtrer des données sur un critère",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "305118b7-74b9-4fcd-ae41-621e7c5c2990",
+              "type": "qcu",
+              "instruction": "Combien de ruches produisent un miel de <strong>qualité D</strong> ?",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "22"
+                },
+                {
+                  "id": "2",
+                  "content": "35"
+                },
+                {
+                  "id": "3",
+                  "content": "45"
+                },
+                {
+                  "id": "4",
+                  "content": "78"
+                }
+              ],
+              "feedbacks": {
+                "valid": "Correct",
+                "invalid": "Incorrect"
+              },
+              "solution": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "579fd5b8-edde-478f-a833-13081ab5b5c7",
+        "type": "activity",
+        "title": "Récapitulatif : trier et filtrer sur un critère",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "31c6e51b-cf28-4042-bf5c-24571bbfbeeb",
+              "type": "qcm",
+              "instruction": "Quelles sont les 3 ruches de qualité <strong>B</strong> qui produisent le <strong>moins</strong> de miel ?",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "La Citadelle des Abeilles"
+                },
+                {
+                  "id": "2",
+                  "content": "Le Jardin de la Ruche"
+                },
+                {
+                  "id": "3",
+                  "content": "Le Domaine de la Reine"
+                },
+                {
+                  "id": "4",
+                  "content": "Abeille Émeraude"
+                },
+                {
+                  "id": "5",
+                  "content": "L'Habitat Doré"
+                },
+                {
+                  "id": "6",
+                  "content": "Le Royaume des Abeilles"
+                }
+              ],
+              "feedbacks": {
+                "valid": "Correct",
+                "invalid": "Incorrect"
+              },
+              "solutions": [
+                "1",
+                "3",
+                "6"
+              ]
+            }
+
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "6c69a919-4fc6-4039-9abc-ad70c49be7d8",
+              "type": "text",
+              "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>TODO</p></details><details><summary>Indice 2</summary><p>TODO</p></details>"
+            }
+          }
+        ]
+      }
+    ]
+  }
