@@ -74,6 +74,7 @@ import * as supOrganizationLearnerRepository from '../../../src/prescription/lea
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
 import * as targetProfileAdministrationRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import * as targetProfileAdminRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileSummaryForAdminRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
@@ -98,7 +99,6 @@ import * as competenceRepository from '../../../src/shared/infrastructure/reposi
 import * as courseRepository from '../../../src/shared/infrastructure/repositories/course-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
-import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
@@ -326,7 +326,7 @@ const dependencies = {
   supOrganizationLearnerRepository,
   tagRepository,
   targetProfileAdministrationRepository,
-  targetProfileForAdminRepository,
+  targetProfileAdminRepository,
   targetProfileForUpdateRepository,
   targetProfileRepository,
   targetProfileShareRepository,

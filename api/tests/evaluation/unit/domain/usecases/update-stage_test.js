@@ -74,7 +74,7 @@ describe('Unit | Domain | Use Cases | update-stage', function () {
   });
 
   describe('#updateStage', function () {
-    it('should call stageRepository #get and #update if the stage is updatable and targetProfileForAdminRepository #get', async function () {
+    it('should call stageRepository #get and #update if the stage is updatable and targetProfileAdministrationRepository #get', async function () {
       // given
       const existingStage = domainBuilder.buildStage({ threshold: 1 });
       const targetProfile = domainBuilder.buildTargetProfileForAdmin({ hasLinkedCampaign: false });
@@ -83,7 +83,7 @@ describe('Unit | Domain | Use Cases | update-stage', function () {
         get: sinon.stub().resolves(existingStage),
         update: sinon.stub().resolves(existingStage),
       };
-      const targetProfileForAdminRepositoryStub = {
+      const targetProfileAdministrationRepositoryStub = {
         get: sinon.stub().resolves(targetProfile),
       };
 
@@ -91,12 +91,14 @@ describe('Unit | Domain | Use Cases | update-stage', function () {
       await updateStage({
         payloadStage: { id: existingStage.id, targetProfileId: targetProfile.id, attributesToUpdate: stageToUpdate },
         stageRepository: stageRepositoryStub,
-        targetProfileForAdminRepository: targetProfileForAdminRepositoryStub,
+        targetProfileAdministrationRepository: targetProfileAdministrationRepositoryStub,
       });
 
       // then
       expect(stageRepositoryStub.get).to.have.been.calledOnceWithExactly(existingStage.id);
-      expect(targetProfileForAdminRepositoryStub.get).to.have.been.calledOnceWithExactly({ id: targetProfile.id });
+      expect(targetProfileAdministrationRepositoryStub.get).to.have.been.calledOnceWithExactly({
+        id: targetProfile.id,
+      });
       expect(stageRepositoryStub.update).to.have.been.calledOnceWithExactly({
         id: existingStage.id,
         targetProfileId: targetProfile.id,
@@ -112,7 +114,7 @@ describe('Unit | Domain | Use Cases | update-stage', function () {
       const stageRepositoryStub = {
         get: sinon.stub().resolves(existingStage),
       };
-      const targetProfileForAdminRepositoryStub = {
+      const targetProfileAdministrationRepositoryStub = {
         get: sinon.stub().resolves(targetProfile),
       };
 
@@ -121,13 +123,15 @@ describe('Unit | Domain | Use Cases | update-stage', function () {
         updateStage({
           payloadStage: { id: existingStage.id, targetProfileId: targetProfile.id, attributesToUpdate: stageToUpdate },
           stageRepository: stageRepositoryStub,
-          targetProfileForAdminRepository: targetProfileForAdminRepositoryStub,
+          targetProfileAdministrationRepository: targetProfileAdministrationRepositoryStub,
         }),
       ).to.be.rejectedWith(StageWithLinkedCampaignError);
 
       // then
       expect(stageRepositoryStub.get).to.have.been.calledOnceWithExactly(existingStage.id);
-      expect(targetProfileForAdminRepositoryStub.get).to.have.been.calledOnceWithExactly({ id: targetProfile.id });
+      expect(targetProfileAdministrationRepositoryStub.get).to.have.been.calledOnceWithExactly({
+        id: targetProfile.id,
+      });
     });
   });
 });

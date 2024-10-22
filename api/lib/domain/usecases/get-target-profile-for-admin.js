@@ -1,5 +1,5 @@
-const getTargetProfileForAdmin = async function ({ targetProfileId, targetProfileForAdminRepository }) {
-  return targetProfileForAdminRepository.get({ id: targetProfileId });
+const getTargetProfileForAdmin = async function ({ targetProfileId, targetProfileAdminRepository }) {
+  return targetProfileAdminRepository.get({ id: targetProfileId });
 };
 
 export { getTargetProfileForAdmin };
