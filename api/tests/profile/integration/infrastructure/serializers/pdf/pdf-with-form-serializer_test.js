@@ -18,6 +18,7 @@ describe('Integration | Infrastructure | Serializers | Pdf | PdfWithForm', funct
       const template = `${__dirname}/template.pdf`;
       const data = new Map();
       data.set('fullName', 'Nom complet');
+      data.set('date', '12/02/21');
 
       // when
       const buffer = await serialize(template, data, new Date('2024-10-01'));
