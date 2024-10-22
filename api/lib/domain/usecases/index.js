@@ -74,7 +74,6 @@ import * as supOrganizationLearnerRepository from '../../../src/prescription/lea
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
 import * as targetProfileAdministrationRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
-import * as targetProfileAdminRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileSummaryForAdminRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
@@ -326,7 +325,6 @@ const dependencies = {
   supOrganizationLearnerRepository,
   tagRepository,
   targetProfileAdministrationRepository,
-  targetProfileAdminRepository,
   targetProfileForUpdateRepository,
   targetProfileRepository,
   targetProfileShareRepository,

@@ -2,6 +2,7 @@ import { targetProfileController } from '../../../../lib/application/target-prof
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
+import { usecases as prescriptionUsecases } from '../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | target-profile-controller', function () {
@@ -112,8 +113,8 @@ describe('Unit | Controller | target-profile-controller', function () {
         targetProfileForAdminSerializer,
       };
 
-      sinon.stub(usecases, 'getTargetProfileForAdmin');
-      usecases.getTargetProfileForAdmin.withArgs({ targetProfileId }).resolves(targetProfile);
+      sinon.stub(prescriptionUsecases, 'getTargetProfileForAdmin');
+      prescriptionUsecases.getTargetProfileForAdmin.withArgs({ targetProfileId }).resolves(targetProfile);
       targetProfileForAdminSerializer.serialize
         .withArgs({ targetProfile, filter: expectedFilter })
         .returns(expectedResult);

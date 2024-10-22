@@ -1,9 +1,9 @@
 const getTargetProfileContentAsJson = async function ({
   targetProfileId,
-  targetProfileForAdminRepository,
+  targetProfileAdministrationRepository,
   learningContentConversionService,
 }) {
-  const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id: targetProfileId });
+  const targetProfileForAdmin = await targetProfileAdministrationRepository.get({ id: targetProfileId });
   const skills = await learningContentConversionService.findActiveSkillsForCappedTubes(
     targetProfileForAdmin.cappedTubes,
   );

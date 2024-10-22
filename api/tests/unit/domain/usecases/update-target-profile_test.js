@@ -2,10 +2,10 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-target-profile', function () {
-  let targetProfileForAdminRepository, targetProfileForUpdateRepository;
+  let targetProfileAdministrationRepository, targetProfileForUpdateRepository;
 
   beforeEach(function () {
-    targetProfileForAdminRepository = {
+    targetProfileAdministrationRepository = {
       get: sinon.stub(),
     };
 
@@ -31,13 +31,13 @@ describe('Unit | UseCase | update-target-profile', function () {
         areKnowledgeElementsResettable: false,
       };
 
-      targetProfileForAdminRepository.get.resolves(existingTargetProfileForAdmin);
+      targetProfileAdministrationRepository.get.resolves(existingTargetProfileForAdmin);
 
       // when
       await usecases.updateTargetProfile({
         id: 1,
         attributesToUpdate,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
         targetProfileForUpdateRepository,
       });
 
