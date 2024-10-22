@@ -9,7 +9,7 @@ const checkResetDemand = async function (request, h, dependencies = { userSerial
   return dependencies.userSerializer.serialize(user);
 };
 const createResetPasswordDemand = async function (request, h, dependencies = { resetPasswordSerializer }) {
-  const { email } = request.payload.data.attributes;
+  const email = request.payload.email;
   const locale = extractLocaleFromRequest(request);
 
   const resetPasswordDemand = await usecases.createResetPasswordDemand({

@@ -11,6 +11,10 @@ export const passwordRoutes = [
       handler: (request, h) => passwordController.createResetPasswordDemand(request, h),
       validate: {
         payload: Joi.object({
+          email: Joi.when('data.attributes.email', {
+            then: Joi.string().email().default(Joi.ref('data.attributes.email')),
+            otherwise: Joi.string().email().required(),
+          }),
           data: {
             attributes: {
               email: Joi.string().email().required(),

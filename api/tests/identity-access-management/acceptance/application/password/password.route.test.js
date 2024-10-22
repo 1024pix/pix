@@ -13,44 +13,85 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
   describe('POST /api/password-reset-demands', function () {
     let options;
 
-    beforeEach(async function () {
-      options = {
-        method: 'POST',
-        url: '/api/password-reset-demands',
-        payload: {
-          data: {
-            attributes: { email },
-          },
-        },
-      };
+    context('with simple payload', function () {
+      beforeEach(async function () {
+        options = {
+          method: 'POST',
+          url: '/api/password-reset-demands',
+          payload: { email },
+        };
 
-      config.mailing.enabled = false;
+        config.mailing.enabled = false;
 
-      const userId = databaseBuilder.factory.buildUser({ email }).id;
-      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
-      await databaseBuilder.commit();
-    });
+        const userId = databaseBuilder.factory.buildUser({ email }).id;
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
+        await databaseBuilder.commit();
+      });
 
-    context('when email provided is unknown', function () {
-      it('replies with 404', async function () {
-        // given
-        options.payload.data.attributes.email = 'unknown@example.net';
+      context('when given email doesn’t exist', function () {
+        it('replies with 404', async function () {
+          // given
+          options.payload.email = 'unknown@example.net';
 
-        // when
-        const response = await server.inject(options);
+          // when
+          const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(404);
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      context('when given email exists', function () {
+        it('replies with 201', async function () {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(201);
+        });
       });
     });
 
-    context('when existing email is provided', function () {
-      it('replies with 201', async function () {
-        // when
-        const response = await server.inject(options);
+    context('with deprecated ember-data-centric payload', function () {
+      beforeEach(async function () {
+        options = {
+          method: 'POST',
+          url: '/api/password-reset-demands',
+          payload: {
+            data: {
+              attributes: { email },
+            },
+          },
+        };
 
-        // then
-        expect(response.statusCode).to.equal(201);
+        config.mailing.enabled = false;
+
+        const userId = databaseBuilder.factory.buildUser({ email }).id;
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
+        await databaseBuilder.commit();
+      });
+
+      context('when given email doesn’t exist', function () {
+        it('replies with 404', async function () {
+          // given
+          options.payload.data.attributes.email = 'unknown@example.net';
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      context('when given email exists', function () {
+        it('replies with 201', async function () {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(201);
+        });
       });
     });
   });

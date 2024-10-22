@@ -1,3 +1,5 @@
+// DEPRECATED COMPONENT: DON’T USE IT! USE COMPONENTS OF THE DESIGN SYSTEM INSTEAD!
+
 import { action } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import Component from '@glimmer/component';

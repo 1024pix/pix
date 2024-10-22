@@ -47,7 +47,8 @@
       "sign-out": "Log uit.",
       "stay": "Blijf",
       "validate": "Valideer",
-      "refresh-page": "Pagina verversen"
+      "refresh-page": "Pagina verversen",
+      "login": "Log in to Pix"
     },
     "api-error-messages": {
       "bad-request-error": "De gegevens die u hebt opgegeven, hebben niet het juiste formaat.",
@@ -168,6 +169,25 @@
             "placeholder": "ex: Doe"
           },
           "legend": "Vereiste informatie voor registratie."
+        }
+      },
+      "password-reset-demand-form": {
+        "404-message": "Dit e-mailadres komt niet overeen met een account",
+        "rule": "All fields are required.",
+        "no-email-question": "No email address?",
+        "contact-us-link": {
+          "link-text": "Contact us",
+          "link-url": "https://pix.org/nl-be/support"
+        },
+        "fields": {
+          "email": {
+            "error-message-invalid": "Your email address is invalid.",
+            "label": "Email address",
+            "placeholder": "ex: john.doe@email.com"
+          }
+        },
+        "actions": {
+          "receive-reset-button": "Receive a reset link"
         }
       }
     },

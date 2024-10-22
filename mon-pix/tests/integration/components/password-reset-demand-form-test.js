@@ -28,7 +28,7 @@ module('Integration | Component | password reset demand form', function (hooks) 
     // then
     assert.dom(screen.getByRole('img', { name: "Page d'accueil de Pix.org" })).exists();
     assert.dom(screen.getByRole('link', { name: "Page d'accueil de Pix.org" })).hasProperty('href', 'https://pix.org/');
-    assert.dom(screen.getByRole('heading', { name: 'Mot de passe oublié ?' })).exists();
+    assert.dom(screen.getByRole('heading', { name: t('pages.password-reset-demand.title') })).exists();
     assert.dom(screen.getByText("Entrez votre adresse e-mail ci-dessous, et c'est repartix")).exists();
     assert.dom(screen.getByRole('textbox', { name: '* Adresse e-mail' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Réinitialiser mon mot de passe' })).exists();
