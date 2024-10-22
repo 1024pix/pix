@@ -59,7 +59,7 @@ export async function verifyCandidateSubscriptions({
       certificationBadgesService,
     });
 
-    if (_isSubscribedUserBadgeOutDated(subscribedHighestBadgeAcquisition)) {
+    if (!subscribedHighestBadgeAcquisition || _isSubscribedUserBadgeOutDated(subscribedHighestBadgeAcquisition)) {
       throw new CertificationCandidateEligibilityError();
     }
 

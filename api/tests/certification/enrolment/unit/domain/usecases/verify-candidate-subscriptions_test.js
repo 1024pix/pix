@@ -254,6 +254,47 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           expect(error).to.be.instanceOf(CertificationCandidateEligibilityError);
         });
       });
+
+      context('when there is no acquired badges', function () {
+        it('should throw CertificationCandidateEligibilityError', async function () {
+          // given
+          const certificationCandidateId = 456;
+          const complementaryCertificationId = 789;
+
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            id: certificationCandidateId,
+            userId: 1234,
+            subscriptions: [
+              domainBuilder.certification.enrolment.buildComplementarySubscription({
+                certificationCandidateId,
+                complementaryCertificationId,
+              }),
+            ],
+          });
+
+          dependencies.pixCertificationRepository.findByUserId.resolves([
+            domainBuilder.certification.enrolment.buildPixCertification({
+              pixScore: 250,
+              status: AssessmentResult.status.VALIDATED,
+              isCancelled: false,
+              isRejectedForFraud: false,
+            }),
+          ]);
+
+          dependencies.certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
+
+          // when
+          const error = await catchErr(verifyCandidateSubscriptions)({
+            userId: candidate.userId,
+            candidate,
+            limitDate: Date.now(),
+            ...dependencies,
+          });
+
+          //then
+          expect(error).to.be.instanceOf(CertificationCandidateEligibilityError);
+        });
+      });
       context('when score is below lower level', function () {
         it('should throw CertificationCandidateEligibilityError', async function () {
           // given
