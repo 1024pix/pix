@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { AnswerStatus } from '../../../../shared/domain/models/AnswerStatus.js';
 import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { ChallengeToBeDeneutralizedNotFoundError, ChallengeToBeNeutralizedNotFoundError } from '../errors.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
@@ -29,7 +29,7 @@ const certificationAssessmentSchema = Joi.object({
     .required(),
   version: Joi.number()
     .integer()
-    .valid(...Object.values(CertificationVersion))
+    .valid(...Object.values(AlgorithmEngineVersion))
     .required(),
   certificationChallenges: Joi.array().min(1).required(),
   certificationAnswersByDate: Joi.array().min(0).required(),

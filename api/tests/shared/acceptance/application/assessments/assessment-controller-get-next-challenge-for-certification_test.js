@@ -1,4 +1,5 @@
-import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
@@ -87,12 +88,12 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
           const sessionId = databaseBuilder.factory.buildSession({
             certificationCenterId,
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           }).id;
           databaseBuilder.factory.buildFlashAlgorithmConfiguration();
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: CERTIFICATION_VERSIONS.V3,
+            version: AlgorithmEngineVersion.V3,
             userId,
             sessionId,
           }).id;
@@ -152,7 +153,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
           const sessionId = databaseBuilder.factory.buildSession({
             certificationCenterId,
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           }).id;
           const candidate = databaseBuilder.factory.buildCertificationCandidate({
             userId: user.id,
@@ -161,7 +162,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: CERTIFICATION_VERSIONS.V3,
+            version: AlgorithmEngineVersion.V3,
             userId: user.id,
             sessionId,
           }).id;

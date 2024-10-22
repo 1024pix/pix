@@ -6,7 +6,7 @@ import { types } from '../../../../shared/domain/models/CertificationCenter.js';
 import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
 import { SESSION_STATUSES } from '../constants.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
-import { CERTIFICATION_VERSIONS } from '../models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../models/SessionVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -88,7 +88,7 @@ const sessionFiltersValidationSchema = Joi.object({
   certificationCenterName: Joi.string().trim().optional(),
   certificationCenterExternalId: Joi.string().trim().optional(),
   certificationCenterType: Joi.string().trim().valid(types.SUP, types.SCO, types.PRO).optional(),
-  version: Joi.number().valid(CERTIFICATION_VERSIONS.V2, CERTIFICATION_VERSIONS.V3).optional(),
+  version: Joi.number().valid(SESSIONS_VERSIONS.V2, SESSIONS_VERSIONS.V3).optional(),
 });
 
 const validate = function (session) {

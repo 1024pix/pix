@@ -5,8 +5,6 @@ import { BILLING_MODES } from '../../../certification/shared/domain/constants.js
 const { isNil } = lodash;
 
 class CertificationCandidate {
-  #complementaryCertification = null;
-
   /**
    * @param {Object} param
    * @param {Array<Subscription>} param.subscriptions {@link Subscription>}
@@ -101,6 +99,10 @@ class CertificationCandidate {
 
   isGranted(key) {
     return this.complementaryCertification?.key === key;
+  }
+
+  isEnrolledToComplementaryOnly() {
+    return this.subscriptions.length === 1 && this.subscriptions[0].isComplementary();
   }
 }
 

@@ -5,7 +5,6 @@
  * @typedef {import('./index.js').PlacementProfileService} PlacementProfileService
  * @typedef {import('./index.js').ScoringCertificationService} ScoringCertificationService
  */
-import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
 /**
@@ -37,7 +36,7 @@ const getCertificationDetails = async function ({
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: candidate.userId,
     limitDate: candidate.reconciledAt,
-    version: CERTIFICATION_VERSIONS.V2,
+    version: certificationAssessment.version,
     allowExcessPixAndLevels: false,
   });
 

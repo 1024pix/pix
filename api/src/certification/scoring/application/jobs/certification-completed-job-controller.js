@@ -9,7 +9,7 @@ import * as answerRepository from '../../../../shared/infrastructure/repositorie
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import { assessmentResultRepository } from '../../../session-management/infrastructure/repositories/index.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import * as scoringCertificationService from '../../../shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
@@ -67,7 +67,7 @@ export class CertificationCompletedJobController extends JobController {
     const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
     let certificationScoringCompletedEvent;
 
-    if (CertificationVersion.isV3(certificationAssessment.version)) {
+    if (AlgorithmEngineVersion.isV3(certificationAssessment.version)) {
       certificationScoringCompletedEvent = await _handleV3CertificationScoring({
         certificationAssessment,
         locale,

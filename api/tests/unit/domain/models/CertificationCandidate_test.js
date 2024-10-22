@@ -6,12 +6,11 @@ const i18n = getI18n();
 const translate = i18n.__;
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
-  let rawData;
-  let expectedData;
-  let coreSubscription;
+  let rawData, expectedData, coreSubscription, complementarySubscription;
 
   beforeEach(function () {
     coreSubscription = domainBuilder.buildCoreSubscription();
+    complementarySubscription = domainBuilder.buildComplementarySubscription();
     const date = new Date();
 
     rawData = {
@@ -157,6 +156,38 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       // when/then
       expect(certificationCandidate.isGranted('PIX+')).to.be.false;
+    });
+  });
+
+  describe('#isEnrolledToComplementaryOnly', function () {
+    it('should return false when certification candidate has only a core subscription', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        subscriptions: [coreSubscription],
+      });
+
+      // when/then
+      expect(certificationCandidate.isEnrolledToComplementaryOnly()).to.be.false;
+    });
+
+    it('should return false when certification candidate has multiple subscriptions', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        subscriptions: [coreSubscription, complementarySubscription],
+      });
+
+      // when/then
+      expect(certificationCandidate.isEnrolledToComplementaryOnly()).to.be.false;
+    });
+
+    it('should return false when certification candidate has only a complementary', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        subscriptions: [complementarySubscription],
+      });
+
+      // when/then
+      expect(certificationCandidate.isEnrolledToComplementaryOnly()).to.be.true;
     });
   });
 });

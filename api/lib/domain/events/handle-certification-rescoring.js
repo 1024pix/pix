@@ -1,5 +1,5 @@
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SessionVersion } from '../../../src/certification/shared/domain/models/SessionVersion.js';
 import { V3_REPRODUCIBILITY_RATE } from '../../../src/shared/domain/constants.js';
 import { CertificationComputeError } from '../../../src/shared/domain/errors.js';
 import { CertificationResult } from '../../../src/shared/domain/models/CertificationResult.js';
@@ -43,7 +43,8 @@ async function handleCertificationRescoring({
     certificationCourseId: event.certificationCourseId,
   });
 
-  if (CertificationVersion.isV3(certificationAssessment.version)) {
+  // TODO: switch to certif-course version, not session
+  if (SessionVersion.isV3(certificationAssessment.version)) {
     return _handleV3CertificationScoring({
       certificationAssessment,
       event,
