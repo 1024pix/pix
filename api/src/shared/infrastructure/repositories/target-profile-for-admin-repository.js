@@ -9,10 +9,10 @@ const { FRENCH_FRANCE } = LOCALE;
 
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
+import { TargetProfileForAdmin } from '../../../../src/prescription/target-profile/domain/models/TargetProfileForAdmin.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
-import { TargetProfileForAdmin } from '../../domain/models/index.js';
 import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
 import * as competenceRepository from './competence-repository.js';
 import * as skillRepository from './skill-repository.js';

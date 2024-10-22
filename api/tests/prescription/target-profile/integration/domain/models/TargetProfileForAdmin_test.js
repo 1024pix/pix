@@ -1,5 +1,5 @@
-import { DomainError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | TargetProfileForAdmin', function () {
   describe('#update', function () {

@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import { TargetProfileForAdmin } from '../../../../../src/shared/domain/models/index.js';
+import { TargetProfileForAdmin } from '../../../../../src/prescription/target-profile/domain/models/TargetProfileForAdmin.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', function () {
