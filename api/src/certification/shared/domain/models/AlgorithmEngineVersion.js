@@ -6,20 +6,20 @@
  * @readonly
  * @enum {number}
  */
-export class AlgoritmEngineVersion {
+export class AlgorithmEngineVersion {
   static V1 = 1;
   static V2 = 2;
   static V3 = 3;
 
   static isV1(version) {
-    return version === AlgoritmEngineVersion.V1;
+    return version === AlgorithmEngineVersion.V1;
   }
 
   static isV2(version) {
-    return version === AlgoritmEngineVersion.V2;
+    return version === AlgorithmEngineVersion.V2;
   }
 
   static isV3(version) {
-    return version === AlgoritmEngineVersion.V3;
+    return version === AlgorithmEngineVersion.V3;
   }
 }

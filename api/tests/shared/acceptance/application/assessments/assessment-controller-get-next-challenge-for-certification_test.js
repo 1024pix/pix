@@ -1,4 +1,4 @@
-import { AlgoritmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
@@ -93,7 +93,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           databaseBuilder.factory.buildFlashAlgorithmConfiguration();
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: AlgoritmEngineVersion.V3,
+            version: AlgorithmEngineVersion.V3,
             userId,
             sessionId,
           }).id;
@@ -162,7 +162,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: AlgoritmEngineVersion.V3,
+            version: AlgorithmEngineVersion.V3,
             userId: user.id,
             sessionId,
           }).id;

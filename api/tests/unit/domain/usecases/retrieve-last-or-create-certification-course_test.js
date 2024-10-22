@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
-import { AlgoritmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { SESSIONS_VERSIONS } from '../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { LOCALE, MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
@@ -326,7 +326,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 placementProfileService,
                 userId: 2,
                 reconciledAt: certificationCandidate.reconciledAt,
-                version: AlgoritmEngineVersion.V2,
+                version: AlgorithmEngineVersion.V2,
               });
 
               certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
@@ -480,7 +480,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     placementProfileService,
                     userId: user.id,
                     reconciledAt: foundCertificationCandidate.reconciledAt,
-                    version: AlgoritmEngineVersion.V2,
+                    version: AlgorithmEngineVersion.V2,
                   });
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
@@ -520,7 +520,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   challenges: [challenge1, challenge2],
                   verificationCode,
                   maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
-                  algoritmEngineVersion: AlgoritmEngineVersion.V2,
+                  algorithmEngineVersion: AlgorithmEngineVersion.V2,
                   lang: user.lang,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
@@ -663,7 +663,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     challenges: [],
                     verificationCode,
                     maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
-                    algoritmEngineVersion: AlgoritmEngineVersion.V3,
+                    algorithmEngineVersion: AlgorithmEngineVersion.V3,
                     lang: user.lang,
                     isAdjustedForAccessibility: foundCertificationCandidate.accessibilityAdjustmentNeeded,
                   });
@@ -752,7 +752,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         placementProfileService,
                         userId: 2,
                         reconciledAt: foundCertificationCandidate.reconciledAt,
-                        version: AlgoritmEngineVersion.V2,
+                        version: AlgorithmEngineVersion.V2,
                       });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
@@ -874,7 +874,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         placementProfileService,
                         userId: 2,
                         reconciledAt: foundCertificationCandidate.reconciledAt,
-                        version: AlgoritmEngineVersion.V2,
+                        version: AlgorithmEngineVersion.V2,
                       });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
@@ -993,7 +993,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           placementProfileService,
                           userId: 2,
                           reconciledAt: foundCertificationCandidate.reconciledAt,
-                          version: AlgoritmEngineVersion.V2,
+                          version: AlgorithmEngineVersion.V2,
                         });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
@@ -1088,7 +1088,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           placementProfileService,
                           userId: 2,
                           reconciledAt: foundCertificationCandidate.reconciledAt,
-                          version: AlgoritmEngineVersion.V2,
+                          version: AlgorithmEngineVersion.V2,
                         });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
@@ -1210,7 +1210,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         placementProfileService,
                         userId: 2,
                         reconciledAt: foundCertificationCandidate.reconciledAt,
-                        version: AlgoritmEngineVersion.V2,
+                        version: AlgorithmEngineVersion.V2,
                       });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
@@ -1308,7 +1308,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       placementProfileService,
                       userId: 2,
                       reconciledAt: foundCertificationCandidate.reconciledAt,
-                      version: AlgoritmEngineVersion.V2,
+                      version: AlgorithmEngineVersion.V2,
                     });
                   certificationChallengesService.pickCertificationChallenges
                     .withArgs(placementProfile)

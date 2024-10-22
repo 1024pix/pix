@@ -4,7 +4,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as certificationEvaluationUsecases } from '../../../certification/evaluation/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/results/infrastructure/repositories/certification-version-repository.js';
 import { usecases as certificationUsecases } from '../../../certification/session-management/domain/usecases/index.js';
-import { AlgoritmEngineVersion } from '../../../certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../certification/shared/domain/models/AlgorithmEngineVersion.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
@@ -198,7 +198,7 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
       certificationCourseId: assessment.certificationCourseId,
     });
 
-    if (AlgoritmEngineVersion.isV3(certificationCourseVersion)) {
+    if (AlgorithmEngineVersion.isV3(certificationCourseVersion)) {
       return certificationEvaluationUsecases.getNextChallenge({ assessment, locale });
     } else {
       return certificationEvaluationUsecases.getNextChallengeForV2Certification({ assessment, locale });

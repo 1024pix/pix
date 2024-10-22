@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { SessionForSupervising } from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-for-supervising-repository.js';
-import { AlgoritmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
@@ -294,7 +294,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
       databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateD.id });
 
       const certificationCourseWithBothLiveAlerts = databaseBuilder.factory.buildCertificationCourse({
-        version: AlgoritmEngineVersion.V3,
+        version: AlgorithmEngineVersion.V3,
         userId: 12345,
         sessionId: session.id,
         createdAt: new Date('2022-10-19T13:37:00Z'),
@@ -313,7 +313,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
       });
 
       const certificationCourseWithChallengeLiveAlert = databaseBuilder.factory.buildCertificationCourse({
-        version: AlgoritmEngineVersion.V3,
+        version: AlgorithmEngineVersion.V3,
         userId: 22222,
         sessionId: session.id,
         createdAt: new Date('2022-10-19T13:37:00Z'),

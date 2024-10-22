@@ -1,4 +1,4 @@
-import { AlgoritmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as languageService from '../../../../../../src/shared/domain/services/language-service.js';
@@ -327,7 +327,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         // given
         const numberOfChallenges = 5;
         const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: AlgoritmEngineVersion.V3,
+          version: AlgorithmEngineVersion.V3,
           numberOfChallenges,
         });
 
@@ -345,7 +345,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         const numberOfChallenges = 5;
         const challenges = generateChallengeList({ length: numberOfChallenges });
         const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: AlgoritmEngineVersion.V2,
+          version: AlgorithmEngineVersion.V2,
           challenges,
         });
 

@@ -13,7 +13,7 @@
  */
 import { SessionNotAccessible } from '../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
-import { AlgoritmEngineVersion } from '../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { SessionVersion } from '../../../src/certification/shared/domain/models/SessionVersion.js';
 import { config } from '../../../src/shared/config.js';
@@ -127,18 +127,18 @@ export { retrieveLastOrCreateCertificationCourse };
  * @param {Object} params
  * @param {SessionVersion} params.sessionVersion
  * @param {CertificationCandidate} params.certificationCandidate
- * @returns {AlgoritmEngineVersion}
+ * @returns {AlgorithmEngineVersion}
  */
 function _selectCertificationAlgorithmEngine({ sessionVersion, certificationCandidate }) {
   if (!SessionVersion.isV3(sessionVersion)) {
-    return AlgoritmEngineVersion.V2;
+    return AlgorithmEngineVersion.V2;
   }
 
   if (certificationCandidate.isEnrolledToComplementaryOnly()) {
-    return AlgoritmEngineVersion.V2;
+    return AlgorithmEngineVersion.V2;
   }
 
-  return AlgoritmEngineVersion.V3;
+  return AlgorithmEngineVersion.V3;
 }
 
 function _validateUserLanguage(languageService, userLanguage) {
@@ -239,18 +239,18 @@ async function _startNewCertification({
     }
   }
 
-  const algoritmEngineVersion = _selectCertificationAlgorithmEngine({
+  const algorithmEngineVersion = _selectCertificationAlgorithmEngine({
     sessionVersion: session.version,
     certificationCandidate,
   });
 
   let challengesForPixCertification = [];
 
-  if (!AlgoritmEngineVersion.isV3(algoritmEngineVersion)) {
+  if (!AlgorithmEngineVersion.isV3(algorithmEngineVersion)) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
       limitDate: certificationCandidate.reconciledAt,
-      version: algoritmEngineVersion,
+      version: algorithmEngineVersion,
     });
 
     challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
@@ -282,7 +282,7 @@ async function _startNewCertification({
     certificationChallenges: challengesForCertification,
     verifyCertificateCodeService,
     complementaryCertificationCourseData,
-    algoritmEngineVersion,
+    algorithmEngineVersion,
     lang,
   });
 }
@@ -308,7 +308,7 @@ async function _createCertificationCourse({
   userId,
   certificationChallenges,
   complementaryCertificationCourseData,
-  algoritmEngineVersion,
+  algorithmEngineVersion,
   lang,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
@@ -322,7 +322,7 @@ async function _createCertificationCourse({
     maxReachableLevelOnCertificationDate: features.maxReachableLevel,
     complementaryCertificationCourses,
     verificationCode,
-    algoritmEngineVersion,
+    algorithmEngineVersion,
     lang,
   });
 

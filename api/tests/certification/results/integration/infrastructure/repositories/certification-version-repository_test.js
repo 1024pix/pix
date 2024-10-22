@@ -1,5 +1,5 @@
 import * as certificationVersionRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-version-repository.js';
-import { AlgoritmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Course | Integration | Repository | course-assessment-result', function () {
@@ -8,10 +8,10 @@ describe('Certification | Course | Integration | Repository | course-assessment-
       // given
       const certificationCourseId = 123;
       databaseBuilder.factory.buildCertificationCourse({
-        version: AlgoritmEngineVersion.V2,
+        version: AlgorithmEngineVersion.V2,
         id: certificationCourseId,
       });
-      databaseBuilder.factory.buildCertificationCourse({ version: AlgoritmEngineVersion.V3, id: '456' });
+      databaseBuilder.factory.buildCertificationCourse({ version: AlgorithmEngineVersion.V3, id: '456' });
       await databaseBuilder.commit();
 
       // when
@@ -20,7 +20,7 @@ describe('Certification | Course | Integration | Repository | course-assessment-
       });
 
       // then
-      expect(certificationVersion).to.equal(AlgoritmEngineVersion.V2);
+      expect(certificationVersion).to.equal(AlgorithmEngineVersion.V2);
     });
   });
 });

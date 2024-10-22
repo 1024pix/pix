@@ -1,4 +1,4 @@
-import { AlgoritmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
@@ -20,7 +20,7 @@ function buildCertificationCourse({
   examinerComment = 'A cassé le clavier',
   hasSeenEndTestScreen = false,
   nbChallenges = 15,
-  version = AlgoritmEngineVersion.V1,
+  version = AlgorithmEngineVersion.V1,
   isPublished = false,
   verificationCode = 'P-ABCD1234',
   assessment = buildAssessment({ certificationCourseId: this.id }),
