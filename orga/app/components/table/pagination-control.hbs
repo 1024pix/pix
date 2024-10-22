@@ -26,7 +26,7 @@
       {{/if}}
     </p>
     <PixIconButton
-      @icon="arrow-left"
+      @iconName="arrowLeft"
       aria-label={{t "common.pagination.action.previous"}}
       @triggerAction={{this.goToPreviousPage}}
       @withBackground={{false}}
@@ -40,7 +40,7 @@
       {{t "common.pagination.page-number" current=this.currentPage total=this.pageCount}}
     </p>
     <PixIconButton
-      @icon="arrow-right"
+      @iconName="arrowRight"
       aria-label={{t "common.pagination.action.next"}}
       @triggerAction={{this.goToNextPage}}
       @withBackground={{false}}

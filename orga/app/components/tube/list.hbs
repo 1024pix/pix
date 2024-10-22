@@ -23,10 +23,11 @@
     {{/if}}
   </div>
   {{#each this.sortedAreas as |area|}}
-    <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}}">
-      {{#each area.sortedCompetences as |competence|}}
-        <h2>{{competence.index}} {{competence.name}}</h2>
-        <div class="panel">
+    <PixCollapsible class="{{area.color}}">
+      <:title>{{area.code}} · {{area.title}}</:title>
+      <:default>
+        {{#each area.sortedCompetences as |competence|}}
+          <h2>{{competence.index}} {{competence.name}}</h2>
           <table class="table content-text content-text--small preselect-tube-table">
             <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
             <thead>
@@ -72,8 +73,8 @@
               {{/each}}
             </tbody>
           </table>
-        </div>
-      {{/each}}
+        {{/each}}
+      </:default>
     </PixCollapsible>
 
   {{/each}}

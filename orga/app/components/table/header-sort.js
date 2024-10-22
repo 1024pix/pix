@@ -14,7 +14,7 @@ export default class HeaderSort extends Component {
     if (!this.args.order) {
       return 'sort';
     }
-    return this.args.order === 'asc' ? 'sort-up' : 'sort-down';
+    return this.args.order === 'asc' ? 'arrowTop' : 'arrowBottom';
   }
 
   get ariaLabel() {

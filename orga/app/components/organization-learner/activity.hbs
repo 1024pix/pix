@@ -5,8 +5,7 @@
       <PixIndicatorCard
         @title={{t "pages.organization-learner.activity.cards.title.assessment"}}
         @color="purple"
-        @icon="tachometer"
-        @iconPrefix="fapix"
+        @iconName="speed"
       >
         <:default>{{this.assessmentStatistics.total}}</:default>
         <:sub>
@@ -23,8 +22,7 @@
       <PixIndicatorCard
         @title={{t "pages.organization-learner.activity.cards.title.profiles-collection"}}
         @color="blue"
-        @icon="person-export"
-        @iconPrefix="fapix"
+        @iconName="profileShare"
       >
         <:default>{{this.profileCollectionsStatistics.total}}</:default>
         <:sub>
