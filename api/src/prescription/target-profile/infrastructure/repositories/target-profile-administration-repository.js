@@ -21,7 +21,6 @@ const TARGET_PROFILE_TABLE = 'target-profiles';
 
 const get = async function ({ id, locale = FRENCH_FRANCE }) {
   const knexConn = DomainTransaction.getConnection();
-
   const targetProfileDTO = await knexConn('target-profiles')
     .select(
       'target-profiles.id',
