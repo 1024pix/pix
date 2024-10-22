@@ -14,8 +14,9 @@ import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/e
  * @return {Promise<void>}
  * @throws {UserNotAuthorizedToUpdatePasswordError}
  */
+//export const updateUserPassword = withTransaction(async function ({
 export const updateUserPassword = async function ({
-  userId,
+    userId,
   password,
   temporaryKey,
   cryptoService,

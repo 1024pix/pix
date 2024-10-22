@@ -22,6 +22,7 @@ const create = async function ({ email, temporaryKey }) {
 /**
  * @param {string} email
  */
+//const markAllAsBeingUsed = async function (email) {
 const markAsBeingUsed = async function (email) {
   const knexConn = DomainTransaction.getConnection();
 
@@ -35,6 +36,7 @@ const markAsBeingUsed = async function (email) {
  *
  * @returns {ResetPasswordDemand} retrieved reset password demand
  */
+//const getByTemporaryKey = async function (temporaryKey) {
 const findByTemporaryKey = async function (temporaryKey) {
   const knexConn = DomainTransaction.getConnection();
 

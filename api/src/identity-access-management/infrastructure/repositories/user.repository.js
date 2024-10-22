@@ -234,10 +234,13 @@ const getBySamlId = async function (samlId) {
 };
 
 const update = async function (properties) {
+  //const knexConn = DomainTransaction.getConnection();
   const { id: userId, ...data } = properties;
   data.updatedAt = new Date();
   await knex('users').where({ id: userId }).update(data);
 };
+
+//const updateEmailAsConfirmed
 
 const updateWithEmailConfirmed = function ({ id, userAttributes }) {
   const knexConn = DomainTransaction.getConnection();
