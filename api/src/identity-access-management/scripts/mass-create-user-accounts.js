@@ -1,12 +1,14 @@
+/* eslint-disable no-console */
+
 import * as url from 'node:url';
 
-import { disconnect } from '../db/knex-database-connection.js';
-import * as authenticationMethodRepository from '../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
-import { userToCreateRepository } from '../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
-import { DomainTransaction } from '../src/shared/domain/DomainTransaction.js';
-import { cryptoService } from '../src/shared/domain/services/crypto-service.js';
-import * as userService from '../src/shared/domain/services/user-service.js';
-import { parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { disconnect } from '../../../db/knex-database-connection.js';
+import { parseCsvWithHeader } from '../../../scripts/helpers/csvHelpers.js';
+import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
+import { cryptoService } from '../../shared/domain/services/crypto-service.js';
+import * as userService from '../../shared/domain/services/user-service.js';
+import * as authenticationMethodRepository from '../infrastructure/repositories/authentication-method.repository.js';
+import { userToCreateRepository } from '../infrastructure/repositories/user-to-create.repository.js';
 
 function prepareDataForInsert(rawUsers) {
   return rawUsers.map(({ firstName, lastName, email, password }) => {
@@ -78,5 +80,7 @@ async function main() {
     }
   }
 })();
+
+/* eslint-enable no-console */
 
 export { createUsers, prepareDataForInsert };
