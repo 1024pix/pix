@@ -2,7 +2,7 @@
 // ! If the target table is large, and the migration take more than 20 minutes, the deployment will fail !
 
 // You can design and test your migration to avoid this by following this guide
-// https://1024pix.atlassian.net/wiki/spaces/DEV/pages/2153512965/Cr+er+une+migration
+// https://1024pix.atlassian.net/wiki/spaces/EDTDT/pages/3849323922/Cr+er+une+migration
 
 // If your migrations target `answers` or `knowledge-elements`
 // contact @team-captains, because automatic migrations are not active on `pix-datawarehouse-production`
@@ -12,7 +12,11 @@ const COLUMN_NAME = 'authorId';
 
 const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
-    table.integer(COLUMN_NAME).defaultTo(null).references('author.id');
+    table
+      .integer(COLUMN_NAME)
+      .defaultTo(null)
+      .references('author.id')
+      .comment("Book author identifier - see 'author' table");
   });
 };
 
