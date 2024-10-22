@@ -585,11 +585,9 @@
           },
           "paragraphs": {
             "1": "Le test de certification est composé de '<strong>'32 questions'</strong>'",
-            "2": {
-              "light": "*hors éventuel temps majoré",
-              "text": "Vous avez au maximum '<strong>'1h45'</strong>' pour y répondre*"
-            },
-            "3": "Si vous traitez '<strong>'moins de 20 questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
+            "2": "Vous avez au maximum '<strong>'1h45'</strong>' pour y répondre*",
+            "3": "*hors éventuel temps majoré",
+            "4": "Si vous traitez '<strong>'moins de 20 questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
           },
           "title": "Comment se passe le test de certification ?"
         },
@@ -600,7 +598,7 @@
           },
           "paragraphs": {
             "1": {
-              "text": "Pour les questions en '<strong>'mode libre'</strong>' signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition.<br>Toutefois, '<strong>'certains sites ne seront pas accessibles en certification'</strong>'.",
+              "text": "Pour les questions en '<strong>'mode libre'</strong>' signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition.'<br>'Toutefois, '<strong>'certains sites ne seront pas accessibles en certification'</strong>'.",
               "title": "Le mode libre :"
             },
             "2": {

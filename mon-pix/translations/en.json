@@ -585,11 +585,9 @@
           },
           "paragraphs": {
             "1": "The certification includes '<strong>'32 questions'</strong>'.",
-            "2": {
-              "light": "*Except those entitled to extra time",
-              "text": "You have '<strong>'1h45'</strong>' maximum to answer*"
-            },
-            "3": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
+            "2": "You have '<strong>'1h45'</strong>' maximum to answer*",
+            "3": "*Except those entitled to extra time",
+            "4": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
           },
           "title": "How is the certification exam conducted ?"
         },
@@ -600,7 +598,7 @@
           },
           "paragraphs": {
             "1": {
-              "text": "For the '<strong>'free mode'</strong>' questions, signaled by a green icon : you have the right to look for information on the web and to use the digital environment available.<br>However, '<strong>'some websites will not be accessible during the certification'</strong>'.",
+              "text": "For the '<strong>'free mode'</strong>' questions, signaled by a green icon : you have the right to look for information on the web and to use the digital environment available.'<br>'However, '<strong>'some websites will not be accessible during the certification'</strong>'.",
               "title": "The free mode:"
             },
             "2": {

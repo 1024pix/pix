@@ -2,7 +2,7 @@ import { t } from 'ember-intl';
 
 <template>
   <div class="instructions-content" tabindex="0">
-    <h3 class="instructions-content__title--bold">
+    <h3 class="instructions-content__title">
       {{t "pages.certification-instructions.steps.1.question"}}
     </h3>
 

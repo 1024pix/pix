@@ -5,7 +5,7 @@ import { t } from 'ember-intl';
     <p class="instructions-content__paragraph">
       {{t "pages.certification-instructions.steps.4.text" htmlSafe=true}}
     </p>
-    <ol class="instructions-content-list">
+    <ol class="instructions-content__list instructions-content__list--decimal">
       <li>{{t "pages.certification-instructions.steps.4.list.1"}}</li>
       <li>{{t "pages.certification-instructions.steps.4.list.2"}}</li>
       <li>{{t "pages.certification-instructions.steps.4.list.3"}}</li>
