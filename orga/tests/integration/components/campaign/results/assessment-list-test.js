@@ -222,6 +222,28 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         assert.ok(screen.getByText(t('pages.campaign-results.table.column.sharedResultCount')));
         assert.ok(screen.getByRole('cell', { name: '77' }));
       });
+
+      test('it should display evolution header', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: '1',
+          name: 'campagne 1',
+          participationsCount: 1,
+          multipleSendings: true,
+        });
+        this.set('campaign', campaign);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @onFilter={{this.noop}}/>`,
+        );
+
+        // then
+        assert.strictEqual(
+          screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.ariaEvolution') }).innerText,
+          t('pages.campaign-results.table.column.evolution'),
+        );
+      });
     });
 
     module('campaign has multiple sending not enabled', function () {

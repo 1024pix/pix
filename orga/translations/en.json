@@ -614,6 +614,12 @@
           },
           "sharedResultCount": "No of sent results"
         },
+        "evolution": {
+          "increase": "In progress",
+          "decrease": "In decline",
+          "stable": "Constant",
+          "unavailable": "not available"
+        },
         "empty": "No participants",
         "row-title": "Participant"
       },
