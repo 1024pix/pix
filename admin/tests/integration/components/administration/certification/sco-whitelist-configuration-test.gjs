@@ -81,6 +81,30 @@ module('Integration | Component | administration/certification/sco-whitelist-con
       assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.error')));
     });
   });
+
+  module('when file is invalid', function () {
+    test('it displays an error notification', async function (assert) {
+      // given
+      fetchStub
+        .withArgs(`${ENV.APP.API_HOST}/api/admin/sco-whitelist`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'text/csv',
+            Accept: 'application/json',
+          },
+          method: 'POST',
+          body: file,
+        })
+        .resolves({ status: 422 });
+      // when
+      const screen = await render(<template><ScoWhitelistConfiguration /><NotificationContainer /></template>);
+      const input = await screen.findByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
+      await triggerEvent(input, 'change', { files: [file] });
+
+      // then
+      assert.ok(await screen.findByText(t('pages.administration.certification.sco-whitelist.import.unprocessable')));
+    });
+  });
 });
 
 function fetchResponse({ body, status }) {

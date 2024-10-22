@@ -29,8 +29,11 @@ export default class ScoWhitelistConfiguration extends Component {
         method: 'POST',
         body: fileContent,
       });
+
       if (response.ok) {
         this.notifications.success(this.intl.t('pages.administration.certification.sco-whitelist.import.success'));
+      } else if (response.status === 422) {
+        this.notifications.error(this.intl.t('pages.administration.certification.sco-whitelist.import.unprocessable'));
       } else {
         this.notifications.error(this.intl.t('pages.administration.certification.sco-whitelist.import.error'));
       }

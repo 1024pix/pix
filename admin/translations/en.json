@@ -412,6 +412,7 @@
           "title": "SCO whitelist",
           "import": {
             "button": "Import new CSV file as whitelist",
+            "unprocessable": "Invalid file",
             "error": "Could not save SCO whitelist",
             "success": "SCO whitelist saved"
           }

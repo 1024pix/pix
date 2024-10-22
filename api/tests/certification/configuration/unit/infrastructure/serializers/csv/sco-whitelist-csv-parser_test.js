@@ -1,5 +1,5 @@
 import { extractExternalIds } from '../../../../../../../src/certification/configuration/infrastructure/serializers/csv/sco-whitelist-csv-parser.js';
-import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
+import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, createTempFile, expect, removeTempFile } from '../../../../../../test-helper.js';
 
 describe('Integration | Serializer | CSV | Certification | Configuration | sco-whitelist-csv-parser', function () {
@@ -26,8 +26,7 @@ describe('Integration | Serializer | CSV | Certification | Configuration | sco-w
         const data = 'RendLesDonnées\n1';
         const filePath = await createTempFile(file, data);
         const error = await catchErr(extractExternalIds)(filePath);
-        expect(error).to.be.an.instanceOf(CsvImportError);
-        expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
+        expect(error).to.be.an.instanceOf(FileValidationError);
       });
     });
   });

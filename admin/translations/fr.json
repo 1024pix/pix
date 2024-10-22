@@ -422,6 +422,7 @@
           "title": "Liste blanche centres SCO",
           "import": {
             "button": "Importer une nouvelle liste blanche au format CSV",
+            "unprocessable": "Fichier invalide",
             "error": "Échec de l'enregistrement de la liste blanche",
             "success": "Liste blanche enregistrée"
           }
