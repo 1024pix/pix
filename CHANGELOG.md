@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.229.0 (22/10/2024)
+
+
+### :rocket: Amélioration
+- [#10365](https://github.com/1024pix/pix/pull/10365) [FEATURE] Tagguer les certif Pix+ seules en V2 (PIX-14714).
+- [#10355](https://github.com/1024pix/pix/pull/10355) [FEATURE] Ajouter un nouveau composant formulaire de demande de réinitialisation de mot de passe (PIX-14111).
+- [#10377](https://github.com/1024pix/pix/pull/10377) [FEATURE] Update attestation template PDF (PIX-13825).
+- [#10342](https://github.com/1024pix/pix/pull/10342) [FEATURE] Convertir les sessions et les centres de certification à la version 3 (PIX-14429).
+- [#10020](https://github.com/1024pix/pix/pull/10020) [FEATURE] Amélioration continue mdl adresse-ip-publique-et-vous - dette MVP (MODC-5).
+- [#10368](https://github.com/1024pix/pix/pull/10368) [FEATURE] Déclencher le job "AnswerJob" lorsqu'un utilisateur répond à une question (PIX-13817).
+
+### :bug: Correction
+- [#10376](https://github.com/1024pix/pix/pull/10376) [BUGFIX] Corriger la taille des boutons sur les Flashcards (PIX-14955).
+- [#10378](https://github.com/1024pix/pix/pull/10378) [BUGFIX] Ne pas retourner une erreur 500 lors de la vérification de l'éligibilité d'un utilisateur sans badges (PIX-14764).
+- [#10374](https://github.com/1024pix/pix/pull/10374) [BUGFIX] Ajuster la grille des badges de la bannière de fin de parcours (PIX-14931).
+
+### :arrow_up: Montée de version
+- [#10392](https://github.com/1024pix/pix/pull/10392) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.21 (mon-pix).
+- [#10390](https://github.com/1024pix/pix/pull/10390) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.21 (junior).
+- [#10386](https://github.com/1024pix/pix/pull/10386) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.21 (certif).
+- [#10384](https://github.com/1024pix/pix/pull/10384) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.21 (admin).
+- [#10329](https://github.com/1024pix/pix/pull/10329) [BUMP] Update dependency @1024pix/pix-ui to v47 (orga) (PIX-14842).
+
 ## v4.228.0 (21/10/2024)
 
 
