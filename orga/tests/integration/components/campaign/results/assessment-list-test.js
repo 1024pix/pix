@@ -54,6 +54,34 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
     assert.ok(screen.getByRole('link', { href: '/campagnes/1/evaluations/5' }));
   });
 
+  module('basic headers', function () {
+    test('it should display only basic headers', async function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        participationsCount: 1,
+      });
+
+      this.set('campaign', campaign);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @onFilter={{this.noop}}/>`,
+      );
+
+      // then
+      assert.ok(screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.last-name') }));
+      assert.ok(screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.first-name') }));
+      assert.ok(screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.results.label') }));
+      assert.notOk(
+        screen.queryByRole('columnheader', { name: t('pages.campaign-results.table.column.sharedResultCount') }),
+      );
+      assert.notOk(screen.queryByRole('columnheader', { name: t('pages.campaign-results.table.column.evolution') }));
+      assert.notOk(screen.queryByRole('columnheader', { name: t('pages.campaign-results.table.column.badges') }));
+    });
+  });
+
   module('when a participant has shared his results', function () {
     test('it should display the participant’s results', async function (assert) {
       // given

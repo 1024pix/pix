@@ -607,8 +607,10 @@
       "table": {
         "title": "Liste des résultats reçus",
         "column": {
+          "ariaEvolution": "Évolution du participant entre ces deux derniers résultats partagés.",
           "ariaSharedResultCount": "Nombre de résultats envoyés",
           "badges": "Résultats Thématiques",
+          "evolution": "Évol.",
           "first-name": "Prénom",
           "last-name": "Nom",
           "results": {

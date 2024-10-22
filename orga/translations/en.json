@@ -601,9 +601,11 @@
       "table": {
         "title": "List of submitted results",
         "column": {
+          "ariaEvolution": "Evolution of the participant between these last two shared results.",
           "ariaSharedResultCount": "Number of sent results",
           "badges": "Thematic results",
           "first-name": "First name",
+          "evolution": "Evol.",
           "last-name": "Last name",
           "results": {
             "label": "Success rate",

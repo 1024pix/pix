@@ -44,6 +44,10 @@ import CampaignAssessmentRow from '../results/assessment-row';
             {{/if}}
             <TableHeader>{{t "pages.campaign-results.table.column.results.label"}}</TableHeader>
             {{#if @campaign.multipleSendings}}
+              <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaEvolution"}}>{{t
+                  "pages.campaign-results.table.column.evolution"
+                }}
+              </TableHeader>
               <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaSharedResultCount"}}>
                 {{t "pages.campaign-results.table.column.sharedResultCount"}}
               </TableHeader>
