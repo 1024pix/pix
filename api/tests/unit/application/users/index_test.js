@@ -10,58 +10,6 @@ const CODE_IDENTITY_PROVIDER_POLE_EMPLOI = OidcIdentityProviders.POLE_EMPLOI.cod
 const oidcProviderCode = 'genericOidcProviderCode';
 
 describe('Unit | Router | user-router', function () {
-  describe('GET /api/users/{userId}/campaigns/{campaignId}/profile', function () {
-    const method = 'GET';
-
-    it('returns 200', async function () {
-      // given
-      sinon.stub(userController, 'getUserProfileSharedForCampaign').returns('ok');
-      sinon
-        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
-        .callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/users/12/campaigns/34/profile';
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(200);
-    });
-
-    it('returns 400 when userId is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const userId = 'wrongId';
-      const url = `/api/users/${userId}/campaigns/34/profile`;
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('returns 400 when campaignId is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const campaignId = 'wrongId';
-      const url = `/api/users/12/campaigns/${campaignId}/profile`;
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-  });
-
   describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function () {
     const method = 'GET';
 

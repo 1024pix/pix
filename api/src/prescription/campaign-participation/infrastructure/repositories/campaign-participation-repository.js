@@ -140,6 +140,18 @@ const findProfilesCollectionResultDataByCampaignId = async function (campaignId)
   return results.map(_rowToResult);
 };
 
+const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {
+  const campaignParticipation = await knex('campaign-participations')
+    .where({ userId, isImproved: false, campaignId })
+    .first();
+  if (!campaignParticipation) return null;
+  const assessments = await knex('assessments').where({ campaignParticipationId: campaignParticipation.id });
+  return new CampaignParticipation({
+    ...campaignParticipation,
+    assessments: assessments.map((assessment) => new Assessment(assessment)),
+  });
+};
+
 function _rowToResult(row) {
   return {
     id: row.id,
@@ -161,6 +173,7 @@ function _rowToResult(row) {
 
 export {
   batchUpdate,
+  findOneByCampaignIdAndUserId,
   findProfilesCollectionResultDataByCampaignId,
   get,
   getAllCampaignParticipationsInCampaignForASameLearner,

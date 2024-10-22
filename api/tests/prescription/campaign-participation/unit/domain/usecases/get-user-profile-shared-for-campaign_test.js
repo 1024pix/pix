@@ -1,8 +1,8 @@
-import { getUserProfileSharedForCampaign } from '../../../../lib/domain/usecases/get-user-profile-shared-for-campaign.js';
-import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
-import { constants } from '../../../../src/shared/domain/constants.js';
-import { NoCampaignParticipationForUserAndCampaign } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { Scorecard } from '../../../../../../src/evaluation/domain/models/Scorecard.js';
+import { getUserProfileSharedForCampaign } from '../../../../../../src/prescription/campaign-participation/domain/usecases/get-user-profile-shared-for-campaign.js';
+import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { NoCampaignParticipationForUserAndCampaign } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   const sharedAt = new Date('2020-02-01');
