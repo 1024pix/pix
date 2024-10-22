@@ -2,13 +2,16 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixMessage from '@1024pix/pix-ui/components/pix-message';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
 export default class LiveAlert extends Component {
+  @service router;
+
   @action
-  reloadAssessment() {
-    this.args.assessment.reload();
+  refreshPage() {
+    this.router.refresh();
   }
 
   <template>
@@ -20,7 +23,7 @@ export default class LiveAlert extends Component {
         <PixButton
           @variant="tertiary"
           @loadingColor="grey"
-          @triggerAction={{this.reloadAssessment}}
+          @triggerAction={{this.refreshPage}}
           class="refresh-information-live-alert__button"
         >
           <PixIcon @name="refresh" @ariaHidden={{true}} class="refresh-information-live-alert__icon" />
