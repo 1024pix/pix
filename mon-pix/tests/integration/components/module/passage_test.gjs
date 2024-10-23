@@ -49,7 +49,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
   });
 
-  module('When a grain contains non existing elements', function () {
+  module('when a grain contains non existing elements', function () {
     test('should not display the grain if it contains only non existing elements', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -160,7 +160,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists({ count: 1 });
   });
 
-  module('when user click on skip button', function () {
+  module('when user clicks on skip button', function () {
     test('should display next grain', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -223,7 +223,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on continue button', function (hooks) {
+  module('when user clicks on continue button', function (hooks) {
     let continueButtonName;
     hooks.beforeEach(function () {
       continueButtonName = t('pages.modulix.buttons.grain.continue');
@@ -321,7 +321,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on an answerable element verify button', function () {
+  module('when user clicks on an answerable element verify button', function () {
     test('should save the element answer', async function (assert) {
       // given
       const metrics = this.owner.lookup('service:metrics');
@@ -401,7 +401,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on an answerable element retry button', function () {
+  module('when user clicks on an answerable element retry button', function () {
     test('should push metrics event', async function (assert) {
       // given
       const metrics = this.owner.lookup('service:metrics');
@@ -427,6 +427,78 @@ module('Integration | Component | Module | Passage', function (hooks) {
         'pix-event-category': 'Modulix',
         'pix-event-action': `Passage du module : ${module.id}`,
         'pix-event-name': `Click sur le bouton réessayer de l'élément : ${element.id}`,
+      });
+      assert.ok(true);
+    });
+  });
+
+  module('when user clicks on a flashcards element self-assessment button', function () {
+    test('should push metrics event', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const store = this.owner.lookup('service:store');
+      const firstCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+          },
+          text: "A quoi sert l'arobase dans mon adresse email ?",
+        },
+        verso: {
+          image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+          text: "Parce que c'est joli",
+        },
+      };
+      const secondCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/icon.svg',
+          },
+          text: 'Qui a écrit le Dormeur du Val ?',
+        },
+        verso: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/chaton.jpg',
+          },
+          text: '<p>Arthur Rimbaud</p>',
+        },
+      };
+
+      const flashcardsElement = {
+        id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+        type: 'flashcards',
+        title: "Introduction à l'adresse e-mail",
+        instruction: '<p>...</p>',
+        introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+        cards: [firstCard, secondCard],
+      };
+
+      const grain1 = store.createRecord('grain', { components: [{ type: 'element', element: flashcardsElement }] });
+
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain1] });
+      const passage = store.createRecord('passage');
+
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: function () {} });
+      store.createRecord = createRecordMock;
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(t('pages.modulix.buttons.flashcards.start'));
+      await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+      await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+      // then
+      sinon.assert.calledOnceWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton 'no' de la flashcard : ${firstCard.id}`,
       });
       assert.ok(true);
     });
@@ -504,7 +576,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user opens an video transcription modal', function () {
+  module('when user opens a video transcription modal', function () {
     test('should push metrics event', async function (assert) {
       // given
       const metrics = this.owner.lookup('service:metrics');
@@ -578,7 +650,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on next step button', function () {
+  module('when user clicks on next step button', function () {
     test('should push event', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -903,7 +975,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('When click on terminate button', function () {
+  module('when user clicks on terminate button', function () {
     test('should push an event', async function (assert) {
       // given
       class PassageAdapterStub extends ApplicationAdapter {

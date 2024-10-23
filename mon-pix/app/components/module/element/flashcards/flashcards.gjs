@@ -1,3 +1,4 @@
+import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
@@ -55,10 +56,19 @@ export default class ModulixFlashcards extends Component {
     this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
   }
 
-  @action
   goToNextCard() {
     this.currentCardIndex++;
     this.displayedSideName = 'recto';
+  }
+
+  @action
+  onSelfAssessment(userAssessment) {
+    const selfAssessmentData = {
+      userAssessment,
+      cardId: this.currentCard.id,
+    };
+    this.args.onSelfAssessment(selfAssessmentData);
+    this.goToNextCard();
   }
 
   <template>
@@ -96,21 +106,21 @@ export default class ModulixFlashcards extends Component {
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--no"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                {{on "click" (fn this.onSelfAssessment "no")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--almost"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                {{on "click" (fn this.onSelfAssessment "almost")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.almost"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--yes"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                {{on "click" (fn this.onSelfAssessment "yes")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.yes"}}
               </button>
