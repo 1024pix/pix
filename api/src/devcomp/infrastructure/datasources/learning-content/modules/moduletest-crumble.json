@@ -1,0 +1,328 @@
+{
+  "id": "8ab452b2-76a4-4c90-ba16-c64905850858",
+  "slug": "",
+  "title": "Le Module test, fondant, sucré et craquant !",
+  "details": {
+    "image": "",
+    "description": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-4fe515c9-7fff-b7ea-b1db-851349a92157\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Bienvenue dans ce module test de Modulix editor qui donne faim, où nous explorons la recette du crumble aux pommes.</span></strong></p><p><br></p>",
+    "duration": 10,
+    "level": "Intermédiaire",
+    "objectives": [
+      "<p>Connaître la recette du crumble aux pommes</p>",
+      "<p>Faire son premier crumble aux pommes</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "ede2c5af-73e7-4b37-a523-203e0c45c232",
+      "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-7dcaaf9e-7fff-8f47-0187-b2f5c2c7da51\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">C’est parti pour ce module test de Modulix editor qui donne faim !</span></strong></p>"
+    },
+    {
+      "grainId": "c00058dc-9d45-4f0d-aa35-ebabe498896b",
+      "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-96d348e2-7fff-f406-f8f3-38d70ff2652c\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Maintenant que nous avons nos ingrédients, commençons à cuisiner étape par étape 🧑‍🍳</span></strong></p>"
+    },
+    {
+      "grainId": "93060677-a21c-4295-b73e-c7df96b37671",
+      "content": "<p>Voyons si vous êtes prêt.es à enfourner !</p>"
+    },
+    {
+      "grainId": "0e574af3-2249-4f21-bd11-4306f8ca4587",
+      "content": "<p>Reprenons la recette !&nbsp;🥄</p>"
+    },
+    {
+      "grainId": "04d19788-3c98-4658-9073-439e0e0b849e",
+      "content": "<p>Qu'en est-il de la cuisson ?</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "ede2c5af-73e7-4b37-a523-203e0c45c232",
+      "type": "activity",
+      "title": "grain 1 activité",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "62ba05ed-a620-4f24-96b9-b18731a09693",
+            "type": "qcm",
+            "instruction": "<p><br></p><p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-5a4f1ade-7fff-c7df-8e21-fa728cc493e7\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Quels sont les ingrédients et quantités pour un crumble aux pommes de 6 personnes ?</span></strong></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-cfcd5407-7fff-e1a7-4b9a-88c75662e7a7\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">125g de sucre</span></strong></p>"
+              },
+              {
+                "id": "2",
+                "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-81ca3b12-7fff-0bdf-1dcf-a3ae5698c46a\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">2 cas d’huile de coude</span></strong></p>"
+              },
+              {
+                "id": "3",
+                "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-9b7812f5-7fff-2150-1db3-39a981231a56\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">75g de beurre</span></strong></p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>3 pommes<br></p>"
+              },
+              {
+                "id": "5",
+                "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-9826ec80-7fff-85db-1ec2-d08a9b0ba464\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">1 compote à la rhubarbe</span></strong></p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-064404ae-7fff-c190-9eca-d1450954a6f0\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Bien vu,&nbsp; graine de Top chef !</span></strong></p>",
+              "invalid": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-b2e98fb2-7fff-d9cd-334e-50a5d47ad103\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Ce n’est pas exactement ça.</span></strong></p>"
+            },
+            "solutions": [
+              "1",
+              "3",
+              "4"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c00058dc-9d45-4f0d-aa35-ebabe498896b",
+      "type": "lesson",
+      "title": "lesson grain 2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "ac83b2e3-a5e9-4ad8-9c1a-4170194f686d",
+            "type": "text",
+            "content": "<p>Étape 1&nbsp; <br>Commençons par les pommes<br><br> Préchauffer le four à 180°C (thermostat 6). <br>Peler les pommes. Couper les pommes en dés ou en tranches.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "5eeb5a9a-dbd7-4e96-826b-560fe9e7b643",
+            "type": "image",
+            "url": "https://i0.wp.com/beninwebtv.com/wp-content/uploads/2023/01/pelures-de-pommes.jpg?w=1200&ssl=1",
+            "alt": "photographie de pommes décrites dans l'alternative textuelle",
+            "alternativeText": "<p>L'image représente des pommes pelées et coupées en morceaux.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "69285538-c483-4398-9448-0107c78dee34",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "96fe0e5e-5ffc-4d9e-87b6-0038423a5b4f",
+            "type": "text",
+            "content": "<p>📺 L’astuce en vidéo, l’éplucheur de pommes, qui pèle et qui tranche :</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "88dc4ab2-8239-422b-a0c8-1c8540ddafc8",
+            "type": "video",
+            "title": "Comment fonctionne un éplucheur de pommes (démonstration)",
+            "url": "https://youtu.be/2JY8WklUxj4?si=oiOoxdAwGjkiDpUO",
+            "poster": "",
+            "subtitles": "",
+            "transcription": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "93060677-a21c-4295-b73e-c7df96b37671",
+      "type": "activity",
+      "title": "grain 3 activité",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a809676d-0e4a-4288-908f-2e3d8e05428b",
+            "type": "qcu",
+            "instruction": "<p>À combien de degré Celsius avez-vous mis le four à chauffer à l’étape précédente ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>160°C</p>",
+                "feedback": "<p>L'idée est bonne, mais vous êtes en légère sous-cuisson.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>180°C</p>",
+                "feedback": "<p>Vous êtes chauds ! 🥵</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>200°C</p>",
+                "feedback": "<p>Un classique ! Et pourtant pour cette recette, on est pas sur 200°C.</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>210°C</p>",
+                "feedback": "<p>Ça brûle ! C'est beaucoup trop chaud pour un crumble !</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p><br></p>",
+              "invalid": "<p><br></p>"
+            },
+            "solution": "2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0e574af3-2249-4f21-bd11-4306f8ca4587",
+      "type": "lesson",
+      "title": "grain 4 lesson",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "1a801332-f386-48e4-a036-6b7cd57f51e2",
+                  "type": "text",
+                  "content": "<p><strong>Étape 2</strong> <br>Dans un saladier, mélanger la farine au sucre, puis au beurre,<br></p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "e9a0ae01-7f05-40a1-9afb-664b0073b285",
+                  "type": "text",
+                  "content": "<p><strong>Étape 3</strong> <br>Malaxer le tout avec les doigts pour obtenir une pâte sableuse.<br></p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "7067b6ca-e30e-4941-ad11-e6edd4f66488",
+                  "type": "text",
+                  "content": "<p><strong>Étape 4</strong> <br>Beurrer le moule, y disposer les pommes tranchées et placer la pâte sableuse par-dessus.<br></p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "04d19788-3c98-4658-9073-439e0e0b849e",
+      "type": "lesson",
+      "title": "grain 5 QROC",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "309aa6e2-5493-463e-98c1-006ca88a0dc8",
+            "type": "qrocm",
+            "instruction": "<p>Complétez la phrase avec le bon temps de cuisson :</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Enfournez pour</p>"
+              },
+              {
+                "input": "1",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "25"
+                  },
+                  {
+                    "id": "2",
+                    "content": "45"
+                  },
+                  {
+                    "id": "3",
+                    "content": "60"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<p>minutes.</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Fantastique ! Votre crumble est prêt. Sentez l’odeur de sucre qui s’est répandue dans votre cuisine</p>",
+              "invalid": "<p>Aïe, aïe, aïe, il est tout cramé !&nbsp;<br></p>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5fffb79e-f447-4a26-9292-67552c4fba61",
+      "type": "activity",
+      "title": "grain 6 activité",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a6b6a215-d135-44d6-a3ff-1751008d4e38",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le nom de la préparation sucrée qui accompagne parfaitement un crumble ?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>La réponse est :&nbsp;</p>"
+              },
+              {
+                "input": "1",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1",
+                  "t2",
+                  "t3"
+                ],
+                "solutions": [
+                  "crème anglaise",
+                  "la crème anglaise",
+                  "de la crème anglaise",
+                  "de la délicieuse crème anglaise"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Vous êtes un crack ! (ou un gourmand)</p>",
+              "invalid": "<p>Pensez à une préparation sucrée d'origine française, liquide et épaisse, obtenue par cuisson d'un mélange de lait, de jaunes d'œufs et de sucre. Elle peut être parfumée à la vanille, au citron ou même à l’orange.</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "362a07aa-3a7e-46cb-abe0-c732b3e8360a",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>Même si cette préparation est française, son nom pourrait vous laisser croire le contraire.</p></details><details><summary>Indice 2</summary><p>On la sert aussi beaucoup avec les gâteaux au chocolat, mais elle est la plus connue dans l’île flottante.</p></details>"
+          }
+        }
+      ]
+    }
+  ]
+}
