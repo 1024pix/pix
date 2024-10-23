@@ -7,6 +7,7 @@ import * as complementaryCertificationRepository from '../../../complementary-ce
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerPilotFeaturesRepository from '../../infrastructure/repositories/center-pilot-features-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
+import * as habilitationRepository from '../../infrastructure/repositories/habilitation-repository.js';
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').SessionsRepository} SessionsRepository
  */
@@ -23,6 +24,7 @@ import { convertCenterToV3JobRepository } from '../../infrastructure/repositorie
  * @typedef {centerRepository} CentersRepository
  * @typedef {convertCenterToV3JobRepository} ConvertCenterToV3JobRepository
  * @typedef {sessionsRepository} SessionsRepository
+ * @typedef {habilitationRepository} HabilitationRepository
  **/
 const dependencies = {
   attachableTargetProfileRepository,
@@ -31,6 +33,7 @@ const dependencies = {
   centerRepository,
   convertCenterToV3JobRepository,
   sessionsRepository: configurationRepositories.sessionsRepository,
+  habilitationRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
