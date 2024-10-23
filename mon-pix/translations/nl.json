@@ -40,6 +40,7 @@
       "cancel": "Annuleer",
       "close": "Sluit",
       "confirm": "Bevestig",
+      "continue": "Ga verder",
       "lets-go": "Laten we gaan!",
       "quit": "Verlaat",
       "show-less": "Minder tonen",
@@ -209,6 +210,17 @@
         "message": "If your address is associated with a Pix account, instructions for resetting your password have been sent to you by e-mail.",
         "no-email-received-question": "You haven’t received anything?",
         "try-again": "Try again with another demand"
+      }
+    },
+    "campaigns": {
+      "results-loader": {
+        "steps": {
+          "competences": "Scores berekenen per vaardigheid",
+          "trainings": "Nuttige trainingen identificeren",
+          "rewards": "Prijsuitreiking"
+        },
+        "subtitle": "Een ogenblikje, alstublieft! Ik zal zo snel mogelijk zijn.",
+        "title": "Je huidige score berekenen..."
       }
     },
     "invited": {
