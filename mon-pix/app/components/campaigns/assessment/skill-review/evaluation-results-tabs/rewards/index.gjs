@@ -17,7 +17,7 @@ export default class Rewards extends Component {
   }
 
   get notAcquiredBadges() {
-    return this.getFilteredAndSortedBadges(false);
+    return this.getFilteredAndSortedBadges(false).filter(({ isAlwaysVisible }) => isAlwaysVisible);
   }
 
   <template>
