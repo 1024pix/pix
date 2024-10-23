@@ -246,7 +246,7 @@ async function _startNewCertification({
 
   let challengesForPixCertification = [];
 
-  if (!AlgorithmEngineVersion.isV3(algorithmEngineVersion)) {
+  if (_shouldPickCoreReferentialChallenges({ algorithmEngineVersion, certificationCandidate })) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
       limitDate: certificationCandidate.reconciledAt,
@@ -287,6 +287,25 @@ async function _startNewCertification({
   });
 }
 
+/**
+ * @param {Object} params
+ * @param {AlgorithmEngineVersion} params.algorithmEngineVersion
+ * @param {CertificationCandidate} params.certificationCandidate
+ * @returns {boolean}
+ */
+function _shouldPickCoreReferentialChallenges({ algorithmEngineVersion, certificationCandidate }) {
+  return (
+    !AlgorithmEngineVersion.isV3(algorithmEngineVersion) && !certificationCandidate.isEnrolledToComplementaryOnly()
+  );
+}
+
+/**
+ * @param {Object} params
+ * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {UserId} params.userId
+ * @param {SessionId} params.sessionId
+ * @returns {Promise<CertificationCourse>}
+ */
 async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId) {
   return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,

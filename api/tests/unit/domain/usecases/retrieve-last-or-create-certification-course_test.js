@@ -449,7 +449,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
 
             context('when the candidate is enroled in complementary certification only', function () {
-              it('should build a v2 algorithm certification', async function () {
+              it('should build a v2 algorithm certification with only pix plus challenges', async function () {
                 // given
                 const user = domainBuilder.buildUser({ id: 2, lang: LOCALE.FRENCH_SPOKEN });
                 const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
@@ -460,13 +460,20 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
 
                 const candidateComplementarySubscription = domainBuilder.buildComplementarySubscription();
+                const complementaryCertification = domainBuilder.buildComplementaryCertification({
+                  id: candidateComplementarySubscription.complementaryCertificationId,
+                  key: 'PIX_DROIT',
+                });
+
                 const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
                   userId: user.id,
                   sessionId: foundSession.id,
                   authorizedToStart: true,
                   subscriptions: [candidateComplementarySubscription],
+                  complementaryCertification,
                   reconciledAt,
                 });
+
                 certificationCandidateRepository.getBySessionIdAndUserId
                   .withArgs({ sessionId: foundSession.id, userId: user.id })
                   .resolves(foundCertificationCandidate);
@@ -475,32 +482,47 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .withArgs({ userId: user.id, sessionId: foundSession.id })
                   .resolves(null);
 
-                const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                  _buildPlacementProfileWithTwoChallenges({
-                    placementProfileService,
-                    userId: user.id,
-                    reconciledAt: foundCertificationCandidate.reconciledAt,
-                    version: AlgorithmEngineVersion.V2,
-                  });
-                certificationChallengesService.pickCertificationChallenges
-                  .withArgs(placementProfile)
-                  .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
-
-                const complementaryCertification = domainBuilder.buildComplementaryCertification({
-                  id: candidateComplementarySubscription.complementaryCertificationId,
+                const { challenge1, challenge2 } = _buildPlacementProfileWithTwoChallenges({
+                  placementProfileService,
+                  userId: user.id,
+                  reconciledAt: foundCertificationCandidate.reconciledAt,
+                  version: AlgorithmEngineVersion.V2,
                 });
 
+                const pixPlusCertificationChallenges = [
+                  domainBuilder.buildCertificationChallenge({
+                    challengeId: challenge1.id,
+                    competenceId: challenge1.competenceId,
+                    associatedSkillName: challenge1.skill.name,
+                    associatedSkillId: challenge1.skill.id,
+                    certifiableBadgeKey: 'PIX_DROIT',
+                  }),
+                  domainBuilder.buildCertificationChallenge({
+                    challengeId: challenge2.id,
+                    competenceId: challenge2.competenceId,
+                    associatedSkillName: challenge2.skill.name,
+                    associatedSkillId: challenge2.skill.id,
+                    certifiableBadgeKey: 'PIX_DROIT',
+                  }),
+                ];
                 const complementaryCertificationBadge =
                   domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
                     complementaryCertificationId: complementaryCertification.id,
+                    badgeId: 1234,
                   });
+
                 const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+                  campaignId: 5678,
                   complementaryCertificationId: complementaryCertification.id,
                   complementaryCertificationKey: complementaryCertificationBadge.key,
                   complementaryCertificationBadgeId: complementaryCertificationBadge.id,
                   complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
                   complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
                 });
+
+                certificationChallengesService.pickCertificationChallengesForPixPlus.resolves(
+                  pixPlusCertificationChallenges,
+                );
 
                 const certificationCenter = domainBuilder.buildCertificationCenter({
                   habilitations: [complementaryCertification],
@@ -517,10 +539,18 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                 const certificationCourseToSave = CertificationCourse.from({
                   certificationCandidate: foundCertificationCandidate,
-                  challenges: [challenge1, challenge2],
+                  challenges: pixPlusCertificationChallenges,
                   verificationCode,
                   maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                   algorithmEngineVersion: AlgorithmEngineVersion.V2,
+                  complementaryCertificationCourses: [
+                    new ComplementaryCertificationCourse({
+                      complementaryCertificationBadgeId: complementaryCertificationBadge.id,
+                      complementaryCertificationId: complementaryCertification.id,
+                      certificationCourseId: undefined,
+                      id: undefined,
+                    }),
+                  ],
                   lang: user.lang,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
@@ -553,12 +583,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationCourse: certificationCourseToSave,
                 });
 
+                expect(certificationChallengesService.pickCertificationChallenges).to.not.have.been.called;
                 expect(result).to.deep.equal({
                   created: true,
                   certificationCourse: new CertificationCourse({
                     ...savedCertificationCourse.toDTO(),
                     assessment: savedAssessment,
-                    challenges: [challenge1, challenge2],
+                    challenges: pixPlusCertificationChallenges,
                   }),
                 });
               });
