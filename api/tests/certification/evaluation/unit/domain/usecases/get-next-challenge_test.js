@@ -92,7 +92,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .resolves(null);
         challengeRepository.get.resolves();
 
-        answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
         challengeRepository.getMany.withArgs([], locale).resolves([]);
 
@@ -183,7 +182,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             .withArgs(assessment.certificationCourseId, [])
             .resolves(null);
 
-          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves(allChallenges);
           challengeRepository.getMany.withArgs([], locale).resolves([]);
 
@@ -323,12 +321,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         const answerWithOutdatedChallenge = domainBuilder.buildAnswer({ challengeId: outdatedChallenge.id });
         answerRepository.findByAssessment
           .withArgs(assessment.id)
-          .onFirstCall()
-          .resolves([answerStillValid, answerWithOutdatedChallenge]);
-
-        answerRepository.findByAssessment
-          .withArgs(assessment.id)
-          .onSecondCall()
           .resolves([answerStillValid, answerWithOutdatedChallenge]);
 
         certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
@@ -449,7 +441,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           })
           .returns([nextChallenge]);
 
-        answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
           .withArgs({ assessmentId: assessment.id })
           .resolves([nonAnsweredCertificationChallenge.challengeId]);
@@ -548,7 +539,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           })
           .returns([challengeWithOtherSkill]);
 
-        answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
           .withArgs({ assessmentId: assessment.id })
           .resolves([nonAnsweredCertificationChallenge.challengeId]);
@@ -623,7 +613,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .resolves(null);
         challengeRepository.get.resolves();
 
-        answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
         challengeRepository.getMany.withArgs([answeredChallenge.id], locale).resolves([answeredChallenge]);
 
@@ -703,7 +692,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
               .resolves(null);
             challengeRepository.get.resolves();
 
-            answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
             challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
             challengeRepository.getMany.withArgs([], locale).resolves([]);
 
