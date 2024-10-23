@@ -1,7 +1,7 @@
-import { createUsers } from '../../../scripts/create-users-accounts-for-contest.js';
-import { expect, knex, sinon } from '../../test-helper.js';
+import { createUsers } from '../../../../src/identity-access-management/scripts/mass-create-user-accounts.js';
+import { expect, knex, sinon } from '../../../test-helper.js';
 
-describe('Acceptance | Scripts | create-users-accounts-for-contest', function () {
+describe('Acceptance | Identity Access Management | Scripts | mass-create-user-accounts', function () {
   describe('#createUsers', function () {
     const now = new Date();
     let clock;

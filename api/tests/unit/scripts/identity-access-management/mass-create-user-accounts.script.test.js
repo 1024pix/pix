@@ -1,7 +1,7 @@
-import { prepareDataForInsert } from '../../../scripts/create-users-accounts-for-contest.js';
-import { expect } from '../../test-helper.js';
+import { prepareDataForInsert } from '../../../../src/identity-access-management/scripts/mass-create-user-accounts.js';
+import { expect } from '../../../test-helper.js';
 
-describe('Unit | Scripts | create-users-accounts-for-contest.js', function () {
+describe('Unit | Identity Access Management | Scripts | mass-create-user-accounts', function () {
   describe('#prepareDataForInsert', function () {
     it('should trim firstName, lastName, email and password', function () {
       // given
