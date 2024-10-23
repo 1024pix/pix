@@ -1,4 +1,5 @@
 import { getNextChallenge } from '../../../../../../src/certification/evaluation/domain/usecases/get-next-challenge.js';
+import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
@@ -29,6 +30,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
       };
       challengeRepository = {
         get: sinon.stub(),
+        getMany: sinon.stub(),
         findActiveFlashCompatible: sinon.stub(),
       };
       certificationCourseRepository = {
@@ -92,6 +94,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
+        challengeRepository.getMany.withArgs([], locale).resolves([]);
 
         flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
@@ -182,6 +185,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves(allChallenges);
+          challengeRepository.getMany.withArgs([], locale).resolves([]);
 
           flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
@@ -292,6 +296,108 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
       });
     });
 
+    context('when some answered challenges are not valid anymore', function () {
+      it('saves next challenge', async function () {
+        // given
+        const nextChallengeToAnswer = domainBuilder.buildChallenge({
+          id: 'nextChallengeToAnswer',
+          blindnessCompatibility: 'KO',
+          status: 'validé',
+          skill: domainBuilder.buildSkill({ id: 'nottAnsweredSkill' }),
+        });
+        const alreadyAnsweredChallenge = domainBuilder.buildChallenge({
+          id: 'alreadyAnsweredChallenge',
+          status: 'validé',
+        });
+        const outdatedChallenge = domainBuilder.buildChallenge({ id: 'outdatedChallenge', status: 'périmé' });
+        const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+          version: AlgorithmEngineVersion.V3,
+        });
+        const locale = 'fr-FR';
+
+        flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+          .withArgs(v3CertificationCourse.getStartDate())
+          .resolves(flashAlgorithmConfiguration);
+
+        const answerStillValid = domainBuilder.buildAnswer({ challengeId: alreadyAnsweredChallenge.id });
+        const answerWithOutdatedChallenge = domainBuilder.buildAnswer({ challengeId: outdatedChallenge.id });
+        answerRepository.findByAssessment
+          .withArgs(assessment.id)
+          .onFirstCall()
+          .resolves([answerStillValid, answerWithOutdatedChallenge]);
+
+        answerRepository.findByAssessment
+          .withArgs(assessment.id)
+          .onSecondCall()
+          .resolves([answerStillValid, answerWithOutdatedChallenge]);
+
+        certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+          .withArgs({ assessmentId: assessment.id })
+          .resolves([]);
+
+        certificationCourseRepository.get
+          .withArgs({ id: assessment.certificationCourseId })
+          .resolves(v3CertificationCourse);
+        certificationChallengeRepository.getNextChallengeByCourseIdForV3
+          .withArgs(assessment.certificationCourseId, [])
+          .resolves(null);
+        challengeRepository.get.resolves();
+
+        challengeRepository.findActiveFlashCompatible
+          .withArgs({ locale })
+          .resolves([alreadyAnsweredChallenge, nextChallengeToAnswer]);
+
+        challengeRepository.getMany
+          .withArgs([alreadyAnsweredChallenge.id, outdatedChallenge.id], locale)
+          .resolves([alreadyAnsweredChallenge, outdatedChallenge]);
+
+        flashAlgorithmService.getCapacityAndErrorRate
+          .withArgs({
+            allAnswers: [answerStillValid, answerWithOutdatedChallenge],
+            challenges: [alreadyAnsweredChallenge, outdatedChallenge, nextChallengeToAnswer],
+            capacity: config.v3Certification.defaultCandidateCapacity,
+            variationPercent: undefined,
+            variationPercentUntil: undefined,
+            doubleMeasuresUntil: undefined,
+          })
+          .returns({ capacity: 0 });
+
+        flashAlgorithmService.getPossibleNextChallenges
+          .withArgs({
+            availableChallenges: [nextChallengeToAnswer],
+            capacity: 0,
+            options: sinon.match.any,
+          })
+          .returns([nextChallengeToAnswer]);
+
+        const chooseNextChallengeImpl = sinon.stub();
+        chooseNextChallengeImpl
+          .withArgs({
+            possibleChallenges: [nextChallengeToAnswer],
+          })
+          .returns(nextChallengeToAnswer);
+        pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
+
+        // when
+        const challenge = await getNextChallenge({
+          answerRepository,
+          assessment,
+          certificationChallengeRepository,
+          certificationChallengeLiveAlertRepository,
+          certificationCourseRepository,
+          challengeRepository,
+          flashAlgorithmConfigurationRepository,
+          flashAlgorithmService,
+          locale,
+          pickChallengeService,
+          certificationCandidateRepository,
+        });
+
+        // then
+        expect(challenge).to.equal(nextChallengeToAnswer);
+      });
+    });
+
     context('when there are challenges with validated live alerts', function () {
       it('should save the returned next challenge', async function () {
         // given
@@ -322,6 +428,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallenge, lastSeenChallenge]);
+        challengeRepository.getMany.withArgs([], locale).resolves([]);
 
         flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
@@ -420,6 +527,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         challengeRepository.findActiveFlashCompatible
           .withArgs()
           .resolves([challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill]);
+        challengeRepository.getMany.withArgs([], locale).resolves([]);
 
         flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
@@ -517,6 +625,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
+        challengeRepository.getMany.withArgs([answeredChallenge.id], locale).resolves([answeredChallenge]);
 
         // when
         const error = await catchErr(getNextChallenge)({
@@ -596,6 +705,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
 
             answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
             challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
+            challengeRepository.getMany.withArgs([], locale).resolves([]);
 
             flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
