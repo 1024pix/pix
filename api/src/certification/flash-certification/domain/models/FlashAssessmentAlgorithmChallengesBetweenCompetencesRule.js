@@ -1,3 +1,5 @@
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+
 export class FlashAssessmentAlgorithmChallengesBetweenCompetencesRule {
   static isApplicable({ challengesBetweenSameCompetence }) {
     return challengesBetweenSameCompetence > 0;
@@ -33,6 +35,10 @@ export class FlashAssessmentAlgorithmChallengesBetweenCompetencesRule {
   }
 
   static _findChallengeForAnswer(challenges, answer) {
-    return challenges.find((challenge) => challenge.id === answer.challengeId);
+    const challengeAssociatedToAnswer = challenges.find((challenge) => challenge.id === answer.challengeId);
+    if (!challengeAssociatedToAnswer) {
+      logger.warn({ answer }, 'Cannot find a challenge associated to answer.challengeId');
+    }
+    return challengeAssociatedToAnswer;
   }
 }

@@ -1,5 +1,7 @@
 import lodash from 'lodash';
 
+import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
+
 const { orderBy, range, sortBy, sortedUniqBy } = lodash;
 
 const DEFAULT_CAPACITY = 0;
@@ -300,7 +302,11 @@ function getChallengePriorityForInferrence(challenge) {
 }
 
 function _findChallengeForAnswer(challenges, answer) {
-  return challenges.find((challenge) => challenge.id === answer.challengeId);
+  const challengeAssociatedToAnswer = challenges.find((challenge) => challenge.id === answer.challengeId);
+  if (!challengeAssociatedToAnswer) {
+    logger.warn({ answer }, 'Cannot find a challenge associated to answer.challengeId');
+  }
+  return challengeAssociatedToAnswer;
 }
 
 function _sumPixScoreAndScoreByCompetence(challenges) {
