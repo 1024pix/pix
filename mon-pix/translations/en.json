@@ -175,6 +175,10 @@
         "actions": {
           "submit": "Reset my password"
         },
+        "errors": {
+          "expired-demand": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
+          "forbidden": "An error occurred, please contact the support."
+        },
         "fields": {
           "password": {
             "label": "Please enter your new password"

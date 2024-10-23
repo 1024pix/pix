@@ -149,6 +149,10 @@
         "actions": {
           "submit": "Reset my password"
         },
+        "errors": {
+          "expired-demand": "Het spijt ons, maar uw wachtwoordaanvraag is al gebruikt of verlopen. Probeer het opnieuw.",
+          "forbidden": "Er is een fout opgetreden, neem contact op met ondersteuning."
+        },
         "fields": {
           "password": {
             "label": "Please enter your new password"
@@ -574,9 +578,9 @@
       "steps": {
         "1": {
           "paragraphs": {
-            "1":  "'<strong>'Dit is een adaptieve test'</strong>'. Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time.",
-            "2":  "Als u een vraag niet kunt beantwoorden, '<strong>'kunt u die vraag \"overslaan\"'</strong>'. '<br>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden.",
-            "3":  "'<strong>'Het is belangrijk dat u de toets afmaakt'</strong>' en dus goed met uw tijd omgaat. Er wordt een '<strong>'boete'</strong>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
+            "1": "'<strong>'Dit is een adaptieve test'</strong>'. Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time.",
+            "2": "Als u een vraag niet kunt beantwoorden, '<strong>'kunt u die vraag \"overslaan\"'</strong>'. '<br>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden.",
+            "3": "'<strong>'Het is belangrijk dat u de toets afmaakt'</strong>' en dus goed met uw tijd omgaat. Er wordt een '<strong>'boete'</strong>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
             "4": "To obtain a score as close as possible to your ability, '<strong>'you need to complete the test'</strong>'."
           },
           "question": "Hoe werkt de certificeringstest?",

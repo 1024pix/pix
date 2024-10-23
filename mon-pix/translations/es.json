@@ -149,6 +149,10 @@
         "actions": {
           "submit": "Reset my password"
         },
+        "errors": {
+          "expired-demand": "Lo sentimos, pero tu solicitud de restablecimiento de contraseña ya ha sido utilizada o ha caducado. Por favor, vuelve a intentarlo.",
+          "forbidden": "Se ha producido un error, ponte en contacto con el servicio de asistencia."
+        },
         "fields": {
           "password": {
             "label": "Please enter your new password"
