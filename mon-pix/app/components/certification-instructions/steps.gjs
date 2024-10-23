@@ -1,4 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -61,6 +63,7 @@ export default class Steps extends Component {
   @action
   previousStep() {
     this.pageId = this.pageId - 1;
+    this.isConfirmationCheckboxChecked = false;
   }
 
   @action
@@ -77,17 +80,17 @@ export default class Steps extends Component {
   }
 
   @action
+  onChange(event) {
+    this.isConfirmationCheckboxChecked = !!event.target.checked;
+  }
+
+  @action
   async submit() {
     await this.args.candidate.save({
       adapterOptions: {
         hasSeenCertificationInstructions: true,
       },
     });
-  }
-
-  @action
-  enableNextButton(checked) {
-    this.isConfirmationCheckboxChecked = checked;
   }
 
   <template>
@@ -108,7 +111,10 @@ export default class Steps extends Component {
       <StepFour />
     {{/if}}
     {{#if (eq this.pageId 5)}}
-      <StepFive @enableNextButton={{this.enableNextButton}} />
+      <StepFive />
+      <PixCheckbox {{on "change" this.onChange}}>
+        <:label>{{t "pages.certification-instructions.steps.5.checkbox-label"}}</:label>
+      </PixCheckbox>
     {{/if}}
 
     <footer class="instructions-footer">
