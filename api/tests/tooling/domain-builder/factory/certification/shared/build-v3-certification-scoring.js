@@ -1,4 +1,4 @@
-import { V3CertificationScoring } from '../../../../../../src/certification/scoring/domain/models/V3CertificationScoring.js';
+import { V3CertificationScoring } from '../../../../../../src/certification/shared/domain/models/V3CertificationScoring.js';
 
 export const buildV3CertificationScoring = ({
   competencesForScoring = [],

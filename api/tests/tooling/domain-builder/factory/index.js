@@ -194,13 +194,13 @@ import { buildAssessmentResult as buildCertificationScoringAssessmentResult } fr
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/scoring/build-certification-challenge-capacity.js';
 import { buildCertificationChallengeForScoring } from './certification/scoring/build-certification-challenge-for-scoring.js';
-import { buildCompetenceForScoring } from './certification/scoring/build-competence-for-scoring.js';
-import { buildV3CertificationScoring } from './certification/scoring/build-v3-certification-scoring.js';
 import { buildCertificationCandidate as buildSessionManagementCandidate } from './certification/session-management/build-certification-candidate.js';
 import { buildCertificationDetails } from './certification/session-management/build-certification-details.js';
 import { buildCertificationSessionComplementaryCertification } from './certification/session-management/build-certification-session-complementary-certification.js';
 import { buildSessionManagement } from './certification/session-management/build-session.js';
+import { buildCompetenceForScoring } from './certification/shared/build-competence-for-scoring.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
+import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
 import { buildStageCollection as buildStageCollectionForTargetProfileManagement } from './target-profile-management/build-stage-collection.js';
@@ -216,7 +216,6 @@ const certification = {
   },
   scoring: {
     buildAssessmentResult: buildCertificationScoringAssessmentResult,
-    buildV3CertificationScoring,
   },
   enrolment: {
     buildSession: buildSessionEnrolment,
