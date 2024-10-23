@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.229.1 (23/10/2024)
+
+
+### :building_construction: Tech
+- [#10381](https://github.com/1024pix/pix/pull/10381) [TECH] Ajouter un index manquant sur la table supervisor-accesses.
+
+### :bug: Correction
+- [#10379](https://github.com/1024pix/pix/pull/10379) [BUGFIX] Rafraîchir la page lorsque le candidat clique sur le bouton lors d'un signalement en certification (PIX-14959).
+
+### :arrow_up: Montée de version
+- [#10396](https://github.com/1024pix/pix/pull/10396) [BUMP] Update dependency @1024pix/pix-ui to ^47.2.0 (admin).
+- [#10393](https://github.com/1024pix/pix/pull/10393) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.21 (orga).
+
 ## v4.229.0 (22/10/2024)
 
 
