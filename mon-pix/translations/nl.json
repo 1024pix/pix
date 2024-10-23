@@ -563,15 +563,10 @@
       "steps": {
         "1": {
           "paragraphs": {
-            "1": {
-              "text": "'<strong>'Dit is een adaptieve test'</strong>'. Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time."
-            },
-            "2": {
-              "text": "Als u een vraag niet kunt beantwoorden, '<strong>'kunt u die vraag \"overslaan\"'</strong>'. '<br>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden."
-            },
-            "3": {
-              "text": "'<strong>'Het is belangrijk dat u de toets afmaakt'</strong>' en dus goed met uw tijd omgaat. Er wordt een '<strong>'boete'</strong>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen."
-            }
+            "1":  "'<strong>'Dit is een adaptieve test'</strong>'. Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time.",
+            "2":  "Als u een vraag niet kunt beantwoorden, '<strong>'kunt u die vraag \"overslaan\"'</strong>'. '<br>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden.",
+            "3":  "'<strong>'Het is belangrijk dat u de toets afmaakt'</strong>' en dus goed met uw tijd omgaat. Er wordt een '<strong>'boete'</strong>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
+            "4": "To obtain a score as close as possible to your ability, '<strong>'you need to complete the test'</strong>'."
           },
           "question": "Hoe werkt de certificeringstest?",
           "title": "Welkom bij Pix-certificering"
@@ -582,15 +577,10 @@
             "text": "1 H 45 min"
           },
           "paragraphs": {
-            "1": {
-              "question": "Het aantal vragen?",
-              "text": "De certificering bevat '<strong>'32 vragen'</strong>'."
-            },
-            "2": {
-              "light-text": "* Exclusief eventuele extra tijd.",
-              "question": "Hoe lang duurt de test?",
-              "text": "Je hebt een maximum van '<strong>'1h45*'</strong>'."
-            }
+            "1": "De certificering bevat '<strong>'32 vragen'</strong>'.",
+            "2": "Je hebt een maximum van '<strong>'1h45*'</strong>'.",
+            "3": "* Exclusief eventuele extra tijd.",
+            "4": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
           },
           "title": "Hoe werkt de certificeringstest?"
         },
@@ -612,21 +602,27 @@
           "title": "Twee soorten vragen"
         },
         "4": {
-          "paragraph": {
-            "text": "'<strong>'In het geval van een technisch probleem'</strong>' (de afbeelding weigert bijvoorbeeld te worden weergegeven), volg dan deze stappen: '<br><br>' klik op '<strong>'\"Een probleem met de vraag melden\"'</strong>', vervolgens op '\"Ja, ik weet het zeker\" en informeer je supervisor."
+          "list": {
+            "1": "Go to the bottom of the page",
+            "2": "Select “Report a problem with the question”",
+            "3": "Click on “Yes, I'm sure”",
+            "4": "Call the invigilator who will intervene to help you"
           },
+          "text": "'<strong>'In het geval van een technisch probleem'</strong>' (de afbeelding weigert bijvoorbeeld te worden weergegeven), volg dan deze stappen:",
           "title": "Wat te doen in geval van een probleem?"
         },
         "5": {
           "checkbox-label": "Door dit vakje aan te kruisen, bevestig ik dat ik deze regels heb gelezen en me eraan zal houden.",
           "list": {
-            "miscellaneous": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist.",
-            "no-artificial-intelligence": "'<strong>'Gebruik een kunstmatig intelligentiesysteem'</strong>' of een chatbot",
-            "no-cheat-sheet": "'<strong>'Gebruik spiekbriefjes'</strong>' (fysiek of elektronisch), spoilerbronnen of persoonlijke aantekeningen",
-            "no-communication": "'<strong>'Communiceren met iemand anders'</strong>', binnen of buiten de kamer, met fysieke of elektronische middelen",
-            "no-connected-device": "'<strong>'Gebruik een mobiele telefoon of een aangesloten apparaat'</strong>' (anders dan de computer die wordt gebruikt voor de certificering)",
-            "no-forum": "'<strong>'Raadpleeg een zelfhulpforum'</strong>' direct het antwoord geven op een test"
+            "1": "'<strong>'Communiceren met iemand anders'</strong>', binnen of buiten de kamer, met fysieke of elektronische middelen",
+            "2": "'<strong>'Gebruik een mobiele telefoon of een aangesloten apparaat'</strong>' (anders dan de computer die wordt gebruikt voor de certificering)",
+            "3": "'<strong>'Gebruik een kunstmatig intelligentiesysteem'</strong>' of een chatbot",
+            "4": "'<strong>'Raadpleeg een zelfhulpforum'</strong>' direct het antwoord geven op een test",
+            "5": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist.",
+            "6": "'<strong>'Use another browser'</strong>' other than the one you are using for your Pix Certification test.",
+            "7": "'<strong>'Impersonate'</strong>' another person."
           },
+          "pix-companion": "Access to certain sites is prohibited during the certification test, thanks to an extension installed on the browser. Any proven fraud (attempt to bypass the extension or failure to comply with the behaviors listed above) may invalidate your certification.",
           "text": "In certificering is het verboden om :",
           "title": "Regels die moeten worden nageleefd"
         }

@@ -570,17 +570,12 @@
       "steps": {
         "1": {
           "paragraphs": {
-            "1": {
-              "text": "'<strong>'The test is adaptive'</strong>'. In other words, your ability to answer correctly (or not) the questions will determine in real-time the difficulty of the next questions."
-            },
-            "2": {
-              "text": "If you don’t know how to answer a question, '<strong>'you may \"skip\" that question'</strong>'. '<br>'The questions skipped will be considered as failed and will not be resubmitted to you."
-            },
-            "3": {
-              "text": "'<strong>'It’s important for you to follow through to the end of the test'</strong>', and therefore to manage your time well. A '<strong>'penalty'</strong>' taking into account the number of questions left will be applied."
-            }
+            "1": "Pix Certification is an '<strong>'adaptive test'</strong>' designed to assess your level in '<strong>'all 16 digital skills'</strong>' in the Pix reference framework.",
+            "2": "The '<strong>'difficulty of the questions adapts in real time'</strong>' according to the answers you give.",
+            "3": "If some questions seem difficult, it's because the certification test aims to measure your maximum level. '<strong>'If you don't know how to answer a question, you can “skip” that question'</strong>': it will not be proposed again during this certification and will not be validated.",
+            "4": "To obtain a score as close as possible to your ability, '<strong>'you need to complete the test'</strong>'."
           },
-          "question": "How does the certification exam work?",
+          "question": "How does the test work?",
           "title": "Welcome to the Pix Certification"
         },
         "2": {
@@ -589,17 +584,12 @@
             "text": "1 H 45 min"
           },
           "paragraphs": {
-            "1": {
-              "question": "How many questions?",
-              "text": "The certification includes '<strong>'32 questions'</strong>'."
-            },
-            "2": {
-              "light-text": "*except those entitled to extra time.",
-              "question": "How long does the exam last?",
-              "text": "You have '<strong>'1h45'</strong>' maximum*."
-            }
+            "1": "The certification includes '<strong>'32 questions'</strong>'.",
+            "2": "You have '<strong>'1h45'</strong>' maximum to answer*",
+            "3": "*Except those entitled to extra time",
+            "4": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
           },
-          "title": "How is the certification exam conducted?"
+          "title": "How is the certification exam conducted ?"
         },
         "3": {
           "images": {
@@ -608,7 +598,7 @@
           },
           "paragraphs": {
             "1": {
-              "text": "For the '<strong>'free mode questions'</strong>', signaled by a green icon: you have the right to look for information on the web and to use the digital environment available.",
+              "text": "For the '<strong>'free mode'</strong>' questions, signaled by a green icon : you have the right to look for information on the web and to use the digital environment available.'<br>'However, '<strong>'some websites will not be accessible during the certification'</strong>'.",
               "title": "The free mode:"
             },
             "2": {
@@ -619,21 +609,27 @@
           "title": "Two question modes"
         },
         "4": {
-          "paragraph": {
-            "text": "'<strong>'If you encounter a technical issue'</strong>' (for example, the picture can’t be viewed), follow these steps: '<br><br>' click on '<strong>'\"Report a problem with the question\"'</strong>', then on \"Yes, I’m sure\" and inform your invigilator."
+          "list": {
+            "1": "Go to the bottom of the page",
+            "2": "Select “Report a problem with the question”",
+            "3": "Click on “Yes, I'm sure”",
+            "4": "Call the invigilator who will intervene to help you"
           },
+          "text": "'<strong>'If you encounter a technical issue'</strong>' (for example, the picture can’t be viewed), follow these steps:",
           "title": "What to do in case of a problem?"
         },
         "5": {
           "checkbox-label": "By ticking this box, I recognise that I have taken note of these rules and I agree to comply with them.",
           "list": {
-            "miscellaneous": "'<strong>'Mobilise any other mean that would directly give the answer'</strong>', without having to do the work required by the instructions.",
-            "no-artificial-intelligence": "'<strong>'Have recourse to an artificial intelligence system'</strong>' or to a chatbot",
-            "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (physical or digital), spoiler resources or personal notes",
-            "no-communication": "'<strong>'Communicate with someone else'</strong>', within the exam room or outside of it, by physical or electronic means",
-            "no-connected-device": "'<strong>'Use a mobile phone or any other connected device'</strong>' (other than the computer used for the certification)",
-            "no-forum": "'<strong>'Peruse a self-help forum'</strong>' giving a direct answer to a question"
+            "1": "'<strong>'Communicate with someone else'</strong>', within the exam room or outside of it, by physical or electronic means.",
+            "2": "'<strong>'Use a mobile phone or any other connected device'</strong>' (other than the computer used for the certification).",
+            "3": "'<strong>'Have recourse to an artificial intelligence system'</strong>' or to a chatbot.",
+            "4": "'<strong>'Peruse a self-help forum'</strong>' giving a direct answer to a question.",
+            "5": "'<strong>'Mobilise any other mean that would directly give the answer to the question'</strong>', without having to do the work required by the instructions.",
+            "6": "'<strong>'Use another browser'</strong>' other than the one you are using for your Pix Certification test.",
+            "7": "'<strong>'Impersonate'</strong>' another person."
           },
+          "pix-companion": "Access to certain sites is prohibited during the certification test, thanks to an extension installed on the browser. Any proven fraud (attempt to bypass the extension or failure to comply with the behaviors listed above) may invalidate your certification.",
           "text": "During the certification, it is forbidden to:",
           "title": "Rules to observe"
         }
