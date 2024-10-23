@@ -15,7 +15,7 @@ export default class SkillReviewRoute extends Route {
     const user = this.currentUser.user;
     const { campaignParticipation, campaign } = this.modelFor('campaigns.assessment');
     try {
-      const campaignParticipationResult = await this.store.queryRecord('campaignParticipationResult', {
+      const campaignParticipationResult = await this.store.queryRecord('campaign-participation-result', {
         campaignId: campaign.id,
         userId: user.id,
       });

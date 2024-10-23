@@ -73,7 +73,7 @@ export default class Entrance extends Route {
   }
 
   async shouldBeginCampaignParticipation(campaign) {
-    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+    const ongoingCampaignParticipation = await this.store.queryRecord('campaign-participation', {
       campaignId: campaign.id,
       userId: this.currentUser.user.id,
     });

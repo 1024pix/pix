@@ -13,7 +13,7 @@ export default class ResultsLoaderRoute extends Route {
 
   async model() {
     const campaign = this.modelFor('campaigns');
-    const campaignParticipation = await this.store.queryRecord('campaignParticipation', {
+    const campaignParticipation = await this.store.queryRecord('campaign-participation', {
       campaignId: campaign.id,
       userId: this.currentUser.user.id,
     });

@@ -39,7 +39,7 @@ module('Unit | Route | Campaign | Assessment | Skill review', function (hooks) {
     module('when participation exists', function (hooks) {
       hooks.beforeEach(function () {
         storeStub.queryRecord
-          .withArgs('campaignParticipationResult', { campaignId: campaign.id, userId: user.id })
+          .withArgs('campaign-participation-result', { campaignId: campaign.id, userId: user.id })
           .resolves(campaign);
       });
 
