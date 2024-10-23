@@ -1,0 +1,18 @@
+.evolution-icon {
+  &__tooltip {
+    width: fit-content;
+  }
+
+  &--green{
+    fill: var(--pix-success-500);
+  }
+
+  &--red {
+    fill: var(--pix-error-500);
+  }
+
+  &--orange {
+    fill: var(--pix-warning-500);
+  }
+}
+

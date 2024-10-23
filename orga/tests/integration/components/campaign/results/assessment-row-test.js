@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -80,7 +80,10 @@ module('Integration | Component | Campaign::Results::AssessmentRow', function (h
         );
 
         // then
-        assert.ok(screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.increase') }));
+        const evolutionCell = screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.increase') });
+        assert.ok(evolutionCell);
+        const evolutionCellContent = within(evolutionCell);
+        assert.dom(evolutionCellContent.getByRole('img')).hasClass('evolution-icon--green');
       });
 
       test('it should display trendingDown icon when participant evolution is decrease', async function (assert) {
@@ -112,7 +115,10 @@ module('Integration | Component | Campaign::Results::AssessmentRow', function (h
         );
 
         // then
-        assert.ok(screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.decrease') }));
+        const evolutionCell = screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.decrease') });
+        assert.ok(evolutionCell);
+        const evolutionCellContent = within(evolutionCell);
+        assert.dom(evolutionCellContent.getByRole('img')).hasClass('evolution-icon--red');
       });
 
       test('it should display trendingFlat icon when participant evolution is stable', async function (assert) {
@@ -144,7 +150,10 @@ module('Integration | Component | Campaign::Results::AssessmentRow', function (h
         );
 
         // then
-        assert.ok(screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.stable') }));
+        const evolutionCell = screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.stable') });
+        assert.ok(evolutionCell);
+        const evolutionCellContent = within(evolutionCell);
+        assert.dom(evolutionCellContent.getByRole('img')).hasClass('evolution-icon--orange');
       });
 
       test('it should display empty cell when participant evolution is null', async function (assert) {
@@ -176,7 +185,12 @@ module('Integration | Component | Campaign::Results::AssessmentRow', function (h
         );
 
         // then
-        assert.ok(screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.unavailable') }));
+        const evolutionCell = screen.getByRole('cell', {
+          name: t('pages.campaign-results.table.evolution.unavailable'),
+        });
+        assert.ok(evolutionCell);
+        const evolutionCellContent = within(evolutionCell);
+        assert.notOk(evolutionCellContent.queryByRole('img'));
       });
     });
   });
