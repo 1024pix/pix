@@ -300,7 +300,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         archivedAt: null,
       });
       server.create('campaign-participation-result', { masteryRate: '1.0', isDeleted: false });
-      campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
+      campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice, isShared: true });
     });
 
     test('should redirect to default page on click when user is connected', async function (assert) {

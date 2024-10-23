@@ -153,13 +153,13 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
               route.hasSeenCheckpoint = true;
             });
 
-            test('should redirect to campaigns.assessment.skill-review page', function (assert) {
+            test('should redirect to campaigns.results-loader page', function (assert) {
               // when
               const promise = route.redirect(assessment);
 
               // then
               return promise.then(() => {
-                sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
+                sinon.assert.calledWith(route.router.replaceWith, 'campaigns.results-loader', 'konami');
                 assert.ok(true);
               });
             });
@@ -192,12 +192,12 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
             assessment.isCompleted = true;
           });
 
-          test('should redirect to campaigns.assessment.skill-review page', function (assert) {
+          test('should redirect to campaigns.results-loader page', function (assert) {
             // when
             route.redirect(assessment);
 
             // then
-            sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
+            sinon.assert.calledWith(route.router.replaceWith, 'campaigns.results-loader', 'konami');
             assert.ok(true);
           });
         });
