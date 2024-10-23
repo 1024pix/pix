@@ -5,8 +5,8 @@ import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import { clickByLabel } from '../helpers/click-by-label';
-import setupIntl from '../helpers/setup-intl';
+import { clickByLabel } from '../../helpers/click-by-label';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Acceptance | Password reset demand form', function (hooks) {
   setupApplicationTest(hooks);

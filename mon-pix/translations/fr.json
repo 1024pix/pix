@@ -116,6 +116,7 @@
       "page-results": "{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
       "result-by-page": "Voir"
     },
+    "password": "Mot de passe",
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Aller au contenu",
@@ -169,6 +170,20 @@
         },
         "no-email-question": "Pas d’adresse e-mail renseignée ?",
         "rule": "Tous les champs sont obligatoires."
+      },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Je réinitialise mon mot de passe"
+        },
+        "errors": {
+          "expired-demand": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
+          "forbidden": "Une erreur est survenue, veuillez contacter le support."
+        },
+        "fields": {
+          "password": {
+            "label": "Saisissez votre nouveau mot de passe"
+          }
+        }
       },
       "signup-form": {
         "actions": {
@@ -1657,6 +1672,7 @@
           "label": "Mot de passe"
         }
       },
+      "first-title": "Réinitialisation du mot de passe",
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès.",
       "title": "Changer mon mot de passe"

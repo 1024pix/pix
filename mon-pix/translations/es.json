@@ -109,6 +109,7 @@
       "page-results": "{total, plural, =0 {0 elementos} =1 {1 elemento} other {{total, number} elementos}}",
       "result-by-page": "Ver"
     },
+    "password": "Password",
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Ir al contenido",
@@ -143,6 +144,20 @@
         "label": "Contraseña",
         "instructions-label": "Your password must comply with the following rules:",
         "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed."
+      },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "errors": {
+          "expired-demand": "Lo sentimos, pero tu solicitud de restablecimiento de contraseña ya ha sido utilizada o ha caducado. Por favor, vuelve a intentarlo.",
+          "forbidden": "Se ha producido un error, ponte en contacto con el servicio de asistencia."
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
       },
       "signup-form": {
         "actions": {
@@ -1633,6 +1648,7 @@
           "label": "Contraseña"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Introduce tu nueva contraseña",
       "succeed": "Tu contraseña ha sido cambiada con éxito.",
       "title": "Cambiar mi contraseña"

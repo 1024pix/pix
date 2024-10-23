@@ -116,6 +116,7 @@
       "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "See"
     },
+    "password": "Password",
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Skip to main content",
@@ -169,6 +170,20 @@
         },
         "no-email-question": "No email address?",
         "rule": "All fields are required."
+      },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "errors": {
+          "expired-demand": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
+          "forbidden": "An error occurred, please contact the support."
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
       },
       "signup-form": {
         "actions": {
@@ -1657,6 +1672,7 @@
           "label": "Password"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully.",
       "title": "Change my password"

@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const I18N = {
-  PASSWORD_INPUT_LABEL: 'components.authentication.new-password-input.label',
+  PASSWORD_INPUT_LABEL: 'common.password',
   RULES_STATUS_MESSAGE: 'components.authentication.new-password-input.completed-message',
   ERROR_MESSAGE: 'common.validation.password.error',
   RULE_1: 'common.validation.password.rules.min-length',
@@ -24,7 +24,13 @@ module('Integration | Component | authentication | new-password-input', function
     const rules = [];
     const onInput = sinon.spy();
 
-    await render(<template><NewPasswordInput {{on "input" onInput}} @rules={{rules}} /></template>);
+    await render(
+      <template>
+        <NewPasswordInput {{on "input" onInput}} @rules={{rules}}>
+          <:label>{{t "common.password"}}</:label>
+        </NewPasswordInput>
+      </template>,
+    );
 
     // when
     await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), password);
@@ -43,7 +49,13 @@ module('Integration | Component | authentication | new-password-input', function
       { i18nKey: I18N.RULE_2, validate: (value) => value.includes('1234') },
     ];
 
-    const screen = await render(<template><NewPasswordInput @rules={{rules}} /></template>);
+    const screen = await render(
+      <template>
+        <NewPasswordInput @rules={{rules}}>
+          <:label>{{t "common.password"}}</:label>
+        </NewPasswordInput>
+      </template>,
+    );
 
     // when
     await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), passwordPartiallyValid);
@@ -79,7 +91,9 @@ module('Integration | Component | authentication | new-password-input', function
           @rules={{rules}}
           @validationStatus={{validationStatus}}
           @errorMessage={{errorMessage}}
-        />
+        >
+          <:label>{{t "common.password"}}</:label>
+        </NewPasswordInput>
       </template>,
     );
     await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), password);
