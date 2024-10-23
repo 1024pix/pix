@@ -120,8 +120,9 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
       });
     });
 
+    // TODO: This test module will need to be removed when the API doesn't leak anymore that an account doesn't exist with a "404 Not Found".
     module('when there is no corresponding user account', function () {
-      test('it displays an "account not found" error message', async function (assert) {
+      test('it displays a "password reset demand received" info (without any error message to avoid email enumeration)', async function (assert) {
         // given
         window.fetch.resolves(
           fetchMock({
@@ -144,9 +145,15 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         );
 
         // then
-        // The following doesn’t work because of a PixUi span inside the role element
-        //assert.dom(screen.queryByRole('alert', { name: t('pages.password-reset-demand.error.message') })).exists();
-        assert.dom(screen.queryByText(t('components.authentication.password-reset-demand-form.404-message'))).exists();
+        assert.dom(screen.queryByRole('alert')).doesNotExist();
+
+        assert
+          .dom(
+            screen.queryByRole('heading', {
+              name: t('components.authentication.password-reset-demand-received-info.heading'),
+            }),
+          )
+          .exists();
       });
     });
 

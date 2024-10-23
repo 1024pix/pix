@@ -187,7 +187,6 @@
         }
       },
       "password-reset-demand-form": {
-        "404-message": "Dit e-mailadres komt niet overeen met een account",
         "rule": "All fields are required.",
         "no-email-question": "No email address?",
         "contact-us-link": {

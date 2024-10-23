@@ -56,13 +56,11 @@ export default class PasswordResetDemandForm extends Component {
         method: 'POST',
         body: JSON.stringify({ email }),
       });
-      if (response.status == 404) {
-        this.errorMessage = this.intl.t('components.authentication.password-reset-demand-form.404-message');
-      } else if (!response.ok) {
+      if (!response.ok && response.status != 404) {
         throw new Error(`Response status: ${response.status}`);
-      } else {
-        this.isPasswordResetDemandReceived = true;
       }
+
+      this.isPasswordResetDemandReceived = true;
     } catch (error) {
       this.errorMessage = this.intl.t('common.api-error-messages.internal-server-error');
     } finally {

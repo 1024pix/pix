@@ -153,7 +153,6 @@
         "signup-heading": "Autres moyens d’inscription"
       },
       "password-reset-demand-form": {
-        "404-message": "Cette adresse e-mail ne correspond à aucun compte",
         "actions": {
           "receive-reset-button": "Recevoir un lien de réinitialisation"
         },

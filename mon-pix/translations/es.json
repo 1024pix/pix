@@ -187,7 +187,6 @@
         }
       },
       "password-reset-demand-form": {
-        "404-message": "Esta dirección de correo electrónico no corresponde a ninguna cuenta",
         "rule": "All fields are required.",
         "no-email-question": "No email address?",
         "contact-us-link": {
