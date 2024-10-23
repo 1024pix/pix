@@ -60,4 +60,43 @@ describe('Unit | Application | Controller | Campaign', function () {
       expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntityError);
     });
   });
+
+  describe('#getPresentationSteps', function () {
+    it('should return expected results', async function () {
+      // given
+      const userId = Symbol('userId');
+      const campaignCode = Symbol('campaign code');
+      const locale = FRENCH_SPOKEN;
+
+      sinon.stub(usecases, 'getPresentationSteps');
+
+      const dependencies = {
+        extractLocaleFromRequestStub: sinon.stub().returns(locale),
+        presentationStepsSerializerStub: {
+          serialize: sinon.stub(),
+        },
+      };
+
+      const presentationSteps = Symbol('presentation steps');
+      const expectedResults = Symbol('results');
+
+      usecases.getPresentationSteps.withArgs({ userId, campaignCode, locale }).resolves(presentationSteps);
+      dependencies.presentationStepsSerializerStub.serialize.withArgs(presentationSteps).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { campaignCode },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignController.getPresentationSteps(request, hFake, {
+        extractLocaleFromRequest: dependencies.extractLocaleFromRequestStub,
+        presentationStepsSerializer: dependencies.presentationStepsSerializerStub,
+      });
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+  });
 });
