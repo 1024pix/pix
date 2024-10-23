@@ -6,7 +6,6 @@ import { services as certificationEvaluationServices } from '../../../src/certif
 import * as certificationAssessmentHistoryRepository from '../../../src/certification/evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationChallengeForScoringRepository from '../../../src/certification/evaluation/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import { scoringDegradationService } from '../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as juryCertificationSummaryRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-certification-summary-repository.js';
 import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
@@ -91,7 +90,6 @@ const dependencies = {
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   scoringCertificationService,
-  scoringDegradationService,
   skillRepository,
   supervisorAccessRepository,
   targetProfileRepository,

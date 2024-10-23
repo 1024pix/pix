@@ -5,7 +5,7 @@ import { pickAnswerStatusService } from '../../../shared/domain/services/pick-an
 
 const PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION = 100;
 
-const downgradeCapacity = ({
+export const downgradeCapacity = ({
   algorithm,
   capacity,
   allChallenges,
@@ -40,5 +40,3 @@ const downgradeCapacity = ({
 
   return result.at(-1).capacity;
 };
-
-export const scoringDegradationService = { downgradeCapacity };

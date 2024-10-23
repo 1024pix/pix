@@ -1,5 +1,5 @@
 import * as flashAlgorithmService from '../../../../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import { scoringDegradationService } from '../../../../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
+import { downgradeCapacity } from '../../../../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Domain | services | scoringDegradationService', function () {
@@ -28,7 +28,7 @@ describe('Integration | Domain | services | scoringDegradationService', function
     });
 
     // when
-    const degradedCapacity = scoringDegradationService.downgradeCapacity({
+    const degradedCapacity = downgradeCapacity({
       algorithm,
       capacity: initialCapacity,
       allChallenges,
