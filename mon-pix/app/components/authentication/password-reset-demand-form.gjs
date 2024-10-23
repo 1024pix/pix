@@ -22,6 +22,7 @@ export default class PasswordResetDemandForm extends Component {
   );
   @tracked emailInputvalidationStatus;
   @tracked emailInputvalidationErrorMessage;
+  @tracked isPasswordResetDemandReceived = false;
 
   email;
 
@@ -59,6 +60,8 @@ export default class PasswordResetDemandForm extends Component {
         this.errorMessage = this.intl.t('components.authentication.password-reset-demand-form.404-message');
       } else if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
+      } else {
+        this.isPasswordResetDemandReceived = true;
       }
     } catch (error) {
       this.errorMessage = this.intl.t('common.api-error-messages.internal-server-error');
@@ -68,55 +71,82 @@ export default class PasswordResetDemandForm extends Component {
   }
 
   <template>
-    <form {{on "submit" this.handlePasswordResetDemand}} class="authentication-password-reset-demand-form">
-      <p class="authentication-password-reset-demand-form__rule">
-        {{t "components.authentication.password-reset-demand-form.rule"}}
-      </p>
+    {{#if this.isPasswordResetDemandReceived}}
+      <PasswordResetDemandReceivedInfo />
+    {{else}}
+      <form {{on "submit" this.handlePasswordResetDemand}} class="authentication-password-reset-demand-form">
+        <p class="authentication-password-reset-demand-form__rule">
+          {{t "components.authentication.password-reset-demand-form.rule"}}
+        </p>
 
-      {{#if this.errorMessage}}
-        <PixMessage
-          @type="error"
-          @withIcon={{true}}
-          class="authentication-password-reset-demand-form__error"
-          role="alert"
-        >
-          {{this.errorMessage}}
-        </PixMessage>
-      {{/if}}
-      <div class="authentication-password-reset-demand-form__input-block">
-        <PixInput
-          @value={{this.email}}
-          type="email"
-          {{on "change" this.handleEmailChange}}
-          @validationStatus={{this.emailInputvalidationStatus}}
-          @errorMessage={{this.emailInputvalidationErrorMessage}}
-          placeholder={{this.emailInputPlaceholder}}
-          required={{true}}
-        >
-          <:label>{{t "components.authentication.password-reset-demand-form.fields.email.label"}}</:label>
-        </PixInput>
-      </div>
-      <div>
-        <PixButton
-          @type="submit"
-          @size="large"
-          @isLoading={{this.isLoading}}
-          class="authentication-password-reset-demand-form__button"
-        >
-          {{t "components.authentication.password-reset-demand-form.actions.receive-reset-button"}}
-        </PixButton>
-      </div>
-      <p class="authentication-password-reset-demand-form__help">
-        {{t "components.authentication.password-reset-demand-form.no-email-question"}}
-        <PixButtonLink
-          @variant="tertiary"
-          @href="{{t 'components.authentication.password-reset-demand-form.contact-us-link.link-url'}}"
-          target="_blank"
-          class="authentication-password-reset-demand-form__help-contact-us-link"
-        >
-          {{t "components.authentication.password-reset-demand-form.contact-us-link.link-text"}}
-        </PixButtonLink>
-      </p>
-    </form>
+        {{#if this.errorMessage}}
+          <PixMessage
+            @type="error"
+            @withIcon={{true}}
+            class="authentication-password-reset-demand-form__error"
+            role="alert"
+          >
+            {{this.errorMessage}}
+          </PixMessage>
+        {{/if}}
+        <div class="authentication-password-reset-demand-form__input-block">
+          <PixInput
+            @value={{this.email}}
+            type="email"
+            {{on "change" this.handleEmailChange}}
+            @validationStatus={{this.emailInputvalidationStatus}}
+            @errorMessage={{this.emailInputvalidationErrorMessage}}
+            placeholder={{this.emailInputPlaceholder}}
+            required={{true}}
+          >
+            <:label>{{t "components.authentication.password-reset-demand-form.fields.email.label"}}</:label>
+          </PixInput>
+        </div>
+        <div>
+          <PixButton
+            @type="submit"
+            @size="large"
+            @isLoading={{this.isLoading}}
+            class="authentication-password-reset-demand-form__button"
+          >
+            {{t "components.authentication.password-reset-demand-form.actions.receive-reset-button"}}
+          </PixButton>
+        </div>
+        <p class="authentication-password-reset-demand-form__help">
+          {{t "components.authentication.password-reset-demand-form.no-email-question"}}
+          <PixButtonLink
+            @variant="tertiary"
+            @href="{{t 'components.authentication.password-reset-demand-form.contact-us-link.link-url'}}"
+            target="_blank"
+            class="authentication-password-reset-demand-form__help-contact-us-link"
+          >
+            {{t "components.authentication.password-reset-demand-form.contact-us-link.link-text"}}
+          </PixButtonLink>
+        </p>
+      </form>
+    {{/if}}
   </template>
 }
+
+const PasswordResetDemandReceivedInfo = <template>
+  <div class="authentication-password-reset-demand-received-info">
+    <img src="/images/mail.svg" alt="" />
+    <h2 class="authentication-password-reset-demand-received-info__heading">
+      {{t "components.authentication.password-reset-demand-received-info.heading"}}
+    </h2>
+    <p class="authentication-password-reset-demand-received-info__message">
+      {{t "components.authentication.password-reset-demand-received-info.message"}}
+    </p>
+    <p class="authentication-password-reset-demand-received-info__help">
+      {{t "components.authentication.password-reset-demand-received-info.no-email-received-question"}}
+      <PixButtonLink
+        @variant="tertiary"
+        @route="password-reset-demand"
+        target="_blank"
+        class="authentication-password-reset-demand-form__help-contact-us-link"
+      >
+        {{t "components.authentication.password-reset-demand-received-info.try-again"}}
+      </PixButtonLink>
+    </p>
+  </div>
+</template>;
