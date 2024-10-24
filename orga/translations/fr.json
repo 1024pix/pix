@@ -626,6 +626,10 @@
           "stable": "Constant",
           "unavailable": "non disponible"
         },
+        "evolution-tooltip":{
+          "aria-label": "Explications sur l'évolution.",
+          "content": "Évolution du participant entre ses deux derniers résultats partagés."
+        },
         "empty": "Aucune participation",
         "row-title": "Participant"
       },

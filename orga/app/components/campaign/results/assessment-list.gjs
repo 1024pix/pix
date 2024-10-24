@@ -4,6 +4,7 @@ import TableHeader from '../../table/header';
 import TablePaginationControl from '../../table/pagination-control';
 import CampaignParticipationFilters from '../filter/participation-filters';
 import CampaignAssessmentRow from '../results/assessment-row';
+import ParticipationEvolutionTooltip from './participation-evolution-tooltip';
 
 <template>
   <section ...attributes>
@@ -44,9 +45,12 @@ import CampaignAssessmentRow from '../results/assessment-row';
             {{/if}}
             <TableHeader>{{t "pages.campaign-results.table.column.results.label"}}</TableHeader>
             {{#if @campaign.multipleSendings}}
-              <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaEvolution"}}>{{t
-                  "pages.campaign-results.table.column.evolution"
-                }}
+              <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaEvolution"}}>
+                <div class="assessment-list__evolution-header">
+                  {{t "pages.campaign-results.table.column.evolution"}}
+                  <ParticipationEvolutionTooltip />
+                </div>
+
               </TableHeader>
               <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaSharedResultCount"}}>
                 {{t "pages.campaign-results.table.column.sharedResultCount"}}

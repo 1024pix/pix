@@ -620,6 +620,10 @@
           "stable": "Constant",
           "unavailable": "not available"
         },
+        "evolution-tooltip":{
+          "aria-label": "About evolution.",
+          "content": "Evolution of the participant between their last two shared results."
+        },
         "empty": "No participants",
         "row-title": "Participant"
       },

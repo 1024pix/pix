@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -223,7 +223,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         assert.ok(screen.getByRole('cell', { name: '77' }));
       });
 
-      test('it should display evolution header', async function (assert) {
+      test('it should display evolution header and tooltip', async function (assert) {
         // given
         const campaign = store.createRecord('campaign', {
           id: '1',
@@ -239,9 +239,15 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         );
 
         // then
-        assert.strictEqual(
-          screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.ariaEvolution') }).innerText,
-          t('pages.campaign-results.table.column.evolution'),
+        const evolutionHeader = screen.getByRole('columnheader', {
+          name: t('pages.campaign-results.table.column.ariaEvolution'),
+        });
+        assert.strictEqual(evolutionHeader.innerText, t('pages.campaign-results.table.column.evolution'));
+        const evolutionHeaderContent = within(evolutionHeader);
+        assert.ok(
+          evolutionHeaderContent.getByRole('img', {
+            name: t('pages.campaign-results.table.evolution-tooltip.aria-label'),
+          }),
         );
       });
     });
