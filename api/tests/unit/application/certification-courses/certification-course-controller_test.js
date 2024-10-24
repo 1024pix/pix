@@ -1,6 +1,7 @@
-import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { certificationCourseController } from '../../../../src/certification/evaluation/application/certification-course-controller.js';
+import { usecases } from '../../../../src/certification/evaluation/domain/usecases/index.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { usecases as certificationSharedUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
@@ -92,7 +93,10 @@ describe('Unit | Controller | certification-course-controller', function () {
       const certificationCourseId = 'certification_course_id';
       const certificationCourse = new CertificationCourse({ id: certificationCourseId, sessionId });
       const userId = 42;
-      sinon.stub(usecases, 'getCertificationCourse').withArgs({ certificationCourseId }).resolves(certificationCourse);
+      sinon
+        .stub(certificationSharedUsecases, 'getCertificationCourse')
+        .withArgs({ certificationCourseId })
+        .resolves(certificationCourse);
       certificationCourseSerializer.serialize.withArgs(certificationCourse).resolves(certificationCourse);
       const request = {
         params: { id: certificationCourseId },

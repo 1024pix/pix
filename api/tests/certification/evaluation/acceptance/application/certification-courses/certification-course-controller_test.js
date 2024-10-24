@@ -1,10 +1,10 @@
-import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import {
   SESSIONS_VERSIONS,
   SessionVersion,
-} from '../../../../src/certification/shared/domain/models/SessionVersion.js';
-import { config } from '../../../../src/shared/config.js';
-import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
+} from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import {
   createServer,
   databaseBuilder,
@@ -13,7 +13,7 @@ import {
   knex,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../../test-helper.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;

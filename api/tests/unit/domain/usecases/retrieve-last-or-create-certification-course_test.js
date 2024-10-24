@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { retrieveLastOrCreateCertificationCourse } from '../../../../src/certification/evaluation/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
