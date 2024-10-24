@@ -5,6 +5,7 @@ describe('Unit | Serializer | JSONAPI | Campaign Presentation Steps Serializer',
   describe('#serialize()', function () {
     it('should convert a presentation steps object into JSON API data', function () {
       // given
+      const campaignPresentationStepsId = '1_presentation-steps';
       const customLandingPageText = 'lorem ipsum';
 
       const competences = [
@@ -25,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | Campaign Presentation Steps Serializer',
         }),
       ];
 
-      const presentationSteps = { customLandingPageText, competences, badges };
+      const presentationSteps = { id: campaignPresentationStepsId, customLandingPageText, competences, badges };
 
       // when
       const json = serializer.serialize(presentationSteps);
@@ -33,10 +34,11 @@ describe('Unit | Serializer | JSONAPI | Campaign Presentation Steps Serializer',
       // then
       expect(json).to.deep.equal({
         data: {
+          id: campaignPresentationStepsId,
+          type: 'campaign-presentation-steps',
           attributes: {
             'custom-landing-page-text': customLandingPageText,
           },
-          type: 'campaign-presentation-steps',
           relationships: {
             badges: {
               data: [
