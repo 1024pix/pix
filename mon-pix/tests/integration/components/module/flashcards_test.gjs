@@ -7,6 +7,11 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
+const I18N_KEYS = {
+  introStartButton: 'pages.modulix.buttons.flashcards.start',
+  outroRetryButton: 'pages.modulix.buttons.flashcards.retry',
+};
+
 module('Integration | Component | Module | Flashcards', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -59,7 +64,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
       screen.getByRole('presentation').getAttribute('src'),
       'https://images.pix.fr/modulix/flashcards-intro.png',
     );
-    assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.flashcards.start') })).exists();
+    assert.dom(screen.getByRole('button', { name: t(I18N_KEYS.introStartButton) })).exists();
     assert.dom(screen.queryByText(t('pages.modulix.flashcards.direction'))).doesNotExist();
     assert
       .dom(screen.queryByText(t('pages.modulix.flashcards.position', { currentCardPosition: 1, totalCards: 2 })))
@@ -109,7 +114,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
 
       // when
       const screen = await render(<template><ModulixFlashcards @flashcards={{flashcards}} /></template>);
-      await clickByName(t('pages.modulix.buttons.flashcards.start'));
+      await clickByName(t(I18N_KEYS.introStartButton));
 
       // then
       assert.ok(screen.getByText("A quoi sert l'arobase dans mon adresse email ?"));
@@ -166,7 +171,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
 
       // when
       const screen = await render(<template><ModulixFlashcards @flashcards={{flashcards}} /></template>);
-      await clickByName(t('pages.modulix.buttons.flashcards.start'));
+      await clickByName(t(I18N_KEYS.introStartButton));
       await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
 
       // then
@@ -223,7 +228,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
             <ModulixFlashcards @flashcards={{flashcards}} @onSelfAssessment={{onSelfAssessmentStub}} />
           </template>,
         );
-        await clickByName(t('pages.modulix.buttons.flashcards.start'));
+        await clickByName(t(I18N_KEYS.introStartButton));
         await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
         await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
 
