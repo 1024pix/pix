@@ -14,6 +14,7 @@ import MarkdownToHtml from '../../../../markdown-to-html';
 import AcquiredBadges from './acquired-badges';
 import CustomOrganizationBlock from './custom-organization-block';
 import RetryOrResetBlock from './retry-or-reset-block';
+import { get } from "@ember/helper";
 
 export default class EvaluationResultsHero extends Component {
   @service currentUser;
@@ -50,6 +51,10 @@ export default class EvaluationResultsHero extends Component {
   @action
   handleSeeTrainingsClick() {
     this.args.showTrainings();
+  }
+
+  get hasQuestResults() {
+    return this.args.questResults.length > 0;
   }
 
   @action
@@ -111,6 +116,8 @@ export default class EvaluationResultsHero extends Component {
             }}
             @color="yellow"
           />
+
+
           <div class="evaluation-results-hero-results__stars-text" role="presentation">
             {{t
               "pages.skill-review.stage.starsAcquired"
@@ -119,6 +126,11 @@ export default class EvaluationResultsHero extends Component {
             }}
           </div>
         {{/if}}
+
+        {{#if this.hasQuestResults}}
+          {{ get @questResults "0.obtained" }}
+        {{/if}}
+
       </div>
       <div class="evaluation-results-hero__details">
         <h2 class="evaluation-results-hero-details__title">

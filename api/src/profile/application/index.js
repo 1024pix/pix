@@ -26,7 +26,7 @@ const register = async function (server) {
         handler: attestationController.getUserAttestation,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération du nombre total de Pix de l'utilisateur\n et de ses scorecards" +
+            "- Récupération de l'attestation utilisateur" +
             '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'profile'],
@@ -50,7 +50,7 @@ const register = async function (server) {
         handler: profileController.getProfile,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération du nombre total de Pix de l'utilisateur\n et de ses scorecards" +
+            "- Récupération du nombre total de Pix de l'utilisateur et de ses scorecards" +
             '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'profile'],

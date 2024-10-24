@@ -147,8 +147,20 @@ async function createAssessmentCampaign({
         .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(createdDate)), 'days')
         .toDate();
 
-      const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadges } =
-        await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
+      const {
+        status,
+        answersAndKnowledgeElements,
+        validatedSkillsCount,
+        masteryRate,
+        pixScore,
+        buildBadges,
+        buildStageAcquisitions,
+      } = await _getCompletionCampaignParticipationData(
+        completionDistribution.shift(),
+        campaignSkills,
+        targetProfileId,
+        databaseBuilder,
+      );
 
       const isStarted = status === CampaignParticipationStatuses.STARTED;
       const isShared = status === CampaignParticipationStatuses.SHARED;
@@ -207,6 +219,18 @@ async function createAssessmentCampaign({
             campaignParticipationId,
           });
         }
+      }
+
+      if (buildStageAcquisitions) {
+        const stages = await databaseBuilder.knex('stages').where({ targetProfileId });
+
+        const stageZero = stages.find((stage) => stage.level === 0 || stage.threshold === 0);
+
+        databaseBuilder.factory.buildStageAcquisition({
+          stageId: stageZero.id,
+          userId,
+          campaignParticipationId,
+        });
       }
 
       if (isShared) {
@@ -604,16 +628,25 @@ async function _getProfile(profileName) {
   return answersAndKnowledgeElements;
 }
 
-async function _getCompletionCampaignParticipationData(completionName, campaignSkills) {
+async function _getCompletionCampaignParticipationData(
+  completionName,
+  campaignSkills,
+  targetProfileId,
+  databaseBuilder,
+) {
   let answersAndKnowledgeElements,
     status,
     computedScore,
     validatedSkillsCount = 0,
     masteryRate = 0,
     buildBadges = false,
+    buildStageAcquisitions = false,
     pixScore = 0;
 
   const randomValidatedSkill = generic.pickOneRandomAmong(_.range(campaignSkills.length));
+
+  const stages = await databaseBuilder.knex('stages').where({ targetProfileId });
+  buildStageAcquisitions = stages.length > 0;
 
   switch (completionName) {
     case 'STARTED':
@@ -662,6 +695,7 @@ async function _getCompletionCampaignParticipationData(completionName, campaignS
     masteryRate,
     pixScore,
     buildBadges,
+    buildStageAcquisitions,
   };
 }
 

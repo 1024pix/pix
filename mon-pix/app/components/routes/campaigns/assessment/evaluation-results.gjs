@@ -39,6 +39,7 @@ export default class EvaluationResults extends Component {
       <EvaluationResultsHero
         @campaign={{@model.campaign}}
         @campaignParticipationResult={{@model.campaignParticipationResult}}
+        @questResults={{@model.questResults}}
         @hasTrainings={{this.hasTrainings}}
         @showTrainings={{this.showTrainings}}
       />
