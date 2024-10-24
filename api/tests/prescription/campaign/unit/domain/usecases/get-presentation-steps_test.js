@@ -94,8 +94,8 @@ describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
 
     context('when everything is fine', function () {
       it('should call badge and learning content repositories', async function () {
-        const userId = Symbol('user-id');
-        const campaignId = Symbol('campaign-id');
+        const userId = 1;
+        const campaignId = 'campaign-id';
 
         campaignRepository.getByCode.withArgs(campaignCode).resolves({ id: campaignId });
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);

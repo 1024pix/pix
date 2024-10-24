@@ -1,5 +1,6 @@
 import { CampaignCodeError, UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 import { ArchivedCampaignError, DeletedCampaignError } from '../errors.js';
+import { CampaignPresentationSteps } from '../read-models/CampaignPresentationSteps.js';
 
 const getPresentationSteps = async function ({
   userId,
@@ -25,11 +26,12 @@ const getPresentationSteps = async function ({
   const campaignBadges = await badgeRepository.findByCampaignId(campaign.id);
   const learningContent = await learningContentRepository.findByCampaignId(campaign.id, locale);
 
-  return {
+  return new CampaignPresentationSteps({
+    campaignId: campaign.id,
     customLandingPageText: campaign.customLandingPageText,
     badges: campaignBadges,
     competences: learningContent?.competences,
-  };
+  });
 };
 
 export { getPresentationSteps };

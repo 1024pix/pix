@@ -48,6 +48,7 @@ describe('Integration | Campaign | UseCase | get-presentation-steps', function (
     });
 
     // then
+    expect(result.id).to.equal(`${campaign.id}_presentation-steps`);
     expect(result.customLandingPageText).to.equal(campaign.customLandingPageText);
     expect(result.badges).to.deep.equal(badges);
     expect(result.competences).to.have.lengthOf(competences.length);

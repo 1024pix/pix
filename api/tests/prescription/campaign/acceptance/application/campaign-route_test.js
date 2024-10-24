@@ -396,6 +396,7 @@ describe('Acceptance | API | Campaign Route', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal({
         data: {
+          id: `${campaign.id}_presentation-steps`,
           type: 'campaign-presentation-steps',
           attributes: { 'custom-landing-page-text': campaign.customLandingPageText },
           relationships: {
