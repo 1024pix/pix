@@ -108,6 +108,17 @@ const createBareServer = function () {
     },
   };
 
+  // Force https on non-dev environments
+  if (config.environment !== 'development') {
+    serverConfiguration.routes.security = {
+      hsts: {
+        includeSubDomains: true,
+        preload: true,
+        maxAge: 31536000,
+      },
+    };
+  }
+
   return new Hapi.server(serverConfiguration);
 };
 
