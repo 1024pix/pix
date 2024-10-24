@@ -7,6 +7,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards/flashcards-card';
 import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
+import ModulixFlashcardsOutroCard from 'mon-pix/components/module/element/flashcards/flashcards-outro-card';
 
 export default class ModulixFlashcards extends Component {
   @tracked
@@ -43,7 +44,7 @@ export default class ModulixFlashcards extends Component {
   }
 
   get footerIsEmpty() {
-    return this.currentStep === 'intro';
+    return this.currentStep === 'intro' || this.currentStep === 'outro';
   }
 
   @action
@@ -88,6 +89,10 @@ export default class ModulixFlashcards extends Component {
           @displayedSideName={{this.displayedSideName}}
           @onCardFlip={{this.flipCard}}
         />
+      {{/if}}
+
+      {{#if (eq this.currentStep "outro")}}
+        <ModulixFlashcardsOutroCard @title={{@flashcards.title}} @onRetry={{this.retry}} />
       {{/if}}
 
       <div class="element-flashcards__footer {{if this.footerIsEmpty 'element-flashcards__footer--empty'}}">

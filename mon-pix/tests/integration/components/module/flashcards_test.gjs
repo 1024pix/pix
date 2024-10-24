@@ -233,5 +233,48 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
         assert.true(onSelfAssessmentStub.calledOnce);
       });
     });
+
+    module('then user gives an answer for the last card', function () {
+      test('should display the outro card', async function (assert) {
+        // given
+        const firstCard = {
+          id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+          recto: {
+            image: {
+              url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+            },
+            text: "A quoi sert l'arobase dans mon adresse email ?",
+          },
+          verso: {
+            image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+            text: "Parce que c'est joli",
+          },
+        };
+
+        const flashcards = {
+          id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+          type: 'flashcards',
+          title: "Introduction à l'adresse e-mail",
+          instruction: '<p>...</p>',
+          introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+          cards: [firstCard],
+        };
+
+        const onSelfAssessmentStub = sinon.stub();
+
+        // when
+        const screen = await render(
+          <template>
+            <ModulixFlashcards @flashcards={{flashcards}} @onSelfAssessment={{onSelfAssessmentStub}} />
+          </template>,
+        );
+        await clickByName(t(I18N_KEYS.introStartButton));
+        await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+        await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+        // then
+        assert.ok(screen.getByText('Terminé'));
+      });
+    });
   });
 });
