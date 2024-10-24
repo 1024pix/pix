@@ -1083,6 +1083,10 @@
       },
       "page-title": "Participants",
       "table": {
+        "actions": {
+          "disable-oralization": "Désactiver la lecture de consigne",
+          "enable-oralization": "Activer la lecture de consigne"
+        },
         "column": {
           "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "first-name": "Prénom",

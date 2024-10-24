@@ -87,6 +87,19 @@ export default class ListController extends Controller {
   }
 
   @action
+  async toggleOralizationFeatureForParticipant(participantId, organizationId, toActivate) {
+    if (toActivate) {
+      await this.store
+        .adapterFor('organization-participant')
+        .addOralizationFeatureForParticipant(participantId, organizationId);
+    } else {
+      await this.store
+        .adapterFor('organization-participant')
+        .removeOralizationFeatureForParticipant(participantId, organizationId);
+    }
+  }
+
+  @action
   async deleteOrganizationLearners(listLearners) {
     try {
       await this.store.adapterFor('organization-participant').deleteParticipants(

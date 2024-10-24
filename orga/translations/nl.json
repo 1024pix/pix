@@ -1131,6 +1131,9 @@
       },
       "page-title": "Deelnemers",
       "table": {
+        "description": "Tabel met deelnemers gesorteerd op naam.",
+        "empty": "Geen deelnemers",
+        "row-title": "Deelnemer",
         "column": {
           "checkbox": "Selecteren/Deselecteren {firstname} {lastname}",
           "first-name": "Voornaam",
@@ -1157,15 +1160,16 @@
             "label": "Aantal deelnames"
           }
         },
+        "actions": {
+          "enable-oralization": "Activate oralization",
+          "disable-oralization": "Deactivate oralization"
+        },
         "row-value": {
           "oralization": {
             "true": "Geactiveerd",
             "false": "Gedeactiveerd"
           }
-        },
-        "description": "Tabel met deelnemers gesorteerd op naam.",
-        "empty": "Geen deelnemers",
-        "row-title": "Deelnemer"
+        }
       }
     },
     "participants-list": {

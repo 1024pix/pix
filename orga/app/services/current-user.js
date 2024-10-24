@@ -91,4 +91,8 @@ export default class CurrentUserService extends Service {
   get hasLearnerImportFeature() {
     return this.prescriber.hasOrganizationLearnerImport;
   }
+
+  get canActivateOralizationLearner() {
+    return this.prescriber.hasOralizationFeature;
+  }
 }

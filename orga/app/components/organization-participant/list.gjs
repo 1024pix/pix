@@ -19,9 +19,10 @@ export default class List extends Component {
   @tracked showDeletionModal = false;
 
   @service currentUser;
+  @service intl;
 
-  get isAdminInOrganization () {
-    return !!this.currentUser.isAdminInOrganization
+  get isAdminInOrganization() {
+    return !!this.currentUser.isAdminInOrganization;
   }
 
   get showCheckbox() {
@@ -60,6 +61,10 @@ export default class List extends Component {
     return this.args.participants.meta.customFilters;
   }
 
+  get hasActionColumn() {
+    return this.currentUser.canActivateOralizationLearner;
+  }
+
   @action
   openDeletionModal() {
     this.showDeletionModal = true;
@@ -90,9 +95,26 @@ export default class List extends Component {
   }
 
   @action
-  openEditStudentNumberModal() {
-    window.alert('wesh');
+  actionsForParticipant(participant) {
+    if (!this.currentUser.canActivateOralizationLearner) {
+      return [];
+    }
+    const oralizationActivated = participant.extraColumns['ORALIZATION'];
+    return [
+      {
+        label: oralizationActivated
+          ? this.intl.t('pages.organization-participants.table.actions.disable-oralization')
+          : this.intl.t('pages.organization-participants.table.actions.enable-oralization'),
+        onClick: () =>
+          this.args.toggleOralizationFeatureForParticipant(
+            participant.id,
+            this.currentUser.organization.id,
+            !oralizationActivated,
+          ),
+      },
+    ];
   }
+
   <template>
     <div id={{this.filtersId}} />
 
@@ -104,18 +126,13 @@ export default class List extends Component {
         <tbody>
           <SelectableList @items={{@participants}}>
             <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
-              {{log "allSelected" allSelected}}
-              {{log "someSelected" someSelected}}
-              {{log "toggleAll" toggleAll}}
-              {{log "selectedParticipants" selectedParticipants}}
-              {{log "reset" reset}}
               <InElement @destinationId={{this.headerId}}>
                 <TableHeaders
                   @allSelected={{allSelected}}
                   @someSelected={{someSelected}}
                   @showCheckbox={{this.showCheckbox}}
                   @hasParticipants={{this.hasParticipants}}
-                  @isAdminInOrganization={{this.isAdminInOrganization}}
+                  @hasActionColumn={{this.hasActionColumn}}
                   @onToggleAll={{toggleAll}}
                   @lastnameSort={{@lastnameSort}}
                   @customHeadings={{this.customColumns}}
@@ -194,8 +211,7 @@ export default class List extends Component {
                 @customRows={{this.customColumns}}
                 @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
                 @hasOrganizationParticipantPage={{@hasOrganizationParticipantPage}}
-                @isAdminInOrganization={{this.isAdminInOrganization}}
-                @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
+                @actionsForParticipant={{this.actionsForParticipant participant}}
               />
             </:item>
           </SelectableList>

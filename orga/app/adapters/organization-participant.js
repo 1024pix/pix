@@ -8,6 +8,16 @@ export default class OrganizationParticipantAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/organizations/${organizationId}/participants`;
   }
 
+  addOralizationFeatureForParticipant(learnerId, organizationId) {
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners/${learnerId}/features/ORALIZATION`;
+    return this.ajax(url, 'POST');
+  }
+
+  removeOralizationFeatureForParticipant(learnerId, organizationId) {
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners/${learnerId}/features/ORALIZATION`;
+    return this.ajax(url, 'DELETE');
+  }
+
   deleteParticipants(organizationId, ids) {
     const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners`;
     return this.ajax(url, 'DELETE', { data: { listLearners: ids } });

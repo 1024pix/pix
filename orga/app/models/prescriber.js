@@ -18,6 +18,7 @@ export default class Prescriber extends Model {
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
       MISSIONS_MANAGEMENT: 'MISSIONS_MANAGEMENT',
       LEARNER_IMPORT: 'LEARNER_IMPORT',
+      ORALIZATION: 'ORALIZATION',
     };
   }
   get fullName() {
@@ -56,6 +57,10 @@ export default class Prescriber extends Model {
 
   get hasOrganizationLearnerImport() {
     return this.features[Prescriber.featureList.LEARNER_IMPORT];
+  }
+
+  get hasOralizationFeature() {
+    return this.features[Prescriber.featureList.ORALIZATION];
   }
 
   get hasParticipants() {

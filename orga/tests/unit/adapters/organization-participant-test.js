@@ -43,4 +43,32 @@ module('Unit | Adapters | organization-participant', function (hooks) {
       assert.ok(ajaxStub.calledWithExactly(url, 'DELETE', { data: expectedData }));
     });
   });
+  module('#addOralizationFeatureForParticipant', () => {
+    test('should POST organization-learners/feature', async function (assert) {
+      // given
+      const organizationId = 1;
+      const learnerId = 1;
+      // when
+      adapter.addOralizationFeatureForParticipant(learnerId, organizationId);
+
+      // then
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/organization-learners/${learnerId}/features/ORALIZATION`;
+
+      assert.ok(ajaxStub.calledWithExactly(url, 'POST'));
+    });
+  });
+  module('#removeOralizationFeatureForParticipant', () => {
+    test('should DELETE organization-learners/feature', async function (assert) {
+      // given
+      const organizationId = 1;
+      const learnerId = 1;
+      // when
+      adapter.removeOralizationFeatureForParticipant(learnerId, organizationId);
+
+      // then
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/organization-learners/${learnerId}/features/ORALIZATION`;
+
+      assert.ok(ajaxStub.calledWithExactly(url, 'DELETE'));
+    });
+  });
 });
