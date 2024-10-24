@@ -40,6 +40,7 @@
       "cancel": "Cancelar",
       "close": "Cerrar",
       "confirm": "Confirmar",
+      "continue": "Continuar",
       "lets-go": "¡Empecemos!",
       "quit": "Salir",
       "show-less": "Mostrar menos",
@@ -209,6 +210,17 @@
         "message": "If your address is associated with a Pix account, instructions for resetting your password have been sent to you by e-mail.",
         "no-email-received-question": "You haven’t received anything?",
         "try-again": "Try again with another demand"
+      }
+    },
+    "campaigns": {
+      "results-loader": {
+        "steps": {
+          "competences": "Calcular las puntuaciones por habilidad",
+          "trainings": "Identificar cursos de formación útiles",
+          "rewards": "Entrega de premios"
+        },
+        "subtitle": "¡Un momento, por favor! Seré tan rápido como pueda.",
+        "title": "Calcula tu puntuación..."
       }
     },
     "invited": {

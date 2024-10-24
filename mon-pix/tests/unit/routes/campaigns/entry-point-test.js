@@ -130,7 +130,7 @@ module('Unit | Route | Entry Point', function (hooks) {
         await route.afterModel(campaign, transition);
 
         //then
-        sinon.assert.calledWith(route.store.queryRecord, 'campaignParticipation', {
+        sinon.assert.calledWith(route.store.queryRecord, 'campaign-participation', {
           campaignId: 3,
           userId: 12,
         });
@@ -140,7 +140,7 @@ module('Unit | Route | Entry Point', function (hooks) {
       test('should redirect to landing page when no ongoing campaign participation', async function (assert) {
         //given
         route.store.queryRecord
-          .withArgs('campaignParticipation', {
+          .withArgs('campaign-participation', {
             campaignId: 3,
             userId: 12,
           })
@@ -157,7 +157,7 @@ module('Unit | Route | Entry Point', function (hooks) {
       test('should redirect to landing page when campaign is linked to autonomous course organization', async function (assert) {
         //given
         route.store.queryRecord
-          .withArgs('campaignParticipation', {
+          .withArgs('campaign-participation', {
             campaignId: 3,
             userId: 12,
             organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID,
@@ -175,7 +175,7 @@ module('Unit | Route | Entry Point', function (hooks) {
       test('should redirect to entrance when ongoing campaign participation is existing', async function (assert) {
         //given
         route.store.queryRecord
-          .withArgs('campaignParticipation', {
+          .withArgs('campaign-participation', {
             campaignId: 3,
             userId: 12,
           })
@@ -197,7 +197,7 @@ module('Unit | Route | Entry Point', function (hooks) {
         test('should redirect to campaign archived error with no participation', async function (assert) {
           //given
           route.store.queryRecord
-            .withArgs('campaignParticipation', {
+            .withArgs('campaign-participation', {
               campaignId: 3,
               userId: 12,
             })
@@ -214,7 +214,7 @@ module('Unit | Route | Entry Point', function (hooks) {
         test('should redirect to entrance with participation', async function (assert) {
           //given
           route.store.queryRecord
-            .withArgs('campaignParticipation', {
+            .withArgs('campaign-participation', {
               campaignId: 3,
               userId: 12,
             })

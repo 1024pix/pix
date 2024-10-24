@@ -16,7 +16,7 @@ export default class CampaignParticipationResult extends Model {
   @attr('number') flashPixScore;
 
   // includes
-  @hasMany('campaignParticipationBadges', {
+  @hasMany('campaign-participation-badge', {
     async: false,
     inverse: 'campaignParticipationResult',
   })
@@ -26,9 +26,9 @@ export default class CampaignParticipationResult extends Model {
     return this.campaignParticipationBadges.filter((badge) => badge.isAcquired);
   }
 
-  @hasMany('competenceResult', { async: false, inverse: 'campaignParticipationResult' }) competenceResults;
+  @hasMany('competence-result', { async: false, inverse: 'campaignParticipationResult' }) competenceResults;
 
-  @belongsTo('reachedStage', { async: false, inverse: 'campaignParticipationResult' }) reachedStage;
+  @belongsTo('reached-stage', { async: false, inverse: 'campaignParticipationResult' }) reachedStage;
 
   get hasReachedStage() {
     return this.reachedStage !== null;
