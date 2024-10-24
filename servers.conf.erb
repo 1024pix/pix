@@ -16,6 +16,14 @@ log_format keyvalue
 # as we are about to override it in the server directive here below
 access_log off;
 
+#add a catch all on http port to forward to the convenient https
+server {
+    listen 80 default_server;
+    server_name _;
+    add_header Strict-Transport-Security "max-age=31536001; includeSubDomains; preload";
+    return 301 https://$host$request_uri;
+}
+
 server {
   access_log logs/access.log keyvalue;
   server_name localhost;
@@ -39,6 +47,7 @@ server {
   add_header X-Content-Type-Options "nosniff";
   add_header X-Frame-Options "SAMEORIGIN";
   add_header X-XSS-Protection 1;
+  add_header Strict-Transport-Security "max-age=31536001; includeSubDomains; preload";
 
   <% ENV.each do |key,value|
     if key.start_with? 'ADD_HTTP_HEADER' %>
