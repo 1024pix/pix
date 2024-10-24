@@ -22,6 +22,20 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
     assert.strictEqual(link.getAttribute('href'), 'https://pix.fr/support');
   });
 
+  test('it doesn’t display a "password reset demand received" info', async function (assert) {
+    // given
+    const screen = await render(<template><PasswordResetDemandForm /></template>);
+
+    // then
+    assert
+      .dom(
+        screen.queryByRole('heading', {
+          name: t('components.authentication.password-reset-demand-received-info.heading'),
+        }),
+      )
+      .doesNotExist();
+  });
+
   module('email input validation', function () {
     module('when the email input is valid', function () {
       test('it doesn’t display any error message', async function (assert) {
@@ -68,7 +82,7 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
     });
 
     module('when the password-reset-demand is successful', function () {
-      test('it doesn’t display any error message', async function (assert) {
+      test('it displays a "password reset demand received" info (without any error message)', async function (assert) {
         // given
         window.fetch.resolves(
           fetchMock({
@@ -89,11 +103,26 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
 
         // then
         assert.dom(screen.queryByRole('alert')).doesNotExist();
+
+        assert
+          .dom(
+            screen.queryByRole('heading', {
+              name: t('components.authentication.password-reset-demand-received-info.heading'),
+            }),
+          )
+          .exists();
+
+        const tryAgainLink = await screen.queryByRole('link', {
+          name: t('components.authentication.password-reset-demand-received-info.try-again'),
+        });
+        assert.dom(tryAgainLink).exists();
+        assert.strictEqual(tryAgainLink.getAttribute('href'), '/mot-de-passe-oublie');
       });
     });
 
+    // TODO: This test module will need to be removed when the API doesn't leak anymore that an account doesn't exist with a "404 Not Found".
     module('when there is no corresponding user account', function () {
-      test('it displays an "account not found" error message', async function (assert) {
+      test('it displays a "password reset demand received" info (without any error message to avoid email enumeration)', async function (assert) {
         // given
         window.fetch.resolves(
           fetchMock({
@@ -116,9 +145,15 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         );
 
         // then
-        // The following doesn’t work because of a PixUi span inside the role element
-        //assert.dom(screen.queryByRole('alert', { name: t('pages.password-reset-demand.error.message') })).exists();
-        assert.dom(screen.queryByText(t('components.authentication.password-reset-demand-form.404-message'))).exists();
+        assert.dom(screen.queryByRole('alert')).doesNotExist();
+
+        assert
+          .dom(
+            screen.queryByRole('heading', {
+              name: t('components.authentication.password-reset-demand-received-info.heading'),
+            }),
+          )
+          .exists();
       });
     });
 
