@@ -607,8 +607,10 @@
       "table": {
         "title": "Liste des résultats reçus",
         "column": {
+          "ariaEvolution": "Évolution du participant entre ces deux derniers résultats partagés.",
           "ariaSharedResultCount": "Nombre de résultats envoyés",
           "badges": "Résultats Thématiques",
+          "evolution": "Évol.",
           "first-name": "Prénom",
           "last-name": "Nom",
           "results": {
@@ -617,6 +619,16 @@
             "under-test": "En cours de test"
           },
           "sharedResultCount": "Nb résultats envoyés"
+        },
+        "evolution": {
+          "increase": "En progression",
+          "decrease": "En régression",
+          "stable": "Constant",
+          "unavailable": "non disponible"
+        },
+        "evolution-tooltip":{
+          "aria-label": "Explications sur l'évolution.",
+          "content": "Évolution du participant entre ses deux derniers résultats partagés."
         },
         "empty": "Aucune participation",
         "row-title": "Participant"

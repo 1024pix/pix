@@ -601,9 +601,11 @@
       "table": {
         "title": "List of submitted results",
         "column": {
+          "ariaEvolution": "Evolution of the participant between these last two shared results.",
           "ariaSharedResultCount": "Number of sent results",
           "badges": "Thematic results",
           "first-name": "First name",
+          "evolution": "Evol.",
           "last-name": "Last name",
           "results": {
             "label": "Success rate",
@@ -611,6 +613,16 @@
             "under-test": "Test in progress"
           },
           "sharedResultCount": "No of sent results"
+        },
+        "evolution": {
+          "increase": "In progress",
+          "decrease": "In decline",
+          "stable": "Constant",
+          "unavailable": "not available"
+        },
+        "evolution-tooltip":{
+          "aria-label": "About evolution.",
+          "content": "Evolution of the participant between their last two shared results."
         },
         "empty": "No participants",
         "row-title": "Participant"
