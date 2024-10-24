@@ -12,14 +12,20 @@ module('Integration | Component | Module | Flashcards Outro Card', function (hoo
 
   test('should display an outro card', async function (assert) {
     // given
+    const counters = { yes: 1, almost: 2, no: 1 };
     const title = 'Introduction à la poésie';
 
     // when
-    const screen = await render(<template>
-      <ModulixFlashcardsOutroCard @title={{title}} /></template>);
+
+    const screen = await render(
+      <template><ModulixFlashcardsOutroCard @counters={{counters}} @title={{title}} /></template>,
+    );
 
     // then
     assert.ok(screen.getByText('Introduction à la poésie'));
+    assert.ok(screen.getByText(`Oui ! : ${counters.yes}`));
+    assert.ok(screen.getByText(`Presque : ${counters.almost}`));
+    assert.ok(screen.getByText(`Pas du tout : ${counters.no}`));
     assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.flashcards.retry') })).exists();
   });
 
@@ -29,11 +35,7 @@ module('Integration | Component | Module | Flashcards Outro Card', function (hoo
       const title = 'Introduction à la poésie';
       const onRetryStub = sinon.stub();
 
-      await render(
-      <template>
-        <ModulixFlashcardsOutroCard  @title={{title}} @onRetry={{onRetryStub}} />
-      </template>,
-      );
+      await render(<template><ModulixFlashcardsOutroCard @title={{title}} @onRetry={{onRetryStub}} /></template>);
 
       // when
       await clickByName(t('pages.modulix.buttons.flashcards.retry'));

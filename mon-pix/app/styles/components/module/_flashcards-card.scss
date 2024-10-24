@@ -67,8 +67,7 @@
 }
 
 .element-flashcards-intro-card,
-.element-flashcards-outro-card
-{
+.element-flashcards-outro-card {
   align-items: center;
   padding: var(--pix-spacing-2x);
   padding-bottom: var(--pix-spacing-6x);
@@ -105,6 +104,31 @@
   &__title {
     padding: 0 var(--pix-spacing-4x);
     color: var(--pix-neutral-0);
+  }
+
+  &__question {
+    @extend %pix-body-s;
+
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-bold);
+  }
+
+  &__counter {
+    @extend %pix-body-l;
+
+    font-weight: var(--pix-font-bold);
+
+    &__yes {
+      color: var(--pix-success-500);
+    }
+
+    &__almost {
+      color: var(--pix-warning-500);
+    }
+
+    &__no {
+      color: var(--pix-error-500);
+    }
   }
 }
 

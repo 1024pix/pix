@@ -1526,6 +1526,12 @@
       },
       "flashcards": {
         "answerDirection": "Vous aviez la réponse ?",
+        "completed": "Terminé",
+        "counter": {
+          "almost": "Presque : {totalAlmost}",
+          "no": "Pas du tout : {totalNo}",
+          "yes": "Oui ! : {totalYes}"
+        },
         "direction": "Cherchez la réponse puis tournez la carte",
         "position": "Carte {currentCardPosition}/{totalCards}"
       },
