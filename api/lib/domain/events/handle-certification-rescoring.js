@@ -25,17 +25,9 @@ async function handleCertificationRescoring({
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
-  competenceMarkRepository,
   scoringCertificationService,
+  certificationEvaluationServices,
   certificationCourseRepository,
-  certificationChallengeForScoringRepository,
-  answerRepository,
-  flashAlgorithmConfigurationRepository,
-  flashAlgorithmService,
-  scoringDegradationService,
-  certificationAssessmentHistoryRepository,
-  scoringConfigurationRepository,
-  challengeRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -49,18 +41,8 @@ async function handleCertificationRescoring({
       certificationAssessment,
       event,
       locale: event.locale,
-      answerRepository,
-      assessmentResultRepository,
-      certificationAssessmentHistoryRepository,
-      certificationChallengeForScoringRepository,
       certificationCourseRepository,
-      competenceMarkRepository,
-      flashAlgorithmConfigurationRepository,
-      flashAlgorithmService,
-      scoringDegradationService,
-      scoringConfigurationRepository,
-      scoringCertificationService,
-      challengeRepository,
+      certificationEvaluationServices,
     });
   }
 
@@ -69,8 +51,8 @@ async function handleCertificationRescoring({
     certificationAssessment,
     event,
     assessmentResultRepository,
-    competenceMarkRepository,
     certificationCourseRepository,
+    certificationEvaluationServices,
   });
 }
 
@@ -79,21 +61,17 @@ async function _handleV2CertificationScoring({
   certificationAssessment,
   assessmentResultRepository,
   certificationCourseRepository,
-  competenceMarkRepository,
   scoringCertificationService,
+  certificationEvaluationServices,
 }) {
   const emitter = _getEmitterFromEvent(event);
 
   try {
     const { certificationCourse, certificationAssessmentScore } =
-      await scoringCertificationService.handleV2CertificationScoring({
+      await certificationEvaluationServices.handleV2CertificationScoring({
         event,
         emitter,
         certificationAssessment,
-        assessmentResultRepository,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        scoringCertificationService,
       });
 
     await _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnicalReason({
@@ -129,36 +107,15 @@ async function _handleV3CertificationScoring({
   certificationAssessment,
   event,
   locale,
-  answerRepository,
-  assessmentResultRepository,
-  certificationAssessmentHistoryRepository,
-  certificationChallengeForScoringRepository,
   certificationCourseRepository,
-  competenceMarkRepository,
-  flashAlgorithmConfigurationRepository,
-  flashAlgorithmService,
-  scoringConfigurationRepository,
-  scoringCertificationService,
-  scoringDegradationService,
-  challengeRepository,
+  certificationEvaluationServices,
 }) {
   const emitter = _getEmitterFromEvent(event);
-  const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
+  const certificationCourse = await certificationEvaluationServices.handleV3CertificationScoring({
     event,
     emitter,
     certificationAssessment,
     locale,
-    answerRepository,
-    assessmentResultRepository,
-    certificationAssessmentHistoryRepository,
-    certificationChallengeForScoringRepository,
-    certificationCourseRepository,
-    competenceMarkRepository,
-    flashAlgorithmConfigurationRepository,
-    flashAlgorithmService,
-    scoringDegradationService,
-    scoringConfigurationRepository,
-    challengeRepository,
   });
 
   if (certificationCourse.isCancelled()) {

@@ -15,6 +15,7 @@ describe('Integration | Repository | certification candidate', function () {
           firstName: 'Janis',
           sessionId: session.id,
           userId: user.id,
+          reconciledAt: new Date('2024-10-17'),
           authorizedToStart: false,
         });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -53,6 +54,7 @@ describe('Integration | Repository | certification candidate', function () {
           firstName: 'Janis',
           sessionId: session.id,
           userId: user.id,
+          reconciledAt: new Date('2024-10-10'),
           authorizedToStart: false,
         });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -88,6 +90,7 @@ describe('Integration | Repository | certification candidate', function () {
             firstName: 'Janis',
             sessionId: otherSession.id,
             userId: user.id,
+            reconciledAt: new Date('2024-10-01'),
             authorizedToStart: false,
           });
           databaseBuilder.factory.buildCertificationCourse({
@@ -102,6 +105,7 @@ describe('Integration | Repository | certification candidate', function () {
             firstName: 'Janis',
             sessionId: session.id,
             userId: user.id,
+            reconciledAt: new Date('2024-10-18'),
             authorizedToStart: false,
           });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({

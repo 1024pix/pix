@@ -1,4 +1,4 @@
-import { CompetenceForScoring } from '../../../../../../src/certification/scoring/domain/models/CompetenceForScoring.js';
+import { CompetenceForScoring } from '../../../../../../src/certification/shared/domain/models/CompetenceForScoring.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | CompetenceForScoring', function () {

@@ -3,7 +3,6 @@
  * @typedef {import('./index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('./index.js').PlacementProfileService} PlacementProfileService
- * @typedef {import('./index.js').ScoringCertificationService} ScoringCertificationService
  */
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
@@ -14,7 +13,6 @@ import { CertificationDetails } from '../read-models/CertificationDetails.js';
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
  * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  * @param {PlacementProfileService} params.placementProfileService
- * @param {ScoringCertificationService} params.scoringCertificationService
  */
 const getCertificationDetails = async function ({
   certificationCourseId,
@@ -22,7 +20,6 @@ const getCertificationDetails = async function ({
   certificationAssessmentRepository,
   certificationCandidateRepository,
   placementProfileService,
-  scoringCertificationService,
 }) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
@@ -40,47 +37,11 @@ const getCertificationDetails = async function ({
     allowExcessPixAndLevels: false,
   });
 
-  if (competenceMarks.length) {
-    return _retrievePersistedCertificationDetails({
-      competenceMarks,
-      certificationAssessment,
-      placementProfile,
-    });
-  } else {
-    return _computeCertificationDetailsOnTheFly({
-      certificationAssessment,
-      placementProfile,
-      scoringCertificationService,
-    });
-  }
-};
-
-export { getCertificationDetails };
-
-async function _computeCertificationDetailsOnTheFly({
-  certificationAssessment,
-  placementProfile,
-  scoringCertificationService,
-}) {
-  const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
-    certificationAssessment,
-    continueOnError: true,
-  });
-  return CertificationDetails.fromCertificationAssessmentScore({
-    certificationAssessmentScore,
-    certificationAssessment,
-    placementProfile,
-  });
-}
-
-/**
- * @param {PlacementProfileService} placementProfileService
- * @param {CertificationCandidateRepository} certificationCandidateRepository
- */
-async function _retrievePersistedCertificationDetails({ competenceMarks, certificationAssessment, placementProfile }) {
   return CertificationDetails.from({
     competenceMarks,
     certificationAssessment,
     placementProfile,
   });
-}
+};
+
+export { getCertificationDetails };
