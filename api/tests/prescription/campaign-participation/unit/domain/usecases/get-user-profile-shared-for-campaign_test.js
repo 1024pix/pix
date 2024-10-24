@@ -1,10 +1,10 @@
-import { getUserProfileSharedForCampaign } from '../../../../lib/domain/usecases/get-user-profile-shared-for-campaign.js';
-import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
-import { constants } from '../../../../src/shared/domain/constants.js';
-import { NoCampaignParticipationForUserAndCampaign } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { Scorecard } from '../../../../../../src/evaluation/domain/models/Scorecard.js';
+import { getSharedCampaignParticipationProfile } from '../../../../../../src/prescription/campaign-participation/domain/usecases/get-shared-campaign-participation-profile.js';
+import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { NoCampaignParticipationForUserAndCampaign } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
+describe('Unit | UseCase | get-shared-campaign-participation-profile', function () {
   const sharedAt = new Date('2020-02-01');
   const expectedCampaignParticipation = { id: '1', sharedAt, pixScore: 15 };
   const locale = 'fr';
@@ -67,7 +67,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         .returns({ id: 'Score2', earnedPix: 5 });
 
       // when
-      const sharedProfile = await getUserProfileSharedForCampaign({
+      const sharedProfile = await getSharedCampaignParticipationProfile({
         userId,
         campaignId,
         campaignParticipationRepository,
@@ -101,7 +101,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(null);
 
       // when
-      const result = await catchErr(getUserProfileSharedForCampaign)({
+      const result = await catchErr(getSharedCampaignParticipationProfile)({
         userId,
         campaignId,
         campaignParticipationRepository,

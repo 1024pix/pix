@@ -10,6 +10,7 @@ import {
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
@@ -822,6 +823,93 @@ describe('Integration | Repository | Campaign Participation', function () {
         // then
         expect(participationResultDatas[0].sharedAt).to.equal(null);
       });
+    });
+  });
+
+  describe('#findOneByCampaignIdAndUserId', function () {
+    let userId;
+    let campaignId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId: otherUserId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaignId,
+        userId,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return the campaign participation found', async function () {
+      // given
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response).to.be.instanceOf(CampaignParticipation);
+      expect(response.id).to.equal(campaignParticipation.id);
+    });
+
+    it('should return the non improved campaign participation found', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+        isImproved: true,
+      });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response).to.be.instanceOf(CampaignParticipation);
+      expect(response.id).to.equal(campaignParticipation.id);
+    });
+
+    it('should include assessments found too', async function () {
+      // given
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+      const assessment = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation.id });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response.assessments).to.have.lengthOf(1);
+      expect(response.assessments[0]).to.be.instanceOf(Assessment);
+      expect(response.assessments[0].id).to.equal(assessment.id);
+    });
+
+    it('should return no campaign participation', async function () {
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response).to.equal(null);
     });
   });
 });

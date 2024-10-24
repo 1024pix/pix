@@ -31,7 +31,7 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       sinon.stub(ApplicationTransaction, 'getTransactionAsDomainTransaction');
     });
 
-    it('should call the use case to share campaign result', async function () {
+    it('should call the usecase to share campaign result', async function () {
       // given
       usecases.shareCampaignResult.resolves();
 
@@ -176,6 +176,59 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({
         campaignParticipationId,
         userId,
+      });
+    });
+  });
+
+  describe('#getSharedCampaignParticipationProfile', function () {
+    let campaignId,
+      dependencies,
+      locale,
+      request,
+      requestResponseUtilsStub,
+      sharedProfileForCampaignSerializerStub,
+      userId;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'getSharedCampaignParticipationProfile');
+      campaignId = Symbol('campaignId');
+      userId = Symbol('userId');
+      locale = Symbol('locale');
+
+      sharedProfileForCampaignSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      requestResponseUtilsStub = { extractUserIdFromRequest: sinon.stub(), extractLocaleFromRequest: sinon.stub() };
+      dependencies = {
+        sharedProfileForCampaignSerializer: sharedProfileForCampaignSerializerStub,
+        requestResponseUtils: requestResponseUtilsStub,
+      };
+
+      request = {
+        params: { campaignId },
+        auth: { credentials: { userId } },
+      };
+    });
+
+    it('should call the usecase to get learner shared profile', async function () {
+      // given
+      requestResponseUtilsStub.extractUserIdFromRequest.returns(100);
+      requestResponseUtilsStub.extractLocaleFromRequest.returns(locale);
+      usecases.getSharedCampaignParticipationProfile.resolves({});
+      const serializedCampaignProfileShared = Symbol('campaignProfileShared');
+      dependencies.sharedProfileForCampaignSerializer.serialize.resolves(serializedCampaignProfileShared);
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
+
+      // when
+      await learnerParticipationController.getSharedCampaignParticipationProfile(request, hFake, dependencies);
+
+      // then
+      expect(usecases.getSharedCampaignParticipationProfile).to.have.been.calledOnceWith({
+        campaignId,
+        userId,
+        locale,
       });
     });
   });

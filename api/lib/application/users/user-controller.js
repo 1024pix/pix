@@ -11,7 +11,6 @@ import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
-import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
 import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 
@@ -109,27 +108,6 @@ const getUserCampaignParticipationToCampaign = function (
   return usecases
     .getUserCampaignParticipationToCampaign({ userId: authenticatedUserId, campaignId })
     .then((campaignParticipation) => dependencies.campaignParticipationSerializer.serialize(campaignParticipation));
-};
-
-const getUserProfileSharedForCampaign = async function (
-  request,
-  h,
-  dependencies = {
-    sharedProfileForCampaignSerializer,
-    requestResponseUtils,
-  },
-) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const campaignId = request.params.campaignId;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({
-    userId: authenticatedUserId,
-    campaignId,
-    locale,
-  });
-
-  return dependencies.sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
 };
 
 const getUserCampaignAssessmentResult = async function (
@@ -242,7 +220,6 @@ const userController = {
   getUserCampaignAssessmentResult,
   getUserCampaignParticipationToCampaign,
   getUserDetailsForAdmin,
-  getUserProfileSharedForCampaign,
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,

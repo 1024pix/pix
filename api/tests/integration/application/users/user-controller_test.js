@@ -15,7 +15,6 @@ describe('Integration | Application | Users | user-controller', function () {
     sandbox.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
 
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
-    sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
     sandbox.stub(usecases, 'getUserCampaignAssessmentResult');
     sandbox.stub(usecases, 'removeAuthenticationMethod');
 
@@ -69,36 +68,6 @@ describe('Integration | Application | Users | user-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
-  describe('#getUserProfileSharedForCampaign', function () {
-    context('Error cases', function () {
-      it('should return a 403 HTTP response', async function () {
-        // given
-        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/profile');
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-
-      it('should return a 401 HTTP response', async function () {
-        // given
-        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(401).takeover());
-        });
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/profile');
-
-        // then
-        expect(response.statusCode).to.equal(401);
       });
     });
   });

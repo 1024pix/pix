@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { learnerParticipationController } from './learner-participation-controller.js';
 
@@ -65,6 +66,31 @@ const register = async function (server) {
             "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'campaign-participation'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/campaigns/{campaignId}/profile',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: learnerParticipationController.getSharedCampaignParticipationProfile,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération du profil d’un utilisateur partagé (**userId**) pour la campagne donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'campaign'],
       },
     },
   ]);
