@@ -1,11 +1,15 @@
+import './src/shared/infrastructure/plugins/instrument.js';
 import 'dotenv/config';
 
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
 
 validateEnvironmentVariables();
 
+import * as Sentry from '@sentry/node';
+
 import { disconnect } from './db/knex-database-connection.js';
 import { createServer } from './server.js';
+import { config } from './src/shared/config.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from './src/shared/infrastructure/temporary-storage/index.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
@@ -15,6 +19,11 @@ let server;
 
 const start = async function () {
   server = await createServer();
+
+  if (config.sentry.enabled) {
+    await Sentry.setupHapiErrorHandler(server);
+  }
+
   await server.start();
 };
 

@@ -27,6 +27,11 @@ function _getNumber(numberAsString, defaultValue) {
   return isNaN(number) ? defaultValue : number;
 }
 
+function _getFloat(numberAsString, defaultValue) {
+  const number = parseFloat(numberAsString, 10);
+  return isNaN(number) ? defaultValue : number;
+}
+
 function _getDate(dateAsString) {
   if (!dateAsString) {
     return null;
@@ -338,6 +343,8 @@ const configuration = (function () {
       environment: process.env.SENTRY_ENVIRONMENT || 'development',
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: toBoolean(process.env.SENTRY_DEBUG),
+      tracesSampleRate: _getFloat(process.env.SENTRY_TRACES_SAMPLE_RATE, 1.0),
+      profilesSampleRate: _getFloat(process.env.SENTRY_PROFILES_SAMPLE_RATE, 1.0),
       maxValueLength: 1000,
     },
     temporaryKey: {

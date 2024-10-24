@@ -13,7 +13,7 @@ import i18n from 'i18n';
 import { disconnect } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { learningContentCache as cache } from '../../../shared/infrastructure/caches/learning-content-cache.js';
-import { options } from '../../../shared/infrastructure/plugins/i18n.js';
+import { options } from '../../../shared/infrastructure/plugins/hapi/i18n.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import * as certificationCourseRepository from '../../shared/infrastructure/repositories/certification-course-repository.js';
