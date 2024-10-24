@@ -1452,6 +1452,7 @@
           }
         },
         "flashcards": {
+          "retry": "Opnieuw proberen",
           "start": "Beginnen",
           "seeAnswer": "Zie het antwoord",
           "seeAgain": "Bekijk de vraag",
@@ -1502,7 +1503,8 @@
       "flashcards": {
         "direction": "Zoek het antwoord en draai de kaart om",
         "position": "Kaart {currentCardPosition}/{totalCards}",
-        "answerDirection": "Had je het antwoord?"
+        "answerDirection": "Had je het antwoord?",
+        "completed": "Voltooid"
       },
       "grain": {
         "tag": {
