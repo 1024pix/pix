@@ -1545,7 +1545,7 @@
       },
       "notifications": {
         "change-member-role": {
-          "error": "Une erreur est survenue lors de la modification du rôle du membre.",
+          "error": "Une erreur est survenue '<br>' lors de la modification du rôle du membre.",
           "success": "Le rôle a bien été changé."
         },
         "leave-organization": {
