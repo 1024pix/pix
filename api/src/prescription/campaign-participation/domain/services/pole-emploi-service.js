@@ -1,4 +1,4 @@
-import { config } from '../../../src/shared/config.js';
+import { config } from '../../../../shared/config.js';
 
 function generateLink(sending, filters = {}) {
   const host = config.apiManager.url;

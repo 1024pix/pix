@@ -19,6 +19,7 @@ import * as complementaryCertificationBadgesRepository from '../../../src/certif
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import * as poleEmploiSendingRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/pole-emploi-sending-repository.js';
 import { config } from '../../../src/shared/config.js';
 import { monitoringTools as MonitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
@@ -43,7 +44,6 @@ import * as complementaryCertificationCourseResultRepository from '../../infrast
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
 import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';

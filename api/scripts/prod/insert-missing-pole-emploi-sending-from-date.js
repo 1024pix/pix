@@ -7,11 +7,11 @@ import { PoleEmploiPayload } from '../../lib/infrastructure/externals/pole-emplo
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { campaignParticipationResultRepository } from '../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
-import * as poleEmploiSendingRepository from '../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as badgeRepository from '../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import * as userRepository from '../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as campaignParticipationRepository from '../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as poleEmploiSendingRepository from '../../src/prescription/campaign-participation/infrastructure/repositories/pole-emploi-sending-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../src/shared/domain/models/Assessment.js';
 import { PoleEmploiSending } from '../../src/shared/domain/models/PoleEmploiSending.js';

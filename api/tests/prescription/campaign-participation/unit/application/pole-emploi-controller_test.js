@@ -1,7 +1,7 @@
-import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UnprocessableEntityError } from '../../../../src/shared/application/http-errors.js';
-import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
+import { poleEmploiController } from '../../../../../src/prescription/campaign-participation/application/pole-emploi-controller.js';
+import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { UnprocessableEntityError } from '../../../../../src/shared/application/http-errors.js';
+import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {
