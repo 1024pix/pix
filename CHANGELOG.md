@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v4.231.0 (24/10/2024)
+
+
+### :building_construction: Tech
+- [#10288](https://github.com/1024pix/pix/pull/10288) [TECH] Utiliser la date de reconciliation dans le scoring (PIX-14540).
+
+### :bug: Correction
+- [#10403](https://github.com/1024pix/pix/pull/10403) [BUGFIX] Gérer une épreuve qui est périmée en cours de test de certification (PIX-14819).
+
 ## v4.230.0 (24/10/2024)
 
 
