@@ -283,6 +283,66 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
     });
   });
 
+  module('when users reaches the end of the deck', function () {
+    test('should display the counters for each answer', async function (assert) {
+      // given
+      const firstCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+          },
+          text: "A quoi sert l'arobase dans mon adresse email ?",
+        },
+        verso: {
+          image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+          text: "Parce que c'est joli",
+        },
+      };
+      const secondCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/icon.svg',
+          },
+          text: 'Qui a écrit le Dormeur du Val ?',
+        },
+        verso: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/chaton.jpg',
+          },
+          text: '<p>Arthur Rimbaud</p>',
+        },
+      };
+
+      const flashcards = {
+        id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+        type: 'flashcards',
+        title: "Introduction à l'adresse e-mail",
+        instruction: '<p>...</p>',
+        introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+        cards: [firstCard, secondCard],
+      };
+
+      const onSelfAssessment = sinon.stub();
+
+      // when
+      const screen = await render(
+        <template><ModulixFlashcards @flashcards={{flashcards}} @onSelfAssessment={{onSelfAssessment}} /></template>,
+      );
+      await clickByName(t(I18N_KEYS.introStartButton));
+      await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+      await clickByName(t('pages.modulix.buttons.flashcards.answers.yes'));
+      await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+      await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+      // then
+      assert.ok(screen.getByText('Oui ! : 1'));
+      assert.ok(screen.getByText('Presque : 0'));
+      assert.ok(screen.getByText('Pas du tout : 1'));
+    });
+  });
+
   module('when user clicks on the "Retry" button', function () {
     test('should display intro card', async function (assert) {
       // given

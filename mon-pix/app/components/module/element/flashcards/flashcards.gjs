@@ -9,6 +9,8 @@ import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards/
 import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
 import ModulixFlashcardsOutroCard from 'mon-pix/components/module/element/flashcards/flashcards-outro-card';
 
+const INITIAL_COUNTERS_VALUE = { yes: 0, almost: 0, no: 0 };
+
 export default class ModulixFlashcards extends Component {
   @tracked
   /**
@@ -31,6 +33,13 @@ export default class ModulixFlashcards extends Component {
    */
   currentCardIndex = 0;
 
+  @tracked
+  /**
+   * Stores the number of times an answer has been chosen
+   * @type {object}
+   */
+  counters = { ...INITIAL_COUNTERS_VALUE };
+
   get currentCard() {
     return this.args.flashcards.cards[this.currentCardIndex];
   }
@@ -52,6 +61,7 @@ export default class ModulixFlashcards extends Component {
     this.currentStep = 'intro';
     this.currentCardIndex = 0;
     this.displayedSideName = 'recto';
+    this.counters = { ...INITIAL_COUNTERS_VALUE };
   }
 
   @action
@@ -62,6 +72,10 @@ export default class ModulixFlashcards extends Component {
   @action
   flipCard() {
     this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
+  }
+
+  incrementCounterFor(userAssessment) {
+    this.counters[userAssessment]++;
   }
 
   goToNextCard() {
@@ -80,6 +94,7 @@ export default class ModulixFlashcards extends Component {
       cardId: this.currentCard.id,
     };
     this.args.onSelfAssessment(selfAssessmentData);
+    this.incrementCounterFor(userAssessment);
     this.goToNextCard();
   }
 
@@ -103,7 +118,7 @@ export default class ModulixFlashcards extends Component {
       {{/if}}
 
       {{#if (eq this.currentStep "outro")}}
-        <ModulixFlashcardsOutroCard @title={{@flashcards.title}} @onRetry={{this.retry}} />
+        <ModulixFlashcardsOutroCard @title={{@flashcards.title}} @onRetry={{this.retry}} @counters={{this.counters}} />
       {{/if}}
 
       <div class="element-flashcards__footer {{if this.footerIsEmpty 'element-flashcards__footer--empty'}}">
