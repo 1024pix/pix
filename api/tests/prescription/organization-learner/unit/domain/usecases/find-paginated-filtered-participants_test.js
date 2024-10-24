@@ -40,7 +40,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
     };
 
     organizationLearnerFeatureRepository = {
-      getLearnersByFeature: sinon.stub(),
+      getOrganizationLearnersByFeature: sinon.stub(),
     };
   });
 
@@ -157,7 +157,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
         organizationParticipants: [participantWithOralization, participantWithoutOralization],
         meta: {},
       });
-      organizationLearnerFeatureRepository.getLearnersByFeature.resolves([learnerWithOralization]);
+      organizationLearnerFeatureRepository.getOrganizationLearnersByFeature.resolves([learnerWithOralization]);
 
       // when
       const result = await findPaginatedFilteredParticipants({

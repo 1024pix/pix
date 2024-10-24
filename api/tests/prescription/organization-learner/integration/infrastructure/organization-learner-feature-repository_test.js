@@ -3,14 +3,14 @@ import * as organizationLearnerFeatureRepository from '../../../../../src/prescr
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Prescription | OrganizationLearner | Integration | Infrastructure | OrganizationLearnerFeatureRepository', function () {
-  describe('#getLearnersByFeature', function () {
+  describe('#getOrganizationLearnersByFeature', function () {
     it('returns empty array when feature is unknown', async function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const featureKey = 'AN_UNKNOWN_FEATURE';
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerFeatureRepository.getLearnersByFeature({ organizationId, featureKey });
+      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({ organizationId, featureKey });
 
       expect(result).to.deep.equal([]);
     });
@@ -23,7 +23,7 @@ describe('Prescription | OrganizationLearner | Integration | Infrastructure | Or
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerFeatureRepository.getLearnersByFeature({ organizationId, featureKey });
+      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({ organizationId, featureKey });
 
       expect(result).to.deep.equal([]);
     });
@@ -63,7 +63,7 @@ describe('Prescription | OrganizationLearner | Integration | Infrastructure | Or
 
       const learner = new OrganizationLearner({ ...organizationLearner });
 
-      const result = await organizationLearnerFeatureRepository.getLearnersByFeature({ organizationId, featureKey });
+      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({ organizationId, featureKey });
 
       expect(result).to.deep.equal([learner]);
     });

@@ -70,7 +70,7 @@ async function _addOralizationInformationToParticipants({
   organizationParticipants,
   organizationLearnerFeatureRepository,
 }) {
-  const learnersWithOralizationFeature = await organizationLearnerFeatureRepository.getLearnersByFeature({
+  const learnersWithOralizationFeature = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({
     organizationId,
     featureKey: ORGANIZATION_FEATURE.ORALIZATION.key,
   });

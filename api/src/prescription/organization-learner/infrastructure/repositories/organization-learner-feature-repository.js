@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
 
-async function getLearnersByFeature({ organizationId, featureKey }) {
+async function getOrganizationLearnersByFeature({ organizationId, featureKey }) {
   const knexConn = DomainTransaction.getConnection();
   const rawOrganizationLearnerFeatures = await knexConn
     .select('organization-learners.*')
@@ -19,4 +19,4 @@ async function getLearnersByFeature({ organizationId, featureKey }) {
   );
 }
 
-export { getLearnersByFeature };
+export { getOrganizationLearnersByFeature };
