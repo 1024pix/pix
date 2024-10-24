@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.230.0 (24/10/2024)
+
+
+### :rocket: Amélioration
+- [#10402](https://github.com/1024pix/pix/pull/10402) [FEATURE] Afficher la bonne réception de demande de réinitialisation de mot de passe (PIX-14112).
+- [#10370](https://github.com/1024pix/pix/pull/10370) [FEATURE] Ajouter le nouveau design du formulaire de réinitialisation de mot de passe (PIX-14113).
+- [#10364](https://github.com/1024pix/pix/pull/10364) [FEATURE]: Afficher l'onglet Formations au clic sur "Voir les formations" de la bannière (PIX-14803).
+- [#10352](https://github.com/1024pix/pix/pull/10352) [FEATURE] Ajout d'une route pour récupérer les infos de début de parcours (PIX-14813).
+- [#10375](https://github.com/1024pix/pix/pull/10375) [FEATURE] Ajouter un feature toggle pour la nouvelle page de présentation des campagnes (PIX-14946).
+- [#10354](https://github.com/1024pix/pix/pull/10354) [FEATURE] Enregistrer l'auto-évaluation de l'utilisateur dans Matomo (PIX-14313).
+- [#10383](https://github.com/1024pix/pix/pull/10383) [FEATURE] Mise à jour du wording des écrans d'instruction (PIX-14884).
+
+### :building_construction: Tech
+- [#10400](https://github.com/1024pix/pix/pull/10400) [TECH] Suppression temporaire des habilitations aux complementaires sauf CLEA (PIX-14881).
+- [#10385](https://github.com/1024pix/pix/pull/10385) [TECH] Ajout d'une instruction comment dans le template de migration BDD.
+- [#10398](https://github.com/1024pix/pix/pull/10398) [TECH] Renommage + déplacement de mass-create-user-account (PIX-14974).
+
+### :bug: Correction
+- [#10391](https://github.com/1024pix/pix/pull/10391) [BUGFIX] Pouvoir valider les écrans d'instructions uniquement sur la dernière page (PIX-14474).
+- [#10387](https://github.com/1024pix/pix/pull/10387) [BUGFIX] N'afficher que les RT non-acquis qui sont en lacune (PIX-14969).
+
 ## v4.229.1 (23/10/2024)
 
 
