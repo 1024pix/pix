@@ -83,7 +83,9 @@ Router.map(function () {
       this.route('student-sco', { path: '/identification' });
       this.route('sco-mediacentre', { path: '/mediacentre' });
     });
-    this.route('campaign-landing-page', { path: '/presentation' });
+    this.route('presentation', function () {
+      this.route('steps', { path: '/etapes' });
+    });
     this.route('invited', { path: '/prescrit' }, function () {
       this.route('reconciliation', { path: '/enregistrement' });
       this.route('student-sco', { path: '/eleve' });

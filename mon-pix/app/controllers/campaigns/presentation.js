@@ -6,6 +6,7 @@ import ENV from 'mon-pix/config/environment';
 
 export default class CampaignLandingPageController extends Controller {
   @service currentDomain;
+  @service featureToggles;
   @service intl;
   @service locale;
   @service router;
@@ -35,6 +36,10 @@ export default class CampaignLandingPageController extends Controller {
 
   get isUserNotAuthenticated() {
     return !this.isUserAuthenticatedByPix && !this.isUserAuthenticatedByGAR;
+  }
+
+  get showNewPresentationPage() {
+    return this.featureToggles.featureToggles?.showNewCampaignPresentationPage;
   }
 
   @action

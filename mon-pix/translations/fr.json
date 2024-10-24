@@ -40,6 +40,7 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
+      "continue": "Continuer",
       "lets-go": "C'est parti !",
       "login": "Se connecter sur Pix",
       "quit": "Quitter",
@@ -79,6 +80,7 @@
       "url-label": "Politique de protection des données."
     },
     "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support.",
+    "finance-par": "Financé par le Gouvernement français, France Relance et l'Union Européenne",
     "form": {
       "error": "erreur",
       "invisible-password": "cacher le mot de passe",
@@ -445,6 +447,25 @@
         "existing-participation-user-info": "Il y a déjà une participation associée au nom de ",
         "no-longer-accessible": "Oups, la page demandée n’est plus accessible.",
         "not-accessible": "Oups, la page demandée n’est pas accessible."
+      },
+      "presentation": {
+        "landing": {
+          "check-user": "Vous n'êtes pas { firstName } { lastName } ?",
+          "start-button": "Oui, c'est parti !",
+          "title": "Bonjour { firstName } !<br/>Prêt(e) à découvrir votre parcours ?"
+        },
+        "steps": {
+          "badges": {
+            "title": "Et obtenez ces récompenses pour comprendre vos résultats"
+          },
+          "competences": {
+            "title": "Testez-vous sur { count } { count, plural, =0 {compétence} =1 {compétence} other {compétences} }",
+            "description": "Voici les compétences numériques sur lesquels vous allez vous évaluer :"
+          },
+          "organization": {
+            "title": "Un mot de l'organisateur"
+          }
+        }
       }
     },
     "campaign-landing": {
