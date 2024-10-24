@@ -1482,6 +1482,7 @@
             "yes": "Yes!"
           },
           "nextCard": "Next",
+          "retry": "Try again",
           "seeAgain": "Review the question",
           "seeAnswer": "See the answer",
           "start": "Start"
@@ -1525,6 +1526,7 @@
       },
       "flashcards": {
         "answerDirection": "Did you have the answer?",
+        "completed": "Completed",
         "direction": "Look for the answer then turn the card",
         "position": "Card {currentCardPosition}/{totalCards}"
       },

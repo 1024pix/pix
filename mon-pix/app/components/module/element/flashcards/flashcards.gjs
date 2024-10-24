@@ -7,6 +7,9 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards/flashcards-card';
 import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
+import ModulixFlashcardsOutroCard from 'mon-pix/components/module/element/flashcards/flashcards-outro-card';
+
+const INITIAL_COUNTERS_VALUE = { yes: 0, almost: 0, no: 0 };
 
 export default class ModulixFlashcards extends Component {
   @tracked
@@ -30,6 +33,13 @@ export default class ModulixFlashcards extends Component {
    */
   currentCardIndex = 0;
 
+  @tracked
+  /**
+   * Stores the number of times an answer has been chosen
+   * @type {object}
+   */
+  counters = { ...INITIAL_COUNTERS_VALUE };
+
   get currentCard() {
     return this.args.flashcards.cards[this.currentCardIndex];
   }
@@ -43,7 +53,15 @@ export default class ModulixFlashcards extends Component {
   }
 
   get footerIsEmpty() {
-    return this.currentStep === 'intro';
+    return this.currentStep === 'intro' || this.currentStep === 'outro';
+  }
+
+  @action
+  retry() {
+    this.currentStep = 'intro';
+    this.currentCardIndex = 0;
+    this.displayedSideName = 'recto';
+    this.counters = { ...INITIAL_COUNTERS_VALUE };
   }
 
   @action
@@ -56,9 +74,17 @@ export default class ModulixFlashcards extends Component {
     this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
   }
 
+  incrementCounterFor(userAssessment) {
+    this.counters[userAssessment]++;
+  }
+
   goToNextCard() {
-    this.currentCardIndex++;
-    this.displayedSideName = 'recto';
+    if (this.currentCardIndex < this.numberOfCards - 1) {
+      this.currentCardIndex++;
+      this.displayedSideName = 'recto';
+    } else {
+      this.currentStep = 'outro';
+    }
   }
 
   @action
@@ -68,6 +94,7 @@ export default class ModulixFlashcards extends Component {
       cardId: this.currentCard.id,
     };
     this.args.onSelfAssessment(selfAssessmentData);
+    this.incrementCounterFor(userAssessment);
     this.goToNextCard();
   }
 
@@ -88,6 +115,10 @@ export default class ModulixFlashcards extends Component {
           @displayedSideName={{this.displayedSideName}}
           @onCardFlip={{this.flipCard}}
         />
+      {{/if}}
+
+      {{#if (eq this.currentStep "outro")}}
+        <ModulixFlashcardsOutroCard @title={{@flashcards.title}} @onRetry={{this.retry}} @counters={{this.counters}} />
       {{/if}}
 
       <div class="element-flashcards__footer {{if this.footerIsEmpty 'element-flashcards__footer--empty'}}">
