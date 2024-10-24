@@ -44,10 +44,8 @@ const getNextChallenge = async function ({
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
 
-  const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds({
-    assessmentId: assessment.id,
-    answerRepository,
-  });
+  const allAnswers = await answerRepository.findByAssessment(assessment.id);
+  const alreadyAnsweredChallengeIds = allAnswers.map(({ challengeId }) => challengeId);
 
   const validatedLiveAlertChallengeIds = await _getValidatedLiveAlertChallengeIds({
     assessmentId: assessment.id,
@@ -65,11 +63,10 @@ const getNextChallenge = async function ({
     return challengeRepository.get(lastNonAnsweredCertificationChallenge.challengeId);
   }
 
-  const [allAnswers, challenges] = await Promise.all([
-    answerRepository.findByAssessment(assessment.id),
-    challengeRepository.findActiveFlashCompatible({ locale }),
-  ]);
+  const activeFlashCompatibleChallenges = await challengeRepository.findActiveFlashCompatible({ locale });
 
+  const alreadyAnsweredChallenges = await challengeRepository.getMany(alreadyAnsweredChallengeIds, locale);
+  const challenges = [...new Set([...alreadyAnsweredChallenges, ...activeFlashCompatibleChallenges])];
   const algorithmConfiguration = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(
     certificationCourse.getStartDate(),
   );
@@ -138,13 +135,6 @@ const _excludeChallengesWithASkillWithAValidatedLiveAlert = ({ validatedLiveAler
   );
 
   return challengesWithoutSkillsWithAValidatedLiveAlert;
-};
-
-const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository }) => {
-  const answers = await answerRepository.findByAssessment(assessmentId);
-  const alreadyAnsweredChallengeIds = answers.map(({ challengeId }) => challengeId);
-
-  return alreadyAnsweredChallengeIds;
 };
 
 const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
