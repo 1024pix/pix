@@ -1,0 +1,518 @@
+{
+  "id": "8bdec793-7508-41b4-9df2-e1cf96969680",
+  "slug": "mots-de-passe-securises-b",
+  "title": "Des mots de passe solides",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "Aujourd'hui on utilise des mots de passe pour tout : boîte mail, réseaux sociaux, sites marchands, etc. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
+    "duration": 10,
+    "level": "Débutant",
+    "tabletSupport": "comfortable",
+    "objectives": [
+      "Comprendre l'intérêt d'avoir des mots de passe solides",
+      "Connaître les principaux risques liés aux mots de passe",
+      "Savoir créer un mot de passe solide"
+    ]
+  },
+  "transitionTexts": [
+    {
+      "content": "<p>Un mot de passe sert à protéger vos informations personnelles. Il faut qu’il soit <strong>solide</strong>, c'est-à-dire difficile à trouver.&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, on peut deviner votre mot de passe facilement et voir vos photos, lire vos mails ou envoyer des messages à votre place. <span aria-hidden=\"true\">👤</span></p>",
+      "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
+    },
+    {
+      "content": "<p>Choisir un mot de passe très utilisé est risqué : il peut être deviné par quelqu'un ou être piraté. <span aria-hidden=\"true\">🏴‍☠️</span><br>Dans la vidéo suivante, découvrez comment créer un mot de passe solide pour se protéger de ces risques. <span aria-hidden=\"true\">📺</span></p>",
+      "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
+    },
+    {
+      "content": "<p>Comme beaucoup de gens, Austin a utilisé des informations personnelles pour créer son mot de passe. <span aria-hidden=\"true\">🪪</span><br>Vous allez pouvoir le deviner facilement. À vous de jouer !</p>",
+      "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
+    },
+    {
+      "content": "<p>Vérifions que vous avez compris l'essentiel avec ces questions. <span aria-hidden=\"true\">🎯</span></p>",
+      "grainId": "65e80d85-4590-4662-8765-f1b3d995f21a"
+    },
+    {
+      "content": "<p>Créer des mots de passe solides, ce n'est pas toujours simple mais c'est nécessaire pour se protéger. <span aria-hidden=\"true\">🛡️</span><br>Voici trois méthodes pour vous aider à créer et retenir vos mots de passe solides.</p>",
+      "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
+    },
+    {
+      "content": "<p>Avec ces méthodes, les mots de passe que vous créez sont solides. Ils sont impossibles à deviner et prennent énormément de temps à pirater. <span aria-hidden=\"true\">👇</span></p>",
+      "grainId": "169e770a-933f-41c1-a2c5-834f7b8f2946"
+    },
+    {
+      "content": "<p>Certains de vos mots de passe ne sont peut-être pas encore solides.<br>Pour finir ce module, nous vous proposons de prendre de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
+      "grainId": "464fe554-ff12-4b14-b6d6-3510fff2bb26"
+    }
+  ],
+  "grains": [
+    {
+      "id": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8",
+      "type": "activity",
+      "title": "Les mots de passe les plus courants",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
+                  "type": "qrocm",
+                  "instruction": "<p>Certains mots de passe sont très utilisés et donc faciles à deviner.<br>Essayez de trouver l'un des 20 mots de passe les plus utilisés en France.</p>",
+                  "proposals": [
+                    {
+                      "type": "text",
+                      "content": "<span>Mot de passe :</span>"
+                    },
+                    {
+                      "input": "mot-de-passe",
+                      "type": "input",
+                      "inputType": "text",
+                      "size": 15,
+                      "display": "inline",
+                      "placeholder": "",
+                      "ariaLabel": "Mot de passe",
+                      "defaultValue": "",
+                      "tolerances": ["t1"],
+                      "solutions": [
+                        "123456",
+                        "123456789",
+                        "azerty",
+                        "admin",
+                        "1234561",
+                        "azertyuiop",
+                        "loulou",
+                        "000000",
+                        "doudou",
+                        "password",
+                        "marseille",
+                        "motdepasse",
+                        "12345678",
+                        "chouchou",
+                        "soleil",
+                        "cheval",
+                        "12345",
+                        "Password",
+                        "bonjour",
+                        "1234567891",
+                        "1234",
+                        "0000",
+                        "toto",
+                        "azerty123"
+                      ]
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;! <span aria-hidden=\"true\">🎉</span></span><p>Il fait partie des 20 mots de passe les plus utilisés en France. Découvrez la liste complète juste après.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Essayez à nouveau en proposant un mot de passe très simple, utilisé par tout le monde.</p>"
+                  }
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "6426dbb4-5627-4ae7-aa22-b63b70a8065f",
+                  "type": "text",
+                  "content": "<p>Voici la liste des 20 mots de passe les plus utilisés en France. <span aria-hidden=\"true\">👇</span></p><p>Ce sont donc les pires mots de passe.</p>"
+                },
+                {
+                  "id": "b10615ab-ef98-4077-8382-fcd7011ec186",
+                  "type": "image",
+                  "url": "https://i.imgur.com/g3bol0G.jpeg",
+                  "alt": "",
+                  "alternativeText": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "831fd61c-54ae-4b21-bd3f-61f40887a869",
+      "type": "lesson",
+      "title": "Les risques liés aux mots de passe",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "826281e7-865f-462d-abc0-77537c42a2b4",
+            "type": "text",
+            "content": "<p>Après cette vidéo, vous devrez répondre à des questions sur les règles de création de mot de passe sécurisé.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "70085937-ee65-4652-bf33-4124b4868b07",
+            "type": "video",
+            "title": "",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "65e80d85-4590-4662-8765-f1b3d995f21a",
+      "type": "activity",
+      "title": "Quizz mots de passe solides",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
+            "type": "text",
+            "content": "<p>Pour chaque affirmation, choisissez si elle est vraie ou fausse.</p>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "cb943d75-1008-4736-80bf-aec9481ba541",
+                  "type": "qcu",
+                  "instruction": "<p>Le mot de passe <code>Hj5m7a</code> est moins solide que le mot de passe <code>Hj5m7a9€</code>.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "1771f61e-968b-41b9-b389-0c6910de3d38",
+                  "type": "qcu",
+                  "instruction": "<p>Tous les mots de passe ont la même importance.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Le mot de passe de la <strong>boîte mail</strong> est le plus important de tous.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Le mot de passe de la <strong>boîte mail</strong> est le plus important de tous.</p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
+                  "type": "qcu",
+                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à trouver.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Pour sécuriser un mot de passe, il ne faut pas utiliser d'informations personnelles.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour sécuriser un mot de passe, il ne faut pas utiliser d'informations personnelles.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1ed4223a-2b8f-4c2c-8dcb-3d0567b562b0",
+      "type": "lesson",
+      "title": "Sécuriser ses mots de passe : synthèse",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "2e695244-52c5-4277-8414-d18777d0d242",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>Un mot de passe solide est <strong>long</strong> et composé de <strong>différents caractères</strong> (# ; $ ; ! ; € ; etc.).</li><br><li>Un mot de passe ne doit <strong>pas</strong> contenir <strong>d'informations personnelles</strong> et doit rester <strong>secret</strong>.</li><br><li>N'utilisez pas le même mot de passe partout. Le <strong>mot de passe le plus important</strong> est celui de votre <strong>boîte mail</strong> car elle permet souvent de changer tous vos mots de passe.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "1cda400f-008c-49db-b46b-6f783ccbc273",
+      "type": "activity",
+      "title": "Deviner le mot de passe d'Austin",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
+            "type": "text",
+            "content": "<p>Pour créer le mot de passe de son adresse mail, Austin a utilisé deux informations personelles&nbsp;:</p><ul><li>il est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Honey</strong>.</li></ul>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "2695bb89-112c-49d1-80b2-469d824af58f",
+            "type": "qrocm",
+            "instruction": "<p>Essayez de deviner le mot de passe d'Austin.</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Mot de passe d'Austin :</span>"
+              },
+              {
+                "input": "mot-de-passe",
+                "type": "input",
+                "inputType": "text",
+                "size": 15,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "Mot de passe d'Austin",
+                "defaultValue": "",
+                "tolerances": ["t1"],
+                "solutions": [
+                  "Honey15111984",
+                  "15111984Honey",
+                  "Honey151184",
+                  "151184Honey",
+                  "honey15111984",
+                  "15111984honey",
+                  "honey151184",
+                  "151184honey",
+                  "Honey15novembre1984",
+                  "15novembre1984Honey",
+                  "Honey15novembre84",
+                  "15novembre84Honey",
+                  "honey15novembre1984",
+                  "15novembre1984honey",
+                  "honey15novembre84",
+                  "15novembre84honey",
+                  "Honey15/11/1984",
+                  "15/11/1984Honey",
+                  "Honey15/11/84",
+                  "15/11/84Honey",
+                  "honey15/11/1984",
+                  "15/11/1984honey",
+                  "honey15/11/84",
+                  "15/11/84honey",
+                  "Honey151119",
+                  "151119Honey",
+                  "Honey1511",
+                  "1511Honey",
+                  "honey1511",
+                  "1511honey",
+                  "honey1511",
+                  "1511honey",
+                  "Honey15novembre",
+                  "15novembreHoney",
+                  "Honey15novembre",
+                  "15novembreHoney",
+                  "honey15novembre",
+                  "15novembrehoney",
+                  "honey15novembre",
+                  "15novembrehoney",
+                  "Honey15/11",
+                  "15/11Honey",
+                  "Honey15/11",
+                  "15/11Honey",
+                  "honey15/11",
+                  "15/11honey",
+                  "honey15/11",
+                  "15/11honey",
+                  "honey1984"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Le mot de passe d'Austin est <strong>faible</strong>, c’est-à-dire  facile à trouver.<br>Ces informations personnelles sont souvent disponibles en ligne, par exemple sur les réseaux sociaux.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son chat Honey&#8239;?</p>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "f14510d6-ee18-48be-8bb6-39a9427e3102",
+      "type": "lesson",
+      "title": "Astuces de gestion de mots de passe",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "69bfe140-57ac-4fcf-a118-2e9382daacd4",
+                  "type": "text",
+                  "content": "<h3>Méthode n°1&nbsp;: retenez une phrase qui vous plaît et gardez les premiers caractères de chaque mot. <span aria-hidden=\"true\">🖍️</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J</strong>'<strong>a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j</strong>'<strong>a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "f6edeae6-fbfb-4dce-b556-1bb7928d5ff5",
+                  "type": "text",
+                  "content": "<h3>Méthode n°2&nbsp;: écrivez une phrase qui vous plaît en phonétique, c'est-à-dire comme elle se prononce. <span aria-hidden=\"true\">🎶</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"J'aime les bandes dessinées !\" vous donne le mot de passe : <code>Gmeléban2D6né!</code>.<p>Dans cet exemple, \"J'ai\" est devenu \"G\" car ils se prononcent pareil.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "e274a0f9-4b4a-4358-8b1f-9e009c5a3ec8",
+                  "type": "text",
+                  "content": "<h3>Méthode n°3&nbsp;: inventez votre méthode ! <span aria-hidden=\"true\">🧪</span></h3><p>Vous pouvez mélanger les deux méthodes présentées ou trouver d'autres astuces.</p><p>En tout cas, oublier le mot de passe d'un compte, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.</p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "169e770a-933f-41c1-a2c5-834f7b8f2946",
+      "type": "activity",
+      "title": "Temps de craquage de mots de passe",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "acf16c79-b788-4ebe-b7a1-4138eef3db2f",
+            "type": "text",
+            "content": "<p>Le tableau suivant donne le <strong>temps de piratage</strong> d'un mot de passe selon sa <strong>longueur</strong> et ses <strong>caractères</strong> (chiffres, lettres minuscules ou majuscules, symboles).</p>\n"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bb802478-6673-4ccf-ad99-90f553999042",
+            "type": "image",
+            "url": "https://i.imgur.com/sG2wQk7.jpeg",
+            "alt": "",
+            "alternativeText": "<p><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8a7b17f0-55f9-446d-ab40-a9f6eb7329ca",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le temps de piratage de <code>Gmeléban2D6né!</code> ?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Temps de piratage :</span>"
+              },
+              {
+                "input": "premiere-partie",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "- Sélectionner -",
+                "ariaLabel": "Réponse",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "4 millions d'années"
+                  },
+                  {
+                    "id": "2",
+                    "content": "12 milliards d'années"
+                  },
+                  {
+                    "id": "2",
+                    "content": "805 milliards d'années"
+                  }
+                ],
+                "solutions": ["3"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Bravo !&nbsp;<span aria-hidden=\"true\">💫</span></span></p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir la prochaine fois, utilisez les indices ci-dessous&nbsp;<span aria-hidden=\"true\">👇</span> </p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b99ae76a-b911-4db4-bbe8-2580a8cc9820",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>Comptez le nombre de caractères du mot de passe.<br>Regardez s'il y a des majuscules, des chiffres et des symboles.</p></details><details><summary>Indice 2</summary><p>Ce mot de passe a <strong>14 caractères</strong>.<br>Il a des majuscules (G ; D), des chiffres (2 ; 6) et des symboles (é ; !)</p></details>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "464fe554-ff12-4b14-b6d6-3510fff2bb26",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7bedd844-b13a-4a2a-b64c-ad947a73f15e",
+            "type": "qcu",
+            "instruction": "<mark><i>Usage effectif sous condition d'une modalité QCU déclaratif disponible. Couplage possible avec répétition espacée pour relancer ?</i></mark><br>À l'issue de ce module, que souhaitez-vous faire concernant vos mots de passe ?",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Je ne pense pas les modifier même si certains sont faibles.",
+                "feedback": "<p>Avec de petits gestes, vous pouvez éviter une situation très désagréable.<br>Nous vous recommandons de modifier ces mots de passe lorsque vous aurez le temps ! 🔐</p>"
+              },
+              {
+                "id": "2",
+                "content": "Je vais bientôt les modifier car ils sont trop faibles.",
+                "feedback": "<p>Voilà un bon début ! Fixer rapidement une date pour être sûr de le faire. 😉</p>"
+              },
+              {
+                "id": "3",
+                "content": "Je vais seulement changer le mot de passe de ma boîte mail.",
+                "feedback": "<p>S'il faut en changer un en premier, c'est bien celui là.<br>C'est un bon début. 😀 </p>"
+              },
+              {
+                "id": "4",
+                "content": "Je n'ai pas besoin de les changer bientôt car ils sont déjà sécurisés.",
+                "feedback": "<p>Très bien ! ✨ <br>Au moindre doute, prenez pour réflexe de changer immédiatemment votre mot de passe.</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            },
+            "solution": "4"
+          }
+        }
+      ]
+    }
+  ]
+}
