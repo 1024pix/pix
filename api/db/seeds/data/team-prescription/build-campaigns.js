@@ -195,7 +195,7 @@ async function _createProCampaigns(databaseBuilder) {
     },
   });
 
-  const { id: userId } = await databaseBuilder.factory.buildUser.withRawPassword({
+  const user1 = await databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Alex',
     lastName: 'Terieur',
     email: 'alex-terieur@example.net',
@@ -203,23 +203,25 @@ async function _createProCampaigns(databaseBuilder) {
     lang: 'fr',
   });
 
-  const { id: organizationLearnerId } = await databaseBuilder.factory.buildOrganizationLearner({
+  const organizationLearner1 = await databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Alex',
     lastName: 'Terieur',
-    userId,
+    userId: user1.id,
     organizationId: PRO_ORGANIZATION_ID,
   });
-  const { id: firstCampaignParticipationId, createdAt } = await databaseBuilder.factory.buildCampaignParticipation({
-    campaignId,
-    organizationLearnerId,
-    userId,
-    masteryRate: 0.1,
-    isImproved: true,
-    createdAt: '2023-12-27T15:07:57.376Z',
-    sharedAt: '2024-01-04T15:07:57.376Z',
-  });
+  const { id: user1FirstCampaignParticipationId, createdAt } = await databaseBuilder.factory.buildCampaignParticipation(
+    {
+      campaignId,
+      organizationLearnerId: organizationLearner1.id,
+      userId: user1.id,
+      masteryRate: 0.1,
+      isImproved: true,
+      createdAt: '2023-12-27T15:07:57.376Z',
+      sharedAt: '2024-01-04T15:07:57.376Z',
+    },
+  );
   await databaseBuilder.factory.buildAssessment({
-    userId,
+    userId: user1.id,
     type: Assessment.types.CAMPAIGN,
     createdAt,
     state: Assessment.states.COMPLETED,
@@ -227,12 +229,12 @@ async function _createProCampaigns(databaseBuilder) {
     lastQuestionDate: new Date(),
     lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
     competenceId: null,
-    campaignParticipationId: firstCampaignParticipationId,
+    campaignParticipationId: user1FirstCampaignParticipationId,
   });
 
-  const { id: secondCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
-    organizationLearnerId,
-    userId,
+  const { id: user1SecondCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
+    organizationLearnerId: organizationLearner1.id,
+    userId: user1.id,
     campaignId,
     masteryRate: 0.3,
     isImproved: true,
@@ -241,7 +243,7 @@ async function _createProCampaigns(databaseBuilder) {
   });
 
   await databaseBuilder.factory.buildAssessment({
-    userId,
+    userId: user1.id,
     type: Assessment.types.CAMPAIGN,
     createdAt,
     state: Assessment.states.COMPLETED,
@@ -249,12 +251,12 @@ async function _createProCampaigns(databaseBuilder) {
     lastQuestionDate: new Date(),
     lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
     competenceId: null,
-    campaignParticipationId: secondCampaignParticipationId,
+    campaignParticipationId: user1SecondCampaignParticipationId,
   });
 
-  const { id: thirdCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
-    organizationLearnerId,
-    userId,
+  const { id: user1ThirdCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
+    organizationLearnerId: organizationLearner1.id,
+    userId: user1.id,
     campaignId,
     isImproved: false,
     status: CampaignParticipationStatuses.TO_SHARE,
@@ -263,7 +265,7 @@ async function _createProCampaigns(databaseBuilder) {
   });
 
   await databaseBuilder.factory.buildAssessment({
-    userId,
+    userId: user1.id,
     type: Assessment.types.CAMPAIGN,
     createdAt,
     state: Assessment.states.COMPLETED,
@@ -271,7 +273,121 @@ async function _createProCampaigns(databaseBuilder) {
     lastQuestionDate: new Date(),
     lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
     competenceId: null,
-    campaignParticipationId: thirdCampaignParticipationId,
+    campaignParticipationId: user1ThirdCampaignParticipationId,
+  });
+
+  const user2 = await databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Jean-Philippe',
+    lastName: 'Errvitemonslip',
+    email: 'jean-philippe-errvitemonslip@example.net',
+    cgu: true,
+    lang: 'fr',
+  });
+
+  const organizationLearner2 = await databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Jean-Philippe',
+    lastName: 'Errvitemonslip',
+    userId: user2.id,
+    organizationId: PRO_ORGANIZATION_ID,
+  });
+  const { id: user2FirstCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    organizationLearnerId: organizationLearner2.id,
+    userId: user2.id,
+    masteryRate: 0.5,
+    isImproved: true,
+    createdAt: '2023-12-27T15:07:57.376Z',
+    sharedAt: '2024-01-04T15:07:57.376Z',
+  });
+  await databaseBuilder.factory.buildAssessment({
+    userId: user2.id,
+    type: Assessment.types.CAMPAIGN,
+    createdAt,
+    state: Assessment.states.COMPLETED,
+    isImproving: true,
+    lastQuestionDate: new Date(),
+    lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+    competenceId: null,
+    campaignParticipationId: user2FirstCampaignParticipationId,
+  });
+
+  const { id: user2SecondCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
+    organizationLearnerId: organizationLearner2.id,
+    userId: user2.id,
+    campaignId,
+    masteryRate: 0.1,
+    isImproved: true,
+    createdAt: '2024-03-12T15:07:57.376Z',
+    sharedAt: '2024-03-24T15:07:57.376Z',
+  });
+
+  await databaseBuilder.factory.buildAssessment({
+    userId: user2.id,
+    type: Assessment.types.CAMPAIGN,
+    createdAt,
+    state: Assessment.states.COMPLETED,
+    isImproving: true,
+    lastQuestionDate: new Date(),
+    lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+    competenceId: null,
+    campaignParticipationId: user2SecondCampaignParticipationId,
+  });
+
+  const user3 = await databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Sarah',
+    lastName: 'Croche',
+    email: 'sarah-croche@example.net',
+    cgu: true,
+    lang: 'fr',
+  });
+
+  const organizationLearner3 = await databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Sarah',
+    lastName: 'Croche',
+    userId: user3.id,
+    organizationId: PRO_ORGANIZATION_ID,
+  });
+  const { id: user3FirstCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    organizationLearnerId: organizationLearner3.id,
+    userId: user3.id,
+    masteryRate: 0.5,
+    isImproved: true,
+    createdAt: '2023-12-27T15:07:57.376Z',
+    sharedAt: '2024-01-04T15:07:57.376Z',
+  });
+  await databaseBuilder.factory.buildAssessment({
+    userId: user3.id,
+    type: Assessment.types.CAMPAIGN,
+    createdAt,
+    state: Assessment.states.COMPLETED,
+    isImproving: true,
+    lastQuestionDate: new Date(),
+    lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+    competenceId: null,
+    campaignParticipationId: user3FirstCampaignParticipationId,
+  });
+
+  const { id: user3SecondCampaignParticipationId } = await databaseBuilder.factory.buildCampaignParticipation({
+    organizationLearnerId: organizationLearner3.id,
+    userId: user3.id,
+    campaignId,
+    masteryRate: 0.5,
+    isImproved: true,
+    createdAt: '2024-03-12T15:07:57.376Z',
+    sharedAt: '2024-03-24T15:07:57.376Z',
+  });
+
+  await databaseBuilder.factory.buildAssessment({
+    userId: user3.id,
+    type: Assessment.types.CAMPAIGN,
+    createdAt,
+    state: Assessment.states.COMPLETED,
+    isImproving: true,
+    lastQuestionDate: new Date(),
+    lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+    competenceId: null,
+    campaignParticipationId: user3SecondCampaignParticipationId,
   });
 }
 
