@@ -179,6 +179,7 @@
       },
       "password-reset-form": {
         "actions": {
+          "login": "Log in",
           "submit": "Reset my password"
         },
         "errors": {
@@ -189,6 +190,9 @@
           "password": {
             "label": "Please enter your new password"
           }
+        },
+        "success-info": {
+          "message": "Your password has been successfully reset."
         }
       },
       "signup-form": {

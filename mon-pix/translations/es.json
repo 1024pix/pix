@@ -148,7 +148,8 @@
       },
       "password-reset-form": {
         "actions": {
-          "submit": "Reset my password"
+          "submit": "Reset my password",
+          "login": "Me conecto"
         },
         "errors": {
           "expired-demand": "Lo sentimos, pero tu solicitud de restablecimiento de contraseña ya ha sido utilizada o ha caducado. Por favor, vuelve a intentarlo.",
@@ -158,6 +159,9 @@
           "password": {
             "label": "Please enter your new password"
           }
+        },
+        "success-info": {
+          "message": "Your password has been successfully reset."
         }
       },
       "signup-form": {

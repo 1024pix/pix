@@ -7,10 +7,12 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const I18N_KEYS = {
+  loginButtonLink: 'components.authentication.password-reset-form.actions.login',
   passwordInputErrorMessage: 'components.authentication.password-reset-form.fields.password.label',
   passwordInputLabel: 'components.authentication.password-reset-form.fields.password.label',
   mandatoryFieldsMessage: 'common.form.mandatory-all-fields',
   resetPasswordButton: 'components.authentication.password-reset-form.actions.submit',
+  resetPasswordSuccess: 'components.authentication.password-reset-form.success-info.message',
 };
 
 const I18N_ERROR_KEYS = {
@@ -42,22 +44,28 @@ module('Integration | Component | Authentication | PasswordResetForm | PasswordR
 
   test('resets password successfully', async function (assert) {
     // given
+    const user = { save: sinon.stub().resolves() };
     const validPassword = 'Pix12345';
-    const user = { save: sinon.stub() };
     const temporaryKey = 'temporaryKey';
 
     // when
-    await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>);
+    const screen = await render(
+      <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
+    );
 
     await fillByLabel(t(I18N_KEYS.passwordInputLabel), validPassword);
     await clickByName(t(I18N_KEYS.resetPasswordButton));
 
     // then
-    const userSavePayload = {
-      adapterOptions: { updatePassword: true, temporaryKey },
-    };
-    assert.strictEqual(user.password, null);
+    const userSavePayload = { adapterOptions: { updatePassword: true, temporaryKey } };
     sinon.assert.calledWith(user.save, userSavePayload);
+    assert.strictEqual(user.password, null);
+
+    const successInfo = screen.getByRole('heading', { name: t(I18N_KEYS.resetPasswordSuccess) });
+    assert.dom(successInfo).exists();
+
+    const loginLinkElement = screen.getByRole('link', { name: t(I18N_KEYS.loginButtonLink) });
+    assert.dom(loginLinkElement).hasAttribute('href', '/connexion');
   });
 
   module('when there is a validationError on the password field', function () {

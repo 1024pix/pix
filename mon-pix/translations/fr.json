@@ -179,6 +179,7 @@
       },
       "password-reset-form": {
         "actions": {
+          "login": "Je me connecte",
           "submit": "Je réinitialise mon mot de passe"
         },
         "errors": {
@@ -189,6 +190,9 @@
           "password": {
             "label": "Saisissez votre nouveau mot de passe"
           }
+        },
+        "success-info": {
+          "message": "Votre mot de passe a bien été réinitialisé."
         }
       },
       "signup-form": {

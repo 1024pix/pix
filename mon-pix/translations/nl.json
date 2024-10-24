@@ -148,7 +148,8 @@
       },
       "password-reset-form": {
         "actions": {
-          "submit": "Reset my password"
+          "submit": "Reset my password",
+          "login": "Ik ben online."
         },
         "errors": {
           "expired-demand": "Het spijt ons, maar uw wachtwoordaanvraag is al gebruikt of verlopen. Probeer het opnieuw.",
@@ -158,6 +159,9 @@
           "password": {
             "label": "Please enter your new password"
           }
+        },
+        "success-info": {
+          "message": "Your password has been successfully reset."
         }
       },
       "signup-form": {
