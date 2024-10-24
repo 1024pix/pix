@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/admin-target-profile-controller.js';
-import { usecases as prescriptionTargetProfileUsecases } from '../../../../../src/prescription/target-profile/domain/usecases/index.js';
+import { usecases } from '../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | admin-target-profile-controller', function () {
@@ -14,12 +14,50 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     clock.restore();
   });
 
+  describe('#getTargetProfileForAdmin', function () {
+    it('should return targetProfileForAdmin', async function () {
+      // given
+      const targetProfileId = 123;
+      const expectedResult = Symbol('serialized-target-profile-for-admin');
+      const targetProfile = Symbol('targetProfileForAdmin');
+
+      const expectedFilter = Symbol('filter');
+      const request = {
+        params: {
+          id: targetProfileId,
+        },
+        query: {
+          filter: expectedFilter,
+        },
+      };
+
+      const targetProfileForAdminSerializer = {
+        serialize: sinon.stub(),
+      };
+      const dependencies = {
+        targetProfileForAdminSerializer,
+      };
+
+      sinon.stub(usecases, 'getTargetProfileForAdmin');
+      usecases.getTargetProfileForAdmin.withArgs({ targetProfileId }).resolves(targetProfile);
+      targetProfileForAdminSerializer.serialize
+        .withArgs({ targetProfile, filter: expectedFilter })
+        .returns(expectedResult);
+
+      // when
+      const response = await targetProfileController.getTargetProfileForAdmin(request, hFake, dependencies);
+
+      // then
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
   describe('#attachOrganizations', function () {
     let request;
     let targetProfileAttachOrganizationSerializer;
 
     beforeEach(function () {
-      sinon.stub(prescriptionTargetProfileUsecases, 'attachOrganizationsToTargetProfile');
+      sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
       targetProfileAttachOrganizationSerializer = { serialize: sinon.stub() };
 
       request = {
@@ -36,7 +74,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       it('should succeed', async function () {
         // when
         const serializer = Symbol('targetProfileAttachOrganizationsSerializer');
-        prescriptionTargetProfileUsecases.attachOrganizationsToTargetProfile.resolves();
+        usecases.attachOrganizationsToTargetProfile.resolves();
         targetProfileAttachOrganizationSerializer.serialize.returns(serializer);
 
         const response = await targetProfileController.attachOrganizations(request, hFake, {
@@ -55,8 +93,8 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         });
 
         // then
-        expect(prescriptionTargetProfileUsecases.attachOrganizationsToTargetProfile).to.have.been.calledOnce;
-        expect(prescriptionTargetProfileUsecases.attachOrganizationsToTargetProfile).to.have.been.calledWithMatch({
+        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledOnce;
+        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledWithMatch({
           targetProfileId: 123,
           organizationIds: 1,
         });
@@ -68,7 +106,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(prescriptionTargetProfileUsecases, 'attachOrganizationsFromExistingTargetProfile');
+      sinon.stub(usecases, 'attachOrganizationsFromExistingTargetProfile');
 
       request = {
         params: {
@@ -94,10 +132,8 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
 
         // then
-        expect(prescriptionTargetProfileUsecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledOnce;
-        expect(
-          prescriptionTargetProfileUsecases.attachOrganizationsFromExistingTargetProfile,
-        ).to.have.been.calledWithMatch({
+        expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledOnce;
+        expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledWithMatch({
           targetProfileId: 123,
           existingTargetProfileId: 1,
         });
@@ -108,8 +144,8 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
   describe('#getContentAsJsonFile', function () {
     it('should succeed', async function () {
       // given
-      sinon.stub(prescriptionTargetProfileUsecases, 'getTargetProfileContentAsJson');
-      prescriptionTargetProfileUsecases.getTargetProfileContentAsJson.withArgs({ targetProfileId: 123 }).resolves({
+      sinon.stub(usecases, 'getTargetProfileContentAsJson');
+      usecases.getTargetProfileContentAsJson.withArgs({ targetProfileId: 123 }).resolves({
         jsonContent: 'json_content',
         targetProfileName: 'target_profile_name',
       });
@@ -138,7 +174,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       const pdfBuffer = 'some_pdf_buffer';
       const docTitle = 'titre_du_doc';
       sinon
-        .stub(prescriptionTargetProfileUsecases, 'getLearningContentByTargetProfile')
+        .stub(usecases, 'getLearningContentByTargetProfile')
         .withArgs({ targetProfileId: 123, language: 'fr' })
         .resolves({ learningContent, targetProfileName: docTitle });
 
@@ -176,7 +212,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
 
     it('should succeed', async function () {
       // given
-      sinon.stub(prescriptionTargetProfileUsecases, 'attachTargetProfilesToOrganization');
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
       request = {
         params: {
           organizationId: 123,
@@ -185,14 +221,14 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
           'target-profile-ids': [1, 2],
         },
       };
-      prescriptionTargetProfileUsecases.attachTargetProfilesToOrganization.resolves();
+      usecases.attachTargetProfilesToOrganization.resolves();
 
       // when
       const response = await targetProfileController.attachTargetProfiles(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(204);
-      expect(prescriptionTargetProfileUsecases.attachTargetProfilesToOrganization).to.have.been.calledWithExactly({
+      expect(usecases.attachTargetProfilesToOrganization).to.have.been.calledWithExactly({
         organizationId: 123,
         targetProfileIds: [1, 2],
       });
@@ -217,8 +253,8 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         },
       };
 
-      sinon.stub(prescriptionTargetProfileUsecases, 'detachOrganizationsFromTargetProfile');
-      prescriptionTargetProfileUsecases.detachOrganizationsFromTargetProfile
+      sinon.stub(usecases, 'detachOrganizationsFromTargetProfile');
+      usecases.detachOrganizationsFromTargetProfile
         .withArgs({ targetProfileId: 1, organizationIds })
         .resolves(detachedOrganizationIds);
 
@@ -242,7 +278,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(prescriptionTargetProfileUsecases, 'outdateTargetProfile');
+      sinon.stub(usecases, 'outdateTargetProfile');
 
       request = {
         params: {
@@ -265,7 +301,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         await targetProfileController.outdateTargetProfile(request, hFake);
 
         // then
-        expect(prescriptionTargetProfileUsecases.outdateTargetProfile).to.have.been.calledWithMatch({ id: 123 });
+        expect(usecases.outdateTargetProfile).to.have.been.calledWithMatch({ id: 123 });
       });
     });
   });
@@ -280,7 +316,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       const useCaseParameters = { filter, page };
       const expectedResult = Symbol('serialized-paginated-filtered-target-profile-summaries');
 
-      sinon.stub(prescriptionTargetProfileUsecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
+      sinon.stub(usecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
         models,
         meta,
       });
@@ -301,9 +337,9 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       );
 
       // then
-      expect(
-        prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin,
-      ).to.have.been.calledWithExactly(useCaseParameters);
+      expect(usecases.findPaginatedFilteredTargetProfileSummariesForAdmin).to.have.been.calledWithExactly(
+        useCaseParameters,
+      );
       expect(response).to.deep.equal(expectedResult);
     });
 
@@ -319,7 +355,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         const useCaseParameters = { filter, page };
         const expectedResult = Symbol('serialized-paginated-filtered-target-profile-summaries');
 
-        sinon.stub(prescriptionTargetProfileUsecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
+        sinon.stub(usecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
           models,
           meta,
         });
@@ -341,7 +377,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
 
         // then
         expect(
-          prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin.calledWithExactly({
+          usecases.findPaginatedFilteredTargetProfileSummariesForAdmin.calledWithExactly({
             filter: {
               categories: ['TOTO'],
             },
@@ -361,7 +397,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         const useCaseParameters = { filter, page };
         const expectedResult = Symbol('serialized-paginated-filtered-target-profile-summaries');
 
-        sinon.stub(prescriptionTargetProfileUsecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
+        sinon.stub(usecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
           models,
           meta,
         });
@@ -383,7 +419,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
 
         // then
         expect(
-          prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin.calledWithExactly({
+          usecases.findPaginatedFilteredTargetProfileSummariesForAdmin.calledWithExactly({
             filter: {
               categories: ['TOTO'],
             },
@@ -398,7 +434,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     it('should return serialized summaries', async function () {
       // given
       const expectedResult = Symbol('serialized-target-profile-summaries');
-      sinon.stub(prescriptionTargetProfileUsecases, 'findOrganizationTargetProfileSummariesForAdmin');
+      sinon.stub(usecases, 'findOrganizationTargetProfileSummariesForAdmin');
       const request = {
         params: { id: Symbol('oranizationId') },
       };
@@ -406,7 +442,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       const targetProfileSummaryForAdminSerializer = {
         serialize: sinon.stub(),
       };
-      prescriptionTargetProfileUsecases.findOrganizationTargetProfileSummariesForAdmin
+      usecases.findOrganizationTargetProfileSummariesForAdmin
         .withArgs({ organizationId: request.params.id })
         .resolves(targetProfileSummary);
 
@@ -425,7 +461,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
   describe('#createTargetProfile', function () {
     it('should succeed', async function () {
       // given
-      sinon.stub(prescriptionTargetProfileUsecases, 'createTargetProfile');
+      sinon.stub(usecases, 'createTargetProfile');
       const targetProfileCreationCommand = {
         name: 'targetProfileName',
         category: 'OTHER',
@@ -436,11 +472,11 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
         tubes: [{ id: 'recTube1', level: '5' }],
       };
       sinon.stub(DomainTransaction, 'execute').callsFake(() => {
-        return prescriptionTargetProfileUsecases.createTargetProfile({
+        return usecases.createTargetProfile({
           targetProfileCreationCommand,
         });
       });
-      prescriptionTargetProfileUsecases.createTargetProfile.withArgs({ targetProfileCreationCommand }).resolves(123);
+      usecases.createTargetProfile.withArgs({ targetProfileCreationCommand }).resolves(123);
       const request = {
         payload: {
           data: {

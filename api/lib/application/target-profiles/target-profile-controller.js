@@ -3,15 +3,6 @@ import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/
 import * as targetProfileSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-
-const getTargetProfileForAdmin = async function (request, h, dependencies = { targetProfileForAdminSerializer }) {
-  const targetProfileId = request.params.id;
-  const { filter } = request.query;
-
-  const targetProfile = await usecases.getTargetProfileForAdmin({ targetProfileId });
-  return dependencies.targetProfileForAdminSerializer.serialize({ targetProfile, filter });
-};
 
 const updateTargetProfile = async function (request, h, dependencies = { usecases, targetProfileSerializer }) {
   const targetProfileId = request.params.id;
@@ -39,7 +30,6 @@ const findPaginatedTrainings = async function (request, h, dependencies = { trai
 };
 
 const targetProfileController = {
-  getTargetProfileForAdmin,
   updateTargetProfile,
   findPaginatedTrainings,
 };

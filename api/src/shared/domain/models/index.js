@@ -104,7 +104,6 @@ import { Skill } from './Skill.js';
 import { Solution } from './Solution.js';
 import { Student } from './Student.js';
 import { TargetProfile } from './TargetProfile.js';
-import { TargetProfileForAdmin } from './TargetProfileForAdmin.js';
 import { Thematic } from './Thematic.js';
 import { Tube } from './Tube.js';
 import { UserCompetence } from './UserCompetence.js';
@@ -211,7 +210,6 @@ export {
   Student,
   Tag,
   TargetProfile,
-  TargetProfileForAdmin,
   TargetProfileForCreation,
   Thematic,
   ThematicForAdmin,

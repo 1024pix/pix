@@ -8,39 +8,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/target-profiles/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-          query: Joi.object({
-            filter: Joi.object({
-              badges: Joi.string().valid('certifiable').allow(null).empty(''),
-            }).default({}),
-          }),
-        },
-        handler: targetProfileController.getTargetProfileForAdmin,
-        tags: ['api', 'admin', 'target-profiles'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer toutes les informations d’un profil cible',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/target-profiles/{id}/training-summaries',
       config: {
         pre: [

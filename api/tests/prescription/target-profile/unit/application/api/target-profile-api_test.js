@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../../lib/domain/usecases/index.js';
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
 import { TargetProfile } from '../../../../../../src/prescription/target-profile/application/api/TargetProfile.js';
 import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
@@ -13,7 +12,7 @@ describe('Unit | API | TargetProfile', function () {
       const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({ id: targetProfileId });
       const expectedTargetProfile = new TargetProfile(targetProfileForAdmin);
 
-      const getTargetProfileForAdminStub = sinon.stub(libUsecases, 'getTargetProfileForAdmin');
+      const getTargetProfileForAdminStub = sinon.stub(usecases, 'getTargetProfileForAdmin');
       getTargetProfileForAdminStub.withArgs({ targetProfileId }).resolves(targetProfileForAdmin);
 
       const targetProfile = await targetProfileApi.getById(targetProfileId);
@@ -24,7 +23,7 @@ describe('Unit | API | TargetProfile', function () {
     it('should throw an error', async function () {
       const targetProfileId = 1;
 
-      const getTargetProfileForAdminStub = sinon.stub(libUsecases, 'getTargetProfileForAdmin');
+      const getTargetProfileForAdminStub = sinon.stub(usecases, 'getTargetProfileForAdmin');
       getTargetProfileForAdminStub.withArgs({ targetProfileId }).rejects();
 
       const error = await catchErr(targetProfileApi.getById)(targetProfileId);
