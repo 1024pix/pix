@@ -275,7 +275,7 @@ module('Integration | Component | OrganizationParticipant | TableRow', function 
       );
 
       // then
-      assert.dom(screen.queryByText('awesome')).doesNotExist();
+      assert.notOk(screen.queryByText('awesome'));
     });
 
     test('should display extra column when defined', async function (assert) {
@@ -307,7 +307,7 @@ module('Integration | Component | OrganizationParticipant | TableRow', function 
       );
 
       // then
-      assert.dom(screen.queryByText('awesome value')).exists();
+      assert.ok(screen.queryByText('awesome value'));
     });
   });
 });

@@ -255,7 +255,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         );
 
         // then
-        assert.dom(screen.queryByText('drawing')).doesNotExist();
+        assert.notOk(screen.queryByText('drawing'));
       });
     });
   });
