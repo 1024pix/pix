@@ -255,7 +255,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         );
 
         // then
-        assert.notOk(screen.queryByRole('cell', { name: 'drawing' }));
+        assert.notOk(screen.queryByText('drawing'));
       });
     });
   });

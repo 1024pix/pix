@@ -275,7 +275,7 @@ module('Integration | Component | OrganizationParticipant | TableRow', function 
       );
 
       // then
-      assert.notOk(screen.queryByText('awesome value'));
+      assert.notOk(screen.queryByText('awesome'));
     });
 
     test('should display extra column when defined', async function (assert) {

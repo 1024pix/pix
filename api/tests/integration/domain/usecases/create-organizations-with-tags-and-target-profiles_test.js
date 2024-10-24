@@ -24,14 +24,12 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js
 const { omit } = lodash;
 
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
-  let missionFeature;
-  let importStudentsFeature;
-  let ondeImportFormat;
-  let userId;
+  let missionFeature, oralizationFeature, importStudentsFeature, ondeImportFormat, userId;
 
   beforeEach(async function () {
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     missionFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT);
+    oralizationFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.ORALIZATION);
     importStudentsFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
     ondeImportFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
       name: ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE,
@@ -704,7 +702,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   });
 
   describe('when organization type is SCO-1D', function () {
-    it('should add mission management and ONDE import features to organization', async function () {
+    it('should add mission management, oralization and ONDE import features to organization', async function () {
       // given
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       await databaseBuilder.commit();
@@ -742,9 +740,16 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const savedOrganizationFeatures = await knex('organization-features');
-      expect(savedOrganizationFeatures.length).to.equal(2);
+      expect(savedOrganizationFeatures.length).to.equal(3);
       const organizationId = createdOrganizations[0].id;
-      expect(savedOrganizationFeatures.map((organizationFeature) => omit(organizationFeature, 'id'))).to.deep.equal([
+      expect(
+        savedOrganizationFeatures.map((organizationFeature) => omit(organizationFeature, 'id')),
+      ).to.have.deep.members([
+        {
+          featureId: oralizationFeature.id,
+          params: null,
+          organizationId,
+        },
         {
           featureId: missionFeature.id,
           params: null,

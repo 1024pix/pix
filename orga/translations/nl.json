@@ -240,7 +240,8 @@
     "import": {
       "field": {
         "birthdate": "Geboortedatum",
-        "division": "Klasse"
+        "division": "Klasse",
+        "oralization": "Oralisatie"
       }
     },
     "loading": "Bezig met laden",
@@ -1154,6 +1155,12 @@
             "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
             "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal deelnames. Klik om aflopend te sorteren.",
             "label": "Aantal deelnames"
+          }
+        },
+        "row-value": {
+          "oralization": {
+            "true": "Geactiveerd",
+            "false": "Gedeactiveerd"
           }
         },
         "description": "Tabel met deelnemers gesorteerd op naam.",

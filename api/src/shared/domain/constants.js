@@ -38,6 +38,10 @@ const ORGANIZATION_FEATURE = {
     key: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
     description: "Permet d'activer la remontée automatique de la certificabilité des prescrits",
   },
+  ORALIZATION: {
+    key: 'ORALIZATION',
+    description: "Permet d'activer l'oralisation pour un learner et une organisation.",
+  },
 };
 
 const CAMPAIGN_FEATURES = {
