@@ -10,7 +10,10 @@ describe('Prescription | OrganizationLearner | Integration | Infrastructure | Or
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({ organizationId, featureKey });
+      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({
+        organizationId,
+        featureKey,
+      });
 
       expect(result).to.deep.equal([]);
     });
@@ -23,7 +26,10 @@ describe('Prescription | OrganizationLearner | Integration | Infrastructure | Or
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({ organizationId, featureKey });
+      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({
+        organizationId,
+        featureKey,
+      });
 
       expect(result).to.deep.equal([]);
     });
@@ -63,7 +69,10 @@ describe('Prescription | OrganizationLearner | Integration | Infrastructure | Or
 
       const learner = new OrganizationLearner({ ...organizationLearner });
 
-      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({ organizationId, featureKey });
+      const result = await organizationLearnerFeatureRepository.getOrganizationLearnersByFeature({
+        organizationId,
+        featureKey,
+      });
 
       expect(result).to.deep.equal([learner]);
     });
