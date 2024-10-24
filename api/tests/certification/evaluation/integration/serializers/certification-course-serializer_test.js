@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer.js';
+import * as serializer from '../../../../../src/certification/evaluation/infrastructure/serializers/certification-course-serializer.js';
 import { CertificationCourse } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';

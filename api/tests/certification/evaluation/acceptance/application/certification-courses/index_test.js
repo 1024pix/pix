@@ -6,7 +6,7 @@ import {
   knex,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../../test-helper.js';
 
 describe('Acceptance | Route | Certification Courses', function () {
   let server;

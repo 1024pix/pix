@@ -1,6 +1,6 @@
-import { getCertificationCourse } from '../../../../lib/domain/usecases/get-certification-course.js';
-import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { getCertificationCourse } from '../../../../../../src/certification/shared/domain/usecases/get-certification-course.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-course', function () {
   let certificationCourse;

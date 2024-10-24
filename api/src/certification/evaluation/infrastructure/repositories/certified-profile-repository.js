@@ -1,21 +1,21 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import {
   CertifiedArea,
   CertifiedCompetence,
   CertifiedProfile,
   CertifiedSkill,
   CertifiedTube,
-} from '../../../src/shared/domain/read-models/CertifiedProfile.js';
+} from '../../../../../src/shared/domain/read-models/CertifiedProfile.js';
 import {
   areaDatasource,
   competenceDatasource,
   skillDatasource,
   tubeDatasource,
-} from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
+} from '../../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 
 const get = async function (certificationCourseId) {
   const certificationDatas = await knex
