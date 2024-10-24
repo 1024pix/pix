@@ -48,6 +48,13 @@ export default class ModulixFlashcards extends Component {
   }
 
   @action
+  retry() {
+    this.currentStep = 'intro';
+    this.currentCardIndex = 0;
+    this.displayedSideName = 'recto';
+  }
+
+  @action
   start() {
     this.currentStep = 'cards';
   }
@@ -58,8 +65,12 @@ export default class ModulixFlashcards extends Component {
   }
 
   goToNextCard() {
-    this.currentCardIndex++;
-    this.displayedSideName = 'recto';
+    if (this.currentCardIndex < this.numberOfCards - 1) {
+      this.currentCardIndex++;
+      this.displayedSideName = 'recto';
+    } else {
+      this.currentStep = 'outro';
+    }
   }
 
   @action
