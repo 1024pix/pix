@@ -4,43 +4,40 @@
   "title": "Les informations sur internet : distinguer le vrai du faux",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique !",
-    "duration": 15,
+    "description": "De nombreuses informations circulent sur internet et les réseaux sociaux. Ces informations sont parfois exagérées, trompeuses ou fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique pour mieux distinguer le vrai du faux !",
+    "duration": 10,
     "level": "Intermédiaire",
     "tabletSupport": "comfortable",
     "objectives": [
       "Connaître une méthode de vérification d'informations",
-      "Repérer une fausse information sur internet",
-      "Vérifier une information sur internet"
+      "Savoir vérifier une information sur internet",
+      "Repérer une fausse information sur internet"
     ]
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu.&nbsp;<span aria-hidden=\"true\">🎮</span><br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance&#8239;!</p>",
+      "content": "<p>Vous avez déjà sûrement croisé sur internet des informations douteuses. Vous avez peut-être même partagé de fausses informations (<i>fake news</i> en anglais) sans le savoir !<br>Pour démêler le vrai du faux, il existe heureusement certaines méthodes.<span aria-hidden=\"true\">🔍</span></p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
-      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span><br>Parfois, ce ne sont même pas des informations mais par exemple des opinions.&nbsp;<span aria-hidden=\"true\">📚</span> Vous allez découvrir la différence dans la vidéo suivante.</p>",
+      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est très difficile de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span></p><p>Et parfois, ce ne sont même pas des informations ! On vous explique tout dans la vidéo suivante.<span aria-hidden=\"true\">&nbsp;📺</span></p></p>",
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information.&nbsp;<span aria-hidden=\"true\">🗒️</span></p>",
+      "content": "<p>C'est une information et pas une anecdote, d'accord. Mais est-ce que cette information est vraie ? Pour le savoir, il faut mener l'enquête.<span aria-hidden=\"true\">🕵🏽</span></p><p>Voyons ensemble la méthode <i>qui ?, quand ?, d'où ?</i>. Trois questions à se poser pour vérifier une information.<span aria-hidden=\"true\">👇</span></p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
-      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à la question suivante.</p>",
+      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à cette question. <span aria-hidden=\"true\">🎯</span></p>",
       "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
     },
+
     {
-      "content": "<p>Maintenant, à vous de jouer sur des exemples concrets.</p>",
-      "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
-    },
-    {
-      "content": "<p>Même si on a vérifié le “qui&#8239;? quand&#8239;? d'où&#8239;?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
+      "content": "<p>Même si on a vérifié le <i>qui&#8239;? quand&#8239;? d'où&#8239;?</i>, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus il y en a, plus l’information a des chances d’être fausse.</p>",
       "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
     },
     {
-      "content": "<p>Maintenant, à vous d’étudier une nouvelle situation.&nbsp;<span aria-hidden=\"true\">🕵️</span><span aria-hidden=\"true\">🕵🏿‍♀️</span></p>",
+      "content": "<p>Pour finir, maintenant que vous en savez plus, vous allez pouvoir aider Stéphane.&nbsp;<span aria-hidden=\"true\">🕵️</span><span aria-hidden=\"true\">🕵🏿‍♀️</span></p>",
       "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
     }
   ],
@@ -53,6 +50,15 @@
         {
           "type": "stepper",
           "steps": [
+            {
+              "elements": [
+                {
+                  "id": "7254a4fe-b11d-492f-985c-20a94f454a4d",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">🎮</span> Commençons par un jeu</h3><p>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est <strong>plutôt vraie</strong> ou <strong>plutôt fausse</strong>.<br>Bonne chance&#8239;!</p>"
+                }
+              ]
+            },
             {
               "elements": [
                 {
@@ -77,39 +83,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p>C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
-                    "invalid": "<span class=\"feedback__state\">Et pourtant, c'est vrai&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
-                  "type": "image",
-                  "url": "https://i.imgur.com/H5JCJVT.png",
-                  "alt": "",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
-                  "type": "qcu",
-                  "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "plutôt vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "plutôt faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bravo&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
-                    "invalid": "<span class=\"feedback__state\">Et pourtant, c'est vrai&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p>C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est pourtant vrai. C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
                   },
                   "solution": "1"
                 }
@@ -139,10 +114,41 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Oui, c'est une fake news&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
-                    "invalid": "<span class=\"feedback__state\">Attention, c'est une fake news&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est une fake news. C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse&#8239;!</span><p> Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
                   },
                   "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
+                  "type": "image",
+                  "url": "https://i.imgur.com/H5JCJVT.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
+                  "type": "qcu",
+                  "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "plutôt vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "plutôt faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Et pourtant, c'est vrai. C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                  },
+                  "solution": "1"
                 }
               ]
             }
@@ -160,7 +166,7 @@
           "element": {
             "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
             "type": "text",
-            "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+            "content": "<p>Après cette vidéo, vous devrez trouver dans des exemples concrets s'il s'agit d'une <strong>opinion</strong>, d'une <strong>rumeur</strong>, d'une <strong>anecdote</strong>, d'une <strong>information</strong>.</p>"
           }
         },
         {
@@ -171,7 +177,8 @@
             "title": "-",
             "url": "https://videos.pix.fr/modulix/distinguer-vrai-faux-sur-internet/vocabulaire.mp4",
             "subtitles": "",
-            "transcription": "<p>-</p>"
+            "transcription": "<p>à venir</p>",
+            "poster": "https://i.imgur.com/ajbtpno.png"
           }
         }
       ]
@@ -179,19 +186,20 @@
     {
       "id": "550d2764-35fd-4cc2-b663-cfa4c5d4ab06",
       "type": "activity",
-      "title": "Vocabulaire opinion, rumeur, anecdote",
+      "title": "Vocabulaire opinion, rumeur, anecdote, information",
       "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
-            "type": "text",
-            "content": "Dans chacune des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
-          }
-        },
         {
           "type": "stepper",
           "steps": [
+                        {
+              "elements": [
+                {
+                  "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer !</h3>Dans chacune des situations suivantes, trouvez s'il s'agit d'une opinion, d'une rumeur, d'une anecdote ou d'une information."
+                }
+              ]
+            },
             {
               "elements": [
                 {
@@ -210,11 +218,15 @@
                     {
                       "id": "3",
                       "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
                   },
                   "solution": "1"
                 }
@@ -238,11 +250,15 @@
                     {
                       "id": "3",
                       "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
                   },
                   "solution": "3"
                 }
@@ -266,13 +282,49 @@
                     {
                       "id": "3",
                       "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
                   },
                   "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "b0eac706-4444-45c6-bb9f-8e4449737742",
+                  "type": "qcu",
+                  "instruction": "<p>Jimmy Wales a cofondé Wikipédia en janvier 2001.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "une opinion"
+                    },
+                    {
+                      "id": "2",
+                      "content": "une rumeur"
+                    },
+                    {
+                      "id": "3",
+                      "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est un fait qui est vérifiable via plusieurs sources. C'est bien une information.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                  },
+                  "solution": "4"
                 }
               ]
             }
@@ -286,44 +338,45 @@
       "title": "Méthode pour vérifier une information (leçon)",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
-            "type": "text",
-            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
-            "type": "text",
-            "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span></h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
-            "type": "text",
-            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
+                  "type": "text",
+                  "content": "<h3>Question n°1&nbsp;: <i>qui</i> est la personne qui partage cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>Demandez-vous si vous connaissez cette personne, si elle est reconnue ou encore si elle a un intérêt particulier à ce que cette information circule.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
+                  "type": "text",
+                  "content": "<h3>Question n°2&nbsp;: de <i>quand</i> date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span></h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
+                  "type": "text",
+                  "content": "<h3>Question n°3&nbsp;: <i>d’où</i> provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">📍</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est un témoignage direct, le résultat d'expériences scientifiques, l'enquête d'un journal, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "1e5732d8-a486-48b4-b9d3-0f9625efffcf",
+                  "type": "text",
+                  "content": "<p>👉 Si les réponses à ces questions vous font encore douter, cherchez à en savoir plus et considérez que cette information est fausse.</p>"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -361,8 +414,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.</span><p> Tous ces éléments permettent de vérifier une information. </p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>!</p>"
+              "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> Tous ces éléments permettent de vérifier une information. </p>",
+              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>!</p>"
             },
             "solutions": ["2", "3", "5"]
           }
@@ -380,38 +433,42 @@
             {
               "elements": [
                 {
+                  "id": "613bd45d-8e88-4ca5-bfa0-368be2336027",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">🔎</span> C'est l'heure d'utiliser le <i>qui ? quand ? d'où ?</i></h3><p>Dans les exemples suivants, les informations publiées sont sûrement fausses.<br>En effet, une des réponses au <i>qui ? quand ? d'où ?</i> présente un problème.<br>Trouvez dans chaque exemple où se situe ce problème."
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
                   "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
                   "type": "image",
-                  "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
-                  "alt": "Publication de FanDuRealMadrid (@FanRealBoss) sur X (Twitter) détaillée dans l'alternative textuelle",
-                  "alternativeText": "Publication de FanDuRealMadrid(@FanRealBoss) sur X (Twitter) à 8h32 le 17 octobre 2023&nbsp;: &laquo;&nbsp;ENFIN&#8239;! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10&#8239;!! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>&nbsp;&raquo;"
-                },
-                {
-                  "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
-                  "type": "text",
-                  "content": "<p>La publication de FanDuRealMadrid comporte un <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">lien vers cet article.</a></p>"
+                  "url": "https://i.imgur.com/mzzrsBM.png",
+                  "alt": "Publication de VendeursdeLégume (@achetezlegume91) sur X (Twitter) détaillée dans l'alternative textuelle",
+                  "alternativeText": "Publication de VendeursdeLégume (@achetezlegume91) sur X (Twitter) à 12h52 le 12 septembre 2024&nbsp;: RAPPEL : l'avocat est le meilleur des légumes !! Il soigne presque toutes les maladies sur terre ❤️ Regardez ce schéma réalisé par vivelebio.com. Venez-vite en magasin 28 rue des Lilas pour profitez de notre promotion !"
                 },
                 {
                   "id": "275ab2ee-feaa-4c5c-9372-116799077172",
                   "type": "qcu",
-                  "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+                  "instruction": "<p>Quel est le problème dans cette publication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "L’auteur n'est pas neutre."
+                      "content": "L’auteur de la publication n'est pas neutre."
                     },
                     {
                       "id": "2",
-                      "content": "Les dates sont incohérentes."
+                      "content": "Les dates de la publication et de la source sont incohérentes."
                     },
                     {
                       "id": "3",
-                      "content": "La source d’information est absente."
+                      "content": "La source d’information est absente de la publication."
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p>Ce vendeur n'est pas neutre. Il exagère la réalité pour essayer d'augmenter ses ventes. </p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
                   },
                   "solution": "1"
                 }
@@ -429,24 +486,24 @@
                 {
                   "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
                   "type": "qcu",
-                  "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+                  "instruction": "<p>Quel est le problème dans cette publication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "L’auteur n'est pas neutre."
+                      "content": "L’auteur de la publication n'est pas neutre."
                     },
                     {
                       "id": "2",
-                      "content": "Les dates sont incohérentes."
+                      "content": "Les dates de la publication et de la source sont incohérentes."
                     },
                     {
                       "id": "3",
-                      "content": "La source d’information est absente."
+                      "content": "La source d’information est absente de la publication."
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
                   },
                   "solution": "3"
                 }
@@ -464,29 +521,29 @@
                 {
                   "id": "4f002984-f136-4962-8f9a-b5f69d2995af",
                   "type": "text",
-                  "content": "<p>La publication de Stéphanie Attelage comporte un <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">lien vers cet article.</a></p>"
+                  "content": "<p><span aria-hidden=\"true\">👉</span> La publication de Stéphanie Attelage comporte un <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">lien vers cet article.</a></p>"
                 },
                 {
                   "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
                   "type": "qcu",
-                  "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+                  "instruction": "<p>Quel est le problème dans cette publication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "L’auteur n'est pas neutre."
+                      "content": "L’auteur de la publication n'est pas neutre."
                     },
                     {
                       "id": "2",
-                      "content": "Les dates sont incohérentes."
+                      "content": "Les dates de la publication et de la source sont incohérentes."
                     },
                     {
                       "id": "3",
-                      "content": "La source d’information est absente."
+                      "content": "La source d’information est absente de la publication."
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
                   },
                   "solution": "2"
                 }
@@ -506,7 +563,7 @@
           "element": {
             "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
             "type": "text",
-            "content": "<p>Étudiez quelques-uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
+            "content": "<p>Étudiez les indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
           }
         },
         {
@@ -514,7 +571,7 @@
           "element": {
             "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
             "type": "image",
-            "url": "https://i.imgur.com/QS0xFIn.png",
+            "url": "https://i.imgur.com/9j2xh4U.png",
             "alt": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) détaillée dans l'alternative textuelle",
             "alternativeText": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) à 9h22 le 6 août 2022&nbsp;: &laquo;&nbsp;Arrêtez TOUS le DOLIPRANE&#8239;!!! (2 émojis tête de mort) Le paracétamol TUE les gens&#8239;!!!! mais personne en parle ! (2 emojis tête de mort) Il y a plusieurs PREUVES SCIENTIFIQUE qui le PROUVE, comme cet étude américaine&nbsp;: <a href=\"https://pubmed.ncbi.nlm.nih.gov/37436926/\" target=\"_blank\">https://pubmed.ncbi.nlm.nih.gov/37436926/</a> PARTAGER à un MAXIMUM de personnes. Il faut que ça se sache&#8239;!!!&nbsp;&raquo;<br>40,3 K Republications, 11,3 K Citations, 196,9 K Likes.<ul><li>Indice 1&nbsp;: <strong>Les majuscules et les émojis angoissants</strong> sont utilisés pour interpeller, créer un ton alarmiste et un sentiment d'urgence.</li><li>Indice 2&nbsp;:<strong>Les fautes d'orthographe</strong> à plusieurs endroits indiquent que le contenu a été rédigé sans attention particulière.</li><li>Indice 3&nbsp;:<strong>En demandant de partager l'information,</strong> l'auteur veut être lu à tout prix. Il cherche à rendre son contenu viral et à \"faire le buzz\".</li></ul>"
           }
@@ -531,7 +588,7 @@
           "element": {
             "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
             "type": "text",
-            "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
+            "content": "<p>Stéphane essaye de faire pousser sa nouvelle plante verte d’intérieur.&nbsp;<span aria-hidden=\"true\">🪴</span><br>Il cherche des astuces sur les réseaux sociaux, mais il est un peu perdu.<br>Il trouve une publication de SuperJardinier sur ce sujet&nbsp;<span aria-hidden=\"true\">👇</span></p>"
           }
         },
         {
@@ -539,7 +596,7 @@
           "element": {
             "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
             "type": "image",
-            "url": "https://i.imgur.com/Scxdcfm.png",
+            "url": "https://i.imgur.com/QItEyyJ.png",
             "alt": "Informations sur la pousse des plantes vertes détaillées dans l'alternative textuelle",
             "alternativeText": "Vos plantes vertes ne poussent pas&nbsp;? Voici 2 super astuces dont vous ne pourrez plus vous passer&nbsp;!<br>Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien&#8239;! Votre plante va adorer.<br>Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
           }
@@ -549,7 +606,7 @@
           "element": {
             "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
             "type": "qcm",
-            "instruction": "<p>Quels sont les conseils à donner à Stéphane&#8239;?</p>",
+            "instruction": "<p>Quels sont les bons conseils à donner à Stéphane&#8239;?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -569,8 +626,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
+              "valid": "<span class=\"feedback__state\">Bonne réponse ! ✨</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
+              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Essayez à nouveau, en appliquant la méthode <i>qui ?, quand ?; d'où ?</i>. Si vous avez un doute sur ces informations, il faut être prudent.</p>"
             },
             "solutions": ["2", "3"]
           }
