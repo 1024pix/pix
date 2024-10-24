@@ -93,18 +93,6 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     };
   }
 
-  let lang;
-  if (SessionVersion.isV3(session.version)) {
-    const user = await userRepository.get(userId);
-    const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
-
-    if (!isUserLanguageValid) {
-      throw new LanguageNotSupportedError(user.lang);
-    }
-
-    lang = user.lang;
-  }
-
   return _startNewCertification({
     session,
     userId,
@@ -113,11 +101,12 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     assessmentRepository,
     certificationCourseRepository,
     certificationCenterRepository,
+    userRepository,
+    languageService,
     certificationChallengesService,
     placementProfileService,
     verifyCertificateCodeService,
     certificationBadgesService,
-    lang,
   });
 };
 
@@ -187,7 +176,9 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {CertificationCenterRepository} params.certificationCenterRepository
+ * @param {UserRepository} params.userRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
+ * @param {LanguageService} params.languageService
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {CertificationChallengesService} params.certificationChallengesService
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
@@ -200,12 +191,25 @@ async function _startNewCertification({
   assessmentRepository,
   certificationCourseRepository,
   certificationCenterRepository,
+  userRepository,
   certificationChallengesService,
+  languageService,
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
-  lang,
 }) {
+  let lang;
+  if (SessionVersion.isV3(session.version)) {
+    const user = await userRepository.get(userId);
+    const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
+
+    if (!isUserLanguageValid) {
+      throw new LanguageNotSupportedError(user.lang);
+    }
+
+    lang = user.lang;
+  }
+
   const challengesForCertification = [];
 
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId: session.id });
@@ -246,7 +250,7 @@ async function _startNewCertification({
 
   let challengesForPixCertification = [];
 
-  if (!AlgorithmEngineVersion.isV3(algorithmEngineVersion)) {
+  if (_shouldPickCoreReferentialChallenges({ algorithmEngineVersion, certificationCandidate })) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
       limitDate: certificationCandidate.reconciledAt,
@@ -287,6 +291,25 @@ async function _startNewCertification({
   });
 }
 
+/**
+ * @param {Object} params
+ * @param {AlgorithmEngineVersion} params.algorithmEngineVersion
+ * @param {CertificationCandidate} params.certificationCandidate
+ * @returns {boolean}
+ */
+function _shouldPickCoreReferentialChallenges({ algorithmEngineVersion, certificationCandidate }) {
+  return (
+    !AlgorithmEngineVersion.isV3(algorithmEngineVersion) && !certificationCandidate.isEnrolledToComplementaryOnly()
+  );
+}
+
+/**
+ * @param {Object} params
+ * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {UserId} params.userId
+ * @param {SessionId} params.sessionId
+ * @returns {Promise<CertificationCourse>}
+ */
 async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId) {
   return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
