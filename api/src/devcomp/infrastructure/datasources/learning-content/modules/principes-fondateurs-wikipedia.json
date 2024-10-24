@@ -16,7 +16,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo&#8239;?&nbsp;<span aria-hidden=\"true\">🌎</span>&nbsp;<span aria-hidden=\"true\">🧩</span></p>",
+      "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo&#8239;?&nbsp;<span aria-hidden=\"true\">🌎</span>&nbsp;</p>",
       "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
     },
     {
@@ -48,56 +48,63 @@
     {
       "id": "da95d2bc-e597-4366-a095-21f7ab0f4845",
       "type": "activity",
-      "title": "Wikipédia : un site de référence !",
+      "title": "Wikipédia : un site de référence",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
-            "type": "text",
-            "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Aujourd'hui, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
-            "type": "image",
-            "url": "https://i.imgur.com/q1pokb5.png",
-            "alt": "Logos de Wikipédia de 2001 à 2010 décrits en alternative textuelle.",
-            "alternativeText": "Chronologie des logos de Wikipédia depuis sa création :<ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\" target=\"_blank\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
-            "type": "qcm",
-            "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia&#8239;?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Le globe est incomplet car Wikipédia est constamment en construction."
-              },
-              {
-                "id": "2",
-                "content": "Le globe est incomplet car Wikipédia sera toujours ouvert."
-              },
-              {
-                "id": "3",
-                "content": "Les symboles représentent la diversité des savoirs rassemblés sur Wikipédia."
-              },
-              {
-                "id": "4",
-                "content": "Les symboles représentent les différentes langues qui existent sur Wikipédia."
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "df0943c8-5972-4544-b7f8-0cec31c379b8",
+                  "type": "qcm",
+                  "instruction": "<p>Devinette&nbsp;: Quels sont les éléments présents dans le logo actuel de Wikipédia ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Des pièces de puzzle</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Les différents continents</p>"
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Des animaux</p>"
+                    },
+                    {
+                      "id": "4",
+                      "content": "<p>Des lettres de différentes langues</p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Le logo représente un globe incomplet composé de pièces de puzzle car Wikipédia est en construction permanente. Les symboles et les lettres de différentes langues représentent la diversité des langues présentes sur Wikipédia.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.!</span><p>Indice&nbsp;: le logo représente le fait que Wikipédia est constamment en construction, ainsi que les différents langages utilisés sur Wikipédia.</p>"
+                  },
+                  "solutions": [
+                    "1",
+                    "4"
+                  ]
+                }
+              ]
             },
-            "solutions": ["1", "4"]
-          }
+            {
+              "elements": [
+                {
+                  "id": "c95345a6-a6b7-4be7-a5dd-d07be4e99a0f",
+                  "type": "text",
+                  "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises. Voici les versions du logo qui ont existé.</p>"
+                },
+                {
+                  "id": "4a257097-98a0-4501-93ee-6e3f8dac6c1e",
+                  "type": "image",
+                  "url": "https://i.imgur.com/q1pokb5.png",
+                  "alt": "Chronologie des logos de Wikipédia depuis sa création",
+                  "alternativeText": "<p>Chronologie des logos de Wikipédia depuis sa création :</p><ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \\\"Wikipédia\\\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \\\"The Free Encyclopedia\\\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \\\"Wikipédia\\\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \\\"The Free Encyclopedia\\\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"\\&quot;https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\\&quot;\" data-sce-target=\"\\&quot;_blank\\&quot;\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -198,7 +205,7 @@
               },
               {
                 "id": "2",
-                "content": "académique"
+                "content": "scolaire"
               },
               {
                 "id": "3",
@@ -210,12 +217,12 @@
               },
               {
                 "id": "5",
-                "content": "exhaustif"
+                "content": "artistique"
               }
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct.</span><p> Vous avez bien identifié les principes de Wikipédia. </p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span></p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆️</span></p>"
             },
             "solutions": ["1", "3", "4"]
           }
@@ -330,7 +337,7 @@
           "element": {
             "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
             "type": "text",
-            "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h3>"
+            "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Calypso_25017\" target=\"blank\">l'article Wikipédia du cheval Calypso 25017.</a></h3>"
           }
         },
         {
@@ -346,28 +353,28 @@
           "element": {
             "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
             "type": "qrocm",
-            "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section&#8239;?</p>",
+            "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la septième section&#8239;?</p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<span>Nom de la cinquième section&nbsp;:</span>"
+                "content": "<span>Nom de la septième section&nbsp;:</span>"
               },
               {
-                "input": "cinquieme-section",
+                "input": "septieme-section",
                 "type": "input",
                 "inputType": "text",
                 "size": 20,
                 "display": "block",
                 "placeholder": "",
-                "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia proposé",
+                "ariaLabel": "Remplir le nom de la septième section du sommaire de l'article Wikipédia proposé",
                 "defaultValue": "",
                 "tolerances": ["t1"],
-                "solutions": ["Honneur"]
+                "solutions": ["Hommage"]
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p>C'est bien la septième section de cet article</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Le sommaire se situe à gauche de la page. Comptez bien les nombre de section à partir de Début</p>"
             }
           }
         },
@@ -375,6 +382,44 @@
           "type": "element",
           "element": {
             "id": "c6526e70-ac27-47d3-9794-3e1e2d243334",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+ {
+          "type": "element",
+          "element": {
+            "id": "ba95b1bd-8f84-4bbc-a5f5-6f465ac52060",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le nom du père de Calypso 25017&#8239;?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Nom&nbsp;:</span>"
+              },
+              {
+                "input": "nom-pere",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Remplir avec le nom du père de Calypso",
+                "defaultValue": "",
+                "tolerances": ["t1"],
+                "solutions": ["Theudis 40871", "Theudis", "Theudis40871", "Theudis_40871"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> L'aviez-vous vu&#8239;? Cette information peut être trouvée dans la section Origine, mais elle fait partie des éléments qui sont récapitulés dans l’infobox à droite de l'article.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Cette information se trouve à deux endroits dans l'article&nbsp;: dans l’infobox à droite et dans la section Origine</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d41149b9-38e5-4f10-afe4-1ce2d47395d4",
             "type": "text",
             "content": "<hr>"
           }
@@ -400,7 +445,7 @@
                 "ariaLabel": "Remplir avec le nombre de notes et références",
                 "defaultValue": "",
                 "tolerances": ["t1"],
-                "solutions": ["1"]
+                "solutions": ["20"]
               }
             ],
             "feedbacks": {
@@ -422,7 +467,7 @@
           "element": {
             "id": "be1ba37e-0588-42ed-8fab-f47bf118953a",
             "type": "qrocm",
-            "instruction": "<p>Quel est le niveau de qualité estimé de cet article&#8239;?</p>",
+            "instruction": "<p>Quel est le niveau de qualité de cet article&#8239;?</p>",
             "proposals": [
               {
                 "type": "text",
@@ -450,12 +495,12 @@
                     "content": "Non renseigné"
                   }
                 ],
-                "solutions": ["2"]
+                "solutions": ["1"]
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Cet article a été labellisé en 2023</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>L'indication de labellisation se trouve en haut de l'article.</p>"
             }
           }
         }
