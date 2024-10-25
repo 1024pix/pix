@@ -12,9 +12,9 @@
   </span>
   <span class="screen-reader-only">{{t "navigation.user-logged-menu.button-extra-information"}}</span>
   {{#if this.isMenuOpen}}
-    <PixIcon @name="up" @ariaHidden={{true}} class="logged-user-summary__chevron" />
+    <PixIcon @name="chevronTop" @ariaHidden={{true}} class="logged-user-summary__chevron" />
   {{else}}
-    <PixIcon @name="down" @ariaHidden={{true}} class="logged-user-summary__chevron" />
+    <PixIcon @name="chevronBottom" @ariaHidden={{true}} class="logged-user-summary__chevron" />
   {{/if}}
 </button>
 
