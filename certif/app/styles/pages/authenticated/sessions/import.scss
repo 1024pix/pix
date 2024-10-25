@@ -209,12 +209,12 @@
 
 .collapsible-header--blocking {
   .pix-collapsible-title__icon {
-    color: var(--pix-error-700);
+    fill: var(--pix-error-700);
   }
 }
 
 .collapsible-header--non-blocking {
   .pix-collapsible-title__icon {
-    color: var(--pix-warning-500);
+    fill: var(--pix-warning-500);
   }
 }
