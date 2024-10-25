@@ -466,9 +466,10 @@ export default class EnrolledCandidates extends Component {
                             <PixTooltip @position='left' @isInline={{true}} @id='tooltip-edit-student-button'>
                               <:triggerElement>
                                 <PixIconButton
-                                  @icon='pen-to-square'
+                                  @iconName='edit'
+                                  @plainIcon={{true}}
                                   class='certification-candidates-actions__edit-button--disabled'
-                                  aria-label='{{t
+                                  @ariaLabel='{{t
                                     "pages.sessions.detail.candidates.list.actions.edit.extra-information"
                                   }} {{candidate.firstName}} {{candidate.lastName}}'
                                   aria-disabled='true'
@@ -480,9 +481,10 @@ export default class EnrolledCandidates extends Component {
                             </PixTooltip>
                           {{else}}
                             <PixIconButton
-                              @icon='pen-to-square'
+                              @iconName='edit'
+                              @plainIcon={{true}}
                               {{on 'click' (fn this.openEditCertificationCandidateDetailsModal candidate)}}
-                              aria-label='{{t
+                              @ariaLabel='{{t
                                 "pages.sessions.detail.candidates.list.actions.edit.extra-information"
                               }} {{candidate.firstName}} {{candidate.lastName}}'
                               class='certification-candidates-actions__edit-button'
@@ -496,9 +498,10 @@ export default class EnrolledCandidates extends Component {
                           <PixTooltip @position='left' @isInline={{true}} @id='tooltip-delete-student-button'>
                             <:triggerElement>
                               <PixIconButton
-                                @icon='trash-alt'
+                                @iconName='delete'
+                                @plainIcon={{true}}
                                 class='certification-candidates-actions__delete-button--disabled'
-                                aria-label='{{t
+                                @ariaLabel='{{t
                                   "pages.sessions.detail.candidates.list.actions.delete.extra-information"
                                 }} {{candidate.firstName}} {{candidate.lastName}}'
                                 aria-disabled='true'
@@ -510,9 +513,10 @@ export default class EnrolledCandidates extends Component {
                           </PixTooltip>
                         {{else}}
                           <PixIconButton
-                            @icon='trash-alt'
+                            @iconName='delete'
+                            @plainIcon={{true}}
                             {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
-                            aria-label='{{t
+                            @ariaLabel='{{t
                               "pages.sessions.detail.candidates.list.actions.delete.extra-information"
                             }} {{candidate.firstName}} {{candidate.lastName}}'
                             class='certification-candidates-actions__delete-button'
