@@ -640,13 +640,12 @@ async function _getCompletionCampaignParticipationData(
     validatedSkillsCount = 0,
     masteryRate = 0,
     buildBadges = false,
-    buildStageAcquisitions = false,
     pixScore = 0;
 
   const randomValidatedSkill = generic.pickOneRandomAmong(_.range(campaignSkills.length));
 
   const stages = await databaseBuilder.knex('stages').where({ targetProfileId });
-  buildStageAcquisitions = stages.length > 0;
+  const buildStageAcquisitions = stages.length > 0;
 
   switch (completionName) {
     case 'STARTED':
