@@ -19,7 +19,7 @@ export default class EvaluationStartOrResumeRoute extends Route {
 
   async redirect({ assessment, campaign }) {
     if (this._shouldShowTutorial(assessment, campaign.isForAbsoluteNovice)) {
-      this.router.replaceWith('campaigns.assessment.tutorial', campaign.code);
+      this.router.replaceWith('campaigns.campaign-landing-page.steps', campaign.code);
     } else {
       this.router.replaceWith('assessments.resume', assessment.id);
     }
