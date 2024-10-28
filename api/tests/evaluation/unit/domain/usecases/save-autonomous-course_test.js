@@ -10,7 +10,7 @@ describe('Unit | UseCase | save-autonomous-course', function () {
   let autonomousCourse;
   let autonomousCourseRepository;
   let targetProfileRepository;
-  let targetProfileForAdminRepository;
+  let targetProfileAdministrationRepository;
 
   beforeEach(function () {
     sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
@@ -33,7 +33,7 @@ describe('Unit | UseCase | save-autonomous-course', function () {
       findOrganizationIds: sinon.stub(),
     };
 
-    targetProfileForAdminRepository = {
+    targetProfileAdministrationRepository = {
       get: sinon.stub(),
     };
   });
@@ -42,14 +42,14 @@ describe('Unit | UseCase | save-autonomous-course', function () {
     it('should save an autonomous-course', async function () {
       // given
       targetProfileRepository.findOrganizationIds.resolves([constants.AUTONOMOUS_COURSES_ORGANIZATION_ID]);
-      targetProfileForAdminRepository.get.resolves({ isSimplifiedAccess: true });
+      targetProfileAdministrationRepository.get.resolves({ isSimplifiedAccess: true });
 
       // when
       await saveAutonomousCourse({
         autonomousCourse,
         autonomousCourseRepository,
         targetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -60,14 +60,16 @@ describe('Unit | UseCase | save-autonomous-course', function () {
   context('when target profile is not simplified access', function () {
     it('should throw a domain error', async function () {
       const targetProfile = domainBuilder.buildTargetProfile({ isSimplifiedAccess: false });
-      targetProfileForAdminRepository.get.withArgs({ id: autonomousCourse.targetProfileId }).resolves(targetProfile);
+      targetProfileAdministrationRepository.get
+        .withArgs({ id: autonomousCourse.targetProfileId })
+        .resolves(targetProfile);
       targetProfileRepository.findOrganizationIds.resolves([constants.AUTONOMOUS_COURSES_ORGANIZATION_ID]);
 
       // when
       const error = await catchErr(saveAutonomousCourse)({
         autonomousCourse,
         autonomousCourseRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
         targetProfileRepository,
       });
 
@@ -80,14 +82,14 @@ describe('Unit | UseCase | save-autonomous-course', function () {
   context('when target profile does not exist', function () {
     it('should throw a not found error', async function () {
       // given
-      targetProfileForAdminRepository.get.rejects();
+      targetProfileAdministrationRepository.get.rejects();
 
       // when
       const error = await catchErr(saveAutonomousCourse)({
         autonomousCourse,
         autonomousCourseRepository,
         targetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then

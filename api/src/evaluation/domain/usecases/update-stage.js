@@ -23,10 +23,10 @@ import { StageWithLinkedCampaignError } from '../errors.js';
  *
  * @returns Promise<Stage[]>
  */
-const updateStage = async function ({ payloadStage, stageRepository, targetProfileForAdminRepository }) {
+const updateStage = async function ({ payloadStage, stageRepository, targetProfileAdministrationRepository }) {
   const stage = await stageRepository.get(payloadStage.id);
 
-  const targetProfile = await targetProfileForAdminRepository.get({ id: payloadStage.targetProfileId });
+  const targetProfile = await targetProfileAdministrationRepository.get({ id: payloadStage.targetProfileId });
 
   if (isStageNotUpdatable({ payloadStage, stage, targetProfile })) {
     throw new StageWithLinkedCampaignError();

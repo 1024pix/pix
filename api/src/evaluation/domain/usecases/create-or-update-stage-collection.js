@@ -5,9 +5,9 @@ const createOrUpdateStageCollection = async function ({
   targetProfileId,
   stagesFromPayload,
   stageCollectionForTargetProfileRepository: stageCollectionRepository,
-  targetProfileForAdminRepository,
+  targetProfileAdministrationRepository,
 }) {
-  const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id: targetProfileId });
+  const targetProfileForAdmin = await targetProfileAdministrationRepository.get({ id: targetProfileId });
 
   if (
     targetProfileForAdmin.hasLinkedCampaign &&

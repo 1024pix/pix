@@ -9,7 +9,7 @@ import {
  * @param {AutonomousCourse} autonomousCourse
  * @param autonomousCourseRepository
  * @param targetProfileRepository
- * @param targetProfileForAdminRepository
+ * @param targetProfileAdministrationRepository
  *
  * @returns {Promise<*>}
  */
@@ -17,12 +17,12 @@ const saveAutonomousCourse = async ({
   autonomousCourse,
   autonomousCourseRepository,
   targetProfileRepository,
-  targetProfileForAdminRepository,
+  targetProfileAdministrationRepository,
 }) => {
   let targetProfile;
 
   try {
-    targetProfile = await targetProfileForAdminRepository.get({ id: autonomousCourse.targetProfileId });
+    targetProfile = await targetProfileAdministrationRepository.get({ id: autonomousCourse.targetProfileId });
   } catch (e) {
     throw new NotFoundError(`No target profile found for ID ${autonomousCourse.targetProfileId}`);
   }

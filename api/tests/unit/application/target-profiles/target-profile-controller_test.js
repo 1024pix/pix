@@ -1,5 +1,4 @@
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
@@ -84,44 +83,6 @@ describe('Unit | Controller | target-profile-controller', function () {
       expect(devcompUsecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWithExactly(
         useCaseParameters,
       );
-      expect(response).to.deep.equal(expectedResult);
-    });
-  });
-
-  describe('#getTargetProfileForAdmin', function () {
-    it('should return targetProfileForAdmin', async function () {
-      // given
-      const targetProfileId = 123;
-      const expectedResult = Symbol('serialized-target-profile-for-admin');
-      const targetProfile = Symbol('targetProfileForAdmin');
-
-      const expectedFilter = Symbol('filter');
-      const request = {
-        params: {
-          id: targetProfileId,
-        },
-        query: {
-          filter: expectedFilter,
-        },
-      };
-
-      const targetProfileForAdminSerializer = {
-        serialize: sinon.stub(),
-      };
-      const dependencies = {
-        targetProfileForAdminSerializer,
-      };
-
-      sinon.stub(usecases, 'getTargetProfileForAdmin');
-      usecases.getTargetProfileForAdmin.withArgs({ targetProfileId }).resolves(targetProfile);
-      targetProfileForAdminSerializer.serialize
-        .withArgs({ targetProfile, filter: expectedFilter })
-        .returns(expectedResult);
-
-      // when
-      const response = await targetProfileController.getTargetProfileForAdmin(request, hFake, dependencies);
-
-      // then
       expect(response).to.deep.equal(expectedResult);
     });
   });

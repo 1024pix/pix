@@ -7,6 +7,14 @@
   background-repeat: no-repeat;
   background-position: top center;
 
+  &__recto-verso {
+    display: flex;
+
+    .element-flashcards-card {
+      flex-grow: 1;
+    }
+  }
+
   &__footer {
     display: flex;
     flex-direction: column;

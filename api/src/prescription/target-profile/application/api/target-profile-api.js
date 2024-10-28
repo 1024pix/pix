@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { TargetProfile } from './TargetProfile.js';
 
@@ -27,7 +26,7 @@ export const getByOrganizationId = async (organizationId) => {
  * @returns {Promise<TargetProfile>}
  */
 export const getById = async (id) => {
-  const targetProfileForAdmin = await libUsecases.getTargetProfileForAdmin({ targetProfileId: id });
+  const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId: id });
 
   return new TargetProfile(targetProfileForAdmin);
 };

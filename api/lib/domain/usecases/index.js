@@ -98,7 +98,6 @@ import * as competenceRepository from '../../../src/shared/infrastructure/reposi
 import * as courseRepository from '../../../src/shared/infrastructure/repositories/course-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
-import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
@@ -326,7 +325,6 @@ const dependencies = {
   supOrganizationLearnerRepository,
   tagRepository,
   targetProfileAdministrationRepository,
-  targetProfileForAdminRepository,
   targetProfileForUpdateRepository,
   targetProfileRepository,
   targetProfileShareRepository,

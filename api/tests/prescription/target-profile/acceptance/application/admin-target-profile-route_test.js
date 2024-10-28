@@ -17,6 +17,138 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
     server = await createServer();
   });
 
+  describe('GET /api/admin/target-profiles/{id}', function () {
+    let user;
+    const skillId = 'recArea1_Competence1_Tube1_Skill1';
+    const tubeId = 'recArea1_Competence1_Tube1';
+    const learningContent = {
+      areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: [skillId],
+          origin: 'Pix',
+        },
+      ],
+      thematics: [],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: skillId,
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillId: skillId,
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+      ],
+    };
+
+    beforeEach(async function () {
+      mockLearningContent(learningContent);
+      user = databaseBuilder.factory.buildUser.withRole();
+    });
+
+    it('should return the target-profile corresponding to the given {id} and 200 status code', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
+        name: 'Savoir tout faire',
+        imageUrl: 'https://test',
+        isSimplifiedAccess: false,
+        createdAt: new Date('2020-01-01'),
+        outdated: false,
+        description: 'Une description',
+        comment: 'Un beau profil cible',
+        category: 'TEST',
+        migration_status: 'N/A',
+        areKnowledgeElementsResettable: false,
+      });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile.id, tubeId, level: 7 });
+
+      databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      await databaseBuilder.commit();
+      const expectedTargetProfile = {
+        'are-knowledge-elements-resettable': false,
+        'capped-tubes': [],
+        category: 'TEST',
+        'tubes-count': 1,
+        comment: 'Un beau profil cible',
+        description: 'Une description',
+        'created-at': new Date('2020-01-01'),
+        'has-linked-campaign': true,
+        'has-linked-autonomous-course': false,
+        'image-url': 'https://test',
+        'is-simplified-access': false,
+        name: 'Savoir tout faire',
+        outdated: false,
+        'owner-organization-id': targetProfile.ownerOrganizationId,
+        'max-level': -Infinity,
+      };
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfile.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes).to.deep.equal(expectedTargetProfile);
+    });
+
+    it('should return the target profile with certifiable badges and 200 status code', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
+        name: 'Super Profil Cible',
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 1,
+        targetProfileId: targetProfile.id,
+        isCertifiable: true,
+        title: 'Badge certifiable',
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 2,
+        targetProfileId: targetProfile.id,
+        isCertifiable: false,
+        title: 'Badge non certifiable',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfile.id}?filter[badges]=certifiable`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes).to.deep.equal({
+        name: 'Super Profil Cible',
+      });
+      expect(response.result.included[0].attributes).to.deep.equal({
+        'is-certifiable': true,
+        title: 'Badge certifiable',
+      });
+    });
+  });
+
   describe('download target profile informations', function () {
     let user;
     let targetProfileId;

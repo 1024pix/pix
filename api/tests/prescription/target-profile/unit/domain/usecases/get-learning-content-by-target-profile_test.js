@@ -3,11 +3,11 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-learning-content-by-target-profile', function () {
   const learningContentRepository = {};
-  const targetProfileForAdminRepository = {};
+  const targetProfileAdministrationRepository = {};
 
   beforeEach(function () {
     learningContentRepository.findByTargetProfileId = sinon.stub();
-    targetProfileForAdminRepository.get = sinon.stub();
+    targetProfileAdministrationRepository.get = sinon.stub();
   });
 
   it('should return the result of repository call', async function () {
@@ -15,13 +15,13 @@ describe('Unit | UseCase | get-learning-content-by-target-profile', function () 
     const learningContent = domainBuilder.buildLearningContent();
     const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({ name: 'titre profil cible' });
     learningContentRepository.findByTargetProfileId.withArgs(123, 'fr').resolves(learningContent);
-    targetProfileForAdminRepository.get.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
+    targetProfileAdministrationRepository.get.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
     // when
     const actualLearningContent = await getLearningContentByTargetProfile({
       targetProfileId: 123,
       language: 'fr',
       learningContentRepository,
-      targetProfileForAdminRepository,
+      targetProfileAdministrationRepository,
     });
 
     // then

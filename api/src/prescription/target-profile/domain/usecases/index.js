@@ -6,7 +6,6 @@ import * as learningContentRepository from '../../../../../lib/infrastructure/re
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
-import * as targetProfileForAdminRepository from '../../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
@@ -16,7 +15,6 @@ import * as targetProfileForSpecifierRepository from '../../infrastructure/repos
 import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
 const dependencies = {
-  targetProfileForAdminRepository,
   learningContentConversionService,
   learningContentRepository,
   adminMemberRepository,

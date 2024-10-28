@@ -8,9 +8,18 @@ import { escapeFileName } from '../../../shared/infrastructure/utils/request-res
 import { usecases as prescriptionTargetProfileUsecases } from '../domain/usecases/index.js';
 import * as targetProfileAttachOrganizationSerializer from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import * as targetProfileDetachOrganizationsSerializer from '../infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
+import * as targetProfileForAdminSerializer from '../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
 import * as targetProfileSerializer from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
+
+const getTargetProfileForAdmin = async function (request, h, dependencies = { targetProfileForAdminSerializer }) {
+  const targetProfileId = request.params.id;
+  const { filter } = request.query;
+
+  const targetProfile = await prescriptionTargetProfileUsecases.getTargetProfileForAdmin({ targetProfileId });
+  return dependencies.targetProfileForAdminSerializer.serialize({ targetProfile, filter });
+};
 
 const getContentAsJsonFile = async function (request, h) {
   const targetProfileId = request.params.id;
@@ -190,19 +199,20 @@ const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (
 };
 
 const targetProfileController = {
-  createTargetProfile,
-  outdateTargetProfile,
-  markTargetProfileAsSimplifiedAccess,
-  attachTargetProfiles,
   attachOrganizations,
-  detachOrganizations,
   attachOrganizationsFromExistingTargetProfile,
-  getContentAsJsonFile,
-  getLearningContentAsPdf,
+  attachTargetProfiles,
+  copyTargetProfile,
+  createTargetProfile,
+  detachOrganizations,
   findPaginatedFilteredTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummariesForAdmin,
-  copyTargetProfile,
   findTargetProfileSummariesForAdmin,
+  getContentAsJsonFile,
+  getLearningContentAsPdf,
+  getTargetProfileForAdmin,
+  markTargetProfileAsSimplifiedAccess,
+  outdateTargetProfile,
 };
 
 export { targetProfileController };

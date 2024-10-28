@@ -4,10 +4,10 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 
 describe('Unit | UseCase | create or update stage collection', function () {
   context('when the target profile is not linked to a campaign', function () {
-    let targetProfileForAdminRepository;
+    let targetProfileAdministrationRepository;
 
     beforeEach(function () {
-      targetProfileForAdminRepository = {
+      targetProfileAdministrationRepository = {
         get: sinon.stub().resolves({
           id: 1,
           hasLinkedCampaign: false,
@@ -43,7 +43,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         stagesFromPayload: newStages,
         targetProfileId: 1,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -79,7 +79,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         ],
         targetProfileId: 1,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -91,7 +91,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
     let stages;
     let targetProfile;
     let stageCollectionForTargetProfileRepository;
-    let targetProfileForAdminRepository;
+    let targetProfileAdministrationRepository;
 
     beforeEach(function () {
       stages = [
@@ -124,7 +124,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         update: sinon.stub(),
       };
 
-      targetProfileForAdminRepository = {
+      targetProfileAdministrationRepository = {
         get: sinon.stub().resolves({
           id: 1,
           hasLinkedCampaign: true,
@@ -153,7 +153,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         stagesFromPayload,
         targetProfileId: targetProfile.id,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -170,7 +170,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         stagesFromPayload,
         targetProfileId: targetProfile.id,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -190,7 +190,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         stagesFromPayload,
         targetProfileId: targetProfile.id,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -210,7 +210,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         stagesFromPayload,
         targetProfileId: targetProfile.id,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then
@@ -230,7 +230,7 @@ describe('Unit | UseCase | create or update stage collection', function () {
         stagesFromPayload,
         targetProfileId: targetProfile.id,
         stageCollectionForTargetProfileRepository,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
       });
 
       // then

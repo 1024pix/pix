@@ -6,12 +6,12 @@ import * as campaignRepository from '../../../../lib/infrastructure/repositories
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as challengeRepository from '../../../../src/shared/infrastructure/repositories/challenge-repository.js';
+import * as targetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
-import * as targetProfileForAdminRepository from '../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
@@ -54,7 +54,7 @@ const dependencies = {
   stageCollectionForTargetProfileRepository,
   stageAcquisitionRepository,
   stageRepository,
-  targetProfileForAdminRepository,
+  targetProfileAdministrationRepository,
   targetProfileRepository,
   getCompetenceLevel,
   smartRandomService,

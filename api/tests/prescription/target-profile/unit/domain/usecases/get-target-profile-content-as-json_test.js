@@ -2,7 +2,7 @@ import { getTargetProfileContentAsJson } from '../../../../../../src/prescriptio
 import { domainBuilder, expect, MockDate, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
-  let targetProfileForAdminRepository;
+  let targetProfileAdministrationRepository;
   let learningContentConversionService;
 
   beforeEach(function () {
@@ -43,8 +43,8 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
           },
         ],
       });
-      targetProfileForAdminRepository = { get: sinon.stub() };
-      targetProfileForAdminRepository.get.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
+      targetProfileAdministrationRepository = { get: sinon.stub() };
+      targetProfileAdministrationRepository.get.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
       const skillsForTube1 = [domainBuilder.buildSkill({ id: 'skill1Tube1', tubeId: 'recTube1' })];
       const skillsForTube2 = [
         domainBuilder.buildSkill({ id: 'skill1Tube2', tubeId: 'recTube2' }),
@@ -74,7 +74,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
       const { jsonContent, targetProfileName } = await getTargetProfileContentAsJson({
         userId: 66,
         targetProfileId: 123,
-        targetProfileForAdminRepository,
+        targetProfileAdministrationRepository,
         learningContentConversionService,
       });
 

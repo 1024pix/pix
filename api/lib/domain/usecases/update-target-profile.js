@@ -1,10 +1,10 @@
 const updateTargetProfile = async function ({
   id,
   attributesToUpdate,
-  targetProfileForAdminRepository,
+  targetProfileAdministrationRepository,
   targetProfileForUpdateRepository,
 }) {
-  const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id });
+  const targetProfileForAdmin = await targetProfileAdministrationRepository.get({ id });
 
   targetProfileForAdmin.update(attributesToUpdate);
 
