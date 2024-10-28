@@ -11,6 +11,7 @@ import loadCertificationCourseRoutes from './routes/certification-courses/index'
 import loadCourseRoutes from './routes/courses/index';
 import deleteUserSavedTutorial from './routes/delete-user-saved-tutorial';
 import getAreas from './routes/get-areas';
+import getCampaignPresentationSteps from './routes/get-campaign-presentation-steps';
 import getCampaigns from './routes/get-campaigns';
 import getCertification from './routes/get-certification';
 import getCertificationCandidate from './routes/get-certification-candidate';
@@ -77,6 +78,7 @@ function routes() {
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
   this.get('/campaigns', getCampaigns);
+  this.get('/campaigns/:code/presentation-steps', getCampaignPresentationSteps);
 
   this.get('/certifications', getCertifications);
   this.get('/certifications/:id', getCertification);

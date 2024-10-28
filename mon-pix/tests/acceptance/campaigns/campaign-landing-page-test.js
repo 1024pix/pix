@@ -109,4 +109,39 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
       assert.dom(screen.getByText('Dummy landing page text')).exists();
     });
   });
+
+  module('new presentation page', function () {
+    test('should display the new presentation page', async function (assert) {
+      // given
+      server.create('feature-toggle', { id: 0, showNewCampaignPresentationPage: true });
+
+      const campaign = server.create('campaign');
+      const user = server.create('user', 'withEmail', { hasSeenAssessmentInstructions: false });
+
+      // when
+      await authenticate(user);
+      const screen = await visit(`/campagnes/${campaign.code}`);
+
+      // then
+      assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+      assert.dom(screen.getByText(`Bonjour ${user.firstName} !`, { exact: false })).exists();
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.campaign.presentation.landing.start-button'),
+          collapseWhitespace: true,
+        }),
+      );
+
+      assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation/steps`);
+
+      assert
+        .dom(screen.getByRole('heading', { name: t('pages.campaign.presentation.steps.organization.title') }))
+        .exists();
+
+      await click(screen.getByRole('button', { name: t('common.actions.continue') }));
+
+      assert.ok(currentURL().includes('/assessment'));
+    });
+  });
 });
