@@ -4,55 +4,63 @@
   "title": "Les ports de connexion d’un ordinateur",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Pour savoir ce qu'on peut brancher ou non à un ordinateur, il faut bien connaître les principaux ports de connexion !",
+    "description": "<p>Pour savoir ce qu'on peut brancher ou non à un ordinateur, il faut bien connaître les principaux ports de connexion !</p>",
     "duration": 10,
     "level": "Débutant",
-    "tabletSupport": "comfortable",
     "objectives": [
-      "Reconnaître les ports de connexion essentiels d’un ordinateur",
+      "<p>Reconnaître les ports de connexion essentiels d’un ordinateur</p>",
       "Connaître la fonction de chaque port de connexion"
-    ]
+    ],
+    "tabletSupport": "comfortable"
   },
   "transitionTexts": [
     {
-      "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier. Pour les brancher, il y a des prises de différentes formes : ce sont les ports de connexion.<br>On peut aussi brancher une clé USB, même si ce n’est pas toujours facile à faire.&nbsp;<span aria-hidden=\"true\">🤯</span></p>",
-      "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930"
+      "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930",
+      "content": "<p>Sur un ordinateur, on peut brancher plusieurs appareils, comme une souris ou un clavier. Pour les brancher, il y a des prises de différentes formes : ce sont les ports de connexion. Voyons ensemble un premier exemple.</p>"
     },
     {
-      "content": "<p>Une clé USB se branche sur un port de connexion USB.<br> Mais d'autres objets se branchent aussi via USB.</p>",
-      "grainId": "75091cc6-61ca-4b9e-a6a0-89701ed721a8"
+      "grainId": "259bb2d0-8815-4bab-885a-a54f7d6d9606",
+      "content": "<p>Maintenant que vous en savez plus sur les ports de connexion, vous allez peut-être pouvoir aider Maxime.&nbsp;<span aria-hidden=\"true\">👨🏽</span><br>Maxime veut équiper son ordinateur. Il a reçu un nouveau clavier pour son anniversaire.&nbsp;<span aria-hidden=\"true\">🎂</span></p>"
     },
     {
-      "content": "<p>Passons à la pratique avec quelques exemples.</p>",
-      "grainId": "e7aa8e1d-c88a-42ff-bf58-fe4371a1ce6a"
+      "grainId": "3b26ddd0-8d3b-4f84-bee3-58cbe4073798",
+      "content": "<p>Maintenant que vous avez aidé Maxime à charger son ordinateur, découvrez les autres ports de connexion.💻<br></p>"
     },
     {
-      "content": "<p>Le port USB n’est pas le seul port présent sur un ordinateur. Voici des exemples de ports de connexion que l'on trouve souvent sur un ordinateur.&nbsp;<span aria-hidden=\"true\">👇</span></p>",
-      "grainId": "3b26ddd0-8d3b-4f84-bee3-58cbe4073798"
+      "grainId": "75091cc6-61ca-4b9e-a6a0-89701ed721a8",
+      "content": "<p>Le clavier de Maxime se branche en USB. <br>Mais d'autres objets se branchent aussi via USB.&nbsp;Découvrez-les.&nbsp;</p>"
     },
     {
-      "content": "<p>Maintenant que vous en savez plus sur les ports de connexion, vous allez peut-être pouvoir aider Maxime.&nbsp;<span aria-hidden=\"true\">👨🏽</span><br>Maxime veut équiper son ordinateur. Il a reçu un nouveau clavier pour son anniversaire.&nbsp;<span aria-hidden=\"true\">🎂</span></p>",
-      "grainId": "259bb2d0-8815-4bab-885a-a54f7d6d9606"
+      "grainId": "e7aa8e1d-c88a-42ff-bf58-fe4371a1ce6a",
+      "content": "<p>Passons à la pratique avec quelques exemples.</p>"
     },
     {
-      "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur. À vous de jouer&#8239;!</p>",
-      "grainId": "57cea880-a324-4a1b-8cfe-a7c8d1b0f5b1"
+      "grainId": "57cea880-a324-4a1b-8cfe-a7c8d1b0f5b1",
+      "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur. À vous de jouer&#8239;!</p>"
     }
   ],
   "grains": [
     {
       "id": "8bb146db-104c-41e2-aa79-14f7a06e0930",
       "type": "activity",
-      "title": "Quel est votre profil ?",
+      "title": "Charger un ordinateur",
       "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "f76ed857-626c-4980-8635-89d5a66f3f3b",
+            "type": "text",
+            "content": "<p>Maxime a reçu un ordinateur portable pour son anniversaire. </p><p>Il veut le démarrer, mais il doit d’abord le mettre à charger. 🔌</p>"
+          }
+        },
         {
           "type": "element",
           "element": {
             "id": "df8684e9-e844-4a83-a556-b0a6fc955b7b",
             "type": "image",
-            "url": "https://i.imgur.com/GuLXBCj.jpeg",
-            "alt": "Photo d'une clé USB",
-            "alternativeText": ""
+            "url": "https://i.imgur.com/Trv0lrr.jpeg",
+            "alt": "Photo du côté d'un ordinateur portable, où se trouvent les ports de connexion. ",
+            "alternativeText": "<p>Sur cette photographie d'un côté de l'ordinateur portable, il y a 6 ports de connexion.<br><strong>Les 3 premiers ports de connexion sont entourés.</strong><br></p><ul><li>Le port n°1 est rond, à côté dun symbole de prise et d'un voyant<br></li><li>Le port n°2 a une forme en T, à côté d'un symbole de réseau.<br></li><li>Le port n°3 a une forme rectangle avec les deux coins du bas aplatis, il est écrit HDMI.</li></ul>"
           }
         },
         {
@@ -60,236 +68,30 @@
           "element": {
             "id": "fda3b31f-4f97-44fb-80b7-3698df48c79a",
             "type": "qcu",
-            "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous&#8239;?</p>",
+            "instruction": "<p>Sur quel port Maxime doit-il brancher le câble d’alimentation ?</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "J'arrive toujours à la brancher une clé USB du premier coup."
+                "content": "<p>Port n°1</p>",
+                "feedback": "<p>Correct ! C'est bien sur ce port que se branche le câble d'alimentation. Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut êter d'une taille ou d'une forme différente.</p>"
               },
               {
                 "id": "2",
-                "content": "J'ai besoin d'essayer plusieurs fois avant de réussir à brancher une clé USB."
+                "content": "<p>Port n°2</p>",
+                "feedback": "<p>Ce port s'appelle le port WGA, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Port n°3</p>",
+                "feedback": "<p>Ce port s'apelle le port Ethernet, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
               }
             ],
             "feedbacks": {
-              "valid": "<p>C'est le cas de nombreuses personnes&#8239;!&nbsp;<span aria-hidden=\"true\">🏅</span></p>",
-              "invalid": "<p>Toujours&#8239;?! On ne vous croit pas...&nbsp;<span aria-hidden=\"true\">😉</span></p>"
+              "valid": "<p><br></p>",
+              "invalid": "<p><br></p>"
             },
-            "solution": "2"
+            "solution": "1"
           }
-        }
-      ]
-    },
-    {
-      "id": "75091cc6-61ca-4b9e-a6a0-89701ed721a8",
-      "type": "lesson",
-      "title": "Les appareils qui se branchent via USB",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "0eb7bcc7-a552-45f0-823b-599f1b9e8bf1",
-            "type": "text",
-            "content": "<p>Le port USB permet de brancher à son ordinateur des appareils avec des fonctionnalités très différentes.<br>Voici ci-dessous quelques exemples&nbsp;:</p>"
-          }
-        },
-        {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "5fc1c1c4-a3a7-481c-a586-71cfd1ccd59b",
-                  "type": "text",
-                  "content": "<h3>Un chargeur de téléphone portable</h3>"
-                },
-                {
-                  "id": "1496c1da-e0ea-4c44-98c3-cdcfab871e04",
-                  "type": "image",
-                  "url": "https://i.imgur.com/7IA3ghe.jpeg",
-                  "alt": "Photo d'un chargeur de téléphone portable avec une connexion USB",
-                  "alternativeText": ""
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "b91728f4-a8f2-403b-81bc-520db8b8cbf0",
-                  "type": "text",
-                  "content": "<h3>Une souris filaire</h3>"
-                },
-                {
-                  "id": "b7f8feb2-b355-4fbd-99ec-48511303536f",
-                  "type": "image",
-                  "url": "https://i.imgur.com/pjPFhtM.jpeg",
-                  "alt": "Photo d'une souris filaire avec une connexion USB",
-                  "alternativeText": ""
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "eec72acd-c8e6-45fe-804c-05ad53b839fd",
-                  "type": "text",
-                  "content": "<h3>Une manette de jeu vidéo</h3>"
-                },
-                {
-                  "id": "cfca4266-f0cf-4dd9-81a5-f297b907334b",
-                  "type": "image",
-                  "url": "https://i.imgur.com/6r6ryOU.jpeg",
-                  "alt": "Photo d'une manette de jeu vidéo avec une connexion USB",
-                  "alternativeText": ""
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "96cb3320-8885-4e70-a521-e6e0f47b52a3",
-                  "type": "text",
-                  "content": "<h3>Une webcam</h3>"
-                },
-                {
-                  "id": "70bca95e-6aad-4fc9-b4eb-8499945879c2",
-                  "type": "image",
-                  "url": "https://i.imgur.com/hb2SFMR.jpeg",
-                  "alt": "Photo d'une webcam avec une connexion USB",
-                  "alternativeText": ""
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
-                  "type": "text",
-                  "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider&nbsp;: les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
-                },
-                {
-                  "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
-                  "type": "image",
-                  "url": "https://i.imgur.com/PA3PZST.jpeg",
-                  "alt": "Le symbole de l'USB",
-                  "alternativeText": ""
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "e7aa8e1d-c88a-42ff-bf58-fe4371a1ce6a",
-      "type": "activity",
-      "title": "USB ou pas ?",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
-            "type": "text",
-            "content": "<h3>Pour chaque affirmation ci-dessous, choisissez si elle est vraie&nbsp;<span aria-hidden=\"true\">✅</span> ou fausse.&nbsp;<span aria-hidden=\"true\">❌</span></h3>"
-          }
-        },
-        {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
-                  "type": "image",
-                  "url": "https://i.imgur.com/9VHmIUG.jpeg",
-                  "alt": "Une souris d'ordinateur",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "54a04560-ab1b-410b-a2f7-771f6483d951",
-                  "type": "qcu",
-                  "instruction": "<p>Cette souris se connecte à un port USB pour fonctionner.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Oui&#8239;!</span><p> cette souris filaire se branche à un port USB.</p>",
-                    "invalid": "<span class=\"feedback__state\">Attention&#8239;!</span><p> Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "49bb95aa-1074-45e9-8c85-c061efd07348",
-                  "type": "image",
-                  "url": "https://i.imgur.com/leOic25.jpeg",
-                  "alt": "Un casque audio",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "690bfa69-b8fe-4036-8d3e-4c5e49261534",
-                  "type": "qcu",
-                  "instruction": "<p>Ce casque se connecte à un port USB pour fonctionner.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
-                    "invalid": "<span class=\"feedback__state\">Attention&#8239;!</span><p> Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
-                  },
-                  "solution": "2"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "36b959d4-add7-403d-9e7f-aa4f0bf777b8",
-                  "type": "image",
-                  "url": "https://i.imgur.com/waJxYRr.jpeg",
-                  "alt": "Photo d'un connecteur avec un symbole représentant une flèche avec des ronds et des carrés",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "06af3ce9-50ee-469e-a649-d5d4476e60f5",
-                  "type": "qcu",
-                  "instruction": "<p>Le symbole de l’USB est représenté sur cette image.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p> Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
-                    "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p> Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
-            }
-          ]
         }
       ]
     },
@@ -363,7 +165,7 @@
                 {
                   "id": "86851d7d-0ce8-48a3-b8ac-433da8134dec",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA.&nbsp;<span aria-hidden=\"true\">📽️</span></p>"
+                  "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté. Ce port sert principalement à connecter un écran ou un vidéoprojecteur à l’ordinateur, comme le port VGA.&nbsp;<span aria-hidden=\"true\">📽️</span></p>"
                 }
               ]
             },
@@ -379,7 +181,23 @@
                 {
                   "id": "706f1c55-3009-4cff-affe-6548076d65ac",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur.&nbsp;<span aria-hidden=\"true\">🖱️</span>&nbsp;<span aria-hidden=\"true\">🎮</span></p>"
+                  "content": "<p>Ce port est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur. Par exemple : une souris, un clavier, une clé USB, etc.&nbsp;&nbsp;<span aria-hidden=\"true\">🖱️</span>&nbsp;<span aria-hidden=\"true\">🎮</span></p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "3d8eedf5-f4d1-4f58-b2a4-b5c814d79fab",
+                  "type": "image",
+                  "url": "https://i.imgur.com/Aep47Hv.jpeg",
+                  "alt": "Schéma d'un port USB-C",
+                  "alternativeText": "<p><br></p>"
+                },
+                {
+                  "id": "c75612ca-f9c2-4453-88db-725bb817151b",
+                  "type": "text",
+                  "content": "<p>Ce port est un port <strong>USB Type C</strong> ou <strong>USB-C</strong>.<br> Ce port est très courant sur les téléphones portables. Sur un ordinateur, il&nbsp;sert à connecter différents appareils externes : téléphone portable, chargeur, écran, etc.  </p>"
                 }
               ]
             },
@@ -437,9 +255,9 @@
           "element": {
             "id": "0f6485ad-1db7-4154-8c9c-b4432f51234f",
             "type": "image",
-            "url": "https://i.imgur.com/PWlgjCM.jpeg",
+            "url": "https://i.imgur.com/TWNdfVz.png",
             "alt": "Photographie de côté d'un ordinateur portable avec 5 ports de connexion différents.",
-            "alternativeText": ""
+            "alternativeText": "<p><br></p>"
           }
         },
         {
@@ -447,35 +265,243 @@
           "element": {
             "id": "9548df1b-3bb4-4d7f-93ce-965de364797e",
             "type": "qcu",
-            "instruction": "<p>Sur quel port Maxime peut-il brancher son <strong>clavier USB</strong>&#8239;?</p>",
+            "instruction": "<p>Sur quel port Maxime peut-il brancher son <strong>clavier USB</strong> ?</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "port n°1"
+                "content": "<p>Port n°1</p>",
+                "feedback": "<p>Incorrect. C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
               },
               {
                 "id": "2",
-                "content": "port n°2"
+                "content": "<p>Port n°2</p>",
+                "feedback": "<p>Incorrect. C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
               },
               {
                 "id": "3",
-                "content": "port n°3"
+                "content": "<p>Port n°3</p>",
+                "feedback": "<p>Incorrect. C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
               },
               {
                 "id": "4",
-                "content": "port n°4"
+                "content": "<p>Port n°4</p>",
+                "feedback": "<p>Correct ! Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
               },
               {
                 "id": "5",
-                "content": "port n°5"
+                "content": "<p>Port n°5</p>",
+                "feedback": "<p>Incorrect. C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
+              },
+              {
+                "id": "6",
+                "content": "<p>Port n°6</p>",
+                "feedback": "<p>Incorrect. C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.</span><p> Vous avez bien identifié le port USB.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Remontez voir les différents ports pour trouver le port <strong>USB</strong>.</p>"
+              "valid": "<p><br></p>",
+              "invalid": "<p><br></p>"
             },
             "solution": "4"
           }
+        }
+      ]
+    },
+    {
+      "id": "75091cc6-61ca-4b9e-a6a0-89701ed721a8",
+      "type": "lesson",
+      "title": "Les appareils qui se branchent via USB",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "7930251f-b89b-48f2-a67e-dfecfef8e446",
+                  "type": "text",
+                  "content": "<p>Le port USB permet de brancher à son ordinateur des appareils avec des fonctionnalités très différentes.<br>Voici ci-dessous quelques exemples&nbsp;:</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "b91728f4-a8f2-403b-81bc-520db8b8cbf0",
+                  "type": "text",
+                  "content": "\n<h3>Une souris filaire ou une manette de jeux vidéos</h3>"
+                },
+                {
+                  "id": "b7f8feb2-b355-4fbd-99ec-48511303536f",
+                  "type": "image",
+                  "url": "https://i.imgur.com/SAWzPl8.jpeg",
+                  "alt": "Photo d'une souris filaire et d'une manette de jeu vidéo à connexion USB",
+                  "alternativeText": "<h3>Une souris filaire </h3>\n<p>La souris est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>\n<h3>Une manette de jeux vidéos </h3><p>La manette&nbsp;est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "07bc0dd7-c121-4f6d-8e3a-ba45faffc93c",
+                  "type": "text",
+                  "content": "<h3>Un cable de chargeur de téléphone portable ou une webcam</h3>"
+                },
+                {
+                  "id": "06160ea0-d7dd-41ba-b455-c3078de15be6",
+                  "type": "image",
+                  "url": "https://i.imgur.com/EJKVD5d.jpeg",
+                  "alt": "Photo d'un câble de chargeur de téléphone portable à connexion USB, et d'une webcam à connexion USB",
+                  "alternativeText": "<h3>Un câble de téléphone portable </h3>\n<p>Le cable de chargeur de téléphone portable est muni d'une prise USB (pour le port de l'ordinateur), et d'une prise USB-C (pour le port du téléphone).</p>\n<h3>Une webcam&nbsp;</h3>\n<p>La webcam est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "fdbfa739-e38f-41d6-ba98-6660fe729e16",
+                  "type": "text",
+                  "content": "<h3>Une clé USB ou un clavier sans-fil (avec récepteur USB)</h3>"
+                },
+                {
+                  "id": "34aee94d-4bdb-4923-8111-69a46ce158dd",
+                  "type": "image",
+                  "url": "https://i.imgur.com/JUTKL4Q.jpeg",
+                  "alt": "Photographie d'une clé USB et d'un clavier sans-fil et son récepteur USB",
+                  "alternativeText": "<h3>Une clé USB</h3>\n<p>La clé USB comporte une prise USB. Elle se branche toute entière à l'ordinateur, sans besoin de cable.</p>\n<h3>Un clavier sans-fil (avec récepteur USB)&nbsp;</h3>\n<p>Le clavier se branche à l'ordinateur grâce au récepteur USB. C'est une petite prise USB qui n'est pas reliée par un fil au clavier.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
+                  "type": "text",
+                  "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider&nbsp;: les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
+                },
+                {
+                  "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
+                  "type": "image",
+                  "url": "https://i.imgur.com/jgCvGZX.png",
+                  "alt": "Le symbole de l'USB",
+                  "alternativeText": "<p><br></p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e7aa8e1d-c88a-42ff-bf58-fe4371a1ce6a",
+      "type": "activity",
+      "title": "USB ou pas ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
+            "type": "text",
+            "content": "<h3>Pour chaque affirmation ci-dessous, choisissez si elle est vraie&nbsp;<span aria-hidden=\"true\">✅</span> ou fausse.&nbsp;<span aria-hidden=\"true\">❌</span></h3>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
+                  "type": "image",
+                  "url": "https://i.imgur.com/xXHePcU.png",
+                  "alt": "Une souris d'ordinateur",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "54a04560-ab1b-410b-a2f7-771f6483d951",
+                  "type": "qcu",
+                  "instruction": "<p>Cette souris se connecte à un port USB pour fonctionner.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p><span class=\"feedback__state\">Oui !</span></p><p> Cette souris filaire se branche à un port USB.</p>",
+                    "invalid": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'était vrai. Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "49bb95aa-1074-45e9-8c85-c061efd07348",
+                  "type": "image",
+                  "url": "https://i.imgur.com/eJvzfPp.png",
+                  "alt": "Un casque audio",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "690bfa69-b8fe-4036-8d3e-4c5e49261534",
+                  "type": "qcu",
+                  "instruction": "<p>Ce casque se connecte à un port USB pour fonctionner.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct !</span><p> Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
+                    "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p><p>C'était faux. Regardez bien l’extrémité du fil de ce casque audio : il est rond. Il ne se branche pas à un port USB, mais à un port jack.</p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "36b959d4-add7-403d-9e7f-aa4f0bf777b8",
+                  "type": "image",
+                  "url": "https://i.imgur.com/APVIHeB.png",
+                  "alt": "Photo d'un connecteur avec un symbole représentant une flèche avec des ronds et des carrés",
+                  "alternativeText": "<p><br></p>"
+                },
+                {
+                  "id": "06af3ce9-50ee-469e-a649-d5d4476e60f5",
+                  "type": "qcu",
+                  "instruction": "<p>Le symbole de l’USB est représenté sur cette image.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bien vu !</span><p> Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
+                    "invalid": "<p><span class=\"feedback__state\">Et si !</span></p><p> Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -497,7 +523,7 @@
           "element": {
             "id": "e6c1fdff-e2a3-4108-a1f8-245dc7e3668f",
             "type": "qcu",
-            "instruction": "<p>Pensez-vous avoir réussi à les trouver&#8239;?</p>",
+            "instruction": "<p>Pensez-vous avoir réussi à les trouver ?</p>",
             "proposals": [
               {
                 "id": "1",
