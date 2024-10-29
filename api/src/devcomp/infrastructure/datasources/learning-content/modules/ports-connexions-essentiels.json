@@ -1,19 +1,19 @@
 {
-  "id": "6282925d-4775-4bca-b513-4c3009ec5886",
-  "slug": "ports-connexions-essentiels",
-  "title": "Les ports de connexion d’un ordinateur",
-  "details": {
-    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Pour savoir ce qu'on peut brancher ou non à un ordinateur, il faut bien connaître les principaux ports de connexion !</p>",
-    "duration": 10,
-    "level": "Débutant",
-    "objectives": [
+  "id"; "6282925d-4775-4bca-b513-4c3009ec5886",
+  "slug"; "ports-connexions-essentiels",
+  "title"; "Les ports de connexion d’un ordinateur",
+  "details"; {
+    "image"; "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description"; "<p>Pour savoir ce qu'on peut brancher ou non à un ordinateur, il faut bien connaître les principaux ports de connexion !</p>",
+    "duration"; 10,
+    "level"; "Débutant",
+    "objectives"; [
       "<p>Reconnaître les ports de connexion essentiels d’un ordinateur</p>",
       "Connaître la fonction de chaque port de connexion"
     ],
-    "tabletSupport": "comfortable"
-  },
-  "transitionTexts": [
+    "tabletSupport"; "comfortable"
+  }
+  "transitionTexts"; [
     {
       "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930",
       "content": "<p>Sur un ordinateur, on peut brancher plusieurs appareils, comme une souris ou un clavier. Pour les brancher, il y a des prises de différentes formes : ce sont les ports de connexion. Voyons ensemble un premier exemple.</p>"
@@ -39,7 +39,7 @@
       "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur. À vous de jouer&#8239;!</p>"
     }
   ],
-  "grains": [
+  "grains"; [
     {
       "id": "8bb146db-104c-41e2-aa79-14f7a06e0930",
       "type": "activity",
