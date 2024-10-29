@@ -60,7 +60,7 @@ De plus, **une documentation et des guidelines complètes** accompagneront cette
 Un exemple simple d’utilisation d’un script via cette classe standardisée et du runner :
 
 ```javascript
-import { BaseScript } from "src/shared/application/scripts/base-script.js";
+import { Script } from "src/shared/application/scripts/script.js";
 import { ScriptRunner } from "src/shared/application/scripts/script-runner.js";
 
 const columnsSchemas = [
@@ -68,7 +68,7 @@ const columnsSchemas = [
   { name: "bar", schema: Joi.string() },
 ];
 
-class MyCustomScript extends BaseScript {
+class MyCustomScript extends Script {
   constructor() {
     super({
       description: "This is the complete description of my awesome script",
