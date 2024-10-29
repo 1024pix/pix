@@ -100,39 +100,39 @@ function setup_and_run_infrastructure() {
   # Install dependencies for  admin
   echo "Installing dependencies for admin"
   (cd admin && npm ci)
-  echo "✅ Dependencies for admin was installed"
+  echo "✅ Dependencies for admin were installed"
   echo ""
 
   # Install dependencies for audit-logger
   echo "Installing dependencies for audit-logger"
   (cd audit-logger && npm ci)
-  echo "✅ Dependencies for audit-logger was installed"
+  echo "✅ Dependencies for audit-logger were installed"
   echo ""
 
   # Install dependencies for "certif"
   echo "Installing dependencies for certif"
   (cd certif && npm ci)
-  echo "✅ Dependencies for certif was installed"
+  echo "✅ Dependencies for certif were installed"
   echo ""
 
   # Install dependencies for "junior"
   echo "Installing dependencies for junior"
   (cd junior && npm ci)
-  echo "✅ Dependencies for junior was installed"
+  echo "✅ Dependencies for junior were installed"
   echo ""
 
   # Install dependencies for "mon-pix"
   echo "Installing dependencies for mon-pix"
   (cd mon-pix && npm ci)
-  echo "✅ Dependencies for mon-pix was installed"
+  echo "✅ Dependencies for mon-pix were installed"
   echo ""
 
   # Install dependencies for orga
   echo "Installing dependencies for orga"
   (cd orga && npm ci)
-  echo "✅ Dependencies for orga was installed"
+  echo "✅ Dependencies for orga were installed"
   echo "-----------"
-  echo "✔ All dependencies was downloaded and installed"
+  echo "✔ All dependencies were downloaded and installed"
 
 }
 
