@@ -270,32 +270,32 @@
               {
                 "id": "1",
                 "content": "<p>Port n°1</p>",
-                "feedback": "<p>Incorrect. C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
               },
               {
                 "id": "2",
                 "content": "<p>Port n°2</p>",
-                "feedback": "<p>Incorrect. C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
               },
               {
                 "id": "3",
                 "content": "<p>Port n°3</p>",
-                "feedback": "<p>Incorrect. C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
               },
               {
                 "id": "4",
                 "content": "<p>Port n°4</p>",
-                "feedback": "<p>Correct ! Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
+                "feedback": "<span class=\"feedback__state\">Correct !</span><p>Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
               },
               {
                 "id": "5",
                 "content": "<p>Port n°5</p>",
-                "feedback": "<p>Incorrect. C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
               },
               {
                 "id": "6",
                 "content": "<p>Port n°6</p>",
-                "feedback": "<p>Incorrect. C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
               }
             ],
             "feedbacks": {
