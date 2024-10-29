@@ -73,17 +73,17 @@
               {
                 "id": "1",
                 "content": "<p>Port n°1</p>",
-                "feedback": "<p>Correct ! C'est bien sur ce port que se branche le câble d'alimentation. Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut êter d'une taille ou d'une forme différente.</p>"
+                "feedback": "<span class=\"feedback__state\">Correct.</span><p>C'est bien sur ce port que se branche le câble d'alimentation. Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut êter d'une taille ou d'une forme différente.</p>"
               },
               {
                 "id": "2",
                 "content": "<p>Port n°2</p>",
-                "feedback": "<p>Ce port s'appelle le port WGA, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Ce port s'apelle le port Ethernet, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
               },
               {
                 "id": "3",
                 "content": "<p>Port n°3</p>",
-                "feedback": "<p>Ce port s'apelle le port Ethernet, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Ce port s'apelle le port HDMI, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
               }
             ],
             "feedbacks": {
