@@ -127,7 +127,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp; voir l’emploi du temps,communiquer avec l’établissement scolaire,consulter le cahier de texte numérique.</p><p>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
+            "content": "<p>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp; </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de texte numérique.</li></ul><p>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
           }
         },
         {
@@ -280,7 +280,7 @@
           "element": {
             "id": "1e8e1448-5373-4272-9240-4b378dffcffb",
             "type": "text",
-            "content": "<p>Martin est connecté à l’ENT du collège d’Ava.Répondez à chacune des questions suivantes.<br></p>"
+            "content": "<p>Martin est connecté à l’ENT du collège d’Ava.</p>\n<p>Répondez à chacune des questions suivantes.<br></p>"
           }
         },
         {
@@ -388,25 +388,25 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "<p>Français</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
+                      "content": "<p>Histoire-géographie</p>",
+                      "feedback": "<p>Incorrect.</p><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
                     },
                     {
                       "id": "2",
-                      "content": "<p>Histoire-géographie</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
+                      "content": "<p>Français</p>",
+                      "feedback": "<p>Correct.</p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>Mathématiques</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Correct.</span></p>\n<p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<p><br></p>",
                     "invalid": "<p><br></p>"
                   },
-                  "solution": "3"
+                  "solution": "2"
                 }
               ]
             }
@@ -424,7 +424,7 @@
           "element": {
             "id": "b3cba471-c794-4a39-b044-5b084b468341",
             "type": "text",
-            "content": "<p><strong>vidéo à venir :&nbsp;</strong></p><ul><li><em>Partie 1 : les différents comptes de l’ENT (parents, enfant, prof, personnels de l’établissement)</em></li></ul><p><em>Chaque personne a un compte personnel, selon le type, les fonctionnalités changent.</em></p><p><em>Par exemple, seul un enseignant peut indiquer des notesseuls les élèves et les enseignants ont accès aux manuels scolaires.</em></p><ul><li><em>Partie 2 : en tant que parent</em></li></ul><p><em>J’ai accès à ces fonctionnalités...</em></p><p><em>Je les utilise pour …bonnes pratiques utilisation / de comm.</em></p><p><em>En cas doute, se référer aux règlements intérieur.</em></p>"
+            "content": "<p><strong>vidéo à venir :&nbsp;</strong></p><ul><li><em>Partie 1 : les différents comptes de l’ENT (parents, enfant, prof, personnels de l’établissement)</em></li></ul><p><em>Chaque personne a un compte personnel, selon le type, les fonctionnalités changent.</em></p><p><em>Par exemple, seul un enseignant peut indiquer des notes, seuls les élèves et les enseignants ont accès aux manuels scolaires.</em></p><ul><li><em>Partie 2 : en tant que parent</em></li></ul><p><em>J’ai accès à ces fonctionnalités...</em></p><p><em>Je les utilise pour …bonnes pratiques utilisation / de comm.</em></p><p><em>En cas doute, se référer aux règlements intérieur.</em></p>"
           }
         }
       ]
