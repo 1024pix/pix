@@ -12,7 +12,7 @@
       "Connaître la fonction de chaque port de connexion"
     ],
     "tabletSupport": "comfortable"
-  }
+  },
   "transitionTexts": [
     {
       "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930",
@@ -39,7 +39,7 @@
       "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur. À vous de jouer&#8239;!</p>"
     }
   ],
-  "grains"; [
+  "grains": [
     {
       "id": "8bb146db-104c-41e2-aa79-14f7a06e0930",
       "type": "activity",
