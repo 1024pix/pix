@@ -102,7 +102,7 @@
           "element": {
             "id": "d3f646e0-1c3d-42bf-a604-9e8e9c2a29a9",
             "type": "text",
-            "content": "<p>L’espace numérique de travail (ENT) est l’outil numérique donné par l’établissement scolaire. </p>\n<p>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...). Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><span aria-hidden=\"\\&quot;true\\&quot;\"> 💡 </span>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
+            "content": "<p>L’espace numérique de travail (ENT) est l’outil numérique donné par l’établissement scolaire. </p>\n<p>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...).</p><p>Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><span aria-hidden=\"\\&quot;true\\&quot;\"> 💡 </span>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
           }
         },
         {
@@ -152,7 +152,7 @@
           "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
-            "content": "<p>Tous les collèges et les lycées publics ont un ENT. Certaines écoles primaires aussi mais ce n’est pas obligatoire. Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p>Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
+            "content": "<p>Tous les collèges et les lycées publics ont un ENT. Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p>Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
           }
         }
       ]
