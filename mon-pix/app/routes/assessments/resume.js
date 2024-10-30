@@ -100,8 +100,14 @@ export default class ResumeRoute extends Route {
   }
 
   async _rateAssessment(assessment) {
-    await assessment.save({ adapterOptions: { completeAssessment: true } });
-
+    try {
+      await assessment.save({ adapterOptions: { completeAssessment: true } });
+    } catch (adapterError) {
+      if (adapterError.errors[0].status === '412') {
+        return this._routeToResults(assessment);
+      }
+      throw adapterError;
+    }
     return this._routeToResults(assessment);
   }
 
