@@ -50,8 +50,9 @@ export default class SessionListRow extends Component {
             <PixTooltip @position='left' @isInline={{true}} @id='tooltip-delete-session-button'>
               <:triggerElement>
                 <PixIconButton
-                  @icon='trash-alt'
-                  aria-label={{t
+                  @iconName='delete'
+                  @plainIcon={{true}}
+                  @ariaLabel={{t
                     'pages.sessions.list.actions.delete-session.label'
                     sessionSummaryId=@sessionSummary.id
                   }}
@@ -64,8 +65,9 @@ export default class SessionListRow extends Component {
             </PixTooltip>
           {{else}}
             <PixIconButton
-              @icon='trash-alt'
-              aria-label={{t 'pages.sessions.list.actions.delete-session.label' sessionSummaryId=@sessionSummary.id}}
+              @iconName='delete'
+              @plainIcon={{true}}
+              @ariaLabel={{t 'pages.sessions.list.actions.delete-session.label' sessionSummaryId=@sessionSummary.id}}
               disabled={{false}}
               @withBackground={{true}}
               @triggerAction={{fn

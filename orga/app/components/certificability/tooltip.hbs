@@ -1,8 +1,10 @@
 <div class="certificability-tooltip">
   <PixTooltip @id="column-is-certifiable-informations" @position="top-left" @isWide={{true}}>
     <:triggerElement>
-      <FaIcon
-        @icon="circle-question"
+      <PixIcon
+        @name="help"
+        @plainIcon={{true}}
+        aria-hidden="true"
         tabindex="0"
         aria-label={{t "components.certificability-tooltip.aria-label"}}
         aria-describedby="column-is-certifiable-informations"

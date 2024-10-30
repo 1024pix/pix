@@ -1,5 +1,5 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import { t } from 'ember-intl';
 
 import TargetProfileDetails from '../target-profile-details';
@@ -7,9 +7,10 @@ import TargetProfileDetails from '../target-profile-details';
 <template>
   <PixTooltip @id="target-profile-info-tooltip" @position="top-right" @isWide={{true}}>
     <:triggerElement>
-      <FaIcon
+      <PixIcon
         ...attributes
-        @icon="circle-info"
+        @name="help"
+        @plainIcon={{true}}
         tabindex="0"
         aria-label={{t "pages.campaign-settings.target-profile.tooltip"}}
         aria-describedby="target-profile-info-tooltip"

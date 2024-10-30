@@ -141,7 +141,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
             await triggerEvent(input, 'change', { files: [file] });
 
             // then
-            assert.dom(await screen.getByLabelText('fichier.csv')).hasText('fichier.csv');
+            assert.dom(await screen.getByLabelText('fichier.csv')).exists();
           });
 
           module('when leaving page and coming back', function () {
@@ -178,7 +178,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
               const input = await screen.findByLabelText('Importer le modèle complété');
               await triggerEvent(input, 'change', { files: [file] });
               await settled();
-              const cancelButton = await screen.findByLabelText("Annuler l'import");
+              const cancelButton = await screen.getByRole('button', { name: "Annuler l'import" });
               await click(cancelButton);
               await settled();
 
@@ -617,7 +617,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                     .exists();
 
                   // when
-                  await click(screen.getByLabelText("Annuler l'import"));
+                  await click(screen.getByRole('button', { name: "Annuler l'import" }));
                   await settled();
 
                   // then

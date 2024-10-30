@@ -13,15 +13,11 @@
 
 .preselect-tube-table {
   .is-responsive {
-    color: var(--pix-success-700);
+    fill: var(--pix-success-700);
   }
 
   .not-responsive {
-    position: absolute;
-    top: 50%;
-    left: calc(50% + 12px);
-    color: var(--pix-error-700);
-    transform: translate(-50%, -50%);
+    fill: var(--pix-error-700);
   }
 }
 

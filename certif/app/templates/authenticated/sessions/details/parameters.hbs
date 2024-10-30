@@ -14,7 +14,8 @@
             <:triggerElement>
               <PixIconButton
                 @ariaLabel={{t "pages.sessions.detail.parameters.session.copy-number"}}
-                @icon="copy"
+                @iconName="copy"
+                @plainIcon={{true}}
                 @triggerAction={{this.showSessionIdTooltip}}
                 class="session-details-content__clipboard-button"
               />
@@ -45,7 +46,8 @@
             <:triggerElement>
               <PixIconButton
                 @ariaLabel={{t "pages.sessions.detail.parameters.access-code.copy-code"}}
-                @icon="copy"
+                @iconName="copy"
+                @plainIcon={{true}}
                 @triggerAction={{this.showAccessCodeTooltip}}
               />
             </:triggerElement>
@@ -77,7 +79,8 @@
             <:triggerElement>
               <PixIconButton
                 @ariaLabel={{t "pages.sessions.detail.parameters.password.copy-password"}}
-                @icon="copy"
+                @iconName="copy"
+                @plainIcon={{true}}
                 @triggerAction={{this.showSupervisorPasswordTooltip}}
               />
             </:triggerElement>

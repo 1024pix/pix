@@ -194,16 +194,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    &-button--disabled {
-      background-color: var(--pix-neutral-100);
-      color: var(--pix-neutral-0);
-      cursor: not-allowed;
-
-      &:hover, &:active, &:focus {
-        background-color: var(--pix-neutral-100);
-      }
-    }
   }
 }
 

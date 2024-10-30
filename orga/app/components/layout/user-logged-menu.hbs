@@ -11,11 +11,7 @@
     <span>{{this.currentUser.prescriber.firstName}} {{this.currentUser.prescriber.lastName}}</span>
     <span>{{this.organizationNameAndExternalId}}</span>
   </span>
-  {{#if this.isMenuOpen}}
-    <FaIcon @icon="chevron-up" @class="user-logged-button__chevron user-logged-button__chevron--up" />
-  {{else}}
-    <FaIcon @icon="chevron-down" @class="user-logged-button__chevron" />
-  {{/if}}
+  <PixIcon @name={{if this.isMenuOpen "chevronTop" "chevronBottom"}} />
 </button>
 
 <Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="user-logged-menu">
@@ -26,7 +22,7 @@
     </Dropdown::Item>
   {{/each}}
   <Dropdown::ItemLink @linkTo="logout">
-    <FaIcon @icon="power-off" @class="user-logged-menu__icon" />
+    <PixIcon @name="logout" @class="user-logged-menu__icon" />
     {{t "navigation.user-logged-menu.logout"}}
   </Dropdown::ItemLink>
 </Dropdown::Content>

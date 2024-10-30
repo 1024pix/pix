@@ -5,8 +5,10 @@
   class="last-participation-date-tooltip"
 >
   <:triggerElement>
-    <FaIcon
-      @icon="circle-info"
+    <PixIcon
+      @name="info"
+      @plainIcon={{true}}
+      aria-hidden="true"
       tabindex="0"
       aria-label={{t "pages.participants-list.latest-participation-information-tooltip.aria-label"}}
       aria-describedby={{concat "last-participation-date-tooltip-" @id}}

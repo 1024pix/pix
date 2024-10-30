@@ -204,14 +204,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     );
 
     // then
-    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }));
-    assert.ok(screen.getByRole('cell', { name: 'Gigi' }));
-    assert.ok(screen.getByRole('cell', { name: '01/02/2010' }));
-    assert.ok(screen.getByRole('cell', { name: '3B' }));
-    assert.ok(screen.getByRole('cell', { name: '42' }));
-    assert.ok(screen.getByRole('cell', { name: '03/01/2022' }));
-    assert.notOk(screen.queryByRole('cell', { name: '02/01/2022' }));
-    assert.ok(screen.getByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')));
+    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }), 'La terreur');
+    assert.ok(screen.getByRole('cell', { name: 'Gigi' }), 'Gigi');
+    assert.ok(screen.getByRole('cell', { name: '01/02/2010' }), '01/02/2010');
+    assert.ok(screen.getByRole('cell', { name: '3B' }), '3B');
+    assert.ok(screen.getByRole('cell', { name: '42' }), '42');
+    assert.ok(screen.getByRole('cell', { name: '03/01/2022' }), '03/01/2022');
+    assert.notOk(screen.queryByRole('cell', { name: '02/01/2022' }), '02/01/2022');
+    assert.ok(
+      screen.getByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
+      'tooltip-label',
+    );
   });
 
   test('[A11Y] it should have a description for screen-readers', async function (assert) {

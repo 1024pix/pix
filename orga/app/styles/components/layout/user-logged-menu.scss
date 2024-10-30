@@ -8,12 +8,14 @@
   border-width: 0;
   border-left: 1px solid var(--pix-neutral-20);
   cursor: pointer;
+  fill: var(--pix-neutral-500);
 
   &:hover,
   &:active,
   &:focus {
     color: var(--pix-neutral-800);
     text-decoration: none;
+    fill: var(--pix-neutral-800);
   }
 
   &:focus {
@@ -47,6 +49,7 @@
 
     &--up {
       color: var(--pix-primary-500);
+      fill: var(--pix-primary-500);
     }
   }
 }

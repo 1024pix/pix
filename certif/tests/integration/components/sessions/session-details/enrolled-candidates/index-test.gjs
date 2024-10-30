@@ -12,11 +12,6 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
-  const EDIT_BUTTON_SELECTOR = 'certification-candidates-actions__edit-button';
-  const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
-  const EDIT_BUTTON_DISABLED_SELECTOR = `${EDIT_BUTTON_SELECTOR}--disabled`;
-
   let store;
 
   hooks.beforeEach(async function () {
@@ -235,15 +230,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       );
 
       // then
-      assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' }))
-        .hasClass(DELETE_BUTTON_SELECTOR);
-      assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Lara Pafromage' }))
-        .hasClass(DELETE_BUTTON_DISABLED_SELECTOR);
-      assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Jean Registre' }))
-        .hasClass(DELETE_BUTTON_SELECTOR);
+      assert.dom(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' })).isNotDisabled();
+      assert.dom(screen.getByRole('button', { name: 'Supprimer le candidat Lara Pafromage' })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: 'Supprimer le candidat Jean Registre' })).isNotDisabled();
     });
   });
 
@@ -298,15 +287,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         // then
 
         // then
-        assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' }))
-          .hasClass(EDIT_BUTTON_SELECTOR);
-        assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Lara Pafromage' }))
-          .hasClass(EDIT_BUTTON_DISABLED_SELECTOR);
-        assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Jean Registre' }))
-          .hasClass(EDIT_BUTTON_SELECTOR);
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' })).isNotDisabled();
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Lara Pafromage' })).isDisabled();
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Jean Registre' })).isNotDisabled();
         assert.strictEqual(
           screen.getAllByText("Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer.").length,
           1,

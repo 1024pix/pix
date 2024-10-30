@@ -9,7 +9,7 @@
     {{#if this.shouldDisplayCampaignsEntry}}
       <LinkTo @route="authenticated.campaigns" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
+          <PixIcon @name="conversionPath" role="none" />
         </span>
         {{t "navigation.main.campaigns"}}
       </LinkTo>
@@ -18,7 +18,7 @@
     {{#if this.shouldDisplayCertificationsEntry}}
       <LinkTo @route="authenticated.certifications" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
-          <FaIcon @icon="award" />
+          <PixIcon @name="awards" role="none" />
         </span>
         {{t "navigation.main.certifications"}}
       </LinkTo>
@@ -26,7 +26,7 @@
     {{#if this.shouldDisplayMissionsEntry}}
       <LinkTo @route="authenticated.missions" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
+          <PixIcon @name="conversionPath" role="none" />
         </span>
         {{t "navigation.main.missions"}}
       </LinkTo>
@@ -34,21 +34,21 @@
     {{#if this.shouldDisplayParticipantsEntry}}
       <LinkTo @route={{this.organizationLearnersList.route}} class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+          <PixIcon @name="infoUser" role="none" />
         </span>
         {{t this.organizationLearnersList.label}}
       </LinkTo>
     {{/if}}
     <LinkTo @route="authenticated.team" class="sidebar-nav__item">
       <span class="sidebar-nav__item-icon">
-        <img src="{{this.rootURL}}/icons/users-light.svg" alt="" role="none" />
+        <PixIcon @name="users" role="none" />
       </span>
       {{t "navigation.main.team"}}
     </LinkTo>
     {{#if this.shouldDisplayPlacesEntry}}
       <LinkTo @route="authenticated.places" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
-          <FaIcon @icon="ticket" @prefix="fapix" />
+          <PixIcon @name="seat" role="none" />
         </span>
         {{t "navigation.main.places"}}
       </LinkTo>
@@ -56,7 +56,7 @@
     {{#if this.documentationUrl}}
       <a class="sidebar-nav__item" href={{this.documentationUrl}} target="_blank" rel="noopener noreferrer">
         <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/book-light.svg" alt="" role="none" />
+          <PixIcon @name="book" role="none" />
         </span>
         {{t "navigation.main.documentation"}}
       </a>
@@ -69,7 +69,7 @@
         rel="noopener noreferrer"
       >
         <span class="sidebar-nav__item-icon">
-          <FaIcon @icon="circle-question" alt="{{t 'navigation.main.support'}}-icon" role="none" />
+          <PixIcon @name="help" role="none" />
         </span>
         {{t "navigation.main.support"}}
       </a>

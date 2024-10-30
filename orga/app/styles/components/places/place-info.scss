@@ -10,7 +10,9 @@
   @extend %pix-body-s;
 
   &__illustration {
-    width:64px;
+    width:4rem;
+    height:4rem;
+    fill: var(--pix-neutral-0);
   }
 
   &__description {

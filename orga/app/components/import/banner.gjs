@@ -1,6 +1,6 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixMessage from '@1024pix/pix-ui/components/pix-message';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 
 const statusI18nLabel = {
@@ -94,7 +94,7 @@ export default class ImportBanner extends Component {
   <template>
     {{#if this.displaySuccess}}
       <p class="import-banner--success">
-        <FaIcon @icon="circle-check" class="import-banner__icon" />
+        <PixIcon @name="circleCheck" @plainIcon={{true}} class="import-banner__icon" />
         {{this.successBanner}}
       </p>
     {{/if}}

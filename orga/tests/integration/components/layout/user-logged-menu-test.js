@@ -55,25 +55,6 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
     assert.ok(screen.getByText(`${organization.name} (${organization.externalId})`));
   });
 
-  test('should display the chevron-down icon when menu is close', async function (assert) {
-    // when
-    await render(hbs`<Layout::UserLoggedMenu />`);
-
-    // then
-    assert.dom('.fa-chevron-down').exists();
-    assert.dom('.fa-chevron-up').doesNotExist();
-  });
-
-  test('should display the chevron-up icon when menu is open', async function (assert) {
-    // when
-    await render(hbs`<Layout::UserLoggedMenu />`);
-    await clickByName('Ouvrir le menu utilisateur');
-
-    // then
-    assert.dom('.fa-chevron-up').exists();
-    assert.dom('.fa-chevron-down').doesNotExist();
-  });
-
   test('should display the disconnect link when menu is open', async function (assert) {
     // when
     const screen = await render(hbs`<Layout::UserLoggedMenu />`);

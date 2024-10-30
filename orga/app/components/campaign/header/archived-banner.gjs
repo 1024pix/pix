@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -33,7 +33,7 @@ export default class CampaignArchivedBanner extends Component {
     {{#if @campaign.isArchived}}
       <div class="campaign-archived-banner">
         <div class="campaign-archived-banner__text">
-          <FaIcon class="campaign-archived-banner__icon" @icon="box-archive" />
+          <PixIcon class="campaign-archived-banner__icon" @name="inventory" @plainIcon={{true}} />
           <span>{{t "pages.campaign.archived"}}</span>
         </div>
         {{#if this.displayUnarchiveButton}}
