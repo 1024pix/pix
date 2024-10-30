@@ -86,11 +86,7 @@
                 "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Ce port s'apelle le port HDMI, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
               }
             ],
-            "feedbacks": {
-              "valid": "<p><br></p>",
-              "invalid": "<p><br></p>"
-            },
-            "solution": "1"
+         "solution": "1"
           }
         }
       ]
@@ -298,11 +294,7 @@
                 "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
               }
             ],
-            "feedbacks": {
-              "valid": "<p><br></p>",
-              "invalid": "<p><br></p>"
-            },
-            "solution": "4"
+           "solution": "4"
           }
         }
       ]
