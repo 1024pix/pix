@@ -60,7 +60,7 @@
               {
                 "id": "1",
                 "content": "<p>sur l'espace numérique de travail</p>",
-                "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Correct.</span></p>\n<p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
+                "feedback": "<span class=\"feedback__state\">Correct !</span><p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
               },
               {
                 "id": "2",
