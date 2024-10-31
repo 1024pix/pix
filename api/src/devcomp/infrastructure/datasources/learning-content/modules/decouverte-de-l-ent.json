@@ -732,7 +732,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp; </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de texte numérique.</li></ul><p>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
+            "content": "<p>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp; </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
           }
         },
         {
@@ -927,8 +927,8 @@
                     },
                     {
                       "id": "5",
-                      "content": "<p>le cahier de texte</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le cahier de texte numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "content": "<p>le cahier de textes</p>",
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     }
                   ],
                   "feedbacks": {
