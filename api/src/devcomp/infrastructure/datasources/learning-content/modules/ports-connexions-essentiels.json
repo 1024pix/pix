@@ -50,7 +50,7 @@
           "element": {
             "id": "f76ed857-626c-4980-8635-89d5a66f3f3b",
             "type": "text",
-            "content": "<p>Maxime a reçu un ordinateur portable pour son anniversaire. </p><p>Il veut le démarrer, mais il doit d’abord le mettre à charger. <span aria-hidden=\"true\"🔌</span></p>"
+            "content": "<p>Maxime a reçu un ordinateur portable pour son anniversaire. </p><p>Il veut le démarrer, mais il doit d’abord le mettre à charger.<span aria-hidden=\"true\">🔌</span> </p>"
           }
         },
         {
