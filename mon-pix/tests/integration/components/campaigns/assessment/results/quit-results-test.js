@@ -6,13 +6,13 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Components | Campaigns | Assessment | Skill Review | Quit Results', function (hooks) {
+module('Integration | Components | Campaigns | Assessment | Results | Quit Results', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when the evaluation results have been shared', function () {
     test('it should display a quit button link', async function (assert) {
       // when
-      const screen = await render(hbs`<Campaigns::Assessment::SkillReview::QuitResults @isCampaignShared={{true}} />`);
+      const screen = await render(hbs`<Campaigns::Assessment::Results::QuitResults @isCampaignShared={{true}} />`);
 
       // then
       assert.ok(
@@ -29,7 +29,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Quit 
   module('when the evaluation results have not been shared yet', function () {
     test('it should display a quit button', async function (assert) {
       // when
-      const screen = await render(hbs`<Campaigns::Assessment::SkillReview::QuitResults @isCampaignShared={{false}} />`);
+      const screen = await render(hbs`<Campaigns::Assessment::Results::QuitResults @isCampaignShared={{false}} />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Quitter' })).exists();
@@ -38,9 +38,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Quit 
     module('when the quit button is clicked', function () {
       test('it should display a modal', async function (assert) {
         // given
-        const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::QuitResults @isCampaignShared={{false}} />`,
-        );
+        const screen = await render(hbs`<Campaigns::Assessment::Results::QuitResults @isCampaignShared={{false}} />`);
 
         // when
         await click(screen.getByRole('button', { name: 'Quitter' }));

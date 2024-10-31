@@ -36,7 +36,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
     // when
     const screen = await render(
-      hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
+      hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
     );
 
     // then
@@ -79,7 +79,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
       );
 
       // then
@@ -121,7 +121,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
       );
 
       // then
@@ -161,7 +161,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
       );
 
       // then

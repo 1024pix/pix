@@ -6,14 +6,14 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
 module(
-  'Integration | Components | Campaigns | Assessment | Skill Review | Evaluation Results Hero | Custom Organization Block',
+  'Integration | Components | Campaigns | Assessment | Results | Evaluation Results Hero | Custom Organization Block',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
     test('displays the block title', async function (assert) {
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::CustomOrganizationBlock />`,
       );
 
       // then
@@ -29,7 +29,7 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::CustomOrganizationBlock
   @customResultPageText={{this.customResultPageText}}
 />`,
           );
@@ -46,7 +46,7 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::CustomOrganizationBlock
   @customResultPageText={{this.customResultPageText}}
 />`,
           );
@@ -69,7 +69,7 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::CustomOrganizationBlock
   @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
   @customResultPageButtonText={{this.customResultPageButtonText}}
 />`,
@@ -93,7 +93,7 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::CustomOrganizationBlock
   @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
   @customResultPageButtonText={{this.customResultPageButtonText}}
 />`,
@@ -112,7 +112,7 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::CustomOrganizationBlock
   @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
   @customResultPageButtonText={{this.customResultPageButtonText}}
 />`,

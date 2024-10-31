@@ -32,7 +32,7 @@ module('Integration | Components | Pages | Campaigns | Results loader', function
     assert.ok(screen.getByText(t('components.campaigns.results-loader.steps.rewards')));
   });
 
-  test('redirects to skill review page on click on continue', async function (assert) {
+  test('redirects to results page on click on continue', async function (assert) {
     // given
     const routerService = this.owner.lookup('service:router');
     sinon.stub(routerService, 'transitionTo');
@@ -53,7 +53,7 @@ module('Integration | Components | Pages | Campaigns | Results loader', function
       await click(screen.getByRole('button', { name: t('common.actions.continue') }));
 
       // then
-      sinon.assert.calledWithExactly(routerService.transitionTo, 'campaigns.assessment.skill-review', 'PROASNULL');
+      sinon.assert.calledWithExactly(routerService.transitionTo, 'campaigns.assessment.results', 'PROASNULL');
       assert.ok(true);
     });
   });

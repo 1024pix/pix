@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
 module(
-  'Integration | Components | Campaigns | Assessment | Skill Review | Evaluation Results Hero | Acquired Badges',
+  'Integration | Components | Campaigns | Assessment | Results | Evaluation Results Hero | Acquired Badges',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
@@ -29,7 +29,7 @@ module(
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::AcquiredBadges @acquiredBadges={{this.badges}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::AcquiredBadges @acquiredBadges={{this.badges}} />`,
       );
 
       // then
@@ -69,7 +69,7 @@ module(
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::AcquiredBadges @acquiredBadges={{this.badges}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::AcquiredBadges @acquiredBadges={{this.badges}} />`,
       );
 
       // then

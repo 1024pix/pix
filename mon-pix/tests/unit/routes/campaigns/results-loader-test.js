@@ -29,7 +29,7 @@ module('Unit | Route | Campaigns | Results-loader', function (hooks) {
       assert.ok(true);
     });
 
-    test('should redirect to skill review page if campaignParticipation is shared', async function (assert) {
+    test('should redirect to results page if campaignParticipation is shared', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -42,7 +42,7 @@ module('Unit | Route | Campaigns | Results-loader', function (hooks) {
       await route.afterModel({ campaign, campaignParticipation });
 
       //then
-      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', campaign.code);
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.results', campaign.code);
       assert.ok(true);
     });
 

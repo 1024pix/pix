@@ -2,7 +2,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | Campaign | Assessment | Skill review', function (hooks) {
+module('Unit | Route | Campaign | Assessment | Results', function (hooks) {
   setupTest(hooks);
 
   let route;
@@ -15,7 +15,7 @@ module('Unit | Route | Campaign | Assessment | Skill review', function (hooks) {
   const currentUserStub = { user };
 
   hooks.beforeEach(function () {
-    route = this.owner.lookup('route:campaigns.assessment.skill-review');
+    route = this.owner.lookup('route:campaigns.assessment.results');
     route.modelFor = sinon.stub().returns({ campaign, campaignParticipation });
     route.router = { transitionTo: sinon.stub() };
     route.store = storeStub;

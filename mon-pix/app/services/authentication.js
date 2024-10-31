@@ -6,7 +6,7 @@ const ALLOWED_ROUTES_FOR_ANONYMOUS_ACCESS = [
   'campaigns.assessment.tutorial',
   'campaigns.assessment.start-or-resume',
   'campaigns.campaign-landing-page',
-  'campaigns.assessment.skill-review',
+  'campaigns.assessment.results',
   'assessments.challenge',
   'assessments.checkpoint',
 ];

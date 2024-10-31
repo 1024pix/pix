@@ -7,15 +7,13 @@ import { clickByLabel } from '../../../../../../helpers/click-by-label';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
 module(
-  'Integration | Components | Campaigns | Assessment | Skill Review | Evaluation Results Hero | Retry or reset block',
+  'Integration | Components | Campaigns | Assessment | Results | Evaluation Results Hero | Retry or reset block',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
     test('displays a title, a description and a message', async function (assert) {
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::RetryOrResetBlock />`,
-      );
+      const screen = await render(hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock />`);
 
       // then
       assert.dom(screen.getByText(t('pages.skill-review.hero.retry.title'))).exists();
@@ -37,7 +35,7 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::RetryOrResetBlock
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -64,7 +62,7 @@ module(
 
         // when
         screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::RetryOrResetBlock
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,

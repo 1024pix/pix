@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class SkillReviewRoute extends Route {
+export default class ResultsRoute extends Route {
   @service currentUser;
   @service session;
   @service store;

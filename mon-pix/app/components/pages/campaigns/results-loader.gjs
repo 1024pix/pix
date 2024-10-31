@@ -46,7 +46,7 @@ export default class ResultsLoader extends Component {
 
   @action
   onClick() {
-    this.router.transitionTo('campaigns.assessment.skill-review', this.args.code);
+    this.router.transitionTo('campaigns.assessment.results', this.args.code);
   }
 
   <template>

@@ -3,9 +3,9 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-import EvaluationResultsHero from '../../../campaigns/assessment/skill-review/evaluation-results-hero';
-import EvaluationResultsTabs from '../../../campaigns/assessment/skill-review/evaluation-results-tabs';
-import QuitResults from '../../../campaigns/assessment/skill-review/quit-results';
+import EvaluationResultsHero from '../../../campaigns/assessment/results/evaluation-results-hero';
+import EvaluationResultsTabs from '../../../campaigns/assessment/results/evaluation-results-tabs';
+import QuitResults from '../../../campaigns/assessment/results/quit-results';
 
 export default class EvaluationResults extends Component {
   @service tabManager;

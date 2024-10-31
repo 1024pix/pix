@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Components | Campaigns | Assessment | Skill Review | Evaluation Results Hero', function (hooks) {
+module('Integration | Components | Campaigns | Assessment | Results | Evaluation Results Hero', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('global behaviour', function (hooks) {
@@ -30,7 +30,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -73,7 +73,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -110,7 +110,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
           // when
           screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -160,7 +160,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
           // when
           const screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -187,7 +187,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
           // when
           screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @hasTrainings={{this.hasTrainings}}
   @showTrainings={{this.showTrainings}}
   @campaign={{this.campaign}}
@@ -221,7 +221,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -245,7 +245,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -280,7 +280,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
           // when
           screen = await render(
-            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -324,7 +324,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -349,7 +349,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -377,7 +377,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -405,7 +405,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -435,7 +435,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -463,7 +463,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -491,7 +491,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -517,7 +517,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -537,7 +537,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -559,7 +559,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
@@ -578,7 +578,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,

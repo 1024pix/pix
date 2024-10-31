@@ -33,9 +33,7 @@ module('Integration | Components | Campaigns | Assessment | EvaluationResultsTab
 
     // when
     screen = await render(
-      hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::ResultsDetails
-  @competenceResults={{this.competenceResults}}
-/>`,
+      hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::ResultsDetails @competenceResults={{this.competenceResults}} />`,
     );
   });
 

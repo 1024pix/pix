@@ -29,7 +29,7 @@ export default class ResultsLoaderRoute extends Route {
     if (!campaignParticipation) {
       this.router.replaceWith('campaigns.campaign-landing-page', campaign.code);
     } else if (campaignParticipation.isShared) {
-      this.router.replaceWith('campaigns.assessment.skill-review', campaign.code);
+      this.router.replaceWith('campaigns.assessment.results', campaign.code);
     } else if (campaignParticipation && !assessment.isCompleted)
       this.router.replaceWith('campaigns.assessment.start-or-resume', campaign.code);
   }

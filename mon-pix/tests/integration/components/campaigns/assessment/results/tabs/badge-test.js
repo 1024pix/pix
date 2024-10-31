@@ -24,7 +24,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
       );
 
       // then
@@ -50,7 +50,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
         );
 
         // then
@@ -72,7 +72,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
         );
 
         // then
@@ -98,7 +98,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
       );
 
       // then
@@ -127,7 +127,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
         );
 
         // then

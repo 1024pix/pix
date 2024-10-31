@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Components | Campaigns | Assessment | Skill Review | Evaluation Results Tabs', function (hooks) {
+module('Integration | Components | Campaigns | Assessment | Results | Evaluation Results Tabs', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when there are rewards and trainings', function (hooks) {
@@ -25,7 +25,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
   @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
 />`,
@@ -62,7 +62,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
   @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
 />`,
@@ -94,7 +94,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
   @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
 />`,
@@ -128,7 +128,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
   @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
 />`,

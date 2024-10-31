@@ -28,7 +28,7 @@ module(
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::ResultsDetails::CompetenceRow
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::ResultsDetails::CompetenceRow
   @competence={{this.competenceResult}}
   @total={{this.total}}
 />`,

@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import createGlimmerComponent from '../../../../../../helpers/create-glimmer-component';
 
 module(
-  'Unit | Component | Campaigns | Assessment | SkillReview | EvaluationResultsTabs | ResultsDetails | CompetenceRow',
+  'Unit | Component | Campaigns | Assessment | Results | EvaluationResultsTabs | ResultsDetails | CompetenceRow',
   function (hooks) {
     setupTest(hooks);
 
@@ -13,7 +13,7 @@ module(
         test('should return the pix-plus icon', async function (assert) {
           // given
           const component = createGlimmerComponent(
-            'campaigns/assessment/skill-review/evaluation-results-tabs/results-details/competence-row',
+            'campaigns/assessment/results/evaluation-results-tabs/results-details/competence-row',
           );
           // when
           const icon = component.getIcon('unknownCompetenceId');
@@ -27,7 +27,7 @@ module(
         test('should return the icon associated to the competence', async function (assert) {
           // given
           const component = createGlimmerComponent(
-            'campaigns/assessment/skill-review/evaluation-results-tabs/results-details/competence-row',
+            'campaigns/assessment/results/evaluation-results-tabs/results-details/competence-row',
           );
 
           const competenceId = 'recsvLz0W2ShyfD63';

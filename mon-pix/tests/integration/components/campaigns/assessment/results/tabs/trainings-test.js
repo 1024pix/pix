@@ -30,7 +30,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Trainings
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Trainings
   @trainings={{this.trainings}}
   @isParticipationShared={{true}}
 />`,
@@ -59,7 +59,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Trainings
+        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Trainings
   @isParticipationShared={{this.isParticipationShared}}
   @campaignParticipationResultId={{this.campaignParticipationResultId}}
   @campaignId={{this.campaignId}}

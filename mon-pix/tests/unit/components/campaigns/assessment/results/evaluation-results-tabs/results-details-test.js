@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import createGlimmerComponent from '../../../../../../helpers/create-glimmer-component';
 
 module(
-  'Unit | Component | Campaigns | Assessment | SkillReview | EvaluationResultsTabs | ResultsDetails',
+  'Unit | Component | Campaigns | Assessment | Results | EvaluationResultsTabs | ResultsDetails',
   function (hooks) {
     setupTest(hooks);
 
@@ -14,7 +14,7 @@ module(
         const store = this.owner.lookup('service:store');
 
         const component = createGlimmerComponent(
-          'campaigns/assessment/skill-review/evaluation-results-tabs/results-details',
+          'campaigns/assessment/results/evaluation-results-tabs/results-details',
         );
 
         const competenceResult1 = store.createRecord('competence-result', {
