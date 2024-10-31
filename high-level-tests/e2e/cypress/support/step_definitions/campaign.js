@@ -76,12 +76,12 @@ When(
 );
 
 When(
-  `je vois {int} résultats pour la compétence`,
+  `je vois l'onglet de détails des résultats avec {int} compétences`,
   (numberOfResultsByCompetence) => {
-    cy.get(".skill-review-competence__row").should(
-      "have.lengthOf",
-      numberOfResultsByCompetence,
-    );
+    cy.get("[role='tabpanel'][tabindex='0']").within(() => {
+      cy.get("tr").should("have.lengthOf", numberOfResultsByCompetence);
+      cy.contains("Détails des résultats")
+    });
   },
 );
 
@@ -101,12 +101,11 @@ Then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
     });
 });
 
-Then(`je vois un résultat global à {int}%`, (globalResult) => {
-  cy.get('[aria-label="Résultat global"]')
-    .invoke("text")
-    .then((text) => {
-      //TODO: update cypress to handle insecable space https://glebbahmutov.com/cypress-examples/6.5.0/recipes/non-breaking-space.html#via-cy-contains
-      expect(text.replace(/\u00a0/g, " ")).contains(`${globalResult} %`);
+Then(`je vois {int}% de réussite aux questions`, (globalResult) => {
+  cy.contains("de réussite aux questions")
+    .parent()
+    .within(() => {
+      cy.contains(`${globalResult}%`);
     });
 });
 
@@ -115,7 +114,7 @@ Then(`je vois que j'ai partagé mon profil`, () => {
 });
 
 Then(`je vois que j'ai envoyé les résultats`, () => {
-  cy.contains("Merci, vos résultats ont bien été envoyés !");
+  cy.contains("Merci d'avoir envoyé vos résultats.");
 });
 
 Then(`je vois {int} sujets`, (tubeCount) => {

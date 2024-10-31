@@ -18,7 +18,6 @@ Fonctionnalité: Campagne d'évaluation
     Alors je vois la page de "didacticiel" de la campagne
     Lorsque je clique sur "Ignorer"
     Alors je vois l'épreuve "Quelle est la capitale de la Lettonie ?"
-    Lorsque je clique sur "J'ai compris"
     Lorsque je saisis "Riga" dans le champ "Réponse :"
     Et je clique sur "Je valide"
     Alors je vois l'épreuve "Qui a dit « Toute méchanceté a sa source dans la faiblesse » ?"
@@ -27,12 +26,13 @@ Fonctionnalité: Campagne d'évaluation
     Alors je vois la page de "chargement-resultats" de la campagne
     Lorsque j'attends 3200 ms
     Et je clique sur "Continuer"
-    Alors je vois un résultat global à 50%
-    Alors je vois 2 résultats pour la compétence
+    Alors je vois 50% de réussite aux questions
+    Alors je vois l'onglet de détails des résultats avec 2 compétences
     Lorsque je clique sur "J'envoie mes résultats"
-    Alors je vois la formation recommandée ayant le titre "Comment gagner des pièces d'or"
     Alors je vois que j'ai envoyé les résultats
-    Lorsque je clique sur "Continuez votre expérience Pix"
+    Lorsque je clique sur "Voir les formations"
+    Alors je vois la formation recommandée ayant le titre "Comment gagner des pièces d'or"
+    Lorsque je clique sur "Quitter"
     Alors je vois le lien "Mes formations" dans la navigation
 
   Scénario: Je rejoins un parcours prescrit via l'URL sans être connecté

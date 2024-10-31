@@ -2,6 +2,7 @@
   {
     "id": 1,
     "name": "Campagne de la Néra",
+    "title": "Campagne de la Néra",
     "code": "NERA",
     "type": "ASSESSMENT",
     "organizationId": 1,
@@ -12,6 +13,7 @@
   {
     "id": 2,
     "name": "Campagne du Mur",
+    "title": "Campagne du Mur",
     "code": "WALL",
     "type": "ASSESSMENT",
     "organizationId": 1,
@@ -22,6 +24,7 @@
   {
     "id": 3,
     "name": "Campagne de Winterfell",
+    "title": "Campagne de Winterfell",
     "code": "WINTER",
     "type": "ASSESSMENT",
     "organizationId": 2,
@@ -32,6 +35,7 @@
   {
     "id": 4,
     "name": "Envoi profils Lannister",
+    "title": "Envoi profils Lannister",
     "code": "LION",
     "type": "PROFILES_COLLECTION",
     "organizationId": 1,
@@ -41,6 +45,7 @@
   {
     "id": 5,
     "name": "Envoi profils Stark",
+    "title": "Envoi profils Stark",
     "code": "WOLF",
     "type": "PROFILES_COLLECTION",
     "organizationId": 2,
