@@ -24,7 +24,7 @@
     },
     {
       "grainId": "3b26ddd0-8d3b-4f84-bee3-58cbe4073798",
-      "content": "<p>Maintenant que vous avez aidé Maxime à charger son ordinateur, découvrez les autres ports de connexion.💻<br></p>"
+      "content": "<p>Maintenant que vous avez aidé Maxime à charger son ordinateur, découvrez les autres ports de connexion.<span aria-hidden=\"true\">💻</span><br></p>"
     },
     {
       "grainId": "75091cc6-61ca-4b9e-a6a0-89701ed721a8",
@@ -36,7 +36,7 @@
     },
     {
       "grainId": "57cea880-a324-4a1b-8cfe-a7c8d1b0f5b1",
-      "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur. À vous de jouer&#8239;!</p>"
+      "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur. À vous de jouer !</p>"
     }
   ],
   "grains": [
@@ -50,7 +50,7 @@
           "element": {
             "id": "f76ed857-626c-4980-8635-89d5a66f3f3b",
             "type": "text",
-            "content": "<p>Maxime a reçu un ordinateur portable pour son anniversaire. </p><p>Il veut le démarrer, mais il doit d’abord le mettre à charger. 🔌</p>"
+            "content": "<p>Maxime a reçu un ordinateur portable pour son anniversaire. </p><p>Il veut le démarrer, mais il doit d’abord le mettre à charger. <span aria-hidden=\"true\"🔌</span></p>"
           }
         },
         {
@@ -73,20 +73,20 @@
               {
                 "id": "1",
                 "content": "<p>Port n°1</p>",
-                "feedback": "<span class=\"feedback__state\">Correct.</span><p>C'est bien sur ce port que se branche le câble d'alimentation. Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut êter d'une taille ou d'une forme différente.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Correct.</span></p><p>C'est bien sur ce port que se branche le câble d'alimentation. Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut êter d'une taille ou d'une forme différente.</p>"
               },
               {
                 "id": "2",
                 "content": "<p>Port n°2</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Ce port s'apelle le port Ethernet, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Ce port s'apelle le port Ethernet, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
               },
               {
                 "id": "3",
                 "content": "<p>Port n°3</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Ce port s'apelle le port HDMI, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Ce port s'apelle le port HDMI, il n'est pas destiné à l'alimentation de l'ordinateur.</p>"
               }
             ],
-         "solution": "1"
+            "solution": "1"
           }
         }
       ]
@@ -253,7 +253,7 @@
             "type": "image",
             "url": "https://i.imgur.com/TWNdfVz.png",
             "alt": "Photographie de côté d'un ordinateur portable avec 5 ports de connexion différents.",
-            "alternativeText": "<p><br></p>"
+            "alternativeText": ""
           }
         },
         {
@@ -266,35 +266,35 @@
               {
                 "id": "1",
                 "content": "<p>Port n°1</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
               },
               {
                 "id": "2",
                 "content": "<p>Port n°2</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
               },
               {
                 "id": "3",
                 "content": "<p>Port n°3</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
               },
               {
                 "id": "4",
                 "content": "<p>Port n°4</p>",
-                "feedback": "<span class=\"feedback__state\">Correct !</span><p>Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
               },
               {
                 "id": "5",
                 "content": "<p>Port n°5</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
               },
               {
                 "id": "6",
                 "content": "<p>Port n°6</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
               }
             ],
-           "solution": "4"
+            "solution": "4"
           }
         }
       ]
@@ -328,7 +328,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/SAWzPl8.jpeg",
                   "alt": "Photo d'une souris filaire et d'une manette de jeu vidéo à connexion USB",
-                  "alternativeText": "<h3>Une souris filaire </h3>\n<p>La souris est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>\n<h3>Une manette de jeux vidéos </h3><p>La manette&nbsp;est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>"
+                  "alternativeText": "<h3>Une souris filaire </h3><p>La souris est reliée à un cable, au bout de celui-ci on voit une prise USB.</p><h3>Une manette de jeux vidéos </h3><p>La manette est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>"
                 }
               ]
             },
@@ -344,7 +344,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/EJKVD5d.jpeg",
                   "alt": "Photo d'un câble de chargeur de téléphone portable à connexion USB, et d'une webcam à connexion USB",
-                  "alternativeText": "<h3>Un câble de téléphone portable </h3>\n<p>Le cable de chargeur de téléphone portable est muni d'une prise USB (pour le port de l'ordinateur), et d'une prise USB-C (pour le port du téléphone).</p>\n<h3>Une webcam&nbsp;</h3>\n<p>La webcam est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>"
+                  "alternativeText": "<h3>Un câble de téléphone portable </h3>\n<p>Le cable de chargeur de téléphone portable est muni d'une prise USB (pour le port de l'ordinateur), et d'une prise USB-C (pour le port du téléphone).</p><h3>Une webcam</h3><p>La webcam est reliée à un cable, au bout de celui-ci on voit une prise USB.</p>"
                 }
               ]
             },
@@ -360,7 +360,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/JUTKL4Q.jpeg",
                   "alt": "Photographie d'une clé USB et d'un clavier sans-fil et son récepteur USB",
-                  "alternativeText": "<h3>Une clé USB</h3>\n<p>La clé USB comporte une prise USB. Elle se branche toute entière à l'ordinateur, sans besoin de cable.</p>\n<h3>Un clavier sans-fil (avec récepteur USB)&nbsp;</h3>\n<p>Le clavier se branche à l'ordinateur grâce au récepteur USB. C'est une petite prise USB qui n'est pas reliée par un fil au clavier.</p>"
+                  "alternativeText": "<h3>Une clé USB</h3><p>La clé USB comporte une prise USB. Elle se branche toute entière à l'ordinateur, sans besoin de cable.</p><h3>Un clavier sans-fil (avec récepteur USB)&nbsp;</h3>\n<p>Le clavier se branche à l'ordinateur grâce au récepteur USB. C'est une petite prise USB qui n'est pas reliée par un fil au clavier.</p>"
                 }
               ]
             },
@@ -376,7 +376,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/jgCvGZX.png",
                   "alt": "Le symbole de l'USB",
-                  "alternativeText": "<p><br></p>"
+                  "alternativeText": ""
                 }
               ]
             }
@@ -469,7 +469,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/APVIHeB.png",
                   "alt": "Photo d'un connecteur avec un symbole représentant une flèche avec des ronds et des carrés",
-                  "alternativeText": "<p><br></p>"
+                  "alternativeText": ""
                 },
                 {
                   "id": "06af3ce9-50ee-469e-a649-d5d4476e60f5",
@@ -531,6 +531,87 @@
               "invalid": "<p>Remontez la page et aidez-vous des schémas présentés ou demandez de l'aide à quelqu'un si cela est possible.</p>"
             },
             "solution": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "daa8a389-28c3-4a42-870f-062375f53394",
+      "type": "activity",
+      "title": "Flashcard ports de connexion",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "612f9310-26cd-4923-8150-7192069cdea6",
+            "type": "flashcards",
+            "instruction": "<p>Lisez la question sur chaque carte, essayez de trouver la réponse puis retournez la carte en cliquant dessus.<br>Cela permet de tester votre mémoire <span aria-hidden=\"true\"> 🎯</span></p>",
+            "title": "Les ports de connexion essentiels d'un ordinateur",
+            "introImage": {
+              "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
+            },
+            "cards": [
+              {
+                "id": "63f8e751-bc73-46a2-8a22-e00be116e23a",
+                "recto": {
+                  "image": {
+                    "url": "https://i.imgur.com/wiLMZps.jpeg"
+                  },
+                  "text": "Lequel de ces deux ports ronds permet de brancher un casque audio ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://i.imgur.com/kzql8CG.jpeg"
+                  },
+                  "text": "<p>Le port jack, est souvent signalé par un dessin de casque.<br>On y branche tous les appareils audios : casques, écouteurs, chaîne hifi, micros.</p>"
+                }
+              },
+              {
+                "id": "f9399a97-3bf1-44ad-92c0-391a9f19c0bc",
+                "recto": {
+                  "image": {
+                    "url": "https://i.imgur.com/APVIHeB.png"
+                  },
+                  "text": "Quels est le nom du port auquel brancher ce câble ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://i.imgur.com/x4JWIrP.jpeg"
+                  },
+                  "text": "<p>Le port USB !&nbsp;</p>"
+                }
+              },
+              {
+                "id": "7d8b6e4a-7301-4eb4-89ac-f5c4d97f6003",
+                "recto": {
+                  "image": {
+                    "url": "https://i.imgur.com/tw392vB.jpeg"
+                  },
+                  "text": "Que permet de connecter ce port de connexion ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://i.imgur.com/BsjYWhh.jpeg"
+                  },
+                  "text": "<p>Ce port permet de connecter votre ordinateur à internet grâce au câble Ethernet.<br>Il s'appelle le port Ethernet.</p>"
+                }
+              },
+              {
+                "id": "47a351f1-151e-4e06-8f12-72ec24fdbcad",
+                "recto": {
+                  "image": {
+                    "url": "https://i.imgur.com/vXhuoz0.jpeg"
+                  },
+                  "text": "À quel port se branche ce câble ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://i.imgur.com/A5zShWC.jpeg"
+                  },
+                  "text": "<p>Au port HDMI.<br>Il permet notamment de brancher un second écran, ou de se raccorder à une télévision.</p>"
+                }
+              }
+            ]
           }
         }
       ]
