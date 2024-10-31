@@ -40,7 +40,7 @@ Fonctionnalité: Campagne d'évaluation
     Lorsque je vais sur la campagne "WALL" avec l'identifiant "khaleesi"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
-    Et je clique sur "connectez-vous à votre compte"
+    Et je clique sur "Se connecter"
     Et je me connecte avec le compte "daenerys.targaryen@pix.fr"
     Alors je vois la page de "didacticiel" de la campagne
 

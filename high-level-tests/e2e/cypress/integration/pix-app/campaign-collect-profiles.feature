@@ -24,7 +24,7 @@ Fonctionnalité: Campagne de collecte de profils
     Lorsque je vais sur la campagne "LION" avec l'identifiant "khaleesi"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "C'est parti !"
-    Et je clique sur "connectez-vous à votre compte"
+    Et je clique sur "Se connecter"
     Et je me connecte avec le compte "daenerys.targaryen@pix.fr"
     Alors je vois la page d'"envoi-profil" de la campagne
     Lorsque je clique sur "J'envoie mon profil"
