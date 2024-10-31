@@ -366,11 +366,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
   async function _fillInputsToCreateUserPixAccount({ prescritUser, screen, t }) {
     await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), prescritUser.firstName);
     await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
-    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), prescritUser.email);
-    await fillIn(
-      screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
-      prescritUser.password,
-    );
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), prescritUser.email);
+    await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
     await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
     await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
   }

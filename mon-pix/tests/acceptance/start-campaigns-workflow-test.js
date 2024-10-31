@@ -104,16 +104,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               // when
               await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), prescritUser.firstName);
               await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
-              await fillIn(
-                screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }),
-                prescritUser.email,
-              );
-              await fillIn(
-                screen.getByLabelText(
-                  'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
-                ),
-                prescritUser.password,
-              );
+              await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), prescritUser.email);
+              await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
               await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
               // when
@@ -398,7 +390,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // when
-            await click(screen.getByRole('link', { name: 'connectez-vous à votre compte' }));
+            await click(screen.getByRole('link', { name: 'Se connecter' }));
             await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
             await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
 

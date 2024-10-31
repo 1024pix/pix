@@ -11,8 +11,8 @@ import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helper
 import setupIntl from '../helpers/setup-intl';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
-const PASSWORD_INPUT_LABEL = 'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)';
-const EMAIL_INPUT_LABEL = 'Adresse e-mail (ex: nom@exemple.fr)';
+const PASSWORD_INPUT_LABEL = 'Mot de passe';
+const EMAIL_INPUT_LABEL = 'Adresse e-mail';
 const FIRST_NAME_INPUT_LABEL = 'Prénom';
 const LAST_NAME_INPUT_LABEL = 'Nom';
 const DAY_BIRTH_INPUT_LABEL = 'jour de naissance';
