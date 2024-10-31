@@ -85,12 +85,7 @@ export default class PasswordResetForm extends Component {
           <:label>{{t "components.authentication.password-reset-form.fields.password.label"}}</:label>
         </NewPasswordInput>
 
-        <PixButton
-          class="password-reset-form__submit-button"
-          @isLoading={{this.isLoading}}
-          @size="large"
-          @type="submit"
-        >
+        <PixButton class="password-reset-form__submit-button" @isLoading={{this.isLoading}} @type="submit">
           {{t "components.authentication.password-reset-form.actions.submit"}}
         </PixButton>
       </form>
@@ -106,7 +101,7 @@ const PasswordResetSucceededInfo = <template>
     </h2>
   </div>
 
-  <PixButtonLink @route="authentication.login" @size="large">
+  <PixButtonLink @route="authentication.login">
     {{t "components.authentication.password-reset-form.actions.login"}}
   </PixButtonLink>
 </template>;

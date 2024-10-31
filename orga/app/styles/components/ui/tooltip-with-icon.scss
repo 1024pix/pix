@@ -1,0 +1,23 @@
+.tooltip-with-icon {
+  width: fit-content;
+
+  // @TODO: Remove !important when PixTooltip wil be fixed
+  &__increase{
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    fill: var(--pix-success-500) !important;
+  }
+
+  &__decrease {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    fill: var(--pix-error-500) !important;
+  }
+
+  &__stable {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    fill: var(--pix-warning-500) !important;
+  }
+}
+

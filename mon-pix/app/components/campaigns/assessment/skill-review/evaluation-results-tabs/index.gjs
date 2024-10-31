@@ -11,7 +11,7 @@ export default class EvaluationResultsTabs extends Component {
   @service tabManager;
 
   get showRewardsTab() {
-    return this.args.badges.length > 0;
+    return this.args.campaignParticipationResult.campaignParticipationBadges.length > 0;
   }
 
   get initialTabIndex() {
@@ -46,18 +46,22 @@ export default class EvaluationResultsTabs extends Component {
         <:panels as |Panel|>
           {{#if this.showRewardsTab}}
             <Panel @index={{0}}>
-              <Rewards @badges={{@badges}} />
+              <Rewards @badges={{@campaignParticipationResult.campaignParticipationBadges}} />
             </Panel>
           {{/if}}
           <Panel @index={{1}}>
-            <ResultsDetails @competenceResults={{@competenceResults}} @totalStage={{@totalStage}} />
+            <ResultsDetails
+              @competenceResults={{@campaignParticipationResult.competenceResults}}
+              @totalStage={{@campaignParticipationResult.reachedStage.totalStage}}
+            />
           </Panel>
           {{#if this.showTrainingsTab}}
             <Panel @index={{2}}>
               <Trainings
                 @trainings={{@trainings}}
-                @isParticipationShared={{@isParticipationShared}}
-                @campaignParticipationResultId={{@campaignParticipationResultId}}
+                @isParticipationShared={{@campaignParticipationResult.isShared}}
+                @campaignParticipationResultId={{@campaignParticipationResult.id}}
+                @campaignId={{@campaign.id}}
               />
             </Panel>
           {{/if}}
@@ -65,7 +69,10 @@ export default class EvaluationResultsTabs extends Component {
       </Tabs>
     {{else}}
       <section class="evaluation-results-tabs">
-        <ResultsDetails @competenceResults={{@competenceResults}} @totalStage={{@totalStage}} />
+        <ResultsDetails
+          @competenceResults={{@campaignParticipationResult.competenceResults}}
+          @totalStage={{@campaignParticipationResult.reachedStage.totalStage}}
+        />
       </section>
     {{/if}}
   </template>

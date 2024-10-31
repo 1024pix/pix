@@ -172,7 +172,7 @@ export default class SignupForm extends Component {
         />
       </fieldset>
 
-      <PixButton @type="submit" @isLoading={{this.isLoading}} @size="large">
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
         {{t "components.authentication.signup-form.actions.submit"}}
       </PixButton>
     </form>

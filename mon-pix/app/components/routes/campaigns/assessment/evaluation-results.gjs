@@ -43,11 +43,8 @@ export default class EvaluationResults extends Component {
         @showTrainings={{this.showTrainings}}
       />
       <EvaluationResultsTabs
-        @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}
-        @campaignParticipationResultId={{@model.campaignParticipationResult.id}}
-        @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-        @isParticipationShared={{@model.campaignParticipationResult.isShared}}
-        @totalStage={{@model.campaignParticipationResult.reachedStage.totalStage}}
+        @campaign={{@model.campaign}}
+        @campaignParticipationResult={{@model.campaignParticipationResult}}
         @trainings={{@model.trainings}}
       />
     </div>

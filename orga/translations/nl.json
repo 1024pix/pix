@@ -567,9 +567,11 @@
       },
       "result": "Resultaat",
       "table": {
+        "caption": "In deze tabel staan de deelnemers die hun resultaten hebben gedeeld. Voor elke deelnemer worden de achternaam, voornaam en resultaten weergegeven.",
         "column": {
           "ariaSharedResultCount": "Aantal verzonden resultaten",
           "badges": "Thematische resultaten",
+          "evolution": "Evolutie",
           "first-name": "Voornaam",
           "last-name": "Achternaam",
           "results": {
@@ -578,6 +580,15 @@
             "under-test": "Test bezig"
           },
           "sharedResultCount": "Aantal verzonden resultaten"
+        },
+        "evolution": {
+          "increase": "In uitvoering",
+          "decrease": "In verval",
+          "stable": "Constante",
+          "unavailable": "Niet beschikbaar"
+        },
+        "evolution-tooltip": {
+          "content": "Evolutie van de deelnemer tussen hun laatste twee gedeelde resultaten."
         },
         "empty": "Geen deelname",
         "row-title": "Deelnemer",

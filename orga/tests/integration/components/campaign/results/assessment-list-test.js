@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -52,6 +52,50 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
     // then
     assert.ok(screen.getByRole('link', { href: '/campagnes/1/evaluations/5' }));
+  });
+
+  module('table informations', function (hooks) {
+    let campaign;
+
+    hooks.beforeEach(function () {
+      campaign = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        participationsCount: 1,
+      });
+      this.set('campaign', campaign);
+    });
+
+    test('it should display caption', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::Results::AssessmentList
+  @caption='Some caption for this table.'
+  @campaign={{this.campaign}}
+  @onFilter={{this.noop}}
+/>`,
+      );
+
+      // then
+      assert.ok(screen.getByRole('caption', { name: 'Some caption for this table.' }));
+    });
+
+    test('it should display only basic headers', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
+      );
+
+      // then
+      assert.ok(screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.last-name') }));
+      assert.ok(screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.first-name') }));
+      assert.ok(screen.getByRole('columnheader', { name: t('pages.campaign-results.table.column.results.label') }));
+      assert.notOk(
+        screen.queryByRole('columnheader', { name: t('pages.campaign-results.table.column.sharedResultCount') }),
+      );
+      assert.notOk(screen.queryByRole('columnheader', { name: t('pages.campaign-results.table.column.evolution') }));
+      assert.notOk(screen.queryByRole('columnheader', { name: t('pages.campaign-results.table.column.badges') }));
+    });
   });
 
   module('when a participant has shared his results', function () {
@@ -194,6 +238,28 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         assert.ok(screen.getByText(t('pages.campaign-results.table.column.sharedResultCount')));
         assert.ok(screen.getByRole('cell', { name: '77' }));
       });
+
+      test('it should display evolution header and tooltip', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: '1',
+          name: 'campagne 1',
+          participationsCount: 1,
+          multipleSendings: true,
+        });
+        this.set('campaign', campaign);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
+        );
+
+        // then
+        const evolutionHeader = screen.getByRole('columnheader', {
+          name: t('pages.campaign-results.table.column.evolution'),
+        });
+        assert.ok(within(evolutionHeader).getByText(t('pages.campaign-results.table.evolution-tooltip.content')));
+      });
     });
 
     module('campaign has multiple sending not enabled', function () {
@@ -254,6 +320,41 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         // then
         assert.notOk(screen.queryByText(t('pages.campaign-results.table.column.sharedResultCount')));
         assert.notOk(screen.queryByRole('cell', { name: '77' }));
+      });
+
+      test('it should not display evolution column header', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          multipleSendings: false,
+        });
+        const participations = [
+          {
+            sharedResultCount: 1,
+          },
+        ];
+        this.set('campaign', campaign);
+        this.set('participations', participations);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
+/>`,
+        );
+
+        // then
+        assert.notOk(
+          screen.queryByRole('columnheader', {
+            name: t('pages.campaign-results.table.column.ariaEvolution'),
+          }),
+        );
       });
     });
   });

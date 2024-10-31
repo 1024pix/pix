@@ -16,14 +16,19 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       const store = this.owner.lookup('service:store');
 
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
-      this.set('badges', [acquiredBadge]);
+      this.set('campaignParticipationResult', {
+        campaignParticipationBadges: [acquiredBadge],
+      });
 
       const training = store.createRecord('training', { duration: { days: 2 } });
       this.set('trainings', [training]);
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+  @trainings={{this.trainings}}
+/>`,
       );
     });
 
@@ -47,16 +52,19 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       // given
       const store = this.owner.lookup('service:store');
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
-      this.set('badges', [acquiredBadge]);
+
+      this.set('campaignParticipationResult', {
+        campaignParticipationBadges: [acquiredBadge],
+        competenceResults: [],
+      });
+
       this.set('trainings', []);
-      this.set('competenceResults', []);
 
       // when
       const screen = await render(
         hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
-  @badges={{this.badges}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
-  @competenceResults={{this.competenceResults}}
 />`,
       );
 
@@ -76,8 +84,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       // given
       const store = this.owner.lookup('service:store');
 
-      this.set('badges', []);
-      this.set('competenceResults', []);
+      this.set('campaignParticipationResult', {
+        campaignParticipationBadges: [],
+        competenceResults: [],
+      });
 
       const training = store.createRecord('training', { duration: { days: 2 } });
       this.set('trainings', [training]);
@@ -85,9 +95,8 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       // when
       screen = await render(
         hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
-  @badges={{this.badges}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
-  @competenceResults={{this.competenceResults}}
 />`,
       );
     });
@@ -110,16 +119,18 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
   module('when there are no rewards and no trainings', function () {
     test('it should not display the tabs component', async function (assert) {
       // given
-      this.set('badges', []);
       this.set('trainings', []);
-      this.set('competenceResults', []);
+
+      this.set('campaignParticipationResult', {
+        campaignParticipationBadges: [],
+        competenceResults: [],
+      });
 
       // when
       const screen = await render(
         hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
-  @badges={{this.badges}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
   @trainings={{this.trainings}}
-  @competenceResults={{this.competenceResults}}
 />`,
       );
 

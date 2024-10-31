@@ -9,17 +9,11 @@ import { t } from 'ember-intl';
 import TrainingCard from '../../../../training/card';
 
 export default class EvaluationResultsTabsTrainings extends Component {
+  @service currentUser;
   @service store;
 
   @tracked isShareResultsLoading = false;
   @tracked isShareResultsError = false;
-  @tracked isParticipationShared = false;
-
-  constructor() {
-    super(...arguments);
-
-    this.isParticipationShared = this.args.isParticipationShared;
-  }
 
   @action
   async shareResults() {
@@ -31,7 +25,14 @@ export default class EvaluationResultsTabsTrainings extends Component {
 
       await adapter.share(this.args.campaignParticipationResultId);
 
-      this.isParticipationShared = true;
+      await this.store.queryRecord(
+        'campaign-participation-result',
+        {
+          campaignId: this.args.campaignId,
+          userId: this.currentUser.user.id,
+        },
+        { reload: true },
+      );
     } catch {
       this.isShareResultsError = true;
     } finally {
@@ -42,12 +43,12 @@ export default class EvaluationResultsTabsTrainings extends Component {
   <template>
     <div
       class="evaluation-results-tab__trainings
-        {{unless this.isParticipationShared 'evaluation-results-tab__trainings--with-modal'}}"
+        {{unless @isParticipationShared 'evaluation-results-tab__trainings--with-modal'}}"
     >
       <div
         class="evaluation-results-tab__trainings-content"
-        inert={{unless this.isParticipationShared "true"}}
-        role={{unless this.isParticipationShared "presentation"}}
+        inert={{unless @isParticipationShared "true"}}
+        role={{unless @isParticipationShared "presentation"}}
       >
         <h2 class="evaluation-results-tab__title">{{t "pages.skill-review.tabs.trainings.title"}}</h2>
         <p class="evaluation-results-tab__description">{{t "pages.skill-review.tabs.trainings.description"}}</p>
@@ -61,7 +62,7 @@ export default class EvaluationResultsTabsTrainings extends Component {
         </ul>
       </div>
 
-      {{#unless this.isParticipationShared}}
+      {{#unless @isParticipationShared}}
         <div class="evaluation-results-tab__share-results-modal" role="dialog">
           <div class="evaluation-results-tab-share-results-modal__content">
             <p>{{t "pages.skill-review.tabs.trainings.modal.content" htmlSafe=true}}</p>

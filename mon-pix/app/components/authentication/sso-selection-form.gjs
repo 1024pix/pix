@@ -54,7 +54,6 @@ export default class SsoSelectionForm extends Component {
           aria-describedby="signin-message"
           @route="authentication.login-oidc"
           @model={{this.selectedProviderId}}
-          @size="large"
         >
           {{t "pages.authentication.sso-selection.signin.link"}}
         </PixButtonLink>
@@ -63,7 +62,7 @@ export default class SsoSelectionForm extends Component {
           {{t "pages.authentication.sso-selection.signin.message" providerName=this.selectedProviderName}}
         </p>
       {{else}}
-        <PixButton @type="button" @isDisabled={{true}} @size="large">
+        <PixButton @type="button" @isDisabled={{true}}>
           {{t "pages.authentication.sso-selection.signin.link"}}
         </PixButton>
       {{/if}}

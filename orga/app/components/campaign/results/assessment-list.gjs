@@ -2,6 +2,7 @@ import { t } from 'ember-intl';
 
 import TableHeader from '../../table/header';
 import TablePaginationControl from '../../table/pagination-control';
+import TooltipWithIcon from '../../ui/tooltip-with-icon';
 import CampaignParticipationFilters from '../filter/participation-filters';
 import CampaignAssessmentRow from '../results/assessment-row';
 
@@ -24,6 +25,7 @@ import CampaignAssessmentRow from '../results/assessment-row';
 
     <div class="panel">
       <table class="table content-text content-text--small">
+        <caption class="screen-reader-only">{{@caption}}</caption>
         <colgroup class="table__column">
           <col />
           <col />
@@ -44,6 +46,20 @@ import CampaignAssessmentRow from '../results/assessment-row';
             {{/if}}
             <TableHeader>{{t "pages.campaign-results.table.column.results.label"}}</TableHeader>
             {{#if @campaign.multipleSendings}}
+              <TableHeader>
+                <div class="assessment-list__evolution-header">
+                  {{t "pages.campaign-results.table.column.evolution"}}
+                  <TooltipWithIcon
+                    @iconName="help"
+                    @position="top"
+                    @isInline={{true}}
+                    @plainIcon={{true}}
+                    @content={{t "pages.campaign-results.table.evolution-tooltip.content"}}
+                    @ariaHiddenIcon={{true}}
+                  />
+                </div>
+
+              </TableHeader>
               <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaSharedResultCount"}}>
                 {{t "pages.campaign-results.table.column.sharedResultCount"}}
               </TableHeader>

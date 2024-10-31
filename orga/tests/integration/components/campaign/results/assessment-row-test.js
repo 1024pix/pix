@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -7,7 +8,6 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Results::AssessmentRow', function (hooks) {
   setupIntlRenderingTest(hooks);
-
   hooks.beforeEach(function () {
     this.set('noop', sinon.stub());
   });
@@ -36,6 +36,31 @@ module('Integration | Component | Campaign::Results::AssessmentRow', function (h
       );
       // then
       assert.ok(screen.getByText('10'));
+    });
+
+    test('it should display an evolution icon', async function (assert) {
+      // given
+      const participation = { sharedResultCount: 10, evolution: 'increase' };
+
+      this.set('displayParticipationCount', true);
+      this.set('campaign', {});
+      this.set('participation', participation);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::Results::AssessmentRow
+  @hasStages={{this.campaign.hasStages}}
+  @hasBadges={{this.campaign.hasBadges}}
+  @hasExternalId={{this.campaign.hasExternalId}}
+  @participation={{this.participation}}
+  @campaignId={{this.campaign.id}}
+  @stages={{this.campaign.stages}}
+  @onClickParticipant={{this.noop}}
+  @displayParticipationCount={{this.displayParticipationCount}}
+/>`,
+      );
+      // then
+      assert.ok(screen.getByRole('cell', { name: t('pages.campaign-results.table.evolution.increase') }));
     });
   });
 

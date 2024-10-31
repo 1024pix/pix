@@ -5,6 +5,7 @@ import { t } from 'ember-intl';
 
 import MasteryPercentageDisplay from '../../ui/mastery-percentage-display';
 import CampaignBadges from '../badges';
+import ParticipationEvolutionIcon from './participation-evolution-icon';
 
 <template>
   <tr
@@ -33,6 +34,10 @@ import CampaignBadges from '../badges';
       />
     </td>
     {{#if @displayParticipationCount}}
+      <td>
+        <ParticipationEvolutionIcon @evolution={{@participation.evolution}} />
+      </td>
+
       <td class="table__column--small">
         {{@participation.sharedResultCount}}
       </td>

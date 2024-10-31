@@ -152,7 +152,7 @@ export default class SigninForm extends Component {
         </div>
       </fieldset>
 
-      <PixButton @type="submit" @isLoading={{this.isLoading}} @isDisabled={{this.isFormDisabled}} @size="large">
+      <PixButton @type="submit" @isLoading={{this.isLoading}} @isDisabled={{this.isFormDisabled}}>
         {{t "pages.sign-in.actions.submit"}}
       </PixButton>
     </form>

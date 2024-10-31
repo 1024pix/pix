@@ -10,7 +10,8 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ENV from 'mon-pix/config/environment';
 
-import isEmailValid from '../../utils/email-validator.js';
+import isEmailValid from '../../../utils/email-validator.js';
+import PasswordResetDemandReceivedInfo from './password-reset-demand-received-info';
 
 export default class PasswordResetDemandForm extends Component {
   @service intl;
@@ -103,7 +104,6 @@ export default class PasswordResetDemandForm extends Component {
         <div>
           <PixButton
             @type="submit"
-            @size="large"
             @isLoading={{this.isLoading}}
             class="authentication-password-reset-demand-form__button"
           >
@@ -125,26 +125,3 @@ export default class PasswordResetDemandForm extends Component {
     {{/if}}
   </template>
 }
-
-const PasswordResetDemandReceivedInfo = <template>
-  <div class="authentication-password-reset-demand-received-info">
-    <img src="/images/mail.svg" alt="" />
-    <h2 class="authentication-password-reset-demand-received-info__heading">
-      {{t "components.authentication.password-reset-demand-received-info.heading"}}
-    </h2>
-    <p class="authentication-password-reset-demand-received-info__message">
-      {{t "components.authentication.password-reset-demand-received-info.message"}}
-    </p>
-    <p class="authentication-password-reset-demand-received-info__help">
-      {{t "components.authentication.password-reset-demand-received-info.no-email-received-question"}}
-      <PixButtonLink
-        @variant="tertiary"
-        @route="password-reset-demand"
-        target="_blank"
-        class="authentication-password-reset-demand-form__help-contact-us-link"
-      >
-        {{t "components.authentication.password-reset-demand-received-info.try-again"}}
-      </PixButtonLink>
-    </p>
-  </div>
-</template>;

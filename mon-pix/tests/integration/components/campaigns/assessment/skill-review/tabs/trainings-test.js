@@ -13,6 +13,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
   module('when participation is already shared', function () {
     test('it should display the trainings list', async function (assert) {
       // given
+
       const store = this.owner.lookup('service:store');
       const training1 = store.createRecord('training', {
         title: 'Mon super training',
@@ -31,7 +32,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
       const screen = await render(
         hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Trainings
   @trainings={{this.trainings}}
-  @isParticipationShared='true'
+  @isParticipationShared={{true}}
 />`,
       );
 
@@ -53,6 +54,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
     hooks.beforeEach(async function () {
       // given
       this.set('isParticipationShared', false);
+      this.set('campaignId', 1);
       this.set('campaignParticipationResultId', 1);
 
       // when
@@ -60,6 +62,7 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
         hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Trainings
   @isParticipationShared={{this.isParticipationShared}}
   @campaignParticipationResultId={{this.campaignParticipationResultId}}
+  @campaignId={{this.campaignId}}
 />`,
       );
     });
@@ -81,16 +84,19 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
     });
 
     module('when clicking on the share results button', function (hooks) {
-      let adapter;
+      let adapter, storeService;
 
       hooks.beforeEach(function () {
-        const store = this.owner.lookup('service:store');
-        adapter = store.adapterFor('campaign-participation-result');
+        sinon.stub(this.owner.lookup('service:currentUser'), 'user').value({ id: 1 });
+
+        storeService = this.owner.lookup('service:store');
+        adapter = storeService.adapterFor('campaign-participation-result');
       });
 
-      test('it should call the share method of the adapter', async function (assert) {
+      test('it should call the share method of the adapter and reload campaign-participation-result model', async function (assert) {
         // given
         const createShareStub = sinon.stub(adapter, 'share');
+        sinon.stub(storeService, 'queryRecord');
 
         // when
         await click(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') }));
@@ -98,24 +104,17 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
         // then
         assert.ok(createShareStub.calledOnce);
         sinon.assert.calledWithExactly(createShareStub, 1);
-      });
 
-      module('when share action succeeds', function () {
-        test('it hide the dialog and show the trainings list', async function (assert) {
-          // given
-          sinon.stub(adapter, 'share');
-
-          // when
-          await click(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') }));
-
-          // then
-          assert.dom(screen.queryByRole('dialog')).doesNotExist();
-
-          const trainingsListTitle = screen.getByRole('heading', {
-            name: t('pages.skill-review.tabs.trainings.title'),
-          });
-          assert.dom(trainingsListTitle.closest('[role="presentation"]')).doesNotExist();
-        });
+        assert.ok(storeService.queryRecord.calledOnce);
+        sinon.assert.calledWithExactly(
+          storeService.queryRecord,
+          'campaign-participation-result',
+          {
+            campaignId: this.campaignId,
+            userId: 1,
+          },
+          { reload: true },
+        );
       });
 
       module('when share action fails', function () {

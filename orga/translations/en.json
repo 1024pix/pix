@@ -605,9 +605,11 @@
       "result": "Result",
       "table": {
         "title": "List of submitted results",
+        "caption": "This table lists the participants who have shared their results. For each participant, it shows their surname, first name and elements of results.",
         "column": {
           "ariaSharedResultCount": "Number of sent results",
           "badges": "Thematic results",
+          "evolution": "Evolution",
           "first-name": "First name",
           "last-name": "Last name",
           "results": {
@@ -618,6 +620,15 @@
           "sharedResultCount": "No of sent results"
         },
         "empty": "No participants",
+        "evolution": {
+          "decrease": "In decline",
+          "increase": "In progress",
+          "stable": "Constant",
+          "unavailable": "Not available"
+        },
+        "evolution-tooltip": {
+          "content": "Evolution of the participant between their last two shared results."
+        },
         "row-title": "Participant"
       },
       "tested-items": "Items assessed",

@@ -175,7 +175,7 @@
         "heading": "Vérifiez votre messagerie électronique",
         "message": "Si votre adresse est bien associée à un compte Pix, les instructions pour réinitialiser votre mot de passe vous ont été envoyées par e-mail.",
         "no-email-received-question": "Vous n’avez pas reçu d’e-mail ?",
-        "try-again": "Renvoyer l’e-mail de réinitialisation"
+        "try-again": "Faire une autre demande"
       },
       "password-reset-form": {
         "actions": {

@@ -27,7 +27,6 @@ export default class OtherAuthenticationProviders extends Component {
           @route="authentication.login-oidc"
           @model="{{this.oidcIdentityProviders.featuredIdentityProvider.slug}}"
           @variant="secondary"
-          @size="large"
           class="authentication-other-authentication-providers-section__button-link"
         >
           <img
@@ -46,7 +45,6 @@ export default class OtherAuthenticationProviders extends Component {
         <PixButtonLink
           @route={{this.ssoSelectionRoute}}
           @variant="secondary"
-          @size="large"
           class="authentication-other-authentication-providers-section__button-link"
         >
           {{t "components.authentication.other-authentication-providers.select-another-organization-link"}}

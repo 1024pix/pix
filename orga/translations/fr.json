@@ -611,9 +611,11 @@
       "result": "Résultat",
       "table": {
         "title": "Liste des résultats reçus",
+        "caption": "Ce tableau comporte la liste des participants ayant partagé leurs résultats. Il indique pour chaque participant leur nom, prénom et des éléments de résultats.",
         "column": {
           "ariaSharedResultCount": "Nombre de résultats envoyés",
           "badges": "Résultats Thématiques",
+          "evolution": "Évolution",
           "first-name": "Prénom",
           "last-name": "Nom",
           "results": {
@@ -624,6 +626,15 @@
           "sharedResultCount": "Nb résultats envoyés"
         },
         "empty": "Aucune participation",
+        "evolution": {
+          "decrease": "En régression",
+          "increase": "En progression",
+          "stable": "Constant",
+          "unavailable": "Non disponible"
+        },
+        "evolution-tooltip": {
+          "content": "Évolution du participant entre ses deux derniers résultats partagés."
+        },
         "row-title": "Participant"
       },
       "tested-items": "Acquis évalués",
