@@ -670,12 +670,12 @@
               {
                 "id": "2",
                 "content": "<p>sur sa boîte mail</p>",
-                "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
               },
               {
                 "id": "3",
                 "content": "<p>sur le site internet de la mairie</p>",
-                "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
               }
             ],
             "feedbacks": {
@@ -788,12 +788,12 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Bonne réponse.</span></p>\n<p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Mauvaise réponse.</span></p>\n<p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -814,12 +814,12 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Bonne réponse.</span></p>\n<p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Mauvaise réponse.</span></p>\n<p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -840,12 +840,12 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Mauvaise réponse.</span></p>\n<p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Bonne réponse.</span></p>\n<p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -908,27 +908,27 @@
                     {
                       "id": "1",
                       "content": "<p>la messagerie</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>le blog</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>l'emploi du temps</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Correct.</span></p>\n<p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                     },
                     {
                       "id": "4",
                       "content": "<p>l'espace documentaire</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>L’espace documentaire permet de consulter des documents partagés, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>L’espace documentaire permet de consulter des documents partagés, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
                       "id": "5",
                       "content": "<p>le cahier de texte</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le cahier de texte numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le cahier de texte numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -956,17 +956,17 @@
                     {
                       "id": "1",
                       "content": "<p>1</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>2</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Correct.</span></p>\n<p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>4</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
                     }
                   ],
                   "feedbacks": {
@@ -994,17 +994,17 @@
                     {
                       "id": "1",
                       "content": "<p>Histoire-géographie</p>",
-                      "feedback": "<p>Incorrect.</p><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Français</p>",
-                      "feedback": "<p>Correct.</p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
+                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>Correct.</p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>Mathématiques</p>",
-                      "feedback": "<p><span class=\"\\&quot;feedback__state\\&quot;\">Incorrect.</span></p>\n<p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -1060,17 +1060,17 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p>Le compte ENT est personnel. Votre enfant doit se connecter à son compte pour rendre son devoir.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le compte ENT est personnel. Votre enfant doit se connecter à son compte pour rendre son devoir.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
+                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p>Correct !&nbsp;</p>",
-                    "invalid": "<p>Incorrect.</p>"
+                    "valid": "<p><br></p>",
+                    "invalid": "<p><br></p>"
                   },
                   "solution": "2"
                 }
@@ -1086,17 +1086,17 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p>Correct !&nbsp;</p>",
-                    "invalid": "<p>Incorrect.</p>"
+                    "valid": "<p><br></p>",
+                    "invalid": "<p><br></p>"
                   },
                   "solution": "1"
                 }
@@ -1112,17 +1112,17 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n'utilise pas mon compte parent.</p>",
-                      "feedback": "<p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p>Correct !&nbsp;</p>",
-                    "invalid": "<p>Incorrect.</p>"
+                    "valid": "<p><br></p>",
+                    "invalid": "<p><br></p>"
                   },
                   "solution": "2"
                 }
