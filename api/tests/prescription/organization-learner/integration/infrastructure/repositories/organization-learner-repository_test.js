@@ -557,7 +557,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         const thirdLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
           firstName: 'Toto',
-          lastName: 'auberto',
+          lastName: 'auberti',
         });
 
         await databaseBuilder.commit();
@@ -565,8 +565,8 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
 
         expect(result.learners).lengthOf(3);
-        expect(result.learners[0].id).to.equal(secondLearner.id);
-        expect(result.learners[1].id).to.equal(thirdLearner.id);
+        expect(result.learners[0].id).to.equal(thirdLearner.id);
+        expect(result.learners[1].id).to.equal(secondLearner.id);
         expect(result.learners[2].id).to.equal(firstLearner.id);
       });
     });
