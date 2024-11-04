@@ -73,7 +73,7 @@
               {
                 "id": "1",
                 "content": "<p>Port n°1</p>",
-                "feedback": "<p><span class=\"feedback__state\">Correct.</span></p><p>C'est bien sur ce port que se branche le câble d'alimentation. Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut êter d'une taille ou d'une forme différente.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Correct.</span></p><p>C'est bien sur ce port que se branche le câble d'alimentation.<br> Cependant, selon la marque et le modèle d'ordinateur dont vous disposez, ce port peut être d'une taille ou d'une forme différente.</p>"
               },
               {
                 "id": "2",
@@ -129,7 +129,7 @@
                 {
                   "id": "df4b59c7-b4d8-450c-985a-dc9bc9735f26",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port d’alimentation électrique</strong>.<br> Il sert à recharger un ordinateur ou à le connecter au réseau électrique.&nbsp;<span aria-hidden=\"true\">🔌</span> Sur les ordinateurs portables, il existe de nombreuses variantes. Sur un ordinateur fixe, ce port est plus gros.</p>"
+                  "content": "<p>Ce port est un <strong>port d’alimentation électrique</strong>.<br> Il sert à recharger un ordinateur ou à le connecter au réseau électrique.&nbsp;<span aria-hidden=\"true\">🔌</span> </p><p>Sur les ordinateurs portables, il existe de nombreuses variantes. Sur un ordinateur fixe, ce port est plus gros.</p>"
                 }
               ]
             },
@@ -145,7 +145,7 @@
                 {
                   "id": "466f1f93-de01-4c1e-9624-2783a875fcf2",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Il sert à connecter un écran ou un vidéo-projecteur à l’ordinateur.&nbsp;<span aria-hidden=\"true\">📽️</span> De nos jours, il est de moins en moins utilisé.</p>"
+                  "content": "<p>Ce port est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. </p><p>Il sert à connecter un écran ou un vidéo-projecteur à l’ordinateur.&nbsp;<span aria-hidden=\"true\">📽️</span> De nos jours, il est de moins en moins utilisé.</p>"
                 }
               ]
             },
@@ -161,7 +161,7 @@
                 {
                   "id": "86851d7d-0ce8-48a3-b8ac-433da8134dec",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté. Ce port sert principalement à connecter un écran ou un vidéoprojecteur à l’ordinateur, comme le port VGA.&nbsp;<span aria-hidden=\"true\">📽️</span></p>"
+                  "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté.</p><p>Ce port sert principalement à connecter un écran ou un vidéoprojecteur à l’ordinateur, comme le port VGA.&nbsp;<span aria-hidden=\"true\">📽️</span></p>"
                 }
               ]
             },
@@ -177,7 +177,7 @@
                 {
                   "id": "706f1c55-3009-4cff-affe-6548076d65ac",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur. Par exemple : une souris, un clavier, une clé USB, etc.&nbsp;&nbsp;<span aria-hidden=\"true\">🖱️</span>&nbsp;<span aria-hidden=\"true\">🎮</span></p>"
+                  "content": "<p>Ce port est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur.</p><p> Par exemple : une souris, un clavier, une clé USB, etc.&nbsp;&nbsp;<span aria-hidden=\"true\">🖱️</span>&nbsp;<span aria-hidden=\"true\">🎮</span></p>"
                 }
               ]
             },
@@ -225,7 +225,7 @@
                 {
                   "id": "12ac3b9a-286c-4587-9a0d-6dc56e13caf9",
                   "type": "text",
-                  "content": "<p>Ce port est un <strong>port jack</strong> ou <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque.&nbsp;<span aria-hidden=\"true\">🎧</span> Il sert à connecter des appareils audios à l’ordinateur&nbsp;: des écouteurs, un casque, un micro, etc.</p>"
+                  "content": "<p>Ce port est un <strong>port jack</strong> ou <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque.&nbsp;<span aria-hidden=\"true\">🎧</span> </p><p>Il sert à connecter des appareils audios à l’ordinateur&nbsp;: des écouteurs, un casque, un micro, etc.</p>"
                 }
               ]
             }
@@ -291,7 +291,7 @@
               {
                 "id": "6",
                 "content": "<p>Port n°6</p>",
-                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port USB de Type C, ou USB-C. Il&nbsp;est plus petit qu ele Port USB classique. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>C'est le port USB de Type C, ou USB-C. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
               }
             ],
             "solution": "4"
