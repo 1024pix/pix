@@ -31,7 +31,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
   test('it should display a header', async function (assert) {
     // then
-    assert.dom(screen.getByRole('heading', { name: 'Campaign title' })).exists();
+    assert.dom(screen.getByRole('heading', { name: /Campaign title/ })).exists();
   });
 
   test('it should display a hero', async function (assert) {

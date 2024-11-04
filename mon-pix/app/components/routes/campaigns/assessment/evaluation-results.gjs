@@ -28,12 +28,13 @@ export default class EvaluationResults extends Component {
   }
 
   <template>
-    <div class="evaluation-results">
+    <main role="main" class="evaluation-results">
       <header class="evaluation-results__header">
         <img class="evaluation-results-header__logo" src="/images/pix-logo-dark.svg" alt="{{t 'common.pix'}}" />
-        <h2 class="evaluation-results-header__title">
+        <h1 class="evaluation-results-header__title">
           <span>{{@model.campaign.title}}</span>
-        </h2>
+          <span class="sr-only">{{t "pages.skill-review.abstract-title"}}</span>
+        </h1>
         <QuitResults @isCampaignShared={{@model.campaignParticipationResult.isShared}} />
       </header>
       <EvaluationResultsHero
@@ -47,6 +48,6 @@ export default class EvaluationResults extends Component {
         @campaignParticipationResult={{@model.campaignParticipationResult}}
         @trainings={{@model.trainings}}
       />
-    </div>
+    </main>
   </template>
 }
