@@ -7,7 +7,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { or } from 'ember-truth-helpers';
 import ENV from 'mon-pix/config/environment';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
@@ -45,6 +44,11 @@ export default class EvaluationResultsHero extends Component {
       acquired: this.args.campaignParticipationResult.reachedStage.reachedStage - 1,
       total: this.args.campaignParticipationResult.reachedStage.totalStage - 1,
     };
+  }
+
+  get showCustomOrganizationBlock() {
+    const hasCustomContent = this.args.campaign.customResultPageText || this.args.campaign.hasCustomResultPageButton;
+    return hasCustomContent && this.args.campaignParticipationResult.isShared;
   }
 
   @action
@@ -157,15 +161,19 @@ export default class EvaluationResultsHero extends Component {
                 {{t "pages.skill-review.hero.see-trainings"}}
               </PixButton>
             {{else}}
-              <PixButtonLink @route="authentication.login" @size="large">
-                {{t "navigation.back-to-homepage"}}
-              </PixButtonLink>
+              {{#unless @campaign.hasCustomResultPageButton}}
+                <PixButtonLink @route="authentication.login" @size="large">
+                  {{t "navigation.back-to-homepage"}}
+                </PixButtonLink>
+              {{/unless}}
             {{/if}}
           {{else}}
             {{#if this.isAutonomousCourse}}
-              <PixButtonLink @route="authentication.login" @size="large">
-                {{t "navigation.back-to-homepage"}}
-              </PixButtonLink>
+              {{#unless @campaign.hasCustomResultPageButton}}
+                <PixButtonLink @route="authentication.login" @size="large">
+                  {{t "navigation.back-to-homepage"}}
+                </PixButtonLink>
+              {{/unless}}
             {{else}}
               <PixButton
                 @triggerAction={{this.handleShareResultsClick}}
@@ -200,7 +208,7 @@ export default class EvaluationResultsHero extends Component {
           <AcquiredBadges @acquiredBadges={{@campaignParticipationResult.acquiredBadges}} />
         {{/if}}
       </div>
-      {{#if (or @campaign.customResultPageText @campaign.hasCustomResultPageButton)}}
+      {{#if this.showCustomOrganizationBlock}}
         <CustomOrganizationBlock
           @customResultPageText={{@campaign.customResultPageText}}
           @customResultPageButtonText={{@campaign.customResultPageButtonText}}

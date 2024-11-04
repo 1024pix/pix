@@ -152,7 +152,7 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
     });
 
     module('when results are shared', function () {
-      module('when there are no trainings', function () {
+      module('when there are no trainings and no custom link', function () {
         test('it should display a message and a homepage link', async function (assert) {
           // given
           this.set('campaign', { organizationId: 1 });
@@ -169,6 +169,29 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
           // then
           assert.dom(screen.getByText(t('pages.skill-review.hero.shared-message'))).exists();
           assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
+        });
+      });
+
+      module('when there are no trainings and a custom link', function () {
+        test('it should display a message but no homepage link', async function (assert) {
+          // given
+          this.set('campaign', {
+            organizationId: 1,
+            hasCustomResultPageButton: true,
+          });
+          this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
+
+          // when
+          const screen = await render(
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.getByText(t('pages.skill-review.hero.shared-message'))).exists();
+          assert.dom(screen.queryByRole('link', { name: t('navigation.back-to-homepage') })).doesNotExist();
         });
       });
 
@@ -214,25 +237,56 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
   });
 
   module('when it is an autonomous course', function () {
-    test('it should display only a homepage link', async function (assert) {
-      // given
-      this.set('campaign', { organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID });
-      this.set('campaignParticipationResult', { masteryRate: 0.75 });
+    module('when there is no custom link', function () {
+      test('it should display only a homepage link', async function (assert) {
+        // given
+        this.set('campaign', {
+          organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          hasCustomResultPageButton: false,
+        });
+        this.set('campaignParticipationResult', { masteryRate: 0.75 });
 
-      // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+        // when
+        const screen = await render(
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
-      );
+        );
 
-      // then
-      assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
+        // then
+        assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
 
-      assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
-      assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+        assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+      });
+    });
+
+    module('when there is a custom link', function () {
+      test('it should not display a homepage link', async function (assert) {
+        // given
+        this.set('campaign', {
+          organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          hasCustomResultPageButton: true,
+        });
+        this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+        // when
+        const screen = await render(
+          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+        );
+
+        // then
+        assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
+
+        assert.dom(screen.queryByRole('link', { name: t('navigation.back-to-homepage') })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+      });
     });
   });
 
@@ -479,58 +533,8 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
   });
 
   module('custom organization block', function () {
-    module('when customResultPageText if defined', function () {
-      test('displays the organization block with the text', async function (assert) {
-        // given
-        this.set('campaign', {
-          customResultPageText: 'My custom result page text',
-          organizationId: 1,
-        });
-
-        this.set('campaignParticipationResult', { masteryRate: 0.75 });
-
-        // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
-        );
-
-        // then
-        assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
-        assert.dom(screen.getByText('My custom result page text')).exists();
-      });
-    });
-
-    module('when campaign has customResultPageButton', function () {
-      test('displays the organization block with the custom button', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const campaign = await store.createRecord('campaign', {
-          customResultPageButtonUrl: 'https://example.net',
-          customResultPageButtonText: 'Custom result page button text',
-          organizationId: 1,
-        });
-        this.set('campaign', campaign);
-        this.set('campaignParticipationResult', { masteryRate: 0.75 });
-
-        // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
-        );
-
-        // then
-        assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
-        assert.dom(screen.getByRole('link', { name: 'Custom result page button text' })).exists();
-      });
-    });
-
-    module('when campaign has no custom result page button or text', function () {
-      test('no display the organization block', async function (assert) {
+    module('when results are not shared', function () {
+      test('it should not display the organization block', async function (assert) {
         // given
         this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', { masteryRate: 0.75 });
@@ -546,6 +550,78 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
         // then
         assert.dom(screen.queryByText(t('pages.skill-review.organization-message'))).doesNotExist();
         assert.dom(screen.queryByText('My custom result page text')).doesNotExist();
+      });
+    });
+
+    module('when results are shared', function () {
+      module('when customResultPageText if defined', function () {
+        test('displays the organization block with the text', async function (assert) {
+          // given
+          this.set('campaign', {
+            customResultPageText: 'My custom result page text',
+            organizationId: 1,
+          });
+
+          this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
+
+          // when
+          const screen = await render(
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
+          assert.dom(screen.getByText('My custom result page text')).exists();
+        });
+      });
+
+      module('when campaign has customResultPageButton', function () {
+        test('displays the organization block with the custom button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const campaign = await store.createRecord('campaign', {
+            customResultPageButtonUrl: 'https://example.net',
+            customResultPageButtonText: 'Custom result page button text',
+            organizationId: 1,
+          });
+          this.set('campaign', campaign);
+          this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
+
+          // when
+          const screen = await render(
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
+          assert.dom(screen.getByRole('link', { name: 'Custom result page button text' })).exists();
+        });
+      });
+
+      module('when campaign has no custom result page button or text', function () {
+        test('no display the organization block', async function (assert) {
+          // given
+          this.set('campaign', { organizationId: 1 });
+          this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
+
+          // when
+          const screen = await render(
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.queryByText(t('pages.skill-review.organization-message'))).doesNotExist();
+          assert.dom(screen.queryByText('My custom result page text')).doesNotExist();
+        });
       });
     });
   });
