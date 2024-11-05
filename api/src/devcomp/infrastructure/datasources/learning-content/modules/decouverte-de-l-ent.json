@@ -60,7 +60,7 @@
               {
                 "id": "1",
                 "content": "<p>sur l'espace numérique de travail</p>",
-                "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
               },
               {
                 "id": "2",
@@ -183,7 +183,7 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     },
                     {
                       "id": "2",
@@ -209,7 +209,7 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     },
                     {
                       "id": "2",
@@ -240,7 +240,7 @@
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -313,7 +313,7 @@
                     {
                       "id": "3",
                       "content": "<p>l'emploi du temps</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                     },
                     {
                       "id": "4",
@@ -356,7 +356,7 @@
                     {
                       "id": "2",
                       "content": "<p>2</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                     },
                     {
                       "id": "3",
@@ -399,7 +399,7 @@
                     {
                       "id": "2",
                       "content": "<p>Français</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Correct.</p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>Correct.</p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -460,7 +460,7 @@
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -481,7 +481,7 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     },
                     {
                       "id": "2",
@@ -512,7 +512,7 @@
                     {
                       "id": "2",
                       "content": "<p>Je n'utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉/span&gt;</span></span></p>\n<p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
                     }
                   ],
                   "feedbacks": {
