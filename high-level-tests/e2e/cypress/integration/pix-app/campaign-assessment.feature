@@ -23,9 +23,6 @@ Fonctionnalité: Campagne d'évaluation
     Alors je vois l'épreuve "Qui a dit « Toute méchanceté a sa source dans la faiblesse » ?"
     Lorsque je clique sur "Je passe"
     Et je clique sur "Voir mes résultats"
-    Alors je vois la page de "chargement-resultats" de la campagne
-    Lorsque j'attends 3200 ms
-    Et je clique sur "Continuer"
     Alors je vois 50% de réussite aux questions
     Alors je vois l'onglet de détails des résultats avec 2 compétences
     Lorsque je clique sur "J'envoie mes résultats"

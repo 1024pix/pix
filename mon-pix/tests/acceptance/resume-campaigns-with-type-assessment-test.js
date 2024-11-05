@@ -1,4 +1,4 @@
-import { visit, waitFor } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -78,7 +78,7 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
         await visit(`/campagnes/${campaign.code}`);
 
         // then
-        assert.ok(currentURL().includes(`/campagnes/${campaign.code}/chargement-resultats`));
+        assert.ok(currentURL().includes(`/campagnes/${campaign.code}/evaluation/resultats`));
       });
     });
 
@@ -87,13 +87,6 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
         // given
         const screen = await visit(`/campagnes/${campaign.code}`);
         await click(screen.getByRole('link', { name: 'Voir mes résultats' }));
-        await waitFor(
-          async () => {
-            await click(screen.getByRole('button', { name: 'Continuer' }));
-          },
-          { timeout: 5000 },
-        );
-
         await click(screen.getByRole('button', { name: "J'envoie mes résultats" }));
 
         // when
@@ -122,12 +115,6 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
         // when
         const screen = await visit(`/campagnes/${campaign.code}`);
         await click(screen.getByRole('link', { name: 'Voir mes résultats' }));
-        await waitFor(
-          async () => {
-            await click(screen.getByRole('button', { name: 'Continuer' }));
-          },
-          { timeout: 5000 },
-        );
 
         // then
         assert.ok(currentURL().includes(`/campagnes/${campaign.code}/evaluation/resultats`));

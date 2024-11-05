@@ -91,7 +91,6 @@ Router.map(function () {
       this.route('fill-in-participant-external-id', { path: '/identifiant' });
     });
     this.route('entrance', { path: '/entree' });
-    this.route('results-loader', { path: '/chargement-resultats' });
     this.route('profiles-collection', { path: '/collecte' }, function () {
       this.route('start-or-resume', { path: '/' });
       this.route('send-profile', { path: '/envoi-profil' });
