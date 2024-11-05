@@ -60,17 +60,17 @@
               {
                 "id": "1",
                 "content": "<p>sur l'espace numérique de travail</p>",
-                "feedback": "<span class=\"feedback__state\">Correct !</span><p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
               },
               {
                 "id": "2",
                 "content": "<p>sur sa boîte mail</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
               },
               {
                 "id": "3",
                 "content": "<p>sur le site internet de la mairie</p>",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
               }
             ],
             "feedbacks": {
@@ -102,7 +102,7 @@
           "element": {
             "id": "d3f646e0-1c3d-42bf-a604-9e8e9c2a29a9",
             "type": "text",
-            "content": "<p>L’espace numérique de travail (ENT) est l’outil numérique donné par l’établissement scolaire. </p>\n<p>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...).</p><p>Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><span aria-hidden=\"\\&quot;true\\&quot;\"> 💡 </span>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
+            "content": "<p><strong>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire. </strong></p>\n<p>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...).</p>\n<p>Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><span aria-hidden=\"\\&quot;true\\&quot;\"> 💡 </span>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
           }
         },
         {
@@ -127,7 +127,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp; </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
+            "content": "<p><strong>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp;</strong> </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
           }
         },
         {
@@ -152,7 +152,7 @@
           "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
-            "content": "<p>Tous les collèges et les lycées publics ont un ENT. Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p>Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
+            "content": "<p><strong>Tous les collèges et les lycées publics ont un ENT. </strong>Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p>Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
           }
         }
       ]
@@ -183,12 +183,12 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -209,12 +209,12 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -235,12 +235,12 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -301,29 +301,29 @@
                   "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.&nbsp;</p><p>Quelle application doit-il utiliser ? <br><br></p>",
                   "proposals": [
                     {
-                      "id": "1",
-                      "content": "<p>la messagerie</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
-                    },
-                    {
                       "id": "2",
                       "content": "<p>le blog</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                    },
+                    {
+                      "id": "1",
+                      "content": "<p>la messagerie</p>",
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>l'emploi du temps</p>",
-                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                     },
                     {
                       "id": "4",
                       "content": "<p>l'espace documentaire</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>L’espace documentaire permet de consulter des documents partagés, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>L’espace documentaire permet de consulter des documents partagés, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
                       "id": "5",
                       "content": "<p>le cahier de textes</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -351,17 +351,17 @@
                     {
                       "id": "1",
                       "content": "<p>1</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>2</p>",
-                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>4</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
                     }
                   ],
                   "feedbacks": {
@@ -389,17 +389,17 @@
                     {
                       "id": "1",
                       "content": "<p>Histoire-géographie</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
-                    },
-                    {
-                      "id": "2",
-                      "content": "<p>Français</p>",
-                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>Correct.</p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>Mathématiques</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Français</p>",
+                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Correct.</p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -455,12 +455,12 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Le compte ENT est personnel. Votre enfant doit se connecter à son compte pour rendre son devoir.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le compte ENT est personnel. Votre enfant doit se connecter à son compte pour rendre son devoir.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -481,12 +481,12 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -507,12 +507,12 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n'utilise pas mon compte parent.</p>",
-                      "feedback": "<span class=\"feedback__state\">Correct !</span><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct !</span></p><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
                     }
                   ],
                   "feedbacks": {
