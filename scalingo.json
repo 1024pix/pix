@@ -38,7 +38,7 @@
   "formation": {
     "web": {
       "amount": 1,
-      "size": "S"
+      "size": "M"
     }
   },
   "stack": "scalingo-22"
