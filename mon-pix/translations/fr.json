@@ -40,7 +40,6 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
-      "continue": "Continuer",
       "lets-go": "C'est parti !",
       "login": "Se connecter sur Pix",
       "quit": "Quitter",
@@ -246,17 +245,6 @@
           },
           "legend": "Information nécessaire pour l'inscription."
         }
-      }
-    },
-    "campaigns": {
-      "results-loader": {
-        "steps": {
-          "competences": "Calcul des scores par compétences",
-          "rewards": "Attribution des récompenses",
-          "trainings": "Identification des formations utiles"
-        },
-        "subtitle": "Un instant, s’il vous plaît ! Je vais faire au plus vite.",
-        "title": "Calcul de votre score en cours..."
       }
     },
     "invited": {

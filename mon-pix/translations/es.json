@@ -40,7 +40,6 @@
       "cancel": "Cancelar",
       "close": "Cerrar",
       "confirm": "Confirmar",
-      "continue": "Continuar",
       "lets-go": "¡Empecemos!",
       "login": "Acceder a Pix",
       "quit": "Salir",
@@ -238,17 +237,6 @@
           },
           "legend": "Información necesaria para la inscripción."
         }
-      }
-    },
-    "campaigns": {
-      "results-loader": {
-        "steps": {
-          "competences": "Calcular las puntuaciones por competencias",
-          "rewards": "Entrega de premios",
-          "trainings": "Identificar cursos de formación útiles"
-        },
-        "subtitle": "¡Un momento, por favor! Seré tan rápido como pueda.",
-        "title": "Calcular su puntuación actual..."
       }
     },
     "invited": {

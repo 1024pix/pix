@@ -40,7 +40,6 @@
       "cancel": "Annuleer",
       "close": "Sluit",
       "confirm": "Bevestig",
-      "continue": "Ga verder met",
       "lets-go": "Laten we gaan!",
       "login": "Inloggen bij Pix",
       "quit": "Verlaat",
@@ -238,17 +237,6 @@
           },
           "legend": "Vereiste informatie voor registratie."
         }
-      }
-    },
-    "campaigns": {
-      "results-loader": {
-        "steps": {
-          "competences": "Scores berekenen per vaardigheid",
-          "rewards": "Prijsuitreiking",
-          "trainings": "Nuttige trainingen identificeren"
-        },
-        "subtitle": "Een ogenblikje, alstublieft! Ik zal zo snel mogelijk zijn.",
-        "title": "Je huidige score berekenen..."
       }
     },
     "invited": {

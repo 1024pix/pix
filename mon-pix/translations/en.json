@@ -40,7 +40,6 @@
       "cancel": "Cancel",
       "close": "Close",
       "confirm": "Confirm",
-      "continue": "Continue",
       "lets-go": "Let's go!",
       "login": "Log in to Pix",
       "quit": "Exit",
@@ -246,17 +245,6 @@
           },
           "legend": "Information required for sign up."
         }
-      }
-    },
-    "campaigns": {
-      "results-loader": {
-        "steps": {
-          "competences": "Calculating scores by skill",
-          "rewards": "Awarding the prizes",
-          "trainings": "Identifying useful training courses"
-        },
-        "subtitle": "One moment, please! I'll be as quick as I can.",
-        "title": "Calculate your current score..."
       }
     },
     "invited": {
