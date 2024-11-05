@@ -306,14 +306,14 @@
                       "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
-                      "id": "1",
-                      "content": "<p>la messagerie</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
-                    },
-                    {
                       "id": "3",
                       "content": "<p>l'emploi du temps</p>",
                       "feedback": "<p><span class=\"feedback__state\">Correct !<span aria-hidden=\"true\">🎉</span></p>\n<p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                    },
+                    {
+                      "id": "1",
+                      "content": "<p>la messagerie</p>",
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     },
                     {
                       "id": "4",
