@@ -707,7 +707,7 @@
           "element": {
             "id": "d3f646e0-1c3d-42bf-a604-9e8e9c2a29a9",
             "type": "text",
-            "content": "<p><strong>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire.<span aria-hidden=\"true\">🏫​</span></strong></p>\n<p>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...).</p>\n<p>Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><span aria-hidden=\"\\&quot;true\\&quot;\">💡</span>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
+            "content": "<p><h3>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire.<span aria-hidden=\"true\">🏫​</span></h3></p>\n<p>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...).</p>\n<p>Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><span aria-hidden=\"\\&quot;true\\&quot;\">💡</span>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
           }
         },
         {
@@ -732,7 +732,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p><strong>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp;</strong> </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
+            "content": "<p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp;</h3> </p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span>En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
           }
         },
         {
@@ -757,7 +757,7 @@
           "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
-            "content": "<p><strong>Tous les collèges et les lycées publics ont un ENT. </strong>Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p>Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
+            "content": "<p><h3>Tous les collèges et les lycées publics ont un ENT. </h3>Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p>Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
           }
         }
       ]
