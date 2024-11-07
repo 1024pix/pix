@@ -169,8 +169,13 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Cherchez le symbole @ sur votre clavier pour pouvoir l'écrire.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir la prochaine fois, remontez voir la leçon ou utilisez l'indice ci-dessous.</p>"
                   }
+                },
+                {
+                    "id": "e494d292-21a8-4b33-affa-96763dbe10e6",
+                    "type": "text",
+                    "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'<strong>aide pour écrire ce symbole</strong>, cliquez sur l'indice ci-dessous&nbsp;:</p><details><summary>Indice</summary>Pour écrire le symbole arobase,<ul><li>sur PC, appuyez et maintenez la touche <code>Alt Gr</code> puis appuyez sur la touche <code>à</code> (même touche que le 0)</li><li>sur Mac, appuyez sur la touche prévue, en haut à gauche (même touche que #)</li></details>"
                 }
               ]
             },
