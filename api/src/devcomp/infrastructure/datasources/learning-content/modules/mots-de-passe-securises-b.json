@@ -11,7 +11,7 @@
     "objectives": [
       "Comprendre l'intérêt d'avoir des mots de passe forts",
       "Connaître les principaux risques liés aux mots de passe",
-      "Savoir créer un mot de passe solide"
+      "Savoir créer un mot de passe fort"
     ]
   },
   "transitionTexts": [
@@ -20,7 +20,7 @@
       "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
     },
     {
-      "content": "<p>Choisir un mot de passe très utilisé est risqué : il peut être deviné par quelqu'un ou être piraté. <span aria-hidden=\"true\">🏴‍☠️</span><br>Dans la vidéo suivante, découvrez comment créer un mot de passe solide pour se protéger de ces risques. <span aria-hidden=\"true\">📺</span></p>",
+      "content": "<p>Choisir un mot de passe très utilisé est risqué : il peut être deviné par quelqu'un ou être piraté. <span aria-hidden=\"true\">🏴‍☠️</span><br>Dans la vidéo suivante, découvrez comment créer un mot de passe fort pour se protéger de ces risques. <span aria-hidden=\"true\">📺</span></p>",
       "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
     },
     {
@@ -175,9 +175,9 @@
             {
               "elements": [
                 {
-                  "id": "cb943d75-1008-4736-80bf-aec9481ba541",
+                  "id": "330267ee-6dfc-46a8-8aa7-6f3c046c1f3e",
                   "type": "qcu",
-                  "instruction": "<p>Le mot de passe <code>Hj5m7a</code> est moins solide que le mot de passe <code>Hj5m7a9€</code>.</p>",
+                  "instruction": "<p>Les ordinateurs sont capables de pirater des mots de passe en testant différentes combinaisons.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -189,8 +189,32 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Pour se protéger de cette menace, il faut créer des mots de passe longs avec des caractères variés</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour se protéger de cette menace, il faut créer des mots de passe longs avec des caractères variés</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "cb943d75-1008-4736-80bf-aec9481ba541",
+                  "type": "qcu",
+                  "instruction": "<p>Le mot de passe <code>Hj5m7a</code> est moins fort que le mot de passe <code>Hj5m7a9€</code>.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus fort.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus fort.</p>"
                   },
                   "solution": "1"
                 }
@@ -201,7 +225,7 @@
                 {
                   "id": "1771f61e-968b-41b9-b389-0c6910de3d38",
                   "type": "qcu",
-                  "instruction": "<p>Tous les mots de passe ont la même importance.</p>",
+                  "instruction": "<p>Tous les mots de passe ont la même importance : boîte mail, sites internet, réseaux sociaux, etc.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -225,7 +249,7 @@
                 {
                   "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
                   "type": "qcu",
-                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à trouver.</p>",
+                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à deviner par quelqu'un.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -258,7 +282,7 @@
           "element": {
             "id": "2e695244-52c5-4277-8414-d18777d0d242",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>Un mot de passe solide est <strong>long</strong> et composé de <strong>différents caractères</strong> (# ; $ ; ! ; € ; etc.).</li><br><li>Un mot de passe ne doit <strong>pas</strong> contenir <strong>d'informations personnelles</strong> et doit rester <strong>secret</strong>.</li><br><li>N'utilisez pas le même mot de passe partout. Le <strong>mot de passe le plus important</strong> est celui de votre <strong>boîte mail</strong> car elle permet souvent de changer tous vos mots de passe.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>Un mot de passe fort est <strong>long</strong> et composé de <strong>différents caractères</strong> (# ; $ ; ! ; € ; etc.).</li><br><li>Un mot de passe ne doit <strong>pas</strong> contenir <strong>d'informations personnelles</strong> et doit rester <strong>secret</strong>.</li><br><li>N'utilisez pas le même mot de passe partout. Le <strong>mot de passe le plus important</strong> est celui de votre <strong>boîte mail</strong> car elle permet souvent de changer tous vos mots de passe.</li></ul>"
           }
         }
       ]
