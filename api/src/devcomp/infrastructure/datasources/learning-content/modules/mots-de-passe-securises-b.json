@@ -1,22 +1,22 @@
 {
   "id": "8bdec793-7508-41b4-9df2-e1cf96969680",
   "slug": "mots-de-passe-securises-b",
-  "title": "Des mots de passe solides",
+  "title": "Des mots de passe forts",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Aujourd'hui on utilise des mots de passe pour tout : boîte mail, réseaux sociaux, sites marchands, etc. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
+    "description": "Aujourd'hui on utilise des mots de passe pour tout : boîte mail, réseaux sociaux, sites marchands, etc. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe forts.",
     "duration": 10,
     "level": "Débutant",
     "tabletSupport": "comfortable",
     "objectives": [
-      "Comprendre l'intérêt d'avoir des mots de passe solides",
+      "Comprendre l'intérêt d'avoir des mots de passe forts",
       "Connaître les principaux risques liés aux mots de passe",
       "Savoir créer un mot de passe solide"
     ]
   },
   "transitionTexts": [
     {
-      "content": "<p>Un mot de passe sert à protéger vos informations personnelles. Il faut qu’il soit <strong>solide</strong>, c'est-à-dire difficile à trouver.&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, on peut deviner votre mot de passe facilement et voir vos photos, lire vos mails ou envoyer des messages à votre place. <span aria-hidden=\"true\">👤</span></p>",
+      "content": "<p>Un mot de passe sert à protéger vos informations personnelles. Il faut qu’il soit <strong>fort</strong>, c'est-à-dire difficile à trouver.&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, on peut deviner votre mot de passe facilement et voir vos photos, lire vos mails ou envoyer des messages à votre place. <span aria-hidden=\"true\">👤</span></p>",
       "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
     },
     {
@@ -32,15 +32,15 @@
       "grainId": "65e80d85-4590-4662-8765-f1b3d995f21a"
     },
     {
-      "content": "<p>Créer des mots de passe solides, ce n'est pas toujours simple mais c'est nécessaire pour se protéger. <span aria-hidden=\"true\">🛡️</span><br>Voici trois méthodes pour vous aider à créer et retenir vos mots de passe solides.</p>",
+      "content": "<p>Créer des mots de passe forts, ce n'est pas toujours simple mais c'est nécessaire pour se protéger. <span aria-hidden=\"true\">🛡️</span><br>Voici trois méthodes pour vous aider à créer et retenir vos mots de passe forts.</p>",
       "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
     },
     {
-      "content": "<p>Avec ces méthodes, les mots de passe que vous créez sont solides. Ils sont impossibles à deviner et prennent énormément de temps à pirater. <span aria-hidden=\"true\">👇</span></p>",
+      "content": "<p>Avec ces méthodes, les mots de passe que vous créez sont forts. Ils sont impossibles à deviner et prennent énormément de temps à pirater. <span aria-hidden=\"true\">👇</span></p>",
       "grainId": "169e770a-933f-41c1-a2c5-834f7b8f2946"
     },
     {
-      "content": "<p>Certains de vos mots de passe ne sont peut-être pas encore solides.<br>Pour finir ce module, nous vous proposons de prendre de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
+      "content": "<p>Certains de vos mots de passe ne sont peut-être pas encore forts.<br>Pour finir ce module, nous vous proposons de prendre de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "464fe554-ff12-4b14-b6d6-3510fff2bb26"
     }
   ],
@@ -139,7 +139,7 @@
           "element": {
             "id": "826281e7-865f-462d-abc0-77537c42a2b4",
             "type": "text",
-            "content": "<p>Après cette vidéo, vous devrez répondre à des questions sur les règles de création de mot de passe sécurisé.</p>"
+            "content": "<p>Après cette vidéo, vous devrez répondre à des questions sur les règles de création de mot de passe fort.</p>"
           }
         },
         {
@@ -159,7 +159,7 @@
     {
       "id": "65e80d85-4590-4662-8765-f1b3d995f21a",
       "type": "activity",
-      "title": "Quizz mots de passe solides",
+      "title": "Quizz mots de passe forts",
       "components": [
         {
           "type": "element",
@@ -273,7 +273,7 @@
           "element": {
             "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
             "type": "text",
-            "content": "<p>Pour créer le mot de passe de son adresse mail, Austin a utilisé deux informations personelles&nbsp;:</p><ul><li>il est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Honey</strong>.</li></ul>"
+            "content": "<p>Pour créer le mot de passe de son adresse mail, Austin a utilisé deux informations personnelles&nbsp;:</p><ul><li>il est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Honey</strong>.</li></ul>"
           }
         },
         {
@@ -501,7 +501,7 @@
               },
               {
                 "id": "4",
-                "content": "Je n'ai pas besoin de les changer bientôt car ils sont déjà sécurisés.",
+                "content": "Je n'ai pas besoin de les changer bientôt car ils sont déjà forts.",
                 "feedback": "<p>Très bien ! ✨ <br>Au moindre doute, prenez pour réflexe de changer immédiatemment votre mot de passe.</p>"
               }
             ],
