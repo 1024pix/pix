@@ -177,7 +177,7 @@
                 {
                   "id": "330267ee-6dfc-46a8-8aa7-6f3c046c1f3e",
                   "type": "qcu",
-                  "instruction": "<p>Les ordinateurs sont capables de pirater des mots de passe en testant différentes combinaisons.</p>",
+                  "instruction": "<p>Des pirates informatiques peuvent trouver des mots de passe avec leurs ordinateurs, en testant beaucoup de combinaisons.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -225,7 +225,7 @@
                 {
                   "id": "1771f61e-968b-41b9-b389-0c6910de3d38",
                   "type": "qcu",
-                  "instruction": "<p>Tous les mots de passe ont la même importance : boîte mail, sites internet, réseaux sociaux, etc.</p>",
+                  "instruction": "<p>Tous les mots de passe (boîte mail, sites marchands, réseaux sociaux, ...) ont la même importance.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -249,7 +249,7 @@
                 {
                   "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
                   "type": "qcu",
-                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à deviner par quelqu'un.</p>",
+                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à deviner par quelqu'un d'autre.</p>",
                   "proposals": [
                     {
                       "id": "1",
