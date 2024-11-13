@@ -364,7 +364,7 @@
     },
     {
       "id": "d54142a3-43df-4bde-b1a3-8a795384f428",
-      "type": "lesson",
+      "type": "summary",
       "title": "Diversité des identifiants et des fournisseurs d’adresse mail : synthèse",
       "components": [
         {
@@ -379,7 +379,7 @@
     },
     {
       "id": "b7ea7630-824a-4a49-83d1-abb9b8d0d120",
-      "type": "activity",
+      "type": "challenge",
       "title": "Écrire une adresse mail correctement",
       "components": [
         {
