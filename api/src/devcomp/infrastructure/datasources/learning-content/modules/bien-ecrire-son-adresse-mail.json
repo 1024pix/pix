@@ -4,7 +4,7 @@
   "title": "Bien écrire une adresse mail",
   "details": {
     "image": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg",
-    "description": "Écrire une adresse mail, c'est la première étape pour communiquer avec vos contacts. Dans ce module, découvrez les différentes partie de l'adresse mail et apprenez à éviter des erreurs courantes.",
+    "description": "Écrire une adresse mail, c'est la première étape pour communiquer avec vos contacts. Dans ce module, découvrez les différentes parties de l'adresse mail et apprenez à éviter des erreurs courantes.",
     "duration": 10,
     "level": "Débutant",
     "tabletSupport": "comfortable",
@@ -16,11 +16,11 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Naomi a oublié l’adresse mail de son ami Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span><br> Elle en a besoin pour envoyer un document à son ami. Naomi lui demande donc par SMS de lui redonner son adresse mail. <br> Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
+      "content": "<p>Naomi veut envoyer un document par mail à son ami Mickaël.<br>Mais, Naomi ne trouve plus l'adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span><br>Elle décide de lui demander par message.<br>Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
       "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
     },
     {
-      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: toutes les adresses mail ont le même format.</p><p>Nous allons étudier en détail l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
+      "content": "<p>Eh oui&#8239;! Naomi le sait&nbsp;: toutes les adresses mail ont le même format.</p><p>Nous allons étudier en détail l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
       "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
     },
     {
@@ -35,7 +35,7 @@
   "grains": [
     {
       "id": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9",
-      "type": "lesson",
+      "type": "discovery",
       "title": "Sûr de ton adresse mail ?",
       "components": [
         {
@@ -95,7 +95,7 @@
                 {
                   "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4><u>Partie 1&nbsp;: l’identifiant</u>. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✔️</span> Par exemple&nbsp;: <code>mickael.aubert123</code> ; <code>mika671</code> ou <code>G3oDu671</code></p><p><span aria-hidden=\"true\">✖️</span> Mais certains caractères sont interdits ou à éviter&nbsp;: &amp; ; @ ; é ; â ; $ ; * ; € ; etc.</p><p><br><span aria-hidden=\"true\">📖</span> Un conseil si vous envoyez des mails importants : utilisez une adresse mail avec un identifiant classique, par exemple <code>prenom.nom</code>.</p>"
+                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4><u>Partie 1&nbsp;: l’identifiant</u>. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple&nbsp;: <code>mickael.aubert123</code> ou <code>mika671</code> ou <code>g3odu671</code></p><p><span aria-hidden=\"true\">✖️</span> Certains caractères sont interdits (<code>&</code> <code>@</code>  <code>$</code> <code>*</code> <code>€</code>) ou à éviter (accents, majuscules).</p><p><br><span aria-hidden=\"true\">📖</span> Un conseil : si vous voulez envoyer des mails importants, il vaut mieux créer une adresse mail avec un identifiant classique, par exemple <code>prenom.nom</code>.</p>"
                 }
               ]
             },
@@ -175,7 +175,7 @@
                 {
                     "id": "e494d292-21a8-4b33-affa-96763dbe10e6",
                     "type": "text",
-                    "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'<strong>aide pour écrire ce symbole</strong>, cliquez sur l'indice ci-dessous&nbsp;:</p><details><summary>Indice</summary>Pour écrire le symbole arobase,<ul><li>sur PC, appuyez et maintenez la touche <code>Alt Gr</code> puis appuyez sur la touche <code>à</code> (même touche que le 0)</li><li>sur Mac, appuyez sur la touche prévue, en haut à gauche (même touche que #)</li></details>"
+                    "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'<strong>aide pour écrire ce symbole</strong>, cliquez sur l'indice ci-dessous&nbsp;:</p><details><summary>Indice</summary>Pour écrire le symbole arobase,<ul><li>sur PC, appuyez et maintenez la touche <code>Alt Gr</code> puis appuyez sur la touche <code>à</code> (même touche que le 0)</li><li>sur Mac, appuyez sur la touche @ déjà prévue, en haut à gauche (même touche que #)</li></details>"
                 }
               ]
             },
@@ -303,8 +303,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>L'arobase permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>L'arobase permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Le symbole @ (arobase) permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Le symbole @ (arobase) permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>"
                   },
                   "solution": "1"
                 }
@@ -315,7 +315,7 @@
                 {
                   "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
                   "type": "qcu",
-                  "instruction": "<p>Toutes les adresses mail se terminent par gmail.com. </p>",
+                  "instruction": "<p>Toutes les adresses mail se terminent par <code>gmail.com</code>.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -327,7 +327,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span></span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
+                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span></span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y a en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
                     "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
                   },
                   "solution": "2"
@@ -372,7 +372,7 @@
           "element": {
             "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>C'est l'<strong>utilisateur qui choisit son identifiant</strong> d'adresse mail. Il peut utiliser des <strong>chiffres</strong> ou des <strong>majuscules</strong>.<br><span aria-hidden=\"true\">✔️</span> Exemples&nbsp;: <code>mickael.aubert123</code> ; <code>M3g4Cool1415</code>, etc.</li><br><li>Il y a une <strong>arobase</strong> (@) dans une adresse mail. Elle permet de <strong>séparer l’identifiant du fournisseur</strong> d’adresse mail.</li><br><li>Après l'arobase, les adresses mail <strong>se terminent de différentes manières</strong>, selon le <strong>fournisseur d’adresse</strong> mail.<br><span aria-hidden=\"true\">✔️</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>C'est l'<strong>utilisateur qui choisit son identifiant</strong> d'adresse mail. Il peut utiliser des <strong>chiffres</strong> ou des <strong>majuscules</strong>.<br><span aria-hidden=\"true\">✔️</span> Exemples&nbsp;: <code>mickael.aubert123</code> ; <code>M3g4Cool1415</code>, etc.</li><br><li>Il y a une <strong>arobase</strong> (@) dans une adresse mail. Elle permet de <strong>séparer l’identifiant et le fournisseur</strong> d’adresse mail.</li><br><li>Après l'arobase, les adresses mail <strong>se terminent de différentes manières</strong>, selon le <strong>fournisseur d’adresse</strong> mail.<br><span aria-hidden=\"true\">✔️</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
           }
         }
       ]
