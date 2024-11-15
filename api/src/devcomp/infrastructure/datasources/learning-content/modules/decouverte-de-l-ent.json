@@ -8,7 +8,7 @@
     "duration": 10,
     "level": "Débutant",
     "objectives": [
-      "Savoir ce qu’est un ENT",
+      "<p>Savoir ce qu’est un ENT</p>",
       "<p>Connaître les fonctionnalités principales d’un ENT</p>",
       "<p>Utiliser le compte parent de manière appropriée/adaptée</p>"
     ],
@@ -397,7 +397,7 @@
                     {
                       "id": "1",
                       "content": "<p>Histoire-géographie</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
+                      "feedback": "\n<p><span class=\"feedback__state\">Incorrect.</span></p>\n<p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
                     },
                     {
                       "id": "3",
@@ -407,7 +407,7 @@
                     {
                       "id": "2",
                       "content": "<p>Français</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>Correct.</p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -484,7 +484,7 @@
                 {
                   "id": "c97a24b8-d5d3-43f1-ba29-bff92d8712fa",
                   "type": "qcu",
-                  "instruction": "<p>Vous souhaitez prendre rendez-vous sur l’ENT avec un des professeurs de votre enfant. <span aria-hidden=\"true\">📅​​​</span></p>",
+                  "instruction": "<p>Je souhaite prendre rendez-vous  avec un des professeurs de mon enfant. <span aria-hidden=\"true\">📅​​​</span></p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -510,17 +510,17 @@
                 {
                   "id": "259c03fd-bdf1-4055-8f9b-a719216a25b4",
                   "type": "qcu",
-                  "instruction": "<p>Une situation ou techniquement c’est possible d'utiliser le compte parent/l’ENT, mais ce n’est pas souhaitable. (en fonction de la vidéo à venir)</p>",
+                  "instruction": "<p>J'aimerais des conseils du professeur d'Anglais pour mes prochaines vacances en Angleterre. <span aria-hidden=\"\\&quot;true\\&quot;\">🗺</span>️</p>",
                   "proposals": [
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n'utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>Pour cette action, utiliser l’ENT n’est pas adapté !</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
                     }
                   ],
                   "feedbacks": {
