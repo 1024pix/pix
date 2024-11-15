@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v4.241.0 (12/11/2024)
+
+
+### :rocket: Amélioration
+- [#10526](https://github.com/1024pix/pix/pull/10526) [FEATURE] Ajout de traductions pour les pages de fin de parcours (PIX-15259).
+- [#10525](https://github.com/1024pix/pix/pull/10525) [FEATURE] Barre de navigation : Afficher la barre d'avancement (PIX-14865).
+- [#10503](https://github.com/1024pix/pix/pull/10503) [FEATURE] Envoyer en un batch les alertes Joi pour le métier (PIX-15124).
+- [#10382](https://github.com/1024pix/pix/pull/10382) [FEATURE] Active ou désactive l'oralisation pour un élève  (PIX-14939).
+- [#10496](https://github.com/1024pix/pix/pull/10496) [FEATURE] Afficher l'évolution des participants sur la page des résultats à une campagne collecte de profils (PIX-14807).
+- [#10499](https://github.com/1024pix/pix/pull/10499) [FEATURE] Supprime la phrase sur les 120 pix professionalisants sur les certificats v3 (PIX-15161).
+- [#10450](https://github.com/1024pix/pix/pull/10450) [FEATURE] Transcription vidéo finale - MODC-101.
+- [#10502](https://github.com/1024pix/pix/pull/10502) [FEATURE] Ajuster le wording et le design des pages d'authentification (PIX-15198).
+
+### :building_construction: Tech
+- [#10501](https://github.com/1024pix/pix/pull/10501) [TECH] Isoler la configuration du module i18n de l'api.
+- [#10528](https://github.com/1024pix/pix/pull/10528) [TECH] Changer les dates du bandeau SCO dans Pix Certif (PIX-15268).
+- [#10524](https://github.com/1024pix/pix/pull/10524) [TECH] Changer le nombre de retry du job ParticipationResultCalculationJob (PIX-15258).
+- [#10514](https://github.com/1024pix/pix/pull/10514) [TECH] Migration de la route GET /api/certification-centers/{certificationCenterId}/members dans src (pix-15219).
+- [#10519](https://github.com/1024pix/pix/pull/10519) [TECH] Suppression du script de backfill d'anonymisation.
+- [#10510](https://github.com/1024pix/pix/pull/10510) [TECH] Migrer la mise à jour d'un profile cible dans son bounded context (PIX-15243).
+
+### :bug: Correction
+- [#10497](https://github.com/1024pix/pix/pull/10497) [BUGFIX] Utiliser la locale sur la demande de reset de password (PIX-15065).
+
+### :arrow_up: Montée de version
+- [#10522](https://github.com/1024pix/pix/pull/10522) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (orga).
+- [#10518](https://github.com/1024pix/pix/pull/10518) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (mon-pix).
+- [#10517](https://github.com/1024pix/pix/pull/10517) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (junior).
+- [#10515](https://github.com/1024pix/pix/pull/10515) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (certif).
+- [#10513](https://github.com/1024pix/pix/pull/10513) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (admin).
+- [#10512](https://github.com/1024pix/pix/pull/10512) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.4 (mon-pix).
+- [#10511](https://github.com/1024pix/pix/pull/10511) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.4 (certif).
+- [#10462](https://github.com/1024pix/pix/pull/10462) [BUMP] Update dependency @1024pix/pix-ui to v48 (mon-pix).
+- [#10480](https://github.com/1024pix/pix/pull/10480) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.3 (certif).
+
 ## v4.240.0 (07/11/2024)
 
 
