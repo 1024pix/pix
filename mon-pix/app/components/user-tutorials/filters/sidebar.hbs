@@ -8,17 +8,20 @@
     {{#each this.sortedAreas as |area|}}
       <div class="area-border-container">
         <div class="area-border {{area.color}}"></div>
-        <PixCollapsible @title="{{area.title}}" class="tutorials-filters__areas {{area.color}}">
-          <ul class="tutorials-filters-areas__competences">
-            {{#each area.sortedCompetences as |competence|}}
-              <UserTutorials::Filters::ItemCheckbox
-                @type="competences"
-                @item={{competence}}
-                @handleFilterChange={{this.handleFilterChange}}
-                @currentFilters={{this.filters}}
-              />
-            {{/each}}
-          </ul>
+        <PixCollapsible class="tutorials-filters__areas {{area.color}}">
+          <:title>{{area.title}}</:title>
+          <:content>
+            <ul class="tutorials-filters-areas__competences">
+              {{#each area.sortedCompetences as |competence|}}
+                <UserTutorials::Filters::ItemCheckbox
+                  @type="competences"
+                  @item={{competence}}
+                  @handleFilterChange={{this.handleFilterChange}}
+                  @currentFilters={{this.filters}}
+                />
+              {{/each}}
+            </ul>
+          </:content>
         </PixCollapsible>
       </div>
     {{/each}}

@@ -1,11 +1,10 @@
-import { anonymizeUser } from '../../../../../lib/domain/usecases/anonymize-user.js';
-import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
-import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { anonymizeUser } from '../../../../../src/identity-access-management/domain/usecases/anonymize-user.usecase.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { userAnonymizedEventLoggingJobRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -15,6 +14,7 @@ import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
+import * as membershipRepository from '../../../../../src/team/infrastructure/repositories/membership.repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {

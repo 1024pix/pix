@@ -19,10 +19,10 @@ import {
   ORGANIZATION_FEATURE,
 } from '../../../../../../src/shared/domain/constants.js';
 import * as placementProfileService from '../../../../../../src/shared/domain/services/placement-profile-service.js';
+import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { databaseBuilder, expect, mockLearningContent, streamToPromise } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {

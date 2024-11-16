@@ -5,8 +5,8 @@ import {
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
 } from '../../../../../src/shared/domain/errors.js';
+import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;

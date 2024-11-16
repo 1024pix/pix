@@ -46,6 +46,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     assert.strictEqual(findAll('.element-text').length, 1);
     assert.strictEqual(findAll('.element-qcu').length, 1);
 
+    assert.dom(screen.getByRole('navigation', { name: 'Étape 1 sur 1' }));
     assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
   });
 
@@ -157,6 +158,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     assert.strictEqual(findAll('.element-text').length, 1);
     assert.strictEqual(findAll('.element-qcu').length, 0);
 
+    assert.dom(screen.getByRole('navigation', { name: 'Étape 1 sur 2' }));
     assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists({ count: 1 });
   });
 
@@ -251,6 +253,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       // then
       const grainsAfteronGrainContinue = screen.getAllByRole('article');
       assert.strictEqual(grainsAfteronGrainContinue.length, 2);
+      assert.dom(screen.getByRole('navigation', { name: 'Étape 2 sur 2' }));
     });
 
     test('should give focus on the last grain when appearing', async function (assert) {

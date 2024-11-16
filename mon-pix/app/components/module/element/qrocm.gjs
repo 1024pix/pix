@@ -9,7 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import ModuleElement from 'mon-pix/components/module/element/module-element';
-import ModulixFeedback from 'mon-pix/components/modulix/feedback';
+import ModulixFeedback from 'mon-pix/components/module/feedback';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 
 export default class ModuleQrocm extends ModuleElement {
@@ -166,7 +166,7 @@ export default class ModuleQrocm extends ModuleElement {
           @size="small"
           @type="button"
           @triggerAction={{this.retry}}
-          @iconAfter="rotate-right"
+          @iconAfter="refresh"
         >
           {{t "pages.modulix.buttons.activity.retry"}}
         </PixButton>

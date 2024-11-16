@@ -2,21 +2,23 @@
 
 <div class="mission-introduction">
   <RobotDialog>
-    <Bubble @message={{t "pages.missions.introduction-page.welcome"}} />
+    <Bubble
+      @message={{t "pages.missions.introduction-page.welcome"}}
+      @oralization={{@model.learnerHasOralizationFeature}}
+    />
   </RobotDialog>
   <div class="mission-introduction__container">
     <div class="mission-introduction__media">
       <Challenge::ChallengeMedia
-        @src={{@model.introductionMediaUrl}}
+        @src={{@model.mission.introductionMediaUrl}}
         @alt={{@challenge.introductionMediaAlt}}
-        @type={{@model.introductionMediaType}}
+        @type={{@model.mission.introductionMediaType}}
       />
     </div>
     <div class="mission-introduction__actions">
       <PixButtonLink @route="identified.missions.mission.resume" size="large" class="details-action">
         <p>{{t "pages.missions.introduction-page.start-mission"}}</p>
         <PixIcon @name="arrowRight" class="button-actions__icon" @ariaHidden={{true}} />
-
       </PixButtonLink>
     </div>
   </div>

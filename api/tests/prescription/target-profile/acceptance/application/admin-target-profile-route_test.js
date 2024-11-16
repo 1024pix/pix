@@ -17,6 +17,121 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
     server = await createServer();
   });
 
+  describe('PATCH /api/admin/target-profiles/{targetProfileId}', function () {
+    const skillId = 'recArea1_Competence1_Tube1_Skill1';
+    const tubeId = 'recArea1_Competence1_Tube1';
+
+    const learningContent = {
+      areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: [skillId],
+          origin: 'Pix',
+        },
+      ],
+      thematics: [],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: skillId,
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillId: skillId,
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+      ],
+    };
+
+    beforeEach(async function () {
+      mockLearningContent(learningContent);
+    });
+
+    describe('when there is no tube to update', function () {
+      it('should return 204', async function () {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const user = databaseBuilder.factory.buildUser.withRole();
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/target-profiles/${targetProfile.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                name: 'CoolPixer',
+                description: 'Amazing description',
+                comment: 'Amazing comment',
+                category: 'OTHER',
+                'image-url': 'http://valid-uri.com/image.png',
+                'are-knowledge-elements-resettable': false,
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    describe('when there is some tube update and the target profile is not linked with campaign', function () {
+      it('should return 204', async function () {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const targetProfileTube = databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfile.id,
+          tubeId,
+          level: 1,
+        });
+        const user = databaseBuilder.factory.buildUser.withRole();
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/target-profiles/${targetProfile.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                name: 'nom changé',
+                category: 'COMPETENCES',
+                description: 'description changée.',
+                comment: 'commentaire changé.',
+                'image-url': null,
+                tubes: [{ id: targetProfileTube.tubeId, level: 99 }],
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+  });
+
   describe('GET /api/admin/target-profiles/{id}', function () {
     let user;
     const skillId = 'recArea1_Competence1_Tube1_Skill1';

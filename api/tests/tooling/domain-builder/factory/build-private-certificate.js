@@ -1,5 +1,6 @@
 import { PrivateCertificate } from '../../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { SESSIONS_VERSIONS } from '../../../../src/certification/shared/domain/models/SessionVersion.js';
 
 const buildPrivateCertificate = function ({
   id = 1,
@@ -20,6 +21,7 @@ const buildPrivateCertificate = function ({
   resultCompetenceTree = null,
   verificationCode = 'P-BBBCCCDD',
   maxReachableLevelOnCertificationDate = 5,
+  version = SESSIONS_VERSIONS.V3,
 } = {}) {
   const juryComment = new JuryComment({
     commentByAutoJury,
@@ -44,6 +46,7 @@ const buildPrivateCertificate = function ({
     certifiedBadgeImages,
     verificationCode,
     maxReachableLevelOnCertificationDate,
+    version,
   });
 };
 
@@ -65,6 +68,7 @@ buildPrivateCertificate.cancelled = function ({
   resultCompetenceTree,
   verificationCode,
   maxReachableLevelOnCertificationDate,
+  version,
 }) {
   return buildPrivateCertificate({
     id,
@@ -85,6 +89,7 @@ buildPrivateCertificate.cancelled = function ({
     verificationCode,
     maxReachableLevelOnCertificationDate,
     status: PrivateCertificate.status.CANCELLED,
+    version,
   });
 };
 
@@ -106,6 +111,7 @@ buildPrivateCertificate.validated = function ({
   resultCompetenceTree,
   verificationCode,
   maxReachableLevelOnCertificationDate,
+  version,
 }) {
   return buildPrivateCertificate({
     id,
@@ -126,6 +132,7 @@ buildPrivateCertificate.validated = function ({
     verificationCode,
     maxReachableLevelOnCertificationDate,
     status: PrivateCertificate.status.VALIDATED,
+    version,
   });
 };
 
@@ -147,6 +154,7 @@ buildPrivateCertificate.rejected = function ({
   resultCompetenceTree,
   verificationCode,
   maxReachableLevelOnCertificationDate,
+  version,
 }) {
   return buildPrivateCertificate({
     id,
@@ -167,6 +175,7 @@ buildPrivateCertificate.rejected = function ({
     verificationCode,
     maxReachableLevelOnCertificationDate,
     status: PrivateCertificate.status.REJECTED,
+    version,
   });
 };
 
@@ -188,6 +197,7 @@ buildPrivateCertificate.error = function ({
   resultCompetenceTree,
   verificationCode,
   maxReachableLevelOnCertificationDate,
+  version,
 }) {
   return buildPrivateCertificate({
     id,
@@ -208,6 +218,7 @@ buildPrivateCertificate.error = function ({
     verificationCode,
     maxReachableLevelOnCertificationDate,
     status: PrivateCertificate.status.ERROR,
+    version,
   });
 };
 
@@ -229,6 +240,7 @@ buildPrivateCertificate.started = function ({
   resultCompetenceTree,
   verificationCode,
   maxReachableLevelOnCertificationDate,
+  version,
 }) {
   return buildPrivateCertificate({
     id,
@@ -249,6 +261,7 @@ buildPrivateCertificate.started = function ({
     verificationCode,
     maxReachableLevelOnCertificationDate,
     status: PrivateCertificate.status.STARTED,
+    version,
   });
 };
 

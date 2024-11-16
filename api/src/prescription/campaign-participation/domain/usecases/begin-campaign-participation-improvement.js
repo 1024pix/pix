@@ -1,7 +1,4 @@
-import {
-  AlreadySharedCampaignParticipationError,
-  UserNotAuthorizedToAccessEntityError,
-} from '../../../../shared/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 
 const beginCampaignParticipationImprovement = async function ({
@@ -15,11 +12,8 @@ const beginCampaignParticipationImprovement = async function ({
     throw new UserNotAuthorizedToAccessEntityError();
   }
 
-  if (campaignParticipation.isShared) {
-    throw new AlreadySharedCampaignParticipationError();
-  }
-
   campaignParticipation.improve();
+
   await campaignParticipationRepository.update(campaignParticipation);
 
   if (campaignParticipation.lastAssessment.isImproving && !campaignParticipation.lastAssessment.isCompleted()) {

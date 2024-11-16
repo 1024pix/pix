@@ -4,8 +4,8 @@ import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeD
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { SESSIONS_VERSIONS } from '../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { AssessmentResult, CertificationResult } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
@@ -55,7 +55,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         it('should save the score with a rejected status', async function () {
           // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: SESSIONS_VERSIONS.V3,
+            version: AlgorithmEngineVersion.V3,
           });
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
             abortReason: ABORT_REASONS.CANDIDATE,
@@ -91,7 +91,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         it('should save the score with a rejected status and cancel the certification course', async function () {
           // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: SESSIONS_VERSIONS.V3,
+            version: AlgorithmEngineVersion.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -142,7 +142,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           // given
           const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: SESSIONS_VERSIONS.V3,
+            version: AlgorithmEngineVersion.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -183,7 +183,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         // given
         const certificationCourseStartDate = new Date('2022-01-01');
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          version: SESSIONS_VERSIONS.V3,
+          version: AlgorithmEngineVersion.V3,
         });
 
         const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -221,7 +221,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const certificationCourseStartDate = new Date('2022-01-01');
           // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: SESSIONS_VERSIONS.V3,
+            version: AlgorithmEngineVersion.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -746,6 +746,45 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
         // then
         expect(assessmentResultRepository.save).to.have.been.calledOnce;
+      });
+    });
+
+    context('when assessment in only about complementary certification', function () {
+      it('should return', async function () {
+        // given
+        const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+        const certificationAssessment = new CertificationAssessment({
+          id: 123,
+          userId: 123,
+          certificationCourseId: 789,
+          createdAt: new Date('2020-01-01'),
+          completedAt: new Date('2020-01-01'),
+          state: CertificationAssessment.states.STARTED,
+          version: AlgorithmEngineVersion.V2,
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: 'TOTO' }),
+            domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: 'TOTO' }),
+          ],
+          certificationAnswersByDate: ['answer'],
+        });
+        certificationAssessmentRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId: 1 })
+          .resolves(certificationAssessment);
+
+        // when
+        await handleCertificationRescoring({
+          event,
+          assessmentResultRepository,
+          certificationAssessmentRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationEvaluationServices,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(certificationEvaluationServices.handleV2CertificationScoring).to.not.have.been.called;
+        expect(assessmentResultRepository.save).to.not.have.been.called;
       });
     });
   });

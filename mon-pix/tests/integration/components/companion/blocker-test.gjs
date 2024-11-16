@@ -58,9 +58,7 @@ module('Integration | Component | Companion | blocker', function (hooks) {
 
     // then
     assert.dom(screen.queryByRole('heading', { level: 1, name: 'Companion activé' })).doesNotExist();
-    assert
-      .dom(screen.getByRole('heading', { level: 1, name: 'L’extension Pix Companion n’est pas détectée' }))
-      .exists();
+    assert.dom(screen.getByRole('heading', { level: 1, name: 'L’extension Pix Companionn’est pas détectée' })).exists();
     assert.dom(screen.queryByText(t('common.companion.not-detected.description'))).exists();
     assert
       .dom(screen.getByRole('link', { name: t('common.companion.not-detected.link') }))

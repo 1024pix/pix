@@ -25,6 +25,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner', function () {
             'organization-id': 'orga-1',
             'completed-mission-ids': ['1'],
             'started-mission-ids': ['2'],
+            features: [],
           },
         },
       };

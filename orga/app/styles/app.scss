@@ -51,13 +51,14 @@
 @import 'components/learner/header';
 @import 'components/sup-organization-participant/replace-students-modal';
 @import 'components/import-banner';
-@import 'components/import-information-banner.scss';
+@import 'components/import-information-banner';
 
 // pages
 @import 'pages/login';
 @import 'pages/join';
 @import 'pages/join-request';
 @import 'pages/authenticated';
+@import 'pages/authenticated/attestations';
 @import 'pages/authenticated/campaigns/campaign';
 @import 'pages/authenticated/campaigns/create-form';
 @import 'pages/authenticated/campaigns/new';
@@ -75,6 +76,7 @@
 @import 'pages/authenticated/campaigns/participant-profile';
 @import 'pages/authenticated/certifications';
 @import 'pages/authenticated/mission';
+@import 'pages/authenticated/mission/list';
 @import 'pages/authenticated/organization-participants/list';
 @import 'pages/authenticated/organization-participants/deletion-modal';
 @import 'pages/authenticated/sup-organization-participants/list';

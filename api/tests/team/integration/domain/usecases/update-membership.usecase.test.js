@@ -1,10 +1,10 @@
-import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { updateMembership } from '../../../../../src/team/domain/usecases/update-membership.usecase.js';
+import * as membershipRepository from '../../../../../src/team/infrastructure/repositories/membership.repository.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Integration | UseCases | update-membership', function () {
-  it('should update membership', async function () {
+describe('Integration | Team | UseCases | update-membership', function () {
+  it('updates membership', async function () {
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const userId = databaseBuilder.factory.buildUser().id;

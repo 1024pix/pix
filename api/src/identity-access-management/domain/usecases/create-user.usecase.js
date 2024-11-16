@@ -2,6 +2,7 @@ import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyRegisteredEmailError } from '../../../shared/domain/errors.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
+import { createAccountCreationEmail } from '../emails/create-account-creation.email.js';
 
 /**
  * @param {Object} params
@@ -27,15 +28,14 @@ const createUser = withTransaction(async function ({
   user,
   authenticationMethodRepository,
   campaignRepository,
+  emailRepository,
   emailValidationDemandRepository,
   userRepository,
   userToCreateRepository,
   cryptoService,
-  mailService,
   userService,
   userValidator,
   passwordValidator,
-  i18n,
 }) {
   await _assertValidData({
     password,
@@ -68,14 +68,16 @@ const createUser = withTransaction(async function ({
   }
 
   const token = await emailValidationDemandRepository.save(savedUser.id);
-  await mailService.sendAccountCreationEmail({
-    email: savedUser.email,
-    firstName: savedUser.firstName,
-    locale: localeFromHeader,
-    token,
-    redirectionUrl,
-    i18n,
-  });
+
+  await emailRepository.sendEmailAsync(
+    createAccountCreationEmail({
+      locale: localeFromHeader,
+      email: savedUser.email,
+      firstName: savedUser.firstName,
+      token,
+      redirectionUrl,
+    }),
+  );
 
   return savedUser;
 });

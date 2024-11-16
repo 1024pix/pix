@@ -8,7 +8,7 @@ import Competence from './competence';
       <div class="area-border {{area.color}}"></div>
       <PixCollapsible class="{{area.color}} list-competences">
         <:title>{{area.code}} · {{area.title}}</:title>
-        <:default>
+        <:content>
           {{#each area.sortedCompetences as |competence|}}
             <Competence
               @competence={{competence}}
@@ -21,7 +21,7 @@ import Competence from './competence';
               @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
             />
           {{/each}}
-        </:default>
+        </:content>
       </PixCollapsible>
     </div>
   {{/each}}

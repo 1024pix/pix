@@ -21,6 +21,10 @@ export default class SidebarMenu extends Component {
     return this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents;
   }
 
+  get shouldDisplayAttestationsEntry() {
+    return this.currentUser.canAccessAttestationsPage;
+  }
+
   get shouldDisplayPlacesEntry() {
     return this.currentUser.canAccessPlacesPage;
   }
@@ -31,10 +35,6 @@ export default class SidebarMenu extends Component {
 
   get shouldDisplayCampaignsEntry() {
     return this.currentUser.canAccessCampaignsPage;
-  }
-
-  get shouldDisplayParticipantsEntry() {
-    return this.currentUser.canAccessParticipantsPage;
   }
 
   get organizationLearnersList() {

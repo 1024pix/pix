@@ -47,12 +47,7 @@
     justify-content: center;
     width: 8%;
     margin-right: 8px;
-
-    > img {
-      width: 100%; // useful for IE
-      height: 1rem;
-      margin: 0;
-    }
+    fill: var(--pix-neutral-0);
   }
 
   &__documentation-item {

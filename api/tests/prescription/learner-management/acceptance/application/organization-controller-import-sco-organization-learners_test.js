@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
+import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import {
   createServer,
   databaseBuilder,
@@ -12,7 +13,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 EventEmitter.defaultMaxListeners = 60;
 

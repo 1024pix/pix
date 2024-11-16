@@ -6,6 +6,93 @@ import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 describe('Unit | Application | Controller | Campaign-Participation', function () {
+  describe('#getCampaignParticipationOverviews', function () {
+    const userId = '1';
+    let dependencies;
+
+    beforeEach(function () {
+      const campaignParticipationOverviewSerializer = {
+        serialize: sinon.stub(),
+        serializeForPaginatedList: sinon.stub(),
+      };
+      sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
+      dependencies = {
+        campaignParticipationOverviewSerializer,
+      };
+    });
+
+    it('should return serialized campaignParticipationOverviews', async function () {
+      // given
+      const request = {
+        auth: {
+          credentials: {
+            userId: userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        query: { filter: {}, page: {} },
+      };
+      usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined, page: {} }).resolves([]);
+      dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
+        id: 'campaignParticipationOverviews',
+      });
+
+      // when
+      const response = await campaignParticipationController.getCampaignParticipationOverviews(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(response).to.deep.equal({
+        id: 'campaignParticipationOverviews',
+      });
+      expect(dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList).to.have.been.calledOnce;
+    });
+
+    it('should forward state and page query parameters', async function () {
+      // given
+      const request = {
+        auth: {
+          credentials: {
+            userId: userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        query: {
+          filter: {
+            states: 'ONGOING',
+          },
+          page: { number: 1, size: 10 },
+        },
+      };
+      usecases.findUserCampaignParticipationOverviews
+        .withArgs({ userId, states: 'ONGOING', page: { number: 1, size: 10 } })
+        .resolves([]);
+      dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
+        id: 'campaignParticipationOverviews',
+      });
+
+      // when
+      const response = await campaignParticipationController.getCampaignParticipationOverviews(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(response).to.deep.equal({
+        id: 'campaignParticipationOverviews',
+      });
+      expect(dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList).to.have.been.calledOnce;
+    });
+  });
+
   describe('#getCampaignAssessmentParticipationResult', function () {
     let dependencies;
     const campaignId = 123;
@@ -209,6 +296,44 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
     });
   });
 
+  describe('#getUserCampaignAssessmentResult', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'getUserCampaignAssessmentResult');
+    });
+
+    it('should call usecase and serializer with expected parameters', async function () {
+      //given
+      const locale = Symbol('locale');
+      const userId = Symbol('userId');
+      const campaignId = Symbol('campaignId');
+
+      const expectedResult = Symbol('expectedResult');
+      const serializedResult = Symbol('serializedResult');
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { campaignId },
+      };
+      const dependencies = {
+        extractLocaleFromRequest: sinon.stub(),
+        participantResultSerializer: { serialize: sinon.stub() },
+      };
+      usecases.getUserCampaignAssessmentResult.withArgs({ locale, userId, campaignId }).returns(expectedResult);
+      dependencies.extractLocaleFromRequest.withArgs(request).returns(locale);
+      dependencies.participantResultSerializer.serialize.withArgs(expectedResult).returns(serializedResult);
+
+      // when
+      const response = await campaignParticipationController.getUserCampaignAssessmentResult(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(response).to.be.equal(serializedResult);
+    });
+  });
+
   describe('#deleteParticipation', function () {
     it('should call the usecase to delete the campaignParticipation', async function () {
       // given
@@ -235,6 +360,40 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         campaignId,
         userId,
       });
+    });
+  });
+
+  describe('#getUserCampaignParticipationToCampaign', function () {
+    it('should return serialized campaign participation', async function () {
+      // given
+      const userId = 789;
+      const campaignId = 456;
+      const campaignParticipation = Symbol('campaign participation');
+      const expectedCampaignParticipation = Symbol('expected campaign participation');
+
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          userId,
+          campaignId,
+        },
+      };
+      const campaignParticipationSerializer = { serialize: sinon.stub() };
+      sinon.stub(usecases, 'getUserCampaignParticipationToCampaign');
+      usecases.getUserCampaignParticipationToCampaign.withArgs({ userId, campaignId }).resolves(campaignParticipation);
+      campaignParticipationSerializer.serialize.withArgs(campaignParticipation).returns(expectedCampaignParticipation);
+
+      // when
+      const response = await campaignParticipationController.getUserCampaignParticipationToCampaign(request, hFake, {
+        campaignParticipationSerializer,
+      });
+
+      // then
+      expect(response).to.equal(expectedCampaignParticipation);
     });
   });
 });

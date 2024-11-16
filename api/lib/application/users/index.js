@@ -1,43 +1,11 @@
 import Joi from 'joi';
 
-import { BadRequestError, sendJsonApiError } from '../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { userController } from './user-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
-    {
-      method: 'GET',
-      path: '/api/admin/users/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new BadRequestError("L'identifiant de l'utilisateur n'est pas au bon format."), h);
-          },
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-          },
-        ],
-        handler: userController.getUserDetailsForAdmin,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
-            "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration",
-        ],
-        tags: ['api', 'admin', 'user'],
-      },
-    },
     {
       method: 'GET',
       path: '/api/admin/users/{id}/organizations',
@@ -92,29 +60,6 @@ const register = async function (server) {
             '- Elle permet à un administrateur de lister les centres de certification auxquels appartient l´utilisateur',
         ],
         tags: ['api', 'admin', 'user', 'certification-centers'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/users/{id}/anonymize',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-          },
-        ],
-        handler: userController.anonymizeUser,
-        notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
-        tags: ['api', 'admin', 'user'],
       },
     },
     {
@@ -245,83 +190,6 @@ const register = async function (server) {
             '  (les plus récentes en premier)',
         ],
         tags: ['api'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{id}/campaign-participation-overviews',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.getCampaignParticipationOverviews,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des aperçus des participations aux campagnes en fonction de l‘id de l‘utilisateur\n' +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
-            '- Les aperçus des participations aux campagnes sont triés par ordre inverse de création' +
-            '  (les plus récentes en premier)',
-          '- Cette liste est paginée et filtrée selon des **states** qui peuvent avoir comme valeurs: ONGOING, TO_SHARE, ENDED et ARCHIVED',
-        ],
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{userId}/campaigns/{campaignId}/assessment-result',
-      config: {
-        validate: {
-          params: Joi.object({
-            userId: identifiersType.userId,
-            campaignId: identifiersType.campaignId,
-          }),
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.getUserCampaignAssessmentResult,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des résultats d’un parcours pour un utilisateur (**userId**) et pour la campagne d’évaluation donnée (**campaignId**)\n' +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'campaign'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{userId}/campaigns/{campaignId}/campaign-participations',
-      config: {
-        validate: {
-          params: Joi.object({
-            userId: identifiersType.userId,
-            campaignId: identifiersType.campaignId,
-          }),
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.getUserCampaignParticipationToCampaign,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération de la dernière participation d’un utilisateur (**userId**) à une campagne donnée (**campaignId**)\n' +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'campaign', 'campaign-participations'],
       },
     },
     {

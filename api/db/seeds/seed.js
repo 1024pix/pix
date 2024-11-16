@@ -56,7 +56,7 @@ const seed = async function (knex) {
     await team1dDataBuilder(databaseBuilder);
   }
 
-  if (hasToSeed.content) {
+  if (hasToSeed.contenu) {
     logger.info('Seeding : Contenu');
     await teamContenuDataBuilder({ databaseBuilder });
   }
@@ -84,7 +84,7 @@ function _buildContextToSeed(params) {
       devcomp: true,
       acces: true,
       junior: true,
-      content: true,
+      contenu: true,
       certification: true,
       evaluation: true,
     };
@@ -95,7 +95,7 @@ function _buildContextToSeed(params) {
     devcomp: false,
     acces: false,
     junior: false,
-    content: false,
+    contenu: false,
     certification: false,
     evaluation: false,
   };
@@ -105,9 +105,9 @@ function _buildContextToSeed(params) {
     if (seedContext === 'DEVCOMP') hasToSeed.devcomp = true;
     if (seedContext === 'JUNIOR') hasToSeed.junior = true;
     if (seedContext === 'ACCES') hasToSeed.acces = true;
-    if (seedContext === 'CONTENT') hasToSeed.content = true;
-    if (seedContext === 'CERTIF') hasToSeed.certification = true;
-    if (seedContext === 'EVAL') hasToSeed.evaluation = true;
+    if (seedContext === 'CONTENU') hasToSeed.contenu = true;
+    if (seedContext === 'CERTIFICATION') hasToSeed.certification = true;
+    if (seedContext === 'EVALUATION') hasToSeed.evaluation = true;
   });
 
   return hasToSeed;

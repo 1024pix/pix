@@ -118,4 +118,9 @@ async function emptyAllTables() {
   return configuredKnex.raw(`${query}${tables}`);
 }
 
-export { disconnect, emptyAllTables, configuredKnex as knex };
+async function prepareDatabaseConnection() {
+  await configuredKnex.raw('SELECT 1');
+  logger.info('Connection to database established.');
+}
+
+export { disconnect, emptyAllTables, configuredKnex as knex, prepareDatabaseConnection };

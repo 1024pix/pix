@@ -53,6 +53,7 @@ describe('Unit | Controller | school-controller', function () {
                   organizationId: 1,
                   completedMissionIds: [],
                   startedMissionIds: [],
+                  features: [],
                 },
               ],
             },

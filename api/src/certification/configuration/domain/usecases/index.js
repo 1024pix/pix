@@ -5,14 +5,9 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as complementaryCertificationRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
+import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as centerPilotFeaturesRepository from '../../infrastructure/repositories/center-pilot-features-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
-import * as habilitationRepository from '../../infrastructure/repositories/habilitation-repository.js';
-/**
- * @typedef {import('../../infrastructure/repositories/index.js').SessionsRepository} SessionsRepository
- */
-import { configurationRepositories } from '../../infrastructure/repositories/index.js';
-import { convertCenterToV3JobRepository } from '../../infrastructure/repositories/jobs/convert-center-to-v3-job-repository.js';
 
 /**
  *
@@ -22,18 +17,14 @@ import { convertCenterToV3JobRepository } from '../../infrastructure/repositorie
  * @typedef {attachableTargetProfileRepository} AttachableTargetProfileRepository
  * @typedef {centerPilotFeaturesRepository} CenterPilotFeaturesRepository
  * @typedef {centerRepository} CentersRepository
- * @typedef {convertCenterToV3JobRepository} ConvertCenterToV3JobRepository
- * @typedef {sessionsRepository} SessionsRepository
- * @typedef {habilitationRepository} HabilitationRepository
+ * @typedef {candidateRepository} CandidateRepository
  **/
 const dependencies = {
   attachableTargetProfileRepository,
   complementaryCertificationRepository,
   centerPilotFeaturesRepository,
   centerRepository,
-  convertCenterToV3JobRepository,
-  sessionsRepository: configurationRepositories.sessionsRepository,
-  habilitationRepository,
+  candidateRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

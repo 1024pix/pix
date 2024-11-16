@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { and, not, or } from 'ember-truth-helpers';
@@ -27,18 +27,19 @@ export default class CertificationIssueReport extends Component {
   <template>
     <li class="certification-issue-report">
       {{#if (or (not @issueReport.isImpactful) @issueReport.resolvedAt)}}
-        <FaIcon
+        <PixIcon
           aria-label="Signalement résolu"
-          aria-hidden="false"
-          class="certification-issue-report__resolution-status--resolved"
-          @icon="circle-check"
+          class="certification-issue-report__resolution-status certification-issue-report__resolution-status--resolved"
+          @name="checkCircle"
+          @plainIcon={{true}}
         />
       {{else}}
-        <FaIcon
+        <PixIcon
           aria-label="Signalement non résolu"
           aria-hidden="false"
-          class="certification-issue-report__resolution-status--unresolved"
-          @icon="circle-xmark"
+          class="certification-issue-report__resolution-status certification-issue-report__resolution-status--unresolved"
+          @name="cancel"
+          @plainIcon={{true}}
         />
       {{/if}}
 

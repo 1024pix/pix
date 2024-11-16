@@ -275,7 +275,7 @@
     },
     "sco": {
       "banner": {
-        "information": "La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la",
+        "information": "La certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 pour les lycées et du 17 mars au 13 juin 2025 pour les collèges. Pensez à consulter la",
         "url-label": "documentation pour voir les nouveautés."
       },
       "enrol-candidates-in-session": {
@@ -701,6 +701,9 @@
           "actions": {
             "finalizing": "Finaliser la session",
             "update": "Modifier les informations de la session {sessionId}"
+          },
+          "finalization": {
+            "temporarily-blocked": "Cette session ne peut pas être finalisée pour le moment. Les équipes de Pix travaillent au déblocage de la finalisation."
           },
           "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix.",
           "password": {

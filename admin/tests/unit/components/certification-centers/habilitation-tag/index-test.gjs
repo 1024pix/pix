@@ -11,8 +11,8 @@ module('Unit | Component | certification-centers/habilitation-tag', function (ho
     const component = createGlimmerComponent('component:certification-centers/habilitation-tag', {
       active: true,
     });
-    assert.strictEqual(component.className, 'granted-habilitation-icon');
-    assert.strictEqual(component.icon, 'circle-check');
+    assert.strictEqual(component.className, 'habilitation-icon habilitation-icon--granted');
+    assert.strictEqual(component.icon, 'checkCircle');
   });
 
   test('it should return the correct icon and classname when the center is NOT habilited', function (assert) {
@@ -20,7 +20,7 @@ module('Unit | Component | certification-centers/habilitation-tag', function (ho
       active: false,
     });
 
-    assert.strictEqual(component.className, 'non-granted-habilitation-icon');
-    assert.strictEqual(component.icon, 'circle-xmark');
+    assert.strictEqual(component.className, 'habilitation-icon habilitation-icon--non-granted');
+    assert.strictEqual(component.icon, 'cancel');
   });
 });

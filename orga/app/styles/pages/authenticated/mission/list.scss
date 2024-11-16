@@ -1,0 +1,16 @@
+.mission-list {
+  &__table {
+    th {
+      color: var(--pix-neutral-900);
+      font-weight: 700;
+    }
+
+    td {
+      color: var(--pix-neutral-900);
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}

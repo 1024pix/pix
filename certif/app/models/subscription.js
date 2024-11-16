@@ -17,6 +17,10 @@ export default class SubscriptionModel extends Model {
     return this.type === SUBSCRIPTION_TYPES.CORE;
   }
 
+  get isComplementary() {
+    return this.type === SUBSCRIPTION_TYPES.COMPLEMENTARY;
+  }
+
   isClea(centerHabilitations) {
     const matchingHabilitation = centerHabilitations.find(
       (habilitation) => habilitation.id === this.complementaryCertificationId,

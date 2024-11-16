@@ -120,6 +120,51 @@ module('Integration | Component | Module | Grain', function (hooks) {
       assert.dom(find('.grain-card--lesson')).exists();
       assert.dom(screen.getByText('leçon')).exists();
     });
+
+    test('should have the "discovery" color and tag if grain is of type discovery', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { type: 'discovery', title: 'Grain title' });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+        <Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.dom(find('.grain-card--discovery')).exists();
+      assert.dom(screen.getByText('découverte')).exists();
+    });
+
+    test('should have the "challenge" color and tag if grain is of type challenge', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { type: 'challenge', title: 'Grain title' });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+        <Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.dom(find('.grain-card--challenge')).exists();
+      assert.dom(screen.getByText('défi')).exists();
+    });
+
+    test('should have the "summary" color and tag if grain is of type summary', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { type: 'summary', title: 'Grain title' });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+        <Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.dom(find('.grain-card--summary')).exists();
+      assert.dom(screen.getByText("récap'")).exists();
+    });
   });
 
   module('when component is an element', function () {

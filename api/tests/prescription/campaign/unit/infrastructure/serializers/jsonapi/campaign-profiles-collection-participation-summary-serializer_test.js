@@ -13,6 +13,8 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participati
         participantExternalId: 'abo',
         sharedAt: new Date(2020, 2, 2),
         pixScore: 1024,
+        sharedProfileCount: 1,
+        previousPixScore: 512,
         certifiable: true,
         certifiableCompetencesCount: 8,
       });
@@ -27,6 +29,8 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participati
             'participant-external-id': 'abo',
             'shared-at': new Date(2020, 2, 2),
             'pix-score': 1024,
+            'shared-profile-count': 1,
+            evolution: 'increase',
             certifiable: true,
             'certifiable-competences-count': 8,
           },

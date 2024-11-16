@@ -1,9 +1,11 @@
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { not } from 'ember-truth-helpers';
+import { eq, not } from 'ember-truth-helpers';
 
 import { getColumnName } from '../../helpers/import-format.js';
 import Tooltip from '../certificability/tooltip';
@@ -38,7 +40,28 @@ export default class TableHeaders extends Component {
       </HeaderSort>
       <Header>{{t "pages.organization-participants.table.column.first-name"}}</Header>
       {{#each @customHeadings as |heading|}}
-        <Header>{{t (getColumnName heading)}}</Header>
+        <Header>
+          <div class="organization-participant-list-page__header-with-tooltip">
+            {{t (getColumnName heading)}}
+            {{#if (eq heading "ORALIZATION")}}
+              <PixTooltip @id="organization-participants-oralization-tooltip" @isWide="true">
+                <:triggerElement>
+                  <PixIcon
+                    @name="help"
+                    @plainIcon="true"
+                    aria-label={{t "pages.organization-participants.table.oralization-header-tooltip-aria-label"}}
+                    aria-describedby="organization-participants-oralization-tooltip"
+                  />
+                </:triggerElement>
+
+                <:tooltip>
+                  {{t "pages.organization-participants.table.oralization-header-tooltip"}}
+                </:tooltip>
+              </PixTooltip>
+            {{/if}}
+
+          </div>
+        </Header>
       {{/each}}
 
       {{#unless this.currentUser.canAccessMissionsPage}}
@@ -77,6 +100,12 @@ export default class TableHeaders extends Component {
           </div>
         </Header>
       {{/unless}}
+
+      {{#if @hasActionColumn}}
+        <Header @size="small" class="table__column--last-col">
+          {{t "common.actions.global"}}
+        </Header>
+      {{/if}}
     </tr>
   </template>
 }

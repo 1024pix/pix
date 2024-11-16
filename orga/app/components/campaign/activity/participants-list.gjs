@@ -4,7 +4,6 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -151,9 +150,7 @@ export default class ParticipantsList extends Component {
                         @triggerAction={{fn this.openModal participation}}
                         @size="small"
                         class="campaign-activity-table-actions__button campaign-activity-table-actions__button--delete"
-                      >
-                        <FaIcon />
-                      </PixIconButton>
+                      />
                     </td>
                   {{/if}}
                 </tr>

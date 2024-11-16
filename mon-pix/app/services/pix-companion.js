@@ -1,9 +1,12 @@
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+const MINIMAL_VERSION_FOR_CERTIFICATION_SESSION = [0, 0, 5];
+
 export default class PixCompanion extends Service {
   @service featureToggles;
   @tracked _isExtensionEnabled = true;
+  @tracked version = null;
 
   #checkExtensionIsEnabledInterval;
   #eventTarget = new EventTarget();
@@ -33,8 +36,10 @@ export default class PixCompanion extends Service {
 
   checkExtensionIsEnabled(windowRef = window) {
     const pong = promiseWithResolverAndTimeout(100, windowRef);
-
-    const pongListener = () => {
+    const pongListener = (event) => {
+      try {
+        this.version = event.detail?.version;
+      } catch {} // eslint-disable-line no-empty
       pong.resolve();
     };
 
@@ -72,6 +77,17 @@ export default class PixCompanion extends Service {
   get isExtensionEnabled() {
     if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return true;
     return this._isExtensionEnabled;
+  }
+
+  get hasMinimalVersionForCertification() {
+    if (!this._isExtensionEnabled) return false;
+    if (!this.version) return true;
+    const version = this.version.split('.').map((n) => parseInt(n));
+    for (let i = 0; i < 3; i++) {
+      if (version[i] < MINIMAL_VERSION_FOR_CERTIFICATION_SESSION[i]) return false;
+      if (version[i] > MINIMAL_VERSION_FOR_CERTIFICATION_SESSION[i]) return true;
+    }
+    return true;
   }
 }
 

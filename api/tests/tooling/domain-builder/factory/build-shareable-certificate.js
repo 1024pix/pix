@@ -15,6 +15,7 @@ const buildShareableCertificate = function ({
   maxReachableLevelOnCertificationDate = 5,
   certifiedBadgeImages = [],
   resultCompetenceTree = null,
+  version = 3,
 } = {}) {
   return new ShareableCertificate({
     id,
@@ -31,6 +32,7 @@ const buildShareableCertificate = function ({
     maxReachableLevelOnCertificationDate,
     resultCompetenceTree,
     certifiedBadgeImages,
+    version,
   });
 };
 

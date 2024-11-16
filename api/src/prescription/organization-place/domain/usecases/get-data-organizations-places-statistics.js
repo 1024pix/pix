@@ -7,7 +7,7 @@ const getDataOrganizationsPlacesStatistics = withTransaction(async function ({
   organizationPlacesLotRepository,
   organizationLearnerRepository,
 }) {
-  const organizationWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
+  const organizationWithPlaces = await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
 
   const organizationWithPlacesIds = organizationWithPlaces.map((organization) => organization.id);
 

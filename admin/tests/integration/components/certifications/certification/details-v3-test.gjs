@@ -483,7 +483,7 @@ module('Integration | Component | Certifications | certification > details v3', 
           answer.answerStatusName,
           `${answer.competenceIndex} ${answer.competenceName}`,
           answer.skillName,
-          `${answer.id.toString()} `,
+          `${answer.id.toString()}`,
         ]);
         assert.deepEqual(expected, result);
       });

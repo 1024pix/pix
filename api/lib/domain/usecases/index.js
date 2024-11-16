@@ -54,6 +54,7 @@ import { scoAccountRecoveryService } from '../../../src/identity-access-manageme
 import { accountRecoveryDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
+import { userAnonymizedEventLoggingJobRepository } from '../../../src/identity-access-management/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import { organizationLearnerIdentityRepository } from '../../../src/identity-access-management/infrastructure/repositories/organization-learner-identity.repository.js';
 import { refreshTokenRepository } from '../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
@@ -74,7 +75,6 @@ import * as poleEmploiSendingRepository from '../../../src/prescription/campaign
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
-import * as targetProfileAdministrationRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileSummaryForAdminRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
@@ -105,11 +105,13 @@ import * as writeCsvUtils from '../../../src/shared/infrastructure/utils/csv/wri
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as emailRepository from '../../../src/shared/mail/infrastructure/repositories/email.repository.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import { organizationInvitationService } from '../../../src/team/domain/services/organization-invitation.service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
 import { certificationCenterInvitedUserRepository } from '../../../src/team/infrastructure/repositories/certification-center-invited-user.repository.js';
 import { certificationCenterMembershipRepository } from '../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
+import * as membershipRepository from '../../../src/team/infrastructure/repositories/membership.repository.js';
 import { organizationInvitationRepository } from '../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { userOrgaSettingsRepository } from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
@@ -122,7 +124,6 @@ import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
-import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
@@ -137,17 +138,13 @@ import * as flashAssessmentResultRepository from '../../infrastructure/repositor
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
-import { userAnonymizedEventLoggingJobRepository } from '../../infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
-import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag-repository.js';
-import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
-import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
@@ -218,7 +215,6 @@ const dependencies = {
   campaignManagementRepository,
   campaignParticipationBCRepository,
   participationCompletedJobRepository,
-  campaignParticipationOverviewRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
   campaignProfileRepository,
@@ -259,6 +255,7 @@ const dependencies = {
   dataProtectionOfficerRepository,
   dateUtils,
   divisionRepository,
+  emailRepository,
   emailValidationDemandRepository,
   finalizedSessionRepository,
   flashAlgorithmConfigurationRepository,
@@ -291,7 +288,6 @@ const dependencies = {
   organizationRepository,
   organizationTagRepository,
   organizationValidator,
-  participantResultRepository,
   participantResultsSharedRepository,
   passwordGenerator,
   passwordValidator,
@@ -324,8 +320,6 @@ const dependencies = {
   supervisorAccessRepository,
   supOrganizationLearnerRepository,
   tagRepository,
-  targetProfileAdministrationRepository,
-  targetProfileForUpdateRepository,
   targetProfileRepository,
   targetProfileShareRepository,
   targetProfileSummaryForAdminRepository,

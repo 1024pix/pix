@@ -25,6 +25,7 @@ import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { organizationLearnerRoutes } from './src/prescription/organization-learner/routes.js';
+import { organizationLearnerFeatureRoutes } from './src/prescription/organization-learner-feature/routes.js';
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { profileRoutes } from './src/profile/routes.js';
@@ -55,6 +56,7 @@ const certificationRoutes = [
 const prescriptionRoutes = [
   learnerManagementRoutes,
   organizationLearnerRoutes,
+  organizationLearnerFeatureRoutes,
   targetProfileRoutes,
   campaignRoutes,
   organizationPlaceRoutes,

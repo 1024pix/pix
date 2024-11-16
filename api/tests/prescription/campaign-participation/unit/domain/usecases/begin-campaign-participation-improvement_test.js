@@ -1,9 +1,6 @@
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import {
-  AlreadySharedCampaignParticipationError,
-  UserNotAuthorizedToAccessEntityError,
-} from '../../../../../../src/shared/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -46,28 +43,6 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 
-  it('should throw an error if the campaign participation is shared', async function () {
-    // given
-    const userId = 1;
-    const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
-      userId,
-      id: campaignParticipationId,
-      status: CampaignParticipationStatuses.SHARED,
-    });
-    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
-
-    // when
-    const error = await catchErr(beginCampaignParticipationImprovement)({
-      campaignParticipationId,
-      userId,
-      ...dependencies,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(AlreadySharedCampaignParticipationError);
-  });
-
   it('should not start another assessment when the current assessment of the campaign is of improving type and still ongoing', async function () {
     // given
     const userId = 1;
@@ -81,7 +56,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: CampaignParticipationStatuses.STARTED,
+      status: CampaignParticipationStatuses.TO_SHARE,
       assessments: [ongoingAssessment],
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
@@ -106,7 +81,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: CampaignParticipationStatuses.STARTED,
+      status: CampaignParticipationStatuses.TO_SHARE,
       assessments: [latestAssessment],
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);

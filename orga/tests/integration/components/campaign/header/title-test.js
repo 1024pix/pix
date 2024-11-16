@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -23,8 +23,9 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
 
     // then
     const title = screen.getByRole('heading');
-    assert.true(title.textContent.includes(t('components.campaign.type.explanation.ASSESSMENT')));
-    assert.true(title.textContent.includes('campagne 1'));
+
+    assert.ok(within(title).getByRole('img', { name: t('components.campaign.type.explanation.ASSESSMENT') }));
+    assert.ok(within(title).getByText('campagne 1'));
     assert.ok(screen.getByText('1234PixTest'));
     assert.ok(screen.getByText('Mulan Fa'));
     assert.ok(screen.getByText('14/04/2021'));

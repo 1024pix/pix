@@ -2,7 +2,6 @@ import range from 'lodash/range.js';
 
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { config as settings } from '../../../../src/shared/config.js';
 import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
@@ -33,7 +32,6 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
     complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId = sinon.stub();
     certificationCourseRepository.get = sinon.stub();
     complementaryCertificationBadgesRepository.getAllWithSameTargetProfile = sinon.stub();
-    sinon.stub(settings.featureToggles, 'isPixPlusLowerLeverEnabled').value(false);
   });
 
   it('fails when event is not of correct type', async function () {
@@ -116,6 +114,10 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
 
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
+        complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
+          domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
+        ]);
+
         // when
         await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
@@ -131,9 +133,6 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
       });
 
       context('n-1 cases listing', function () {
-        beforeEach(function () {
-          sinon.stub(settings.featureToggles, 'isPixPlusLowerLeverEnabled').value(true);
-        });
         /* eslint-disable mocha/no-setup-in-describe */
         const level1 = {
           minimumEarnedPix: 50,
@@ -548,6 +547,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               assessmentResultRepository.getByCertificationCourseId
                 .withArgs({ certificationCourseId: 123 })
                 .resolves(domainBuilder.buildAssessmentResult.validated());
+              complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
+              ]);
 
               // when
               await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -613,6 +615,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               assessmentResultRepository.getByCertificationCourseId
                 .withArgs({ certificationCourseId: 123 })
                 .resolves(domainBuilder.buildAssessmentResult.validated());
+              complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
+              ]);
 
               // when
               await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -631,193 +636,99 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
           });
 
           context('when repro rate is not sufficient for current level', function () {
-            context('when isPixPlusLowerLeverEnabled is true', function () {
-              beforeEach(function () {
-                sinon.stub(settings.featureToggles, 'isPixPlusLowerLeverEnabled').value(true);
-              });
-              context('repro rate is sufficient for lower level', function () {
-                context('when there is a lower badge', function () {
-                  it('should save an "acquired" complementary certification with lower level badge', async function () {
-                    // given
-                    sinon.stub(settings.featureToggles, 'isPixPlusLowerLeverEnabled').value(true);
-
-                    const event = domainBuilder.buildCertificationScoringCompletedEvent({
-                      certificationCourseId: 123,
-                      userId: 456,
-                    });
-                    const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
-                      challengeId: 'chal1',
-                      certifiableBadgeKey: 'PIX_PLUS_TEST',
-                    });
-                    const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
-                      challengeId: 'chal2',
-                      certifiableBadgeKey: 'PIX_PLUS_TEST',
-                    });
-                    const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({
-                      challengeId: 'chal3',
-                      certifiableBadgeKey: 'PIX_PLUS_TEST',
-                    });
-                    const certificationAnswer1 = domainBuilder.buildAnswer.ok({ challengeId: 'chal1' });
-                    const certificationAnswer2 = domainBuilder.buildAnswer.ok({ challengeId: 'chal2' });
-                    const certificationAnswer3 = domainBuilder.buildAnswer.uncorrected({ challengeId: 'chal3' });
-                    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-                      certificationCourseId: 123,
-                      userId: 456,
-                      createdAt: new Date('2020-01-01'),
-                      certificationChallenges: [
-                        certificationChallenge1,
-                        certificationChallenge2,
-                        certificationChallenge3,
-                      ],
-                      certificationAnswersByDate: [certificationAnswer1, certificationAnswer2, certificationAnswer3],
-                    });
-
-                    complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
-                      .withArgs({
-                        certificationCourseId: 123,
-                      })
-                      .resolves([
-                        domainBuilder.buildComplementaryCertificationScoringCriteria({
-                          complementaryCertificationCourseId: 999,
-                          complementaryCertificationBadgeId: 888,
-                          minimumReproducibilityRate: 75,
-                          complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-                          hasComplementaryReferential: true,
-                          minimumEarnedPix: 60,
-                          minimumReproducibilityRateLowerLevel: 60,
-                          complementaryCertificationId: 123,
-                        }),
-                      ]);
-                    certificationCourseRepository.get
-                      .withArgs({ id: 123 })
-                      .resolves(domainBuilder.buildCertificationCourse());
-
-                    complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
-                      domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-                        id: 777,
-                        level: 1,
-                        minimumEarnedPix: 50,
-                      }),
-                      domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-                        id: 888,
-                        level: 2,
-                        minimumEarnedPix: 60,
-                      }),
-                    ]);
-                    certificationAssessmentRepository.getByCertificationCourseId
-                      .withArgs({ certificationCourseId: 123 })
-                      .resolves(certificationAssessment);
-                    assessmentResultRepository.getByCertificationCourseId
-                      .withArgs({ certificationCourseId: 123 })
-                      .resolves(domainBuilder.buildAssessmentResult.validated({ pixScore: 50 }));
-
-                    // when
-                    await handleComplementaryCertificationsScoring({ event, ...dependencies });
-
-                    // then
-
-                    expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
-                      ComplementaryCertificationCourseResult.from({
-                        complementaryCertificationCourseId: 999,
-                        complementaryCertificationBadgeId: 777,
-                        source: ComplementaryCertificationCourseResult.sources.PIX,
-                        acquired: true,
-                      }),
-                    );
+            context('repro rate is sufficient for lower level', function () {
+              context('when there is a lower badge', function () {
+                it('should save an "acquired" complementary certification with lower level badge', async function () {
+                  // given
+                  const event = domainBuilder.buildCertificationScoringCompletedEvent({
+                    certificationCourseId: 123,
+                    userId: 456,
                   });
-                });
+                  const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
+                    challengeId: 'chal1',
+                    certifiableBadgeKey: 'PIX_PLUS_TEST',
+                  });
+                  const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
+                    challengeId: 'chal2',
+                    certifiableBadgeKey: 'PIX_PLUS_TEST',
+                  });
+                  const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({
+                    challengeId: 'chal3',
+                    certifiableBadgeKey: 'PIX_PLUS_TEST',
+                  });
+                  const certificationAnswer1 = domainBuilder.buildAnswer.ok({ challengeId: 'chal1' });
+                  const certificationAnswer2 = domainBuilder.buildAnswer.ok({ challengeId: 'chal2' });
+                  const certificationAnswer3 = domainBuilder.buildAnswer.uncorrected({ challengeId: 'chal3' });
+                  const certificationAssessment = domainBuilder.buildCertificationAssessment({
+                    certificationCourseId: 123,
+                    userId: 456,
+                    createdAt: new Date('2020-01-01'),
+                    certificationChallenges: [
+                      certificationChallenge1,
+                      certificationChallenge2,
+                      certificationChallenge3,
+                    ],
+                    certificationAnswersByDate: [certificationAnswer1, certificationAnswer2, certificationAnswer3],
+                  });
 
-                context('when there is no lower badge', function () {
-                  it('should save an  not "acquired" complementary certification with current badge', async function () {
-                    // given
-
-                    const event = domainBuilder.buildCertificationScoringCompletedEvent({
+                  complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
+                    .withArgs({
                       certificationCourseId: 123,
-                      userId: 456,
-                    });
-                    const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
-                      challengeId: 'chal1',
-                      certifiableBadgeKey: 'PIX_PLUS_TEST',
-                    });
-                    const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
-                      challengeId: 'chal2',
-                      certifiableBadgeKey: 'PIX_PLUS_TEST',
-                    });
-                    const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({
-                      challengeId: 'chal3',
-                      certifiableBadgeKey: 'PIX_PLUS_TEST',
-                    });
-                    const certificationAnswer1 = domainBuilder.buildAnswer.ok({ challengeId: 'chal1' });
-                    const certificationAnswer2 = domainBuilder.buildAnswer.ok({ challengeId: 'chal2' });
-                    const certificationAnswer3 = domainBuilder.buildAnswer.uncorrected({ challengeId: 'chal3' });
-                    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-                      certificationCourseId: 123,
-                      userId: 456,
-                      createdAt: new Date('2020-01-01'),
-                      certificationChallenges: [
-                        certificationChallenge1,
-                        certificationChallenge2,
-                        certificationChallenge3,
-                      ],
-                      certificationAnswersByDate: [certificationAnswer1, certificationAnswer2, certificationAnswer3],
-                    });
-
-                    complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
-                      .withArgs({
-                        certificationCourseId: 123,
-                      })
-                      .resolves([
-                        domainBuilder.buildComplementaryCertificationScoringCriteria({
-                          complementaryCertificationCourseId: 999,
-                          complementaryCertificationBadgeId: 888,
-                          minimumReproducibilityRate: 75,
-                          complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-                          hasComplementaryReferential: true,
-                          minimumReproducibilityRateLowerLevel: 60,
-                          complementaryCertificationId: 123,
-                        }),
-                      ]);
-                    certificationCourseRepository.get
-                      .withArgs({ id: 123 })
-                      .resolves(domainBuilder.buildCertificationCourse());
-
-                    complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
-                      domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-                        id: 888,
-                        level: 1,
-                        minimumEarnedPix: 60,
-                      }),
-                    ]);
-                    certificationAssessmentRepository.getByCertificationCourseId
-                      .withArgs({ certificationCourseId: 123 })
-                      .resolves(certificationAssessment);
-                    assessmentResultRepository.getByCertificationCourseId
-                      .withArgs({ certificationCourseId: 123 })
-                      .resolves(domainBuilder.buildAssessmentResult.validated({ pixScore: 50 }));
-
-                    // when
-                    await handleComplementaryCertificationsScoring({ event, ...dependencies });
-
-                    // then
-
-                    expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
-                      ComplementaryCertificationCourseResult.from({
+                    })
+                    .resolves([
+                      domainBuilder.buildComplementaryCertificationScoringCriteria({
                         complementaryCertificationCourseId: 999,
                         complementaryCertificationBadgeId: 888,
-                        source: ComplementaryCertificationCourseResult.sources.PIX,
-                        acquired: false,
+                        minimumReproducibilityRate: 75,
+                        complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+                        hasComplementaryReferential: true,
+                        minimumEarnedPix: 60,
+                        minimumReproducibilityRateLowerLevel: 60,
+                        complementaryCertificationId: 123,
                       }),
-                    );
-                  });
+                    ]);
+                  certificationCourseRepository.get
+                    .withArgs({ id: 123 })
+                    .resolves(domainBuilder.buildCertificationCourse());
+
+                  complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
+                    domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                      id: 777,
+                      level: 1,
+                      minimumEarnedPix: 50,
+                    }),
+                    domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                      id: 888,
+                      level: 2,
+                      minimumEarnedPix: 60,
+                    }),
+                  ]);
+                  certificationAssessmentRepository.getByCertificationCourseId
+                    .withArgs({ certificationCourseId: 123 })
+                    .resolves(certificationAssessment);
+                  assessmentResultRepository.getByCertificationCourseId
+                    .withArgs({ certificationCourseId: 123 })
+                    .resolves(domainBuilder.buildAssessmentResult.validated({ pixScore: 50 }));
+
+                  // when
+                  await handleComplementaryCertificationsScoring({ event, ...dependencies });
+
+                  // then
+
+                  expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+                    ComplementaryCertificationCourseResult.from({
+                      complementaryCertificationCourseId: 999,
+                      complementaryCertificationBadgeId: 777,
+                      source: ComplementaryCertificationCourseResult.sources.PIX,
+                      acquired: true,
+                    }),
+                  );
                 });
               });
-            });
 
-            context('when isPixPlusLowerLeverEnabled is false', function () {
-              context('repro rate is sufficient for lower level', function () {
-                it('should  not save a not "acquired" complementary certification with current level badge', async function () {
+              context('when there is no lower badge', function () {
+                it('should save an  not "acquired" complementary certification with current badge', async function () {
                   // given
-                  sinon.stub(settings.featureToggles, 'isPixPlusLowerLeverEnabled').value(false);
 
                   const event = domainBuilder.buildCertificationScoringCompletedEvent({
                     certificationCourseId: 123,
@@ -871,13 +782,8 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
 
                   complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
                     domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-                      id: 777,
-                      level: 1,
-                      minimumEarnedPix: 50,
-                    }),
-                    domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
                       id: 888,
-                      level: 2,
+                      level: 1,
                       minimumEarnedPix: 60,
                     }),
                   ]);

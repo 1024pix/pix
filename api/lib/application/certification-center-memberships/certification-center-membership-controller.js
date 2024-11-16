@@ -1,8 +1,8 @@
 import { BadRequestError, ForbiddenError } from '../../../src/shared/application/http-errors.js';
+import * as certificationCenterMembershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/certification-center-membership.serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { certificationCenterMembershipRepository } from '../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 
 const disableFromPixAdmin = async function (request, h, dependencies = { requestResponseUtils }) {
   const certificationCenterMembershipId = request.params.id;

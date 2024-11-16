@@ -9,11 +9,12 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
+import isEmailValid from 'mon-pix/utils/email-validator.js';
+import { FormValidation } from 'mon-pix/utils/form-validation';
+import isPasswordValid, { PASSWORD_RULES } from 'mon-pix/utils/password-validator.js';
 
-import { PASSWORD_RULES } from '../../../utils/password-validator.js';
 import NewPasswordInput from '../new-password-input';
 import CguCheckbox from './cgu-checkbox';
-import { SignupFormValidation } from './signup-form-validation';
 
 const HTTP_ERROR_MESSAGES = {
   400: { key: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY },
@@ -21,13 +22,43 @@ const HTTP_ERROR_MESSAGES = {
   default: { key: 'common.api-error-messages.login-unexpected-error', values: { htmlSafe: true } },
 };
 
+const VALIDATION_ERRORS = {
+  firstName: 'components.authentication.signup-form.fields.firstname.error',
+  lastName: 'components.authentication.signup-form.fields.lastname.error',
+  email: 'components.authentication.signup-form.fields.email.error',
+  password: 'common.validation.password.error',
+  cgu: 'common.cgu.error',
+};
+
 export default class SignupForm extends Component {
   @service session;
   @service intl;
 
-  @tracked validation = new SignupFormValidation(this.intl);
   @tracked isLoading = false;
   @tracked globalError = null;
+
+  validation = new FormValidation({
+    firstName: {
+      validate: (value) => Boolean(value),
+      error: VALIDATION_ERRORS.firstName,
+    },
+    lastName: {
+      validate: (value) => Boolean(value),
+      error: VALIDATION_ERRORS.lastName,
+    },
+    email: {
+      validate: (value) => isEmailValid(value),
+      error: VALIDATION_ERRORS.email,
+    },
+    password: {
+      validate: (value) => isPasswordValid(value),
+      error: VALIDATION_ERRORS.password,
+    },
+    cgu: {
+      validate: (value) => value === true,
+      error: VALIDATION_ERRORS.cgu,
+    },
+  });
 
   @action
   handleInputChange(event) {
@@ -40,7 +71,7 @@ export default class SignupForm extends Component {
       user[id] = value.trim();
     }
 
-    this.validation.validateField(id, user[id]);
+    this.validation[id].validate(user[id]);
   }
 
   @action
@@ -48,8 +79,10 @@ export default class SignupForm extends Component {
     if (event) event.preventDefault();
     const { user } = this.args;
 
-    if (!this.validation.isValid) return;
+    const isValid = this.validation.validateAll(user);
+    if (!isValid) return;
 
+    this.globalError = null;
     this.isLoading = true;
 
     try {
@@ -74,7 +107,7 @@ export default class SignupForm extends Component {
 
     if (String(statusCode) === '422') {
       const errors = this.args.user.errors || [];
-      return this.validation.setErrorsFromServer(errors);
+      return this.validation.setErrorsFromApi(errors);
     }
 
     switch (error?.code) {
@@ -116,9 +149,13 @@ export default class SignupForm extends Component {
           name="firstName"
           {{on "change" this.handleInputChange}}
           @validationStatus={{this.validation.firstName.status}}
-          @errorMessage={{this.validation.firstName.errorMessage}}
+          @errorMessage={{if
+            this.validation.firstName.apiError
+            this.validation.firstName.apiError
+            (t this.validation.firstName.error)
+          }}
           placeholder={{t "components.authentication.signup-form.fields.firstname.placeholder"}}
-          required
+          aria-required="true"
           autocomplete="given-name"
         >
           <:label>{{t "components.authentication.signup-form.fields.firstname.label"}}</:label>
@@ -129,9 +166,13 @@ export default class SignupForm extends Component {
           name="lastName"
           {{on "change" this.handleInputChange}}
           @validationStatus={{this.validation.lastName.status}}
-          @errorMessage={{this.validation.lastName.errorMessage}}
+          @errorMessage={{if
+            this.validation.lastName.apiError
+            this.validation.lastName.apiError
+            (t this.validation.lastName.error)
+          }}
           placeholder={{t "components.authentication.signup-form.fields.lastname.placeholder"}}
-          required
+          aria-required="true"
           autocomplete="family-name"
         >
           <:label>{{t "components.authentication.signup-form.fields.lastname.label"}}</:label>
@@ -142,9 +183,13 @@ export default class SignupForm extends Component {
           name="email"
           {{on "change" this.handleInputChange}}
           @validationStatus={{this.validation.email.status}}
-          @errorMessage={{this.validation.email.errorMessage}}
+          @errorMessage={{if
+            this.validation.email.apiError
+            this.validation.email.apiError
+            (t this.validation.email.error)
+          }}
           placeholder={{t "components.authentication.signup-form.fields.email.placeholder"}}
-          required
+          aria-required="true"
           autocomplete="email"
         >
           <:label>{{t "components.authentication.signup-form.fields.email.label"}}</:label>
@@ -155,9 +200,13 @@ export default class SignupForm extends Component {
           name="password"
           {{on "change" this.handleInputChange}}
           @validationStatus={{this.validation.password.status}}
-          @errorMessage={{this.validation.password.errorMessage}}
+          @errorMessage={{if
+            this.validation.password.apiError
+            this.validation.password.apiError
+            (t this.validation.password.error)
+          }}
           @rules={{PASSWORD_RULES}}
-          required
+          aria-required="true"
         >
           <:label>{{t "common.password"}}</:label>
         </NewPasswordInput>
@@ -167,12 +216,12 @@ export default class SignupForm extends Component {
           name="cgu"
           {{on "change" this.handleInputChange}}
           @validationStatus={{this.validation.cgu.status}}
-          @errorMessage={{this.validation.cgu.errorMessage}}
-          required
+          @errorMessage={{if this.validation.cgu.apiError this.validation.cgu.apiError (t this.validation.cgu.error)}}
+          aria-required="true"
         />
       </fieldset>
 
-      <PixButton @type="submit" @isLoading={{this.isLoading}} @size="large">
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
         {{t "components.authentication.signup-form.actions.submit"}}
       </PixButton>
     </form>

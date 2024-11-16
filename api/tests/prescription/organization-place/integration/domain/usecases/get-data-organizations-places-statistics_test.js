@@ -1,6 +1,7 @@
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { getDataOrganizationsPlacesStatistics } from '../../../../../../src/prescription/organization-place/domain/usecases/get-data-organizations-places-statistics.js';
 import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -23,6 +24,14 @@ describe('Integration | UseCases | get-data-organizations-places-statistics', fu
       name: 'Mon collège',
       type: 'SCO',
     });
+    const placesManagementFeatureId = databaseBuilder.factory.buildFeature({
+      key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
+    }).id;
+    databaseBuilder.factory.buildOrganizationFeature({
+      organizationId: firstOrganization.id,
+      featureId: placesManagementFeatureId,
+    });
+
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
       organizationId: firstOrganization.id,
     }).id;
@@ -41,6 +50,12 @@ describe('Integration | UseCases | get-data-organizations-places-statistics', fu
       activationDate: new Date('2021-04-01'),
       expirationDate: new Date('2021-05-15'),
     });
+
+    databaseBuilder.factory.buildOrganizationFeature({
+      organizationId: secondOrganization.id,
+      featureId: placesManagementFeatureId,
+    });
+
     await databaseBuilder.commit();
 
     // when

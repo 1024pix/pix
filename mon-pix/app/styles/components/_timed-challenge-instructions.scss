@@ -1,27 +1,25 @@
 .timed-challenge-instructions {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--pix-spacing-10x) var(--pix-spacing-6x);
   overflow: hidden;
   text-align: center;
 
   &__primary {
-    margin-top: 22px;
+    @extend %pix-title-s;
+
     color: var(--pix-neutral-800);
     font-weight: var(--pix-font-bold);
-    font-size: 1.5rem;
-    font-style: normal;
-    font-stretch: normal;
   }
 
   &__secondary {
-    margin-top: 9px;
+    @extend %pix-body-l;
+
+    margin-top: var(--pix-spacing-3x);
     margin-bottom: 50px;
     color: var(--pix-neutral-800);
-    font-size: 1.125rem;
-    font-style: normal;
-    font-stretch: normal;
   }
 
   &__time {
@@ -29,44 +27,28 @@
   }
 
   &__allocated-time {
-    color: var(--pix-neutral-800);
-    font-size: 1.7375rem;
-  }
-
-  &__action {
     display: flex;
-    justify-content: center;
-  }
-}
-
-.timed-challenge-instructions-allocated-time {
-  &__gauge {
-    display: flex;
-    flex-direction: row;
+    gap: var(--pix-spacing-2x);
     align-items: center;
-    justify-content: center;
-    width: fit-content;
     height: 50px;
     margin: 0 auto;
-    padding: 4px 12px;
-    line-height: 3.125rem;
+    padding: var(--pix-spacing-1x) var(--pix-spacing-3x);
+    color: var(--pix-neutral-800);
+    font-size: 1.5rem;
     background-color: var(--pix-neutral-20);
     border-radius: 7px;
   }
 }
 
-.timed-challenge-instructions-gauge {
+.timed-challenge-instructions-allocated-time {
   &__icon {
-    width: 42px;
-    padding-right: 6px;
-    padding-bottom: 6px;
+    width: 2.5rem;
+    fill: var(--pix-neutral-800);
   }
 }
 
 .timed-challenge-instructions-action {
   &__confirmation-button {
-    margin-top: 22px;
-    font-size: 0.875rem;
-    text-transform: uppercase;
+    margin-top: var(--pix-spacing-6x);
   }
 }

@@ -30,6 +30,7 @@ module('Integration | Component | user certifications detail header', function (
         pixScore: 654,
         status: 'validated',
         commentForCandidate: 'Comment for candidate',
+        version: 2,
       });
       this.set('certification', certification);
 
@@ -100,7 +101,7 @@ module('Integration | Component | user certifications detail header', function (
       this.owner.register('service:currentDomain', CurrentDomainServiceStub);
     });
 
-    module('when certification is delivered after 2022-01-01', function () {
+    module('when certification is v2 and delivered after 2022-01-01', function () {
       test('should display the professionalizing warning', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
@@ -117,6 +118,7 @@ module('Integration | Component | user certifications detail header', function (
           pixScore: 654,
           status: 'validated',
           commentForCandidate: 'Comment for candidate',
+          version: 2,
         });
         this.set('certification', certification);
 
@@ -151,6 +153,42 @@ module('Integration | Component | user certifications detail header', function (
           pixScore: 654,
           status: 'validated',
           commentForCandidate: 'Comment for candidate',
+          version: 2,
+        });
+        this.set('certification', certification);
+
+        // when
+        const screen = await renderScreen(
+          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
+        );
+
+        // then
+        assert.notOk(
+          screen.queryByText(
+            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix',
+          ),
+        );
+      });
+    });
+
+    module('when certification is v3', function () {
+      test('should not display the professionalizing warning', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certification = store.createRecord('certification', {
+          id: 1,
+          birthdate: '2000-01-22',
+          birthplace: 'Paris',
+          firstName: 'Jean',
+          lastName: 'Bon',
+          date: new Date('2018-02-15T15:15:52Z'),
+          deliveredAt: '2022-05-28',
+          certificationCenter: 'Université de Lyon',
+          isPublished: true,
+          pixScore: 654,
+          status: 'validated',
+          commentForCandidate: 'Comment for candidate',
+          version: 3,
         });
         this.set('certification', certification);
 

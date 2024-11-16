@@ -1,5 +1,6 @@
 import { attestationController } from '../../../../src/profile/application/attestation-controller.js';
 import { usecases } from '../../../../src/profile/domain/usecases/index.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -10,7 +11,7 @@ describe('Profile | Unit | Controller | attestation-controller', function () {
       const pdfWithFormSerializerStub = { serialize: sinon.stub() };
       sinon.stub(usecases, 'getAttestationDataForUsers');
       const userId = '12';
-      const locale = 'fr';
+      const locale = LOCALE.FRENCH_FRANCE;
       const attestationKey = 'key';
 
       const request = {

@@ -1,7 +1,7 @@
 import * as sessionResultsLinkService from '../../../../lib/domain/services/session-results-link-service.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { getI18n } from '../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Domain | Service | Session Results Link Service', function () {
   describe('#generateResultsLink', function () {

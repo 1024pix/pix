@@ -20,6 +20,7 @@
 @import 'components/bubble';
 @import 'components/footer';
 @import 'components/issue';
+@import 'components/oralization-button';
 @import 'components/robot-dialog';
 
 // Pages
@@ -27,8 +28,8 @@
 @import 'pages/identified/missions/list';
 @import 'pages/identified/missions/mission';
 @import 'pages/loading';
-@import 'pages/organization-code.scss';
-@import 'pages/school.scss';
+@import 'pages/organization-code';
+@import 'pages/school';
 
 body {
   color: var(--pix-neutral-900);

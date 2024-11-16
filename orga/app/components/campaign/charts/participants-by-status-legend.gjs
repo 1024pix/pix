@@ -1,7 +1,7 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { guidFor } from '@ember/object/internals';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 
 export default class ParticipantsByStatusLegend extends Component {
@@ -25,8 +25,9 @@ export default class ParticipantsByStatusLegend extends Component {
     <span>{{@dataset.legend}}</span>
     <PixTooltip @id="legend-tooltip-{{@dataset.key}}" @isWide="true" @position="top-left">
       <:triggerElement>
-        <FaIcon
-          @icon="circle-question"
+        <PixIcon
+          @name="help"
+          @plainIcon={{true}}
           class="participants-by-status__legend-tooltip"
           tabindex="0"
           aria-describedby="legend-tooltip-{{@dataset.key}}"

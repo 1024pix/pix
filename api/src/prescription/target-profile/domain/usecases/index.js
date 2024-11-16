@@ -12,18 +12,34 @@ import * as organizationsToAttachToTargetProfileRepository from '../../infrastru
 import * as targetProfileAdministrationRepository from '../../infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileBondRepository from '../../infrastructure/repositories/target-profile-bond-repository.js';
 import * as targetProfileForSpecifierRepository from '../../infrastructure/repositories/target-profile-for-specifier-repository.js';
+import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
+/**
+ * @typedef {import('../../infrastructure/repositories/')} AdminMemberRepository
+ * @typedef {import('../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js')} LearningContentConversionService
+ * @typedef {import('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
+ * @typedef {import('../../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository
+ * @typedef {import('../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js')} OrganizationsToAttachToTargetProfileRepository
+ * @typedef {import('../../infrastructure/repositories/target-profile-administration-repository.js')} TargetProfileAdministrationRepository
+ * @typedef {import('../../infrastructure/repositories/target-profile-bond-repository.js')} TargetProfileBondRepository
+ * @typedef {import('../../infrastructure/repositories/target-profile-for-specifier-repository.js')} TargetProfileForSpecifierRepository
+ * @typedef {import('../../infrastructure/repositories/target-profile-for-update-repository.js')} TargetProfileForUpdateRepository
+ * @typedef {import('../../../../../lib/infrastructure/repositories/target-profile-repository.js')} TargetProfileRepository
+ * @typedef {import('../../infrastructure/repositories/target-profile-summary-for-admin-repository.js')} TargetProfileSummaryForAdminRepository
+ */
+
 const dependencies = {
+  adminMemberRepository,
   learningContentConversionService,
   learningContentRepository,
-  adminMemberRepository,
-  targetProfileForSpecifierRepository,
   organizationRepository,
   organizationsToAttachToTargetProfileRepository,
-  targetProfileRepository,
-  targetProfileBondRepository,
   targetProfileAdministrationRepository,
+  targetProfileBondRepository,
+  targetProfileForSpecifierRepository,
+  targetProfileForUpdateRepository,
+  targetProfileRepository,
   targetProfileSummaryForAdminRepository,
 };
 

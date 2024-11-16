@@ -42,6 +42,30 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
       );
     });
 
+    it('should return organization learner with features', async function () {
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner();
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeatureWithFeatureKey({
+        organizationLearnerId: organizationLearner.id,
+        featureKey: 'ORALIZATION',
+      });
+      await databaseBuilder.commit();
+
+      const result = await usecases.getOrganizationLearnerWithMissionIdsByState({
+        organizationLearnerId: organizationLearner.id,
+      });
+
+      expect(result).to.deep.equal(
+        new OrganizationLearner({
+          ...organizationLearner,
+          division: organizationLearner.attributes['Libellé classe'],
+          completedMissionIds: [],
+          startedMissionIds: [],
+          features: ['ORALIZATION'],
+        }),
+      );
+    });
+
     it('should return only the good organization learner', async function () {
       const organizationLearner =
         databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner();

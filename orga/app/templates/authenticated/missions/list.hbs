@@ -44,7 +44,7 @@
                 )
               }}
               <a href={{@model.pixJuniorSchoolUrl}} target="_blank" rel="noopener noreferrer" id="external-link-icon">
-                <FaIcon @icon="external-link-alt" />
+                <PixIcon @name="openNew" />
               </a>
             </span>
             <span>
@@ -64,13 +64,14 @@
 {{#if @model.missions}}
   <div class="panel">
 
-    <table class="table content-text content-text--small participation-list__table">
+    <table class="table content-text content-text--small mission-list__table">
       <caption class="screen-reader-only">{{t "pages.missions.list.caption"}}</caption>
       <thead>
         <tr>
           <Table::Header scope="col">{{t "pages.missions.list.headers.name"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.list.headers.competences"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.list.headers.started-by"}}</Table::Header>
+          <Table::Header scope="col" @align="center">{{t "pages.missions.list.headers.actions"}}</Table::Header>
         </tr>
       </thead>
       <tbody>
@@ -92,6 +93,11 @@
               {{else}}
                 {{mission.startedBy}}
               {{/if}}
+            </td>
+            <td>
+              <PixButtonLink @route="authenticated.missions.mission" @model={{mission.id}} @variant="tertiary">
+                {{t "pages.missions.list.actions.see-mission-details"}}
+              </PixButtonLink>
             </td>
           </tr>
         {{/each}}

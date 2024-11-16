@@ -34,54 +34,6 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'PATCH',
-      path: '/api/admin/target-profiles/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'are-knowledge-elements-resettable': Joi.boolean(),
-                category: Joi.string(),
-                comment: Joi.string().allow(null).max(500),
-                description: Joi.string().allow(null).max(500),
-                'image-url': Joi.string().uri().allow(null),
-                name: Joi.string(),
-                tubes: Joi.array()
-                  .optional()
-                  .items(
-                    Joi.object({
-                      id: Joi.string(),
-                      level: Joi.number(),
-                    }),
-                  ),
-              },
-            },
-          }),
-        },
-        handler: targetProfileController.updateTargetProfile,
-        tags: ['api', 'admin', 'target-profiles'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de mettre à jour les attributs d'un profil cible",
-        ],
-      },
-    },
   ]);
 };
 

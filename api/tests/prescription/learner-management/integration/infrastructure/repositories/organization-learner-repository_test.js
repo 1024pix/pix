@@ -10,6 +10,7 @@ import {
   disableCommonOrganizationLearnersFromOrganizationId,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  findOrganizationLearnerIdsByOrganizationId,
   getOrganizationLearnerForAdmin,
   reconcileUserByNationalStudentIdAndOrganizationId,
   removeByIds,
@@ -1706,6 +1707,45 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         thirdOrganizationLearner.id,
         fourthOrganizationLearner.id,
       ]);
+    });
+  });
+
+  describe('#findOrganizationLearnerIdsByOrganizationId', function () {
+    let myOrganizationId;
+    let otherOrganizationId;
+    let organizationLearnerId;
+
+    beforeEach(async function () {
+      myOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: myOrganizationId,
+      }).id;
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+      }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return one learner', async function () {
+      const results = await findOrganizationLearnerIdsByOrganizationId({
+        organizationId: myOrganizationId,
+      });
+      expect(results).to.deep.equal([organizationLearnerId]);
+    });
+
+    it('should not return deleted learner', async function () {
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: myOrganizationId,
+        deletedAt: new Date('2020-04-05'),
+      }).id;
+
+      await databaseBuilder.commit();
+
+      const results = await findOrganizationLearnerIdsByOrganizationId({
+        organizationId: myOrganizationId,
+      });
+      expect(results).to.deep.equal([organizationLearnerId]);
     });
   });
 });

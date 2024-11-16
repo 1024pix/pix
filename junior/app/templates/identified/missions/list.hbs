@@ -12,7 +12,6 @@
   </RobotDialog>
 
   <div class="cards">
-
     {{#each this.orderedMissionList as |mission|}}
       <PixButton @triggerAction={{fn this.goToMission mission.id}} class="card">
         {{#if (this.isMissionCompleted mission.id)}}

@@ -45,6 +45,7 @@
     margin: var(--pix-spacing-4x) 0 0 0;
     padding: var(--pix-spacing-4x);
     color: var(--pix-neutral-500);
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
     background: var(--pix-neutral-20);
     border-radius: 8px;
@@ -58,7 +59,7 @@
 
     &-icon {
       margin-right: var(--pix-spacing-2x);
-      color: var(--pix-primary-500);
+      fill: var(--pix-primary-500);
     }
 
     &-title {

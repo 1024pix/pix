@@ -1,0 +1,32 @@
+.companion-check {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: var(--pix-neutral-0);
+  text-align: center;
+
+  &--success {
+    background-color: var(--pix-certif-500);
+  }
+
+  &--error {
+    background-color: var(--pix-error-500);
+  }
+
+  &__icon {
+    width: 6rem;
+    height: 6rem;
+    fill: var(--pix-neutral-0);
+  }
+
+  &__title {
+    @extend  %pix-title-m;
+  }
+
+  &__link {
+    margin-top: 2rem;
+  }
+}

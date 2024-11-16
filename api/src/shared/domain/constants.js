@@ -12,7 +12,7 @@ const LOCALE = {
   SPANISH_SPOKEN: 'es',
 };
 
-const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE'];
+const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE', 'nl'];
 
 const ORGANIZATION_FEATURE = {
   MISSIONS_MANAGEMENT: {
@@ -29,6 +29,10 @@ const ORGANIZATION_FEATURE = {
   PLACES_MANAGEMENT: {
     key: 'PLACES_MANAGEMENT',
     description: "Permet l'affichage de la page de gestion des places sur PixOrga",
+  },
+  ATTESTATIONS_MANAGEMENT: {
+    key: 'ATTESTATIONS_MANAGEMENT',
+    description: "Permet l'affichage de la page attestations sur PixOrga",
   },
   MULTIPLE_SENDING_ASSESSMENT: {
     key: 'MULTIPLE_SENDING_ASSESSMENT',

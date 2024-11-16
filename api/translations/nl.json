@@ -227,6 +227,14 @@
       "REJECTED_AUTOMATICALLY_COMMENT": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg."
     }
   },
+  "common": {
+    "email": {
+      "contactUs": "contact us here",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills."
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
@@ -378,6 +386,17 @@
       "weCannotSendYourPassword": "Hallo, om veiligheidsredenen sturen we jouw wachtwoord niet per e-mail."
     },
     "subject": "Verzoek instellen nieuw wachtwoord Pix"
+  },
+  "self-account-deletion-email": {
+    "params": {
+      "hello": "Hello {firstName},",
+      "requestConfirmation": "Following your request, we can confirm that your Pix account and personal data have been deleted.",
+      "seeYouSoon": "We hope to see you soon for new digital adventures.",
+      "signing": "The Pix team",
+      "title": "Deleting your account",
+      "warning": "If you are not the source of this request, please contact support."
+    },
+    "subject": "Deleting your account"
   },
   "verification-code-email": {
     "body": {

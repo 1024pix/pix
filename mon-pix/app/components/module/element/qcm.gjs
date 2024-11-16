@@ -5,7 +5,7 @@ import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { t } from 'ember-intl';
-import ModulixFeedback from 'mon-pix/components/modulix/feedback';
+import ModulixFeedback from 'mon-pix/components/module/feedback';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import ModuleElement from './module-element';
@@ -115,7 +115,7 @@ export default class ModuleQcm extends ModuleElement {
           @size="small"
           @type="button"
           @triggerAction={{this.retry}}
-          @iconAfter="rotate-right"
+          @iconAfter="refresh"
         >
           {{t "pages.modulix.buttons.activity.retry"}}
         </PixButton>

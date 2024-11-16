@@ -60,6 +60,7 @@ export default class ChallengeController extends Controller {
   get couldDisplayInfoAlert() {
     return (
       !this.hasFocusedOutOfWindow &&
+      this.displayChallenge &&
       !this.model.answer &&
       this.model.challenge.focused &&
       !this.model.assessment.hasFocusedOutChallenge
@@ -163,6 +164,13 @@ export default class ChallengeController extends Controller {
       return true;
     }
 
+    if (this._isTimedChallenge && this._isFocusedCertificationChallenge) {
+      return !!(
+        (this.hasConfirmedFocusChallengeWarningScreen && this.hasUserConfirmedTimedChallengeWarning) ||
+        this.model.assessment.hasTimeoutChallenge
+      );
+    }
+
     if (this._isTimedChallenge) {
       if (this.hasUserConfirmedTimedChallengeWarning || this.model.assessment.hasTimeoutChallenge) return true;
     }
@@ -201,6 +209,15 @@ export default class ChallengeController extends Controller {
   }
 
   get displayTimedChallengeInstructions() {
+    if (this.isTimedChallengeWithoutAnswer && this.isFocusedCertificationChallengeWithoutAnswer) {
+      return (
+        this.hasConfirmedFocusChallengeWarningScreen &&
+        this.isTimedChallengeWithoutAnswer &&
+        !this.hasUserConfirmedTimedChallengeWarning &&
+        !this.model.assessment.hasTimeoutChallenge
+      );
+    }
+
     return (
       this.isTimedChallengeWithoutAnswer &&
       !this.hasUserConfirmedTimedChallengeWarning &&

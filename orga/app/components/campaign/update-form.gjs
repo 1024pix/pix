@@ -1,4 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
@@ -6,7 +7,6 @@ import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -133,7 +133,7 @@ export default class UpdateForm extends Component {
 
         <div class="form__field-info">
           <span class="form__field-info-title">
-            <FaIcon @icon="circle-info" class="form__field-info-icon" />
+            <PixIcon @name="help" @plainIcon={{true}} class="form__field-info-icon" />
             <span>{{t "pages.campaign-modification.owner.title"}}</span>
           </span>
           <span class="form__field-info-message">{{t "pages.campaign-modification.owner.info"}}</span>

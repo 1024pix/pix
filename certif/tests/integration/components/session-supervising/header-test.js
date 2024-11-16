@@ -173,7 +173,11 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
         .dom(screen.getByText('L’extension Pix Companion est désormais obligatoire pour tous les candidats.'))
         .exists();
       assert
-        .dom(screen.getByRole('link', { name: 'Lien vers la documentation d’installation/activation' }))
+        .dom(
+          screen.getByRole('link', {
+            name: 'Lien vers la documentation d’installation/activation Ouverture dans une nouvelle fenêtre',
+          }),
+        )
         .hasAttribute('href', 'https://cloud.pix.fr/s/fpeEyDpYEkMeqRX');
     });
   });
@@ -203,7 +207,11 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
         .dom(screen.queryByText('L’extension Pix Companion est désormais obligatoire pour tous les candidats.'))
         .doesNotExist();
       assert
-        .dom(screen.queryByRole('link', { name: 'Lien vers la documentation d’installation/activation' }))
+        .dom(
+          screen.queryByRole('link', {
+            name: 'Lien vers la documentation d’installation/activation Ouverture dans une nouvelle fenêtre',
+          }),
+        )
         .doesNotExist();
     });
   });

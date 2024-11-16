@@ -1,7 +1,8 @@
 import { certificationController } from '../../../../../src/certification/results/application/certification-controller.js';
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
+import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
+import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Certification | Results | Unit | Application | certifications-controller', function () {
   describe('#getCertificationByVerificationCode', function () {
@@ -23,6 +24,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         pixScore: 456,
         certifiedBadgeImages: ['/img/1'],
         maxReachableLevelOnCertificationDate: 6,
+        version: SESSIONS_VERSIONS.V3,
       });
       sinon.stub(usecases, 'getShareableCertificate');
       usecases.getShareableCertificate
@@ -52,6 +54,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
             'pix-score': 456,
             'certified-badge-images': ['/img/1'],
             'max-reachable-level-on-certification-date': 6,
+            version: SESSIONS_VERSIONS.V3,
           },
           relationships: {
             'result-competence-tree': {
@@ -90,6 +93,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         certifiedBadgeImages: [],
         verificationCode: 'P-SUPERCODE',
         maxReachableLevelOnCertificationDate: 6,
+        version: SESSIONS_VERSIONS.V3,
       });
       sinon.stub(usecases, 'getPrivateCertificate');
       usecases.getPrivateCertificate.withArgs({ userId, certificationCourseId, locale }).resolves(privateCertificate);
@@ -120,6 +124,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
             'certified-badge-images': [],
             'verification-code': 'P-SUPERCODE',
             'max-reachable-level-on-certification-date': 6,
+            version: SESSIONS_VERSIONS.V3,
           },
           relationships: {
             'result-competence-tree': {
@@ -151,6 +156,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         certifiedBadgeImages: [],
         verificationCode: 'P-SUPERCODE',
         maxReachableLevelOnCertificationDate: 6,
+        version: SESSIONS_VERSIONS.V3,
       });
       sinon.stub(usecases, 'findUserPrivateCertificates');
       usecases.findUserPrivateCertificates.withArgs({ userId }).resolves([privateCertificate1]);
@@ -179,6 +185,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
               'certified-badge-images': [],
               'verification-code': 'P-SUPERCODE',
               'max-reachable-level-on-certification-date': 6,
+              version: SESSIONS_VERSIONS.V3,
             },
             relationships: {
               'result-competence-tree': {

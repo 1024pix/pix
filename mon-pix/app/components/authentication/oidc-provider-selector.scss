@@ -37,12 +37,14 @@
   }
 
   .pix-select__dropdown {
+    min-width : auto;
     max-height: 488px;
     background-color : var(--pix-neutral-20);
   }
 
   .pix-select-options-category__option {
     padding: var(--pix-spacing-3x) var(--pix-spacing-2x);
+    white-space: normal;
 
     &:first-child {
       display: none;

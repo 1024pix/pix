@@ -348,6 +348,7 @@
     },
     "main": {
       "aria-label": "Hoofdnavigatie",
+      "attestations": "certificaten",
       "campaigns": "Campagnes",
       "certifications": "Certificeringen",
       "documentation": "Documentatie",
@@ -409,6 +410,13 @@
         "title": "Resultaten per vaardigheid"
       },
       "title": "Resultaten voor {firstName} {lastName}"
+    },
+    "attestations": {
+      "title": "Certificaten",
+      "description": "Selecteer de klas waarvoor je de attesten in PDF-formaat wilt exporteren.",
+      "download-attestations-button": "Downloaden",
+      "placeholder": "-- Selecteer --",
+      "select-label": "Selecteer een of meer klassen"
     },
     "campaign-activity": {
       "actions": {
@@ -567,9 +575,11 @@
       },
       "result": "Resultaat",
       "table": {
+        "caption": "In deze tabel staan de deelnemers die hun resultaten hebben gedeeld. Voor elke deelnemer worden de achternaam, voornaam en resultaten weergegeven.",
         "column": {
           "ariaSharedResultCount": "Aantal verzonden resultaten",
           "badges": "Thematische resultaten",
+          "evolution": "Evolutie",
           "first-name": "Voornaam",
           "last-name": "Achternaam",
           "results": {
@@ -578,6 +588,15 @@
             "under-test": "Test bezig"
           },
           "sharedResultCount": "Aantal verzonden resultaten"
+        },
+        "evolution": {
+          "increase": "In uitvoering",
+          "decrease": "In verval",
+          "stable": "Constante",
+          "unavailable": "Niet beschikbaar"
+        },
+        "evolution-tooltip": {
+          "content": "Evolutie van de deelnemer tussen hun laatste twee gedeelde resultaten."
         },
         "empty": "Geen deelname",
         "row-title": "Deelnemer",
@@ -911,7 +930,11 @@
         "headers": {
           "competences": "Vaardigheden waaraan is gewerkt",
           "name": "Opdracht",
-          "started-by": "Gestart door"
+          "started-by": "Gestart door",
+          "actions": "Acties"
+        },
+        "actions": {
+          "see-mission-details": "Zie details"
         },
         "no-division": "Geen klas",
         "non-admin": {
@@ -1135,6 +1158,10 @@
       },
       "page-title": "Deelnemers",
       "table": {
+        "actions": {
+          "enable-oralization": "Activate oralization",
+          "disable-oralization": "Deactivate oralization"
+        },
         "column": {
           "checkbox": "Selecteren/Deselecteren {firstname} {lastname}",
           "first-name": "Voornaam",
@@ -1161,15 +1188,16 @@
             "label": "Aantal deelnames"
           }
         },
+        "description": "Tabel met deelnemers gesorteerd op naam.",
+        "empty": "Geen deelnemers",
+        "oralization-header-tooltip": "Door ‘leesinstructies’ te activeren, kan de student zijn mondelinge transcriptie krijgen.",
+        "row-title": "Deelnemer",
         "row-value": {
           "oralization": {
             "true": "Geactiveerd",
             "false": "Gedeactiveerd"
           }
-        },
-        "description": "Tabel met deelnemers gesorteerd op naam.",
-        "empty": "Geen deelnemers",
-        "row-title": "Deelnemer"
+        }
       }
     },
     "participants-list": {
@@ -1246,19 +1274,32 @@
     },
     "profiles-list": {
       "table": {
+        "caption": "Deze tabel bevat de lijst met deelnemers die hun profiel hebben gedeeld. Het geeft voor elke deelnemer zijn achternaam, voornaam, de verzonden datum, de Pix-score, de evolutie, de certificeerbaarheidsstatus en het aantal certificeerbare competenties.",
         "column": {
+          "ariaSharedProfileCount": "Aantal profielaandelen",
           "certifiable": "Certificeerbaar",
           "competences-certifiables": "Certificeerbare vaard.",
+          "evolution": "Evolutie",
           "first-name": "Voornaam",
           "last-name": "Achternaam",
           "pix-score": {
             "label": "Pix-score",
             "value": "{score, number}"
           },
+          "sharedProfileCount": "Aantal profielaandelen",
           "sending-date": {
             "label": "Verzenddatum",
             "on-hold": "In afwachting van verzending"
           }
+        },
+        "evolution": {
+          "increase": "In uitvoering",
+          "decrease": "In verval",
+          "stable": "Constante",
+          "unavailable": "Niet beschikbaar"
+        },
+        "evolution-tooltip": {
+          "content": "Evolutie van de pix score tussen de laatste twee profielaandelen."
         },
         "empty": "In afwachting van profielen",
         "row-title": "Profiel",

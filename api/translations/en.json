@@ -213,6 +213,14 @@
       "REJECTED_AUTOMATICALLY_COMMENT": "The candidate did not answer correctly to more than 50% of the questions asked, this invalidated his entire certification, and therefore resulted in a score of 0 pix"
     }
   },
+  "common": {
+    "email": {
+      "contactUs": "contact us here",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills."
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
@@ -374,6 +382,17 @@
       "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
     },
     "subject": "Pix password reset request"
+  },
+  "self-account-deletion-email": {
+    "params": {
+      "hello": "Hello {firstName},",
+      "requestConfirmation": "Following your request, we can confirm that your Pix account and personal data have been deleted.",
+      "seeYouSoon": "We hope to see you soon for new digital adventures.",
+      "signing": "The Pix team",
+      "title": "Deleting your account",
+      "warning": "If you are not the source of this request, please contact support."
+    },
+    "subject": "Deleting your account"
   },
   "verification-code-email": {
     "body": {

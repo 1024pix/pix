@@ -348,6 +348,7 @@
     },
     "main": {
       "aria-label": "Main navigation",
+      "attestations": "Attestations",
       "campaigns": "Campaigns",
       "certifications": "Certifications",
       "documentation": "Documentation",
@@ -409,6 +410,13 @@
         "empty": "Pending results",
         "row-title": "Competence"
       }
+    },
+    "attestations": {
+      "title": "Attestations",
+      "description": "Select the class for which you wish to export attestations in PDF format.",
+      "download-attestations-button": "Download",
+      "placeholder": "-- Select --",
+      "select-label": "Select one or more classes"
     },
     "campaign": {
       "actions": {
@@ -605,9 +613,11 @@
       "result": "Result",
       "table": {
         "title": "List of submitted results",
+        "caption": "This table lists the participants who have shared their results. For each participant, it shows their surname, first name and elements of results.",
         "column": {
           "ariaSharedResultCount": "Number of sent results",
           "badges": "Thematic results",
+          "evolution": "Evolution",
           "first-name": "First name",
           "last-name": "Last name",
           "results": {
@@ -618,6 +628,15 @@
           "sharedResultCount": "No of sent results"
         },
         "empty": "No participants",
+        "evolution": {
+          "decrease": "In decline",
+          "increase": "In progress",
+          "stable": "Constant",
+          "unavailable": "Not available"
+        },
+        "evolution-tooltip": {
+          "content": "Evolution of the participant between their last two shared results."
+        },
         "row-title": "Participant"
       },
       "tested-items": "Items assessed",
@@ -877,6 +896,9 @@
     "missions": {
       "title": "Missions",
       "list": {
+        "actions": {
+          "see-mission-details": "See details"
+        },
         "aria-label": "Mission",
         "banner": {
           "copypaste-container": {
@@ -910,6 +932,7 @@
         "caption": "List of missions",
         "empty-state": "There is not any mission",
         "headers": {
+          "actions": "Actions",
           "competences": "Targeted DigComp competence",
           "name": "Mission",
           "started-by": "Started by"
@@ -1081,6 +1104,10 @@
       },
       "page-title": "Participants",
       "table": {
+        "actions": {
+          "disable-oralization": "Deactivate oralization",
+          "enable-oralization": "Activate oralization"
+        },
         "column": {
           "checkbox": "Select/Unselect {firstname} {lastname}",
           "first-name": "First name",
@@ -1109,6 +1136,7 @@
         },
         "description": "Table of participants, sorted by name.",
         "empty": "No participants",
+        "oralization-header-tooltip": "Activate “read the instruction” to have the student's oral transcription.",
         "row-title": "Participant",
         "row-value": {
           "oralization": {
@@ -1248,9 +1276,12 @@
       "title": "Submitted profiles",
       "table": {
         "title": "List of submitted profiles",
+        "caption": "This table contains the list of participants who have shared their profiles. It indicates for each participant their last name, first name, the sent date, the Pix score, the evolution, the certifiability status and the number of certifiable competences.",
         "column": {
+          "ariaSharedProfileCount": "Number of profiles shared",
           "certifiable": "Eligible for certification",
           "competences-certifiables": "Competences eligible for certification",
+          "evolution": "Evolution",
           "first-name": "First name",
           "last-name": "Last name",
           "pix-score": {
@@ -1260,9 +1291,19 @@
           "sending-date": {
             "label": "Sent on",
             "on-hold": "Pending"
-          }
+          },
+          "sharedProfileCount": "No. profiles shared"
         },
         "empty": "No profiles yet",
+        "evolution": {
+          "decrease": "In decline",
+          "increase": "In progress",
+          "stable": "Constant",
+          "unavailable": "Not available"
+        },
+        "evolution-tooltip": {
+          "content": "Evolution of the pix score between the last two profile shares."
+        },
         "row-title": "Profile"
       }
     },

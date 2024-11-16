@@ -4,7 +4,6 @@ import { securityPreHandlers } from '../../../../src/shared/application/security
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Users | Routes', function () {
-  const methodGET = 'GET';
   const methodPATCH = 'PATCH';
 
   let httpTestServer;
@@ -15,7 +14,6 @@ describe('Integration | Application | Users | Routes', function () {
       .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
       .callsFake((request, h) => h.response(true));
 
-    sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
     sinon.stub(userController, 'resetScorecard').returns('ok');
     sinon.stub(userController, 'rememberUserHasSeenChallengeTooltip').returns('ok');
 
@@ -71,44 +69,6 @@ describe('Integration | Application | Users | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  context('Routes /admin', function () {
-    describe('GET /api/admin/users/{id}', function () {
-      it('should exist', async function () {
-        // given
-        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
-        const url = '/api/admin/users/123';
-
-        // when
-        const response = await httpTestServer.request(methodGET, url);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return BAD_REQUEST (400) when id in param is not a number"', async function () {
-        // given
-        const url = '/api/admin/users/NOT_A_NUMBER';
-
-        // when
-        const response = await httpTestServer.request(methodGET, url);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
-
-      it('should return BAD_REQUEST (400) when id in param is out of range"', async function () {
-        // given
-        const url = '/api/admin/users/0';
-
-        // when
-        const response = await httpTestServer.request(methodGET, url);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
     });
   });
 });

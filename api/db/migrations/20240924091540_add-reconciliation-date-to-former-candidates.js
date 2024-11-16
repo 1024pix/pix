@@ -2,6 +2,12 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const TABLE_NAME = 'certification-candidates';
 
+/**
+ **************************************************
+ * WARNING: this migration has a flaw, and did not
+ * perform fully
+ * ************************************************
+ */
 const up = async function (knex) {
   let numberOfBatchProcessed = 0;
   const CHUNK_SIZE = 250000;

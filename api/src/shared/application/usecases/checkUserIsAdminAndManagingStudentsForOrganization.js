@@ -1,4 +1,4 @@
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 import { Membership } from '../../domain/models/Membership.js';
 
 const execute = async function (userId, organizationId, type) {

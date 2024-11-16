@@ -66,7 +66,7 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
         // then
         assert.dom(screen.getByRole('heading', { name: title })).exists();
         assert
-          .dom(screen.queryByRole('heading', { name: 'L’extension Pix Companion n’est pas détectée' }))
+          .dom(screen.queryByRole('heading', { name: 'L’extension Pix Companionn’est pas détectée' }))
           .doesNotExist();
       });
     });
@@ -100,7 +100,7 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
       // then
       assert.dom(screen.queryByRole('heading', { name: title })).doesNotExist();
       assert
-        .dom(screen.getByRole('heading', { level: 1, name: 'L’extension Pix Companion n’est pas détectée' }))
+        .dom(screen.getByRole('heading', { level: 1, name: 'L’extension Pix Companionn’est pas détectée' }))
         .exists();
     });
 
@@ -132,7 +132,7 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
         // then
         assert.dom(screen.getByRole('heading', { name: title })).exists();
         assert
-          .dom(screen.queryByRole('heading', { name: 'L’extension Pix Companion n’est pas détectée' }))
+          .dom(screen.queryByRole('heading', { name: 'L’extension Pix Companionn’est pas détectée' }))
           .doesNotExist();
       });
     });

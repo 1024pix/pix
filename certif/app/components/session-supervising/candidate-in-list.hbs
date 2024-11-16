@@ -57,7 +57,7 @@
         <p class="session-supervising-candidate-in-list-details-time">
           <div class="session-supervising-candidate-in-list-details-time__text">
             <PixIcon
-              @name="clock"
+              @name="time"
               @plainIcon={{true}}
               class="session-supervising-candidate-in-list-details-time__clock"
             />
@@ -99,8 +99,8 @@
       <PixIconButton
         @withBackground="{{true}}"
         @size="small"
-        @icon="ellipsis-v"
-        aria-label={{t "pages.session-supervising.candidate-in-list.display-candidate-options"}}
+        @iconName="moreVert"
+        @ariaLabel={{t "pages.session-supervising.candidate-in-list.display-candidate-options"}}
         @triggerAction={{this.toggleMenu}}
       />
       <Dropdown::Content

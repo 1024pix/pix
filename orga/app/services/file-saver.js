@@ -7,6 +7,7 @@ export default class FileSaverService extends Service {
   async save({
     url,
     token,
+    fileName,
     fetcher = _fetchData,
     downloadFileForIEBrowser = _downloadFileForIEBrowser,
     downloadFileForModernBrowsers = _downloadFileForModernBrowsers,
@@ -18,14 +19,14 @@ export default class FileSaverService extends Service {
       throw jsonResponse.errors;
     }
 
-    const fileName = _getFileNameFromHeader(response.headers);
+    const newFileName = fileName ?? _getFileNameFromHeader(response.headers);
     const fileContent = await response.blob();
 
     const browserIsInternetExplorer = window.document.documentMode;
 
     browserIsInternetExplorer
-      ? downloadFileForIEBrowser({ fileContent, fileName })
-      : downloadFileForModernBrowsers({ fileContent, fileName });
+      ? downloadFileForIEBrowser({ fileContent, fileName: newFileName })
+      : downloadFileForModernBrowsers({ fileContent, fileName: newFileName });
   }
 
   get locale() {

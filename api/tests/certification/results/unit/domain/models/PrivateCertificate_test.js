@@ -1,29 +1,35 @@
 import { PrivateCertificate } from '../../../../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { status as assessmentResultStatuses } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {
   context('#static buildFrom', function () {
-    const commonData = {
-      id: 1,
-      firstName: 'Jean',
-      lastName: 'Bon',
-      birthdate: '2000-03-20',
-      birthplace: 'Sarajevo',
-      isPublished: true,
-      userId: 123,
-      date: '2019-01-01',
-      deliveredAt: new Date('2019-05-05'),
-      certificationCenter: 'Centre des fruits et légumes',
-      pixScore: 250,
-      commentForCandidate: 'Bravo !',
-      commentByAutoJury: null,
-      certifiedBadgeImages: [],
-      resultCompetenceTree: null,
-      verificationCode: 'someVerifCode',
-      maxReachableLevelOnCertificationDate: 5,
-    };
+    let commonData;
+
+    beforeEach(function () {
+      commonData = {
+        id: 1,
+        firstName: 'Jean',
+        lastName: 'Bon',
+        birthdate: '2000-03-20',
+        birthplace: 'Sarajevo',
+        isPublished: true,
+        userId: 123,
+        date: '2019-01-01',
+        deliveredAt: new Date('2019-05-05'),
+        certificationCenter: 'Centre des fruits et légumes',
+        pixScore: 250,
+        commentForCandidate: 'Bravo !',
+        commentByAutoJury: null,
+        certifiedBadgeImages: [],
+        resultCompetenceTree: null,
+        verificationCode: 'someVerifCode',
+        maxReachableLevelOnCertificationDate: 5,
+        version: SESSIONS_VERSIONS.V3,
+      };
+    });
 
     it('builds a cancelled PrivateCertificate', async function () {
       // when

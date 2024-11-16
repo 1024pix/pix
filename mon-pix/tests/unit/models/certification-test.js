@@ -34,20 +34,24 @@ module('Unit | Model | certification', function (hooks) {
         this.owner.register('service:currentDomain', CurrentDomainServiceStub);
       });
 
-      test('should be true when deliveredAt >= 2022-01-01 ', function (assert) {
-        // given
-        const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
+      module('when version is 2', function () {
+        const version = 2;
 
-        // when / then
-        assert.true(model.shouldDisplayProfessionalizingWarning);
-      });
+        test('should be true when deliveredAt >= 2022-01-01 ', function (assert) {
+          // given
+          const model = store.createRecord('certification', { version, deliveredAt: '2022-01-01' });
 
-      test('should be false when when deliveredAt < 2022-01-01', function (assert) {
-        // given
-        const model = store.createRecord('certification', { deliveredAt: '2021-01-01' });
+          // when / then
+          assert.true(model.shouldDisplayProfessionalizingWarning);
+        });
 
-        // when / then
-        assert.false(model.shouldDisplayProfessionalizingWarning);
+        test('should be false when when deliveredAt < 2022-01-01', function (assert) {
+          // given
+          const model = store.createRecord('certification', { version, deliveredAt: '2021-01-01' });
+
+          // when / then
+          assert.false(model.shouldDisplayProfessionalizingWarning);
+        });
       });
     });
 
@@ -62,6 +66,23 @@ module('Unit | Model | certification', function (hooks) {
 
         this.owner.register('service:currentDomain', CurrentDomainServiceStub);
         const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
+
+        // when / then
+        assert.false(model.shouldDisplayProfessionalizingWarning);
+      });
+    });
+
+    module('when version is not 2', function () {
+      test('should be false', function (assert) {
+        // given
+        class CurrentDomainServiceStub extends Service {
+          get isFranceDomain() {
+            return true;
+          }
+        }
+
+        this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+        const model = store.createRecord('certification', { deliveredAt: '2022-01-01', version: 3 });
 
         // when / then
         assert.false(model.shouldDisplayProfessionalizingWarning);

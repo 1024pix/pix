@@ -1,5 +1,203 @@
 # Pix Changelog
 
+## v4.242.0 (15/11/2024)
+
+
+### :rocket: Amélioration
+- [#10531](https://github.com/1024pix/pix/pull/10531) [FEATURE] Permettre aux prescripteurs de télécharger les attestations de leurs élèves (PIX-13827).
+- [#10516](https://github.com/1024pix/pix/pull/10516) [FEATURE] écouter/stopper la lecture d’une consigne (PIX-13754).
+- [#10541](https://github.com/1024pix/pix/pull/10541) [FEATURE] Afficher le nombre de partages de profils dans les résultats d'un campagne collecte de profils (PIX-15266).
+- [#10544](https://github.com/1024pix/pix/pull/10544) [FEATURE] Bloquer le scoring des certifications Pix+ seule (PIX-14716).
+- [#10508](https://github.com/1024pix/pix/pull/10508) [FEATURE] Ne pas afficher la mention professionnalisante sur le PDF de l'attestation d'une certification v3 (PIX-15163).
+- [#10533](https://github.com/1024pix/pix/pull/10533) [FEATURE] API verifiant si un utilisateur a été candidat de certif (PIX-14984).
+- [#10509](https://github.com/1024pix/pix/pull/10509) [FEATURE] Envoi de l'email de creation de compte en asynchrone (PIX-15112).
+
+### :building_construction: Tech
+- [#10554](https://github.com/1024pix/pix/pull/10554) [TECH] Supprimer le précédent score et sa date de partage dans la réponse de l'API pour les résultats d'une campagne de collecte de profils (PIX-15267).
+- [#10521](https://github.com/1024pix/pix/pull/10521) [TECH] Permettre de supprimer une liste de learners de l'orga (PIX-15244).
+- [#10532](https://github.com/1024pix/pix/pull/10532) [TECH] Migrer la route `GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations` vers son BC (PIX-15278).
+- [#10506](https://github.com/1024pix/pix/pull/10506) [TECH] Migrer la route POST /api/admin/users/{id}/anonymize dans src (PIX-15212).
+- [#10530](https://github.com/1024pix/pix/pull/10530) [TECH] Ajouter le template d'email pour la suppression de compte (PIX-14902).
+- [#10520](https://github.com/1024pix/pix/pull/10520) [TECH] Migrer le script de création de comptes en masse (PIX-15276).
+- [#10535](https://github.com/1024pix/pix/pull/10535) [TECH] Définir la locale a FRENCH dans le cas des attestations (PIX-14836).
+
+### :bug: Correction
+- [#10550](https://github.com/1024pix/pix/pull/10550) [BUGFIX] Ne pas afficher l'encart attestation pour les participations a des campagnes sans lien avec les quêtes (PIX-15308).
+- [#10537](https://github.com/1024pix/pix/pull/10537) [BUGFIX] Corriger l'inscription en local sur la double mire SCO (PIX-15290).
+- [#10527](https://github.com/1024pix/pix/pull/10527) [BUGFIX] Ne pas permettre de partager une campagne STARTED (PIX-15151).
+- [#10538](https://github.com/1024pix/pix/pull/10538) [BUGFIX] Ne pas tenir compte de la locale lors de la séléction du prochain challenge de certification (PIX-15008).
+- [#10539](https://github.com/1024pix/pix/pull/10539) [BUGFIX] Réparer le usecase récupérant les étapes de présentation de parcours (PIX-15283).
+- [#10534](https://github.com/1024pix/pix/pull/10534) [BUGFIX] Empêcher un candidat de répondre à un challenge si celui-ci dispose d'une alerte validée (PIX-15263).
+- [#10529](https://github.com/1024pix/pix/pull/10529) [BUGFIX] Répare la finalisation de session quand une épreuve a été exclue de la calibration (PIX-15226).
+
+### :arrow_up: Montée de version
+- [#10556](https://github.com/1024pix/pix/pull/10556) [BUMP] Update dependency @1024pix/pix-ui to ^48.4.0 (certif).
+- [#10553](https://github.com/1024pix/pix/pull/10553) [BUMP] Update dependency @1024pix/pix-ui to ^48.4.0 (admin).
+- [#10507](https://github.com/1024pix/pix/pull/10507) [BUMP] Update dependency @1024pix/pix-ui to v48 (admin).
+
+## v4.241.0 (12/11/2024)
+
+
+### :rocket: Amélioration
+- [#10526](https://github.com/1024pix/pix/pull/10526) [FEATURE] Ajout de traductions pour les pages de fin de parcours (PIX-15259).
+- [#10525](https://github.com/1024pix/pix/pull/10525) [FEATURE] Barre de navigation : Afficher la barre d'avancement (PIX-14865).
+- [#10503](https://github.com/1024pix/pix/pull/10503) [FEATURE] Envoyer en un batch les alertes Joi pour le métier (PIX-15124).
+- [#10382](https://github.com/1024pix/pix/pull/10382) [FEATURE] Active ou désactive l'oralisation pour un élève  (PIX-14939).
+- [#10496](https://github.com/1024pix/pix/pull/10496) [FEATURE] Afficher l'évolution des participants sur la page des résultats à une campagne collecte de profils (PIX-14807).
+- [#10499](https://github.com/1024pix/pix/pull/10499) [FEATURE] Supprime la phrase sur les 120 pix professionalisants sur les certificats v3 (PIX-15161).
+- [#10450](https://github.com/1024pix/pix/pull/10450) [FEATURE] Transcription vidéo finale - MODC-101.
+- [#10502](https://github.com/1024pix/pix/pull/10502) [FEATURE] Ajuster le wording et le design des pages d'authentification (PIX-15198).
+
+### :building_construction: Tech
+- [#10501](https://github.com/1024pix/pix/pull/10501) [TECH] Isoler la configuration du module i18n de l'api.
+- [#10528](https://github.com/1024pix/pix/pull/10528) [TECH] Changer les dates du bandeau SCO dans Pix Certif (PIX-15268).
+- [#10524](https://github.com/1024pix/pix/pull/10524) [TECH] Changer le nombre de retry du job ParticipationResultCalculationJob (PIX-15258).
+- [#10514](https://github.com/1024pix/pix/pull/10514) [TECH] Migration de la route GET /api/certification-centers/{certificationCenterId}/members dans src (pix-15219).
+- [#10519](https://github.com/1024pix/pix/pull/10519) [TECH] Suppression du script de backfill d'anonymisation.
+- [#10510](https://github.com/1024pix/pix/pull/10510) [TECH] Migrer la mise à jour d'un profile cible dans son bounded context (PIX-15243).
+
+### :bug: Correction
+- [#10497](https://github.com/1024pix/pix/pull/10497) [BUGFIX] Utiliser la locale sur la demande de reset de password (PIX-15065).
+
+### :arrow_up: Montée de version
+- [#10522](https://github.com/1024pix/pix/pull/10522) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (orga).
+- [#10518](https://github.com/1024pix/pix/pull/10518) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (mon-pix).
+- [#10517](https://github.com/1024pix/pix/pull/10517) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (junior).
+- [#10515](https://github.com/1024pix/pix/pull/10515) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (certif).
+- [#10513](https://github.com/1024pix/pix/pull/10513) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.22 (admin).
+- [#10512](https://github.com/1024pix/pix/pull/10512) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.4 (mon-pix).
+- [#10511](https://github.com/1024pix/pix/pull/10511) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.4 (certif).
+- [#10462](https://github.com/1024pix/pix/pull/10462) [BUMP] Update dependency @1024pix/pix-ui to v48 (mon-pix).
+- [#10480](https://github.com/1024pix/pix/pull/10480) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.3 (certif).
+
+## v4.240.0 (07/11/2024)
+
+
+### :rocket: Amélioration
+- [#10489](https://github.com/1024pix/pix/pull/10489) [FEATURE] Ajouter la barre de navigation Modulix (PIX-14864).
+
+### :building_construction: Tech
+- [#10495](https://github.com/1024pix/pix/pull/10495) [TECH] Migrer la route campaign-participations-overview dans son BC (PIX-15202).
+- [#10464](https://github.com/1024pix/pix/pull/10464) [TECH] Rendre les seeds de learners déterministes (PIX-15156).
+- [#10468](https://github.com/1024pix/pix/pull/10468) [TECH] Suppression du feature toggle FT_ENABLE_V3_ELIGIBILITY_CHECK (PIX-15054).
+- [#10487](https://github.com/1024pix/pix/pull/10487) [TECH] Redimensionner les colonnes du tableau des candidats sur Pix Certif.
+- [#10414](https://github.com/1024pix/pix/pull/10414) [TECH] Migration de PixAdmin vers PixIcon / Partie Certif (PIX-14772).
+
+### :bug: Correction
+- [#10505](https://github.com/1024pix/pix/pull/10505) [BUGFIX] Ajouter des paramètres dans l'URL du lien custom de fin de parcours (PIX-15184).
+- [#10504](https://github.com/1024pix/pix/pull/10504) [BUGFIX] Corriger le chevauchement d'affichage des écrans focus et timer lors de la certification sur Pix App (PIX-14970).
+- [#10498](https://github.com/1024pix/pix/pull/10498) [BUGFIX] Flaky validation de contenu des modules (PIX-15205).
+
+## v4.239.0 (06/11/2024)
+
+
+### :rocket: Amélioration
+- [#10478](https://github.com/1024pix/pix/pull/10478) [FEATURE] Traduction ES & NL : mire de connexion & inscription (PIX-15189).
+- [#10439](https://github.com/1024pix/pix/pull/10439) [FEATURE] Informer l'utilisateur si la demande de réinitialisation de mot de passe est expirée ou déjà utilisée (PIX-15061).
+
+### :building_construction: Tech
+- [#10486](https://github.com/1024pix/pix/pull/10486) [TECH] Réduire la latence lors de scale massif de containers ou de mise en production en chargeant le référentiel et en initialisant la connexion à la base de données avant de démarrer l'API.
+- [#10470](https://github.com/1024pix/pix/pull/10470) [TECH] Migrer la route GET /api/admin/users/{id} dans src (PIX-15170).
+- [#10485](https://github.com/1024pix/pix/pull/10485) [TECH] Migrer la route des resultats d'une participation dans son Bounded Context (PIX-15193).
+- [#10469](https://github.com/1024pix/pix/pull/10469) [TECH] Corriger un test flaky sur le tri des prescrits d'une organisation (PIX-15165).
+- [#10465](https://github.com/1024pix/pix/pull/10465) [TECH] Ajouter un feature toggle pour la suppression en autonomie du compte utilisateur (PIX-14909).
+
+### :bug: Correction
+- [#10471](https://github.com/1024pix/pix/pull/10471) [BUGFIX] Corrige le problème de finalisation de session pour les sessions à cheval sur 2 calibrations (PIX-15005).
+- [#10472](https://github.com/1024pix/pix/pull/10472) [BUGFIX] Réparer l'affichage du contenu spécifique de l'écran de fin de parcours (PIX-15109).
+- [#10482](https://github.com/1024pix/pix/pull/10482) [BUGFIX] Positionner à gauche le logo sur la page de code école de Pix Junior.
+
+## v4.238.0 (05/11/2024)
+
+
+### :building_construction: Tech
+- [#10483](https://github.com/1024pix/pix/pull/10483) [TECH] Logger et prévenir le crash de container lorsque la création de release est en échec.
+- [#10484](https://github.com/1024pix/pix/pull/10484) [TECH] Filtrer sur les organizations ayant la feature places management pour la remontée des statistiques de places pour l'API pix-data (PIX-15155).
+- [#10492](https://github.com/1024pix/pix/pull/10492) [TECH] Limite la taille mémoire utilisée par node lors du seed de la base de données.
+- [#10441](https://github.com/1024pix/pix/pull/10441) [TECH] Ajouter des index sur les tables pg.
+
+### :arrow_up: Montée de version
+- [#10493](https://github.com/1024pix/pix/pull/10493) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.4 (orga).
+
+## v4.237.0 (05/11/2024)
+
+
+### :rocket: Amélioration
+- [#10473](https://github.com/1024pix/pix/pull/10473) [FEATURE] Bloquer la finalisation de session selon certaines conditions sur Pix Certif (PIX-14717).
+- [#10466](https://github.com/1024pix/pix/pull/10466) [FEATURE] Supprimer le lien de la documentation v3 sur Pix Certif (PIX-15150).
+- [#10475](https://github.com/1024pix/pix/pull/10475) [FEATURE] Supprimer les colonnes "Identifiant externe" et "tarification part Pix" de la liste des candidats Pix Certif (PIX-15160).
+- [#10454](https://github.com/1024pix/pix/pull/10454) [FEATURE] Utiliser la nouvelle page de fin de parcours sans FT (PIX-15125).
+- [#10442](https://github.com/1024pix/pix/pull/10442) [FEATURE] :lipstick: Ajoute un tootltip sur un entête de colonne pour préciser un titre (PIX-15016).
+- [#10437](https://github.com/1024pix/pix/pull/10437) [FEATURE] :art: Ajout d'un bouton dans la liste des missions pour aller sur la page de détail d'une mission (PIX-14992).
+
+### :building_construction: Tech
+- [#10477](https://github.com/1024pix/pix/pull/10477) [TECH] Retirer le loader avant la page de fin de parcours (PIX-15178).
+
+### :arrow_up: Montée de version
+- [#10476](https://github.com/1024pix/pix/pull/10476) [BUMP] Update dependency @1024pix/pix-ui to ^48.0.2 (certif).
+- [#10420](https://github.com/1024pix/pix/pull/10420) [BUMP] Lock file maintenance (certif).
+- [#10422](https://github.com/1024pix/pix/pull/10422) [BUMP] Lock file maintenance (orga).
+- [#10421](https://github.com/1024pix/pix/pull/10421) [BUMP] Lock file maintenance (mon-pix).
+
+## v4.236.0 (04/11/2024)
+
+
+### :rocket: Amélioration
+- [#10458](https://github.com/1024pix/pix/pull/10458) [FEATURE] Nouvelle catégorisation des grains (PIX-14867).
+- [#10453](https://github.com/1024pix/pix/pull/10453) [FEATURE] Renvoyer les infos du précédent pixScore, sa date de partage et l'évolution dans la route résultats d'une campagne de collecte de profils (PIX-14805).
+- [#10457](https://github.com/1024pix/pix/pull/10457) [FEATURE] Créer la page de vérification d'extension Pix Companion (PIX-15113).
+
+### :building_construction: Tech
+- [#10446](https://github.com/1024pix/pix/pull/10446) [TECH] :wrench: Configure matomo pour pix junior (PIX-14824).
+- [#10372](https://github.com/1024pix/pix/pull/10372) [TECH] :package: mise à jour des dépendances de paquet utilisé chez pix junior (PIX-14976).
+- [#10451](https://github.com/1024pix/pix/pull/10451) [TECH] Suppression du FT_ENABLE_PIX_PLUS_LOWER_LEVEL (PIX-15053).
+- [#10461](https://github.com/1024pix/pix/pull/10461) [TECH] Amélioration et nettoyage des tests du scoring v3.
+
+### :bug: Correction
+- [#10455](https://github.com/1024pix/pix/pull/10455) [BUGFIX] Corriger l'affichage de la page Participant External Id (PIX-15141).
+- [#10459](https://github.com/1024pix/pix/pull/10459) [BUGFIX] Corriger la couleur de l'icone sur le lien se déconnecter dans PixOrga (PIX-14146).
+
+## v4.235.0 (04/11/2024)
+
+
+### :rocket: Amélioration
+- [#10433](https://github.com/1024pix/pix/pull/10433) [FEATURE] Gestion des boutons et erreurs dans les formulaires d'authentification (PIX-15058).
+- [#10452](https://github.com/1024pix/pix/pull/10452) [FEATURE] Modifier le ton et la voix des pages d'authentification (PIX-15062).
+- [#10435](https://github.com/1024pix/pix/pull/10435) [FEATURE] Ajustements sur les mires d'inscription/connexion (pix-15056).
+
+### :building_construction: Tech
+- [#10447](https://github.com/1024pix/pix/pull/10447) [TECH] Documenter la variable d'env `SEEDS_CONTEXT`.
+
+## v4.234.0 (31/10/2024)
+
+
+### :rocket: Amélioration
+- [#10445](https://github.com/1024pix/pix/pull/10445) [FEATURE] Ne pas contraindre les formats d'image (PIX-14861).
+- [#10427](https://github.com/1024pix/pix/pull/10427) [FEATURE] Ajuster les boutons utilisés dans les pages d'authentification (PIX-15057).
+- [#10408](https://github.com/1024pix/pix/pull/10408) [FEATURE] Afficher une icône de progression pour les 2 dernières participations d'un prescrit à une campagne d'évaluation sur Pix Orga (PIX-14808).
+- [#10434](https://github.com/1024pix/pix/pull/10434) [FEATURE] Mettre fichiers SCSS dans le même dossier que son composant (PIX-14945).
+- [#10431](https://github.com/1024pix/pix/pull/10431) [FEATURE] Séparer les schémas d'éléments acceptés dans le stepper par rapport au component element (PIX-15063) .
+- [#10430](https://github.com/1024pix/pix/pull/10430) [FEATURE] - Traductions manquantes NL et ES Pix App (PIX-14193).
+- [#10438](https://github.com/1024pix/pix/pull/10438) [FEATURE] Unifier les dossiers module/modulix dans l'appli (PIX-15028).
+
+### :building_construction: Tech
+- [#10444](https://github.com/1024pix/pix/pull/10444) [TECH] Lancer la CI des PRs au statut draft.
+- [#10426](https://github.com/1024pix/pix/pull/10426) [TECH] Passer les FaIcon en PixIcon sur PixOrga (PIX-15064).
+- [#10424](https://github.com/1024pix/pix/pull/10424) [TECH] Montée de version de Pix UI sur Certif (PIX-15059).
+- [#10429](https://github.com/1024pix/pix/pull/10429) [TECH] Rattrapage des dates de reconciliation (PIX-15026).
+- [#10273](https://github.com/1024pix/pix/pull/10273) [TECH] Standardisation des scripts nodejs.
+- [#10407](https://github.com/1024pix/pix/pull/10407) [TECH] Forcer le HTTPS sur les environnements non dev .
+
+### :bug: Correction
+- [#10448](https://github.com/1024pix/pix/pull/10448) [BUGFIX] Resoudre le souci de crash de la page de fin de parcours (PIX-15093).
+- [#10449](https://github.com/1024pix/pix/pull/10449) [BUGFIX].Rendre réactif le partage de résultat depuis l'onglet formations (PIX-15069).
+- [#10436](https://github.com/1024pix/pix/pull/10436) [BUGFIX] Corriger le lien de renvoi d'email dans la page de réinitialisation de mot de passe (PIX-15060).
+- [#10413](https://github.com/1024pix/pix/pull/10413) [BUGFIX] Rendre plus résistant le changement de mot de passe d'un utilisateur côté API, pour ne plus renvoyer d’erreur 500 (PIX-14971).
+
+### :arrow_up: Montée de version
+- [#10456](https://github.com/1024pix/pix/pull/10456) [BUMP] Update dependency ember-resolver to v13 (mon-pix).
+- [#10428](https://github.com/1024pix/pix/pull/10428) [BUMP] Update dependency ember-resolver to v12 (mon-pix).
+
 ## v4.233.0 (29/10/2024)
 
 

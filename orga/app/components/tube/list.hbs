@@ -25,7 +25,7 @@
   {{#each this.sortedAreas as |area|}}
     <PixCollapsible class="{{area.color}}">
       <:title>{{area.code}} · {{area.title}}</:title>
-      <:default>
+      <:content>
         {{#each area.sortedCompetences as |competence|}}
           <h2>{{competence.index}} {{competence.name}}</h2>
           <table class="table content-text content-text--small preselect-tube-table">
@@ -74,7 +74,7 @@
             </tbody>
           </table>
         {{/each}}
-      </:default>
+      </:content>
     </PixCollapsible>
 
   {{/each}}

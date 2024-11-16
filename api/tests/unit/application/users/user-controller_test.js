@@ -1,6 +1,5 @@
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
@@ -92,31 +91,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#getUserDetailsForAdmin', function () {
-    let request;
-    let dependencies;
-
-    beforeEach(function () {
-      request = { params: { id: 123 } };
-
-      sinon.stub(usecases, 'getUserDetailsForAdmin');
-      const userDetailsForAdminSerializer = { serialize: sinon.stub() };
-      dependencies = { userDetailsForAdminSerializer };
-    });
-
-    it('should get the specified user for admin context', async function () {
-      // given
-      usecases.getUserDetailsForAdmin.withArgs({ userId: 123 }).resolves('userDetail');
-      dependencies.userDetailsForAdminSerializer.serialize.withArgs('userDetail').returns('ok');
-
-      // when
-      const response = await userController.getUserDetailsForAdmin(request, hFake, dependencies);
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-  });
-
   describe('#findPaginatedUserRecommendedTrainings', function () {
     it('should call the appropriate use-case', async function () {
       // given
@@ -194,85 +168,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#getCampaignParticipationOverviews', function () {
-    const userId = '1';
-    let dependencies;
-
-    beforeEach(function () {
-      const campaignParticipationOverviewSerializer = {
-        serialize: sinon.stub(),
-        serializeForPaginatedList: sinon.stub(),
-      };
-      sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
-      dependencies = {
-        campaignParticipationOverviewSerializer,
-      };
-    });
-
-    it('should return serialized campaignParticipationOverviews', async function () {
-      // given
-      const request = {
-        auth: {
-          credentials: {
-            userId: userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-        query: { filter: {}, page: {} },
-      };
-      usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined, page: {} }).resolves([]);
-      dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
-        id: 'campaignParticipationOverviews',
-      });
-
-      // when
-      const response = await userController.getCampaignParticipationOverviews(request, hFake, dependencies);
-
-      // then
-      expect(response).to.deep.equal({
-        id: 'campaignParticipationOverviews',
-      });
-      expect(dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList).to.have.been.calledOnce;
-    });
-
-    it('should forward state and page query parameters', async function () {
-      // given
-      const request = {
-        auth: {
-          credentials: {
-            userId: userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-        query: {
-          filter: {
-            states: 'ONGOING',
-          },
-          page: { number: 1, size: 10 },
-        },
-      };
-      usecases.findUserCampaignParticipationOverviews
-        .withArgs({ userId, states: 'ONGOING', page: { number: 1, size: 10 } })
-        .resolves([]);
-      dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
-        id: 'campaignParticipationOverviews',
-      });
-
-      // when
-      const response = await userController.getCampaignParticipationOverviews(request, hFake, dependencies);
-
-      // then
-      expect(response).to.deep.equal({
-        id: 'campaignParticipationOverviews',
-      });
-      expect(dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList).to.have.been.calledOnce;
-    });
-  });
-
   describe('#resetScorecard', function () {
     beforeEach(function () {
       sinon.stub(evaluationUsecases, 'resetScorecard').resolves({
@@ -305,88 +200,6 @@ describe('Unit | Controller | user-controller', function () {
 
       // then
       expect(evaluationUsecases.resetScorecard).to.have.been.calledWithExactly({ userId, competenceId, locale });
-    });
-  });
-
-  describe('#getUserCampaignParticipationToCampaign', function () {
-    it('should return serialized campaign participation', async function () {
-      // given
-      const userId = 789;
-      const campaignId = 456;
-      const campaignParticipation = Symbol('campaign participation');
-      const expectedCampaignParticipation = Symbol('expected campaign participation');
-
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          userId,
-          campaignId,
-        },
-      };
-      const campaignParticipationSerializer = { serialize: sinon.stub() };
-      sinon.stub(usecases, 'getUserCampaignParticipationToCampaign');
-      usecases.getUserCampaignParticipationToCampaign.withArgs({ userId, campaignId }).resolves(campaignParticipation);
-      campaignParticipationSerializer.serialize.withArgs(campaignParticipation).returns(expectedCampaignParticipation);
-
-      // when
-      const response = await userController.getUserCampaignParticipationToCampaign(request, hFake, {
-        campaignParticipationSerializer,
-      });
-
-      // then
-      expect(response).to.equal(expectedCampaignParticipation);
-    });
-  });
-
-  describe('#anonymizeUser', function () {
-    let clock;
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: new Date('2023-08-17'), toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('should call the anonymize user usecase', async function () {
-      // given
-      const userId = 1;
-      const updatedByUserId = 2;
-      const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
-      const userDetailsForAdmin = Symbol('userDetailsForAdmin');
-      const domainTransaction = {
-        knexTransaction: Symbol('transaction'),
-      };
-      sinon.stub(usecases, 'anonymizeUser');
-      sinon.stub(usecases, 'getUserDetailsForAdmin').resolves(userDetailsForAdmin);
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback(domainTransaction);
-      });
-      const userAnonymizedDetailsForAdminSerializer = { serialize: sinon.stub() };
-      userAnonymizedDetailsForAdminSerializer.serialize.returns(anonymizedUserSerialized);
-
-      // when
-      const response = await userController.anonymizeUser(
-        {
-          auth: { credentials: { userId: updatedByUserId } },
-          params: { id: userId },
-        },
-        hFake,
-        { userAnonymizedDetailsForAdminSerializer },
-      );
-
-      // then
-      expect(DomainTransaction.execute).to.have.been.called;
-      expect(usecases.anonymizeUser).to.have.been.calledWithExactly({ userId, updatedByUserId, domainTransaction });
-      expect(usecases.getUserDetailsForAdmin).to.have.been.calledWithExactly({ userId });
-      expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWithExactly(userDetailsForAdmin);
-      expect(response.statusCode).to.equal(200);
-      expect(response.source).to.deep.equal(anonymizedUserSerialized);
     });
   });
 

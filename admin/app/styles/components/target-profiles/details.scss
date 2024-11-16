@@ -52,17 +52,3 @@
     }
   }
 }
-
-.skill-column {
-  overflow: visible;
-
-  &--check {
-    color: var(--pix-success-700);
-    font-size: 1.7rem;
-  }
-
-  &--uncheck {
-    color: var(--pix-neutral-20);
-    font-size: 1.7rem;
-  }
-}

@@ -150,6 +150,27 @@ module('Unit | Component | Challenge | Item', function (hooks) {
       assert.ok(true);
     });
 
+    module('when there is an ongoing live alert', function () {
+      test('it should not save the answer', async function (assert) {
+        // given
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne], hasOngoingChallengeLiveAlert: true });
+        const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
+        component.router = { transitionTo: sinon.stub().returns() };
+        component.currentUser = { isAnonymous: false };
+        component.store = {
+          createRecord: createRecordStub,
+        };
+
+        // when
+        await component.answerValidated(challengeOne, assessment, answerValue, answerFocusedOut, answerTimeout);
+
+        // then
+        sinon.assert.notCalled(answerToChallengeOne.save);
+        sinon.assert.notCalled(component.router.transitionTo);
+        assert.ok(true);
+      });
+    });
+
     module('when saving succeeds', function () {
       test('should redirect to assessment-resume route', async function (assert) {
         // given

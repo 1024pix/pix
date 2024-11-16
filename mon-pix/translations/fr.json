@@ -40,7 +40,6 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
-      "continue": "Continuer",
       "lets-go": "C'est parti !",
       "login": "Se connecter sur Pix",
       "quit": "Quitter",
@@ -56,7 +55,7 @@
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
       "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
-      "login-unexpected-error": "Impossible de se connecter. Merci de réessayer dans quelques instants. Si le problème persiste, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'merci de nous contacter'</a>'.",
+      "login-unexpected-error": "Impossible de se connecter. Veuillez réessayer dans quelques instants. Si le problème persiste, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'merci de nous contacter'</a>'.",
       "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<'a href=\"{url}\"'>'contactez-nous'</a>'.",
       "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
     },
@@ -69,10 +68,20 @@
       "read-message": "Lire les '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'conditions d'utilisation'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'politique de confidentialité'</a>'."
     },
     "companion": {
+      "check": {
+        "detected": {
+          "description": "Extension Pix Companion{version}<br />installée et activée.",
+          "version": " (version {version})"
+        },
+        "not-detected": {
+          "description": "Extension Pix Companion non installée/activée ou dans une version obsolète,<br /> qui n'est plus supportée pour l'accès en session de certification.",
+          "link": "Accéder à la documentation"
+        }
+      },
       "not-detected": {
         "description": "L’extension n’est peut-être pas installée ou activée. Consultez le document suivant afin de reprendre votre session de certification. Si besoin contactez le surveillant.",
         "link": "Accéder à la documentation",
-        "title": "L’extension Pix Companion<br /> n’est pas détectée"
+        "title": "L’extension Pix Companion<br />n’est pas détectée"
       }
     },
     "data-protection-policy-information-banner": {
@@ -137,6 +146,16 @@
   },
   "components": {
     "authentication": {
+      "login-form": {
+        "fields": {
+          "login": {
+            "error": "Votre adresse e-mail ou identifiant n’est pas renseigné."
+          },
+          "password": {
+            "error": "Votre mot de passe n’est pas renseigné."
+          }
+        }
+      },
       "new-password-input": {
         "completed-message": "{ rulesCompleted } sur { rulesCount } complétées.",
         "instructions-label": "Votre mot de passe doit respecter les règles suivantes :",
@@ -144,14 +163,19 @@
       },
       "oidc-provider-selector": {
         "label": "Rechercher une organisation",
-        "placeholder": "Sélectionner un organisme",
+        "placeholder": "Sélectionner une organisation",
         "searchLabel": "Recherche par mots-clés"
       },
       "other-authentication-providers": {
-        "continue-with-featured-identity-provider-link": "Continuer avec {featuredIdentityProvider}",
-        "login-heading": "Autres moyens de connexion",
+        "login": {
+          "heading": "Autres moyens de connexion",
+          "login-with-featured-identity-provider-link": "Se connecter avec {featuredIdentityProvider}"
+        },
         "select-another-organization-link": "Choisir une autre organisation",
-        "signup-heading": "Autres moyens d’inscription"
+        "signup": {
+          "heading": "Autres moyens d’inscription",
+          "signup-with-featured-identity-provider-link": "S'inscrire avec {featuredIdentityProvider}"
+        }
       },
       "password-reset-demand-form": {
         "actions": {
@@ -175,12 +199,12 @@
         "heading": "Vérifiez votre messagerie électronique",
         "message": "Si votre adresse est bien associée à un compte Pix, les instructions pour réinitialiser votre mot de passe vous ont été envoyées par e-mail.",
         "no-email-received-question": "Vous n’avez pas reçu d’e-mail ?",
-        "try-again": "Renvoyer l’e-mail de réinitialisation"
+        "try-again": "Faire une autre demande"
       },
       "password-reset-form": {
         "actions": {
           "login": "Je me connecte",
-          "submit": "Je réinitialise mon mot de passe"
+          "submit": "Réinitialiser mon mot de passe"
         },
         "errors": {
           "expired-demand": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
@@ -207,7 +231,7 @@
           "email": {
             "error": "Votre adresse e-mail n’est pas valide.",
             "label": "Adresse e-mail",
-            "placeholder": "ex: jean.dupont@email.fr"
+            "placeholder": "ex: jean.dupont@email.com"
           },
           "firstname": {
             "error": "Votre prénom n’est pas renseigné.",
@@ -221,17 +245,6 @@
           },
           "legend": "Information nécessaire pour l'inscription."
         }
-      }
-    },
-    "campaigns": {
-      "results-loader": {
-        "steps": {
-          "competences": "Calcul des scores par compétences",
-          "rewards": "Attribution des récompenses",
-          "trainings": "Identification des formations utiles"
-        },
-        "subtitle": "Un instant, s’il vous plaît ! Je vais faire au plus vite.",
-        "title": "Calcul de votre score en cours..."
       }
     },
     "invited": {
@@ -262,7 +275,7 @@
     "footer": {
       "a11y": "Accessibilité : partiellement conforme",
       "data-protection-policy": "Politique de protection des données",
-      "eula": "CGU",
+      "eula": "Conditions Générales d’Utilisation",
       "help-center": "Centre d'aide",
       "label": "Menu de bas de page",
       "legal-notice": "Mentions légales",
@@ -446,18 +459,19 @@
     },
     "authentication": {
       "login": {
-        "signup-button": "S'inscrire sur Pix"
+        "signup-button": "S'inscrire"
       },
       "sso-selection": {
         "signin": {
-          "link": "Je me connecte",
+          "button": "Je me connecte",
           "message": "Vous allez être redirigé(e) vers la page de connexion de « {providerName} » afin de vous identifier sur Pix."
         },
         "signup": {
+          "button": "Je m'inscris",
           "link": "Inscrivez-vous",
           "title": "Vous n'avez pas de compte ?"
         },
-        "title": "Choisir une autre organisation"
+        "title": "Choisissez votre organisation"
       }
     },
     "autonomous-course": {
@@ -1551,12 +1565,18 @@
           "yes": "Oui ! : {totalYes}"
         },
         "direction": "Cherchez la réponse puis tournez la carte",
+        "navigation": {
+          "currentStep": "Étape {current} sur {total}"
+        },
         "position": "Carte {currentCardPosition}/{totalCards}"
       },
       "grain": {
         "tag": {
           "activity": "activité",
-          "lesson": "leçon"
+          "challenge": "défi",
+          "discovery": "découverte",
+          "lesson": "leçon",
+          "summary": "récap'"
         }
       },
       "modals": {
@@ -1777,7 +1797,7 @@
     },
     "sign-up": {
       "actions": {
-        "login": "Se connecter sur Pix",
+        "login": "Se connecter",
         "submit": "Je m'inscris"
       },
       "errors": {

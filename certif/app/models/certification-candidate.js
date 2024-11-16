@@ -58,4 +58,10 @@ export default class CertificationCandidate extends Model {
     const hasCleaSubscription = this.subscriptions.some((sub) => sub.isClea(centerHabilitations));
     return hasCoreSubscription && hasCleaSubscription;
   }
+
+  get hasOnlyComplementarySubscription() {
+    const hasCoreSubscription = this.subscriptions.some((sub) => sub.isCore);
+    const hasComplementarySubscription = this.subscriptions.some((sub) => sub.isComplementary);
+    return !hasCoreSubscription && hasComplementarySubscription;
+  }
 }

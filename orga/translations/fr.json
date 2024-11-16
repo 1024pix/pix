@@ -354,6 +354,7 @@
     },
     "main": {
       "aria-label": "Navigation principale",
+      "attestations": "Attestations",
       "campaigns": "Campagnes",
       "certifications": "Certifications",
       "documentation": "Documentation",
@@ -415,6 +416,13 @@
         "empty": "En attente de résultats",
         "row-title": "Compétence"
       }
+    },
+    "attestations": {
+      "title": "Attestations",
+      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les attestations au format PDF.",
+      "download-attestations-button": "Télécharger",
+      "placeholder": "-- Sélectionner --",
+      "select-label": "Sélectionnez une ou plusieurs classes"
     },
     "campaign": {
       "actions": {
@@ -611,9 +619,11 @@
       "result": "Résultat",
       "table": {
         "title": "Liste des résultats reçus",
+        "caption": "Ce tableau comporte la liste des participants ayant partagé leurs résultats. Il indique pour chaque participant leur nom, prénom et des éléments de résultats.",
         "column": {
           "ariaSharedResultCount": "Nombre de résultats envoyés",
           "badges": "Résultats Thématiques",
+          "evolution": "Évolution",
           "first-name": "Prénom",
           "last-name": "Nom",
           "results": {
@@ -624,6 +634,15 @@
           "sharedResultCount": "Nb résultats envoyés"
         },
         "empty": "Aucune participation",
+        "evolution": {
+          "decrease": "En régression",
+          "increase": "En progression",
+          "stable": "Constant",
+          "unavailable": "Non disponible"
+        },
+        "evolution-tooltip": {
+          "content": "Évolution du participant entre ses deux derniers résultats partagés."
+        },
         "row-title": "Participant"
       },
       "tested-items": "Acquis évalués",
@@ -883,6 +902,9 @@
     "missions": {
       "title": "Missions",
       "list": {
+        "actions": {
+          "see-mission-details": "Voir le détail"
+        },
         "aria-label": "Mission",
         "banner": {
           "copypaste-container": {
@@ -916,6 +938,7 @@
         "caption": "Liste des missions",
         "empty-state": "Il n'y a pas de missions",
         "headers": {
+          "actions": "Actions",
           "competences": "Compétences du CRCN travaillées",
           "name": "Mission",
           "started-by": "Commencé par"
@@ -1087,6 +1110,10 @@
       },
       "page-title": "Participants",
       "table": {
+        "actions": {
+          "disable-oralization": "Désactiver la lecture de consigne",
+          "enable-oralization": "Activer la lecture de consigne"
+        },
         "column": {
           "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "first-name": "Prénom",
@@ -1115,6 +1142,7 @@
         },
         "description": "Tableau des participants trié par nom.",
         "empty": "Aucun participant",
+        "oralization-header-tooltip": "Activer “lecture de la consigne” permettra à l'élève d’avoir sa transcription orale.",
         "row-title": "Participant",
         "row-value": {
           "oralization": {
@@ -1254,9 +1282,12 @@
       "title": "Profils reçus",
       "table": {
         "title": "Liste des profils reçus",
+        "caption": "Ce tableau comporte la liste des participants ayant partagé leurs profils. Il indique pour chaque participant leur nom, prénom, la date d’envoi, le score Pix, l'évolution, le statut de certificabilité et le nombre de compétences certifiables.",
         "column": {
+          "ariaSharedProfileCount": "Nombre de partages de profil",
           "certifiable": "Certifiable",
           "competences-certifiables": "Comp. certifiables",
+          "evolution": "Évolution",
           "first-name": "Prénom",
           "last-name": "Nom",
           "pix-score": {
@@ -1266,9 +1297,19 @@
           "sending-date": {
             "label": "Date d'envoi",
             "on-hold": "En attente d'envoi"
-          }
+          },
+          "sharedProfileCount": "Nb de partages de profil"
         },
         "empty": "En attente de profils",
+        "evolution": {
+          "decrease": "En régression",
+          "increase": "En progression",
+          "stable": "Constant",
+          "unavailable": "Non disponible"
+        },
+        "evolution-tooltip": {
+          "content": "Évolution du score pix entre les deux derniers partages de profil."
+        },
         "row-title": "Profil"
       }
     },

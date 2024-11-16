@@ -9,12 +9,11 @@
     margin: 0;
     padding: 0;
 
-    &__white-space {
-      padding-right: 5px;
-    }
-
     &__row {
-      margin-bottom: 8px;
+      display: flex;
+      gap: var(--pix-spacing-2x);
+      align-items: center;
+      margin-bottom: var(--pix-spacing-2x);
       font-size: 0.875rem;
       list-style: none;
 
@@ -25,8 +24,8 @@
 
       &--add-separator {
         &::before {
-          height: 0.3125rem;
-          margin: auto 10px;
+          height: 0.5rem;
+          margin-left: var(--pix-spacing-2x);
           border-left: 1px solid var(--pix-neutral-100);
           content: '';
         }

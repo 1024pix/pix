@@ -48,6 +48,7 @@ const attributes = [
   'certifiedBadgeImages',
   'verificationCode',
   'maxReachableLevelOnCertificationDate',
+  'version',
 ];
 
 const serialize = function (certificate, { translate }) {

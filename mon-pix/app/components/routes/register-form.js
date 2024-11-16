@@ -162,7 +162,7 @@ export default class RegisterForm extends Component {
       (errorResponse) => {
         this.scoOrganizationLearner.unloadRecord();
         this.isLoading = false;
-        errorResponse.errors.forEach((error) => {
+        errorResponse.errors?.forEach((error) => {
           if (error.status === '404') {
             return (this.errorMessage =
               'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.');

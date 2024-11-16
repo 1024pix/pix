@@ -91,7 +91,6 @@ Router.map(function () {
       this.route('fill-in-participant-external-id', { path: '/identifiant' });
     });
     this.route('entrance', { path: '/entree' });
-    this.route('results-loader', { path: '/chargement-resultats' });
     this.route('profiles-collection', { path: '/collecte' }, function () {
       this.route('start-or-resume', { path: '/' });
       this.route('send-profile', { path: '/envoi-profil' });
@@ -100,7 +99,7 @@ Router.map(function () {
     this.route('assessment', { path: '/evaluation' }, function () {
       this.route('start-or-resume', { path: '/' });
       this.route('tutorial', { path: '/didacticiel' });
-      this.route('skill-review', { path: '/resultats' });
+      this.route('results', { path: '/resultats' });
     });
     this.route('existing-participation', { path: '/participation-existante' });
   });
@@ -138,6 +137,8 @@ Router.map(function () {
     this.route('find-sco-record', { path: '/' });
     this.route('update-sco-record', { path: '/:temporary_key' });
   });
+
+  this.route('companion', { path: '/verification-extension-certification' });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });

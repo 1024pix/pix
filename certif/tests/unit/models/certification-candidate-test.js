@@ -222,6 +222,80 @@ module('Unit | Model | certification-candidate', function (hooks) {
     });
   });
 
+  module('#get hasOnlyComplementarySubscription', function () {
+    module('when candidate has only one complementary subscription', function () {
+      test('should return true', function (assert) {
+        // given
+        // when
+        const store = this.owner.lookup('service:store');
+        const habilitations = [
+          {
+            id: 123,
+            label: 'Certif Pix+Droit',
+            key: 'DROIT',
+          },
+        ];
+        const complementarySubscription = store.createRecord('subscription', {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: habilitations[0].id,
+        });
+        const candidate = store.createRecord('certification-candidate', {
+          subscriptions: [complementarySubscription],
+        });
+
+        // then
+        assert.true(candidate.hasOnlyComplementarySubscription);
+      });
+    });
+
+    module('when candidate has a core subscription', function () {
+      test('should return false', function (assert) {
+        // given
+        // when
+        const store = this.owner.lookup('service:store');
+        const coreSubscription = store.createRecord('subscription', {
+          type: SUBSCRIPTION_TYPES.CORE,
+          complementaryCertificationId: null,
+        });
+        const candidate = store.createRecord('certification-candidate', {
+          subscriptions: [coreSubscription],
+        });
+
+        // then
+        assert.false(candidate.hasOnlyComplementarySubscription);
+      });
+    });
+
+    module('when candidate has a clea subscription', function () {
+      test('should return false', function (assert) {
+        // given
+        // when
+        const habilitations = [
+          {
+            id: 123,
+            label: 'Certif CLEA',
+            key: COMPLEMENTARY_KEYS.CLEA,
+          },
+        ];
+        const store = this.owner.lookup('service:store');
+        const coreSubscription = store.createRecord('subscription', {
+          type: SUBSCRIPTION_TYPES.CORE,
+          complementaryCertificationId: null,
+        });
+        const cleaSubscription = store.createRecord('subscription', {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: habilitations[0].id,
+        });
+        const candidate = store.createRecord('certification-candidate', {
+          subscriptions: [coreSubscription, cleaSubscription],
+        });
+
+        // then
+        assert.false(candidate.hasOnlyComplementarySubscription);
+      });
+    });
+  });
+
   function _pickModelData(certificationCandidate) {
     return pick(certificationCandidate, [
       'firstName',

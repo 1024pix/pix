@@ -1,7 +1,5 @@
-import _ from 'lodash';
-
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
-import { OrganizationLearner } from '../../../../../src/shared/domain/models/OrganizationLearner.js';
+import { OrganizationLearner } from '../../../../../src/shared/domain/models/index.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', function () {
@@ -36,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
   });
 
   describe('#serializeWithUsernameGeneration', function () {
-    it('should convert into JSON API data', function () {
+    it('converts into JSON API data with id set to a unique value being the username', function () {
       // given
       const organizationLearner = {
         firstName: 'John',
@@ -47,13 +45,14 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
 
       const expectedSerializedOrganizationLearner = {
         data: {
-          type: 'sco-organization-learners',
           attributes: {
             'first-name': organizationLearner.firstName,
             'last-name': organizationLearner.lastName,
             birthdate: organizationLearner.birthdate,
             username: organizationLearner.username,
           },
+          id: organizationLearner.username,
+          type: 'sco-organization-learners',
         },
       };
 
@@ -66,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
   });
 
   describe('#serializeExternal', function () {
-    it('should convert into JSON API data and generate random id', function () {
+    it('converts into JSON API data with id set to a unique value being the accessToken', function () {
       // given
       const organizationLearner = {
         accessToken: 'some token',
@@ -77,6 +76,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
           attributes: {
             'access-token': organizationLearner.accessToken,
           },
+          id: organizationLearner.accessToken,
           type: 'external-users',
         },
       };
@@ -85,8 +85,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       const json = serializer.serializeExternal(organizationLearner);
 
       // then
-      expect(_.omit(json, 'data.id')).to.deep.equal(expectedSerializedOrganizationLearner);
-      expect(json.data.id).to.be.a('string');
+      expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
     });
   });
 

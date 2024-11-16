@@ -8,6 +8,6 @@
     @color="dark-grey"
   />
   <Dropdown::Content @display={{this.display}} @close={{this.close}} class="{{@dropdownContentClass}}">
-    {{yield}}
+    {{yield this.close}}
   </Dropdown::Content>
 </div>

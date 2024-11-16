@@ -39,7 +39,7 @@
   "grains": [
     {
       "id": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd",
-      "type": "lesson",
+      "type": "discovery",
       "title": "Voici une leçon",
       "components": [
         {
@@ -140,7 +140,7 @@
     },
     {
       "id": "b14df125-82d5-4d55-a660-7b34cd9ea1ab",
-      "type": "activity",
+      "type": "challenge",
       "title": "Un fichier à télécharger",
       "components": [
         {
@@ -295,7 +295,7 @@
     },
     {
       "id": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c",
-      "type": "activity",
+      "type": "summary",
       "title": "Les 3 piliers de Pix",
       "components": [
         {

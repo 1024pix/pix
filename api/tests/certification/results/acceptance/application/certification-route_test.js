@@ -1,5 +1,6 @@
 import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
@@ -156,6 +157,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
             ],
             'verification-code': certificationCourse.verificationCode,
             'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+            version: SESSIONS_VERSIONS.V2,
           },
           id: `${certificationCourse.id}`,
           relationships: {
@@ -398,6 +400,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
               'certified-badge-images': [],
               'verification-code': certificationCourse.verificationCode,
               'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+              version: SESSIONS_VERSIONS.V2,
             },
             relationships: {
               'result-competence-tree': {
@@ -428,7 +431,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         userId = databaseBuilder.factory.buildUser().id;
         session = databaseBuilder.factory.buildSession({
           publishedAt: new Date('2018-12-01T01:02:03Z'),
-          version: 3,
+          version: SESSIONS_VERSIONS.V3,
         });
         certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           sessionId: session.id,
@@ -436,7 +439,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           isPublished: true,
           maxReachableLevelOnCertificationDate: 3,
           verificationCode: await generateCertificateVerificationCode(),
-          version: 3,
+          version: SESSIONS_VERSIONS.V3,
         });
 
         assessment = databaseBuilder.factory.buildAssessment({
@@ -487,6 +490,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
               'certified-badge-images': [],
               'verification-code': certificationCourse.verificationCode,
               'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+              version: SESSIONS_VERSIONS.V3,
             },
             relationships: {
               'result-competence-tree': {
@@ -638,6 +642,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
                 },
               ],
               'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+              version: session.version,
             },
             id: `${certificationCourse.id}`,
             relationships: {
@@ -770,7 +775,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
 async function _buildDatabaseForV2Certification() {
   const userId = databaseBuilder.factory.buildUser().id;
-  const session = databaseBuilder.factory.buildSession({ publishedAt: new Date('2018-12-01T01:02:03Z') });
+  const session = databaseBuilder.factory.buildSession({
+    version: SESSIONS_VERSIONS.V2,
+    publishedAt: new Date('2018-12-01T01:02:03Z'),
+  });
   const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
   const cc = databaseBuilder.factory.buildComplementaryCertification({ key: 'A' });
   const ccBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({

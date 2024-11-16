@@ -1,51 +1,41 @@
-.fill-in-participant-external-id__container {
+.fill-in-participant-external-id {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
-  padding-top: 10px;
-  padding-bottom: 20px;
+  padding: var(--pix-spacing-3x);
 
   @include device-is('tablet') {
-    margin-bottom: 25px;
-    padding-top: 80px;
-    padding-bottom: 40px;
+    margin-bottom: var(--pix-spacing-6x);
+    padding-top: var(--pix-spacing-12x);
+    padding-bottom: var(--pix-spacing-12x);
   }
-}
-
-.fill-in-participant-external-id-text {
-  padding: 5px;
-  font-family: $font-open-sans;
 
   &__title {
-    font-weight: var(--pix-font-bold);
-    font-size: 1.875rem;
-
-    @include device-is('tablet') {
-      font-size: 2rem;
-    }
+    @extend %pix-title-l;
   }
 
   &__announcement {
-    margin-bottom: 40px;
-    font-size: 1.125rem;
+    @extend %pix-body-l;
+
+    margin-bottom: var(--pix-spacing-10x);
   }
-}
 
-.fill-in-participant-external-id__form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 30%;
+  }
 
+  &__help {
+    margin-top: var(--pix-spacing-8x);
+  }
 
-.fill-in-participant-external-id__help {
-  margin-top: 32px;
-}
-
-.fill-in-participant-external-id-form__buttonbar {
-  display: flex;
-  flex-direction: row;
-  gap: var(--pix-spacing-2x);
-  margin-top: 50px;
+  &__buttonbar {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-2x);
+    justify-content: space-between;
+    margin-top: var(--pix-spacing-12x);
+  }
 }

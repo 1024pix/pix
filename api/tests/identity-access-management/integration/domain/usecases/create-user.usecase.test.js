@@ -1,7 +1,7 @@
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | create-user', function () {
   it('returns the saved user', async function () {

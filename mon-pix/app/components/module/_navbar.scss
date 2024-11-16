@@ -1,0 +1,24 @@
+.module-navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--modulix-z-index-above-all);
+  height: var(--module-navbar-height);
+  padding: var(--pix-spacing-4x);
+  background: var(--pix-neutral-0);
+  box-shadow: 0 4px 20px 0 rgb(0 0 0 / 6%);
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-3x);
+    max-width: var(--modulix-max-content-width);
+    margin: 0 auto;
+
+    &__current-step {
+      padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+      color: var(--pix-primary-700);
+      background-color: var(--pix-primary-100);
+      border-radius: var(--modulix-radius-xs);
+    }
+  }
+}

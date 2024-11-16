@@ -4,21 +4,11 @@ import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/inde
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as userDetailsForAdminSerializer from '../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import * as certificationCenterMembershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/certification-center-membership.serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
-import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
-import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
-import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
-
-const getUserDetailsForAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
-  const userId = request.params.id;
-  const userDetailsForAdmin = await usecases.getUserDetailsForAdmin({ userId });
-  return dependencies.userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
-};
 
 const rememberUserHasSeenAssessmentInstructions = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
@@ -66,27 +56,6 @@ const getCampaignParticipations = function (request, h, dependencies = { campaig
     .then(dependencies.campaignParticipationSerializer.serialize);
 };
 
-const getCampaignParticipationOverviews = async function (
-  request,
-  h,
-  dependencies = {
-    campaignParticipationOverviewSerializer,
-  },
-) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const query = request.query;
-
-  const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
-    userId: authenticatedUserId,
-    states: query.filter.states,
-    page: query.page,
-  });
-
-  return dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList(
-    userCampaignParticipationOverviews,
-  );
-};
-
 const resetScorecard = function (request, h, dependencies = { scorecardSerializer, requestResponseUtils }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const competenceId = request.params.competenceId;
@@ -95,57 +64,6 @@ const resetScorecard = function (request, h, dependencies = { scorecardSerialize
   return evaluationUsecases
     .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
     .then(dependencies.scorecardSerializer.serialize);
-};
-
-const getUserCampaignParticipationToCampaign = function (
-  request,
-  h,
-  dependencies = { campaignParticipationSerializer },
-) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const campaignId = request.params.campaignId;
-
-  return usecases
-    .getUserCampaignParticipationToCampaign({ userId: authenticatedUserId, campaignId })
-    .then((campaignParticipation) => dependencies.campaignParticipationSerializer.serialize(campaignParticipation));
-};
-
-const getUserCampaignAssessmentResult = async function (
-  request,
-  h,
-  dependencies = {
-    participantResultSerializer,
-    requestResponseUtils,
-  },
-) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const campaignId = request.params.campaignId;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  const campaignAssessmentResult = await usecases.getUserCampaignAssessmentResult({
-    userId: authenticatedUserId,
-    campaignId,
-    locale,
-  });
-
-  return dependencies.participantResultSerializer.serialize(campaignAssessmentResult);
-};
-
-const anonymizeUser = async function (request, h, dependencies = { userAnonymizedDetailsForAdminSerializer }) {
-  const userToAnonymizeId = request.params.id;
-  const adminMemberId = request.auth.credentials.userId;
-
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await usecases.anonymizeUser({
-      userId: userToAnonymizeId,
-      updatedByUserId: adminMemberId,
-      domainTransaction,
-    });
-  });
-
-  const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });
-
-  return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
 };
 
 const removeAuthenticationMethod = async function (request, h) {
@@ -211,15 +129,10 @@ const findCertificationCenterMembershipsByUser = async function (
 
 const userController = {
   addPixAuthenticationMethodByEmail,
-  anonymizeUser,
   findCertificationCenterMembershipsByUser,
   findPaginatedUserRecommendedTrainings,
   findUserOrganizationsForAdmin,
-  getCampaignParticipationOverviews,
   getCampaignParticipations,
-  getUserCampaignAssessmentResult,
-  getUserCampaignParticipationToCampaign,
-  getUserDetailsForAdmin,
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,

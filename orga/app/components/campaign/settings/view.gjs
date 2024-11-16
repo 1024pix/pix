@@ -1,10 +1,10 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -106,8 +106,9 @@ export default class CampaignView extends Component {
                 <span>{{t "pages.campaign-settings.multiple-sendings.title"}}</span>
                 <PixTooltip @id="credit-info-tooltip" @position="top" @isWide={{true}}>
                   <:triggerElement>
-                    <FaIcon
-                      @icon="circle-info"
+                    <PixIcon
+                      @name="help"
+                      @plainIcon={{true}}
                       class="campaign-settings-content__tooltip-icon"
                       tabindex="0"
                       aria-describedby={{t
@@ -130,8 +131,9 @@ export default class CampaignView extends Component {
                 <span>{{t "pages.campaign-settings.reset-to-zero.title"}}</span>
                 <PixTooltip @id="reset-to-zero-info-tooltip" @position="top" @isWide={{true}}>
                   <:triggerElement>
-                    <FaIcon
-                      @icon="circle-info"
+                    <PixIcon
+                      @name="help"
+                      @plainIcon={{true}}
                       class="campaign-settings-content__tooltip-icon"
                       tabindex="0"
                       aria-describedby={{t "pages.campaign-settings.reset-to-zero.tooltip.aria-label" htmlSafe=true}}

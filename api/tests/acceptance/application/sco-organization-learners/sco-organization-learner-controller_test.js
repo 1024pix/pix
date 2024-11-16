@@ -113,7 +113,7 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
   });
 
   describe('PUT /api/sco-organization-learners/possibilities', function () {
-    it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
+    it('returns the organizationLearner linked to the user and a 200 status code response', async function () {
       //given
       const organization = databaseBuilder.factory.buildOrganization({
         isManagingStudents: true,
@@ -150,6 +150,8 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
       });
 
       // then
+      const expectedUsername = 'billy.thekid0508';
+
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal({
         data: {
@@ -157,8 +159,9 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
             birthdate: '2005-08-05',
             'first-name': 'Billy',
             'last-name': 'TheKid',
-            username: 'billy.thekid0508',
+            username: expectedUsername,
           },
+          id: expectedUsername,
           type: 'sco-organization-learners',
         },
       });

@@ -71,6 +71,15 @@ export default class ModulixEmbed extends ModuleElement {
       {{/if}}
 
       <div class="element-embed__container">
+        <iframe
+          class="element-embed-container__iframe
+            {{unless this.isSimulatorLaunched 'element-embed-container__iframe--blurred'}}"
+          src={{@embed.url}}
+          title={{@embed.title}}
+          style={{this.heightStyle}}
+          {{didInsert this.setIframeHtmlElement}}
+        ></iframe>
+
         {{#unless this.isSimulatorLaunched}}
           <div class="element-embed-container__overlay">
             <PixButton
@@ -83,21 +92,12 @@ export default class ModulixEmbed extends ModuleElement {
             </PixButton>
           </div>
         {{/unless}}
-
-        <iframe
-          class="element-embed-container__iframe
-            {{unless this.isSimulatorLaunched 'element-embed-container__iframe--blurred'}}"
-          src={{@embed.url}}
-          title={{@embed.title}}
-          style={{this.heightStyle}}
-          {{didInsert this.setIframeHtmlElement}}
-        ></iframe>
       </div>
 
       {{#if this.isSimulatorLaunched}}
         <div class="element-embed__reset">
           <PixButton
-            @iconBefore="rotate-right"
+            @iconBefore="refresh"
             @variant="tertiary"
             @triggerAction={{this.resetEmbed}}
             aria-label="{{t 'pages.modulix.buttons.embed.reset.ariaLabel'}}"

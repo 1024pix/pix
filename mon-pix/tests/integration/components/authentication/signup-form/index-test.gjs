@@ -65,11 +65,11 @@ module('Integration | Component | Authentication | SignupForm | index', function
 
     // then
     assert.dom(screen.getByText(t('common.form.mandatory-all-fields'))).exists();
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.firstNameInput))).hasAttribute('required');
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.lastNameInput))).hasAttribute('required');
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.emailInput))).hasAttribute('required');
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.passwordInput))).hasAttribute('required');
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.cguCheckbox))).hasAttribute('required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.firstNameInput))).hasAttribute('aria-required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.lastNameInput))).hasAttribute('aria-required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.emailInput))).hasAttribute('aria-required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.passwordInput))).hasAttribute('aria-required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.cguCheckbox))).hasAttribute('aria-required');
   });
 
   module('When there are spaces in form inputs values', function () {
@@ -101,7 +101,27 @@ module('Integration | Component | Authentication | SignupForm | index', function
     });
   });
 
-  module('When there are validation errors', function () {
+  module('when user submits without filling the form', function () {
+    test('it displays an error messages on each input', async function (assert) {
+      // given
+      const userModel = { save: sinon.stub() };
+
+      // when
+      const screen = await render(<template><SignupForm @user={{userModel}} /></template>);
+      await clickByName(t(I18N_KEYS.submitButton));
+
+      // then
+      assert.dom(screen.getByText(t('components.authentication.signup-form.fields.firstname.error'))).exists();
+      assert.dom(screen.getByText(t('components.authentication.signup-form.fields.lastname.error'))).exists();
+      assert.dom(screen.getByText(t('components.authentication.signup-form.fields.email.error'))).exists();
+      assert.dom(screen.getByText(t('common.validation.password.error'))).exists();
+      assert.dom(screen.getByText(t('common.cgu.error'))).exists();
+      assert.strictEqual(userModel.save.callCount, 0);
+      assert.strictEqual(sessionService.authenticateUser.callCount, 0);
+    });
+  });
+
+  module('When there are validation errors after filling fields', function () {
     test('it displays error messages on each input', async function (assert) {
       // given
       const userModel = { save: sinon.stub() };
@@ -110,15 +130,16 @@ module('Integration | Component | Authentication | SignupForm | index', function
 
       // when
       const screen = await render(<template><SignupForm @user={{userModel}} /></template>);
-      await fillByLabel(t(I18N_KEYS.firstNameInput), 'John');
-      await fillByLabel(t(I18N_KEYS.lastNameInput), 'Doe');
+      await fillByLabel(t(I18N_KEYS.firstNameInput), '  ');
+      await fillByLabel(t(I18N_KEYS.lastNameInput), '  ');
       await fillByLabel(t(I18N_KEYS.emailInput), invalidEmail);
       await fillByLabel(t(I18N_KEYS.passwordInput), invalidPassword);
       await clickByName(t(I18N_KEYS.cguCheckbox));
       await clickByName(t(I18N_KEYS.cguCheckbox)); // check twice to trigger validation
-      await clickByName(t(I18N_KEYS.submitButton));
 
       // then
+      assert.dom(screen.getByText(t('components.authentication.signup-form.fields.firstname.error'))).exists();
+      assert.dom(screen.getByText(t('components.authentication.signup-form.fields.lastname.error'))).exists();
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.email.error'))).exists();
       assert.dom(screen.getByText(t('common.validation.password.error'))).exists();
       assert.dom(screen.getByText(t('common.cgu.error'))).exists();
@@ -175,7 +196,6 @@ module('Integration | Component | Authentication | SignupForm | index', function
       await fillByLabel(t(I18N_KEYS.emailInput), 'john.doe@email.com');
       await fillByLabel(t(I18N_KEYS.passwordInput), 'JeMeLoggue1024');
       await clickByName(t(I18N_KEYS.cguCheckbox));
-      await clickByName(t(I18N_KEYS.submitButton));
     });
 
     test('it displays an error message for invalid locale', async function (assert) {
@@ -256,7 +276,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
-      const errorMessage = 'Impossible de se connecter. Merci de réessayer dans quelques instants.';
+      const errorMessage = 'Impossible de se connecter. Veuillez réessayer dans quelques instants.';
       assert.dom(screen.getByText(errorMessage, { exact: false })).exists();
 
       const errorMessageLink = screen.getByRole('link', { name: 'merci de nous contacter' });

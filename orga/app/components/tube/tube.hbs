@@ -25,10 +25,10 @@
       (t 'pages.preselect-target-profile.table.not-responsive')
     }}"
   >
-    <FaIcon @icon="mobile-screen-button" class="fa-2x {{if @tube.isMobileCompliant 'is-responsive'}}" />
-    {{#unless @tube.isMobileCompliant}}
-      <FaIcon @icon="slash" class="fa-2x not-responsive" />
-    {{/unless}}
+    <PixIcon
+      @name="{{if @tube.isMobileCompliant 'mobile' 'mobileOff'}}"
+      class="{{if @tube.isMobileCompliant 'is-responsive' 'not-responsive'}}"
+    />
   </div>
 </td>
 <td class="table__column--center">
@@ -39,9 +39,9 @@
       (t 'pages.preselect-target-profile.table.not-responsive')
     }}"
   >
-    <FaIcon @icon="tablet-screen-button" class="fa-2x {{if @tube.isTabletCompliant 'is-responsive'}}" />
-    {{#unless @tube.isTabletCompliant}}
-      <FaIcon @icon="slash" class="fa-2x not-responsive" />
-    {{/unless}}
+    <PixIcon
+      @name="{{if @tube.isMobileCompliant 'tablet' 'tabletOff'}}"
+      class="{{if @tube.isMobileCompliant 'is-responsive' 'not-responsive'}}"
+    />
   </div>
 </td>

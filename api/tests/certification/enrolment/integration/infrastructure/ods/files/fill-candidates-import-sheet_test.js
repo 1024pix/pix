@@ -13,8 +13,8 @@ import { fillCandidatesImportSheet } from '../../../../../../../src/certificatio
 import * as readOdsUtils from '../../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../../src/shared/domain/constants.js';
+import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { databaseBuilder, expect } from '../../../../../../test-helper.js';
-import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function () {

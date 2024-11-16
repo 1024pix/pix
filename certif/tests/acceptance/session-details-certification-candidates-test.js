@@ -176,10 +176,14 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         assert
           .dom(within(rows[1]).getByRole('cell', { name: dayjs.self('10-10-2000', 'YYYY-MM-DD').format('DD/MM/YYYY') }))
           .exists();
-        assert.dom(within(rows[1]).getByRole('cell', { name: 'EXTERNAL-ID' })).exists();
         assert.dom(within(rows[1]).getByRole('cell', { name: '30 %' })).exists();
         assert.dom(within(rows[1]).getByRole('cell', { name: 'Certification Pix' })).exists();
         assert.dom(within(rows[2]).getByRole('cell', { name: 'Pix+Droit' })).exists();
+
+        await click(screen.getByRole('button', { name: 'Voir le détail du candidat Alin Cendy' }));
+
+        const modal = await screen.findByRole('dialog');
+        assert.dom(within(modal).getByText('EXTERNAL-ID')).exists();
       });
 
       module(
@@ -630,7 +634,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             assert.dom(within(rows[1]).getByRole('cell', { name: 'Threepwood' })).exists();
             assert.dom(within(rows[1]).getByRole('cell', { name: '28/04/2019' })).exists();
             assert.dom(within(rows[1]).getByRole('cell', { name: '20 %' })).exists();
-            assert.dom(within(rows[1]).getByRole('cell', { name: 'Gratuite' })).exists();
             assert.dom(within(rows[1]).getByRole('cell', { name: 'email.destinataire@example.net' })).exists();
           });
 
@@ -663,9 +666,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
               // then
-              const table = screen.getByRole('table');
-              const rows = await within(table).findAllByRole('row');
-              assert.dom(within(rows[1]).getByRole('cell', { name: 'Prépayée 12345' })).exists();
+              await click(screen.getByRole('button', { name: 'Voir le détail du candidat Guybrush Threepwood' }));
+
+              const modal = await screen.findByRole('dialog');
+              assert.dom(within(modal).getByText('Prépayée')).exists();
+              assert.dom(within(modal).getByText('12345')).exists();
             });
           });
         });

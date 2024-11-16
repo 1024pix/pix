@@ -1,6 +1,6 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip.js';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { t } from 'ember-intl';
 
 import Header from '../table/header';
@@ -45,8 +45,9 @@ function getMissionResultColor(result) {
 
                   <PixTooltip @id="tooltip-{{index}}" @isInline={{true}}>
                     <:triggerElement>
-                      <FaIcon
-                        @icon="circle-info"
+                      <PixIcon
+                        @name="help"
+                        @plainIcon={{true}}
                         class="mission-result-table__info-icon"
                         aria-describedby="tooltip-{{index}}"
                       />

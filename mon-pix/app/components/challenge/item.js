@@ -89,6 +89,10 @@ export default class Item extends Component {
 
   @action
   async answerValidated(challenge, assessment, answerValue, answerTimeout, answerFocusedOut) {
+    if (assessment.hasOngoingChallengeLiveAlert) {
+      return;
+    }
+
     const answer = await this._findOrCreateAnswer(challenge, assessment);
     answer.setProperties({
       value: answerValue.trim(),

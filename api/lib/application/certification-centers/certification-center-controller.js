@@ -2,10 +2,11 @@ import lodash from 'lodash';
 
 import { usecases as certificationConfigurationUsecases } from '../../../src/certification/configuration/domain/usecases/index.js';
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
+import * as certificationCenterMembershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/certification-center-membership.serializer.js';
+import { usecases as teamUsecases } from '../../../src/team/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
-import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
 
@@ -102,24 +103,11 @@ const findCertificationCenterMembershipsByCertificationCenter = async function (
   dependencies = { certificationCenterMembershipSerializer },
 ) {
   const certificationCenterId = request.params.certificationCenterId;
-  const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
+  const certificationCenterMemberships = await teamUsecases.findCertificationCenterMembershipsByCertificationCenter({
     certificationCenterId,
   });
 
   return dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
-};
-
-const findCertificationCenterMemberships = async function (
-  request,
-  h,
-  dependencies = { certificationCenterMembershipSerializer },
-) {
-  const certificationCenterId = request.params.certificationCenterId;
-  const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
-    certificationCenterId,
-  });
-
-  return dependencies.certificationCenterMembershipSerializer.serializeMembers(certificationCenterMemberships);
 };
 
 const createCertificationCenterMembershipByEmail = async function (
@@ -154,7 +142,6 @@ const updateReferer = async function (request, h) {
 const certificationCenterController = {
   create,
   createCertificationCenterMembershipByEmail,
-  findCertificationCenterMemberships,
   findCertificationCenterMembershipsByCertificationCenter,
   findPaginatedSessionSummaries,
   getCertificationCenterDetails,

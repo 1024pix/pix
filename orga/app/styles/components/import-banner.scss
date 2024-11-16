@@ -12,6 +12,8 @@
 
   &__icon {
     @extend %pix-title-xs;
+
+    fill: var(--pix-success-700);
   }
 
   &__title {

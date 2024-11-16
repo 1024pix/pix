@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { fetchPage } from '../utils/knex-utils.js';
@@ -184,13 +185,26 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
   return { models: organizations, pagination };
 };
 
-const getOrganizationsWithPlaces = async function () {
+const getOrganizationsWithPlacesManagementFeatureEnabled = async function () {
   const knexConn = DomainTransaction.getConnection();
+  const placesManagementFeature = await knexConn('features')
+    .select('id')
+    .where('key', ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key)
+    .first();
+
+  if (!placesManagementFeature) {
+    return [];
+  }
+
   const organizations = await knexConn('organizations')
     .select('organizations.id', 'name', 'type')
-    .innerJoin('organization-places', 'organizations.id', 'organization-places.organizationId')
-    .whereNull('archivedAt')
-    .distinct();
+    .join('organization-features', function () {
+      this.on('organization-features.organizationId', 'organizations.id').andOn(
+        'organization-features.featureId',
+        placesManagementFeature.id,
+      );
+    })
+    .whereNull('archivedAt');
 
   return organizations.map((organization) => _toDomain(organization));
 };
@@ -204,6 +218,6 @@ export {
   findScoOrganizationsByUai,
   get,
   getIdByCertificationCenterId,
-  getOrganizationsWithPlaces,
+  getOrganizationsWithPlacesManagementFeatureEnabled,
   update,
 };

@@ -7,8 +7,8 @@ import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shar
 import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../../src/shared/domain/models/index.js';
+import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { databaseBuilder, expect, mockLearningContent, streamToPromise } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   describe('#startWritingCampaignAssessmentResultsToStream', function () {

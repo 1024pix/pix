@@ -20,11 +20,13 @@
   }
 
   &__button-link {
+    white-space: normal;
     border: 1px solid;
   }
 
   &__featured-identity-provider-logo {
     width: var(--pix-spacing-6x);
+    height: 20px;
     margin-right: var(--pix-spacing-4x);
   }
 

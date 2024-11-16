@@ -74,18 +74,6 @@ const findLatestOngoingByUserId = async function (userId) {
   });
 };
 
-const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {
-  const campaignParticipation = await knex('campaign-participations')
-    .where({ userId, isImproved: false, campaignId })
-    .first();
-  if (!campaignParticipation) return null;
-  const assessments = await knex('assessments').where({ campaignParticipationId: campaignParticipation.id });
-  return new CampaignParticipation({
-    ...campaignParticipation,
-    assessments: assessments.map((assessment) => new Assessment(assessment)),
-  });
-};
-
 const isRetrying = async function ({ campaignParticipationId }) {
   const { id: campaignId, userId } = await knex('campaigns')
     .select('campaigns.id', 'userId')
@@ -105,7 +93,6 @@ const isRetrying = async function ({ campaignParticipationId }) {
 
 export {
   findLatestOngoingByUserId,
-  findOneByCampaignIdAndUserId,
   get,
   getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
   hasAssessmentParticipations,

@@ -343,7 +343,7 @@ export default class EnrolledCandidates extends Component {
       </div>
       <div class='table content-text content-text--small certification-candidates-table'>
         {{#if (or @certificationCandidates this.candidatesInStaging)}}
-          <table class='certification-candidates-table-cpf-toggle-enabled'>
+          <table>
             <caption class='screen-reader-only'>
               {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
                 {{t 'pages.sessions.detail.candidates.list.without-details-description'}}
@@ -353,17 +353,17 @@ export default class EnrolledCandidates extends Component {
             </caption>
             <thead>
               <tr>
-                <th class='certification-candidates-table__column-last-name'>
+                <th class='table__column--medium'>
                   {{t 'common.labels.candidate.birth-name'}}
                 </th>
-                <th class='certification-candidates-table__column-first-name'>
+                <th class='table__column--small'>
                   {{t 'common.labels.candidate.firstname'}}
                 </th>
-                <th class='certification-candidates-table__column-birthdate'>
+                <th class='table__column--small'>
                   {{t 'common.labels.candidate.birth-date'}}
                 </th>
                 {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                  <th class='certification-candidates-table__birth-city'>
+                  <th>
                     {{t 'common.labels.candidate.birth-city'}}
                   </th>
                   <th>
@@ -371,26 +371,16 @@ export default class EnrolledCandidates extends Component {
                   </th>
                 {{/if}}
                 {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                  <th class='certification-candidates-table__recipient-email'>
+                  <th>
                     {{t 'common.forms.certification-labels.email-results'}}
                   </th>
                 {{/unless}}
-                {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                  <th class='certification-candidates-table__external-id'>
-                    {{t 'common.forms.certification-labels.external-id'}}
-                  </th>
-                {{/unless}}
-                <th class='certification-candidates-table__column-time'>
+                <th class='table__column--small'>
                   {{t 'common.forms.certification-labels.extratime'}}
                 </th>
                 {{#if this.shouldDisplayAccessibilityAdjustmentNeededFeature}}
-                  <th class='certification-candidates-table__column-accessibility'>
+                  <th class='table__column--small'>
                     {{t 'common.forms.certification-labels.accessibility'}}
-                  </th>
-                {{/if}}
-                {{#if @shouldDisplayPaymentOptions}}
-                  <th class='certification-candidates-table__payment-options'>
-                    {{t 'common.forms.certification-labels.pricing'}}
                   </th>
                 {{/if}}
                 <th>
@@ -428,17 +418,9 @@ export default class EnrolledCandidates extends Component {
                   {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
                     <td>{{candidate.resultRecipientEmail}}</td>
                   {{/unless}}
-                  {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                    <td>{{candidate.externalId}}</td>
-                  {{/unless}}
                   <td>{{this.formattedCandidateExtratimePercentage candidate.extraTimePercentage}}</td>
                   {{#if this.shouldDisplayAccessibilityAdjustmentNeededFeature}}
                     <td>{{candidate.accessibilityAdjustmentNeededLabel}}</td>
-                  {{/if}}
-                  {{#if @shouldDisplayPaymentOptions}}
-                    <td>{{candidate.billingModeLabel}}
-                      {{candidate.prepaymentCode}}
-                    </td>
                   {{/if}}
 
                   <td>
@@ -466,12 +448,13 @@ export default class EnrolledCandidates extends Component {
                             <PixTooltip @position='left' @isInline={{true}} @id='tooltip-edit-student-button'>
                               <:triggerElement>
                                 <PixIconButton
-                                  @icon='pen-to-square'
-                                  class='certification-candidates-actions__edit-button--disabled'
-                                  aria-label='{{t
+                                  @iconName='edit'
+                                  @plainIcon={{true}}
+                                  class='certification-candidates-actions__edit'
+                                  @ariaLabel='{{t
                                     "pages.sessions.detail.candidates.list.actions.edit.extra-information"
                                   }} {{candidate.firstName}} {{candidate.lastName}}'
-                                  aria-disabled='true'
+                                  disabled
                                   aria-describedby='tooltip-edit-student-button'
                                   @withBackground={{true}}
                                 />
@@ -480,9 +463,10 @@ export default class EnrolledCandidates extends Component {
                             </PixTooltip>
                           {{else}}
                             <PixIconButton
-                              @icon='pen-to-square'
+                              @iconName='edit'
+                              @plainIcon={{true}}
                               {{on 'click' (fn this.openEditCertificationCandidateDetailsModal candidate)}}
-                              aria-label='{{t
+                              @ariaLabel='{{t
                                 "pages.sessions.detail.candidates.list.actions.edit.extra-information"
                               }} {{candidate.firstName}} {{candidate.lastName}}'
                               class='certification-candidates-actions__edit-button'
@@ -496,12 +480,13 @@ export default class EnrolledCandidates extends Component {
                           <PixTooltip @position='left' @isInline={{true}} @id='tooltip-delete-student-button'>
                             <:triggerElement>
                               <PixIconButton
-                                @icon='trash-alt'
-                                class='certification-candidates-actions__delete-button--disabled'
-                                aria-label='{{t
+                                @iconName='delete'
+                                @plainIcon={{true}}
+                                class='certification-candidates-actions__delete'
+                                @ariaLabel='{{t
                                   "pages.sessions.detail.candidates.list.actions.delete.extra-information"
                                 }} {{candidate.firstName}} {{candidate.lastName}}'
-                                aria-disabled='true'
+                                disabled
                                 aria-describedby='tooltip-delete-student-button'
                                 @withBackground={{true}}
                               />
@@ -510,9 +495,10 @@ export default class EnrolledCandidates extends Component {
                           </PixTooltip>
                         {{else}}
                           <PixIconButton
-                            @icon='trash-alt'
+                            @iconName='delete'
+                            @plainIcon={{true}}
                             {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
-                            aria-label='{{t
+                            @ariaLabel='{{t
                               "pages.sessions.detail.candidates.list.actions.delete.extra-information"
                             }} {{candidate.firstName}} {{candidate.lastName}}'
                             class='certification-candidates-actions__delete-button'

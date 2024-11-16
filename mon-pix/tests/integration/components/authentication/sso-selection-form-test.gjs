@@ -30,7 +30,9 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
     const screen = await render(<template><SsoSelectionForm /></template>);
 
     // then
-    const buttonLink = await screen.findByRole('button', { name: t('pages.authentication.sso-selection.signin.link') });
+    const buttonLink = await screen.findByRole('button', {
+      name: t('pages.authentication.sso-selection.signin.button'),
+    });
     assert.dom(buttonLink).hasAttribute('disabled');
   });
 
@@ -45,7 +47,7 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
     await click(screen.getByRole('option', { name: providerName }));
 
     // then
-    const buttonLink = await screen.findByRole('link', { name: t('pages.authentication.sso-selection.signin.link') });
+    const buttonLink = await screen.findByRole('link', { name: t('pages.authentication.sso-selection.signin.button') });
     assert.strictEqual(buttonLink.getAttribute('href'), '/connexion/cem');
 
     const connexionMessage = await screen.findByText(

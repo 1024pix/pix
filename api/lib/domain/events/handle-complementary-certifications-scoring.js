@@ -1,5 +1,4 @@
 import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { config } from '../../../src/shared/config.js';
 import { AnswerCollectionForScoring } from '../../../src/shared/domain/models/AnswerCollectionForScoring.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../../src/shared/domain/models/ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../../../src/shared/domain/models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
@@ -82,11 +81,7 @@ async function _getComplementaryCertificationResultInformation({
   assessmentResult,
   minimumReproducibilityRateLowerLevel,
 }) {
-  if (
-    config.featureToggles.isPixPlusLowerLeverEnabled &&
-    hasComplementaryReferential &&
-    assessmentResult.isValidated()
-  ) {
+  if (hasComplementaryReferential && assessmentResult.isValidated()) {
     const lowerLevelComplementaryCertificationBadge = await _getNextLowerLevelBadge(
       complementaryCertificationBadgesRepository,
       complementaryCertificationScoring.complementaryCertificationBadgeId,

@@ -13,11 +13,13 @@ export default class Prescriber extends Model {
 
   static get featureList() {
     return {
+      ATTESTATIONS_MANAGEMENT: 'ATTESTATIONS_MANAGEMENT',
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
       MISSIONS_MANAGEMENT: 'MISSIONS_MANAGEMENT',
       LEARNER_IMPORT: 'LEARNER_IMPORT',
+      ORALIZATION: 'ORALIZATION',
     };
   }
   get fullName() {
@@ -40,6 +42,10 @@ export default class Prescriber extends Model {
     return this.features[Prescriber.featureList.PLACES_MANAGEMENT];
   }
 
+  get attestationsManagement() {
+    return this.features[Prescriber.featureList.ATTESTATIONS_MANAGEMENT];
+  }
+
   get missionsManagement() {
     return this.features[Prescriber.featureList.MISSIONS_MANAGEMENT];
   }
@@ -56,6 +62,10 @@ export default class Prescriber extends Model {
 
   get hasOrganizationLearnerImport() {
     return this.features[Prescriber.featureList.LEARNER_IMPORT];
+  }
+
+  get hasOralizationFeature() {
+    return this.features[Prescriber.featureList.ORALIZATION];
   }
 
   get hasParticipants() {

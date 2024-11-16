@@ -38,8 +38,7 @@ const buildLearningContent = function (learningContent) {
                 });
               allTutorials.push(tutorials);
               const challenges =
-                skill.challenges &&
-                skill.challenges.map((challenge) => {
+                skill.challenges?.map((challenge) => {
                   return {
                     id: challenge.id,
                     competenceId: competence.id,
@@ -52,10 +51,10 @@ const buildLearningContent = function (learningContent) {
                     instruction: challenge.instruction,
                     proposals: challenge.proposals,
                     autoReply: challenge.autoReply,
-                    alpha: challenge.alpha,
-                    delta: challenge.delta,
+                    alpha: challenge.alpha ?? challenge.discriminant,
+                    delta: challenge.delta ?? challenge.difficulty,
                   };
-                });
+                }) ?? [];
               allChallenges.push(challenges);
               return {
                 id: skill.id,

@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "4.233.0",
+  "version": "4.242.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "license": "AGPL-3.0",
@@ -131,7 +131,7 @@
     "db:migrate": "knex --knexfile db/knexfile.js migrate:latest && node scripts/database/pg-boss-migration.js",
     "db:rollback:latest": "knex --knexfile db/knexfile.js migrate:down",
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
-    "db:seed": "knex --knexfile db/knexfile.js seed:run",
+    "db:seed": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile db/knexfile.js seed:run",
     "db:reload": "npm run db:empty && npm run db:seed",
     "db:reset": "npm run db:prepare && npm run db:seed",
     "doc:api:prescription": "node scripts/generate-api-documentation.js src/prescription > src/prescription/API.md",

@@ -15,4 +15,14 @@ module('Integration | Component | Bubble', function (hooks) {
     await render(<template><Bubble @status="success" /></template>);
     assert.dom('.bubble--success').exists();
   });
+
+  test('displays bubble with oralization button', async function (assert) {
+    await render(<template><Bubble @oralization={{true}} /></template>);
+    assert.dom('.oralization-container').exists();
+  });
+
+  test('displays bubble without oralization button', async function (assert) {
+    await render(<template><Bubble /></template>);
+    assert.dom('.oralization-container').doesNotExist();
+  });
 });

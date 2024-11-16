@@ -6,15 +6,11 @@ import { t } from 'ember-intl';
 
 const LINK_SCO = 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS';
 const LINK_OTHER = 'http://cloud.pix.fr/s/fLSG4mYCcX7GDRF';
-const LINK_V3_PILOT = 'https://cloud.pix.fr/s/f2PNGLajBypbaiJ';
 
 export default class Sidebar extends Component {
   @service currentUser;
 
   get documentationLink() {
-    if (this.currentUser.currentAllowedCertificationCenterAccess.isV3Pilot) {
-      return LINK_V3_PILOT;
-    }
     if (this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents) {
       return LINK_SCO;
     }

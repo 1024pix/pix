@@ -206,6 +206,83 @@ const register = async function (server) {
         tags: ['api', 'campaign-participations'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/campaigns/{campaignId}/assessment-result',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: campaignParticipationController.getUserCampaignAssessmentResult,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des résultats d’un parcours pour un utilisateur (**userId**) et pour la campagne d’évaluation donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'campaign'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/campaign-participation-overviews',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+          }),
+        },
+        handler: campaignParticipationController.getCampaignParticipationOverviews,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des aperçus des participations aux campagnes en fonction de l‘id de l‘utilisateur\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
+            '- Les aperçus des participations aux campagnes sont triés par ordre inverse de création' +
+            '  (les plus récentes en premier)',
+          '- Cette liste est paginée et filtrée selon des **states** qui peuvent avoir comme valeurs: ONGOING, TO_SHARE, ENDED et ARCHIVED',
+        ],
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/campaigns/{campaignId}/campaign-participations',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: campaignParticipationController.getUserCampaignParticipationToCampaign,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération de la dernière participation d’un utilisateur (**userId**) à une campagne donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'campaign', 'campaign-participations'],
+      },
+    },
   ]);
 };
 

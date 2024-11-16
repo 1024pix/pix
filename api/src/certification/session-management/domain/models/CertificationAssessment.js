@@ -179,6 +179,16 @@ class CertificationAssessment {
     return [states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION];
   }
 
+  get isComplementaryOnly() {
+    return this.certificationChallenges.every(
+      (certificationChallenge) => certificationChallenge.certifiableBadgeKey !== null,
+    );
+  }
+
+  get isScoringBlockedDueToComplementaryOnlyChallenges() {
+    return this.isComplementaryOnly;
+  }
+
   _getLastChallenge() {
     return _.orderBy(this.certificationChallenges, 'createdAt', 'desc')[0];
   }

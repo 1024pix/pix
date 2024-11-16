@@ -137,6 +137,9 @@ export default class Url extends Service {
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return `https://pix.${this.currentDomain.getExtension()}/en`;
     }
+    if (currentLanguage === DUTCH_INTERNATIONAL_LOCALE) {
+      return `https://pix.${this.currentDomain.getExtension()}/nl-be`;
+    }
     return `https://pix.${this.currentDomain.getExtension()}`;
   }
 

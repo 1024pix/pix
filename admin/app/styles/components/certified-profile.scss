@@ -1,7 +1,43 @@
-/* stylelint-disable no-invalid-double-slash-comments, selector-class-pattern */
-// For more style details about this component,
-// see admin/app/styles/components/target-profiles/details.scss
-.skill-column--tested-in-certif {
-  color: var(--pix-information-light);
-  font-size: 1.7rem;
+.profile {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 32px;
+    border-radius: 5px;
+
+    .legend {
+      padding: 12px;
+      background-color: rgb(0 0 0 / 3%);
+      border: 1px solid var(--pix-neutral-100);
+      border-radius: 8px;
+
+      > p {
+        display: flex;
+        gap: var(--pix-spacing-3x);
+        align-items: center;
+      }
+    }
+  }
+
+  .skill-icon {
+    width: 2rem;
+    height: 2rem;
+
+    &--tested-in-certif {
+      fill: var(--pix-information-light);
+    }
+
+    &--check {
+      fill: var(--pix-success-700);
+    }
+
+    &--uncheck {
+      fill: var(--pix-neutral-20);
+    }
+  }
+
+  .skill-column {
+    overflow: visible;
+  }
 }

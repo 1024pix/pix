@@ -77,5 +77,19 @@ describe('Unit | Infrastructure | LCMS', function () {
       // then
       expect(response).to.deep.equal(learningContent);
     });
+
+    it('throws when LCMS Api response is not successful', async function () {
+      // given
+      nock('https://lcms-test.pix.fr/api')
+        .post('/releases')
+        .matchHeader('Authorization', 'Bearer test-api-key')
+        .reply(403);
+
+      // when
+      const error = await catchErr(lcms.createRelease)();
+
+      // then
+      expect(error.message).to.deep.equal('An error occurred while creating a release on https://lcms-test.pix.fr/api');
+    });
   });
 });

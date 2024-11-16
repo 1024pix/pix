@@ -13,7 +13,7 @@ const register = async (server) => {
   server.route([
     {
       method: 'DELETE',
-      path: '/api/organizations/{id}/organization-learners',
+      path: '/api/organizations/{organizationId}/organization-learners',
       config: {
         pre: [
           {
@@ -27,7 +27,7 @@ const register = async (server) => {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
           }),
           payload: Joi.object({
             listLearners: Joi.array().required().items(Joi.number().required()),

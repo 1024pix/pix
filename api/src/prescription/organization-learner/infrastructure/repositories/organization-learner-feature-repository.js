@@ -19,4 +19,17 @@ async function getOrganizationLearnersByFeature({ organizationId, featureKey }) 
   );
 }
 
-export { getOrganizationLearnersByFeature };
+async function create({ organizationLearnerId, featureId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const createdOrganizationLearnerFeature = await knexConn('organization-learner-features')
+    .insert({ organizationLearnerId, featureId })
+    .returning('*');
+  return createdOrganizationLearnerFeature[0];
+}
+
+async function unlink({ organizationLearnerId, featureId }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('organization-learner-features').where({ organizationLearnerId, featureId }).del();
+}
+
+export { create, getOrganizationLearnersByFeature, unlink };

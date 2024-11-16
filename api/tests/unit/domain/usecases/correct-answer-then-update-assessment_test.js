@@ -1,4 +1,5 @@
 import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { EmptyAnswerError } from '../../../../src/evaluation/domain/errors.js';
 import { AnswerJob } from '../../../../src/quest/domain/models/AnwserJob.js';
 import {
@@ -58,7 +59,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     flashAssessmentResultRepository = { save: sinon.stub() };
     scorecardService = { computeScorecard: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdAndAssessmentId: sinon.stub() };
-    certificationChallengeLiveAlertRepository = { getOngoingByChallengeIdAndAssessmentId: sinon.stub() };
+    certificationChallengeLiveAlertRepository = { getOngoingOrValidatedByChallengeIdAndAssessmentId: sinon.stub() };
     certificationEvaluationCandidateRepository = { findByAssessmentId: sinon.stub() };
     flashAlgorithmService = { getCapacityAndErrorRate: sinon.stub() };
     algorithmDataFetcherService = { fetchForFlashLevelEstimation: sinon.stub() };
@@ -1128,37 +1129,75 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     });
   });
 
-  context('when a live alert has been set in V3 certification', function () {
-    it('should throw an error', async function () {
-      // given
-      const challenge = domainBuilder.buildChallenge({ id: '123' });
-      const assessment = domainBuilder.buildAssessment({
-        userId,
-        lastQuestionDate: nowDate,
-        state: Assessment.states.STARTED,
-      });
-      const answer = domainBuilder.buildAnswer({ challengeId: challenge.id });
-      const certificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
-        assessmentId: assessment.id,
-        challengeId: challenge.id,
-      });
-      assessmentRepository.get.resolves(assessment);
-      challengeRepository.get.withArgs(challenge.id).resolves(challenge);
+  context('when a live alert has been set for the current challenge in V3 certification', function () {
+    context('when the live alert is ongoing', function () {
+      it('should throw an error', async function () {
+        // given
+        const challenge = domainBuilder.buildChallenge({ id: '123' });
+        const assessment = domainBuilder.buildAssessment({
+          userId,
+          lastQuestionDate: nowDate,
+          state: Assessment.states.STARTED,
+        });
+        const answer = domainBuilder.buildAnswer({ challengeId: challenge.id });
+        const certificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          challengeId: challenge.id,
+          status: CertificationChallengeLiveAlertStatus.ONGOING,
+        });
+        assessmentRepository.get.resolves(assessment);
+        challengeRepository.get.withArgs(challenge.id).resolves(challenge);
 
-      certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId
-        .withArgs({ challengeId: challenge.id, assessmentId: assessment.id })
-        .resolves(certificationChallengeLiveAlert);
+        certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId
+          .withArgs({ challengeId: challenge.id, assessmentId: assessment.id })
+          .resolves(certificationChallengeLiveAlert);
 
-      // when
-      const error = await catchErr(correctAnswerThenUpdateAssessment)({
-        answer,
-        userId,
-        ...dependencies,
+        // when
+        const error = await catchErr(correctAnswerThenUpdateAssessment)({
+          answer,
+          userId,
+          ...dependencies,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.equal('An alert has been set.');
       });
+    });
 
-      // then
-      expect(error).to.be.an.instanceOf(ForbiddenAccess);
-      expect(error.message).to.equal('An alert has been set.');
+    context('when the live alert is validated', function () {
+      it('should throw an error', async function () {
+        // given
+        const challenge = domainBuilder.buildChallenge({ id: '123' });
+        const assessment = domainBuilder.buildAssessment({
+          userId,
+          lastQuestionDate: nowDate,
+          state: Assessment.states.STARTED,
+        });
+        const answer = domainBuilder.buildAnswer({ challengeId: challenge.id });
+        const certificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          challengeId: challenge.id,
+          status: CertificationChallengeLiveAlertStatus.VALIDATED,
+        });
+        assessmentRepository.get.resolves(assessment);
+        challengeRepository.get.withArgs(challenge.id).resolves(challenge);
+
+        certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId
+          .withArgs({ challengeId: challenge.id, assessmentId: assessment.id })
+          .resolves(certificationChallengeLiveAlert);
+
+        // when
+        const error = await catchErr(correctAnswerThenUpdateAssessment)({
+          answer,
+          userId,
+          ...dependencies,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.equal('An alert has been set.');
+      });
     });
   });
 

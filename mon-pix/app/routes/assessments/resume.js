@@ -100,8 +100,14 @@ export default class ResumeRoute extends Route {
   }
 
   async _rateAssessment(assessment) {
-    await assessment.save({ adapterOptions: { completeAssessment: true } });
-
+    try {
+      await assessment.save({ adapterOptions: { completeAssessment: true } });
+    } catch (adapterError) {
+      if (adapterError.errors[0].status === '412') {
+        return this._routeToResults(assessment);
+      }
+      throw adapterError;
+    }
     return this._routeToResults(assessment);
   }
 
@@ -109,7 +115,7 @@ export default class ResumeRoute extends Route {
     if (assessment.isCertification) {
       this.router.replaceWith('authenticated.certifications.results', assessment.certificationNumber);
     } else if (assessment.isForCampaign) {
-      this.router.replaceWith('campaigns.results-loader', assessment.codeCampaign);
+      this.router.replaceWith('campaigns.assessment.results', assessment.codeCampaign);
     } else if (assessment.isCompetenceEvaluation) {
       this.router.replaceWith('authenticated.competences.results', assessment.competenceId, assessment.id);
     } else {

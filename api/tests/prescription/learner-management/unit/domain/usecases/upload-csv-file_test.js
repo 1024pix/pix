@@ -3,10 +3,11 @@ import { OrganizationImport } from '../../../../../../src/prescription/learner-m
 import { uploadCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-csv-file.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, createTempFile, expect, removeTempFile, sinon } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 const i18n = getI18n();
+
 const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns
   .map((column) => column.name)
   .join(';');

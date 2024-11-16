@@ -47,6 +47,23 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         expect(organizationLearner.email).to.equal('k.s@example.net');
         expect(organizationLearner.username).to.equal('sassouk');
         expect(organizationLearner.organizationId).to.equal(organizationId);
+        expect(organizationLearner.features).to.be.empty;
+      });
+
+      it("Should return organization learner's features", async function () {
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeatureWithFeatureKey({
+          organizationLearnerId,
+          featureKey: 'ORALIZATION',
+        });
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeatureWithFeatureKey({
+          organizationLearnerId,
+          featureKey: 'BLA',
+        });
+        await databaseBuilder.commit();
+
+        const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
+        expect(organizationLearner.features).to.deep.equal(['ORALIZATION', 'BLA']);
       });
 
       it('Should return the organization learner with a given ID', async function () {
@@ -557,7 +574,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         const thirdLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
           firstName: 'Toto',
-          lastName: 'auberto',
+          lastName: 'auberti',
         });
 
         await databaseBuilder.commit();
@@ -565,8 +582,8 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
 
         expect(result.learners).lengthOf(3);
-        expect(result.learners[0].id).to.equal(secondLearner.id);
-        expect(result.learners[1].id).to.equal(thirdLearner.id);
+        expect(result.learners[0].id).to.equal(thirdLearner.id);
+        expect(result.learners[1].id).to.equal(secondLearner.id);
         expect(result.learners[2].id).to.equal(firstLearner.id);
       });
     });

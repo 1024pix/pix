@@ -1,4 +1,4 @@
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -24,12 +24,12 @@ export default class CampaignTargetProfileDetails extends Component {
       {{/if}}
       <ul class="target-profile-details__specificity">
         <li class="target-profile-details__specificity__row">
-          <FaIcon @fixedWidth={{true}} @icon="book" />
+          <PixIcon @name="book" />
           {{t "common.target-profile-details.subjects" value=@targetProfileTubesCount}}
         </li>
         {{#if @hasBadges}}
           <li class="target-profile-details__specificity__row target-profile-details__specificity__row--add-separator">
-            <FaIcon @fixedWidth={{true}} @icon="award" />
+            <PixIcon @name="awards" />
             {{t "common.target-profile-details.thematic-results" value=@targetProfileThematicResultCount}}
           </li>
         {{/if}}
@@ -37,11 +37,10 @@ export default class CampaignTargetProfileDetails extends Component {
           <span class="target-profile-details__specificity__white-space">
             {{t "common.target-profile-details.results.common"}}
           </span>
-          <FaIcon
-            @fixedWidth={{true}}
+          <PixIcon
             @aria-hidden={{false}}
             aria-label={{t this.displayResultInfo.label}}
-            @icon={{this.displayResultInfo.icon}}
+            @name={{this.displayResultInfo.icon}}
           />
         </li>
       </ul>

@@ -4,7 +4,10 @@
 
 .participant {
   &__link {
+    display: flex;
+    align-items: center;
     margin-top: var(--pix-spacing-2x);
     color: var(--pix-primary-500);
+    fill: var(--pix-primary-500);
   }
 }

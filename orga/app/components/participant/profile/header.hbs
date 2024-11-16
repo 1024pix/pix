@@ -15,7 +15,7 @@
     {{/if}}
   </div>
   <p class="participant__link">
-    <FaIcon @prefix="far" @icon="user" />
+    <PixIcon @name="infoUser" @plainIcon={{true}} />
     <Participant::LinkTo @organizationLearnerId={{@campaignProfile.organizationLearnerId}}>
       {{t "common.actions.link-to-participant"}}
     </Participant::LinkTo>

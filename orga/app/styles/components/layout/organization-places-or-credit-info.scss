@@ -23,12 +23,12 @@
   }
 
   .info-icon {
-    margin: 0 8px;
-    color: var(--pix-neutral-100);
+    margin: 0 var(--pix-spacing-1x);
+    fill: var(--pix-neutral-100);
   }
 
   .warning-icon {
     margin: 0 var(--pix-spacing-1x);
-    color: var(--pix-error-700);
+    fill: var(--pix-error-700);
   }
 }

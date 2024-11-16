@@ -18,22 +18,22 @@ const qcuElementSchema = Joi.object({
     invalid: htmlSchema,
   }),
   solution: proposalIdSchema.required(),
-}).custom((qcuElement, helpers) => {
+}).external(async (qcuElement, helpers) => {
   const hasGlobalFeedbacks = qcuElement.feedbacks !== undefined;
   const hasSpecificFeedbacks = qcuElement.proposals.some((proposal) => proposal.feedback !== undefined);
   if (hasGlobalFeedbacks && hasSpecificFeedbacks) {
-    return helpers.message('Un QCU ne peut pas avoir à la fois des feedbacks spécifiques et globales');
+    return helpers.error('Un QCU ne peut pas avoir à la fois des feedbacks spécifiques et globales');
   }
   if (hasSpecificFeedbacks) {
     const someProposalsDoNotHaveSpecificFeedback = qcuElement.proposals.some(
       (proposal) => proposal.feedback === undefined,
     );
     if (someProposalsDoNotHaveSpecificFeedback) {
-      return helpers.message('Dans ce QCU, au moins une proposition ne possède pas de feedback spécifique');
+      return helpers.error('Dans ce QCU, au moins une proposition ne possède pas de feedback spécifique');
     }
   }
   if (!hasGlobalFeedbacks && !hasSpecificFeedbacks) {
-    return helpers.message("Dans ce QCU, il n'y a ni feedbacks spécifiques, ni feedbacks globales");
+    return helpers.error("Dans ce QCU, il n'y a ni feedbacks spécifiques, ni feedbacks globales");
   }
 
   return qcuElement;

@@ -64,7 +64,7 @@ module('Integration | Component | Certifications | start', function (hooks) {
       .doesNotExist();
 
     assert
-      .dom(screen.queryByRole('heading', { level: 1, name: 'L’extension Pix Companion n’est pas détectée' }))
+      .dom(screen.queryByRole('heading', { level: 1, name: 'L’extension Pix Companionn’est pas détectée' }))
       .exists();
   });
 });

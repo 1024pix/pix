@@ -12,11 +12,6 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
-  const EDIT_BUTTON_SELECTOR = 'certification-candidates-actions__edit-button';
-  const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
-  const EDIT_BUTTON_DISABLED_SELECTOR = `${EDIT_BUTTON_SELECTOR}--disabled`;
-
   let store;
 
   hooks.beforeEach(async function () {
@@ -113,7 +108,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
     // then
     assert.dom(screen.queryByRole('columnheader', { name: 'Accessibilité' })).doesNotExist();
-    assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].externalId })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].lastName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].firstName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].resultRecipientEmail })).exists();
@@ -235,15 +229,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       );
 
       // then
-      assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' }))
-        .hasClass(DELETE_BUTTON_SELECTOR);
-      assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Lara Pafromage' }))
-        .hasClass(DELETE_BUTTON_DISABLED_SELECTOR);
-      assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Jean Registre' }))
-        .hasClass(DELETE_BUTTON_SELECTOR);
+      assert.dom(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' })).isNotDisabled();
+      assert.dom(screen.getByRole('button', { name: 'Supprimer le candidat Lara Pafromage' })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: 'Supprimer le candidat Jean Registre' })).isNotDisabled();
     });
   });
 
@@ -298,15 +286,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         // then
 
         // then
-        assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' }))
-          .hasClass(EDIT_BUTTON_SELECTOR);
-        assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Lara Pafromage' }))
-          .hasClass(EDIT_BUTTON_DISABLED_SELECTOR);
-        assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Jean Registre' }))
-          .hasClass(EDIT_BUTTON_SELECTOR);
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' })).isNotDisabled();
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Lara Pafromage' })).isDisabled();
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Jean Registre' })).isNotDisabled();
         assert.strictEqual(
           screen.getAllByText("Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer.").length,
           1,
@@ -467,36 +449,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     });
   });
 
-  module('when certification center is not SCO', function () {
-    test('it displays candidate billing information', async function (assert) {
-      // given
-      const candidate = _buildCertificationCandidate({
-        billingMode: 'PREPAID',
-        prepaymentCode: 'CODE01',
-        subscriptions: [],
-      });
-
-      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
-      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
-
-      // when
-      const screen = await render(
-        <template>
-          <EnrolledCandidates
-            @sessionId='1'
-            @certificationCandidates={{certificationCandidates}}
-            @shouldDisplayPaymentOptions={{true}}
-            @countries={{countries}}
-          />
-        </template>,
-      );
-
-      // then
-      assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'Prépayée CODE01' })).exists();
-    });
-  });
-
   module('when prescription SCO is allowed', function () {
     test('it should display button to add multiple candidates', async function (assert) {
       // given
@@ -569,7 +521,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
     });
 
-    test('it shows externalId and email columns', async function (assert) {
+    test('it shows email columns', async function (assert) {
       // given
       const candidate = _buildCertificationCandidate({
         subscriptions: [],
@@ -590,7 +542,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       );
 
       // then
-      assert.dom(screen.getByRole('cell', { name: candidate.externalId })).exists();
       assert.dom(screen.getByRole('cell', { name: candidate.resultRecipientEmail })).exists();
     });
   });

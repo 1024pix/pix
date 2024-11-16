@@ -29,9 +29,8 @@ module('Unit | Service | file-saver', function (hooks) {
       downloadFileForModernBrowsersStub = sinon.stub().returns();
     });
 
-    module('when response has a status 200', function () {
-      test('should use fileName and fileContent from response', async function (assert) {
-        // given
+    module('when response has a status 200', function (hooks) {
+      hooks.beforeEach(function () {
         const headers = {
           get: sinon.stub(),
         };
@@ -40,19 +39,43 @@ module('Unit | Service | file-saver', function (hooks) {
 
         const response = { headers, blob: blobStub, status: 200, json: jsonStub };
         fetchStub = sinon.stub().resolves(response);
+      });
 
-        // when
-        await fileSaver.save({
-          url,
-          token,
-          fetcher: fetchStub,
-          downloadFileForIEBrowser: downloadFileForIEBrowserStub,
-          downloadFileForModernBrowsers: downloadFileForModernBrowsersStub,
+      module('when fileName is provided', function () {
+        test('should use provided fileName', async function (assert) {
+          // given
+          const otherFileName = 'other-file-name';
+
+          // when
+          await fileSaver.save({
+            url,
+            token,
+            fileName: otherFileName,
+            fetcher: fetchStub,
+            downloadFileForIEBrowser: downloadFileForIEBrowserStub,
+            downloadFileForModernBrowsers: downloadFileForModernBrowsersStub,
+          });
+
+          // then
+          const expectedArgs = { fileContent: responseContent, fileName: otherFileName };
+          assert.ok(downloadFileForModernBrowsersStub.calledWith(expectedArgs));
         });
+      });
+      module('when fileName is not provided', function () {
+        test('should use fileName and fileContent from response', async function (assert) {
+          // when
+          await fileSaver.save({
+            url,
+            token,
+            fetcher: fetchStub,
+            downloadFileForIEBrowser: downloadFileForIEBrowserStub,
+            downloadFileForModernBrowsers: downloadFileForModernBrowsersStub,
+          });
 
-        // then
-        const expectedArgs = { fileContent: responseContent, fileName: responseFileName };
-        assert.ok(downloadFileForModernBrowsersStub.calledWith(expectedArgs));
+          // then
+          const expectedArgs = { fileContent: responseContent, fileName: responseFileName };
+          assert.ok(downloadFileForModernBrowsersStub.calledWith(expectedArgs));
+        });
       });
     });
 

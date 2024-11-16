@@ -14,7 +14,8 @@
             <:triggerElement>
               <PixIconButton
                 @ariaLabel={{t "pages.sessions.detail.parameters.session.copy-number"}}
-                @icon="copy"
+                @iconName="copy"
+                @plainIcon={{true}}
                 @triggerAction={{this.showSessionIdTooltip}}
                 class="session-details-content__clipboard-button"
               />
@@ -45,7 +46,8 @@
             <:triggerElement>
               <PixIconButton
                 @ariaLabel={{t "pages.sessions.detail.parameters.access-code.copy-code"}}
-                @icon="copy"
+                @iconName="copy"
+                @plainIcon={{true}}
                 @triggerAction={{this.showAccessCodeTooltip}}
               />
             </:triggerElement>
@@ -77,7 +79,8 @@
             <:triggerElement>
               <PixIconButton
                 @ariaLabel={{t "pages.sessions.detail.parameters.password.copy-password"}}
-                @icon="copy"
+                @iconName="copy"
+                @plainIcon={{true}}
                 @triggerAction={{this.showSupervisorPasswordTooltip}}
               />
             </:triggerElement>
@@ -118,27 +121,29 @@
   </div>
 
   <div class="session-details-buttons">
+    <PixButtonLink
+      @route="authenticated.sessions.update"
+      @model={{this.session.id}}
+      aria-label={{t "pages.sessions.detail.parameters.actions.update" sessionId=this.session.id}}
+    >
+      {{t "common.actions.update"}}
+    </PixButtonLink>
     {{#if this.sessionHasStarted}}
-      <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}}>
-        {{t "common.actions.update"}}
-      </PixButtonLink>
-      {{#if this.sessionManagement.isFinalized}}
+      {{#if this.isSessionFinalizationTemporarilyBlocked}}
         <p class="session-details-row__session-finalized-warning">
-          {{t "pages.sessions.detail.parameters.finalization-info"}}
+          {{t "pages.sessions.detail.parameters.finalization.temporarily-blocked"}}
         </p>
       {{else}}
-        <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
-          {{t "pages.sessions.detail.parameters.actions.finalizing"}}
-        </PixButtonLink>
+        {{#if this.sessionManagement.isFinalized}}
+          <p class="session-details-row__session-finalized-warning">
+            {{t "pages.sessions.detail.parameters.finalization-info"}}
+          </p>
+        {{else}}
+          <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
+            {{t "pages.sessions.detail.parameters.actions.finalizing"}}
+          </PixButtonLink>
+        {{/if}}
       {{/if}}
-    {{else}}
-      <PixButtonLink
-        @route="authenticated.sessions.update"
-        @model={{this.session.id}}
-        aria-label={{t "pages.sessions.detail.parameters.actions.update" sessionId=this.session.id}}
-      >
-        {{t "common.actions.update"}}
-      </PixButtonLink>
     {{/if}}
   </div>
 

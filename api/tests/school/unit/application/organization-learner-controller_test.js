@@ -15,6 +15,7 @@ describe('Unit | Controller | organization-learner-controller', function () {
           organizationId: '345',
           completedMissionIds: ['rec12344', 'rec435'],
           startedMissionIds: undefined,
+          features: ['ORALIZATION'],
         }),
       );
       const id = 4356;
@@ -33,6 +34,7 @@ describe('Unit | Controller | organization-learner-controller', function () {
             'display-name': undefined,
             division: 'CM2',
             'organization-id': '345',
+            features: ['ORALIZATION'],
           },
           id: '4356',
           type: 'organizationLearners',

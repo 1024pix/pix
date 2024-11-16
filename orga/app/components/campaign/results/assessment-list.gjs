@@ -4,6 +4,7 @@ import TableHeader from '../../table/header';
 import TablePaginationControl from '../../table/pagination-control';
 import CampaignParticipationFilters from '../filter/participation-filters';
 import CampaignAssessmentRow from '../results/assessment-row';
+import EvolutionHeader from './evolution-header';
 
 <template>
   <section ...attributes>
@@ -24,6 +25,7 @@ import CampaignAssessmentRow from '../results/assessment-row';
 
     <div class="panel">
       <table class="table content-text content-text--small">
+        <caption class="screen-reader-only">{{@caption}}</caption>
         <colgroup class="table__column">
           <col />
           <col />
@@ -31,6 +33,10 @@ import CampaignAssessmentRow from '../results/assessment-row';
             <col class="table__column--medium" />
           {{/if}}
           <col />
+          {{#if @campaign.multipleSendings}}
+            <col />
+            <col />
+          {{/if}}
           {{#if @campaign.hasBadges}}
             <col />
           {{/if}}
@@ -44,6 +50,9 @@ import CampaignAssessmentRow from '../results/assessment-row';
             {{/if}}
             <TableHeader>{{t "pages.campaign-results.table.column.results.label"}}</TableHeader>
             {{#if @campaign.multipleSendings}}
+              <TableHeader>
+                <EvolutionHeader @tooltipContent={{t "pages.campaign-results.table.evolution-tooltip.content"}} />
+              </TableHeader>
               <TableHeader aria-label={{t "pages.campaign-results.table.column.ariaSharedResultCount"}}>
                 {{t "pages.campaign-results.table.column.sharedResultCount"}}
               </TableHeader>

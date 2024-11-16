@@ -6,7 +6,7 @@
   <:content>
     <form class="manage-authentication-window">
       <h2 class="manage-authentication-window__title">
-        <FaIcon @icon="link" />
+        <PixIcon @name="link" />
         {{t "pages.sco-organization-participants.manage-authentication-method-modal.authentication-methods"}}
       </h2>
 
@@ -17,7 +17,7 @@
               <span>
                 {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label"}}
               </span>
-              <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
+              <PixIcon @name="checkCircle" class="green-icon" />
             </div>
           </div>
         {{/if}}
@@ -28,7 +28,7 @@
               <h3>
                 {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.email.label"}}
               </h3>
-              <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
+              <PixIcon @name="checkCircle" class="green-icon" />
             </div>
             <div class="input-container">
               <div class="manage-authentication-window__clipboard">
@@ -56,7 +56,7 @@
                         aria-describedby="copy-email-tooltip"
                         class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
                       >
-                        <FaIcon @icon="copy" @prefix="far" />
+                        <PixIcon @name="copy" />
                       </CopyButton>
                     </:triggerElement>
                     <:tooltip>
@@ -77,7 +77,7 @@
                   "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label"
                 }}
               </h3>
-              <FaIcon @icon="circle-check" @prefix="far" class="grey-icon" />
+              <PixIcon @name="checkCircle" class="grey-icon" />
             </div>
             <PixButton @triggerAction={{this.generateUsernameWithTemporaryPassword}}>
               {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.button"}}
@@ -88,7 +88,7 @@
                 <h3>
                   {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.username.label"}}
                 </h3>
-                <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
+                <PixIcon @name="checkCircle" class="green-icon" />
               </div>
               <div class="input-container">
                 <div class="manage-authentication-window__clipboard">
@@ -110,7 +110,7 @@
                           aria-describedby="copy-username-tooltip"
                           class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
                         >
-                          <FaIcon @icon="copy" @prefix="far" />
+                          <PixIcon @name="copy" />
                         </CopyButton>
                       </:triggerElement>
                       <:tooltip>
@@ -149,7 +149,7 @@
                           aria-describedby="copy-password-tooltip"
                           class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
                         >
-                          <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
+                          <PixIcon @name="copy" class="fa-inverse" />
                         </CopyButton>
                       </:triggerElement>
                       <:tooltip>
@@ -187,7 +187,7 @@
               </PixButton>
 
               <div class="manage-authentication-window__warning">
-                <FaIcon @icon="triangle-exclamation" class="icon--warning" />
+                <PixIcon @name="warning" @plainIcon={{true}} class="icon--warning" />
                 <span>{{t
                     "pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.warning"
                   }}</span>

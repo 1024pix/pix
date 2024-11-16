@@ -29,7 +29,7 @@ export default class LanguageSwitcher extends Component {
   <template>
     <PixSelect
       @id='language-switcher'
-      @icon='earth-europe'
+      @iconName='globe'
       @value={{@selectedLanguage}}
       @options={{this.alphabeticallySortedLanguages}}
       @onChange={{@onLanguageChange}}

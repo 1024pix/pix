@@ -12,12 +12,17 @@
  * @typedef {import('../index.js').ChallengeRepository} ChallengeRepository
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  */
+import Debug from 'debug';
+import differenceBy from 'lodash/differenceBy.js';
+
 import { config } from '../../../../../shared/config.js';
 import { CompetenceMark } from '../../../../../shared/domain/models/index.js';
 import { FlashAssessmentAlgorithm } from '../../../../flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentHistory } from '../../../../scoring/domain/models/CertificationAssessmentHistory.js';
 import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../../scoring/domain/models/factories/AssessmentResultFactory.js';
+
+const debugScoringForV3Certification = Debug('pix:certif:v3:scoring');
 
 /**
  * @param {Object} params
@@ -52,12 +57,41 @@ export const handleV3CertificationScoring = async ({
 }) => {
   const { certificationCourseId, id: assessmentId } = certificationAssessment;
   const candidateAnswers = await answerRepository.findByAssessment(assessmentId);
-  const allChallenges = await challengeRepository.findFlashCompatibleWithoutLocale({
+  const flashCompatibleChallenges = await challengeRepository.findFlashCompatibleWithoutLocale({
     useObsoleteChallenges: true,
   });
+
+  debugScoringForV3Certification(`FlashCompatibleChallenges count: ${flashCompatibleChallenges.length}`);
+  debugScoringForV3Certification(`CandidateAnswers count: ${candidateAnswers.length}`);
+
   const certificationChallengesForScoring = await certificationChallengeForScoringRepository.getByCertificationCourseId(
     { certificationCourseId },
   );
+  const askedChallenges = await challengeRepository.getMany(
+    certificationChallengesForScoring.map((challengeForScoring) => challengeForScoring.id),
+    locale,
+  );
+
+  _restoreCalibrationValues(certificationChallengesForScoring, askedChallenges);
+
+  const flashCompatibleChallengesNotAskedInCertification = differenceBy(
+    flashCompatibleChallenges,
+    askedChallenges,
+    'id',
+  );
+
+  const allChallenges = [...askedChallenges, ...flashCompatibleChallengesNotAskedInCertification];
+
+  debugScoringForV3Certification(
+    `Challenges after FlashCompatibleChallenges & CandidateAnswers merge count: ${allChallenges.length}`,
+  );
+
+  if (allChallenges.length > flashCompatibleChallenges.length) {
+    const addedChallenges = differenceBy(allChallenges, flashCompatibleChallenges, 'id');
+    const challengeIds = addedChallenges.map((challenge) => challenge.id);
+
+    debugScoringForV3Certification(`Added challenges after merge: ${challengeIds}`);
+  }
 
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
 
@@ -84,7 +118,7 @@ export const handleV3CertificationScoring = async ({
     // so that in can be used during the assessment result creation
     allAnswers: [...candidateAnswers],
     allChallenges,
-    challenges: certificationChallengesForScoring,
+    challenges: askedChallenges,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
     v3CertificationScoring,
     scoringDegradationService,
@@ -121,6 +155,14 @@ export const handleV3CertificationScoring = async ({
 
   return certificationCourse;
 };
+
+function _restoreCalibrationValues(certificationChallengesForScoring, answeredChallenges) {
+  certificationChallengesForScoring.forEach((certificationChallengeForScoring) => {
+    const answeredChallenge = answeredChallenges.find(({ id }) => id === certificationChallengeForScoring.id);
+    answeredChallenge.discriminant = certificationChallengeForScoring.discriminant;
+    answeredChallenge.difficulty = certificationChallengeForScoring.difficulty;
+  });
+}
 
 function _createV3AssessmentResult({
   allAnswers,

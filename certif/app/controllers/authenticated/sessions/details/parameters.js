@@ -19,6 +19,13 @@ export default class SessionParametersController extends Controller {
     return this.certificationCandidates.some(({ isLinked }) => isLinked);
   }
 
+  get isSessionFinalizationTemporarilyBlocked() {
+    return (
+      this.certificationCandidates.some((candidate) => candidate.hasOnlyComplementarySubscription) &&
+      this.sessionManagement.version === 3
+    );
+  }
+
   @action
   async showSessionIdTooltip() {
     await navigator.clipboard.writeText(this.session.id);

@@ -9,7 +9,20 @@ export default class ModulixGrainTag extends Component {
   }
 
   get iconPath() {
-    return this.args.type === 'lesson' ? '/images/icons/icon-book.svg' : '/images/icons/icon-cog.svg';
+    switch (this.args.type) {
+      case 'lesson':
+        return '/images/icons/icon-book.svg';
+      case 'activity':
+        return '/images/icons/icon-cog.svg';
+      case 'discovery':
+        return '/images/icons/icon-door-open.svg';
+      case 'challenge':
+        return '/images/icons/icon-cognition.svg';
+      case 'summary':
+        return '/images/icons/icon-mountain.svg';
+      default:
+        return '/images/icons/icon-book.svg';
+    }
   }
 
   <template>

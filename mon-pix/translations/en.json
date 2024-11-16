@@ -40,7 +40,6 @@
       "cancel": "Cancel",
       "close": "Close",
       "confirm": "Confirm",
-      "continue": "Continue",
       "lets-go": "Let's go!",
       "login": "Log in to Pix",
       "quit": "Exit",
@@ -66,13 +65,23 @@
       "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
       "label": "Agree Pix terms of use and personal data protection policy",
       "message": "I agree to the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'",
-      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
+      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and the '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
     },
     "companion": {
+      "check": {
+        "detected": {
+          "description": "Pix Companion extension{version}<br />installed and activated.",
+          "version": " (version {version})"
+        },
+        "not-detected": {
+          "description": "Pix Companion extension not installed/activated or in an obsolete version,<br /> which is no longer supported for certification session access.",
+          "link": "Go to documentation"
+        }
+      },
       "not-detected": {
         "description": " The extension may not be installed or enabled. Read the following documentation in order to resume your certification session.  If necessary ask your invigilator.",
         "link": "Go to documentation",
-        "title": "The Pix Companion extension<br /> is not detected"
+        "title": "The Pix Companion extension<br />is not detected"
       }
     },
     "data-protection-policy-information-banner": {
@@ -137,6 +146,16 @@
   },
   "components": {
     "authentication": {
+      "login-form": {
+        "fields": {
+          "login": {
+            "error": "You have not entered your e-mail address or username."
+          },
+          "password": {
+            "error": "You have not entered your password."
+          }
+        }
+      },
       "new-password-input": {
         "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed.",
         "instructions-label": "Your password must comply with the following rules:",
@@ -148,10 +167,15 @@
         "searchLabel": "Keyword search"
       },
       "other-authentication-providers": {
-        "continue-with-featured-identity-provider-link": "Continue with {featuredIdentityProvider}",
-        "login-heading": "Other ways to log in",
+        "login": {
+          "heading": "Other ways to log in",
+          "login-with-featured-identity-provider-link": "Login with {featuredIdentityProvider}"
+        },
         "select-another-organization-link": "Choose another organisation",
-        "signup-heading": "Other ways to sign up"
+        "signup": {
+          "heading": "Other ways to sign up",
+          "signup-with-featured-identity-provider-link": "Register with {featuredIdentityProvider}"
+        }
       },
       "password-reset-demand-form": {
         "actions": {
@@ -165,7 +189,7 @@
           "email": {
             "error-message-invalid": "Your email address is invalid.",
             "label": "Email address",
-            "placeholder": "ex: john.doe@email.com"
+            "placeholder": "e.g. john.smith@email.com"
           }
         },
         "no-email-question": "No email address?",
@@ -207,31 +231,20 @@
           "email": {
             "error": "Your email address is invalid.",
             "label": "Email address",
-            "placeholder": "ex: john.doe@email.fr"
+            "placeholder": "e.g. john.smith@email.com"
           },
           "firstname": {
             "error": "You have not entered your first name.",
             "label": "First name",
-            "placeholder": "ex: John"
+            "placeholder": "e.g. John"
           },
           "lastname": {
             "error": "You have not entered your last name.",
             "label": "Last name",
-            "placeholder": "ex: Doe"
+            "placeholder": "e.g. Smith"
           },
           "legend": "Information required for sign up."
         }
-      }
-    },
-    "campaigns": {
-      "results-loader": {
-        "steps": {
-          "competences": "Calculating scores by skill",
-          "rewards": "Awarding the prizes",
-          "trainings": "Identifying useful training courses"
-        },
-        "subtitle": "One moment, please! I'll be as quick as I can.",
-        "title": "Calculate your current score..."
       }
     },
     "invited": {
@@ -446,7 +459,7 @@
     },
     "authentication": {
       "login": {
-        "signup-button": "Sign up to Pix"
+        "signup-button": "Sign up"
       },
       "sso-selection": {
         "signin": {
@@ -457,7 +470,7 @@
           "link": "Sign up",
           "title": "Don't have an account?"
         },
-        "title": "Choose another organization"
+        "title": "Choose your organization"
       }
     },
     "autonomous-course": {
@@ -1411,7 +1424,7 @@
           "cgu": "I agree to the '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
           "email": {
             "error": "Your email address is invalid.",
-            "help": "(eg. name@example.org)",
+            "help": "(e.g. name@example.org)",
             "label": "Email address"
           },
           "firstname": {
@@ -1551,12 +1564,18 @@
           "yes": "Yes! : {totalYes}"
         },
         "direction": "Look for the answer then turn the card",
+        "navigation": {
+          "currentStep": "Step {current} of {total}"
+        },
         "position": "Card {currentCardPosition}/{totalCards}"
       },
       "grain": {
         "tag": {
           "activity": "activity",
-          "lesson": "lesson"
+          "challenge": "challenge",
+          "discovery": "discovery",
+          "lesson": "lesson",
+          "summary": "summary"
         }
       },
       "modals": {
@@ -1748,7 +1767,7 @@
         "legend": "Information required for sign in.",
         "login": {
           "label": "Email address or username",
-          "placeholder": "ex: jean.dupont@email.com"
+          "placeholder": "e.g. john.smith@email.com"
         },
         "password": {
           "label": "Password"
@@ -1777,7 +1796,7 @@
     },
     "sign-up": {
       "actions": {
-        "login": "Log in to Pix",
+        "login": "Log in",
         "submit": "Sign up"
       },
       "errors": {
@@ -1787,7 +1806,7 @@
       "fields": {
         "email": {
           "error": "Your email address is invalid.",
-          "help": "(eg. name@example.org)",
+          "help": "(e.g. name@example.org)",
           "label": "Email address"
         },
         "firstname": {
@@ -1858,6 +1877,26 @@
         "abstract": "Congratulations, you went all the way !",
         "nonDefinitive": "(non-definitive calculation)",
         "pixScore": "You got {score, number, ::.} Pix"
+      },
+      "hero": {
+        "acquired-badges-title": "Awards received",
+        "bravo": "Congratulations {name}!",
+        "explanations": {
+          "improve": "If you want to improve your score, you can retry certain questions.",
+          "send-results": "Send your results to the course organiser and continue with the recommended training.",
+          "trainings": "To help you progress, discover our training recommendations and find the ones that suit you best."
+        },
+        "mastery-rate": "of success in questions",
+        "retry": {
+          "actions": {
+            "reset": "Reset and try again",
+            "retry": "Replay my course"
+          },
+          "description": "Your organizer invites you to take this course again.",
+          "title": "Improve your results"
+        },
+        "see-trainings": "See trainings",
+        "shared-message": "Thank you for sending us your results."
       },
       "improve": {
         "description": "You can retake some of the questions",

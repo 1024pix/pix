@@ -1,4 +1,3 @@
-import { config } from '../../../../../src/shared/config.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
@@ -9,7 +8,7 @@ import {
   mockLearningContent,
 } from '../../../../test-helper.js';
 
-describe('Certification | Enrolment | Acceptance | user routes', function () {
+describe('Certification | Enrolment | Acceptance | Routes | User', function () {
   let server;
   let options;
   let user;
@@ -263,76 +262,32 @@ describe('Certification | Enrolment | Acceptance | user routes', function () {
     });
 
     describe('Success case', function () {
-      let originalValueFt;
-
-      afterEach(function () {
-        config.featureToggles.isV3EligibilityCheckEnabled = originalValueFt;
-      });
-      context('when V3 feature toggle is enabled', function () {
-        beforeEach(function () {
-          originalValueFt = config.featureToggles.isV3EligibilityCheckEnabled;
-          config.featureToggles.isV3EligibilityCheckEnabled = true;
-        });
-        it('should return a 200 status code response with JSON API serialized isCertifiable', async function () {
-          // given
-          const expectedResponse = {
-            data: {
-              id: `${user.id}`,
-              type: 'isCertifiables',
-              attributes: {
-                'is-certifiable': true,
-                'complementary-certifications': [
-                  {
-                    imageUrl: 'http://badge-image-url.fr',
-                    label: 'PARTNER_LABEL',
-                    isOutdated: false,
-                    isAcquiredExpectedLevel: false,
-                  },
-                ],
-              },
+      it('should return a 200 status code response with JSON API serialized isCertifiable', async function () {
+        // given
+        const expectedResponse = {
+          data: {
+            id: `${user.id}`,
+            type: 'isCertifiables',
+            attributes: {
+              'is-certifiable': true,
+              'complementary-certifications': [
+                {
+                  imageUrl: 'http://badge-image-url.fr',
+                  label: 'PARTNER_LABEL',
+                  isOutdated: false,
+                  isAcquiredExpectedLevel: false,
+                },
+              ],
             },
-          };
+          },
+        };
 
-          // when
-          const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-          // then
-          expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(expectedResponse);
-        });
-      });
-      context('when V3 feature toggle is disabled', function () {
-        beforeEach(function () {
-          originalValueFt = config.featureToggles.isV3EligibilityCheckEnabled;
-          config.featureToggles.isV3EligibilityCheckEnabled = false;
-        });
-        it('should return a 200 status code response with JSON API serialized isCertifiable', async function () {
-          // given
-          const expectedResponse = {
-            data: {
-              id: `${user.id}`,
-              type: 'isCertifiables',
-              attributes: {
-                'is-certifiable': true,
-                'complementary-certifications': [
-                  {
-                    imageUrl: 'http://badge-image-url.fr',
-                    label: 'PARTNER_LABEL',
-                    isOutdated: false,
-                    isAcquiredExpectedLevel: false,
-                  },
-                ],
-              },
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(expectedResponse);
-        });
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResponse);
       });
     });
   });

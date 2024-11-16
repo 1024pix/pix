@@ -12,7 +12,8 @@
           {{@filename}}
           <PixIconButton
             @ariaLabel={{t "pages.sessions.import.step-one.actions.cancel.label"}}
-            @icon="circle-xmark"
+            @iconName="cancel"
+            @plainIcon={{true}}
             @triggerAction={{@removeImport}}
             class="import-page-filename__cancel"
           />

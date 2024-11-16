@@ -1,8 +1,8 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
@@ -62,8 +62,9 @@ export default class SchoolSessionManagement extends Component {
       </p>
       <PixTooltip @id="school-session-info-tooltip" @position="bottom" @isWide="true">
         <:triggerElement>
-          <FaIcon
-            @icon="circle-info"
+          <PixIcon
+            @name="help"
+            @plainIcon={{true}}
             tabindex="0"
             aria-label={{t "navigation.school-sessions.status.aria-label"}}
             aria-describedby="school-session-info-tooltip"

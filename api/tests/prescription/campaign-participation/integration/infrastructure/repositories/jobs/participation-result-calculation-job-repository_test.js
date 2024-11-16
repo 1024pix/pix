@@ -1,5 +1,6 @@
 import { ParticipationResultCalculationJob } from '../../../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { participationResultCalculationJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-result-calculation-job-repository.js';
+import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | participationResultCalculationJobRepository', function () {
@@ -11,9 +12,9 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | part
       // then
       await expect(ParticipationResultCalculationJob.name).to.have.been.performed.withJob({
         name: ParticipationResultCalculationJob.name,
-        retrylimit: 10,
-        retrydelay: 30,
-        retrybackoff: true,
+        retrylimit: JobRetry.FEW_RETRY.retryLimit,
+        retrydelay: JobRetry.FEW_RETRY.retryDelay,
+        retrybackoff: JobRetry.FEW_RETRY.retryBackoff,
         data: { campaignParticipationId: 3 },
       });
     });

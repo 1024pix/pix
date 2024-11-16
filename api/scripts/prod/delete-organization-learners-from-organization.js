@@ -29,6 +29,7 @@ async function deleteOrganizationLearnersFromOrganization(organizationId, date) 
     await usecases.deleteOrganizationLearners({
       organizationLearnerIds: organizationLearnerToDeleteIds,
       userId: engineeringUserId,
+      organizationId,
     });
 
     await _anonymizeOrganizationLearners({ organizationId });

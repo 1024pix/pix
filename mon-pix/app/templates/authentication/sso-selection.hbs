@@ -6,7 +6,7 @@
 
 <AuthenticationLayout class="sso-selection-page">
   <:header>
-    <PixButton @variant="secondary" @triggerAction={{this.goBack}} @iconBefore="arrow-left">
+    <PixButton @variant="secondary" @triggerAction={{this.goBack}} @iconBefore="arrowLeft">
       {{t "common.actions.back"}}
     </PixButton>
   </:header>
@@ -14,15 +14,15 @@
   <:content>
     {{#if this.isSigninRoute}}
       <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
+      <Authentication::SsoSelectionForm />
     {{else}}
       <h1 class="pix-title-m">{{t "pages.sign-up.first-title"}}</h1>
+      <Authentication::SsoSelectionForm @isForSignup={{true}} />
     {{/if}}
-
-    <Authentication::SsoSelectionForm />
 
     {{#if this.isSigninRoute}}
       <section class="sso-selection-page__signup">
-        <h2 class="pix-body-l">{{t "pages.authentication.sso-selection.signup.title"}}</h2>
+        <h2>{{t "pages.authentication.sso-selection.signup.title"}}</h2>
         <LinkTo @route="inscription">{{t "pages.authentication.sso-selection.signup.link"}}</LinkTo>
       </section>
     {{/if}}

@@ -1,48 +1,8 @@
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | target-profile-controller', function () {
-  describe('#updateTargetProfile', function () {
-    context('successful case', function () {
-      it('should succeed', async function () {
-        // given
-        const payload = Symbol('some payload');
-
-        const request = {
-          params: {
-            id: 123,
-          },
-          payload,
-        };
-
-        const attributesToUpdate = Symbol('deserialized attributes to update');
-
-        const dependencies = {
-          usecases: {
-            updateTargetProfile: sinon.stub(),
-          },
-          targetProfileSerializer: {
-            deserialize: sinon.stub().returns(attributesToUpdate),
-          },
-        };
-        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-
-        // when
-        const response = await targetProfileController.updateTargetProfile(request, hFake, dependencies);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-        expect(dependencies.targetProfileSerializer.deserialize).to.have.been.calledOnceWith(payload);
-        expect(dependencies.usecases.updateTargetProfile).to.have.been.calledOnceWithExactly({
-          id: request.params.id,
-          attributesToUpdate,
-        });
-      });
-    });
-  });
-
   describe('#findPaginatedTrainings', function () {
     it('should return trainings summaries', async function () {
       // given

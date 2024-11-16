@@ -33,6 +33,7 @@
 @import 'components/certifications-list-item';
 @import 'components/certifications/certification-ender';
 @import 'components/companion/blocker';
+@import 'components/companion/check';
 @import 'components/congratulations-certification-banner';
 @import 'components/challenge-actions';
 @import 'components/challenge-illustration';
@@ -42,7 +43,6 @@
 @import 'components/circle-chart';
 @import 'components/comparison-window';
 @import 'components/choice-chip';
-@import 'components/pages/campaigns/results-loader';
 @import 'components/reset-campaign-participation-modal';
 @import 'components/tabs';
 
@@ -59,28 +59,30 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/footer';
 @import 'components/form-textfield';
 @import 'components/hexagon-score';
+@import 'components/language-switcher';
 @import 'components/learning-more-tutorial-panel';
 @import 'components/levelup-notif';
 @import 'components/login-form';
 @import 'components/login-or-register';
-@import 'components/module/beta-banner';
-@import 'components/module/details';
-@import 'components/module/grain';
-@import 'components/module/grain/tag';
-@import 'components/module/objectives';
-@import 'components/module/passage';
-@import 'components/module/recap';
-@import 'components/module/stepper';
-@import 'components/module/download';
-@import 'components/module/embed';
-@import 'components/module/flashcards';
-@import 'components/module/flashcards-card';
-@import 'components/module/image';
-@import 'components/module/qcu';
-@import 'components/module/qcm';
-@import 'components/module/qrocm';
-@import 'components/module/separator';
-@import 'components/module/video';
+@import '../components/module/details';
+@import '../components/module/feedback';
+@import '../components/module/grain';
+@import '../components/module/grain/tag';
+@import '../components/module/navbar';
+@import '../components/module/objectives';
+@import '../components/module/passage';
+@import '../components/module/recap';
+@import '../components/module/stepper';
+@import '../components/module/element/download';
+@import '../components/module/element/embed';
+@import '../components/module/element/flashcards/flashcards';
+@import '../components/module/element/flashcards/flashcards-card';
+@import '../components/module/element/image';
+@import '../components/module/element/qcu';
+@import '../components/module/element/qcm';
+@import '../components/module/element/qrocm';
+@import '../components/module/element/separator';
+@import '../components/module/element/video';
 @import 'components/navbar-burger-menu';
 @import 'components/navbar-desktop-menu';
 @import 'components/navbar-desktop-header';
@@ -133,7 +135,6 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/pix-toggle';
 @import 'components/skip-link';
 @import 'components/campaigns';
-@import 'components/modulix/feedback';
 
 /* Styles for colocated components */
 @import 'authentication-layout';
@@ -141,9 +142,9 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'authentication/new-password-input/password-rule';
 @import 'authentication/oidc-provider-selector';
 @import 'authentication/other-authentication-providers';
-@import 'authentication/password-reset-demand';
-@import 'authentication/password-reset-form/password-reset-form';
-@import 'authentication/signin-form';
+@import 'authentication/password-reset-demand/password-reset-demand';
+@import 'authentication/password-reset-form';
+@import 'authentication/login-form';
 @import 'authentication/signup-form';
 @import 'authentication/sso-selection-form';
 
@@ -171,7 +172,6 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/account-recovery';
 @import 'pages/send-profile';
 @import 'pages/sign-form';
-@import 'pages/skill-review';
 @import 'pages/sso-selection';
 @import 'pages/terms-of-service';
 @import 'pages/update-expired-password-form';

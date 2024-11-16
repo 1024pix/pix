@@ -7,7 +7,7 @@ import Competence from '../tubes-details/competence';
     <div class="area-border {{@color}}"></div>
     <PixCollapsible class="{{@color}} list-competences">
       <:title>{{@title}}</:title>
-      <:default>
+      <:content>
         {{#each @competences as |competence|}}
           <Competence
             @title={{competence.title}}
@@ -16,7 +16,7 @@ import Competence from '../tubes-details/competence';
             @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
           />
         {{/each}}
-      </:default>
+      </:content>
     </PixCollapsible>
   </div>
 </template>

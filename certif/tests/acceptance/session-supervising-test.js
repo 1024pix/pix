@@ -572,7 +572,7 @@ module('Acceptance | Session supervising', function (hooks) {
             await click(screen.getByLabelText('Le site à visiter est indisponible/en maintenance/inaccessible'));
 
             const modal = await screen.findByRole('dialog');
-            await click(within(modal).getByLabelText('Fermer'));
+            await click(within(modal).getByRole('button', { name: 'Fermer' }));
 
             // then
             const checkedRadioButtons = screen.queryAllByRole('radio', { checked: true });

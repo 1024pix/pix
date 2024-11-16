@@ -35,6 +35,12 @@ const createRelease = async function () {
     url: lcmsConfig.url + '/releases',
     headers: { Authorization: `Bearer ${lcmsConfig.apiKey}` },
   });
+
+  if (!response.isSuccessful) {
+    logger.error(`An error occurred while creating a release on ${lcmsConfig.url}: ${JSON.stringify(response)}`);
+    throw new Error(`An error occurred while creating a release on ${lcmsConfig.url}`);
+  }
+
   return response.data.content;
 };
 

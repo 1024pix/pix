@@ -1,9 +1,12 @@
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
-const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
+const { STARTED, TO_SHARE, SHARED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function () {
   describe('#findPaginatedByCampaignId', function () {
@@ -174,7 +177,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         await databaseBuilder.commit();
       });
 
-      it('should return the certification profile info and pix score', async function () {
+      it('should return the certification profile info, pix score and count', async function () {
         // when
         const results =
           await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
@@ -188,6 +191,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
             participantExternalId: 'JeBu',
             sharedAt,
             pixScore: 46,
+            sharedProfileCount: 1,
             certifiable: false,
             certifiableCompetencesCount: 1,
           }),
@@ -254,6 +258,403 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         // then
         expect(results.data).to.have.lengthOf(1);
         expect(results.data[0].id).to.equal(oldCampaignParticipation.id);
+      });
+    });
+
+    context('participations count', function () {
+      beforeEach(async function () {
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          sharedAt: new Date('2020-01-02'),
+          createdAt: new Date('2020-01-02'),
+          isImproved: true,
+          userId: organizationLearner.userId,
+          organizationLearnerId: organizationLearner.id,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      describe('when participant has only one shared participation', function () {
+        it('should count one participation', async function () {
+          // when
+          const results =
+            await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+          // then
+          expect(results.data[0].sharedProfileCount).to.equal(1);
+        });
+      });
+      describe('when participant has multiple participations', function () {
+        it('should return the count of shared participations only', async function () {
+          // given
+          databaseBuilder.factory.buildCampaignParticipation({
+            isImproved: true,
+            sharedAt: new Date('2022-01-02'),
+            createdAt: new Date('2022-01-02'),
+            status: SHARED,
+            campaignId,
+            userId: organizationLearner.userId,
+            organizationLearnerId: organizationLearner.id,
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            isImproved: false,
+            sharedAt: null,
+            createdAt: new Date('2022-01-02'),
+            status: TO_SHARE,
+            campaignId,
+            userId: organizationLearner.userId,
+            organizationLearnerId: organizationLearner.id,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results =
+            await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+          // then
+          expect(results.data[0].sharedProfileCount).to.equal(2);
+        });
+
+        it('should not count a deleted participation', async function () {
+          // given deleted participation
+          databaseBuilder.factory.buildCampaignParticipation({
+            isImproved: true,
+            sharedAt: new Date('2022-01-02'),
+            createdAt: new Date('2022-01-02'),
+            deletedAt: new Date('2022-01-02'),
+            status: SHARED,
+            campaignId,
+            userId: organizationLearner.userId,
+            organizationLearnerId: organizationLearner.id,
+          });
+
+          // given not shared participation
+          databaseBuilder.factory.buildCampaignParticipation({
+            isImproved: false,
+            sharedAt: null,
+            createdAt: new Date('2022-01-02'),
+            status: TO_SHARE,
+            campaignId,
+            userId: organizationLearner.userId,
+            organizationLearnerId: organizationLearner.id,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results =
+            await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+          // then
+          expect(results.data[0].sharedProfileCount).to.equal(1);
+        });
+      });
+
+      describe('when there is another participant for same campaign', function () {
+        it('should only count shared participations for same learner', async function () {
+          // given second organisation learner and his participation
+          const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          databaseBuilder.factory.buildCampaignParticipation({
+            isImproved: false,
+            sharedAt: new Date('2022-01-02'),
+            createdAt: new Date('2022-01-02'),
+            status: SHARED,
+            campaignId,
+            userId: secondOrganizationLearner.userId,
+            organizationLearnerId: secondOrganizationLearner.id,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results =
+            await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+          // then
+          expect(results.data[0].sharedProfileCount).to.equal(1);
+          expect(results.data[1].sharedProfileCount).to.equal(1);
+        });
+      });
+
+      describe('when participant has participations to different campaigns', function () {
+        it('should only count shared participations for same campaign', async function () {
+          // given second campaign and participation
+          const secondCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            isImproved: false,
+            sharedAt: new Date('2022-01-02'),
+            createdAt: new Date('2022-01-02'),
+            status: SHARED,
+            campaignId: secondCampaignId,
+            userId: organizationLearner.userId,
+            organizationLearnerId: organizationLearner.id,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results =
+            await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+          // then
+          expect(results.data[0].sharedProfileCount).to.equal(1);
+        });
+      });
+    });
+
+    context('evolution', function () {
+      let userId,
+        organizationId,
+        organizationLearnerId,
+        campaign,
+        recentParticipationPixScore,
+        recentParticipationSharedAt;
+
+      beforeEach(async function () {
+        userId = databaseBuilder.factory.buildUser({}).id;
+
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        organizationLearnerId = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Sarah',
+          lastName: 'Croche',
+          organizationId,
+          userId,
+        }).id;
+
+        campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.PROFILES_COLLECTION,
+          organizationId,
+          multipleSendings: true,
+        });
+
+        recentParticipationPixScore = 40;
+        recentParticipationSharedAt = new Date('2024-01-06');
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          organizationLearnerId,
+          pixScore: recentParticipationPixScore,
+          isImproved: true,
+          createdAt: new Date('2024-01-05'),
+          sharedAt: recentParticipationSharedAt,
+          status: SHARED,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          organizationLearnerId,
+          pixScore: null,
+          isImproved: false,
+          createdAt: new Date('2024-01-07'),
+          sharedAt: null,
+          status: TO_SHARE,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      describe('when participant has only one shared participation, and the other is not shared', function () {
+        it('should return null for evolution', async function () {
+          // when
+          const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+            campaign.id,
+          );
+
+          // then
+          expect(results.data[0]).to.deep.include({
+            pixScore: recentParticipationPixScore,
+            evolution: null,
+          });
+        });
+      });
+
+      describe('when participant has 2 shared participation', function () {
+        const previousParticipationPixScore = 20;
+        const previousParticipationSharedAt = new Date('2024-01-04');
+
+        it('should return correct evolution', async function () {
+          // given
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            userId,
+            organizationLearnerId,
+            pixScore: previousParticipationPixScore,
+            isImproved: true,
+            createdAt: new Date('2024-01-03'),
+            sharedAt: previousParticipationSharedAt,
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+            campaign.id,
+          );
+
+          // then
+          expect(results.data[0]).to.deep.include({
+            pixScore: recentParticipationPixScore,
+            evolution: 'increase',
+          });
+        });
+
+        it('should return null for evolution when previous participation is deleted', async function () {
+          // given
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            userId,
+            organizationLearnerId,
+            pixScore: previousParticipationPixScore,
+            isImproved: true,
+            createdAt: new Date('2024-01-03'),
+            sharedAt: previousParticipationSharedAt,
+            deletedAt: new Date('2024-01-05'),
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+            campaign.id,
+          );
+
+          // then
+          expect(results.data[0]).to.deep.include({
+            pixScore: recentParticipationPixScore,
+            evolution: null,
+          });
+        });
+
+        it('should return null for evolution when learner has 2 participations to different campaigns', async function () {
+          // given
+          const otherCampaign = databaseBuilder.factory.buildCampaign({
+            type: CampaignTypes.PROFILES_COLLECTION,
+            organizationId,
+            multipleSendings: true,
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: otherCampaign.id,
+            userId,
+            organizationLearnerId,
+            pixScore: previousParticipationPixScore,
+            isImproved: true,
+            createdAt: new Date('2024-01-03'),
+            sharedAt: previousParticipationSharedAt,
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+            campaign.id,
+          );
+
+          // then
+          expect(results.data[0]).to.deep.include({
+            pixScore: recentParticipationPixScore,
+            evolution: null,
+          });
+        });
+
+        it('should return null for evolution when participations are from different learners', async function () {
+          // given
+          const otherUserId = databaseBuilder.factory.buildUser({}).id;
+
+          const otherOrganizationLearnerId =
+            databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+              firstName: 'Martin',
+              lastName: 'Sapin',
+              organizationId,
+              otherUserId,
+            }).id;
+
+          const otherOrganizationLearnerParticipation = databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            userId: otherUserId,
+            organizationLearnerId: otherOrganizationLearnerId,
+            pixScore: 0,
+            isImproved: false,
+            createdAt: new Date('2024-01-03'),
+            sharedAt: new Date('2024-01-04'),
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+            campaign.id,
+          );
+
+          // then
+          expect(results.data[0]).to.deep.include({
+            pixScore: recentParticipationPixScore,
+            evolution: null,
+          });
+
+          expect(results.data[1]).to.deep.include({
+            pixScore: otherOrganizationLearnerParticipation.pixScore,
+            evolution: null,
+          });
+        });
+      });
+
+      describe('when participant has a third shared participation', function () {
+        it('should return correct evolution, comparing recent and previous, ignoring old', async function () {
+          const oldParticipationPixScore = 20;
+          const oldParticipationSharedAt = new Date('2024-01-02');
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            userId,
+            organizationLearnerId,
+            pixScore: oldParticipationPixScore,
+            isImproved: true,
+            createdAt: new Date('2024-01-01'),
+            sharedAt: oldParticipationSharedAt,
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          const previousParticipationPixScore = 60;
+          const previousParticipationSharedAt = new Date('2024-01-04');
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            userId,
+            organizationLearnerId,
+            pixScore: previousParticipationPixScore,
+            isImproved: true,
+            createdAt: new Date('2024-01-03'),
+            sharedAt: previousParticipationSharedAt,
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+            campaign.id,
+          );
+
+          // then
+          expect(results.data[0]).to.deep.include({
+            pixScore: recentParticipationPixScore,
+            evolution: 'decrease',
+          });
+        });
       });
     });
 

@@ -14,6 +14,7 @@ class ShareableCertificate {
     certifiedBadgeImages,
     resultCompetenceTree = null,
     maxReachableLevelOnCertificationDate,
+    version,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -29,6 +30,7 @@ class ShareableCertificate {
     this.certifiedBadgeImages = certifiedBadgeImages;
     this.resultCompetenceTree = resultCompetenceTree;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
+    this.version = version;
   }
 
   setResultCompetenceTree(resultCompetenceTree) {

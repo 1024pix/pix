@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as campaignParticipationOverviewRepository from '../../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
 /** TODO
  * Internal API Needed For
  * campaignRepository.getByCode
@@ -16,6 +15,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as divisionRepository from '../../../campaign/infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../../campaign/infrastructure/repositories/group-repository.js';
+import * as campaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';

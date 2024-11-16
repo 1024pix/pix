@@ -2,8 +2,9 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
+import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {

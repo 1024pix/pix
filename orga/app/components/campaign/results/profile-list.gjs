@@ -9,6 +9,8 @@ import { gt } from 'ember-truth-helpers';
 import TableHeader from '../../table/header';
 import TablePaginationControl from '../../table/pagination-control';
 import CampaignParticipationFilters from '../filter/participation-filters';
+import EvolutionHeader from './evolution-header';
+import ParticipationEvolutionIcon from './participation-evolution-icon';
 
 <template>
   <section ...attributes>
@@ -28,6 +30,7 @@ import CampaignParticipationFilters from '../filter/participation-filters';
 
     <div class="panel">
       <table class="table content-text content-text--small">
+        <caption class="screen-reader-only">{{t "pages.profiles-list.table.caption"}}</caption>
         <colgroup class="table__column">
           <col />
           <col />
@@ -36,8 +39,12 @@ import CampaignParticipationFilters from '../filter/participation-filters';
           {{/if}}
           <col />
           <col />
+          {{#if @campaign.multipleSendings}}
+            <col />
+          {{/if}}
           <col class="hide-on-mobile" />
           <col class="hide-on-mobile" />
+          <col />
         </colgroup>
         <thead>
           <tr>
@@ -48,12 +55,25 @@ import CampaignParticipationFilters from '../filter/participation-filters';
             {{/if}}
             <TableHeader @align="center">{{t "pages.profiles-list.table.column.sending-date.label"}}</TableHeader>
             <TableHeader @align="center">{{t "pages.profiles-list.table.column.pix-score.label"}}</TableHeader>
+            {{#if @campaign.multipleSendings}}
+              <TableHeader @align="center">
+                <EvolutionHeader
+                  @tooltipContent={{t "pages.profiles-list.table.evolution-tooltip.content"}}
+                /></TableHeader>
+
+            {{/if}}
             <TableHeader @align="center" class="hide-on-mobile">{{t
                 "pages.profiles-list.table.column.certifiable"
               }}</TableHeader>
             <TableHeader @align="center" class="hide-on-mobile">{{t
                 "pages.profiles-list.table.column.competences-certifiables"
               }}</TableHeader>
+
+            {{#if @campaign.multipleSendings}}
+              <TableHeader @align="center" aria-label={{t "pages.profiles-list.table.column.ariaSharedProfileCount"}}>
+                {{t "pages.profiles-list.table.column.sharedProfileCount"}}
+              </TableHeader>
+            {{/if}}
           </tr>
         </thead>
 
@@ -93,6 +113,8 @@ import CampaignParticipationFilters from '../filter/participation-filters';
                     </PixTag>
                   {{/if}}
                 </td>
+                <td class="table__column--center">
+                  <ParticipationEvolutionIcon @evolution={{profile.evolution}} /></td>
                 <td class="table__column--center hide-on-mobile">
                   {{#if profile.certifiable}}
                     <PixTag @color="green-light">{{t "pages.profiles-list.table.column.certifiable"}}</PixTag>
@@ -100,6 +122,9 @@ import CampaignParticipationFilters from '../filter/participation-filters';
                 </td>
                 <td class="table__column--center hide-on-mobile">
                   {{profile.certifiableCompetencesCount}}
+                </td>
+                <td class="table__column--center">
+                  {{profile.sharedProfileCount}}
                 </td>
               </tr>
             {{/each}}

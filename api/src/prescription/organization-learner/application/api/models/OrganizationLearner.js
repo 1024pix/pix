@@ -1,9 +1,10 @@
 export class OrganizationLearner {
-  constructor({ id, firstName, lastName, organizationId, ...attributes }) {
+  constructor({ id, firstName, lastName, features, organizationId, ...attributes }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.division = attributes['Libellé classe'];
+    this.features = features;
     this.organizationId = organizationId;
+    this.division = attributes['Libellé classe'];
   }
 }

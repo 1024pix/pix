@@ -2,11 +2,19 @@
   @extend %pix-body-l;
 
   --modulix-max-content-width: 740px;
-  --modulix-radius: 16px;
+  --modulix-radius-xs: 4px;
   --modulix-radius-s: 8px;
+  --modulix-radius: 16px;
   --modulix-radius-l: 24px;
+  --modulix-z-index-above-all: 2;
 
   flex-grow: 1;
   color: var(--pix-neutral-900);
   background: var(--pix-neutral-0);
+}
+
+.modulix-beta-banner {
+  --modulix-z-index-above-all: 2;
+
+  z-index: var(--modulix-z-index-above-all);
 }

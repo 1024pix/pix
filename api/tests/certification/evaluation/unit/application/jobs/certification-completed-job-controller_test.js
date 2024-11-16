@@ -2,6 +2,7 @@ import { CertificationCompletedJob } from '../../../../../../lib/domain/events/C
 import { CertificationScoringCompleted } from '../../../../../../lib/domain/events/CertificationScoringCompleted.js';
 import { CertificationCompletedJobController } from '../../../../../../src/certification/evaluation/application/jobs/certification-completed-job-controller.js';
 import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import {
   ABORT_REASONS,
   CertificationCourse,
@@ -81,6 +82,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           id: assessmentId,
           certificationCourseId,
           userId,
+          version: AlgorithmEngineVersion.V2,
         });
         certificationAssessmentRepository.get.withArgs(assessmentId).resolves(certificationAssessment);
       });
@@ -265,6 +267,53 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           });
         });
       });
+
+      context('when assessment only has only complementary certification challenges', function () {
+        it('should return', async function () {
+          // given
+          const certificationAssessmentWithOnlyComplementaryCertificationChallenges =
+            domainBuilder.buildCertificationAssessment({
+              id: assessmentId,
+              certificationCourseId,
+              userId,
+              version: AlgorithmEngineVersion.V2,
+              certificationChallenges: [
+                domainBuilder.buildCertificationChallengeWithType({
+                  id: 1234,
+                  certifiableBadgeKey: 'TOTO',
+                }),
+                domainBuilder.buildCertificationChallengeWithType({
+                  id: 567,
+                  certifiableBadgeKey: 'TOTO',
+                }),
+                domainBuilder.buildCertificationChallengeWithType({
+                  id: 8910,
+                  certifiableBadgeKey: 'TOTO',
+                }),
+              ],
+            });
+          certificationAssessmentRepository.get
+            .withArgs(assessmentId)
+            .resolves(certificationAssessmentWithOnlyComplementaryCertificationChallenges);
+
+          const dependencies = {
+            assessmentResultRepository,
+            certificationAssessmentRepository,
+            certificationCourseRepository,
+            competenceMarkRepository,
+            scoringCertificationService,
+            services,
+            events,
+          };
+
+          // when
+          await certificationCompletedJobController.handle({ data, dependencies });
+
+          // then
+          expect(certificationCourseRepository.update).to.not.have.been.called;
+          expect(events.eventDispatcher.dispatch).to.not.have.been.called;
+        });
+      });
     });
 
     context('when certification is V3', function () {
@@ -285,7 +334,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           certificationCourseId,
           userId,
           createdAt: Symbol('someCreationDate'),
-          version: 3,
+          version: AlgorithmEngineVersion.V3,
         };
         certificationAssessmentRepository.get.withArgs(assessmentId).resolves(certificationAssessment);
         certificationCourse = domainBuilder.buildCertificationCourse({

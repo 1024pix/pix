@@ -1,7 +1,7 @@
 import { supOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sup-organization-management-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
+import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | sup-organization-management-controller', function () {
   let organizationId;

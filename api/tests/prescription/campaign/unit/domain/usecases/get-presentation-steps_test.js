@@ -12,6 +12,7 @@ const { FRENCH_SPOKEN } = LOCALE;
 describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
   let badgeRepository;
   let campaignRepository;
+  let campaignParticipationRepository;
   let learningContentRepository;
 
   const locale = FRENCH_SPOKEN;
@@ -22,6 +23,9 @@ describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
     campaignRepository = {
       getByCode: sinon.stub(),
       checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
+    };
+    campaignParticipationRepository = {
+      findOneByCampaignIdAndUserId: sinon.stub(),
     };
     learningContentRepository = { findByCampaignId: sinon.stub() };
   });
@@ -75,7 +79,7 @@ describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
         const campaignId = Symbol('campaign-id');
 
         campaignRepository.getByCode.withArgs(campaignCode).resolves({ id: campaignId });
-        campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
+        campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ campaignId, userId }).resolves(null);
 
         // when
         const error = await catchErr(getPresentationSteps)({
@@ -83,6 +87,7 @@ describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
           campaignCode,
           locale,
           campaignRepository,
+          campaignParticipationRepository,
           badgeRepository,
           learningContentRepository,
         });
@@ -98,7 +103,9 @@ describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
         const campaignId = Symbol('campaign-id');
 
         campaignRepository.getByCode.withArgs(campaignCode).resolves({ id: campaignId });
-        campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
+        campaignParticipationRepository.findOneByCampaignIdAndUserId
+          .withArgs({ campaignId, userId })
+          .resolves(Symbol('a campaign participation'));
 
         // when
         await getPresentationSteps({
@@ -106,6 +113,7 @@ describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
           campaignCode,
           locale,
           campaignRepository,
+          campaignParticipationRepository,
           badgeRepository,
           learningContentRepository,
         });

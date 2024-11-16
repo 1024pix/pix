@@ -4,6 +4,5 @@ export default class FeatureToggle extends Model {
   @attr('boolean') isNewAuthenticationDesignEnabled;
   @attr('boolean') isTextToSpeechButtonEnabled;
   @attr('boolean') showNewCampaignPresentationPage;
-  @attr('boolean') showNewResultPage;
   @attr('boolean') isPixCompanionEnabled;
 }

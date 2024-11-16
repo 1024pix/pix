@@ -109,4 +109,47 @@ module('Unit | Model | subscription', function (hooks) {
       assert.false(isCore);
     });
   });
+
+  module('get isComplementary', function () {
+    module('when subscription is COMPLEMENTARY', function () {
+      test('it should return true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const habilitations = [
+          {
+            id: 123,
+            label: 'Pix+Droit',
+            key: 'DROIT',
+          },
+        ];
+        const complementarySubscription = store.createRecord('subscription', {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: habilitations[0].id,
+        });
+
+        // when
+        const isComplementary = complementarySubscription.isComplementary;
+
+        // then
+        assert.true(isComplementary);
+      });
+    });
+
+    module('when subscription is not COMPLEMENTARY', function () {
+      test('it should return false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const coreSubscription = store.createRecord('subscription', {
+          type: SUBSCRIPTION_TYPES.CORE,
+          complementaryCertificationId: null,
+        });
+
+        // when
+        const isComplementary = coreSubscription.isComplementary;
+
+        // then
+        assert.false(isComplementary);
+      });
+    });
+  });
 });

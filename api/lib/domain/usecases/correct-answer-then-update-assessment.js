@@ -165,13 +165,13 @@ const correctAnswerThenUpdateAssessment = async function ({
   let certificationCandidate;
 
   if (assessment.isCertification()) {
-    const onGoingCertificationChallengeLiveAlert =
-      await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+    const ongoingOrValidatedCertificationChallengeLiveAlert =
+      await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
         challengeId: challenge.id,
         assessmentId: assessment.id,
       });
 
-    if (onGoingCertificationChallengeLiveAlert) {
+    if (ongoingOrValidatedCertificationChallengeLiveAlert) {
       throw new ForbiddenAccess('An alert has been set.');
     }
 

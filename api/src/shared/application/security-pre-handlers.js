@@ -468,7 +468,7 @@ async function checkUserDoesNotBelongsToScoOrganizationManagingStudents(
     return _replyForbiddenError(h);
   }
 
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId || request.params.id;
 
   const isOrganizationScoManagingStudent = await dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute({
     organizationId,
@@ -563,7 +563,7 @@ async function checkUserBelongsToLearnersOrganization(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationLearnerId = request.params.id;
+  const organizationLearnerId = request.params.organizationLearnerId || request.params.id;
 
   let belongsToLearnersOrganization;
 
@@ -759,6 +759,20 @@ function makeCheckOrganizationHasFeature(featureKey) {
     }
   };
 }
+async function checkOrganizationHasFeature(request, h, dependencies = { checkOrganizationHasFeatureUseCase }) {
+  try {
+    const organizationId = request.params.organizationId || request.params.id;
+    const featureKey = request.params.featureKey;
+
+    await dependencies.checkOrganizationHasFeatureUseCase.execute({
+      organizationId,
+      featureKey,
+    });
+    return h.response(true);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
 
 function _noOrganizationFound(error) {
   return error instanceof NotFoundError;
@@ -775,6 +789,7 @@ const securityPreHandlers = {
   checkAuthorizationToAccessCampaign,
   checkCertificationCenterIsNotScoManagingStudents,
   checkIfUserIsBlocked,
+  checkOrganizationHasFeature,
   checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
   checkSchoolSessionIsActive,

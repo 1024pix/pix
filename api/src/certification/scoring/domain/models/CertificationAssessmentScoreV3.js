@@ -43,7 +43,13 @@ class CertificationAssessmentScoreV3 {
       allAnswers,
     });
 
-    if (_shouldDowngradeCapacity({ flashAssessmentAlgorithmConfiguration, answers: allAnswers, abortReason })) {
+    if (
+      _shouldDowngradeCapacity({
+        maximumAssessmentLength: flashAssessmentAlgorithmConfiguration.maximumAssessmentLength,
+        answers: allAnswers,
+        abortReason,
+      })
+    ) {
       capacity = scoringDegradationService.downgradeCapacity({
         algorithm,
         capacity,

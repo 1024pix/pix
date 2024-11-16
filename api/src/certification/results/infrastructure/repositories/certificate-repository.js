@@ -141,6 +141,7 @@ function _selectCertificationAttestations() {
       userId: 'certification-courses.userId',
       date: 'certification-courses.createdAt',
       deliveredAt: 'sessions.publishedAt',
+      version: 'sessions.version',
       verificationCode: 'certification-courses.verificationCode',
       certificationCenter: 'sessions.certificationCenter',
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
@@ -182,6 +183,7 @@ function _selectPrivateCertificates() {
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
         )`),
+    version: 'sessions.version',
   });
 }
 
@@ -201,6 +203,7 @@ function _selectShareableCertificates() {
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
       pixScore: 'assessment-results.pixScore',
       assessmentResultId: 'assessment-results.id',
+      version: 'sessions.version',
       competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")

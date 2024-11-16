@@ -195,7 +195,7 @@ module('Unit | Service | pix-companion', function (hooks) {
 
   module('#isExtensionEnabled', function () {
     module('when the feature toggle isPixCompanionEnabled is false', function () {
-      test('always return true', async function (assert) {
+      test('always returns true', function (assert) {
         // Given
         pixCompanion.featureToggles.featureToggles.isPixCompanionEnabled = false;
 
@@ -204,6 +204,55 @@ module('Unit | Service | pix-companion', function (hooks) {
 
         // Then
         assert.true(pixCompanion.isExtensionEnabled);
+      });
+    });
+  });
+
+  module('#hasMinimalVersionForCertification', function () {
+    module('when extension is not detected', function () {
+      test('returns false', function (assert) {
+        // given
+        pixCompanion._isExtensionEnabled = false;
+        pixCompanion.version = '0.0.1';
+
+        // then
+        assert.false(pixCompanion.hasMinimalVersionForCertification);
+      });
+    });
+
+    module('when extension is detected', function (hooks) {
+      hooks.beforeEach(function () {
+        pixCompanion._isExtensionEnabled = true;
+      });
+
+      module('when version is known and is 0.0.5 or greater', function () {
+        test('returns true', function (assert) {
+          // given
+          pixCompanion.version = '0.0.10';
+
+          // then
+          assert.true(pixCompanion.hasMinimalVersionForCertification);
+        });
+      });
+
+      module('when version is known and is lower than 0.0.5', function () {
+        test('returns false', function (assert) {
+          // given
+          pixCompanion.version = '0.0.4';
+
+          // then
+          assert.false(pixCompanion.hasMinimalVersionForCertification);
+        });
+      });
+
+      module('when version is unknown', function () {
+        test('returns true', function (assert) {
+          // given
+          pixCompanion.version = undefined;
+
+          // then
+          assert.true(pixCompanion.hasMinimalVersionForCertification);
+        });
       });
     });
   });

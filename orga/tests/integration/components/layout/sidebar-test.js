@@ -56,7 +56,6 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: '1' });
         canAccessCampaignsPage = true;
-        canAccessParticipantsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -125,7 +124,6 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = Object.create({ id: '1', type: 'PRO' });
-        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -146,7 +144,6 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: '1', type: 'SUP' });
         isSUPManagingStudents = true;
-        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -165,7 +162,6 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: '1', type: 'SUP' });
         isSUPManagingStudents = false;
-        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -187,7 +183,6 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
         organization = Object.create({ id: '1', type: 'SCO' });
         isSCOManagingStudents = true;
         canAccessMissionsPage = false;
-        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -206,7 +201,6 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: '1', type: 'SCO' });
         isSCOManagingStudents = false;
-        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -306,7 +300,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       );
     });
 
-    test('should not display Campagne and Participants menus', async function (assert) {
+    test('should not display Campagne', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 5 });
         canAccessMissionsPage = true;
@@ -318,9 +312,22 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       const screen = await render(hbs`<Layout::Sidebar />`);
 
       assert.dom(screen.queryByText('Campagnes')).doesNotExist();
-      assert.dom(screen.queryByText('Participants')).doesNotExist();
       assert.dom(screen.queryByText('Étudiants')).doesNotExist();
-      assert.dom(screen.queryByText('Élèves')).doesNotExist();
+    });
+  });
+
+  module('When the user has the attestations feature', function () {
+    test('should display Attestations entry with link to attestation page', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        canAccessAttestationsPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      const attestationsLink = screen.getByRole('link', { name: t('navigation.main.attestations') });
+      assert.dom(attestationsLink).hasAttribute('href', '/attestations');
     });
   });
 

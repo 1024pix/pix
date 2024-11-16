@@ -1,0 +1,14 @@
+.element-image {
+  &__container {
+    margin: 0 auto var(--pix-spacing-3x) auto;
+  }
+}
+
+.element-image-container {
+  &__image {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    border-radius: var(--modulix-radius-s);
+  }
+}

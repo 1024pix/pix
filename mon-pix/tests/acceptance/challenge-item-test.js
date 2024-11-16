@@ -572,6 +572,64 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         assert.dom(screen.getByText('Mode focus')).exists();
       });
     });
+
+    module('when a challenge is focused and timed', function () {
+      test('should display focus first then timer information page', async function (assert) {
+        // given
+        const user = server.create('user', 'withEmail');
+        await authenticate(user);
+
+        const focusedCertificationChallengeWarningManager = this.owner.lookup(
+          'service:focused-certification-challenge-warning-manager',
+        );
+        focusedCertificationChallengeWarningManager.reset();
+
+        assessment = server.create('assessment', 'ofCertificationType');
+        server.create('challenge', 'forCertification', 'QCM', 'withFocused', { timer: 60 });
+
+        const certificationCourse = server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 2,
+          firstName: 'Alin',
+          lastName: 'Cendy',
+        });
+        assessment = certificationCourse.assessment;
+
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        assert
+          .dom(
+            screen.getByRole('heading', {
+              name: 'Mode focus',
+              level: 1,
+            }),
+          )
+          .exists();
+
+        // when
+        await click(screen.getByRole('button', { name: 'Je suis prêt' }));
+
+        // then
+        assert
+          .dom(
+            screen.getByRole('heading', {
+              name: 'Vous disposerez de 1 minute pour réussir la question suivante.',
+              level: 1,
+            }),
+          )
+          .exists();
+
+        // when
+        await click(screen.getByRole('button', { name: `Commencer l'épreuve` }));
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Mode Focus', level: 3 })).exists();
+        assert.dom(screen.getByText('1:00')).exists();
+      });
+    });
   });
 
   module('when assessment is v2 certification', function (hooks) {

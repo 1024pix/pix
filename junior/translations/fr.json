@@ -8,6 +8,13 @@
       "student-data-protection-policy-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves"
     }
   },
+  "components": {
+    "oralization-button": {
+      "play": "J'écoute",
+      "stop": "Stop",
+      "label": "Lire la consigne à haute voix"
+    }
+  },
   "pages": {
     "pix-junior": "Pix Junior",
     "challenge": {

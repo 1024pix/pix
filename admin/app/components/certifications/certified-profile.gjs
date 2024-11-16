@@ -1,8 +1,9 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { concat } from '@ember/helper';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { pageTitle } from 'ember-page-title';
 import partition from 'lodash/partition';
 import ENV from 'pix-admin/config/environment';
 
@@ -70,62 +71,85 @@ export default class CertifiedProfile extends Component {
   }
 
   <template>
-    {{#each this.certifiedCompetenceList as |certifiedCompetence|}}
-      <section class="page-section competence">
-        <span class="competence__border competence__border--{{certifiedCompetence.certifiedArea.color}}"></span>
+    {{pageTitle "Certif " @certifiedProfile.id " Profil | Pix Admin" replace=true}}
+    <div class="profile">
+      <section class="page-section profile__header">
         <div>
-          <header class="competence__header">
-            <h2 class="competence__title">{{certifiedCompetence.name}}</h2>
-            <sub class="competence__subtitle">{{certifiedCompetence.certifiedArea.name}}</sub>
-          </header>
-          <table class="table-admin">
-            <thead>
-              <tr>
-                <th class="table__column table__column--wide">Sujet</th>
-                {{#each this.difficultyLevels as |difficultyLevel|}}
-                  <th class="table__column table__column--small table__column--center">Niveau {{difficultyLevel}}</th>
-                {{/each}}
-              </tr>
-            </thead>
-            <tbody>
-              {{#each certifiedCompetence.certifiedTubes as |certifiedTube|}}
-                <tr>
-                  <td>{{certifiedTube.name}}</td>
-                  {{#each certifiedTube.certifiedSkills as |certifiedSkill|}}
-                    <td class="table__column--center skill-column">
-                      {{#if certifiedSkill.hasBeenAskedInCertif}}
-                        <PixTooltip @position="bottom">
-                          <:triggerElement>
-                            <FaIcon
-                              @icon="check-double"
-                              class="skill-column--tested-in-certif"
-                              aria-label={{certifiedSkill.name}}
-                            />
-                          </:triggerElement>
-                          <:tooltip>{{concat certifiedSkill.id " " certifiedSkill.name}}</:tooltip>
-                        </PixTooltip>
-                      {{else if certifiedSkill}}
-                        <PixTooltip @position="bottom">
-                          <:triggerElement>
-                            <FaIcon @icon="check" class="skill-column--check" aria-label={{certifiedSkill.name}} />
-                          </:triggerElement>
-                          <:tooltip>{{concat certifiedSkill.id " " certifiedSkill.name}}</:tooltip>
-                        </PixTooltip>
-                      {{else}}
-                        <FaIcon @icon="xmark" class="skill-column--uncheck" />
-                      {{/if}}
-                    </td>
-                  {{/each}}
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
+          <p>ID du compte Pix du candidat: {{@certifiedProfile.userId}}</p>
+          <p>ID de la certification du candidat: {{@certifiedProfile.id}}</p>
+        </div>
+        <div class="legend">
+          <p>
+            <PixIcon @name="doneAll" class="skill-icon skill-icon--tested-in-certif" />
+            Acquis proposé en certification
+          </p>
+          <p>
+            <PixIcon @name="check" class="skill-icon skill-icon--check" />
+            Acquis validé en direct ou par inférence en positionnement au moment du test de certification
+          </p>
         </div>
       </section>
-    {{else}}
-      <section class="page-section">
-        <div class="table__empty">Profil certifié vide.</div>
-      </section>
-    {{/each}}
+      {{#each this.certifiedCompetenceList as |certifiedCompetence|}}
+        <section class="page-section competence">
+          <span class="competence__border competence__border--{{certifiedCompetence.certifiedArea.color}}"></span>
+          <div>
+            <div class="competence__header">
+              <h2 class="competence__title">{{certifiedCompetence.name}}</h2>
+              <sub class="competence__subtitle">{{certifiedCompetence.certifiedArea.name}}</sub>
+            </div>
+            <table class="table-admin">
+              <thead>
+                <tr>
+                  <th class="table__column table__column--wide">Sujet</th>
+                  {{#each this.difficultyLevels as |difficultyLevel|}}
+                    <th class="table__column table__column--small table__column--center">Niveau {{difficultyLevel}}</th>
+                  {{/each}}
+                </tr>
+              </thead>
+              <tbody>
+                {{#each certifiedCompetence.certifiedTubes as |certifiedTube|}}
+                  <tr>
+                    <td>{{certifiedTube.name}}</td>
+                    {{#each certifiedTube.certifiedSkills as |certifiedSkill|}}
+                      <td class="table__column--center skill-column">
+                        {{#if certifiedSkill.hasBeenAskedInCertif}}
+                          <PixTooltip @position="bottom">
+                            <:triggerElement>
+                              <PixIcon
+                                @name="doneAll"
+                                class="skill-icon skill-icon--tested-in-certif"
+                                aria-label={{certifiedSkill.name}}
+                              />
+                            </:triggerElement>
+                            <:tooltip>{{concat certifiedSkill.id " " certifiedSkill.name}}</:tooltip>
+                          </PixTooltip>
+                        {{else if certifiedSkill}}
+                          <PixTooltip @position="bottom">
+                            <:triggerElement>
+                              <PixIcon
+                                @name="check"
+                                class="skill-icon skill-icon--check"
+                                aria-label={{certifiedSkill.name}}
+                              />
+                            </:triggerElement>
+                            <:tooltip>{{concat certifiedSkill.id " " certifiedSkill.name}}</:tooltip>
+                          </PixTooltip>
+                        {{else}}
+                          <PixIcon @name="close" class="skill-icon skill-icon--uncheck" />
+                        {{/if}}
+                      </td>
+                    {{/each}}
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {{else}}
+        <section class="page-section">
+          <div class="table__empty">Profil certifié vide.</div>
+        </section>
+      {{/each}}
+    </div>
   </template>
 }

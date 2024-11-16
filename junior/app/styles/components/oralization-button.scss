@@ -1,0 +1,23 @@
+.oralization-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  color: var(--pix-primary-500);
+  line-height: 0.7;
+
+  button {
+    padding: 0;
+
+    &:focus {
+      border: 2px solid var(--pix-primary-700);
+    }
+  }
+
+  &--is-reading {
+    color: var(--pix-primary-700);
+  }
+}
+
+

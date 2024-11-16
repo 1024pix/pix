@@ -5,6 +5,8 @@
   padding-top: var(--pix-spacing-6x);
 
   &__signup {
+    @extend %pix-body-m;
+
     display: flex;
     gap: var(--pix-spacing-2x);
     margin-top: var(--pix-spacing-4x);

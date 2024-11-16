@@ -5,6 +5,7 @@ export default class CampaignAssessmentResultMinimal extends Model {
   @attr('string') lastName;
   @attr('string') participantExternalId;
   @attr('number') masteryRate;
+  @attr() evolution;
   @attr('number') reachedStage;
   @attr('number') totalStage;
   @attr('string') prescriberTitle;

@@ -499,7 +499,7 @@ function _buildCampaign({
   return { realCampaignId, realOrganizationId, realCreatedAt };
 }
 
-let emailIndex = 0;
+const emailIndexesByOrganizationId = new Map();
 
 function _createAnonymousParticipation(databaseBuilder, organizationId, campaignId, createdAt) {
   const createdDate = dayjs(createdAt)
@@ -540,6 +540,12 @@ function _createAnonymousParticipation(databaseBuilder, organizationId, campaign
 
 async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
   const userAndLearnerIds = [];
+
+  if (!emailIndexesByOrganizationId.has(organizationId)) {
+    emailIndexesByOrganizationId.set(organizationId, 0);
+  }
+
+  let emailIndex = emailIndexesByOrganizationId.get(organizationId);
 
   const result = await databaseBuilder
     .knex('organizations')
@@ -605,6 +611,7 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
     userAndLearnerIds.push({ userId, organizationLearnerId });
     emailIndex++;
   }
+  emailIndexesByOrganizationId.set(organizationId, emailIndex);
   return userAndLearnerIds;
 }
 

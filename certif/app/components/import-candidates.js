@@ -22,7 +22,8 @@ export default class ImportCandidates extends Component {
       await this.args.reloadCertificationCandidate();
     } catch (errorResponse) {
       const errorMessage = this._handleErrorMessage(errorResponse);
-      this.notifications.error(htmlSafe(errorMessage), { cssClasses: 'certification-candidates-notification' });
+
+      this.notifications.error(htmlSafe(errorMessage));
     } finally {
       this.isLoading = false;
     }

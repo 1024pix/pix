@@ -227,6 +227,14 @@
       "REJECTED_AUTOMATICALLY_COMMENT": "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix"
     }
   },
+  "common": {
+    "email": {
+      "contactUs": "contactez-nous ici",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
+      "moreOn": "En savoir plus sur",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques."
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
@@ -388,6 +396,17 @@
       "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
     },
     "subject": "Demande de réinitialisation de mot de passe Pix"
+  },
+  "self-account-deletion-email": {
+    "params": {
+      "hello": "Bonjour {firstName},",
+      "requestConfirmation": "Suite à votre demande, nous vous confirmons la suppression de votre compte Pix ainsi que de vos données personnelles.",
+      "seeYouSoon": "Nous espérons vous retrouver bientôt pour de nouvelles aventures numériques.",
+      "signing": "L'équipe Pix",
+      "title": "Suppression de votre compte",
+      "warning": "Si vous n'êtes pas à l’origine de cette demande, merci de contacter le support."
+    },
+    "subject": "Suppression de votre compte"
   },
   "verification-code-email": {
     "body": {

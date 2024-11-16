@@ -198,25 +198,25 @@ const configuration = (function () {
       scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
     },
     featureToggles: {
-      isV3EligibilityCheckEnabled: toBoolean(process.env.FT_ENABLE_V3_ELIGIBILITY_CHECK),
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
       isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
+      isAsyncQuestRewardingCalculationEnabled: toBoolean(process.env.FT_ENABLE_ASYNC_QUESTS_REWARDS_CALCULATION),
       isCertificationTokenScopeEnabled: toBoolean(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
       isNeedToAdjustCertificationAccessibilityEnabled: toBoolean(
         process.env.FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY,
       ),
-      isQuestEnabled: toBoolean(process.env.FT_ENABLE_QUESTS),
-      isAsyncQuestRewardingCalculationEnabled: toBoolean(process.env.FT_ENABLE_ASYNC_QUESTS_REWARDS_CALCULATION),
       isNewAuthenticationDesignEnabled: toBoolean(process.env.FT_NEW_AUTHENTICATION_DESIGN_ENABLED),
       isPix1dEnabled: toBoolean(process.env.FT_PIX_1D_ENABLED),
-      isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
+      isPixCompanionEnabled: toBoolean(process.env.FT_PIX_COMPANION_ENABLED),
+      isSelfAccountDeletionEnabled: toBoolean(process.env.FT_SELF_ACCOUNT_DELETION),
+      isQuestEnabled: toBoolean(process.env.FT_ENABLE_QUESTS),
       isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
+      setupEcosystemBeforeStart: toBoolean(process.env.FT_SETUP_ECOSYSTEM_BEFORE_START) || false,
       showExperimentalMissions: toBoolean(process.env.FT_SHOW_EXPERIMENTAL_MISSIONS),
       showNewCampaignPresentationPage: toBoolean(process.env.FT_SHOW_NEW_CAMPAIGN_PRESENTATION_PAGE),
       showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
-      isPixCompanionEnabled: toBoolean(process.env.FT_PIX_COMPANION_ENABLED),
     },
     hapi: {
       options: {},
@@ -276,15 +276,16 @@ const configuration = (function () {
         apiKey: process.env.BREVO_API_KEY,
         templates: {
           accountCreationTemplateId: process.env.BREVO_ACCOUNT_CREATION_TEMPLATE_ID,
+          accountRecoveryTemplateId: process.env.BREVO_ACCOUNT_RECOVERY_TEMPLATE_ID,
+          acquiredCleaResultTemplateId: process.env.BREVO_CLEA_ACQUIRED_RESULT_TEMPLATE_ID,
+          certificationCenterInvitationTemplateId: process.env.BREVO_CERTIFICATION_CENTER_INVITATION_TEMPLATE_ID,
+          certificationResultTemplateId: process.env.BREVO_CERTIFICATION_RESULT_TEMPLATE_ID,
+          cpfEmailTemplateId: process.env.BREVO_CPF_TEMPLATE_ID,
+          emailVerificationCodeTemplateId: process.env.BREVO_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
           organizationInvitationTemplateId: process.env.BREVO_ORGANIZATION_INVITATION_TEMPLATE_ID,
           organizationInvitationScoTemplateId: process.env.BREVO_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
-          certificationCenterInvitationTemplateId: process.env.BREVO_CERTIFICATION_CENTER_INVITATION_TEMPLATE_ID,
           passwordResetTemplateId: process.env.BREVO_PASSWORD_RESET_TEMPLATE_ID,
-          certificationResultTemplateId: process.env.BREVO_CERTIFICATION_RESULT_TEMPLATE_ID,
-          accountRecoveryTemplateId: process.env.BREVO_ACCOUNT_RECOVERY_TEMPLATE_ID,
-          emailVerificationCodeTemplateId: process.env.BREVO_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
-          cpfEmailTemplateId: process.env.BREVO_CPF_TEMPLATE_ID,
-          acquiredCleaResultTemplateId: process.env.BREVO_CLEA_ACQUIRED_RESULT_TEMPLATE_ID,
+          selfAccountDeletionTemplateId: process.env.BREVO_SELF_ACCOUNT_DELETION_TEMPLATE_ID,
           targetProfileNotCertifiableTemplateId: process.env.BREVO_TARGET_PROFILE_NOT_CERTIFIABLE_TEMPLATE_ID,
         },
       },
@@ -408,17 +409,16 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
-    config.featureToggles.isV3EligibilityCheckEnabled = false;
-    config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
-    config.featureToggles.isPix1dEnabled = true;
-    config.featureToggles.isCertificationTokenScopeEnabled = false;
-    config.featureToggles.isPixPlusLowerLeverEnabled = false;
-    config.featureToggles.isTextToSpeechButtonEnabled = false;
     config.featureToggles.deprecatePoleEmploiPushNotification = false;
+    config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
+    config.featureToggles.isCertificationTokenScopeEnabled = false;
     config.featureToggles.isNeedToAdjustCertificationAccessibilityEnabled = false;
+    config.featureToggles.isPix1dEnabled = true;
+    config.featureToggles.isPixCompanionEnabled = false;
+    config.featureToggles.isSelfAccountDeletionEnabled = false;
+    config.featureToggles.isTextToSpeechButtonEnabled = false;
     config.featureToggles.showNewResultPage = false;
     config.featureToggles.showExperimentalMissions = false;
-    config.featureToggles.isPixCompanionEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';

@@ -18,7 +18,7 @@ module('Integration | Component | Authentication | other-authentication-provider
       assert
         .dom(
           screen.getByRole('heading', {
-            name: t('components.authentication.other-authentication-providers.login-heading'),
+            name: t('components.authentication.other-authentication-providers.login.heading'),
           }),
         )
         .exists();
@@ -34,7 +34,7 @@ module('Integration | Component | Authentication | other-authentication-provider
       assert
         .dom(
           screen.getByRole('heading', {
-            name: t('components.authentication.other-authentication-providers.signup-heading'),
+            name: t('components.authentication.other-authentication-providers.signup.heading'),
           }),
         )
         .exists();
@@ -42,7 +42,8 @@ module('Integration | Component | Authentication | other-authentication-provider
   });
 
   module('when there is a featured identity provider', function () {
-    test('it displays a continue featured identity provider link', async function (assert) {
+    module('when it’s for login');
+    test('it displays a login featured identity provider link', async function (assert) {
       // given
       class OidcIdentityProvidersServiceStub extends Service {
         get featuredIdentityProvider() {
@@ -57,7 +58,32 @@ module('Integration | Component | Authentication | other-authentication-provider
       // then
       const link = await screen.findByRole('link', {
         name: t(
-          'components.authentication.other-authentication-providers.continue-with-featured-identity-provider-link',
+          'components.authentication.other-authentication-providers.login.login-with-featured-identity-provider-link',
+          {
+            featuredIdentityProvider: 'Some Identity Provider',
+          },
+        ),
+      });
+      assert.dom(link).exists();
+      assert.strictEqual(link.getAttribute('href'), '/connexion/some-identity-provider');
+    });
+    module('when it’s for signup');
+    test('it displays a signup featured identity provider link', async function (assert) {
+      // given
+      class OidcIdentityProvidersServiceStub extends Service {
+        get featuredIdentityProvider() {
+          return { organizationName: 'Some Identity Provider', slug: 'some-identity-provider' };
+        }
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
+
+      // when
+      const screen = await render(<template><OtherAuthenticationProviders @isForSignup="true" /></template>);
+
+      // then
+      const link = await screen.findByRole('link', {
+        name: t(
+          'components.authentication.other-authentication-providers.signup.signup-with-featured-identity-provider-link',
           {
             featuredIdentityProvider: 'Some Identity Provider',
           },
@@ -86,7 +112,19 @@ module('Integration | Component | Authentication | other-authentication-provider
         .dom(
           screen.queryByText(
             t(
-              'components.authentication.other-authentication-providers.continue-with-featured-identity-provider-link',
+              'components.authentication.other-authentication-providers.login.login-with-featured-identity-provider-link',
+              {
+                featuredIdentityProvider: 'Some Identity Provider',
+              },
+            ),
+          ),
+        )
+        .doesNotExist();
+      assert
+        .dom(
+          screen.queryByText(
+            t(
+              'components.authentication.other-authentication-providers.signup.signup-with-featured-identity-provider-link',
               {
                 featuredIdentityProvider: 'Some Identity Provider',
               },

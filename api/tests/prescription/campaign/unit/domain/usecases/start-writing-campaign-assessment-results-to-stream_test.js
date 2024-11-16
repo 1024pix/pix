@@ -6,8 +6,8 @@ import * as campaignCsvExportService from '../../../../../../src/prescription/ca
 import { startWritingCampaignAssessmentResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-assessment-results-to-stream.js';
 import { CampaignTypeError } from '../../../../../../src/shared/domain/errors.js';
 import { StageCollection } from '../../../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
+import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, domainBuilder, expect, sinon, streamToPromise } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   let campaignRepository,

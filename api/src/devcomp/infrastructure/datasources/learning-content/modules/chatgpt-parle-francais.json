@@ -9,8 +9,8 @@
     "level": "Avancé",
     "objectives": [
       "<p>Connaître les origines des biais des LLM</p>",
-      "Générer et analyser des résultats biaisés de LLM",
-      "Comparer les résultats de différents LLM"
+      "<p>Générer et analyser des résultats biaisés de LLM</p>",
+      "<p>Comparer les résultats de différents LLM</p>"
     ],
     "tabletSupport": "inconvenient"
   },
@@ -73,11 +73,11 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "ChatGPT n'a pas compris la demande de l'utilisateur."
+                "content": "<p>ChatGPT n'a pas compris la demande de l'utilisateur.</p>"
               },
               {
                 "id": "2",
-                "content": "ChatGPT n’est pas capable de faire des jeux de mots drôles."
+                "content": "<p>ChatGPT n’est pas capable de faire des jeux de mots drôles.</p>"
               },
               {
                 "id": "3",
@@ -103,7 +103,7 @@
           "element": {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "À la suite de cette vidéo, vous devrez&nbsp;: <ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
+            "content": "<p>À la suite de cette vidéo, vous devrez&nbsp;: </p>\n<ul>\n    <li>retrouver les origines des biais des LLM,</li>\n    <li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li>\n</ul>"
           }
         },
         {
@@ -112,9 +112,9 @@
             "id": "35211b74-4a65-4eeb-8037-e41d8446d008",
             "type": "video",
             "title": "D'où viennent les biais des LLM&nbsp;?",
-            "url": "https://videos.pix.fr/modulix/chatgpt-parle-francais/llm.mp4",
-            "subtitles": "",
-            "transcription": "à venir"
+            "url": "https://videos.pix.fr/modulix/chatgpt-parle-francais/biais-llm.mp4",
+            "subtitles": "https://videos.pix.fr/modulix/chatgpt-parle-francais/biais-llm.srt",
+            "transcription": "<p>D'où viennent les biais des LLM ? <br>Joy Buolamwini est informaticienne et chercheuse. <br>En 2017, lors d’un projet universitaire, elle remarque que les logiciels de reconnaissance faciale ne détectent pas son visage. Joy teste alors ces logiciels sur son colocataire, un jeune homme blanc. Résultat : le visage du colocataire est bien détecté, contrairement à celui de Joy. <br>Ces logiciels ne reconnaissent pas le visage de Joy, du fait de sa couleur de peau. Mais pourquoi ? <br>Eh bien, ces logiciels étaient entraînés en analysant de grandes quantités de visages de personnes principalement blanches. Ces données d'entraînement ne correspondaient pas à la diversité de la réalité. Les logiciels avaient donc des biais liés à la couleur de peau. <br>En informatique, on dit qu’un algorithme présente un biais quand il y a une anomalie systématique dans ses résultats et que cette anomalie est difficile à identifier et à corriger. Les résultats d’un algorithme biaisé peuvent créer des discriminations, comme dans la situation de Joy. <br>De nos jours, les intelligences artificielles génératives, comme les grands modèles de langage, ou LLM, rencontrent les mêmes problèmes : les textes qu’ils produisent contiennent parfois des biais. Je vous explique tout ça en détail. <br>Actuellement, les LLM sont utilisés dans le monde entier par des personnes de cultures différentes. Les réponses qu’ils proposent peuvent avoir des biais, selon de nombreux facteurs : l'époque ; la culture ; la zone géographique ; etc. <br>Mais alors, d’où viennent les biais des LLM ? <br>Il y a 3 origines principales : <br>Les données d'entraînement des LLM sont la principale source de leurs biais. En effet, certains types de données peuvent être beaucoup plus présents que d’autres. On dit alors qu’il y a une surreprésentation de ces données. Par exemple, un LLM utilisé pour trier des CV pour un poste d’assistant ou d’assistante va privilégier des candidatures féminines. C'est un résultat qui comporte un biais de genre. Le LLM a en effet été entraîné avec des données de personnes qui exercent ce métier. Et, dans ce métier, les femmes sont surreprésentées. <br>Prenons un autre exemple. Un LLM utilisé pour imaginer un personnage de confiance propose la plupart du temps des personnages occidentaux, soignés, aux yeux clairs et qui portent des chemises. Ce résultat a un biais culturel : c’est un stéréotype occidental, qui ne propose pas de diversité. <br>Le code produit par les développeurs est la deuxième cause de biais des LLM. Comme tout le monde, les personnes qui développent les LLM ont des biais. Pendant la conception d’un LLM, les développeurs peuvent donc coder, consciemment ou non, leurs propres biais. En raccourci, si j’ai codé un LLM qui me dit que la meilleure glace est à la vanille et à la fraise mais que je préfère la glace à la vanille et au chocolat, je vais avoir tendance à affiner le modèle pour qu’il donne le résultat qui correspond à ma préférence. <br>Les développeurs peuvent aussi faire des réglages pour censurer certains résultats du modèle. Si je demande par exemple au LLM de Baidu, une entreprise chinoise, de me parler de la répression des manifestations de la place Tiananmen, il refusera de répondre à ma question. Ce sujet a été inscrit par ses développeurs comme sensible politiquement. <br>Enfin, la troisième origine des biais dans les LLM concerne les prompts des utilisateurs. Un utilisateur peut en effet poser à un LLM une question orientée, subjective, sans avoir conscience de ses propres biais. Par exemple : si je demande à un LLM pourquoi l’alimentation japonaise est la meilleure au monde, il va lister des explications toutes positives, sans nuancer, remettre en cause mon affirmation ou proposer d'autres types d'alimentation. Ce résultat va confirmer mes croyances : c'est un biais de confirmation. <br>Qu'ils proviennent des données d'entraînement, du développement des modèles ou des prompts proposés par les utilisateurs, les LLM peuvent présenter de nombreux biais… comme tout le monde. <br>À vous d'y prêter attention la prochaine fois que vous testerez ces outils. <br><br></p>"
           }
         }
       ]
@@ -133,19 +133,19 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "les données d'entraînement"
+                "content": "<p>les données d'entraînement</p>"
               },
               {
                 "id": "2",
-                "content": "les langages de programmation"
+                "content": "<p>les langages de programmation</p>"
               },
               {
                 "id": "3",
-                "content": "le code produit par les développeurs"
+                "content": "<p>le code produit par les développeurs</p>"
               },
               {
                 "id": "4",
-                "content": "la localisation des serveurs"
+                "content": "<p>la localisation des serveurs</p>"
               },
               {
                 "id": "5",
@@ -153,8 +153,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Regardez bien la vidéo précédente et réessayez&nbsp;!</p>"
+              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
+              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p><p>Regardez bien la vidéo précédente et réessayez&nbsp;!</p>"
             },
             "solutions": [
               "1",
@@ -443,7 +443,7 @@
             "type": "image",
             "url": "https://i.imgur.com/PeAKFrN.png",
             "alt": "Image des différents LLM existants décrite dans l'alternative textuelle",
-            "alternativeText": "<p>\n    <br>\n</p>\n<table>\n    <thead>\n        <tr>\n            <td>&nbsp;<br></td>\n            <td >LLM open source</td>\n            <td >LLM propriétaires</td>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td >USA</td>\n            <td>LLAMA (Méta), Gemma (Google), Phi (Microsoft)</td>\n            <td>GPT (OpenAI), Gemini (Google), Claude (Anthropic)</td>\n        </tr>\n        <tr>\n            <td >Europe</td>\n            <td>Mixtral (Mistral), Bloom (Big Science)</td>\n            <td>Mistral (Mistral), Luminous (Aleph Alpha)</td>\n        </tr>\n        <tr>\n            <td >Chine</td>\n            <td>Yi (O1 AI), Qwen (Alibaba)</td>\n            <td>&nbsp;<br></td>\n        </tr>\n        <tr>\n            <td >Canada</td>\n            <td>Aya (Cohere)</td>\n            <td>Command R (Cohere)</td>\n        </tr>\n    </tbody>\n</table>\n<p><br></p>"
+            "alternativeText": "<p>\n    <br>\n</p>\n<table>\n    <thead>\n        <tr>\n            <td>&nbsp;<br></td>\n            <td>LLM open source</td>\n            <td>LLM propriétaires</td>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td>USA</td>\n            <td>LLAMA (Méta), Gemma (Google), Phi (Microsoft)</td>\n            <td>GPT (OpenAI), Gemini (Google), Claude (Anthropic)</td>\n        </tr>\n        <tr>\n            <td>Europe</td>\n            <td>Mixtral (Mistral), Bloom (Big Science)</td>\n            <td>Mistral (Mistral), Luminous (Aleph Alpha)</td>\n        </tr>\n        <tr>\n            <td>Chine</td>\n            <td>Yi (O1 AI), Qwen (Alibaba)</td>\n            <td>&nbsp;<br></td>\n        </tr>\n        <tr>\n            <td>Canada</td>\n            <td>Aya (Cohere)</td>\n            <td>Command R (Cohere)</td>\n        </tr>\n    </tbody>\n</table>\n<p><br></p>"
           }
         },
         {

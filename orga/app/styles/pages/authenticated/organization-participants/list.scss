@@ -17,6 +17,18 @@ $margin-right: 32px;
     justify-content: center;
   }
 
+  &__header-with-tooltip {
+    display: flex;
+
+    .pix-tooltip {
+      margin-left: 5px;
+
+      &__trigger-element {
+        display: flex;
+      }
+    }
+  }
+
   &__actions-header {
     width: 10%;
 

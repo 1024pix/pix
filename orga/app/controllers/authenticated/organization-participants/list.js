@@ -87,6 +87,17 @@ export default class ListController extends Controller {
   }
 
   @action
+  async toggleOralizationFeatureForParticipant(participantId, organizationId, toActivate) {
+    const organizationParticipantAdapter = this.store.adapterFor('organization-participant');
+    if (toActivate) {
+      await organizationParticipantAdapter.addOralizationFeatureForParticipant(participantId, organizationId);
+    } else {
+      await organizationParticipantAdapter.removeOralizationFeatureForParticipant(participantId, organizationId);
+    }
+    this.send('refreshModel');
+  }
+
+  @action
   async deleteOrganizationLearners(listLearners) {
     try {
       await this.store.adapterFor('organization-participant').deleteParticipants(

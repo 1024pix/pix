@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 
 const execute = async function (
   userId,

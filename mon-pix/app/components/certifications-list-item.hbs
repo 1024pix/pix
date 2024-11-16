@@ -46,7 +46,7 @@
         {{#if this.shouldDisplayComment}}
           <PixIconButton
             @ariaLabel={{t "pages.certifications-list.statuses.fail.action"}}
-            @icon={{if this.isOpen "chevron-up" "chevron-down"}}
+            @iconName={{if this.isOpen "chevronTop" "chevronBottom"}}
             @triggerAction={{this.toggleCertificationDetails}}
           />
         {{/if}}
@@ -112,8 +112,9 @@
       <div class="certifications-list-item__cell-detail">
         {{#if this.shouldDisplayComment}}
           <PixIconButton
+            class="certifications-list-item__icon"
             @ariaLabel={{t "pages.certifications-list.statuses.fail.action"}}
-            @icon={{if this.isOpen "chevron-up" "chevron-down"}}
+            @iconName={{if this.isOpen "chevronTop" "chevronBottom"}}
             @triggerAction={{this.toggleCertificationDetails}}
           />
         {{/if}}

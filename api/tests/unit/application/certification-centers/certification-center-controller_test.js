@@ -1,5 +1,6 @@
 import { certificationCenterController } from '../../../../lib/application/certification-centers/certification-center-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as teamUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | certifications-center-controller', function () {
@@ -122,7 +123,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
     let certificationCenterMembershipSerializerStub;
 
     beforeEach(function () {
-      sinon.stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter');
+      sinon.stub(teamUsecases, 'findCertificationCenterMembershipsByCertificationCenter');
       certificationCenterMembershipSerializerStub = {
         serialize: sinon.stub(),
       };
@@ -130,7 +131,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
     it('should call usecase and serializer and return ok', async function () {
       // given
-      usecases.findCertificationCenterMembershipsByCertificationCenter
+      teamUsecases.findCertificationCenterMembershipsByCertificationCenter
         .withArgs({
           certificationCenterId,
         })
@@ -146,48 +147,6 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       // then
       expect(response).to.equal('ok');
-    });
-  });
-
-  describe('#findCertificationCenterMemberships', function () {
-    it('should return the serialized membership', async function () {
-      // given
-      const user = domainBuilder.buildUser();
-      const certificationCenter = domainBuilder.buildCertificationCenter();
-      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
-        certificationCenter,
-        user,
-      });
-      const serializedCertificationCenterMembership = Symbol('certification center membership serialized');
-
-      const request = {
-        params: {
-          certificationCenterId: certificationCenter.id,
-        },
-      };
-
-      sinon
-        .stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter')
-        .withArgs({
-          certificationCenterId: certificationCenter.id,
-        })
-        .resolves(certificationCenterMembership);
-
-      const certificationCenterMembershipSerializerStub = {
-        serializeMembers: sinon.stub(),
-      };
-      certificationCenterMembershipSerializerStub.serializeMembers
-        .withArgs(certificationCenterMembership)
-        .returns(serializedCertificationCenterMembership);
-
-      // when
-      const response = await certificationCenterController.findCertificationCenterMemberships(request, hFake, {
-        certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub,
-      });
-
-      // then
-      expect(usecases.findCertificationCenterMembershipsByCertificationCenter).to.have.been.calledOnce;
-      expect(response).equal(serializedCertificationCenterMembership);
     });
   });
 

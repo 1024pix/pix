@@ -1,8 +1,8 @@
 import * as campaignParticipationService from '../../../../../../lib/domain/services/campaign-participation-service.js';
 import { CampaignAssessmentCsvLine } from '../../../../../../src/prescription/campaign/infrastructure/utils/CampaignAssessmentCsvLine.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/index.js';
+import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 function _computeExpectedColumnsIndex(campaign, organization, badges = [], stages = [], additionalHeaders = []) {
   const studentNumberPresenceModifier = organization.type === 'SUP' && organization.isManagingStudents ? 1 : 0;

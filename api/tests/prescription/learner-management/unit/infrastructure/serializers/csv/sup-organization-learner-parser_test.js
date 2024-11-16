@@ -4,8 +4,9 @@ import { AggregateImportError } from '../../../../../../../src/prescription/lear
 import { SupOrganizationLearnerImportHeader } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { SupOrganizationLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
+import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
-import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
+
 const i18n = getI18n();
 
 const supOrganizationLearnerCsvColumns = new SupOrganizationLearnerImportHeader(i18n).columns

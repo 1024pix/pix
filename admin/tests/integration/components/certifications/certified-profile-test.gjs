@@ -119,10 +119,11 @@ module('Integration | Component | certifications/certified-profile', function (h
 
       // then
       assert.dom(screen.getByText('tube1')).exists();
-      const iconSkill1 = screen.getByLabelText('skill1').getAttribute('data-icon');
-      const iconSkill2 = screen.getByLabelText('skill2').getAttribute('data-icon');
-      assert.strictEqual(iconSkill1, 'check-double');
-      assert.strictEqual(iconSkill2, 'check');
+      const iconSkill1 = screen.getByLabelText('skill1');
+      const iconSkill2 = screen.getByLabelText('skill2');
+
+      assert.ok(iconSkill1.classList.contains('skill-icon--tested-in-certif'));
+      assert.ok(iconSkill2.classList.contains('skill-icon--check'));
     });
 
     test('it should display non Pix competences first', async function (assert) {

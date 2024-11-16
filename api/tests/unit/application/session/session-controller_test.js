@@ -2,9 +2,10 @@ import { sessionController } from '../../../../lib/application/sessions/session-
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { SessionPublicationBatchError } from '../../../../src/shared/application/http-errors.js';
 import { SessionPublicationBatchResult } from '../../../../src/shared/domain/models/index.js';
+import { getI18n } from '../../../../src/shared/infrastructure/i18n/i18n.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+
 describe('Unit | Controller | sessionController', function () {
   let request;
   const userId = 274939274;

@@ -3,13 +3,13 @@ import { fileURLToPath } from 'node:url';
 
 import * as userReconciliationService from '../../../../../lib/domain/services/user-reconciliation-service.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
-import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
+import { logErrorWithCorrelationIds } from '../../../../shared/infrastructure/monitoring-tools.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import { importOrganizationLearnersJobRepository } from '../../infrastructure/repositories/jobs/import-organization-learners-job-repository.js';
@@ -24,7 +24,7 @@ import { importStorage } from '../../infrastructure/storage/import-storage.js';
  * @typedef {import ('../../../../../lib/infrastructure/repositories/campaign-repository.js')} CampaignRepository
  * @typedef {import ('../../infrastructure/repositories/organization-feature-repository.js')} CampaignParticipationRepository
  * @typedef {import ('../../infrastructure/storage/import-storage.js')} ImportStorage
- * @typedef {import ('../../../../../lib/infrastructure/repositories/membership-repository.js')} MembershipRepository
+ * @typedef {import ('../../../../team/infrastructure/repositories/membership-repository.js')} MembershipRepository
  * @typedef {import ('../../infrastructure/repositories/organization-learner-repository.js')} OrganizationLearnerRepository
  * @typedef {import ('../../infrastructure/repositories/organization-learner-import-format-repository.js')} OrganizationLearnerImportFormatRepository
  * @typedef {import ('../../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository

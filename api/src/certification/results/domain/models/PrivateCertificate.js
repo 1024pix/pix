@@ -32,6 +32,7 @@ class PrivateCertificate {
    * @param {Object} props.resultCompetenceTree
    * @param {string} props.verificationCode
    * @param {Date} props.maxReachableLevelOnCertificationDate
+   * @param {number} props.version
    */
   constructor({
     id,
@@ -51,6 +52,7 @@ class PrivateCertificate {
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
+    version,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -69,6 +71,7 @@ class PrivateCertificate {
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
+    this.version = version;
   }
 
   static buildFrom({
@@ -91,6 +94,7 @@ class PrivateCertificate {
     maxReachableLevelOnCertificationDate,
     assessmentResultStatus,
     isCancelled,
+    version,
   }) {
     const status = _computeStatus(assessmentResultStatus, isCancelled);
     const juryComment = new JuryComment({
@@ -116,6 +120,7 @@ class PrivateCertificate {
       verificationCode,
       maxReachableLevelOnCertificationDate,
       status,
+      version,
     });
   }
 

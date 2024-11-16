@@ -1,9 +1,10 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { t } from 'ember-intl';
 
 <template>
   <PixBlock class="place-info">
-    <img class="place-info__illustration" src="/icons/place-info.svg" alt="" role="none" />
+    <PixIcon @name="seat" class="place-info__illustration" role="none" />
     <div>
       <section class="place-info__description">
         <h2>{{t "cards.place-info.with-account.heading" htmlSafe=true}}</h2>

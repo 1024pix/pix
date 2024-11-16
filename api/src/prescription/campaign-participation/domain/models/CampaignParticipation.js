@@ -7,7 +7,7 @@ import {
 } from '../../../../../src/shared/domain/errors.js';
 import { ArchivedCampaignError } from '../../../campaign/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
-import { CampaignParticipationDeletedError } from '../errors.js';
+import { CampaignParticiationInvalidStatus, CampaignParticipationDeletedError } from '../errors.js';
 
 class CampaignParticipation {
   constructor({
@@ -92,12 +92,20 @@ class CampaignParticipation {
   }
 
   _canBeImproved() {
+    if (this.status !== CampaignParticipationStatuses.TO_SHARE) {
+      throw new CampaignParticiationInvalidStatus(this.id, CampaignParticipationStatuses.TO_SHARE);
+    }
+
     if (this.campaign.isProfilesCollection()) {
       throw new CantImproveCampaignParticipationError();
     }
   }
 
   _canBeShared() {
+    if (this.status === CampaignParticipationStatuses.STARTED) {
+      throw new CampaignParticiationInvalidStatus(this.id, CampaignParticipationStatuses.STARTED);
+    }
+
     if (this.isShared) {
       throw new AlreadySharedCampaignParticipationError();
     }

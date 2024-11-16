@@ -1,11 +1,11 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
@@ -305,7 +305,7 @@ export default class DetailsV3 extends Component {
         {{t "pages.certifications.certification.details.v3.questions-list.title"}}
       </h2>
       <div class="content-text content-text--small">
-        <div class="table-admin">
+        <div class="certification-details-v3-table table-admin">
           <table>
             <thead>
               <tr>
@@ -354,7 +354,7 @@ export default class DetailsV3 extends Component {
                   </td>
                   <td>{{certificationChallenge.competenceIndex}} {{certificationChallenge.competenceName}}</td>
                   <td>{{certificationChallenge.skillName}}</td>
-                  <td>
+                  <td class="certification-details-v3-table__challenge-informations-cell">
                     <a
                       href={{this.externalUrlForPixEditor certificationChallenge.id}}
                       target="_blank"
@@ -364,7 +364,7 @@ export default class DetailsV3 extends Component {
                       }}
                     >
                       {{certificationChallenge.id}}
-                      <FaIcon @icon="external-link" />
+                      <PixIcon @name="openNew" />
                     </a>
                   </td>
                   <td class="certification-details-v3-table__challenge-action-cell">
@@ -379,7 +379,7 @@ export default class DetailsV3 extends Component {
                       }}
                       rel="noopener noreferrer"
                     >
-                      <FaIcon @icon="eye" />
+                      <PixIcon @name="eye" @plainIcon={{true}} />
                     </a>
 
                     {{#if certificationChallenge.validatedLiveAlert}}
@@ -393,7 +393,7 @@ export default class DetailsV3 extends Component {
                         type="button"
                         {{on "click" (fn this.openModal certificationChallenge)}}
                       >
-                        <FaIcon @icon="warning" />
+                        <PixIcon @name="warning" />
                       </button>
                     {{/if}}
 
@@ -408,7 +408,7 @@ export default class DetailsV3 extends Component {
                         type="button"
                         {{on "click" (fn this.openModal certificationChallenge)}}
                       >
-                        <FaIcon @icon="message" />
+                        <PixIcon @name="chat" />
                       </button>
                     {{/if}}
                   </td>

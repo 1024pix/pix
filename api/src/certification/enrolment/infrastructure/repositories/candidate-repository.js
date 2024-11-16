@@ -37,6 +37,19 @@ export async function findBySessionId({ sessionId }) {
 
 /**
  * @function
+ * @param {Object} params
+ * @param {number} params.userId
+ *
+ * @return {Promise<Array<Candidate>>}
+ */
+export async function findByUserId({ userId }) {
+  const knexTransaction = DomainTransaction.getConnection();
+  const candidatesData = await buildBaseReadQuery(knexTransaction).where({ 'certification-candidates.userId': userId });
+  return candidatesData.map(toDomain);
+}
+
+/**
+ * @function
  * @param {Object} candidate
  *
  * @throws {CertificationCandidateNotFoundError} Certification candidate not found

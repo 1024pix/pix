@@ -4,6 +4,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { CREATED, FINALIZED } from 'pix-certif/models/session-management';
+import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -83,6 +84,64 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         assert
           .dom(screen.getByRole('button', { name: 'Copier le mot de passe de session pour le surveillant' }))
           .exists();
+      });
+
+      module('when the session version is 3 and candidates have been enrolled for a complementary course', function () {
+        test('it should temporarily block the finalise button', async function (assert) {
+          // given
+          const allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+            isAccessBlockedCollege: false,
+            isAccessBlockedLycee: false,
+            isAccessBlockedAEFE: false,
+            isAccessBlockedAgri: false,
+            isV3Pilot: true,
+            habilitations: [
+              {
+                id: 123,
+                label: 'Pix+Droit',
+              },
+            ],
+          });
+          certificationPointOfContact = server.create('certification-point-of-contact', {
+            firstName: 'Buffy',
+            lastName: 'Summers',
+            allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+            pixCertifTermsOfServiceAccepted: true,
+          });
+          await authenticateSession(certificationPointOfContact.id);
+          const sessionCreated = server.create('session-enrolment', {
+            id: 123,
+            status: CREATED,
+            certificationCenterId: allowedCertificationCenterAccess.id,
+          });
+          const complementarySubscription = server.create('subscription', {
+            type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+            complementaryCertificationId: 123,
+          });
+          server.create('certification-candidate', {
+            isLinked: true,
+            subscriptions: [complementarySubscription],
+            sessionId: sessionCreated.id,
+          });
+          server.create('session-management', {
+            id: sessionCreated.id,
+            status: CREATED,
+            version: 3,
+          });
+
+          // when
+          const screen = await visit(`/sessions/${sessionCreated.id}`);
+
+          // then
+          assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
+          assert
+            .dom(
+              screen.getByText(
+                'Cette session ne peut pas être finalisée pour le moment. Les équipes de Pix travaillent au déblocage de la finalisation.',
+              ),
+            )
+            .exists();
+        });
       });
 
       module('when the session is not finalized', function () {

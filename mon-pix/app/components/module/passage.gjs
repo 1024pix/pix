@@ -7,6 +7,7 @@ import { pageTitle } from 'ember-page-title';
 import didInsert from '../../modifiers/modifier-did-insert';
 import BetaBanner from './beta-banner';
 import ModuleGrain from './grain.js';
+import ModuleNavbar from './navbar';
 
 export default class ModulePassage extends Component {
   @service router;
@@ -32,6 +33,10 @@ export default class ModulePassage extends Component {
 
   get currentGrainIndex() {
     return this.grainsToDisplay.length - 1;
+  }
+
+  get currentPassageStep() {
+    return this.currentGrainIndex + 1;
   }
 
   @action
@@ -193,9 +198,11 @@ export default class ModulePassage extends Component {
 
   <template>
     {{pageTitle @module.title}}
-    <BetaBanner />
+    <ModuleNavbar @currentStep={{this.currentPassageStep}} @totalSteps={{this.displayableGrains.length}} />
 
     <main class="module-passage">
+      <BetaBanner />
+
       <div class="module-passage__title">
         <h1>{{@module.title}}</h1>
       </div>

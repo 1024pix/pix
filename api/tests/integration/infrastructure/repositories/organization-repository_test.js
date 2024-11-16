@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Organization } from '../../../../src/shared/domain/models/index.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
@@ -1000,173 +1001,173 @@ describe('Integration | Repository | Organization', function () {
     });
   });
 
-  describe('#getOrganizationsWithPlaces', function () {
-    it('should only return organizations not archived', async function () {
-      // given
-      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+  describe('#getOrganizationsWithPlacesManagementFeatureEnabled', function () {
+    describe('When organization have places management feature enabled', function () {
+      let firstOrganization;
 
-      const firstOrganization = databaseBuilder.factory.buildOrganization({
-        type: 'SCO',
-        name: 'Organization of the dark side',
-        archivedAt: null,
-        isArchived: false,
+      beforeEach(async function () {
+        firstOrganization = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization of the dark side',
+          archivedAt: null,
+          isArchived: false,
+        });
+        const placesManagementFeatureId = databaseBuilder.factory.buildFeature({
+          key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
+        }).id;
+        databaseBuilder.factory.buildOrganizationFeature({
+          organizationId: firstOrganization.id,
+          featureId: placesManagementFeatureId,
+        });
+
+        await databaseBuilder.commit();
       });
 
-      databaseBuilder.factory.buildOrganizationPlace({
-        count: 3,
-        organizationId: firstOrganization.id,
-        activationDate: new Date(),
-        expirationDate: new Date(),
-        createdBy: superAdminUserId,
-        createdAt: new Date(),
-        deletedAt: null,
-        deletedBy: null,
+      it('should only return organizations not archived', async function () {
+        // given
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+        databaseBuilder.factory.buildOrganizationPlace({
+          count: 3,
+          organizationId: firstOrganization.id,
+          activationDate: new Date(),
+          expirationDate: new Date(),
+          createdBy: superAdminUserId,
+          createdAt: new Date(),
+          deletedAt: null,
+          deletedBy: null,
+        });
+
+        const secondOrganization = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization of the BRIGHT side',
+          archivedAt: new Date(),
+          isArchived: true,
+        });
+
+        databaseBuilder.factory.buildOrganizationPlace({
+          count: 3,
+          organizationId: secondOrganization.id,
+          activationDate: new Date(),
+          expirationDate: new Date(),
+          createdBy: superAdminUserId,
+          createdAt: new Date(),
+          deletedAt: null,
+          deletedBy: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const organizationsWithPlaces =
+          await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
+
+        // then
+        expect(organizationsWithPlaces.length).to.equal(1);
+        expect(organizationsWithPlaces[0]).to.be.instanceOf(Organization);
+        expect(organizationsWithPlaces[0].id).to.equal(firstOrganization.id);
+        expect(organizationsWithPlaces[0].name).to.equal(firstOrganization.name);
+        expect(organizationsWithPlaces[0].type).to.equal(firstOrganization.type);
       });
 
-      const secondOrganization = databaseBuilder.factory.buildOrganization({
-        type: 'SCO',
-        name: 'Organization of the BRIGHT side',
-        archivedAt: new Date(),
-        isArchived: true,
+      it('should return only once an organization with many placesLots', async function () {
+        // given
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+        databaseBuilder.factory.buildOrganizationPlace({
+          count: 3,
+          organizationId: firstOrganization.id,
+          activationDate: new Date(),
+          expirationDate: new Date(),
+          createdBy: superAdminUserId,
+          createdAt: new Date(),
+          deletedAt: null,
+          deletedBy: null,
+        });
+
+        databaseBuilder.factory.buildOrganizationPlace({
+          count: 25,
+          organizationId: firstOrganization.id,
+          activationDate: new Date(),
+          expirationDate: new Date(),
+          createdBy: superAdminUserId,
+          createdAt: new Date(),
+          deletedAt: null,
+          deletedBy: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const organizationsWithPlaces =
+          await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
+
+        // then
+        expect(organizationsWithPlaces.length).to.equal(1);
       });
 
-      databaseBuilder.factory.buildOrganizationPlace({
-        count: 3,
-        organizationId: secondOrganization.id,
-        activationDate: new Date(),
-        expirationDate: new Date(),
-        createdBy: superAdminUserId,
-        createdAt: new Date(),
-        deletedAt: null,
-        deletedBy: null,
+      it('should return organization instead if they have unlimited places', async function () {
+        // given
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+        const organizationId = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization du sud de la France avec le plus beau stade de France',
+          archivedAt: null,
+          isArchived: false,
+        }).id;
+
+        databaseBuilder.factory.buildOrganizationPlace({
+          count: null,
+          organizationId,
+          activationDate: new Date('2024-01-01'),
+          expirationDate: new Date('2025-12-31'),
+          createdBy: superAdminUserId,
+          createdAt: new Date(),
+          deletedAt: null,
+          deletedBy: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const organizationsWithPlaces =
+          await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
+
+        // then
+        expect(organizationsWithPlaces.length).to.equal(1);
       });
-
-      await databaseBuilder.commit();
-
-      // when
-      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
-
-      // then
-      expect(organizationsWithPlaces.length).to.equal(1);
-      expect(organizationsWithPlaces[0]).to.be.instanceOf(Organization);
-      expect(organizationsWithPlaces[0].id).to.equal(firstOrganization.id);
-      expect(organizationsWithPlaces[0].name).to.equal(firstOrganization.name);
-      expect(organizationsWithPlaces[0].type).to.equal(firstOrganization.type);
     });
 
-    it('should only return organizations with places', async function () {
-      // given
-      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+    describe('When organization have places management feature not enabled', function () {
+      it('should not return organization', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization({
+          type: 'PRO',
+          name: 'Organization without places feature',
+          isArchived: false,
+        }).id;
+        databaseBuilder.factory.buildOrganizationPlace({
+          count: 3,
+          organizationId,
+          activationDate: new Date(),
+          expirationDate: new Date(),
+          createdBy: userId,
+          createdAt: new Date(),
+          deletedAt: null,
+          deletedBy: null,
+        });
 
-      const firstOrganization = databaseBuilder.factory.buildOrganization({
-        type: 'SCO',
-        name: 'Organization of the dark side',
-        archivedAt: null,
-        isArchived: false,
+        await databaseBuilder.commit();
+
+        // when
+        const organizationsWithPlaces =
+          await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
+
+        // then
+        expect(organizationsWithPlaces).to.have.lengthOf(0);
       });
-
-      databaseBuilder.factory.buildOrganizationPlace({
-        count: 3,
-        organizationId: firstOrganization.id,
-        activationDate: new Date(),
-        expirationDate: new Date(),
-        createdBy: superAdminUserId,
-        createdAt: new Date(),
-        deletedAt: null,
-        deletedBy: null,
-      });
-
-      databaseBuilder.factory.buildOrganization({
-        type: 'SCO',
-        name: 'Organization of the rainbow side',
-        archivedAt: null,
-        isArchived: false,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
-
-      // then
-      expect(organizationsWithPlaces.length).to.equal(1);
-      expect(organizationsWithPlaces[0]).to.be.instanceOf(Organization);
-      expect(organizationsWithPlaces[0].id).to.equal(firstOrganization.id);
-      expect(organizationsWithPlaces[0].name).to.equal(firstOrganization.name);
-      expect(organizationsWithPlaces[0].type).to.equal(firstOrganization.type);
-    });
-
-    it('should return only once an organization with many placesLots', async function () {
-      // given
-      const superAdminUserId = databaseBuilder.factory.buildUser().id;
-
-      const firstOrganization = databaseBuilder.factory.buildOrganization({
-        type: 'SCO',
-        name: 'Organization of the dark side',
-        archivedAt: null,
-        isArchived: false,
-      });
-
-      databaseBuilder.factory.buildOrganizationPlace({
-        count: 3,
-        organizationId: firstOrganization.id,
-        activationDate: new Date(),
-        expirationDate: new Date(),
-        createdBy: superAdminUserId,
-        createdAt: new Date(),
-        deletedAt: null,
-        deletedBy: null,
-      });
-
-      databaseBuilder.factory.buildOrganizationPlace({
-        count: 25,
-        organizationId: firstOrganization.id,
-        activationDate: new Date(),
-        expirationDate: new Date(),
-        createdBy: superAdminUserId,
-        createdAt: new Date(),
-        deletedAt: null,
-        deletedBy: null,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
-
-      // then
-      expect(organizationsWithPlaces.length).to.equal(1);
-    });
-
-    it('should return organization instead if they have unlimited places', async function () {
-      // given
-      const superAdminUserId = databaseBuilder.factory.buildUser().id;
-
-      const organizationId = databaseBuilder.factory.buildOrganization({
-        type: 'SCO',
-        name: 'Organization du sud de la France avec le plus beau stade de France',
-        archivedAt: null,
-        isArchived: false,
-      }).id;
-
-      databaseBuilder.factory.buildOrganizationPlace({
-        count: null,
-        organizationId,
-        activationDate: new Date('2024-01-01'),
-        expirationDate: new Date('2025-12-31'),
-        createdBy: superAdminUserId,
-        createdAt: new Date(),
-        deletedAt: null,
-        deletedBy: null,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
-
-      // then
-      expect(organizationsWithPlaces.length).to.equal(1);
     });
   });
 });

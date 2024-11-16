@@ -77,4 +77,6 @@ const refreshLearningContentCacheRecords = async function () {
   return learningContent;
 };
 
-export { extend, refreshLearningContentCacheRecords };
+const initLearningContent = _DatasourcePrototype._getLearningContent;
+
+export { extend, initLearningContent, refreshLearningContentCacheRecords };

@@ -14,6 +14,45 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     clock.restore();
   });
 
+  describe('#updateTargetProfile', function () {
+    context('successful case', function () {
+      it('should succeed', async function () {
+        // given
+        const payload = Symbol('some payload');
+
+        const request = {
+          params: {
+            targetProfileId: 123,
+          },
+          payload,
+        };
+
+        const attributesToUpdate = Symbol('deserialized attributes to update');
+
+        const dependencies = {
+          prescriptionTargetProfileUsecases: {
+            updateTargetProfile: sinon.stub(),
+          },
+          targetProfileSerializer: {
+            deserialize: sinon.stub().returns(attributesToUpdate),
+          },
+        };
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
+
+        // when
+        const response = await targetProfileController.updateTargetProfile(request, hFake, dependencies);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        expect(dependencies.targetProfileSerializer.deserialize).to.have.been.calledOnceWith(payload);
+        expect(dependencies.prescriptionTargetProfileUsecases.updateTargetProfile).to.have.been.calledOnceWithExactly({
+          id: request.params.targetProfileId,
+          attributesToUpdate,
+        });
+      });
+    });
+  });
+
   describe('#getTargetProfileForAdmin', function () {
     it('should return targetProfileForAdmin', async function () {
       // given

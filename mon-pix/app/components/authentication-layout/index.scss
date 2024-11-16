@@ -1,5 +1,5 @@
 .authentication-layout {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background-color: var(--pix-neutral-0);
 
@@ -12,6 +12,15 @@
     flex-direction: column;
     width: 100%;
     padding: var(--pix-spacing-4x);
+  }
+}
+
+@include device-is('tablet'){
+  .authentication-layout {
+    .authentication-layout__main {
+      width: 70%;
+      margin: 0 auto;
+    }
   }
 }
 
@@ -51,14 +60,13 @@
         flex-direction: column;
         grid-column: 7 / span 5;
         width: 100%;
-        padding: 0;
-
-        > main {
-          flex-grow: 1;
-        }
+        max-width: 800px;
+        padding: 20px auto;
       }
   }
 }
+
+
 
 .authentication-layout-header {
   display: flex;
@@ -73,7 +81,7 @@
 
 .authentication-layout-footer {
   width: 100%;
-  margin-top: var(--pix-spacing-10x);
+  margin-top: var(--pix-spacing-12x);
 
   .footer-container-content__navigation {
     margin-top: var(--pix-spacing-2x);
@@ -85,10 +93,10 @@
 
       text-decoration: underline;
     }
-  }
 
-  .footer-navigation__item{
-    margin: 0 var(--pix-spacing-3x) 0 0;
+    .footer-navigation__item {
+      margin: 0 var(--pix-spacing-3x) 0 0;
+    }
   }
 }
 

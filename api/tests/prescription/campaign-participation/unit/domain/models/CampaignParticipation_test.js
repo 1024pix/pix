@@ -1,5 +1,8 @@
 import { ArchivedCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
-import { CampaignParticipationDeletedError } from '../../../../../../src/prescription/campaign-participation/domain/errors.js';
+import {
+  CampaignParticiationInvalidStatus,
+  CampaignParticipationDeletedError,
+} from '../../../../../../src/prescription/campaign-participation/domain/errors.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import {
   CampaignParticipationStatuses,
@@ -11,9 +14,9 @@ import {
   CantImproveCampaignParticipationError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { catchErr, catchErrSync, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
+const { TO_SHARE, SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignParticipation', function () {
   describe('#getTargetProfileId', function () {
@@ -89,15 +92,26 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
     context('when the campaign has the type PROFILES_COLLECTION', function () {
       it('throws an CantImproveCampaignParticipationError', async function () {
         const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
-        const campaignParticipation = new CampaignParticipation({ campaign });
+        const campaignParticipation = new CampaignParticipation({ campaign, status: TO_SHARE });
 
-        const error = await catchErr(campaignParticipation.improve, campaignParticipation)();
+        const error = catchErrSync(campaignParticipation.improve, campaignParticipation)();
 
         expect(error).to.be.an.instanceOf(CantImproveCampaignParticipationError);
       });
     });
 
-    context('when the campaign participation status is different from STARTED', function () {
+    context('when the campaign participation status is STARTED', function () {
+      it('throws an CampaignParticiationInvalidStatus', async function () {
+        const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.ASSESSMENT });
+        const campaignParticipation = new CampaignParticipation({ campaign, status: STARTED });
+
+        const error = catchErrSync(campaignParticipation.improve, campaignParticipation)();
+
+        expect(error).to.be.an.instanceOf(CampaignParticiationInvalidStatus);
+      });
+    });
+
+    context('when the campaign participation status is TO_SHARE', function () {
       it('changes the status to STARTED', async function () {
         const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.ASSESSMENT });
         const campaignParticipation = new CampaignParticipation({ campaign, status: TO_SHARE });
@@ -120,6 +134,17 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
       afterEach(function () {
         clock.restore();
+      });
+
+      context('when the campaign is started', function () {
+        it('throws an CampaignParticiationInvalidStatus error', function () {
+          const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
+          const campaignParticipation = new CampaignParticipation({ campaign, status: STARTED });
+
+          const error = catchErrSync(campaignParticipation.share, campaignParticipation)();
+
+          expect(error).to.be.an.instanceOf(CampaignParticiationInvalidStatus);
+        });
       });
 
       context('when the campaign is already shared', function () {

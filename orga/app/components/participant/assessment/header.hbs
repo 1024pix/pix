@@ -5,7 +5,7 @@
 <header class="page__title">
   <h1 class="page-title">{{@participation.firstName}} {{@participation.lastName}}</h1>
   <p class="participant__link">
-    <FaIcon @prefix="far" @icon="user" />
+    <PixIcon @name="infoUser" @plainIcon={{true}} />
     <Participant::LinkTo @organizationLearnerId={{@participation.organizationLearnerId}}>
       {{t "common.actions.link-to-participant"}}
     </Participant::LinkTo>

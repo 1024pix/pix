@@ -26,6 +26,7 @@ export default class Certification extends Model {
   @attr('string') verificationCode;
   @attr() certifiedBadgeImages;
   @attr('number') maxReachableLevelOnCertificationDate;
+  @attr('number') version;
 
   // includes
   @belongsTo('resultCompetenceTree', { async: true, inverse: null }) resultCompetenceTree;
@@ -42,7 +43,11 @@ export default class Certification extends Model {
   }
 
   get shouldDisplayProfessionalizingWarning() {
-    return this.currentDomain.isFranceDomain && new Date(this.deliveredAt).getTime() >= professionalizingDate.getTime();
+    return (
+      this.version === 2 &&
+      this.currentDomain.isFranceDomain &&
+      new Date(this.deliveredAt).getTime() >= professionalizingDate.getTime()
+    );
   }
 
   get maxReachablePixCountOnCertificationDate() {

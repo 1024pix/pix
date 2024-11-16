@@ -1,274 +1,39 @@
-<div class="certification-informations">
-  <div class="certification-informations__row">
-    <PixButtonLink @route="authenticated.users.get" @size="small" @model={{this.certification.userId}}>
-      Voir les détails de l'utilisateur
-    </PixButtonLink>
-    {{#if this.certification.isCancelled}}
-      <PixButton @variant="error" @size="small" @triggerAction={{this.onUncancelCertificationButtonClick}}>
-        Désannuler la certification
-      </PixButton>
-    {{else}}
-      <span class="certification-informations__row__actions">
-        <PixButton @variant="secondary" @size="small" @triggerAction={{this.onCancelCertificationButtonClick}}>
-          Annuler la certification
-        </PixButton>
-
-        {{#if this.shouldDisplayUnrejectCertificationButton}}
-          <PixButton @variant="error" @size="small" @triggerAction={{this.onUnrejectCertificationButtonClick}}>
-            Annuler le rejet
-          </PixButton>
-        {{/if}}
-
-        {{#if this.shouldDisplayRejectCertificationButton}}
-          {{#if this.certification.isPublished}}
-            <PixTooltip @position="left" @isWide={{true}}>
-              <:triggerElement>
-                <PixButton
-                  @variant="error"
-                  @size="small"
-                  @triggerAction={{this.onRejectCertificationButtonClick}}
-                  @isDisabled={{true}}
-                >
-                  Rejeter la certification
-                </PixButton>
-              </:triggerElement>
-
-              <:tooltip>Vous ne pouvez pas rejeter une certification publiée. Merci de dépublier la session avant de
-                rejeter cette certification.
-              </:tooltip>
-            </PixTooltip>
-          {{else}}
-            <PixButton @variant="error" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
-              Rejeter la certification
-            </PixButton>
-          {{/if}}
-        {{/if}}
-      </span>
-    {{/if}}
-  </div>
-
-  <div class="certification-informations__row">
-    <div class="certification-informations__card">
-      <h2 class="certification-informations__card__title">
-        <Certifications::InfoTag @record={{this.certification}} @float={{true}} />
-        État
-      </h2>
-      <Certifications::InfoField
-        @value={{this.certification.sessionId}}
-        @edition={{false}}
-        @label="Session :"
-        @linkRoute="authenticated.sessions.session"
-      />
-      <Certifications::InfoField
-        @value={{this.certification.statusLabelAndValue.label}}
-        @edition={{false}}
-        @label="Statut :"
-      />
-      <Certifications::InfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
-      <Certifications::InfoField
-        @value={{this.certification.completionDate}}
-        @edition={{false}}
-        @label="Terminée le :"
-      />
-      <Certifications::InfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
-    </div>
-
-    <div class="certification-informations__card {{if this.editingCandidateInformations 'border-primary'}}">
-      <h2 class="certification-informations__card__title">Candidat</h2>
-      <div class="certification-info-field">
-        <span>Prénom :</span>
-        <span>{{this.certification.firstName}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Nom de famille :</span>
-        <span>{{this.certification.lastName}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Date de naissance :</span>
-        <span>{{dayjs-format this.certification.birthdate "DD/MM/YYYY" allow-empty=true}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Sexe :</span>
-        <span>{{this.certification.sex}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Commune de naissance :</span>
-        <span>{{this.certification.birthplace}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Code postal de naissance :</span>
-        <span>{{this.certification.birthPostalCode}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Code INSEE de naissance :</span>
-        <span>{{this.certification.birthInseeCode}}</span>
-      </div>
-      <div class="certification-info-field">
-        <span>Pays de naissance :</span>
-        <span>{{this.certification.birthCountry}}</span>
-      </div>
-
-      <div class="candidate-informations__actions">
-        <PixButton
-          @size="small"
-          @triggerAction={{this.openCandidateEditModal}}
-          aria-label="Modifier les informations du candidat"
-        >
-          Modifier infos candidat
-        </PixButton>
-      </div>
-    </div>
-  </div>
-
-  {{#if this.certification.hasComplementaryCertifications}}
-    <div class="certification-informations__row">
-      <div class="certification-informations__card">
-        <h2 class="certification-informations__card__title">Certification complémentaire</h2>
-
-        {{#if this.certification.commonComplementaryCertificationCourseResult}}
-          <ul class="certification-informations__card__list">
-            <li class="certification-informations__card__list-item">
-              <span class="certification-informations__card__list-label">
-                {{this.certification.commonComplementaryCertificationCourseResult.label}}
-                :
-              </span>
-              {{this.certification.commonComplementaryCertificationCourseResult.status}}
-            </li>
-          </ul>
-        {{/if}}
-
-        {{#if this.certification.complementaryCertificationCourseResultWithExternal}}
-          <section class="certification-informations__pix-edu">
-            <h2 class="certification-informations__pix-edu__title">Résultats de la certification complémentaire Pix+ Edu
-              :</h2>
-            <div class="certification-informations__row">
-              <div class="certification-informations__card certification-informations__card--pix-edu">
-                <p>VOLET PIX</p>
-                <p class="certification-informations__card__score">
-                  {{this.certification.complementaryCertificationCourseResultWithExternal.pixResult}}
-                </p>
-              </div>
-              <div class="certification-informations__card certification-informations__card--pix-edu">
-                <p>VOLET JURY</p>
-                {{#if this.displayJuryLevelSelect}}
-                  <div class="certification-informations__pix-edu__row__jury-level-editor">
-                    <section>
-                      <PixSelect
-                        @screenReaderOnly={{true}}
-                        @options={{this.juryLevelOptions}}
-                        @value={{this.selectedJuryLevel}}
-                        @hideDefaultOption={{true}}
-                        @onChange={{this.selectJuryLevel}}
-                        @placeholder="Choisir un niveau"
-                      >
-                        <:label>Sélectionner un niveau</:label>
-                      </PixSelect>
-                    </section>
-                    <section>
-                      <PixButton
-                        @variant="secondary"
-                        @size="small"
-                        @triggerAction={{this.onCancelJuryLevelEditButtonClick}}
-                      >
-                        Annuler
-                      </PixButton>
-                      <PixButton
-                        @size="small"
-                        @triggerAction={{this.onEditJuryLevelSave}}
-                        aria-label="Modifier le niveau du jury"
-                      >
-                        Enregistrer
-                      </PixButton>
-                    </section>
-                  </div>
-                {{else}}
-                  <div class="certification-informations__pix-edu__row__jury-level">
-                    <p class="certification-informations__card__score">
-                      {{this.certification.complementaryCertificationCourseResultWithExternal.externalResult}}
-                    </p>
-                    {{#if this.shouldDisplayJuryLevelEditButton}}
-                      <button
-                        type="button"
-                        class="jury-level-edit-icon-button"
-                        aria-label="Modifier le volet jury"
-                        {{on "click" this.editJury}}
-                      >
-                        <FaIcon @icon="pen-to-square" />
-                      </button>
-                    {{/if}}
-                  </div>
-                {{/if}}
-              </div>
-              <div class="certification-informations__card certification-informations__card--pix-edu">
-                <p>NIVEAU FINAL</p>
-                <p
-                  class="certification-informations__card__score"
-                >{{this.certification.complementaryCertificationCourseResultWithExternal.finalResult}}</p>
-              </div>
-            </div>
-          </section>
-        {{/if}}
-      </div>
-    </div>
-  {{/if}}
-
-  {{#if this.hasIssueReports}}
-    <section
-      class="certification-informations__row certification-informations__card certification-informations__certification-issue-reports"
-    >
-      <h2 class="card-title certification-informations__card__title">Signalements</h2>
-      <Certifications::IssueReports
-        @hasImpactfulIssueReports={{this.hasImpactfulIssueReports}}
-        @hasUnimpactfulIssueReports={{this.hasUnimpactfulIssueReports}}
-        @impactfulCertificationIssueReports={{this.impactfulCertificationIssueReports}}
-        @unimpactfulCertificationIssueReports={{this.unimpactfulCertificationIssueReports}}
-        @resolveIssueReport={{this.resolveIssueReport}}
-      />
-    </section>
-  {{/if}}
-
-  <Certifications::Certification::Comments
-    @onJuryCommentSave={{this.onJuryCommentSave}}
-    @certification={{this.certification}}
-  />
-
-  <div class="certification-informations__row">
-    <div class="certification-informations__card">
-      <h2 class="certification-informations__card__title">Résultats</h2>
-      <Certifications::InfoField
-        @value={{this.certification.pixScore}}
-        @edition={{false}}
-        @label="Score :"
-        @fieldId="certification-pixScore"
-        @suffix=" Pix"
-      />
-
-      <Certifications::CompetenceList
-        @competences={{this.certification.competences}}
-        @shouldDisplayPixScore={{this.shouldDisplayPixScore}}
-        @edition={{false}}
-        @onUpdateScore={{this.onUpdateScore}}
-        @onUpdateLevel={{this.onUpdateLevel}}
-      />
-    </div>
-  </div>
-</div>
-
-<ConfirmPopup
-  @title={{this.modalTitle}}
-  @message={{this.confirmMessage}}
-  @error={{this.confirmErrorMessage}}
-  @confirm={{this.confirmAction}}
-  @show={{this.displayConfirm}}
-  @cancel={{this.onCancelConfirm}}
+<Certifications::Certification::Informations
+  @certification={{this.certification}}
+  @onUncancelCertificationButtonClick={{this.onUncancelCertificationButtonClick}}
+  @onCancelCertificationButtonClick={{this.onCancelCertificationButtonClick}}
+  @shouldDisplayUnrejectCertificationButton={{this.shouldDisplayUnrejectCertificationButton}}
+  @onUnrejectCertificationButtonClick={{this.onUnrejectCertificationButtonClick}}
+  @shouldDisplayRejectCertificationButton={{this.shouldDisplayRejectCertificationButton}}
+  @onRejectCertificationButtonClick={{this.onRejectCertificationButtonClick}}
+  @editingCandidateInformations={{this.editingCandidateInformations}}
+  @openCandidateEditModal={{this.openCandidateEditModal}}
+  @displayJuryLevelSelect={{this.displayJuryLevelSelect}}
+  @juryLevelOptions={{this.juryLevelOptions}}
+  @selectedJuryLevel={{this.selectedJuryLevel}}
+  @selectJuryLevel={{this.selectJuryLevel}}
+  @onCancelJuryLevelEditButtonClick={{this.onCancelJuryLevelEditButtonClick}}
+  @onEditJuryLevelSave={{this.onEditJuryLevelSave}}
+  @shouldDisplayJuryLevelEditButton={{this.shouldDisplayJuryLevelEditButton}}
+  @editJury={{this.editJury}}
+  @hasIssueReports={{this.hasIssueReports}}
+  @hasImpactfulIssueReports={{this.hasImpactfulIssueReports}}
+  @hasUnimpactfulIssueReports={{this.hasUnimpactfulIssueReports}}
+  @impactfulCertificationIssueReports={{this.impactfulCertificationIssueReports}}
+  @unimpactfulCertificationIssueReports={{this.unimpactfulCertificationIssueReports}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @onJuryCommentSave={{this.onJuryCommentSave}}
+  @shouldDisplayPixScore={{this.shouldDisplayPixScore}}
+  @onUpdateScore={{this.onUpdateScore}}
+  @onUpdateLevel={{this.onUpdateLevel}}
+  @modalTitle={{this.modalTitle}}
+  @confirmMessage={{this.confirmMessage}}
+  @confirmErrorMessage={{this.confirmErrorMessage}}
+  @confirmAction={{this.confirmAction}}
+  @displayConfirm={{this.displayConfirm}}
+  @onCancelConfirm={{this.onCancelConfirm}}
+  @isCandidateEditModalOpen={{this.isCandidateEditModalOpen}}
+  @closeCandidateEditModal={{this.closeCandidateEditModal}}
+  @onCandidateInformationSave={{this.onCandidateInformationSave}}
+  @countries={{this.countries}}
 />
-
-{{#if this.isCandidateEditModalOpen}}
-  <Certifications::CandidateEditModal
-    @onCancelButtonsClicked={{this.closeCandidateEditModal}}
-    @onFormSubmit={{this.onCandidateInformationSave}}
-    @candidate={{this.certification}}
-    @countries={{this.countries}}
-    @isDisplayed={{this.isCandidateEditModalOpen}}
-  />
-{{/if}}

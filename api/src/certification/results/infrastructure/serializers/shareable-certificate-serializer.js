@@ -44,6 +44,7 @@ const attributes = [
   'resultCompetenceTree',
   'certifiedBadgeImages',
   'maxReachableLevelOnCertificationDate',
+  'version',
 ];
 
 const serialize = function (certificate) {

@@ -1,7 +1,7 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
@@ -18,7 +18,7 @@ export default class OrganizationPlacesOrCreditInfo extends Component {
       <div class="organization-places-or-credit-info hide-on-mobile">
         {{#if (eq @placesCount 0)}}
           <span class="organization-places-or-credit-info__warning">
-            <FaIcon @icon="triangle-exclamation" class="warning-icon" />
+            <PixIcon @name="warning" @plainIcon={{true}} class="warning-icon" />
             {{t "navigation.places.number" count=@placesCount}}</span>
         {{else}}
           <span>{{t "navigation.places.number" count=@placesCount}}</span>
@@ -35,7 +35,13 @@ export default class OrganizationPlacesOrCreditInfo extends Component {
 
         <PixTooltip @id="credit-info-tooltip" @position="bottom-left" @isWide={{true}} @isLight={{true}}>
           <:triggerElement>
-            <FaIcon @icon="circle-info" class="info-icon" tabindex="0" aria-describedby="credit-info-tooltip" />
+            <PixIcon
+              @name="help"
+              @plainIcon={{true}}
+              class="info-icon"
+              tabindex="0"
+              aria-describedby="credit-info-tooltip"
+            />
           </:triggerElement>
           <:tooltip>
             {{t "navigation.credits.tooltip-text" htmlSafe=true}}

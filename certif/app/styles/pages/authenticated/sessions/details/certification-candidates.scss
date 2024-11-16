@@ -1,218 +1,169 @@
-.certification-candidates-table th:last-child, td:last-child {
-  padding-right: 0;
-}
+.certification-candidates-table {
+ td,th {
+    padding-left: 16px;
+  }
 
-.table__empty {
-  text-align: center;
-  padding: 2rem 0;
-  box-sizing: border-box;
-}
-
-.panel-actions  {
-  margin-bottom: 1.25rem;
-  padding: 1.25rem 2.5rem 0.3rem 2.58rem;
-}
-
-.panel-actions__header {
-  display: flex;
-  align-items: center;
-  flex-flow: row nowrap;
-  margin-bottom: 2.5rem;
-}
-
-.panel-actions__header-title {
-  margin-left: 1rem;
-
-  @extend %pix-title-s;
-}
-
-.panel-actions__header-icon {
-  fill: var(--pix-neutral-500);
-  width: 2rem;
-  height: 2rem;
-}
-
-.panel-actions__action-row {
-  display: flex;
-  align-items: center;
-  padding: 1.25rem 0 1.25rem 1.25rem;
-  box-sizing: border-box;
-  flex-flow: row nowrap;
-  margin-bottom: 1.3rem;
-  border: 0.062rem solid var(--pix-neutral-100);
-  border-radius: 1.25rem;
-  background: var(--pix-neutral-20);
-  position: relative;
-}
-
-.panel-actions__action-icon {
-  fill: var(--pix-neutral-500);
-  width: 3rem;
-  height: 3rem;
-}
-
-.panel-actions__action-icon svg {
-  margin: 0 auto;
-}
-
-.panel-actions__description {
-  display: flex;
-  flex-flow: column nowrap;
-  margin-left: 1.25rem;
-  width: 65%;
-  color: var(--pix-neutral-500);
-  font-size: 0.8rem;
-}
-
-.panel-actions__title {
-  @extend %pix-title-xs;
-
-  color: var(--pix-neutral-800);
-}
-
-.panel-actions__button {
-  display: flex;
-  align-items: center;
-  padding-right: 0.625rem;
-  margin-left: auto;
-  margin-right: 1.25rem;
-
-  > label, a {
-    min-width: 164px;
+  th:last-child,td:last-child {
+    padding-right: 0;
   }
 }
 
-.panel-actions__warning {
-  display: flex;
-  align-items: center;
-}
-
-.panel-actions__warning-icon {
-  fill: var(--pix-warning-500);
-  width: 2.2rem;
-  height: 2.2rem;
-  margin-left: var(--pix-spacing-1x);
-}
-
-.panel-actions-description  {
-
-  &__information {
-    margin-bottom: 0;
+  .table__empty {
+    text-align: center;
+    padding: 2rem 0;
+    box-sizing: border-box;
   }
-}
 
-.panel-header {
-  display: flex;
-  align-items: center;
-  color: var(--pix-neutral-500);
-  padding: 20px;
+  .panel-actions  {
+    margin-bottom: 1.25rem;
+    padding: 1.25rem 2.5rem 0.3rem 2.58rem;
+  }
 
-  &__title {
+  .panel-actions__header {
     display: flex;
-    flex-grow: 1;
+    align-items: center;
+    flex-flow: row nowrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .panel-actions__header-title {
+    margin-left: 1rem;
 
     @extend %pix-title-s;
   }
 
-  &__action {
+  .panel-actions__header-icon {
+    fill: var(--pix-neutral-500);
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .panel-actions__action-row {
     display: flex;
     align-items: center;
-    cursor: pointer;
+    padding: 1.25rem 0 1.25rem 1.25rem;
+    box-sizing: border-box;
+    flex-flow: row nowrap;
+    margin-bottom: 1.3rem;
+    border: 0.062rem solid var(--pix-neutral-100);
+    border-radius: 1.25rem;
+    background: var(--pix-neutral-20);
+    position: relative;
   }
 
-  &__mandatory-warning {
-    padding-top: 4px;
-    margin-left: 16px;
-    font-size: 0.82rem;
-    font-weight: normal;
+  .panel-actions__action-icon {
+    fill: var(--pix-neutral-500);
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .panel-actions__action-icon svg {
+    margin: 0 auto;
+  }
+
+  .panel-actions__description {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-left: 1.25rem;
+    width: 65%;
     color: var(--pix-neutral-500);
-  }
-}
-
-.certification-candidates-table td, .certification-candidates-table th {
-  padding-left: 16px;
-}
-
-.certification-candidates-table__column-last-name {
-  width: 160px;
-}
-
-.certification-candidates-table__column-first-name {
-  width: 130px;
-}
-
-.certification-candidates-table__column-birthdate {
-  width: 130px;
-}
-
-.certification-candidates-table__external-id {
-  width: 130px;
-}
-
-.certification-candidates-table__column-time {
-  width: 50px;
-  box-sizing: content-box;
-}
-
-.certification-candidates-table__column-accessibility {
-  width: 64px;
-}
-
-.certification-candidates-table__payment-options {
-  width: 100px;
-  box-sizing: content-box;
-}
-
-.certification-candidates-table__selected-subscriptions {
-  align-items: center;
-  display: flex;
-  gap: 0.5rem;
-  width: 100px;
-  box-sizing: content-box;
-
-  svg {
-    width: 1rem;
-    height: 1rem;
-    fill: var(--pix-neutral-800);
-  }
-}
-
-.certification-candidates-actions {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 16px;
-  gap: var(--pix-spacing-2x);
-
-  &__display-details {
-    margin-right: 16px;
+    font-size: 0.8rem;
   }
 
-  &__delete, &__edit {
+  .panel-actions__title {
+    @extend %pix-title-xs;
+
+    color: var(--pix-neutral-800);
+  }
+
+  .panel-actions__button {
+    display: flex;
+    align-items: center;
+    padding-right: 0.625rem;
+    margin-left: auto;
+    margin-right: 1.25rem;
+
+    > label, a {
+      min-width: 164px;
+    }
+  }
+
+  .panel-actions__warning {
+    display: flex;
+    align-items: center;
+  }
+
+  .panel-actions__warning-icon {
+    fill: var(--pix-warning-500);
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-left: var(--pix-spacing-1x);
+  }
+
+  .panel-actions-description  {
+
+    &__information {
+      margin-bottom: 0;
+    }
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    color: var(--pix-neutral-500);
+    padding: 20px;
+
+    &__title {
+      display: flex;
+      flex-grow: 1;
+
+      @extend %pix-title-s;
+    }
+
+    &__action {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    &__mandatory-warning {
+      padding-top: 4px;
+      margin-left: 16px;
+      font-size: 0.82rem;
+      font-weight: normal;
+      color: var(--pix-neutral-500);
+    }
+  }
+
+  .certification-candidates-table__selected-subscriptions {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    width: 100px;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      fill: var(--pix-neutral-800);
+    }
+  }
+
+  .certification-candidates-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 16px;
+    gap: var(--pix-spacing-2x);
+
+    &__display-details {
+      margin-right: 16px;
+    }
+
+    &__delete, &__edit {
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    &-button--disabled {
-      background-color: var(--pix-neutral-100);
-      color: var(--pix-neutral-0);
-      cursor: not-allowed;
-
-      &:hover, &:active, &:focus {
-        background-color: var(--pix-neutral-100);
-      }
-    }
-  }
-}
-
-.certification-candidates-notification {
-  p {
-    margin: 0;
-    flex-direction: column;
-  }
-  b {
-    font-weight: bold;
   }
 }

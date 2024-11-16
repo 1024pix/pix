@@ -1,0 +1,13 @@
+.participation-evolution-icon {
+  &--increase{
+    color: var(--pix-success-500);
+  }
+
+  &--decrease {
+    color: var(--pix-error-500);
+  }
+
+  &--stable {
+    color: var(--pix-warning-500);
+  }
+}

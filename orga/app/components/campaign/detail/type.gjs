@@ -1,5 +1,5 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 
 export default class CampaignType extends Component {
@@ -7,7 +7,7 @@ export default class CampaignType extends Component {
 
   get picto() {
     const { campaignType } = this.args;
-    return campaignType === 'ASSESSMENT' ? 'tachometer' : 'person-export';
+    return campaignType === 'ASSESSMENT' ? 'speed' : 'profileShare';
   }
 
   get pictoCssClass() {
@@ -38,12 +38,11 @@ export default class CampaignType extends Component {
 
   <template>
     <span class="campaign-type">
-      <FaIcon
-        class="{{this.pictoCssClass}}"
-        @icon="{{this.picto}}"
-        @prefix="fapix"
-        aria-hidden={{this.pictoAriaHidden}}
-        @title={{this.pictoTitle}}
+      <PixIcon
+        class={{this.pictoCssClass}}
+        @name={{this.picto}}
+        aria-hidden="{{this.pictoAriaHidden}}"
+        aria-label={{this.pictoTitle}}
         ...attributes
       />
       {{#unless @hideLabel}}

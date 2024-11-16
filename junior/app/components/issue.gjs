@@ -58,6 +58,6 @@ export default class Issue extends Component {
         >{{t "pages.error.backHome"}}</PixButton>
       </div>
     </div>
-    <img src="/images/logo.svg" alt="Pix Junior" class="logo" />
+    <img src="/images/logo.svg" alt="Pix Junior" class="issue-logo" />
   </template>
 }
