@@ -544,57 +544,59 @@
           "type": "element",
           "element": {
             "id": "d0c79a9f-1c62-4b9b-9bf3-629746823287",
-            "type": "text",
-            "content": "<p>Vous savez maintenant à quoi sert un ENT, quelles sont ses fonctionnalités principales et dans quels cas l'utiliser.</p><p><em>à venir activité déclarative</em></p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "930a4060-d687-45eb-8a32-42c75634fb31",
-            "type": "separator"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "42ddf006-94f6-4f68-b01c-52e2a00ca66c",
-            "type": "qrocm",
-            "instruction": "<p>Quel est l'ENT que vous utilisez ?&nbsp;</p>",
-            "proposals": [
+            "type": "flashcards",
+            "instruction": "<p>Lisez la question sur chaque carte, essayez de trouver la réponse puis retournez la carte en cliquant dessus.<br>Cela permet de tester votre mémoire <span aria-hidden=\"\\&quot;true\\&quot;\">🎯</span></p>",
+            "title": "L'espace numérique de travail",
+            "introImage": {
+              "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
+            },
+            "cards": [
               {
-                "input": "",
-                "type": "input",
-                "inputType": "text",
-                "size": 18,
-                "display": "block",
-                "placeholder": "nom de l'ENT",
-                "ariaLabel": "",
-                "defaultValue": "",
-                "tolerances": [
-                  "t1",
-                  "t2",
-                  "t3"
-                ],
-                "solutions": [
-                  "Mon bureau numérique",
-                  "Leia",
-                  "mon ENT Occitanie",
-                  "monlycée.net",
-                  "toutatice",
-                  "Paris classe numérique",
-                  "skolengo",
-                  "toute mon année",
-                  "ecole directe",
-                  "e-lyco",
-                  "Chercan"
-                ]
+                "id": "afa1fa77-eada-4759-94e2-f1c608c54980",
+                "recto": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "Qu'est ce que l'espace numérique de travail ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "<p>L'espace numérique de travail est le service en ligne proposé pour par l'établissement scolaire pour le suivi de la scolartié de élèves.</p>"
+                }
+              },
+              {
+                "id": "83f58acb-67c3-49c5-8ac9-020c6bf078ac",
+                "recto": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "Quelles personnes utilisent l'ENT d'un établissement scolaire ? "
+                },
+                "verso": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "<p>Les élèves, les parents, les enseignants et les personnels d'éducation ont accès à l'ENT de l'établissement scolaire grâce à un identifiant et un mot de passe personnel.</p>"
+                }
+              },
+              {
+                "id": "95ee9711-0957-48d1-abfc-a147a5cfbcd4",
+                "recto": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "Un parent peut-il modifier l'emploi du temps de son enfant sur l'ENT ? "
+                },
+                "verso": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "<p>Non, le parent peut uniquement consulter l'emploi du temps de son enfant.&nbsp;<br>Les parents, les élèves, les enseignants et les personnels d'éducation n'ont pas accès aux mêmes fonctionnalités de l'ENT.</p>"
+                }
               }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect.</p>"
-            }
+            ]
           }
         }
       ]
