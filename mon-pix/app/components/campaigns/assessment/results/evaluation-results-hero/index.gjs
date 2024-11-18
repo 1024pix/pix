@@ -208,7 +208,7 @@ export default class EvaluationResultsHero extends Component {
           {{else}}
             {{#unless @campaign.hasCustomResultPageButton}}
               <PixButtonLink @route="authentication.login" @size="large">
-                {{t "navigation.back-to-homepage"}}
+                {{if this.currentUser.user.isAnonymous (t "common.actions.login") (t "navigation.back-to-homepage")}}
               </PixButtonLink>
             {{/unless}}
           {{/if}}

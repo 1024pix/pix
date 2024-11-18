@@ -237,28 +237,68 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
 
   module('when campaign is simplified access', function () {
     module('when there is no custom link', function () {
-      test('it should display only a homepage link', async function (assert) {
-        // given
-        this.set('campaign', {
-          isSimplifiedAccess: true,
-          hasCustomResultPageButton: false,
-        });
-        this.set('campaignParticipationResult', { masteryRate: 0.75 });
+      module('when user is anonymous', function () {
+        test('it should display only a connection link', async function (assert) {
+          // given
+          class currentUserService extends Service {
+            user = { isAnonymous: true };
+          }
+          this.owner.register('service:current-user', currentUserService);
 
-        // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+          this.set('campaign', {
+            isSimplifiedAccess: true,
+            hasCustomResultPageButton: false,
+          });
+          this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+          // when
+          const screen = await render(
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
-        );
+          );
 
-        // then
-        assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
+          // then
+          assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
 
-        assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
-        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+          assert.dom(screen.getByRole('link', { name: t('common.actions.login') })).exists();
+          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+        });
+      });
+
+      module('when user is connected', function () {
+        test('it should display only a connection link', async function (assert) {
+          // given
+          class currentUserService extends Service {
+            user = {
+              firstName: 'Hermione',
+            };
+          }
+          this.owner.register('service:currentUser', currentUserService);
+
+          this.set('campaign', {
+            isSimplifiedAccess: true,
+            hasCustomResultPageButton: false,
+          });
+          this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+          // when
+          const screen = await render(
+            hbs`<Campaigns::Assessment::Results::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
+
+          assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
+          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+        });
       });
     });
 
