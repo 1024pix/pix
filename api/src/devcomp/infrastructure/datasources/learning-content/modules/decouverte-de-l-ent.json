@@ -33,7 +33,7 @@
     },
     {
       "grainId": "b4154d31-a9ab-47ef-a132-3a280ed330cb",
-      "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br> Avez-vous bien retenu les usages conseillés du compte parent ?</p>"
+      "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br>Regardons si vous avez bien retenu les usages conseillés du compte parent ?</p>"
     },
     {
       "grainId": "6c2e4b2c-bc41-4fd3-a8e3-d904fcede740",
@@ -277,7 +277,7 @@
           "element": {
             "id": "0468f3c9-f946-4309-9768-4fda3f28a4b2",
             "type": "text",
-            "content": "<p>\n    <br>\n</p>\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite :</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent : messagerie, emploi du temps, cahier de textes, ...</li><br>\n</ul>"
+            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite :</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent : messagerie, emploi du temps, cahier de textes, ...</li><br>\n</ul>"
           }
         }
       ]
@@ -462,7 +462,7 @@
                 {
                   "id": "4005b450-cac6-4c16-a9af-d24e9f2214b4",
                   "type": "qcu",
-                  "instruction": "<p>Mon enfant doit rendre un devoir sur l’ENT à son professeur de français. <span aria-hidden=\"true\">📝​​</span></p>",
+                  "instruction": "<p>Mon enfant a terminé un devoir de français. Il doit le rendre sur l'ENT à son professeur. <span aria-hidden=\"true\">📝​​</span></p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -561,7 +561,7 @@
                   "image": {
                     "url": ""
                   },
-                  "text": "Qu'est ce que l'espace numérique de travail ?"
+                  "text": "Qu'est ce que l'ENT ?"
                 },
                 "verso": {
                   "image": {
@@ -576,13 +576,13 @@
                   "image": {
                     "url": ""
                   },
-                  "text": "Quelles personnes utilisent l'ENT d'un établissement scolaire ? "
+                  "text": "Dans un établissement scolaire, quelles personnes peuvent utiliser l'ENT ?"
                 },
                 "verso": {
                   "image": {
                     "url": ""
                   },
-                  "text": "<p>Les élèves, les parents, les enseignants et les personnels d'éducation ont accès à l'ENT de l'établissement scolaire grâce à un identifiant et un mot de passe personnel.</p>"
+                  "text": "<p>Les élèves, les parents, les enseignants et les personnels d'éducation ont accès à l'ENT. Ils accèdent à cet espace grâce à un identifiant et un mot de passe personnel.</p>"
                 }
               },
               {
@@ -597,7 +597,7 @@
                   "image": {
                     "url": ""
                   },
-                  "text": "<p>Le parent doit utiliser son compte parent, et pas le compte de son enfant pour éviter toute confusion.</p>"
+                  "text": "<p>Un parent doit utiliser son compte parent pour envoyer des messages avec l'ENT. L'utilisation du compte élève est réservé à l'élève.</p>"
                 }
               }
             ]
