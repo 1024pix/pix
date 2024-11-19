@@ -33,7 +33,7 @@
     },
     {
       "grainId": "b4154d31-a9ab-47ef-a132-3a280ed330cb",
-      "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br> Avez-vous bien retenu les usages conseillés du compte parents ?&nbsp;</p>"
+      "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br> Avez-vous bien retenu les usages conseillés du compte parents ?</p>"
     },
     {
       "grainId": "6c2e4b2c-bc41-4fd3-a8e3-d904fcede740",
@@ -139,7 +139,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p></p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp;</h3> <p></p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.</p>"
+            "content": "<p></p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :</h3> <p></p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.</p>"
           }
         },
         {
@@ -310,7 +310,7 @@
                 {
                   "id": "dacb6bd7-a151-4b00-bca8-4de1ab39891a",
                   "type": "qcu",
-                  "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.&nbsp;</p><p>Quelle application doit-il utiliser ?</p>",
+                  "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.</p><p>Quelle application doit-il utiliser ?</p>",
                   "proposals": [
                     {
                       "id": "2",
