@@ -425,14 +425,14 @@
     {
       "id": "6c2e4b2c-bc41-4fd3-a8e3-d904fcede740",
       "type": "lesson",
-      "title": "Les bonnes pratiques sur l'ENT en tant que parent",
+      "title": "Les différents types de comptes de l'ENT",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "b3cba471-c794-4a39-b044-5b084b468341",
             "type": "text",
-            "content": "<p><strong>vidéo à venir :&nbsp;</strong></p><ul><li><em>Partie 1 : les différents comptes de l’ENT (parents, enfant, prof, personnels de l’établissement)</em></li></ul><p><em>Chaque personne a un compte personnel, selon le type, les fonctionnalités changent.</em></p><p><em>Par exemple, seul un enseignant peut indiquer des notes, seuls les élèves et les enseignants ont accès aux manuels scolaires.</em></p><ul><li><em>Partie 2 : en tant que parent</em></li></ul><p><em>J’ai accès à ces fonctionnalités...</em></p><p><em>Je les utilise pour …bonnes pratiques utilisation / de comm.</em></p><p><em>En cas doute, se référer aux règlements intérieur.</em></p>"
+            "content": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Fp9IIvX7Z7o?si=BvGOl7ST3ho-x-o5\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
           }
         }
       ]
@@ -563,7 +563,7 @@
                   "image": {
                     "url": ""
                   },
-                  "text": "<p>L'espace numérique de travail est le service en ligne proposé par l'établissement scolaire pour le suivi de la scolartié de élèves.</p>"
+                  "text": "<p>L'espace numérique de travail est le service en ligne proposé pour par l'établissement scolaire pour le suivi de la scolartié de élèves.</p>"
                 }
               },
               {
@@ -587,13 +587,13 @@
                   "image": {
                     "url": ""
                   },
-                  "text": "Un parent peut-il modifier l'emploi du temps de son enfant sur l'ENT ? "
+                  "text": "Quel compte un parent doit-il utiliser pour envoyer un message à un enseignant sur l'ENT ?"
                 },
                 "verso": {
                   "image": {
                     "url": ""
                   },
-                  "text": "<p>Non, le parent peut uniquement consulter l'emploi du temps de son enfant.&nbsp;<br>Les parents, les élèves, les enseignants et les personnels d'éducation n'ont pas accès aux mêmes fonctionnalités de l'ENT.</p>"
+                  "text": "<p>Le parent doit utiliser son compte parent, et pas le compte de son enfant pour éviter toute confusion.<br></p>"
                 }
               }
             ]
