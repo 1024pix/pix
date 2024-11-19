@@ -135,7 +135,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p></p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp;</h3> <p></p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.<br><br></p>"
+            "content": "<p></p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :&nbsp;</h3> <p></p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe.</p>"
           }
         },
         {
@@ -160,7 +160,7 @@
           "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
-            "content": "<p><br></p><h3>Tous les collèges et les lycées publics ont un ENT. </h3><p>Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p><br></p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.<br><br></p>"
+            "content": "<p></p><h3>Tous les collèges et les lycées publics ont un ENT. </h3><p>Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p><br></p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.</p>"
           }
         }
       ]
@@ -288,7 +288,7 @@
           "element": {
             "id": "1e8e1448-5373-4272-9240-4b378dffcffb",
             "type": "text",
-            "content": "<p>Martin est connecté à l’ENT du collège d’Ava.</p>\n<p>Répondez à chacune des questions suivantes.<br></p>"
+            "content": "<p>Martin est connecté à l’ENT du collège d’Ava.</p>\n<p>Répondez à chacune des questions suivantes.</p>"
           }
         },
         {
@@ -306,7 +306,7 @@
                 {
                   "id": "dacb6bd7-a151-4b00-bca8-4de1ab39891a",
                   "type": "qcu",
-                  "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.&nbsp;</p><p>Quelle application doit-il utiliser ? <br><br></p>",
+                  "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.&nbsp;</p><p>Quelle application doit-il utiliser ?</p>",
                   "proposals": [
                     {
                       "id": "2",
@@ -447,7 +447,7 @@
           "element": {
             "id": "d4ac45bf-ba4d-4720-aa14-e8bae452956f",
             "type": "text",
-            "content": "<p>Pour chaque situation concrète d’utilisation de l’ENT, choisissez si l’utilisation du compte parent est adaptée ou non.<br></p>"
+            "content": "<p>Pour chaque situation concrète d’utilisation de l’ENT, choisissez si l’utilisation du compte parent est adaptée ou non.</p>"
           }
         },
         {
@@ -593,7 +593,7 @@
                   "image": {
                     "url": ""
                   },
-                  "text": "<p>Le parent doit utiliser son compte parent, et pas le compte de son enfant pour éviter toute confusion.<br></p>"
+                  "text": "<p>Le parent doit utiliser son compte parent, et pas le compte de son enfant pour éviter toute confusion.</p>"
                 }
               }
             ]
