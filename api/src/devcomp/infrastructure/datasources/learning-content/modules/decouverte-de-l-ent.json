@@ -396,7 +396,7 @@
                 {
                   "id": "85ef8964-a248-4a9d-a087-091a4aefd30a",
                   "type": "qcu",
-                  "instruction": "<p><strong>Dans quelle matière Ava a-t-elle des devoirs à rendre pour mardi prochain ?</strong></p>",
+                  "instruction": "<p><strong>Dans quelle matière Ava a-t-elle des devoirs à rendre pour mardi ?</strong></p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -406,12 +406,12 @@
                     {
                       "id": "3",
                       "content": "<p>Mathématiques</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Incorrect.</span></p><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi.</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>Français</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi prochain.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -462,7 +462,7 @@
                 {
                   "id": "4005b450-cac6-4c16-a9af-d24e9f2214b4",
                   "type": "qcu",
-                  "instruction": "<p>Mon enfant a un devoir à rendre sur l’ENT à son professeur de français. <span aria-hidden=\"true\">📝​​</span></p>",
+                  "instruction": "<p>Mon enfant doit rendre un devoir sur l’ENT à son professeur de français. <span aria-hidden=\"true\">📝​​</span></p>",
                   "proposals": [
                     {
                       "id": "1",
