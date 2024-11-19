@@ -34,6 +34,10 @@
     {
       "grainId": "b4154d31-a9ab-47ef-a132-3a280ed330cb",
       "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br> Avez-vous bien retenu les usages conseillés du compte parents ?&nbsp;</p>"
+    },
+    {
+      "grainId": "6c2e4b2c-bc41-4fd3-a8e3-d904fcede740",
+      "content": "<p>À présent, revenons en vidéo sur les différents comptes qui existent sur l'ENT et plus particulièrement sur le compte parent.</p>"
     }
   ],
   "grains": [
