@@ -28,8 +28,6 @@ class CampaignParticipant {
   }
 
   start({ participantExternalId, isReset }) {
-    this._checkCanParticipateToCampaign(participantExternalId, isReset);
-
     const participantExternalIdToUse =
       this.previousCampaignParticipationForUser?.participantExternalId || participantExternalId;
     let startAgainCampaign = false;
@@ -37,6 +35,8 @@ class CampaignParticipant {
       startAgainCampaign = true;
       this.previousCampaignParticipationForUser.isImproved = true;
     }
+
+    this._checkCanParticipateToCampaign(participantExternalIdToUse, isReset);
 
     if (this._shouldCreateOrganizationLearner()) {
       this.organizationLearner = new OrganizationLearner({
@@ -67,7 +67,7 @@ class CampaignParticipant {
     return !this.campaignToStartParticipation.isRestricted && !this.organizationLearnerId;
   }
 
-  _checkCanParticipateToCampaign(participantExternalId, isReset) {
+  _checkCanParticipateToCampaign(externalId, isReset) {
     if (this.isOrganizationLearnerDisabled) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
@@ -102,25 +102,22 @@ class CampaignParticipant {
       throw new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
     }
 
-    if (this._isMissingParticipantExternalId(participantExternalId)) {
+    if (this.#isMissingExternalId(externalId)) {
       throw new EntityValidationError({
         invalidAttributes: [
           {
-            attribute: 'participantExternalId',
+            attribute: 'externalId',
             message: 'MISSING_EXTERNAL_ID',
           },
         ],
       });
     }
 
-    if (
-      this.campaignToStartParticipation.idPixType === CampaignExternalIdTypes.EMAIL &&
-      !emailValidationService.validateEmailSyntax(participantExternalId)
-    ) {
+    if (this.#isTypeEmailInvalidExternalId(externalId)) {
       throw new EntityValidationError({
         invalidAttributes: [
           {
-            attribute: 'participantExternalId',
+            attribute: 'externalId',
             message: 'INVALID_EMAIL',
           },
         ],
@@ -140,11 +137,14 @@ class CampaignParticipant {
     );
   }
 
-  _isMissingParticipantExternalId(participantExternalId) {
+  #isMissingExternalId(externalId) {
+    return this.campaignToStartParticipation.idPixLabel && !externalId;
+  }
+
+  #isTypeEmailInvalidExternalId(externalId) {
     return (
-      this.campaignToStartParticipation.idPixLabel &&
-      !participantExternalId &&
-      !this.previousCampaignParticipationForUser
+      this.campaignToStartParticipation.idPixType === CampaignExternalIdTypes.EMAIL &&
+      !emailValidationService.validateEmailSyntax(externalId)
     );
   }
 }

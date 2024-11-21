@@ -350,12 +350,12 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       });
     });
 
-    context('when the campaign has an idPixLabel', function () {
+    context('when the campaign has an idPixType', function () {
       let campaignToStartParticipation;
       let userIdentity;
       beforeEach(function () {
         userIdentity = { id: 1 };
-        campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ idPixLabel: 'something' });
+        campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ idPixType: 'TEXT' });
       });
 
       it('should throw an error if participantExternalId is missing in parameters', async function () {
@@ -395,7 +395,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
         expect(error).instanceof(EntityValidationError);
         const [errorDetail] = error.invalidAttributes;
-        expect(errorDetail).to.deep.equal({ attribute: 'participantExternalId', message: 'INVALID_EMAIL' });
+        expect(errorDetail).to.deep.equal({ attribute: 'externalId', message: 'INVALID_EMAIL' });
       });
 
       it('should get participant external id from parameters', async function () {
@@ -414,13 +414,42 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         expect(campaignParticipant.campaignParticipation.participantExternalId).equal(expectedParticipantExternalId);
       });
 
-      it('should get participant externalid from the previous participation', async function () {
+      describe('When has previous participation', function () {
+        it('should get previous externalid of type email', async function () {
+          campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+            idPixLabel: 'an email please',
+            idPixType: CampaignExternalIdTypes.EMAIL,
+            multipleSendings: true,
+            skillCount: 1,
+          });
+          const expectedParticipantExternalId = 'email@example.net';
+          const campaignParticipant = new CampaignParticipant({
+            campaignToStartParticipation,
+            previousCampaignParticipationForUser: {
+              status: 'SHARED',
+              validatedSkillsCount: 0,
+              participantExternalId: expectedParticipantExternalId,
+            },
+            userIdentity,
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
+          });
+          campaignParticipant.start({ participantExternalId: null });
+
+          expect(campaignParticipant.campaignParticipation.participantExternalId).equal(expectedParticipantExternalId);
+        });
+      });
+
+      it('should get previous externalid of type email', async function () {
         campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
-          idPixLabel: 'something',
+          idPixLabel: 'wathever i want',
+          idPixType: CampaignExternalIdTypes.STRING,
           multipleSendings: true,
           skillCount: 1,
         });
-        const expectedParticipantExternalId = 'YvoLol';
+        const expectedParticipantExternalId = 'ouh ouh ouh';
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           previousCampaignParticipationForUser: {
@@ -434,7 +463,6 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             hasParticipated: false,
           },
         });
-
         campaignParticipant.start({ participantExternalId: null });
 
         expect(campaignParticipant.campaignParticipation.participantExternalId).equal(expectedParticipantExternalId);
