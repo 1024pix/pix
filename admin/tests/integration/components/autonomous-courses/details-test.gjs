@@ -37,7 +37,7 @@ module('Integration | Component | AutonomousCourses | Details', function (hooks)
     const link = screen.getByRole('link', { name: 'Lien vers la campagne CODE (nouvelle fenêtre)' }).textContent;
 
     // then
-    assert.dom(screen.getByText('123')).exists();
+    assert.dom(screen.getByText(/#123/)).exists();
     assert.strictEqual(screen.getAllByText('Mon titre de parcours').length, 3);
     assert.dom(screen.getByText("texte de la page d'accueil")).exists();
     assert.dom(screen.getByText('27/12/2023')).exists();

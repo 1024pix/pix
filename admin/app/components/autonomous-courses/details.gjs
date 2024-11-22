@@ -45,7 +45,9 @@ export default class Details extends Component {
 
     <main class="page-body">
       <section class="page-section">
-        <h2>{{@autonomousCourse.internalTitle}}</h2>
+        <h1 class="pix-title-s">
+          {{@autonomousCourse.internalTitle}}&nbsp;<small>(#{{@autonomousCourse.id}})</small>
+        </h1>
 
         {{#if this.isEditMode}}
           <UpdateAutonomousCourseForm
@@ -56,7 +58,7 @@ export default class Details extends Component {
         {{else}}
           <ViewAutonomousCourse @autonomousCourse={{@autonomousCourse}} />
           <div class="form-actions">
-            <PixButton @variant="secondary" @size="small" @triggerAction={{this.toggleEditMode}}>
+            <PixButton @size="small" @triggerAction={{this.toggleEditMode}}>
               {{t "common.actions.edit"}}
             </PixButton>
           </div>
