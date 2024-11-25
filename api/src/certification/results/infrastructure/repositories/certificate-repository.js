@@ -141,6 +141,7 @@ function _selectCertificationAttestations() {
       userId: 'certification-courses.userId',
       date: 'certification-courses.createdAt',
       deliveredAt: 'sessions.publishedAt',
+      version: 'sessions.version',
       verificationCode: 'certification-courses.verificationCode',
       certificationCenter: 'sessions.certificationCenter',
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',

@@ -55,7 +55,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
           });
 
         // then
-        expect(actualTargetProfileSummaries.length).to.equal(5);
+        expect(actualTargetProfileSummaries).to.have.lengthOf(5);
         expect(actualTargetProfileSummaries[0].outdated).to.be.false;
         expect(actualTargetProfileSummaries[1].outdated).to.be.false;
       });
@@ -83,7 +83,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
           });
 
         // then
-        expect(actualTargetProfileSummaries.length).to.equal(5);
+        expect(actualTargetProfileSummaries).to.have.lengthOf(5);
         expect(actualTargetProfileSummaries[0].name).to.equal('TPA');
         expect(actualTargetProfileSummaries[1].name).to.equal('TPC');
       });
@@ -112,7 +112,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
         // then
         const expectedMeta = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-        expect(actualTargetProfileSummaries.length).to.equal(3);
+        expect(actualTargetProfileSummaries).to.have.lengthOf(3);
         expect(meta).to.deep.equal(expectedMeta);
       });
     });
@@ -142,7 +142,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
         // then
         const expectedMeta = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
-        expect(actualTargetProfileSummaries.length).to.equal(2);
+        expect(actualTargetProfileSummaries).to.have.lengthOf(2);
         expect(meta).to.deep.equal(expectedMeta);
       });
     });

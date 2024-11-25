@@ -1,26 +1,16 @@
 import lodash from 'lodash';
 
 import { usecases as certificationConfigurationUsecases } from '../../../src/certification/configuration/domain/usecases/index.js';
+import * as certificationCenterForAdminSerializer from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/certification-center-membership.serializer.js';
 import { usecases as teamUsecases } from '../../../src/team/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
 
 const { map } = lodash;
-
-const create = async function (request) {
-  const certificationCenter = certificationCenterForAdminSerializer.deserialize(request.payload);
-  const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
-  const createdCertificationCenter = await usecases.createCertificationCenter({
-    certificationCenter,
-    complementaryCertificationIds,
-  });
-  return certificationCenterForAdminSerializer.serialize(createdCertificationCenter);
-};
 
 const update = async function (request) {
   const certificationCenterId = request.params.id;
@@ -140,7 +130,6 @@ const updateReferer = async function (request, h) {
 };
 
 const certificationCenterController = {
-  create,
   createCertificationCenterMembershipByEmail,
   findCertificationCenterMembershipsByCertificationCenter,
   findPaginatedSessionSummaries,

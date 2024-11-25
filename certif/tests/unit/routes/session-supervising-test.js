@@ -85,10 +85,10 @@ module('Unit | Route | session-supervising', function (hooks) {
           const session = { id: '123' };
 
           class NotificationStub extends Service {
-            error = sinon.stub();
+            sendErrorNotification = sinon.stub();
           }
 
-          this.owner.register('service:notifications', NotificationStub);
+          this.owner.register('service:pixToast', NotificationStub);
 
           class StoreStub extends Service {
             queryRecord = sinon.stub();
@@ -96,7 +96,7 @@ module('Unit | Route | session-supervising', function (hooks) {
 
           this.owner.register('service:store', StoreStub);
           const route = this.owner.lookup('route:session-supervising');
-          const notification = this.owner.lookup('service:notifications');
+          const pixToast = this.owner.lookup('service:pixToast');
 
           route.store.queryRecord.rejects({ message: 'Failed to fetch' });
 
@@ -106,9 +106,10 @@ module('Unit | Route | session-supervising', function (hooks) {
 
           // then
           assert.ok(
-            notification.error.calledWith(
-              'Votre connexion internet est actuellement interrompue, les données affichées ne sont plus à jour. Veuillez vous reconnecter à internet et recharger la page.',
-            ),
+            pixToast.sendErrorNotification.calledWith({
+              message:
+                'Votre connexion internet est actuellement interrompue, les données affichées ne sont plus à jour. Veuillez vous reconnecter à internet et recharger la page.',
+            }),
           );
         });
       });

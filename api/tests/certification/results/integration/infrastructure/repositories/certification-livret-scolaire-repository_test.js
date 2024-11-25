@@ -298,7 +298,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
 
       // then
-      expect(certificationResults).to.have.length(1);
+      expect(certificationResults).to.have.lengthOf(1);
       expect(certificationResults[0].id).to.equal(lastCertificationCourse.id);
     });
 

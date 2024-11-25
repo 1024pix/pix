@@ -213,7 +213,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
 
           // then
           const sessions = await knex('sessions');
-          expect(sessions.length).to.equal(1);
+          expect(sessions).to.have.lengthOf(1);
           expect(sessions[0].certificationCenter).to.equal(certificationCenter);
           expect(sessions[0].invigilatorPassword).to.equal(sessionToSave.invigilatorPassword);
           expect(sessions[0].version).to.equal(2);
@@ -272,7 +272,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
 
           // then
           const sessions = await knex('sessions');
-          expect(sessions.length).to.equal(1);
+          expect(sessions).to.have.lengthOf(1);
           expect(sessions[0].certificationCenter).to.equal(certificationCenter);
           expect(sessions[0].invigilatorPassword).to.equal(sessionToSave.invigilatorPassword);
           expect(sessions[0].version).to.equal(3);

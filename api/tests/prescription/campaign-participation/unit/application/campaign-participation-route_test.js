@@ -293,4 +293,38 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       expect(securityPreHandlers.checkAuthorizationToAccessCampaign.called).to.be.true;
     });
   });
+
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function () {
+    const method = 'GET';
+
+    it('returns 400 when userId is not a number', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const userId = 'wrongId';
+      const url = `/api/users/${userId}/campaigns/34/campaign-participations`;
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('returns 400 when campaignId is not a number', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const campaignId = 'wrongId';
+      const url = `/api/users/12/campaigns/${campaignId}/campaign-participations`;
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
 });

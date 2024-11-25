@@ -354,6 +354,7 @@
     },
     "main": {
       "aria-label": "Navigation principale",
+      "attestations": "Attestations",
       "campaigns": "Campagnes",
       "certifications": "Certifications",
       "documentation": "Documentation",
@@ -415,6 +416,13 @@
         "empty": "En attente de résultats",
         "row-title": "Compétence"
       }
+    },
+    "attestations": {
+      "title": "Attestations",
+      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les attestations au format PDF.",
+      "download-attestations-button": "Télécharger",
+      "placeholder": "-- Sélectionner --",
+      "select-label": "Sélectionnez une ou plusieurs classes"
     },
     "campaign": {
       "actions": {
@@ -1276,6 +1284,7 @@
         "title": "Liste des profils reçus",
         "caption": "Ce tableau comporte la liste des participants ayant partagé leurs profils. Il indique pour chaque participant leur nom, prénom, la date d’envoi, le score Pix, l'évolution, le statut de certificabilité et le nombre de compétences certifiables.",
         "column": {
+          "ariaSharedProfileCount": "Nombre de partages de profil",
           "certifiable": "Certifiable",
           "competences-certifiables": "Comp. certifiables",
           "evolution": "Évolution",
@@ -1288,7 +1297,8 @@
           "sending-date": {
             "label": "Date d'envoi",
             "on-hold": "En attente d'envoi"
-          }
+          },
+          "sharedProfileCount": "Nb de partages de profil"
         },
         "empty": "En attente de profils",
         "evolution": {

@@ -128,9 +128,9 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
           });
 
           // then
-          expect(stageAcquisitionsBefore.length).to.equal(3);
+          expect(stageAcquisitionsBefore).to.have.lengthOf(3);
           const stageAcquisitionsAfter = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ userId });
-          expect(stageAcquisitionsAfter.length).to.equal(4);
+          expect(stageAcquisitionsAfter).to.have.lengthOf(4);
         });
       });
 
@@ -178,7 +178,7 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
             ]);
 
             const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ userId });
-            expect(stageAcquisitions.length).to.equal(0);
+            expect(stageAcquisitions).to.have.lengthOf(0);
           });
         });
       });
@@ -200,7 +200,7 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
 
           // then
           const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ userId });
-          expect(stageAcquisitions.length).to.equal(0);
+          expect(stageAcquisitions).to.have.lengthOf(0);
         });
       });
 
@@ -224,7 +224,7 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
 
           // then
           const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ userId });
-          expect(stageAcquisitions.length).to.equal(4);
+          expect(stageAcquisitions).to.have.lengthOf(4);
         });
       });
     });
@@ -255,7 +255,7 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
 
         // then
         const stageAcquisitionsAfter = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ userId });
-        expect(stageAcquisitionsAfter.length).to.equal(1);
+        expect(stageAcquisitionsAfter).to.have.lengthOf(1);
       });
     });
   });

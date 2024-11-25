@@ -15,6 +15,15 @@
   box-shadow: 0 12px 24px 0 rgb(7 20 46 / 12%);
 }
 
+/* To get higher specifity than `.modulix-passage h3` we double classes usage */
+.element-flashcards-intro-card {
+  .element-flashcards-intro-card {
+    &__title {
+      @extend %pix-title-s;
+    }
+  }
+}
+
 .element-flashcards-card {
   &__content {
     display: flex;

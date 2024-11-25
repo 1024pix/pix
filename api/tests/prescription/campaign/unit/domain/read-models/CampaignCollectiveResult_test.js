@@ -18,7 +18,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, campaignLearningContent });
 
       // then
-      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults).to.have.length(2);
+      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults).to.have.lengthOf(2);
     });
 
     it('should order CampaignCompetenceCollectiveResult by competenceIndex', function () {

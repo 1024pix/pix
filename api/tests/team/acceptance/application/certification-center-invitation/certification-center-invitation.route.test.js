@@ -80,7 +80,7 @@ describe('Acceptance | Team | Application | Route | Certification Center Invitat
           .where({ certificationCenterId })
           .whereIn('email', emails);
         expect(response.statusCode).to.equal(204);
-        expect(certificationCenterInvitations.length).to.equal(2);
+        expect(certificationCenterInvitations).to.have.lengthOf(2);
       });
     });
   });

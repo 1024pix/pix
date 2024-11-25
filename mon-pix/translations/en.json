@@ -40,6 +40,7 @@
       "cancel": "Cancel",
       "close": "Close",
       "confirm": "Confirm",
+      "download": "Download",
       "lets-go": "Let's go!",
       "login": "Log in to Pix",
       "quit": "Exit",
@@ -245,6 +246,26 @@
           },
           "legend": "Information required for sign up."
         }
+      }
+    },
+    "campaigns": {
+      "attestation-result": {
+        "SIXTH_GRADE": {
+          "title": "Digital awareness"
+        },
+        "computing": "Attestation being calculated",
+        "computing-description": "A technical problem prevents us from informing you about obtaining your certificate. Please reconnect tomorrow on Pix, section 'My journey', to consult your results. We apologize for the inconvenience caused.",
+        "not-obtained": "Attestation not obtained",
+        "obtained": "Attestation obtained"
+      },
+      "results-loader": {
+        "steps": {
+          "competences": "Calculating scores by skill",
+          "rewards": "Awarding the prizes",
+          "trainings": "Identifying useful training courses"
+        },
+        "subtitle": "One moment, please! I'll be as quick as I can.",
+        "title": "Calculate your current score..."
       }
     },
     "invited": {

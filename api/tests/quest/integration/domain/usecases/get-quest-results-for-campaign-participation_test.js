@@ -35,4 +35,55 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
     expect(result[0].id).to.equal(questId);
     expect(result[0].reward.id).to.equal(rewardId);
   });
+
+  it('should not return quest results for other campaign participation', async function () {
+    // given
+    const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+    const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+
+    const { id: notEligibleParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+      organizationLearnerId,
+      userId,
+    });
+    const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+    const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
+    databaseBuilder.factory.buildCampaignParticipation({
+      organizationLearnerId,
+      campaignId,
+      userId,
+    });
+    const rewardId = databaseBuilder.factory.buildAttestation().id;
+    databaseBuilder.factory.buildQuest({
+      rewardType: 'attestations',
+      rewardId,
+      eligibilityRequirements: [
+        {
+          type: 'organization',
+          data: {
+            type: 'SCO',
+          },
+          comparison: COMPARISON.ALL,
+        },
+        {
+          type: 'campaignParticipations',
+          data: {
+            targetProfileIds: [targetProfileId],
+          },
+          comparison: COMPARISON.ALL,
+        },
+      ],
+      successRequirements: [],
+    }).id;
+
+    await databaseBuilder.commit();
+
+    // when
+    const result = await usecases.getQuestResultsForCampaignParticipation({
+      userId,
+      campaignParticipationId: notEligibleParticipationId,
+    });
+
+    // then
+    expect(result).to.be.empty;
+  });
 });

@@ -3,7 +3,6 @@ import { config as settings } from '../../../../src/shared/config.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { getI18n } from '../../../../src/shared/infrastructure/i18n/i18n.js';
-import { urlBuilder } from '../../../../src/shared/infrastructure/utils/url-builder.js';
 import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
 import en from '../../../../translations/en.json' with { type: 'json' };
 import fr from '../../../../translations/fr.json' with { type: 'json' };
@@ -11,12 +10,7 @@ import { es } from '../../../../translations/index.js';
 import nl from '../../../../translations/nl.json' with { type: 'json' };
 import { expect, sinon } from '../../../test-helper.js';
 
-const mainTranslationsMapping = {
-  fr,
-  en,
-  nl,
-  es,
-};
+const mainTranslationsMapping = { fr, en, nl, es };
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 
@@ -25,201 +19,9 @@ const i18n = getI18n();
 describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
   const userEmailAddress = 'user@example.net';
-  const userFirstName = 'Bob';
 
   beforeEach(function () {
     sinon.stub(mailer, 'sendEmail').resolves();
-  });
-
-  describe('#sendAccountCreationEmail', function () {
-    it('calls sendEmail with from, to, subject, template', async function () {
-      // given
-      const locale = undefined;
-      const template = 'test-account-creation-template-id';
-      const token = '00000000-0000-0000-0000-000000000000';
-      const redirectionUrl = 'https://where-i-should.go';
-
-      sinon.stub(urlBuilder, 'getEmailValidationUrl').returns('http://redirect.uri');
-
-      const expectedOptions = {
-        from: senderEmailAddress,
-        to: userEmailAddress,
-        subject: 'Votre compte Pix a bien été créé',
-        template,
-      };
-
-      // when
-      await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl, i18n });
-
-      // then
-      const options = mailer.sendEmail.firstCall.args[0];
-      expect(options).to.include(expectedOptions);
-      expect(urlBuilder.getEmailValidationUrl).to.have.been.calledWith({
-        locale: 'fr-fr',
-        redirectUrl: redirectionUrl,
-        token,
-      });
-    });
-
-    context('according to redirectionUrl', function () {
-      context('if redirectionUrl is provided', function () {
-        it('calls sendEmail with provided value', async function () {
-          // given
-          const token = 'XXX';
-          const redirectionUrl = 'https://pix.fr';
-          const locale = FRENCH_FRANCE;
-          const expectedParams = new URLSearchParams({ token, redirect_url: redirectionUrl });
-
-          // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl, i18n });
-
-          // then
-          const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
-          expect(actualRedirectionUrl).to.equal(
-            `https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`,
-          );
-        });
-      });
-    });
-
-    context('according to locale', function () {
-      context('call sendEmail with localized variable options', function () {
-        it(`calls sendEmail with from, to, and locale ${FRENCH_SPOKEN} or undefined`, async function () {
-          // given
-          const locale = FRENCH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=fr' });
-
-          // when
-          await mailService.sendAccountCreationEmail({
-            email: userEmailAddress,
-            firstName: userFirstName,
-            locale,
-            i18n,
-          });
-
-          // then
-          const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Ne pas répondre');
-          expect(options.variables).to.include({
-            homeName: 'pix.org',
-            homeUrl: 'https://pix.org/fr/',
-            helpdeskUrl: 'https://pix.org/fr/support',
-            displayNationalLogo: false,
-            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
-            ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
-            title: 'Bonjour Bob,',
-          });
-        });
-
-        it(`calls sendEmail with from, to, template and locale ${FRENCH_FRANCE}`, async function () {
-          // given
-          const locale = FRENCH_FRANCE;
-          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.fr/connexion' });
-
-          // when
-          await mailService.sendAccountCreationEmail({
-            email: userEmailAddress,
-            firstName: userFirstName,
-            locale,
-            i18n,
-          });
-
-          // then
-          const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Ne pas répondre');
-          expect(options.variables).to.include({
-            homeName: 'pix.fr',
-            homeUrl: 'https://pix.fr',
-            helpdeskUrl: 'https://pix.fr/support',
-            displayNationalLogo: true,
-            redirectionUrl: `https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`,
-            ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
-            title: 'Bonjour Bob,',
-          });
-        });
-
-        it(`calls sendEmail with from, to, template and locale ${ENGLISH_SPOKEN}`, async function () {
-          // given
-          const locale = ENGLISH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=en' });
-
-          // when
-          await mailService.sendAccountCreationEmail({
-            email: userEmailAddress,
-            firstName: userFirstName,
-            locale,
-            i18n,
-          });
-
-          // then
-          const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Noreply');
-          expect(options.variables).to.include({
-            homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en/',
-            helpdeskUrl: 'https://pix.org/en/support',
-            displayNationalLogo: false,
-            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
-            ...mainTranslationsMapping.en['pix-account-creation-email'].params,
-            title: 'Hello Bob,',
-          });
-        });
-
-        it(`calls sendEmail with from, to, template and locale ${DUTCH_SPOKEN}`, async function () {
-          // given
-          const locale = DUTCH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=nl' });
-
-          // when
-          await mailService.sendAccountCreationEmail({
-            email: userEmailAddress,
-            firstName: userFirstName,
-            locale,
-            i18n,
-          });
-
-          // then
-          const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Niet beantwoorden');
-          expect(options.variables).to.include({
-            homeName: 'pix.org',
-            homeUrl: 'https://pix.org/nl-be/',
-            helpdeskUrl: 'https://pix.org/nl-be/support',
-            displayNationalLogo: false,
-            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
-            ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
-            title: 'Hallo Bob,',
-          });
-        });
-
-        it(`calls sendEmail with from, to, template and locale ${SPANISH_SPOKEN}`, async function () {
-          // given
-          const locale = SPANISH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=es' });
-
-          // when
-          await mailService.sendAccountCreationEmail({
-            email: userEmailAddress,
-            firstName: userFirstName,
-            locale,
-            i18n,
-          });
-
-          // then
-          const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - No contestar');
-          expect(options.variables).to.include({
-            homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en/',
-            helpdeskUrl: 'https://pix.org/en/support',
-            displayNationalLogo: false,
-            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
-            ...mainTranslationsMapping.es['pix-account-creation-email'].params,
-            title: 'Hola Bob,',
-          });
-        });
-      });
-    });
   });
 
   describe('#sendCertificationResultEmail', function () {

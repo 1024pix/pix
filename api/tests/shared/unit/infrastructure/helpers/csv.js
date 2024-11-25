@@ -70,7 +70,7 @@ describe('Unit | Infrastructure | Helpers | csv.js', function () {
       const items = await parseCsvWithHeader(withHeaderFilePath);
 
       // then
-      expect(items.length).to.equal(3);
+      expect(items).to.have.lengthOf(3);
       expect(items).to.have.deep.members(expectedItems);
     });
 

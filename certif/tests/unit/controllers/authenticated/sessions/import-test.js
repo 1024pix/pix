@@ -86,8 +86,6 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
         },
       };
 
-      controller.notifications = { clearAll: sinon.stub() };
-
       // when
       await controller.validateSessions();
 
@@ -104,7 +102,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       const confirmStub = sinon.stub().rejects();
       const createRecordStub = sinon.stub().returns({ confirm: confirmStub });
       store.createRecord = createRecordStub;
-      controller.notifications = { error: sinon.spy() };
+      controller.pixToast = { sendErrorNotification: sinon.spy() };
       controller.set('cachedValidatedSessionsKey', 'uuid');
       sinon.stub(controller.router, 'transitionTo');
 
@@ -113,7 +111,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
 
       // then
       assert.ok(controller.isImportStepOne);
-      sinon.assert.calledOnce(controller.notifications.error);
+      sinon.assert.calledOnce(controller.pixToast.sendErrorNotification);
     });
 
     test('should create session mass import report and confirm import', async function (assert) {

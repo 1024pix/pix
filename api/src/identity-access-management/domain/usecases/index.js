@@ -21,11 +21,15 @@ import * as userLoginRepository from '../../../shared/infrastructure/repositorie
 import * as codeUtils from '../../../shared/infrastructure/utils/code-utils.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
+import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { eventLoggingJobRepository } from '../../infrastructure/repositories/jobs/event-logging-job.repository.js';
 import { garAnonymizedBatchEventsLoggingJobRepository } from '../../infrastructure/repositories/jobs/gar-anonymized-batch-events-logging-job-repository.js';
+import { userAnonymizedEventLoggingJobRepository } from '../../infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
@@ -47,12 +51,16 @@ const repositories = {
   campaignParticipationRepository,
   campaignRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
+  certificationCenterMembershipRepository,
   emailValidationDemandRepository,
+  emailRepository,
   eventLoggingJobRepository,
+  membershipRepository,
   oidcProviderRepository,
   organizationLearnerRepository,
   refreshTokenRepository,
   resetPasswordDemandRepository,
+  userAnonymizedEventLoggingJobRepository,
   userEmailRepository,
   userLoginRepository,
   userRecommendedTrainingRepository,

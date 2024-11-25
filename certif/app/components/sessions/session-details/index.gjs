@@ -14,7 +14,7 @@ export default class SessionDetails extends Component {
   @service intl;
   @service url;
   @service session;
-  @service notifications;
+  @service pixToast;
   @service fileSaver;
 
   @action
@@ -23,7 +23,7 @@ export default class SessionDetails extends Component {
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url: this.args.model.sessionManagement.urlToDownloadSupervisorKitPdf, token });
     } catch (err) {
-      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }
 
@@ -33,7 +33,7 @@ export default class SessionDetails extends Component {
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url: this.args.model.session.urlToDownloadAttendanceSheet, token });
     } catch (err) {
-      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }
 

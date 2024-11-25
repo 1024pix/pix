@@ -18,7 +18,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
-      expect(campaignParticipationData.length).to.equal(0);
+      expect(campaignParticipationData).to.have.lengthOf(0);
     });
 
     it('should avoid returning campaign participations that already have a corresponding snasphot', async function () {
@@ -37,7 +37,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
-      expect(campaignParticipationData.length).to.equal(0);
+      expect(campaignParticipationData).to.have.lengthOf(0);
     });
 
     it('should return shared campaign participations from active campaigns that does not have a corresponding snapshot', async function () {
@@ -55,7 +55,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
-      expect(campaignParticipationData.length).to.equal(1);
+      expect(campaignParticipationData).to.have.lengthOf(1);
       expect(campaignParticipationData[0]).to.deep.equal({
         userId: campaignParticipation.userId,
         sharedAt: campaignParticipation.sharedAt,
@@ -79,7 +79,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
-      expect(campaignParticipationData.length).to.equal(1);
+      expect(campaignParticipationData).to.have.lengthOf(1);
       expect(campaignParticipationData[0]).to.deep.equal({
         userId: campaignParticipationWithoutSnapshot.userId,
         sharedAt: campaignParticipationWithoutSnapshot.sharedAt,
@@ -107,7 +107,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       const campaignParticipationData = await getEligibleCampaignParticipations(1);
 
       // then
-      expect(campaignParticipationData.length).to.equal(1);
+      expect(campaignParticipationData).to.have.lengthOf(1);
       expect(campaignParticipationData[0]).to.deep.equal({
         userId: campaignParticipation.userId,
         sharedAt: campaignParticipation.sharedAt,

@@ -44,6 +44,7 @@ import ParticipationEvolutionIcon from './participation-evolution-icon';
           {{/if}}
           <col class="hide-on-mobile" />
           <col class="hide-on-mobile" />
+          <col />
         </colgroup>
         <thead>
           <tr>
@@ -67,6 +68,12 @@ import ParticipationEvolutionIcon from './participation-evolution-icon';
             <TableHeader @align="center" class="hide-on-mobile">{{t
                 "pages.profiles-list.table.column.competences-certifiables"
               }}</TableHeader>
+
+            {{#if @campaign.multipleSendings}}
+              <TableHeader @align="center" aria-label={{t "pages.profiles-list.table.column.ariaSharedProfileCount"}}>
+                {{t "pages.profiles-list.table.column.sharedProfileCount"}}
+              </TableHeader>
+            {{/if}}
           </tr>
         </thead>
 
@@ -115,6 +122,9 @@ import ParticipationEvolutionIcon from './participation-evolution-icon';
                 </td>
                 <td class="table__column--center hide-on-mobile">
                   {{profile.certifiableCompetencesCount}}
+                </td>
+                <td class="table__column--center">
+                  {{profile.sharedProfileCount}}
                 </td>
               </tr>
             {{/each}}

@@ -7,4 +7,9 @@ export default class OrganizationLearner extends Model {
   @attr division;
   @attr completedMissionIds;
   @attr startedMissionIds;
+  @attr features;
+
+  get hasOralizationFeature() {
+    return this.features?.includes('ORALIZATION');
+  }
 }

@@ -28,7 +28,7 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
     });
 
     // then
-    expect(result.length).to.equal(0);
+    expect(result).to.have.lengthOf(0);
   });
 
   it('should return empty array when there is no eligibility', async function () {
@@ -60,7 +60,7 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
     });
 
     // then
-    expect(result.length).to.equal(0);
+    expect(result).to.have.lengthOf(0);
   });
 
   it('should return empty array when there is no eligible quests', async function () {
@@ -94,6 +94,6 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
     });
 
     // then
-    expect(result.length).to.equal(0);
+    expect(result).to.have.lengthOf(0);
   });
 });

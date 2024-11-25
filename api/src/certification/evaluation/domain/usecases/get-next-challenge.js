@@ -65,7 +65,7 @@ const getNextChallenge = async function ({
 
   const activeFlashCompatibleChallenges = await challengeRepository.findActiveFlashCompatible({ locale });
 
-  const alreadyAnsweredChallenges = await challengeRepository.getMany(alreadyAnsweredChallengeIds, locale);
+  const alreadyAnsweredChallenges = await challengeRepository.getMany(alreadyAnsweredChallengeIds);
   const challenges = [...new Set([...alreadyAnsweredChallenges, ...activeFlashCompatibleChallenges])];
   const algorithmConfiguration = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(
     certificationCourse.getStartDate(),

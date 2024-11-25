@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
 
         it('from other organization', async function () {
@@ -60,7 +60,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
 
         it('from participant with deleted participations', async function () {
@@ -74,7 +74,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
 
         it('from disabled participant', async function () {
@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
 
         it('from participant with anonymous users linked', async function () {
@@ -109,7 +109,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
       });
 
@@ -123,7 +123,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
 
         // then
-        expect(organizationParticipants.length).to.equal(1);
+        expect(organizationParticipants).to.have.lengthOf(1);
       });
     });
 
@@ -183,7 +183,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           organizationId,
         });
         // then
-        expect(organizationParticipants.length).to.equal(1);
+        expect(organizationParticipants).to.have.lengthOf(1);
       });
 
       it('should return 1 as result even when the participant has participated to several campaigns from different the organization with the same organizationLearner', async function () {
@@ -482,7 +482,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId2);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -499,7 +499,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId1);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
@@ -554,7 +554,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
             expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
             expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -613,7 +613,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId2);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -630,7 +630,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId1);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
@@ -682,7 +682,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
             expect(organizationParticipants[1].id).to.equal(organizationLearnerId1);
             expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
@@ -737,7 +737,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants).to.have.lengthOf(3);
           expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
           expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
           expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -796,7 +796,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(eminemLearnerId);
             expect(organizationParticipants[1].id).to.equal(jacksonLearnerId);
             expect(organizationParticipants[2].id).to.equal(timberlakeLearnerId);
@@ -813,7 +813,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(timberlakeLearnerId);
             expect(organizationParticipants[1].id).to.equal(jacksonLearnerId);
             expect(organizationParticipants[2].id).to.equal(eminemLearnerId);
@@ -999,7 +999,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           //then
-          expect(organizationParticipants.length).to.equal(1);
+          expect(organizationParticipants).to.have.lengthOf(1);
           expect(organizationParticipants[0].isCertifiable).to.equal(true);
         });
 
@@ -1030,7 +1030,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           //then
-          expect(organizationParticipants.length).to.equal(2);
+          expect(organizationParticipants).to.have.lengthOf(2);
           expect(organizationParticipants[0].isCertifiable).to.equal(false);
           expect(organizationParticipants[1].isCertifiable).to.equal(null);
         });
@@ -1550,7 +1550,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
 
         it('from other organization', async function () {
@@ -1566,7 +1566,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
 
         it('from disabled participant', async function () {
@@ -1584,7 +1584,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(0);
+          expect(organizationParticipants).to.have.lengthOf(0);
         });
       });
 
@@ -1601,7 +1601,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(1);
+          expect(organizationParticipants).to.have.lengthOf(1);
         });
 
         it('should return extra parameters from participant', async function () {
@@ -1634,7 +1634,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(1);
+          expect(organizationParticipants).to.have.lengthOf(1);
         });
       });
     });
@@ -1697,7 +1697,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             organizationId,
           });
         // then
-        expect(organizationParticipants.length).to.equal(1);
+        expect(organizationParticipants).to.have.lengthOf(1);
       });
 
       it('should return 1 as result even when the participant has participated to several campaigns from different the organization with the same organizationLearner', async function () {
@@ -1983,7 +1983,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId2);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -2000,7 +2000,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId1);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
@@ -2058,7 +2058,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
             expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
             expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -2120,7 +2120,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId2);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -2137,7 +2137,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
                 });
 
               // then
-              expect(organizationParticipants.length).to.equal(3);
+              expect(organizationParticipants).to.have.lengthOf(3);
               expect(organizationParticipants[0].id).to.equal(organizationLearnerId1);
               expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
               expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
@@ -2192,7 +2192,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
             expect(organizationParticipants[1].id).to.equal(organizationLearnerId1);
             expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
@@ -2250,7 +2250,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           // then
-          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants).to.have.lengthOf(3);
           expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
           expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
           expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
@@ -2309,7 +2309,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(eminemLearnerId);
             expect(organizationParticipants[1].id).to.equal(jacksonLearnerId);
             expect(organizationParticipants[2].id).to.equal(timberlakeLearnerId);
@@ -2326,7 +2326,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               });
 
             // then
-            expect(organizationParticipants.length).to.equal(3);
+            expect(organizationParticipants).to.have.lengthOf(3);
             expect(organizationParticipants[0].id).to.equal(timberlakeLearnerId);
             expect(organizationParticipants[1].id).to.equal(jacksonLearnerId);
             expect(organizationParticipants[2].id).to.equal(eminemLearnerId);
@@ -2541,7 +2541,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           //then
-          expect(organizationParticipants.length).to.equal(1);
+          expect(organizationParticipants).to.have.lengthOf(1);
           expect(organizationParticipants[0].isCertifiable).to.equal(true);
         });
 
@@ -2572,7 +2572,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             });
 
           //then
-          expect(organizationParticipants.length).to.equal(2);
+          expect(organizationParticipants).to.have.lengthOf(2);
           expect(organizationParticipants[0].isCertifiable).to.equal(false);
           expect(organizationParticipants[1].isCertifiable).to.equal(null);
         });

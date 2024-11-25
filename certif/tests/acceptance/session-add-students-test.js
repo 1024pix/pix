@@ -37,11 +37,6 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
     server.createList('country', 3);
   });
 
-  hooks.afterEach(function () {
-    const notificationMessagesService = this.owner.lookup('service:notifications');
-    notificationMessagesService.clearAll();
-  });
-
   module('When certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // when

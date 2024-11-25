@@ -92,7 +92,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
-            expect(errors.invalidAttributes).to.have.length(2);
+            expect(errors.invalidAttributes).to.have.lengthOf(2);
             expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });
@@ -150,7 +150,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
-            expect(errors.invalidAttributes).to.have.length(1);
+            expect(errors.invalidAttributes).to.have.lengthOf(1);
             expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });

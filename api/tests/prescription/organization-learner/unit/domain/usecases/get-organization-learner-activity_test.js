@@ -33,7 +33,7 @@ describe('Unit | UseCase | get-organisation-learner-activity', function () {
     // then
     expect(organizationLearnerActivityRepository.get).to.have.been.calledWithExactly(organizationLearnerId);
     expect(organizationLearnerActivity).to.be.an.instanceOf(OrganizationLearnerActivity);
-    expect(organizationLearnerActivity.participations.length).to.equal(1);
+    expect(organizationLearnerActivity.participations).to.have.lengthOf(1);
     expect(organizationLearnerActivity.participations[0]).to.deep.equal(organizationLearnerParticipation);
   });
 });

@@ -358,10 +358,9 @@ describe('Acceptance | API | Campaign Route', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildMembership({
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         userId,
         organizationId: organization.id,
-        organizationRole: Membership.roles.MEMBER,
       });
 
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
@@ -381,6 +380,13 @@ describe('Acceptance | API | Campaign Route', function () {
         campaignId: campaign.id,
         skillId: learningContentObjects.competences[0].skillIds[0],
       });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId: campaign.id,
+        organizationLearnerId: organizationLearner.id,
+      });
+
       await databaseBuilder.commit();
 
       // when

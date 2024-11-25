@@ -112,14 +112,14 @@ module('Unit | Component | add-student-list', function (hooks) {
       const sessionId = 1;
       component.args.studentList = [{ isSelected: true }];
       component.args.session = { id: sessionId, save: sinon.stub().rejects() };
-      component.notifications = { error: sinon.spy() };
+      component.pixToast = { sendErrorNotification: sinon.spy() };
       component.args.returnToSessionCandidates = sinon.spy();
 
       // when
       await component.enrolStudents();
 
       // then
-      sinon.assert.calledOnce(component.notifications.error);
+      sinon.assert.calledOnce(component.pixToast.sendErrorNotification);
       sinon.assert.notCalled(component.args.returnToSessionCandidates);
       assert.ok(component);
     });

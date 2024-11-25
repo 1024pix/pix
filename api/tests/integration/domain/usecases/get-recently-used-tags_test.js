@@ -40,7 +40,7 @@ describe('Integration | UseCase | get-recently-used-tags', function () {
     const recentlyUsedTags = await getRecentlyUsedTags({ tagId: basedTag.id, organizationTagRepository });
 
     // then
-    expect(recentlyUsedTags.length).to.equal(10);
+    expect(recentlyUsedTags).to.have.lengthOf(10);
     expect(recentlyUsedTags[0]).to.deepEqualInstance(new Tag(mostUsedTag));
     expect(recentlyUsedTags[recentlyUsedTags.length - 1]).to.deepEqualInstance(new Tag(leastUsedTag));
   });

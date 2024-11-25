@@ -104,8 +104,8 @@ module('Unit | Component | MembersList', (hooks) => {
       module('when connected user leaves the certification center ', function () {
         test('calls notifications service to display a success message', async function (assert) {
           // given
-          const notifications = this.owner.lookup('service:notifications');
-          sinon.stub(notifications, 'success');
+          const pixToast = this.owner.lookup('service:pixToast');
+          sinon.stub(pixToast, 'sendSuccessNotification');
           const currentUser = this.owner.lookup('service:current-user');
           sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ name: 'Shertif' });
           const onLeaveCertificationCenter = sinon.stub().resolves();
@@ -118,9 +118,10 @@ module('Unit | Component | MembersList', (hooks) => {
 
           // then
           assert.true(
-            notifications.success.calledOnceWith(
-              'Votre accès a été supprimé avec succès du centre de certification Shertif. Vous allez être déconnecté de Pix Certif...',
-            ),
+            pixToast.sendSuccessNotification.calledOnceWith({
+              message:
+                'Votre accès a été supprimé avec succès du centre de certification Shertif. Vous allez être déconnecté de Pix Certif...',
+            }),
           );
         });
       });
@@ -128,8 +129,8 @@ module('Unit | Component | MembersList', (hooks) => {
       module('when an error occurs', function () {
         test('calls notifications service to display an error message', async function (assert) {
           // given
-          const notifications = this.owner.lookup('service:notifications');
-          sinon.stub(notifications, 'error');
+          const pixToast = this.owner.lookup('service:pixToast');
+          sinon.stub(pixToast, 'sendErrorNotification');
           const onLeaveCertificationCenter = sinon.stub().rejects(new Error());
           component.args.onLeaveCertificationCenter = onLeaveCertificationCenter;
 
@@ -137,7 +138,11 @@ module('Unit | Component | MembersList', (hooks) => {
           await component.leaveCertificationCenter();
 
           // then
-          assert.true(notifications.error.calledOnceWith('Une erreur est survenue lors de la suppression du membre.'));
+          assert.true(
+            pixToast.sendErrorNotification.calledOnceWith({
+              message: 'Une erreur est survenue lors de la suppression du membre.',
+            }),
+          );
         });
       });
     });
@@ -203,8 +208,8 @@ module('Unit | Component | MembersList', (hooks) => {
       module('when the member has been removed', function () {
         test('calls notifications service to display a success message', async function (assert) {
           // given
-          const notifications = this.owner.lookup('service:notifications');
-          sinon.stub(notifications, 'success');
+          const pixToast = this.owner.lookup('service:pixToast');
+          sinon.stub(pixToast, 'sendSuccessNotification');
           const onRemoveMember = sinon.stub().resolves();
           component.args.onRemoveMember = onRemoveMember;
           component.removingMember = member;
@@ -214,7 +219,9 @@ module('Unit | Component | MembersList', (hooks) => {
 
           // then
           assert.true(
-            notifications.success.calledOnceWith('Matt Ador a été supprimé avec succès de votre équipe Pix Certif.'),
+            pixToast.sendSuccessNotification.calledOnceWith({
+              message: 'Matt Ador a été supprimé avec succès de votre équipe Pix Certif.',
+            }),
           );
         });
       });
@@ -222,8 +229,8 @@ module('Unit | Component | MembersList', (hooks) => {
       module('when an error occurs', function () {
         test('calls notifications service to display an error message', async function (assert) {
           // given
-          const notifications = this.owner.lookup('service:notifications');
-          sinon.stub(notifications, 'error');
+          const pixToast = this.owner.lookup('service:pixToast');
+          sinon.stub(pixToast, 'sendErrorNotification');
           const onRemoveMember = sinon.stub().rejects(new Error());
           component.args.onRemoveMember = onRemoveMember;
           component.removingMember = member;
@@ -233,7 +240,9 @@ module('Unit | Component | MembersList', (hooks) => {
 
           // then
           assert.true(
-            notifications.error.calledOnceWith('Une erreur est survenue lors de la désactivation du membre.'),
+            pixToast.sendErrorNotification.calledOnceWith({
+              message: 'Une erreur est survenue lors de la désactivation du membre.',
+            }),
           );
         });
       });

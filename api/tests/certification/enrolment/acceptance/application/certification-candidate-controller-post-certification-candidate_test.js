@@ -152,7 +152,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
           .select(['type', 'complementaryCertificationId'])
           .where({ certificationCandidateId: parseInt(response.result.data.id) })
           .orderBy('type');
-        expect(subscriptions.length).to.equal(2);
+        expect(subscriptions).to.have.lengthOf(2);
         expect(subscriptions[0]).to.deep.equal({
           type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
           complementaryCertificationId,
@@ -271,7 +271,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
           .select(['type', 'complementaryCertificationId'])
           .where({ certificationCandidateId: parseInt(response.result.data.id) })
           .orderBy('type');
-        expect(subscriptions.length).to.equal(2);
+        expect(subscriptions).to.have.lengthOf(2);
         expect(subscriptions[0]).to.deep.equal({
           type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
           complementaryCertificationId: cleaCertificationId,

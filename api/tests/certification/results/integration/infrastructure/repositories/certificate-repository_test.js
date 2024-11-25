@@ -877,7 +877,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         domainBuilder.buildCertificationAttestation(certificationAttestationDataB);
       const expectedCertificationAttestationC =
         domainBuilder.buildCertificationAttestation(certificationAttestationDataC);
-      expect(certificationAttestations).to.have.length(3);
+      expect(certificationAttestations).to.have.lengthOf(3);
 
       expect(certificationAttestations[0]).deepEqualInstanceOmitting(expectedCertificationAttestationB, [
         'resultCompetenceTree',
@@ -1000,7 +1000,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       const expectedCertificationAttestationB =
         domainBuilder.buildCertificationAttestation(certificationAttestationDataB);
 
-      expect(certificationAttestations).to.have.length(2);
+      expect(certificationAttestations).to.have.lengthOf(2);
       expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestationB, [
         'resultCompetenceTree',
       ]);
@@ -1033,6 +1033,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           cleaCertificationImagePath: null,
           pixPlusDroitCertificationImagePath: null,
           sessionId: 789,
+          version: SESSIONS_VERSIONS.V2,
         };
         databaseBuilder.factory.buildUser({ id: 456 });
         databaseBuilder.factory.buildOrganizationLearner({
@@ -1067,6 +1068,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           publishedAt: new Date('2021-05-07'),
           certificationCenter: 'Centre des poules bien dodues',
           certificationCenterId,
+          version: SESSIONS_VERSIONS.V2,
         });
         _buildCertificationAttestationWithSeveralResults(certificationAttestationDataRejected, status.REJECTED);
         const candidate = databaseBuilder.factory.buildCertificationCandidate({
@@ -1088,7 +1090,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         // then
         const expectedCertificationAttestation =
           domainBuilder.buildCertificationAttestation(certificationAttestationData);
-        expect(certificationAttestations).to.have.length(1);
+        expect(certificationAttestations).to.have.lengthOf(1);
         expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
           'resultCompetenceTree',
         ]);
@@ -1176,7 +1178,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(
         certificationAttestationDataNewest,
       );
-      expect(certificationAttestations).to.have.length(1);
+      expect(certificationAttestations).to.have.lengthOf(1);
       expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
         'resultCompetenceTree',
       ]);
@@ -1291,7 +1293,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
-      expect(result).to.have.length(1);
+      expect(result).to.have.lengthOf(1);
     });
 
     it('should return the certificate when it is not published', async function () {
@@ -1343,7 +1345,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
-      expect(result).to.have.length(1);
+      expect(result).to.have.lengthOf(1);
     });
 
     it('should return the certificate when it is rejected', async function () {
@@ -1395,7 +1397,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
-      expect(result).to.have.length(1);
+      expect(result).to.have.lengthOf(1);
     });
 
     it('should return a collection of PrivateCertificate', async function () {
@@ -1428,7 +1430,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         id: certificationCourseId,
         ...privateCertificateData,
       });
-      expect(privateCertificates).to.have.length(1);
+      expect(privateCertificates).to.have.lengthOf(1);
       expect(privateCertificates[0]).to.deepEqualInstance(expectedPrivateCertificate);
     });
 
@@ -1450,7 +1452,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       const privateCertificates = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
-      expect(privateCertificates).to.have.length(3);
+      expect(privateCertificates).to.have.lengthOf(3);
       expect(privateCertificates[0].id).to.equal(certificationCourseId3);
       expect(privateCertificates[1].id).to.equal(certificationCourseId2);
       expect(privateCertificates[2].id).to.equal(certificationCourseId);
@@ -2845,6 +2847,7 @@ function _buildSession({ userId, sessionId, publishedAt, certificationCenter }) 
     publishedAt,
     certificationCenter: certificationCenter,
     certificationCenterId,
+    version: SESSIONS_VERSIONS.V3,
   });
 }
 

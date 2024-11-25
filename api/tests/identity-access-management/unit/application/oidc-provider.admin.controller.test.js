@@ -124,7 +124,7 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
       // then
       expect(usecases.getAllIdentityProviders).to.have.been.called;
       expect(response.statusCode).to.equal(200);
-      expect(response.source.data.length).to.equal(2);
+      expect(response.source.data).to.have.lengthOf(2);
       expect(response.source.data).to.deep.equal([
         {
           type: 'oidc-identity-providers',

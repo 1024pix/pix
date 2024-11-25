@@ -6,11 +6,13 @@ import { usecases } from '../domain/usecases/index.js';
 const deleteOrganizationLearners = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
   const listLearners = request.payload.listLearners;
+  const organizationId = request.params.organizationId;
 
   await DomainTransaction.execute(async () => {
     await usecases.deleteOrganizationLearners({
       organizationLearnerIds: listLearners,
       userId: authenticatedUserId,
+      organizationId,
     });
   });
   return h.response().code(200);

@@ -22,7 +22,18 @@ describe('Integration | Campaign | UseCase | get-presentation-steps', function (
 
     campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
 
-    user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
+    user = databaseBuilder.factory.buildUser();
+
+    const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+      userId: user.id,
+      campaignId: campaign.id,
+    });
+
+    databaseBuilder.factory.buildCampaignParticipation({
+      userId: user.id,
+      campaignId: campaign.id,
+      organizationLearnerId: organizationLearner.id,
+    });
 
     badges = [
       databaseBuilder.factory.buildBadge({ targetProfileId }),

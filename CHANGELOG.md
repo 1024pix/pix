@@ -1,5 +1,79 @@
 # Pix Changelog
 
+## v4.243.0 (19/11/2024)
+
+
+### :rocket: Amélioration
+- [#10582](https://github.com/1024pix/pix/pull/10582) [FEATURE] Faire une passe sur l'accessibilité pour l'élément Flashcards (PIX-14427).
+- [#10491](https://github.com/1024pix/pix/pull/10491) [FEATURE] Mise à jour du CTA de fin de parcours autonomes (PIX-15070).
+- [#10559](https://github.com/1024pix/pix/pull/10559) [FEATURE] ajout de metrics sur les visites du détail de participations partagées (PIX-14814).
+- [#10542](https://github.com/1024pix/pix/pull/10542) [FEATURE] Utiliser le composant Pix Toast dans Pix Certif (PIX-15280).
+- [#10411](https://github.com/1024pix/pix/pull/10411) [FEATURE] Ajoute un encart sur les attestations sur la page de fin de parcours (PIX-13826).
+- [#10549](https://github.com/1024pix/pix/pull/10549) [FEATURE] Masquer le pourcentage de progression dans la navbar Modulix (PIX-15306).
+- [#10565](https://github.com/1024pix/pix/pull/10565) [FEATURE] Ajouter le profileRewardId dans le endpoint qui remonte les résultats d'une quête (PIX-15322).
+
+### :building_construction: Tech
+- [#10536](https://github.com/1024pix/pix/pull/10536) [TECH] Migrer la route POST /api/admin/certification-centers dans src (PIX-15277).
+- [#10548](https://github.com/1024pix/pix/pull/10548) [TECH] Suppression de paramètres dans le simulateur de déroulé (PIX-15213).
+- [#10545](https://github.com/1024pix/pix/pull/10545) [TECH] 🪓  suppression de la route  `/api/users/{userId}/campaign-participations` (Pix-15301).
+- [#10560](https://github.com/1024pix/pix/pull/10560) [TECH] Déplacement du code relatif à la gestion du référentiel depuis lib vers src/shared (PIX-15315).
+- [#10552](https://github.com/1024pix/pix/pull/10552) [TECH] Suppression du script d'éligibilité V2 (PIX-15191).
+- [#10555](https://github.com/1024pix/pix/pull/10555) [TECH] Suppression des scripts de conversion des centres en V3 (PIX-14274).
+- [#10558](https://github.com/1024pix/pix/pull/10558) [TECH] Supprimer le script permettant de retirer certaines habilitations des centres (PIX-15312).
+
+### :bug: Correction
+- [#10579](https://github.com/1024pix/pix/pull/10579) [BUGFIX] Ne pas restreindre le scoring d'une session de certification v3 aux épreuves de la locale courante (PIX-15330).
+- [#10568](https://github.com/1024pix/pix/pull/10568) [BUGFIX] Utiliser la bonne couleur sur le logo d'informations des places dans PixOrga(PIX-15281).
+
+### :arrow_up: Montée de version
+- [#10580](https://github.com/1024pix/pix/pull/10580) [BUMP] Update dependency @1024pix/pix-ui to ^48.6.0 (mon-pix).
+- [#10575](https://github.com/1024pix/pix/pull/10575) [BUMP] Update dependency @1024pix/pix-ui to ^48.6.0 (certif).
+- [#10571](https://github.com/1024pix/pix/pull/10571) [BUMP] Update dependency @1024pix/pix-ui to ^48.6.0 (admin).
+- [#10570](https://github.com/1024pix/pix/pull/10570) [BUMP] Update dependency @1024pix/pix-ui to ^48.6.0 (orga).
+- [#10569](https://github.com/1024pix/pix/pull/10569) [BUMP] Update dependency @1024pix/pix-ui to ^48.5.0 (orga).
+- [#10567](https://github.com/1024pix/pix/pull/10567) [BUMP] Update dependency @1024pix/pix-ui to ^48.5.0 (certif).
+- [#10566](https://github.com/1024pix/pix/pull/10566) [BUMP] Update dependency @1024pix/pix-ui to ^48.5.0 (admin).
+- [#10563](https://github.com/1024pix/pix/pull/10563) [BUMP] Update dependency @1024pix/pix-ui to ^48.5.0 (mon-pix).
+- [#10557](https://github.com/1024pix/pix/pull/10557) [BUMP] Update dependency @1024pix/pix-ui to ^48.4.0 (mon-pix).
+
+### :coffee: Autre
+- [#10543](https://github.com/1024pix/pix/pull/10543) [REFACTOR] Améliorer les affichages conditionnels de l'en-tête de fin de parcours (PIX-15274).
+
+## v4.242.0 (15/11/2024)
+
+
+### :rocket: Amélioration
+- [#10531](https://github.com/1024pix/pix/pull/10531) [FEATURE] Permettre aux prescripteurs de télécharger les attestations de leurs élèves (PIX-13827).
+- [#10516](https://github.com/1024pix/pix/pull/10516) [FEATURE] écouter/stopper la lecture d’une consigne (PIX-13754).
+- [#10541](https://github.com/1024pix/pix/pull/10541) [FEATURE] Afficher le nombre de partages de profils dans les résultats d'un campagne collecte de profils (PIX-15266).
+- [#10544](https://github.com/1024pix/pix/pull/10544) [FEATURE] Bloquer le scoring des certifications Pix+ seule (PIX-14716).
+- [#10508](https://github.com/1024pix/pix/pull/10508) [FEATURE] Ne pas afficher la mention professionnalisante sur le PDF de l'attestation d'une certification v3 (PIX-15163).
+- [#10533](https://github.com/1024pix/pix/pull/10533) [FEATURE] API verifiant si un utilisateur a été candidat de certif (PIX-14984).
+- [#10509](https://github.com/1024pix/pix/pull/10509) [FEATURE] Envoi de l'email de creation de compte en asynchrone (PIX-15112).
+
+### :building_construction: Tech
+- [#10554](https://github.com/1024pix/pix/pull/10554) [TECH] Supprimer le précédent score et sa date de partage dans la réponse de l'API pour les résultats d'une campagne de collecte de profils (PIX-15267).
+- [#10521](https://github.com/1024pix/pix/pull/10521) [TECH] Permettre de supprimer une liste de learners de l'orga (PIX-15244).
+- [#10532](https://github.com/1024pix/pix/pull/10532) [TECH] Migrer la route `GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations` vers son BC (PIX-15278).
+- [#10506](https://github.com/1024pix/pix/pull/10506) [TECH] Migrer la route POST /api/admin/users/{id}/anonymize dans src (PIX-15212).
+- [#10530](https://github.com/1024pix/pix/pull/10530) [TECH] Ajouter le template d'email pour la suppression de compte (PIX-14902).
+- [#10520](https://github.com/1024pix/pix/pull/10520) [TECH] Migrer le script de création de comptes en masse (PIX-15276).
+- [#10535](https://github.com/1024pix/pix/pull/10535) [TECH] Définir la locale a FRENCH dans le cas des attestations (PIX-14836).
+
+### :bug: Correction
+- [#10550](https://github.com/1024pix/pix/pull/10550) [BUGFIX] Ne pas afficher l'encart attestation pour les participations a des campagnes sans lien avec les quêtes (PIX-15308).
+- [#10537](https://github.com/1024pix/pix/pull/10537) [BUGFIX] Corriger l'inscription en local sur la double mire SCO (PIX-15290).
+- [#10527](https://github.com/1024pix/pix/pull/10527) [BUGFIX] Ne pas permettre de partager une campagne STARTED (PIX-15151).
+- [#10538](https://github.com/1024pix/pix/pull/10538) [BUGFIX] Ne pas tenir compte de la locale lors de la séléction du prochain challenge de certification (PIX-15008).
+- [#10539](https://github.com/1024pix/pix/pull/10539) [BUGFIX] Réparer le usecase récupérant les étapes de présentation de parcours (PIX-15283).
+- [#10534](https://github.com/1024pix/pix/pull/10534) [BUGFIX] Empêcher un candidat de répondre à un challenge si celui-ci dispose d'une alerte validée (PIX-15263).
+- [#10529](https://github.com/1024pix/pix/pull/10529) [BUGFIX] Répare la finalisation de session quand une épreuve a été exclue de la calibration (PIX-15226).
+
+### :arrow_up: Montée de version
+- [#10556](https://github.com/1024pix/pix/pull/10556) [BUMP] Update dependency @1024pix/pix-ui to ^48.4.0 (certif).
+- [#10553](https://github.com/1024pix/pix/pull/10553) [BUMP] Update dependency @1024pix/pix-ui to ^48.4.0 (admin).
+- [#10507](https://github.com/1024pix/pix/pull/10507) [BUMP] Update dependency @1024pix/pix-ui to v48 (admin).
+
 ## v4.241.0 (12/11/2024)
 
 

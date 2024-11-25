@@ -64,29 +64,6 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/users/{id}/anonymize',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-          },
-        ],
-        handler: userController.anonymizeUser,
-        notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
-        tags: ['api', 'admin', 'user'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/users/{id}/add-pix-authentication-method',
       config: {
         pre: [
@@ -189,57 +166,6 @@ const register = async function (server) {
 
   server.route([
     ...adminRoutes,
-    {
-      method: 'GET',
-      path: '/api/users/{id}/campaign-participations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.getCampaignParticipations,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des participations à des campagnes à partir de l’id\n' +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
-            '- Les participations aux campagnes sont triées par ordre inverse de création' +
-            '  (les plus récentes en premier)',
-        ],
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{userId}/campaigns/{campaignId}/campaign-participations',
-      config: {
-        validate: {
-          params: Joi.object({
-            userId: identifiersType.userId,
-            campaignId: identifiersType.campaignId,
-          }),
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.getUserCampaignParticipationToCampaign,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération de la dernière participation d’un utilisateur (**userId**) à une campagne donnée (**campaignId**)\n' +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'campaign', 'campaign-participations'],
-      },
-    },
     {
       method: 'GET',
       path: '/api/users/{id}/trainings',

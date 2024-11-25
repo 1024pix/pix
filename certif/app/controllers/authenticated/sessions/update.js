@@ -11,7 +11,7 @@ export default class SessionsUpdateController extends Controller {
   @alias('model') session;
   @service router;
   @service intl;
-  @service notifications;
+  @service pixToast;
 
   @tracked isSessionDateMissing;
   @tracked isSessionTimeMissing;
@@ -31,19 +31,23 @@ export default class SessionsUpdateController extends Controller {
   async updateSession(event) {
     event.preventDefault();
     if (this.checkMissingSessionFields())
-      return this.notifications.error(this.intl.t('common.form-errors.fill-mandatory-fields'));
+      return this.pixToast.sendErrorNotification({ message: this.intl.t('common.form-errors.fill-mandatory-fields') });
     try {
       await this.session.save();
     } catch (responseError) {
       const error = responseError?.errors?.[0];
 
       if (error?.code) {
-        return this.notifications.error(this.intl.t(`common.api-error-messages.${error.code}`));
+        return this.pixToast.sendErrorNotification({ message: this.intl.t(`common.api-error-messages.${error.code}`) });
       }
       if (_isEntityUnprocessable(responseError)) {
-        return this.notifications.error(this.intl.t('common.api-error-messages.bad-request-error'));
+        return this.pixToast.sendErrorNotification({
+          message: this.intl.t('common.api-error-messages.bad-request-error'),
+        });
       }
-      return this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      return this.pixToast.sendErrorNotification({
+        message: this.intl.t('common.api-error-messages.internal-server-error'),
+      });
     }
     this.router.transitionTo('authenticated.sessions.details', this.session.id);
   }

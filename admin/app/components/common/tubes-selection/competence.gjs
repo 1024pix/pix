@@ -49,7 +49,7 @@ export default class Competence extends Component {
     <div class="competence-container">
       <PixCollapsible>
         <:title>{{@competence.index}} {{@competence.name}}</:title>
-        <:default>
+        <:content>
           <div class="panel">
             <table class="table content-text content-text--small select-tube-table">
               <caption class="screen-reader-only">Sélection des sujets</caption>
@@ -109,7 +109,7 @@ export default class Competence extends Component {
               </tbody>
             </table>
           </div>
-        </:default>
+        </:content>
       </PixCollapsible>
     </div>
   </template>

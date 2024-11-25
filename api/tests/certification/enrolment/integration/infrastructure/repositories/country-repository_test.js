@@ -41,7 +41,7 @@ describe('Certification | Enrolment | Integration | Repository | country-reposit
           name: 'NABOO',
           matcher: 'ABNOO',
         });
-        expect(countries.length).to.equal(2);
+        expect(countries).to.have.lengthOf(2);
         expect(countries[0]).to.be.instanceOf(Country);
         expect(countries).to.deep.equal([nabooCountry, togoCountry]);
       });

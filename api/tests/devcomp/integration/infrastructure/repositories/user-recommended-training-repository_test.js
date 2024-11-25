@@ -96,7 +96,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       });
 
       // then
-      expect(result.length).to.equal(2);
+      expect(result).to.have.lengthOf(2);
       expect(result[0]).to.be.instanceOf(UserRecommendedTraining);
       expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
     });
@@ -126,7 +126,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       });
 
       // then
-      expect(result.length).to.equal(1);
+      expect(result).to.have.lengthOf(1);
       expect(result[0]).to.be.instanceOf(UserRecommendedTraining);
       expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
     });
@@ -150,7 +150,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       });
 
       // then
-      expect(result.length).to.equal(0);
+      expect(result).to.have.lengthOf(0);
     });
   });
 

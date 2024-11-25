@@ -93,7 +93,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         challengeRepository.get.resolves();
 
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
-        challengeRepository.getMany.withArgs([], locale).resolves([]);
+        challengeRepository.getMany.withArgs([]).resolves([]);
 
         flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
@@ -183,7 +183,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             .resolves(null);
 
           challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves(allChallenges);
-          challengeRepository.getMany.withArgs([], locale).resolves([]);
+          challengeRepository.getMany.withArgs([]).resolves([]);
 
           flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
@@ -340,7 +340,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .resolves([alreadyAnsweredChallenge, nextChallengeToAnswer]);
 
         challengeRepository.getMany
-          .withArgs([alreadyAnsweredChallenge.id, outdatedChallenge.id], locale)
+          .withArgs([alreadyAnsweredChallenge.id, outdatedChallenge.id])
           .resolves([alreadyAnsweredChallenge, outdatedChallenge]);
 
         flashAlgorithmService.getCapacityAndErrorRate
@@ -420,7 +420,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallenge, lastSeenChallenge]);
-        challengeRepository.getMany.withArgs([], locale).resolves([]);
+        challengeRepository.getMany.withArgs([]).resolves([]);
 
         flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
@@ -518,7 +518,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         challengeRepository.findActiveFlashCompatible
           .withArgs()
           .resolves([challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill]);
-        challengeRepository.getMany.withArgs([], locale).resolves([]);
+        challengeRepository.getMany.withArgs([]).resolves([]);
 
         flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
@@ -614,7 +614,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         challengeRepository.get.resolves();
 
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
-        challengeRepository.getMany.withArgs([answeredChallenge.id], locale).resolves([answeredChallenge]);
+        challengeRepository.getMany.withArgs([answeredChallenge.id]).resolves([answeredChallenge]);
 
         // when
         const error = await catchErr(getNextChallenge)({
@@ -693,7 +693,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             challengeRepository.get.resolves();
 
             challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
-            challengeRepository.getMany.withArgs([], locale).resolves([]);
+            challengeRepository.getMany.withArgs([]).resolves([]);
 
             flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({

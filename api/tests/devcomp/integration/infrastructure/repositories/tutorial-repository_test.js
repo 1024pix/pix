@@ -143,7 +143,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // then
-        expect(tutorialsForUser).to.have.length(2);
+        expect(tutorialsForUser).to.have.lengthOf(2);
         expect(tutorialsForUser[0]).to.be.instanceOf(TutorialForUser);
         expect(tutorialsForUser[0].userSavedTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(tutorialsForUser[0].userSavedTutorial.userId).to.equal(userId);
@@ -238,7 +238,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           });
 
           // then
-          expect(tutorialsForUser).to.have.length(2);
+          expect(tutorialsForUser).to.have.lengthOf(2);
           expect(tutorialsForUser.map(({ id }) => id)).to.deep.equal([tutorialId3, tutorialId2]);
         });
       });

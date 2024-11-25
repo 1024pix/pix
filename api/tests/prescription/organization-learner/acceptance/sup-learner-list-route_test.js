@@ -55,7 +55,7 @@ describe('Acceptance | Application | sup-leaner-list-route', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.length).to.equal(1);
+        expect(response.result.data).to.have.lengthOf(1);
       });
     });
 

@@ -162,6 +162,34 @@ module('Unit | Model | prescriber', function (hooks) {
     });
   });
 
+  module('#attestationsManagement', function () {
+    test('it returns true when feature is enabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['ATTESTATIONS_MANAGEMENT']: true },
+      });
+      // when
+      const attestationsManagement = model.attestationsManagement;
+
+      // then
+      assert.true(attestationsManagement);
+    });
+
+    test('it returns false when feature is disabled ', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['ATTESTATIONS_MANAGEMENT']: false },
+      });
+      // when
+      const attestationsManagement = model.attestationsManagement;
+
+      // then
+      assert.false(attestationsManagement);
+    });
+  });
+
   module('#missionsManagement', function () {
     test('it returns true when feature is enabled', function (assert) {
       // given

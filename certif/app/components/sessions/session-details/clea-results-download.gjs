@@ -9,7 +9,7 @@ export default class SessionDetailsCleaResultsDownload extends Component {
   @service intl;
   @service fileSaver;
   @service session;
-  @service notifications;
+  @service pixToast;
 
   @action
   async downloadCleaCertifiedCandidateData() {
@@ -18,7 +18,7 @@ export default class SessionDetailsCleaResultsDownload extends Component {
     try {
       await this.fileSaver.save({ url, token });
     } catch {
-      this.notifications.error(this.intl.t('pages.sessions.detail.panel-clea.error-message'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('pages.sessions.detail.panel-clea.error-message') });
     }
   }
 

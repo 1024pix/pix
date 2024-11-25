@@ -112,7 +112,7 @@ describe('Integration | Repository | tube-repository', function () {
       const tubes = await tubeRepository.list();
 
       // then
-      expect(tubes).to.have.length(2);
+      expect(tubes).to.have.lengthOf(2);
       expect(tubes[0]).to.deep.equal(tube0);
       expect(tubes[1]).to.deep.equal(tube1);
     });

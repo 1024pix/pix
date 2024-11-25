@@ -24,7 +24,7 @@ describe('Integration | Repository | Badge Criteria Repository', function () {
       const savedBadgeCriterion = await knex('badge-criteria')
         .select('name', 'threshold', 'cappedTubes', 'scope')
         .where({ badgeId });
-      expect(savedBadgeCriterion).to.have.length(1);
+      expect(savedBadgeCriterion).to.have.lengthOf(1);
       expect(savedBadgeCriterion[0]).to.deep.equal({
         name: null,
         threshold: 90,
@@ -55,7 +55,7 @@ describe('Integration | Repository | Badge Criteria Repository', function () {
       const savedBadgeCriterion = await knex('badge-criteria')
         .select('name', 'threshold', 'cappedTubes', 'scope')
         .where({ badgeId });
-      expect(savedBadgeCriterion).to.have.length(1);
+      expect(savedBadgeCriterion).to.have.lengthOf(1);
       expect(savedBadgeCriterion[0]).to.deep.equal({
         name: 'Un nom pour mon critère',
         threshold: 50,

@@ -254,7 +254,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
       // then
       expect(usecases.getReadyIdentityProviders).to.have.been.called;
       expect(response.statusCode).to.equal(200);
-      expect(response.source.data.length).to.equal(1);
+      expect(response.source.data).to.have.lengthOf(1);
       expect(response.source.data).to.deep.contain({
         type: 'oidc-identity-providers',
         id: 'some-oidc-provider',

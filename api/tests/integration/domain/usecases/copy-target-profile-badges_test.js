@@ -42,7 +42,7 @@ describe('Integration | UseCases | copy-badges', function () {
       const destinationTargetProfileBadges = await knex('badges').where({
         targetProfileId: destinationTargetProfileId,
       });
-      expect(destinationTargetProfileBadges.length).to.equal(2);
+      expect(destinationTargetProfileBadges).to.have.lengthOf(2);
     });
   });
 
@@ -94,7 +94,7 @@ describe('Integration | UseCases | copy-badges', function () {
       const badgeCriteria = await knex('badge-criteria').where({
         badgeId: certifiableBadge.id,
       });
-      expect(badgeCriteria.length).to.equal(2);
+      expect(badgeCriteria).to.have.lengthOf(2);
       expect(badgeCriteria[0].name).to.equal('badge criterion 1');
     });
   });
@@ -135,8 +135,8 @@ describe('Integration | UseCases | copy-badges', function () {
       // then
       const badges = await knex('badges').select('*');
       const badgesCriteria = await knex('badge-criteria').select('*');
-      expect(badges.length).to.equal(1);
-      expect(badgesCriteria.length).to.equal(1);
+      expect(badges).to.have.lengthOf(1);
+      expect(badgesCriteria).to.have.lengthOf(1);
     });
   });
 });

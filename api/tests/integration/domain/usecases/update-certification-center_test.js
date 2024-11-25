@@ -1,9 +1,9 @@
 import { updateCertificationCenter } from '../../../../lib/domain/usecases/update-certification-center.js';
-import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
-import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
-import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { CenterForAdmin } from '../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
+import * as certificationCenterForAdminRepository from '../../../../src/organizational-entities/infrastructure/repositories/certification-center-for-admin.repository.js';
+import * as complementaryCertificationHabilitationRepository from '../../../../src/organizational-entities/infrastructure/repositories/complementary-certification-habilitation.repository.js';
+import * as dataProtectionOfficerRepository from '../../../../src/organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-certification-center', function () {
@@ -55,7 +55,7 @@ describe('Integration | UseCases | update-certification-center', function () {
     expect(updatedCertificationCenter.dataProtectionOfficerLastName).to.equal('Ptipeu');
     expect(updatedCertificationCenter.dataProtectionOfficerEmail).to.equal('justin.ptipeu@example.net');
 
-    expect(updatedCertificationCenter.habilitations.length).to.equal(1);
+    expect(updatedCertificationCenter.habilitations).to.have.lengthOf(1);
     expect(updatedCertificationCenter.habilitations[0].complementaryCertificationId).to.equal(
       complementaryCertification.id,
     );

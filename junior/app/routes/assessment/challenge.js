@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 export default class ChallengeRoute extends Route {
   @service router;
   @service store;
+  @service currentLearner;
 
   async model(params, transition) {
     const assessment = await this.modelFor('assessment');
@@ -20,7 +21,12 @@ export default class ChallengeRoute extends Route {
       });
     }
     const activity = await this.store.queryRecord('activity', { assessmentId: assessment.id });
-    return { assessment, challenge, activity };
+    let oralization = false;
+    if (this.currentLearner.learner) {
+      const organizationLearner = await this.store.findRecord('organization-learner', this.currentLearner.learner.id);
+      oralization = organizationLearner.hasOralizationFeature;
+    }
+    return { assessment, challenge, activity, oralization };
   }
 
   @action

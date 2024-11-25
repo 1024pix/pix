@@ -402,7 +402,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         const difficultyTwoSkills = focusOnDefaultLevel(skills);
 
         // then
-        expect(difficultyTwoSkills.length).to.equal(2);
+        expect(difficultyTwoSkills).to.have.lengthOf(2);
         expect(difficultyTwoSkills[0].id).to.equal(1);
         expect(difficultyTwoSkills[1].id).to.equal(4);
       });
@@ -422,7 +422,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         const lowestDifficultySkills = focusOnDefaultLevel(skills);
 
         // then
-        expect(lowestDifficultySkills.length).to.equal(2);
+        expect(lowestDifficultySkills).to.have.lengthOf(2);
         expect(lowestDifficultySkills[0].id).to.equal(1);
         expect(lowestDifficultySkills[1].id).to.equal(2);
       });

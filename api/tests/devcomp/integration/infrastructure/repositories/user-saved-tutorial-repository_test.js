@@ -22,7 +22,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
 
         // then
         const userSavedTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-        expect(userSavedTutorials).to.have.length(1);
+        expect(userSavedTutorials).to.have.lengthOf(1);
       });
 
       it('should return the created user saved tutorial', async function () {
@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
 
         // then
         const userSavedTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-        expect(userSavedTutorials).to.have.length(1);
+        expect(userSavedTutorials).to.have.lengthOf(1);
       });
 
       it('should return the created user saved tutorial', async function () {
@@ -79,7 +79,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
 
           // then
           const savedUserSavedTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-          expect(savedUserSavedTutorials).to.have.length(1);
+          expect(savedUserSavedTutorials).to.have.lengthOf(1);
           expect(userSavedTutorial).to.be.instanceOf(UserSavedTutorial);
           expect(userSavedTutorial.id).to.equal(savedUserSavedTutorials[0].id);
           expect(userSavedTutorial.userId).to.equal(savedUserSavedTutorials[0].userId);
@@ -100,7 +100,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
 
           // then
           const savedUserSavedTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-          expect(savedUserSavedTutorials).to.have.length(1);
+          expect(savedUserSavedTutorials).to.have.lengthOf(1);
           expect(userSavedTutorial).to.be.instanceOf(UserSavedTutorial);
           expect(userSavedTutorial.id).to.equal(savedUserSavedTutorials[0].id);
           expect(userSavedTutorial.userId).to.equal(savedUserSavedTutorials[0].userId);
@@ -131,7 +131,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
         const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
 
         // then
-        expect(userSavedTutorials).to.have.length(2);
+        expect(userSavedTutorials).to.have.lengthOf(2);
         expect(userSavedTutorials[0]).to.be.instanceOf(UserSavedTutorial);
         expect(userSavedTutorials[0]).to.have.property('tutorialId', 'recTutorial2');
         expect(userSavedTutorials[0]).to.have.property('userId', userId);
@@ -166,7 +166,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
       const userSavedTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
 
       // then
-      expect(userSavedTutorials).to.have.length(0);
+      expect(userSavedTutorials).to.have.lengthOf(0);
     });
 
     context('when the tutorialId does not exist in the user list', function () {
@@ -176,7 +176,7 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
         const userSavedTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
 
         // then
-        expect(userSavedTutorials).to.have.length(0);
+        expect(userSavedTutorials).to.have.lengthOf(0);
       });
     });
   });

@@ -93,7 +93,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
         .from('competence-evaluations')
         .where({ id: savedCompetenceEvaluation.id })
         .then((result) => {
-          expect(result.length).to.equal(1);
+          expect(result).to.have.lengthOf(1);
           expect(result[0].id).to.equal(savedCompetenceEvaluation.id);
           expect(result[0].assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
           expect(result[0].competenceId).to.equal(competenceEvaluationToSave.competenceId);
@@ -280,7 +280,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(competenceEvaluation).to.have.length(2);
+        expect(competenceEvaluation).to.have.lengthOf(2);
         expect(_.omit(competenceEvaluation[0], ['assessment', 'scorecard'])).to.deep.equal(
           _.omit(competenceEvaluationExpected, ['assessment']),
         );
@@ -319,7 +319,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
       const competenceEvaluations = await competenceEvaluationRepository.findByAssessmentId(assessmentId);
 
       // then
-      expect(competenceEvaluations).to.have.length(1);
+      expect(competenceEvaluations).to.have.lengthOf(1);
       expect(_.omit(competenceEvaluations[0], ['assessment', 'scorecard'])).to.deep.equal(
         _.omit(competenceEvaluationExpected, ['assessment']),
       );

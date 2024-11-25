@@ -1,6 +1,7 @@
 import { userAdminController } from '../../../../../src/identity-access-management/application/user/user.admin.controller.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | Admin | User', function () {
@@ -182,6 +183,54 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
 
       // then
       expect(response).to.be.equal('ok');
+    });
+  });
+
+  describe('#anonymizeUser', function () {
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now: new Date('2023-08-17'), toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('calls the anonymize user usecase', async function () {
+      // given
+      const userId = 1;
+      const updatedByUserId = 2;
+      const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
+      const userDetailsForAdmin = Symbol('userDetailsForAdmin');
+      const domainTransaction = {
+        knexTransaction: Symbol('transaction'),
+      };
+      sinon.stub(usecases, 'anonymizeUser');
+      sinon.stub(usecases, 'getUserDetailsForAdmin').resolves(userDetailsForAdmin);
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
+      const userAnonymizedDetailsForAdminSerializer = { serialize: sinon.stub() };
+      userAnonymizedDetailsForAdminSerializer.serialize.returns(anonymizedUserSerialized);
+
+      // when
+      const response = await userAdminController.anonymizeUser(
+        {
+          auth: { credentials: { userId: updatedByUserId } },
+          params: { id: userId },
+        },
+        hFake,
+        { userAnonymizedDetailsForAdminSerializer },
+      );
+
+      // then
+      expect(DomainTransaction.execute).to.have.been.called;
+      expect(usecases.anonymizeUser).to.have.been.calledWithExactly({ userId, updatedByUserId, domainTransaction });
+      expect(usecases.getUserDetailsForAdmin).to.have.been.calledWithExactly({ userId });
+      expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWithExactly(userDetailsForAdmin);
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.deep.equal(anonymizedUserSerialized);
     });
   });
 });

@@ -37,7 +37,7 @@ module('Unit | Controller | terms-of-service', function (hooks) {
     module('when an error occurs', function () {
       test('it should display a notification error', async function (assert) {
         // given
-        controller.notifications = { error: sinon.stub() };
+        controller.pixToast = { sendErrorNotification: sinon.stub() };
         controller.intl = { t: sinon.stub() };
         controller.currentUser = { certificationPointOfContact: { save: sinon.stub().rejects() } };
 
@@ -45,7 +45,7 @@ module('Unit | Controller | terms-of-service', function (hooks) {
         await controller.send('submit');
 
         // then
-        sinon.assert.calledOnce(controller.notifications.error);
+        sinon.assert.calledOnce(controller.pixToast.sendErrorNotification);
         assert.ok(controller);
       });
     });

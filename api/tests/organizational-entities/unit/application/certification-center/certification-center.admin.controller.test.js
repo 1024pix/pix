@@ -1,10 +1,127 @@
-import { certificationCenterController } from '../../../../../src/organizational-entities/application/certification-center/certification-center.admin.controller.js';
+import { CenterForAdmin } from '../../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
+import { certificationCenterAdminController } from '../../../../../src/organizational-entities/application/certification-center/certification-center.admin.controller.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | Controller | Admin | certification center', function () {
+  describe('#create', function () {
+    let request;
+
+    context('when payload contains all certification center fields', function () {
+      beforeEach(function () {
+        request = {
+          payload: {
+            data: {
+              attributes: {
+                name: 'name',
+                type: 'PRO',
+                'data-protection-officer-email': 'email@example.net',
+                'data-protection-officer-first-name': 'Firstname',
+                'data-protection-officer-last-name': 'Lastname',
+                'external-id': '12345',
+                'is-complementary-alone-pilot': true,
+                'is-v3-pilot': false,
+              },
+              id: '1',
+              relationships: {
+                habilitations: {
+                  data: [
+                    {
+                      id: '2',
+                      type: 'complementary-certifications',
+                    },
+                    {
+                      id: '3',
+                      type: 'complementary-certifications',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+      });
+
+      it('calls "createCertificationCenter" use case with the right parameters', async function () {
+        // given
+        const createCertificationCenterStub = sinon.stub(usecases, 'createCertificationCenter');
+
+        // when
+        await certificationCenterAdminController.create(request);
+
+        // then
+        const center = {
+          id: '1',
+          createdAt: null,
+          externalId: '12345',
+          habilitations: [],
+          isV3Pilot: false,
+          isComplementaryAlonePilot: true,
+          name: 'name',
+          type: 'PRO',
+        };
+        const dataProtectionOfficer = {
+          firstName: 'Firstname',
+          lastName: 'Lastname',
+          email: 'email@example.net',
+        };
+        const expectedCenterForAdmin = new CenterForAdmin({
+          center,
+          dataProtectionOfficer,
+        });
+        const expectedComplementaryCertificationIds = ['2', '3'];
+
+        expect(createCertificationCenterStub).to.have.been.calledOnceWith({
+          certificationCenter: expectedCenterForAdmin,
+          complementaryCertificationIds: expectedComplementaryCertificationIds,
+        });
+      });
+    });
+    context('when payload contains only required fields', function () {
+      beforeEach(function () {
+        request = {
+          payload: {
+            data: {
+              attributes: {
+                name: 'name',
+                type: 'PRO',
+                'external-id': null,
+              },
+            },
+          },
+        };
+      });
+
+      it('calls "createCertificationCenter" use case with the right parameters', async function () {
+        // given
+        const createCertificationCenterStub = sinon.stub(usecases, 'createCertificationCenter');
+
+        // when
+        await certificationCenterAdminController.create(request);
+
+        // then
+        const center = {
+          createdAt: null,
+          externalId: null,
+          name: 'name',
+          type: 'PRO',
+        };
+        const dataProtectionOfficer = {};
+        const expectedCenterForAdmin = new CenterForAdmin({
+          center,
+          dataProtectionOfficer,
+        });
+
+        expect(createCertificationCenterStub).to.have.been.calledOnceWith({
+          certificationCenter: expectedCenterForAdmin,
+          complementaryCertificationIds: [],
+        });
+      });
+    });
+  });
+
   describe('#findPaginatedFilteredCertificationCenters', function () {
-    it('should return the serialized certification centers', async function () {
+    it('returns the serialized certification centers', async function () {
       // given
       const certificationCenter1 = domainBuilder.buildCertificationCenter();
       const serializedCertificationCenters = Symbol('serialized certification centers and pagination as meta');
@@ -41,7 +158,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
         });
 
       // when
-      const response = await certificationCenterController.findPaginatedFilteredCertificationCenters(
+      const response = await certificationCenterAdminController.findPaginatedFilteredCertificationCenters(
         request,
         hFake,
         dependencies,

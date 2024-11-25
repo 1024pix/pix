@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class TermsOfServiceController extends Controller {
   @service currentUser;
-  @service notifications;
+  @service pixToast;
   @service router;
   @service intl;
 
@@ -20,7 +20,7 @@ export default class TermsOfServiceController extends Controller {
       this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted = true;
       this.router.transitionTo('authenticated.sessions');
     } catch (errorResponse) {
-      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }
 }

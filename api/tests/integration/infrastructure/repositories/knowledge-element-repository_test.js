@@ -43,7 +43,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       });
 
       // then
-      expect(savedKnowledgeElements.length).to.equal(2);
+      expect(savedKnowledgeElements).to.have.lengthOf(2);
       expect(savedKnowledgeElements[0]).to.deepEqualInstanceOmitting(knowledgeElementsToSave[0], ['createdAt', 'id']);
       expect(savedKnowledgeElements[1]).to.deepEqualInstanceOmitting(knowledgeElementsToSave[1], ['createdAt', 'id']);
       expect(savedKnowledgeElements[0].createdAt).to.deep.equal(savedKnowledgeElements[1].createdAt);
@@ -229,8 +229,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
 
       // then
-      expect(actualKnowledgeElementsGroupedByCompetenceId[1]).to.have.length(2);
-      expect(actualKnowledgeElementsGroupedByCompetenceId[2]).to.have.length(1);
+      expect(actualKnowledgeElementsGroupedByCompetenceId[1]).to.have.lengthOf(2);
+      expect(actualKnowledgeElementsGroupedByCompetenceId[2]).to.have.lengthOf(1);
       expect(actualKnowledgeElementsGroupedByCompetenceId[1][0]).to.be.instanceOf(KnowledgeElement);
     });
   });
@@ -375,7 +375,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1][0]).to.be.instanceOf(KnowledgeElement);
-      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1].length).to.equal(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1]).to.have.lengthOf(2);
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1]).to.deep.include.members([
         knowledgeElement1_1,
         knowledgeElement1_2,
@@ -445,7 +445,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
             .select('*')
             .from('knowledge-element-snapshots')
             .where({ userId: userId1 });
-          expect(actualUserSnapshots.length).to.equal(0);
+          expect(actualUserSnapshots).to.have.lengthOf(0);
         });
       });
 
@@ -581,7 +581,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
           // then
           const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(0);
+          expect(actualUserSnapshots).to.have.lengthOf(0);
         });
       });
 
@@ -804,7 +804,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
           // then
           const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(0);
+          expect(actualUserSnapshots).to.have.lengthOf(0);
         });
       });
 
@@ -1077,7 +1077,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
           // then
           const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(0);
+          expect(actualUserSnapshots).to.have.lengthOf(0);
         });
       });
 
@@ -1229,8 +1229,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1][0]).to.be.instanceOf(KnowledgeElement);
-      expect(knowledgeElementsByUserIdAndCompetenceId[userId1].length).to.equal(2);
-      expect(knowledgeElementsByUserIdAndCompetenceId[userId2].length).to.equal(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.have.lengthOf(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.have.lengthOf(2);
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([
         user1knowledgeElement1,
         user1knowledgeElement2,
@@ -1298,7 +1298,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
             .select('*')
             .from('knowledge-element-snapshots')
             .where({ userId: userId1 });
-          expect(actualUserSnapshots.length).to.equal(0);
+          expect(actualUserSnapshots).to.have.lengthOf(0);
         });
       });
 
@@ -1361,7 +1361,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
       // Then
-      expect(knowledgeElements).to.have.length(2);
+      expect(knowledgeElements).to.have.lengthOf(2);
       expect(knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
       expect(knowledgeElements[0].id).to.equal(2);
     });
@@ -1375,7 +1375,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
       // Then
-      expect(knowledgeElements).to.have.length(0);
+      expect(knowledgeElements).to.have.lengthOf(0);
     });
   });
 

@@ -6,6 +6,7 @@ export default class CampaignProfilesCollectionParticipationSummary extends Mode
   @attr('string') participantExternalId;
   @attr('date') sharedAt;
   @attr('number') pixScore;
+  @attr('number') sharedProfileCount;
   @attr('nullable-string') evolution;
   @attr('boolean') certifiable;
   @attr('number') certifiableCompetencesCount;

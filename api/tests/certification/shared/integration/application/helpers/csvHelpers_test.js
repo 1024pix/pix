@@ -47,7 +47,7 @@ describe('Certification | Shared | Integration | Application | Helpers | csvHelp
       const data = await parseCsv(validFilePath, options);
 
       // then
-      expect(data.length).to.equal(2);
+      expect(data).to.have.lengthOf(2);
       expect(data[0][2]).to.equal('Salle Beagle');
     });
 
@@ -56,7 +56,7 @@ describe('Certification | Shared | Integration | Application | Helpers | csvHelp
       const data = await parseCsv(utf8FilePath);
 
       // then
-      expect(data.length).to.equal(4);
+      expect(data).to.have.lengthOf(4);
     });
   });
 
@@ -86,7 +86,7 @@ describe('Certification | Shared | Integration | Application | Helpers | csvHelp
       const items = await parseCsvWithHeader(withHeaderFilePath);
 
       // then
-      expect(items.length).to.equal(2);
+      expect(items).to.have.lengthOf(2);
       expect(items).to.have.deep.members(expectedItems);
     });
 

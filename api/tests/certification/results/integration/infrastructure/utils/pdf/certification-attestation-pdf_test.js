@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
 import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { SESSIONS_VERSIONS } from '../../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { CertificationAttestationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, domainBuilder, expect, nock, sinon } from '../../../../../../test-helper.js';
@@ -162,6 +163,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
           },
         ],
         deliveredAt: deliveredBeforeStartDate,
+        version: SESSIONS_VERSIONS.V2,
       });
     const certificateWithComplementaryCertificationsAndWithProfessionalizingMessage =
       domainBuilder.buildCertificationAttestation({
@@ -180,6 +182,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
           },
         ],
         deliveredAt: deliveredAfterStartDate,
+        version: SESSIONS_VERSIONS.V2,
       });
     const certificateWithoutComplementaryCertificationsAndWithoutProfessionalizingMessage =
       domainBuilder.buildCertificationAttestation({
@@ -191,6 +194,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         pixPlusDroitCertificationImagePath: null,
         certifiedBadges: [],
         deliveredAt: deliveredBeforeStartDate,
+        version: SESSIONS_VERSIONS.V2,
       });
     const certificateComplementaryCertificationsAndWithProfessionalizingMessage =
       domainBuilder.buildCertificationAttestation({
@@ -202,6 +206,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         pixPlusDroitCertificationImagePath: null,
         certifiedBadges: [],
         deliveredAt: deliveredAfterStartDate,
+        version: SESSIONS_VERSIONS.V2,
       });
     const referencePdfPath = 'certification-attestation-pdf_several_pages.pdf';
     const i18n = getI18n();
@@ -286,6 +291,43 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
       referencePdfPath + ' is not generated as expected',
     ).to.be.true;
+  });
+
+  describe('when the certification session is version 3', function () {
+    it('should not display the professionalizing certification message in attestation', async function () {
+      // given
+      const professionalizingValidityStartDate = new Date('2022-01-01');
+      const deliveredAfterStartDate = dayjs(professionalizingValidityStartDate).add(1, 'days').toDate();
+
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+      const certificateWithoutProfessionalizingMessage = domainBuilder.buildCertificationAttestation({
+        id: 1,
+        firstName: 'Alain',
+        lastName: 'Cendy',
+        resultCompetenceTree,
+        certifiedBadges: [],
+        deliveredAt: deliveredAfterStartDate,
+        version: SESSIONS_VERSIONS.V3,
+      });
+      const referencePdfPath = 'certification-attestation-pdf-v3-without-professionalizing-message_test.pdf';
+      const i18n = getI18n();
+
+      // when
+      const { buffer } = await getCertificationAttestationsPdfBuffer({
+        certificates: [certificateWithoutProfessionalizingMessage],
+        isFrenchDomainExtension: true,
+        i18n,
+        creationDate: new Date('2021-01-01'),
+      });
+
+      await _writeFile(buffer, referencePdfPath);
+
+      // then
+      expect(
+        await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
+        referencePdfPath + ' is not generated as expected',
+      ).to.be.true;
+    });
   });
 });
 

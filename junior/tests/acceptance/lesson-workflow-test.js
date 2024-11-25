@@ -1,5 +1,4 @@
 import { visit } from '@1024pix/ember-testing-library';
-// import { click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import { setupApplicationTest, t } from '../helpers';

@@ -54,7 +54,7 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
 
     // then
     const allInvitations = await knex('certification-center-invitations').select('*');
-    expect(allInvitations).to.have.length(3);
+    expect(allInvitations).to.have.lengthOf(3);
 
     expect(result.isInvitationCreated).to.be.true;
     expect(result.certificationCenterInvitation).to.be.instanceOf(CertificationCenterInvitation);
@@ -98,7 +98,7 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
 
     // then
     const allInvitations = await knex('certification-center-invitations').select('*');
-    expect(allInvitations).to.have.length(1);
+    expect(allInvitations).to.have.lengthOf(1);
 
     expect(result.isInvitationCreated).to.be.false;
     expect(result.certificationCenterInvitation).to.be.instanceOf(CertificationCenterInvitation);

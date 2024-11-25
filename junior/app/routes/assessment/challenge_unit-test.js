@@ -28,16 +28,20 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
       test('should call the assessment challenge route', async function (assert) {
         const store = this.owner.lookup('service:store');
         const route = this.owner.lookup('route:assessment.challenge');
+        const currentLearner = this.owner.lookup('service:currentLearner');
+        sinon.stub(currentLearner, 'learner').value({ id: 156 });
         const assessment = { id: 2, type: 'PIX1D_MISSION' };
         const challenge = { id: 2 };
         const activity = { id: 2 };
+        const organizationLearner = store.createRecord('organization-learner', { features: ['ORALIZATION'] });
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
         sinon.stub(store, 'queryRecord').returns(challenge);
+        sinon.stub(store, 'findRecord').returns(organizationLearner);
 
         const result = await route.model();
 
-        assert.deepEqual(result, { assessment, challenge, activity });
+        assert.deepEqual(result, { assessment, challenge, activity, oralization: true });
       });
     });
 

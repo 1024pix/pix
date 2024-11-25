@@ -20,7 +20,7 @@ describe('Integration | Repository | Certification', function () {
 
       // then
 
-      expect(statuses).to.have.length(3);
+      expect(statuses).to.have.lengthOf(3);
       expect(statuses).to.deep.equal([
         {
           certificationCourseId: 1,

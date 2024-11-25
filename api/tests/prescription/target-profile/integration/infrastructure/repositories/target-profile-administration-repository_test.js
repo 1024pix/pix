@@ -940,7 +940,7 @@ describe('Integration | Repository | Target-profile', function () {
       const tubes = await targetProfileAdministrationRepository.getTubesByTargetProfileId(targetProfile1.id);
 
       // Then
-      expect(tubes.length).to.equal(2);
+      expect(tubes).to.have.lengthOf(2);
       expect(tubes[0].tubeId).to.equal(targetProfileTube1.tubeId);
       expect(tubes[1].tubeId).to.equal(targetProfileTube2.tubeId);
     });

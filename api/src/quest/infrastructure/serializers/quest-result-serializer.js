@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (questResult) {
   return new Serializer('quest-result', {
-    attributes: ['obtained', 'reward'],
+    attributes: ['obtained', 'reward', 'profileRewardId'],
   }).serialize(questResult);
 };
 

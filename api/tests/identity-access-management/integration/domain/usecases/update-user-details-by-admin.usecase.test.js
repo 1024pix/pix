@@ -99,7 +99,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
     });
 
     // then
-    expect(result.organizationLearners.length).to.equal(2);
+    expect(result.organizationLearners).to.have.lengthOf(2);
     expect(result.email).to.equal(userDetailsToUpdate.email);
   });
 

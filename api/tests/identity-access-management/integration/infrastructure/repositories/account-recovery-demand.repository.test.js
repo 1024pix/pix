@@ -212,7 +212,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       // then
       const accountRecoveryDemands = await knex('account-recovery-demands').select();
-      expect(accountRecoveryDemands).to.have.length(1);
+      expect(accountRecoveryDemands).to.have.lengthOf(1);
       expect(result).to.be.instanceOf(AccountRecoveryDemand);
       expect(result.userId).to.equal(userId);
       expect(result.newEmail).to.equal(newEmail);

@@ -38,7 +38,7 @@ describe('Integration | Team | Domain | UseCase | find-pending-certification-cen
     });
 
     // then
-    expect(certificationCenterInvitations.length).to.equal(2);
+    expect(certificationCenterInvitations).to.have.lengthOf(2);
     expect(certificationCenterInvitations[0]).to.be.instanceOf(CertificationCenterInvitation);
     expect(certificationCenterInvitations[0]).to.deep.include({
       id: certificationCenterInvitation1.id,

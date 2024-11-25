@@ -302,6 +302,24 @@ module('Unit | Service | current-user', function (hooks) {
       });
     });
 
+    module('#canAccessAttestationsPage', function () {
+      test('should return true if organization has feature activated', function (assert) {
+        currentUserService.prescriber = {
+          attestationsManagement: true,
+        };
+
+        assert.true(currentUserService.canAccessAttestationsPage);
+      });
+
+      test('should return false if organization does not have feature activated', function (assert) {
+        currentUserService.prescriber = {
+          attestationsManagement: false,
+        };
+
+        assert.false(currentUserService.canAccessAttestationsPage);
+      });
+    });
+
     module('#canAccessMissionsPage', function () {
       test('should return true if user has feature activated', function (assert) {
         currentUserService.prescriber = {
@@ -335,24 +353,6 @@ module('Unit | Service | current-user', function (hooks) {
         };
 
         assert.true(currentUserService.canAccessCampaignsPage);
-      });
-    });
-
-    module('#canAccessParticipantsPage', function () {
-      test('should return false if user has mission feature activated', function (assert) {
-        currentUserService.prescriber = {
-          missionsManagement: true,
-        };
-
-        assert.false(currentUserService.canAccessParticipantsPage);
-      });
-
-      test('should return true if user does not have missions feature activated', function (assert) {
-        currentUserService.prescriber = {
-          missionsManagement: false,
-        };
-
-        assert.true(currentUserService.canAccessParticipantsPage);
       });
     });
 

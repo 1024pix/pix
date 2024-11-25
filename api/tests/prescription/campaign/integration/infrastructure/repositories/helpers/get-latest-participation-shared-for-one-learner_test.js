@@ -34,7 +34,7 @@ describe('Integration | Infrastructure | Repository | Helpers | get-latest-parti
         .where({ campaignId })
         .groupBy('organizationLearnerId');
 
-      expect(result.length).to.equal(1);
+      expect(result).to.have.lengthOf(1);
       expect(result[0].organizationLearnerId).to.equal(firstLearnerId);
       expect(result[0].masteryRate).to.equal('0.70');
     });

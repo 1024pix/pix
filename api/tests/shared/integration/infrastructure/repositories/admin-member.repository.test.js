@@ -23,7 +23,7 @@ describe('Integration | Shared | Infrastructure | Repositories | adminMember', f
       const members = await adminMemberRepository.findAll();
 
       // then
-      expect(members.length).to.equal(2);
+      expect(members).to.have.lengthOf(2);
       expect(members).to.have.deep.members([
         new AdminMember({
           id: userWithPixAdminRole.id,
@@ -54,7 +54,7 @@ describe('Integration | Shared | Infrastructure | Repositories | adminMember', f
       const members = await adminMemberRepository.findAll();
 
       // then
-      expect(members.length).to.equal(1);
+      expect(members).to.have.lengthOf(1);
       expect(members[0].id).to.not.equal(userWithoutPixAdminRole.id);
     });
 

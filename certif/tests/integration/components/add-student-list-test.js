@@ -9,16 +9,12 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | add-student-list', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let notificationMessagesService;
   let store;
+  let pixToast;
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
-    notificationMessagesService = this.owner.lookup('service:notifications');
-  });
-
-  hooks.afterEach(function () {
-    notificationMessagesService.clearAll();
+    pixToast = this.owner.lookup('service:pixToast');
   });
 
   module('when there are students', () => {
@@ -424,7 +420,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         test(`it should notify a generic message for an error ${statusCode}`, async function (assert) {
           // given
           const ERROR_DETAIL = 'PAS BIEN';
-          notificationMessagesService.error = sinon.spy();
+          pixToast.sendErrorNotification = sinon.spy();
           const error = _createError(statusCode, ERROR_DETAIL);
           const save = sinon.stub().rejects(error);
 
@@ -451,9 +447,9 @@ module('Integration | Component | add-student-list', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Inscrire' }));
           assert.ok(
-            notificationMessagesService.error.calledOnceWith(
-              'Une erreur est survenue au moment d‘inscrire les candidats...',
-            ),
+            pixToast.sendErrorNotification.calledOnceWith({
+              message: 'Une erreur est survenue au moment d‘inscrire les candidats.',
+            }),
           );
         });
       });
@@ -461,7 +457,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       test('it should notify a specific message for an unprocessable entity', async function (assert) {
         // given
         const ERROR_DETAIL = 'PAS BIEN';
-        notificationMessagesService.error = sinon.spy();
+        pixToast.sendErrorNotification = sinon.spy();
         const unprocessableEntityError = _createError(422, ERROR_DETAIL);
         const save = sinon.stub();
         save.rejects(unprocessableEntityError);
@@ -488,7 +484,11 @@ module('Integration | Component | add-student-list', function (hooks) {
 
         // when
         await click(screen.getByRole('button', { name: 'Inscrire' }));
-        assert.ok(notificationMessagesService.error.calledOnceWith(ERROR_DETAIL));
+        assert.ok(
+          pixToast.sendErrorNotification.calledOnceWith({
+            message: ERROR_DETAIL,
+          }),
+        );
       });
     });
   });

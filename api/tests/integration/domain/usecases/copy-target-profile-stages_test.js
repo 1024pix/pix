@@ -22,7 +22,7 @@ describe('Integration | UseCases | copy-stages', function () {
       const destinationTargetProfileStages = await knex('stages').where({
         targetProfileId: destinationTargetProfileId,
       });
-      expect(destinationTargetProfileStages.length).to.equal(2);
+      expect(destinationTargetProfileStages).to.have.lengthOf(2);
       expect(destinationTargetProfileStages[0].title).to.equal(firstStage.title);
       expect(destinationTargetProfileStages[1].title).to.equal(secondStage.title);
     });

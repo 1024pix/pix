@@ -125,7 +125,7 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
           expect(transactionBadgeAcquisitions).to.deep.equal([{ userId, badgeId: badgeCompleted.id }]);
 
           const realBadgeAcquisitions = await knex('badge-acquisitions').where({ userId });
-          expect(realBadgeAcquisitions.length).to.equal(0);
+          expect(realBadgeAcquisitions).to.have.lengthOf(0);
         });
       });
     });

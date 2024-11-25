@@ -12,7 +12,7 @@ const Modals = {
 };
 
 export default class CandidateInList extends Component {
-  @service notifications;
+  @service pixToast;
   @service intl;
   @service store;
 
@@ -143,9 +143,11 @@ export default class CandidateInList extends Component {
     if (this.args.candidate.hasOngoingChallengeLiveAlert) {
       this.displayedModal = Modals.HandleLiveAlert;
     } else {
-      this.notifications.error(
-        this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert'),
-      );
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t(
+          'pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert',
+        ),
+      });
     }
   }
 
@@ -161,11 +163,11 @@ export default class CandidateInList extends Component {
       await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
       this.isLiveAlertValidated = false;
       this.displayedModal = Modals.HandledLiveAlertSuccess;
-    } catch (err) {
+    } catch (error) {
       const errorMessage = this.intl.t(
         'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
       );
-      this.notifications.error(errorMessage);
+      this.pixToast.sendErrorNotification({ message: errorMessage });
     }
   }
 
@@ -184,7 +186,7 @@ export default class CandidateInList extends Component {
       const errorMessage = this.intl.t(
         'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
       );
-      this.notifications.error(errorMessage);
+      this.pixToast.sendErrorNotification({ message: errorMessage });
     }
   }
 
@@ -197,15 +199,17 @@ export default class CandidateInList extends Component {
         candidateUserId: this.args.candidate.userId,
       });
 
-      this.notifications.success(
-        this.intl.t('pages.session-supervising.candidate-in-list.notifications.handling-live-alert.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.session-supervising.candidate-in-list.notifications.handling-live-alert.success', {
           htmlSafe: true,
         }),
-      );
+      });
     } catch (error) {
-      this.notifications.error(
-        this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert'),
-      );
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t(
+          'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
+        ),
+      });
     } finally {
       this.displayedModal = null;
     }
@@ -221,12 +225,12 @@ export default class CandidateInList extends Component {
     this.closeConfirmationModal();
     try {
       await this.args.onCandidateTestResumeAuthorization(this.args.candidate);
-      this.notifications.success(
-        this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.success', {
           firstName: this.args.candidate.firstName,
           lastName: this.args.candidate.lastName,
         }),
-      );
+      });
     } catch (responseError) {
       const error = responseError?.errors?.[0];
       const parameters = {
@@ -241,7 +245,7 @@ export default class CandidateInList extends Component {
       } else {
         errorMessage = this.intl.t('common.api-error-messages.authorize-resume-error', parameters);
       }
-      this.notifications.error(errorMessage);
+      this.pixToast.sendErrorNotification({ message: errorMessage });
     }
   }
 
@@ -250,19 +254,19 @@ export default class CandidateInList extends Component {
     this.closeConfirmationModal();
     try {
       await this.args.onSupervisorEndAssessment(this.args.candidate);
-      this.notifications.success(
-        this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.success', {
           firstName: this.args.candidate.firstName,
           lastName: this.args.candidate.lastName,
         }),
-      );
+      });
     } catch (error) {
-      this.notifications.error(
-        this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.error', {
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.error', {
           firstName: this.args.candidate.firstName,
           lastName: this.args.candidate.lastName,
         }),
-      );
+      });
     }
   }
 

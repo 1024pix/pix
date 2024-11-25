@@ -7,6 +7,17 @@ import { organizationInvitationRepository } from '../../../../../src/team/infras
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Team | Infrastructure | Repository | organization-invitation', function () {
+  let clock;
+  const now = new Date('2021-01-02');
+
+  beforeEach(function () {
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
   describe('#create', function () {
     let organizationId;
 
@@ -114,7 +125,7 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
       await databaseBuilder.commit();
     });
 
-    it('should return an Organization-invitation domain object', async function () {
+    it('accepts and returns the accepted organization invitation', async function () {
       // when
       const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(
         organizationInvitation.id,
@@ -122,6 +133,12 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
 
       // then
       expect(organizationInvitationSaved).to.be.an.instanceof(OrganizationInvitation);
+      expect(organizationInvitationSaved.id).to.equal(organizationInvitation.id);
+      expect(organizationInvitationSaved.organizationId).to.equal(organizationInvitation.organizationId);
+      expect(organizationInvitationSaved.email).to.equal(organizationInvitation.email);
+      expect(organizationInvitationSaved.status).to.equal(OrganizationInvitation.StatusType.ACCEPTED);
+      expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
+      expect(organizationInvitationSaved.updatedAt).to.be.deep.equal(now);
     });
 
     it('should not add row in table organization-invitations', async function () {
@@ -135,30 +152,11 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
       const { count: nbOrganizationInvitationsAfterUpdate } = await knex('organization-invitations').count().first();
       expect(nbOrganizationInvitationsAfterUpdate).to.equal(nbOrganizationInvitationsBeforeUpdate);
     });
-
-    it('should update model in database', async function () {
-      // given
-      const statusAccepted = OrganizationInvitation.StatusType.ACCEPTED;
-
-      // when
-      const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(
-        organizationInvitation.id,
-      );
-
-      // then
-      expect(organizationInvitationSaved.id).to.equal(organizationInvitation.id);
-      expect(organizationInvitationSaved.organizationId).to.equal(organizationInvitation.organizationId);
-      expect(organizationInvitationSaved.email).to.equal(organizationInvitation.email);
-      expect(organizationInvitationSaved.status).to.equal(statusAccepted);
-      expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
-    });
   });
 
   describe('#markAsCancelled', function () {
     it('should return the cancelled organization invitation', async function () {
       // given
-      const now = new Date('2021-01-02');
-      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         updatedAt: new Date('2020-01-01T00:00:00Z'),
         status: OrganizationInvitation.StatusType.PENDING,
@@ -178,7 +176,6 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
       expect(organizationInvitationSaved.status).to.equal(OrganizationInvitation.StatusType.CANCELLED);
       expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
       expect(organizationInvitationSaved.updatedAt).to.be.deep.equal(now);
-      clock.restore();
     });
 
     it('should throw a not found error', async function () {
@@ -258,7 +255,7 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
       });
 
       // then
-      expect(foundOrganizationInvitations.length).to.equal(2);
+      expect(foundOrganizationInvitations).to.have.lengthOf(2);
     });
 
     it('should return organization-invitations from most recent to oldest', async function () {
@@ -308,17 +305,6 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
   });
 
   describe('#updateModificationDate', function () {
-    let clock;
-    const now = new Date('2021-01-02');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
     it('should update the modification date', async function () {
       // given
       const organizationId = 2323;

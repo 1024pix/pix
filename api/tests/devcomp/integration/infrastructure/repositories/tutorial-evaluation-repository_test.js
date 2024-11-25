@@ -19,7 +19,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
       // then
       const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
-      expect(tutorialEvaluations).to.have.length(1);
+      expect(tutorialEvaluations).to.have.lengthOf(1);
     });
 
     it('should return the created tutorial evaluation', async function () {
@@ -63,7 +63,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
         // then
         const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
-        expect(tutorialEvaluations).to.have.length(1);
+        expect(tutorialEvaluations).to.have.lengthOf(1);
         expect(tutorialEvaluation.id).to.equal(tutorialEvaluations[0].id);
         expect(tutorialEvaluation.userId).to.equal(tutorialEvaluations[0].userId);
         expect(tutorialEvaluation.tutorialId).to.equal(tutorialEvaluations[0].tutorialId);
@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
         const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
 
         // then
-        expect(tutorialEvaluations).to.have.length(1);
+        expect(tutorialEvaluations).to.have.lengthOf(1);
         expect(tutorialEvaluations[0]).to.have.property('tutorialId', tutorialId);
         expect(tutorialEvaluations[0]).to.have.property('userId', userId);
       });

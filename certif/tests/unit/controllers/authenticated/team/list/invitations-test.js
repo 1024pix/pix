@@ -26,14 +26,18 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
       const certificationCenterInvitation = {
         destroyRecord: sinon.stub(),
       };
-      controller.notifications = { success: sinon.stub() };
+      controller.pixToast = { sendSuccessNotification: sinon.stub() };
 
       // when
       await controller.cancelInvitation(certificationCenterInvitation);
 
       // then
       assert.ok(certificationCenterInvitation.destroyRecord.called);
-      assert.ok(controller.notifications.success.calledWithExactly('L’invitation a bien été supprimée.'));
+      assert.ok(
+        controller.pixToast.sendSuccessNotification.calledWithExactly({
+          message: 'L’invitation a bien été supprimée.',
+        }),
+      );
     });
 
     module('when an error occurs', function () {
@@ -42,16 +46,17 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
         const certificationCenterInvitation = {
           destroyRecord: sinon.stub().rejects(),
         };
-        controller.notifications = { error: sinon.stub() };
+        controller.pixToast = { sendErrorNotification: sinon.stub() };
 
         // when
         await controller.cancelInvitation(certificationCenterInvitation);
 
         // then
         assert.ok(
-          controller.notifications.error.calledWithExactly(
-            'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
-          ),
+          controller.pixToast.sendErrorNotification.calledWithExactly({
+            message:
+              'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+          }),
         );
       });
     });
@@ -64,14 +69,16 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
         save: sinon.stub(),
       };
 
-      controller.notifications = { success: sinon.stub() };
+      controller.pixToast = { sendSuccessNotification: sinon.stub() };
 
       // when
       await controller.resendInvitation(certificationCenterInvitation);
 
       // then
       assert.ok(certificationCenterInvitation.save.called);
-      assert.ok(controller.notifications.success.calledWithExactly("L'invitation a bien été renvoyée."));
+      assert.ok(
+        controller.pixToast.sendSuccessNotification.calledWithExactly({ message: "L'invitation a bien été renvoyée." }),
+      );
     });
 
     module('when resending the same invitation multiple times without waiting X seconds (default to 5s)', function () {
@@ -81,7 +88,7 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
         const certificationCenterInvitation = store.createRecord('certification-center-invitation');
         const waitForInMilliseconds = 10;
 
-        controller.notifications = { success: sinon.stub() };
+        controller.pixToast = { sendSuccessNotification: sinon.stub() };
         sinon.stub(certificationCenterInvitation, 'save').resolves();
         sinon.stub(ENV.APP, 'MILLISECONDS_BEFORE_MAIL_RESEND').value(waitForInMilliseconds);
 
@@ -98,7 +105,7 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
 
         // then
         assert.ok(certificationCenterInvitation.save.calledTwice);
-        assert.ok(controller.notifications.success.calledTwice);
+        assert.ok(controller.pixToast.sendSuccessNotification.calledTwice);
       });
     });
 
@@ -109,16 +116,17 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
           save: sinon.stub().rejects(),
         };
 
-        controller.notifications = { error: sinon.stub() };
+        controller.pixToast = { sendErrorNotification: sinon.stub() };
 
         // when
         await controller.resendInvitation(certificationCenterInvitation);
 
         // then
         assert.ok(
-          controller.notifications.error.calledWithExactly(
-            'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
-          ),
+          controller.pixToast.sendErrorNotification.calledWithExactly({
+            message:
+              'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+          }),
         );
       });
     });

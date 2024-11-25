@@ -362,4 +362,38 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       });
     });
   });
+
+  describe('#getUserCampaignParticipationToCampaign', function () {
+    it('should return serialized campaign participation', async function () {
+      // given
+      const userId = 789;
+      const campaignId = 456;
+      const campaignParticipation = Symbol('campaign participation');
+      const expectedCampaignParticipation = Symbol('expected campaign participation');
+
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          userId,
+          campaignId,
+        },
+      };
+      const campaignParticipationSerializer = { serialize: sinon.stub() };
+      sinon.stub(usecases, 'getUserCampaignParticipationToCampaign');
+      usecases.getUserCampaignParticipationToCampaign.withArgs({ userId, campaignId }).resolves(campaignParticipation);
+      campaignParticipationSerializer.serialize.withArgs(campaignParticipation).returns(expectedCampaignParticipation);
+
+      // when
+      const response = await campaignParticipationController.getUserCampaignParticipationToCampaign(request, hFake, {
+        campaignParticipationSerializer,
+      });
+
+      // then
+      expect(response).to.equal(expectedCampaignParticipation);
+    });
+  });
 });

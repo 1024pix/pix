@@ -525,7 +525,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
               courseId: certificationCourse.id,
             });
 
-          expect(certificationChallengeCapacities.length).to.equal(9);
+          expect(certificationChallengeCapacities).to.have.lengthOf(9);
         });
 
         describe('when user estimatedLevel is too high', function () {
@@ -587,7 +587,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
               })
               .orderBy('competenceId');
 
-            expect(competenceMarks).to.have.length(1);
+            expect(competenceMarks).to.have.lengthOf(1);
 
             expect(competenceMarks[0].level).to.equal(1);
           });

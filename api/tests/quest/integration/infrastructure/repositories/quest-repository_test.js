@@ -35,7 +35,7 @@ describe('Quest | Integration | Repository | quest', function () {
 
       // then
       expect(quests[0]).to.be.an.instanceof(Quest);
-      expect(quests.length).to.equal(3);
+      expect(quests).to.have.lengthOf(3);
     });
   });
 });

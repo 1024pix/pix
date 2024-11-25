@@ -46,7 +46,7 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         ];
 
         //then
-        expect(users.length).to.equal(3);
+        expect(users).to.have.lengthOf(3);
       });
 
       it('validates and canonicalizes the locale', function () {

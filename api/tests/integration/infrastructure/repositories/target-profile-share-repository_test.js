@@ -29,7 +29,7 @@ describe('Integration | Repository | Target-profile-share', function () {
 
       // then
       const foundTargetProfileShares = await knex('target-profile-shares').select();
-      expect(foundTargetProfileShares.length).to.equal(3);
+      expect(foundTargetProfileShares).to.have.lengthOf(3);
     });
   });
 });

@@ -1,5 +1,14 @@
 class OrganizationLearnerDTO {
-  constructor({ id, displayName, firstName, division, organizationId, startedMissionIds, completedMissionIds } = {}) {
+  constructor({
+    id,
+    displayName,
+    firstName,
+    division,
+    organizationId,
+    startedMissionIds,
+    completedMissionIds,
+    features,
+  } = {}) {
     this.id = id;
     this.displayName = displayName;
     this.firstName = firstName;
@@ -7,6 +16,7 @@ class OrganizationLearnerDTO {
     this.organizationId = organizationId;
     this.startedMissionIds = startedMissionIds;
     this.completedMissionIds = completedMissionIds;
+    this.features = features || [];
   }
 }
 

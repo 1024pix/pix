@@ -24,13 +24,12 @@
         </p>
       {{/if}}
     </div>
-    <PixButtonLink
+    <PixButton
       class="campaign-participation-overview-card-content__action"
-      @route="campaigns.entry-point"
-      @model={{@model.campaignCode}}
       @variant="secondary"
+      @triggerAction={{this.onClick}}
     >
       {{t "pages.campaign-participation-overview.card.see-more"}}
-    </PixButtonLink>
+    </PixButton>
   </section>
 </article>

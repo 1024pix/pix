@@ -111,7 +111,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
       });
 
       // then
-      expect(acquiredBadgeIds.length).to.equal(0);
+      expect(acquiredBadgeIds).to.have.lengthOf(0);
     });
 
     context('when no  is passed in parameters', function () {
@@ -184,7 +184,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
             });
 
           // then
-          expect(acquiredBadgesByCampaignParticipations[campaignParticipationId].length).to.equal(2);
+          expect(acquiredBadgesByCampaignParticipations[campaignParticipationId]).to.have.lengthOf(2);
         });
       });
     });

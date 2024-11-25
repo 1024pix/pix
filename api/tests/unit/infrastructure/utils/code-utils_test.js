@@ -8,7 +8,7 @@ describe('Unit | Utils | code-utils', function () {
       const result = generateNumericalString(6);
 
       // then
-      expect(result).to.have.length(6);
+      expect(result).to.have.lengthOf(6);
     });
   });
 });

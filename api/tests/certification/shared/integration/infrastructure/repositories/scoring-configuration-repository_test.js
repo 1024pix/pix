@@ -163,7 +163,7 @@ describe('Integration | Repository | scoring-configuration-repository', function
 
       // then
       const configurations = await knex('competence-scoring-configurations');
-      expect(configurations.length).to.equal(1);
+      expect(configurations).to.have.lengthOf(1);
       expect(configurations[0].configuration).to.deep.equal({ some: 'data' });
       expect(configurations[0].createdByUserId).to.equal(userId);
     });
@@ -182,7 +182,7 @@ describe('Integration | Repository | scoring-configuration-repository', function
 
       // then
       const configurations = await knex('certification-scoring-configurations');
-      expect(configurations.length).to.equal(1);
+      expect(configurations).to.have.lengthOf(1);
       expect(configurations[0].configuration).to.deep.equal({ some: 'data' });
       expect(configurations[0].createdByUserId).to.equal(userId);
     });

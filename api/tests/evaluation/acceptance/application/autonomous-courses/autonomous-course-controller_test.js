@@ -172,7 +172,7 @@ describe('Acceptance | API | Autonomous Course', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.have.length(2);
+      expect(response.result.data).to.have.lengthOf(2);
       expect(response.result.data).to.deep.have.members(expectedResponse.data);
     });
   });
@@ -378,7 +378,7 @@ describe('Acceptance | API | Autonomous Course', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.length).to.equal(2);
+      expect(response.result.data).to.have.lengthOf(2);
       expect(response.result.data).to.deep.have.members(expectedResult);
     });
   });

@@ -141,7 +141,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       const memberships = await getAdminMembershipsUserIdByOrganizationExternalId(organization.externalId);
 
       // then
-      expect(memberships).to.have.length(0);
+      expect(memberships).to.have.lengthOf(0);
     });
   });
 

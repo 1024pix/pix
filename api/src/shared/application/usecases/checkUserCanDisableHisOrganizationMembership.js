@@ -1,4 +1,4 @@
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 
 async function execute({ organizationId, userId, dependencies = { membershipRepository } }) {
   const currentActiveAdmins = await dependencies.membershipRepository.findAdminsByOrganizationId({ organizationId });

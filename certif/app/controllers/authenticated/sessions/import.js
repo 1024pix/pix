@@ -8,7 +8,7 @@ import ENV from 'pix-certif/config/environment';
 export default class ImportController extends Controller {
   @service fileSaver;
   @service session;
-  @service notifications;
+  @service pixToast;
   @service intl;
   @service currentUser;
   @service store;
@@ -59,7 +59,6 @@ export default class ImportController extends Controller {
   async validateSessions(isValidationInStepOne) {
     const adapter = this.store.adapterFor('validate-sessions-for-mass-import');
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
-    this.notifications.clearAll();
     this.isImportDisabled = true;
     try {
       if (!this.file) {
@@ -101,16 +100,16 @@ export default class ImportController extends Controller {
     });
     try {
       await sessionMassImportReport.confirm({ cachedValidatedSessionsKey: this.cachedValidatedSessionsKey });
-      this.notifications.success(
-        this.intl.t('pages.sessions.import.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.sessions.import.success', {
           sessionsCount: this.sessionsCount,
           sessionsWithoutCandidatesCount: this.sessionsWithoutCandidatesCount,
           candidatesCount: this.candidatesCount,
         }),
-      );
+      });
     } catch (error) {
       this.isImportStepOne = true;
-      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
     this.router.transitionTo('authenticated.sessions');
   }

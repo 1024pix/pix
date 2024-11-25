@@ -20,7 +20,7 @@ export default class ModulixNavbar extends Component {
           {{@currentStep}}/{{@totalSteps}}
         </div>
 
-        <PixProgressGauge @value={{this.progressValue}} @label="Avancement du module" />
+        <PixProgressGauge @hidePercentage={{true}} @isDecorative={{true}} @value={{this.progressValue}} />
       </div>
     </nav>
   </template>

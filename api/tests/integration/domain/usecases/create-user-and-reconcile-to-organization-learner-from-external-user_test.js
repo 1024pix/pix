@@ -404,7 +404,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
         // then
         const usersAfter = await knex('users');
-        expect(usersAfter.length).to.equal(usersBefore.length);
+        expect(usersAfter).to.have.lengthOf(usersBefore.length);
       });
     });
   });

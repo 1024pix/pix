@@ -54,6 +54,17 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   let membershipInDB;
   let certificationCenterInDB;
 
+  let clock;
+  const now = new Date('2022-12-24');
+
+  beforeEach(function () {
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
   function _insertUserWithOrganizationsAndCertificationCenterAccesses() {
     organizationInDB = databaseBuilder.factory.buildOrganization({
       type: 'PRO',
@@ -797,7 +808,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       it('should only return actives certification center membership associated to the user', async function () {
         // given
-        const now = new Date();
         const email = 'lilou@example.net';
         const user = databaseBuilder.factory.buildUser({ email });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
@@ -1022,7 +1032,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const user = await userRepository.getWithCertificationCenterMemberships(userInDB.id);
 
         // then
-        expect(user.certificationCenterMemberships.length).to.equal(1);
+        expect(user.certificationCenterMemberships).to.have.lengthOf(1);
 
         const foundCertificationCenterMembership = user.certificationCenterMemberships[0];
         expect(foundCertificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
@@ -1076,11 +1086,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     describe('#getUserDetailsForAdmin', function () {
       it('should return the found user', async function () {
         // given
+        const createdAt = new Date('2021-01-01');
         const emailConfirmedAt = new Date('2022-01-01');
         const lastTermsOfServiceValidatedAt = new Date('2022-01-02');
         const lastPixOrgaTermsOfServiceValidatedAt = new Date('2022-01-03');
         const lastLoggedAt = new Date('2022-01-04');
-        const now = new Date();
         const userInDB = databaseBuilder.factory.buildUser({
           firstName: 'Henri',
           lastName: 'Cochet',
@@ -1088,8 +1098,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           cgu: true,
           lang: 'en',
           locale: 'en',
-          createdAt: now,
-          updatedAt: now,
+          createdAt,
+          updatedAt: createdAt,
           lastTermsOfServiceValidatedAt,
           lastPixOrgaTermsOfServiceValidatedAt,
           lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
@@ -1108,8 +1118,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(userDetailsForAdmin.lastName).to.equal('Cochet');
         expect(userDetailsForAdmin.email).to.equal('henri-cochet@example.net');
         expect(userDetailsForAdmin.cgu).to.be.true;
-        expect(userDetailsForAdmin.createdAt).to.deep.equal(now);
-        expect(userDetailsForAdmin.updatedAt).to.deep.equal(now);
+        expect(userDetailsForAdmin.createdAt).to.deep.equal(createdAt);
+        expect(userDetailsForAdmin.updatedAt).to.deep.equal(createdAt);
         expect(userDetailsForAdmin.lang).to.equal('en');
         expect(userDetailsForAdmin.locale).to.equal('en');
         expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
@@ -1202,7 +1212,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
           // then
-          expect(userDetailsForAdmin.organizationLearners.length).to.equal(2);
+          expect(userDetailsForAdmin.organizationLearners).to.have.lengthOf(2);
           const organizationLearners = userDetailsForAdmin.organizationLearners;
           expect(organizationLearners[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
 
@@ -1236,7 +1246,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
           // then
-          expect(userDetailsForAdmin.organizationLearners.length).to.equal(0);
+          expect(userDetailsForAdmin.organizationLearners).to.have.lengthOf(0);
         });
       });
 
@@ -1258,7 +1268,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const pixAuthenticationMethod = userDetailsForAdmin.authenticationMethods.find(
             ({ identityProvider }) => identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
           );
-          expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
+          expect(userDetailsForAdmin.authenticationMethods).to.have.lengthOf(2);
           expect(pixAuthenticationMethod).to.deep.equal({
             authenticationComplement: {
               shouldChangePassword: false,
@@ -1283,7 +1293,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
           // then
-          expect(userDetailsForAdmin.authenticationMethods.length).to.equal(0);
+          expect(userDetailsForAdmin.authenticationMethods).to.have.lengthOf(0);
           expect(userDetailsForAdmin.hasBeenAnonymised).to.be.true;
 
           const { hasBeenAnonymisedBy } = await knex('users').where({ id: userInDB.id }).first();
@@ -1315,17 +1325,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       });
 
       context('when user has login details', function () {
-        let clock;
-        const now = new Date('2022-02-02');
-
-        beforeEach(function () {
-          clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-        });
-
-        afterEach(function () {
-          clock.restore();
-        });
-
         it('should return the user with his login details', async function () {
           // given
           const userInDB = databaseBuilder.factory.buildUser(userToInsert);
@@ -1372,17 +1371,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
   describe('update user', function () {
     describe('#update', function () {
-      let clock;
-      const now = new Date('2021-01-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
       it('updates the given properties', async function () {
         // given
         const user = databaseBuilder.factory.buildUser();
@@ -1393,7 +1381,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const fetchedUser = await knex.from('users').where({ id: user.id }).first();
 
         // then
-        expect(fetchedUser.updatedAt).to.deep.equal(new Date('2021-01-02'));
+        expect(fetchedUser.updatedAt).to.deep.equal(now);
         expect(fetchedUser.email).to.equal('chronos@example.net');
         expect(fetchedUser.locale).to.equal('fr-BE');
       });
@@ -1412,21 +1400,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         // then
         expect(updatedUser).to.be.an.instanceOf(User);
         expect(updatedUser.email).to.equal(newEmail);
+        expect(updatedUser.updatedAt).to.deep.equal(now);
       });
     });
 
     describe('#updateEmailConfirmed', function () {
-      let clock;
-      const now = new Date('2022-02-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
       it('marks the users’ email as confirmed by updating "emailConfirmedAt" to current date', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({
@@ -1443,6 +1421,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         // then
         const user1 = await knex('users').where({ id: userId }).first();
         expect(user1.emailConfirmedAt).to.deep.equal(now);
+        expect(user1.updatedAt).to.deep.equal(now);
 
         const user2 = await knex('users').where({ id: user2Id }).first();
         expect(user2.emailConfirmedAt).to.be.null;
@@ -1474,6 +1453,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(updatedUser.emailConfirmedAt.toString()).to.equal(userAttributes.emailConfirmedAt.toString());
         expect(updatedUser.email).to.equal(userAttributes.email);
         expect(updatedUser.cgu).to.equal(userAttributes.cgu);
+        expect(updatedUser.updatedAt).to.deep.equal(now);
       });
 
       it('should rollback the user email in case of error in transaction', async function () {
@@ -1502,17 +1482,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
 
     describe('#updateUserDetailsForAdministration', function () {
-      let clock;
-      const now = new Date('2022-11-24');
-
-      beforeEach(async function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
       it('updates firstName, lastName, email, username and locale of the user', async function () {
         // given
         const userInDb = databaseBuilder.factory.buildUser(userToInsert);
@@ -1542,7 +1511,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(updatedUser.email).to.equal('email_123@example.net');
         expect(updatedUser.username).to.equal('username_123');
         expect(updatedUser.locale).to.equal('fr-FR');
-        expect(updatedUser.updatedAt).to.deep.equal(new Date('2022-11-24'));
+        expect(updatedUser.updatedAt).to.deep.equal(now);
       });
 
       describe('when the preventUpdatedAt option is true', function () {
@@ -1627,6 +1596,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         // then
         expect(updatedUser).to.be.an.instanceOf(User);
         expect(updatedUser.username).to.equal(username);
+        expect(updatedUser.updatedAt).to.deep.equal(now);
       });
 
       it('should throw UserNotFoundError when user id not found', async function () {
@@ -1646,17 +1616,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
 
     describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', function () {
-      let clock;
-      const now = new Date('2021-01-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
       it('should return the model with pixOrgaTermsOfServiceAccepted flag updated to true', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({ pixOrgaTermsOfServiceAccepted: false }).id;
@@ -1683,21 +1642,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // then
         expect(result.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(now);
+        expect(result.updatedAt).to.deep.equal(now);
       });
     });
 
     describe('#updatePixCertifTermsOfServiceAcceptedToTrue', function () {
-      let clock;
-      const now = new Date('2021-01-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
       it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
@@ -1724,6 +1673,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // then
         expect(actualUser.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(now);
+        expect(actualUser.updatedAt).to.deep.equal(now);
       });
     });
 
@@ -1738,6 +1688,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // then
         expect(actualUser.hasSeenAssessmentInstructions).to.be.true;
+        expect(actualUser.updatedAt).to.deep.equal(now);
       });
     });
 
@@ -1752,6 +1703,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // then
         expect(actualUser.hasSeenNewDashboardInfo).to.be.true;
+        expect(actualUser.updatedAt).to.deep.equal(now);
       });
     });
 
@@ -1773,6 +1725,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // then
         expect(actualUser.hasSeenFocusedChallengeTooltip).to.be.true;
+        expect(actualUser.updatedAt).to.deep.equal(now);
       });
 
       it('should return the model with hasSeenOtherChallengesTooltip flag updated to true', async function () {
@@ -1782,6 +1735,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // then
         expect(actualUser.hasSeenOtherChallengesTooltip).to.be.true;
+        expect(actualUser.updatedAt).to.deep.equal(now);
       });
     });
   });
@@ -1869,6 +1823,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.exist;
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.a('Date');
       expect(actualUser.mustValidateTermsOfService).to.be.false;
+      expect(actualUser.updatedAt).to.deep.equal(now);
     });
   });
 
@@ -1899,17 +1854,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   });
 
   describe('#updateLastDataProtectionPolicySeenAt', function () {
-    let clock;
-    const now = new Date('2022-12-24');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
     it('should update the last data protection policy to now', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
@@ -1922,6 +1866,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       // then
       expect(result).to.be.an.instanceOf(User);
       expect(result.lastDataProtectionPolicySeenAt).to.deep.equal(now);
+      expect(result.updatedAt).to.deep.equal(now);
     });
   });
 });

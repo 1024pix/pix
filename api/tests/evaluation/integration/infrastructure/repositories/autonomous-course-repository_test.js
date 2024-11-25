@@ -165,7 +165,7 @@ describe('Integration | Repository | Autonomous Course', function () {
         });
 
         // then
-        expect(autonomousCourses).to.have.length(0);
+        expect(autonomousCourses).to.have.lengthOf(0);
         expect(meta).to.deep.equal({
           page: 2,
           pageCount: 0,
@@ -197,7 +197,7 @@ describe('Integration | Repository | Autonomous Course', function () {
         });
 
         // then
-        expect(autonomousCourses).to.have.length(2);
+        expect(autonomousCourses).to.have.lengthOf(2);
         expect(meta).to.deep.equal({
           page: 2,
           pageCount: 3,

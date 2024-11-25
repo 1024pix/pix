@@ -5,7 +5,7 @@ import Component from '@glimmer/component';
 
 export default class ImportCandidates extends Component {
   @service session;
-  @service notifications;
+  @service pixToast;
   @service store;
   @service intl;
 
@@ -15,15 +15,16 @@ export default class ImportCandidates extends Component {
     const sessionId = this.args.session.id;
 
     this.isLoading = true;
-    this.notifications.clearAll();
     try {
       await adapter.addCertificationCandidatesFromOds(sessionId, files);
-      this.notifications.success(this.intl.t('pages.sessions.import.candidates-list.import-success'));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.sessions.import.candidates-list.import-success'),
+      });
       await this.args.reloadCertificationCandidate();
     } catch (errorResponse) {
       const errorMessage = this._handleErrorMessage(errorResponse);
 
-      this.notifications.error(htmlSafe(errorMessage));
+      this.pixToast.sendErrorNotification({ message: htmlSafe(errorMessage) });
     } finally {
       this.isLoading = false;
     }

@@ -36,6 +36,7 @@
   },
   "common": {
     "actions": {
+      "download": "Downloaden",
       "back": "Terug",
       "cancel": "Annuleer",
       "close": "Sluit",
@@ -254,6 +255,13 @@
       }
     },
     "campaigns": {
+      "attestation-result": {
+        "obtained": "Verkregen certificaat",
+        "not-obtained": "Certificaat niet behaald",
+        "computing": "Certificaat wordt momenteel berekend",
+        "SIXTH_GRADE": {"title": "Digitaal bewustzijn"},
+        "computing-description": "Door een technisch probleem kunnen wij u niet informeren over het verkrijgen van uw certificaat. Meld u morgen opnieuw aan bij Pix, 'Mijn reis', om uw resultaten te bekijken. Onze excuses voor het ongemak."
+      },
       "results-loader": {
         "steps": {
           "competences": "Scores berekenen per vaardigheid",

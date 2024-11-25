@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 
 import { setupRenderingTest, t } from '../../../helpers/tests';
 
-module('Integration | Component | challenge', function (hooks) {
+module('Integration | Component | challenge item', function (hooks) {
   setupRenderingTest(hooks);
   test('displays embed', async function (assert) {
     this.set('challenge', { hasValidEmbedDocument: true, autoReply: true });

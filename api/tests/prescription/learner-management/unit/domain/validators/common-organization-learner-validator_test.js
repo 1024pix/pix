@@ -26,7 +26,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
             required: true,
           },
         ]);
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
         expect(errors[0].code).to.equal('FIELD_REQUIRED');
         expect(errors[0].key).to.equal('nom');
@@ -149,7 +149,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
             required: true,
           },
         ]);
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
         expect(errors[0].code).to.equal('FIELD_DATE_FORMAT');
         expect(errors[0].key).to.equal('birthdate');
@@ -167,7 +167,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
           },
         ]);
 
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
         expect(errors[0].code).to.equal('FIELD_DATE_FORMAT');
         expect(errors[0].key).to.equal('birthdate');
@@ -184,7 +184,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
           },
         ]);
 
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
         expect(errors[0].code).to.equal('FIELD_DATE_FORMAT');
         expect(errors[0].key).to.equal('birthdate');
@@ -201,7 +201,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
             required: true,
           },
         ]);
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
         expect(errors[0].code).to.equal('FIELD_REQUIRED');
         expect(errors[0].key).to.equal('birthdate');
@@ -218,7 +218,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
             required: false,
           },
         ]);
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
       });
     });
   });

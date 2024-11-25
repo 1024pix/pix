@@ -200,9 +200,9 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
       const cities = getCitiesWithDistricts();
 
       // then
-      expect(cities.filter(({ name }) => name === 'PARIS').length).to.equal(21);
-      expect(cities.filter(({ name }) => name === 'LYON').length).to.equal(10);
-      expect(cities.filter(({ name }) => name === 'MARSEILLE').length).to.equal(17);
+      expect(cities.filter(({ name }) => name === 'PARIS')).to.have.lengthOf(21);
+      expect(cities.filter(({ name }) => name === 'LYON')).to.have.lengthOf(10);
+      expect(cities.filter(({ name }) => name === 'MARSEILLE')).to.have.lengthOf(17);
       expect(cities).to.deep.equal([
         {
           name: 'PARIS',

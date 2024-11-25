@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class MembersList extends Component {
   @service currentUser;
   @service intl;
-  @service notifications;
+  @service pixToast;
   @service session;
 
   @tracked isLeaveCertificationCenterModalOpen = false;
@@ -52,17 +52,17 @@ export default class MembersList extends Component {
   async leaveCertificationCenter() {
     try {
       await this.args.onLeaveCertificationCenter();
-      this.notifications.success(
-        this.intl.t('pages.team.members.notifications.leave-certification-center.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.team.members.notifications.leave-certification-center.success', {
           certificationCenterName: this.currentUser.currentAllowedCertificationCenterAccess.name,
         }),
-      );
+      });
       await this.session.waitBeforeInvalidation(5000);
       this.session.invalidate();
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      this.notifications.error(this.intl.t('pages.team.members.notifications.leave-certification-center.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.team.members.notifications.leave-certification-center.error'),
+      });
     } finally {
       this.closeLeaveCertificationCenterModal();
     }
@@ -72,14 +72,16 @@ export default class MembersList extends Component {
   async removeMember() {
     try {
       await this.args.onRemoveMember(this.removingMember);
-      this.notifications.success(
-        this.intl.t('pages.team.members.notifications.remove-membership.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.team.members.notifications.remove-membership.success', {
           memberFirstName: this.removingMember.firstName,
           memberLastName: this.removingMember.lastName,
         }),
-      );
+      });
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.team.members.notifications.remove-membership.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.team.members.notifications.remove-membership.error'),
+      });
     } finally {
       this.closeRemoveMemberModal();
     }

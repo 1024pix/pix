@@ -13,6 +13,7 @@ export default class Prescriber extends Model {
 
   static get featureList() {
     return {
+      ATTESTATIONS_MANAGEMENT: 'ATTESTATIONS_MANAGEMENT',
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
@@ -39,6 +40,10 @@ export default class Prescriber extends Model {
 
   get placesManagement() {
     return this.features[Prescriber.featureList.PLACES_MANAGEMENT];
+  }
+
+  get attestationsManagement() {
+    return this.features[Prescriber.featureList.ATTESTATIONS_MANAGEMENT];
   }
 
   get missionsManagement() {

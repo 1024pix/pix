@@ -80,8 +80,8 @@ describe('Integration | UseCase | get-campaign', function () {
 
       // then
       expect(resultCampaign.name).to.equal(campaign.name);
-      expect(resultCampaign.badges.length).to.equal(0);
-      expect(resultCampaign.stages.length).to.equal(0);
+      expect(resultCampaign.badges).to.have.lengthOf(0);
+      expect(resultCampaign.stages).to.have.lengthOf(0);
       expect(resultCampaign.reachedStage).to.be.null;
       expect(resultCampaign.totalStage).to.be.null;
     });
@@ -102,7 +102,7 @@ describe('Integration | UseCase | get-campaign', function () {
       });
 
       // then
-      expect(resultCampaign.stages.length).to.equal(1);
+      expect(resultCampaign.stages).to.have.lengthOf(1);
       expect(resultCampaign.reachedStage).to.equal(1);
       expect(resultCampaign.totalStage).to.equal(1);
     });
@@ -122,7 +122,7 @@ describe('Integration | UseCase | get-campaign', function () {
       });
 
       // then
-      expect(resultCampaign.badges.length).to.equal(1);
+      expect(resultCampaign.badges).to.have.lengthOf(1);
     });
 
     it('should get the average result of participations', async function () {

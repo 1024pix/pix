@@ -75,7 +75,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
-      expect(snapshotInDB).to.have.length(1);
+      expect(snapshotInDB).to.have.lengthOf(1);
     });
 
     context('when there is a transaction', function () {
@@ -85,7 +85,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         await withTransaction(async () => campaignParticipationRepository.updateWithSnapshot(campaignParticipation))();
 
         const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
-        expect(snapshotInDB).to.have.length(1);
+        expect(snapshotInDB).to.have.lengthOf(1);
       });
 
       it('does not save a snapshot when there is an error', async function () {
@@ -249,7 +249,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       const participations = await campaignParticipationRepository.getByCampaignIds([deletedParticipation.campaignId]);
 
       // then
-      expect(participations.length).to.equal(0);
+      expect(participations).to.have.lengthOf(0);
     });
   });
 
@@ -768,7 +768,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         const campaignParticipationInfos =
           await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id);
 
-        expect(campaignParticipationInfos.length).to.equal(1);
+        expect(campaignParticipationInfos).to.have.lengthOf(1);
         expect(campaignParticipationInfos[0].division).to.equal('3eme');
       });
     });

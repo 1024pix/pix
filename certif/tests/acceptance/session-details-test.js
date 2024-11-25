@@ -13,11 +13,6 @@ module('Acceptance | Session Details', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks, 'fr');
 
-  hooks.afterEach(function () {
-    const notificationMessagesService = this.owner.lookup('service:notifications');
-    notificationMessagesService.clearAll();
-  });
-
   module('when certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // given

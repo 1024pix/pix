@@ -217,6 +217,11 @@ const findByUserId = async function ({ userId }) {
   return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
 };
 
+const findOrganizationLearnerIdsByOrganizationId = function ({ organizationId }) {
+  const knexConnection = DomainTransaction.getConnection();
+  return knexConnection('view-active-organization-learners').where({ organizationId }).select('id').pluck('id');
+};
+
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
@@ -225,6 +230,7 @@ export {
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
   findByUserId,
+  findOrganizationLearnerIdsByOrganizationId,
   getOrganizationLearnerForAdmin,
   reconcileUserByNationalStudentIdAndOrganizationId,
   removeByIds,

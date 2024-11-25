@@ -35,7 +35,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes.length).to.equal(2);
+      expect(serviceCodes).to.have.lengthOf(2);
       expect(serviceCodes).to.contain('FIRST');
       expect(serviceCodes).to.contain('SECOND');
     });
@@ -62,7 +62,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes.length).to.equal(1);
+      expect(serviceCodes).to.have.lengthOf(1);
       expect(serviceCodes).to.contain('SECOND');
     });
   });
@@ -88,7 +88,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes.length).to.equal(1);
+      expect(serviceCodes).to.have.lengthOf(1);
       expect(serviceCodes).to.contain('FIRST');
     });
   });
@@ -243,7 +243,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
         const services = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
 
         // then
-        expect(services).to.have.length(3);
+        expect(services).to.have.lengthOf(3);
 
         const genericService = services.find((service) => service.identityProvider === 'GENERIC');
         expect(genericService).not.to.be.empty;

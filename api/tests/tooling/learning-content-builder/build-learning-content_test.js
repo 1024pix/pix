@@ -58,7 +58,7 @@ describe('Integration | buildLearningContent', function () {
     expect(areas[1].id).to.equal('recArea2');
     expect(areas[1].title_i18n.fr).to.equal('domaine2_Titre');
     expect(areas[1].title_i18n.en).to.equal('area2_Title');
-    expect(frameworks.length).to.equal(2);
+    expect(frameworks).to.have.lengthOf(2);
     expect(frameworks[0].id).to.deep.equal('recFramework1');
     expect(frameworks[0].name).to.deep.equal('monFramework 1');
     expect(frameworks[1].id).to.deep.equal('recFramework2');

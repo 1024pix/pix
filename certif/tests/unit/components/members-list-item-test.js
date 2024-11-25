@@ -14,8 +14,8 @@ module('Unit | Component | MembersListItem', (hooks) => {
       // given
       const component = createGlimmerComponent('component:members-list-item');
       component.isEditionMode = true;
-      component.notifications = {
-        success: sinon.stub(),
+      component.pixToast = {
+        sendSuccessNotification: sinon.stub(),
       };
       const member = {
         save: sinon.stub().resolves(),
@@ -27,7 +27,7 @@ module('Unit | Component | MembersListItem', (hooks) => {
       // then
       assert.false(component.isEditionMode);
       assert.ok(member.save.called);
-      assert.ok(component.notifications.success.called);
+      assert.ok(component.pixToast.sendSuccessNotification.called);
     });
 
     module('when an error occurs', function () {
@@ -35,8 +35,8 @@ module('Unit | Component | MembersListItem', (hooks) => {
         // given
         const component = createGlimmerComponent('component:members-list-item');
         component.isEditionMode = true;
-        component.notifications = {
-          error: sinon.stub(),
+        component.pixToast = {
+          sendErrorNotification: sinon.stub(),
         };
         const member = {
           save: sinon.stub().rejects(),
@@ -50,7 +50,7 @@ module('Unit | Component | MembersListItem', (hooks) => {
         assert.false(component.isEditionMode);
         assert.ok(member.save.called);
         assert.ok(member.rollbackAttributes.called);
-        assert.ok(component.notifications.error.called);
+        assert.ok(component.pixToast.sendErrorNotification.called);
       });
     });
 
@@ -59,9 +59,6 @@ module('Unit | Component | MembersListItem', (hooks) => {
         // given
         const component = createGlimmerComponent('component:members-list-item');
         component.isEditionMode = true;
-        component.notifications = {
-          error: sinon.stub(),
-        };
         const member = {
           rollbackAttributes: sinon.stub(),
         };

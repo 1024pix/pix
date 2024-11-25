@@ -18,6 +18,7 @@ class CertificationAttestation {
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
+    version,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -34,6 +35,7 @@ class CertificationAttestation {
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
+    this.version = version;
     this.maxReachableScore = this.maxReachableLevelOnCertificationDate * PIX_COUNT_BY_LEVEL * COMPETENCE_COUNT;
   }
 

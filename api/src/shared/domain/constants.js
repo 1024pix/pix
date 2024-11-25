@@ -30,6 +30,10 @@ const ORGANIZATION_FEATURE = {
     key: 'PLACES_MANAGEMENT',
     description: "Permet l'affichage de la page de gestion des places sur PixOrga",
   },
+  ATTESTATIONS_MANAGEMENT: {
+    key: 'ATTESTATIONS_MANAGEMENT',
+    description: "Permet l'affichage de la page attestations sur PixOrga",
+  },
   MULTIPLE_SENDING_ASSESSMENT: {
     key: 'MULTIPLE_SENDING_ASSESSMENT',
     description: "Permet d'activer l'envoi multiple sur les campagnes d'évaluation",

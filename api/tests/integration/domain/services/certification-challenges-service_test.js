@@ -481,7 +481,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       answerRepository,
       challengeRepository,
     );
-    expect(challenges.length).to.equal(1);
+    expect(challenges).to.have.lengthOf(1);
     expect(challenges[0].challengeId).to.be.oneOf([
       'recArea1_Competence1_Tube1_Skill1_Challenge2',
       'recArea1_Competence1_Tube1_Skill1_Challenge3',
@@ -581,7 +581,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       answerRepository,
       challengeRepository,
     );
-    expect(challenges.length).to.equal(1);
+    expect(challenges).to.have.lengthOf(1);
     expect([
       'recArea1_Competence1_Tube1_Skill1_Challenge1',
       'recArea1_Competence1_Tube1_Skill1_Challenge2',
@@ -722,7 +722,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       answerRepository,
       challengeRepository,
     );
-    expect(challenges.length).to.equal(3);
+    expect(challenges).to.have.lengthOf(3);
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([
       'recArea1_Competence1_Tube1_Skill4_Challenge1',
       'recArea1_Competence1_Tube1_Skill3_Challenge1',

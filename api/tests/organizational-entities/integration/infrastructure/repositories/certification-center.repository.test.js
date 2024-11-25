@@ -82,7 +82,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(matchingCertificationCenters.length).to.equal(3);
+        expect(matchingCertificationCenters).to.have.lengthOf(3);
         expect(matchingCertificationCenters).to.deep.include.members([
           expectedCertificationCenter1,
           expectedCertificationCenter2,

@@ -419,7 +419,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessmentsReturned = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
       // then
-      expect(assessmentsReturned.length).to.equal(1);
+      expect(assessmentsReturned).to.have.lengthOf(1);
       expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
       expect(assessmentsReturned[0].id).to.equal(assessmentId);
     });

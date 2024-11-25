@@ -361,7 +361,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             configuration: _getAlgorithmConfig({
               limitToOneQuestionPerTube: true,
               minimumEstimatedSuccessRateRanges: [
-                FlashAssessmentSuccessRateHandler.createFixed({
+                FlashAssessmentSuccessRateHandler.create({
                   startingChallengeIndex: 0,
                   endingChallengeIndex: 1,
                   value: 0.8,
@@ -391,93 +391,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           expect(nextChallenges).to.deep.equal([easyChallenge, hardChallenge]);
-        });
-      });
-
-      context('when a linear minimal success rate has been set', function () {
-        it('should choose a challenge that has the required success rate first', function () {
-          // Given
-          const easyDifficulty = -3;
-          const hardDifficulty = 3;
-          const discriminant = 1;
-          const initialCapacity = 3;
-
-          const easyChallenge = domainBuilder.buildChallenge({
-            id: 'easyChallenge',
-            skill: domainBuilder.buildSkill({
-              id: 'skillEasy',
-            }),
-            competenceId: 'compEasy',
-            discriminant,
-            difficulty: easyDifficulty,
-          });
-
-          const hardChallenge2 = domainBuilder.buildChallenge({
-            id: 'hardChallenge2',
-            skill: domainBuilder.buildSkill({
-              id: 'hardSkill2',
-            }),
-            competenceId: 'compHard2',
-            discriminant,
-            difficulty: hardDifficulty,
-          });
-
-          const hardChallenge = domainBuilder.buildChallenge({
-            id: 'hardChallenge',
-            skill: domainBuilder.buildSkill({
-              id: 'skillHard',
-            }),
-            competenceId: 'compHard',
-            discriminant,
-            difficulty: hardDifficulty,
-          });
-
-          const challenges = [hardChallenge, easyChallenge, hardChallenge2];
-          const assessmentAnswers = [
-            domainBuilder.buildAnswer({
-              challengeId: hardChallenge.id,
-            }),
-          ];
-
-          // when
-          const algorithm = new FlashAssessmentAlgorithm({
-            flashAlgorithmImplementation,
-            configuration: _getAlgorithmConfig({
-              limitToOneQuestionPerTube: false,
-              minimumEstimatedSuccessRateRanges: [
-                FlashAssessmentSuccessRateHandler.createLinear({
-                  startingChallengeIndex: 0,
-                  endingChallengeIndex: 2,
-                  startingValue: 0.8,
-                  endingValue: 0.4,
-                }),
-              ],
-            }),
-          });
-
-          const expectedChallenges = [easyChallenge, hardChallenge2];
-          flashAlgorithmImplementation.getCapacityAndErrorRate.returns({
-            capacity: 0,
-          });
-          flashAlgorithmImplementation.getPossibleNextChallenges
-            .withArgs({
-              availableChallenges: expectedChallenges,
-              capacity: 0,
-              options: {
-                ...baseGetNextChallengeOptions,
-                // Due to JS having troubles with float numbers, we must use a matcher.
-                minimalSuccessRate: sinon.match((value) => value.toPrecision(1) === '0.6'),
-              },
-            })
-            .returns(expectedChallenges);
-
-          const nextChallenges = algorithm.getPossibleNextChallenges({
-            assessmentAnswers,
-            challenges,
-            initialCapacity,
-          });
-
-          expect(nextChallenges).to.deep.equal(expectedChallenges);
         });
       });
     });

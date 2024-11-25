@@ -2,16 +2,26 @@
 <div class="container">
   <RobotDialog @class={{this.robotMood}}>
     {{#each @challenge.instruction as |instruction|}}
-      <Bubble @message={{instruction}} />
+      <Bubble @message={{instruction}} @oralization={{@oralization}} />
     {{/each}}
     {{#if (eq this.answer.result "ok")}}
-      <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @status="success" aria-live="polite" />
+      <Bubble
+        @message={{t "pages.challenge.messages.correct-answer"}}
+        @status="success"
+        @oralization={{@oralization}}
+        aria-live="polite"
+      />
     {{/if}}
     {{#if (eq this.answer.result "ko")}}
-      <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @status="error" aria-live="polite" />
+      <Bubble
+        @message={{t "pages.challenge.messages.wrong-answer"}}
+        @oralization={{@oralization}}
+        @status="error"
+        aria-live="polite"
+      />
     {{/if}}
     {{#if this.displayValidationWarning}}
-      <Bubble @message={{this.validationWarning}} @status="warning" aria-live="polite" />
+      <Bubble @message={{this.validationWarning}} @status="warning" aria-live="polite" @oralization={{@oralization}} />
     {{/if}}
   </RobotDialog>
   <Challenge::Item

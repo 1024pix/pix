@@ -1,11 +1,10 @@
-import { anonymizeUser } from '../../../../../lib/domain/usecases/anonymize-user.js';
-import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
-import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { anonymizeUser } from '../../../../../src/identity-access-management/domain/usecases/anonymize-user.usecase.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { userAnonymizedEventLoggingJobRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -15,6 +14,7 @@ import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
+import * as membershipRepository from '../../../../../src/team/infrastructure/repositories/membership.repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {
@@ -96,30 +96,30 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     });
 
     const authenticationMethods = await knex('authentication-methods').where({ userId });
-    expect(authenticationMethods).to.have.length(0);
+    expect(authenticationMethods).to.have.lengthOf(0);
 
     const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
-    expect(refreshTokens).to.have.length(0);
+    expect(refreshTokens).to.have.lengthOf(0);
 
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
-    expect(resetPasswordDemands).to.have.length(0);
+    expect(resetPasswordDemands).to.have.lengthOf(0);
 
     const enabledMemberships = await knex('memberships').where({ userId }).whereNull('disabledAt');
-    expect(enabledMemberships).to.have.length(0);
+    expect(enabledMemberships).to.have.lengthOf(0);
     const disabledMemberships = await knex('memberships').where({ userId }).whereNotNull('disabledAt');
-    expect(disabledMemberships).to.have.length(1);
+    expect(disabledMemberships).to.have.lengthOf(1);
 
     const enabledCertificationCenterMemberships = await knex('certification-center-memberships')
       .where({ userId })
       .whereNull('disabledAt');
-    expect(enabledCertificationCenterMemberships).to.have.length(0);
+    expect(enabledCertificationCenterMemberships).to.have.lengthOf(0);
     const disabledCertificationCenterMemberships = await knex('certification-center-memberships')
       .where({ userId })
       .whereNotNull('disabledAt');
-    expect(disabledCertificationCenterMemberships).to.have.length(1);
+    expect(disabledCertificationCenterMemberships).to.have.lengthOf(1);
 
     const organizationLearners = await knex('organization-learners').where({ userId });
-    expect(organizationLearners).to.have.length(0);
+    expect(organizationLearners).to.have.lengthOf(0);
 
     const anonymizedUserLogin = await knex('user-logins').where({ id: userLogin.id }).first();
     expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');

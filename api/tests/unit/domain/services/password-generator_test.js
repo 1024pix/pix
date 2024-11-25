@@ -12,7 +12,7 @@ describe('Unit | Service | password-generator', function () {
       generatedPassword = service.generateSimplePassword();
 
       // then
-      expect(generatedPassword.length).to.equal(8);
+      expect(generatedPassword).to.have.lengthOf(8);
     });
 
     it('should not contains hard to read characters', function () {

@@ -292,7 +292,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           .where({ organizationId: organization.id })
           .orderBy('studentNumber');
 
-        expect(results.length).to.equal(2);
+        expect(results).to.have.lengthOf(2);
         expect(results[0].studentNumber).to.equal('4');
         expect(results[1].studentNumber).to.equal('5');
       });
@@ -324,7 +324,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
             .where({ organizationId: organization.id })
             .orderBy('studentNumber');
 
-          expect(results.length).to.equal(1);
+          expect(results).to.have.lengthOf(1);
           expect(results[0].lastName).to.equal('Ishii updated');
           expect(results[0].updatedAt).to.not.deep.equal(new Date('2000-01-01'));
         });
@@ -380,7 +380,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
             .where({ organizationId: organization2.id })
             .orderBy('studentNumber');
 
-          expect(results.length).to.equal(1);
+          expect(results).to.have.lengthOf(1);
           expect(results[0].studentNumber).to.equal('4');
         });
       });
@@ -425,7 +425,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           .where({ organizationId: organization.id })
           .orderBy('studentNumber');
 
-        expect(results.length).to.equal(2);
+        expect(results).to.have.lengthOf(2);
         expect(results[0].studentNumber).to.equal('4');
         expect(results[1].studentNumber).to.equal('5');
       });
@@ -473,7 +473,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
             .where({ organizationId: organization.id })
             .whereNull('deletedAt');
 
-          expect(results.length).to.equal(1);
+          expect(results).to.have.lengthOf(1);
           expect(results[0].lastName).to.equal(expectedOrganizationLearner.lastName);
           expect(results[0].updatedAt).to.not.deep.equal(new Date('2000-01-01'));
         });
@@ -595,7 +595,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           const activatedOrganizationLearnerFromAnotherOrganization =
             await knex('organization-learners').whereNull('deletedAt');
 
-          expect(activatedOrganizationLearnerFromAnotherOrganization.length).to.equal(2);
+          expect(activatedOrganizationLearnerFromAnotherOrganization).to.have.lengthOf(2);
           expect([
             activatedOrganizationLearnerFromAnotherOrganization[0].lastName,
             activatedOrganizationLearnerFromAnotherOrganization[1].lastName,
@@ -701,7 +701,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           .where({ organizationId: organization2.id })
           .orderBy('studentNumber');
 
-        expect(results.length).to.equal(1);
+        expect(results).to.have.lengthOf(1);
         expect(results[0].studentNumber).to.equal('4');
       });
     });

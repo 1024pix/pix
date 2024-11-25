@@ -50,7 +50,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       const data = await parseCsv(validFilePath, options);
 
       // then
-      expect(data.length).to.equal(3);
+      expect(data).to.have.lengthOf(3);
       expect(data[0][2]).to.equal('david.herault@pix.fr');
     });
 
@@ -59,7 +59,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       const data = await parseCsv(utf8FilePath);
 
       // then
-      expect(data.length).to.equal(4);
+      expect(data).to.have.lengthOf(4);
     });
   });
 
@@ -76,7 +76,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       const items = await parseCsvWithHeader(withHeaderFilePath);
 
       // then
-      expect(items.length).to.equal(3);
+      expect(items).to.have.lengthOf(3);
       expect(items).to.have.deep.members(expectedItems);
     });
 
@@ -237,7 +237,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       });
 
       // then
-      expect(data.length).to.equal(3);
+      expect(data).to.have.lengthOf(3);
       expect(data).to.have.deep.members(expectedItems);
     });
   });

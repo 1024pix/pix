@@ -37,6 +37,7 @@
   "common": {
     "actions": {
       "back": "Volver",
+      "download": "Descargar",
       "cancel": "Cancelar",
       "close": "Cerrar",
       "confirm": "Confirmar",
@@ -254,6 +255,13 @@
       }
     },
     "campaigns": {
+      "attestation-result": {
+        "obtained": "Certificado obtenido",
+        "not-obtained": "Certificado no obtenido",
+        "computing": "Certificado actualmente en cálculo",
+        "SIXTH_GRADE": {"title": "Conciencia digital"},
+        "computing-description": "Un problema técnico nos impide informarle sobre la obtención de su certificado. Vuelva a iniciar sesión mañana en Pix, sección 'Mi viaje', para ver sus resultados. Pedimos disculpas por las molestias ocasionadas."
+      },
       "results-loader": {
         "steps": {
           "competences": "Calcular las puntuaciones por competencias",

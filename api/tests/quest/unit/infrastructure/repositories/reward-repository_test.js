@@ -36,7 +36,7 @@ describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
 
     it('should return QuestResult with obtained true when reward is obtained', async function () {
       // given
-      const profileReward = [{ rewardId: quest.rewardId, rewardType: quest.rewardType }];
+      const profileReward = [{ rewardId: quest.rewardId, rewardType: quest.rewardType, profileRewardId: 1 }];
       profileRewardApiStub.getByUserId.withArgs(userId).resolves(profileReward);
 
       // when
@@ -51,6 +51,7 @@ describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
       // then
       expect(result).to.be.an.instanceof(QuestResult);
       expect(result.id).to.equal(quest.id);
+      expect(result.profileRewardId).to.equal(profileReward.profileRewardId);
       expect(result.reward).to.equal(reward);
       expect(result.obtained).to.be.true;
     });
@@ -75,6 +76,7 @@ describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
       expect(result).to.be.an.instanceof(QuestResult);
       expect(result.id).to.equal(quest.id);
       expect(result.reward).to.equal(reward);
+      expect(result.profileRewardId).to.be.null;
       expect(result.obtained).to.be.false;
     });
 
@@ -98,6 +100,7 @@ describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
       expect(result).to.be.an.instanceof(QuestResult);
       expect(result.id).to.equal(quest.id);
       expect(result.reward).to.equal(reward);
+      expect(result.profileRewardId).to.be.null;
       expect(result.obtained).to.be.null;
     });
   });

@@ -10,7 +10,7 @@ import {
 } from '../../../../test-helper.js';
 
 describe('Integration | Application | Organization Learners Management | Routes', function () {
-  describe('DELETE /organizations/{id}/organization-learners', function () {
+  describe('DELETE /organizations/{organizationId}/organization-learners', function () {
     const method = 'DELETE';
 
     let headers, httpTestServer, organizationId, url, payload;

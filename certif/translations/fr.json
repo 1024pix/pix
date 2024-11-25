@@ -183,6 +183,11 @@
       },
       "line": "Ligne {line} : "
     },
+    "notifications": {
+      "close-button": {
+        "extra-information": "Fermer la notification"
+      }
+    },
     "sessions": {
       "actions": {
         "return-to": "Retour à la session"

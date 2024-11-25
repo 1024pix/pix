@@ -15,11 +15,8 @@ const {
 describe('Acceptance | Controller | scenario-simulator-controller', function () {
   let server;
   let adminAuthorization;
-  let validDeterministicPayload;
-  let validRandomPayload;
   let validCapacityPayload;
   let stopAtChallenge;
-  const answerStatusArray = ['ok', 'ko', 'aband'];
 
   beforeEach(async function () {
     const { id: adminId } = databaseBuilder.factory.buildUser.withRole({
@@ -34,26 +31,8 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
     adminAuthorization = generateValidRequestAuthorizationHeader(adminId);
     await databaseBuilder.commit();
 
-    validDeterministicPayload = {
-      answerStatusArray,
-      type: 'deterministic',
-      stopAtChallenge,
-    };
-
-    validRandomPayload = {
-      type: 'random',
-      probabilities: {
-        ok: 0.3,
-        ko: 0.5,
-        aband: 0.2,
-      },
-      length: 5,
-      stopAtChallenge,
-    };
-
     validCapacityPayload = {
       capacity: 4.5,
-      type: 'capacity',
       stopAtChallenge,
     };
 
@@ -170,10 +149,10 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
     });
 
     describe('when a number of challenges to pass is specified', function () {
-      it('should return a payload with the same number of simulation deterministic scenario results', async function () {
+      it('should return a payload with the same number of simulation scenario results', async function () {
         // given
         const validPayload = {
-          ...validDeterministicPayload,
+          ...validCapacityPayload,
           stopAtChallenge,
         };
         options.headers.authorization = adminAuthorization;
@@ -193,36 +172,6 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
         expect(parsedResponse[0].simulationReport[0].reward).to.exist;
         expect(parsedResponse[0].simulationReport[0].errorRate).to.exist;
         expect(parsedResponse[0].simulationReport[0].answerStatus).to.exist;
-      });
-    });
-
-    describe('when the scenario is deterministic', function () {
-      it('should return a payload with simulation deterministic scenario results', async function () {
-        // given
-        options.headers.authorization = adminAuthorization;
-        options.payload = validDeterministicPayload;
-
-        // when
-        const response = await server.inject(options);
-        // then
-        expect(response).to.have.property('statusCode', 200);
-        const parsedResponse = parseJsonStream(response);
-        expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
-      });
-    });
-
-    describe('when the scenario is random', function () {
-      it('should return a payload with simulation random scenario results', async function () {
-        // given
-        options.headers.authorization = adminAuthorization;
-        options.payload = validRandomPayload;
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        const parsedResponse = parseJsonStream(response);
-        expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
       });
     });
 
@@ -260,7 +209,7 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
         const { id: userId } = databaseBuilder.factory.buildUser();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         await databaseBuilder.commit();
-        options.payload = validDeterministicPayload;
+        options.payload = validCapacityPayload;
 
         // when
         const response = await server.inject(options);

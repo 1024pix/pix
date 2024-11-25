@@ -2,9 +2,9 @@ import lodash from 'lodash';
 
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
-import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
+import * as dataProtectionOfficerRepository from '../../../../src/organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
 import { organizationForAdminRepository } from '../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import { tagRepository } from '../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
@@ -352,9 +352,9 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         expect(error).to.be.instanceOf(OrganizationTagNotFound);
         expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation Mathieu Bâtiment n'existe pas.");
         const organizationsInDB = await knex('organizations').select();
-        expect(organizationsInDB.length).to.equal(0);
+        expect(organizationsInDB).to.have.lengthOf(0);
         const organizationTagsInDB = await knex('organization-tags').select();
-        expect(organizationTagsInDB.length).to.equal(0);
+        expect(organizationTagsInDB).to.have.lengthOf(0);
       });
     });
   });
@@ -429,9 +429,9 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const organizationsInDB = await knex('organizations').select();
-      expect(organizationsInDB.length).to.equal(3);
+      expect(organizationsInDB).to.have.lengthOf(3);
       const organizationTagsInDB = await knex('organization-tags').select();
-      expect(organizationTagsInDB.length).to.equal(6);
+      expect(organizationTagsInDB).to.have.lengthOf(6);
 
       for (const organization of organizationsWithTagsAlreadyExist) {
         const organizationInDB = await knex('organizations')
@@ -454,7 +454,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         const organizationTagInDB = await knex('organization-tags')
           .select()
           .where({ organizationId: organizationInDB.id });
-        expect(organizationTagInDB.length).to.equal(2);
+        expect(organizationTagInDB).to.have.lengthOf(2);
       }
     });
   });
@@ -529,9 +529,9 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       expect(error).to.be.instanceOf(TargetProfileInvalidError);
       expect(error.message).to.be.equal("Le profil cible 1 n'existe pas.");
       const organizationsInDB = await knex('organizations').select();
-      expect(organizationsInDB.length).to.equal(0);
+      expect(organizationsInDB).to.have.lengthOf(0);
       const organizationTargetProfilesInDB = await knex('target-profile-shares').select();
-      expect(organizationTargetProfilesInDB.length).to.equal(0);
+      expect(organizationTargetProfilesInDB).to.have.lengthOf(0);
     });
   });
 
@@ -605,9 +605,9 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const organizationsInDB = await knex('organizations').select();
-      expect(organizationsInDB.length).to.equal(3);
+      expect(organizationsInDB).to.have.lengthOf(3);
       const organizationTargetProfilesInDB = await knex('target-profile-shares').select();
-      expect(organizationTargetProfilesInDB.length).to.equal(3);
+      expect(organizationTargetProfilesInDB).to.have.lengthOf(3);
 
       for (const organization of organizationsWithExistingTargetProfiles) {
         const organizationInDB = await knex('organizations')
@@ -630,7 +630,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         const organizationTargetProfilesInDB = await knex('target-profile-shares')
           .select()
           .where({ organizationId: organizationInDB.id });
-        expect(organizationTargetProfilesInDB.length).to.equal(1);
+        expect(organizationTargetProfilesInDB).to.have.lengthOf(1);
       }
     });
   });
@@ -740,7 +740,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const savedOrganizationFeatures = await knex('organization-features');
-      expect(savedOrganizationFeatures.length).to.equal(3);
+      expect(savedOrganizationFeatures).to.have.lengthOf(3);
       const organizationId = createdOrganizations[0].id;
       expect(
         savedOrganizationFeatures.map((organizationFeature) => omit(organizationFeature, 'id')),
@@ -814,10 +814,10 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const savedSchools = await knex('schools');
-      expect(savedSchools.length).to.equal(1);
+      expect(savedSchools).to.have.lengthOf(1);
 
       const savedSco1dOrganizations = await knex('organizations').where({ type: 'SCO-1D' });
-      expect(savedSco1dOrganizations.length).to.equal(1);
+      expect(savedSco1dOrganizations).to.have.lengthOf(1);
       expect(savedSco1dOrganizations[0].email).to.equal('youness@example.net');
 
       expect(savedSchools[0].organizationId).to.equal(savedSco1dOrganizations[0].id);

@@ -16,11 +16,13 @@ export const getQuestResultsForCampaignParticipation = async ({
 
   if (!eligibility) return [];
 
-  eligibility.campaignParticipations.targetProfileIds = [
-    // getTargetProfileForCampaignParticipation returns null but this usecase is used for campaign participation result page for now, so the campaign participation ID always exists
-    // if this usecase is to be used in another context, the edge case must be handled
-    eligibility.getTargetProfileForCampaignParticipation(campaignParticipationId),
-  ];
+  /*
+  This effectively overrides the existing campaignParticipations property with a new getter that always returns the updated targetProfileIds array based on the provided campaignParticipationId.
+  We can't just reassign the getter with the new value, because the getter will still be called and the new value would be ignored
+  */
+  Object.defineProperty(eligibility, 'campaignParticipations', {
+    get: () => ({ targetProfileIds: [eligibility.getTargetProfileForCampaignParticipation(campaignParticipationId)] }),
+  });
 
   const questResults = [];
   for (const quest of quests) {

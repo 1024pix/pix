@@ -6,7 +6,6 @@ import * as campaignRepository from '../../../../../lib/infrastructure/repositor
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
-import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
@@ -18,6 +17,7 @@ import * as competenceRepository from '../../../../shared/infrastructure/reposit
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
 import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
@@ -46,7 +46,7 @@ import * as campaignUpdateValidator from '../validators/campaign-update-validato
  * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-repository.js')} KnowledgeElementRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js')} KnowledgeElementSnapshotRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
- * @typedef { import ('../../../../../lib/infrastructure/repositories/membership-repository.js')} MembershipRepository
+ * @typedef { import ('../../../../team/infrastructure/repositories/membership-repository.js')} MembershipRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js')} StageCollectionRepository
  * @typedef { import ('../../../../evaluation/infrastructure/repositories/badge-repository.js')} BadgeRepository
  * @typedef { import ('../../../../identity-access-management/infrastructure/repositories/user.repository.js')} UserRepository

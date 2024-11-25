@@ -67,7 +67,7 @@ describe('Acceptance | Route | Find Organization Places', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.result.data.length).to.equal(1);
+      expect(response.result.data).to.have.lengthOf(1);
 
       expect(response.result.data[0].id).to.equal(place.id.toString());
       expect(response.result.data[0].attributes.reference).to.equal(place.reference);

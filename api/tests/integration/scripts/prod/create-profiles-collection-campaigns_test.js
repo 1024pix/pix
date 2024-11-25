@@ -74,7 +74,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       const campaigns = await prepareCampaigns([campaignData1, campaignData2]);
 
       // then
-      expect(campaigns).to.have.length(2);
+      expect(campaigns).to.have.lengthOf(2);
       expect(campaigns[0].organizationId).to.equal(organizationId1);
       expect(campaigns[0].name).to.equal(campaignData1.name);
       expect(campaigns[0].customLandingPageText).to.equal(campaignData1.customLandingPageText);

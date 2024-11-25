@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../../../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
-import * as dataProtectionOfficerRepository from '../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { csvFileParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import * as dataProtectionOfficerRepository from '../infrastructure/repositories/data-protection-officer.repository.js';
 
 const columnsSchemas = [
   { name: 'certificationCenterId', schema: Joi.number() },

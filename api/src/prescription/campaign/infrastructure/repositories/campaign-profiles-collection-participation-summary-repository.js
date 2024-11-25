@@ -49,12 +49,21 @@ async function _getParticipations(qb, campaignId, filters) {
   await qb
     .with('previousParticipationsInfos', (qbWith) => {
       qbWith
-        .select('pixScore AS previousPixScore', 'sharedAt AS previousSharedAt', 'organizationLearnerId', 'id')
+        .select('pixScore AS previousPixScore', 'organizationLearnerId', 'id')
         .from('campaign-participations')
         .where({ campaignId, isImproved: true })
         .whereNotNull('campaign-participations.sharedAt')
         .whereNull('campaign-participations.deletedAt')
         .orderBy('sharedAt', 'desc');
+    })
+    .with('participationsCount', (qb) => {
+      qb.select('organizationLearnerId')
+        .count('organizationLearnerId AS sharedProfileCount')
+        .from('campaign-participations')
+        .groupBy('organizationLearnerId')
+        .where('campaignId', campaignId)
+        .whereNotNull('campaign-participations.sharedAt')
+        .whereNull('campaign-participations.deletedAt');
     })
     .select(
       'campaign-participations.id AS campaignParticipationId',
@@ -65,7 +74,7 @@ async function _getParticipations(qb, campaignId, filters) {
       'campaign-participations.sharedAt',
       'campaign-participations.pixScore AS pixScore',
       'previousParticipationsInfos.previousPixScore',
-      'previousParticipationsInfos.previousSharedAt',
+      'participationsCount.sharedProfileCount',
     )
     .distinctOn('campaign-participations.organizationLearnerId')
     .from('campaign-participations')
@@ -80,6 +89,11 @@ async function _getParticipations(qb, campaignId, filters) {
         'campaign-participations.organizationLearnerId',
       ).andOn('campaign-participations.id', '!=', 'previousParticipationsInfos.id');
     })
+    .join(
+      'participationsCount',
+      'participationsCount.organizationLearnerId',
+      'campaign-participations.organizationLearnerId',
+    )
     .where('campaign-participations.campaignId', campaignId)
     .whereNull('campaign-participations.deletedAt')
     .whereNotNull('campaign-participations.sharedAt')

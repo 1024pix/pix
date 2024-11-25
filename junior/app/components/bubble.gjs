@@ -1,5 +1,8 @@
 import Component from '@glimmer/component';
 import MarkdownToHtml from 'junior/components/markdown-to-html';
+import * as markdownConverter from 'junior/utils/markdown-converter';
+
+import OralizationButton from './oralization-button';
 
 export default class Bubble extends Component {
   get getClasses() {
@@ -9,5 +12,19 @@ export default class Bubble extends Component {
     }
     return className;
   }
-  <template><MarkdownToHtml ...attributes @markdown={{@message}} @class={{this.getClasses}} /></template>
+
+  get textToRead() {
+    const parser = new DOMParser();
+    const parsedText = parser.parseFromString(markdownConverter.toHTML(this.args.message), 'text/html').body.innerText;
+    return parsedText;
+  }
+
+  <template>
+    <div class="bubble-container">
+      <MarkdownToHtml ...attributes @markdown={{@message}} @class={{this.getClasses}} />
+      {{#if @oralization}}
+        <OralizationButton @text={{this.textToRead}} />
+      {{/if}}
+    </div>
+  </template>
 }

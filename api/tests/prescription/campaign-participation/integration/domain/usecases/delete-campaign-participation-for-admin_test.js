@@ -36,7 +36,7 @@ describe('Integration | UseCases | delete-campaign-participation-for-admin', fun
     // then
     const results = await knex('campaign-participations').where({ organizationLearnerId });
 
-    expect(results.length).to.equal(2);
+    expect(results).to.have.lengthOf(2);
     results.forEach((campaignParticipaton) => {
       expect(campaignParticipaton.deletedAt).not.to.equal(null);
       expect(campaignParticipaton.deletedBy).to.equal(adminUserId);

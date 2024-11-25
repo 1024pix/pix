@@ -7,7 +7,7 @@ const NO_INTERNET_MESSAGE = 'Failed to fetch';
 export default class SessionSupervisingRoute extends Route {
   @service store;
   @service router;
-  @service notifications;
+  @service pixToast;
   @service intl;
 
   async model(params) {
@@ -27,7 +27,9 @@ export default class SessionSupervisingRoute extends Route {
         }
 
         if (response.message === NO_INTERNET_MESSAGE) {
-          this.notifications.error(this.intl.t('pages.session-supervising-error.no-internet-error'));
+          this.pixToast.sendErrorNotification({
+            message: this.intl.t('pages.session-supervising-error.no-internet-error'),
+          });
         }
       }
     }, ENV.APP.sessionSupervisingPollingRate);

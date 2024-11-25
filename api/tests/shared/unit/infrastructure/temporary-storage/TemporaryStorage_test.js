@@ -121,26 +121,26 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     describe('#increment', function () {
       it('should increment value of prefixed key', async function () {
         // given
-        storage.increment.withArgs('a-prefix:a-key').resolves();
+        storage.increment.resolves();
 
         // when
         await prefixedStorage.increment('a-key');
 
         // then
-        expect(storage.increment).to.have.been.called;
+        expect(storage.increment).to.have.been.calledWithExactly('a-prefix:a-key');
       });
     });
 
     describe('#decrement', function () {
       it('should decrement value of prefixed key', async function () {
         // given
-        storage.decrement.withArgs('a-prefix:a-key').resolves();
+        storage.decrement.resolves();
 
         // when
         await prefixedStorage.decrement('a-key');
 
         // then
-        expect(storage.decrement).to.have.been.called;
+        expect(storage.decrement).to.have.been.calledWithExactly('a-prefix:a-key');
       });
     });
 

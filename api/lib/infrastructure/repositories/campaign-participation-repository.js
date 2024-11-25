@@ -45,47 +45,6 @@ const get = async function (id) {
   });
 };
 
-const findLatestOngoingByUserId = async function (userId) {
-  const campaignParticipations = await knex('campaign-participations')
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .whereNull('campaigns.archivedAt')
-    .where({ userId })
-    .orderBy('campaign-participations.createdAt', 'DESC')
-    .select('campaign-participations.*');
-  const campaigns = await knex('campaigns').whereIn(
-    'id',
-    campaignParticipations.map((campaignParticipation) => campaignParticipation.campaignId),
-  );
-  const assessments = await knex('assessments')
-    .whereIn(
-      'campaignParticipationId',
-      campaignParticipations.map((campaignParticipation) => campaignParticipation.id),
-    )
-    .orderBy('createdAt');
-  return campaignParticipations.map((campaignParticipation) => {
-    const campaign = campaigns.find((campaign) => campaign.id === campaignParticipation.campaignId);
-    return new CampaignParticipation({
-      ...campaignParticipation,
-      campaign: new Campaign(campaign),
-      assessments: assessments
-        .filter((assessment) => assessment.campaignParticipationId === campaignParticipation.id)
-        .map((assessment) => new Assessment(assessment)),
-    });
-  });
-};
-
-const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {
-  const campaignParticipation = await knex('campaign-participations')
-    .where({ userId, isImproved: false, campaignId })
-    .first();
-  if (!campaignParticipation) return null;
-  const assessments = await knex('assessments').where({ campaignParticipationId: campaignParticipation.id });
-  return new CampaignParticipation({
-    ...campaignParticipation,
-    assessments: assessments.map((assessment) => new Assessment(assessment)),
-  });
-};
-
 const isRetrying = async function ({ campaignParticipationId }) {
   const { id: campaignId, userId } = await knex('campaigns')
     .select('campaigns.id', 'userId')
@@ -103,11 +62,4 @@ const isRetrying = async function ({ campaignParticipationId }) {
   );
 };
 
-export {
-  findLatestOngoingByUserId,
-  findOneByCampaignIdAndUserId,
-  get,
-  getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
-  hasAssessmentParticipations,
-  isRetrying,
-};
+export { get, getCodeOfLastParticipationToProfilesCollectionCampaignForUser, hasAssessmentParticipations, isRetrying };

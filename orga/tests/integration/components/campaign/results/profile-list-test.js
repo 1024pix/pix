@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
     });
   });
   module('table headers for multiple sendings campaign', function () {
-    test('it should display evolution header and tooltip when campaign is multiple sendings', async function (assert) {
+    test('it should display evolution header and tooltip and shared profile count when campaign is multiple sendings', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: '1',
@@ -74,9 +74,12 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         name: t('pages.profiles-list.table.column.evolution'),
       });
       assert.ok(within(evolutionHeader).getByText(t('pages.profiles-list.table.evolution-tooltip.content')));
+      assert.ok(
+        screen.getByRole('columnheader', { name: t('pages.profiles-list.table.column.ariaSharedProfileCount') }),
+      );
     });
 
-    test('it should not display evolution header if campaign is not multiple sendings', async function (assert) {
+    test('it should not display evolution header or shared profile count if campaign is not multiple sendings', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: '1',
@@ -101,6 +104,9 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // then
       assert.notOk(screen.queryByRole('columnheader', { name: t('pages.profiles-list.table.column.evolution') }));
+      assert.notOk(
+        screen.queryByRole('columnheader', { name: t('pages.profiles-list.table.column.ariaSharedProfileCount') }),
+      );
     });
   });
 
@@ -207,6 +213,42 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       assert.ok(screen.getByRole('cell', { name: t('pages.profiles-list.table.evolution.decrease') }));
       assert.ok(screen.getByRole('cell', { name: t('pages.profiles-list.table.evolution.stable') }));
       assert.ok(screen.getByRole('cell', { name: t('pages.profiles-list.table.evolution.unavailable') }));
+    });
+
+    test('it should display number of profiles shares', async function (assert) {
+      // given
+      this.campaign = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        participationsCount: 1,
+        multipleSendings: true,
+      });
+      this.profiles = [
+        {
+          firstName: 'John',
+          lastName: 'Doe',
+          participantExternalId: '123',
+          sharedProfileCount: 3,
+          evolution: 'decrease',
+          sharedAt: new Date(2020, 1, 1),
+        },
+      ];
+      this.profiles.meta = { rowCount: 1 };
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::Results::ProfileList
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+/>`,
+      );
+
+      // then
+      assert.ok(screen.getByRole('cell', { name: '3' }));
     });
 
     test('it should display the profile list with external id', async function (assert) {

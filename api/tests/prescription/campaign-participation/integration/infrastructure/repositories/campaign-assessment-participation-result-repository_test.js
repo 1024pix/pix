@@ -142,7 +142,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           });
 
         expect(campaignAssessmentParticipationResult.isShared).to.equal(true);
-        expect(campaignAssessmentParticipationResult.competenceResults.length).to.equal(2);
+        expect(campaignAssessmentParticipationResult.competenceResults).to.have.lengthOf(2);
         expect(campaignAssessmentParticipationResult.competenceResults).to.deep.equal(expectedResult);
       });
     });

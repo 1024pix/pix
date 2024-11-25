@@ -348,6 +348,7 @@
     },
     "main": {
       "aria-label": "Hoofdnavigatie",
+      "attestations": "certificaten",
       "campaigns": "Campagnes",
       "certifications": "Certificeringen",
       "documentation": "Documentatie",
@@ -409,6 +410,13 @@
         "title": "Resultaten per vaardigheid"
       },
       "title": "Resultaten voor {firstName} {lastName}"
+    },
+    "attestations": {
+      "title": "Certificaten",
+      "description": "Selecteer de klas waarvoor je de attesten in PDF-formaat wilt exporteren.",
+      "download-attestations-button": "Downloaden",
+      "placeholder": "-- Selecteer --",
+      "select-label": "Selecteer een of meer klassen"
     },
     "campaign-activity": {
       "actions": {
@@ -1268,6 +1276,7 @@
       "table": {
         "caption": "Deze tabel bevat de lijst met deelnemers die hun profiel hebben gedeeld. Het geeft voor elke deelnemer zijn achternaam, voornaam, de verzonden datum, de Pix-score, de evolutie, de certificeerbaarheidsstatus en het aantal certificeerbare competenties.",
         "column": {
+          "ariaSharedProfileCount": "Aantal profielaandelen",
           "certifiable": "Certificeerbaar",
           "competences-certifiables": "Certificeerbare vaard.",
           "evolution": "Evolutie",
@@ -1277,6 +1286,7 @@
             "label": "Pix-score",
             "value": "{score, number}"
           },
+          "sharedProfileCount": "Aantal profielaandelen",
           "sending-date": {
             "label": "Verzenddatum",
             "on-hold": "In afwachting van verzending"

@@ -30,7 +30,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
 
       // then
       expect(numberOfCreatedOrganizationLearners).to.equal(numberOfOrganizationLearnerToCreate);
-      expect(createdDivisions.length).to.equal(numberOfDivisionsToCreate);
+      expect(createdDivisions).to.have.lengthOf(numberOfDivisionsToCreate);
     });
   });
 });

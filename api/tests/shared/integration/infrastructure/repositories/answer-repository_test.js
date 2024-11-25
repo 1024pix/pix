@@ -418,8 +418,8 @@ describe('Integration | Repository | answerRepository', function () {
         // then
         const answerInDB = await knex('answers');
         const knowledgeElementsInDB = await knex('knowledge-elements');
-        expect(answerInDB).to.have.length(0);
-        expect(knowledgeElementsInDB).to.have.length(0);
+        expect(answerInDB).to.have.lengthOf(0);
+        expect(knowledgeElementsInDB).to.have.lengthOf(0);
       });
     });
 
@@ -452,9 +452,9 @@ describe('Integration | Repository | answerRepository', function () {
         expect(error).to.be.instanceOf(ChallengeAlreadyAnsweredError);
         const answerInDB = await knex('answers');
         const knowledgeElementsInDB = await knex('knowledge-elements');
-        expect(answerInDB).to.have.length(1);
+        expect(answerInDB).to.have.lengthOf(1);
         expect(answerInDB[0].id).to.be.equal(alreadyCreatedAnswerId);
-        expect(knowledgeElementsInDB).to.have.length(0);
+        expect(knowledgeElementsInDB).to.have.lengthOf(0);
       });
     });
   });

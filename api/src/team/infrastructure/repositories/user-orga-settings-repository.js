@@ -64,7 +64,13 @@ const update = async function (userId, organizationId) {
   const currentOrganization = await knex('organizations')
     .where('id', userOrgaSettingsUpdated.currentOrganizationId)
     .first();
-  return new UserOrgaSettings({ id: userOrgaSettingsUpdated.id, user, currentOrganization });
+  return new UserOrgaSettings({
+    id: userOrgaSettingsUpdated.id,
+    createdAt: userOrgaSettingsUpdated.createdAt,
+    updatedAt: userOrgaSettingsUpdated.updatedAt,
+    user,
+    currentOrganization,
+  });
 };
 
 /**

@@ -60,7 +60,7 @@ describe('Integration | UseCase | update current activity', function () {
           });
 
           const activities = await knex('activities').where({ assessmentId });
-          expect(activities.length).to.equal(1);
+          expect(activities).to.have.lengthOf(1);
           expect(activities[0].status).to.equal(Activity.status.STARTED);
           expect(currentActivity.status).equals(Activity.status.STARTED);
         }),
@@ -122,7 +122,7 @@ describe('Integration | UseCase | update current activity', function () {
           });
 
           const activities = await knex('activities').where({ assessmentId });
-          expect(activities.length).to.equal(1);
+          expect(activities).to.have.lengthOf(1);
           expect(activities[0].status).to.equal(Activity.status.SUCCEEDED);
           expect(currentActivity.status).equals(Activity.status.SUCCEEDED);
         }),
@@ -171,7 +171,7 @@ describe('Integration | UseCase | update current activity', function () {
         });
 
         const activities = await knex('activities').where({ assessmentId });
-        expect(activities.length).to.equal(1);
+        expect(activities).to.have.lengthOf(1);
         expect(activities[0].status).to.equal(Activity.status.FAILED);
         expect(currentActivity.status).equals(Activity.status.FAILED);
       });
@@ -218,7 +218,7 @@ describe('Integration | UseCase | update current activity', function () {
           });
 
           const activities = await knex('activities').where({ assessmentId });
-          expect(activities.length).to.equal(1);
+          expect(activities).to.have.lengthOf(1);
           expect(activities[0].status).to.equal(Activity.status.STARTED);
           expect(currentActivity.status).equals(Activity.status.STARTED);
         });
@@ -270,7 +270,7 @@ describe('Integration | UseCase | update current activity', function () {
           });
 
           const activities = await knex('activities').where({ assessmentId });
-          expect(activities.length).to.equal(1);
+          expect(activities).to.have.lengthOf(1);
           expect(activities[0].status).to.equal(Activity.status.SUCCEEDED);
           expect(currentActivity.status).equals(Activity.status.SUCCEEDED);
         });
@@ -316,7 +316,7 @@ describe('Integration | UseCase | update current activity', function () {
         });
 
         const activities = await knex('activities').where({ assessmentId });
-        expect(activities.length).to.equal(1);
+        expect(activities).to.have.lengthOf(1);
         expect(activities[0].status).to.equal(Activity.status.SKIPPED);
         expect(currentActivity.status).equals(Activity.status.SKIPPED);
       });

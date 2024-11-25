@@ -84,23 +84,23 @@ describe('Unit | Domain | Read-Models | TrainingTriggerForAdmin', function () {
       });
 
       // then
-      expect(trainingTrigger.areas).to.have.length(1);
+      expect(trainingTrigger.areas).to.have.lengthOf(1);
       expect(trainingTrigger.areas[0]).to.have.property('id', `${area1.id}_${trainingTrigger.id}`);
       expect(trainingTrigger.areas[0]).to.have.property('title', area1.title);
       expect(trainingTrigger.areas[0]).to.have.property('code', area1.code);
       expect(trainingTrigger.areas[0]).to.have.property('color', area1.color);
-      expect(trainingTrigger.areas[0].competences).to.have.length(1);
+      expect(trainingTrigger.areas[0].competences).to.have.lengthOf(1);
       expect(trainingTrigger.areas[0].competences[0]).to.have.property('id', `${competence1.id}_${trainingTrigger.id}`);
       expect(trainingTrigger.areas[0].competences[0]).to.have.property('name', competence1.name);
       expect(trainingTrigger.areas[0].competences[0]).to.have.property('index', competence1.index);
-      expect(trainingTrigger.areas[0].competences[0].thematics).to.have.length(2);
+      expect(trainingTrigger.areas[0].competences[0].thematics).to.have.lengthOf(2);
       expect(trainingTrigger.areas[0].competences[0].thematics[0]).to.have.property(
         'id',
         `${thematic1.id}_${trainingTrigger.id}`,
       );
       expect(trainingTrigger.areas[0].competences[0].thematics[0]).to.have.property('name', thematic1.name);
       expect(trainingTrigger.areas[0].competences[0].thematics[0]).to.have.property('index', thematic1.index);
-      expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes).to.have.length(1);
+      expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes[0]).to.have.property(
         'id',
         trainingTriggerTube1.id,
@@ -111,7 +111,7 @@ describe('Unit | Domain | Read-Models | TrainingTriggerForAdmin', function () {
       );
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('name', thematic2.name);
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('index', thematic2.index);
-      expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes).to.have.length(1);
+      expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes).to.have.lengthOf(1);
       expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes[0]).to.have.property(
         'id',
         trainingTriggerTube2.id,

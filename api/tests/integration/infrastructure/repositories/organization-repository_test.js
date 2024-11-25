@@ -1063,7 +1063,7 @@ describe('Integration | Repository | Organization', function () {
           await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
 
         // then
-        expect(organizationsWithPlaces.length).to.equal(1);
+        expect(organizationsWithPlaces).to.have.lengthOf(1);
         expect(organizationsWithPlaces[0]).to.be.instanceOf(Organization);
         expect(organizationsWithPlaces[0].id).to.equal(firstOrganization.id);
         expect(organizationsWithPlaces[0].name).to.equal(firstOrganization.name);
@@ -1103,7 +1103,7 @@ describe('Integration | Repository | Organization', function () {
           await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
 
         // then
-        expect(organizationsWithPlaces.length).to.equal(1);
+        expect(organizationsWithPlaces).to.have.lengthOf(1);
       });
 
       it('should return organization instead if they have unlimited places', async function () {
@@ -1135,7 +1135,7 @@ describe('Integration | Repository | Organization', function () {
           await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
 
         // then
-        expect(organizationsWithPlaces.length).to.equal(1);
+        expect(organizationsWithPlaces).to.have.lengthOf(1);
       });
     });
 

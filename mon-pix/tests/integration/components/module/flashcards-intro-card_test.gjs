@@ -22,7 +22,7 @@ module('Integration | Component | Module | Flashcards Intro Card', function (hoo
     );
 
     // then
-    assert.ok(screen.getByText('Introduction à la poésie'));
+    assert.ok(screen.getByRole('heading', { name: 'Introduction à la poésie' }));
     assert.strictEqual(
       screen.getByRole('presentation').getAttribute('src'),
       'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',

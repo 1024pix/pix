@@ -70,7 +70,7 @@ describe('Integration | Repository | Organization Learners Management | Campaign
         .whereIn('organizationLearnerId', [organizationLearnerId1, organizationLearnerId2])
         .whereNull('deletedAt');
 
-      expect(campaignParticipationResult.length).to.equal(0);
+      expect(campaignParticipationResult).to.have.lengthOf(0);
     });
 
     it('should not override participations already deleted', async function () {

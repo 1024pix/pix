@@ -1,4 +1,6 @@
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin.serializer.js';
 import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
@@ -63,13 +65,40 @@ const getUserDetails = async function (request, h, dependencies = { userDetailsF
 };
 
 /**
+ *
+ * @param request
+ * @param h
+ * @param dependencies
+ * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
+ * @returns {Promise<*>}
+ */
+const anonymizeUser = async function (request, h, dependencies = { userAnonymizedDetailsForAdminSerializer }) {
+  const userToAnonymizeId = request.params.id;
+  const adminMemberId = request.auth.credentials.userId;
+
+  await DomainTransaction.execute(async (domainTransaction) => {
+    await usecases.anonymizeUser({
+      userId: userToAnonymizeId,
+      updatedByUserId: adminMemberId,
+      domainTransaction,
+    });
+  });
+
+  const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });
+
+  return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
+};
+
+/**
  * @typedef {object} UserAdminController
+ * @property {function} anonymizeUser
  * @property {function} findPaginatedFilteredUsers
  * @property {function} getUserDetails
  * @property {function} unblockUserAccount
  * @property {function} updateUserDetailsByAdmin
  */
 const userAdminController = {
+  anonymizeUser,
   findPaginatedFilteredUsers,
   getUserDetails,
   unblockUserAccount,

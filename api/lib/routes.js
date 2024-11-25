@@ -1,6 +1,5 @@
 import * as healthcheck from '../src/shared/application/healthcheck/index.js';
 import * as authentication from './application/authentication/index.js';
-import * as cache from './application/cache/index.js';
 import * as campaignParticipations from './application/campaign-participations/index.js';
 import * as certificationCenterInvitations from './application/certification-center-invitations/index.js';
 import * as certificationCenterMemberships from './application/certification-center-memberships/index.js';
@@ -22,7 +21,6 @@ import * as users from './application/users/index.js';
 
 const routes = [
   authentication,
-  cache,
   campaignParticipations,
   certificationCenters,
   certificationCenterInvitations,

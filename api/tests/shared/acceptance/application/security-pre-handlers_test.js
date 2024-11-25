@@ -44,11 +44,26 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkRequestedUserIsAuthenticatedUser', function () {
+    beforeEach(async function () {
+      server.route({
+        method: 'GET',
+        path: '/test_route/{userId}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            },
+          ],
+        },
+      });
+    });
+
     it('should return a well formed JSON API error when user in query params is not the same as authenticated', async function () {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/1/campaign-participations',
+        url: '/test_route/3',
         headers: { authorization: generateValidRequestAuthorizationHeader(2) },
       };
 

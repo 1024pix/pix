@@ -29,7 +29,6 @@ $navbar-height: 60px;
 @import 'pages/join';
 @import 'components/auth/toggable-login-form';
 @import 'components/add-student-list';
-@import 'components/ember-cli-notifications-ie-fallback';
 @import 'components/add-issue-report-modal';
 @import 'components/certification-candidate-details-modal/index';
 @import 'components/certification-candidate-details-modal/row';
@@ -84,4 +83,27 @@ input:invalid {
 
 * {
   box-sizing: border-box;
+}
+
+.pix-toast__icon .pix-icon {
+  fill: var(--pix-neutral-0);
+}
+
+.pix-icon-button {
+  &:active:enabled,
+  &:focus:enabled {
+    .pix-icon {
+      fill: var(--pix-neutral-0);
+    }
+  }
+}
+
+.pix-toast__close-button-container button {
+  &:hover:enabled,
+  &:active:enabled,
+  &:focus:enabled {
+    .pix-icon {
+      fill: var(--pix-neutral-0);
+    }
+  }
 }

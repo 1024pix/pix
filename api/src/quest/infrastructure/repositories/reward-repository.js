@@ -26,6 +26,7 @@ export const getByQuestAndUserId = async ({
     return new QuestResult({
       id: quest.id,
       obtained: true,
+      profileRewardId: profileRewardForQuest.id,
       reward,
     });
   }
@@ -41,6 +42,7 @@ export const getByQuestAndUserId = async ({
   return new QuestResult({
     id: quest.id,
     obtained,
+    profileRewardId: null,
     reward,
   });
 };

@@ -7,10 +7,12 @@ module('Unit | Route | Campaign | Assessment | Results', function (hooks) {
 
   let route;
   const campaign = { id: 123456, code: 'NEW_CODE' };
+  const questResults = [{ obtained: true, reward: { key: 'reward-key' } }];
   const campaignParticipation = { id: 1212, isShared: true, hasMany: sinon.stub() };
   const user = { id: 567890 };
   const storeStub = {
     queryRecord: sinon.stub(),
+    query: sinon.stub(),
   };
   const currentUserStub = { user };
 
@@ -41,6 +43,9 @@ module('Unit | Route | Campaign | Assessment | Results', function (hooks) {
         storeStub.queryRecord
           .withArgs('campaign-participation-result', { campaignId: campaign.id, userId: user.id })
           .resolves(campaign);
+        storeStub.query
+          .withArgs('quest-result', { campaignParticipationId: campaignParticipation.id })
+          .resolves(questResults);
       });
 
       test('should not redirect', async function (assert) {

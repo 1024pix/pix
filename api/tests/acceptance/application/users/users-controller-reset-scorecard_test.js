@@ -331,7 +331,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
           competenceId: otherStartedCompetenceId,
         });
 
-        expect(knowledgeElement).to.have.length(10);
+        expect(knowledgeElement).to.have.lengthOf(10);
         expect(knowledgeElement[0].earnedPix).to.equal(0);
         expect(knowledgeElement[0].status).to.equal('reset');
         expect(knowledgeElementsOtherCompetence[0].earnedPix).to.equal(3);

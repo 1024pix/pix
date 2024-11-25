@@ -68,7 +68,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             );
             expect(session.accessCode).to.exist;
             expect(hasAuthenticationMethod).to.exist;
-            expect(certificationCandidates).to.have.length(2);
+            expect(certificationCandidates).to.have.lengthOf(2);
             const name = `${type}1`.toLowerCase();
             expect(
               _.pick(organizationLearner, ['birthdate', 'firstName', 'lastName', 'email', 'sessionId']),
@@ -158,7 +158,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
           expect(session.accessCode).to.exist;
           expect(session.certificationCenterId).to.be.greaterThan(1);
           expect(hasAuthenticationMethod).to.exist;
-          expect(certificationCandidates).to.have.length(2);
+          expect(certificationCandidates).to.have.lengthOf(2);
           expect(certificationCandidates[0]).to.deep.equals({
             birthdate: '2000-01-01',
             firstName: 'sco1',

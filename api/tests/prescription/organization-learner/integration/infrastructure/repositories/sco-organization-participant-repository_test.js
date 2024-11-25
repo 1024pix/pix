@@ -1071,7 +1071,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
               });
 
             // then
-            expect(participants.length).to.equal(3);
+            expect(participants).to.have.lengthOf(3);
             expect(participants[0].id).to.equal(organizationLearnerId2);
             expect(participants[1].id).to.equal(organizationLearnerId3);
             expect(participants[2].id).to.equal(organizationLearnerId1);
@@ -1088,7 +1088,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
               });
 
             // then
-            expect(participants.length).to.equal(3);
+            expect(participants).to.have.lengthOf(3);
             expect(participants[0].id).to.equal(organizationLearnerId1);
             expect(participants[1].id).to.equal(organizationLearnerId3);
             expect(participants[2].id).to.equal(organizationLearnerId2);
@@ -1127,7 +1127,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(organizationLearnerId3);
           expect(participants[1].id).to.equal(organizationLearnerId2);
           expect(participants[2].id).to.equal(organizationLearnerId1);
@@ -1161,7 +1161,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(itachiId);
           expect(participants[1].id).to.equal(narutoId);
           expect(participants[2].id).to.equal(sasukeId);
@@ -1193,7 +1193,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(sasukeId);
           expect(participants[1].id).to.equal(narutoId);
           expect(participants[2].id).to.equal(itachiId);
@@ -1230,7 +1230,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(narutoId);
           expect(participants[1].id).to.equal(itachiId);
           expect(participants[2].id).to.equal(sasukeId);
@@ -1265,7 +1265,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(sasukeId);
           expect(participants[1].id).to.equal(itachiId);
           expect(participants[2].id).to.equal(narutoId);

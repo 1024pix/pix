@@ -196,7 +196,7 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
         // then
         const answerReceived = response.result.data;
-        expect(answerReceived.length).to.equal(2);
+        expect(answerReceived).to.have.lengthOf(2);
         expect(answerReceived[0].type).to.equal('answers');
         expect(answerReceived[1].type).to.equal('answers');
         expect([answerReceived[0].id, answerReceived[1].id]).to.have.members([

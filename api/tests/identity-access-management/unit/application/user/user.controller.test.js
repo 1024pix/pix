@@ -210,9 +210,6 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
       const cryptoService = {
         hashPassword: sinon.stub(),
       };
-      const mailService = {
-        sendAccountCreationEmail: sinon.stub(),
-      };
       const localeService = {
         getCanonicalLocale: sinon.stub(),
       };
@@ -220,7 +217,6 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
       dependencies = {
         userSerializer,
         cryptoService,
-        mailService,
         localeService,
         requestResponseUtils,
       };

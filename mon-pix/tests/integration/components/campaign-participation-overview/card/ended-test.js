@@ -1,7 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -84,6 +86,45 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
 
         // then
         assert.ok(screen.getByText('4 étoiles sur 6'));
+      });
+    });
+
+    module('#onClick', function () {
+      test('should push event on click', async function (assert) {
+        // given
+        const router = this.owner.lookup('service:router');
+        router.transitionTo = sinon.stub();
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
+        const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+          isShared: true,
+          createdAt: '2020-12-10T15:16:20.109Z',
+          sharedAt: '2020-12-18T15:16:20.109Z',
+          status: 'SHARED',
+          campaignTitle: 'My campaign',
+          campaignCode: 'qwertyui',
+          masteryRate: '0.70',
+          validatedStagesCount: 5,
+          totalStagesCount: 7,
+        });
+        this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+        // when
+        const screen = await render(
+          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
+        );
+
+        await click(screen.getByRole('button', { name: 'Voir le détail' }));
+
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Campaign participation',
+          'pix-event-action': `Voir le détail d'une participation partagée`,
+          'pix-event-name': `Voir le détail d'une participation partagée`,
+        });
+        assert.ok(true);
       });
     });
   });

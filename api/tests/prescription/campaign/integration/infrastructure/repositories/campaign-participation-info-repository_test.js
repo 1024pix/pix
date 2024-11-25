@@ -382,7 +382,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       it('return the first name and the last name of the correct organization-learner', async function () {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
-        expect(campaignParticipationInfos.length).to.equal(1);
+        expect(campaignParticipationInfos).to.have.lengthOf(1);
         expect(campaignParticipationInfos[0].participantFirstName).to.equal('John');
         expect(campaignParticipationInfos[0].participantLastName).to.equal('Doe');
       });

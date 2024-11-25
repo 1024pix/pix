@@ -10,6 +10,7 @@ import {
   disableCommonOrganizationLearnersFromOrganizationId,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  findOrganizationLearnerIdsByOrganizationId,
   getOrganizationLearnerForAdmin,
   reconcileUserByNationalStudentIdAndOrganizationId,
   removeByIds,
@@ -150,7 +151,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       // then
       const learners = await knex('view-active-organization-learners').where({ organizationId });
-      expect(learners.length).to.equal(1);
+      expect(learners).to.have.lengthOf(1);
       expect(learners[0].id).to.equal(thirdOrganisationLearnerId);
     });
   });
@@ -331,7 +332,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
             const existingOrganizationLearners = await organizationLearnerRepository.findByIds({
               ids: [existingOrganizationLearner.id],
             });
-            expect(existingOrganizationLearners).to.have.length(1);
+            expect(existingOrganizationLearners).to.have.lengthOf(1);
             expect(existingOrganizationLearner).to.deep.contain(existingOrganizationLearners[0]);
 
             const [newOrganizationLearner] = await organizationLearnerRepository.findByOrganizationId({
@@ -391,7 +392,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         const actualOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({
           organizationId,
         });
-        expect(actualOrganizationLearners).to.have.length(1);
+        expect(actualOrganizationLearners).to.have.lengthOf(1);
         expect(
           _.omit(actualOrganizationLearners[0], ['updatedAt', 'id', 'certifiableAt', 'isCertifiable']),
         ).to.deep.equal(_.omit(firstOrganizationLearner, ['updatedAt', 'id', 'certifiableAt', 'isCertifiable']));
@@ -1706,6 +1707,45 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         thirdOrganizationLearner.id,
         fourthOrganizationLearner.id,
       ]);
+    });
+  });
+
+  describe('#findOrganizationLearnerIdsByOrganizationId', function () {
+    let myOrganizationId;
+    let otherOrganizationId;
+    let organizationLearnerId;
+
+    beforeEach(async function () {
+      myOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: myOrganizationId,
+      }).id;
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+      }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return one learner', async function () {
+      const results = await findOrganizationLearnerIdsByOrganizationId({
+        organizationId: myOrganizationId,
+      });
+      expect(results).to.deep.equal([organizationLearnerId]);
+    });
+
+    it('should not return deleted learner', async function () {
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: myOrganizationId,
+        deletedAt: new Date('2020-04-05'),
+      }).id;
+
+      await databaseBuilder.commit();
+
+      const results = await findOrganizationLearnerIdsByOrganizationId({
+        organizationId: myOrganizationId,
+      });
+      expect(results).to.deep.equal([organizationLearnerId]);
     });
   });
 });

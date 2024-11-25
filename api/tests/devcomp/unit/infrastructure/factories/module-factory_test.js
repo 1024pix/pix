@@ -1509,7 +1509,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
         expect(module.grains[0].components[0].steps[0]).to.be.an.instanceOf(Step);
-        expect(module.grains[0].components[0].steps[0].elements).to.have.length(1);
+        expect(module.grains[0].components[0].steps[0].elements).to.have.lengthOf(1);
         expect(module.grains[0].components[0].steps[0].elements[0]).to.be.an.instanceOf(Text);
       });
 
@@ -1664,7 +1664,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       // then
       expect(module).to.be.an.instanceOf(Module);
       expect(module.grains).not.to.be.empty;
-      expect(module.grains[0].components).to.have.length(1);
+      expect(module.grains[0].components).to.have.lengthOf(1);
       expect(module.grains[0].components[0].element).not.to.be.empty;
     });
 
@@ -1715,7 +1715,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       // then
       expect(module).to.be.an.instanceOf(Module);
       expect(module.grains).not.to.be.empty;
-      expect(module.grains[0].components).to.have.length(1);
+      expect(module.grains[0].components).to.have.lengthOf(1);
       expect(module.grains[0].components[0].element).not.to.be.empty;
     });
   });

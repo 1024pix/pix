@@ -127,7 +127,7 @@ describe('Integration | Infrastructure | Utils | Knex utils', function () {
         const { results, pagination } = await fetchPage(query, { number: pageNumber, size: pageSize });
 
         // then
-        expect(results).to.have.length(pageSize);
+        expect(results).to.have.lengthOf(pageSize);
         expect(pagination.pageSize).to.equal(pageSize);
       });
 
@@ -144,7 +144,7 @@ describe('Integration | Infrastructure | Utils | Knex utils', function () {
         const { results, pagination } = await fetchPage(query, { number: pageNumber, size: pageSize });
 
         // then
-        expect(results).to.have.length(total);
+        expect(results).to.have.lengthOf(total);
         expect(pagination.pageSize).to.equal(pageSize);
       });
 
@@ -177,7 +177,7 @@ describe('Integration | Infrastructure | Utils | Knex utils', function () {
         const { results, pagination } = await fetchPage(query, { number: pageNumber });
 
         // then
-        expect(results).to.have.length(pagination.pageSize);
+        expect(results).to.have.lengthOf(pagination.pageSize);
         expect(pagination.pageSize).to.equal(DEFAULT_PAGINATION.PAGE_SIZE);
       });
     });

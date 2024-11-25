@@ -2,7 +2,15 @@ import { Serializer } from 'jsonapi-serializer';
 
 const serialize = function (organizationLearner) {
   return new Serializer('organizationLearner', {
-    attributes: ['firstName', 'displayName', 'division', 'organizationId', 'completedMissionIds', 'startedMissionIds'],
+    attributes: [
+      'firstName',
+      'displayName',
+      'division',
+      'organizationId',
+      'completedMissionIds',
+      'startedMissionIds',
+      'features',
+    ],
     transform: function (organizationLearner) {
       return {
         ...organizationLearner,

@@ -16,7 +16,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         const component = createGlimmerComponent('component:session-supervising/candidate-in-list');
         component.args.sessionId = 123;
         component.args.candidate = { userId: 456 };
-        component.notifications = { error: sinon.spy() };
+        component.pixToast = { sendErrorNotification: sinon.spy() };
         const store = this.owner.lookup('service:store');
         const adapter = store.adapterFor('session-management');
         adapter.validateLiveAlert = sinon.stub();
@@ -33,7 +33,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
 
         // then
         sinon.assert.calledWithExactly(adapter.validateLiveAlert, { sessionId: 123, candidateId: 456, subcategory });
-        sinon.assert.notCalled(component.notifications.error);
+        sinon.assert.notCalled(component.pixToast.sendErrorNotification);
         assert.ok(true);
       });
     });
@@ -45,7 +45,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         const component = createGlimmerComponent('component:session-supervising/candidate-in-list');
         component.args.sessionId = 123;
         component.args.candidate = { userId: 456 };
-        component.notifications = { error: sinon.spy() };
+        component.pixToast = { sendErrorNotification: sinon.spy() };
         const store = this.owner.lookup('service:store');
         const adapter = store.adapterFor('session-management');
         adapter.validateLiveAlert = sinon.stub();
@@ -61,7 +61,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         await component.validateLiveAlert(subcategory);
 
         // then
-        sinon.assert.calledOnce(component.notifications.error);
+        sinon.assert.calledOnce(component.pixToast.sendErrorNotification);
         assert.ok(true);
       });
     });
@@ -74,7 +74,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         const component = createGlimmerComponent('component:session-supervising/candidate-in-list');
         component.args.sessionId = 123;
         component.args.candidate = { userId: 456 };
-        component.notifications = { error: sinon.spy() };
+        component.pixToast = { sendErrorNotification: sinon.spy() };
         const store = this.owner.lookup('service:store');
         const adapter = store.adapterFor('session-management');
         adapter.dismissLiveAlert = sinon.stub();
@@ -91,7 +91,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
 
         // then
         sinon.assert.calledWithExactly(adapter.dismissLiveAlert, 123, 456);
-        sinon.assert.notCalled(component.notifications.error);
+        sinon.assert.notCalled(component.pixToast.sendErrorNotification);
         assert.ok(true);
       });
     });
@@ -102,7 +102,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         const component = createGlimmerComponent('component:session-supervising/candidate-in-list');
         component.args.sessionId = 123;
         component.args.candidate = { userId: 456 };
-        component.notifications = { error: sinon.spy() };
+        component.pixToast = { sendErrorNotification: sinon.spy() };
         const store = this.owner.lookup('service:store');
         const adapter = store.adapterFor('session-management');
         adapter.dismissLiveAlert = sinon.stub();
@@ -118,7 +118,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         await component.rejectLiveAlert();
 
         // then
-        sinon.assert.calledOnce(component.notifications.error);
+        sinon.assert.calledOnce(component.pixToast.sendErrorNotification);
         assert.ok(true);
       });
     });

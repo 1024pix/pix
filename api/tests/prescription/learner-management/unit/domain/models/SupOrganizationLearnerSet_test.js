@@ -30,7 +30,7 @@ describe('Unit | Models | SupOrganizationLearnerSet', function () {
   describe('#addLearner', function () {
     it('should add a learner', function () {
       learnerSet.addLearner(learnerAttributes);
-      expect(learnerSet.learners.length).to.equal(1);
+      expect(learnerSet.learners).to.have.lengthOf(1);
       expect(learnerSet.learners[0]).to.eql(learnerAttributes);
     });
 
@@ -73,7 +73,7 @@ describe('Unit | Models | SupOrganizationLearnerSet', function () {
     it('should throw if there are 2 learners with the same studentNumber', async function () {
       learnerSet.addLearner(learnerAttributes);
       const errors = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
-      expect(learnerSet.learners.length).to.equal(1);
+      expect(learnerSet.learners).to.have.lengthOf(1);
       expect(learnerSet.learners[0]).to.eql(learnerAttributes);
       expect(errors[0]).to.be.an.instanceOf(DomainError);
       expect(errors[0].key).to.equal('studentNumber');

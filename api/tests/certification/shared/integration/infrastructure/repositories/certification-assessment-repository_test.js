@@ -141,8 +141,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.version).to.equal(2);
         expect(dayjs(certificationAssessment.endedAt).toISOString()).to.equal(dayjs(expectedEndedAt).toISOString());
 
-        expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-        expect(certificationAssessment.certificationChallenges).to.have.length(2);
+        expect(certificationAssessment.certificationAnswersByDate).to.have.lengthOf(2);
+        expect(certificationAssessment.certificationChallenges).to.have.lengthOf(2);
         expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
         expect(certificationAssessment.certificationChallenges[0].type).to.equal(Challenge.Type.QCU);
       });
@@ -231,8 +231,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.version).to.equal(2);
         expect(dayjs(certificationAssessment.endedAt).toISOString()).to.equal(dayjs(expectedEndedAt).toISOString());
 
-        expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-        expect(certificationAssessment.certificationChallenges).to.have.length(2);
+        expect(certificationAssessment.certificationAnswersByDate).to.have.lengthOf(2);
+        expect(certificationAssessment.certificationChallenges).to.have.lengthOf(2);
       });
 
       it('should return the certification answers ordered by date', async function () {
@@ -559,8 +559,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       expect(certificationAssessment.version).to.equal(2);
       expect(dayjs(certificationAssessment.endedAt).toISOString()).to.equal(dayjs(expectedEndedAt).toISOString());
 
-      expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-      expect(certificationAssessment.certificationChallenges).to.have.length(2);
+      expect(certificationAssessment.certificationAnswersByDate).to.have.lengthOf(2);
+      expect(certificationAssessment.certificationChallenges).to.have.lengthOf(2);
     });
   });
 });

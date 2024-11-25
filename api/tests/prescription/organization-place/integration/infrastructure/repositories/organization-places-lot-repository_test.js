@@ -66,7 +66,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
       // then
-      expect(foundOrganizationPlace.length).to.equal(2);
+      expect(foundOrganizationPlace).to.have.lengthOf(2);
       expect([foundOrganizationPlace[0].reference, foundOrganizationPlace[1].reference]).to.have.members([
         placeSG1.reference,
         placeAtlantis.reference,
@@ -82,7 +82,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       // when
       const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
       // then
-      expect(foundOrganizationPlace.length).to.equal(0);
+      expect(foundOrganizationPlace).to.have.lengthOf(0);
     });
 
     it('should not take into account deleted places', async function () {
@@ -101,7 +101,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
       // then
-      expect(foundOrganizationPlace.length).to.equal(0);
+      expect(foundOrganizationPlace).to.have.lengthOf(0);
     });
 
     it("should return creator place's name for given id", async function () {
@@ -249,7 +249,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
 
       const places = await organizationPlacesLotRepository.findAllByOrganizationId(organizationId);
 
-      expect(places.length).to.equal(2);
+      expect(places).to.have.lengthOf(2);
       expect(places[0].count).to.equal(7);
       expect(places[1].count).to.equal(3);
     });
@@ -262,7 +262,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
 
       const places = await organizationPlacesLotRepository.findAllByOrganizationId(anotherOrganizationId);
 
-      expect(places.length).to.equal(0);
+      expect(places).to.have.lengthOf(0);
     });
   });
 
@@ -298,7 +298,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
 
       const places = await organizationPlacesLotRepository.findAllByOrganizationIds(organizationIds);
 
-      expect(places.length).to.equal(2);
+      expect(places).to.have.lengthOf(2);
       expect(places[0]).to.be.an.instanceOf(PlacesLot);
       expect(places[1]).to.be.an.instanceOf(PlacesLot);
 
@@ -322,7 +322,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       const organizationIds = [firstOrganizationId];
 
       const places = await organizationPlacesLotRepository.findAllByOrganizationIds(organizationIds);
-      expect(places.length).to.equal(1);
+      expect(places).to.have.lengthOf(1);
       expect(places[0].organizationId).to.equal(firstOrganizationId);
     });
   });
@@ -496,7 +496,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
         await organizationPlacesLotRepository.findAllNotDeletedByOrganizationId(organizationId);
 
       // then
-      expect(foundOrganizationPlace.length).to.equal(2);
+      expect(foundOrganizationPlace).to.have.lengthOf(2);
       expect([foundOrganizationPlace[0].count, foundOrganizationPlace[1].count]).to.have.members([
         placeSG1.count,
         placeAtlantis.count,
@@ -512,7 +512,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       // when
       const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
       // then
-      expect(foundOrganizationPlace.length).to.equal(0);
+      expect(foundOrganizationPlace).to.have.lengthOf(0);
     });
 
     it('should not take into account deleted places', async function () {
@@ -531,7 +531,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
       // then
-      expect(foundOrganizationPlace.length).to.equal(0);
+      expect(foundOrganizationPlace).to.have.lengthOf(0);
     });
 
     describe('the right order', function () {

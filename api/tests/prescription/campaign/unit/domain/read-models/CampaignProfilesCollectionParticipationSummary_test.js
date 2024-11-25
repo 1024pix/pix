@@ -11,8 +11,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
         participantExternalId: 'Sarah2024',
         sharedAt: '2024-10-28',
         pixScore: 20,
-        previousPixScore: null,
-        previousSharedAt: null,
+        sharedProfileCount: 2,
         certifiable: true,
         certifiableCompetencesCount: 9,
       };
@@ -20,6 +19,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
       // when
       const campaignProfilesCollectionParticipationSummary = new CampaignProfilesCollectionParticipationSummary({
         ...inputData,
+        previousPixScore: null,
         campaignParticipationId: 45,
       });
 
@@ -31,7 +31,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
       });
     });
 
-    context('previous participation and evolution', function () {
+    context('evolution', function () {
       // given
       const inputCommonData = {
         campaignParticipationId: 45,
@@ -40,41 +40,36 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
         participantExternalId: 'Sarah2024',
         certifiable: true,
         certifiableCompetencesCount: 9,
+        sharedProfileCount: 2,
+        sharedAt: '2024-10-28',
       };
 
-      describe('when previous participation pixScore and shared date are undefined', function () {
-        it('should return null for the previous pixScore, shared date and evolution', function () {
+      describe('when previous participation pixScore is undefined', function () {
+        it('should return null for evolution', function () {
           // when
           const campaignProfilesCollectionParticipationSummary = new CampaignProfilesCollectionParticipationSummary({
             ...inputCommonData,
-            sharedAt: '2024-10-28',
             pixScore: 20,
             previousPixScore: undefined,
-            previousSharedAt: undefined,
           });
 
           // then
           expect(campaignProfilesCollectionParticipationSummary).to.include({
-            previousPixScore: null,
-            previousSharedAt: null,
             evolution: null,
           });
         });
       });
 
       describe('when previous participation is 0', function () {
-        it('should return 0 for the previous pixScore (and not null)', function () {
+        it('should not return null for evolution', function () {
           const campaignProfilesCollectionParticipationSummary = new CampaignProfilesCollectionParticipationSummary({
             ...inputCommonData,
-            sharedAt: '2024-10-28',
+
             pixScore: 0,
             previousPixScore: 0,
-            previousSharedAt: '2024-10-27',
           });
 
-          expect(campaignProfilesCollectionParticipationSummary).to.include({
-            previousPixScore: 0,
-          });
+          expect(campaignProfilesCollectionParticipationSummary.evolution).to.not.be.null;
         });
       });
 
@@ -86,7 +81,6 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
               sharedAt: '2024-10-28',
               pixScore: 20,
               previousPixScore: 10,
-              previousSharedAt: '2024-10-27',
             });
 
             expect(campaignProfilesCollectionParticipationSummary).to.include({
@@ -102,7 +96,6 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
               sharedAt: '2024-10-28',
               pixScore: 30,
               previousPixScore: 50,
-              previousSharedAt: '2024-10-27',
             });
 
             expect(campaignProfilesCollectionParticipationSummary).to.include({
@@ -118,7 +111,6 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollec
               sharedAt: '2024-10-28',
               pixScore: 30,
               previousPixScore: 30,
-              previousSharedAt: '2024-10-27',
             });
 
             expect(campaignProfilesCollectionParticipationSummary).to.include({

@@ -22,4 +22,24 @@ const buildOrganizationLearnerFeature = function ({
   });
 };
 
-export { buildOrganizationLearnerFeature };
+const buildOrganizationLearnerFeatureWithFeatureKey = function ({
+  id = databaseBuffer.getNextId(),
+  organizationLearnerId,
+  featureKey,
+} = {}) {
+  organizationLearnerId = organizationLearnerId === undefined ? buildOrganizationLearner().id : organizationLearnerId;
+  const featureId = buildFeature({ key: featureKey }).id;
+
+  const values = {
+    id,
+    organizationLearnerId,
+    featureId,
+  };
+
+  return databaseBuffer.pushInsertable({
+    tableName: 'organization-learner-features',
+    values,
+  });
+};
+
+export { buildOrganizationLearnerFeature, buildOrganizationLearnerFeatureWithFeatureKey };

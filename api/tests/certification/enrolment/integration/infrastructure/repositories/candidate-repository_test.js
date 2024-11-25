@@ -4,7 +4,7 @@ import * as candidateRepository from '../../../../../../src/certification/enrolm
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
-describe('Integration | Certification | Session | Repository | Candidate', function () {
+describe('Integration | Certification | Enrolment | Repository | Candidate', function () {
   describe('#get', function () {
     context('when the candidate exists', function () {
       it('should return the candidate', async function () {
@@ -121,6 +121,49 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
 
         //when
         const result = await candidateRepository.findBySessionId({ sessionId: otherSessionId });
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+  });
+
+  describe('#findByUserId', function () {
+    context('when there are candidates', function () {
+      it('should return the candidates', async function () {
+        // given
+        const candidate1 = databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
+        const userId = candidate1.userId;
+
+        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({ userId });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
+
+        const candidate3 = databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate3.id });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await candidateRepository.findByUserId({ userId });
+
+        // then
+        expect(result).to.deepEqualArray([
+          domainBuilder.certification.enrolment.buildCandidate({
+            ...candidate1,
+            subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: candidate1.id })],
+          }),
+          domainBuilder.certification.enrolment.buildCandidate({
+            ...candidate2,
+            subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: candidate2.id })],
+          }),
+        ]);
+      });
+    });
+
+    context('when there are no candidates', function () {
+      it('returns an empty array', async function () {
+        //when
+        const result = await candidateRepository.findByUserId({ userId: 123 });
 
         // then
         expect(result).to.be.empty;
@@ -307,7 +350,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         'extraTimePercentage',
       ]);
       expect(parseFloat(savedCandidateData.extraTimePercentage)).to.equal(candidateData.extraTimePercentage);
-      expect(savedSubscriptionsData.length).to.equal(2);
+      expect(savedSubscriptionsData).to.have.lengthOf(2);
       expect(savedSubscriptionsData[0]).to.deepEqualInstanceOmitting(
         {
           certificationCandidateId: candidateId,

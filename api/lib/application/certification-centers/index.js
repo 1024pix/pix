@@ -7,30 +7,6 @@ import { certificationCenterController } from './certification-center-controller
 const register = async function (server) {
   const adminRoutes = [
     {
-      method: 'POST',
-      path: '/api/admin/certification-centers',
-      config: {
-        handler: certificationCenterController.create,
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            '- Création d‘un nouveau centre de certification\n',
-        ],
-        tags: ['api', 'certification-center'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/admin/certification-centers/{id}',
       config: {

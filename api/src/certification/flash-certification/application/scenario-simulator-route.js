@@ -3,34 +3,20 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
-const _successRatesConfigurationValidator = Joi.alternatives(
-  Joi.object({
-    type: Joi.string().valid('fixed').required(),
-    startingChallengeIndex: Joi.number().integer().min(0).required(),
-    endingChallengeIndex: Joi.number().integer().min(Joi.ref('startingChallengeIndex')).required(),
-    value: Joi.number().min(0).max(1).required(),
-  }),
-  Joi.object({
-    type: Joi.string().valid('linear').required(),
-    startingChallengeIndex: Joi.number().integer().min(0).required(),
-    endingChallengeIndex: Joi.number().integer().min(Joi.ref('startingChallengeIndex')).required(),
-    startingValue: Joi.number().min(0).max(1).required(),
-    endingValue: Joi.number().min(0).max(1).required(),
-  }),
-);
+const _successRatesConfigurationValidator = Joi.object({
+  startingChallengeIndex: Joi.number().integer().min(0).required(),
+  endingChallengeIndex: Joi.number().integer().min(Joi.ref('startingChallengeIndex')).required(),
+  value: Joi.number().min(0).max(1).required(),
+});
 
 const _baseScenarioParametersValidator = Joi.object().keys({
   initialCapacity: Joi.number().integer().min(-8).max(8),
   stopAtChallenge: Joi.number().integer().min(0),
   numberOfIterations: Joi.number().integer().min(0),
-  warmpUpLength: Joi.number().integer().min(0),
-  forcedCompetencies: Joi.array().items(Joi.string()),
-  useObsoleteChallenges: Joi.boolean(),
   challengePickProbability: Joi.number().min(0).max(100),
   challengesBetweenSameCompetence: Joi.number().min(0),
   limitToOneQuestionPerTube: Joi.boolean(),
   minimumEstimatedSuccessRateRanges: Joi.array().items(_successRatesConfigurationValidator),
-  enablePassageByAllCompetences: Joi.boolean(),
   doubleMeasuresUntil: Joi.number().min(0),
   variationPercent: Joi.number().min(0).max(1),
   variationPercentUntil: Joi.number().min(0),
@@ -52,27 +38,11 @@ const register = async (server) => {
           options: {
             allowUnknown: true,
           },
-          payload: Joi.alternatives([
-            _baseScenarioParametersValidator.keys({
-              type: Joi.string().valid('deterministic').required(),
-              answerStatusArray: Joi.array()
-                .items(Joi.string().allow('ok', 'ko', 'aband'))
-                .required(),
-            }),
-            _baseScenarioParametersValidator.keys({
-              type: Joi.string().valid('random').required(),
-              probabilities: Joi.object({
-                ok: Joi.number(),
-                ko: Joi.number(),
-                aband: Joi.number(),
-              }),
-              length: Joi.number().integer().min(0).required(),
-            }),
-            _baseScenarioParametersValidator.keys({
-              type: Joi.string().valid('capacity').required(),
+          payload: _baseScenarioParametersValidator
+            .keys({
               capacity: Joi.number().min(-8).max(8).required(),
-            }),
-          ]).required(),
+            })
+            .required(),
         },
         handler: scenarioSimulatorController.simulateFlashAssessmentScenario,
         tags: ['api'],

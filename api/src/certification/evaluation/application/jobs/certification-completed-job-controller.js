@@ -43,6 +43,10 @@ export class CertificationCompletedJobController extends JobController {
     const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
     let certificationScoringCompletedEvent;
 
+    if (certificationAssessment.isScoringBlockedDueToComplementaryOnlyChallenges) {
+      return;
+    }
+
     if (AlgorithmEngineVersion.isV3(certificationAssessment.version)) {
       certificationScoringCompletedEvent = await _handleV3CertificationScoring({
         certificationAssessment,

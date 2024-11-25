@@ -47,6 +47,23 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         expect(organizationLearner.email).to.equal('k.s@example.net');
         expect(organizationLearner.username).to.equal('sassouk');
         expect(organizationLearner.organizationId).to.equal(organizationId);
+        expect(organizationLearner.features).to.be.empty;
+      });
+
+      it("Should return organization learner's features", async function () {
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeatureWithFeatureKey({
+          organizationLearnerId,
+          featureKey: 'ORALIZATION',
+        });
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeatureWithFeatureKey({
+          organizationLearnerId,
+          featureKey: 'BLA',
+        });
+        await databaseBuilder.commit();
+
+        const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
+        expect(organizationLearner.features).to.deep.equal(['ORALIZATION', 'BLA']);
       });
 
       it('Should return the organization learner with a given ID', async function () {
@@ -635,7 +652,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             rowCount: 1,
             pageCount: 1,
           });
-          expect(result.learners.length).to.equal(1);
+          expect(result.learners).to.have.lengthOf(1);
           expect(result.learners[0].id).to.equal(rogueLearner.id);
         });
       });

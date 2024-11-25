@@ -1060,7 +1060,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
               .resolves(baseFlashAlgorithmConfiguration);
             flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
-                challenges: answeredChallenges,
+                challenges: [challengeExcludedFromCalibration, ...challengesAfterCalibration],
                 allAnswers: answers,
                 capacity: sinon.match.number,
                 variationPercent: undefined,

@@ -59,7 +59,7 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
 
     // then
     const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
-    expect(poleEmploiSendings.length).to.equal(1);
+    expect(poleEmploiSendings).to.have.lengthOf(1);
     expect(poleEmploiSendings[0].responseCode).to.equal(responseCode.toString());
     expect(poleEmploiSendings[0].type).to.equal('CAMPAIGN_PARTICIPATION_SHARING');
   });
@@ -72,7 +72,7 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
 
     // then
     const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
-    expect(poleEmploiSendings.length).to.equal(1);
+    expect(poleEmploiSendings).to.have.lengthOf(1);
     expect(poleEmploiSendings[0].isSuccessful).to.be.false;
     expect(poleEmploiSendings[0].responseCode).to.equal('SENDING-DISABLED');
     expect(poleEmploiSendings[0].type).to.equal('CAMPAIGN_PARTICIPATION_SHARING');

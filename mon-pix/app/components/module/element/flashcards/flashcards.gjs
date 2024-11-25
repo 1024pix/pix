@@ -111,6 +111,9 @@ export default class ModulixFlashcards extends Component {
     this.args.onSelfAssessment(selfAssessmentData);
     this.incrementCounterFor(userAssessment);
     this.goToNextCard();
+
+    const elementToFocus = document.querySelector('.element-flashcards');
+    elementToFocus.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
   }
 
   <template>

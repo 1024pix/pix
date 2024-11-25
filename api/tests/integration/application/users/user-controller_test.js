@@ -2,7 +2,7 @@ import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../src/shared/domain/errors.js';
-import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Users | user-controller', function () {
   let sandbox;
@@ -10,10 +10,8 @@ describe('Integration | Application | Users | user-controller', function () {
 
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
-    sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
     sandbox.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
 
-    sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'removeAuthenticationMethod');
 
     httpTestServer = new HttpTestServer();
@@ -22,52 +20,6 @@ describe('Integration | Application | Users | user-controller', function () {
 
   afterEach(function () {
     sandbox.restore();
-  });
-
-  describe('#getUserCampaignParticipationToCampaign', function () {
-    const auth = { credentials: {}, strategy: {} };
-
-    context('Success cases', function () {
-      let campaignParticipation;
-
-      beforeEach(function () {
-        campaignParticipation = domainBuilder.buildCampaignParticipation();
-        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
-        auth.credentials.userId = '1234';
-      });
-
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        usecases.getUserCampaignParticipationToCampaign.resolves(campaignParticipation);
-
-        // when
-        const response = await httpTestServer.request(
-          'GET',
-          '/api/users/1234/campaigns/5678/campaign-participations',
-          null,
-          auth,
-        );
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    context('Error cases', function () {
-      beforeEach(function () {
-        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
-      });
-
-      it('should return a 403 HTTP response', async function () {
-        // when
-        const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/campaign-participations');
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
   });
 
   describe('#removeAuthenticationMethod', function () {

@@ -51,7 +51,7 @@ describe('Integration | Repository | Badge', function () {
 
       it('should return two badges for same target profile', async function () {
         // then
-        expect(badges).to.have.length(2);
+        expect(badges).to.have.lengthOf(2);
       });
 
       it('should return certifiable badges first', async function () {
@@ -483,7 +483,7 @@ describe('Integration | Repository | Badge', function () {
       const badges = await badgeRepository.findAllByTargetProfileId(targetProfileId);
 
       // then
-      expect(badges).to.have.length(2);
+      expect(badges).to.have.lengthOf(2);
       const [badge1, badge2] = badges;
       expect(badge1.key).to.equal('BADGE_1');
       expect(badge2.key).to.equal('BADGE_2');
@@ -500,7 +500,7 @@ describe('Integration | Repository | Badge', function () {
       const badges = await badgeRepository.findAllByTargetProfileId(targetProfileId);
 
       // then
-      expect(badges).to.have.length(0);
+      expect(badges).to.have.lengthOf(0);
     });
   });
 });

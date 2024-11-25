@@ -27,7 +27,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       // then
       const result = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId: userId });
 
-      expect(result.length).to.equal(1);
+      expect(result).to.have.lengthOf(1);
       expect(result[0].userId).to.equal(userId);
       expect(result[0].rewardId).to.equal(rewardId);
       expect(result[0].rewardType).to.equal(REWARD_TYPES.ATTESTATION);
@@ -73,7 +73,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       const result = await getByUserId({ userId });
 
       // then
-      expect(result.length).to.equal(2);
+      expect(result).to.have.lengthOf(2);
       expect(result[0].rewardId).to.equal(firstRewardId);
       expect(result[0]).to.be.an.instanceof(ProfileReward);
       expect(result[1].rewardId).to.equal(secondRewardId);
@@ -105,7 +105,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       const result = await getByAttestationKeyAndUserIds({ attestationKey: attestation.key, userIds: [user.id] });
 
       // then
-      expect(result.length).to.equal(0);
+      expect(result).to.have.lengthOf(0);
     });
 
     it('should return all attestations for users', async function () {
@@ -201,7 +201,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       });
 
       // then
-      expect(result.length).to.equal(0);
+      expect(result).to.have.lengthOf(0);
     });
   });
 });

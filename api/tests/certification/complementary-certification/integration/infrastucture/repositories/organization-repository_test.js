@@ -100,7 +100,7 @@ describe('Integration | Repository | Certification | Complementary-certification
         );
 
         // then
-        expect(organizationSaved).to.have.length(1);
+        expect(organizationSaved).to.have.lengthOf(1);
       });
     });
   });

@@ -468,7 +468,7 @@ async function checkUserDoesNotBelongsToScoOrganizationManagingStudents(
     return _replyForbiddenError(h);
   }
 
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId || request.params.id;
 
   const isOrganizationScoManagingStudent = await dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute({
     organizationId,

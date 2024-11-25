@@ -15,7 +15,7 @@ export default class SessionList extends Component {
   @tracked currentSessionToBeDeletedId = null;
   @tracked currentEnrolledCandidatesCount = null;
   @service store;
-  @service notifications;
+  @service pixToast;
   @service intl;
 
   get currentLocale() {
@@ -37,15 +37,14 @@ export default class SessionList extends Component {
 
   @action
   async deleteSession() {
-    this.notifications.clearAll();
     const sessionSummary = this.store.peekRecord('session-summary', this.currentSessionToBeDeletedId);
     try {
       await sessionSummary.destroyRecord();
-      this.notifications.success(this.intl.t('pages.sessions.list.delete-modal.success'));
-    } catch (err) {
-      if (this._doesNotExist(err)) {
+      this.pixToast.sendSuccessNotification({ message: this.intl.t('pages.sessions.list.delete-modal.success') });
+    } catch (error) {
+      if (this._doesNotExist(error)) {
         this._handleSessionDoesNotExistsError();
-      } else if (this._sessionHasStarted(err)) {
+      } else if (this._sessionHasStarted(error)) {
         this._handleSessionHasStartedError();
       } else {
         this._handleUnknownSavingError();
@@ -54,24 +53,28 @@ export default class SessionList extends Component {
     this.closeSessionDeletionConfirmModal();
   }
 
-  _sessionHasStarted(err) {
-    return get(err, 'errors[0].status') === '409';
+  _sessionHasStarted(error) {
+    return get(error, 'errors[0].status') === '409';
   }
 
-  _doesNotExist(err) {
-    return get(err, 'errors[0].status') === '404';
+  _doesNotExist(error) {
+    return get(error, 'errors[0].status') === '404';
   }
 
   _handleUnknownSavingError() {
-    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.unknown'));
+    this.pixToast.sendErrorNotification({ message: this.intl.t('pages.sessions.list.delete-modal.errors.unknown') });
   }
 
   _handleSessionDoesNotExistsError() {
-    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.session-does-not-exists'));
+    this.pixToast.sendErrorNotification({
+      message: this.intl.t('pages.sessions.list.delete-modal.errors.session-does-not-exists'),
+    });
   }
 
   _handleSessionHasStartedError() {
-    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.session-has-started'));
+    this.pixToast.sendErrorNotification({
+      message: this.intl.t('pages.sessions.list.delete-modal.errors.session-has-started'),
+    });
   }
 
   <template>

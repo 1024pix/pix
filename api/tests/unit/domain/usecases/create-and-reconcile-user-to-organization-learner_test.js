@@ -1,4 +1,5 @@
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { createAccountCreationEmail } from '../../../../src/identity-access-management/domain/emails/create-account-creation.email.js';
 import {
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
@@ -21,12 +22,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
   let authenticationMethodRepository;
   let campaignRepository;
+  let emailRepository;
   let emailValidationDemandRepository;
   let organizationLearnerRepository;
   let userRepository;
 
   let cryptoService;
-  let mailService;
   let obfuscationService;
   let userReconciliationService;
   let userService;
@@ -43,12 +44,9 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     };
 
     authenticationMethodRepository = {};
-    campaignRepository = {
-      getByCode: sinon.stub(),
-    };
-    emailValidationDemandRepository = {
-      save: sinon.stub().resolves(token),
-    };
+    campaignRepository = { getByCode: sinon.stub() };
+    emailRepository = { sendEmailAsync: sinon.stub() };
+    emailValidationDemandRepository = { save: sinon.stub().resolves(token) };
     organizationLearnerRepository = {};
     userRepository = {
       create: sinon.stub(),
@@ -57,33 +55,21 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       get: sinon.stub(),
     };
 
-    cryptoService = {
-      hashPassword: sinon.stub(),
-    };
-    mailService = {
-      sendAccountCreationEmail: sinon.stub(),
-    };
+    cryptoService = { hashPassword: sinon.stub() };
     userReconciliationService = {
       findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo: sinon.stub(),
     };
-    userService = {
-      createAndReconcileUserToOrganizationLearner: sinon.stub(),
-    };
+    userService = { createAndReconcileUserToOrganizationLearner: sinon.stub() };
 
-    passwordValidator = {
-      validate: sinon.stub(),
-    };
-    userValidator = {
-      validate: sinon.stub(),
-    };
+    passwordValidator = { validate: sinon.stub() };
+    userValidator = { validate: sinon.stub() };
 
     campaignRepository.getByCode
       .withArgs(campaignCode)
       .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
     userRepository.isUsernameAvailable.resolves();
     userRepository.checkIfEmailIsAvailable.resolves();
-
-    mailService.sendAccountCreationEmail.resolves();
+    emailRepository.sendEmailAsync.resolves();
 
     passwordValidator.validate.returns();
     userValidator.validate.returns();
@@ -106,7 +92,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         organizationLearnerRepository,
         userRepository,
         cryptoService,
-        mailService,
+        emailRepository,
         obfuscationService,
         userReconciliationService,
         userService,
@@ -138,7 +124,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         organizationLearnerRepository,
         userRepository,
         cryptoService,
-        mailService,
+        emailRepository,
         obfuscationService,
         userReconciliationService,
         userService,
@@ -212,7 +198,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             organizationLearnerRepository,
             userRepository,
             cryptoService,
-            mailService,
+            emailRepository,
             obfuscationService,
             userReconciliationService,
             userService,
@@ -243,7 +229,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             organizationLearnerRepository,
             userRepository,
             cryptoService,
-            mailService,
+            emailRepository,
             obfuscationService,
             userReconciliationService,
             userService,
@@ -274,7 +260,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             organizationLearnerRepository,
             userRepository,
             cryptoService,
-            mailService,
+            emailRepository,
             obfuscationService,
             userReconciliationService,
             userService,
@@ -286,9 +272,15 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           expect(result).to.deep.equal(createdUser);
         });
 
-        it('should call mailService', async function () {
+        it('should call emailRepository', async function () {
           // given
-          const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
+          const expectedEmail = createAccountCreationEmail({
+            email: userAttributes.email,
+            firstName: userAttributes.firstName,
+            locale,
+            token,
+            redirectionUrl: `https://app.pix.fr/campagnes/${campaignCode}`,
+          });
 
           // when
           await usecases.createAndReconcileUserToOrganizationLearner({
@@ -302,7 +294,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             organizationLearnerRepository,
             userRepository,
             cryptoService,
-            mailService,
+            emailRepository,
             obfuscationService,
             userReconciliationService,
             userService,
@@ -312,14 +304,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
           // then
           expect(emailValidationDemandRepository.save).to.have.been.calledWith(createdUser.id);
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
-            email: userAttributes.email,
-            firstName: userAttributes.firstName,
-            locale,
-            token,
-            redirectionUrl: expectedRedirectionUrl,
-            i18n: undefined,
-          });
+          expect(emailRepository.sendEmailAsync).to.have.been.calledWithExactly(expectedEmail);
         });
 
         context('But association is already done', function () {
@@ -341,7 +326,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               organizationLearnerRepository,
               userRepository,
               cryptoService,
-              mailService,
+              emailRepository,
               obfuscationService,
               userReconciliationService,
               userService,
@@ -379,7 +364,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             organizationLearnerRepository,
             userRepository,
             cryptoService,
-            mailService,
+            emailRepository,
             obfuscationService,
             userReconciliationService,
             userService,
@@ -406,7 +391,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             organizationLearnerRepository,
             userRepository,
             cryptoService,
-            mailService,
+            emailRepository,
             obfuscationService,
             userReconciliationService,
             userService,
@@ -437,7 +422,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               organizationLearnerRepository,
               userRepository,
               cryptoService,
-              mailService,
+              emailRepository,
               obfuscationService,
               userReconciliationService,
               userService,

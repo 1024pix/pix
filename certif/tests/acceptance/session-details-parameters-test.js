@@ -14,11 +14,6 @@ module('Acceptance | Session Details Parameters', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks, 'fr');
 
-  hooks.afterEach(function () {
-    const notificationMessagesService = this.owner.lookup('service:notifications');
-    notificationMessagesService.clearAll();
-  });
-
   module('when certificationPointOfContact is logged in', function (hooks) {
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;

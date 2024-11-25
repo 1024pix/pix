@@ -240,7 +240,7 @@ describe('Integration | Repository | JurySession', function () {
 
           // then
           expect(pagination).to.deep.equal(expectedPagination);
-          expect(jurySessions).to.have.length(2);
+          expect(jurySessions).to.have.lengthOf(2);
         });
       });
 
@@ -297,7 +297,7 @@ describe('Integration | Repository | JurySession', function () {
           // then
           expect(pagination).to.deep.equal(expectedPagination);
           expect(jurySessions[0].id).to.equal(expectedSession.id);
-          expect(jurySessions).to.have.length(1);
+          expect(jurySessions).to.have.lengthOf(1);
         });
       });
 
@@ -340,7 +340,7 @@ describe('Integration | Repository | JurySession', function () {
           // then
           expect(pagination).to.deep.equal(expectedPagination);
           expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
-          expect(jurySessions).to.have.length(1);
+          expect(jurySessions).to.have.lengthOf(1);
         });
 
         it('should return all sessions if certification type filter is null', async function () {
@@ -357,7 +357,7 @@ describe('Integration | Repository | JurySession', function () {
           expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
           expect(jurySessions[1].id).to.equal(expectedSUPSession.id);
           expect(jurySessions[2].id).to.equal(expectedPROSession.id);
-          expect(jurySessions).to.have.length(3);
+          expect(jurySessions).to.have.lengthOf(3);
         });
       });
 
@@ -404,7 +404,7 @@ describe('Integration | Repository | JurySession', function () {
           // then
           expect(pagination).to.deep.equal(expectedPagination);
           expect(jurySessions[0].id).to.equal(expectedSession.id);
-          expect(jurySessions).to.have.length(1);
+          expect(jurySessions).to.have.lengthOf(1);
         });
 
         it('should return all sessions if certification center external id filter is null', async function () {
@@ -418,7 +418,7 @@ describe('Integration | Repository | JurySession', function () {
 
           // then
           expect(pagination).to.deep.equal(expectedPagination);
-          expect(jurySessions).to.have.length(3);
+          expect(jurySessions).to.have.lengthOf(3);
         });
       });
 
@@ -442,7 +442,7 @@ describe('Integration | Repository | JurySession', function () {
             const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
             // then
-            expect(jurySessions).to.have.length(1);
+            expect(jurySessions).to.have.lengthOf(1);
             expect(jurySessions[0].id).to.equal(expectedSessionId);
           });
         });
@@ -475,7 +475,7 @@ describe('Integration | Repository | JurySession', function () {
             const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
             // then
-            expect(jurySessions).to.have.length(1);
+            expect(jurySessions).to.have.lengthOf(1);
             expect(jurySessions[0].id).to.equal(expectedSessionId);
           });
         });
@@ -505,7 +505,7 @@ describe('Integration | Repository | JurySession', function () {
             const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
             // then
-            expect(jurySessions).to.have.length(1);
+            expect(jurySessions).to.have.lengthOf(1);
             expect(jurySessions[0].id).to.equal(expectedSessionId);
           });
         });
@@ -530,7 +530,7 @@ describe('Integration | Repository | JurySession', function () {
             const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
             // then
-            expect(jurySessions).to.have.length(1);
+            expect(jurySessions).to.have.lengthOf(1);
             expect(jurySessions[0].id).to.equal(expectedSessionId);
           });
         });
@@ -558,7 +558,7 @@ describe('Integration | Repository | JurySession', function () {
             const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
             // then
-            expect(jurySessions).to.have.length(1);
+            expect(jurySessions).to.have.lengthOf(1);
             expect(jurySessions[0].id).to.equal(expectedSessionId);
           });
         });
@@ -580,7 +580,7 @@ describe('Integration | Repository | JurySession', function () {
             const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
             // then
-            expect(jurySessions).to.have.length(2);
+            expect(jurySessions).to.have.lengthOf(2);
           });
         });
       });

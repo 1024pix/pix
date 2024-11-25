@@ -41,8 +41,15 @@ class ReconcileCommonOrganizationLearnerError extends DomainError {
   }
 }
 
+class CouldNotDeleteLearnersError extends DomainError {
+  constructor() {
+    super(`Could not delete the following organization learners.`);
+  }
+}
+
 export {
   AggregateImportError,
+  CouldNotDeleteLearnersError,
   OrganizationDoesNotHaveFeatureEnabledError,
   OrganizationLearnerImportFormatNotFoundError,
   OrganizationLearnersCouldNotBeSavedError,

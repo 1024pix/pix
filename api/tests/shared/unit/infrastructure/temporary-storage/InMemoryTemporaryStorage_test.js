@@ -248,7 +248,7 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       const values = await inMemoryTemporaryStorage.lrange(key);
 
       // then
-      expect(values.length).to.equal(3);
+      expect(values).to.have.lengthOf(3);
       expect(values).to.deep.equal(['value3', 'value2', 'value1']);
     });
   });

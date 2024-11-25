@@ -6,4 +6,12 @@ class CampaignParticipationDeletedError extends DomainError {
   }
 }
 
-export { CampaignParticipationDeletedError };
+class CampaignParticiationInvalidStatus extends DomainError {
+  constructor(campaignParticipationId, acceptedStatus) {
+    super(
+      `Campaign participation: ${campaignParticipationId} status do not fulfill requirement. Accepted Status : ${acceptedStatus}`,
+    );
+  }
+}
+
+export { CampaignParticiationInvalidStatus, CampaignParticipationDeletedError };

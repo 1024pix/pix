@@ -161,7 +161,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           .orderBy('createdAt');
 
         expect(rejectedCertificationCourse.isRejectedForFraud).to.equal(true);
-        expect(assessmentResults).to.have.length(2);
+        expect(assessmentResults).to.have.lengthOf(2);
         expect(assessmentResults[0].id).to.deep.equal(assessmentResult.id);
         expect(assessmentResults[1].status).to.equal('rejected');
 
@@ -246,7 +246,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           .orderBy('createdAt');
 
         expect(rejectedCertificationCourse.isRejectedForFraud).to.equal(true);
-        expect(assessmentResults).to.have.length(2);
+        expect(assessmentResults).to.have.lengthOf(2);
         expect(assessmentResults[0].id).to.equal(assessmentResult.id);
         expect(assessmentResults[1].status).to.equal('rejected');
 
@@ -299,7 +299,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         .orderBy('createdAt');
 
       expect(unrejectedCertificationCourse.isRejectedForFraud).to.equal(false);
-      expect(assessmentResults).to.have.length(2);
+      expect(assessmentResults).to.have.lengthOf(2);
       expect(assessmentResults[0].id).to.equal(assessmentResult.id);
       expect(assessmentResults[1].status).to.equal('validated');
 

@@ -51,7 +51,7 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
         const adapter = { sendInvitations: sinon.stub().resolves() };
         sinon.stub(store, 'adapterFor').returns(adapter);
 
-        controller.notifications = { success: sinon.stub() };
+        controller.pixToast = { sendSuccessNotification: sinon.stub() };
         controller.emails = 'toto@example.net,sakura@example.net';
 
         // when
@@ -68,7 +68,7 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
           adapter.sendInvitations.calledWith({ certificationCenterId, emails: expectedEmailsArray }),
           'send invitations',
         );
-        assert.ok(controller.notifications.success.called, 'display success notification');
+        assert.ok(controller.pixToast.sendSuccessNotification.called, 'display success notification');
         assert.ok(
           router.transitionTo.calledWith('authenticated.team.list.invitations'),
           'redirect user to /equipe/invitations page',
@@ -91,13 +91,13 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
         const adapter = { sendInvitations: sinon.stub().rejects() };
         sinon.stub(store, 'adapterFor').returns(adapter);
 
-        controller.notifications = { error: sinon.stub() };
+        controller.pixToast = { sendErrorNotification: sinon.stub() };
 
         // when
         await controller.createCertificationCenterInvitation(event);
 
         // then
-        assert.ok(controller.notifications.error.called, 'display error notification');
+        assert.ok(controller.pixToast.sendErrorNotification.called, 'display error notification');
       });
     });
   });

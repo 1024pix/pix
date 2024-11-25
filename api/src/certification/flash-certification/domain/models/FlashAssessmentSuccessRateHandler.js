@@ -1,11 +1,9 @@
 import { FlashAssessmentSuccessRateHandlerFixedStrategy } from './FlashAssessmentSuccessRateHandlerFixedStrategy.js';
-import { FlashAssessmentSuccessRateHandlerLinearStrategy } from './FlashAssessmentSuccessRateHandlerLinearStrategy.js';
 
 class FlashAssessmentSuccessRateHandler {
   constructor({ startingChallengeIndex, endingChallengeIndex, strategy }) {
     this.startingChallengeIndex = startingChallengeIndex;
     this.endingChallengeIndex = endingChallengeIndex;
-
     this._strategy = strategy;
   }
 
@@ -18,31 +16,12 @@ class FlashAssessmentSuccessRateHandler {
   }
 
   static create(successRateRange) {
-    if (successRateRange.type === 'linear') {
-      return FlashAssessmentSuccessRateHandler.createLinear(successRateRange);
-    }
-    if (successRateRange.type === 'fixed') {
-      return FlashAssessmentSuccessRateHandler.createFixed(successRateRange);
-    }
-  }
-
-  static createFixed({ startingChallengeIndex, endingChallengeIndex, value }) {
+    const { startingChallengeIndex, endingChallengeIndex, value } = successRateRange;
     return new FlashAssessmentSuccessRateHandler({
       startingChallengeIndex,
       endingChallengeIndex,
       strategy: new FlashAssessmentSuccessRateHandlerFixedStrategy({
         value,
-      }),
-    });
-  }
-
-  static createLinear({ startingChallengeIndex, endingChallengeIndex, startingValue, endingValue }) {
-    return new FlashAssessmentSuccessRateHandler({
-      startingChallengeIndex,
-      endingChallengeIndex,
-      strategy: new FlashAssessmentSuccessRateHandlerLinearStrategy({
-        startingValue,
-        endingValue,
       }),
     });
   }

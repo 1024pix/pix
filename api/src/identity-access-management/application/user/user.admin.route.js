@@ -152,4 +152,27 @@ export const userAdminRoutes = [
       tags: ['api', 'admin', 'identity-access-management', 'user'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/admin/users/{id}/anonymize',
+    config: {
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+      },
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+            ])(request, h),
+        },
+      ],
+      handler: (request, h) => userAdminController.anonymizeUser(request, h),
+      notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
+      tags: ['api', 'admin', 'identity-access-management', 'user'],
+    },
+  },
 ];

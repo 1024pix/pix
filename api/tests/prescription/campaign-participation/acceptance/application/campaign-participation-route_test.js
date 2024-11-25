@@ -848,4 +848,32 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(participationIds).to.deep.equals([sharableCampaignParticipation.id, startedCampaignParticipation.id]);
     });
   });
+
+  describe('GET /users/{userId}/campaigns/{campaignId}/campaign-participations', function () {
+    let options;
+
+    beforeEach(function () {
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        status: 'SHARED',
+      });
+
+      options = {
+        method: 'GET',
+        url: `/api/users/${userId}/campaigns/${campaignId}/campaign-participations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return campaign participation with 200 HTTP status code', async function () {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

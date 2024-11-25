@@ -25,20 +25,17 @@ async function simulateFlashAssessmentScenario(
     stopAtChallenge,
     initialCapacity,
     numberOfIterations = 1,
-    warmUpLength,
-    forcedCompetences,
-    useObsoleteChallenges,
     challengePickProbability,
     challengesBetweenSameCompetence,
     limitToOneQuestionPerTube,
     minimumEstimatedSuccessRateRanges: minimumEstimatedSuccessRateRangesDto,
-    enablePassageByAllCompetences,
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
+    capacity,
   } = request.payload;
 
-  const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
+  const pickAnswerStatus = dependencies.pickAnswerStatusService.pickAnswerStatusForCapacity(capacity);
 
   const locale = dependencies.extractLocaleFromRequest(request);
 
@@ -59,13 +56,9 @@ async function simulateFlashAssessmentScenario(
           locale,
           stopAtChallenge,
           initialCapacity,
-          warmUpLength,
-          forcedCompetences,
-          useObsoleteChallenges,
           challengesBetweenSameCompetence,
           limitToOneQuestionPerTube,
           minimumEstimatedSuccessRateRanges,
-          enablePassageByAllCompetences,
           doubleMeasuresUntil,
           variationPercent,
           variationPercentUntil,
@@ -73,7 +66,7 @@ async function simulateFlashAssessmentScenario(
         _.isUndefined,
       );
 
-      const simulationReport = await usecases.simulateFlashDeterministicAssessmentScenario(usecaseParams);
+      const simulationReport = await usecases.simulateFlashAssessmentScenario(usecaseParams);
 
       yield JSON.stringify({
         index,
@@ -93,25 +86,6 @@ async function simulateFlashAssessmentScenario(
 
   const generatedResponse = Readable.from(generate(), { objectMode: false });
   return h.response(generatedResponse).type('text/event-stream; charset=utf-8');
-}
-
-function _getPickAnswerStatusMethod(pickAnswerStatusService, payload) {
-  const { type, probabilities, length, capacity, answerStatusArray } = payload;
-
-  switch (type) {
-    case 'deterministic':
-      return pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
-    case 'random': {
-      const answer = _generateAnswerStatusArray(random, probabilities, length);
-      return pickAnswerStatusService.pickAnswerStatusFromArray(answer);
-    }
-    case 'capacity':
-      return pickAnswerStatusService.pickAnswerStatusForCapacity(capacity);
-  }
-}
-
-function _generateAnswerStatusArray(random, probabilities, length) {
-  return random.weightedRandoms(probabilities, length);
 }
 
 function _minimumEstimatedSuccessRateRangesToDomain(successRateRanges) {

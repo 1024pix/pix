@@ -72,6 +72,10 @@ export default class CurrentUserService extends Service {
     );
   }
 
+  get canAccessAttestationsPage() {
+    return this.prescriber.attestationsManagement;
+  }
+
   get canAccessPlacesPage() {
     return this.isAdminInOrganization && this.prescriber.placesManagement;
   }
@@ -81,10 +85,6 @@ export default class CurrentUserService extends Service {
   }
 
   get canAccessCampaignsPage() {
-    return !this.prescriber.missionsManagement;
-  }
-
-  get canAccessParticipantsPage() {
     return !this.prescriber.missionsManagement;
   }
 

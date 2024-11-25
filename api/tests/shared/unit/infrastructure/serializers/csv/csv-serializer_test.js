@@ -1326,7 +1326,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           const [result] = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
-          expect(result.candidates).to.have.length(6);
+          expect(result.candidates).to.have.lengthOf(6);
         });
       });
 

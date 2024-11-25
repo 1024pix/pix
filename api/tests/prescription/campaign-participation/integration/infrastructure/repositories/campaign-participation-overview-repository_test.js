@@ -631,7 +631,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
         // then
-        expect(campaignParticipationOverviews.length).to.equal(0);
+        expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
     });
   });

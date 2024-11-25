@@ -81,7 +81,7 @@ describe('Integration | UseCases | copy-target-profile', function () {
         targetProfileId: newlyCreatedTargetProfile.id,
       });
 
-      expect(newlyCreatedTargetProfileTubes.length).to.equal(tubesData.length);
+      expect(newlyCreatedTargetProfileTubes).to.have.lengthOf(tubesData.length);
       newlyCreatedTargetProfileTubes.forEach((targetProfileTube) => {
         delete targetProfileTube.id;
         delete targetProfileTube.targetProfileId;

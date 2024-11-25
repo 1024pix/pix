@@ -40,6 +40,7 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
+      "download": "Télécharger",
       "lets-go": "C'est parti !",
       "login": "Se connecter sur Pix",
       "quit": "Quitter",
@@ -245,6 +246,26 @@
           },
           "legend": "Information nécessaire pour l'inscription."
         }
+      }
+    },
+    "campaigns": {
+      "attestation-result": {
+        "SIXTH_GRADE": {
+          "title": "Sensibilisation au numérique"
+        },
+        "computing": "Attestation en cours de calcul",
+        "computing-description": "Un problème technique nous empêche de vous informer sur l'obtention de votre attestation. Veuillez vous reconnecter demain sur Pix, section 'Mon parcours', pour consulter vos résultats. Nous nous excusons pour la gêne occasionnée.",
+        "not-obtained": "Attestation non obtenue :",
+        "obtained": "Attestation obtenue"
+      },
+      "results-loader": {
+        "steps": {
+          "competences": "Calcul des scores par compétences",
+          "rewards": "Attribution des récompenses",
+          "trainings": "Identification des formations utiles"
+        },
+        "subtitle": "Un instant, s’il vous plaît ! Je vais faire au plus vite.",
+        "title": "Calcul de votre score en cours..."
       }
     },
     "invited": {

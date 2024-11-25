@@ -258,6 +258,31 @@ const register = async function (server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/campaigns/{campaignId}/campaign-participations',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: campaignParticipationController.getUserCampaignParticipationToCampaign,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération de la dernière participation d’un utilisateur (**userId**) à une campagne donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'campaign', 'campaign-participations'],
+      },
+    },
   ]);
 };
 

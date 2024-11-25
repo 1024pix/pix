@@ -103,8 +103,8 @@ describe('Integration | Organizational Entities | Application | Controller | Org
     //then
     const organizationTag = await knex('organization-tags').where('organizationId', organization.id);
 
-    expect(organizationTag.length).to.equal(1);
-    expect(response.source.data.relationships.tags.data.length).to.equal(1);
+    expect(organizationTag).to.have.lengthOf(1);
+    expect(response.source.data.relationships.tags.data).to.have.lengthOf(1);
     expect(response.source.data.relationships.tags.data[0].id).to.equal(newTag.id.toString());
   });
 
@@ -167,7 +167,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
       .join('features', 'organization-features.featureId', 'features.id')
       .where('organizationId', organization.id);
 
-    expect(organizationFeature.length).to.equal(1);
+    expect(organizationFeature).to.have.lengthOf(1);
     expect(organizationFeature[0].key).to.equal(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key);
     expect(
       response.source.data.attributes['features'][ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key].active,
@@ -200,7 +200,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
       .join('features', 'organization-features.featureId', 'features.id')
       .where('organizationId', organization.id);
 
-    expect(organizationFeature.length).to.equal(0);
+    expect(organizationFeature).to.have.lengthOf(0);
     expect(
       response.source.data.attributes['features'][ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key].active,
     ).to.equal(false);

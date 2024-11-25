@@ -28,7 +28,7 @@ describe('Integration | Repository | Target Profile Management | Target Profile 
         .from('target-profile-shares')
         .where('targetProfileId', targetProfile.id);
 
-      expect(result.length).to.equal(1);
+      expect(result).to.have.lengthOf(1);
       expect(result).to.not.deep.include({ organizationId: targetProfile.organizationIdsToDetach[0] });
     });
 
@@ -57,7 +57,7 @@ describe('Integration | Repository | Target Profile Management | Target Profile 
         .from('target-profile-shares')
         .where('targetProfileId', targetProfile.id);
 
-      expect(result.length).to.equal(0);
+      expect(result).to.have.lengthOf(0);
     });
 
     it('should return detached organization ids', async function () {

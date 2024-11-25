@@ -276,7 +276,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(userId);
 
         // then
-        expect(certificationCenterMemberships.length).to.equal(1);
+        expect(certificationCenterMemberships).to.have.lengthOf(1);
         expect(certificationCenterMemberships[0].id).to.equal(notDisabledMembership.id);
       });
     });
@@ -321,7 +321,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         await certificationCenterMembershipRepository.findActiveAdminsByCertificationCenterId(certificationCenterId);
 
       // then
-      expect(certificationCenterMemberships.length).to.equal(2);
+      expect(certificationCenterMemberships).to.have.lengthOf(2);
       expect(certificationCenterMemberships[0].user.email).to.equal('admin1@example.net');
       expect(certificationCenterMemberships[1].user.email).to.equal('admin2@example.net');
     });
@@ -419,7 +419,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         });
 
       // then
-      expect(foundCertificationCenterMemberships.length).to.equal(4);
+      expect(foundCertificationCenterMemberships).to.have.lengthOf(4);
       expect(foundCertificationCenterMemberships[0].role).to.equal('ADMIN');
       expect(foundCertificationCenterMemberships[1].role).to.equal('MEMBER');
       expect(foundCertificationCenterMemberships[2].role).to.equal('MEMBER');
@@ -455,7 +455,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         });
 
       // then
-      expect(foundCertificationCenterMemberships.length).to.equal(1);
+      expect(foundCertificationCenterMemberships).to.have.lengthOf(1);
       expect(foundCertificationCenterMemberships[0].id).to.equal(7);
     });
   });
@@ -888,7 +888,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
           .returning('*')
           .whereNotNull('disabledAt')
           .where({ userId });
-        expect(disabledMemberships.length).to.equal(2);
+        expect(disabledMemberships).to.have.lengthOf(2);
         expect(disabledMemberships).to.deep.include.members(expectedMemberships);
       });
 
@@ -936,7 +936,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
           .returning('*')
           .whereNotNull('disabledAt')
           .andWhere({ userId });
-        expect(disabledMemberships.length).to.equal(2);
+        expect(disabledMemberships).to.have.lengthOf(2);
         expect(disabledMemberships).to.deep.include.members(expectedMemberships);
       });
     });
@@ -978,7 +978,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
           .returning('*')
           .whereNotNull('disabledAt')
           .andWhere({ userId });
-        expect(disabledMemberships.length).to.equal(2);
+        expect(disabledMemberships).to.have.lengthOf(2);
       });
     });
   });

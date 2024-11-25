@@ -66,7 +66,7 @@ describe('Integration | Repository | Target-profile-for-update', function () {
         const targetProfileTubesFromDB = await knex('target-profile_tubes').where({
           targetProfileId: existingTargetProfile.id,
         });
-        expect(targetProfileTubesFromDB).to.have.length(2);
+        expect(targetProfileTubesFromDB).to.have.lengthOf(2);
         // eslint-disable-next-line no-unused-vars
         expect(targetProfileTubesFromDB.map(({ id, ...tube }) => tube)).to.deep.equal([
           {
@@ -108,7 +108,7 @@ describe('Integration | Repository | Target-profile-for-update', function () {
         const targetProfileTubesFromDB = await knex('target-profile_tubes').where({
           targetProfileId: existingTargetProfile.id,
         });
-        expect(targetProfileTubesFromDB).to.have.length(2);
+        expect(targetProfileTubesFromDB).to.have.lengthOf(2);
         // eslint-disable-next-line no-unused-vars
         expect(targetProfileTubesFromDB.map(({ id, ...tube }) => tube)).to.deep.equal([tube1, tube2]);
       });

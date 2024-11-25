@@ -7,7 +7,6 @@ export default class UncompletedReportsInformationStep extends Component {
   @tracked reportToEdit = null;
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
-  @service notifications;
   @service intl;
 
   get certificationReportsAreNotEmpty() {

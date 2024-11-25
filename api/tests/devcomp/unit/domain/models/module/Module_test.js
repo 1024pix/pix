@@ -22,7 +22,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
       expect(module.slug).to.equal(slug);
       expect(module.title).to.equal(title);
       expect(module.transitionTexts).to.equal(transitionTexts);
-      expect(module.grains).to.have.length(grains.length);
+      expect(module.grains).to.have.lengthOf(grains.length);
       expect(module.details).to.deep.equal(details);
     });
 

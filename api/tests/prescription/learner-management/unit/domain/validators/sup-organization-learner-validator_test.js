@@ -21,7 +21,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
     ['studentNumber', 'firstName', 'lastName', 'birthdate', 'organizationId'].forEach((field) => {
       it(`returns an EntityValidationError error if ${field} is missing`, function () {
         const errors = validateSupOrganizationLearner({ ...learner, [field]: undefined });
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceof(EntityValidationError);
         expect(errors[0].key).to.equal(field);
         expect(errors[0].why).to.equal('required');
@@ -45,7 +45,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
     ].forEach((field) => {
       it(`throw an error when ${field} has more than 255 characters`, async function () {
         const errors = validateSupOrganizationLearner({ ...learner, [field]: '1'.repeat(256) });
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceof(EntityValidationError);
         expect(errors[0].key).to.equal(field);
         expect(errors[0].why).to.equal('max_length');
@@ -53,7 +53,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
     });
     it(`throw an error when email has more than 255 characters`, async function () {
       const errors = validateSupOrganizationLearner({ ...learner, email: `${'1'.repeat(256)}@email.com` });
-      expect(errors.length).to.equal(1);
+      expect(errors).to.have.lengthOf(1);
       expect(errors[0]).to.be.an.instanceof(EntityValidationError);
       expect(errors[0].key).to.equal('email');
       expect(errors[0].why).to.equal('email_format');
@@ -64,7 +64,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
     context('when birthdate is not a date', function () {
       it('throws an error', async function () {
         const errors = await validateSupOrganizationLearner({ ...learner, birthdate: '123456' });
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceof(EntityValidationError);
         expect(errors[0].key).to.equal('birthdate');
         expect(errors[0].why).to.equal('date_format');
@@ -74,7 +74,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
     context('when birthdate has not a valid format', function () {
       it('throws an error', function () {
         const errors = validateSupOrganizationLearner({ ...learner, birthdate: '2020/01/01' });
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceof(EntityValidationError);
         expect(errors[0].key).to.equal('birthdate');
         expect(errors[0].why).to.equal('date_format');
@@ -84,7 +84,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
     context('when birthdate is null', function () {
       it('throws an error', function () {
         const errors = validateSupOrganizationLearner({ ...learner, birthdate: null });
-        expect(errors.length).to.equal(1);
+        expect(errors).to.have.lengthOf(1);
         expect(errors[0]).to.be.an.instanceof(EntityValidationError);
         expect(errors[0].key).to.equal('birthdate');
         expect(errors[0].why).to.equal('required');
@@ -94,7 +94,7 @@ describe('Unit | Domain | Sup Organization Learner Validator', function () {
   context('multiple error on the same line', function () {
     it('throw an error with all bad element in the line', function () {
       const errors = validateSupOrganizationLearner({ ...learner, email: 'email', studentNumber: 'é&"' });
-      expect(errors.length).to.equal(2);
+      expect(errors).to.have.lengthOf(2);
       expect(errors[0]).to.be.an.instanceof(EntityValidationError);
       expect(errors[0].key).to.equal('studentNumber');
       expect(errors[0].why).to.equal('student_number_format');

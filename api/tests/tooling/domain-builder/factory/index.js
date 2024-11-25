@@ -93,10 +93,7 @@ import * as buildDataProtectionOfficer from './build-data-protection-officer.js'
 import { buildFeedback } from './build-feedback.js';
 import { buildFinalizedSession } from './build-finalized-session.js';
 import { buildFlashAlgorithmConfiguration } from './build-flash-algorithm-configuration.js';
-import {
-  buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
-  buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
-} from './build-flash-assessment-algorithm-success-rate-handler.js';
+import { buildFlashAssessmentAlgorithmSuccessRateHandlerFixed } from './build-flash-assessment-algorithm-success-rate-handler.js';
 import { buildFramework } from './build-framework.js';
 import { buildHabilitation } from './build-habilitation.js';
 import { buildHint } from './build-hint.js';
@@ -363,7 +360,6 @@ export {
   buildFlashAlgorithmConfiguration,
   buildFlashAssessmentAlgorithm,
   buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
-  buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
   buildFramework,
   buildHint,
   buildJuryCertification,

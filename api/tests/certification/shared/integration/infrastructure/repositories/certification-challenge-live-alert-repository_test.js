@@ -82,7 +82,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
         });
 
         // then
-        expect(liveAlerts).to.have.length(0);
+        expect(liveAlerts).to.have.lengthOf(0);
       });
     });
 
@@ -105,7 +105,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
         });
 
         // then
-        expect(liveAlerts).to.have.length(1);
+        expect(liveAlerts).to.have.lengthOf(1);
         expect(_.pick(liveAlerts[0], ['questionNumber', 'assessmentId'])).to.deep.equal({
           questionNumber,
           assessmentId: assessmentIdWithLiveAlert,
@@ -167,7 +167,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
           });
 
         // then
-        expect(liveAlertValidatedChallengeIds).to.have.length(0);
+        expect(liveAlertValidatedChallengeIds).to.have.lengthOf(0);
       });
     });
 
@@ -306,6 +306,93 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
           challengeId: certificationChallengeLiveAlert.challengeId,
           assessmentId: assessment.id,
         });
+
+        // then
+        expect(liveAlert).to.deep.equal(certificationChallengeLiveAlert);
+      });
+    });
+  });
+
+  describe('getOngoingOrValidatedByChallengeIdAndAssessmentId', function () {
+    const challengeId = 'rec123';
+    const assessmentId = 456;
+
+    describe('when there are no matching live alerts', function () {
+      it('should return null', async function () {
+        // given / when
+        const liveAlert =
+          await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
+            challengeId,
+            assessmentId,
+          });
+
+        // then
+        expect(liveAlert).to.be.null;
+      });
+    });
+
+    describe('when there is a matching validated live alert', function () {
+      it('should return the live alert', async function () {
+        // given
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse.id,
+          userId: certificationCourse.userId,
+        });
+
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.DISMISSED,
+        });
+
+        const certificationChallengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.VALIDATED,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const liveAlert =
+          await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
+            challengeId: certificationChallengeLiveAlert.challengeId,
+            assessmentId: assessment.id,
+          });
+
+        // then
+        expect(liveAlert).to.deep.equal(certificationChallengeLiveAlert);
+      });
+    });
+
+    describe('when there is a matching ongoing validated alert', function () {
+      it('should return the live alert', async function () {
+        // given
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse.id,
+          userId: certificationCourse.userId,
+        });
+
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.DISMISSED,
+        });
+
+        const certificationChallengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.ONGOING,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const liveAlert =
+          await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
+            challengeId: certificationChallengeLiveAlert.challengeId,
+            assessmentId: assessment.id,
+          });
 
         // then
         expect(liveAlert).to.deep.equal(certificationChallengeLiveAlert);

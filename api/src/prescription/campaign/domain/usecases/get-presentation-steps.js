@@ -7,6 +7,7 @@ const getPresentationSteps = async function ({
   locale,
   badgeRepository,
   campaignRepository,
+  campaignParticipationRepository,
   learningContentRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
@@ -15,11 +16,11 @@ const getPresentationSteps = async function ({
   if (campaign.archivedAt) throw new ArchivedCampaignError();
   if (campaign.deletedAt) throw new DeletedCampaignError();
 
-  const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
-    campaign.id,
+  const hasUserAccessToCampaign = await campaignParticipationRepository.findOneByCampaignIdAndUserId({
+    campaignId: campaign.id,
     userId,
-  );
-  if (!hasUserAccessToResult)
+  });
+  if (!hasUserAccessToCampaign)
     throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
 
   const campaignBadges = await badgeRepository.findByCampaignId(campaign.id);

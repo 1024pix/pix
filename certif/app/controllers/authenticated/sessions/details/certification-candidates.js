@@ -7,7 +7,7 @@ import { service } from '@ember/service';
 export default class CertificationCandidatesController extends Controller {
   @service currentUser;
   @service intl;
-  @service notifications;
+  @service pixToast;
   @service fileSaver;
   @service session;
 
@@ -43,7 +43,7 @@ export default class CertificationCandidatesController extends Controller {
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url: this.model.session.urlToDownloadCandidatesImportTemplate, token });
     } catch (err) {
-      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }
 

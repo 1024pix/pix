@@ -8,7 +8,7 @@ const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team.members.actions.select-role.opt
 
 export default class MembersListItem extends Component {
   @service currentUser;
-  @service notifications;
+  @service pixToast;
   @service intl;
   @tracked isEditionMode = false;
 
@@ -73,10 +73,14 @@ export default class MembersListItem extends Component {
     this.isEditionMode = false;
     try {
       await member.save();
-      this.notifications.success(this.intl.t('pages.team.members.notifications.change-member-role.success'));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.team.members.notifications.change-member-role.success'),
+      });
     } catch (e) {
       member.rollbackAttributes();
-      this.notifications.error(this.intl.t('pages.team.members.notifications.change-member-role.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.team.members.notifications.change-member-role.error'),
+      });
     }
   }
 

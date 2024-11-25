@@ -72,7 +72,7 @@ describe('Integration | Infrastructure | Repository | stage-collection-repositor
 
       const stages = result.stages;
 
-      expect(stages).to.have.length(4);
+      expect(stages).to.have.lengthOf(4);
       expect(stages[0].threshold).to.equal(0);
       expect(stages[1].isFirstSkill).to.be.true;
       expect(stages[2].threshold).to.equal(50);
@@ -91,7 +91,7 @@ describe('Integration | Infrastructure | Repository | stage-collection-repositor
 
       const stages = result.stages;
 
-      expect(stages).to.have.length(4);
+      expect(stages).to.have.lengthOf(4);
       expect(stages[0].threshold).to.equal(0);
       expect(stages[1].isFirstSkill).to.be.true;
       expect(stages[2].threshold).to.equal(67);

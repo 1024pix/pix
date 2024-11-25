@@ -20,7 +20,7 @@ describe('Unit | Domain | Services | code generator', function () {
 
       // then
       return promise.then((code) => {
-        expect(code.length).to.equal(9);
+        expect(code).to.have.lengthOf(9);
       });
     });
 

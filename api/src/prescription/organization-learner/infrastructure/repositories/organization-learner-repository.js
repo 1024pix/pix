@@ -47,6 +47,7 @@ async function get({ organizationLearnerId }) {
       'subquery.isCertifiableFromCampaign',
       'subquery.certifiableAtFromCampaign',
       knex.raw('array_remove(ARRAY_AGG("identityProvider"), NULL) AS "authenticationMethods"'),
+      knex.raw('array_remove(ARRAY_AGG(features.key), NULL) as features'),
       'users.email',
       'users.username',
     )
@@ -55,6 +56,12 @@ async function get({ organizationLearnerId }) {
     .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
     .leftJoin('authentication-methods', 'authentication-methods.userId', 'view-active-organization-learners.userId')
     .leftJoin('users', 'view-active-organization-learners.userId', 'users.id')
+    .leftJoin(
+      'organization-learner-features',
+      'view-active-organization-learners.id',
+      'organization-learner-features.organizationLearnerId',
+    )
+    .leftJoin('features', 'organization-learner-features.featureId', 'features.id')
     .groupBy(
       'view-active-organization-learners.id',
       'view-active-organization-learners.firstName',

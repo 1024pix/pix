@@ -19,6 +19,11 @@ export default class ResultsRoute extends Route {
         campaignId: campaign.id,
         userId: user.id,
       });
+
+      const questResults = await this.store.query('quest-result', {
+        campaignParticipationId: campaignParticipationResult.id,
+      });
+
       const trainings = await campaignParticipation.hasMany('trainings').reload();
 
       // Reload the user to display my trainings link on the navbar menu
@@ -26,11 +31,10 @@ export default class ResultsRoute extends Route {
         await this.currentUser.load();
       }
 
-      return { campaign, campaignParticipationResult, trainings };
+      return { campaign, campaignParticipationResult, trainings, questResults };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {
         this.router.transitionTo('campaigns.entry-point', campaign.code);
-        return;
       } else throw error;
     }
   }

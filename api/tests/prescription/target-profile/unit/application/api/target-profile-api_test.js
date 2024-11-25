@@ -82,7 +82,7 @@ describe('Unit | API | TargetProfile', function () {
       const result = await targetProfileApi.getByOrganizationId(notExistingOrganizationId);
 
       // then
-      expect(result.length).to.equal(0);
+      expect(result).to.have.lengthOf(0);
     });
   });
 });

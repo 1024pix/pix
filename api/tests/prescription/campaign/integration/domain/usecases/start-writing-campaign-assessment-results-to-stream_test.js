@@ -682,7 +682,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         const csvFirstLineCells = csvLines[0].split(';');
 
         // then
-        expect(csvLines.length).to.equals(4);
+        expect(csvLines).to.have.lengthOf(4);
         expect(csvFirstLineCells[0]).to.equal(expectedCsvFirstCell);
         expect(csvLines[1]).to.equals(csvSecondLine);
         expect(csvLines[2]).to.equal(csvThirdLine);

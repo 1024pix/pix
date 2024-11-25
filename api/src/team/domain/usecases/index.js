@@ -2,7 +2,6 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as sharedMembershipRepository from '../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
@@ -14,6 +13,7 @@ import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import { certificationCenterInvitedUserRepository } from '../../infrastructure/repositories/certification-center-invited-user.repository.js';
 import { certificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
+import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
 import { organizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
 import { organizationInvitedUserRepository } from '../../infrastructure/repositories/organization-invited-user.repository.js';
 import { prescriberRepository } from '../../infrastructure/repositories/prescriber-repository.js';

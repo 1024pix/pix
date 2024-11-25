@@ -155,7 +155,7 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
 
       // then
       const subscriptions = await knex('certification-subscriptions');
-      expect(subscriptions.length).to.equal(4);
+      expect(subscriptions).to.have.lengthOf(4);
       sinon.assert.match(subscriptions[0], {
         certificationCandidateId: scoCandidateAlreadySaved1.id,
         complementaryCertificationId: null,

@@ -65,7 +65,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
-            expect(errors.invalidAttributes).to.have.length(2);
+            expect(errors.invalidAttributes).to.have.lengthOf(2);
             expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });

@@ -8,7 +8,7 @@ import ENV from 'pix-certif/config/environment';
 export default class AuthenticatedTeamInviteController extends Controller {
   @service currentUser;
   @service intl;
-  @service notifications;
+  @service pixToast;
   @service router;
   @service store;
 
@@ -32,16 +32,14 @@ export default class AuthenticatedTeamInviteController extends Controller {
         email: emails[0],
       });
 
-      this.notifications.success(message);
+      this.pixToast.sendSuccessNotification({ message });
       await this.router.transitionTo('authenticated.team.list.invitations');
     } catch (responseError) {
       if (responseError.errors) {
         const errorMessage = this._handleApiError(responseError);
-        this.notifications.error(errorMessage);
+        this.pixToast.sendErrorNotification({ message: errorMessage });
       } else {
-        // eslint-disable-next-line no-console
-        console.error(responseError);
-        this.notifications.error(this.intl.t('common.form-errors.default'));
+        this.pixToast.sendErrorNotification({ message: this.intl.t('common.form-errors.default') });
       }
     } finally {
       this.isLoading = false;

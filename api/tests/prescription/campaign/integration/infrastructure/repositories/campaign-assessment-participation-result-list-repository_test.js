@@ -1302,7 +1302,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
       });
 
       it('return Choupette participant when we search part its firstname', async function () {
@@ -1338,7 +1338,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
         expect(participations[0].firstName).to.equal('Choupette');
       });
 
@@ -1364,7 +1364,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
         expect(participations[0].firstName).to.equal('Choupette');
       });
 
@@ -1390,7 +1390,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
         expect(participations[0].firstName).to.equal('Choupette');
       });
 
@@ -1426,7 +1426,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
         expect(participations[0].lastName).to.equal('Eurasier');
       });
 
@@ -1462,7 +1462,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
         expect(participations[0].firstName).to.equal('Choupette');
       });
 
@@ -1500,7 +1500,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(1);
+        expect(participations).to.have.lengthOf(1);
         expect(participations[0].lastName).to.equal('Eurasier');
       });
 
@@ -1536,7 +1536,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         // then
-        expect(participations.length).to.equal(2);
+        expect(participations).to.have.lengthOf(2);
         expect(participations[0].firstName).to.equal('Salto');
         expect(participations[1].firstName).to.equal('Saphira');
       });

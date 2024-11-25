@@ -76,11 +76,6 @@ const challengeDatasource = datasource.extend({
     return flashChallenges.filter((challengeData) => _challengeHasStatus(challengeData, [VALIDATED_CHALLENGE]));
   },
 
-  async findOperativeFlashCompatible(locale) {
-    const flashChallenges = await this.findFlashCompatible({ locale });
-    return flashChallenges.filter((challengeData) => _challengeHasStatus(challengeData, OPERATIVE_CHALLENGES));
-  },
-
   async findFlashCompatible({ locale, useObsoleteChallenges }) {
     const challenges = await this.listByLocale(locale);
 

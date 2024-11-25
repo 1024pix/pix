@@ -20,7 +20,7 @@ describe('Integration | Scripts | generate-campaign-with-participants', function
     // then
     const participants = await knex('campaign-participations');
 
-    expect(participants.length).to.equal(2);
+    expect(participants).to.have.lengthOf(2);
   });
 
   it('should create a assessment campaign with participants', async function () {
@@ -41,6 +41,6 @@ describe('Integration | Scripts | generate-campaign-with-participants', function
     // then
     const participants = await knex('campaign-participations');
 
-    expect(participants.length).to.equal(2);
+    expect(participants).to.have.lengthOf(2);
   });
 });

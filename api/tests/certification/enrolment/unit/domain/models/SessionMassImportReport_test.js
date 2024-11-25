@@ -14,7 +14,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionMassImport
         sessionMassImportReport.addErrorReports([1, 2, 3]);
 
         // then
-        expect(sessionMassImportReport.errorReports.length).to.equal(4);
+        expect(sessionMassImportReport.errorReports).to.have.lengthOf(4);
       });
     });
 
@@ -27,7 +27,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionMassImport
         sessionMassImportReport.addErrorReports();
 
         // then
-        expect(sessionMassImportReport.errorReports.length).to.equal(1);
+        expect(sessionMassImportReport.errorReports).to.have.lengthOf(1);
       });
     });
   });

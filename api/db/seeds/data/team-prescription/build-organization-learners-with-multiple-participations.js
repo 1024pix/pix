@@ -87,16 +87,16 @@ async function _buildMultipleParticipationsForPROASSMULCampaign(databaseBuilder)
   });
 
   const secondUser = await databaseBuilder.factory.buildUser.withRawPassword({
-    firstName: 'Jean-Philippe',
-    lastName: 'Errvitemonslip',
-    email: 'jean-philippe-errvitemonslip@example.net',
+    firstName: 'Tata',
+    lastName: 'Yoyo',
+    email: 'tata-yoyo@example.net',
     cgu: true,
     lang: 'fr',
   });
 
   const secondOrganizationLearner = await databaseBuilder.factory.buildOrganizationLearner({
-    firstName: 'Jean-Philippe',
-    lastName: 'Errvitemonslip',
+    firstName: 'Tata',
+    lastName: 'Yoyo',
     userId: secondUser.id,
     organizationId: PRO_ORGANIZATION_ID,
   });

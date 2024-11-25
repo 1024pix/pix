@@ -42,7 +42,7 @@ describe('Unit | Organizational Entities | Domain | Model | Organization', funct
 
       // then
       expect(organization.id).to.equal(1);
-      expect(organization.targetProfileShares.length).to.equal(1);
+      expect(organization.targetProfileShares).to.have.lengthOf(1);
     });
 
     it('should build an Organization with default values for credit when not specified', function () {

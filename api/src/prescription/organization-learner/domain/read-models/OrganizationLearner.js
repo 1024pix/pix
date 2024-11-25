@@ -16,6 +16,7 @@ class OrganizationLearner {
     organizationId,
     certifiableAtFromLearner,
     userId,
+    features,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -27,6 +28,7 @@ class OrganizationLearner {
     this.authenticationMethods = authenticationMethods;
     this.organizationId = organizationId;
     this.userId = userId;
+    this.features = features;
 
     this._buildCertificability({
       isCertifiableFromCampaign,

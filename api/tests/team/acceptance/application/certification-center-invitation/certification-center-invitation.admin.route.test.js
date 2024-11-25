@@ -50,7 +50,7 @@ describe('Acceptance | Team | Application | Route | Admin | Certification Center
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.length).to.equal(2);
+      expect(response.result.data).to.have.lengthOf(2);
       expect(response.result.data).to.deep.have.members([
         {
           type: 'certification-center-invitations',

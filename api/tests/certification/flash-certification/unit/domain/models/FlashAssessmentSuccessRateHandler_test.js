@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
         value: 0.8,
       };
 
-      flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.createFixed(fixedConfig);
+      flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.create(fixedConfig);
     });
 
     describe('when currentIndex is inside the application range', function () {
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
           value: configSuccessRate,
         };
 
-        flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.createFixed(fixedConfig);
+        flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.create(fixedConfig);
       });
 
       it('should return the fixed value', function () {
@@ -56,28 +56,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
         const successRate = flashAssessmentSuccessRateHandler.getMinimalSuccessRate(questionIndex);
 
         expect(successRate).to.equal(configSuccessRate);
-      });
-    });
-
-    describe('when strategy is linear', function () {
-      let flashAssessmentSuccessRateHandler;
-
-      beforeEach(function () {
-        const linearConfig = {
-          startingChallengeIndex: 0,
-          endingChallengeIndex: 4,
-          startingValue: 0.8,
-          endingValue: 0.6,
-        };
-
-        flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.createLinear(linearConfig);
-      });
-
-      it('should return the computed linear value', function () {
-        const questionIndex = 2;
-        const successRate = flashAssessmentSuccessRateHandler.getMinimalSuccessRate(questionIndex);
-
-        expect(successRate).to.equal(0.7);
       });
     });
   });
@@ -99,25 +77,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
         const successRate = flashAssessmentSuccessRateHandler.getMinimalSuccessRate(questionIndex);
 
         expect(successRate).to.equal(configSuccessRate);
-      });
-    });
-
-    describe('when type is linear', function () {
-      it('should return the linear value', function () {
-        const linearConfig = {
-          type: 'linear',
-          startingChallengeIndex: 0,
-          endingChallengeIndex: 2,
-          startingValue: 0.8,
-          endingValue: 0.6,
-        };
-
-        const flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.create(linearConfig);
-
-        const questionIndex = 1;
-        const successRate = flashAssessmentSuccessRateHandler.getMinimalSuccessRate(questionIndex);
-
-        expect(successRate).to.equal(0.7);
       });
     });
   });

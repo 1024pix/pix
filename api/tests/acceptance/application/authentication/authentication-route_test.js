@@ -94,7 +94,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           userId: user.id,
           externalIdentifier: 'SAMLJACKSONID',
         });
-        expect(authenticationMethods.length).to.equal(1);
+        expect(authenticationMethods).to.have.lengthOf(1);
         expect(authenticationMethods[0].authenticationComplement).to.deep.equal({
           firstName: 'saml',
           lastName: 'jackson',

@@ -90,7 +90,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | add-tags-to
 
         // then
         const organizationTagsInDB = await knex('organization-tags');
-        expect(organizationTagsInDB.length).to.equal(3);
+        expect(organizationTagsInDB).to.have.lengthOf(3);
         expect(await knex('organization-tags').where({ organizationId: firstOrganizationId, tagId: firstTag.id })).to
           .exist;
         expect(await knex('organization-tags').where({ organizationId: secondOrganizationId, tagId: secondTag.id })).to

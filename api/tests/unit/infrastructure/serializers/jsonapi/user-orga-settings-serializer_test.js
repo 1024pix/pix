@@ -154,7 +154,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
 
       // then
       expect(json.data.relationships.user).to.be.undefined;
-      expect(json.included.length).to.equal(1);
+      expect(json.included).to.have.lengthOf(1);
       expect(json.included[0].type).to.not.equal('users');
     });
   });

@@ -29,6 +29,24 @@ describe('Integration | Application | Route | campaignParticipationRouter', func
     sandbox.restore();
   });
 
+  describe('#getUserCampaignParticipationToCampaign', function () {
+    context('When Authenticated user mismatch requested user', function () {
+      beforeEach(function () {
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+      });
+
+      it('should return a 403 HTTP response', async function () {
+        // when
+        const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/campaign-participations');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
   describe('#getUserCampaignAssessmentResult', function () {
     context('Error cases', function () {
       it('should not called controller when user not authenticated', async function () {

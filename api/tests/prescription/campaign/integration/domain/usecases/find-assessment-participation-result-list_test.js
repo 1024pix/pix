@@ -41,7 +41,7 @@ describe('Integration | UseCase | find-assessment-participation-result-list', fu
         page,
       });
 
-      expect(participations.length).to.equal(1);
+      expect(participations).to.have.lengthOf(1);
     });
   });
 });

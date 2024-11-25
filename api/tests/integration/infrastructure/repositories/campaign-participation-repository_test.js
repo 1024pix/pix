@@ -2,7 +2,6 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { constants } from '../../../../src/shared/domain/constants.js';
-import { Campaign } from '../../../../src/shared/domain/models/Campaign.js';
 import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
@@ -315,82 +314,6 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       expect(assessmentIds).to.exactlyContain(expectedAssessmentIds);
-    });
-  });
-
-  describe('#findLatestOngoingByUserId', function () {
-    let userId;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-    });
-
-    it('should only retrieve participations from user', async function () {
-      const campaignId = databaseBuilder.factory.buildCampaign({
-        createdAt: new Date('2000-01-01T10:00:00Z'),
-        archivedAt: null,
-      }).id;
-      const otherUserId = databaseBuilder.factory.buildUser().id;
-
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        campaignId,
-      });
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId: otherUserId,
-        campaignId,
-      });
-      await databaseBuilder.commit();
-
-      const latestCampaignParticipations = await campaignParticipationRepository.findLatestOngoingByUserId(userId);
-
-      expect(latestCampaignParticipations.length).to.equal(1);
-    });
-
-    it('should retrieve the most recent campaign participations where the campaign is not archived', async function () {
-      const campaignId = databaseBuilder.factory.buildCampaign({
-        createdAt: new Date('2000-01-01T10:00:00Z'),
-        archivedAt: null,
-      }).id;
-      const moreRecentCampaignId = databaseBuilder.factory.buildCampaign({
-        createdAt: new Date('2000-02-01T10:00:00Z'),
-        archivedAt: null,
-      }).id;
-      const mostRecentButArchivedCampaignId = databaseBuilder.factory.buildCampaign({
-        createdAt: new Date('2001-03-01T10:00:00Z'),
-        archivedAt: new Date('2000-09-01T10:00:00Z'),
-      }).id;
-
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        createdAt: new Date('2000-04-01T10:00:00Z'),
-        campaignId: moreRecentCampaignId,
-      });
-      const expectedCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        createdAt: new Date('2000-07-01T10:00:00Z'),
-        campaignId,
-      }).id;
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        createdAt: new Date('2001-08-01T10:00:00Z'),
-        campaignId: mostRecentButArchivedCampaignId,
-      });
-
-      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId: expectedCampaignParticipationId });
-      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId: expectedCampaignParticipationId });
-
-      await databaseBuilder.commit();
-
-      const latestCampaignParticipations = await campaignParticipationRepository.findLatestOngoingByUserId(userId);
-      const [latestCampaignParticipation1, latestCampaignParticipation2] = latestCampaignParticipations;
-
-      expect(latestCampaignParticipation1.createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
-      expect(latestCampaignParticipation2.createdAt).to.deep.equal(new Date('2000-04-01T10:00:00Z'));
-      expect(latestCampaignParticipation1.assessments).to.be.instanceOf(Array);
-      expect(latestCampaignParticipation1.campaign).to.be.instanceOf(Campaign);
-      expect(latestCampaignParticipations).to.have.lengthOf(2);
     });
   });
 

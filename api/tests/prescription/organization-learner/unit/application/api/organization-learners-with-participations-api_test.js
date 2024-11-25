@@ -31,7 +31,7 @@ describe('Unit | API | Organization Learner With Participations', function () {
       // then
       expect(useCaseStub.calledOnce).to.be.true;
 
-      expect(apiResponse.length).to.equal(2);
+      expect(apiResponse).to.have.lengthOf(2);
       expect(apiResponse[0]).to.be.instanceOf(OrganizationLearnerWithParticipations);
       expect(apiResponse[1]).to.be.instanceOf(OrganizationLearnerWithParticipations);
       expect(apiResponse).to.deep.have.members([

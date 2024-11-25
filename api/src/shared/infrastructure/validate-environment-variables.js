@@ -8,6 +8,7 @@ const schema = Joi.object({
   BREVO_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID: Joi.number().optional(),
   BREVO_ORGANIZATION_INVITATION_TEMPLATE_ID: Joi.number().optional(),
   BREVO_PASSWORD_RESET_TEMPLATE_ID: Joi.number().optional(),
+  BREVO_SELF_ACCOUNT_DELETION_TEMPLATE_ID: Joi.number().optional(),
   CONTAINER_VERSION: Joi.string().optional(),
   CPF_EXPORTS_STORAGE_ACCESS_KEY_ID: Joi.string().optional(),
   CPF_EXPORTS_STORAGE_BUCKET_NAME: Joi.string().optional(),

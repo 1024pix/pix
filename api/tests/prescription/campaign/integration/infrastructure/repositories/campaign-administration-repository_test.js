@@ -592,7 +592,7 @@ describe('Integration | Repository | Campaign Administration', function () {
 
       // then
       const rowCountAfterUpdate = await knex.select('id').from('campaigns');
-      expect(rowCountAfterUpdate.length).to.equal(rowsCountBeforeUpdate.length);
+      expect(rowCountAfterUpdate).to.have.lengthOf(rowsCountBeforeUpdate.length);
     });
 
     it('should only update model in database', async function () {

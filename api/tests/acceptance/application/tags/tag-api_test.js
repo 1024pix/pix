@@ -104,7 +104,7 @@ describe('Acceptance | Route | tag-router', function () {
 
         // then
         expect(statusCode).to.equal(200);
-        expect(result.data.length).to.equal(3);
+        expect(result.data).to.have.lengthOf(3);
       });
     });
 

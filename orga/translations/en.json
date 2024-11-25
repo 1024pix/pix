@@ -348,6 +348,7 @@
     },
     "main": {
       "aria-label": "Main navigation",
+      "attestations": "Attestations",
       "campaigns": "Campaigns",
       "certifications": "Certifications",
       "documentation": "Documentation",
@@ -409,6 +410,13 @@
         "empty": "Pending results",
         "row-title": "Competence"
       }
+    },
+    "attestations": {
+      "title": "Attestations",
+      "description": "Select the class for which you wish to export attestations in PDF format.",
+      "download-attestations-button": "Download",
+      "placeholder": "-- Select --",
+      "select-label": "Select one or more classes"
     },
     "campaign": {
       "actions": {
@@ -1270,6 +1278,7 @@
         "title": "List of submitted profiles",
         "caption": "This table contains the list of participants who have shared their profiles. It indicates for each participant their last name, first name, the sent date, the Pix score, the evolution, the certifiability status and the number of certifiable competences.",
         "column": {
+          "ariaSharedProfileCount": "Number of profiles shared",
           "certifiable": "Eligible for certification",
           "competences-certifiables": "Competences eligible for certification",
           "evolution": "Evolution",
@@ -1282,7 +1291,8 @@
           "sending-date": {
             "label": "Sent on",
             "on-hold": "Pending"
-          }
+          },
+          "sharedProfileCount": "No. profiles shared"
         },
         "empty": "No profiles yet",
         "evolution": {

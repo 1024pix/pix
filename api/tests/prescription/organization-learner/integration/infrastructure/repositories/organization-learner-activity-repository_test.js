@@ -24,14 +24,14 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       //when
       const organizationLearnerActivity = await organizationLearnerActivityRepository.get(organizationLearnerId);
       //then
-      expect(organizationLearnerActivity.participations.length).to.equal(0);
+      expect(organizationLearnerActivity.participations).to.have.lengthOf(0);
     });
 
     it('Should return an activity with an empty participation list when organization learner does not exist ', async function () {
       //given //when
       const organizationLearnerActivity = await organizationLearnerActivityRepository.get(404);
       //then
-      expect(organizationLearnerActivity.participations.length).to.equal(0);
+      expect(organizationLearnerActivity.participations).to.have.lengthOf(0);
     });
 
     it('Should return an activity with all related attributes', async function () {
@@ -102,7 +102,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
 
       //then
-      expect(participations.length).to.equal(1);
+      expect(participations).to.have.lengthOf(1);
       expect(participations[0].id).to.equal(1);
     });
 
@@ -125,7 +125,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
 
       //then
-      expect(participations.length).to.equal(1);
+      expect(participations).to.have.lengthOf(1);
       expect(participations[0].id).to.equal(1);
     });
 
@@ -148,7 +148,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
 
       //then
-      expect(participations.length).to.equal(1);
+      expect(participations).to.have.lengthOf(1);
       expect(participations[0].id).to.equal(1);
     });
 

@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class SessionsFinalizeRoute extends Route {
-  @service notifications;
+  @service pixToast;
   @service currentUser;
   @service store;
   @service router;
@@ -21,14 +21,16 @@ export default class SessionsFinalizeRoute extends Route {
 
       return session;
     } catch (responseError) {
-      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
       this.router.transitionTo('authenticated.sessions.details', session_id);
     }
   }
 
   async afterModel(model, transition) {
     if (model.isFinalized) {
-      this.notifications.error(this.intl.t('common.api-error-messages.SESSION_ALREADY_FINALIZED'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('common.api-error-messages.SESSION_ALREADY_FINALIZED'),
+      });
 
       transition.abort();
     }

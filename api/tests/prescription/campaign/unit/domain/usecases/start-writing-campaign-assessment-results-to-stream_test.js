@@ -638,7 +638,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvLines = csv.split('\n');
 
     // then
-    expect(csvLines).to.have.length(3);
+    expect(csvLines).to.have.lengthOf(3);
     expect(csvLines[0]).equal(csvHeaderExpected);
     expect(csvLines[1]).equal(csvParticipantResultExpected);
     expect(csvLines[2]).equal('');

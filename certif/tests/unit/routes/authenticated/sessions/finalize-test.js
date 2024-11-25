@@ -41,7 +41,7 @@ module('Unit | Route | authenticated/sessions/finalize', function (hooks) {
 
     hooks.beforeEach(function () {
       transition = { abort: sinon.stub() };
-      route.notifications.error = sinon.stub();
+      route.pixToast.sendErrorNotification = sinon.stub();
     });
 
     module('when model is already finalized', function (hooks) {
@@ -63,7 +63,7 @@ module('Unit | Route | authenticated/sessions/finalize', function (hooks) {
         await route.afterModel(model, transition);
 
         // then
-        sinon.assert.calledOnce(route.notifications.error);
+        sinon.assert.calledOnce(route.pixToast.sendErrorNotification);
         assert.ok(route);
       });
     });
@@ -87,7 +87,7 @@ module('Unit | Route | authenticated/sessions/finalize', function (hooks) {
         await route.afterModel(model, transition);
 
         // then
-        sinon.assert.notCalled(route.notifications.error);
+        sinon.assert.notCalled(route.pixToast.sendErrorNotification);
         assert.ok(route);
       });
     });

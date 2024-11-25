@@ -1,6 +1,6 @@
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../../../../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
-import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { DataProtectionOfficer } from '../../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
+import * as dataProtectionOfficerRepository from '../../../../src/organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-certification-center-data-protection-officer-information', function () {

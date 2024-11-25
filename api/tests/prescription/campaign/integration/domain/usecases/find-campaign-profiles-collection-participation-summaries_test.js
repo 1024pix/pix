@@ -38,7 +38,7 @@ describe('Integration | UseCase | find-campaign-profiles-collection-participatio
         campaignId,
         filters: { search: 'Tonari N' },
       });
-      expect(data.length).to.equal(1);
+      expect(data).to.have.lengthOf(1);
     });
   });
 });

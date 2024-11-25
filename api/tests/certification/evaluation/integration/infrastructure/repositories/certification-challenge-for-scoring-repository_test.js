@@ -22,7 +22,7 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeForS
       it('should return an empty array', async function () {
         const challenges = await getByCertificationCourseId({ certificationCourseId });
 
-        expect(challenges.length).to.equal(0);
+        expect(challenges).to.have.lengthOf(0);
       });
     });
 
@@ -59,7 +59,7 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeForS
 
         const challenges = await getByCertificationCourseId({ certificationCourseId });
 
-        expect(challenges.length).to.equal(3);
+        expect(challenges).to.have.lengthOf(3);
         expect(challenges[0]).to.be.instanceOf(CertificationChallengeForScoring);
         expect(challenges[0].id).to.equal('challenge_id_1');
         expect(challenges[1].id).to.equal('challenge_id_2');

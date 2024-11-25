@@ -87,11 +87,11 @@ class TemporaryStorage {
       },
 
       increment(key) {
-        return storage.increment({ key: prefix + key });
+        return storage.increment(prefix + key);
       },
 
       decrement(key) {
-        return storage.decrement({ key: prefix + key });
+        return storage.decrement(prefix + key);
       },
 
       ttl(key) {

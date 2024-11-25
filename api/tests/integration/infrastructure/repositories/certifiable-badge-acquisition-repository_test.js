@@ -227,7 +227,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           });
 
           // then
-          expect(certifiableBadgesAcquiredByUser.length).to.equal(2);
+          expect(certifiableBadgesAcquiredByUser).to.have.lengthOf(2);
           expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2', 'level-3']);
         });
 
@@ -300,7 +300,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             });
 
             // then
-            expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+            expect(certifiableBadgesAcquiredByUser).to.have.lengthOf(1);
             expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
             expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(true);
           });
@@ -358,7 +358,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             });
 
             // then
-            expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+            expect(certifiableBadgesAcquiredByUser).to.have.lengthOf(1);
             expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
             expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(false);
           });
@@ -398,7 +398,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           });
 
           // then
-          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+          expect(certifiableBadgesAcquiredByUser).to.have.lengthOf(1);
           expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2']);
         });
       });

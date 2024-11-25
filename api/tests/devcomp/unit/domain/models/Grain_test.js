@@ -17,7 +17,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
       // then
       expect(grain.id).to.equal(id);
       expect(grain.title).to.equal(title);
-      expect(grain.components).to.have.length(components.length);
+      expect(grain.components).to.have.lengthOf(components.length);
     });
 
     describe('if a grain does not have an id', function () {

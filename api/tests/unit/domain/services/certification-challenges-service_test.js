@@ -481,7 +481,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
         // then
         const skillsForChallenges = _.uniq(_.map(certificationChallenges, 'associatedSkillName'));
-        expect(skillsForChallenges.length).to.equal(expectedSkills.length);
+        expect(skillsForChallenges).to.have.lengthOf(expectedSkills.length);
       });
     });
 
@@ -1286,7 +1286,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(8);
+      expect(certificationChallengesForPlus).to.have.lengthOf(8);
     });
 
     it('should preferably pick non answered challenges', async function () {
@@ -1471,7 +1471,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(8);
+      expect(certificationChallengesForPlus).to.have.lengthOf(8);
     });
 
     it('should prioritize on hardest skill per area', async function () {
@@ -1812,7 +1812,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(4);
+      expect(certificationChallengesForPlus).to.have.lengthOf(4);
     });
 
     it('should return an empty array when there is only challenges from origin Pix', async function () {
@@ -2089,7 +2089,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(7);
+      expect(certificationChallengesForPlus).to.have.lengthOf(7);
     });
 
     it('should only consider directly validated skill', async function () {
@@ -2252,7 +2252,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(6);
+      expect(certificationChallengesForPlus).to.have.lengthOf(6);
     });
 
     context('when there is no specific referential', function () {
@@ -2443,7 +2443,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           ),
         );
         expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-        expect(certificationChallengesForPlus).to.have.length(8);
+        expect(certificationChallengesForPlus).to.have.lengthOf(8);
       });
     });
   });

@@ -911,4 +911,158 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       ]);
     });
   });
+
+  describe('#get isComplementaryOnly', function () {
+    it('should return true if challenges are only complementary', function () {
+      //given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+            certifiableBadgeKey: 'TOTO',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec456',
+            certifiableBadgeKey: 'TOTO',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec789',
+            certifiableBadgeKey: 'TOTO',
+          }),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec789',
+          }),
+        ],
+      });
+
+      // when
+      const isComplementaryOnly = certificationAssessment.isComplementaryOnly;
+
+      // then
+      expect(isComplementaryOnly).to.be.true;
+    });
+
+    it('should return false if challenges are not complementary', function () {
+      //given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+            certifiableBadgeKey: null,
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec456',
+            certifiableBadgeKey: null,
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec789',
+            certifiableBadgeKey: null,
+          }),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec789',
+          }),
+        ],
+      });
+
+      // when
+      const isComplementaryOnly = certificationAssessment.isComplementaryOnly;
+
+      // then
+      expect(isComplementaryOnly).to.be.false;
+    });
+  });
+
+  describe('#get isScoringBlockedDueToComplementaryOnlyChallenges', function () {
+    it('should return true if challenges are only complementary', function () {
+      //given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+            certifiableBadgeKey: 'TOTO',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec456',
+            certifiableBadgeKey: 'TOTO',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec789',
+            certifiableBadgeKey: 'TOTO',
+          }),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec789',
+          }),
+        ],
+      });
+
+      // when
+      const isScoringBlockedDueToComplementaryOnlyChallenges =
+        certificationAssessment.isScoringBlockedDueToComplementaryOnlyChallenges;
+
+      // then
+      expect(isScoringBlockedDueToComplementaryOnlyChallenges).to.be.true;
+    });
+
+    it('should return false if challenges are not complementary', function () {
+      //given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+            certifiableBadgeKey: null,
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec456',
+            certifiableBadgeKey: null,
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec789',
+            certifiableBadgeKey: null,
+          }),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec789',
+          }),
+        ],
+      });
+
+      // when
+      const isScoringBlockedDueToComplementaryOnlyChallenges =
+        certificationAssessment.isScoringBlockedDueToComplementaryOnlyChallenges;
+
+      // then
+      expect(isScoringBlockedDueToComplementaryOnlyChallenges).to.be.false;
+    });
+  });
 });

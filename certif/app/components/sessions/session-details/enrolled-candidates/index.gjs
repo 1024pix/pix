@@ -27,7 +27,7 @@ export default class EnrolledCandidates extends Component {
   @service store;
   @service intl;
   @service currentUser;
-  @service notifications;
+  @service pixToast;
   @service featureToggles;
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
@@ -51,18 +51,19 @@ export default class EnrolledCandidates extends Component {
 
   @action
   async deleteCertificationCandidate(certificationCandidate) {
-    this.notifications.clearAll();
     const sessionId = this.args.sessionId;
 
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
-      this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`),
+      });
     } catch (error) {
       let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-unknown`);
       if (get(error, 'errors[0].code') === 403) {
         errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-already-in`);
       }
-      this.notifications.error(errorText);
+      this.pixToast.sendErrorNotification({ message: errorText });
     }
   }
 
@@ -133,10 +134,14 @@ export default class EnrolledCandidates extends Component {
     try {
       const adapter = this.store.adapterFor('certification-candidate');
       await adapter.updateRecord({ candidate: this.certificationCandidateInEditModal, sessionId: this.args.sessionId });
-      this.notifications.success(this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.success'));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.success'),
+      });
       this.closeEditCandidateModal();
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.error'),
+      });
     } finally {
       this.args.reloadCertificationCandidate();
     }
@@ -149,7 +154,6 @@ export default class EnrolledCandidates extends Component {
 
   @action
   async saveCertificationCandidate(certificationCandidateData) {
-    this.notifications.clearAll();
     const { certificationCandidate, subscriptions } =
       this._createCertificationCandidateRecord(certificationCandidateData);
 
@@ -163,7 +167,9 @@ export default class EnrolledCandidates extends Component {
         adapterOptions: { registerToSession: true, sessionId: this.args.sessionId, subscriptions },
       });
       this.args.reloadCertificationCandidate();
-      this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`),
+      });
       return true;
     } catch (errorResponse) {
       const status = get(errorResponse, 'errors[0].status');
@@ -268,7 +274,7 @@ export default class EnrolledCandidates extends Component {
 
   _handleSavingError({ errorText, certificationCandidate }) {
     const error = errorText ?? this.intl.t(`common.api-error-messages.internal-server-error`);
-    this.notifications.error(error);
+    this.pixToast.sendErrorNotification({ message: error });
     certificationCandidate.deleteRecord();
   }
 

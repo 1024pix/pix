@@ -88,6 +88,11 @@
           &:active {
             background: var(--pix-error-100);
           }
+
+          &:focus,
+          &:focus-visible {
+            outline: var(--pix-error-500) solid var(--button-border-size-hover);
+          }
         }
 
         &--almost {
@@ -105,6 +110,11 @@
           &:active {
             background: var(--pix-warning-100);
           }
+
+          &:focus,
+          &:focus-visible {
+            outline: var(--pix-warning-900) solid var(--button-border-size-hover);
+          }
         }
 
         &--yes {
@@ -121,6 +131,11 @@
 
           &:active {
             background: var(--pix-success-100);
+          }
+
+          &:focus,
+          &:focus-visible {
+            outline: var(--pix-success-700) solid var(--button-border-size-hover);
           }
         }
       }

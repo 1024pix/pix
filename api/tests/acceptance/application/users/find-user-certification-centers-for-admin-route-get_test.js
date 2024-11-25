@@ -39,7 +39,7 @@ describe('Acceptance | Route | Users', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data).to.be.instanceOf(Array);
-      expect(response.result.data).to.have.length(1);
+      expect(response.result.data).to.have.lengthOf(1);
       expect(response.result.data[0]).to.have.property('id', certificationCenterMembership.id.toString());
     });
   });

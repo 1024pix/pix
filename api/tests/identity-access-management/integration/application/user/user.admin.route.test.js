@@ -196,4 +196,74 @@ describe('Integration | Identity Access Management | Application | Route | Admin
       expect(response.statusCode).to.equal(400);
     });
   });
+
+  describe('POST /api/admin/users/{id}/anonymize', function () {
+    it('returns 200 when user role is "SUPER_ADMIN"', async function () {
+      // given
+      sinon.stub(userAdminController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(200));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      // when
+      const { statusCode } = await httpTestServer.request('POST', '/api/admin/users/1/anonymize');
+
+      // then
+      expect(statusCode).to.equal(200);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+      sinon.assert.calledOnce(userAdminController.anonymizeUser);
+    });
+
+    it('returns 200 when user role is "SUPPORT"', async function () {
+      // given
+      sinon.stub(userAdminController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(200));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
+
+      // when
+      const { statusCode } = await httpTestServer.request('POST', '/api/admin/users/1/anonymize');
+
+      // then
+      expect(statusCode).to.equal(200);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+      sinon.assert.calledOnce(userAdminController.anonymizeUser);
+    });
+
+    it('returns 400 when id is not a number', async function () {
+      // when
+      const { statusCode, payload } = await httpTestServer.request('POST', '/api/admin/users/wrongId/anonymize');
+
+      // then
+      expect(statusCode).to.equal(400);
+      expect(JSON.parse(payload).errors[0].detail).to.equal('"id" must be a number');
+    });
+
+    it(`returns 403 when user don't have access (CERTIF | METIER)`, async function () {
+      // given
+      sinon.stub(userAdminController, 'anonymizeUser').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
+      const payload = { data: { attributes: payloadAttributes } };
+
+      // when
+      const result = await httpTestServer.request('POST', '/api/admin/users/1/anonymize', payload);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+      sinon.assert.notCalled(userAdminController.anonymizeUser);
+    });
+  });
 });

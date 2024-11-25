@@ -59,7 +59,7 @@ describe('Integration | UseCase | find-user-campaign-participation-overviews_tes
       });
 
       // then
-      expect(result.campaignParticipationOverviews.length).to.equal(2);
+      expect(result.campaignParticipationOverviews).to.have.lengthOf(2);
     });
 
     it('should return acquired stages', async function () {
@@ -131,7 +131,7 @@ describe('Integration | UseCase | find-user-campaign-participation-overviews_tes
       });
 
       // then
-      expect(result.campaignParticipationOverviews.length).to.equal(2);
+      expect(result.campaignParticipationOverviews).to.have.lengthOf(2);
     });
 
     it('should return acquired stages', async function () {

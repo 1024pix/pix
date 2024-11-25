@@ -193,7 +193,7 @@ describe('Integration | Repository | Certification Course', function () {
           });
 
           // then
-          expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
+          expect(thisCertificationCourse.toDTO().challenges).to.have.lengthOf(2);
         });
         context('When the certification course has one assessment', function () {
           let assessmentId;

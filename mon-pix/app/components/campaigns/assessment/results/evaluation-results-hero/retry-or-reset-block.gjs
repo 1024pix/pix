@@ -9,26 +9,10 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 export default class EvaluationResultsHeroRetryOrResetBlock extends Component {
-  @tracked isImproveButtonLoading = false;
   @tracked isResetModalVisible = false;
 
   retryQueryParams = { retry: true };
   resetQueryParams = { reset: true };
-
-  @action
-  async improveResults() {
-    if (this.isImproveButtonLoading) return;
-
-    try {
-      this.isImproveButtonLoading = true;
-      const campaignParticipationResult = this.args.model.campaignParticipationResult;
-      const adapter = this.store.adapterFor('campaign-participation-result');
-      await adapter.beginImprovement(campaignParticipationResult.id);
-      this.router.transitionTo('campaigns.entry-point', this.args.campaign.code);
-    } finally {
-      this.isImproveButtonLoading = false;
-    }
-  }
 
   @action
   toggleResetModalVisibility() {

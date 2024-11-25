@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { UserOrgaSettingsCreationError } from '../../../../../src/shared/domain/errors.js';
 import { UserOrgaSettings } from '../../../../../src/shared/domain/models/UserOrgaSettings.js';
 import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', function () {
   const USER_PICKED_PROPERTIES = [
@@ -35,13 +35,22 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
     'sessionExpirationDate',
   ];
 
+  let clock;
+  const now = new Date('2022-12-01');
+
   let user;
   let organization;
 
   beforeEach(async function () {
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+
     user = databaseBuilder.factory.buildUser();
     organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
+  });
+
+  afterEach(function () {
+    clock.restore();
   });
 
   describe('#create', function () {
@@ -93,30 +102,22 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
   });
 
   describe('#update', function () {
-    let userOrgaSettingsId;
-    let expectedOrganization;
-
-    beforeEach(async function () {
-      userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({
+    it('updates the userOrgaSettings and returns it', async function () {
+      // given
+      const userOrgaSettings = databaseBuilder.factory.buildUserOrgaSettings({
         userId: user.id,
-        currentOrganizationId: organization.id,
-      }).id;
-      expectedOrganization = databaseBuilder.factory.buildOrganization();
+      });
+      const newOrganization = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
-    });
 
-    it('should return the updated userOrgaSettings', async function () {
       // when
-      const updatedUserOrgaSettings = await userOrgaSettingsRepository.update(user.id, expectedOrganization.id);
+      const updatedUserOrgaSettings = await userOrgaSettingsRepository.update(user.id, newOrganization.id);
 
       // then
-      expect(updatedUserOrgaSettings.id).to.deep.equal(userOrgaSettingsId);
-      expect(_.pick(updatedUserOrgaSettings.user, USER_PICKED_PROPERTIES)).to.deep.equal(
-        _.pick(user, USER_PICKED_PROPERTIES),
-      );
-      expect(_.omit(updatedUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(
-        _.omit(expectedOrganization, ORGANIZATION_OMITTED_PROPERTIES),
-      );
+      expect(updatedUserOrgaSettings.id).to.equal(userOrgaSettings.id);
+      expect(updatedUserOrgaSettings.updatedAt).to.deep.equal(now);
+      expect(updatedUserOrgaSettings.user).to.deep.equal(user);
+      expect(updatedUserOrgaSettings.currentOrganization).to.deep.equal(newOrganization);
     });
   });
 

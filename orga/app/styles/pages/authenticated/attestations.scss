@@ -1,0 +1,24 @@
+.attestations-page {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    @extend %pix-title-m;
+
+    margin: var(--pix-spacing-8x) 0;
+  }
+
+  &__text {
+    @extend %pix-body-m;
+
+    margin-bottom: var(--pix-spacing-8x);
+
+  }
+
+  &__action {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-4x);
+    align-items: end
+  }
+}

@@ -241,7 +241,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(data.length).to.equal(1);
+        expect(data).to.have.lengthOf(1);
         expect(data[0].id).to.equal(expectedOrganizationLearner.id);
       });
 
@@ -301,7 +301,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(data.length).to.equal(2);
+        expect(data).to.have.lengthOf(2);
         expect(_.map(data, 'id')).to.have.members([
           notCommunicatedOrganizationLearner.id,
           notEligibleOrganizationLearner.id,
@@ -698,7 +698,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(organizationLearnerId2);
           expect(participants[1].id).to.equal(organizationLearnerId3);
           expect(participants[2].id).to.equal(organizationLearnerId1);
@@ -715,7 +715,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
             });
 
           // then
-          expect(participants.length).to.equal(3);
+          expect(participants).to.have.lengthOf(3);
           expect(participants[0].id).to.equal(organizationLearnerId1);
           expect(participants[1].id).to.equal(organizationLearnerId3);
           expect(participants[2].id).to.equal(organizationLearnerId2);
@@ -753,7 +753,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(participants.length).to.equal(3);
+        expect(participants).to.have.lengthOf(3);
         expect(participants[0].id).to.equal(organizationLearnerId3);
         expect(participants[1].id).to.equal(organizationLearnerId2);
         expect(participants[2].id).to.equal(organizationLearnerId1);
@@ -784,7 +784,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(participants.length).to.equal(3);
+        expect(participants).to.have.lengthOf(3);
         expect(participants[0].id).to.equal(kenobiId);
         expect(participants[1].id).to.equal(skywalkerId);
         expect(participants[2].id).to.equal(vadorId);
@@ -815,7 +815,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(participants.length).to.equal(3);
+        expect(participants).to.have.lengthOf(3);
         expect(participants[0].id).to.equal(vadorId);
         expect(participants[1].id).to.equal(skywalkerId);
         expect(participants[2].id).to.equal(kenobiId);

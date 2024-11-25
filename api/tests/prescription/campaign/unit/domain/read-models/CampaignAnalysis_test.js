@@ -24,7 +24,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       });
 
       // then
-      expect(campaignAnalysis.campaignTubeRecommendations).to.have.length(2);
+      expect(campaignAnalysis.campaignTubeRecommendations).to.have.lengthOf(2);
     });
 
     it('should initialize CampaignTubeRecommendation with appropriate properties', function () {

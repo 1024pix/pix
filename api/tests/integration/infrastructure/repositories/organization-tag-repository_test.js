@@ -93,7 +93,7 @@ describe('Integration | Repository | OrganizationTagRepository', function () {
 
       // then
       const foundOrganizations = await knex('organization-tags').select();
-      expect(foundOrganizations.length).to.equal(2);
+      expect(foundOrganizations).to.have.lengthOf(2);
     });
   });
 });

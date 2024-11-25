@@ -148,7 +148,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       expect(archivedOrganization.archivedAt).to.deep.equal(now);
 
       const organizations = await knex('organizations').where({ archivedBy: null });
-      expect(organizations).to.have.length(1);
+      expect(organizations).to.have.lengthOf(1);
       expect(organizations[0].id).to.equal(2);
     });
 
@@ -583,7 +583,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationId: savedOrganization.id,
         });
 
-        expect(savedOrganizationFeatures.length).to.equal(3);
+        expect(savedOrganizationFeatures).to.have.lengthOf(3);
         const savedOrganizationFeatureIds = savedOrganizationFeatures.map(
           (organizationFeature) => organizationFeature.featureId,
         );
@@ -644,7 +644,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // then
       const enabledFeatures = await knex('organization-features').where({ organizationId: organization.id });
-      expect(enabledFeatures.length).to.equal(1);
+      expect(enabledFeatures).to.have.lengthOf(1);
       expect(enabledFeatures[0].featureId).to.equal(featureId);
     });
 
@@ -673,7 +673,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // then
       const enabledFeatures = await knex('organization-features').where({ organizationId: organization.id });
-      expect(enabledFeatures.length).to.equal(1);
+      expect(enabledFeatures).to.have.lengthOf(1);
       expect(enabledFeatures[0].featureId).to.equal(featureId);
     });
 
@@ -708,7 +708,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       //then
       const enabledFeatures = await knex('organization-features');
-      expect(enabledFeatures.length).to.equal(1);
+      expect(enabledFeatures).to.have.lengthOf(1);
       expect(enabledFeatures[0].organizationId).to.equal(otherOrganization.id);
     });
 
@@ -824,7 +824,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // then
       const addedTags = await knex('organization-tags').where({ organizationId });
-      expect(addedTags.length).to.equal(1);
+      expect(addedTags).to.have.lengthOf(1);
     });
 
     it('should remove tags', async function () {
@@ -852,7 +852,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // then
       const result = await knex('organization-tags').where({ organizationId });
-      expect(result.length).to.equal(0);
+      expect(result).to.have.lengthOf(0);
     });
 
     it('should not add row in table "organizations"', async function () {

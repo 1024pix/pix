@@ -10,7 +10,7 @@ import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
   @service currentUser;
-  @service notifications;
+  @service pixToast;
   @service router;
   @service intl;
 
@@ -36,14 +36,6 @@ export default class SessionsFinalizeController extends Controller {
     return this.uncheckedHasSeenEndTestScreenCount > 0;
   }
 
-  showErrorNotification(message, options = {}) {
-    this.notifications.error(message, options);
-  }
-
-  showSuccessNotification(message) {
-    this.notifications.success(message);
-  }
-
   @action
   async abort(certificationReport, option) {
     const abortReason = option;
@@ -67,14 +59,20 @@ export default class SessionsFinalizeController extends Controller {
   async finalizeSession() {
     try {
       await this.session.save({ adapterOptions: { finalization: true } });
-      this.showSuccessNotification(this.intl.t('pages.session-finalization.notification.success'));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.session-finalization.notification.success'),
+      });
     } catch (responseError) {
       const error = responseError?.errors?.[0];
       if (error?.code) {
         this.showConfirmModal = false;
-        this.notifications.error(this.intl.t(`common.api-error-messages.${error.code}`));
+        this.pixToast.sendErrorNotification({
+          message: this.intl.t(`common.api-error-messages.${error.code}`),
+        });
       } else {
-        this.notifications.error(this.intl.t(`common.api-error-messages.SESSION_CANNOT_BE_FINALIZED`));
+        this.pixToast.sendErrorNotification({
+          message: this.intl.t(`common.api-error-messages.SESSION_CANNOT_BE_FINALIZED`),
+        });
       }
     }
     this.showConfirmModal = false;
@@ -150,7 +148,9 @@ export default class SessionsFinalizeController extends Controller {
         `finalization-report-abort-reason__select${invalidCertificationReports[0].id}`,
       );
 
-      this.showErrorNotification(this.intl.t('pages.session-finalization.errors.no-abort-reason'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.session-finalization.errors.no-abort-reason'),
+      });
       select.scrollIntoView();
     }
 
