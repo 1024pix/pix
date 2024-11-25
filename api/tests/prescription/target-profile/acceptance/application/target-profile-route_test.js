@@ -101,7 +101,7 @@ describe('Acceptance | Route | target-profile', function () {
         areas: [
           {
             id: 'areaPix1',
-            code: 1,
+            code: '1',
             title_i18n: {
               fr: 'areaPix1 title fr',
             },
@@ -111,7 +111,7 @@ describe('Acceptance | Route | target-profile', function () {
           },
           {
             id: 'areaFrance1',
-            code: 1,
+            code: '1',
             title_i18n: {
               fr: 'areaFrance1 title fr',
             },
@@ -121,7 +121,7 @@ describe('Acceptance | Route | target-profile', function () {
           },
           {
             id: 'areaCuisine1',
-            code: 1,
+            code: '1',
             title_i18n: {
               fr: 'areaCuisine1 title fr',
             },
@@ -348,7 +348,7 @@ describe('Acceptance | Route | target-profile', function () {
             type: 'areas',
             id: 'areaPix1',
             attributes: {
-              code: 1,
+              code: '1',
               color: 'areaPix1 color',
               title: 'areaPix1 title fr',
             },

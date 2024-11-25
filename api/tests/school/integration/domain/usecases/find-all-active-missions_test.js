@@ -61,7 +61,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
       });
 
       const area = learningContentBuilder.buildArea({
-        code: 3,
+        code: '3',
         competenceIds: ['competenceId'],
       });
 
@@ -88,7 +88,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
         thematicId: 'thematicId',
         competenceName: '4.5 Competence',
         status: 'ACTIVE',
-        areaCode: 3,
+        areaCode: '3',
         learningObjectives: 'Il était une fois',
         validatedObjectives: 'Bravo ! tu as réussi !',
         startedBy: '',
@@ -145,7 +145,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
       });
 
       const area = learningContentBuilder.buildArea({
-        code: 3,
+        code: '3',
         competenceIds: ['competenceId'],
       });
 
@@ -173,7 +173,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
           thematicId: 'thematicId',
           competenceName: '4.5 Competence',
           status: 'ACTIVE',
-          areaCode: 3,
+          areaCode: '3',
           learningObjectives: 'Il était une fois',
           validatedObjectives: 'Bravo ! tu as réussi !',
           startedBy: '',
@@ -185,7 +185,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
           thematicId: 'thematicId',
           competenceName: '4.5 Competence',
           status: 'EXPERIMENTAL',
-          areaCode: 3,
+          areaCode: '3',
           learningObjectives: 'Il était une fois',
           validatedObjectives: 'Bravo ! tu as réussi !',
           startedBy: '',

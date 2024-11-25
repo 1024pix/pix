@@ -24,7 +24,7 @@ describe('Integration | UseCase | getMission', function () {
     });
 
     const area = learningContentBuilder.buildArea({
-      code: 3,
+      code: '3',
       competenceIds: ['competenceId'],
     });
 
@@ -43,7 +43,7 @@ describe('Integration | UseCase | getMission', function () {
       competenceName: '1.3 Name',
       thematicId: 'thematicId',
       status: 'a status',
-      areaCode: 3,
+      areaCode: '3',
       learningObjectives: 'Il était une fois',
       validatedObjectives: 'Bravo ! tu as réussi !',
       startedBy: '',

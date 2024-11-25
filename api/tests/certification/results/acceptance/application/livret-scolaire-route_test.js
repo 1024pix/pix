@@ -194,9 +194,10 @@ describe('Certification | Results | Acceptance | Application | Livret Scolaire',
       },
     ];
 
-    beforeEach(function () {
+    beforeEach(async function () {
       organizationId = buildOrganization(uai).id;
       mockLearningContentCompetences();
+      await databaseBuilder.commit();
     });
 
     context('when the given uai is correct', function () {

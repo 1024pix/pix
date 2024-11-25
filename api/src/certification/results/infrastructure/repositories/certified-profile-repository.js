@@ -11,11 +11,11 @@ import {
   CertifiedTube,
 } from '../../../../../src/shared/domain/read-models/CertifiedProfile.js';
 import {
-  areaDatasource,
   competenceDatasource,
   skillDatasource,
   tubeDatasource,
 } from '../../../../../src/shared/infrastructure/datasources/learning-content/index.js';
+import * as areaRepository from '../../../../../src/shared/infrastructure/repositories/area-repository.js';
 
 const get = async function (certificationCourseId) {
   const certificationDatas = await knex
@@ -106,13 +106,16 @@ async function _createCertifiedCompetences(certifiedTubes) {
 
 async function _createCertifiedAreas(certifiedCompetences) {
   const certifiedCompetencesByArea = _.groupBy(certifiedCompetences, 'areaId');
-  const learningContentAreas = await areaDatasource.findByRecordIds(Object.keys(certifiedCompetencesByArea));
-  return learningContentAreas.map((learningContentArea) => {
-    const name = learningContentArea.title_i18n.fr;
-    return new CertifiedArea({
-      id: learningContentArea.id,
-      name,
-      color: learningContentArea.color,
-    });
+  const learningContentAreas = await areaRepository.findByRecordIds({
+    areaIds: Object.keys(certifiedCompetencesByArea),
+    locale: 'fr',
   });
+  return learningContentAreas.map(
+    (learningContentArea) =>
+      new CertifiedArea({
+        id: learningContentArea.id,
+        name: learningContentArea.title,
+        color: learningContentArea.color,
+      }),
+  );
 }

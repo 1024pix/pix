@@ -98,12 +98,12 @@ describe('Integration | Repository | area-repository', function () {
   describe('#getAreaCodeByCompetenceId', function () {
     const area0 = {
       id: 'recArea0',
-      code: 3,
+      code: '3',
       competenceIds: ['competenceId_01', 'competenceId_02'],
     };
     const area1 = {
       id: 'recArea1',
-      code: 5,
+      code: '5',
       competenceIds: ['competenceId_03', 'competenceId_04', 'competenceId_05'],
     };
 
@@ -118,7 +118,7 @@ describe('Integration | Repository | area-repository', function () {
       const result = await areaRepository.getAreaCodeByCompetenceId('competenceId_02');
 
       // then
-      expect(result).to.deep.equal(3);
+      expect(result).to.deep.equal('3');
     });
   });
 
@@ -366,7 +366,7 @@ describe('Integration | Repository | area-repository', function () {
       // given
       const area1 = domainBuilder.buildArea({
         id: 'recArea1',
-        code: 4,
+        code: '4',
         name: 'area_name1',
         title: 'area_title1FR',
         color: 'blue1',
@@ -374,7 +374,7 @@ describe('Integration | Repository | area-repository', function () {
       });
       const area2 = domainBuilder.buildArea({
         id: 'recArea2',
-        code: 6,
+        code: '6',
         name: 'area_name2',
         title: 'area_title2FR',
         color: 'blue2',
@@ -383,7 +383,7 @@ describe('Integration | Repository | area-repository', function () {
 
       const learningContentArea0 = {
         id: 'recArea0',
-        code: 1,
+        code: '1',
         name: 'area_name0',
         title_i18n: {
           fr: 'area_title0FR',
@@ -395,7 +395,7 @@ describe('Integration | Repository | area-repository', function () {
 
       const learningContentArea1 = {
         id: 'recArea1',
-        code: 4,
+        code: '4',
         name: 'area_name1',
         title_i18n: {
           fr: 'area_title1FR',
@@ -407,7 +407,7 @@ describe('Integration | Repository | area-repository', function () {
 
       const learningContentArea2 = {
         id: 'recArea2',
-        code: 6,
+        code: '6',
         name: 'area_name2',
         title_i18n: {
           fr: 'area_title2FR',
@@ -430,7 +430,7 @@ describe('Integration | Repository | area-repository', function () {
       // given
       const area1 = domainBuilder.buildArea({
         id: 'recArea1',
-        code: 4,
+        code: '4',
         name: 'area_name1',
         title: 'area_title1EN',
         color: 'blue1',
@@ -438,7 +438,7 @@ describe('Integration | Repository | area-repository', function () {
       });
       const area2 = domainBuilder.buildArea({
         id: 'recArea2',
-        code: 6,
+        code: '6',
         name: 'area_name2',
         title: 'area_title2EN',
         color: 'blue2',
@@ -447,7 +447,7 @@ describe('Integration | Repository | area-repository', function () {
 
       const learningContentArea0 = {
         id: 'recArea0',
-        code: 1,
+        code: '1',
         name: 'area_name0',
         title_i18n: {
           fr: 'area_title0FR',
@@ -459,7 +459,7 @@ describe('Integration | Repository | area-repository', function () {
 
       const learningContentArea1 = {
         id: 'recArea1',
-        code: 4,
+        code: '4',
         name: 'area_name1',
         title_i18n: {
           fr: 'area_title1FR',
@@ -471,7 +471,7 @@ describe('Integration | Repository | area-repository', function () {
 
       const learningContentArea2 = {
         id: 'recArea2',
-        code: 6,
+        code: '6',
         name: 'area_name2',
         title_i18n: {
           fr: 'area_title2FR',
@@ -495,7 +495,7 @@ describe('Integration | Repository | area-repository', function () {
     beforeEach(async function () {
       const learningContentArea0 = {
         id: 'recArea0',
-        code: 1,
+        code: '1',
         name: 'area_name0',
         title_i18n: {
           fr: 'area_title0FR',
@@ -506,7 +506,7 @@ describe('Integration | Repository | area-repository', function () {
       };
       const learningContentArea1 = {
         id: 'recArea1',
-        code: 4,
+        code: '4',
         name: 'area_name1',
         title_i18n: {
           fr: 'area_title1FR',
@@ -525,7 +525,7 @@ describe('Integration | Repository | area-repository', function () {
       // then
       const expectedArea = domainBuilder.buildArea({
         id: 'recArea1',
-        code: 4,
+        code: '4',
         name: 'area_name1',
         title: 'area_title1FR',
         color: 'blue1',

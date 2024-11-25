@@ -27,7 +27,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
     areas: [
       {
         id: 'areaPix1',
-        code: 1,
+        code: '1',
         title_i18n: {
           fr: 'areaPix1 title fr',
         },
@@ -37,7 +37,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       },
       {
         id: 'areaFrance1',
-        code: 1,
+        code: '1',
         title_i18n: {
           fr: 'areaFrance1 title fr',
         },
@@ -47,7 +47,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       },
       {
         id: 'areaCuisine1',
-        code: 1,
+        code: '1',
         title_i18n: {
           fr: 'areaCuisine1 title fr',
         },
@@ -212,7 +212,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               id: 'areaPix1',
               type: 'areas',
               attributes: {
-                code: 1,
+                code: '1',
                 title: 'areaPix1 title fr',
                 color: 'areaPix1 color',
               },
