@@ -2,6 +2,7 @@
   "id": "1c765240-c790-4f32-8ec0-bc9945bcc5ce",
   "slug": "decouverte-de-l-ent",
   "title": "À la découverte de l’ENT",
+  "isBeta": false,
   "details": {
     "image": "",
     "description": "<p>Aujourd’hui, le numérique fait partie du quotidien des familles, à la maison comme à l’école ! <span aria-hidden=\"\\&quot;true\\&quot;\">🎒</span></p><p>Dans ce module, partez à la découverte de l’espace numérique de travail (ENT), l’outil numérique utilisé dans les établissements scolaires.</p>",
@@ -598,6 +599,21 @@
                     "url": ""
                   },
                   "text": "<p>Un parent doit utiliser son compte parent pour envoyer des messages avec l'ENT. L'utilisation du compte élève est réservé à l'élève.</p>"
+                }
+              },
+              {
+                "id": "be0e0732-596e-46cf-b8de-9d2f05c5aeb9",
+                "recto": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "Quelle fonctionnalité de l'ENT permet de consulter les devoirs de son enfant ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": ""
+                  },
+                  "text": "<p>Grâce au cahier de texte numérique, parents et élèves ont accès aux&nbsp;devoirs à faire à la maison&nbsp;et aux&nbsp;contenus des cours&nbsp;déposés par les professeurs.</p>"
                 }
               }
             ]
