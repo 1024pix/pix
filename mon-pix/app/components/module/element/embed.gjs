@@ -11,6 +11,8 @@ import ModuleElement from './module-element';
 export default class ModulixEmbed extends ModuleElement {
   @tracked
   isSimulatorLaunched = false;
+  @tracked
+  hasSimulatorEnded = false;
   embedHeight = this.args.embed.height;
   iframe;
   messageHandler = null;
@@ -39,10 +41,15 @@ export default class ModulixEmbed extends ModuleElement {
     window.addEventListener('message', this.messageHandler);
   }
 
+  stopSimulator() {
+    this.hasSimulatorEnded = true;
+  }
+
   _receiveEmbedMessage(event) {
     if (!isEmbedAllowedOrigin(event.origin)) return;
     const message = this._getMessageFromEventData(event);
     if (message && message.answer && message.from === 'pix') {
+      this.stopSimulator();
       this.args.onAnswer({
         userResponse: [message.answer],
         element: this.args.embed,
@@ -92,6 +99,17 @@ export default class ModulixEmbed extends ModuleElement {
             </PixButton>
           </div>
         {{/unless}}
+
+        {{#if this.hasSimulatorEnded}}
+          <div class="element-embed-container__overlay">
+            <div class="element-embed-container-overlay__message">
+              {{! template-lint-disable "no-bare-strings" }}
+              <strong>Bravo !</strong>
+              {{! template-lint-disable "no-bare-strings" }}
+              <p>Vous pouvez continuer.</p>
+            </div>
+          </div>
+        {{/if}}
       </div>
 
       {{#if this.isSimulatorLaunched}}

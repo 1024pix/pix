@@ -42,3 +42,18 @@
     background-color: var(--embed-overlay-color);
   }
 }
+
+.element-embed-container-overlay {
+  &__message {
+    position: relative;
+    top: -20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 98%;
+    height: 25%;
+    background: var(--pix-neutral-0);
+    border-radius: var(--modulix-radius);
+  }
+}
