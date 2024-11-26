@@ -3,6 +3,7 @@ import { DatabaseBuilder } from '../database-builder/database-builder.js';
 import { commonBuilder } from './data/common/common-builder.js';
 import { complementaryCertificationBuilder } from './data/common/complementary-certification-builder.js';
 import { featuresBuilder } from './data/common/feature-builder.js';
+import { learningContentBuilder } from './data/common/learningcontent-builder.js';
 import { organizationBuilder } from './data/common/organization-builder.js';
 import { organizationLearnerImportFormat } from './data/common/organization-learner-import-formats.js';
 import { tagsBuilder } from './data/common/tag-builder.js';
@@ -22,6 +23,10 @@ const seed = async function (knex) {
   logger.info({ seedsContext }, 'Seeds Context');
 
   const databaseBuilder = new DatabaseBuilder({ knex });
+
+  // Learning content
+  logger.info('Seeding: Learning content');
+  await learningContentBuilder({ databaseBuilder });
 
   // Common
   await commonBuilder({ databaseBuilder });
