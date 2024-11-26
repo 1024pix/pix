@@ -20,6 +20,7 @@ import { certificationSessionRoutes } from './src/certification/session-manageme
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { evaluationRoutes } from './src/evaluation/routes.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
+import { learningContentRoutes } from './src/learning-content/routes.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
@@ -175,6 +176,7 @@ const setupRoutesAndPlugins = async function (server) {
     devcompRoutes,
     schoolRoutes,
     teamRoutes,
+    learningContentRoutes,
     ...certificationRoutes,
     ...prescriptionRoutes,
   );

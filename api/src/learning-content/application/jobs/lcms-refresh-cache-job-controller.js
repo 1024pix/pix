@@ -1,6 +1,6 @@
+import { JobController } from '../../../shared/application/jobs/job-controller.js';
 import { LcmsRefreshCacheJob } from '../../domain/models/LcmsRefreshCacheJob.js';
-import { sharedUsecases as usecases } from '../../domain/usecases/index.js';
-import { JobController } from './job-controller.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 export class LcmsRefreshCacheJobController extends JobController {
   constructor() {

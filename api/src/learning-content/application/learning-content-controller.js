@@ -1,8 +1,9 @@
-import { sharedUsecases as usecases } from '../../domain/usecases/index.js';
-import { logger } from '../../infrastructure/utils/logger.js';
+import { sharedUsecases } from '../../shared/domain/usecases/index.js';
+import { logger } from '../../shared/infrastructure/utils/logger.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const createRelease = async function (request, h) {
-  usecases
+  sharedUsecases
     .createLcmsRelease()
     .then(() => {
       logger.info('Release created and cache reloaded');
@@ -15,7 +16,6 @@ const createRelease = async function (request, h) {
 
 const refreshCache = async function (request, h) {
   const { userId } = request.auth.credentials;
-
   await usecases.scheduleRefreshLearningContentCacheJob({ userId });
   return h.response({}).code(202);
 };
@@ -24,10 +24,8 @@ const patchCacheEntry = async function (request, h) {
   const updatedRecord = request.payload;
   const recordId = request.params.id;
   const modelName = request.params.model;
-  await usecases.patchLearningContentCacheEntry({ recordId, updatedRecord, modelName });
+  await sharedUsecases.patchLearningContentCacheEntry({ recordId, updatedRecord, modelName });
   return h.response().code(204);
 };
 
-const lcmsController = { createRelease, refreshCache, patchCacheEntry };
-
-export { lcmsController };
+export const learningContentController = { createRelease, refreshCache, patchCacheEntry };

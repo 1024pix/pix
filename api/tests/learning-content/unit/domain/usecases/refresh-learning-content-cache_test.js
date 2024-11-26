@@ -1,4 +1,4 @@
-import { refreshLearningContentCache } from '../../../../../src/shared/domain/usecases/refresh-learning-content-cache.js';
+import { refreshLearningContentCache } from '../../../../../src/learning-content/domain/usecases/refresh-learning-content-cache.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Usecase | Refresh learning content cache', function () {

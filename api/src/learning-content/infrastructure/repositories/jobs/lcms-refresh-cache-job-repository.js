@@ -1,5 +1,5 @@
+import { JobRepository, JobRetry } from '../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { LcmsRefreshCacheJob } from '../../../domain/models/LcmsRefreshCacheJob.js';
-import { JobRepository, JobRetry } from './job-repository.js';
 
 class LcmsRefreshCacheJobRepository extends JobRepository {
   constructor() {

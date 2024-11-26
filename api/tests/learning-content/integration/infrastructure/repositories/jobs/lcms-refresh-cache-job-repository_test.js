@@ -1,5 +1,5 @@
-import { LcmsRefreshCacheJob } from '../../../../../../src/shared/domain/models/LcmsRefreshCacheJob.js';
-import { lcmsRefreshCacheJobRepository } from '../../../../../../src/shared/infrastructure/repositories/jobs/lcms-refresh-cache-job-repository.js';
+import { LcmsRefreshCacheJob } from '../../../../../../src/learning-content/domain/models/LcmsRefreshCacheJob.js';
+import { lcmsRefreshCacheJobRepository } from '../../../../../../src/learning-content/infrastructure/repositories/jobs/lcms-refresh-cache-job-repository.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Jobs | LcmsRefreshCacheJobRepository', function () {

@@ -1,5 +1,5 @@
-import { LcmsRefreshCacheJob } from '../../../../../src/shared/domain/models/LcmsRefreshCacheJob.js';
-import { scheduleRefreshLearningContentCacheJob } from '../../../../../src/shared/domain/usecases/schedule-refresh-learning-content-cache-job.js';
+import { LcmsRefreshCacheJob } from '../../../../../src/learning-content/domain/models/LcmsRefreshCacheJob.js';
+import { scheduleRefreshLearningContentCacheJob } from '../../../../../src/learning-content/domain/usecases/schedule-refresh-learning-content-cache-job.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Usecases | Schedule Refresh Learning Content Cache Job', function () {

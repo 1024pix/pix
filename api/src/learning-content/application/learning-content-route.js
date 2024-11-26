@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../security-pre-handlers.js';
-import { lcmsController } from './lcms-controller.js';
+import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
+import { learningContentController } from './learning-content-controller.js';
 
-const register = async function (server) {
+export async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -15,7 +15,7 @@ const register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: lcmsController.createRelease,
+        handler: learningContentController.createRelease,
         tags: ['api', 'lcms'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -51,7 +51,7 @@ const register = async function (server) {
               .required(),
           }),
         },
-        handler: lcmsController.patchCacheEntry,
+        handler: learningContentController.patchCacheEntry,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -70,7 +70,7 @@ const register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: lcmsController.refreshCache,
+        handler: learningContentController.refreshCache,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -79,7 +79,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
-const name = 'lcms-api';
-export { name, register };
+export const name = 'lcms-api';

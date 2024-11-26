@@ -1,19 +1,20 @@
-import { lcmsController } from '../../../../../src/shared/application/lcms/lcms-controller.js';
-import { sharedUsecases as usecases } from '../../../../../src/shared/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../../test-helper.js';
+import { learningContentController } from '../../../../src/learning-content/application/learning-content-controller.js';
+import { usecases } from '../../../../src/learning-content/domain/usecases/index.js';
+import { sharedUsecases } from '../../../../src/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Controller | lcms-controller', function () {
+describe('Unit | Controller | learning-content-controller', function () {
   describe('#createRelease', function () {
     it('should call the createRelease', async function () {
       // given
-      sinon.stub(usecases, 'createLcmsRelease').resolves();
+      sinon.stub(sharedUsecases, 'createLcmsRelease').resolves();
       const request = {};
 
       // when
-      await lcmsController.createRelease(request, hFake);
+      await learningContentController.createRelease(request, hFake);
 
       // then
-      expect(usecases.createLcmsRelease).to.have.been.called;
+      expect(sharedUsecases.createLcmsRelease).to.have.been.called;
     });
   });
 
@@ -30,13 +31,13 @@ describe('Unit | Controller | lcms-controller', function () {
 
     it('should call the usecase and return 204', async function () {
       // given
-      sinon.stub(usecases, 'patchLearningContentCacheEntry');
+      sinon.stub(sharedUsecases, 'patchLearningContentCacheEntry');
 
       // when
-      const response = await lcmsController.patchCacheEntry(request, hFake);
+      const response = await learningContentController.patchCacheEntry(request, hFake);
 
       // then
-      expect(usecases.patchLearningContentCacheEntry).to.have.been.calledWithExactly({
+      expect(sharedUsecases.patchLearningContentCacheEntry).to.have.been.calledWithExactly({
         recordId: 'recId',
         updatedRecord: {
           property: 'updatedValue',
@@ -54,7 +55,7 @@ describe('Unit | Controller | lcms-controller', function () {
         sinon.stub(usecases, 'scheduleRefreshLearningContentCacheJob').resolves();
 
         // when
-        const response = await lcmsController.refreshCache(
+        const response = await learningContentController.refreshCache(
           {
             auth: {
               credentials: {

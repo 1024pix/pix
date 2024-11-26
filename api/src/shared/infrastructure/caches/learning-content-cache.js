@@ -47,6 +47,7 @@ export class LearningContentCache {
     return this._underlyingCache.quit();
   }
 
+  /** @type {LearningContentCache} */
   static _instance = null;
 
   static defaultInstance() {

@@ -1,14 +1,14 @@
 import Redis from 'ioredis';
 
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
-import { LearningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { LearningContentCache } from '../../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-} from '../../../../test-helper.js';
+} from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
