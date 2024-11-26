@@ -11,7 +11,7 @@
     "objectives": [
       "<p>Savoir ce qu’est un ENT</p>",
       "<p>Connaître les fonctionnalités principales d’un ENT</p>",
-      "<p>Utiliser le compte parent de manière appropriée/adaptée</p>"
+      "<p>Utiliser le compte parent de manière adaptée</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -278,7 +278,7 @@
           "element": {
             "id": "0468f3c9-f946-4309-9768-4fda3f28a4b2",
             "type": "text",
-            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite :</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent : messagerie, emploi du temps, cahier de textes, ...</li><br>\n</ul>"
+            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite :</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent : messagerie, emploi du temps, cahier de textes, ...</li></ul>"
           }
         }
       ]
@@ -373,7 +373,7 @@
                     },
                     {
                       "id": "3",
-                      "content": "<p>4</p>",
+                      "content": "<p>3</p>",
                       "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
                     }
                   ],
