@@ -91,7 +91,10 @@
         font-size: 22.38px;
         line-height: normal;
         text-align: center;
-        text-wrap: wrap;
+
+        p {
+          white-space: break-spaces;
+        }
       }
 
       .fake-button {
