@@ -550,7 +550,7 @@
           "element": {
             "id": "d0c79a9f-1c62-4b9b-9bf3-629746823287",
             "type": "flashcards",
-            "instruction": "<p>Pour chaque carte :&nbsp; </p>\n<ol>\n    <li>Lisez la question.</li>\n    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"\\&quot;true\\&quot;\">🙄</span></li>\n    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"\\&quot;true\\&quot;\">↪️</span></li>\n</ol>\n<p>Cela permet de tester votre mémoire.<span aria-hidden=\"\\&quot;true\\&quot;\">🎯</span></p>",
+            "instruction": "<p>Pour chaque carte :&nbsp; </p>\n<ol>\n    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>\n    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"\\&quot;true\\&quot;\">🙄</span></li>\n    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"\\&quot;true\\&quot;\">↪️</span></li>\n</ol>\n<p>Cela permet de tester votre mémoire.<span aria-hidden=\"\\&quot;true\\&quot;\">🎯</span></p>",
             "title": "L'espace numérique de travail",
             "introImage": {
               "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
