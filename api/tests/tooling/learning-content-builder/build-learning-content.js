@@ -106,7 +106,8 @@ const buildLearningContent = function (learningContent) {
           areaId: area.id,
           origin: competence.origin || 'Pix',
           index: competence.index,
-          name_i18n: competence.name_i18n,
+          name_i18n: competence.name_i18n ?? { fr: competence.name },
+          name: competence.name,
           description_i18n: competence.description_i18n,
           thematicIds: thematics.map(({ id }) => id),
         };

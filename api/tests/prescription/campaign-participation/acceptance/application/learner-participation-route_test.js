@@ -399,6 +399,9 @@ describe('Acceptance | Routes | Campaign Participations', function () {
           name_i18n: {
             fr: 'Mener une recherche et une veille d’information',
           },
+          description_i18n: {
+            fr: 'Oui c’est bien de le savoir',
+          },
           index: '1.1',
           origin: 'Pix',
           areaId: 'recvoGdo7z2z7pXWa',
@@ -490,7 +493,7 @@ describe('Acceptance | Routes | Campaign Participations', function () {
           {
             attributes: {
               'competence-id': 'recAbe382T0e1337',
-              description: undefined,
+              description: 'Oui c’est bien de le savoir',
               'earned-pix': 2,
               index: '1.1',
               level: 0,

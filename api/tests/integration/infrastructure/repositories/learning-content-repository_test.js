@@ -35,7 +35,7 @@ describe('Integration | Repository | learning-content', function () {
               {
                 id: 'recCompetence1',
                 name_i18n: { fr: 'competence1_nomFr', en: 'competence1_nameEn' },
-                index: 1,
+                index: '1',
                 description_i18n: { fr: 'competence1_descriptionFr', en: 'competence1_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
@@ -77,7 +77,7 @@ describe('Integration | Repository | learning-content', function () {
               {
                 id: 'recCompetence2',
                 name_i18n: { fr: 'competence2_nomFr', en: 'competence2_nameEn' },
-                index: 2,
+                index: '2',
                 description_i18n: { fr: 'competence2_descriptionFr', en: 'competence2_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
@@ -178,7 +178,7 @@ describe('Integration | Repository | learning-content', function () {
               {
                 id: 'recCompetence3',
                 name_i18n: { fr: 'competence3_nomFr', en: 'competence3_nameEn' },
-                index: 1,
+                index: '1',
                 description_i18n: { fr: 'competence3_descriptionFr', en: 'competence3_descriptionEn' },
                 origin: 'Pix',
                 thematics: [

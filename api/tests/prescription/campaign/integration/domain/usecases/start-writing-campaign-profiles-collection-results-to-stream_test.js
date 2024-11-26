@@ -109,12 +109,14 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
             areaId: 'recArea1',
             skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
             origin: 'Pix',
+            name_i18n: { fr: 'Compétence 1' },
           },
           {
             id: 'recCompetence2',
             areaId: 'recArea2',
             skillIds: [skillUrl1.id, skillUrl8.id],
             origin: 'Pix',
+            name_i18n: { fr: 'Compétence 2' },
           },
         ],
         skills,
@@ -180,7 +182,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const cells = csv.split('\n');
 
         expect(cells[0]).to.be.equals(
-          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence ";"Nombre de pix pour la compétence ";"Niveau pour la compétence ";"Nombre de pix pour la compétence "',
+          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence Compétence 1";"Nombre de pix pour la compétence Compétence 1";"Niveau pour la compétence Compétence 2";"Nombre de pix pour la compétence Compétence 2"',
         );
         expect(cells[1]).to.be.equals(
           `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,
@@ -243,7 +245,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const cells = csv.split('\n');
 
         expect(cells[0]).to.be.equals(
-          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Mail Perso";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence ";"Nombre de pix pour la compétence ";"Niveau pour la compétence ";"Nombre de pix pour la compétence "',
+          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Mail Perso";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence Compétence 1";"Nombre de pix pour la compétence Compétence 1";"Niveau pour la compétence Compétence 2";"Nombre de pix pour la compétence Compétence 2"',
         );
         expect(cells[1]).to.be.equals(
           `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,
