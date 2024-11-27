@@ -70,7 +70,7 @@ module('Unit | Services | Module | ModulixAutoScroll', function (hooks) {
 
         function expectScrollCalledWith(expectedBehavior) {
           const expectedScrollToTop = -45 - ModulixNavbar.HEIGHT;
-          sinon.assert.calledWith(scrollStub, { top: expectedScrollToTop, behavior: expectedBehavior });
+          sinon.assert.calledWithExactly(scrollStub, { top: expectedScrollToTop, behavior: expectedBehavior });
         }
 
         module('when user prefers reduced motions', function () {
