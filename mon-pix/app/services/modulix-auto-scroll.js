@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
 import Service, { service } from '@ember/service';
+import ModulixNavbar from 'mon-pix/components/module/navbar';
 
 export default class ModulixAutoScroll extends Service {
   @service modulixPreviewMode;
 
-  #SCROLL_OFFSET_PX = 70;
+  #SCROLL_OFFSET_PX = 70 + ModulixNavbar.HEIGHT;
 
   @action
   setHTMLElementScrollOffsetCssProperty(htmlElement) {

@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import ModulixNavbar from 'mon-pix/components/module/navbar';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -16,7 +17,7 @@ module('Unit | Services | Module | ModulixAutoScroll', function (hooks) {
       modulixAutoScrollService.setHTMLElementScrollOffsetCssProperty(htmlElement);
 
       // then
-      assert.strictEqual(htmlElement.style.getPropertyValue('--scroll-offset'), '70px');
+      assert.strictEqual(htmlElement.style.getPropertyValue('--scroll-offset'), `${70 + ModulixNavbar.HEIGHT}px`);
     });
   });
 
@@ -68,7 +69,7 @@ module('Unit | Services | Module | ModulixAutoScroll', function (hooks) {
         }
 
         function expectScrollCalledWith(expectedBehavior) {
-          const expectedScrollToTop = -45;
+          const expectedScrollToTop = -45 - ModulixNavbar.HEIGHT;
           sinon.assert.calledWith(scrollStub, { top: expectedScrollToTop, behavior: expectedBehavior });
         }
 

@@ -11,6 +11,20 @@ import { eq } from 'ember-truth-helpers';
 export default class ModulixNavbar extends Component {
   @service intl;
 
+  static #padding = 2 * ModulixNavbar.#getCssVarValue('--pix-spacing-4x');
+  static #buttonBorderWidth = 2 * 2;
+  static #buttonPadding = 2 * ModulixNavbar.#getCssVarValue('--pix-spacing-2x');
+  static #textFontSize = 14; // 1rem in mobile
+  static HEIGHT =
+    ModulixNavbar.#padding +
+    ModulixNavbar.#buttonBorderWidth +
+    ModulixNavbar.#buttonPadding +
+    ModulixNavbar.#textFontSize;
+
+  static #getCssVarValue(varName) {
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).slice(0, -2);
+  }
+
   get progressValue() {
     if (this.args.totalSteps <= 1) {
       return 100;

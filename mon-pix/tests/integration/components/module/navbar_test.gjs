@@ -10,6 +10,16 @@ import { waitForDialog } from '../../../helpers/wait-for';
 module('Integration | Component | Module | Navbar', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  module('HEIGHT', function () {
+    test('should return the approximate height of the navbar', function (assert) {
+      // when
+      const height = ModulixNavbar.HEIGHT;
+
+      // then
+      assert.strictEqual(height, 66);
+    });
+  });
+
   module('when at first step', function () {
     test('should display step 1 with empty progress bar', async function (assert) {
       // given
