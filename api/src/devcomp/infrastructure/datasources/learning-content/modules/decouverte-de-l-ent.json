@@ -568,7 +568,7 @@
                   "image": {
                     "url": "https://i.imgur.com/f0zTbxV.png"
                   },
-                  "text": "<p>L'espace numérique de travail est le service en ligne proposé pour par l'établissement scolaire pour le suivi de la scolarité des élèves.</p>"
+                  "text": "<p><strong>L'espace numérique de travail</strong> est le service en ligne proposé par l'établissement scolaire pour le suivi de la scolarité des élèves.</p>"
                 }
               },
               {
@@ -583,7 +583,7 @@
                   "image": {
                     "url": "https://i.imgur.com/8o8CHgD.png"
                   },
-                  "text": "<p>Les élèves, les parents, les enseignants et les personnels d'éducation ont accès à l'ENT. Ils accèdent à cet espace grâce à un identifiant et un mot de passe personnel.</p>"
+                  "text": "<p><strong>Les élèves, les parents, les enseignants et les personnels d'éducation</strong> ont accès à l'ENT. Ils accèdent à cet espace grâce à un identifiant et un mot de passe personnel.</p>"
                 }
               },
               {
@@ -598,7 +598,7 @@
                   "image": {
                     "url": "https://i.imgur.com/XwB0llM.png"
                   },
-                  "text": "<p>Un parent doit utiliser son compte parent pour envoyer des messages avec l'ENT. L'utilisation du compte élève est réservé à l'élève.</p>"
+                  "text": "<p><strong>Un parent doit utiliser son compte parent</strong> pour envoyer des messages avec l'ENT. L'utilisation du compte élève est réservé à l'élève.</p>"
                 }
               },
               {
@@ -613,7 +613,7 @@
                   "image": {
                     "url": "https://i.imgur.com/9EIyRUB.png"
                   },
-                  "text": "<p>Grâce au cahier de texte numérique, parents et élèves ont accès aux&nbsp;devoirs à faire à la maison&nbsp;et aux&nbsp;contenus des cours&nbsp;déposés par les professeurs.</p>"
+                  "text": "<p>Grâce au <strong>cahier de texte numérique</strong>, parents et élèves ont accès aux&nbsp;devoirs à faire à la maison&nbsp;et aux&nbsp;contenus des cours&nbsp;déposés par les professeurs.</p>"
                 }
               }
             ]
