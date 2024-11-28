@@ -34,7 +34,7 @@
     },
     {
       "grainId": "b4154d31-a9ab-47ef-a132-3a280ed330cb",
-      "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br>Regardons si vous avez bien retenu les usages conseillés du compte parent ?</p>"
+      "content": "<p>Vous connaissez les différents comptes qui existent sur l’ENT.<br>Regardons si vous avez bien retenu les usages conseillés du compte parent.</p>"
     },
     {
       "grainId": "6c2e4b2c-bc41-4fd3-a8e3-d904fcede740",
@@ -435,6 +435,14 @@
         {
           "type": "element",
           "element": {
+            "id": "cb612f94-310d-4b99-af47-3f0bf2b481ee",
+            "type": "text",
+            "content": "<p>Après cette vidéo vous devrez choisir si l’utilisation du compte parent de l'ENT est adaptée dans différentes situations.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "b3cba471-c794-4a39-b044-5b084b468341",
             "type": "text",
             "content": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Fp9IIvX7Z7o?si=BvGOl7ST3ho-x-o5\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
@@ -515,7 +523,7 @@
                 {
                   "id": "259c03fd-bdf1-4055-8f9b-a719216a25b4",
                   "type": "qcu",
-                  "instruction": "<p>Pour une recherche d'emploi, je souhaite que le professeur d'anglais de mon enfant m'aide à traduire mon CV. <span aria-hidden=\"true\">💂</span>️</p>",
+                  "instruction": "<p>Je dois traduire mon CV pour une recherche d'emploi. Je souhaiterais que&nbsp; le professeur d'anglais de mon enfant traduise ce CV.<span aria-hidden=\"true\">💂</span>️</p>",
                   "proposals": [
                     {
                       "id": "1",
