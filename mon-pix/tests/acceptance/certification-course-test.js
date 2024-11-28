@@ -181,7 +181,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  'Les informations saisies correspondent à un candidat inscrit à la session en certification complémentaire seule.',
+                  'Les informations saisies correspondent à un candidat inscrit à une certification complémentaire.',
                   { exact: false },
                 ),
               )
@@ -190,7 +190,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  'Vérifiez que vous êtes connecté au compte éligible pour le passage de la certification complémentaire seule.',
+                  'Vérifiez que vous êtes connecté au compte éligible pour le passage de cette certification complémentaire.',
                   { exact: false },
                 ),
               )

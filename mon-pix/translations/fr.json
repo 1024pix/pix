@@ -723,7 +723,7 @@
         "message": "Bravo {fullName}, votre profil Pix est certifiable."
       },
       "error-messages": {
-        "candidate-not-eligible": "<strong>Le compte avec lequel vous êtes actuellement connecté n’est pas éligible à cette session de certification.</strong> '<br>' Les informations saisies correspondent à un candidat inscrit à la session en certification complémentaire seule. '<br>' Vérifiez que vous êtes connecté au compte éligible pour le passage de la certification complémentaire seule.",
+        "candidate-not-eligible": "<strong>Le compte avec lequel vous êtes actuellement connecté n’est pas éligible à cette session de certification.</strong> '<br>' Les informations saisies correspondent à un candidat inscrit à une certification complémentaire. '<br>' Vérifiez que vous êtes connecté au compte éligible pour le passage de cette certification complémentaire.",
         "generic": {
           "check-personal-info": "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement.",
           "check-session-number": "Vérifiez le numéro de session.",
