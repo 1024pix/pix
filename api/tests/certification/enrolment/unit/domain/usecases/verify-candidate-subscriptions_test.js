@@ -124,33 +124,77 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     });
 
     context('when candidate has a core and complementary subscriptions', function () {
-      it('should resolve', async function () {
-        // given
-        const certificationCandidateId = 456;
-        const complementaryCertificationId = 123;
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
-          id: certificationCandidateId,
-          userId: 1234,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({
-              certificationCandidateId,
-            }),
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              certificationCandidateId,
-              complementaryCertificationId,
-            }),
-          ],
-        });
+      context('when candidate has a badge acquisiton', function () {
+        it('should resolve', async function () {
+          // given
+          const certificationCandidateId = 456;
+          const complementaryCertificationId = 123;
+          const complementaryCertificationBadgeId = 4568;
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            id: certificationCandidateId,
+            userId: 1234,
+            subscriptions: [
+              domainBuilder.certification.enrolment.buildCoreSubscription({
+                certificationCandidateId,
+              }),
+              domainBuilder.certification.enrolment.buildComplementarySubscription({
+                certificationCandidateId,
+                complementaryCertificationId,
+              }),
+            ],
+          });
 
-        // when
-        //then
-        return expect(
-          verifyCandidateSubscriptions({
-            userId: 2,
+          dependencies.certificationBadgesService.findLatestBadgeAcquisitions.resolves([
+            domainBuilder.buildCertifiableBadgeAcquisition({
+              complementaryCertificationId,
+              complementaryCertificationBadgeId,
+            }),
+          ]);
+
+          // when
+          //then
+          return expect(
+            verifyCandidateSubscriptions({
+              userId: 2,
+              candidate,
+              ...dependencies,
+            }),
+          ).to.be.fulfilled;
+        });
+      });
+
+      context('when candidate has no badge acquisiton', function () {
+        it('should throw', async function () {
+          // given
+          const certificationCandidateId = 456;
+          const complementaryCertificationId = 123;
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            id: certificationCandidateId,
+            userId: 1234,
+            subscriptions: [
+              domainBuilder.certification.enrolment.buildCoreSubscription({
+                certificationCandidateId,
+              }),
+              domainBuilder.certification.enrolment.buildComplementarySubscription({
+                certificationCandidateId,
+                complementaryCertificationId,
+              }),
+            ],
+          });
+
+          dependencies.certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
+
+          // when
+          const error = await catchErr(verifyCandidateSubscriptions)({
+            userId: candidate.userId,
             candidate,
+            limitDate: Date.now(),
             ...dependencies,
-          }),
-        ).to.be.fulfilled;
+          });
+
+          //then
+          expect(error).to.be.instanceOf(CertificationCandidateEligibilityError);
+        });
       });
     });
 

@@ -48,18 +48,22 @@ export async function verifyCandidateSubscriptions({
   }
 
   if (_doesNeedEligibilityCheck(session, candidate)) {
-    const userPixCertifications = await pixCertificationRepository.findByUserId({ userId: candidate.userId });
-
-    if (!_hasValidCoreCertification(userPixCertifications)) {
-      throw new CertificationCandidateEligibilityError();
-    }
-
     const subscribedHighestBadgeAcquisition = await _findHighestBadgeAcquisitionForCandidateSubscription({
       candidate,
       certificationBadgesService,
     });
 
     if (!subscribedHighestBadgeAcquisition || _isSubscribedUserBadgeOutDated(subscribedHighestBadgeAcquisition)) {
+      throw new CertificationCandidateEligibilityError();
+    }
+
+    if (_hasCoreAndComplementarSubscriptions(candidate)) {
+      return;
+    }
+
+    const userPixCertifications = await pixCertificationRepository.findByUserId({ userId: candidate.userId });
+
+    if (!_hasValidCoreCertification(userPixCertifications)) {
       throw new CertificationCandidateEligibilityError();
     }
 
@@ -87,6 +91,14 @@ export async function verifyCandidateSubscriptions({
       throw new CertificationCandidateEligibilityError();
     }
   }
+}
+
+function _hasCoreAndComplementarSubscriptions(candidate) {
+  return (
+    candidate.subscriptions.length === 2 &&
+    candidate.subscriptions.some((subscription) => subscription.isComplementary()) &&
+    candidate.subscriptions.some((subscription) => !subscription.isComplementary())
+  );
 }
 
 /**
@@ -118,8 +130,7 @@ function _isSubscribedUserBadgeOutDated(subscribedBadgeAcquisition) {
 function _doesNeedEligibilityCheck(session, candidate) {
   return (
     SessionVersion.isV3(session.version) &&
-    candidate.subscriptions.length === 1 &&
-    candidate.subscriptions[0]?.isComplementary()
+    candidate.subscriptions.some((subscription) => subscription.isComplementary())
   );
 }
 
@@ -157,7 +168,8 @@ function _getSubscribedHighestBadgeAcquisition({ userAcquiredBadgeAcquisitions, 
   return _.find(
     userAcquiredBadgeAcquisitions,
     ({ complementaryCertificationId }) =>
-      candidate.subscriptions[0].complementaryCertificationId === complementaryCertificationId,
+      candidate.subscriptions.find((subscription) => subscription.isComplementary()).complementaryCertificationId ===
+      complementaryCertificationId,
   );
 }
 
