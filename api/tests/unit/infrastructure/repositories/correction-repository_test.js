@@ -1,20 +1,15 @@
 import * as correctionRepository from '../../../../lib/infrastructure/repositories/correction-repository.js';
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
-import { Correction } from '../../../../src/shared/domain/models/Correction.js';
-import {
-  challengeDatasource,
-  skillDatasource,
-} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { Correction } from '../../../../src/shared/domain/models/index.js';
+import { challengeDatasource } from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
+import { databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { ChallengeLearningContentDataObjectFixture } from '../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture.js';
-import { SkillLearningContentDataObjectFixture } from '../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture.js';
 
 describe('Unit | Repository | correction-repository', function () {
   let tutorialRepository;
 
   beforeEach(function () {
     sinon.stub(challengeDatasource, 'get');
-    sinon.stub(skillDatasource, 'get');
     tutorialRepository = {
       findByRecordIdsForCurrentUser: sinon.stub(),
     };
@@ -61,30 +56,42 @@ describe('Unit | Repository | correction-repository', function () {
     context('normal challenge', function () {
       let challengeDataObject;
 
-      beforeEach(function () {
+      beforeEach(async function () {
         // given
-        const skillDatas = [
-          SkillLearningContentDataObjectFixture({
-            name: '@web1',
-            hintStatus: 'Validé',
-            tutorialIds: ['recTuto1'],
-            learningMoreTutorialIds: ['recTuto3'],
-          }),
-          SkillLearningContentDataObjectFixture({
-            name: '@web2',
-            hintStatus: 'Proposé',
-            tutorialIds: ['recTuto2'],
-            learningMoreTutorialIds: ['recTuto4'],
-          }),
-          SkillLearningContentDataObjectFixture({
-            name: '@web3',
-            hintStatus: 'pré-validé',
-            tutorialIds: [],
-            learningMoreTutorialIds: [],
-          }),
-        ];
-
-        skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'recIdSkill003',
+          name: '@web1',
+          hintStatus: 'Validé',
+          tutorialIds: ['recTuto1'],
+          learningMoreTutorialIds: ['recTuto3'],
+          hint_i18n: {
+            en: 'Can we geo-locate a rabbit on the ice floe?',
+            fr: 'Peut-on géo-localiser un lapin sur la banquise ?',
+          },
+        });
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'skill2',
+          name: '@web2',
+          hintStatus: 'Proposé',
+          tutorialIds: ['recTuto2'],
+          learningMoreTutorialIds: ['recTuto4'],
+          hint_i18n: {
+            en: 'Can we geo-locate a rabbit on the ice floe?',
+            fr: 'Peut-on géo-localiser un lapin sur la banquise ?',
+          },
+        });
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'skill3',
+          name: '@web3',
+          hintStatus: 'pré-validé',
+          tutorialIds: [],
+          learningMoreTutorialIds: [],
+          hint_i18n: {
+            en: 'Can we geo-locate a rabbit on the ice floe?',
+            fr: 'Peut-on géo-localiser un lapin sur la banquise ?',
+          },
+        });
+        await databaseBuilder.commit();
         tutorialRepository.findByRecordIdsForCurrentUser
           .withArgs({ ids: ['recTuto1'], userId, locale })
           .resolves(expectedTutorials);
@@ -128,8 +135,8 @@ describe('Unit | Repository | correction-repository', function () {
         expect(result).to.deep.equal(expectedCorrection);
         expect(challengeDatasource.get).to.have.been.calledWithExactly(recordId);
         expect(expectedCorrection.tutorials.map(({ skillId }) => skillId)).to.deep.equal([
-          'recSK0X22abcdefgh',
-          'recSK0X22abcdefgh',
+          'recIdSkill003',
+          'recIdSkill003',
         ]);
       });
 
@@ -301,7 +308,7 @@ describe('Unit | Repository | correction-repository', function () {
           it('should return null value as hint', async function () {
             // given
             const userId = 1;
-            const providedLocale = 'frop-fr';
+            const providedLocale = 'efr';
             const challengeId = 'recTuto1';
             const challengeId3 = 'recTuto3';
             challengeDataObject = ChallengeLearningContentDataObjectFixture({

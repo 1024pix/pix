@@ -9,6 +9,9 @@ class Skill {
     tubeId,
     version,
     difficulty,
+    status,
+    hintStatus,
+    hint,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -19,6 +22,9 @@ class Skill {
     this.tubeId = tubeId;
     this.version = version;
     this.difficulty = difficulty;
+    this.status = status;
+    this.hintStatus = hintStatus;
+    this.hint = hint;
   }
 
   get tubeName() {

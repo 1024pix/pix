@@ -28,6 +28,7 @@ import * as tokenService from '../src/shared/domain/services/token-service.js';
 import { LearningContentCache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as areaRepository from '../src/shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
+import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 import * as domainBuilder from './tooling/domain-builder/factory/index.js';
 import { jobChai } from './tooling/jobs/expect-job.js';
@@ -81,6 +82,7 @@ afterEach(function () {
   competenceRepository.clearCache();
   thematicRepository.clearCache();
   tubeRepository.clearCache();
+  skillRepository.clearCache();
   return databaseBuilder.clean();
 });
 

@@ -5,16 +5,7 @@ import { CampaignExternalIdTypes } from '../../../../src/prescription/shared/dom
 import { CAMPAIGN_FEATURES } from '../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Campaign } from '../../../../src/shared/domain/models/Campaign.js';
-import { databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
-import {
-  buildArea,
-  buildCompetence,
-  buildFramework,
-  buildSkill,
-  buildThematic,
-  buildTube,
-} from '../../../tooling/domain-builder/factory/index.js';
-import { buildLearningContent } from '../../../tooling/learning-content-builder/index.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | Campaign', function () {
   describe('#areKnowledgeElementsResettable', function () {
@@ -76,57 +67,62 @@ describe('Integration | Repository | Campaign', function () {
   describe('#findAllSkills', function () {
     it('should return the skills for the campaign', async function () {
       // given
-      const framework = buildFramework({ id: 'frameworkId', name: 'someFramework' });
-      const competenceId = 'competenceId';
-      const skill1 = {
+      databaseBuilder.factory.learningContent.buildFramework({ id: 'frameworkId', name: 'someFramework' });
+      databaseBuilder.factory.learningContent.buildArea({ id: 'areaId', frameworkId: 'frameworkId' });
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceId', areaId: 'areaId' });
+      databaseBuilder.factory.learningContent.buildThematic({
+        id: 'thematicId',
+        competenceId: 'competenceId',
+        tubeIds: ['tubeId1', 'tubeId2', 'tubeId3'],
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'tubeId1',
+        competenceId: 'competenceId',
+        skillIds: ['recSK123'],
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'tubeId2',
+        competenceId: 'competenceId',
+        skillIds: ['recSK456'],
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'tubeId3',
+        competenceId: 'competenceId',
+        skillIds: ['recSK789'],
+      });
+      const skill1DB = databaseBuilder.factory.learningContent.buildSkill({
         id: 'recSK123',
         name: '@sau3',
         pixValue: 3,
-        competenceId,
+        competenceId: 'competenceId',
         tutorialIds: [],
         learningMoreTutorialIds: [],
         tubeId: 'tubeId1',
         version: 1,
         level: 3,
-      };
-      const skill2 = {
+      });
+      const skill2DB = databaseBuilder.factory.learningContent.buildSkill({
         id: 'recSK456',
         name: '@sau4',
         pixValue: 3,
-        competenceId,
+        competenceId: 'competenceId',
         tutorialIds: [],
         learningMoreTutorialIds: [],
         tubeId: 'tubeId2',
         version: 1,
         level: 4,
-      };
-      const skill3 = {
+      });
+      databaseBuilder.factory.learningContent.buildSkill({
         id: 'recSK789',
         name: '@sau7',
         pixValue: 3,
-        competenceId,
+        competenceId: 'competenceId',
         tutorialIds: [],
         learningMoreTutorialIds: [],
         tubeId: 'tubeId3',
         version: 1,
         level: 7,
-      };
-      const tube1 = buildTube({ id: 'tubeId1', competenceId, skills: [skill1] });
-      const tube2 = buildTube({ id: 'tubeId2', competenceId, skills: [skill2] });
-      const tube3 = buildTube({ id: 'tubeId3', competenceId, skills: [skill3] });
-      const area = buildArea({ id: 'areaId', frameworkId: framework.id });
-      const competence = buildCompetence({ id: 'competenceId', area, tubes: [tube1, tube2, tube3] });
-      const thematic = buildThematic({
-        id: 'thematicId',
-        competenceId: 'competenceId',
-        tubeIds: ['tubeId1', 'tubeId2', 'tubeId3'],
       });
-      competence.thematics = [thematic];
-      area.competences = [competence];
-      framework.areas = [area];
-      const learningContent = buildLearningContent([framework]);
-      await mockLearningContent(learningContent);
-
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId1' });
       databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId2' });
@@ -145,8 +141,16 @@ describe('Integration | Repository | Campaign', function () {
 
       // Then
       expect(skills).to.have.lengthOf(2);
-      const expectedSkill1 = buildSkill({ ...skill1, difficulty: skill1.level });
-      const expectedSkill2 = buildSkill({ ...skill2, difficulty: skill2.level });
+      const expectedSkill1 = domainBuilder.buildSkill({
+        ...skill1DB,
+        difficulty: skill1DB.level,
+        hint: skill1DB.hint_i18n.fr,
+      });
+      const expectedSkill2 = domainBuilder.buildSkill({
+        ...skill2DB,
+        difficulty: skill2DB.level,
+        hint: skill2DB.hint_i18n.fr,
+      });
       expect(skills).to.have.deep.members([expectedSkill1, expectedSkill2]);
     });
   });

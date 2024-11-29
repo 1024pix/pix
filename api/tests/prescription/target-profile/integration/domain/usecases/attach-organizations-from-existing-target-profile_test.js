@@ -2,14 +2,9 @@ import * as targetProfileRepository from '../../../../../../lib/infrastructure/r
 import { attachOrganizationsFromExistingTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/attach-organizations-from-existing-target-profile.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import { NoOrganizationToAttach, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { skillDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/skill-datasource.js';
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | UseCase | attach-organizations-from-existing-target-profile', function () {
-  beforeEach(function () {
-    sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([]);
-  });
-
   describe('#attachOrganizationsFromExistingTargetProfile', function () {
     it('attaches organizations to target profile with given existing target profile', async function () {
       const existingTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;

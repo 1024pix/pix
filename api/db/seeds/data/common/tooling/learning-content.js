@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { skillDatasource } from '../../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as skillRepository from '../../../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 
 let ALL_COMPETENCES, ALL_ACTIVE_SKILLS, ALL_CHALLENGES, ACTIVE_SKILLS_BY_COMPETENCE, ACTIVE_SKILLS_BY_TUBE;
@@ -35,7 +35,7 @@ async function getCoreCompetences() {
 
 async function getAllActiveSkills() {
   if (!ALL_ACTIVE_SKILLS) {
-    ALL_ACTIVE_SKILLS = await skillDatasource.findActive();
+    ALL_ACTIVE_SKILLS = (await skillRepository.list()).filter((skill) => skill.status === 'actif');
   }
   return ALL_ACTIVE_SKILLS;
 }

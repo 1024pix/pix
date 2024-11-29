@@ -426,7 +426,7 @@ async function _buildCampaignSkills({ databaseBuilder, campaignId, targetProfile
 
   for (const cappedTube of cappedTubes) {
     const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.tubeId);
-    const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
+    const skillsCapped = skillsForTube.filter((skill) => skill.difficulty <= parseInt(cappedTube.level));
     skillsCapped.forEach((skill) => {
       skills.push(skill);
       databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id });
