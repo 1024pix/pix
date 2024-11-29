@@ -165,7 +165,7 @@
           "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
-            "content": "<p></p><h3>Tous les collèges et les lycées publics ont un ENT. </h3><p>Certaines écoles primaires aussi mais ce n’est pas obligatoire.</p><p><br></p><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.</p>"
+            "content": "<h3>La plupart des collèges et des lycées et certaines écoles primaire ont un ENT mais ce n'est pas obligatoire.</h3>\n\n<p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p>\n<p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.</p>"
           }
         }
       ]
