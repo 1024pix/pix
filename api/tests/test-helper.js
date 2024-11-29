@@ -74,6 +74,7 @@ afterEach(function () {
   LearningContentCache.instance.flushAll();
   nock.cleanAll();
   frameworkRepository.clearCache();
+  areaRepository.clearCache();
   return databaseBuilder.clean();
 });
 

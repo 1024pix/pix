@@ -1,636 +1,584 @@
-import _ from 'lodash';
-
+import { PIX_ORIGIN } from '../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { Area } from '../../../../src/shared/domain/models/Area.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Repository | area-repository', function () {
+  const areaData0 = {
+    id: 'recArea0',
+    code: 'area0code',
+    name: 'area0name',
+    title_i18n: {
+      fr: 'area0titleFr',
+      en: 'area0titleEn',
+    },
+    color: 'area0color',
+    frameworkId: 'recFmk123',
+    competenceIds: ['recCompetence1_pix', 'recCompetence4_pix'],
+  };
+  const areaData1 = {
+    id: 'recArea1',
+    code: 'area1code',
+    name: 'area1name',
+    title_i18n: {
+      fr: 'area1titleFr',
+      nl: 'area1titleNl',
+    },
+    color: 'area1color',
+    frameworkId: 'recFmk456',
+    competenceIds: ['recCompetence2_pasPix'],
+  };
+  const areaData2 = {
+    id: 'recArea2',
+    code: 'area2code',
+    name: 'area2name',
+    title_i18n: {
+      fr: 'area2titleFr',
+      nl: 'area2titleNl',
+    },
+    color: 'area2color',
+    frameworkId: 'recFmk123',
+    competenceIds: ['recCompetence3_pix'],
+  };
+  const competenceData1 = {
+    id: 'recCompetence1_pix',
+    name_i18n: { fr: 'name FR recCompetence1_pix', en: 'name EN recCompetence1_pix' },
+    description_i18n: { fr: 'description FR recCompetence1_pix', nl: 'description NL recCompetence1_pix' },
+    index: 'index recCompetence1_pix',
+    areaId: 'recArea0',
+    origin: PIX_ORIGIN,
+    skillIds: ['skillIdA'],
+    thematicIds: ['thematicIdA'],
+  };
+  const competenceData2 = {
+    id: 'recCompetence2_pasPix',
+    name_i18n: { fr: 'name FR recCompetence2_pasPix', en: 'name EN recCompetence2_pasPix' },
+    description_i18n: { fr: 'description FR recCompetence2_pasPix', en: 'description EN recCompetence2_pasPix' },
+    index: 'index recCompetence2_pasPix',
+    areaId: 'recArea1',
+    origin: 'PasPix',
+    skillIds: ['skillIdB'],
+    thematicIds: ['thematicIdB'],
+  };
+  const competenceData3 = {
+    id: 'recCompetence3_pix',
+    name_i18n: { fr: 'name FR recCompetence3_pix', nl: 'name NL recCompetence3_pix' },
+    description_i18n: { fr: 'description FR recCompetence3_pix', en: 'description EN recCompetence3_pix' },
+    index: 'index recCompetence3_pix',
+    areaId: 'recArea2',
+    origin: PIX_ORIGIN,
+    skillIds: ['skillIdC'],
+    thematicIds: ['thematicIdC'],
+  };
+  const competenceData4 = {
+    id: 'recCompetence4_pix',
+    name_i18n: { fr: 'name FR recCompetence4_pix', en: 'name EN recCompetence4_pix' },
+    description_i18n: { fr: 'description FR recCompetence4_pix', en: 'description EN recCompetence4_pix' },
+    index: 'index recCompetence4_pix',
+    areaId: 'recArea0',
+    origin: PIX_ORIGIN,
+    skillIds: ['skillIdD'],
+    thematicIds: ['thematicIdD'],
+  };
+
   describe('#list', function () {
-    const area0 = {
-      id: 'recArea0',
-      code: 'area0code',
-      name: 'area0name',
-      title_i18n: {
-        fr: 'area0titleFr',
-        en: 'area0titleEn,',
-      },
-      color: 'area0color',
-      frameworkId: 'recFmk123',
-      competenceIds: ['recCompetence0'],
-    };
-    const area1 = {
-      id: 'recArea1',
-      code: 'area1code',
-      name: 'area1name',
-      title_i18n: {
-        fr: 'area1titleFr',
-        en: 'area1titleEn,',
-      },
-      color: 'area1color',
-      frameworkId: 'recFmk456',
-      competenceIds: [],
-    };
-
-    const learningContent = { areas: [area0, area1] };
-
     beforeEach(async function () {
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildFramework({ id: 'recFmk123', name: PIX_ORIGIN });
+    databaseBuilder.factory.learningContent.buildFramework({ id: 'recFmk456', name: 'Un framework pas Pix' });
+    databaseBuilder.factory.learningContent.buildArea(areaData1);
+    databaseBuilder.factory.learningContent.buildArea(areaData0);
+    databaseBuilder.factory.learningContent.buildArea(areaData2);
+
+      await databaseBuilder.commit();
     });
 
-    it('should return all areas without fetching competences', async function () {
-      // when
-      const areas = await areaRepository.list();
-
-      // then
-      expect(areas).to.have.lengthOf(2);
-      expect(areas[0]).to.be.instanceof(Area);
-      expect(areas).to.deep.include.members([
-        {
-          id: area0.id,
-          code: area0.code,
-          name: area0.name,
-          title: area0.title_i18n.fr,
-          color: area0.color,
-          frameworkId: area0.frameworkId,
-          competences: [],
-        },
-        {
-          id: area1.id,
-          code: area1.code,
-          name: area1.name,
-          title: area1.title_i18n.fr,
-          color: area1.color,
-          frameworkId: area1.frameworkId,
-          competences: [],
-        },
-      ]);
-    });
-
-    describe('when locale is "en"', function () {
-      it('should return all areas with english title', async function () {
-        // given
-        const locale = 'en';
+    context('when no locale provided', function () {
+      it('should return all areas translated in default locale FR', async function () {
         // when
-        const areas = await areaRepository.list({ locale });
+        const areas = await areaRepository.list();
 
         // then
-        expect(areas[0].title).to.equal(area0.title_i18n.en);
-        expect(areas[1].title).to.equal(area1.title_i18n.en);
+        expect(areas).to.deepEqualArray([
+          domainBuilder.buildArea({
+            ...areaData0,
+            title: areaData0.title_i18n.fr,
+            competences: [],
+          }),
+          domainBuilder.buildArea({
+            ...areaData1,
+            title: areaData1.title_i18n.fr,
+            competences: [],
+          }),
+          domainBuilder.buildArea({
+            ...areaData2,
+            title: areaData2.title_i18n.fr,
+            competences: [],
+          }),
+        ]);
       });
     });
 
-    describe('when locale is not "en"', function () {
-      it('should return all areas with french title', async function () {
-        // given
-        const locale = 'fr';
-
+    context('when a locale is provided', function () {
+      it('should return all areas translated in the given locale or with fallback translations', async function () {
         // when
-        const areas = await areaRepository.list({ locale });
+        const areas = await areaRepository.list({ locale: 'en' });
 
         // then
-        expect(areas[0].title).to.equal(area0.title_i18n.fr);
-        expect(areas[1].title).to.equal(area1.title_i18n.fr);
+        expect(areas).to.deepEqualArray([
+          domainBuilder.buildArea({
+            ...areaData0,
+            title: areaData0.title_i18n.en,
+            competences: [],
+          }),
+          domainBuilder.buildArea({
+            ...areaData1,
+            title: areaData1.title_i18n.fr,
+            competences: [],
+          }),
+          domainBuilder.buildArea({
+            ...areaData2,
+            title: areaData2.title_i18n.fr,
+            competences: [],
+          }),
+        ]);
       });
     });
   });
 
   describe('#getAreaCodeByCompetenceId', function () {
-    const area0 = {
-      id: 'recArea0',
-      code: 3,
-      competenceIds: ['competenceId_01', 'competenceId_02'],
-    };
-    const area1 = {
-      id: 'recArea1',
-      code: 5,
-      competenceIds: ['competenceId_03', 'competenceId_04', 'competenceId_05'],
-    };
-
-    const learningContent = { areas: [area0, area1] };
-
     beforeEach(async function () {
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildArea(areaData1);
+      databaseBuilder.factory.learningContent.buildArea(areaData0);
+      databaseBuilder.factory.learningContent.buildArea(areaData2);
+      await databaseBuilder.commit();
     });
 
-    it('should return the code area', async function () {
-      // when
-      const result = await areaRepository.getAreaCodeByCompetenceId('competenceId_02');
+    context('when competenceId refers to an existing Area', function () {
+      it('should return the code of the corresponding area', async function () {
+        // when
+        const result = await areaRepository.getAreaCodeByCompetenceId('recCompetence1_pix');
 
-      // then
-      expect(result).to.deep.equal(3);
+        // then
+        expect(result).to.deep.equal(areaData0.code);
+      });
+    });
+
+    context('when competenceId is not referenced in any area', function () {
+      it('should return undefined', async function () {
+        // when
+        const result = await areaRepository.getAreaCodeByCompetenceId('competenceId_66');
+
+        // then
+        expect(result).to.be.undefined;
+      });
     });
   });
 
   describe('#listWithPixCompetencesOnly', function () {
-    context('when there are areas that do not have pix competences', function () {
-      const learningContent = {
-        areas: [
-          {
-            id: 'recArea0',
-            code: 'area0code',
-            name: 'area0name',
-            title_i18n: {
-              fr: 'area0titleFr',
-              en: 'area0titleEn',
-            },
-            color: 'area0color',
-            frameworkId: 'recFmk123',
-            competenceIds: ['recCompetence0'],
-          },
-        ],
-        competences: [{ id: 'recCompetence0', origin: 'NotPix' }],
-      };
-
+    context('when there are some area that have pix competences', function () {
       beforeEach(async function () {
-        await mockLearningContent(learningContent);
+        databaseBuilder.factory.learningContent.buildArea(areaData2);
+        databaseBuilder.factory.learningContent.buildArea(areaData0);
+        databaseBuilder.factory.learningContent.buildArea(areaData1);
+        await mockLearningContent({
+          competences: [competenceData1, competenceData2, competenceData3, competenceData4],
+        });
+        // Décommentez-moi quand on aura traité le competence repository
+        /*databaseBuilder.factory.learningContent.buildCompetence(competenceData1);
+        databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
+        databaseBuilder.factory.learningContent.buildCompetence(competenceData3);
+        databaseBuilder.factory.learningContent.buildCompetence(competenceData4);*/
+        await databaseBuilder.commit();
       });
+      context('when a locale is provided', function () {
+        it('should return only areas with pix competences with entities translated in given locale when possible or fallback to default locale FR', async function () {
+          // when
+          const areas = await areaRepository.listWithPixCompetencesOnly({ locale: 'en' });
 
-      it('should ignore the area', async function () {
-        // when
-        const areas = await areaRepository.listWithPixCompetencesOnly();
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.en,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData1,
+                  name: competenceData1.name_i18n.en,
+                  description: competenceData1.description_i18n.fr,
+                }),
+                domainBuilder.buildCompetence({
+                  ...competenceData4,
+                  name: competenceData4.name_i18n.en,
+                  description: competenceData4.description_i18n.en,
+                }),
+              ],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData3,
+                  name: competenceData3.name_i18n.fr,
+                  description: competenceData3.description_i18n.en,
+                }),
+              ],
+            }),
+          ]);
+        });
+      });
+      context('when no locale is provided', function () {
+        it('should return only areas with pix competences with entities translated in default locale FR', async function () {
+          // when
+          const areas = await areaRepository.listWithPixCompetencesOnly();
 
-        // then
-        expect(areas).to.be.empty;
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.fr,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData1,
+                  name: competenceData1.name_i18n.fr,
+                  description: competenceData1.description_i18n.fr,
+                }),
+                domainBuilder.buildCompetence({
+                  ...competenceData4,
+                  name: competenceData4.name_i18n.fr,
+                  description: competenceData4.description_i18n.fr,
+                }),
+              ],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData3,
+                  name: competenceData3.name_i18n.fr,
+                  description: competenceData3.description_i18n.fr,
+                }),
+              ],
+            }),
+          ]);
+        });
       });
     });
-
-    context('when there are areas that have pix competences', function () {
-      const area0 = {
-        id: 'recArea0',
-        code: 'area0code',
-        name: 'area0name',
-        title_i18n: {
-          fr: 'area0titleFr',
-          en: 'area0titleEn',
-        },
-        color: 'area0color',
-        frameworkId: 'recFmk123',
-        competenceIds: ['recCompetence0', 'recCompetence1'],
-      };
-
-      const area1 = {
-        id: 'recArea1',
-        code: 'area1code',
-        name: 'area1name',
-        title_i18n: {
-          fr: 'area1titleFr',
-          en: 'area1titleEn',
-        },
-        color: 'area1color',
-        frameworkId: 'recFmk456',
-        competenceIds: ['recCompetence2', 'recCompetence3'],
-      };
-
-      const learningContent = {
-        areas: [area0, area1],
-        competences: [
-          { id: 'recCompetence0', origin: 'NotPix', areaId: 'recArea0' },
-          { id: 'recCompetence1', origin: 'Pix', areaId: 'recArea0' },
-          { id: 'recCompetence2', origin: 'NotPix', areaId: 'recArea1' },
-          { id: 'recCompetence3', origin: 'Pix', areaId: 'recArea1' },
-        ],
-      };
-
+    context('when there are no areas that have pix competences', function () {
       beforeEach(async function () {
-        await mockLearningContent(learningContent);
+        databaseBuilder.factory.learningContent.buildArea(areaData1);
+        await mockLearningContent({
+          competences: [competenceData2],
+        });
+        // Décommentez-moi quand on aura traité le competence repository
+        /*databaseBuilder.factory.learningContent.buildCompetence(competenceData2);*/
+        await databaseBuilder.commit();
       });
 
-      it('should return the areas with only pix competences in it', async function () {
+      it('should return an empty array', async function () {
         // when
         const areas = await areaRepository.listWithPixCompetencesOnly();
 
         // then
-        expect(areas).to.have.lengthOf(2);
-        expect(areas[0]).to.be.instanceof(Area);
-        expect(_.omit(areas[0], 'competences')).to.deep.equal({
-          id: area0.id,
-          code: area0.code,
-          name: area0.name,
-          title: area0.title_i18n.fr,
-          color: area0.color,
-          frameworkId: area0.frameworkId,
-        });
-        expect(areas[0].competences).to.have.lengthOf(1);
-        expect(areas[0].competences[0].id).to.equal('recCompetence1');
-        expect(_.omit(areas[1], 'competences')).to.deep.equal({
-          id: area1.id,
-          code: area1.code,
-          name: area1.name,
-          title: area1.title_i18n.fr,
-          color: area1.color,
-          frameworkId: area1.frameworkId,
-        });
-        expect(areas[1].competences).to.have.lengthOf(1);
-        expect(areas[1].competences[0].id).to.equal('recCompetence3');
+        expect(areas).to.deep.equal([]);
       });
     });
   });
 
   describe('#findByFrameworkIdWithCompetences', function () {
-    const area0 = {
-      id: 'recArea0',
-      code: 'area0code',
-      name: 'area0name',
-      title_i18n: {
-        fr: 'area0titleFr',
-        en: 'area0titleEn',
-      },
-      color: 'area0color',
-      frameworkId: 'framework1',
-      competenceIds: ['recCompetence0', 'recCompetence1'],
-    };
-
-    const area1 = {
-      id: 'recArea1',
-      code: 'area1code',
-      name: 'area1name',
-      title_i18n: {
-        fr: 'area1titleFr',
-        en: 'area1titleEn',
-      },
-      color: 'area1color',
-      frameworkId: 'framework2',
-      competenceIds: ['recCompetence2', 'recCompetence3'],
-    };
-
-    const learningContent = {
-      areas: [area0, area1],
-      competences: [
-        {
-          id: 'recCompetence0',
-          areaId: 'recArea0',
-          name_i18n: {
-            fr: 'competence0NameFr',
-            en: 'competence0NameEn',
-          },
-          description_i18n: {
-            fr: 'competence0DescriptionFr',
-            en: 'competence0DescriptionEn',
-          },
-        },
-        {
-          id: 'recCompetence1',
-          areaId: 'recArea0',
-          name_i18n: {
-            fr: 'competence1NameFr',
-            en: 'competence1NameEn',
-          },
-          description_i18n: {
-            fr: 'competence1DescriptionFr',
-            en: 'competence1DescriptionEn',
-          },
-        },
-        {
-          id: 'recCompetence2',
-          areaId: 'recArea1',
-          name_i18n: {
-            fr: 'competence2NameFr',
-            en: 'competence2NameEn',
-          },
-          description_i18n: {
-            fr: 'competence2DescriptionFr',
-            en: 'competence2DescriptionEn',
-          },
-        },
-        {
-          id: 'recCompetence3',
-          areaId: 'recArea1',
-          name_i18n: {
-            fr: 'competence3NameFr',
-            en: 'competence3NameEn',
-          },
-          description_i18n: {
-            fr: 'competence3DescriptionFr',
-            en: 'competence3DescriptionEn',
-          },
-        },
-      ],
-    };
-
     beforeEach(async function () {
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildArea(areaData2);
+      databaseBuilder.factory.learningContent.buildArea(areaData0);
+      databaseBuilder.factory.learningContent.buildArea(areaData1);
+      await mockLearningContent({
+        competences: [competenceData1, competenceData2, competenceData3, competenceData4],
+      });
+      // Décommentez-moi quand on aura traité le competence repository
+      /*databaseBuilder.factory.learningContent.buildCompetence(competenceData1);
+      databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
+      databaseBuilder.factory.learningContent.buildCompetence(competenceData3);
+      databaseBuilder.factory.learningContent.buildCompetence(competenceData4);*/
+      await databaseBuilder.commit();
     });
 
-    it('should return a list of areas from the proper framework', async function () {
-      // when
-      const areas = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId: 'framework1' });
+    context('when some areas have the given framework id', function () {
+      context('when a locale is provided', function () {
+        it('should return the areas with competences with all entities translated in given locale or fallback to default locale FR', async function () {
+          // when
+          const areas = await areaRepository.findByFrameworkIdWithCompetences({
+            frameworkId: 'recFmk123',
+            locale: 'en',
+          });
 
-      // then
-      expect(areas).to.have.lengthOf(1);
-      expect(areas[0]).to.be.instanceof(Area);
-      expect(_.omit(areas[0], 'competences')).to.deep.equal({
-        id: area0.id,
-        code: area0.code,
-        name: area0.name,
-        title: area0.title_i18n.fr,
-        color: area0.color,
-        frameworkId: area0.frameworkId,
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.en,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData1,
+                  name: competenceData1.name_i18n.en,
+                  description: competenceData1.description_i18n.fr,
+                }),
+                domainBuilder.buildCompetence({
+                  ...competenceData4,
+                  name: competenceData4.name_i18n.en,
+                  description: competenceData4.description_i18n.en,
+                }),
+              ],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData3,
+                  name: competenceData3.name_i18n.fr,
+                  description: competenceData3.description_i18n.en,
+                }),
+              ],
+            }),
+          ]);
+        });
       });
-      expect(areas[0].competences).to.have.lengthOf(2);
-      expect(areas[0].competences[0].id).to.equal('recCompetence0');
-      expect(areas[0].competences[0].name).to.equal('competence0NameFr');
-      expect(areas[0].competences[0].description).to.equal('competence0DescriptionFr');
-      expect(areas[0].competences[1].id).to.equal('recCompetence1');
-      expect(areas[0].competences[1].name).to.equal('competence1NameFr');
-      expect(areas[0].competences[1].description).to.equal('competence1DescriptionFr');
+      context('when no locale is provided', function () {
+        it('should return the areas with competences with all entities translated in default locale FR', async function () {
+          // when
+          const areas = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId: 'recFmk123' });
+
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.fr,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData1,
+                  name: competenceData1.name_i18n.fr,
+                  description: competenceData1.description_i18n.fr,
+                }),
+                domainBuilder.buildCompetence({
+                  ...competenceData4,
+                  name: competenceData4.name_i18n.fr,
+                  description: competenceData4.description_i18n.fr,
+                }),
+              ],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [
+                domainBuilder.buildCompetence({
+                  ...competenceData3,
+                  name: competenceData3.name_i18n.fr,
+                  description: competenceData3.description_i18n.fr,
+                }),
+              ],
+            }),
+          ]);
+        });
+      });
     });
+    context('when no areas exist for given framework id', function () {
+      it('should return an empty array', async function () {
+        // when
+        const areas = await areaRepository.findByFrameworkIdWithCompetences({
+          frameworkId: 'BLOUBLOU',
+        });
 
-    it('should return a list of areas in english', async function () {
-      // when
-      const areas = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId: 'framework1', locale: 'en' });
-
-      // then
-      expect(areas).to.have.lengthOf(1);
-      expect(areas[0]).to.be.instanceof(Area);
-      expect(_.omit(areas[0], 'competences')).to.deep.equal({
-        id: area0.id,
-        code: area0.code,
-        name: area0.name,
-        title: area0.title_i18n.en,
-        color: area0.color,
-        frameworkId: area0.frameworkId,
+        // then
+        expect(areas).to.deep.equal([]);
       });
-      expect(areas[0].competences).to.have.lengthOf(2);
-      expect(areas[0].competences[0].id).to.equal('recCompetence0');
-      expect(areas[0].competences[0].name).to.equal('competence0NameEn');
-      expect(areas[0].competences[0].description).to.equal('competence0DescriptionEn');
-      expect(areas[0].competences[1].id).to.equal('recCompetence1');
-      expect(areas[0].competences[1].name).to.equal('competence1NameEn');
-      expect(areas[0].competences[1].description).to.equal('competence1DescriptionEn');
     });
   });
 
   describe('#findByRecordIds', function () {
-    it('should return a list of areas', async function () {
-      // given
-      const area1 = domainBuilder.buildArea({
-        id: 'recArea1',
-        code: 4,
-        name: 'area_name1',
-        title: 'area_title1FR',
-        color: 'blue1',
-        frameworkId: 'recFwkId1',
-      });
-      const area2 = domainBuilder.buildArea({
-        id: 'recArea2',
-        code: 6,
-        name: 'area_name2',
-        title: 'area_title2FR',
-        color: 'blue2',
-        frameworkId: 'recFwkId2',
-      });
-
-      const learningContentArea0 = {
-        id: 'recArea0',
-        code: 1,
-        name: 'area_name0',
-        title_i18n: {
-          fr: 'area_title0FR',
-          en: 'area_title0EN',
-        },
-        color: 'blue0',
-        frameworkId: 'recFwkId0',
-      };
-
-      const learningContentArea1 = {
-        id: 'recArea1',
-        code: 4,
-        name: 'area_name1',
-        title_i18n: {
-          fr: 'area_title1FR',
-          en: 'area_title1EN',
-        },
-        color: 'blue1',
-        frameworkId: 'recFwkId1',
-      };
-
-      const learningContentArea2 = {
-        id: 'recArea2',
-        code: 6,
-        name: 'area_name2',
-        title_i18n: {
-          fr: 'area_title2FR',
-          en: 'area_title2EN',
-        },
-        color: 'blue2',
-        frameworkId: 'recFwkId2',
-      };
-
-      await mockLearningContent({ areas: [learningContentArea0, learningContentArea1, learningContentArea2] });
-
-      // when
-      const areas = await areaRepository.findByRecordIds({ areaIds: ['recArea1', 'recArea2'] });
-
-      // then
-      expect(areas).to.deepEqualArray([area1, area2]);
+    beforeEach(async function () {
+      databaseBuilder.factory.learningContent.buildArea(areaData1);
+      databaseBuilder.factory.learningContent.buildArea(areaData2);
+      databaseBuilder.factory.learningContent.buildArea(areaData0);
+      await databaseBuilder.commit();
     });
 
-    it('should return a list of english areas', async function () {
-      // given
-      const area1 = domainBuilder.buildArea({
-        id: 'recArea1',
-        code: 4,
-        name: 'area_name1',
-        title: 'area_title1EN',
-        color: 'blue1',
-        frameworkId: 'recFwkId1',
+    context('when areas found by ids', function () {
+      context('when no locale provided', function () {
+        it('should return all areas found translated in default locale FR given by their ids', async function () {
+          // when
+          const areas = await areaRepository.findByRecordIds({ areaIds: ['recArea2', 'recArea0'] });
+
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.fr,
+              competences: [],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [],
+            }),
+          ]);
+        });
       });
-      const area2 = domainBuilder.buildArea({
-        id: 'recArea2',
-        code: 6,
-        name: 'area_name2',
-        title: 'area_title2EN',
-        color: 'blue2',
-        frameworkId: 'recFwkId2',
+
+      context('when a locale is provided', function () {
+        it('should return all areas found translated in provided locale or fallback to default locale FR given by their ids', async function () {
+          // when
+          const areas = await areaRepository.findByRecordIds({ areaIds: ['recArea2', 'recArea0'], locale: 'en' });
+
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.en,
+              competences: [],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [],
+            }),
+          ]);
+        });
       });
+    });
 
-      const learningContentArea0 = {
-        id: 'recArea0',
-        code: 1,
-        name: 'area_name0',
-        title_i18n: {
-          fr: 'area_title0FR',
-          en: 'area_title0EN',
-        },
-        color: 'blue0',
-        frameworkId: 'recFwkId0',
-      };
+    context('when no areas found for given ids', function () {
+      it('should return an empty array', async function () {
+        // when
+        const areas = await areaRepository.findByRecordIds({ areaIds: ['recAreaCOUCOU', 'recAreaMAMAN'] });
 
-      const learningContentArea1 = {
-        id: 'recArea1',
-        code: 4,
-        name: 'area_name1',
-        title_i18n: {
-          fr: 'area_title1FR',
-          en: 'area_title1EN',
-        },
-        color: 'blue1',
-        frameworkId: 'recFwkId1',
-      };
-
-      const learningContentArea2 = {
-        id: 'recArea2',
-        code: 6,
-        name: 'area_name2',
-        title_i18n: {
-          fr: 'area_title2FR',
-          en: 'area_title2EN',
-        },
-        color: 'blue2',
-        frameworkId: 'recFwkId2',
-      };
-
-      await mockLearningContent({ areas: [learningContentArea0, learningContentArea1, learningContentArea2] });
-
-      // when
-      const areas = await areaRepository.findByRecordIds({ areaIds: ['recArea1', 'recArea2'], locale: 'en' });
-
-      // then
-      expect(areas).to.deepEqualArray([area1, area2]);
+        // then
+        expect(areas).to.deep.equal([]);
+      });
     });
   });
 
   describe('#get', function () {
     beforeEach(async function () {
-      const learningContentArea0 = {
-        id: 'recArea0',
-        code: 1,
-        name: 'area_name0',
-        title_i18n: {
-          fr: 'area_title0FR',
-          en: 'area_title0EN',
-        },
-        color: 'blue0',
-        frameworkId: 'recFwkId0',
-      };
-      const learningContentArea1 = {
-        id: 'recArea1',
-        code: 4,
-        name: 'area_name1',
-        title_i18n: {
-          fr: 'area_title1FR',
-          en: 'area_title1EN',
-        },
-        color: 'blue1',
-        frameworkId: 'recFwkId1',
-      };
-      await mockLearningContent({ areas: [learningContentArea0, learningContentArea1] });
+      databaseBuilder.factory.learningContent.buildArea(areaData1);
+      databaseBuilder.factory.learningContent.buildArea(areaData0);
+      await databaseBuilder.commit();
     });
 
-    it('should return the area', async function () {
-      // when
-      const area = await areaRepository.get({ id: 'recArea1' });
+    context('when area is found', function () {
+      context('when a locale is provided', function () {
+        it('should return the area translated with the provided locale of fallback to default locale FR', async function () {
+          // given
+          const area0 = await areaRepository.get({ id: 'recArea0', locale: 'nl' });
+          const area1 = await areaRepository.get({ id: 'recArea1', locale: 'nl' });
 
-      // then
-      const expectedArea = domainBuilder.buildArea({
-        id: 'recArea1',
-        code: 4,
-        name: 'area_name1',
-        title: 'area_title1FR',
-        color: 'blue1',
-        frameworkId: 'recFwkId1',
+          // then
+          expect(area0).to.deepEqualInstance(
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.fr,
+              competences: [],
+            }),
+          );
+          expect(area1).to.deepEqualInstance(
+            domainBuilder.buildArea({
+              ...areaData1,
+              title: areaData1.title_i18n.nl,
+              competences: [],
+            }),
+          );
+        });
       });
-      expect(area).to.deepEqualInstance(expectedArea);
+      context('when no locale is provided', function () {
+        it('should return the area translated with default locale FR', async function () {
+          // when
+          const area1 = await areaRepository.get({ id: 'recArea1' });
+
+          // then
+          expect(area1).to.deepEqualInstance(
+            domainBuilder.buildArea({
+              ...areaData1,
+              title: areaData1.title_i18n.fr,
+              competences: [],
+            }),
+          );
+        });
+      });
     });
+    context('when no area found', function () {
+      it('should throw a NotFound error', async function () {
+        // when
+        const err = await catchErr(areaRepository.get, areaRepository)({ id: 'recCouCouPapa' });
 
-    it('should throw a NotFound error', async function () {
-      // when
-      const error = await catchErr(areaRepository.get)({ id: 'jexistepas' });
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('Area "jexistepas" not found.');
+        // then
+        expect(err).to.be.instanceOf(NotFoundError);
+        expect(err.message).to.equal('Area "recCouCouPapa" not found.');
+      });
     });
   });
 
   describe('#findByFrameworkId', function () {
     beforeEach(async function () {
-      const area0 = {
-        id: 'recArea0',
-        code: 'area0code',
-        name: 'area0name',
-        title_i18n: {
-          fr: 'area0titleFr',
-          en: 'area0titleEn',
-        },
-        color: 'area0color',
-        frameworkId: 'framework1',
-      };
-      const area1 = {
-        id: 'recArea1',
-        code: 'area1code',
-        name: 'area1name',
-        title_i18n: {
-          fr: 'area1titleFr',
-          en: 'area1titleEn',
-        },
-        color: 'area1color',
-        frameworkId: 'framework2',
-      };
-      const area2 = {
-        id: 'recArea2',
-        code: 'area2code',
-        name: 'area2name',
-        title_i18n: {
-          fr: 'area2titleFr',
-          en: 'area2titleEn',
-        },
-        color: 'area2color',
-        frameworkId: 'framework1',
-      };
-      const learningContent = {
-        areas: [area0, area1, area2],
-      };
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildArea(areaData2);
+      databaseBuilder.factory.learningContent.buildArea(areaData0);
+      databaseBuilder.factory.learningContent.buildArea(areaData1);
+      await databaseBuilder.commit();
     });
 
-    it('should return a list of areas from the proper framework', async function () {
-      // when
-      const areas = await areaRepository.findByFrameworkId({ frameworkId: 'framework1' });
+    context('when some areas have the given framework id', function () {
+      context('when a locale is provided', function () {
+        it('should return the areas translated in given locale or fallback to default locale FR', async function () {
+          // when
+          const areas = await areaRepository.findByFrameworkId({
+            frameworkId: 'recFmk123',
+            locale: 'en',
+          });
 
-      // then
-      const area0 = domainBuilder.buildArea({
-        id: 'recArea0',
-        code: 'area0code',
-        name: 'area0name',
-        title: 'area0titleFr',
-        color: 'area0color',
-        frameworkId: 'framework1',
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.en,
+              competences: [],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [],
+            }),
+          ]);
+        });
       });
-      const area2 = domainBuilder.buildArea({
-        id: 'recArea2',
-        code: 'area2code',
-        name: 'area2name',
-        title: 'area2titleFr',
-        color: 'area2color',
-        frameworkId: 'framework1',
+      context('when no locale is provided', function () {
+        it('should return the areas translated in default locale FR', async function () {
+          // when
+          const areas = await areaRepository.findByFrameworkId({ frameworkId: 'recFmk123' });
+
+          // then
+          expect(areas).to.deepEqualArray([
+            domainBuilder.buildArea({
+              ...areaData0,
+              title: areaData0.title_i18n.fr,
+              competences: [],
+            }),
+            domainBuilder.buildArea({
+              ...areaData2,
+              title: areaData2.title_i18n.fr,
+              competences: [],
+            }),
+          ]);
+        });
       });
-      expect(areas).to.deepEqualArray([area0, area2]);
     });
+    context('when no areas exist for given framework id', function () {
+      it('should return an empty array', async function () {
+        // when
+        const areas = await areaRepository.findByFrameworkId({
+          frameworkId: 'BLOUBLOU',
+        });
 
-    it('should return a list of areas in english', async function () {
-      // when
-      const areas = await areaRepository.findByFrameworkId({ frameworkId: 'framework1', locale: 'en' });
-
-      // then
-      const area0 = domainBuilder.buildArea({
-        id: 'recArea0',
-        code: 'area0code',
-        name: 'area0name',
-        title: 'area0titleEn',
-        color: 'area0color',
-        frameworkId: 'framework1',
+        // then
+        expect(areas).to.deep.equal([]);
       });
-      const area2 = domainBuilder.buildArea({
-        id: 'recArea2',
-        code: 'area2code',
-        name: 'area2name',
-        title: 'area2titleEn',
-        color: 'area2color',
-        frameworkId: 'framework1',
-      });
-      expect(areas).to.deepEqualArray([area0, area2]);
     });
   });
 });
