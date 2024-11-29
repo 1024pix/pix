@@ -1,408 +1,357 @@
+import { PIX_ORIGIN } from '../../../../../src/shared/domain/constants.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
-import { domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | competence-repository', function () {
+  const competenceData1 = {
+    id: 'recCompetence1_pix',
+    name_i18n: { fr: 'name FR recCompetence1_pix', en: 'name EN recCompetence1_pix' },
+    description_i18n: { fr: 'description FR recCompetence1_pix', nl: 'description NL recCompetence1_pix' },
+    index: 'index recCompetence1_pix',
+    areaId: 'recArea1',
+    origin: PIX_ORIGIN,
+    skillIds: ['skillIdA'],
+    thematicIds: ['thematicIdA'],
+  };
+  const competenceData2 = {
+    id: 'recCompetence2_pasPix',
+    name_i18n: { fr: 'name FR recCompetence2_pasPix', en: 'name EN recCompetence2_pasPix' },
+    description_i18n: { fr: 'description FR recCompetence2_pasPix', en: 'description EN recCompetence2_pasPix' },
+    index: 'index recCompetence2_pasPix',
+    areaId: 'recArea0',
+    origin: 'PasPix',
+    skillIds: ['skillIdB'],
+    thematicIds: ['thematicIdB'],
+  };
+  const competenceData3 = {
+    id: 'recCompetence3_pix',
+    name_i18n: { fr: 'name FR recCompetence3_pix', nl: 'name NL recCompetence3_pix' },
+    description_i18n: { fr: 'description FR recCompetence3_pix', en: 'description EN recCompetence3_pix' },
+    index: 'index recCompetence3_pix',
+    areaId: 'recArea1',
+    origin: PIX_ORIGIN,
+    skillIds: ['skillIdC'],
+    thematicIds: ['thematicIdC'],
+  };
+
+  beforeEach(async function () {
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData3);
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData1);
+    await databaseBuilder.commit();
+  });
+
   describe('#get', function () {
-    it('should return the competence with full area (minus name)', async function () {
-      // given
-      const expectedCompetence = domainBuilder.buildCompetence();
-      const learningContent = {
-        competences: [
-          {
-            ...expectedCompetence,
-            description_i18n: {
-              fr: expectedCompetence.description,
-            },
-            name_i18n: {
-              fr: expectedCompetence.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when competence found for given id', function () {
+      context('when locale is provided', function () {
+        it('should return the competence translated in the provided locale or fallback to default locale FR', async function () {
+          // when
+          const competence = await competenceRepository.get({ id: 'recCompetence3_pix', locale: 'en' });
 
-      // when
-      const competence = await competenceRepository.get({ id: expectedCompetence.id });
+          // then
+          expect(competence).to.deepEqualInstance(
+            domainBuilder.buildCompetence({
+              ...competenceData3,
+              name: competenceData3.name_i18n.fr,
+              description: competenceData3.description_i18n.en,
+            }),
+          );
+        });
+      });
+      context('when no locale provided', function () {
+        it('should return the competence translated in default locale FR', async function () {
+          // when
+          const competence = await competenceRepository.get({ id: 'recCompetence3_pix' });
 
-      // then
-      expect(competence).to.deepEqualInstance(expectedCompetence);
+          // then
+          expect(competence).to.deepEqualInstance(
+            domainBuilder.buildCompetence({
+              ...competenceData3,
+              name: competenceData3.name_i18n.fr,
+              description: competenceData3.description_i18n.fr,
+            }),
+          );
+        });
+      });
     });
 
-    it('should return the competence with appropriate translations', async function () {
-      // given
-      const locale = 'en';
-      const expectedCompetence = domainBuilder.buildCompetence();
-      const learningContent = {
-        competences: [
-          {
-            ...expectedCompetence,
-            description_i18n: {
-              en: expectedCompetence.description,
-            },
-            name_i18n: {
-              en: expectedCompetence.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when no competence found', function () {
+      it('should throw a NotFound error', async function () {
+        // when
+        const err = await catchErr(
+          competenceRepository.get,
+          competenceRepository,
+        )({ id: 'CoucouLesZamis', locale: 'en' });
 
-      // when
-      const competence = await competenceRepository.get({ id: expectedCompetence.id, locale });
-
-      // then
-      expect(competence).to.deepEqualInstance(expectedCompetence);
+        // then
+        expect(err).to.be.instanceOf(NotFoundError);
+        expect(err.message).to.equal('La compétence demandée n’existe pas');
+      });
     });
   });
 
   describe('#getCompetenceName', function () {
-    it('should return the competence name with appropriate translations', async function () {
-      // given
-      const locale = 'en';
-      const expectedCompetence = domainBuilder.buildCompetence();
-      const learningContent = {
-        competences: [
-          {
-            ...expectedCompetence,
-            description_i18n: {
-              en: expectedCompetence.description,
-            },
-            name_i18n: {
-              en: expectedCompetence.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when competence found for given id', function () {
+      context('when locale is provided', function () {
+        it('should return the competence name translated in the provided locale or fallback to default locale FR', async function () {
+          // when
+          const competenceName = await competenceRepository.getCompetenceName({
+            id: 'recCompetence1_pix',
+            locale: 'en',
+          });
 
-      // when
-      const competenceName = await competenceRepository.getCompetenceName({ id: expectedCompetence.id, locale });
+          // then
+          expect(competenceName).to.equal(competenceData1.name_i18n.en);
+        });
+      });
+      context('when no locale provided', function () {
+        it('should return the competence name translated in default locale FR', async function () {
+          // when
+          const competenceName = await competenceRepository.getCompetenceName({ id: 'recCompetence1_pix' });
 
-      // then
-      expect(competenceName).to.equal(expectedCompetence.name);
+          // then
+          expect(competenceName).to.equal(competenceData1.name_i18n.fr);
+        });
+      });
+    });
+
+    context('when no competence found', function () {
+      it('should throw a NotFound error', async function () {
+        // when
+        const err = await catchErr(
+          competenceRepository.getCompetenceName,
+          competenceRepository,
+        )({ id: 'CoucouLesZamis', locale: 'en' });
+
+        // then
+        expect(err).to.be.instanceOf(NotFoundError);
+        expect(err.message).to.equal('La compétence demandée n’existe pas');
+      });
     });
   });
 
   describe('#list', function () {
-    it('should return the competences', async function () {
-      // given
-      const competence1 = domainBuilder.buildCompetence({ id: 'competence1' });
-      const competence2 = domainBuilder.buildCompetence({ id: 'competence2' });
-      const learningContent = {
-        competences: [
-          {
-            ...competence1,
-            description_i18n: {
-              fr: competence1.description,
-            },
-            name_i18n: {
-              fr: competence1.name,
-            },
-          },
-          {
-            ...competence2,
-            description_i18n: {
-              fr: competence2.description,
-            },
-            name_i18n: {
-              fr: competence2.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when no locale provided', function () {
+      it('should return all competences translated by default with locale FR-FR ordered by index', async function () {
+        // when
+        const competences = await competenceRepository.list();
 
-      // when
-      const competences = await competenceRepository.list();
-
-      // then
-      expect(competences).to.deepEqualArray([competence1, competence2]);
+        // then
+        expect(competences).to.deepEqualArray([
+          domainBuilder.buildCompetence({
+            ...competenceData1,
+            name: competenceData1.name_i18n.fr,
+            description: competenceData1.description_i18n.fr,
+          }),
+          domainBuilder.buildCompetence({
+            ...competenceData2,
+            name: competenceData2.name_i18n.fr,
+            description: competenceData2.description_i18n.fr,
+          }),
+          domainBuilder.buildCompetence({
+            ...competenceData3,
+            name: competenceData3.name_i18n.fr,
+            description: competenceData3.description_i18n.fr,
+          }),
+        ]);
+      });
     });
 
-    it('should return the competences with appropriate translations', async function () {
-      // given
-      const locale = 'en';
-      const competence = domainBuilder.buildCompetence();
-      const learningContent = {
-        competences: [
-          {
-            ...competence,
-            description_i18n: {
-              en: competence.description,
-            },
-            name_i18n: {
-              en: competence.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when a locale is provided', function () {
+      it('should return all competences translated in the given locale or with fallback FR-FR', async function () {
+        // when
+        const competences = await competenceRepository.list({ locale: 'en' });
 
-      // when
-      const competences = await competenceRepository.list({ locale });
-
-      // then
-      expect(competences).to.deepEqualArray([competence]);
+        // then
+        expect(competences).to.deepEqualArray([
+          domainBuilder.buildCompetence({
+            ...competenceData1,
+            name: competenceData1.name_i18n.en,
+            description: competenceData1.description_i18n.fr,
+          }),
+          domainBuilder.buildCompetence({
+            ...competenceData2,
+            name: competenceData2.name_i18n.en,
+            description: competenceData2.description_i18n.en,
+          }),
+          domainBuilder.buildCompetence({
+            ...competenceData3,
+            name: competenceData3.name_i18n.fr,
+            description: competenceData3.description_i18n.en,
+          }),
+        ]);
+      });
     });
   });
 
   describe('#listPixCompetencesOnly', function () {
-    it('should return the competences with only Pix as origin', async function () {
-      // given
-      const pixCompetence = domainBuilder.buildCompetence({ id: 'competence1', origin: 'Pix' });
-      const nonPixCompetence = domainBuilder.buildCompetence({ id: 'competence2', origin: 'Continuum Espace temps' });
-      const learningContent = {
-        competences: [
-          {
-            ...pixCompetence,
-            description_i18n: {
-              fr: pixCompetence.description,
-            },
-            name_i18n: {
-              fr: pixCompetence.name,
-            },
-          },
-          {
-            ...nonPixCompetence,
-            description_i18n: {
-              fr: nonPixCompetence.description,
-            },
-            name_i18n: {
-              fr: nonPixCompetence.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when no locale provided', function () {
+      it('should return all pix competences translated by default with locale FR-FR ordered by index', async function () {
+        // when
+        const competences = await competenceRepository.listPixCompetencesOnly();
 
-      // when
-      const competences = await competenceRepository.listPixCompetencesOnly();
-
-      // then
-      expect(competences).to.deepEqualArray([pixCompetence]);
+        // then
+        expect(competences).to.deepEqualArray([
+          domainBuilder.buildCompetence({
+            ...competenceData1,
+            name: competenceData1.name_i18n.fr,
+            description: competenceData1.description_i18n.fr,
+          }),
+          domainBuilder.buildCompetence({
+            ...competenceData3,
+            name: competenceData3.name_i18n.fr,
+            description: competenceData3.description_i18n.fr,
+          }),
+        ]);
+      });
     });
 
-    it('should return the competences with appropriate translations', async function () {
-      // given
-      const locale = 'en';
-      const competence = domainBuilder.buildCompetence({ origin: 'Pix' });
-      const learningContent = {
-        competences: [
-          {
-            ...competence,
-            description_i18n: {
-              en: competence.description,
-            },
-            name_i18n: {
-              en: competence.name,
-            },
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when a locale is provided', function () {
+      it('should return all pix competences translated in the given locale or with fallback FR-FR', async function () {
+        // when
+        const competences = await competenceRepository.listPixCompetencesOnly({ locale: 'en' });
 
-      // when
-      const competences = await competenceRepository.listPixCompetencesOnly({ locale });
-
-      // then
-      expect(competences).to.deepEqualArray([competence]);
+        // then
+        expect(competences).to.deepEqualArray([
+          domainBuilder.buildCompetence({
+            ...competenceData1,
+            name: competenceData1.name_i18n.en,
+            description: competenceData1.description_i18n.fr,
+          }),
+          domainBuilder.buildCompetence({
+            ...competenceData3,
+            name: competenceData3.name_i18n.fr,
+            description: competenceData3.description_i18n.en,
+          }),
+        ]);
+      });
     });
   });
 
   describe('#findByRecordIds', function () {
-    beforeEach(async function () {
-      const learningContent = {
-        competences: [
-          {
-            id: 'competence1',
-            name_i18n: { fr: 'competence1 name fr', en: 'competence1 name en' },
-            index: '1.1',
-            description_i18n: { fr: 'competence1 description fr', en: 'competence1 description en' },
-            origin: 'competence1 origin',
-            skillIds: ['skillA'],
-            thematicIds: ['thematicA'],
-            areaId: 'area1',
-          },
-          {
-            id: 'competence2',
-            name_i18n: { fr: 'competence2 name fr', en: 'competence2 name en' },
-            index: '2.2',
-            description_i18n: { fr: 'competence2 description fr', en: 'competence2 description en' },
-            origin: 'competence2 origin',
-            skillIds: ['skillB'],
-            thematicIds: ['thematicB'],
-            areaId: 'area2',
-          },
-          {
-            id: 'competence3',
-            name_i18n: { fr: 'competence3 name fr', en: 'competence3 name en' },
-            index: '3.3',
-            description_i18n: { fr: 'competence3 description fr', en: 'competence3 description en' },
-            origin: 'competence3 origin',
-            skillIds: ['skillC'],
-            thematicIds: ['thematicC'],
-            areaId: 'area3',
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+    context('when competences found by ids', function () {
+      context('when no locale provided', function () {
+        it('should return all competences found translated in default locale FR given by their ids', async function () {
+          // when
+          const competences = await competenceRepository.findByRecordIds({
+            competenceIds: ['recCompetence3_pix', 'recCompetence2_pasPix'],
+          });
+
+          // then
+          expect(competences).to.deepEqualArray([
+            domainBuilder.buildCompetence({
+              ...competenceData2,
+              name: competenceData2.name_i18n.fr,
+              description: competenceData2.description_i18n.fr,
+            }),
+            domainBuilder.buildCompetence({
+              ...competenceData3,
+              name: competenceData3.name_i18n.fr,
+              description: competenceData3.description_i18n.fr,
+            }),
+          ]);
+        });
+      });
+
+      context('when a locale is provided', function () {
+        it('should return all competences found translated in provided locale of fallback to default locale FR', async function () {
+          // when
+          const competences = await competenceRepository.findByRecordIds({
+            competenceIds: ['recCompetence3_pix', 'recCompetence2_pasPix'],
+            locale: 'en',
+          });
+
+          // then
+          expect(competences).to.deepEqualArray([
+            domainBuilder.buildCompetence({
+              ...competenceData2,
+              name: competenceData2.name_i18n.en,
+              description: competenceData2.description_i18n.en,
+            }),
+            domainBuilder.buildCompetence({
+              ...competenceData3,
+              name: competenceData3.name_i18n.fr,
+              description: competenceData3.description_i18n.en,
+            }),
+          ]);
+        });
+      });
     });
 
-    it('should return competences given by id with default locale', async function () {
-      // when
-      const competences = await competenceRepository.findByRecordIds({
-        competenceIds: ['competence1', 'competence3'],
-      });
+    context('when no competences found for given ids', function () {
+      it('should return an empty array', async function () {
+        // when
+        const competences = await competenceRepository.findByRecordIds({
+          competenceIds: ['recCompetenceCOUCOU', 'recCompetenceMAMAN'],
+        });
 
-      // then
-      const competence1 = domainBuilder.buildCompetence({
-        id: 'competence1',
-        name: 'competence1 name fr',
-        index: '1.1',
-        description: 'competence1 description fr',
-        areaId: 'area1',
-        skillIds: ['skillA'],
-        thematicIds: ['thematicA'],
-        origin: 'competence1 origin',
+        // then
+        expect(competences).to.deep.equal([]);
       });
-      const competence3 = domainBuilder.buildCompetence({
-        id: 'competence3',
-        name: 'competence3 name fr',
-        index: '3.3',
-        description: 'competence3 description fr',
-        areaId: 'area3',
-        skillIds: ['skillC'],
-        thematicIds: ['thematicC'],
-        origin: 'competence3 origin',
-      });
-      expect(competences).to.deepEqualArray([competence1, competence3]);
-    });
-
-    it('should return competences in given locale', async function () {
-      // when
-      const competences = await competenceRepository.findByRecordIds({
-        competenceIds: ['competence1', 'competence3'],
-        locale: 'en',
-      });
-
-      // then
-      const competence1 = domainBuilder.buildCompetence({
-        id: 'competence1',
-        name: 'competence1 name en',
-        index: '1.1',
-        description: 'competence1 description en',
-        areaId: 'area1',
-        skillIds: ['skillA'],
-        thematicIds: ['thematicA'],
-        origin: 'competence1 origin',
-      });
-      const competence3 = domainBuilder.buildCompetence({
-        id: 'competence3',
-        name: 'competence3 name en',
-        index: '3.3',
-        description: 'competence3 description en',
-        areaId: 'area3',
-        skillIds: ['skillC'],
-        thematicIds: ['thematicC'],
-        origin: 'competence3 origin',
-      });
-      expect(competences).to.deepEqualArray([competence1, competence3]);
     });
   });
 
-  describe('#findByAreaIds', function () {
-    beforeEach(async function () {
-      const learningContent = {
-        competences: [
-          {
-            id: 'competence1',
-            name_i18n: { fr: 'competence1 name fr', en: 'competence1 name en' },
-            index: '1.1',
-            description_i18n: { fr: 'competence1 description fr', en: 'competence1 description en' },
-            origin: 'competence1 origin',
-            skillIds: ['skillA'],
-            thematicIds: ['thematicA'],
-            areaId: 'area1',
-          },
-          {
-            id: 'competence2',
-            name_i18n: { fr: 'competence2 name fr', en: 'competence2 name en' },
-            index: '2.2',
-            description_i18n: { fr: 'competence2 description fr', en: 'competence2 description en' },
-            origin: 'competence2 origin',
-            skillIds: ['skillB'],
-            thematicIds: ['thematicB'],
-            areaId: 'area2',
-          },
-          {
-            id: 'competence3',
-            name_i18n: { fr: 'competence3 name fr', en: 'competence3 name en' },
-            index: '1.3',
-            description_i18n: { fr: 'competence3 description fr', en: 'competence3 description en' },
-            origin: 'competence3 origin',
-            skillIds: ['skillC'],
-            thematicIds: ['thematicC'],
-            areaId: 'area1',
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+  describe('#findByAreaId', function () {
+    context('when competences found for area id', function () {
+      context('when no locale provided', function () {
+        it('should return all competences found translated in default locale FR given by their ids', async function () {
+          // when
+          const competences = await competenceRepository.findByAreaId({
+            areaId: 'recArea1',
+          });
+
+          // then
+          expect(competences).to.deepEqualArray([
+            domainBuilder.buildCompetence({
+              ...competenceData1,
+              name: competenceData1.name_i18n.fr,
+              description: competenceData1.description_i18n.fr,
+            }),
+            domainBuilder.buildCompetence({
+              ...competenceData3,
+              name: competenceData3.name_i18n.fr,
+              description: competenceData3.description_i18n.fr,
+            }),
+          ]);
+        });
+      });
+
+      context('when a locale is provided', function () {
+        it('should return all competences found translated in provided locale of fallback to default locale FR', async function () {
+          // when
+          const competences = await competenceRepository.findByAreaId({
+            areaId: 'recArea1',
+            locale: 'en',
+          });
+
+          // then
+          expect(competences).to.deepEqualArray([
+            domainBuilder.buildCompetence({
+              ...competenceData1,
+              name: competenceData1.name_i18n.en,
+              description: competenceData1.description_i18n.fr,
+            }),
+            domainBuilder.buildCompetence({
+              ...competenceData3,
+              name: competenceData3.name_i18n.fr,
+              description: competenceData3.description_i18n.en,
+            }),
+          ]);
+        });
+      });
     });
 
-    it('should return competences given by areaId with default locale', async function () {
-      // when
-      const competences = await competenceRepository.findByAreaId({ areaId: 'area1' });
+    context('when no competences found for given area id', function () {
+      it('should return an empty array', async function () {
+        // when
+        const competences = await competenceRepository.findByAreaId({
+          areaId: 'recCoucouRoro',
+        });
 
-      // then
-      const competence1 = domainBuilder.buildCompetence({
-        id: 'competence1',
-        name: 'competence1 name fr',
-        index: '1.1',
-        description: 'competence1 description fr',
-        areaId: 'area1',
-        skillIds: ['skillA'],
-        thematicIds: ['thematicA'],
-        origin: 'competence1 origin',
+        // then
+        expect(competences).to.deep.equal([]);
       });
-      const competence3 = domainBuilder.buildCompetence({
-        id: 'competence3',
-        name: 'competence3 name fr',
-        index: '1.3',
-        description: 'competence3 description fr',
-        areaId: 'area1',
-        skillIds: ['skillC'],
-        thematicIds: ['thematicC'],
-        origin: 'competence3 origin',
-      });
-      expect(competences).to.deepEqualArray([competence1, competence3]);
-    });
-
-    it('should return competences in given locale', async function () {
-      // when
-      const competences = await competenceRepository.findByAreaId({ areaId: 'area1', locale: 'en' });
-
-      // then
-      const competence1 = domainBuilder.buildCompetence({
-        id: 'competence1',
-        name: 'competence1 name en',
-        index: '1.1',
-        description: 'competence1 description en',
-        areaId: 'area1',
-        skillIds: ['skillA'],
-        thematicIds: ['thematicA'],
-        origin: 'competence1 origin',
-      });
-      const competence3 = domainBuilder.buildCompetence({
-        id: 'competence3',
-        name: 'competence3 name en',
-        index: '1.3',
-        description: 'competence3 description en',
-        areaId: 'area1',
-        skillIds: ['skillC'],
-        thematicIds: ['thematicC'],
-        origin: 'competence3 origin',
-      });
-      expect(competences).to.deepEqualArray([competence1, competence3]);
     });
   });
 });

@@ -1,7 +1,7 @@
 import { PIX_ORIGIN } from '../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | area-repository', function () {
   const areaData0 = {
@@ -81,17 +81,20 @@ describe('Integration | Repository | area-repository', function () {
     thematicIds: ['thematicIdD'],
   };
 
-  describe('#list', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildFramework({ id: 'recFmk123', name: PIX_ORIGIN });
+  beforeEach(async function () {
+    databaseBuilder.factory.learningContent.buildFramework({ id: 'recFmk123', name: PIX_ORIGIN });
     databaseBuilder.factory.learningContent.buildFramework({ id: 'recFmk456', name: 'Un framework pas Pix' });
     databaseBuilder.factory.learningContent.buildArea(areaData1);
     databaseBuilder.factory.learningContent.buildArea(areaData0);
     databaseBuilder.factory.learningContent.buildArea(areaData2);
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData1);
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData3);
+    databaseBuilder.factory.learningContent.buildCompetence(competenceData4);
+    await databaseBuilder.commit();
+  });
 
-      await databaseBuilder.commit();
-    });
-
+  describe('#list', function () {
     context('when no locale provided', function () {
       it('should return all areas translated in default locale FR', async function () {
         // when
@@ -146,13 +149,6 @@ describe('Integration | Repository | area-repository', function () {
   });
 
   describe('#getAreaCodeByCompetenceId', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildArea(areaData1);
-      databaseBuilder.factory.learningContent.buildArea(areaData0);
-      databaseBuilder.factory.learningContent.buildArea(areaData2);
-      await databaseBuilder.commit();
-    });
-
     context('when competenceId refers to an existing Area', function () {
       it('should return the code of the corresponding area', async function () {
         // when
@@ -176,20 +172,6 @@ describe('Integration | Repository | area-repository', function () {
 
   describe('#listWithPixCompetencesOnly', function () {
     context('when there are some area that have pix competences', function () {
-      beforeEach(async function () {
-        databaseBuilder.factory.learningContent.buildArea(areaData2);
-        databaseBuilder.factory.learningContent.buildArea(areaData0);
-        databaseBuilder.factory.learningContent.buildArea(areaData1);
-        await mockLearningContent({
-          competences: [competenceData1, competenceData2, competenceData3, competenceData4],
-        });
-        // Décommentez-moi quand on aura traité le competence repository
-        /*databaseBuilder.factory.learningContent.buildCompetence(competenceData1);
-        databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
-        databaseBuilder.factory.learningContent.buildCompetence(competenceData3);
-        databaseBuilder.factory.learningContent.buildCompetence(competenceData4);*/
-        await databaseBuilder.commit();
-      });
       context('when a locale is provided', function () {
         it('should return only areas with pix competences with entities translated in given locale when possible or fallback to default locale FR', async function () {
           // when
@@ -267,12 +249,10 @@ describe('Integration | Repository | area-repository', function () {
     });
     context('when there are no areas that have pix competences', function () {
       beforeEach(async function () {
+        await knex('learningcontent.areas').truncate();
+        await knex('learningcontent.competences').truncate();
         databaseBuilder.factory.learningContent.buildArea(areaData1);
-        await mockLearningContent({
-          competences: [competenceData2],
-        });
-        // Décommentez-moi quand on aura traité le competence repository
-        /*databaseBuilder.factory.learningContent.buildCompetence(competenceData2);*/
+        databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
         await databaseBuilder.commit();
       });
 
@@ -287,21 +267,6 @@ describe('Integration | Repository | area-repository', function () {
   });
 
   describe('#findByFrameworkIdWithCompetences', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildArea(areaData2);
-      databaseBuilder.factory.learningContent.buildArea(areaData0);
-      databaseBuilder.factory.learningContent.buildArea(areaData1);
-      await mockLearningContent({
-        competences: [competenceData1, competenceData2, competenceData3, competenceData4],
-      });
-      // Décommentez-moi quand on aura traité le competence repository
-      /*databaseBuilder.factory.learningContent.buildCompetence(competenceData1);
-      databaseBuilder.factory.learningContent.buildCompetence(competenceData2);
-      databaseBuilder.factory.learningContent.buildCompetence(competenceData3);
-      databaseBuilder.factory.learningContent.buildCompetence(competenceData4);*/
-      await databaseBuilder.commit();
-    });
-
     context('when some areas have the given framework id', function () {
       context('when a locale is provided', function () {
         it('should return the areas with competences with all entities translated in given locale or fallback to default locale FR', async function () {
@@ -395,13 +360,6 @@ describe('Integration | Repository | area-repository', function () {
   });
 
   describe('#findByRecordIds', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildArea(areaData1);
-      databaseBuilder.factory.learningContent.buildArea(areaData2);
-      databaseBuilder.factory.learningContent.buildArea(areaData0);
-      await databaseBuilder.commit();
-    });
-
     context('when areas found by ids', function () {
       context('when no locale provided', function () {
         it('should return all areas found translated in default locale FR given by their ids', async function () {
@@ -458,12 +416,6 @@ describe('Integration | Repository | area-repository', function () {
   });
 
   describe('#get', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildArea(areaData1);
-      databaseBuilder.factory.learningContent.buildArea(areaData0);
-      await databaseBuilder.commit();
-    });
-
     context('when area is found', function () {
       context('when a locale is provided', function () {
         it('should return the area translated with the provided locale of fallback to default locale FR', async function () {
@@ -517,13 +469,6 @@ describe('Integration | Repository | area-repository', function () {
   });
 
   describe('#findByFrameworkId', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildArea(areaData2);
-      databaseBuilder.factory.learningContent.buildArea(areaData0);
-      databaseBuilder.factory.learningContent.buildArea(areaData1);
-      await databaseBuilder.commit();
-    });
-
     context('when some areas have the given framework id', function () {
       context('when a locale is provided', function () {
         it('should return the areas translated in given locale or fallback to default locale FR', async function () {

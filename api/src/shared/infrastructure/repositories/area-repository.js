@@ -48,7 +48,6 @@ export async function findByRecordIds({ areaIds, locale }) {
 }
 
 export async function getAreaCodeByCompetenceId(competenceId) {
-  // todo : est-ce qu'on veut cache ça ?
   const cacheKey = `getAreaCodeByCompetenceId(${competenceId})`;
   const findByCompetenceIdCallback = (knex) => knex.whereRaw('?=ANY(??)', [competenceId, 'competenceIds']).limit(1);
   const [areaDto] = await getInstance().find(cacheKey, findByCompetenceIdCallback);
