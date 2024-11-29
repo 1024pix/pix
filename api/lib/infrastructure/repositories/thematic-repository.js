@@ -1,37 +1,59 @@
-import _ from 'lodash';
-
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { Thematic } from '../../../src/shared/domain/models/Thematic.js';
 import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
-import { thematicDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { LearningContentRepository } from '../../../src/shared/infrastructure/repositories/learning-content-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
+const TABLE_NAME = 'learningcontent.thematics';
 
-function _toDomain(thematicData, locale) {
-  const translatedName = getTranslatedKey(thematicData.name_i18n, locale);
+export async function list({ locale = FRENCH_FRANCE } = {}) {
+  const cacheKey = 'list()';
+  const listCallback = (knex) => knex.orderBy('id');
+  const thematicDtos = await getInstance().find(cacheKey, listCallback);
+  return thematicDtos.map((thematicDto) => toDomain(thematicDto, locale));
+}
+
+export async function findByCompetenceIds(competenceIds, locale) {
+  const cacheKey = `findByCompetenceIds([${competenceIds.sort()}])`;
+  const findByCompetenceIdsCallback = (knex) => knex.whereIn('competenceId', competenceIds).orderBy('id');
+  const thematicDtos = await getInstance().find(cacheKey, findByCompetenceIdsCallback);
+  return thematicDtos.map((thematicDto) => toDomain(thematicDto, locale));
+}
+
+export async function findByRecordIds(ids, locale) {
+  const thematicDtos = await getInstance().loadMany(ids);
+  return thematicDtos
+    .filter((thematic) => thematic)
+    .map((thematicDto) => toDomain(thematicDto, locale))
+    .sort(byLocalizedName(locale));
+}
+
+export function clearCache() {
+  return getInstance().clearCache();
+}
+
+function byLocalizedName(locale) {
+  const collator = new Intl.Collator(locale, { usage: 'sort' });
+  return (thematic1, thematic2) => collator.compare(thematic1.name, thematic2.name);
+}
+
+function toDomain(thematicDto, locale) {
+  const translatedName = getTranslatedKey(thematicDto.name_i18n, locale);
   return new Thematic({
-    id: thematicData.id,
+    id: thematicDto.id,
     name: translatedName,
-    index: thematicData.index,
-    tubeIds: thematicData.tubeIds,
-    competenceId: thematicData.competenceId,
+    index: thematicDto.index,
+    tubeIds: thematicDto.tubeIds ? [...thematicDto.tubeIds] : null,
+    competenceId: thematicDto.competenceId,
   });
 }
 
-const list = async function ({ locale } = { locale: FRENCH_FRANCE }) {
-  const thematicDatas = await thematicDatasource.list();
-  return thematicDatas.map((thematicData) => _toDomain(thematicData, locale));
-};
+/** @type {LearningContentRepository} */
+let instance;
 
-const findByCompetenceIds = async function (competenceIds, locale) {
-  const thematicDatas = await thematicDatasource.findByCompetenceIds(competenceIds);
-  return thematicDatas.map((thematicData) => _toDomain(thematicData, locale));
-};
-
-const findByRecordIds = async function (thematicIds, locale) {
-  const thematicDatas = await thematicDatasource.findByRecordIds(thematicIds);
-  const thematics = thematicDatas.map((thematicData) => _toDomain(thematicData, locale));
-  return _.orderBy(thematics, (thematic) => thematic.name.toLowerCase());
-};
-
-export { findByCompetenceIds, findByRecordIds, list };
+function getInstance() {
+  if (!instance) {
+    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+  }
+  return instance;
+}
