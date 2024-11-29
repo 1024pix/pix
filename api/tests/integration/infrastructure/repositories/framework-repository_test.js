@@ -1,37 +1,48 @@
 import * as frameworkRepository from '../../../../lib/infrastructure/repositories/framework-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | framework-repository', function () {
-  const framework0 = {
+  const frameworkData0 = {
     id: 'recId0',
     name: 'mon framework 0',
   };
-  const framework1 = {
+  const frameworkData1 = {
     id: 'recId1',
     name: 'mon framework 1',
   };
-  const framework2 = {
+  const frameworkData2 = {
     id: 'recId2',
     name: 'mon framework 2',
   };
 
-  const learningContent = { frameworks: [framework0, framework1, framework2] };
-
   beforeEach(async function () {
-    await mockLearningContent(learningContent);
+    databaseBuilder.factory.learningContent.buildFramework(frameworkData0);
+    databaseBuilder.factory.learningContent.buildFramework(frameworkData2);
+    databaseBuilder.factory.learningContent.buildFramework(frameworkData1);
+    await databaseBuilder.commit();
   });
 
   describe('#list', function () {
-    it('should return all frameworks', async function () {
+    it('should return all frameworks when there are some in DB', async function () {
       // when
       const frameworks = await frameworkRepository.list();
 
       // then
-      const expectedFramework0 = domainBuilder.buildFramework({ ...framework0, areas: [] });
-      const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
-      const expectedFramework2 = domainBuilder.buildFramework({ ...framework2, areas: [] });
+      const expectedFramework0 = domainBuilder.buildFramework({ ...frameworkData0, areas: [] });
+      const expectedFramework1 = domainBuilder.buildFramework({ ...frameworkData1, areas: [] });
+      const expectedFramework2 = domainBuilder.buildFramework({ ...frameworkData2, areas: [] });
       expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework1, expectedFramework2]);
+    });
+
+    it('should return an empty array when no frameworks in DB', async function () {
+      await knex('learningcontent.frameworks').truncate();
+
+      // when
+      const frameworks = await frameworkRepository.list();
+
+      // then
+      expect(frameworks).to.deep.equal([]);
     });
   });
 
@@ -41,21 +52,21 @@ describe('Integration | Repository | framework-repository', function () {
       const framework = await frameworkRepository.getByName('mon framework 1');
 
       // then
-      const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
-      expect(framework).to.deepEqualInstance(expectedFramework1);
+      const expectedFramework = domainBuilder.buildFramework({ ...frameworkData1, areas: [] });
+      expect(framework).to.deepEqualInstance(expectedFramework);
     });
 
     context('when framework is not found', function () {
       it('should return a rejection', async function () {
         //given
-        const frameworkName = 'framework123';
+        const frameworkName = 'frameworkData123';
 
         // when
         const error = await catchErr(frameworkRepository.getByName)(frameworkName);
 
         // then
         expect(error).to.be.an.instanceof(NotFoundError);
-        expect(error.message).to.equal('Framework not found for name framework123');
+        expect(error.message).to.equal('Framework not found for name frameworkData123');
       });
     });
   });
@@ -66,9 +77,18 @@ describe('Integration | Repository | framework-repository', function () {
       const frameworks = await frameworkRepository.findByRecordIds(['recId2', 'recId0']);
 
       // then
-      const expectedFramework0 = domainBuilder.buildFramework({ ...framework0, areas: [] });
-      const expectedFramework2 = domainBuilder.buildFramework({ ...framework2, areas: [] });
+      const expectedFramework0 = domainBuilder.buildFramework({ ...frameworkData0, areas: [] });
+      const expectedFramework2 = domainBuilder.buildFramework({ ...frameworkData2, areas: [] });
       expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework2]);
+    });
+
+    it('should return frameworks it managed to find', async function () {
+      // when
+      const frameworks = await frameworkRepository.findByRecordIds(['recId2', 'recIdCAVA']);
+
+      // then
+      const expectedFramework2 = domainBuilder.buildFramework({ ...frameworkData2, areas: [] });
+      expect(frameworks).to.deepEqualArray([expectedFramework2]);
     });
 
     it('should return an empty array when no frameworks found for ids', async function () {

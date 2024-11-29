@@ -18,11 +18,13 @@ import sinonChai from 'sinon-chai';
 
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 import { disconnect, knex } from '../db/knex-database-connection.js';
+import * as frameworkRepository from '../lib/infrastructure/repositories/framework-repository.js';
 import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 import { config } from '../src/shared/config.js';
 import { Membership } from '../src/shared/domain/models/index.js';
 import * as tokenService from '../src/shared/domain/services/token-service.js';
 import { LearningContentCache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
+import * as areaRepository from '../src/shared/infrastructure/repositories/area-repository.js';
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 import * as domainBuilder from './tooling/domain-builder/factory/index.js';
 import { jobChai } from './tooling/jobs/expect-job.js';
@@ -71,6 +73,7 @@ afterEach(function () {
   restore();
   LearningContentCache.instance.flushAll();
   nock.cleanAll();
+  frameworkRepository.clearCache();
   return databaseBuilder.clean();
 });
 
