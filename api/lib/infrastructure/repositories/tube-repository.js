@@ -1,68 +1,89 @@
-import _ from 'lodash';
-
+import { knex } from '../../../db/knex-database-connection.js';
 import { Tube } from '../../../src/shared/domain/models/Tube.js';
 import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
-import {
-  skillDatasource,
-  tubeDatasource,
-} from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
+import { LearningContentResourceNotFound } from '../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentRepository } from '../../../src/shared/infrastructure/repositories/learning-content-repository.js';
 
-function _toDomain({ tubeData, locale }) {
-  const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
-  const translatedPracticalDescription = getTranslatedKey(tubeData.practicalDescription_i18n, locale);
+const TABLE_NAME = 'learningcontent.tubes';
+const ACTIVE_STATUS = 'actif';
+
+export async function get(id) {
+  const tubeDto = await getInstance().load(id);
+  if (!tubeDto) {
+    throw new LearningContentResourceNotFound();
+  }
+  return toDomain(tubeDto);
+}
+
+export async function list() {
+  const cacheKey = `list()`;
+  const listCallback = (knex) => knex;
+  const tubeDtos = await getInstance().find(cacheKey, listCallback);
+  return toDomainList(tubeDtos);
+}
+
+export async function findByNames({ tubeNames, locale }) {
+  const ids = await knex.pluck('id').from(TABLE_NAME).whereIn('name', tubeNames).orderBy('name');
+  const tubeDtos = await getInstance().loadMany(ids);
+  return toDomainList(tubeDtos, locale);
+}
+
+export async function findByRecordIds(ids, locale) {
+  const tubeDtos = await getInstance().loadMany(ids);
+  return toDomainList(
+    tubeDtos.filter((tubeDto) => tubeDto),
+    locale,
+  );
+}
+
+export async function findActiveByRecordIds(ids, locale) {
+  const activeTubeIds = await knex
+    .pluck('tubeId')
+    .distinct()
+    .from('learningcontent.skills')
+    .whereIn('tubeId', ids)
+    .where('status', ACTIVE_STATUS)
+    .orderBy('tubeId');
+  const tubeDtos = await getInstance().loadMany(activeTubeIds);
+  return toDomainList(tubeDtos, locale);
+}
+
+export function clearCache() {
+  return getInstance().clearCache();
+}
+
+function toDomainList(tubeDtos, locale) {
+  return tubeDtos.sort(byName).map((tubeDto) => toDomain(tubeDto, locale));
+}
+
+function byName(tube1, tube2) {
+  return tube1.name < tube2.name ? -1 : 1;
+}
+
+function toDomain(tubeDto, locale) {
+  const translatedPracticalTitle = getTranslatedKey(tubeDto.practicalTitle_i18n, locale);
+  const translatedPracticalDescription = getTranslatedKey(tubeDto.practicalDescription_i18n, locale);
 
   return new Tube({
-    id: tubeData.id,
-    name: tubeData.name,
+    id: tubeDto.id,
+    name: tubeDto.name,
     practicalTitle: translatedPracticalTitle,
     practicalDescription: translatedPracticalDescription,
-    isMobileCompliant: tubeData.isMobileCompliant,
-    isTabletCompliant: tubeData.isTabletCompliant,
-    competenceId: tubeData.competenceId,
-    thematicId: tubeData.thematicId,
-    skillIds: tubeData.skillIds,
+    isMobileCompliant: tubeDto.isMobileCompliant,
+    isTabletCompliant: tubeDto.isTabletCompliant,
+    competenceId: tubeDto.competenceId,
+    thematicId: tubeDto.thematicId,
+    skillIds: tubeDto.skillIds ? [...tubeDto.skillIds] : null,
+    skills: [],
   });
 }
 
-async function _findActive(tubes) {
-  const skillsByTubesIndex = await Promise.all(
-    tubes.map(async ({ id: tubeId }) => skillDatasource.findActiveByTubeId(tubeId)),
-  );
+/** @type {LearningContentRepository} */
+let instance;
 
-  return tubes.filter((_, index) => {
-    const hasActiveSkills = skillsByTubesIndex[index].length > 0;
-    return hasActiveSkills;
-  });
+function getInstance() {
+  if (!instance) {
+    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+  }
+  return instance;
 }
-
-const get = async function (id) {
-  const tubeData = await tubeDatasource.get(id);
-  return _toDomain({ tubeData });
-};
-
-const list = async function () {
-  const tubeDatas = await tubeDatasource.list();
-  const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData }));
-  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-};
-
-const findByNames = async function ({ tubeNames, locale }) {
-  const tubeDatas = await tubeDatasource.findByNames(tubeNames);
-  const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
-  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-};
-
-const findByRecordIds = async function (tubeIds, locale) {
-  const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
-  const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
-  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-};
-
-const findActiveByRecordIds = async function (tubeIds, locale) {
-  const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
-  const activeTubes = await _findActive(tubeDatas);
-  const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData, locale }));
-  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-};
-
-export { findActiveByRecordIds, findByNames, findByRecordIds, get, list };
