@@ -7,6 +7,7 @@ const buildSolution = function ({
   isT1Enabled = false,
   isT2Enabled = false,
   isT3Enabled = false,
+  qrocBlocksTypes = {},
 } = {}) {
   return new Solution({
     id,
@@ -15,6 +16,7 @@ const buildSolution = function ({
     isT1Enabled,
     isT2Enabled,
     isT3Enabled,
+    qrocBlocksTypes,
   });
 };
 

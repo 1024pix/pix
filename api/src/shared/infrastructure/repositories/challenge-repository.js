@@ -1,142 +1,198 @@
-import _ from 'lodash';
-
 import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
+import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { config } from '../../config.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { Accessibility } from '../../domain/models/Challenge.js';
 import { Challenge } from '../../domain/models/index.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
-import * as skillAdapter from '../adapters/skill-adapter.js';
-import { challengeDatasource, skillDatasource } from '../datasources/learning-content/index.js';
-import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentRepository } from './learning-content-repository.js';
 
-const get = async function (id) {
-  try {
-    const challenge = await challengeDatasource.get(id);
-    if (challenge.embedUrl != null && challenge.embedUrl.endsWith('.json')) {
-      const webComponentResponse = await httpAgent.get({ url: challenge.embedUrl });
-      if (!webComponentResponse.isSuccessful) {
-        throw new NotFoundError(
-          `Embed webcomponent config with URL ${challenge.embedUrl} in challenge ${challenge.id} not found`,
-        );
-      }
+const TABLE_NAME = 'learningcontent.challenges';
+const VALIDATED_STATUS = 'validé';
+const ARCHIVED_STATUS = 'archivé';
+const OBSOLETE_STATUS = 'périmé';
+const OPERATIVE_STATUSES = [VALIDATED_STATUS, ARCHIVED_STATUS];
+const ACCESSIBLE_STATUSES = ['OK', 'RAS'];
 
-      challenge.webComponentTagName = webComponentResponse.data.name;
-      challenge.webComponentProps = webComponentResponse.data.props;
-    }
-
-    const skill = await skillDatasource.get(challenge.skillId);
-    return _toDomain({ challengeDataObject: challenge, skillDataObject: skill });
-  } catch (error) {
-    if (error instanceof LearningContentResourceNotFound) {
-      throw new NotFoundError();
-    }
-    throw error;
+export async function get(id, { forCorrection = false } = {}) {
+  const challengeDto = await getInstance().load(id);
+  if (!challengeDto) {
+    throw new NotFoundError();
   }
-};
-
-const getMany = async function (ids, locale) {
-  try {
-    const challengeDataObjects = locale
-      ? await challengeDatasource.getManyByLocale(ids, locale)
-      : await challengeDatasource.getMany(ids);
-    const skills = await skillDatasource.getMany(challengeDataObjects.map(({ skillId }) => skillId));
-    return _toDomainCollection({ challengeDataObjects, skills });
-  } catch (error) {
-    if (error instanceof LearningContentResourceNotFound) {
-      throw new NotFoundError();
-    }
-    throw error;
+  if (forCorrection) {
+    return {
+      id: challengeDto.id,
+      skillId: challengeDto.skillId,
+      type: challengeDto.type,
+      solution: challengeDto.solution,
+      solutionToDisplay: challengeDto.solutionToDisplay,
+      proposals: challengeDto.proposals,
+      t1Status: challengeDto.t1Status,
+      t2Status: challengeDto.t2Status,
+      t3Status: challengeDto.t3Status,
+    };
   }
-};
+  let webComponentInfo;
+  if (!forCorrection) {
+    webComponentInfo = await loadWebComponentInfo(challengeDto);
+  }
+  const skill = await skillRepository.get(challengeDto.skillId);
+  return toDomain({ challengeDto, skill, ...webComponentInfo });
+}
 
-const list = async function (locale) {
+export async function getMany(ids, locale) {
+  const challengeDtos = await getInstance().loadMany(ids);
+  if (challengeDtos.some((challengeDto) => !challengeDto)) {
+    throw new NotFoundError();
+  }
+  const localeChallengeDtos = locale
+    ? challengeDtos.filter((challengeDto) => challengeDto.locales.includes(locale))
+    : challengeDtos;
+  localeChallengeDtos.sort(byId);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(localeChallengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
+
+export async function list(locale) {
   _assertLocaleIsDefined(locale);
-  const challengeDataObjects = await challengeDatasource.listByLocale(locale);
-  const skills = await skillDatasource.list();
-  return _toDomainCollection({ challengeDataObjects, skills });
-};
+  const cacheKey = `list(${locale})`;
+  const findByLocaleCallback = (knex) => knex.whereRaw('?=ANY(??)', [locale, 'locales']).orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findByLocaleCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
 
-const findValidated = async function (locale) {
+export async function findValidated(locale) {
   _assertLocaleIsDefined(locale);
-  const challengeDataObjects = await challengeDatasource.findValidated(locale);
-  const activeSkills = await skillDatasource.findActive();
-  return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
-};
+  const cacheKey = `findValidated(${locale})`;
+  const findValidatedByLocaleCallback = (knex) =>
+    knex.whereRaw('?=ANY(??)', [locale, 'locales']).where('status', VALIDATED_STATUS).orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
 
-const findOperative = async function (locale) {
+export async function findOperative(locale) {
   _assertLocaleIsDefined(locale);
-  const challengeDataObjects = await challengeDatasource.findOperative(locale);
-  const operativeSkills = await skillDatasource.findOperative();
-  return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
-};
+  const cacheKey = `findOperative(${locale})`;
+  const findOperativeByLocaleCallback = (knex) =>
+    knex.whereRaw('?=ANY(??)', [locale, 'locales']).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
 
-const findValidatedByCompetenceId = async function (competenceId, locale) {
+export async function findValidatedByCompetenceId(competenceId, locale) {
   _assertLocaleIsDefined(locale);
-  const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId, locale);
-  const activeSkills = await skillDatasource.findActive();
-  return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
-};
+  const cacheKey = `findValidatedByCompetenceId(${competenceId}, ${locale})`;
+  const findValidatedByLocaleByCompetenceIdCallback = (knex) =>
+    knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ competenceId, status: VALIDATED_STATUS }).orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleByCompetenceIdCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
 
-const findOperativeBySkills = async function (skills, locale) {
+export async function findOperativeBySkills(skills, locale) {
   _assertLocaleIsDefined(locale);
   const skillIds = skills.map((skill) => skill.id);
-  const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds, locale);
-  const operativeSkills = await skillDatasource.findOperative();
-  return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
-};
+  const cacheKey = `findOperativeBySkillIds([${skillIds.sort()}], ${locale})`;
+  const findOperativeByLocaleBySkillIdsCallback = (knex) =>
+    knex
+      .whereRaw('?=ANY(??)', [locale, 'locales'])
+      .whereIn('status', OPERATIVE_STATUSES)
+      .whereIn('skillId', skillIds)
+      .orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
 
-const findActiveFlashCompatible = async function ({
+export async function findActiveFlashCompatible({
   locale,
   successProbabilityThreshold = config.features.successProbabilityThreshold,
   accessibilityAdjustmentNeeded = false,
 } = {}) {
   _assertLocaleIsDefined(locale);
-  let challengeDataObjects = await challengeDatasource.findActiveFlashCompatible(locale);
+  const cacheKey = `findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded} })`;
+  let findCallback;
   if (accessibilityAdjustmentNeeded) {
-    challengeDataObjects = challengeDataObjects.filter((challengeDataObject) => {
-      return (
-        (challengeDataObject.accessibility1 === Accessibility.OK ||
-          challengeDataObject.accessibility1 === Accessibility.RAS) &&
-        (challengeDataObject.accessibility2 === Accessibility.OK ||
-          challengeDataObject.accessibility2 === Accessibility.RAS)
-      );
-    });
+    findCallback = (knex) =>
+      knex
+        .whereRaw('?=ANY(??)', [locale, 'locales'])
+        .where('status', VALIDATED_STATUS)
+        .whereNotNull('alpha')
+        .whereNotNull('delta')
+        .orderBy('id');
+  } else {
+    findCallback = (knex) =>
+      knex
+        .whereRaw('?=ANY(??)', [locale, 'locales'])
+        .where('status', VALIDATED_STATUS)
+        .whereNotNull('alpha')
+        .whereNotNull('delta')
+        .whereIn('accessibility1', ACCESSIBLE_STATUSES)
+        .whereIn('accessibility2', ACCESSIBLE_STATUSES)
+        .orderBy('id');
   }
-  const activeSkills = await skillDatasource.findActive();
-  return _toDomainCollection({ challengeDataObjects, skills: activeSkills, successProbabilityThreshold });
-};
-
-const findFlashCompatibleWithoutLocale = async function ({ useObsoleteChallenges } = {}) {
-  const challengeDataObjects = await challengeDatasource.findFlashCompatibleWithoutLocale({ useObsoleteChallenges });
-  const skills = await skillDatasource.list();
-  return _toDomainCollection({ challengeDataObjects, skills });
-};
-
-const findValidatedBySkillId = async function (skillId, locale) {
-  _assertLocaleIsDefined(locale);
-  const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId, locale);
-  const activeSkills = await skillDatasource.findActive();
-  return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
-};
-
-export async function getManyTypes(ids) {
-  const challenges = await challengeDatasource.getMany(ids);
-  return Object.fromEntries(challenges.map(({ id, type }) => [id, type]));
+  const challengeDtos = await getInstance().find(cacheKey, findCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) =>
+    toDomain({ challengeDto, skill, successProbabilityThreshold }),
+  );
 }
 
-export {
-  findActiveFlashCompatible,
-  findFlashCompatibleWithoutLocale,
-  findOperative,
-  findOperativeBySkills,
-  findValidated,
-  findValidatedByCompetenceId,
-  findValidatedBySkillId,
-  get,
-  getMany,
-  list,
-};
+export async function findFlashCompatibleWithoutLocale({ useObsoleteChallenges } = {}) {
+  const acceptedStatuses = useObsoleteChallenges ? [OBSOLETE_STATUS, ...OPERATIVE_STATUSES] : OPERATIVE_STATUSES;
+  const cacheKey = `findFlashCompatibleByStatuses({ useObsoleteChallenges: ${Boolean(useObsoleteChallenges)} })`;
+  const findFlashCompatibleByStatusesCallback = (knex) =>
+    knex.whereIn('status', acceptedStatuses).whereNotNull('alpha').whereNotNull('delta').orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findFlashCompatibleByStatusesCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
+
+export async function findValidatedBySkillId(skillId, locale) {
+  _assertLocaleIsDefined(locale);
+  const cacheKey = `findValidatedBySkillId(${skillId}, ${locale})`;
+  const findValidatedByLocaleBySkillIdCallback = (knex) =>
+    knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ skillId, status: VALIDATED_STATUS }).orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleBySkillIdCallback);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
+
+export async function getManyTypes(ids) {
+  const challengeDtos = await getInstance().loadMany(ids);
+  if (challengeDtos.some((challengeDto) => !challengeDto)) {
+    throw new NotFoundError();
+  }
+  return Object.fromEntries(challengeDtos.map(({ id, type }) => [id, type]));
+}
+
+export function clearCache() {
+  return getInstance().clearCache();
+}
+
+async function loadWebComponentInfo(challengeDto) {
+  if (challengeDto.embedUrl == null || !challengeDto.embedUrl.endsWith('.json')) return null;
+
+  const response = await httpAgent.get({ url: challengeDto.embedUrl });
+  if (!response.isSuccessful) {
+    throw new NotFoundError(
+      `Embed webcomponent config with URL ${challengeDto.embedUrl} in challenge ${challengeDto.id} not found`,
+    );
+  }
+
+  return {
+    webComponentTagName: response.data.name,
+    webComponentProps: response.data.props,
+  };
+}
+
+async function loadChallengeDtosSkills(challengeDtos) {
+  return Promise.all(
+    challengeDtos.map(async (challengeDto) => [challengeDto, await skillRepository.get(challengeDto.skillId)]),
+  );
+}
 
 function _assertLocaleIsDefined(locale) {
   if (!locale) {
@@ -144,62 +200,57 @@ function _assertLocaleIsDefined(locale) {
   }
 }
 
-function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {
-  const skillMap = _.keyBy(skills, 'id');
-  const lookupSkill = (id) => skillMap[id];
-  const challenges = challengeDataObjects.map((challengeDataObject) => {
-    const skillDataObject = lookupSkill(challengeDataObject.skillId);
-
-    return _toDomain({
-      challengeDataObject,
-      skillDataObject,
-      successProbabilityThreshold,
-    });
-  });
-
-  return challenges;
+function byId(challenge1, challenge2) {
+  return challenge1.id < challenge2.id ? -1 : 1;
 }
 
-function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThreshold }) {
-  const skill = skillDataObject ? skillAdapter.fromDatasourceObject(skillDataObject) : null;
-
-  const solution = solutionAdapter.fromDatasourceObject(challengeDataObject);
-
+function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill, successProbabilityThreshold }) {
+  const solution = solutionAdapter.fromDatasourceObject(challengeDto);
   const validator = Challenge.createValidatorForChallengeType({
-    challengeType: challengeDataObject.type,
+    challengeType: challengeDto.type,
     solution,
   });
 
   return new Challenge({
-    id: challengeDataObject.id,
-    type: challengeDataObject.type,
-    status: challengeDataObject.status,
-    instruction: challengeDataObject.instruction,
-    alternativeInstruction: challengeDataObject.alternativeInstruction,
-    proposals: challengeDataObject.proposals,
-    timer: challengeDataObject.timer,
-    illustrationUrl: challengeDataObject.illustrationUrl,
-    attachments: challengeDataObject.attachments,
-    embedUrl: challengeDataObject.embedUrl,
-    embedTitle: challengeDataObject.embedTitle,
-    embedHeight: challengeDataObject.embedHeight,
-    webComponentTagName: challengeDataObject.webComponentTagName,
-    webComponentProps: challengeDataObject.webComponentProps,
+    id: challengeDto.id,
+    type: challengeDto.type,
+    status: challengeDto.status,
+    instruction: challengeDto.instruction,
+    alternativeInstruction: challengeDto.alternativeInstruction,
+    proposals: challengeDto.proposals,
+    timer: challengeDto.timer,
+    illustrationUrl: challengeDto.illustrationUrl,
+    attachments: challengeDto.attachments ? [...challengeDto.attachments] : null,
+    embedUrl: challengeDto.embedUrl,
+    embedTitle: challengeDto.embedTitle,
+    embedHeight: challengeDto.embedHeight,
+    webComponentTagName,
+    webComponentProps,
     skill,
     validator,
-    competenceId: challengeDataObject.competenceId,
-    illustrationAlt: challengeDataObject.illustrationAlt,
-    format: challengeDataObject.format,
-    locales: challengeDataObject.locales,
-    autoReply: challengeDataObject.autoReply,
-    focused: challengeDataObject.focusable,
-    discriminant: challengeDataObject.alpha,
-    difficulty: challengeDataObject.delta,
-    responsive: challengeDataObject.responsive,
-    shuffled: challengeDataObject.shuffled,
+    competenceId: challengeDto.competenceId,
+    illustrationAlt: challengeDto.illustrationAlt,
+    format: challengeDto.format,
+    locales: challengeDto.locales ? [...challengeDto.locales] : null,
+    autoReply: challengeDto.autoReply,
+    focused: challengeDto.focusable,
+    discriminant: challengeDto.alpha,
+    difficulty: challengeDto.delta,
+    responsive: challengeDto.responsive,
+    shuffled: challengeDto.shuffled,
+    alternativeVersion: challengeDto.alternativeVersion,
+    blindnessCompatibility: challengeDto.accessibility1,
+    colorBlindnessCompatibility: challengeDto.accessibility2,
     successProbabilityThreshold,
-    alternativeVersion: challengeDataObject.alternativeVersion,
-    blindnessCompatibility: challengeDataObject.accessibility1,
-    colorBlindnessCompatibility: challengeDataObject.accessibility2,
   });
+}
+
+/** @type {LearningContentRepository} */
+let instance;
+
+function getInstance() {
+  if (!instance) {
+    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+  }
+  return instance;
 }

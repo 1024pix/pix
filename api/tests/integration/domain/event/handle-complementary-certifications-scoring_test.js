@@ -8,9 +8,9 @@ import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain
 import * as certificationAssessmentRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../../src/certification/shared/infrastructure/repositories/complementary-certification-badge-repository.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/index.js';
 import * as assessmentResultRepository from '../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-import { databaseBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Event | Handle Complementary Certifications Scoring', function () {
   describe('#handleComplementaryCertificationsScoring', function () {
@@ -157,24 +157,23 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
 
       describe('when the lower level is acquired', function () {
         beforeEach(async function () {
-          const learningContent = {
-            challenges: [
-              {
-                id: 'recCompetence0_Tube1_Skill1_Challenge1',
-                competenceId: 'recCompetence0',
-              },
-              {
-                id: 'recCompetence0_Tube1_Skill2_Challenge2',
-                competenceId: 'recCompetence0',
-              },
-              {
-                id: 'recCompetence0_Tube1_Skill2_Challenge3',
-                competenceId: 'recCompetence0',
-              },
-            ],
-          };
-
-          await mockLearningContent(learningContent);
+          databaseBuilder.factory.learningContent.buildChallenge({
+            id: 'recCompetence0_Tube1_Skill1_Challenge1',
+            competenceId: 'recCompetence0',
+            skillId: 'someSkillId',
+          });
+          databaseBuilder.factory.learningContent.buildChallenge({
+            id: 'recCompetence0_Tube1_Skill2_Challenge2',
+            competenceId: 'recCompetence0',
+            skillId: 'someSkillId',
+          });
+          databaseBuilder.factory.learningContent.buildChallenge({
+            id: 'recCompetence0_Tube1_Skill2_Challenge3',
+            competenceId: 'recCompetence0',
+            skillId: 'someSkillId',
+          });
+          databaseBuilder.factory.learningContent.buildSkill({ id: 'someSkillId' });
+          await databaseBuilder.commit();
         });
 
         it('should save a result', async function () {
