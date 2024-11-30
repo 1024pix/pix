@@ -29,6 +29,7 @@ import { LearningContentCache } from '../src/shared/infrastructure/caches/learni
 import * as areaRepository from '../src/shared/infrastructure/repositories/area-repository.js';
 import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
+import * as courseRepository from '../src/shared/infrastructure/repositories/course-repository.js';
 import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 import * as domainBuilder from './tooling/domain-builder/factory/index.js';
@@ -85,6 +86,7 @@ afterEach(function () {
   tubeRepository.clearCache();
   skillRepository.clearCache();
   challengeRepository.clearCache();
+  courseRepository.clearCache();
   return databaseBuilder.clean();
 });
 

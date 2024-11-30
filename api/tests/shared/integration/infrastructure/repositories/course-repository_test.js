@@ -1,48 +1,72 @@
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { Course } from '../../../../../src/shared/domain/models/Course.js';
 import * as courseRepository from '../../../../../src/shared/infrastructure/repositories/course-repository.js';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | course-repository', function () {
-  describe('#get', function () {
-    context('when course exists', function () {
-      it('should return the course', async function () {
-        // given
-        const expectedCourse = domainBuilder.buildCourse();
-        await mockLearningContent({ courses: [{ ...expectedCourse }] });
+  const courseData0 = {
+    id: 'courseId0',
+    name: 'instruction courseData0',
+    description: 'description courseData0',
+    isActive: true,
+    competences: ['competenceId0'],
+    challenges: ['challengeId0'],
+  };
+  const courseData1 = {
+    id: 'courseId1',
+    name: 'instruction courseData1',
+    description: 'description courseData1',
+    isActive: false,
+    competences: ['competenceId1'],
+    challenges: ['challengeId1'],
+  };
 
+  beforeEach(async function () {
+    databaseBuilder.factory.learningContent.buildCourse(courseData0);
+    databaseBuilder.factory.learningContent.buildCourse(courseData1);
+    await databaseBuilder.commit();
+  });
+
+  describe('#get', function () {
+    context('when course found for given id', function () {
+      it('should return the course', async function () {
         // when
-        const actualCourse = await courseRepository.get(expectedCourse.id);
+        const course = await courseRepository.get('courseId1');
 
         // then
-        expect(actualCourse).to.be.instanceOf(Course);
-        expect(actualCourse).to.deep.equal(expectedCourse);
+        expect(course).to.deepEqualInstance(domainBuilder.buildCourse(courseData1));
+      });
+    });
+
+    context('when no course found', function () {
+      it('should throw a NotFound error', async function () {
+        // when
+        const err = await catchErr(courseRepository.get, courseRepository)('coucouLoulou');
+
+        // then
+        expect(err).to.be.instanceOf(NotFoundError);
       });
     });
   });
 
   describe('#getCourseName', function () {
-    context('when course does not exist', function () {
-      it('should return all areas without fetching competences', async function () {
+    context('when course found for given id', function () {
+      it('should return the course name', async function () {
         // when
-        const error = await catchErr(courseRepository.getCourseName)('illusion');
+        const courseName = await courseRepository.getCourseName('courseId0');
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(courseName).to.deep.equal(courseData0.name);
       });
     });
 
-    context('when course exists', function () {
-      it('should return the course name', async function () {
-        // given
-        const expectedCourse = domainBuilder.buildCourse();
-        await mockLearningContent({ courses: [{ ...expectedCourse }] });
-
+    context('when no course found', function () {
+      it('should throw a NotFound error', async function () {
         // when
-        const actualCourseName = await courseRepository.getCourseName(expectedCourse.id);
+        const err = await catchErr(courseRepository.getCourseName, courseRepository)('coucouLoulou');
 
         // then
-        expect(actualCourseName).to.equal(expectedCourse.name);
+        expect(err).to.be.instanceOf(NotFoundError);
+        expect(err.message).to.equal("Le test demandé n'existe pas");
       });
     });
   });
