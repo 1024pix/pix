@@ -22,6 +22,7 @@ import * as frameworkRepository from '../lib/infrastructure/repositories/framewo
 import * as thematicRepository from '../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
 import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
+import * as tutorialRepository from '../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import { config } from '../src/shared/config.js';
 import { Membership } from '../src/shared/domain/models/index.js';
 import * as tokenService from '../src/shared/domain/services/token-service.js';
@@ -87,6 +88,7 @@ afterEach(function () {
   skillRepository.clearCache();
   challengeRepository.clearCache();
   courseRepository.clearCache();
+  tutorialRepository.clearCache();
   return databaseBuilder.clean();
 });
 

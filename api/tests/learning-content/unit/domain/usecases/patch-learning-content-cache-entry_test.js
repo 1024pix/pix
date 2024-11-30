@@ -1,5 +1,4 @@
 import { patchLearningContentCacheEntry } from '../../../../../src/learning-content/domain/usecases/patch-learning-content-cache-entry.js';
-import * as LearningContentDatasources from '../../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Learning Content | Unit | Domain | Usecase | Patch learning content cache entry', function () {
@@ -111,7 +110,6 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
           updatedRecord,
           modelName,
           LearningContentCache,
-          LearningContentDatasources,
           ...repositories,
         });
 
@@ -200,7 +198,6 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
           updatedRecord,
           modelName,
           LearningContentCache,
-          LearningContentDatasources,
           ...repositories,
         });
 

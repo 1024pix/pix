@@ -39,8 +39,8 @@ describe('Integration | Repository | tutorial-repository', function () {
           tutorialEvaluation: undefined,
         },
       ];
-      const learningContent = { tutorials: tutorialsList };
-      await mockLearningContent(learningContent);
+      tutorialsList.forEach(databaseBuilder.factory.learningContent.buildTutorial);
+      await databaseBuilder.commit();
 
       // when
       const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
@@ -58,8 +58,6 @@ describe('Integration | Repository | tutorial-repository', function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const userSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: 'recTutorial0' });
-      await databaseBuilder.commit();
-
       const tutorial = {
         duration: '00:00:54',
         format: 'video',
@@ -68,8 +66,9 @@ describe('Integration | Repository | tutorial-repository', function () {
         title: 'tuto0',
         id: 'recTutorial0',
       };
-      const learningContent = { tutorials: [tutorial] };
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildTutorial(tutorial);
+      await databaseBuilder.commit();
+
       // when
       const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: ['recTutorial0'], userId });
 
@@ -85,8 +84,6 @@ describe('Integration | Repository | tutorial-repository', function () {
         userId,
         tutorialId: 'recTutorial0',
       });
-      await databaseBuilder.commit();
-
       const tutorial = {
         duration: '00:00:54',
         format: 'video',
@@ -95,8 +92,9 @@ describe('Integration | Repository | tutorial-repository', function () {
         title: 'tuto0',
         id: 'recTutorial0',
       };
-      const learningContent = { tutorials: [tutorial] };
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildTutorial(tutorial);
+      await databaseBuilder.commit();
+
       // when
       const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: ['recTutorial0'], userId });
 
@@ -118,12 +116,8 @@ describe('Integration | Repository | tutorial-repository', function () {
         // given
         const tutorialId1 = 'rec1Tutorial';
         const tutorialId2 = 'rec2Tutorial';
-
-        const learningContent = {
-          tutorials: [{ id: tutorialId1 }, { id: tutorialId2 }],
-        };
-        await mockLearningContent(learningContent);
-
+        databaseBuilder.factory.learningContent.buildTutorial({ id: tutorialId1 });
+        databaseBuilder.factory.learningContent.buildTutorial({ id: tutorialId2 });
         const firstUserSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: tutorialId1,
           userId,
@@ -159,12 +153,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         it('should return tutorial with evaluated tutorial belonging to given user', async function () {
           // given
           const tutorialId = 'recTutorial';
-
-          const learningContent = {
-            tutorials: [{ id: tutorialId }],
-          };
-          await mockLearningContent(learningContent);
-
+          databaseBuilder.factory.learningContent.buildTutorial({ id: tutorialId });
           databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
           databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId });
           await databaseBuilder.commit();
@@ -185,32 +174,27 @@ describe('Integration | Repository | tutorial-repository', function () {
           const tutorialId1 = 'tutorial1';
           const tutorialId2 = 'tutorial2';
           const tutorialId3 = 'tutorial3';
-
-          const learningContent = {
-            tutorials: [{ id: tutorialId1 }, { id: tutorialId2 }, { id: tutorialId3 }],
-            skills: [
-              {
-                id: 'skill1',
-                tutorialIds: [tutorialId1],
-                competenceId: 'competence1',
-                status: 'actif',
-              },
-              {
-                id: 'skill2',
-                tutorialIds: [tutorialId2],
-                competenceId: 'competence2',
-                status: 'archivé',
-              },
-              {
-                id: 'skill3',
-                tutorialIds: [tutorialId3],
-                competenceId: 'competence3',
-                status: 'actif',
-              },
-            ],
-          };
-          await mockLearningContent(learningContent);
-
+          databaseBuilder.factory.learningContent.buildTutorial({ id: tutorialId1 });
+          databaseBuilder.factory.learningContent.buildTutorial({ id: tutorialId2 });
+          databaseBuilder.factory.learningContent.buildTutorial({ id: tutorialId3 });
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: 'skill1',
+            tutorialIds: [tutorialId1],
+            competenceId: 'competence1',
+            status: 'actif',
+          });
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: 'skill2',
+            tutorialIds: [tutorialId2],
+            competenceId: 'competence2',
+            status: 'archivé',
+          });
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: 'skill3',
+            tutorialIds: [tutorialId3],
+            competenceId: 'competence3',
+            status: 'actif',
+          });
           databaseBuilder.factory.buildUserSavedTutorial({
             tutorialId: tutorialId1,
             userId,
@@ -228,8 +212,7 @@ describe('Integration | Repository | tutorial-repository', function () {
             createdAt: new Date('2022-05-02'),
           });
           await databaseBuilder.commit();
-
-          const filters = { competences: ['competence2', 'competence3'] };
+          const filters = { competences: 'competence2,competence3' };
 
           // when
           const { models: tutorialsForUser } = await tutorialRepository.findPaginatedFilteredForCurrentUser({
@@ -246,8 +229,6 @@ describe('Integration | Repository | tutorial-repository', function () {
 
     context('when user has not saved tutorial', function () {
       it('should return an empty list', async function () {
-        await mockLearningContent({ tutorials: [] });
-
         const { models: tutorialsForUser } = await tutorialRepository.findPaginatedFilteredForCurrentUser({
           userId,
         });
@@ -259,7 +240,6 @@ describe('Integration | Repository | tutorial-repository', function () {
 
     context('when user has saved a tutorial which is not available anymore', function () {
       it('should return an empty list', async function () {
-        await mockLearningContent({ tutorials: [] });
         databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
         await databaseBuilder.commit();
 
@@ -273,12 +253,10 @@ describe('Integration | Repository | tutorial-repository', function () {
 
       it('should return row count of existing tutorials', async function () {
         // given
-        const learningContent = {
-          tutorials: [{ id: 'tuto1' }, { id: 'tuto2' }, { id: 'tuto3' }, { id: 'tuto4' }],
-        };
-
-        await mockLearningContent(learningContent);
-
+        databaseBuilder.factory.learningContent.buildTutorial({ id: 'tuto1' });
+        databaseBuilder.factory.learningContent.buildTutorial({ id: 'tuto2' });
+        databaseBuilder.factory.learningContent.buildTutorial({ id: 'tuto3' });
+        databaseBuilder.factory.learningContent.buildTutorial({ id: 'tuto4' });
         databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: 'tuto1',
           userId,
@@ -305,7 +283,6 @@ describe('Integration | Repository | tutorial-repository', function () {
           createdAt: new Date('2022-05-05'),
         });
         await databaseBuilder.commit();
-
         const expectedTutorialIds = ['tuto4', 'tuto3', 'tuto2', 'tuto1'];
 
         // when
@@ -330,10 +307,10 @@ describe('Integration | Repository | tutorial-repository', function () {
           domainBuilder.buildTutorial({ id: 'tutorialain' }),
           domainBuilder.buildTutorial({ id: 'tutorialadin' }),
         ];
-        await mockLearningContent({ tutorials });
-        tutorials.forEach((tutorial) =>
-          databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: tutorial.id }),
-        );
+        tutorials.forEach((tutorial) => {
+          databaseBuilder.factory.learningContent.buildTutorial(tutorial);
+          databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: tutorial.id });
+        });
         const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
         await databaseBuilder.commit();
 
@@ -365,24 +342,30 @@ describe('Integration | Repository | tutorial-repository', function () {
     context('when tutorial exists', function () {
       it('should return the tutorial', async function () {
         // given
-        const tutorials = [
-          {
+        databaseBuilder.factory.learningContent.buildTutorial({
+          duration: '00:00:54',
+          format: 'video',
+          link: 'https://tuto.fr',
+          source: 'tuto.fr',
+          title: 'tuto0',
+          id: 'recTutorial0',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const tutorial = await tutorialRepository.get({ tutorialId: 'recTutorial0' });
+
+        // then
+        expect(tutorial).to.deep.equal(
+          domainBuilder.buildTutorial({
             duration: '00:00:54',
             format: 'video',
             link: 'https://tuto.fr',
             source: 'tuto.fr',
             title: 'tuto0',
             id: 'recTutorial0',
-          },
-        ];
-        const learningContent = { tutorials: tutorials };
-        await mockLearningContent(learningContent);
-
-        // when
-        const tutorial = await tutorialRepository.get({ tutorialId: 'recTutorial0' });
-
-        // then
-        expect(tutorial).to.deep.equal(tutorials[0]);
+          }),
+        );
       });
     });
   });
@@ -421,8 +404,9 @@ describe('Integration | Repository | tutorial-repository', function () {
           locale: 'en-us',
         },
       ];
-      const learningContent = { tutorials: [...frenchTutorials, ...englishTutorials] };
-      await mockLearningContent(learningContent);
+      englishTutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
+      frenchTutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
+      await databaseBuilder.commit();
 
       // when
       const tutorials = await tutorialRepository.list({});
@@ -455,8 +439,9 @@ describe('Integration | Repository | tutorial-repository', function () {
         id: 'recTutorial1',
         locale: 'en-us',
       };
-      const learningContent = { tutorials: [frenchTutorial, englishTutorial] };
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildTutorial(frenchTutorial);
+      databaseBuilder.factory.learningContent.buildTutorial(englishTutorial);
+      await databaseBuilder.commit();
 
       // when
       const tutorials = await tutorialRepository.list({ locale });
@@ -478,8 +463,8 @@ describe('Integration | Repository | tutorial-repository', function () {
         title: 'tuto0',
         id: 'recTutorial0',
       };
-      const learningContent = { tutorials: [tutorial] };
-      await mockLearningContent(learningContent);
+      databaseBuilder.factory.learningContent.buildTutorial(tutorial);
+      await databaseBuilder.commit();
 
       // when
       const tutorials = await tutorialRepository.list({ locale });
@@ -500,25 +485,20 @@ describe('Integration | Repository | tutorial-repository', function () {
     describe('when there are no invalidated and direct KE', function () {
       it('should return an empty page', async function () {
         // given
-        await mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto1',
-              duration: '00:00:54',
-              format: 'video',
-              link: 'http://www.example.com/this-is-an-example.html',
-              source: 'tuto.com',
-              title: 'tuto1',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              tutorialIds: ['tuto1', 'tuto2'],
-              status: 'actif',
-            },
-          ],
+        databaseBuilder.factory.learningContent.buildTutorial({
+          id: 'tuto1',
+          duration: '00:00:54',
+          format: 'video',
+          link: 'http://www.example.com/this-is-an-example.html',
+          source: 'tuto.com',
+          title: 'tuto1',
         });
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'recSkill1',
+          tutorialIds: ['tuto1', 'tuto2'],
+          status: 'actif',
+        });
+        await databaseBuilder.commit();
 
         // when
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
@@ -536,27 +516,20 @@ describe('Integration | Repository | tutorial-repository', function () {
           userId,
           status: KnowledgeElement.StatusType.VALIDATED,
         });
-        await databaseBuilder.commit();
-
-        await mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto1',
-              duration: '00:00:54',
-              format: 'video',
-              link: 'http://www.example.com/this-is-an-example.html',
-              source: 'tuto.com',
-              title: 'tuto1',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              tutorialIds: ['tuto1', 'tuto2'],
-              status: 'actif',
-            },
-          ],
+        databaseBuilder.factory.learningContent.buildTutorial({
+          id: 'tuto1',
+          duration: '00:00:54',
+          format: 'video',
+          link: 'http://www.example.com/this-is-an-example.html',
+          source: 'tuto.com',
+          title: 'tuto1',
         });
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'recSkill1',
+          tutorialIds: ['tuto1', 'tuto2'],
+          status: 'actif',
+        });
+        await databaseBuilder.commit();
 
         // when
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
@@ -569,6 +542,39 @@ describe('Integration | Repository | tutorial-repository', function () {
     describe('when there is one invalidated KE', function () {
       it('should return all fields from recommended tutorials', async function () {
         // given
+        const tutorials = [
+          {
+            id: 'tuto1',
+            locale: 'fr-fr',
+            link: 'https//example.net/tuto1',
+            source: 'wikipedia',
+            title: 'Mon super tuto',
+            format: 'video',
+            duration: '2min',
+          },
+          {
+            id: 'tuto2',
+            locale: 'fr-fr',
+          },
+          {
+            id: 'tuto5',
+            locale: 'fr-fr',
+          },
+        ];
+        const skills = [
+          {
+            id: 'recSkill1',
+            tutorialIds: ['tuto1', 'tuto2'],
+            status: 'actif',
+          },
+          {
+            id: 'recSkill4',
+            tutorialIds: ['tuto5'],
+            status: 'archivé',
+          },
+        ];
+        tutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
+        skills.forEach(databaseBuilder.factory.learningContent.buildSkill);
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
@@ -580,40 +586,6 @@ describe('Integration | Repository | tutorial-repository', function () {
           status: KnowledgeElement.StatusType.INVALIDATED,
         });
         await databaseBuilder.commit();
-
-        await mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto1',
-              locale: 'fr-fr',
-              link: 'https//example.net/tuto1',
-              source: 'wikipedia',
-              title: 'Mon super tuto',
-              format: 'video',
-              duration: '2min',
-            },
-            {
-              id: 'tuto2',
-              locale: 'fr-fr',
-            },
-            {
-              id: 'tuto5',
-              locale: 'fr-fr',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              tutorialIds: ['tuto1', 'tuto2'],
-              status: 'actif',
-            },
-            {
-              id: 'recSkill4',
-              tutorialIds: ['tuto5'],
-              status: 'archivé',
-            },
-          ],
-        });
 
         // when
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
@@ -634,6 +606,34 @@ describe('Integration | Repository | tutorial-repository', function () {
       it('should return tutorial related to user locale', async function () {
         // given
         const locale = 'en-us';
+        const tutorials = [
+          {
+            id: 'tuto1',
+            locale: 'en-us',
+          },
+          {
+            id: 'tuto2',
+            locale: 'en-us',
+          },
+          {
+            id: 'tuto5',
+            locale: 'fr-fr',
+          },
+        ];
+        const skills = [
+          {
+            id: 'recSkill1',
+            tutorialIds: ['tuto1', 'tuto2'],
+            status: 'actif',
+          },
+          {
+            id: 'recSkill4',
+            tutorialIds: ['tuto5'],
+            status: 'archivé',
+          },
+        ];
+        tutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
+        skills.forEach(databaseBuilder.factory.learningContent.buildSkill);
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
@@ -646,34 +646,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
         await databaseBuilder.commit();
 
-        await mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto1',
-              locale: 'en-us',
-            },
-            {
-              id: 'tuto2',
-              locale: 'en-us',
-            },
-            {
-              id: 'tuto5',
-              locale: 'fr-fr',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              tutorialIds: ['tuto1', 'tuto2'],
-              status: 'actif',
-            },
-            {
-              id: 'recSkill4',
-              tutorialIds: ['tuto5'],
-              status: 'archivé',
-            },
-          ],
-        });
+        await mockLearningContent({});
 
         // when
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId, locale });
@@ -691,23 +664,16 @@ describe('Integration | Repository | tutorial-repository', function () {
           userId,
           status: KnowledgeElement.StatusType.INVALIDATED,
         });
-        await databaseBuilder.commit();
-
-        await mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto4',
-              locale: 'fr-fr',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill3',
-              tutorialIds: ['tuto4'],
-              status: 'périmé',
-            },
-          ],
+        databaseBuilder.factory.learningContent.buildTutorial({
+          id: 'tuto4',
+          locale: 'fr-fr',
         });
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'recSkill3',
+          tutorialIds: ['tuto4'],
+          status: 'périmé',
+        });
+        await databaseBuilder.commit();
 
         // when
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
@@ -720,6 +686,18 @@ describe('Integration | Repository | tutorial-repository', function () {
     describe('when there is one invalidated KE and two skills referencing the same tutorial', function () {
       it('should return the same tutorial related to each skill', async function () {
         // given
+        const skills = [
+          {
+            id: 'recSkill1',
+            tutorialIds: ['tuto1'],
+            status: 'actif',
+          },
+          {
+            id: 'recSkill2',
+            tutorialIds: ['tuto1'],
+            status: 'actif',
+          },
+        ];
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
@@ -730,28 +708,12 @@ describe('Integration | Repository | tutorial-repository', function () {
           userId,
           status: KnowledgeElement.StatusType.INVALIDATED,
         });
-        await databaseBuilder.commit();
-
-        await mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto1',
-              locale: 'fr-fr',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              tutorialIds: ['tuto1'],
-              status: 'actif',
-            },
-            {
-              id: 'recSkill2',
-              tutorialIds: ['tuto1'],
-              status: 'actif',
-            },
-          ],
+        skills.forEach(databaseBuilder.factory.learningContent.buildSkill);
+        databaseBuilder.factory.learningContent.buildTutorial({
+          id: 'tuto1',
+          locale: 'fr-fr',
         });
+        await databaseBuilder.commit();
 
         // when
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
@@ -789,23 +751,16 @@ describe('Integration | Repository | tutorial-repository', function () {
             tutorialId: 'tuto4',
             userId,
           }).id;
-          await databaseBuilder.commit();
-
-          await mockLearningContent({
-            tutorials: [
-              {
-                id: 'tuto4',
-                locale: 'fr-fr',
-              },
-            ],
-            skills: [
-              {
-                id: 'recSkill3',
-                tutorialIds: ['tuto4'],
-                status: 'actif',
-              },
-            ],
+          databaseBuilder.factory.learningContent.buildTutorial({
+            id: 'tuto4',
+            locale: 'fr-fr',
           });
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: 'recSkill3',
+            tutorialIds: ['tuto4'],
+            status: 'actif',
+          });
+          await databaseBuilder.commit();
 
           // when
           const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
@@ -830,36 +785,31 @@ describe('Integration | Repository | tutorial-repository', function () {
         it('should return page size number of tutorials', async function () {
           // given
           const page = { number: 2, size: 2 };
+          const tutorials = [
+            {
+              id: 'tuto4',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto5',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto6',
+              locale: 'fr-fr',
+            },
+          ];
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3',
             userId,
             status: KnowledgeElement.StatusType.INVALIDATED,
             source: KnowledgeElement.SourceType.DIRECT,
           });
-          await databaseBuilder.commit();
-
-          await mockLearningContent({
-            tutorials: [
-              {
-                id: 'tuto4',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto5',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto6',
-                locale: 'fr-fr',
-              },
-            ],
-            skills: [
-              {
-                id: 'recSkill3',
-                tutorialIds: ['tuto4', 'tuto5', 'tuto6'],
-                status: 'actif',
-              },
-            ],
+          tutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: 'recSkill3',
+            tutorialIds: ['tuto4', 'tuto5', 'tuto6'],
+            status: 'actif',
           });
           const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 3 };
           await databaseBuilder.commit();
@@ -881,6 +831,58 @@ describe('Integration | Repository | tutorial-repository', function () {
         it('should return only tutorials for skills associated to competences', async function () {
           // given
           const page = { number: 1, size: 10 };
+          const tutorials = [
+            {
+              id: 'tuto1',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto2',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto3',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto4',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto5',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto6',
+              locale: 'fr-fr',
+            },
+          ];
+          const skills = [
+            {
+              id: 'recSkill1InCompetence1',
+              tutorialIds: ['tuto1', 'tuto2'],
+              status: 'actif',
+              competenceId: 'competence1',
+            },
+            {
+              id: 'recSkill2InCompetence2',
+              tutorialIds: ['tuto3', 'tuto4'],
+              status: 'actif',
+              competenceId: 'competence2',
+            },
+            {
+              id: 'recSkill3InCompetence2',
+              tutorialIds: ['tuto5'],
+              status: 'actif',
+              competenceId: 'competence2',
+            },
+            {
+              id: 'recSkill4InCompetence3',
+              tutorialIds: ['tuto6'],
+              status: 'actif',
+              competenceId: 'competence3',
+            },
+          ];
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill1InCompetence1',
             userId,
@@ -905,66 +907,12 @@ describe('Integration | Repository | tutorial-repository', function () {
             status: KnowledgeElement.StatusType.INVALIDATED,
             source: KnowledgeElement.SourceType.DIRECT,
           });
+          skills.forEach(databaseBuilder.factory.learningContent.buildSkill);
+          tutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
           await databaseBuilder.commit();
-
-          await mockLearningContent({
-            tutorials: [
-              {
-                id: 'tuto1',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto2',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto3',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto4',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto5',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto6',
-                locale: 'fr-fr',
-              },
-            ],
-            skills: [
-              {
-                id: 'recSkill1InCompetence1',
-                tutorialIds: ['tuto1', 'tuto2'],
-                status: 'actif',
-                competenceId: 'competence1',
-              },
-              {
-                id: 'recSkill2InCompetence2',
-                tutorialIds: ['tuto3', 'tuto4'],
-                status: 'actif',
-                competenceId: 'competence2',
-              },
-              {
-                id: 'recSkill3InCompetence2',
-                tutorialIds: ['tuto5'],
-                status: 'actif',
-                competenceId: 'competence2',
-              },
-              {
-                id: 'recSkill4InCompetence3',
-                tutorialIds: ['tuto6'],
-                status: 'actif',
-                competenceId: 'competence3',
-              },
-            ],
-          });
           const expectedPagination = { page: 1, pageSize: 10, pageCount: 1, rowCount: 4 };
-          await databaseBuilder.commit();
 
-          const filters = { competences: ['competence2', 'competence3'] };
+          const filters = { competences: 'competence2,competence3' };
 
           // when
           const { results: foundTutorials, pagination } =
@@ -983,6 +931,58 @@ describe('Integration | Repository | tutorial-repository', function () {
         it('should return only tutorials for skills associated to competences for another page', async function () {
           // given
           const page = { number: 2, size: 2 };
+          const tutorials = [
+            {
+              id: 'tuto1',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto2',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto3',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto4',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto5',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto6',
+              locale: 'fr-fr',
+            },
+          ];
+          const skills = [
+            {
+              id: 'recSkill1InCompetence1',
+              tutorialIds: ['tuto1', 'tuto2'],
+              status: 'actif',
+              competenceId: 'competence1',
+            },
+            {
+              id: 'recSkill2InCompetence2',
+              tutorialIds: ['tuto3', 'tuto4'],
+              status: 'actif',
+              competenceId: 'competence2',
+            },
+            {
+              id: 'recSkill3InCompetence2',
+              tutorialIds: ['tuto5'],
+              status: 'actif',
+              competenceId: 'competence2',
+            },
+            {
+              id: 'recSkill4InCompetence3',
+              tutorialIds: ['tuto6'],
+              status: 'actif',
+              competenceId: 'competence3',
+            },
+          ];
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill1InCompetence1',
             userId,
@@ -1007,66 +1007,14 @@ describe('Integration | Repository | tutorial-repository', function () {
             status: KnowledgeElement.StatusType.INVALIDATED,
             source: KnowledgeElement.SourceType.DIRECT,
           });
+          skills.forEach(databaseBuilder.factory.learningContent.buildSkill);
+          tutorials.forEach(databaseBuilder.factory.learningContent.buildTutorial);
           await databaseBuilder.commit();
 
-          await mockLearningContent({
-            tutorials: [
-              {
-                id: 'tuto1',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto2',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto3',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto4',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto5',
-                locale: 'fr-fr',
-              },
-              {
-                id: 'tuto6',
-                locale: 'fr-fr',
-              },
-            ],
-            skills: [
-              {
-                id: 'recSkill1InCompetence1',
-                tutorialIds: ['tuto1', 'tuto2'],
-                status: 'actif',
-                competenceId: 'competence1',
-              },
-              {
-                id: 'recSkill2InCompetence2',
-                tutorialIds: ['tuto3', 'tuto4'],
-                status: 'actif',
-                competenceId: 'competence2',
-              },
-              {
-                id: 'recSkill3InCompetence2',
-                tutorialIds: ['tuto5'],
-                status: 'actif',
-                competenceId: 'competence2',
-              },
-              {
-                id: 'recSkill4InCompetence3',
-                tutorialIds: ['tuto6'],
-                status: 'actif',
-                competenceId: 'competence3',
-              },
-            ],
-          });
+          await mockLearningContent({});
           const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
-          await databaseBuilder.commit();
 
-          const filters = { competences: ['competence2', 'competence3'] };
+          const filters = { competences: 'competence2,competence3' };
 
           // when
           const { results: foundTutorials, pagination } =

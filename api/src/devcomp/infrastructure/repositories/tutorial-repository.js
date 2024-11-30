@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { tutorialDatasource } from '../../../shared/infrastructure/datasources/learning-content/index.js';
+import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as paginateModule from '../../../shared/infrastructure/utils/paginate.js';
 import { Tutorial } from '../../domain/models/Tutorial.js';
@@ -12,31 +12,40 @@ import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.
 import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
+const TABLE_NAME = 'learningcontent.tutorials';
 
-const findByRecordIdsForCurrentUser = async function ({ ids, userId, locale }) {
-  const tutorials = await _findByRecordIds({ ids, locale });
+export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
+  let tutorialDtos = await getInstance().loadMany(ids);
+  tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto);
+  if (locale) {
+    const lang = extractLangFromLocale(locale);
+    tutorialDtos = tutorialDtos.filter((tutorialDto) => extractLangFromLocale(tutorialDto.locale) === lang);
+  }
+  tutorialDtos.sort(byId);
+  const tutorials = tutorialDtos.map(toDomain);
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
   const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-  return _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
-};
+  return toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
+}
 
-const findPaginatedFilteredForCurrentUser = async function ({ userId, filters = {}, page }) {
+export async function findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
-  const [tutorials, tutorialEvaluations] = await Promise.all([
-    tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId)),
-    tutorialEvaluationRepository.find({ userId }),
-  ]);
+  const tutorialIds = userSavedTutorials.map(({ tutorialId }) => tutorialId);
+  let tutorialDtos = await getInstance().loadMany(tutorialIds);
+  tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto).sort(byId);
+  const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
 
-  let filteredTutorials = [...tutorials];
+  let filteredTutorials = [...tutorialDtos];
   if (filters.competences?.length) {
-    const filteredSkills = await skillRepository.findOperativeByCompetenceIds(filters.competences);
+    const competenceIds = filters.competences.split(',');
+    const filteredSkills = await skillRepository.findOperativeByCompetenceIds(competenceIds);
 
     const filteredTutorialIds = filteredSkills.flatMap(({ tutorialIds }) => tutorialIds);
 
-    filteredTutorials = tutorials.filter(({ id }) => filteredTutorialIds.includes(id));
+    filteredTutorials = tutorialDtos.filter(({ id }) => filteredTutorialIds.includes(id));
   }
 
-  const tutorialsForUser = _toTutorialsForUser({
+  const tutorialsForUser = toTutorialsForUser({
     tutorials: filteredTutorials,
     tutorialEvaluations,
     userSavedTutorials,
@@ -46,25 +55,25 @@ const findPaginatedFilteredForCurrentUser = async function ({ userId, filters = 
   const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
 
   return { models, meta };
-};
+}
 
-const get = async function ({ tutorialId }) {
-  try {
-    const tutorialData = await tutorialDatasource.get(tutorialId);
-    return _toDomain(tutorialData);
-  } catch (error) {
+export async function get({ tutorialId }) {
+  const tutorialDto = await getInstance().load(tutorialId);
+  if (!tutorialDto) {
     throw new NotFoundError('Tutorial not found');
   }
-};
+  return toDomain(tutorialDto);
+}
 
-const list = async function ({ locale = FRENCH_FRANCE }) {
-  let tutorialData = await tutorialDatasource.list();
-  const lang = _extractLangFromLocale(locale);
-  tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
-  return _.map(tutorialData, _toDomain);
-};
+export async function list({ locale = FRENCH_FRANCE }) {
+  const cacheKey = `list({ locale: ${locale} })`;
+  const lang = extractLangFromLocale(locale);
+  const listByLangCallback = (knex) => knex.whereLike('locale', `${lang}%`).orderBy('id');
+  const tutorialDtos = await getInstance().find(cacheKey, listByLangCallback);
+  return tutorialDtos.map(toDomain);
+}
 
-const findPaginatedFilteredRecommendedByUserId = async function ({
+export async function findPaginatedFilteredRecommendedByUserId({
   userId,
   filters = {},
   page,
@@ -83,44 +92,47 @@ const findPaginatedFilteredRecommendedByUserId = async function ({
     filteredSkills = skills.filter(({ competenceId }) => filters.competences.includes(competenceId));
   }
 
-  const tutorialsForUser = [];
+  const tutorialsForUserBySkill = await Promise.all(
+    filteredSkills.map(async (skill) => {
+      let tutorialDtos = await getInstance().loadMany(skill.tutorialIds);
+      tutorialDtos = tutorialDtos.map((tutorialDto) => tutorialDto);
+      if (locale) {
+        const lang = extractLangFromLocale(locale);
+        tutorialDtos = tutorialDtos.filter((tutorialDto) => extractLangFromLocale(tutorialDto.locale) === lang);
+      }
+      tutorialDtos.sort(byId);
+      const tutorials = tutorialDtos.map(toDomain);
 
-  for (const skill of filteredSkills) {
-    const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
-
-    tutorialsForUser.push(
-      ..._toTutorialsForUserForRecommandation({
+      return toTutorialsForUserForRecommandation({
         tutorials,
         tutorialEvaluations,
         userSavedTutorials,
         skillId: skill.id,
-      }),
-    );
-  }
+      });
+    }),
+  );
+
+  const tutorialsForUser = tutorialsForUserBySkill.flat();
 
   return paginateModule.paginate(tutorialsForUser, page);
-};
+}
 
-export {
-  findByRecordIdsForCurrentUser,
-  findPaginatedFilteredForCurrentUser,
-  findPaginatedFilteredRecommendedByUserId,
-  get,
-  list,
-};
+function byId(tutorial1, tutorial2) {
+  return tutorial1.id < tutorial2.id ? -1 : 1;
+}
 
-function _toDomain(tutorialData) {
+function toDomain(tutorialDto) {
   return new Tutorial({
-    id: tutorialData.id,
-    duration: tutorialData.duration,
-    format: tutorialData.format,
-    link: tutorialData.link,
-    source: tutorialData.source,
-    title: tutorialData.title,
+    id: tutorialDto.id,
+    duration: tutorialDto.duration,
+    format: tutorialDto.format,
+    link: tutorialDto.link,
+    source: tutorialDto.source,
+    title: tutorialDto.title,
   });
 }
 
-function _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials }) {
+function toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials }) {
   return tutorials.map((tutorial) => {
     const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
@@ -133,7 +145,7 @@ function _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorial
   });
 }
 
-function _toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userSavedTutorials, skillId }) {
+function toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userSavedTutorials, skillId }) {
   return tutorials.map((tutorial) => {
     const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
@@ -141,15 +153,20 @@ function _toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, 
   });
 }
 
-async function _findByRecordIds({ ids, locale }) {
-  let tutorialData = await tutorialDatasource.findByRecordIds(ids);
-  if (locale) {
-    const lang = _extractLangFromLocale(locale);
-    tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
-  }
-  return _.map(tutorialData, (tutorialData) => _toDomain(tutorialData));
+function extractLangFromLocale(locale) {
+  return locale && locale.split('-')[0];
 }
 
-function _extractLangFromLocale(locale) {
-  return locale && locale.split('-')[0];
+export function clearCache() {
+  return getInstance().clearCache();
+}
+
+/** @type {LearningContentRepository} */
+let instance;
+
+function getInstance() {
+  if (!instance) {
+    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+  }
+  return instance;
 }
