@@ -11,7 +11,7 @@ import * as challengeRepository from '../../../../../src/shared/infrastructure/r
 import { databaseBuilder, expect, knex, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
-describe('Integration | Usecase | get-next-challenge', function () {
+describe('Integration | School | Usecase | get-next-challenge', function () {
   describe('#getNextChallenge', function () {
     context('when last activity is succeeded', function () {
       it('should return null', async function () {
