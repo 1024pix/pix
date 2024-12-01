@@ -1,4 +1,4 @@
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
@@ -21,9 +21,7 @@ describe('Certification | Results | Acceptance | Application | Livret Scolaire',
     let organizationId;
     const pixScore = 400;
     const uai = '789567AA';
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const type = Assessment.types.CERTIFICATION;
+    let type;
     const verificationCode = 'P-123498NN';
     const OSMOSE_CLIENT_ID = 'apimOsmoseClientId';
     const OSMOSE_SCOPE = 'organizations-certifications-result';
@@ -194,9 +192,11 @@ describe('Certification | Results | Acceptance | Application | Livret Scolaire',
       },
     ];
 
-    beforeEach(function () {
+    beforeEach(async function () {
+      type = Assessment.types.CERTIFICATION;
       organizationId = buildOrganization(uai).id;
       mockLearningContentCompetences();
+      await databaseBuilder.commit();
     });
 
     context('when the given uai is correct', function () {

@@ -27,7 +27,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
     areas: [
       {
         id: 'areaPix1',
-        code: 1,
+        code: '1',
         title_i18n: {
           fr: 'areaPix1 title fr',
         },
@@ -37,7 +37,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       },
       {
         id: 'areaFrance1',
-        code: 1,
+        code: '1',
         title_i18n: {
           fr: 'areaFrance1 title fr',
         },
@@ -47,7 +47,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       },
       {
         id: 'areaCuisine1',
-        code: 1,
+        code: '1',
         title_i18n: {
           fr: 'areaCuisine1 title fr',
         },
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           en: 'competencePix1_1 name en',
         },
         areaId: 'areaPix1',
-        index: 0,
+        index: '0',
         origin: 'Pix',
         thematicIds: ['thematicPix1_1_1'],
       },
@@ -75,7 +75,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           en: 'competenceFrance1_1 name en',
         },
         areaId: 'areaFrance1',
-        index: 0,
+        index: '0',
         origin: 'France',
         thematicIds: ['thematicFrance1_1_1'],
       },
@@ -86,7 +86,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           en: 'competenceCuisine1_1 name en',
         },
         areaId: 'areaCuisine1',
-        index: 0,
+        index: '0',
         origin: 'Cuisine',
         thematicIds: ['thematicCuisine1_1_1'],
       },
@@ -212,7 +212,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               id: 'areaPix1',
               type: 'areas',
               attributes: {
-                code: 1,
+                code: '1',
                 title: 'areaPix1 title fr',
                 color: 'areaPix1 color',
               },
@@ -234,7 +234,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               type: 'competences',
               attributes: {
                 name: 'competencePix1_1 name fr',
-                index: 0,
+                index: '0',
               },
             },
           ],
@@ -514,7 +514,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           type: 'thematics',
           id: 'recThemA',
           attributes: {
-            index: '1',
+            index: 1,
             name: 'nameFRA',
           },
           relationships: {
@@ -560,7 +560,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           type: 'thematics',
           id: 'recThemB',
           attributes: {
-            index: '2',
+            index: 2,
             name: 'nameFRB',
           },
           relationships: {
@@ -628,7 +628,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           type: 'thematics',
           id: 'recThemC',
           attributes: {
-            index: '3',
+            index: 3,
             name: 'nameFRC',
           },
           relationships: {
@@ -674,7 +674,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           type: 'thematics',
           id: 'recThemD',
           attributes: {
-            index: '4',
+            index: 4,
             name: 'nameFRD',
           },
           relationships: {

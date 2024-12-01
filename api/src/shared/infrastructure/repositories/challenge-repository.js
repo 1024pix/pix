@@ -121,6 +121,8 @@ export async function findActiveFlashCompatible({
         .where('status', VALIDATED_STATUS)
         .whereNotNull('alpha')
         .whereNotNull('delta')
+        .whereIn('accessibility1', ACCESSIBLE_STATUSES)
+        .whereIn('accessibility2', ACCESSIBLE_STATUSES)
         .orderBy('id');
   } else {
     findCallback = (knex) =>
@@ -129,8 +131,6 @@ export async function findActiveFlashCompatible({
         .where('status', VALIDATED_STATUS)
         .whereNotNull('alpha')
         .whereNotNull('delta')
-        .whereIn('accessibility1', ACCESSIBLE_STATUSES)
-        .whereIn('accessibility2', ACCESSIBLE_STATUSES)
         .orderBy('id');
   }
   const challengeDtos = await getInstance().find(cacheKey, findCallback);

@@ -398,19 +398,19 @@ describe('Integration | Repository | Target-profile', function () {
         const themA_compA_areaA = {
           id: 'recThemA',
           name: 'nameFRA',
-          index: '1',
+          index: 1,
           competenceId: 'recCompA',
         };
         const themB_compA_areaA = {
           id: 'recThemB',
           name: 'nameFRB',
-          index: '2',
+          index: 2,
           competenceId: 'recCompA',
         };
         const themC_compB_areaA = {
           id: 'recThemC',
           name: 'nameFRC',
-          index: '1',
+          index: 1,
           competenceId: 'recCompB',
         };
         const compA_areaA = {
@@ -587,7 +587,7 @@ describe('Integration | Repository | Target-profile', function () {
         const themA_compA_areaA = {
           id: 'recThemA',
           name: 'nameENA',
-          index: '1',
+          index: 1,
           competenceId: 'recCompA',
         };
         const compA_areaA = {

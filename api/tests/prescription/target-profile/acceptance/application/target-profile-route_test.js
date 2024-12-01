@@ -101,7 +101,7 @@ describe('Acceptance | Route | target-profile', function () {
         areas: [
           {
             id: 'areaPix1',
-            code: 1,
+            code: '1',
             title_i18n: {
               fr: 'areaPix1 title fr',
             },
@@ -111,7 +111,7 @@ describe('Acceptance | Route | target-profile', function () {
           },
           {
             id: 'areaFrance1',
-            code: 1,
+            code: '1',
             title_i18n: {
               fr: 'areaFrance1 title fr',
             },
@@ -121,7 +121,7 @@ describe('Acceptance | Route | target-profile', function () {
           },
           {
             id: 'areaCuisine1',
-            code: 1,
+            code: '1',
             title_i18n: {
               fr: 'areaCuisine1 title fr',
             },
@@ -138,7 +138,7 @@ describe('Acceptance | Route | target-profile', function () {
               en: 'competencePix1_1 name en',
             },
             areaId: 'areaPix1',
-            index: 0,
+            index: '0',
             origin: 'Pix',
             thematicIds: ['thematicPix1_1_1'],
           },
@@ -149,7 +149,7 @@ describe('Acceptance | Route | target-profile', function () {
               en: 'competenceFrance1_1 name en',
             },
             areaId: 'areaFrance1',
-            index: 0,
+            index: '0',
             origin: 'France',
             thematicIds: ['thematicFrance1_1_1'],
           },
@@ -160,7 +160,7 @@ describe('Acceptance | Route | target-profile', function () {
               en: 'competenceCuisine1_1 name en',
             },
             areaId: 'areaCuisine1',
-            index: 0,
+            index: '0',
             origin: 'Cuisine',
             thematicIds: ['thematicCuisine1_1_1'],
           },
@@ -330,7 +330,7 @@ describe('Acceptance | Route | target-profile', function () {
             type: 'competences',
             id: 'competencePix1_1',
             attributes: {
-              index: 0,
+              index: '0',
               name: 'competencePix1_1 name fr',
             },
             relationships: {
@@ -348,7 +348,7 @@ describe('Acceptance | Route | target-profile', function () {
             type: 'areas',
             id: 'areaPix1',
             attributes: {
-              code: 1,
+              code: '1',
               color: 'areaPix1 color',
               title: 'areaPix1 title fr',
             },

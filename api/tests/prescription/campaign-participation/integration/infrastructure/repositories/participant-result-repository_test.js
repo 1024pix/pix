@@ -19,6 +19,11 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       databaseBuilder.factory.buildTargetProfile(targetProfile);
 
       const learningContent = {
+        frameworks: [
+          {
+            id: 'frameworkId',
+          },
+        ],
         areas: [
           {
             id: 'recArea1',
@@ -26,6 +31,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             title_i18n: { fr: 'domaine1' },
             competenceIds: ['rec1'],
             color: 'colorArea1',
+            frameworkId: 'frameworkId',
           },
           {
             id: 'recArea2',
@@ -33,6 +39,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             title_i18n: { fr: 'domaine2' },
             competenceIds: ['rec2'],
             color: 'colorArea2',
+            frameworkId: 'frameworkId',
           },
         ],
         competences: [

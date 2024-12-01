@@ -22,7 +22,7 @@ import * as placementProfileService from '../../../../../../src/shared/domain/se
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
-import { databaseBuilder, expect, mockLearningContent, streamToPromise } from '../../../../../test-helper.js';
+import { databaseBuilder, expect, streamToPromise } from '../../../../../test-helper.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
@@ -40,11 +40,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     beforeEach(async function () {
       i18n = getI18n();
       organization = databaseBuilder.factory.buildOrganization();
-      const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'] };
-      const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceIds: ['recCompetence1'] };
-      const skillWeb3 = { id: 'recSkillWeb3', name: '@web3', competenceIds: ['recCompetence1'] };
-      const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceIds: ['recCompetence2'] };
-      const skillUrl8 = { id: 'recSkillUrl8', name: '@url8', competenceIds: ['recCompetence2'] };
+      const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'], status: 'actif' };
+      const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceIds: ['recCompetence1'], status: 'actif' };
+      const skillWeb3 = { id: 'recSkillWeb3', name: '@web3', competenceIds: ['recCompetence1'], status: 'actif' };
+      const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceIds: ['recCompetence2'], status: 'actif' };
+      const skillUrl8 = { id: 'recSkillUrl8', name: '@url8', competenceIds: ['recCompetence2'], status: 'actif' };
       const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1, skillUrl8];
 
       participant = databaseBuilder.factory.buildUser();
@@ -99,27 +99,44 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         snapshot: JSON.stringify([ke1, ke2, ke3, ke4, ke5]),
       });
 
-      await databaseBuilder.commit();
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recFramework',
+      });
+      databaseBuilder.factory.learningContent.buildArea({
+        id: 'recArea1',
+        frameworkId: 'recFramework',
+        competenceIds: ['recCompetence'],
+      });
+      databaseBuilder.factory.learningContent.buildArea({
+        id: 'recArea2',
+        frameworkId: 'recFramework',
+        competenceIds: ['recCompetence'],
+      });
+      databaseBuilder.factory.learningContent.buildCompetence({
+        id: 'recCompetence1',
+        index: '2',
+        name_i18n: { fr: 'nom en français recCompetence1' },
+        areaId: 'recArea1',
+        skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
+        origin: 'Pix',
+      });
+      databaseBuilder.factory.learningContent.buildCompetence({
+        id: 'recCompetence2',
+        index: '3',
+        name_i18n: { fr: 'nom en français recCompetence2' },
+        areaId: 'recArea2',
+        skillIds: [skillUrl1.id, skillUrl8.id],
+        origin: 'Pix',
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'recTube',
+        competenceId: 'recCompetence',
+        thematicId: 'recThematic',
+        skillIds: ['recSkill'],
+      });
+      skills.forEach(databaseBuilder.factory.learningContent.buildSkill);
 
-      const learningContent = {
-        areas: [{ id: 'recArea1' }, { id: 'recArea2' }],
-        competences: [
-          {
-            id: 'recCompetence1',
-            areaId: 'recArea1',
-            skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
-            origin: 'Pix',
-          },
-          {
-            id: 'recCompetence2',
-            areaId: 'recArea2',
-            skillIds: [skillUrl1.id, skillUrl8.id],
-            origin: 'Pix',
-          },
-        ],
-        skills,
-      };
-      await mockLearningContent(learningContent);
+      await databaseBuilder.commit();
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -180,7 +197,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const cells = csv.split('\n');
 
         expect(cells[0]).to.be.equals(
-          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence ";"Nombre de pix pour la compétence ";"Niveau pour la compétence ";"Nombre de pix pour la compétence "',
+          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence nom en français recCompetence1";"Nombre de pix pour la compétence nom en français recCompetence1";"Niveau pour la compétence nom en français recCompetence2";"Nombre de pix pour la compétence nom en français recCompetence2"',
         );
         expect(cells[1]).to.be.equals(
           `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,
@@ -243,7 +260,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const cells = csv.split('\n');
 
         expect(cells[0]).to.be.equals(
-          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Mail Perso";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence ";"Nombre de pix pour la compétence ";"Niveau pour la compétence ";"Nombre de pix pour la compétence "',
+          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Mail Perso";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence nom en français recCompetence1";"Nombre de pix pour la compétence nom en français recCompetence1";"Niveau pour la compétence nom en français recCompetence2";"Nombre de pix pour la compétence nom en français recCompetence2"',
         );
         expect(cells[1]).to.be.equals(
           `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,

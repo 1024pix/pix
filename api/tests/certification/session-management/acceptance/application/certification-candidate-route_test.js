@@ -3,7 +3,6 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
 } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | certification-candidate', function () {
@@ -149,13 +148,10 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
             courseId: certificationCourseId,
           });
-          await mockLearningContent({
-            frameworks: [{ id: 'frameworkId' }],
-            challenges: [
-              {
-                id: certificationChallenge.challengeId,
-              },
-            ],
+          databaseBuilder.factory.learningContent.buildSkill({ id: 'skillId' });
+          databaseBuilder.factory.learningContent.buildChallenge({
+            id: certificationChallenge.challengeId,
+            skillId: 'skillId',
           });
 
           const supervisorUserId = databaseBuilder.factory.buildUser({}).id;

@@ -17,15 +17,13 @@ describe('Integration | Repository | Target-profile', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return the target profile with its associated skills and the list of organizations which could access it', function () {
+    it('should return the target profile with its associated skills and the list of organizations which could access it', async function () {
       // when
-      const promise = targetProfileRepository.get(targetProfile.id);
+      const foundTargetProfile = await targetProfileRepository.get(targetProfile.id);
 
       // then
-      return promise.then((foundTargetProfile) => {
-        expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
-        expect(foundTargetProfile.id).to.be.equal(targetProfile.id);
-      });
+      expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
+      expect(foundTargetProfile.id).to.be.equal(targetProfile.id);
     });
 
     context('when the targetProfile does not exist', function () {

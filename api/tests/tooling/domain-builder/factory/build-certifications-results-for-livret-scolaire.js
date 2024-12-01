@@ -1,6 +1,6 @@
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { databaseBuilder, learningContentBuilder } from '../../../test-helper.js';
+import { databaseBuilder } from '../../../test-helper.js';
 
 const assessmentCreatedDate = new Date('2020-04-19');
 const assessmentBeforeCreatedDate = new Date('2020-04-18');
@@ -292,74 +292,77 @@ function buildCertificationDataWithNoCompetenceMarks({ user, organizationLearner
 }
 
 function mockLearningContentCompetences() {
-  const learningContent = [
-    {
-      id: 'rec99',
-      code: '2',
-      title_i18n: { fr: 'Communication et collaboration' },
-      competences: [
-        {
-          id: 'rec50',
-          index: '2.1',
-          name_i18n: { fr: 'Interagir' },
-          tubes: [],
-        },
-        {
-          id: 'rec51',
-          index: '2.2',
-          name_i18n: { fr: 'Partager et publier' },
-          tubes: [],
-        },
-        {
-          id: 'rec52',
-          index: '2.3',
-          name_i18n: { fr: 'Collaborer' },
-          tubes: [],
-        },
-      ],
-    },
-    {
-      id: 'rec98',
-      code: '3',
-      title_i18n: { fr: 'Création de contenu' },
-      competences: [
-        {
-          id: 'rec53',
-          index: '3.1',
-          name_i18n: { fr: 'Développer des documents textuels' },
-          tubes: [],
-        },
-        {
-          id: 'rec54',
-          index: '3.2',
-          name_i18n: { fr: 'Développer des documents multimedia' },
-          tubes: [],
-        },
-      ],
-    },
-    {
-      id: 'rec97',
-      code: '1',
-      title_i18n: { fr: 'Information et données' },
-      competences: [
-        {
-          id: 'rec55',
-          index: '1.1',
-          name_i18n: { fr: 'Mener une recherche et une veille d’information' },
-          tubes: [],
-        },
-        {
-          id: 'rec56',
-          index: '1.2',
-          name_i18n: { fr: 'Gérer des données' },
-          tubes: [],
-        },
-      ],
-    },
-  ];
-
-  const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-  databaseBuilder.factory.learningContent.build(learningContentObjects);
+  databaseBuilder.factory.learningContent.buildFramework({ id: 'frameworkId' });
+  databaseBuilder.factory.learningContent.buildArea({
+    frameworkId: 'frameworkId',
+    id: 'rec99',
+    code: '2',
+    title_i18n: { fr: 'Communication et collaboration' },
+    competenceIds: ['rec50', 'rec51', 'rec52'],
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec50',
+    index: '2.1',
+    name_i18n: { fr: 'Interagir' },
+    areaId: 'rec99',
+    origin: 'Pix',
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec51',
+    index: '2.2',
+    name_i18n: { fr: 'Partager et publier' },
+    areaId: 'rec99',
+    origin: 'Pix',
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec52',
+    index: '2.3',
+    name_i18n: { fr: 'Collaborer' },
+    areaId: 'rec99',
+    origin: 'Pix',
+  });
+  databaseBuilder.factory.learningContent.buildArea({
+    frameworkId: 'frameworkId',
+    id: 'rec98',
+    code: '3',
+    title_i18n: { fr: 'Création de contenu' },
+    competenceIds: ['rec53', 'rec54'],
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec53',
+    index: '3.1',
+    name_i18n: { fr: 'Développer des documents textuels' },
+    areaId: 'rec98',
+    origin: 'Pix',
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec54',
+    index: '3.2',
+    name_i18n: { fr: 'Développer des documents multimedia' },
+    areaId: 'rec98',
+    origin: 'Pix',
+  });
+  databaseBuilder.factory.learningContent.buildArea({
+    frameworkId: 'frameworkId',
+    id: 'rec97',
+    code: '1',
+    title_i18n: { fr: 'Information et données' },
+    competenceIds: ['rec55', 'rec56'],
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec55',
+    index: '1.1',
+    name_i18n: { fr: 'Mener une recherche et une veille d’information' },
+    areaId: 'rec97',
+    origin: 'Pix',
+  });
+  databaseBuilder.factory.learningContent.buildCompetence({
+    id: 'rec56',
+    index: '1.2',
+    name_i18n: { fr: 'Gérer des données' },
+    areaId: 'rec97',
+    origin: 'Pix',
+  });
 }
 
 export {

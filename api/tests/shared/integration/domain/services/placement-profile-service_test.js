@@ -1,92 +1,98 @@
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import * as placementProfileService from '../../../../../src/shared/domain/services/placement-profile-service.js';
-import { databaseBuilder, expect, learningContentBuilder } from '../../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 const { ENGLISH_SPOKEN } = LOCALE;
 
 describe('Shared | Integration | Domain | Services | Placement Profile Service', function () {
   let userId, assessmentId;
+  let skillRemplir2DB;
 
   beforeEach(function () {
-    const learningContent = [
-      {
-        id: 'areaOne',
-        code: '1',
-        color: 'jaffa',
-        frameworkId: 'recFmk123',
-        competences: [
-          {
-            id: 'competenceRecordIdOne',
-            name_i18n: { fr: 'Construire un flipper', en: 'Build a pinball' },
-            index: '1.1',
-            tubes: [
-              {
-                id: 'recCitation',
-                skills: [
-                  {
-                    id: 'recCitation4',
-                    nom: '@citation4',
-                    pixValue: 1,
-                    version: 1,
-                    level: 4,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'competenceRecordIdTwo',
-            name_i18n: { fr: 'Adopter un dauphin', en: 'Adopt a dolphin' },
-            index: '1.2',
-            tubes: [
-              {
-                id: 'Remplir',
-                skills: [
-                  {
-                    id: 'recRemplir2',
-                    nom: '@remplir2',
-                    pixValue: 1,
-                    version: 1,
-                    level: 2,
-                  },
-                  {
-                    id: 'recRemplir4',
-                    nom: '@remplir4',
-                    pixValue: 1,
-                    version: 1,
-                    level: 4,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'competenceRecordIdThree',
-            name_i18n: { fr: 'Se faire manger par un requin', en: 'Getting eaten by a shark' },
-            index: '1.3',
-            tubes: [
-              {
-                id: 'Requin',
-                skills: [
-                  {
-                    id: 'recRequin5',
-                    nom: '@requin5',
-                    pixValue: 1,
-                    version: 1,
-                    level: 5,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ];
-
-    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-    databaseBuilder.factory.learningContent.build(learningContentObjects);
-
+    databaseBuilder.factory.learningContent.buildFramework({ id: 'recFmk123' });
+    databaseBuilder.factory.learningContent.buildArea({
+      id: 'areaOne',
+      frameworkId: 'recFmk123',
+      code: '1',
+      color: 'jaffa',
+      competenceIds: ['competenceRecordIdOne', 'competenceRecordIdTwo', 'competenceRecordIdThree'],
+    });
+    databaseBuilder.factory.learningContent.buildCompetence({
+      id: 'competenceRecordIdOne',
+      name_i18n: { fr: 'Construire un flipper', en: 'Build a pinball' },
+      index: '1.1',
+      areaId: 'areaOne',
+      skillIds: ['recCitation4'],
+      origin: 'Pix',
+    });
+    databaseBuilder.factory.learningContent.buildCompetence({
+      id: 'competenceRecordIdTwo',
+      name_i18n: { fr: 'Adopter un dauphin', en: 'Adopt a dolphin' },
+      index: '1.2',
+      areaId: 'areaOne',
+      skillIds: ['recRemplir2', 'recRemplir4'],
+      origin: 'Pix',
+    });
+    databaseBuilder.factory.learningContent.buildCompetence({
+      id: 'competenceRecordIdThree',
+      name_i18n: { fr: 'Se faire manger par un requin', en: 'Getting eaten by a shark' },
+      index: '1.3',
+      areaId: 'areaOne',
+      skillIds: ['recRequin5'],
+      origin: 'Pix',
+    });
+    databaseBuilder.factory.learningContent.buildTube({
+      id: 'recCitation',
+      competenceId: 'competenceRecordIdOne',
+      skillIds: ['recCitation4'],
+    });
+    databaseBuilder.factory.learningContent.buildTube({
+      id: 'Remplir',
+      competenceId: 'competenceRecordIdTwo',
+      skillIds: ['recRemplir2', 'recRemplir4'],
+    });
+    databaseBuilder.factory.learningContent.buildTube({
+      id: 'Requin',
+      competenceId: 'competenceRecordIdThree',
+      skillIds: ['recRequin5'],
+    });
+    databaseBuilder.factory.learningContent.buildSkill({
+      id: 'recCitation4',
+      nom: '@citation4',
+      pixValue: 1,
+      version: 1,
+      level: 4,
+      competenceId: 'competenceRecordIdOne',
+      tubeId: 'recCitation',
+    });
+    skillRemplir2DB = databaseBuilder.factory.learningContent.buildSkill({
+      id: 'recRemplir2',
+      nom: '@remplir2',
+      pixValue: 1,
+      version: 1,
+      level: 2,
+      competenceId: 'competenceRecordIdTwo',
+      tubeId: 'Remplir',
+    });
+    databaseBuilder.factory.learningContent.buildSkill({
+      id: 'recRemplir4',
+      nom: '@remplir4',
+      pixValue: 1,
+      version: 1,
+      level: 4,
+      competenceId: 'competenceRecordIdTwo',
+      tubeId: 'Remplir',
+    });
+    databaseBuilder.factory.learningContent.buildSkill({
+      id: 'recRequin5',
+      nom: '@requin5',
+      pixValue: 1,
+      version: 1,
+      level: 5,
+      competenceId: 'competenceRecordIdThress',
+      tubeId: 'Requin',
+    });
     userId = databaseBuilder.factory.buildUser().id;
     assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
     return databaseBuilder.commit();
@@ -270,17 +276,11 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
             pixScore: 23,
             estimatedLevel: 2,
             skills: [
-              {
-                competenceId: 'competenceRecordIdTwo',
-                id: 'recRemplir2',
-                name: '@remplir2',
-                pixValue: 1,
-                tubeId: 'Remplir',
-                tutorialIds: [],
-                learningMoreTutorialIds: [],
-                version: 1,
-                difficulty: 2,
-              },
+              domainBuilder.buildSkill({
+                ...skillRemplir2DB,
+                difficulty: skillRemplir2DB.level,
+                hint: skillRemplir2DB.hint_i18n.fr,
+              }),
             ],
           });
           expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
@@ -417,17 +417,11 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
             pixScore: 22,
             estimatedLevel: 2,
             skills: [
-              {
-                competenceId: 'competenceRecordIdTwo',
-                id: 'recRemplir2',
-                name: '@remplir2',
-                pixValue: 1,
-                tubeId: 'Remplir',
-                tutorialIds: [],
-                learningMoreTutorialIds: [],
-                version: 1,
-                difficulty: 2,
-              },
+              domainBuilder.buildSkill({
+                ...skillRemplir2DB,
+                difficulty: skillRemplir2DB.level,
+                hint: skillRemplir2DB.hint_i18n.fr,
+              }),
             ],
           });
           expect(actualPlacementProfile.userCompetences[2]).to.deep.include({

@@ -1,23 +1,13 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
-import {
-  databaseBuilder,
-  domainBuilder,
-  expect,
-  learningContentBuilder,
-  mockLearningContent,
-} from '../../../../../test-helper.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | Campaign | UseCase | get-presentation-steps', function () {
-  let user, campaign, badges, competences;
+  let user, campaign, badges;
 
   beforeEach(async function () {
-    const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-    const learningContentObjects = learningContentBuilder.fromAreas(learningContent.frameworks[0].areas);
-    await mockLearningContent(learningContentObjects);
-
     const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
 
     campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
@@ -40,11 +30,42 @@ describe('Integration | Campaign | UseCase | get-presentation-steps', function (
       databaseBuilder.factory.buildBadge({ targetProfileId }),
     ];
 
-    competences = learningContentObjects.competences;
-
+    databaseBuilder.factory.learningContent.buildFramework({
+      id: 'recFramework',
+    });
+    databaseBuilder.factory.learningContent.buildArea({
+      id: 'recArea',
+      frameworkId: 'recFramework',
+      competenceIds: ['recCompetence'],
+    });
+    databaseBuilder.factory.learningContent.buildCompetence({
+      id: 'recCompetence',
+      index: '2',
+      name_i18n: { fr: 'nom en français' },
+      areaId: 'recArea',
+      skillIds: ['recSkill'],
+      thematicIds: ['recThematic'],
+    });
+    databaseBuilder.factory.learningContent.buildThematic({
+      id: 'recThematic',
+      competenceId: 'recCompetence',
+      tubeIds: ['recTube'],
+    });
+    databaseBuilder.factory.learningContent.buildTube({
+      id: 'recTube',
+      competenceId: 'recCompetence',
+      thematicId: 'recThematic',
+      skillIds: ['recSkill'],
+    });
+    databaseBuilder.factory.learningContent.buildSkill({
+      id: 'recSkill',
+      status: 'actif',
+      competenceId: 'recCompetence',
+      tubeId: 'recTube',
+    });
     databaseBuilder.factory.buildCampaignSkill({
       campaignId: campaign.id,
-      skillId: competences[0].skillIds[0],
+      skillId: 'recSkill',
     });
 
     await databaseBuilder.commit();
@@ -61,9 +82,9 @@ describe('Integration | Campaign | UseCase | get-presentation-steps', function (
     // then
     expect(result.customLandingPageText).to.equal(campaign.customLandingPageText);
     expect(result.badges).to.deep.equal(badges);
-    expect(result.competences).to.have.lengthOf(competences.length);
-    expect(result.competences[0].id).to.equal(competences[0].id);
-    expect(result.competences[0].index).to.equal(competences[0].index);
-    expect(result.competences[0].name).to.equal(competences[0].name);
+    expect(result.competences).to.have.lengthOf(1);
+    expect(result.competences[0].id).to.equal('recCompetence');
+    expect(result.competences[0].index).to.equal('2');
+    expect(result.competences[0].name).to.equal('nom en français');
   });
 });

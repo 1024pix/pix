@@ -302,7 +302,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           { ...competence2, name_i18n: { fr: competence2.name } },
         ],
         title: 'titre test',
-        framework: null,
+        frameworkId: 'Pix',
       });
 
       const learningContentObjects = learningContentBuilder.fromAreas([{ ...area1, title_i18n: { fr: area1.title } }]);
@@ -1854,7 +1854,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           code: '1',
           title: 'titre test',
           competences: [competence1, competence2],
-          framework: null,
+          frameworkId: 'Pix',
         });
 
         const learningContentObjects = learningContentBuilder.fromAreas([
@@ -1965,7 +1965,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           code: '1',
           title: 'titre test',
           competences: [competence1, competence2],
-          framework: null,
+          frameworkId: 'Pix',
         });
 
         const learningContentObjects = learningContentBuilder.fromAreas([
@@ -2403,7 +2403,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           code: '1',
           competences: [competence1, competence2],
           title: 'titre test',
-          framework: null,
+          frameworkId: 'Pix',
         });
 
         const learningContentObjects = learningContentBuilder.fromAreas([
@@ -2516,7 +2516,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           code: '1',
           competences: [competence1, competence2],
           title: 'titre test',
-          framework: null,
+          frameworkId: 'Pix',
         });
 
         const learningContentObjects = learningContentBuilder.fromAreas([
