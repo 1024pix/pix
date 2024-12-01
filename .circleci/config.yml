@@ -830,6 +830,13 @@ jobs:
           command: npm start
 
       - run:
+          name: Refresh cache
+          environment:
+            JOBS: 1
+          working_directory: ~/pix/api
+          command: npm run cache:refresh
+
+      - run:
           name: Run tests
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
@@ -899,6 +906,13 @@ jobs:
             JOBS: 2
           background: true
           command: npm start
+
+      - run:
+          name: Refresh cache
+          environment:
+            JOBS: 1
+          working_directory: ~/pix/api
+          command: npm run cache:refresh
 
       - run:
           name: Run tests
