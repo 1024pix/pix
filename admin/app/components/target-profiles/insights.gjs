@@ -1,4 +1,4 @@
-import PixBanner from '@1024pix/pix-ui/components/pix-banner';
+import PixBannerAlert from '@1024pix/pix-ui/components/Pix-banner-alert';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 
 import Badges from './badges';
@@ -25,7 +25,7 @@ import Stages from './stages';
       <h2 class="insights-section__title">Paliers</h2>
 
       {{#if @targetProfile.hasLinkedCampaign}}
-        <PixBanner
+        <PixBannerAlert
           @type={{this.type}}
           @actionLabel={{this.actionLabel}}
           @actionUrl={{this.actionUrl}}
@@ -37,7 +37,7 @@ import Stages from './stages';
             <li>supprimer un palier existant</li>
             <li>modifier les seuils ou niveaux des paliers existants</li>
           </ul>
-        </PixBanner>
+        </PixBannerAlert>
       {{/if}}
 
       <Stages

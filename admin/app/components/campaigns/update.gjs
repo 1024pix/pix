@@ -1,4 +1,4 @@
-import PixBanner from '@1024pix/pix-ui/components/pix-banner';
+import PixBannerAlert from '@1024pix/pix-ui/components/Pix-banner-alert';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
@@ -263,7 +263,7 @@ export default class Update extends Component {
             </PixFieldset>
 
             {{#if this.displayIsForAbsoluteNoviceWarning}}
-              <PixBanner @type="warning">
+              <PixBannerAlert @type="warning">
                 <div class="is-for-absolute-novice-warning">
                   <p>Les campagnes
                     <strong><i>isForAbsoluteNovice</i></strong>
@@ -275,7 +275,7 @@ export default class Update extends Component {
                     <li>Envoi de résultats</li>
                   </ul>
                 </div>
-              </PixBanner>
+              </PixBannerAlert>
             {{/if}}
           {{/if}}
         </div>
