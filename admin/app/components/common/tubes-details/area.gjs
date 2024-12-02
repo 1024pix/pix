@@ -1,11 +1,11 @@
-import PixCollapsible from '@1024pix/pix-ui/components/pix-collapsible';
+import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 
 import Competence from '../tubes-details/competence';
 
 <template>
   <div class="area-border-container">
     <div class="area-border {{@color}}"></div>
-    <PixCollapsible class="{{@color}} list-competences">
+    <PixAccordions class="{{@color}} list-competences">
       <:title>{{@title}}</:title>
       <:content>
         {{#each @competences as |competence|}}
@@ -17,6 +17,6 @@ import Competence from '../tubes-details/competence';
           />
         {{/each}}
       </:content>
-    </PixCollapsible>
+    </PixAccordions>
   </div>
 </template>

@@ -1,5 +1,5 @@
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixCollapsible from '@1024pix/pix-ui/components/pix-collapsible';
+import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
@@ -47,7 +47,7 @@ export default class Competence extends Component {
 
   <template>
     <div class="competence-container">
-      <PixCollapsible>
+      <PixAccordions>
         <:title>{{@competence.index}} {{@competence.name}}</:title>
         <:content>
           <div class="panel">
@@ -110,7 +110,7 @@ export default class Competence extends Component {
             </table>
           </div>
         </:content>
-      </PixCollapsible>
+      </PixAccordions>
     </div>
   </template>
 }

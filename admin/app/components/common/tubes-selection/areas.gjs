@@ -1,4 +1,4 @@
-import PixCollapsible from '@1024pix/pix-ui/components/pix-collapsible';
+import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 
 import Competence from './competence';
 
@@ -6,7 +6,7 @@ import Competence from './competence';
   {{#each @areas as |area|}}
     <div class="area-border-container">
       <div class="area-border {{area.color}}"></div>
-      <PixCollapsible class="{{area.color}} list-competences">
+      <PixAccordions class="{{area.color}} list-competences">
         <:title>{{area.code}} · {{area.title}}</:title>
         <:content>
           {{#each area.sortedCompetences as |competence|}}
@@ -22,7 +22,7 @@ import Competence from './competence';
             />
           {{/each}}
         </:content>
-      </PixCollapsible>
+      </PixAccordions>
     </div>
   {{/each}}
 </template>
