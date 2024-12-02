@@ -1,4 +1,3 @@
-const initLearningContentCache = async function ({ LearningContentCache }) {
-  await LearningContentCache.instance.get();
-};
-export { initLearningContentCache };
+export async function initLearningContentCache() {
+  // FIXME
+}

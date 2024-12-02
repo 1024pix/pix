@@ -23,21 +23,19 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content 
       const tutorials = Symbol('tutorials');
       const missions = Symbol('missions');
 
-      const LearningContentCache = {
-        instance: {
-          reset: sinon.stub().resolves({
-            frameworks,
-            areas,
-            competences,
-            thematics,
-            tubes,
-            skills,
-            challenges,
-            courses,
-            tutorials,
-            missions,
-          }),
-        },
+      const lcmsClient = {
+        getLatestRelease: sinon.stub().resolves({
+          frameworks,
+          areas,
+          competences,
+          thematics,
+          tubes,
+          skills,
+          challenges,
+          courses,
+          tutorials,
+          missions,
+        }),
       };
 
       const frameworkRepository = {
@@ -73,7 +71,7 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content 
 
       // when
       await refreshLearningContentCache({
-        LearningContentCache,
+        lcmsClient,
         frameworkRepository,
         areaRepository,
         competenceRepository,
@@ -87,7 +85,7 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content 
       });
 
       // then
-      expect(LearningContentCache.instance.reset).to.have.been.calledOnce;
+      expect(lcmsClient.getLatestRelease).to.have.been.calledOnce;
       expect(frameworkRepository.saveMany).to.have.been.calledOnceWithExactly(frameworks);
       expect(areaRepository.saveMany).to.have.been.calledOnceWithExactly(areas);
       expect(competenceRepository.saveMany).to.have.been.calledOnceWithExactly(competences);

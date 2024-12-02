@@ -3,7 +3,7 @@ import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 export const createLearningContentRelease = withTransaction(
   /** @param {import('./dependencies.js').Dependencies} */
   async function createLearningContentRelease({
-    LearningContentCache,
+    lcmsClient,
     frameworkRepository,
     areaRepository,
     competenceRepository,
@@ -15,7 +15,7 @@ export const createLearningContentRelease = withTransaction(
     tutorialRepository,
     missionRepository,
   }) {
-    const learningContent = await LearningContentCache.instance.update();
+    const learningContent = await lcmsClient.createRelease();
 
     await frameworkRepository.saveMany(learningContent.frameworks);
     await areaRepository.saveMany(learningContent.areas);

@@ -1,69 +1,52 @@
-import { config } from '../../config.js';
-import { lcmsClient } from '../lcms-client.js';
-import { DistributedCache } from './DistributedCache.js';
-import { InMemoryCache } from './InMemoryCache.js';
-import { LayeredCache } from './LayeredCache.js';
-import { RedisCache } from './RedisCache.js';
-
-const LEARNING_CONTENT_CHANNEL = 'Learning content';
-const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
+import * as learningContentPubSub from '../caches/learning-content-pubsub.js';
 
 export class LearningContentCache {
-  constructor(redisUrl) {
-    if (redisUrl) {
-      const distributedCache = new DistributedCache(new InMemoryCache(), redisUrl, LEARNING_CONTENT_CHANNEL);
-      const redisCache = new RedisCache(redisUrl);
+  #map;
+  #pubSub;
+  #name;
 
-      this._underlyingCache = new LayeredCache(distributedCache, redisCache);
-    } else {
-      this._underlyingCache = new InMemoryCache();
+  /**
+   * @param {{
+   *   name: string
+   *   pubSub: import('../caches/learning-content-pubsub.js').LearningContentPubSub
+   *   map: Map
+   * }} config
+   * @returns
+   */
+  constructor({ name, pubSub = learningContentPubSub.getPubSub(), map = new Map() }) {
+    this.#name = name;
+    this.#pubSub = pubSub;
+    this.#map = map;
+
+    this.#subscribe();
+  }
+
+  get(key) {
+    return this.#map.get(key);
+  }
+
+  set(key, value) {
+    return this.#map.set(key, value);
+  }
+
+  delete(key) {
+    return this.#pubSub.publish(this.#name, { type: 'delete', key });
+  }
+
+  clear() {
+    return this.#pubSub.publish(this.#name, { type: 'clear' });
+  }
+
+  async #subscribe() {
+    for await (const message of this.#pubSub.subscribe(this.#name)) {
+      if (message.type === 'clear') this.#map.clear();
+      if (message.type === 'delete') this.#map.delete(message.key);
     }
-    this.generator = () => lcmsClient.getLatestRelease();
-  }
-
-  get() {
-    return this._underlyingCache.get(LEARNING_CONTENT_CACHE_KEY, this.generator);
-  }
-
-  async reset() {
-    const object = await this.generator();
-    return this._underlyingCache.set(LEARNING_CONTENT_CACHE_KEY, object);
-  }
-
-  async update() {
-    const newLearningContent = await lcmsClient.createRelease();
-    return this._underlyingCache.set(LEARNING_CONTENT_CACHE_KEY, newLearningContent);
-  }
-
-  patch(patch) {
-    return this._underlyingCache.patch(LEARNING_CONTENT_CACHE_KEY, patch);
-  }
-
-  flushAll() {
-    return this._underlyingCache.flushAll();
-  }
-
-  quit() {
-    return this._underlyingCache.quit();
-  }
-
-  /** @type {LearningContentCache} */
-  static _instance = null;
-
-  static defaultInstance() {
-    return new LearningContentCache(config.caching.redisUrl);
-  }
-
-  static get instance() {
-    if (!this._instance) {
-      this._instance = this.defaultInstance();
-    }
-    return this._instance;
-  }
-
-  static set instance(_instance) {
-    this._instance = _instance;
   }
 }
 
-export const learningContentCache = LearningContentCache.instance;
+export const learningContentCache = {
+  async quit() {
+    return learningContentPubSub.quit();
+  },
+};

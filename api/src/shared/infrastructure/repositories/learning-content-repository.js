@@ -1,7 +1,7 @@
 import Dataloader from 'dataloader';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import * as learningContentPubSub from '../caches/learning-content-pubsub.js';
+import { LearningContentCache } from '../caches/learning-content-cache.js';
 
 export class LearningContentRepository {
   #tableName;
@@ -10,21 +10,15 @@ export class LearningContentRepository {
   #findCache;
   #findCacheMiss;
 
-  constructor({ tableName, idType = 'text', pubSub = learningContentPubSub.getPubSub() }) {
+  constructor({ tableName, idType = 'text' }) {
     this.#tableName = tableName;
     this.#idType = idType;
 
     this.#dataloader = new Dataloader((ids) => this.#batchLoad(ids), {
-      cacheMap: new LearningContentCache({
-        name: `${tableName}:entities`,
-        pubSub,
-      }),
+      cacheMap: new LearningContentCache({ name: `${tableName}:entities` }),
     });
 
-    this.#findCache = new LearningContentCache({
-      name: `${tableName}:results`,
-      pubSub,
-    });
+    this.#findCache = new LearningContentCache({ name: `${tableName}:results` });
 
     this.#findCacheMiss = new Map();
   }
@@ -79,46 +73,5 @@ export class LearningContentRepository {
       this.#dataloader.clearAll();
     }
     this.#findCache.clear();
-  }
-}
-
-class LearningContentCache {
-  #map = new Map();
-  #pubSub;
-  #name;
-
-  /**
-   * @param {{
-   *   pubSub: import('../caches/learning-content-pubsub.js').LearningContentPubSub
-   *   name: string
-   * }} config
-   * @returns
-   */
-  constructor({ pubSub, name }) {
-    this.#pubSub = pubSub;
-    this.#name = name;
-
-    (async () => {
-      for await (const message of pubSub.subscribe(name)) {
-        if (message.type === 'clear') this.#map.clear();
-        if (message.type === 'delete') this.#map.delete(this.message.key);
-      }
-    })();
-  }
-
-  get(key) {
-    return this.#map.get(key);
-  }
-
-  set(key, value) {
-    return this.#map.set(key, value);
-  }
-
-  delete(key) {
-    return this.#pubSub.publish(this.#name, { type: 'delete', key });
-  }
-
-  clear() {
-    return this.#pubSub.publish(this.#name, { type: 'clear' });
   }
 }

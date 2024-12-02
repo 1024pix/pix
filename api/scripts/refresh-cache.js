@@ -11,7 +11,7 @@ try {
   await usecases.refreshLearningContentCache();
   logger.info('Learning Content refreshed');
 } catch (e) {
-  logger.error('Error while reloading cache', e);
+  logger.error(e, 'Error while reloading cache');
 } finally {
   await learningContentCache.quit();
   await disconnect();

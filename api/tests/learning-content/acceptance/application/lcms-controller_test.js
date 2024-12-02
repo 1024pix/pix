@@ -1,7 +1,4 @@
-import Redis from 'ioredis';
-
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { LearningContentCache } from '../../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import {
   createServer,
   databaseBuilder,
@@ -59,16 +56,7 @@ describe('Acceptance | Controller | lcms-controller', function () {
     });
 
     describe('nominal case', function () {
-      beforeEach(function () {
-        LearningContentCache.instance = new LearningContentCache(process.env.TEST_REDIS_URL);
-      });
-
-      afterEach(async function () {
-        await LearningContentCache.instance._underlyingCache.flushAll();
-        LearningContentCache.instance = null;
-      });
-
-      it('should store patches in Redis and patch the DB for an assign operation', async function () {
+      it('should patch the DB for an assign operation', async function () {
         // given
         await mockLearningContent({
           frameworks: [
@@ -95,10 +83,6 @@ describe('Acceptance | Controller | lcms-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(204);
-        const redis = new Redis(process.env.TEST_REDIS_URL);
-        expect(await redis.lrange('cache:LearningContent:patches', 0, -1)).to.deep.equal([
-          JSON.stringify({ operation: 'assign', path: `frameworks[0]`, value: payload }),
-        ]);
         const frameworksInDB = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
         expect(frameworksInDB).to.deep.equal([
           { id: 'frameworkId', name: 'new name' },
@@ -106,7 +90,7 @@ describe('Acceptance | Controller | lcms-controller', function () {
         ]);
       });
 
-      it('should store patches in Redis and patch the DB for a push operation', async function () {
+      it('should patch the DB for a push operation', async function () {
         // given
         await mockLearningContent({
           frameworks: [
@@ -133,10 +117,6 @@ describe('Acceptance | Controller | lcms-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(204);
-        const redis = new Redis(process.env.TEST_REDIS_URL);
-        expect(await redis.lrange('cache:LearningContent:patches', 0, -1)).to.deep.equal([
-          JSON.stringify({ operation: 'push', path: `frameworks`, value: payload }),
-        ]);
         const frameworksInDB = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
         expect(frameworksInDB).to.deep.equal([
           { id: 'frameworkId1', name: 'name 1' },

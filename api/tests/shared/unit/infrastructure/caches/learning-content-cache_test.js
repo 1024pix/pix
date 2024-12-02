@@ -1,62 +1,75 @@
-import { learningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
+import { LearningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
-  let originalUnderlyingCache;
+  let pubSub, map, learningContentCache;
 
   beforeEach(function () {
-    originalUnderlyingCache = learningContentCache._underlyingCache;
+    pubSub = {
+      subscribe: sinon.stub(),
+      publish: sinon.stub(),
+    };
 
-    learningContentCache._underlyingCache = {
+    map = {
       get: sinon.stub(),
       set: sinon.stub(),
-      patch: sinon.stub(),
-      flushAll: sinon.stub(),
-      quit: sinon.stub(),
+      delete: sinon.stub(),
+      clear: sinon.stub(),
     };
+
+    learningContentCache = new LearningContentCache({ name: 'test', pubSub, map });
   });
 
-  afterEach(function () {
-    learningContentCache._underlyingCache = originalUnderlyingCache;
-  });
-
-  describe('#patch', function () {
-    it('should patch the learning content in underlying cache', async function () {
+  describe('#get', function () {
+    it('should call map.get() and return its value', async function () {
       // given
-      learningContentCache._underlyingCache.patch.resolves();
-      const patch = { operation: 'assign', path: 'a', value: {} };
+      const key = Symbol('key');
+      const value = Symbol('value');
+      map.get.withArgs(key).returns(value);
 
       // when
-      await learningContentCache.patch(patch);
+      const result = learningContentCache.get(key);
 
       // then
-      expect(learningContentCache._underlyingCache.patch).to.have.been.calledWith('LearningContent', patch);
+      expect(result).to.equal(value);
+      expect(map.get).to.have.been.calledOnceWithExactly(key);
     });
   });
 
-  describe('#flushAll', function () {
-    it('should flush all the underlying cache', async function () {
+  describe('#set', function () {
+    it('should call map.set()', async function () {
       // given
-      learningContentCache._underlyingCache.flushAll.resolves();
+      const key = Symbol('key');
+      const value = Symbol('value');
 
       // when
-      await learningContentCache.flushAll();
+      learningContentCache.set(key, value);
 
       // then
-      expect(learningContentCache._underlyingCache.flushAll).to.have.been.calledWith();
+      expect(map.set).to.have.been.calledOnceWithExactly(key, value);
     });
   });
 
-  describe('#quit', function () {
-    it('should quit the underlying cache', async function () {
+  describe('#delete', function () {
+    it('should publish delete event on pubSub', async function () {
       // given
-      learningContentCache._underlyingCache.quit.resolves();
+      const key = Symbol('key');
 
       // when
-      await learningContentCache.quit();
+      learningContentCache.delete(key);
 
       // then
-      expect(learningContentCache._underlyingCache.quit).to.have.been.calledWith();
+      expect(pubSub.publish).to.have.been.calledOnceWithExactly('test', { type: 'delete', key });
+    });
+  });
+
+  describe('#clear', function () {
+    it('should publish clear event on pubSub', async function () {
+      // when
+      learningContentCache.clear();
+
+      // then
+      expect(pubSub.publish).to.have.been.calledOnceWithExactly('test', { type: 'clear' });
     });
   });
 });

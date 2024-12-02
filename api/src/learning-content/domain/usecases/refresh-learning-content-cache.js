@@ -3,7 +3,7 @@ import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 export const refreshLearningContentCache = withTransaction(
   /** @param {import('./dependencies.js').Dependencies} */
   async function refreshLearningContentCache({
-    LearningContentCache,
+    lcmsClient,
     frameworkRepository,
     areaRepository,
     competenceRepository,
@@ -15,7 +15,7 @@ export const refreshLearningContentCache = withTransaction(
     tutorialRepository,
     missionRepository,
   }) {
-    const learningContent = await LearningContentCache.instance.reset();
+    const learningContent = await lcmsClient.getLatestRelease();
 
     await frameworkRepository.saveMany(learningContent.frameworks);
     await areaRepository.saveMany(learningContent.areas);
