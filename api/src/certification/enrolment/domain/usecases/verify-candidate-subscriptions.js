@@ -57,7 +57,7 @@ export async function verifyCandidateSubscriptions({
       throw new CertificationCandidateEligibilityError();
     }
 
-    if (_hasCoreAndComplementarSubscriptions(candidate)) {
+    if (_hasCoreAndComplementarySubscriptions(candidate)) {
       return;
     }
 
