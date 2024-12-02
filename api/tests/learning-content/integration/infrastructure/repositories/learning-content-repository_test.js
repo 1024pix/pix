@@ -2,7 +2,7 @@ import { LearningContentRepository } from '../../../../../src/learning-content/i
 import { expect } from '../../../../test-helper.js';
 
 describe('Learning Content | Integration | Repositories | Learning Content', function () {
-  describe('#save', function () {
+  describe('#saveMany', function () {
     describe('when dtos are nullish', function () {
       it('should do nothing', async function () {
         // given
@@ -10,7 +10,7 @@ describe('Learning Content | Integration | Repositories | Learning Content', fun
         const dtos = undefined;
 
         // when
-        const result = await repository.save(dtos);
+        const result = await repository.saveMany(dtos);
 
         // then
         expect(result).to.be.undefined;

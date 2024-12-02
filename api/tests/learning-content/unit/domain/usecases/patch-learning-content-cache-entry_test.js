@@ -17,45 +17,45 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
 
   beforeEach(function () {
     frameworkRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    frameworkRepository.save.rejects('I should not be called');
+    frameworkRepository.saveMany.rejects('I should not be called');
     areaRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    areaRepository.save.rejects('I should not be called');
+    areaRepository.saveMany.rejects('I should not be called');
     competenceRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    competenceRepository.save.rejects('I should not be called');
+    competenceRepository.saveMany.rejects('I should not be called');
     thematicRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    thematicRepository.save.rejects('I should not be called');
+    thematicRepository.saveMany.rejects('I should not be called');
     tubeRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    tubeRepository.save.rejects('I should not be called');
+    tubeRepository.saveMany.rejects('I should not be called');
     skillRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    skillRepository.save.rejects('I should not be called');
+    skillRepository.saveMany.rejects('I should not be called');
     challengeRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    challengeRepository.save.rejects('I should not be called');
+    challengeRepository.saveMany.rejects('I should not be called');
     courseRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    courseRepository.save.rejects('I should not be called');
+    courseRepository.saveMany.rejects('I should not be called');
     tutorialRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    tutorialRepository.save.rejects('I should not be called');
+    tutorialRepository.saveMany.rejects('I should not be called');
     missionRepository = {
-      save: sinon.stub(),
+      saveMany: sinon.stub(),
     };
-    missionRepository.save.rejects('I should not be called');
+    missionRepository.saveMany.rejects('I should not be called');
     repositories = {
       frameworkRepository,
       areaRepository,
@@ -173,7 +173,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
       'tutorials',
       'missions',
     ].forEach((modelName) => {
-      it(`should call save on appropriate repository for model ${modelName}`, async function () {
+      it(`should call saveMany on appropriate repository for model ${modelName}`, async function () {
         // given
         const recordId = 'recId';
         const updatedRecord = Symbol('updated record');
@@ -190,7 +190,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
             patch: sinon.stub().resolves(),
           },
         };
-        repositoriesByModel[modelName].save.withArgs([updatedRecord]).resolves();
+        repositoriesByModel[modelName].saveMany.withArgs([updatedRecord]).resolves();
 
         // when
         await patchLearningContentCacheEntry({
@@ -202,8 +202,8 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
         });
 
         // then
-        expect(repositoriesByModel[modelName].save).to.have.been.calledOnce;
-        expect(repositoriesByModel[modelName].save).to.have.been.calledWithExactly([updatedRecord]);
+        expect(repositoriesByModel[modelName].saveMany).to.have.been.calledOnce;
+        expect(repositoriesByModel[modelName].saveMany).to.have.been.calledWithExactly([updatedRecord]);
       });
     });
   });

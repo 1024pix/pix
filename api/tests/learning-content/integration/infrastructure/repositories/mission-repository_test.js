@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Mission', function () 
     await knex('learningcontent.missions').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert missions', async function () {
       // given
       const missionDtos = [
@@ -64,7 +64,7 @@ describe('Learning Content | Integration | Repositories | Mission', function () 
       ];
 
       // when
-      await missionRepository.save(missionDtos);
+      await missionRepository.saveMany(missionDtos);
 
       // then
       const savedMissions = await knex.select('*').from('learningcontent.missions').orderBy('id');
@@ -208,7 +208,7 @@ describe('Learning Content | Integration | Repositories | Mission', function () 
         ];
 
         // when
-        await missionRepository.save(missionDtos);
+        await missionRepository.saveMany(missionDtos);
 
         // then
         const savedMissions = await knex.select('*').from('learningcontent.missions').orderBy('id');

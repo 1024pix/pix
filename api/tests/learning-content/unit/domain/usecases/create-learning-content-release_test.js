@@ -41,34 +41,34 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
       };
 
       const frameworkRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const areaRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const competenceRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const thematicRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const tubeRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const skillRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const challengeRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const courseRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const tutorialRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
       const missionRepository = {
-        save: sinon.stub(),
+        saveMany: sinon.stub(),
       };
 
       // when
@@ -88,16 +88,16 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
 
       // then
       expect(LearningContentCache.instance.update).to.have.been.calledOnce;
-      expect(frameworkRepository.save).to.have.been.calledOnceWithExactly(frameworks);
-      expect(areaRepository.save).to.have.been.calledOnceWithExactly(areas);
-      expect(competenceRepository.save).to.have.been.calledOnceWithExactly(competences);
-      expect(thematicRepository.save).to.have.been.calledOnceWithExactly(thematics);
-      expect(tubeRepository.save).to.have.been.calledOnceWithExactly(tubes);
-      expect(skillRepository.save).to.have.been.calledOnceWithExactly(skills);
-      expect(challengeRepository.save).to.have.been.calledOnceWithExactly(challenges);
-      expect(courseRepository.save).to.have.been.calledOnceWithExactly(courses);
-      expect(tutorialRepository.save).to.have.been.calledOnceWithExactly(tutorials);
-      expect(missionRepository.save).to.have.been.calledOnceWithExactly(missions);
+      expect(frameworkRepository.saveMany).to.have.been.calledOnceWithExactly(frameworks);
+      expect(areaRepository.saveMany).to.have.been.calledOnceWithExactly(areas);
+      expect(competenceRepository.saveMany).to.have.been.calledOnceWithExactly(competences);
+      expect(thematicRepository.saveMany).to.have.been.calledOnceWithExactly(thematics);
+      expect(tubeRepository.saveMany).to.have.been.calledOnceWithExactly(tubes);
+      expect(skillRepository.saveMany).to.have.been.calledOnceWithExactly(skills);
+      expect(challengeRepository.saveMany).to.have.been.calledOnceWithExactly(challenges);
+      expect(courseRepository.saveMany).to.have.been.calledOnceWithExactly(courses);
+      expect(tutorialRepository.saveMany).to.have.been.calledOnceWithExactly(tutorials);
+      expect(missionRepository.saveMany).to.have.been.calledOnceWithExactly(missions);
     });
   });
 });

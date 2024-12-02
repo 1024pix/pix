@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Skill', function () {
     await knex('learningcontent.skills').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert skills', async function () {
       // given
       const skillDtos = [
@@ -67,7 +67,7 @@ describe('Learning Content | Integration | Repositories | Skill', function () {
       ];
 
       // when
-      await skillRepository.save(skillDtos);
+      await skillRepository.saveMany(skillDtos);
 
       // then
       const savedSkills = await knex.select('*').from('learningcontent.skills').orderBy('name');
@@ -248,7 +248,7 @@ describe('Learning Content | Integration | Repositories | Skill', function () {
       await databaseBuilder.commit();
 
       // when
-      await skillRepository.save(skillDtos);
+      await skillRepository.saveMany(skillDtos);
 
       // then
       const savedSkills = await knex.select('*').from('learningcontent.skills').orderBy('name');

@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Area', function () {
     await knex('learningcontent.areas').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert areas', async function () {
       // given
       const areaDtos = [
@@ -40,7 +40,7 @@ describe('Learning Content | Integration | Repositories | Area', function () {
       ];
 
       // when
-      await areaRepository.save(areaDtos);
+      await areaRepository.saveMany(areaDtos);
 
       // then
       const savedAreas = await knex.select('*').from('learningcontent.areas').orderBy('name');
@@ -125,7 +125,7 @@ describe('Learning Content | Integration | Repositories | Area', function () {
         ];
 
         // when
-        await areaRepository.save(areaDtos);
+        await areaRepository.saveMany(areaDtos);
 
         // then
         const savedAreas = await knex.select('*').from('learningcontent.areas').orderBy('name');

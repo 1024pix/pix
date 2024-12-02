@@ -65,33 +65,33 @@ async function patchDatabase(
   missionRepository,
 ) {
   if (modelName === 'frameworks') {
-    await frameworkRepository.save([patchedRecord]);
+    await frameworkRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'areas') {
-    await areaRepository.save([patchedRecord]);
+    await areaRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'competences') {
-    await competenceRepository.save([patchedRecord]);
+    await competenceRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'thematics') {
-    await thematicRepository.save([patchedRecord]);
+    await thematicRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'tubes') {
-    await tubeRepository.save([patchedRecord]);
+    await tubeRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'skills') {
-    await skillRepository.save([patchedRecord]);
+    await skillRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'challenges') {
-    await challengeRepository.save([patchedRecord]);
+    await challengeRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'courses') {
-    await courseRepository.save([patchedRecord]);
+    await courseRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'tutorials') {
-    await tutorialRepository.save([patchedRecord]);
+    await tutorialRepository.saveMany([patchedRecord]);
   }
   if (modelName === 'missions') {
-    await missionRepository.save([patchedRecord]);
+    await missionRepository.saveMany([patchedRecord]);
   }
 }

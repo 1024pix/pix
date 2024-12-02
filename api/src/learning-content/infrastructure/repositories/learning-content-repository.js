@@ -21,7 +21,7 @@ export class LearningContentRepository {
   /**
    * @param {object[]} objects
    */
-  async save(objects) {
+  async saveMany(objects) {
     if (!objects) return;
     const dtos = objects.map(this.toDto);
     const knex = DomainTransaction.getConnection();

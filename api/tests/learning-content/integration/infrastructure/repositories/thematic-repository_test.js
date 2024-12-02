@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Thematic', function ()
     await knex('learningcontent.thematics').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert thematics', async function () {
       // given
       const thematicDtos = [
@@ -34,7 +34,7 @@ describe('Learning Content | Integration | Repositories | Thematic', function ()
       ];
 
       // when
-      await thematicRepository.save(thematicDtos);
+      await thematicRepository.saveMany(thematicDtos);
 
       // then
       const savedThematics = await knex.select('*').from('learningcontent.thematics').orderBy('id');
@@ -105,7 +105,7 @@ describe('Learning Content | Integration | Repositories | Thematic', function ()
         ];
 
         // when
-        await thematicRepository.save(thematicDtos);
+        await thematicRepository.saveMany(thematicDtos);
 
         // then
         const savedThematics = await knex.select('*').from('learningcontent.thematics').orderBy('id');

@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Challenge', function (
     await knex('learningcontent.challenges').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert challenges', async function () {
       // given
       const challengeDtos = [
@@ -130,7 +130,7 @@ describe('Learning Content | Integration | Repositories | Challenge', function (
       ];
 
       // when
-      await challengeRepository.save(challengeDtos);
+      await challengeRepository.saveMany(challengeDtos);
 
       // then
       const savedChallenges = await knex.select('*').from('learningcontent.challenges').orderBy('id');
@@ -421,7 +421,7 @@ describe('Learning Content | Integration | Repositories | Challenge', function (
         ];
 
         // when
-        await challengeRepository.save(challengeDtos);
+        await challengeRepository.saveMany(challengeDtos);
 
         // then
         const savedChallenges = await knex.select('*').from('learningcontent.challenges').orderBy('id');

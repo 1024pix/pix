@@ -17,15 +17,15 @@ export const refreshLearningContentCache = withTransaction(
   }) {
     const learningContent = await LearningContentCache.instance.reset();
 
-    await frameworkRepository.save(learningContent.frameworks);
-    await areaRepository.save(learningContent.areas);
-    await competenceRepository.save(learningContent.competences);
-    await thematicRepository.save(learningContent.thematics);
-    await tubeRepository.save(learningContent.tubes);
-    await skillRepository.save(learningContent.skills);
-    await challengeRepository.save(learningContent.challenges);
-    await courseRepository.save(learningContent.courses);
-    await tutorialRepository.save(learningContent.tutorials);
-    await missionRepository.save(learningContent.missions);
+    await frameworkRepository.saveMany(learningContent.frameworks);
+    await areaRepository.saveMany(learningContent.areas);
+    await competenceRepository.saveMany(learningContent.competences);
+    await thematicRepository.saveMany(learningContent.thematics);
+    await tubeRepository.saveMany(learningContent.tubes);
+    await skillRepository.saveMany(learningContent.skills);
+    await challengeRepository.saveMany(learningContent.challenges);
+    await courseRepository.saveMany(learningContent.courses);
+    await tutorialRepository.saveMany(learningContent.tutorials);
+    await missionRepository.saveMany(learningContent.missions);
   },
 );

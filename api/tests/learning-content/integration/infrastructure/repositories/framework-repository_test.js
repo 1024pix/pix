@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Framework', function (
     await knex('learningcontent.frameworks').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert frameworks', async function () {
       // given
       const frameworkDtos = [
@@ -17,7 +17,7 @@ describe('Learning Content | Integration | Repositories | Framework', function (
       ];
 
       // when
-      await frameworkRepository.save(frameworkDtos);
+      await frameworkRepository.saveMany(frameworkDtos);
 
       // then
       const savedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
@@ -49,7 +49,7 @@ describe('Learning Content | Integration | Repositories | Framework', function (
         ];
 
         // when
-        await frameworkRepository.save(frameworkDtos);
+        await frameworkRepository.saveMany(frameworkDtos);
 
         // then
         const savedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');

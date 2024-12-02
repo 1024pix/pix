@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Tube', function () {
     await knex('learningcontent.tubes').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert tubes', async function () {
       // given
       const tubeDtos = [
@@ -52,7 +52,7 @@ describe('Learning Content | Integration | Repositories | Tube', function () {
       ];
 
       // when
-      await tubeRepository.save(tubeDtos);
+      await tubeRepository.saveMany(tubeDtos);
 
       // then
       const savedTubes = await knex.select('*').from('learningcontent.tubes').orderBy('id');
@@ -164,7 +164,7 @@ describe('Learning Content | Integration | Repositories | Tube', function () {
         ];
 
         // when
-        await tubeRepository.save(tubeDtos);
+        await tubeRepository.saveMany(tubeDtos);
 
         // then
         const savedTubes = await knex.select('*').from('learningcontent.tubes').orderBy('id');

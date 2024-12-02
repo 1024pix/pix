@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Tutorial', function ()
     await knex('learningcontent.tutorials').truncate();
   });
 
-  describe('#save', function () {
+  describe('#saveMany', function () {
     it('should insert tutorials', async function () {
       // given
       const tutorialDtos = [
@@ -40,7 +40,7 @@ describe('Learning Content | Integration | Repositories | Tutorial', function ()
       ];
 
       // when
-      await tutorialRepository.save(tutorialDtos);
+      await tutorialRepository.saveMany(tutorialDtos);
 
       // then
       const savedTutorials = await knex.select('*').from('learningcontent.tutorials').orderBy('id');
@@ -121,7 +121,7 @@ describe('Learning Content | Integration | Repositories | Tutorial', function ()
         ];
 
         // when
-        await tutorialRepository.save(tutorialDtos);
+        await tutorialRepository.saveMany(tutorialDtos);
 
         // then
         const savedTutorials = await knex.select('*').from('learningcontent.tutorials').orderBy('id');
