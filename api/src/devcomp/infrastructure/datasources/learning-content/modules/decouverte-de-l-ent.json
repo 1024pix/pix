@@ -578,13 +578,13 @@
                   "image": {
                     "url": "https://i.imgur.com/vg3Ro1F.png"
                   },
-                  "text": "Qu'est ce que l'ENT ?"
+                  "text": "Qu'est ce qu'un ENT ?"
                 },
                 "verso": {
                   "image": {
                     "url": "https://i.imgur.com/f0zTbxV.png"
                   },
-                  "text": "<p><strong>L'espace numérique de travail</strong> est le service en ligne proposé par l'établissement scolaire pour le suivi de la scolarité des élèves.</p>"
+                  "text": "<p><strong>Un espace numérique de travail (ENT)</strong> est un service en ligne proposé par l'établissement scolaire pour le suivi de la scolarité des élèves.</p>"
                 }
               },
               {
@@ -593,7 +593,7 @@
                   "image": {
                     "url": "https://i.imgur.com/vg3Ro1F.png"
                   },
-                  "text": "Quelles personnes peuvent utiliser l'ENT ?"
+                  "text": "Quelles personnes peuvent utiliser l'ENT d'un établissement scolaire ?"
                 },
                 "verso": {
                   "image": {
@@ -629,7 +629,7 @@
                   "image": {
                     "url": "https://i.imgur.com/9EIyRUB.png"
                   },
-                  "text": "<p>Grâce au <strong>cahier de texte numérique</strong>, parents et élèves ont accès aux&nbsp;devoirs à faire à la maison&nbsp;et aux&nbsp;contenus des cours&nbsp;déposés par les professeurs.</p>"
+                  "text": "<p>Grâce au <strong>cahier de texte numérique</strong>, parents et élèves ont accès aux devoirs à faire à la maison et aux contenus des cours déposés par les professeurs.</p>"
                 }
               }
             ]
