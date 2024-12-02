@@ -1,3 +1,4 @@
+import { clearCache } from '../../../shared/infrastructure/repositories/competence-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class CompetenceRepository extends LearningContentRepository {
@@ -16,6 +17,10 @@ class CompetenceRepository extends LearningContentRepository {
       skillIds,
       thematicIds,
     };
+  }
+
+  clearCache() {
+    clearCache();
   }
 }
 

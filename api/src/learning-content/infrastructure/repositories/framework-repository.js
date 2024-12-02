@@ -1,3 +1,4 @@
+import { clearCache } from '../../../../lib/infrastructure/repositories/framework-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class FrameworkRepository extends LearningContentRepository {
@@ -10,6 +11,10 @@ class FrameworkRepository extends LearningContentRepository {
       id,
       name,
     };
+  }
+
+  clearCache() {
+    clearCache();
   }
 }
 

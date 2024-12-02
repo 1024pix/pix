@@ -1,3 +1,4 @@
+import { clearCache } from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class SkillRepository extends LearningContentRepository {
@@ -33,6 +34,10 @@ class SkillRepository extends LearningContentRepository {
       tutorialIds,
       learningMoreTutorialIds,
     };
+  }
+
+  clearCache() {
+    clearCache();
   }
 }
 

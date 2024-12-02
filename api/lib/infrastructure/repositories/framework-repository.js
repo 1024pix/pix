@@ -29,10 +29,6 @@ export async function findByRecordIds(ids) {
     .map(toDomain);
 }
 
-export function clear() {
-  return getInstance().clear();
-}
-
 function toDomain(frameworkData) {
   return new Framework({
     id: frameworkData.id,

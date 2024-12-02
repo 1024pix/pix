@@ -1,3 +1,4 @@
+import { clearCache } from '../../../../lib/infrastructure/repositories/tube-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class TubeRepository extends LearningContentRepository {
@@ -31,6 +32,10 @@ class TubeRepository extends LearningContentRepository {
       isMobileCompliant,
       isTabletCompliant,
     };
+  }
+
+  clearCache() {
+    clearCache();
   }
 }
 

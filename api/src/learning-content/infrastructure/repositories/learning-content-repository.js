@@ -28,6 +28,11 @@ export class LearningContentRepository {
     for (const chunk of chunks(dtos, this.#chunkSize)) {
       await knex.insert(chunk).into(this.#tableName).onConflict('id').merge();
     }
+    this.clearCache();
+  }
+
+  clearCache() {
+    // must be overriden
   }
 
   /**

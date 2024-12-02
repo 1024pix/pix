@@ -1,3 +1,4 @@
+import { clearCache } from '../../../shared/infrastructure/repositories/area-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class AreaRepository extends LearningContentRepository {
@@ -15,6 +16,10 @@ class AreaRepository extends LearningContentRepository {
       frameworkId,
       competenceIds,
     };
+  }
+
+  clearCache() {
+    clearCache();
   }
 }
 
