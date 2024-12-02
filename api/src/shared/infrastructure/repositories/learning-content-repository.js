@@ -72,8 +72,12 @@ export class LearningContentRepository {
     return dtos.map((dto) => (dto.id ? dto : null));
   }
 
-  clearCache() {
-    this.#dataloader.clearAll();
+  clearCache(id) {
+    if (id) {
+      this.#dataloader.clear(id);
+    } else {
+      this.#dataloader.clearAll();
+    }
     this.#findCache.clear();
   }
 }

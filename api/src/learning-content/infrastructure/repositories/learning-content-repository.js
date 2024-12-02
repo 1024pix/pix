@@ -31,7 +31,17 @@ export class LearningContentRepository {
     this.clearCache();
   }
 
-  clearCache() {
+  /**
+   * @param {object} object
+   */
+  async save(object) {
+    const dto = this.toDto(object);
+    const knex = DomainTransaction.getConnection();
+    await knex.insert(dto).into(this.#tableName).onConflict('id').merge();
+    this.clearCache(dto.id);
+  }
+
+  clearCache(_id) {
     // must be overriden
   }
 

@@ -34,8 +34,8 @@ class TubeRepository extends LearningContentRepository {
     };
   }
 
-  clearCache() {
-    clearCache();
+  clearCache(id) {
+    clearCache(id);
   }
 }
 

@@ -36,8 +36,8 @@ class MissionRepository extends LearningContentRepository {
     };
   }
 
-  clearCache() {
-    clearCache();
+  clearCache(id) {
+    clearCache(id);
   }
 }
 

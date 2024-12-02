@@ -279,4 +279,129 @@ describe('Learning Content | Integration | Repositories | Mission', function () 
       });
     });
   });
+
+  describe('#save', function () {
+    beforeEach(async function () {
+      databaseBuilder.factory.learningContent.buildMission({ id: 66 });
+      await databaseBuilder.commit();
+    });
+
+    it('should insert mission when it does not exist in DB', async function () {
+      // given
+      const missionDto = {
+        id: 1,
+        status: 'status Mission A',
+        name_i18n: { fr: 'name FR Mission A', en: 'name EN Mission A' },
+        content: { some: 'content' },
+        learningObjectives_i18n: { fr: 'learningObjectives FR Mission A', en: 'learningObjectives EN Mission A' },
+        validatedObjectives_i18n: { fr: 'validatedObjectives FR Mission A', en: 'validatedObjectives EN Mission A' },
+        introductionMediaType: 'introductionMediaType Mission A',
+        introductionMediaUrl: 'introductionMediaUrl Mission A',
+        introductionMediaAlt_i18n: {
+          fr: 'introductionMediaAlt FR Mission A',
+          en: 'introductionMediaAlt EN Mission A',
+        },
+        documentationUrl: 'documentationUrl Mission A',
+        cardImageUrl: 'cardImageUrl Mission A',
+        competenceId: 'competenceIdA',
+      };
+
+      // when
+      await missionRepository.save(missionDto);
+
+      // then
+      const savedMission = await knex.select('*').from('learningcontent.missions').where({ id: missionDto.id }).first();
+      const [{ count }] = await knex('learningcontent.missions').count();
+      expect(count).to.equal(2);
+      expect(savedMission).to.deep.equal({
+        id: 1,
+        status: 'status Mission A',
+        name_i18n: { fr: 'name FR Mission A', en: 'name EN Mission A' },
+        content: { some: 'content' },
+        learningObjectives_i18n: { fr: 'learningObjectives FR Mission A', en: 'learningObjectives EN Mission A' },
+        validatedObjectives_i18n: { fr: 'validatedObjectives FR Mission A', en: 'validatedObjectives EN Mission A' },
+        introductionMediaType: 'introductionMediaType Mission A',
+        introductionMediaUrl: 'introductionMediaUrl Mission A',
+        introductionMediaAlt_i18n: {
+          fr: 'introductionMediaAlt FR Mission A',
+          en: 'introductionMediaAlt EN Mission A',
+        },
+        documentationUrl: 'documentationUrl Mission A',
+        cardImageUrl: 'cardImageUrl Mission A',
+        competenceId: 'competenceIdA',
+      });
+    });
+
+    it('should update mission when it does exist in DB', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildMission({
+        id: 1,
+        status: 'status Mission A',
+        name_i18n: { fr: 'name FR Mission A', en: 'name EN Mission A' },
+        content: { some: 'content' },
+        learningObjectives_i18n: { fr: 'learningObjectives FR Mission A', en: 'learningObjectives EN Mission A' },
+        validatedObjectives_i18n: { fr: 'validatedObjectives FR Mission A', en: 'validatedObjectives EN Mission A' },
+        introductionMediaType: 'introductionMediaType Mission A',
+        introductionMediaUrl: 'introductionMediaUrl Mission A',
+        introductionMediaAlt_i18n: {
+          fr: 'introductionMediaAlt FR Mission A',
+          en: 'introductionMediaAlt EN Mission A',
+        },
+        documentationUrl: 'documentationUrl Mission A',
+        cardImageUrl: 'cardImageUrl Mission A',
+        competenceId: 'competenceIdA',
+      });
+      await databaseBuilder.commit();
+      const missionDto = {
+        id: 1,
+        status: 'status Mission A modified',
+        name_i18n: { fr: 'name FR Mission A modified', en: 'name EN Mission A modified' },
+        content: { some: 'content' },
+        learningObjectives_i18n: {
+          fr: 'learningObjectives FR Mission A modified',
+          nl: 'learningObjectives EN Mission A modified',
+        },
+        validatedObjectives_i18n: {
+          fr: 'validatedObjectives FR Mission A modified',
+        },
+        introductionMediaType: 'introductionMediaType Mission A modified',
+        introductionMediaUrl: 'introductionMediaUrl Mission A modified',
+        introductionMediaAlt_i18n: {
+          en: 'introductionMediaAlt EN Mission A modified',
+        },
+        documentationUrl: 'documentationUrl Mission A modified',
+        cardImageUrl: 'cardImageUrl Mission A modified',
+        competenceId: 'competenceIdA modified',
+      };
+
+      // when
+      await missionRepository.save(missionDto);
+
+      // then
+      const savedMission = await knex.select('*').from('learningcontent.missions').where({ id: missionDto.id }).first();
+      const [{ count }] = await knex('learningcontent.missions').count();
+      expect(count).to.equal(2);
+      expect(savedMission).to.deep.equal({
+        id: 1,
+        status: 'status Mission A modified',
+        name_i18n: { fr: 'name FR Mission A modified', en: 'name EN Mission A modified' },
+        content: { some: 'content' },
+        learningObjectives_i18n: {
+          fr: 'learningObjectives FR Mission A modified',
+          nl: 'learningObjectives EN Mission A modified',
+        },
+        validatedObjectives_i18n: {
+          fr: 'validatedObjectives FR Mission A modified',
+        },
+        introductionMediaType: 'introductionMediaType Mission A modified',
+        introductionMediaUrl: 'introductionMediaUrl Mission A modified',
+        introductionMediaAlt_i18n: {
+          en: 'introductionMediaAlt EN Mission A modified',
+        },
+        documentationUrl: 'documentationUrl Mission A modified',
+        cardImageUrl: 'cardImageUrl Mission A modified',
+        competenceId: 'competenceIdA modified',
+      });
+    });
+  });
 });

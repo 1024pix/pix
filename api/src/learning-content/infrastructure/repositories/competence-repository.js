@@ -19,8 +19,8 @@ class CompetenceRepository extends LearningContentRepository {
     };
   }
 
-  clearCache() {
-    clearCache();
+  clearCache(id) {
+    clearCache(id);
   }
 }
 

@@ -89,8 +89,8 @@ class ChallengeRepository extends LearningContentRepository {
     };
   }
 
-  clearCache() {
-    clearCache();
+  clearCache(id) {
+    clearCache(id);
   }
 }
 

@@ -36,8 +36,8 @@ class SkillRepository extends LearningContentRepository {
     };
   }
 
-  clearCache() {
-    clearCache();
+  clearCache(id) {
+    clearCache(id);
   }
 }
 

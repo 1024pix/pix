@@ -380,4 +380,124 @@ describe('Learning Content | Integration | Repositories | Competence', function 
       });
     });
   });
+
+  describe('#save', function () {
+    beforeEach(async function () {
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceIdB' });
+      await databaseBuilder.commit();
+    });
+
+    it('should insert competence when it does not exist in DB', async function () {
+      // given
+      const competenceDto = {
+        id: 'competence11',
+        index: '1.1',
+        areaId: 'area1',
+        skillIds: ['skill1', 'skill2', 'skill3'],
+        thematicIds: ['thematic1', 'thematic2'],
+        origin: 'Pix',
+        name_i18n: {
+          fr: 'Compétence 1.1',
+          en: 'Competence 1.1',
+        },
+        description_i18n: {
+          fr: 'C’est la compétence 1.1',
+          en: 'It’s competence 1.1',
+        },
+      };
+
+      // when
+      await competenceRepository.save(competenceDto);
+
+      // then
+      const savedCompetence = await knex
+        .select('*')
+        .from('learningcontent.competences')
+        .where({ id: competenceDto.id })
+        .first();
+      const [{ count }] = await knex('learningcontent.competences').count();
+      expect(count).to.equal(2);
+      expect(savedCompetence).to.deep.equal({
+        id: 'competence11',
+        index: '1.1',
+        areaId: 'area1',
+        skillIds: ['skill1', 'skill2', 'skill3'],
+        thematicIds: ['thematic1', 'thematic2'],
+        origin: 'Pix',
+        name_i18n: {
+          fr: 'Compétence 1.1',
+          en: 'Competence 1.1',
+        },
+        description_i18n: {
+          fr: 'C’est la compétence 1.1',
+          en: 'It’s competence 1.1',
+        },
+      });
+    });
+
+    it('should update competence when it does exist in DB', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildCompetence({
+        id: 'competence11',
+        index: '1.1',
+        areaId: 'area1',
+        skillIds: ['skill1'],
+        thematicIds: ['thematic1'],
+        origin: 'Pix',
+        name_i18n: {
+          fr: 'Compétence 1.1 old',
+          en: 'Competence 1.1 old',
+        },
+        description_i18n: {
+          fr: 'C’est la compétence 1.1 old',
+          en: 'It’s competence 1.1 old',
+        },
+      });
+      await databaseBuilder.commit();
+      const competenceDto = {
+        id: 'competence11',
+        index: '1.1',
+        areaId: 'area1',
+        skillIds: ['skill1', 'skill2', 'skill3'],
+        thematicIds: ['thematic1', 'thematic2'],
+        origin: 'Pix',
+        name_i18n: {
+          fr: 'Compétence 1.1',
+          en: 'Competence 1.1',
+        },
+        description_i18n: {
+          fr: 'C’est la compétence 1.1',
+          en: 'It’s competence 1.1',
+        },
+      };
+
+      // when
+      await competenceRepository.save(competenceDto);
+
+      // then
+      const savedCompetence = await knex
+        .select('*')
+        .from('learningcontent.competences')
+        .where({ id: competenceDto.id })
+        .first();
+      const [{ count }] = await knex('learningcontent.competences').count();
+      expect(count).to.equal(2);
+      expect(savedCompetence).to.deep.equal({
+        id: 'competence11',
+        index: '1.1',
+        areaId: 'area1',
+        skillIds: ['skill1', 'skill2', 'skill3'],
+        thematicIds: ['thematic1', 'thematic2'],
+        origin: 'Pix',
+        name_i18n: {
+          fr: 'Compétence 1.1',
+          en: 'Competence 1.1',
+        },
+        description_i18n: {
+          fr: 'C’est la compétence 1.1',
+          en: 'It’s competence 1.1',
+        },
+      });
+    });
+  });
 });

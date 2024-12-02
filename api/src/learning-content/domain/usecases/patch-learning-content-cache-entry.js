@@ -65,33 +65,33 @@ async function patchDatabase(
   missionRepository,
 ) {
   if (modelName === 'frameworks') {
-    await frameworkRepository.saveMany([patchedRecord]);
+    await frameworkRepository.save(patchedRecord);
   }
   if (modelName === 'areas') {
-    await areaRepository.saveMany([patchedRecord]);
+    await areaRepository.save(patchedRecord);
   }
   if (modelName === 'competences') {
-    await competenceRepository.saveMany([patchedRecord]);
+    await competenceRepository.save(patchedRecord);
   }
   if (modelName === 'thematics') {
-    await thematicRepository.saveMany([patchedRecord]);
+    await thematicRepository.save(patchedRecord);
   }
   if (modelName === 'tubes') {
-    await tubeRepository.saveMany([patchedRecord]);
+    await tubeRepository.save(patchedRecord);
   }
   if (modelName === 'skills') {
-    await skillRepository.saveMany([patchedRecord]);
+    await skillRepository.save(patchedRecord);
   }
   if (modelName === 'challenges') {
-    await challengeRepository.saveMany([patchedRecord]);
+    await challengeRepository.save(patchedRecord);
   }
   if (modelName === 'courses') {
-    await courseRepository.saveMany([patchedRecord]);
+    await courseRepository.save(patchedRecord);
   }
   if (modelName === 'tutorials') {
-    await tutorialRepository.saveMany([patchedRecord]);
+    await tutorialRepository.save(patchedRecord);
   }
   if (modelName === 'missions') {
-    await missionRepository.saveMany([patchedRecord]);
+    await missionRepository.save(patchedRecord);
   }
 }

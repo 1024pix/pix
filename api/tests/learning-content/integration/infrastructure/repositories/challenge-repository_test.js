@@ -548,4 +548,239 @@ describe('Learning Content | Integration | Repositories | Challenge', function (
       });
     });
   });
+
+  describe('#save', function () {
+    beforeEach(async function () {
+      databaseBuilder.factory.learningContent.buildChallenge({ id: 'challengeIdB' });
+      await databaseBuilder.commit();
+    });
+
+    it('should insert challenge when it does not exist in DB', async function () {
+      // given
+      const challengeDto = {
+        id: 'challengeIdA',
+        instruction: 'instruction Epreuve A',
+        alternativeInstruction: 'alternativeInstruction Epreuve A',
+        proposals: 'proposals Epreuve A',
+        type: 'QCU',
+        solution: 'solution Epreuve A',
+        solutionToDisplay: 'solutionToDisplay Epreuve A',
+        t1Status: true,
+        t2Status: true,
+        t3Status: true,
+        status: 'archivé',
+        genealogy: 'genealogy Epreuve A',
+        accessibility1: 'accessibility1 Epreuve A',
+        accessibility2: 'accessibility2 Epreuve B',
+        requireGafamWebsiteAccess: true,
+        isIncompatibleIpadCertif: true,
+        deafAndHardOfHearing: 'deafAndHardOfHearing Epreuve A',
+        isAwarenessChallenge: true,
+        toRephrase: true,
+        alternativeVersion: 8,
+        shuffled: true,
+        illustrationAlt: 'illustrationAlt Epreuve A',
+        illustrationUrl: 'illustrationUrl Epreuve A',
+        attachments: ['attachment1', 'attachment2'],
+        responsive: 'responsive Epreuve A',
+        alpha: 1.1,
+        delta: 3.3,
+        autoReply: true,
+        focusable: true,
+        format: 'format Epreuve A',
+        timer: 180,
+        embedHeight: 800,
+        embedUrl: 'embedUrl Epreuve A',
+        embedTitle: 'embedTitle Epreuve A',
+        locales: ['fr'],
+        competenceId: 'competenceIdA',
+        skillId: 'skillIdA',
+      };
+
+      // when
+      await challengeRepository.save(challengeDto);
+
+      // then
+      const savedChallenge = await knex
+        .select('*')
+        .from('learningcontent.challenges')
+        .where({ id: challengeDto.id })
+        .first();
+      const [{ count }] = await knex('learningcontent.challenges').count();
+      expect(count).to.equal(2);
+      expect(savedChallenge).to.deep.equal({
+        id: 'challengeIdA',
+        instruction: 'instruction Epreuve A',
+        alternativeInstruction: 'alternativeInstruction Epreuve A',
+        proposals: 'proposals Epreuve A',
+        type: 'QCU',
+        solution: 'solution Epreuve A',
+        solutionToDisplay: 'solutionToDisplay Epreuve A',
+        t1Status: true,
+        t2Status: true,
+        t3Status: true,
+        status: 'archivé',
+        genealogy: 'genealogy Epreuve A',
+        accessibility1: 'accessibility1 Epreuve A',
+        accessibility2: 'accessibility2 Epreuve B',
+        requireGafamWebsiteAccess: true,
+        isIncompatibleIpadCertif: true,
+        deafAndHardOfHearing: 'deafAndHardOfHearing Epreuve A',
+        isAwarenessChallenge: true,
+        toRephrase: true,
+        alternativeVersion: 8,
+        shuffled: true,
+        illustrationAlt: 'illustrationAlt Epreuve A',
+        illustrationUrl: 'illustrationUrl Epreuve A',
+        attachments: ['attachment1', 'attachment2'],
+        responsive: 'responsive Epreuve A',
+        alpha: 1.1,
+        delta: 3.3,
+        autoReply: true,
+        focusable: true,
+        format: 'format Epreuve A',
+        timer: 180,
+        embedHeight: 800,
+        embedUrl: 'embedUrl Epreuve A',
+        embedTitle: 'embedTitle Epreuve A',
+        locales: ['fr'],
+        competenceId: 'competenceIdA',
+        skillId: 'skillIdA',
+      });
+    });
+
+    it('should update challenge when it does exist in DB', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildChallenge({
+        id: 'challengeIdA',
+        instruction: 'instruction Epreuve A',
+        alternativeInstruction: 'alternativeInstruction Epreuve A',
+        proposals: 'proposals Epreuve A',
+        type: 'QCU',
+        solution: 'solution Epreuve A',
+        solutionToDisplay: 'solutionToDisplay Epreuve A',
+        t1Status: true,
+        t2Status: true,
+        t3Status: true,
+        status: 'archivé',
+        genealogy: 'genealogy Epreuve A',
+        accessibility1: 'accessibility1 Epreuve A',
+        accessibility2: 'accessibility2 Epreuve B',
+        requireGafamWebsiteAccess: true,
+        isIncompatibleIpadCertif: true,
+        deafAndHardOfHearing: 'deafAndHardOfHearing Epreuve A',
+        isAwarenessChallenge: true,
+        toRephrase: true,
+        alternativeVersion: 8,
+        shuffled: true,
+        illustrationAlt: 'illustrationAlt Epreuve A',
+        illustrationUrl: 'illustrationUrl Epreuve A',
+        attachments: ['attachment1', 'attachment2'],
+        responsive: 'responsive Epreuve A',
+        alpha: 1.1,
+        delta: 3.3,
+        autoReply: true,
+        focusable: true,
+        format: 'format Epreuve A',
+        timer: 180,
+        embedHeight: 800,
+        embedUrl: 'embedUrl Epreuve A',
+        embedTitle: 'embedTitle Epreuve A',
+        locales: ['fr'],
+        competenceId: 'competenceIdA',
+        skillId: 'skillIdA',
+      });
+      await databaseBuilder.commit();
+      const challengeDto = {
+        id: 'challengeIdA',
+        instruction: 'instruction Epreuve A modified',
+        alternativeInstruction: 'alternativeInstruction Epreuve A modified',
+        proposals: 'proposals Epreuve A modified',
+        type: 'QCU modified',
+        solution: 'solution Epreuve A modified',
+        solutionToDisplay: 'solutionToDisplay Epreuve A modified',
+        t1Status: false,
+        t2Status: false,
+        t3Status: false,
+        status: 'archivé  modified',
+        genealogy: 'genealogy Epreuve A  modified',
+        accessibility1: 'accessibility1 Epreuve A modified',
+        accessibility2: 'accessibility2 Epreuve A modified',
+        requireGafamWebsiteAccess: false,
+        isIncompatibleIpadCertif: false,
+        deafAndHardOfHearing: 'deafAndHardOfHearing Epreuve A modified',
+        isAwarenessChallenge: false,
+        toRephrase: true,
+        alternativeVersion: 11,
+        shuffled: true,
+        illustrationAlt: 'illustrationAlt Epreuve A modified',
+        illustrationUrl: 'illustrationUrl Epreuve A modified',
+        attachments: ['attachment4', 'attachment2', 'attachment3'],
+        responsive: 'responsive Epreuve A modified',
+        alpha: 8.0,
+        delta: 90.5,
+        autoReply: false,
+        focusable: false,
+        format: 'format Epreuve A modified',
+        timer: 250,
+        embedHeight: 1800,
+        embedUrl: 'embedUrl Epreuve A modified',
+        embedTitle: 'embedTitle Epreuve A modified',
+        locales: ['fr', 'fr-fr'],
+        competenceId: 'competenceIdA modified',
+        skillId: 'skillIdA modified',
+      };
+
+      // when
+      await challengeRepository.save(challengeDto);
+
+      // then
+      const savedChallenge = await knex
+        .select('*')
+        .from('learningcontent.challenges')
+        .where({ id: challengeDto.id })
+        .first();
+      const [{ count }] = await knex('learningcontent.challenges').count();
+      expect(count).to.equal(2);
+      expect(savedChallenge).to.deep.equal({
+        id: 'challengeIdA',
+        instruction: 'instruction Epreuve A modified',
+        alternativeInstruction: 'alternativeInstruction Epreuve A modified',
+        proposals: 'proposals Epreuve A modified',
+        type: 'QCU modified',
+        solution: 'solution Epreuve A modified',
+        solutionToDisplay: 'solutionToDisplay Epreuve A modified',
+        t1Status: false,
+        t2Status: false,
+        t3Status: false,
+        status: 'archivé  modified',
+        genealogy: 'genealogy Epreuve A  modified',
+        accessibility1: 'accessibility1 Epreuve A modified',
+        accessibility2: 'accessibility2 Epreuve A modified',
+        requireGafamWebsiteAccess: false,
+        isIncompatibleIpadCertif: false,
+        deafAndHardOfHearing: 'deafAndHardOfHearing Epreuve A modified',
+        isAwarenessChallenge: false,
+        toRephrase: true,
+        alternativeVersion: 11,
+        shuffled: true,
+        illustrationAlt: 'illustrationAlt Epreuve A modified',
+        illustrationUrl: 'illustrationUrl Epreuve A modified',
+        attachments: ['attachment4', 'attachment2', 'attachment3'],
+        responsive: 'responsive Epreuve A modified',
+        alpha: 8.0,
+        delta: 90.5,
+        autoReply: false,
+        focusable: false,
+        format: 'format Epreuve A modified',
+        timer: 250,
+        embedHeight: 1800,
+        embedUrl: 'embedUrl Epreuve A modified',
+        embedTitle: 'embedTitle Epreuve A modified',
+        locales: ['fr', 'fr-fr'],
+        competenceId: 'competenceIdA modified',
+        skillId: 'skillIdA modified',
+      });
+    });
+  });
 });
