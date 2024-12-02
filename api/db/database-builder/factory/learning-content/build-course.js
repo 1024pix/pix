@@ -5,8 +5,8 @@ export function buildCourse({
   name = 'instruction Test Statique A',
   description = 'description Test Statique A',
   isActive = true,
-  competences = ['competenceIdA'],
-  challenges = ['challengeIdA'],
+  competences = [],
+  challenges = [],
 } = {}) {
   const values = {
     id,

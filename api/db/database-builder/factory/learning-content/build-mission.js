@@ -12,7 +12,7 @@ export function buildMission({
   introductionMediaAlt_i18n = { fr: 'introductionMediaAlt FR Mission A', en: 'introductionMediaAlt EN Mission A' },
   documentationUrl = 'documentationUrl Mission A',
   cardImageUrl = 'cardImageUrl Mission A',
-  competenceId = 'competenceIdA',
+  competenceId = null,
 } = {}) {
   const values = {
     id,

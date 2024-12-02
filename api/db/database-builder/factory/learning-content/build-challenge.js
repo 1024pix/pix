@@ -36,8 +36,8 @@ export function buildChallenge({
   embedUrl = 'embedUrl Epreuve A',
   embedTitle = 'embedTitle Epreuve A',
   locales = ['fr'],
-  competenceId = 'competenceIdA',
-  skillId = 'skillIdA',
+  competenceId = null,
+  skillId = null,
 } = {}) {
   const values = {
     id,

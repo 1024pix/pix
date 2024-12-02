@@ -28,11 +28,13 @@ export class LearningContentRepository {
   }
 
   async load(id) {
+    if (!id) return null;
     return this.#dataloader.load(id);
   }
 
   async loadMany(ids) {
-    return this.#dataloader.loadMany(ids);
+    const notNullIds = ids.filter((id) => id);
+    return this.#dataloader.loadMany(notNullIds);
   }
 
   #findDtos(callback, cacheKey) {

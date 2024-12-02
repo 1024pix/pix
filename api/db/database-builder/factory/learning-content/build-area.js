@@ -6,8 +6,8 @@ export function buildArea({
   name = 'name Domaine A',
   title_i18n = { fr: 'title FR Domaine A', en: 'title EN Domaine A' },
   color = 'color Domaine A',
-  frameworkId = 'frameworkPix',
-  competenceIds = ['competenceIdA'],
+  frameworkId = null,
+  competenceIds = [],
 } = {}) {
   const values = {
     id,

@@ -190,7 +190,10 @@ async function loadWebComponentInfo(challengeDto) {
 
 async function loadChallengeDtosSkills(challengeDtos) {
   return Promise.all(
-    challengeDtos.map(async (challengeDto) => [challengeDto, await skillRepository.get(challengeDto.skillId)]),
+    challengeDtos.map(async (challengeDto) => [
+      challengeDto,
+      challengeDto.skillId ? await skillRepository.get(challengeDto.skillId) : null,
+    ]),
   );
 }
 

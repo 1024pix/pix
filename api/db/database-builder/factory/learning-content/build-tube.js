@@ -7,9 +7,9 @@ export function buildTube({
   description = 'description Tube A',
   practicalTitle_i18n = { fr: 'practicalTitle FR Tube A', en: 'practicalTitle EN Tube A' },
   practicalDescription_i18n = { fr: 'practicalDescription FR Tube A', en: 'practicalDescription EN Tube A' },
-  competenceId = 'competenceIdA',
-  thematicId = 'thematicIdA',
-  skillIds = ['skillIdA'],
+  competenceId = null,
+  thematicId = null,
+  skillIds = [],
   isMobileCompliant = true,
   isTabletCompliant = true,
 } = {}) {

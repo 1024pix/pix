@@ -6,9 +6,9 @@ export function buildCompetence({
   description_i18n = { fr: 'description FR Compétence A', en: 'description EN Compétence A' },
   index = 'index Compétence A',
   origin = 'origin Compétence A',
-  areaId = 'areaIdA',
-  skillIds = ['skillIdA'],
-  thematicIds = ['thematicIdA'],
+  areaId = null,
+  skillIds = [],
+  thematicIds = [],
 } = {}) {
   const values = {
     id,

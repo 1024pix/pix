@@ -4,8 +4,8 @@ export function buildThematic({
   id = 'thematicIdA',
   name_i18n = { fr: 'name FR Thématique A', en: 'name EN Thématique A' },
   index = 8,
-  competenceId = 'competenceIdA',
-  tubeIds = ['tubeIdA'],
+  competenceId = null,
+  tubeIds = [],
 } = {}) {
   const values = {
     id,
