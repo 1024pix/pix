@@ -11,12 +11,12 @@
       <header class="page-section__header">
         <h2 class="page-section__title">Archiver des campagnes en masse</h2>
       </header>
-      <PixMessage class="tools__warning" @type="warning" @withIcon={{true}}>
+      <PixNotificationAlert class="tools__warning" @type="warning" @withIcon={{true}}>
         L'envoi du fichier .csv via le bouton ci-dessous va archiver toutes campagnes renseignées.<br />
         Le fichier ne doit comporter qu'une seule colonne, correspondant aux id des campagnes, et avoir comme en-tête
         <strong>“campaignId”</strong>
         dans la première cellule de la colonne.
-      </PixMessage>
+      </PixNotificationAlert>
       <PixButtonUpload @id="file-upload" @onChange={{this.archiveCampaigns}} accept=".csv">
         Envoyer le fichier des campagnes à archiver
       </PixButtonUpload>
@@ -25,12 +25,12 @@
       <header class="page-section__header">
         <h2 class="page-section__title">Afficher un arbre de passage de missions Pix Junior</h2>
       </header>
-      <PixMessage class="tools__warning" @type="warning" @withIcon={{true}}>
+      <PixNotificationAlert class="tools__warning" @type="warning" @withIcon={{true}}>
         Cette fonctionnalité est un POC destiné à l'analyse des résultats de passage Pix Junior.<br />
         Elle permet de visualiser les résultats d'une question Metabase sous la forme d'un arbre sur le site
         <a href="https://mermaid.live/">https://mermaid.live/</a>
-      </PixMessage>
-      <PixMessage class="tools__info" @type="info" @withIcon={{true}}>
+      </PixNotificationAlert>
+      <PixNotificationAlert class="tools__info" @type="info" @withIcon={{true}}>
         <strong>Mode d'emploi</strong>
         <ol>
           <li>1. Exécuter la question Metabase
@@ -45,7 +45,7 @@
           <li>3. Envoyer le fichier json grace au bouton ci-dessous.</li>
           <li>4. À l'aide du lien généré, accéder à la représentation graphique de l'arbre de résultats.</li>
         </ol>
-      </PixMessage>
+      </PixNotificationAlert>
       <PixButtonUpload @id="json-file-upload" @onChange={{this.displayTree}} accept=".json">
         Envoyer le fichier des chemins Pix Junior
       </PixButtonUpload>

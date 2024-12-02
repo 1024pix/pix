@@ -1,6 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
@@ -94,22 +94,22 @@ export default class LoginForm extends Component {
           </LinkTo>
 
           {{#if @userShouldCreateAnAccount}}
-            <PixMessage @type="alert">
+            <PixNotificationAlert @type="alert">
               Vous n'avez pas de compte Pix.
-            </PixMessage>
+            </PixNotificationAlert>
           {{/if}}
 
           {{#if @unknownErrorHasOccured}}
-            <PixMessage @type="alert">
+            <PixNotificationAlert @type="alert">
               Une erreur est survenue. Veuillez recommencer ou contacter les administrateurs de la plateforme.
-            </PixMessage>
+            </PixNotificationAlert>
           {{/if}}
 
           {{#if @userShouldRequestAccess}}
-            <PixMessage @type="alert">
+            <PixNotificationAlert @type="alert">
               Vous n'avez pas les droits pour vous connecter. Veuillez demander un accès aux administrateurs de la
               plateforme.
-            </PixMessage>
+            </PixNotificationAlert>
           {{/if}}
         {{else}}
           <PixInput

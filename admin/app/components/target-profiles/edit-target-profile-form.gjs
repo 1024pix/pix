@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { fn } from '@ember/helper';
@@ -115,9 +115,9 @@ export default class CreateTargetProfileForm extends Component {
         </Card>
 
         {{#if @targetProfile.hasLinkedCampaign}}
-          <PixMessage @withIcon={{true}}>
+          <PixNotificationAlert @withIcon={{true}}>
             Le référentiel n'est pas modifiable car le profil cible est déjà relié à une campagne.
-          </PixMessage>
+          </PixNotificationAlert>
         {{else}}
           <TubesSelection
             @frameworks={{@frameworks}}

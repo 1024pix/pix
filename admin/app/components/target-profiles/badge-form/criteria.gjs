@@ -1,6 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { fn } from '@ember/helper';
 import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
@@ -68,13 +68,13 @@ export default class Criteria extends Component {
 
   <template>
     <Card @title="Critères d'obtention du résultat thématique">
-      <PixMessage @type="info" @withIcon={{true}}>
+      <PixNotificationAlert @type="info" @withIcon={{true}}>
         Vous pouvez définir des critères de réussite du résultat thématique
         <strong>sur une liste de sujets ET/OU sur l’ensemble du profil cible</strong>.
         <br />
         <strong>Toutes les conditions devront être remplies</strong>
         pour obtenir le résultat thématique.
-      </PixMessage>
+      </PixNotificationAlert>
       <div class="badge-form-criteria-choice">
         <p>Définir un critère d'obtention&nbsp;:</p>
         <PixCheckbox

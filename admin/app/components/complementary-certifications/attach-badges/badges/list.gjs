@@ -1,4 +1,4 @@
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
@@ -19,14 +19,14 @@ export default class List extends Component {
   <template>
     <div class="complementary-certification-attach-badges">
       {{#if @error}}
-        <PixMessage
+        <PixNotificationAlert
           role="alert"
           @type="error"
           @withIcon={{true}}
           class="complementary-certification-attach-badges__error"
         >
           {{@error}}
-        </PixMessage>
+        </PixNotificationAlert>
       {{/if}}
 
       <section class="complementary-certification-attach-badges__section">

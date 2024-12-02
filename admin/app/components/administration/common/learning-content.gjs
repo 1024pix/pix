@@ -1,5 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -41,12 +41,12 @@ export default class LearningContent extends Component {
         <p>Une version du référentiel de données pédagogique est créée quotidiennement (vers 4h00) et le référentiel
           utilisé par l'application est mis à jour (vers 6h00).</p>
         <p>Si le cache a été vidé, il peut s’avérer utile ou nécessaire de recharger le référentiel.</p>
-        <PixMessage @type="alert" @withIcon={{true}}>
+        <PixNotificationAlert @type="alert" @withIcon={{true}}>
           <strong>Attention !</strong>
           Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de
           force majeure, accompagné d’un développeur ou d'une développeuse.
-        </PixMessage>
-        <PixMessage @type="info">Durée de l’opération : <strong>≈10s</strong>.</PixMessage>
+        </PixNotificationAlert>
+        <PixNotificationAlert @type="info">Durée de l’opération : <strong>≈10s</strong>.</PixNotificationAlert>
 
         <PixButton class="btn-refresh-cache" @triggerAction={{this.refreshLearningContent}} @iconBefore="reload">
           Recharger le cache
@@ -54,7 +54,7 @@ export default class LearningContent extends Component {
         <br /><br />
         <p>Si quelque chose a été changé dans le référentiel et qu'il faut appliquer ces changements dans l'application,
           il faut créer une nouvelle version et mettre à jour le cache.</p>
-        <PixMessage @type="info">Durée de l’opération : <strong>≈1mn</strong>.</PixMessage>
+        <PixNotificationAlert @type="info">Durée de l’opération : <strong>≈1mn</strong>.</PixNotificationAlert>
         <PixButton
           @triggerAction={{this.createLearningContentReleaseAndRefreshCache}}
           @variant="primary-bis"

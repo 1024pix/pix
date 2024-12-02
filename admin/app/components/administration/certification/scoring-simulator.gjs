@@ -1,7 +1,7 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -95,7 +95,10 @@ export default class ScoringSimulator extends Component {
       </form>
 
       {{#each this.errors as |error|}}
-        <PixMessage class="scoring-simulator-form__error-message" @type="error">{{error}}</PixMessage>
+        <PixNotificationAlert
+          class="scoring-simulator-form__error-message"
+          @type="error"
+        >{{error}}</PixNotificationAlert>
       {{/each}}
 
       <dl class="scoring-simulator__data">

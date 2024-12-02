@@ -1,6 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -74,7 +74,9 @@ export default class ScoWhitelistConfiguration extends Component {
       @title={{t "pages.administration.certification.sco-whitelist.title"}}
       class="sco-whitelist-configuration"
     >
-      <PixMessage @type="info">{{t "pages.administration.certification.sco-whitelist.instructions"}}</PixMessage>
+      <PixNotificationAlert @type="info">{{t
+          "pages.administration.certification.sco-whitelist.instructions"
+        }}</PixNotificationAlert>
 
       <div class="sco-whitelist-configuration__actions">
         <PixButton @triggerAction={{this.exportWhitelist}} @isLoading={{this.isExportLoading}}>

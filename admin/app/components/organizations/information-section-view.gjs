@@ -1,6 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -72,9 +72,9 @@ export default class OrganizationInformationSection extends Component {
           {{/each}}
         </ul>
       {{else}}
-        <PixMessage class="organization-information-section__missing-tags-message" @type="information">Cette
+        <PixNotificationAlert class="organization-information-section__missing-tags-message" @type="information">Cette
           organisation n'a pas de tags.
-        </PixMessage>
+        </PixNotificationAlert>
       {{/if}}
       <div class="organization__network-label">
         {{#if this.hasOrganizationChildren}}
@@ -100,12 +100,12 @@ export default class OrganizationInformationSection extends Component {
         {{/if}}
       </div>
       {{#if @organization.isArchived}}
-        <PixMessage class="organization-information-section__archived-message" @type="warning">
+        <PixNotificationAlert class="organization-information-section__archived-message" @type="warning">
           Archivée le
           {{@organization.archivedFormattedDate}}
           par
           {{@organization.archivistFullName}}.
-        </PixMessage>
+        </PixNotificationAlert>
       {{/if}}
 
       <div class="organization-information-section__content">

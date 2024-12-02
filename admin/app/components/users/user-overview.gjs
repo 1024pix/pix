@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
@@ -275,9 +275,12 @@ export default class UserOverview extends Component {
         {{else}}
           <div>
             {{#if @user.hasBeenAnonymised}}
-              <PixMessage @type="warning" class="user-detail-personal-information-section__anonymisation-message">
+              <PixNotificationAlert
+                @type="warning"
+                class="user-detail-personal-information-section__anonymisation-message"
+              >
                 {{this.anonymisationMessage}}
-              </PixMessage>
+              </PixNotificationAlert>
             {{/if}}
           </div>
           <div class="user-detail-personal-information-section__content">
