@@ -1,5 +1,5 @@
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixToggle from '@1024pix/pix-ui/components/pix-toggle';
+import PixToggleButton from '@1024pix/pix-ui/components/pix-toggle-button';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
@@ -26,11 +26,11 @@ export default class Information extends Component {
           <LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
         {{/if}}
         {{#if this.isMultipleCurrentTargetProfiles}}
-          <PixToggle @toggled={{@switchToggle}} @onChange={{@switchTargetProfile}} @screenReaderOnly={{true}}>
+          <PixToggleButton @toggled={{@switchToggle}} @onChange={{@switchTargetProfile}} @screenReaderOnly={{true}}>
             <:label>Accéder aux détails des profils cibles courants</:label>
             <:on>Profil 1</:on>
             <:off>Profil 2</:off>
-          </PixToggle>
+          </PixToggleButton>
         {{/if}}
         {{#if this.hasAccessToAttachNewTargetProfile}}
           <div class="complementary-certification-details-target-profile__attach-button">
