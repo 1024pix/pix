@@ -18,42 +18,52 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
   beforeEach(function () {
     frameworkRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     frameworkRepository.save.rejects('I should not be called');
     areaRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     areaRepository.save.rejects('I should not be called');
     competenceRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     competenceRepository.save.rejects('I should not be called');
     thematicRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     thematicRepository.save.rejects('I should not be called');
     tubeRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     tubeRepository.save.rejects('I should not be called');
     skillRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     skillRepository.save.rejects('I should not be called');
     challengeRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     challengeRepository.save.rejects('I should not be called');
     courseRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     courseRepository.save.rejects('I should not be called');
     tutorialRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     tutorialRepository.save.rejects('I should not be called');
     missionRepository = {
       save: sinon.stub(),
+      clearCache: sinon.stub(),
     };
     missionRepository.save.rejects('I should not be called');
     repositories = {
@@ -98,7 +108,9 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
     ].forEach((modelName) => {
       it(`should call save on appropriate repository for model ${modelName}`, async function () {
         // given
-        const updatedRecord = Symbol('updated record');
+        const updatedRecord = Object.freeze({
+          id: Symbol('updated record id'),
+        });
         repositoriesByModel[modelName].save.withArgs(updatedRecord).resolves();
 
         // when
@@ -109,8 +121,8 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
         });
 
         // then
-        expect(repositoriesByModel[modelName].save).to.have.been.calledOnce;
-        expect(repositoriesByModel[modelName].save).to.have.been.calledWithExactly(updatedRecord);
+        expect(repositoriesByModel[modelName].save).to.have.been.calledOnceWithExactly(updatedRecord);
+        expect(repositoriesByModel[modelName].clearCache).to.have.been.calledOnceWithExactly(updatedRecord.id);
       });
     });
   });

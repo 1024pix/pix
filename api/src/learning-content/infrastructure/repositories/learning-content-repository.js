@@ -28,7 +28,6 @@ export class LearningContentRepository {
     for (const chunk of chunks(dtos, this.#chunkSize)) {
       await knex.insert(chunk).into(this.#tableName).onConflict('id').merge();
     }
-    this.clearCache();
   }
 
   /**
@@ -38,7 +37,6 @@ export class LearningContentRepository {
     const dto = this.toDto(object);
     const knex = DomainTransaction.getConnection();
     await knex.insert(dto).into(this.#tableName).onConflict('id').merge();
-    this.clearCache(dto.id);
   }
 
   clearCache(_id) {
