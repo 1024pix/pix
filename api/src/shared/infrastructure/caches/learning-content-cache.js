@@ -1,4 +1,7 @@
 import * as learningContentPubSub from '../caches/learning-content-pubsub.js';
+import { child } from '../utils/logger.js';
+
+const logger = child('learningcontent:cache', { event: 'learningcontent' });
 
 export class LearningContentCache {
   #map;
@@ -39,8 +42,14 @@ export class LearningContentCache {
 
   async #subscribe() {
     for await (const message of this.#pubSub.subscribe(this.#name)) {
-      if (message.type === 'clear') this.#map.clear();
-      if (message.type === 'delete') this.#map.delete(message.key);
+      if (message.type === 'clear') {
+        logger.debug({ name: this.#name }, 'clearing cache');
+        this.#map.clear();
+      }
+      if (message.type === 'delete') {
+        logger.debug({ name: this.#name, key: message.key }, 'deleting cache key');
+        this.#map.delete(message.key);
+      }
     }
   }
 }
