@@ -1893,7 +1893,7 @@
       "stage": {
         "caption": "Details van je resultaten in de vorm van percentages en sterren volgens vaardigheden",
         "masteryPercentage": "{rate, number, ::percent} succes",
-        "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoile acquise}} op {total}",
+        "starsAcquired": "{acquired, plural, =0 {geen ster} =1 {# ster} other {# sterren}} behaald op {total}",
         "title": "Vaardigheden"
       },
       "tabs": {

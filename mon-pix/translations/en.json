@@ -263,7 +263,7 @@
         "steps": {
           "competences": "Calculating scores by skill",
           "rewards": "Awarding the prizes",
-          "trainings": "Identifying useful training courses"
+          "trainings": "Identifying useful training customised tests"
         },
         "subtitle": "One moment, please! I'll be as quick as I can.",
         "title": "Calculate your current score..."
@@ -501,12 +501,12 @@
         "actions": {
           "sign-in": "I have an account, log in to the Pix platform",
           "start-anonymously": "Begin without a Pix account",
-          "start-connected": "Begin the course"
+          "start-connected": "Begin the customised test"
         },
         "texts": {
-          "first-course": "Is this your first course?",
+          "first-course": "Is this your first customised test?",
           "legal-informations": "With or without a Pix account, information relating to your progress in the customized test will be transmitted to us.'<br>'This information is used by Pix to improve our service. ",
-          "title": "Start the course:"
+          "title": "Start the customised test:"
         }
       }
     },
@@ -1093,7 +1093,7 @@
         "header": "your answers"
       },
       "completion-percentage": {
-        "caption": "course progression",
+        "caption": "customised test progression",
         "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your customised test.'</p>'"
       },
       "title": {
@@ -1845,16 +1845,16 @@
         "bravo": "Congratulations {name}!",
         "explanations": {
           "improve": "If you want to improve your score, you can retry certain questions.",
-          "send-results": "Send your results to the course organiser and continue with the recommended training.",
+          "send-results": "Send your results to the customised test organiser and continue with the recommended training.",
           "trainings": "To help you progress, discover our training recommendations and find the ones that suit you best."
         },
         "mastery-rate": "of success in questions",
         "retry": {
           "actions": {
             "reset": "Reset and try again",
-            "retry": "Replay my course"
+            "retry": "Replay my customised test"
           },
-          "description": "Your organizer invites you to take this course again.",
+          "description": "Your organizer invites you to take this customised test again.",
           "title": "Improve your results"
         },
         "see-trainings": "See trainings",
@@ -1906,14 +1906,14 @@
           "title": "Results details"
         },
         "rewards": {
-          "description": "This section highlights the rewards received as well as the expectations of the course organizer. Find out how your performance was evaluated and identify areas for improvement for your skills development.",
+          "description": "This section highlights the rewards received as well as the expectations of the customised test organizer. Find out how your performance was evaluated and identify areas for improvement for your skills development.",
           "tab-label": "Rewards",
           "title": "Rewards and expectations of the organizer"
         },
         "trainings": {
           "description": "Get personalized training recommendations to continue progressing and feed your curiosity to help you achieve your full potential.",
           "modal": {
-            "content": "Send us your results to enable the course organizer to support you.'<br />'After sharing, you'll have access to these training courses!",
+            "content": "Send us your results to enable the customised test organizer to support you.'<br />'After sharing, you'll have access to these training customised tests!",
             "share-error": "There was an error sending your results. Please try again."
           },
           "tab-label": "Trainings",
@@ -1922,7 +1922,7 @@
       },
       "title": "Result",
       "trainings": {
-        "description": "Explore recommended training courses based on your results, in order to improve your skills!",
+        "description": "Explore recommended training customised tests based on your results, in order to improve your skills!",
         "title": "Do you want to learn more?"
       }
     },
@@ -1948,7 +1948,7 @@
     "training": {
       "editor": "Training provided by",
       "type": {
-        "autoformation": "Autoformation course",
+        "autoformation": "Autoformation customised test",
         "e-learning": "E-Learning",
         "hybrid-training": "Hybrid training",
         "in-person-training": "In person training",
@@ -2077,8 +2077,8 @@
         "more-information": "For more information, ",
         "more-information-contact-support": "please contact support.",
         "title": "Delete my account permanently",
-        "warning-email": "This action is irreversible. All the skills, courses and {pixScore} pix you have obtained will be permanently deleted for the PIX account using <strong>{email}</strong>.",
-        "warning-other": "This action is irreversible. All the skills, courses and {pixScore} pix you have obtained will be permanently deleted for the PIX account <strong>{firstName} {lastName}</strong>."
+        "warning-email": "This action is irreversible. All the skills, customised tests and {pixScore} pix you have obtained will be permanently deleted for the PIX account using <strong>{email}</strong>.",
+        "warning-other": "This action is irreversible. All the skills, customised tests and {pixScore} pix you have obtained will be permanently deleted for the PIX account <strong>{firstName} {lastName}</strong>."
       },
       "email-confirmed": "Email address verified.",
       "email-verification": {
@@ -2114,7 +2114,7 @@
       "title": "My customised tests"
     },
     "user-trainings": {
-      "description": "Keep improving thanks to the recommended training courses at the end of your test.",
+      "description": "Keep improving thanks to the recommended training customised tests at the end of your test.",
       "title": "My trainings"
     },
     "user-tutorials": {
