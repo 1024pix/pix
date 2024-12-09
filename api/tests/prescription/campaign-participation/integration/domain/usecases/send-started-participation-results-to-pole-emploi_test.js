@@ -1,4 +1,4 @@
-import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { sendStartedParticipationResultsToPoleEmploi } from '../../../../../../src/prescription/campaign-participation/domain/usecases/send-started-participation-results-to-pole-emploi.js';
 import * as poleEmploiNotifier from '../../../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import {
   databaseBuilder,
@@ -47,7 +47,7 @@ describe('Integration | Application | send-started-participation-results-to-pole
     });
 
     // when
-    await usecases.sendStartedParticipationResultsToPoleEmploi({
+    await sendStartedParticipationResultsToPoleEmploi({
       campaignParticipationId,
       poleEmploiNotifier,
       notifierDependencies: {
@@ -66,7 +66,7 @@ describe('Integration | Application | send-started-participation-results-to-pole
 
   it('should return a disable send notification by default (if push is disabled) ', async function () {
     // when
-    await usecases.sendStartedParticipationResultsToPoleEmploi({
+    await sendStartedParticipationResultsToPoleEmploi({
       campaignParticipationId,
     });
 

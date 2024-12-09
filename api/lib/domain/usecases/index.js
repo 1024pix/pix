@@ -155,14 +155,6 @@ import * as organizationValidator from '../validators/organization-with-tags-and
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
-function requirePoleEmploiNotifier() {
-  if (config.poleEmploi.pushEnabled) {
-    return poleEmploiNotifier;
-  } else {
-    return disabledPoleEmploiNotifier;
-  }
-}
-
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
@@ -191,6 +183,15 @@ function requirePoleEmploiNotifier() {
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {sessionManagementCertificationRepository} SessionManagementCertificationRepository
  */
+
+function requirePoleEmploiNotifier() {
+  if (config.poleEmploi.pushEnabled) {
+    return poleEmploiNotifier;
+  } else {
+    return disabledPoleEmploiNotifier;
+  }
+}
+
 const dependencies = {
   accountRecoveryDemandRepository,
   certificationCompletedJobRepository,

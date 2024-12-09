@@ -19,6 +19,8 @@ import * as complementaryCertificationBadgesRepository from '../../../src/certif
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import * as disabledPoleEmploiNotifier from '../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
+import * as poleEmploiNotifier from '../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/pole-emploi-sending-repository.js';
 import { config } from '../../../src/shared/config.js';
 import { monitoringTools as MonitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
