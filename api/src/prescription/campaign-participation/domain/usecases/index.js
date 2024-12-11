@@ -18,6 +18,8 @@ import * as stageAcquisitionRepository from '../../../../evaluation/infrastructu
 import * as stageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../../shared/config.js';
 import { config } from '../../../../shared/config.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
@@ -45,7 +47,6 @@ import { participantResultsSharedRepository } from '../../infrastructure/reposit
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as authenticationMethodRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 /**
  * @typedef { import ('../../../../shared/infrastructure/repositories/area-repository.js')} AreaRepository
  * @typedef { import ('../../../../shared/infrastructure/repositories/assessment-repository.js')} AssessmentRepository
