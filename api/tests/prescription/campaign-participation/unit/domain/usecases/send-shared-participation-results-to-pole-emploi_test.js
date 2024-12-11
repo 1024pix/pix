@@ -1,8 +1,8 @@
-import { sendSharedParticipationResultsToPoleEmploi } from '../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi.js';
-import { PoleEmploiSending } from '../../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
-import { PoleEmploiPayload } from '../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import { config } from '../../../../src/shared/config.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { PoleEmploiSending } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
+import { sendSharedParticipationResultsToPoleEmploi } from '../../../../../../src/prescription/campaign-participation/domain/usecases/send-shared-participation-results-to-pole-emploi.js';
+import { PoleEmploiPayload } from '../../../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
   let dependencies, expectedResults;

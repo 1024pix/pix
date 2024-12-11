@@ -3,11 +3,11 @@ import { fileURLToPath } from 'node:url';
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
+import { campaignParticipationResultRepository } from '../../../../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as badgeRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
@@ -18,9 +18,6 @@ import * as stageAcquisitionRepository from '../../../../evaluation/infrastructu
 import * as stageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
-import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import { config } from '../../../../shared/config.js';
 import { config } from '../../../../shared/config.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -28,8 +25,6 @@ import * as competenceRepository from '../../../../shared/infrastructure/reposit
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
-import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
@@ -89,17 +84,8 @@ function requirePoleEmploiNotifier() {
   }
 }
 
-function requirePoleEmploiNotifier() {
-  if (config.poleEmploi.pushEnabled) {
-    return poleEmploiNotifier;
-  } else {
-    return disabledPoleEmploiNotifier;
-  }
-}
-
 const dependencies = {
   areaRepository,
-  authenticationMethodRepository,
   authenticationMethodRepository,
   assessmentRepository,
   badgeAcquisitionRepository,
@@ -111,9 +97,9 @@ const dependencies = {
   campaignParticipantRepository: campaignRepositories.campaignParticipantRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
+  campaignParticipationResultRepository,
   campaignProfileRepository,
   campaignRepository,
-  targetProfileRepository,
   targetProfileRepository,
   compareStagesAndAcquiredStages,
   competenceEvaluationRepository,
@@ -129,7 +115,6 @@ const dependencies = {
   participationSharedJobRepository,
   participationStartedJobRepository,
   participantResultsSharedRepository,
-  poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   stageAcquisitionRepository,
