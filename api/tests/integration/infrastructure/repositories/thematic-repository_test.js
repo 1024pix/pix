@@ -157,32 +157,6 @@ describe('Integration | Repository | thematic-repository', function () {
             ]);
           });
         });
-
-        it('should ignore null and duplicates', async function () {
-          // when
-          const thematics = await thematicRepository.findByCompetenceIds([
-            'competenceIdB',
-            'competenceIdA',
-            'competenceCOUCOUMAMAN',
-            'competenceIdB',
-          ]);
-
-          // then
-          expect(thematics).to.deepEqualArray([
-            domainBuilder.buildThematic({
-              ...thematicData0,
-              name: thematicData0.name_i18n.fr,
-            }),
-            domainBuilder.buildThematic({
-              ...thematicData1,
-              name: thematicData1.name_i18n.fr,
-            }),
-            domainBuilder.buildThematic({
-              ...thematicData2,
-              name: thematicData2.name_i18n.fr,
-            }),
-          ]);
-        });
       });
 
       context('when no thematics found for given competence ids', function () {
@@ -234,27 +208,6 @@ describe('Integration | Repository | thematic-repository', function () {
               }),
             ]);
           });
-        });
-        it('should ignore nulls and duplicates', async function () {
-          // when
-          const thematics = await thematicRepository.findByRecordIds([
-            'thematicId3',
-            'thematicId0',
-            'thematicCOUCOUPAPA',
-            'thematicId3',
-          ]);
-
-          // then
-          expect(thematics).to.deepEqualArray([
-            domainBuilder.buildThematic({
-              ...thematicData0,
-              name: thematicData0.name_i18n.fr,
-            }),
-            domainBuilder.buildThematic({
-              ...thematicData3,
-              name: thematicData3.name_i18n.fr,
-            }),
-          ]);
         });
       });
 

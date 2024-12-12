@@ -293,26 +293,6 @@ describe('Integration | Repository | competence-repository', function () {
             ]);
           });
         });
-        it('should ignore null and duplicates', async function () {
-          // when
-          const competences = await competenceRepository.findByRecordIds({
-            competenceIds: ['recCompetence3_pix', 'recCompetence2_pasPix', 'recCouCouMaman', 'recCompetence2_pasPix'],
-          });
-
-          // then
-          expect(competences).to.deepEqualArray([
-            domainBuilder.buildCompetence({
-              ...competenceData2,
-              name: competenceData2.name_i18n.fr,
-              description: competenceData2.description_i18n.fr,
-            }),
-            domainBuilder.buildCompetence({
-              ...competenceData3,
-              name: competenceData3.name_i18n.fr,
-              description: competenceData3.description_i18n.fr,
-            }),
-          ]);
-        });
       });
 
       context('when no competences found for given ids', function () {

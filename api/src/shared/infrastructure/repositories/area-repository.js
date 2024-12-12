@@ -48,7 +48,7 @@ export async function findByFrameworkId({ frameworkId, locale }) {
 
 export async function findByRecordIds({ areaIds, locale }) {
   if (!config.featureToggles.useNewLearningContent) return oldAreaRepository.findByRecordIds({ areaIds, locale });
-  const areaDtos = await getInstance().getMany(areaIds);
+  const areaDtos = await getInstance().loadMany(areaIds);
   return areaDtos
     .filter((areaDto) => areaDto)
     .sort(byId)

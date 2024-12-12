@@ -193,29 +193,6 @@ describe('Integration | Repository | tube-repository', function () {
             ]);
           });
         });
-
-        it('should ingore dupes and nulls', async function () {
-          // when
-          const tubes = await tubeRepository.findByNames({
-            tubeNames: ['name Tube 2', 'name Tube 0', 'non existant mais on sen fiche', 'name Tube 0'],
-          });
-
-          // then
-          expect(tubes).to.deepEqualArray([
-            domainBuilder.buildTube({
-              ...tubeData0,
-              practicalTitle: tubeData0.practicalTitle_i18n.fr,
-              practicalDescription: tubeData0.practicalDescription_i18n.fr,
-              skills: [],
-            }),
-            domainBuilder.buildTube({
-              ...tubeData2,
-              practicalTitle: tubeData2.practicalTitle_i18n.fr,
-              practicalDescription: tubeData2.practicalDescription_i18n.fr,
-              skills: [],
-            }),
-          ]);
-        });
       });
 
       context('when no tubes found for given names', function () {
@@ -282,31 +259,6 @@ describe('Integration | Repository | tube-repository', function () {
               }),
             ]);
           });
-        });
-        it('should ignore dupes and nulls', async function () {
-          // when
-          const tubes = await tubeRepository.findByRecordIds([
-            'tubeId2',
-            'tubeId0',
-            'non existant mais on sen fiche',
-            'tubeId0',
-          ]);
-
-          // then
-          expect(tubes).to.deepEqualArray([
-            domainBuilder.buildTube({
-              ...tubeData0,
-              practicalTitle: tubeData0.practicalTitle_i18n.fr,
-              practicalDescription: tubeData0.practicalDescription_i18n.fr,
-              skills: [],
-            }),
-            domainBuilder.buildTube({
-              ...tubeData2,
-              practicalTitle: tubeData2.practicalTitle_i18n.fr,
-              practicalDescription: tubeData2.practicalDescription_i18n.fr,
-              skills: [],
-            }),
-          ]);
         });
       });
 
@@ -375,32 +327,6 @@ describe('Integration | Repository | tube-repository', function () {
               }),
             ]);
           });
-        });
-        it('should ignore duplicates and nulls', async function () {
-          // when
-          const tubes = await tubeRepository.findActiveByRecordIds([
-            'tubeId2',
-            'tubeId0',
-            'tubeId1',
-            'non existant mais on sen fiche',
-            'tubeId0',
-          ]);
-
-          // then
-          expect(tubes).to.deepEqualArray([
-            domainBuilder.buildTube({
-              ...tubeData0,
-              practicalTitle: tubeData0.practicalTitle_i18n.fr,
-              practicalDescription: tubeData0.practicalDescription_i18n.fr,
-              skills: [],
-            }),
-            domainBuilder.buildTube({
-              ...tubeData2,
-              practicalTitle: tubeData2.practicalTitle_i18n.fr,
-              practicalDescription: tubeData2.practicalDescription_i18n.fr,
-              skills: [],
-            }),
-          ]);
         });
       });
 

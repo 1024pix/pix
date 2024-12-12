@@ -27,7 +27,7 @@ export async function getByName(name) {
 
 export async function findByRecordIds(ids) {
   if (!config.featureToggles.useNewLearningContent) return oldFrameworkRepository.findByRecordIds(ids);
-  const frameworkDtos = await getInstance().getMany(ids);
+  const frameworkDtos = await getInstance().loadMany(ids);
   return frameworkDtos
     .filter((frameworkDto) => frameworkDto)
     .sort(byName)

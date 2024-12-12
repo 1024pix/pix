@@ -43,7 +43,7 @@ export async function getCompetenceName({ id, locale }) {
 export async function findByRecordIds({ competenceIds, locale }) {
   if (!config.featureToggles.useNewLearningContent)
     return oldCompetenceRepository.findByRecordIds({ competenceIds, locale });
-  const competenceDtos = await getInstance().getMany(competenceIds);
+  const competenceDtos = await getInstance().loadMany(competenceIds);
   return competenceDtos
     .filter((competenceDto) => competenceDto)
     .sort(byId)

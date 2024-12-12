@@ -13,7 +13,7 @@ import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent }
 const { ENGLISH_SPOKEN } = LOCALE;
 
 describe('Integration | Repository | tutorial-repository', function () {
-  testTutorialRepository(); // eslint-disable-line mocha/no-setup-in-describe
+  testTurorialRepository(); // eslint-disable-line mocha/no-setup-in-describe
 
   describe('when using old learning content', function () {
     beforeEach(function () {
@@ -24,10 +24,10 @@ describe('Integration | Repository | tutorial-repository', function () {
       config.featureToggles.useNewLearningContent = true;
     });
 
-    testTutorialRepository(); // eslint-disable-line mocha/no-setup-in-describe
+    testTurorialRepository(); // eslint-disable-line mocha/no-setup-in-describe
   });
 
-  function testTutorialRepository() {
+  function testTurorialRepository() {
     describe('#findByRecordIdsForCurrentUser', function () {
       it('should find tutorials by ids', async function () {
         // given
@@ -63,49 +63,6 @@ describe('Integration | Repository | tutorial-repository', function () {
         // when
         const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
           ids: ['recTutorial0', 'recTutorial1'],
-          userId: null,
-        });
-
-        // then
-        expect(tutorials).to.have.lengthOf(2);
-        expect(tutorials[0]).to.be.instanceof(TutorialForUser);
-        expect(tutorials).to.deep.include.members(tutorialsList);
-      });
-
-      it('should avoid duplicates and nulls', async function () {
-        // given
-        const tutorialsList = [
-          {
-            duration: '00:00:54',
-            format: 'video',
-            link: 'https://tuto.fr',
-            source: 'tuto.fr',
-            title: 'tuto0',
-            id: 'recTutorial0',
-            skillId: undefined,
-            userSavedTutorial: undefined,
-            tutorialEvaluation: undefined,
-          },
-          {
-            duration: '00:01:54',
-            format: 'page',
-            link: 'https://tuto.com',
-            source: 'tuto.com',
-            title: 'tuto1',
-            id: 'recTutorial1',
-            skillId: undefined,
-            userSavedTutorial: undefined,
-            tutorialEvaluation: undefined,
-          },
-        ];
-
-        await mockLearningContent({
-          tutorials: tutorialsList,
-        });
-
-        // when
-        const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
-          ids: ['recTutorial0', 'recTutorial1', 'recCOUCOUPAPA', 'recTutorial1'],
           userId: null,
         });
 
@@ -886,79 +843,6 @@ describe('Integration | Repository | tutorial-repository', function () {
             const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
             // then
-            expect(results[0].tutorialEvaluation).to.include({
-              id: tutorialEvaluationId,
-              userId,
-              tutorialId: 'tuto4',
-              status: TutorialEvaluation.statuses.LIKED,
-            });
-            expect(results[0].userSavedTutorial).to.include({
-              id: userSavedTutorialId,
-              userId,
-              skillId: 'recSkill3',
-              tutorialId: 'tuto4',
-            });
-          });
-
-          it('should avoid nulls and duplicates', async function () {
-            // given
-            databaseBuilder.factory.buildKnowledgeElement({
-              skillId: 'recSkill3',
-              userId,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              source: KnowledgeElement.SourceType.DIRECT,
-              createdAt: new Date('2000-01-01'),
-            });
-            databaseBuilder.factory.buildKnowledgeElement({
-              skillId: 'recSkill3',
-              userId,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              source: KnowledgeElement.SourceType.DIRECT,
-              createdAt: new Date('2000-01-02'),
-            });
-            databaseBuilder.factory.buildKnowledgeElement({
-              skillId: 'recSkillWithoutTuto',
-              userId,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              source: KnowledgeElement.SourceType.DIRECT,
-              createdAt: new Date('2000-01-02'),
-            });
-            const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
-              userId,
-              tutorialId: 'tuto4',
-              skillId: 'recSkill3',
-            }).id;
-            const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
-              tutorialId: 'tuto4',
-              userId,
-            }).id;
-            await databaseBuilder.commit();
-            await mockLearningContent({
-              tutorials: [
-                {
-                  id: 'tuto4',
-                  locale: 'fr-fr',
-                },
-              ],
-              skills: [
-                {
-                  id: 'recSkill3',
-                  tutorialIds: ['tuto4'],
-                  status: 'actif',
-                },
-                {
-                  id: 'recSkillWithoutTuto',
-                  tutorialIds: [],
-                  status: 'actif',
-                },
-              ],
-            });
-
-            // when
-            const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
-
-            // then
-            expect(results.length).to.equal(1);
             expect(results[0].tutorialEvaluation).to.include({
               id: tutorialEvaluationId,
               userId,

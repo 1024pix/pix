@@ -438,27 +438,6 @@ describe('Integration | Repository | area-repository', function () {
             ]);
           });
         });
-
-        it('should ignore null and duplicates', async function () {
-          // when
-          const areas = await areaRepository.findByRecordIds({
-            areaIds: ['recArea2', 'recArea0', 'recCOUCOUMAMAN', 'recArea0'],
-          });
-
-          // then
-          expect(areas).to.deepEqualArray([
-            domainBuilder.buildArea({
-              ...areaData0,
-              title: areaData0.title_i18n.fr,
-              competences: [],
-            }),
-            domainBuilder.buildArea({
-              ...areaData2,
-              title: areaData2.title_i18n.fr,
-              competences: [],
-            }),
-          ]);
-        });
       });
 
       context('when no areas found for given ids', function () {

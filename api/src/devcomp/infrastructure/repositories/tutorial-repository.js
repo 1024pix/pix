@@ -19,7 +19,7 @@ const TABLE_NAME = 'learningcontent.tutorials';
 export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   if (!config.featureToggles.useNewLearningContent)
     return oldTutorialRepository.findByRecordIdsForCurrentUser({ ids, userId, locale });
-  let tutorialDtos = await getInstance().getMany(ids);
+  let tutorialDtos = await getInstance().loadMany(ids);
   tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto);
   if (locale) {
     const lang = extractLangFromLocale(locale);

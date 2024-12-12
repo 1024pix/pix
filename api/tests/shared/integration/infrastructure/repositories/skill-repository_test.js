@@ -430,59 +430,6 @@ describe('Integration | Repository | skill-repository', function () {
             }),
           ]);
         });
-        it('should avoid returning duplicates', async function () {
-          // when
-          const skills = await skillRepository.findOperativeByCompetenceIds([
-            'competenceIdA',
-            'competenceIdB',
-            'competenceInconnue',
-            'competenceIdB',
-          ]);
-
-          // then
-          expect(skills).to.deepEqualArray([
-            domainBuilder.buildSkill({
-              ...skillData00_tubeAcompetenceA_actif,
-              difficulty: skillData00_tubeAcompetenceA_actif.level,
-              hint: skillData00_tubeAcompetenceA_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData01_tubeAcompetenceA_archive,
-              difficulty: skillData01_tubeAcompetenceA_archive.level,
-              hint: skillData01_tubeAcompetenceA_archive.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData03_tubeBcompetenceA_actif,
-              difficulty: skillData03_tubeBcompetenceA_actif.level,
-              hint: skillData03_tubeBcompetenceA_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData04_tubeBcompetenceA_archive,
-              difficulty: skillData04_tubeBcompetenceA_archive.level,
-              hint: skillData04_tubeBcompetenceA_archive.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData06_tubeCcompetenceB_actif,
-              difficulty: skillData06_tubeCcompetenceB_actif.level,
-              hint: skillData06_tubeCcompetenceB_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData07_tubeCcompetenceB_archive,
-              difficulty: skillData07_tubeCcompetenceB_archive.level,
-              hint: skillData07_tubeCcompetenceB_archive.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData09_tubeDcompetenceB_actif,
-              difficulty: skillData09_tubeDcompetenceB_actif.level,
-              hint: skillData09_tubeDcompetenceB_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData10_tubeDcompetenceB_archive,
-              difficulty: skillData10_tubeDcompetenceB_archive.level,
-              hint: skillData10_tubeDcompetenceB_archive.hint_i18n.fr,
-            }),
-          ]);
-        });
       });
 
       context('when no operative skills find for competence ids', function () {
@@ -576,30 +523,6 @@ describe('Integration | Repository | skill-repository', function () {
             'skillId03',
             'skillId01',
             'skillIdCoucou',
-          ]);
-
-          // then
-          expect(skills).to.deepEqualArray([
-            domainBuilder.buildSkill({
-              ...skillData01_tubeAcompetenceA_archive,
-              difficulty: skillData01_tubeAcompetenceA_archive.level,
-              hint: skillData01_tubeAcompetenceA_archive.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData03_tubeBcompetenceA_actif,
-              difficulty: skillData03_tubeBcompetenceA_actif.level,
-              hint: skillData03_tubeBcompetenceA_actif.hint_i18n.fr,
-            }),
-          ]);
-        });
-        it('should avoid returning duplicates', async function () {
-          // when
-          const skills = await skillRepository.findOperativeByIds([
-            'skillId02',
-            'skillId03',
-            'skillId01',
-            'skillIdCoucou',
-            'skillId01',
           ]);
 
           // then
@@ -735,31 +658,6 @@ describe('Integration | Repository | skill-repository', function () {
             }),
           ]);
         });
-        it('should avoid returning duplicates', async function () {
-          // when
-          const skills = await skillRepository.findActiveByRecordIds([
-            'skillId02',
-            'skillId03',
-            'skillId01',
-            'skillId00',
-            'skillIdCoucou',
-            'skillId00',
-          ]);
-
-          // then
-          expect(skills).to.deepEqualArray([
-            domainBuilder.buildSkill({
-              ...skillData00_tubeAcompetenceA_actif,
-              difficulty: skillData00_tubeAcompetenceA_actif.level,
-              hint: skillData00_tubeAcompetenceA_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData03_tubeBcompetenceA_actif,
-              difficulty: skillData03_tubeBcompetenceA_actif.level,
-              hint: skillData03_tubeBcompetenceA_actif.hint_i18n.fr,
-            }),
-          ]);
-        });
       });
     });
 
@@ -783,42 +681,6 @@ describe('Integration | Repository | skill-repository', function () {
             'skillId01',
             'skillId00',
             'skillIdCoucou',
-          ]);
-
-          // then
-          expect(skills).to.deepEqualArray([
-            domainBuilder.buildSkill({
-              ...skillData00_tubeAcompetenceA_actif,
-              difficulty: skillData00_tubeAcompetenceA_actif.level,
-              hint: skillData00_tubeAcompetenceA_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData01_tubeAcompetenceA_archive,
-              difficulty: skillData01_tubeAcompetenceA_archive.level,
-              hint: skillData01_tubeAcompetenceA_archive.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData02_tubeAcompetenceA_perime,
-              difficulty: skillData02_tubeAcompetenceA_perime.level,
-              hint: skillData02_tubeAcompetenceA_perime.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData03_tubeBcompetenceA_actif,
-              difficulty: skillData03_tubeBcompetenceA_actif.level,
-              hint: skillData03_tubeBcompetenceA_actif.hint_i18n.fr,
-            }),
-          ]);
-        });
-
-        it('should avoid returning duplicates', async function () {
-          // when
-          const skills = await skillRepository.findByRecordIds([
-            'skillId02',
-            'skillId03',
-            'skillId01',
-            'skillId00',
-            'skillIdCoucou',
-            'skillId00',
           ]);
 
           // then

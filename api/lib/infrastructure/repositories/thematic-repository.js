@@ -27,7 +27,7 @@ export async function findByCompetenceIds(competenceIds, locale) {
 
 export async function findByRecordIds(ids, locale) {
   if (!config.featureToggles.useNewLearningContent) return oldThematicRepository.findByRecordIds(ids, locale);
-  const thematicDtos = await getInstance().getMany(ids);
+  const thematicDtos = await getInstance().loadMany(ids);
   return thematicDtos
     .filter((thematic) => thematic)
     .map((thematicDto) => toDomain(thematicDto, locale))

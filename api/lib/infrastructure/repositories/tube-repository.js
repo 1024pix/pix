@@ -10,7 +10,6 @@ const TABLE_NAME = 'learningcontent.tubes';
 const ACTIVE_STATUS = 'actif';
 
 export async function get(id) {
-  if (!config.featureToggles.useNewLearningContent) return oldTubeRepository.get(id);
   const tubeDto = await getInstance().load(id);
   if (!tubeDto) {
     throw new LearningContentResourceNotFound();
@@ -35,7 +34,7 @@ export async function findByNames({ tubeNames, locale }) {
 
 export async function findByRecordIds(ids, locale) {
   if (!config.featureToggles.useNewLearningContent) return oldTubeRepository.findByRecordIds(ids, locale);
-  const tubeDtos = await getInstance().getMany(ids);
+  const tubeDtos = await getInstance().loadMany(ids);
   return toDomainList(
     tubeDtos.filter((tubeDto) => tubeDto),
     locale,

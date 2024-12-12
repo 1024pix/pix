@@ -99,9 +99,9 @@ describe('Integration | Repository | framework-repository', function () {
         expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework2]);
       });
 
-      it('should return frameworks it managed to find once', async function () {
+      it('should return frameworks it managed to find', async function () {
         // when
-        const frameworks = await frameworkRepository.findByRecordIds(['recId2', 'recIdCAVA', 'recId2']);
+        const frameworks = await frameworkRepository.findByRecordIds(['recId2', 'recIdCAVA']);
 
         // then
         const expectedFramework2 = domainBuilder.buildFramework({ ...frameworkData2, areas: [] });
