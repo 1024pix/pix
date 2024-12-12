@@ -44,9 +44,12 @@ export class OidcAuthenticationServiceRegistry {
     return this.#readyOidcProviderServicesForPixAdmin;
   }
 
-  getOidcProviderServiceByCode({ identityProviderCode, audience = 'app' }) {
-    const services =
-      audience === 'admin' ? this.#readyOidcProviderServicesForPixAdmin : this.#readyOidcProviderServices;
+  getOidcProviderServiceByCode({ identityProviderCode, audience }) {
+    // const audienceUrl = new URL(audience)
+    // const services =
+    //   audience === 'admin' ? this.#readyOidcProviderServicesForPixAdmin : this.#readyOidcProviderServices;
+    // TODO: Do a clean separation of the different OIDC providers by application
+    const services = [...this.#readyOidcProviderServicesForPixAdmin, ...this.#readyOidcProviderServices];
     const oidcProviderService = services.find((service) => identityProviderCode === service.code);
 
     if (!oidcProviderService) {

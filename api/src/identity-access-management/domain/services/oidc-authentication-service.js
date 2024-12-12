@@ -122,8 +122,16 @@ export class OidcAuthenticationService {
     }
   }
 
-  createAccessToken(userId) {
-    return jsonwebtoken.sign({ user_id: userId }, config.authentication.secret, this.accessTokenJwtOptions);
+  // TODO: Use an object for arguments instead
+  // TODO: Use the tokenService to read-write tokens
+  createAccessToken(userId, audience) {
+    console.warn('OidcAuthenticationService.createAccessToken audience:', audience);
+
+    return jsonwebtoken.sign(
+      { user_id: userId, aud: audience },
+      config.authentication.secret,
+      this.accessTokenJwtOptions,
+    );
   }
 
   async saveIdToken({ idToken, userId }) {
@@ -198,6 +206,7 @@ export class OidcAuthenticationService {
   }
 
   async getUserInfo({ idToken, accessToken }) {
+    // TODO: Use the tokenService to read-write tokens
     let userInfo = jsonwebtoken.decode(idToken);
 
     if (this.claimManager.hasMissingClaims(userInfo)) {

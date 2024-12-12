@@ -5,6 +5,7 @@ import { RefreshToken } from '../models/RefreshToken.js';
 
 const authenticateUser = async function ({
   password,
+  audience,
   scope,
   source,
   username,
@@ -16,6 +17,8 @@ const authenticateUser = async function ({
   userLoginRepository,
   adminMemberRepository,
 }) {
+  console.warn('usecases.authenticateUser audience:', audience);
+
   try {
     const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
       username,
@@ -28,12 +31,17 @@ const authenticateUser = async function ({
       throw new UserShouldChangePasswordError(undefined, passwordResetToken);
     }
 
-    await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
+    // await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
 
     const refreshToken = RefreshToken.generate({ userId: foundUser.id, scope, source });
     await refreshTokenRepository.save({ refreshToken });
 
-    const { accessToken, expirationDelaySeconds } = await tokenService.createAccessTokenFromUser(foundUser.id, source);
+    const { accessToken, expirationDelaySeconds } = await tokenService.createAccessTokenFromUser({
+      userId: foundUser.id,
+      audience,
+      source,
+    });
+    console.warn('authenticateUser accessToken:', accessToken);
 
     foundUser.setLocaleIfNotAlreadySet(localeFromCookie);
     if (foundUser.hasBeenModified) {
@@ -56,17 +64,17 @@ const authenticateUser = async function ({
   }
 };
 
-async function _checkUserAccessScope(scope, user, adminMemberRepository) {
-  if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
-    throw new ForbiddenAccess(PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
-  }
+// async function _checkUserAccessScope(scope, user, adminMemberRepository) {
+//   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
+//     throw new ForbiddenAccess(PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
+//   }
 
-  if (scope === PIX_ADMIN.SCOPE) {
-    const adminMember = await adminMemberRepository.get({ userId: user.id });
-    if (!adminMember?.hasAccessToAdminScope) {
-      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
-    }
-  }
-}
+//   if (scope === PIX_ADMIN.SCOPE) {
+//     const adminMember = await adminMemberRepository.get({ userId: user.id });
+//     if (!adminMember?.hasAccessToAdminScope) {
+//       throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
+//     }
+//   }
+// }
 
 export { authenticateUser };

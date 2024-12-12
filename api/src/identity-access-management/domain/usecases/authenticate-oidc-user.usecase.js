@@ -33,6 +33,8 @@ async function authenticateOidcUser({
   userLoginRepository,
   userRepository,
 }) {
+  console.warn('usecases.authenticateOidcUser audience:', audience);
+
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProviderCode);
 
@@ -40,6 +42,7 @@ async function authenticateOidcUser({
     identityProviderCode,
     audience,
   });
+  console.warn('usecases.authenticateOidcUser oidcAuthenticationService:', oidcAuthenticationService);
 
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
@@ -63,7 +66,7 @@ async function authenticateOidcUser({
     return { authenticationKey, givenName, familyName, email, isAuthenticationComplete: false };
   }
 
-  await _assertUserWithPixAdminAccess({ audience, userId: user.id, adminMemberRepository });
+  // await _assertUserWithPixAdminAccess({ audience, userId: user.id, adminMemberRepository });
 
   await _updateAuthenticationMethodWithComplement({
     userInfo,
@@ -73,7 +76,7 @@ async function authenticateOidcUser({
     authenticationMethodRepository,
   });
 
-  const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id);
+  const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id, audience);
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {
@@ -109,14 +112,14 @@ async function _updateAuthenticationMethodWithComplement({
   });
 }
 
-async function _assertUserWithPixAdminAccess({ audience, userId, adminMemberRepository }) {
-  if (audience === PIX_ADMIN.AUDIENCE) {
-    const adminMember = await adminMemberRepository.get({ userId });
-    if (!adminMember?.hasAccessToAdminScope) {
-      throw new ForbiddenAccess(
-        'User does not have the rights to access the application',
-        'PIX_ADMIN_ACCESS_NOT_ALLOWED',
-      );
-    }
-  }
-}
+// async function _assertUserWithPixAdminAccess({ audience, userId, adminMemberRepository }) {
+//   if (audience === PIX_ADMIN.AUDIENCE) {
+//     const adminMember = await adminMemberRepository.get({ userId });
+//     if (!adminMember?.hasAccessToAdminScope) {
+//       throw new ForbiddenAccess(
+//         'User does not have the rights to access the application',
+//         'PIX_ADMIN_ACCESS_NOT_ALLOWED',
+//       );
+//     }
+//   }
+// }

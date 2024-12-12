@@ -24,6 +24,7 @@ export const reconcileOidcUserForAdmin = async function ({
   authenticationKey,
   email,
   identityProvider,
+  audience,
   oidcAuthenticationService,
   authenticationSessionService,
   authenticationMethodRepository,
@@ -58,7 +59,7 @@ export const reconcileOidcUserForAdmin = async function ({
     }),
   });
 
-  const accessToken = await oidcAuthenticationService.createAccessToken(userId);
+  const accessToken = await oidcAuthenticationService.createAccessToken(userId, audience);
   await userLoginRepository.updateLastLoggedAt({ userId });
 
   return accessToken;

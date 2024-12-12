@@ -7,6 +7,20 @@ import boom from '@hapi/boom';
 import { config } from '../../src/shared/config.js';
 import { tokenService } from '../../src/shared/domain/services/token-service.js';
 
+function getOrigin(headers) {
+  const urlParts = [];
+
+  urlParts.push(_getHeaderFirstValue(headers['x-forwarded-proto']));
+  urlParts.push('://');
+  urlParts.push(_getHeaderFirstValue(headers['x-forwarded-host']));
+
+  return urlParts.join('');
+}
+
+function _getHeaderFirstValue(headerValue) {
+  return headerValue.split(',')[0];
+}
+
 async function _checkIsAuthenticated(request, h, { key, validate }) {
   if (!request.headers.authorization) {
     return boom.unauthorized(null, 'jwt');
@@ -21,6 +35,13 @@ async function _checkIsAuthenticated(request, h, { key, validate }) {
 
   const decodedAccessToken = tokenService.getDecodedToken(accessToken, key);
   if (decodedAccessToken) {
+    const audience = getOrigin(request.headers);
+    console.warn('\n\ndecodedAccessToken:', decodedAccessToken);
+    console.warn('decodedAccessToken audience:', audience, 'decodedAccessToken.aud:', decodedAccessToken.aud);
+    if (decodedAccessToken.aud != audience) {
+      return boom.unauthorized();
+    }
+
     const { isValid, credentials, errorCode } = validate(decodedAccessToken, request, h);
     if (isValid) {
       return h.authenticated({ credentials });
@@ -93,4 +114,4 @@ const authentication = {
   defaultStrategy: 'jwt-user',
 };
 
-export { authentication };
+export { authentication, getOrigin };

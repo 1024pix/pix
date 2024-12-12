@@ -1,3 +1,4 @@
+import { getOrigin } from '../../../../lib/infrastructure/authentication.js';
 import { BadRequestError } from '../../../shared/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -30,11 +31,12 @@ const createToken = async function (request, h, dependencies = { tokenService })
   const scope = request.payload.scope;
 
   if (grantType === 'password') {
-    const { username, password, scope } = request.payload;
+    const { username, password } = request.payload;
     const localeFromCookie = request.state?.locale;
+    const audience = getOrigin(request.headers);
     const source = 'pix';
 
-    const tokensInfo = await usecases.authenticateUser({ username, password, scope, source, localeFromCookie });
+    const tokensInfo = await usecases.authenticateUser({ username, password, audience, source, localeFromCookie });
 
     accessToken = tokensInfo.accessToken;
     refreshToken = tokensInfo.refreshToken;

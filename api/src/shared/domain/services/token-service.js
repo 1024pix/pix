@@ -11,15 +11,16 @@ import {
 
 const CERTIFICATION_RESULTS_BY_RECIPIENT_EMAIL_LINK_SCOPE = 'certificationResultsByRecipientEmailLink';
 
-function _createAccessToken({ userId, source, expirationDelaySeconds }) {
-  return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {
+function _createAccessToken({ userId, audience, source, expirationDelaySeconds }) {
+  return jsonwebtoken.sign({ user_id: userId, aud: audience, source }, config.authentication.secret, {
     expiresIn: expirationDelaySeconds,
   });
 }
 
-function createAccessTokenFromUser(userId, source) {
+function createAccessTokenFromUser({ userId, audience, source }) {
+  console.warn('createAccessTokenFromUser audience:', audience);
   const expirationDelaySeconds = config.authentication.accessTokenLifespanMs / 1000;
-  const accessToken = _createAccessToken({ userId, source, expirationDelaySeconds });
+  const accessToken = _createAccessToken({ userId, audience, source, expirationDelaySeconds });
   return { accessToken, expirationDelaySeconds };
 }
 

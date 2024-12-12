@@ -21,12 +21,15 @@ async function createOidcUser({
   authenticationKey,
   localeFromCookie,
   language,
+  audience,
   authenticationSessionService,
   oidcAuthenticationServiceRegistry,
   authenticationMethodRepository,
   userToCreateRepository,
   userLoginRepository,
 }) {
+  console.warn('usecases.createOidcUser audience:', audience);
+
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();
@@ -68,7 +71,7 @@ async function createOidcUser({
     authenticationMethodRepository,
   });
 
-  const accessToken = oidcAuthenticationService.createAccessToken(userId);
+  const accessToken = oidcAuthenticationService.createAccessToken(userId, audience);
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {

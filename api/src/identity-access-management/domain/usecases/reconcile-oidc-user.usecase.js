@@ -15,11 +15,14 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 export const reconcileOidcUser = async function ({
   authenticationKey,
   identityProvider,
+  audience,
   authenticationSessionService,
   authenticationMethodRepository,
   oidcAuthenticationServiceRegistry,
   userLoginRepository,
 }) {
+  console.warn('usecases.createOidcUser audience:', audience);
+
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
@@ -52,7 +55,7 @@ export const reconcileOidcUser = async function ({
     }),
   });
 
-  const accessToken = await oidcAuthenticationService.createAccessToken(userId);
+  const accessToken = await oidcAuthenticationService.createAccessToken(userId, audience);
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {

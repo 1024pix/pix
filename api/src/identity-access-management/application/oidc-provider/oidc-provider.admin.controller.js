@@ -1,4 +1,5 @@
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
+import { getOrigin } from '../../../../lib/infrastructure/authentication.js';
 import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -42,6 +43,9 @@ async function reconcileUserForAdmin(
     oidcAuthenticationServiceRegistry,
   },
 ) {
+  const audience = getOrigin(request.headers);
+  console.warn('oidcProviderController.reconcileUser audience:', audience);
+
   const { email, identityProvider, authenticationKey } = request.deserializedPayload;
 
   await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
@@ -56,6 +60,7 @@ async function reconcileUserForAdmin(
     email,
     identityProvider,
     authenticationKey,
+    audience,
     oidcAuthenticationService,
   });
 

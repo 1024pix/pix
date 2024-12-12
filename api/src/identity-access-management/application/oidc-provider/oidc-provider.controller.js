@@ -1,3 +1,4 @@
+import { getOrigin } from '../../../../lib/infrastructure/authentication.js';
 import { BadRequestError, UnauthorizedError } from '../../../shared/application/http-errors.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -11,7 +12,9 @@ import * as oidcSerializer from '../../infrastructure/serializers/jsonapi/oidc-s
  * @return {Promise<*>}
  */
 async function authenticateOidcUser(request, h) {
-  const { code, state, iss, identityProvider: identityProviderCode, audience } = request.deserializedPayload;
+  const audience = getOrigin(request.headers);
+  console.warn('oidcProviderController.authenticateOidcUser audience:', audience);
+  const { code, state, iss, identityProvider: identityProviderCode } = request.deserializedPayload;
 
   const sessionState = request.yar.get('state', true);
   const nonce = request.yar.get('nonce', true);
@@ -32,6 +35,8 @@ async function authenticateOidcUser(request, h) {
   });
 
   if (result.isAuthenticationComplete) {
+    console.warn('oidcProviderController.authenticateOidcUser pixAccessToken:', result.pixAccessToken);
+
     return h.response({ access_token: result.pixAccessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
   }
 
@@ -55,6 +60,9 @@ async function authenticateOidcUser(request, h) {
  * @return {Promise<{access_token: string, logout_url_uuid: string}>}
  */
 async function createUser(request, h, dependencies = { requestResponseUtils }) {
+  const audience = getOrigin(request.headers);
+  console.warn('oidcProviderController.createUser audience:', audience);
+
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
   const language = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
@@ -62,6 +70,7 @@ async function createUser(request, h, dependencies = { requestResponseUtils }) {
   const { accessToken: access_token, logoutUrlUUID: logout_url_uuid } = await usecases.createOidcUser({
     authenticationKey,
     identityProvider,
+    audience,
     localeFromCookie,
     language,
   });
@@ -144,11 +153,15 @@ async function getRedirectLogoutUrl(request, h) {
  * @return {Promise<{access_token: string, logout_url_uuid: string}>}
  */
 async function reconcileUser(request, h) {
+  const audience = getOrigin(request.headers);
+  console.warn('oidcProviderController.reconcileUser audience:', audience);
+
   const { identityProvider, authenticationKey } = request.deserializedPayload;
 
   const result = await usecases.reconcileOidcUser({
     authenticationKey,
     identityProvider,
+    audience,
   });
 
   return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
