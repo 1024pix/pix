@@ -39,13 +39,13 @@ describe('Learning Content | Unit | Controller | learning-content-controller', f
 
     it('should call the usecase and return 204', async function () {
       // given
-      sinon.stub(usecases, 'schedulePatchLearningContentCacheEntryJob');
+      sinon.stub(usecases, 'patchLearningContentCacheEntry');
 
       // when
       const response = await learningContentController.patchCacheEntry(request, hFake);
 
       // then
-      expect(usecases.schedulePatchLearningContentCacheEntryJob).to.have.been.calledWithExactly({
+      expect(usecases.patchLearningContentCacheEntry).to.have.been.calledWithExactly({
         recordId: 'recId',
         updatedRecord: {
           property: 'updatedValue',

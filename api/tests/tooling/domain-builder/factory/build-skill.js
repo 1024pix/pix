@@ -10,9 +10,6 @@ const buildSkill = function buildSkill({
   tubeId = 'recTUB123',
   version = 1,
   difficulty = 6,
-  status = 'some status',
-  hintStatus = 'some hint status',
-  hint = 'some hint',
 } = {}) {
   return new Skill({
     id,
@@ -24,9 +21,6 @@ const buildSkill = function buildSkill({
     tubeId,
     version,
     difficulty,
-    status,
-    hintStatus,
-    hint,
   });
 };
 

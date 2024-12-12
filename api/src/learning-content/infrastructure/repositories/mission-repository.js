@@ -1,4 +1,3 @@
-import { clearCache } from '../../../school/infrastructure/repositories/mission-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class MissionRepository extends LearningContentRepository {
@@ -34,10 +33,6 @@ class MissionRepository extends LearningContentRepository {
       cardImageUrl,
       competenceId,
     };
-  }
-
-  clearCache(id) {
-    clearCache(id);
   }
 }
 

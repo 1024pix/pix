@@ -46,10 +46,6 @@ export function child(section, bindings, options) {
   return logger.child(bindings, { ...options, ...optionsOverride });
 }
 
-export const SCOPES = {
-  LEARNING_CONTENT: 'learningcontent',
-};
-
 function messageFormatCompact(log, messageKey, _logLevel, { colors }) {
   const message = log[messageKey];
   const { err, req, res, responseTime } = log;

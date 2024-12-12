@@ -1,5 +1,5 @@
 import { JobController } from '../../../shared/application/jobs/job-controller.js';
-import { logger, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { LcmsRefreshCacheJob } from '../../domain/models/LcmsRefreshCacheJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
@@ -11,9 +11,9 @@ export class LcmsRefreshCacheJobController extends JobController {
   async handle() {
     try {
       await usecases.refreshLearningContentCache();
-      logger.info({ event: SCOPES.LEARNING_CONTENT }, 'Learning Content refreshed');
+      logger.info('Learning Content refreshed');
     } catch (e) {
-      logger.error({ err: e, event: SCOPES.LEARNING_CONTENT }, 'Error while refreshing cache');
+      logger.error('Error while reloading cache', e);
       throw e;
     }
   }

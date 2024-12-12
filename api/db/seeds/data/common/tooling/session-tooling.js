@@ -1076,7 +1076,7 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   for (const [areaId, { fourMostDifficultSkillsAndChallenges }] of Object.entries(complementaryProfileData)) {
     complementaryProfileData[areaId].fourMostDifficultSkillsAndChallenges = _.orderBy(
       fourMostDifficultSkillsAndChallenges,
-      ({ skill }) => skill.difficulty,
+      ({ skill }) => skill.level,
     );
     complementaryProfileData[areaId].fourMostDifficultSkillsAndChallenges = _.takeRight(
       complementaryProfileData[areaId].fourMostDifficultSkillsAndChallenges,

@@ -1,12 +1,20 @@
 import * as correctionRepository from '../../../../lib/infrastructure/repositories/correction-repository.js';
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
-import { Correction } from '../../../../src/shared/domain/models/index.js';
-import { databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { Correction } from '../../../../src/shared/domain/models/Correction.js';
+import {
+  challengeDatasource,
+  skillDatasource,
+} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { ChallengeLearningContentDataObjectFixture } from '../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture.js';
+import { SkillLearningContentDataObjectFixture } from '../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture.js';
 
-describe('Integration | Repository | correction-repository', function () {
+describe('Unit | Repository | correction-repository', function () {
   let tutorialRepository;
 
   beforeEach(function () {
+    sinon.stub(challengeDatasource, 'get');
+    sinon.stub(skillDatasource, 'get');
     tutorialRepository = {
       findByRecordIdsForCurrentUser: sinon.stub(),
     };
@@ -14,37 +22,6 @@ describe('Integration | Repository | correction-repository', function () {
 
   describe('#getByChallengeId', function () {
     const recordId = 'rec-challengeId';
-    const challengeBaseData = {
-      id: recordId,
-      instruction:
-        "Les moteurs de recherche affichent certains liens en raison d'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?",
-      proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
-      type: 'QCM',
-      solution: '1, 5',
-      solutionToDisplay: '1',
-      t1Status: true,
-      t2Status: false,
-      t3Status: true,
-      status: 'validé',
-      skillId: 'recIdSkill003',
-      timer: 1234,
-      illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
-      illustrationAlt: 'Texte alternatif de l’illustration',
-      attachments: [
-        'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
-        'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
-      ],
-      competenceId: 'recsvLz0W2ShyfD63',
-      embedUrl: 'https://github.io/page/epreuve.html',
-      embedTitle: 'Epreuve de selection de dossier',
-      embedHeight: 500,
-      format: 'petit',
-      locales: ['fr'],
-      autoReply: false,
-      alternativeInstruction: '',
-      accessibility1: 'OK',
-      accessibility2: 'RAS',
-    };
     const userId = 'userId';
     const locale = 'en';
     let fromDatasourceObject;
@@ -84,42 +61,30 @@ describe('Integration | Repository | correction-repository', function () {
     context('normal challenge', function () {
       let challengeDataObject;
 
-      beforeEach(async function () {
+      beforeEach(function () {
         // given
-        databaseBuilder.factory.learningContent.buildSkill({
-          id: 'recIdSkill003',
-          name: '@web1',
-          hintStatus: 'Validé',
-          tutorialIds: ['recTuto1'],
-          learningMoreTutorialIds: ['recTuto3'],
-          hint_i18n: {
-            en: 'Can we geo-locate a rabbit on the ice floe?',
-            fr: 'Peut-on géo-localiser un lapin sur la banquise ?',
-          },
-        });
-        databaseBuilder.factory.learningContent.buildSkill({
-          id: 'skill2',
-          name: '@web2',
-          hintStatus: 'Proposé',
-          tutorialIds: ['recTuto2'],
-          learningMoreTutorialIds: ['recTuto4'],
-          hint_i18n: {
-            en: 'Can we geo-locate a rabbit on the ice floe?',
-            fr: 'Peut-on géo-localiser un lapin sur la banquise ?',
-          },
-        });
-        databaseBuilder.factory.learningContent.buildSkill({
-          id: 'skill3',
-          name: '@web3',
-          hintStatus: 'pré-validé',
-          tutorialIds: [],
-          learningMoreTutorialIds: [],
-          hint_i18n: {
-            en: 'Can we geo-locate a rabbit on the ice floe?',
-            fr: 'Peut-on géo-localiser un lapin sur la banquise ?',
-          },
-        });
-        await databaseBuilder.commit();
+        const skillDatas = [
+          SkillLearningContentDataObjectFixture({
+            name: '@web1',
+            hintStatus: 'Validé',
+            tutorialIds: ['recTuto1'],
+            learningMoreTutorialIds: ['recTuto3'],
+          }),
+          SkillLearningContentDataObjectFixture({
+            name: '@web2',
+            hintStatus: 'Proposé',
+            tutorialIds: ['recTuto2'],
+            learningMoreTutorialIds: ['recTuto4'],
+          }),
+          SkillLearningContentDataObjectFixture({
+            name: '@web3',
+            hintStatus: 'pré-validé',
+            tutorialIds: [],
+            learningMoreTutorialIds: [],
+          }),
+        ];
+
+        skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
         tutorialRepository.findByRecordIdsForCurrentUser
           .withArgs({ ids: ['recTuto1'], userId, locale })
           .resolves(expectedTutorials);
@@ -131,15 +96,20 @@ describe('Integration | Repository | correction-repository', function () {
       it('should return a correction with the solution and solutionToDisplay', async function () {
         // given
         const expectedCorrection = new Correction({
-          id: recordId,
+          id: 'recwWzTquPlvIl4So',
           solution: '1, 5',
           solutionToDisplay: '1',
           hint: expectedHint,
           tutorials: expectedTutorials,
           learningMoreTutorials: expectedLearningMoreTutorials,
         });
-        databaseBuilder.factory.learningContent.buildChallenge(challengeBaseData);
-        await databaseBuilder.commit();
+        challengeDataObject = ChallengeLearningContentDataObjectFixture({
+          skillId: 'recIdSkill003',
+          solution: '1, 5',
+          solutionToDisplay: '1',
+          type: 'QCM',
+        });
+        challengeDatasource.get.resolves(challengeDataObject);
         const getCorrectionStub = sinon.stub();
 
         // when
@@ -156,16 +126,19 @@ describe('Integration | Repository | correction-repository', function () {
         expect(getCorrectionStub).not.to.have.been.called;
         expect(result).to.be.an.instanceof(Correction);
         expect(result).to.deep.equal(expectedCorrection);
+        expect(challengeDatasource.get).to.have.been.calledWithExactly(recordId);
         expect(expectedCorrection.tutorials.map(({ skillId }) => skillId)).to.deep.equal([
-          'recIdSkill003',
-          'recIdSkill003',
+          'recSK0X22abcdefgh',
+          'recSK0X22abcdefgh',
         ]);
       });
 
       it('should return the correction with validated hint', async function () {
         // given
-        databaseBuilder.factory.learningContent.buildChallenge(challengeBaseData);
-        await databaseBuilder.commit();
+        challengeDataObject = ChallengeLearningContentDataObjectFixture({
+          skillId: 'recIdSkill003',
+        });
+        challengeDatasource.get.resolves(challengeDataObject);
         const getCorrectionStub = sinon.stub();
 
         // when
@@ -186,11 +159,12 @@ describe('Integration | Repository | correction-repository', function () {
         context('when answer is skipped', function () {
           it('should not call getCorrection service', async function () {
             // given
-            databaseBuilder.factory.learningContent.buildChallenge({
-              ...challengeBaseData,
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
+              solution: '1, 5',
               type: 'QROCM-dep',
             });
-            await databaseBuilder.commit();
+            challengeDatasource.get.resolves(challengeDataObject);
 
             const answerValue = Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS;
             const solution = Symbol('solution');
@@ -216,27 +190,16 @@ describe('Integration | Repository | correction-repository', function () {
 
         it('should call solution service and return solution blocks', async function () {
           // given
-          databaseBuilder.factory.learningContent.buildChallenge({
-            ...challengeBaseData,
+          challengeDataObject = ChallengeLearningContentDataObjectFixture({
+            skillId: 'recIdSkill003',
+            solution: '1, 5',
             type: 'QROCM-dep',
           });
-          await databaseBuilder.commit();
+          challengeDatasource.get.resolves(challengeDataObject);
 
           const answerValue = Symbol('answerValue');
           const solution = Symbol('solution');
-          fromDatasourceObject
-            .withArgs({
-              id: challengeBaseData.id,
-              skillId: challengeBaseData.skillId,
-              type: 'QROCM-dep',
-              solution: challengeBaseData.solution,
-              solutionToDisplay: challengeBaseData.solutionToDisplay,
-              proposals: challengeBaseData.proposals,
-              t1Status: challengeBaseData.t1Status,
-              t2Status: challengeBaseData.t2Status,
-              t3Status: challengeBaseData.t3Status,
-            })
-            .returns(solution);
+          fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
           const getCorrectionStub = sinon.stub();
           const answersEvaluation = Symbol('answersEvaluation');
           const solutionsWithoutGoodAnswers = Symbol('solutionsWithoutGoodAnswers');
@@ -269,11 +232,10 @@ describe('Integration | Repository | correction-repository', function () {
             const providedLocale = 'fr-fr';
             const challengeId = 'recTuto1';
             const challengeId3 = 'recTuto3';
-            databaseBuilder.factory.learningContent.buildChallenge({
-              ...challengeBaseData,
-              id: challengeId,
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
             });
-            await databaseBuilder.commit();
+            challengeDatasource.get.resolves(challengeDataObject);
             const getCorrectionStub = sinon.stub();
             tutorialRepository.findByRecordIdsForCurrentUser
               .withArgs({ ids: [challengeId], userId, locale: providedLocale })
@@ -308,11 +270,10 @@ describe('Integration | Repository | correction-repository', function () {
             const locale = 'jp';
             const challengeId = 'recTuto1';
             const challengeId3 = 'recTuto3';
-            databaseBuilder.factory.learningContent.buildChallenge({
-              ...challengeBaseData,
-              id: challengeId,
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
             });
-            await databaseBuilder.commit();
+            challengeDatasource.get.resolves(challengeDataObject);
             const getCorrectionStub = sinon.stub();
             tutorialRepository.findByRecordIdsForCurrentUser
               .withArgs({ ids: [challengeId], userId, locale })
@@ -340,14 +301,13 @@ describe('Integration | Repository | correction-repository', function () {
           it('should return null value as hint', async function () {
             // given
             const userId = 1;
-            const providedLocale = 'efr';
+            const providedLocale = 'frop-fr';
             const challengeId = 'recTuto1';
             const challengeId3 = 'recTuto3';
-            databaseBuilder.factory.learningContent.buildChallenge({
-              ...challengeBaseData,
-              id: challengeId,
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
             });
-            await databaseBuilder.commit();
+            challengeDatasource.get.resolves(challengeDataObject);
             const getCorrectionStub = sinon.stub();
             tutorialRepository.findByRecordIdsForCurrentUser
               .withArgs({ ids: [challengeId], userId, locale: providedLocale })

@@ -19,11 +19,9 @@ const buildArea = function ({
     color,
     frameworkId,
   });
-
-  // c koi ce truc
-  //competences.forEach((competence) => {
-  //  competence.area = area;
-  //});
+  competences.forEach((competence) => {
+    competence.area = area;
+  });
   return area;
 };
 

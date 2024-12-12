@@ -1,7 +1,4 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
-
-const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
 export class LearningContentRepository {
   /** @type {string} */
@@ -24,24 +21,13 @@ export class LearningContentRepository {
   /**
    * @param {object[]} objects
    */
-  async saveMany(objects) {
+  async save(objects) {
     if (!objects) return;
-    logger.debug(`saving ${objects.length} items in ${this.#tableName}`);
     const dtos = objects.map(this.toDto);
     const knex = DomainTransaction.getConnection();
     for (const chunk of chunks(dtos, this.#chunkSize)) {
       await knex.insert(chunk).into(this.#tableName).onConflict('id').merge();
     }
-  }
-
-  /**
-   * @param {object} object
-   */
-  async save(object) {
-    logger.debug(`saving one item in ${this.#tableName}`);
-    const dto = this.toDto(object);
-    const knex = DomainTransaction.getConnection();
-    await knex.insert(dto).into(this.#tableName).onConflict('id').merge();
   }
 
   /**

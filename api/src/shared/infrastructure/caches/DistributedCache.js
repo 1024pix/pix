@@ -1,5 +1,5 @@
-import { logger } from '../../utils/logger.js';
-import { RedisClient } from '../../utils/RedisClient.js';
+import { logger } from '../utils/logger.js';
+import { RedisClient } from '../utils/RedisClient.js';
 import { Cache } from './Cache.js';
 
 class DistributedCache extends Cache {

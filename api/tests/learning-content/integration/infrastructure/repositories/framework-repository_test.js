@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Framework', function (
     await knex('learningcontent.frameworks').truncate();
   });
 
-  describe('#saveMany', function () {
+  describe('#save', function () {
     it('should insert frameworks', async function () {
       // given
       const frameworkDtos = [
@@ -17,7 +17,7 @@ describe('Learning Content | Integration | Repositories | Framework', function (
       ];
 
       // when
-      await frameworkRepository.saveMany(frameworkDtos);
+      await frameworkRepository.save(frameworkDtos);
 
       // then
       const savedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
@@ -49,7 +49,7 @@ describe('Learning Content | Integration | Repositories | Framework', function (
         ];
 
         // when
-        await frameworkRepository.saveMany(frameworkDtos);
+        await frameworkRepository.save(frameworkDtos);
 
         // then
         const savedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
@@ -62,51 +62,6 @@ describe('Learning Content | Integration | Repositories | Framework', function (
           { id: 'frameworkRocket', name: 'Pix+ Rocket League' },
         ]);
       });
-    });
-  });
-
-  describe('#save', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildFramework({ id: 'frameworkIdB' });
-      await databaseBuilder.commit();
-    });
-
-    it('should insert framework when it does not exist in DB', async function () {
-      // given
-      const frameworkDto = { id: 'frameworkPix', name: 'Pix' };
-
-      // when
-      await frameworkRepository.save(frameworkDto);
-
-      // then
-      const savedFramework = await knex
-        .select('*')
-        .from('learningcontent.frameworks')
-        .where({ id: frameworkDto.id })
-        .first();
-      const [{ count }] = await knex('learningcontent.frameworks').count();
-      expect(count).to.equal(2);
-      expect(savedFramework).to.deep.equal({ id: 'frameworkPix', name: 'Pix' });
-    });
-
-    it('should update framework when it does exist in DB', async function () {
-      // given
-      databaseBuilder.factory.learningContent.buildFramework({ id: 'frameworkPix', name: 'Pix' });
-      await databaseBuilder.commit();
-      const frameworkDto = { id: 'frameworkPix', name: 'Pax' };
-
-      // when
-      await frameworkRepository.save(frameworkDto);
-
-      // then
-      const savedFramework = await knex
-        .select('*')
-        .from('learningcontent.frameworks')
-        .where({ id: frameworkDto.id })
-        .first();
-      const [{ count }] = await knex('learningcontent.frameworks').count();
-      expect(count).to.equal(2);
-      expect(savedFramework).to.deep.equal({ id: 'frameworkPix', name: 'Pax' });
     });
   });
 });

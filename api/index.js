@@ -10,20 +10,18 @@ import { config } from './src/shared/config.js';
 import { sharedUsecases as usecases } from './src/shared/domain/usecases/index.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from './src/shared/infrastructure/temporary-storage/index.js';
-import { logger, SCOPES } from './src/shared/infrastructure/utils/logger.js';
+import { logger } from './src/shared/infrastructure/utils/logger.js';
 import { redisMonitor } from './src/shared/infrastructure/utils/redis-monitor.js';
 
 let server;
 
 async function _setupEcosystem() {
-  if (!config.featureToggles.useNewLearningContent) {
-    /*
-      Load learning content from Redis to memory cache can take some time
-      Hence, we force this loading before the server starts so the requests can
-      immediately be responded.
-    */
-    await usecases.initLearningContentCache();
-  }
+  /*
+    Load learning content from Redis to memory cache can take some time
+    Hence, we force this loading before the server starts so the requests can
+    immediately be responded.
+  */
+  await usecases.initLearningContentCache();
   /*
     First connection with Knex requires infrastructure operations such as
     DNS resolution. So we execute one harmless query to our database
@@ -33,11 +31,6 @@ async function _setupEcosystem() {
 }
 
 const start = async function () {
-  if (config.featureToggles.useNewLearningContent) {
-    logger.info({ event: SCOPES.LEARNING_CONTENT }, 'will use new learning content');
-  } else {
-    logger.info({ event: SCOPES.LEARNING_CONTENT }, 'will use old learning content');
-  }
   if (config.featureToggles.setupEcosystemBeforeStart) {
     await _setupEcosystem();
   }

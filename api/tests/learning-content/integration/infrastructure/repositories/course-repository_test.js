@@ -6,7 +6,7 @@ describe('Learning Content | Integration | Repositories | Course', function () {
     await knex('learningcontent.courses').truncate();
   });
 
-  describe('#saveMany', function () {
+  describe('#save', function () {
     it('should insert courses', async function () {
       // given
       const courseDtos = [
@@ -37,7 +37,7 @@ describe('Learning Content | Integration | Repositories | Course', function () {
       ];
 
       // when
-      await courseRepository.saveMany(courseDtos);
+      await courseRepository.save(courseDtos);
 
       // then
       const savedCourses = await knex.select('*').from('learningcontent.courses').orderBy('id');
@@ -111,7 +111,7 @@ describe('Learning Content | Integration | Repositories | Course', function () {
         ];
 
         // when
-        await courseRepository.saveMany(courseDtos);
+        await courseRepository.save(courseDtos);
 
         // then
         const savedCourses = await knex.select('*').from('learningcontent.courses').orderBy('id');
@@ -142,78 +142,6 @@ describe('Learning Content | Integration | Repositories | Course', function () {
             challenges: ['challengeIdC1'],
           },
         ]);
-      });
-    });
-  });
-
-  describe('#save', function () {
-    beforeEach(async function () {
-      databaseBuilder.factory.learningContent.buildCourse({ id: 'courseIdB' });
-      await databaseBuilder.commit();
-    });
-
-    it('should insert course when it does not exist in DB', async function () {
-      // given
-      const courseDto = {
-        id: 'courseIdA',
-        name: 'instruction Test Statique A',
-        description: 'description Test Statique A',
-        isActive: true,
-        competences: ['competenceIdA'],
-        challenges: ['challengeIdA'],
-      };
-
-      // when
-      await courseRepository.save(courseDto);
-
-      // then
-      const savedCourse = await knex.select('*').from('learningcontent.courses').where({ id: courseDto.id }).first();
-      const [{ count }] = await knex('learningcontent.courses').count();
-      expect(count).to.equal(2);
-      expect(savedCourse).to.deep.equal({
-        id: 'courseIdA',
-        name: 'instruction Test Statique A',
-        description: 'description Test Statique A',
-        isActive: true,
-        competences: ['competenceIdA'],
-        challenges: ['challengeIdA'],
-      });
-    });
-
-    it('should update course when it does exist in DB', async function () {
-      // given
-      databaseBuilder.factory.learningContent.buildCourse({
-        id: 'courseIdA',
-        name: 'instruction Test Statique A',
-        description: 'description Test Statique A',
-        isActive: true,
-        competences: ['competenceIdA'],
-        challenges: ['challengeIdA'],
-      });
-      await databaseBuilder.commit();
-      const courseDto = {
-        id: 'courseIdA',
-        name: 'instruction Test Statique A modified',
-        description: 'description Test Statique A modified',
-        isActive: false,
-        competences: ['competenceIdA modified'],
-        challenges: ['challengeIdA1 modified', 'challengeIdA2 modified'],
-      };
-
-      // when
-      await courseRepository.save(courseDto);
-
-      // then
-      const savedCourse = await knex.select('*').from('learningcontent.courses').where({ id: courseDto.id }).first();
-      const [{ count }] = await knex('learningcontent.courses').count();
-      expect(count).to.equal(2);
-      expect(savedCourse).to.deep.equal({
-        id: 'courseIdA',
-        name: 'instruction Test Statique A modified',
-        description: 'description Test Statique A modified',
-        isActive: false,
-        competences: ['competenceIdA modified'],
-        challenges: ['challengeIdA1 modified', 'challengeIdA2 modified'],
       });
     });
   });

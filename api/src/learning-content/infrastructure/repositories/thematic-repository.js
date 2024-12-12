@@ -1,4 +1,3 @@
-import { clearCache } from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class ThematicRepository extends LearningContentRepository {
@@ -14,10 +13,6 @@ class ThematicRepository extends LearningContentRepository {
       competenceId,
       tubeIds,
     };
-  }
-
-  clearCache(id) {
-    clearCache(id);
   }
 }
 

@@ -49,19 +49,6 @@ function _getLogForHumans() {
   return processOutputingToTerminal && !forceJSONLogs;
 }
 
-function isEnabledByContainerModulo(envVarValue) {
-  const modulo = _getNumber(envVarValue, 0);
-  if (modulo === 0) return false;
-
-  const containerIndexString = process.env.CONTAINER?.split('-').at(-1);
-  if (!containerIndexString) return false;
-
-  const containerIndex = Number.parseInt(containerIndexString, 10);
-  if (Number.isNaN(containerIndex)) return false;
-
-  return containerIndex % modulo === 0;
-}
-
 const configuration = (function () {
   const config = {
     import: {
@@ -237,7 +224,6 @@ const configuration = (function () {
       showExperimentalMissions: toBoolean(process.env.FT_SHOW_EXPERIMENTAL_MISSIONS),
       showNewCampaignPresentationPage: toBoolean(process.env.FT_SHOW_NEW_CAMPAIGN_PRESENTATION_PAGE),
       showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
-      useNewLearningContent: isEnabledByContainerModulo(process.env.FT_USE_NEW_LEARNING_CONTENT_CONTAINER_MODULO),
     },
     hapi: {
       options: {},
@@ -461,7 +447,6 @@ const configuration = (function () {
     config.featureToggles.isLegalDocumentsVersioningEnabled = false;
     config.featureToggles.showNewResultPage = false;
     config.featureToggles.showExperimentalMissions = false;
-    config.featureToggles.useNewLearningContent = true;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';

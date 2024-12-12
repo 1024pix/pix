@@ -8,9 +8,9 @@ export function buildSkill({
   version = 5,
   level = 2,
   hintStatus = 'hintStatus Acquis A',
-  competenceId = null,
-  tubeId = null,
-  tutorialIds = [],
+  competenceId = 'competenceIdA',
+  tubeId = 'tubeIdA',
+  tutorialIds = ['tutorialIdA'],
   learningMoreTutorialIds = [],
   hint_i18n = { fr: 'Un indice' },
 } = {}) {

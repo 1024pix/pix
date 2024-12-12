@@ -34,7 +34,6 @@ function _extractTypeOfQroc(datasourceObject) {
 }
 
 const fromDatasourceObject = function (datasourceObject) {
-  // TODO scoring n'existe plus dans challenge
   const scoring = _.ensureString(datasourceObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
   const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);
   return new Solution({

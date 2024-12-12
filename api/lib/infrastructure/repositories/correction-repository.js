@@ -1,11 +1,14 @@
 import _ from 'lodash';
 
+// TODO modifier les dépendances avec datasource en meme temps que la PR de lecture, pour des considérations de perf
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
+import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
+import { Correction } from '../../../src/shared/domain/models/Correction.js';
 import { Hint } from '../../../src/shared/domain/models/Hint.js';
-import { Challenge } from '../../../src/shared/domain/models/index.js';
-import { Correction } from '../../../src/shared/domain/models/index.js';
-import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
-import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
+import {
+  challengeDatasource,
+  skillDatasource,
+} from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
@@ -18,10 +21,10 @@ const getByChallengeId = async function ({
   fromDatasourceObject,
   getCorrection,
 } = {}) {
-  const challengeForCorrection = await challengeRepository.get(challengeId, { forCorrection: true });
-  const skill = await _getSkill(challengeForCorrection, locale);
-  const hint = await _getHint(skill);
-  const solution = fromDatasourceObject(challengeForCorrection);
+  const challenge = await challengeDatasource.get(challengeId);
+  const skill = await _getSkill(challenge);
+  const hint = await _getHint({ skill, locale });
+  const solution = fromDatasourceObject(challenge);
   let correctionDetails;
 
   const tutorials = await _getTutorials({
@@ -39,17 +42,14 @@ const getByChallengeId = async function ({
     tutorialRepository,
   });
 
-  if (
-    challengeForCorrection.type === Challenge.Type.QROCM_DEP &&
-    answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS
-  ) {
+  if (challenge.type === Challenge.Type.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
     correctionDetails = getCorrection({ solution, answerValue });
   }
 
   return new Correction({
-    id: challengeForCorrection.id,
-    solution: challengeForCorrection.solution,
-    solutionToDisplay: challengeForCorrection.solutionToDisplay,
+    id: challenge.id,
+    solution: challenge.solution,
+    solutionToDisplay: challenge.solutionToDisplay,
     hint,
     tutorials,
     learningMoreTutorials: learningMoreTutorials,
@@ -59,22 +59,32 @@ const getByChallengeId = async function ({
 };
 export { getByChallengeId };
 
-async function _getHint(skill) {
-  if (_hasValidatedHint(skill) && skill.hint) {
-    return new Hint({
-      skillName: skill.name,
-      value: skill.hint,
-    });
+async function _getHint({ skill, locale }) {
+  if (_hasValidatedHint(skill)) {
+    return _convertSkillToHint({ skill, locale });
   }
-  return null;
 }
 
-function _getSkill(challenge, locale) {
-  return skillRepository.get(challenge.skillId, { locale: locale?.slice(0, 2), useFallback: false });
+function _getSkill(challengeDataObject) {
+  return skillDatasource.get(challengeDataObject.skillId);
 }
 
-function _hasValidatedHint(skill) {
-  return VALIDATED_HINT_STATUSES.includes(skill.hintStatus);
+function _hasValidatedHint(skillDataObject) {
+  return VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus);
+}
+
+function _convertSkillToHint({ skill, locale }) {
+  const matches = locale.match(/^([a-z]{2,3})-?[a-z]{0,3}$/);
+  const language = matches?.[1];
+  const translation = skill.hint_i18n?.[language];
+  if (!translation) {
+    return null;
+  }
+
+  return new Hint({
+    skillName: skill.name,
+    value: translation,
+  });
 }
 
 async function _getTutorials({ userId, skill, tutorialIdsProperty, locale, tutorialRepository }) {

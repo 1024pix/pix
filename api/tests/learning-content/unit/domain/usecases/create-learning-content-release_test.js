@@ -41,44 +41,34 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
       };
 
       const frameworkRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const areaRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const competenceRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const thematicRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const tubeRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const skillRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const challengeRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const courseRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const tutorialRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
       const missionRepository = {
-        saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
+        save: sinon.stub(),
       };
 
       // when
@@ -98,28 +88,16 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
 
       // then
       expect(LearningContentCache.instance.update).to.have.been.calledOnce;
-
-      expect(frameworkRepository.saveMany).to.have.been.calledOnceWithExactly(frameworks);
-      expect(areaRepository.saveMany).to.have.been.calledOnceWithExactly(areas);
-      expect(competenceRepository.saveMany).to.have.been.calledOnceWithExactly(competences);
-      expect(thematicRepository.saveMany).to.have.been.calledOnceWithExactly(thematics);
-      expect(tubeRepository.saveMany).to.have.been.calledOnceWithExactly(tubes);
-      expect(skillRepository.saveMany).to.have.been.calledOnceWithExactly(skills);
-      expect(challengeRepository.saveMany).to.have.been.calledOnceWithExactly(challenges);
-      expect(courseRepository.saveMany).to.have.been.calledOnceWithExactly(courses);
-      expect(tutorialRepository.saveMany).to.have.been.calledOnceWithExactly(tutorials);
-      expect(missionRepository.saveMany).to.have.been.calledOnceWithExactly(missions);
-
-      expect(frameworkRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(areaRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(competenceRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(thematicRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(tubeRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(skillRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(challengeRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(courseRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(tutorialRepository.clearCache).to.have.been.calledOnceWithExactly();
-      expect(missionRepository.clearCache).to.have.been.calledOnceWithExactly();
+      expect(frameworkRepository.save).to.have.been.calledOnceWithExactly(frameworks);
+      expect(areaRepository.save).to.have.been.calledOnceWithExactly(areas);
+      expect(competenceRepository.save).to.have.been.calledOnceWithExactly(competences);
+      expect(thematicRepository.save).to.have.been.calledOnceWithExactly(thematics);
+      expect(tubeRepository.save).to.have.been.calledOnceWithExactly(tubes);
+      expect(skillRepository.save).to.have.been.calledOnceWithExactly(skills);
+      expect(challengeRepository.save).to.have.been.calledOnceWithExactly(challenges);
+      expect(courseRepository.save).to.have.been.calledOnceWithExactly(courses);
+      expect(tutorialRepository.save).to.have.been.calledOnceWithExactly(tutorials);
+      expect(missionRepository.save).to.have.been.calledOnceWithExactly(missions);
     });
   });
 });

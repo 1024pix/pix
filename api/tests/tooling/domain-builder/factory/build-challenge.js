@@ -35,8 +35,6 @@ const buildChallenge = function ({
   skill = buildSkill(),
   // references
   competenceId = 'recCOMP1',
-  webComponentTagName,
-  webComponentProps,
 } = {}) {
   return new Challenge({
     id,
@@ -65,8 +63,6 @@ const buildChallenge = function ({
     alternativeVersion,
     blindnessCompatibility,
     colorBlindnessCompatibility,
-    webComponentProps,
-    webComponentTagName,
     // includes
     answer,
     validator,

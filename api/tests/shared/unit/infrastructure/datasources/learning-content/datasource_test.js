@@ -1,4 +1,4 @@
-import { learningContentCache } from '../../../../../../src/shared/infrastructure/caches/old/learning-content-cache.js';
+import { learningContentCache } from '../../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as dataSource from '../../../../../../src/shared/infrastructure/datasources/learning-content/datasource.js';
 import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { expect, sinon } from '../../../../../test-helper.js';

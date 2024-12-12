@@ -1,4 +1,3 @@
-import { clearCache } from '../../../shared/infrastructure/repositories/course-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class CourseRepository extends LearningContentRepository {
@@ -15,10 +14,6 @@ class CourseRepository extends LearningContentRepository {
       competences,
       challenges,
     };
-  }
-
-  clearCache(id) {
-    clearCache(id);
   }
 }
 

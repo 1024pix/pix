@@ -27,7 +27,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           name: '1. Information et données',
           title_i18n: { fr: 'Information et données' },
           color: 'jaffa',
-          frameworkId: 'Pix',
           competences: [
             {
               id: 'recsvLz0W2ShyfD63',
@@ -281,7 +280,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           name: '1. Information et données',
           title_i18n: { fr: 'Information et données' },
           color: 'jaffa',
-          frameworkId: 'Pix',
           competences: [
             {
               id: 'recsvLz0W2ShyfD63',
@@ -516,7 +514,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           name: '1. Information et données',
           title_i18n: { fr: 'Information et données' },
           color: 'jaffa',
-          frameworkId: 'Pix',
           competences: [
             {
               id: 'recsvLz0W2ShyfD63',

@@ -1,7 +1,8 @@
-import { Membership } from '../../../../../src/shared/domain/models/index.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,
+  domainBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
@@ -370,42 +371,14 @@ describe('Acceptance | API | Campaign Route', function () {
         targetProfileId: targetProfile.id,
         organizationId: organization.id,
       });
-      databaseBuilder.factory.learningContent.buildFramework({
-        id: 'recFramework',
-      });
-      databaseBuilder.factory.learningContent.buildArea({
-        id: 'recArea',
-        frameworkId: 'recFramework',
-        competenceIds: ['recCompetence'],
-      });
-      const competenceDB = databaseBuilder.factory.learningContent.buildCompetence({
-        id: 'recCompetence',
-        index: '2',
-        name_i18n: { fr: 'nom en français' },
-        areaId: 'recArea',
-        skillIds: ['recSkill'],
-        thematicIds: ['recThematic'],
-      });
-      databaseBuilder.factory.learningContent.buildThematic({
-        id: 'recThematic',
-        competenceId: 'recCompetence',
-        tubeIds: ['recTube'],
-      });
-      databaseBuilder.factory.learningContent.buildTube({
-        id: 'recTube',
-        competenceId: 'recCompetence',
-        thematicId: 'recThematic',
-        skillIds: ['recSkill'],
-      });
-      databaseBuilder.factory.learningContent.buildSkill({
-        id: 'recSkill',
-        status: 'actif',
-        competenceId: 'recCompetence',
-        tubeId: 'recTube',
-      });
+
+      const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent.frameworks[0].areas);
+      await mockLearningContent(learningContentObjects);
+
       databaseBuilder.factory.buildCampaignSkill({
         campaignId: campaign.id,
-        skillId: 'recSkill',
+        skillId: learningContentObjects.competences[0].skillIds[0],
       });
 
       databaseBuilder.factory.buildCampaignParticipation({
@@ -443,7 +416,7 @@ describe('Acceptance | API | Campaign Route', function () {
             competences: {
               data: [
                 {
-                  id: competenceDB.id,
+                  id: learningContentObjects.competences[0].id,
                   type: 'competences',
                 },
               ],
@@ -466,10 +439,10 @@ describe('Acceptance | API | Campaign Route', function () {
           },
           {
             type: 'competences',
-            id: competenceDB.id,
+            id: learningContentObjects.competences[0].id,
             attributes: {
-              index: competenceDB.index,
-              name: competenceDB.name_i18n.fr,
+              index: learningContentObjects.competences[0].index,
+              name: learningContentObjects.competences[0].name,
             },
           },
         ],

@@ -1,7 +1,7 @@
-import { Cache } from '../../../../../../src/shared/infrastructure/caches/old/Cache.js';
-import { expect } from '../../../../../test-helper.js';
+import { Cache } from '../../../../../src/shared/infrastructure/caches/Cache.js';
+import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Infrastructure | Caches | Old | Cache', function () {
+describe('Unit | Infrastructure | Caches | Cache', function () {
   const cacheInstance = new Cache();
 
   describe('#get', function () {

@@ -1,22 +1,11 @@
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
-import { databaseBuilder, expect } from '../../../../test-helper.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
+import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | UseCase | getMission', function () {
   it('Should return a mission', async function () {
-    // given
-    databaseBuilder.factory.learningContent.buildArea({
-      id: 'areaId',
-      code: '3',
-      competenceIds: ['competenceId'],
-    });
-    databaseBuilder.factory.learningContent.buildCompetence({
-      id: 'competenceId',
-      name_i18n: { fr: 'Name' },
-      index: '1.3',
-      areaId: 'areaId',
-    });
-    const missionDB = databaseBuilder.factory.learningContent.buildMission({
+    const mission = learningContentBuilder.buildMission({
       id: 12,
       name_i18n: { fr: 'truc' },
       competenceId: 'competenceId',
@@ -33,22 +22,31 @@ describe('Integration | UseCase | getMission', function () {
         dareChallenges: [],
       },
     });
-    const organizationId = databaseBuilder.factory.buildOrganization().id;
-    await databaseBuilder.commit();
 
-    // when
-    const returnedMission = await usecases.getMission({
-      missionId: 12,
-      organizationId,
+    const area = learningContentBuilder.buildArea({
+      code: 3,
+      competenceIds: ['competenceId'],
     });
 
-    // then
+    const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+    await mockLearningContent({
+      missions: [mission],
+      areas: [area],
+      competences: [{ id: 'competenceId', name_i18n: { fr: 'Name' }, index: '1.3' }],
+    });
+
     const expectedMission = new Mission({
-      ...missionDB,
-      name: missionDB.name_i18n.fr,
-      learningObjectives: missionDB.learningObjectives_i18n.fr,
-      validatedObjectives: missionDB.validatedObjectives_i18n.fr,
-      introductionMediaAlt: missionDB.introductionMediaAlt_i18n.fr,
+      id: 12,
+      name: 'truc',
+      competenceId: 'competenceId',
+      competenceName: '1.3 Name',
+      thematicId: 'thematicId',
+      status: 'a status',
+      areaCode: 3,
+      learningObjectives: 'Il était une fois',
+      validatedObjectives: 'Bravo ! tu as réussi !',
+      startedBy: '',
       content: {
         steps: [
           {
@@ -58,11 +56,12 @@ describe('Integration | UseCase | getMission', function () {
         dareChallenges: [],
       },
     });
-    expect(returnedMission).to.deep.equal({
-      ...expectedMission,
-      areaCode: '3',
-      competenceName: '1.3 Name',
-      startedBy: '',
+
+    const returnedMission = await usecases.getMission({
+      missionId: 12,
+      organizationId,
     });
+
+    expect(returnedMission).to.deep.equal(expectedMission);
   });
 });

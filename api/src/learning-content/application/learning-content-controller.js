@@ -16,7 +16,7 @@ const patchCacheEntry = async function (request, h) {
   const updatedRecord = request.payload;
   const recordId = request.params.id;
   const modelName = request.params.model;
-  await usecases.schedulePatchLearningContentCacheEntryJob({ recordId, updatedRecord, modelName });
+  await usecases.patchLearningContentCacheEntry({ recordId, updatedRecord, modelName });
   return h.response().code(204);
 };
 

@@ -31,8 +31,8 @@
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npm start",
     "start:orga": "cd ../../orga && npm start",
-    "test:ci:app": "npx wait-on http://localhost:3000/api http://localhost:4200 && npm run cy:run:ci:app",
-    "test:ci:orga": "npx wait-on http://localhost:3000/api http://localhost:4201 && npm run cy:run:ci:orga"
+    "test:ci:app": "npm run db:initialize && npx wait-on http://localhost:3000/api http://localhost:4200 && npm run cy:run:ci:app",
+    "test:ci:orga": "npm run db:initialize && npx wait-on http://localhost:3000/api http://localhost:4201 && npm run cy:run:ci:orga"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.0.0",

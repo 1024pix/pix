@@ -1,4 +1,3 @@
-import { clearCache } from '../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 class TutorialRepository extends LearningContentRepository {
@@ -16,10 +15,6 @@ class TutorialRepository extends LearningContentRepository {
       link,
       locale,
     };
-  }
-
-  clearCache(id) {
-    clearCache(id);
   }
 }
 

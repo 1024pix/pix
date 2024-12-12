@@ -1,9 +1,9 @@
 import nock from 'nock';
 
-import { learningContentCache } from '../../../../../../src/shared/infrastructure/caches/old/learning-content-cache.js';
-import { expect, mockLearningContent, sinon } from '../../../../../test-helper.js';
+import { learningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
+import { expect, mockLearningContent, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Caches | Old | LearningContentCache', function () {
+describe('Integration | Infrastructure | Caches | LearningContentCache', function () {
   describe('#get', function () {
     it('should get learning content from underlying cache (redis not used in test)', async function () {
       // given

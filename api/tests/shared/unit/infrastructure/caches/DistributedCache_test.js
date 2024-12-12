@@ -1,7 +1,7 @@
-import { DistributedCache } from '../../../../../../src/shared/infrastructure/caches/old/DistributedCache.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { DistributedCache } from '../../../../../src/shared/infrastructure/caches/DistributedCache.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Infrastructure | Caches | Old | DistributedCache', function () {
+describe('Unit | Infrastructure | Caches | DistributedCache', function () {
   let distributedCacheInstance;
   let underlyingCache;
   const channel = 'channel';
