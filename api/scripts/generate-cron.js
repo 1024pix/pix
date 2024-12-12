@@ -3,13 +3,8 @@ const cronContent = {
 };
 
 if (process.env.CACHE_RELOAD_TIME) {
-  const cacheReloadJob = {
+  cronContent.jobs.push({
     command: `${process.env.CACHE_RELOAD_TIME} npm run cache:refresh`,
-  };
-  if (process.env.CACHE_RELOAD_CONTAINER_SIZE) {
-    cacheReloadJob.size = process.env.CACHE_RELOAD_CONTAINER_SIZE;
-  }
-  cronContent.jobs.push(cacheReloadJob);
+  });
 }
-
 console.log(JSON.stringify(cronContent));
