@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
+import { campaignParticipationResultRepository } from '../../../../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
@@ -96,6 +97,7 @@ const dependencies = {
   campaignParticipantRepository: campaignRepositories.campaignParticipantRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
+  campaignParticipationResultRepository,
   campaignProfileRepository,
   campaignRepository,
   targetProfileRepository,
