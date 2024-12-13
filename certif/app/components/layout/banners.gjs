@@ -5,8 +5,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-const ACTION_URL_FOR_INFORMATION_BANNER = 'https://cloud.pix.fr/s/GqwW6dFDDrHezfS';
-
 export default class Banners extends Component {
   @tracked isBannerVisible = true;
   @service session;
@@ -38,13 +36,8 @@ export default class Banners extends Component {
 
   <template>
     {{#if this.shouldDisplaySCOInformationBanner}}
-      <PixBannerAlert
-        @actionLabel={{t 'pages.sco.banner.url-label'}}
-        @actionUrl={{ACTION_URL_FOR_INFORMATION_BANNER}}
-        @canCloseBanner='true'
-        class='banners'
-      >
-        {{t 'pages.sco.banner.information'}}
+      <PixBannerAlert @canCloseBanner='true' class='banners'>
+        {{t 'pages.sco.banner.information' htmlSafe=true}}
       </PixBannerAlert>
     {{/if}}
 

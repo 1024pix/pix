@@ -16,7 +16,7 @@ module('Acceptance | authenticated', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks, 'fr');
 
-  module('Sibebar', function () {
+  module('Sidebar', function () {
     module('When user clicks the sidebar logo', function () {
       test('it should redirect to the sessions list page', async function (assert) {
         // given
@@ -276,11 +276,12 @@ module('Acceptance | authenticated', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                'La certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 pour les lycées et du 17 mars au 13 juin 2025 pour les collèges. Pensez à consulter la',
+                (content) =>
+                  content.startsWith('La Certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 ') &&
+                  content.endsWith('Collèges : du 17 mars au 13 juin 2025.'),
               ),
             )
             .exists();
-          assert.dom(screen.getByRole('link', { name: 'documentation pour voir les nouveautés.' })).exists();
         });
       });
 
@@ -294,10 +295,15 @@ module('Acceptance | authenticated', function (hooks) {
           const screen = await visit('/sessions');
 
           // then
-          const certificationBannerMessage = screen.queryByText(
-            'La certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 pour les lycées et du 17 mars au 13 juin 2025 pour les collèges. Pensez à consulter la',
-          );
-          assert.dom(certificationBannerMessage).doesNotExist();
+          assert
+            .dom(
+              screen.queryByText(
+                (content) =>
+                  content.startsWith('La Certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 ') &&
+                  content.endsWith('Collèges : du 17 mars au 13 juin 2025.'),
+              ),
+            )
+            .doesNotExist();
         });
       });
     });

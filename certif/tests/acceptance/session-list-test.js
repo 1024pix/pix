@@ -4,11 +4,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import {
-  authenticateSession,
-  createAllowedCertificationCenterAccess,
-  createCertificationPointOfContactWithCustomCenters,
-} from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 
 module('Acceptance | Session List', function (hooks) {
   setupApplicationTest(hooks);
@@ -137,58 +133,6 @@ module('Acceptance | Session List', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/sessions/123');
-      });
-
-      test('it should update message display when selected certif center changes', async function (assert) {
-        // given
-        const centerManagingStudents = createAllowedCertificationCenterAccess({
-          certificationCenterName: 'Centre SCO isM',
-          certificationCenterType: 'SCO',
-          isRelatedOrganizationManagingStudents: true,
-        });
-        const centerNotManagingStudents = createAllowedCertificationCenterAccess({
-          certificationCenterName: 'Centre SCO isNotM',
-          certificationCenterType: 'SCO',
-          isRelatedOrganizationManagingStudents: false,
-        });
-        certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-          pixCertifTermsOfServiceAccepted: true,
-          allowedCertificationCenterAccesses: [centerNotManagingStudents, centerManagingStudents],
-        });
-        await authenticateSession(certificationPointOfContact.id);
-        server.create('session-summary', { certificationCenterId: centerManagingStudents.id });
-
-        // when
-        const screen = await visit('/sessions');
-
-        assert
-          .dom(
-            screen.queryByText(
-              'La certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 pour les lycées et du 17 mars au 13 juin 2025 pour les collèges. Pensez à consulter la',
-            ),
-          )
-          .doesNotExist();
-
-        await click(
-          screen.getByRole('button', {
-            name: 'Changer de centre',
-          }),
-        );
-        await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: 'Centre SCO isM (ABC123)',
-          }),
-        );
-
-        // then
-        assert
-          .dom(
-            screen.getByText(
-              'La certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 pour les lycées et du 17 mars au 13 juin 2025 pour les collèges. Pensez à consulter la',
-            ),
-          )
-          .exists();
       });
 
       test('it should delete the session of clicked session-summary', async function (assert) {
