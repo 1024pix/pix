@@ -1,4 +1,4 @@
-import { usecases } from '../../../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import * as poleEmploiNotifier from '../../../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import {
   databaseBuilder,
