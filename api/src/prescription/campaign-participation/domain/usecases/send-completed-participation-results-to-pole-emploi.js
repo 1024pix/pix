@@ -1,8 +1,8 @@
-import { PoleEmploiSending } from '../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
-import { PoleEmploiPayload } from '../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import * as httpErrorsHelper from '../../infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../infrastructure/http/http-agent.js';
+import * as httpErrorsHelper from '../../../../../lib/infrastructure/http/errors-helper.js';
+import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
 
 const sendCompletedParticipationResultsToPoleEmploi = async ({
   campaignParticipationId,
