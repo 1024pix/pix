@@ -153,16 +153,6 @@
         {
           "type": "element",
           "element": {
-            "id": "8ee0a2bf-d1e7-4667-9f39-1f370021e3b0",
-            "type": "image",
-            "url": "https://i.imgur.com/vLjiCJs.png",
-            "alt": "",
-            "alternativeText": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
             "content": "<h3>La plupart des collèges et des lycées et certaines écoles primaire ont un ENT mais ce n'est pas obligatoire.</h3>\n\n<p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p>\n<p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.</p>"
