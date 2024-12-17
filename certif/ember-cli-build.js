@@ -24,13 +24,13 @@ module.exports = function (defaults) {
     },
     '@embroider/macros': {
       setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
         'ember-qunit': {
           theme: 'ember',
         },
       },
+    },
+    emberData: {
+      polyfillUUID: true,
     },
   });
 

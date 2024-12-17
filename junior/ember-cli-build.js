@@ -20,12 +20,8 @@ module.exports = function (defaults) {
     'ember-cli-babel': {
       includePolyfill: true,
     },
-    '@embroider/macros': {
-      setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
-      },
+    emberData: {
+      polyfillUUID: true
     },
   });
 

@@ -22,12 +22,8 @@ module.exports = function (defaults) {
     babel: {
       plugins: [require.resolve('ember-auto-import/babel-plugin')],
     },
-    '@embroider/macros': {
-      setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
-      },
+    emberData: {
+      polyfillUUID: true,
     },
   });
 
