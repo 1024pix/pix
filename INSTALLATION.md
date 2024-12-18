@@ -4,9 +4,10 @@
 
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
-- [Git](https://git-scm.com/) (2.6.4)
+- [Git](https://git-scm.com/) (2+)
 - [Node.js](https://nodejs.org/) (version utilisée disponible dans les fichiers [.nvmrc](https://github.com/1024pix/pix/blob/dev/.nvmrc)) il est recommandé d'utiliser un gestionnaire de versions tel que [nvm](https://github.com/nvm-sh/nvm)
-- [Docker](https://docs.docker.com/get-started/) (20.10)
+- [pnpm](https://pnpm.io/fr/installation) (9+)
+- [Docker](https://docs.docker.com/get-started/) (20+)
 
 > ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que
 > l'application fonctionne avec des versions différentes.
@@ -35,22 +36,6 @@ git clone --filter tree:0  git@github.com:1024pix/pix.git && cd pix
 
 ### Configurer l'environnement de développement sous Windows (si applicable)
 
-Définir dans `.npmrc` l'invite de commande à utiliser pour lancer les script-shell.
-
-Ouvrir une invite de commande (`cmd.exe`) puis:
-
-- installation 64bit :
-
-```bash
-npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
-```
-
-- installation 32bit:
-
-```bash
-npm config set script-shell "C:\\Program Files (x86)\\git\\bin\\bash.exe"
-```
-
 Enfin, pour éviter les problèmes de retour ligne sous Windows:
 
 ```bash
@@ -67,7 +52,7 @@ Le script d'installation effectue les tâches suivantes :
 - installer les librairies communes à tous les projets
 
 Il prend moins de 5 minutes.
-Exécutez-le avec  `npm run configure`
+Exécutez-le avec `pnpm configure`
 
 Vérifiez que le script s'est bien terminé : le message "🎉 Congratulations! Your environment has been set up." doit être
 affiché. Si ce n'est pas le cas, contactez les équipes de développement en
@@ -86,18 +71,18 @@ Les extensions recommandées peuvent se retrouver dans l'onglet extension en ren
 
 ### Démarrer les applications
 
-Pour démarrer l'ensemble des applications, exécuter `npm run dev`
+Pour démarrer l'ensemble des applications, exécuter `pnpm dev`
 
 ⚠️ Cela prend entre 10 et 15 minutes et la consommation mémoire est élevée lors de cette opération.
 
 Si cela pose problème, démarrer sélectivement les applications :
 
-- Admin : `npm run dev:admin`
-- Api : `npm run dev:api`
-- App : `npm run dev:mon-pix`
-- Certif : `npm run dev:certif`
-- Orga : `npm run dev:orga`
-- Pix1d : `npm run dev:pix1d`
+- Admin : `pnpm --filter pix-admin dev`
+- Api : `pnpm --filter pix-api dev`
+- App : `pnpm --filter mon-pix dev`
+- Certif : `pnpm --filter pix-certif dev`
+- Orga : `pnpm --filter pix-orga dev`
+- Pix1d : `pnpm --filter pix-pix1d dev`
 
 ### Accéder aux applications
 
@@ -119,7 +104,7 @@ Se connecter à la base de données :
 - de test manuel : `docker exec -it pix-api-postgres psql -U postgres pix`;
 - de test automatique : `docker exec -it pix-api-postgres psql -U postgres pix_test`.
 
-Se connecter au cache :  `docker exec -it pix-api-redis redis-cli`
+Se connecter au cache : `docker exec -it pix-api-redis redis-cli`
 
 #### Configuration
 
@@ -170,19 +155,19 @@ plutôt que `localhost:port` :
 Pour configurer les domaines locaux, exécuter le script :
 
 ```bash
-sudo npm run domains:install
+sudo pnpm domains:install
 ```
 
 Démarrer le conteneur docker :
 
 ```bash
-npm run domains:start
+pnpm domains:start
 ```
 
 Arrêter le conteneur :
 
 ```bash
-npm run domains:stop
+pnpm domains:stop
 ```
 
 #### Charger des SSO OIDC lors du chargement des seeds
@@ -203,18 +188,18 @@ ci-dessous.
    ```
 
 2. Définir la variable d’environnement `OIDC_PROVIDERS` avec le contenu du
-fichier `OIDC_PROVIDERS.json` :
+   fichier `OIDC_PROVIDERS.json` :
 
    ```shell
    export OIDC_PROVIDERS=$(cat OIDC_PROVIDERS.json)
    ```
 
 3. Exécuter le chargement des seeds avec du debug pour constater le bon
-chargement des SSO OIDC :
+   chargement des SSO OIDC :
 
    ```shell
    export DEBUG="pix:oidc-providers:*"
-   npm run db:reset
+   pnpm --filter pix-api db:reset
    ```
 
 #### Exécuter le lint à chaque commit
@@ -227,13 +212,13 @@ Malgré cela, il peut arriver que des erreurs de lint soient introduites.
 Pour tenter de les corriger automatiquement lors du commit, installer un hook de pre-commit.
 
 ```
-npm run local:add-optional-checks
+pnpm local:add-optional-checks
 ```
 
 Si vous souhaitez désactiver
 
 ```
-npm run local:remove-optional-checks
+pnpm local:remove-optional-checks
 ```
 
 #### Détecter des secrets
@@ -241,13 +226,13 @@ npm run local:remove-optional-checks
 Installer un hook de pre-commit.
 
 ```
-npm run local:add-optional-checks
+pnpm local:add-optional-checks
 ```
 
 Si vous souhaitez le désactiver
 
 ```
-npm run local:remove-optional-checks
+pnpm local:remove-optional-checks
 ```
 
 #### Tester les envois d'e-mails
@@ -264,7 +249,7 @@ MAILING_ENABLED=true
 MAILING_PROVIDER=mailpit
 ```
 
-Mailpit est inclus dans les images du fichier docker-compose.yml et sera donc lancé automatiquement.  
+Mailpit est inclus dans les images du fichier docker-compose.yml et sera donc lancé automatiquement.
 
 On peut accéder à l'interface web Mailpit à l'adresse http://localhost:8025.
 
@@ -278,4 +263,3 @@ export DEBUG="pix:mailer:email"
 ```
 
 Cette variable d'environnement peut également être alimentée dans le fichier [.env](api/.env).
-
