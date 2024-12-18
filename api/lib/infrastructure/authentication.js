@@ -42,6 +42,18 @@ async function _checkIsAuthenticated(request, h, { key, validate }) {
       return boom.unauthorized();
     }
 
+    const issuedAt = new Date(decodedAccessToken.iat * 1000);
+    console.warn('decodedAccessToken iat:', issuedAt);
+    const revokeTokensFromUserId = 10001; // allorga@example.net
+    const revokeTokensFromUserBeforeDate = new Date('2024-12-18T12:31:00.000Z'); // 13h31
+    console.warn(`revokeTokensFromUserBeforeDate ${revokeTokensFromUserBeforeDate}`);
+    if (decodedAccessToken.user_id == revokeTokensFromUserId && issuedAt < revokeTokensFromUserBeforeDate) {
+      console.warn(
+        `Token REVOKED: issuedAt ${issuedAt} < revokeTokensFromUserBeforeDate ${revokeTokensFromUserBeforeDate}`,
+      );
+      return boom.unauthorized();
+    }
+
     const { isValid, credentials, errorCode } = validate(decodedAccessToken, request, h);
     if (isValid) {
       return h.authenticated({ credentials });
