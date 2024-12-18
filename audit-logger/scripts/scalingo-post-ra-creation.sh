@@ -1,3 +1,3 @@
 #!/bin/bash
 
-npm run postdeploy
+pnpm run postdeploy

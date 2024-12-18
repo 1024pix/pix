@@ -1,4 +1,4 @@
 #!/bin/bash
 
-npm run postdeploy
-npm run db:seed
+pnpm run postdeploy
+pnpm run db:seed

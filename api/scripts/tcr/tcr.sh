@@ -5,12 +5,12 @@ files=( "$@" )
 
 function _lint () {
   echo "TCR => LINT"
-  npx eslint $alteredFilePaths --fix
+  pnpm exec eslint $alteredFilePaths --fix
 }
 
 function _test () {
   echo "TCR => TEST"
-  npm run test:api:path "${files[0]}" -- --bail
+  pnpm run test:api:path "${files[0]}" -- --bail
 }
 
 function _commit () {
