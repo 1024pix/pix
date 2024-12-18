@@ -53,13 +53,13 @@
       "is-shared": "Delen (J/N)",
       "mastery-percentage-target-profile": "% beheersing van alle vaardigheden in het profiel",
       "progress": "% toename",
-      "shared-on": "Gedeelde datum en tijd (Europa/Parijs)",
+      "shared-on": "Datum van splitsing",
       "skill": {
         "items-successfully-completed": "Vaardigheden beheerst in de {naam} competentie",
         "mastery-percentage": "% beheersing van verworven vaardigheden {naam}",
         "total-items": "Aantal prestaties van het doelprofiel in de vaardigheid {naam}"
       },
-      "started-on": "Startdatum en tijd (Europa/Parijs)",
+      "started-on": "Startdatum",
       "status": {
         "ko": "KO",
         "not-tested": "Niet getest",
@@ -89,7 +89,7 @@
       "is-certifiable": "Certificeerbaar (J/N)",
       "is-sent": "Verzenden (J/N)",
       "pix-score": "Totaal aantal pix",
-      "sent-on": "Datum en tijd van verzending (Europa/Parijs)",
+      "sent-on": "Datum van verzending",
       "skill-level": "Niveau voor vaardigheid {naam}",
       "skill-ranking": "Aantal pix voor vaardigheid {naam}"
     }
@@ -227,14 +227,6 @@
       "REJECTED_AUTOMATICALLY_COMMENT": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg."
     }
   },
-  "common": {
-    "email": {
-      "contactUs": "contact us here",
-      "doNotAnswer": "This is an automated email message, please do not reply.",
-      "moreOn": "More on",
-      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills."
-    }
-  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
@@ -363,13 +355,12 @@
       "askForHelp": "Hulp nodig? Neem contact met ons op",
       "disclaimer": "Als je de account niet hebt aangemaakt, kun je vragen om deze te verwijderen.",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
-      "goToPix": "Ik bevestig mijn e-mailadres",
+      "goToPix": "Beginnen met de tests",
       "helpdeskLinkLabel": "hier",
       "moreOn": "Ontdek meer over",
       "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "subtitle": "Bedankt voor het aanmaken van je account. Er is nog één stap over om je account te beveiligen door je e-mailadres te valideren.",
-      "subtitleDescription": "Het is heel eenvoudig, klik op de knop hieronder en log in op je Pix-account.",
-      "title": "Hallo {firstName},"
+      "subtitle": "Je kunt nu beginnen met de tests.",
+      "title": "Je Pix-account is aangemaakt!"
     },
     "subject": "Je Pix-account is aangemaakt"
   },
@@ -389,14 +380,14 @@
   },
   "self-account-deletion-email": {
     "params": {
-      "hello": "Hello {firstName},",
-      "requestConfirmation": "Following your request, we can confirm that your Pix account and personal data have been deleted.",
-      "seeYouSoon": "We hope to see you soon for new digital adventures.",
-      "signing": "The Pix team",
-      "title": "Deleting your account",
-      "warning": "If you are not the source of this request, please contact support."
+      "hello": "Hallo {voornaam},",
+      "requestConfirmation": "Na je verzoek zullen we de verwijdering van je Pix-account en je persoonlijke gegevens bevestigen.",
+      "seeYouSoon": "We hopen je snel te zien voor nieuwe digitale avonturen.",
+      "signing": "Het Pix-team",
+      "title": "Je account verwijderen",
+      "warning": "Als u niet de bron van dit verzoek bent, neem dan contact op met ondersteuning."
     },
-    "subject": "Deleting your account"
+    "subject": "Je account verwijderen"
   },
   "verification-code-email": {
     "body": {
