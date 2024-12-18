@@ -2,9 +2,9 @@
 
 set -e
 
-npx lint-staged --cwd junior
-npx lint-staged --cwd admin
-npx lint-staged --cwd certif
-npx lint-staged --cwd mon-pix
-npx lint-staged --cwd orga
-npx lint-staged
+pnpm exec lint-staged --cwd junior
+pnpm exec lint-staged --cwd admin
+pnpm exec lint-staged --cwd certif
+pnpm exec lint-staged --cwd mon-pix
+pnpm exec lint-staged --cwd orga
+pnpm exec lint-staged
