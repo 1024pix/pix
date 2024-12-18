@@ -49,7 +49,7 @@ function verify_prerequesite_programs() {
 
   assert_program_is_installed "git"
   assert_program_is_installed "node"
-  assert_program_is_installed "npm"
+  assert_program_is_installed "pnpm"
   assert_program_is_installed "docker"
 
   echo "✅ Required programs have been found."
@@ -57,20 +57,24 @@ function verify_prerequesite_programs() {
 }
 
 function generate_environment_config_file() {
-  echo "Generating environment config file for Pix API (api/.env)…"
-
+  echo "Generating environment config file for Pix API…"
   cp api/sample.env api/.env
-
   echo "✅ api/.env file copied from api/sample.env."
   echo ""
+
+  echo "Generating environment config file for Audit logger…"
+  cp audit-logger/sample.env audit-logger/.env
+  echo "✅ audit-logger/.env file copied from audit-logger/sample.env."
+  echo ""
+
 }
 
 function install_apps_dependencies() {
-  echo "Installing Pix root dependencies…"
+  echo "Installing apps dependencies…"
 
-  npm ci
+  pnpm install --frozen-lockfile
 
-  echo "✅ Root dependencies installed."
+  echo "✅ Apps dependencies installed."
   echo ""
 }
 
@@ -92,48 +96,10 @@ function setup_and_run_infrastructure() {
   echo "Creating database"
 
   # It drops and creates database then load the seed.
-  (cd api && npm ci && npm run db:reset)
+  pnpm --filter pix-api db:reset
 
   echo "✅ Database created"
   echo ""
-
-  # Install dependencies for  admin
-  echo "Installing dependencies for admin"
-  (cd admin && npm ci)
-  echo "✅ Dependencies for admin were installed"
-  echo ""
-
-  # Install dependencies for audit-logger
-  echo "Installing dependencies for audit-logger"
-  (cd audit-logger && npm ci)
-  echo "✅ Dependencies for audit-logger were installed"
-  echo ""
-
-  # Install dependencies for "certif"
-  echo "Installing dependencies for certif"
-  (cd certif && npm ci)
-  echo "✅ Dependencies for certif were installed"
-  echo ""
-
-  # Install dependencies for "junior"
-  echo "Installing dependencies for junior"
-  (cd junior && npm ci)
-  echo "✅ Dependencies for junior were installed"
-  echo ""
-
-  # Install dependencies for "mon-pix"
-  echo "Installing dependencies for mon-pix"
-  (cd mon-pix && npm ci)
-  echo "✅ Dependencies for mon-pix were installed"
-  echo ""
-
-  # Install dependencies for orga
-  echo "Installing dependencies for orga"
-  (cd orga && npm ci)
-  echo "✅ Dependencies for orga were installed"
-  echo "-----------"
-  echo "✔ All dependencies were downloaded and installed"
-
 }
 
 function display_footer {
@@ -146,6 +112,6 @@ display_banner
 display_header
 verify_prerequesite_programs
 generate_environment_config_file
-setup_and_run_infrastructure
 install_apps_dependencies
+setup_and_run_infrastructure
 display_footer
