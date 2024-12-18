@@ -301,7 +301,9 @@
     "template-name": "modelo de importación"
   },
   "email-sender-name": {
-    "pix-app": "PIX - No contestar"
+    "pix-app": "PIX - No contestar",
+    "pix-certif": "Pix Certif - No responder",
+    "pix-orga": "Pix Orga - No responder"
   },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Debes aceptar las condiciones de uso de Pix para crear una cuenta.",
@@ -376,6 +378,7 @@
       "moreOn": "Más información sobre",
       "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar las competencias digitales.",
       "subtitle": "Ya puedes empezar las pruebas.",
+      "subtitleDescription": "Es muy sencillo, sólo tienes que hacer clic en el botón de abajo e iniciar sesión en tu cuenta Pix.",
       "title": "¡Tu cuenta Pix ha sido creada correctamente!"
     },
     "subject": "tu cuenta Pix ha sido creada correctamente"
