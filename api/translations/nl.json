@@ -227,6 +227,14 @@
       "REJECTED_AUTOMATICALLY_COMMENT": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg."
     }
   },
+  "common": {
+    "email": {
+      "contactUs": "neem hier contact met ons op",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "moreOn": "Ontdek meer over",
+      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden."
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {

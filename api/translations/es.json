@@ -227,6 +227,14 @@
       "REJECTED_AUTOMATICALLY_COMMENT": "El candidato respondió incorrectamente a más del 50% de las preguntas, lo que invalidó toda su certificación y le supuso una puntuación de 0 píxeles."
     }
   },
+  "common": {
+    "email": {
+      "contactUs": "Contáctanos.",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor, no respondas directamente.",
+      "moreOn": "Más información sobre",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales."
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
