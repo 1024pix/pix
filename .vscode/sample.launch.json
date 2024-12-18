@@ -14,7 +14,7 @@
       "type": "node",
       "request": "launch",
       "name": "api watch",
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "runtimeArgs": ["run", "start:watch"],
       "restart": true,
       "console": "integratedTerminal",
