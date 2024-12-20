@@ -407,6 +407,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('triggerFiltering', triggerFiltering);
         this.set('selectedBadges', []);
 
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
         // when
         const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
@@ -425,6 +428,13 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // then
         assert.ok(triggerFiltering.calledWith('badges', ['badge1']));
+
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Campagnes',
+          'pix-event-action': 'Filtre sur les Résultats Thématiques',
+          'pix-event-name': 'Usage du filtre sur les Résultats Thématiques',
+        });
       });
     });
 

@@ -8,16 +8,16 @@ import { expect } from '../../../../test-helper.js';
 const { PIX_ORGA } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
-describe('Unit | Legal documents | Domain | Use case | create-legal-document', function () {
+describe('Unit | Legal documents | Domain | Use case | accept-legal-document-by-user-id', function () {
   context('when the legal document type is invalid', function () {
     it('throws an error', async function () {
       // given
-      const type = 'invalid-type';
+      const userId = 123;
       const service = PIX_ORGA;
-      const versionAt = new Date('2024-12-01');
+      const type = 'invalid-type';
 
       // when / then
-      await expect(usecases.createLegalDocument({ service, type, versionAt })).to.have.been.rejectedWith(
+      await expect(usecases.acceptLegalDocumentByUserId({ userId, service, type })).to.have.been.rejectedWith(
         Joi.ValidationError,
       );
     });
@@ -26,12 +26,12 @@ describe('Unit | Legal documents | Domain | Use case | create-legal-document', f
   context('when the legal document service is invalid', function () {
     it('throws an error', async function () {
       // given
-      const type = TOS;
+      const userId = 123;
       const service = 'invalid-service';
-      const versionAt = new Date('2024-12-01');
+      const type = TOS;
 
       // when / then
-      await expect(usecases.createLegalDocument({ service, type, versionAt })).to.have.been.rejectedWith(
+      await expect(usecases.acceptLegalDocumentByUserId({ userId, service, type })).to.have.been.rejectedWith(
         Joi.ValidationError,
       );
     });

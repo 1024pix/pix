@@ -4,8 +4,8 @@ import { LegalDocumentType } from '../../../../../src/legal-documents/domain/mod
 import * as legalDocumentRepository from '../../../../../src/legal-documents/infrastructure/repositories/legal-document.repository.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
-const { TOS } = LegalDocumentType.VALUES;
 const { PIX_ORGA, PIX_APP } = LegalDocumentService.VALUES;
+const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Legal document | Infrastructure | Repository | legal-document', function () {
   describe('#findLastVersionByTypeAndService', function () {
@@ -32,7 +32,7 @@ describe('Integration | Legal document | Infrastructure | Repository | legal-doc
       await databaseBuilder.commit();
 
       // when
-      const lastDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ type, service });
+      const lastDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ service, type });
 
       // then
       expect(lastDocument).to.deepEqualInstance(domainBuilder.buildLegalDocument(expectedDocument));
@@ -58,11 +58,11 @@ describe('Integration | Legal document | Infrastructure | Repository | legal-doc
       const versionAt = new Date('2024-12-01');
 
       // when
-      const createdDocument = await legalDocumentRepository.create({ type, service, versionAt });
+      const createdDocument = await legalDocumentRepository.create({ service, type, versionAt });
 
       // then
       expect(createdDocument).to.be.instanceOf(LegalDocument);
-      expect(createdDocument).to.deep.include({ type, service, versionAt });
+      expect(createdDocument).to.deep.include({ service, type, versionAt });
     });
   });
 });

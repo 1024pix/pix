@@ -33,7 +33,7 @@ export class AddNewLegalDocumentVersion extends Script {
   }
 
   async handle({ options, logger }) {
-    let { type, service } = options;
+    let { service, type } = options;
     const { versionAt } = options;
 
     type = type.trim();
@@ -41,7 +41,7 @@ export class AddNewLegalDocumentVersion extends Script {
 
     logger.info(`Adding new legal document for type:${type}, service:${service}, versionAt:${versionAt}`);
 
-    await usecases.createLegalDocument({ type, service, versionAt });
+    await usecases.createLegalDocument({ service, type, versionAt });
     logger.info(`New legal document for type:${type}, service:${service}, versionAt:${versionAt} added successfully.`);
   }
 }

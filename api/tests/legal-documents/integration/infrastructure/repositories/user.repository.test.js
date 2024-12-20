@@ -20,4 +20,32 @@ describe('Integration | Legal document | Infrastructure | Repository | user', fu
       expect(updatedUser.lastPixOrgaTermsOfServiceValidatedAt).to.be.a('date');
     });
   });
+
+  describe('#findPixOrgaCgusByUserId', function () {
+    it('returns the Pix Orga CGU for a user id', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({
+        pixOrgaTermsOfServiceAccepted: true,
+        lastPixOrgaTermsOfServiceValidatedAt: new Date('2024-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const userPixOrgaCgu = await userRepository.findPixOrgaCgusByUserId(user.id);
+
+      // then
+      expect(userPixOrgaCgu.pixOrgaTermsOfServiceAccepted).to.equal(true);
+      expect(userPixOrgaCgu.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(new Date('2024-01-01'));
+    });
+
+    context('when the user does not exist', function () {
+      it('returns null', async function () {
+        // when
+        const userPixOrgaCgu = await userRepository.findPixOrgaCgusByUserId(123);
+
+        // then
+        expect(userPixOrgaCgu).to.be.null;
+      });
+    });
+  });
 });

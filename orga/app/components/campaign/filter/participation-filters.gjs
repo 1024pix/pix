@@ -15,6 +15,7 @@ import SearchInputFilter from '../../ui/search-input-filter';
 export default class ParticipationFilters extends Component {
   @service intl;
   @service currentUser;
+  @service metrics;
 
   @tracked stages = [];
   @tracked isStagesLoading = true;
@@ -146,6 +147,13 @@ export default class ParticipationFilters extends Component {
   @action
   onSelectBadge(badges) {
     this.args.onFilter('badges', badges);
+
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Campagnes',
+      'pix-event-action': 'Filtre sur les Résultats Thématiques',
+      'pix-event-name': 'Usage du filtre sur les Résultats Thématiques',
+    });
   }
 
   @action

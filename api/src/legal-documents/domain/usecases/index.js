@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { config } from '../../../shared/config.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
@@ -17,7 +16,7 @@ const repositories = {
   userRepository,
 };
 
-const dependencies = Object.assign({ config, logger }, repositories);
+const dependencies = Object.assign({ logger }, repositories);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
