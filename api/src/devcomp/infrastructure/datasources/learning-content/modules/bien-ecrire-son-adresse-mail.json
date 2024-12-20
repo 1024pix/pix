@@ -200,6 +200,10 @@
                       "tolerances": [],
                       "options": [
                         {
+                          "id": "3",
+                          "content": "le séparateur"
+                        },
+                        {
                           "id": "1",
                           "content": "l'identifiant"
                         },
@@ -223,6 +227,10 @@
                       "defaultValue": "",
                       "tolerances": [],
                       "options": [
+                        {
+                          "id": "3",
+                          "content": "le séparateur"
+                        },
                         {
                           "id": "1",
                           "content": "l'identifiant"
