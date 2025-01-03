@@ -1,0 +1,101 @@
+{
+  "id": "08ef1a47-b691-4138-b899-39f3512fa152",
+  "slug": "tmp08ef-tmp",
+  "title": "Derrière le prompt : comment fonctionnent les IA génératives ?",
+  "isBeta": false,
+  "details": {
+    "image": "",
+    "description": "<p>ChatGPT, Mistral, Dall-E : les systèmes d’Intelligence Artificielle (IA) générative sont de plus en plus utilisés par le grand public. Ce succès s’explique notamment par les prompts, ces commandes que l’on peut écrire simplement afin d’obtenir des résultats parfois bluffants. ✨ Mais ça n’a rien de magique… </p>\n<p>Dans ce module, vous allez découvrir les coulisses du fonctionnement des prompts et comprendre comment les systèmes d’IA générative produisent leurs réponses en testant avec des exemples concrets.</p>",
+    "duration": 10,
+    "level": "Intermédiaire",
+    "objectives": [
+      "<p>Comprendre comment un système d'IA générative produit un texte ou une image</p>",
+      "<p>Comprendre les fondamentaux du fonctionnement des systèmes d'IA générative</p>",
+      "<p>Identifier les limites d'un système d'IA générative</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "651a6720-8da1-40f0-9462-26c67bde64dc",
+      "content": "<p>Vous avez peut-être déjà créé du contenu à l’aide d’une IA. La plupart du temps, les résultats sont crédibles. C’est d’ailleurs leur objectif principal.</p>\n<p>Pourtant, on peut y trouver des choses étranges. Voyons cela dans un exemple 👇</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "651a6720-8da1-40f0-9462-26c67bde64dc",
+      "type": "lesson",
+      "title": "Des créations parfois étranges",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "d9e554e5-8d76-42a6-ada4-fc7689a6dad6",
+            "type": "text",
+            "content": "<p>L'une de ces trois images de plage a été générée par un système d'IA générative. Laquelle ?</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "2e230439-5bd2-46f4-858d-75cb67d623fb",
+            "type": "image",
+            "url": "https://i.imgur.com/XwqM36r.png",
+            "alt": "image de plage 1",
+            "alternativeText": "<p>image de plage 1</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "4addebdb-552d-4b3d-b285-7c66b8829f6e",
+            "type": "image",
+            "url": "https://i.imgur.com/M97juf2.png",
+            "alt": "image de plage 2",
+            "alternativeText": "<p>image de plage 2</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "aa04c339-56b5-4972-958a-fa811fac1076",
+            "type": "image",
+            "url": "https://i.imgur.com/z6kigeT.png",
+            "alt": "image de plage 3",
+            "alternativeText": "<p>image de plage 3</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a0109f4c-aa52-44f9-a0a9-afcd7a74af28",
+            "type": "qcu",
+            "instruction": "<p>Sélectionner l'image qui a été générée par un système d'IA générative</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>La première image</p>",
+                "feedback": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>La deuxième image</p>",
+                "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>La troisième image</p>",
+                "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>",
+              "invalid": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+            },
+            "solution": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
