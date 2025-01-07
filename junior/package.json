@@ -57,7 +57,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@glimmer/component": "^1.1.2",
+    "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "babel-plugin-ember-template-compilation": "^2.3.0",
     "dotenv": "^16.3.1",
