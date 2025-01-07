@@ -46,7 +46,7 @@
       "ember-eslint-parser": "^0.5.0"
     },
     "ember-dayjs": {
-      "ember-source": "^5.8.0"
+      "ember-source": "^6.0.0"
     }
   },
   "devDependencies": {
@@ -101,7 +101,7 @@
     "ember-qunit": "^9.0.0",
     "ember-resolver": "^13.0.0",
     "ember-simple-auth": "^7.0.0",
-    "ember-source": "^5.12.0",
+    "ember-source": "^6.0.0",
     "ember-template-imports": "^4.2.0",
     "ember-template-lint": "^6.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
