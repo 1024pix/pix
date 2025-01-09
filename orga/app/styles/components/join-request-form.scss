@@ -1,6 +1,8 @@
 .join-request-form {
   font-family: $font-roboto;
-
+  .pix-button {
+    width: 100%;
+  }
   &__information {
     margin: 14px 0 24px 0;
     font-size: 0.875rem;
@@ -16,13 +18,13 @@
   &__back {
     margin-top: var(--pix-spacing-4x);
     font-size: 1rem;
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
 
     a {
       color: var(--pix-communication-dark);
       text-decoration: none;
       fill: var(--pix-communication-dark);
-
       svg {
         margin-right: 4px;
         transition: all 0.2s ease-in-out;
