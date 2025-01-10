@@ -92,7 +92,7 @@
     "ember-resolver": "^13.0.0",
     "ember-set-helper": "^3.0.1",
     "ember-simple-auth": "^7.0.0",
-    "ember-source": "^5.8.0",
+    "ember-source": "^6.0.0",
     "ember-template-imports": "^4.1.1",
     "ember-template-lint": "^6.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
@@ -132,7 +132,7 @@
       "ember-eslint-parser": "^0.5.0"
     },
     "ember-dayjs": {
-      "ember-source": "^5.8.0"
+      "ember-source": "^6.0.0"
     }
   }
 }
