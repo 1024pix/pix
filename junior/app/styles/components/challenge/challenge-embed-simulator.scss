@@ -5,7 +5,9 @@
     position: relative;
     width: 100%;
     border: none;
-
+    border-top: 1px solid var(--pix-neutral-100);
+    border-left: 1px solid var(--pix-neutral-100);
+    border-radius: 5px;
   }
 
   &__overlay {
