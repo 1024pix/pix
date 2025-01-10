@@ -1,3 +1,7 @@
+@use 'pix-design-tokens/shadows';
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+
 .panel {
   @extend %pix-shadow-xs;
 
@@ -48,7 +52,7 @@
   align-items: center;
   margin: 0;
   padding: 6px 0;
-  font-family: $font-roboto;
+  font-family: fonts.$font-roboto;
 
   &--highlight {
     background-color: var(--pix-neutral-20);
@@ -113,7 +117,7 @@
     color: var(--pix-neutral-20)0;
     font-weight: 500;
     font-size: 0.9rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     text-decoration: none;
     background-color: transparent;
     border: none;
@@ -140,7 +144,7 @@
   }
 }
 
-@include device-is('mobile') {
+@include breakpoints.device-is('mobile') {
   .navbar {
     width: 100%;
     height: auto;

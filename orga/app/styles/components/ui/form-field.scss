@@ -1,9 +1,11 @@
+@use 'pix-design-tokens/breakpoints';
+
 $form-field-with: 500px;
 
 .form-field {
   margin-bottom: var(--pix-spacing-6x);
 
-  @include device-is('large-screen') {
+  @include breakpoints.device-is('large-screen') {
     display: flex;
     gap: var(--pix-spacing-6x);
     justify-content: space-between;
@@ -20,11 +22,11 @@ $form-field-with: 500px;
       width: 100%;
     }
 
-    @include device-is('large-screen') {
+    @include breakpoints.device-is('large-screen') {
       width: $form-field-with;
     }
 
-    @include device-is('large-screen') {
+    @include breakpoints.device-is('large-screen') {
       flex-grow: 1;
       margin-bottom: 0;
     }
@@ -33,7 +35,7 @@ $form-field-with: 500px;
   &__information {
       width: auto;
 
-      @include device-is('large-screen') {
+      @include breakpoints.device-is('large-screen') {
         width: calc(100% - ($form-field-with + var(--pix-spacing-6x)));
       }
   }

@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+
 .import-students-page {
   display: flex;
   flex-direction: column;
@@ -14,6 +17,13 @@
     @extend %pix-shadow-xs;
     @extend %pix-body-s;
 
+    padding: var(--pix-spacing-6x);
+    color:var(--pix-error-700);
+    font-weight: var(--pix-font-medium);
+    text-align: left;
+    background-color: var(--pix-neutral-0);
+    border-radius: 8px;
+
     &--warning {
       color:var(--pix-warning-700);
     }
@@ -24,13 +34,6 @@
       margin-bottom: var(--pix-spacing-6x);
       color: var(--pix-neutral-900);
     }
-
-    padding: var(--pix-spacing-6x);
-    color:var(--pix-error-700);
-    font-weight: var(--pix-font-medium);
-    text-align: left;
-    background-color: var(--pix-neutral-0);
-    border-radius: 8px;
   }
 
   &__error-panel-list {

@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
 .login-page {
   display: flex;
   flex-direction: column;
@@ -16,7 +19,7 @@
 
     margin-top: var(--pix-spacing-8x);
     margin-bottom: var(--pix-spacing-4x);
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
   }
 
   &__container {
@@ -25,7 +28,7 @@
     background-color: var(--pix-neutral-0);
     border-radius: 10px;
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       padding: var(--pix-spacing-10x) var(--pix-spacing-4x);
       border-radius: 0px;
     }

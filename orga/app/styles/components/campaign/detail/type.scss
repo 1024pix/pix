@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 .campaign-type {
   display: inline-flex;
   align-items: center;
@@ -15,7 +17,7 @@
       height: 3rem;
     }
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       &--big {
         width: 2rem;
         height: 2rem;

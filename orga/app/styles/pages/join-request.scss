@@ -1,3 +1,7 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+
 .join-request {
   display: flex;
   flex-direction: column;
@@ -17,7 +21,7 @@
     padding: 32px 10px 20px;
     border-radius: 0;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       margin: 10px 0;
       padding: 32px 67px 20px;
       border-radius: 10px;
@@ -36,7 +40,7 @@
     margin: auto;
     font-weight: 400;
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     line-height: 1.25rem;
     text-align: center;
   }

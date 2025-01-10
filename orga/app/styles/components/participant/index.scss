@@ -1,6 +1,6 @@
-@import 'no-participant-panel';
-@import 'profile';
-@import 'tabs';
+@use 'no-participant-panel';
+@use 'profile';
+@use 'tabs';
 
 .participant {
   &__link {

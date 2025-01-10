@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .places-header-date {
   @extend %pix-body-xs;
 }

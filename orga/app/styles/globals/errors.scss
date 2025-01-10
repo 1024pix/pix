@@ -1,8 +1,10 @@
+@use 'pix-design-tokens/fonts';
+
 .c-notification.notification {
   color: var(--pix-neutral-800);
   font-weight: 500;
   font-size: 1rem;
-  font-family: $font-roboto;
+  font-family: fonts.$font-roboto;
   line-height: 1.3125rem;
   border: 1.5px solid var(--pix-neutral-500);
   border-radius: 6px;

@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 .user-logged-button {
   display: flex;
   align-items: center;
@@ -65,7 +67,7 @@
   }
 }
 
-@include device-is('mobile') {
+@include breakpoints.device-is('mobile') {
   .user-logged-summary {
     &__text {
       overflow: hidden;

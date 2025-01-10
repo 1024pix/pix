@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 .campaign-settings {
   display: flex;
   flex-direction: column;
@@ -88,7 +90,7 @@
   }
 }
 
-@include device-is('mobile') {
+@include breakpoints.device-is('mobile') {
   .campaign-settings {
     width: initial;
   }

@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .campaign-archived-banner {
   @extend %pix-title-xs;
 

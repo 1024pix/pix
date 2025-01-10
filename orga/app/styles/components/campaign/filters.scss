@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+
 .campaign-filters {
   display: flex;
   flex-direction: column;
@@ -7,7 +10,7 @@
   background-color: var(--pix-neutral-0);
   border-radius: 4px;
 
-  @include device-is('tablet') {
+  @include breakpoints.device-is('tablet') {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -25,7 +28,7 @@
     width: 260px;
     height: 36px;
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       width: 100%;
     }
   }
@@ -48,7 +51,7 @@
     flex-direction: column;
     gap: var(--pix-spacing-4x);
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
@@ -60,11 +63,11 @@
     gap: var(--pix-spacing-6x);
     border-top: 1.2px solid var(--pix-neutral-20);
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       border: none;
     }
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       justify-content: space-between;
       border: none;
     }
@@ -81,7 +84,7 @@
   &__action-separator {
     border-left: 1px solid var(--pix-neutral-20);
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       border-left: none;
     }
   }
@@ -108,7 +111,7 @@
     color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 0.8125rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     background: transparent;
     border: 1.2px solid var(--pix-neutral-500);
     outline: none;
@@ -128,7 +131,7 @@
       }
     }
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       flex-grow: 1;
       justify-content: center;
     }

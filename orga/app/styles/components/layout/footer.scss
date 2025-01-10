@@ -1,21 +1,23 @@
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+
 .footer {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
+  line-height: 1;
 
-  @include device-is('desktop') {
+  @include breakpoints.device-is('desktop') {
     flex-direction: row;
   }
-
-  line-height: 1;
 
   &__navigation {
     display: flex;
     flex-direction: column;
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       flex-direction: row;
     }
 
@@ -35,7 +37,7 @@
   &__copyrights {
     color: var(--pix-neutral-20)0;
     font-size: 0.75rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     cursor: default;
   }
 }
@@ -46,10 +48,10 @@
     color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 0.8125rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     text-decoration: none;
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       margin-right: var(--pix-spacing-4x);
     }
 

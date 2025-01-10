@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/fonts';
+
 .search-input {
   display: flex;
   flex-direction: row;
@@ -18,7 +20,7 @@
     height: inherit;
     padding: 0 10px;
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     background: transparent;
     border: none;
     border-radius: 3px;

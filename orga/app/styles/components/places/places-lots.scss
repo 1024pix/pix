@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .places-lots{
   &_title {
   @extend %pix-title-xs;

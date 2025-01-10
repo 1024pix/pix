@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .mission-list {
   &__title {
     margin: 1em 0;
@@ -46,7 +48,7 @@
     .copy-paste-button-container {
       margin-top: 4px;
     }
-    
+
     .pix-icon {
       width: 1rem;
       height: 1rem;

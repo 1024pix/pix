@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 $margin-right: var(--pix-spacing-8x);
 
 .list-team-page {
@@ -48,7 +50,7 @@ $margin-right: var(--pix-spacing-8x);
   }
 }
 
-@include device-is('mobile') {
+@include breakpoints.device-is('mobile') {
   .list-team-page {
     &__header {
       flex-direction: column;

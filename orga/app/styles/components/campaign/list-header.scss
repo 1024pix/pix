@@ -1,17 +1,19 @@
+@use 'pix-design-tokens/breakpoints';
+
 .campaign-list-header {
   &__header {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       flex-direction: row;
       margin: 1em 0 2.4em;
       margin-bottom: 20px;
     }
   }
 
-  @include device-is('tablet') {
+  @include breakpoints.device-is('tablet') {
     &__create-campaign-button {
       margin-left: auto;
     }
@@ -36,7 +38,7 @@
       height: 100%;
     }
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       ul li {
         flex-grow: inherit;
       }

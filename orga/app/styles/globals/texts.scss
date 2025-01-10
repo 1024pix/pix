@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .paragraph {
   @extend %pix-body-m;
 

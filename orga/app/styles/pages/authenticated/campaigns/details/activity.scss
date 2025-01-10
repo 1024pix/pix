@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/fonts';
+
 .activity__dashboard {
   margin-bottom: 24px;
   padding: 0;
@@ -10,7 +13,7 @@
   .warning-text {
     @extend %pix-body-s;
 
-    font-weight: $font-medium;
+    font-weight: fonts.$font-medium;
   }
 }
 

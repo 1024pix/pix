@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/fonts';
+
 .campaign-details-analysis {
   color: var(--pix-neutral-900);
   font-weight: normal;
@@ -10,7 +13,7 @@
   &__text {
     margin: 2px 0 29px 0;
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     line-height: 1.375rem;
   }
 }

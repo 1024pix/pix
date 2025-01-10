@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 $margin-right: 32px;
 
 .organization-participant-list-page {
@@ -32,7 +34,7 @@ $margin-right: 32px;
   &__actions-header {
     width: 10%;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       padding-right: 12px;
       padding-left: 0;
       text-align: right;
@@ -65,7 +67,7 @@ $margin-right: 32px;
   &__dropdown-button {
     margin-right: $margin-right;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       margin-right: 12px;
     }
   }

@@ -1,3 +1,8 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/fonts';
+@use 'layout';
+
 .form {
   display: flex;
   flex-direction: column;
@@ -8,7 +13,7 @@
     flex-direction: column;
     margin: var(--pix-spacing-4x) 0;
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       width: 500px;
     }
 
@@ -33,7 +38,7 @@
       flex-grow: 1;
     }
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       max-width: 500px;
     }
   }
@@ -50,10 +55,10 @@
     background: var(--pix-neutral-20);
     border-radius: 8px;
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       position: absolute;
       left: 100%;
-      width: calc(100vw - 580px - #{$app-sidebar-width} - 32px);
+      width: calc(100vw - 580px - #{layout.$app-sidebar-width} - 32px);
       margin: 0 0 0 var(--pix-spacing-4x);
     }
 
@@ -93,7 +98,7 @@
       margin-inline-end: var(--pix-spacing-2x);
     }
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       max-width: 500px;
     }
   }
@@ -104,7 +109,7 @@
     justify-content: space-between;
     margin-top: var(--pix-spacing-8x);
 
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       max-width: 500px;
     }
   }
@@ -165,5 +170,5 @@
 .error-message {
   color: var(--pix-error-700);
   font-size: 0.75rem;
-  font-family: $font-roboto;
+  font-family: fonts.$font-roboto;
 }

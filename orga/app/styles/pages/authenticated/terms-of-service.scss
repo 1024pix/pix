@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
 .terms-of-service-page {
   display: flex;
   flex-direction: column;
@@ -17,7 +20,7 @@
   background-color: var(--pix-neutral-0);
   border-radius: 10px;
 
-  @include device-is('mobile') {
+  @include breakpoints.device-is('mobile') {
     width: 95%;
   }
 
@@ -56,13 +59,13 @@
     overflow-x: hidden;
     overflow-y: scroll;
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       margin: 20px 0;
     }
 
     p,
     li {
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
     }
 
     ul {
@@ -71,7 +74,7 @@
 
     h2,
     h3 {
-      margin-bottom: $pix-spacing-m;
+      margin-bottom: var(--pix-spacing-6x);
     }
   }
 
@@ -82,7 +85,7 @@
     justify-content: flex-end;
     margin: 0 60px;
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       flex-direction: column;
       align-items: center;
     }

@@ -1,12 +1,15 @@
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+
 .login-or-register {
   margin: var(--pix-spacing-6x) 0;
 
-  @include device-is('mobile') {
+  @include breakpoints.device-is('mobile') {
     margin: 12px 0;
   }
 
   &__language-switcher {
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       margin-left: 22px;
     }
   }
@@ -20,11 +23,11 @@
     padding: 20px 2px;
     border-radius: 10px;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       padding: 20px;
     }
 
-    @include device-is('large-screen') {
+    @include breakpoints.device-is('large-screen') {
       padding: var(--pix-spacing-10x) 100px;
     }
   }
@@ -41,7 +44,7 @@
     color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 1.125rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     text-align: center;
   }
 
@@ -52,12 +55,12 @@
     min-height: 500px;
     margin-top: 10px;
 
-    @include device-is('large-screen') {
+    @include breakpoints.device-is('large-screen') {
       flex-flow: row;
       justify-content: space-between;
     }
 
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       flex-direction: column;
       margin: 10px 20px 0 20px;
     }
@@ -67,7 +70,7 @@
     display: flex;
     flex-direction: column;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       min-width: 360px;
     }
   }
@@ -76,12 +79,12 @@
     margin-top: 30px;
     border-left: 1px solid var(--pix-neutral-100);
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       margin: 30px;
       margin-bottom: 0;
     }
 
-    @include device-is('large-screen') {
+    @include breakpoints.device-is('large-screen') {
       margin: 30px 60px 0 60px;
     }
   }

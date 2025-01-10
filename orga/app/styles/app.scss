@@ -1,94 +1,92 @@
 @charset "utf-8";
-
-/* Pix UI */
-@import 'pix-design-tokens';
+@use 'pix-design-tokens/breakpoints';
 
 // global
-@import 'globals/colors';
-@import 'globals/layout';
-@import 'globals/competences';
-@import 'globals/errors';
-@import 'globals/forms';
-@import 'globals/icons';
-@import 'globals/panels';
-@import 'globals/pix-loader';
-@import 'globals/tables';
-@import 'globals/texts';
+@use 'globals/colors' as *;
+@use 'globals/layout' as *;
+@use 'globals/competences' as *;
+@use 'globals/errors' as *;
+@use 'globals/forms' as *;
+@use 'globals/icons' as *;
+@use 'globals/panels' as *;
+@use 'globals/pix-loader' as *;
+@use 'globals/tables' as *;
+@use 'globals/texts' as *;
 
 // components
-@import 'components/banner';
-@import 'components/certificability';
-@import 'components/ui';
-@import 'components/sco-organization-participant';
-@import 'components/login-form';
-@import 'components/campaign';
-@import 'components/import';
-@import 'components/current-organization';
-@import 'components/edit-student-number-modal';
-@import 'components/dropdown';
-@import 'components/join-request-form';
-@import 'components/layout/footer';
-@import 'components/layout/organization-places-or-credit-info';
-@import 'components/layout/sidebar';
-@import 'components/layout/topbar';
-@import 'components/layout/user-logged-menu';
-@import 'components/mission/navigation';
-@import 'components/mission/result-table';
-@import 'components/organization-learner';
-@import 'components/participant';
-@import 'components/places';
-@import 'components/previous-page-button';
-@import 'components/pix-score-tag';
-@import 'components/progress-bar';
-@import 'components/register-form';
-@import 'components/search-input';
-@import 'components/team';
-@import 'components/login-or-register';
-@import 'components/manage-authentication-method-modal';
-@import 'components/participation-filters';
-@import 'components/learner/header';
-@import 'components/sup-organization-participant/replace-students-modal';
-@import 'components/import-banner';
-@import 'components/import-information-banner';
-@import 'components/statistics';
-@import 'components/statistics/cover-rate-gauge';
+@use 'components/banner' as *;
+@use 'components/certificability' as *;
+@use 'components/ui' as *;
+@use 'components/sco-organization-participant' as *;
+@use 'components/login-form' as *;
+@use 'components/campaign' as *;
+@use 'components/import' as *;
+@use 'components/current-organization' as *;
+@use 'components/edit-student-number-modal' as *;
+@use 'components/dropdown' as *;
+@use 'components/join-request-form' as *;
+@use 'components/layout/footer' as *;
+@use 'components/layout/organization-places-or-credit-info' as *;
+@use 'components/layout/sidebar' as *;
+@use 'components/layout/topbar' as *;
+@use 'components/layout/user-logged-menu' as *;
+@use 'components/mission/navigation' as *;
+@use 'components/mission/result-table' as *;
+@use 'components/organization-learner' as *;
+@use 'components/participant' as *;
+@use 'components/places' as *;
+@use 'components/previous-page-button' as *;
+@use 'components/pix-score-tag' as *;
+@use 'components/progress-bar' as *;
+@use 'components/register-form' as *;
+@use 'components/search-input' as *;
+@use 'components/team' as *;
+@use 'components/login-or-register' as *;
+@use 'components/manage-authentication-method-modal' as *;
+@use 'components/participation-filters' as *;
+@use 'components/learner/header' as *;
+@use 'components/sup-organization-participant/replace-students-modal' as *;
+@use 'components/import-banner' as *;
+@use 'components/import-information-banner' as *;
+@use 'components/statistics' as *;
+@use 'components/statistics/cover-rate-gauge' as *;
 
 // pages
-@import 'pages/login';
-@import 'pages/join';
-@import 'pages/join-request';
-@import 'pages/authenticated';
-@import 'pages/authenticated/attestations';
-@import 'pages/authenticated/campaigns/campaign';
-@import 'pages/authenticated/campaigns/create-form';
-@import 'pages/authenticated/campaigns/new-item';
-@import 'pages/authenticated/campaigns/list';
-@import 'pages/authenticated/campaigns/update';
-@import 'pages/authenticated/campaigns/details/activity';
-@import 'pages/authenticated/campaigns/details/analysis';
-@import 'pages/authenticated/campaigns/details/assessment-results';
-@import 'pages/authenticated/campaigns/details/profile-results';
-@import 'pages/authenticated/campaigns/details/participants';
-@import 'pages/authenticated/campaigns/details/participants/participant';
-@import 'pages/authenticated/campaigns/details/participants/participant/header';
-@import 'pages/authenticated/campaigns/details/participants/participant/results';
-@import 'pages/authenticated/campaigns/participant-profile';
-@import 'pages/authenticated/certifications';
-@import 'pages/authenticated/mission';
-@import 'pages/authenticated/mission/list';
-@import 'pages/authenticated/organization-participants/list';
-@import 'pages/authenticated/organization-participants/deletion-modal';
-@import 'pages/authenticated/sup-organization-participants/list';
-@import 'pages/authenticated/sco-organization-participants/list';
-@import 'pages/authenticated/preselect-target-profile';
-@import 'pages/authenticated/team';
-@import 'pages/authenticated/team/list';
-@import 'pages/authenticated/team/invitations-list';
-@import 'pages/authenticated/team/new';
-@import 'pages/authenticated/terms-of-service';
+@use 'pages/login' as *;
+@use 'pages/join' as *;
+@use 'pages/join-request' as *;
+@use 'pages/authenticated' as *;
+@use 'pages/authenticated/attestations' as *;
+@use 'pages/authenticated/campaigns/campaign' as *;
+@use 'pages/authenticated/campaigns/create-form' as *;
+@use 'pages/authenticated/campaigns/new-item' as *;
+@use 'pages/authenticated/campaigns/list' as *;
+@use 'pages/authenticated/campaigns/update' as *;
+@use 'pages/authenticated/campaigns/details/activity' as *;
+@use 'pages/authenticated/campaigns/details/analysis' as *;
+@use 'pages/authenticated/campaigns/details/assessment-results' as *;
+@use 'pages/authenticated/campaigns/details/profile-results' as *;
+@use 'pages/authenticated/campaigns/details/participants' as *;
+@use 'pages/authenticated/campaigns/details/participants/participant' as *;
+@use 'pages/authenticated/campaigns/details/participants/participant/header' as *;
+@use 'pages/authenticated/campaigns/details/participants/participant/results' as *;
+@use 'pages/authenticated/campaigns/participant-profile' as *;
+@use 'pages/authenticated/certifications' as *;
+@use 'pages/authenticated/mission' as *;
+@use 'pages/authenticated/mission/list' as *;
+@use 'pages/authenticated/organization-participants/list' as *;
+@use 'pages/authenticated/organization-participants/deletion-modal' as *;
+@use 'pages/authenticated/sup-organization-participants/list' as *;
+@use 'pages/authenticated/sco-organization-participants/list' as *;
+@use 'pages/authenticated/preselect-target-profile' as *;
+@use 'pages/authenticated/team' as *;
+@use 'pages/authenticated/team/list' as *;
+@use 'pages/authenticated/team/invitations-list' as *;
+@use 'pages/authenticated/team/new' as *;
+@use 'pages/authenticated/terms-of-service' as *;
 
 /* App/Components */
-@import 'sco-organization-participant/generate-username-password-modal';
+@use 'sco-organization-participant/generate-username-password-modal' as *;
 
 body,
 html {
@@ -104,7 +102,7 @@ input:invalid {
   box-shadow: none;
 }
 
-@include device-is('mobile') {
+@include breakpoints.device-is('mobile') {
   .hide-on-mobile {
     display: none;
   }

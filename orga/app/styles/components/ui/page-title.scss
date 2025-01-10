@@ -1,8 +1,11 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
 .page-title {
   width: 100%;
 
   &--center {
-    @include device-is('mobile') {
+    @include breakpoints.device-is('mobile') {
       text-align: center;
     }
   }

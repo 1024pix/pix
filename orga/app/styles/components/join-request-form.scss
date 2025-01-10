@@ -1,5 +1,8 @@
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+
 .join-request-form {
-  font-family: $font-roboto;
+  font-family: fonts.$font-roboto;
 
   &__information {
     margin: 14px 0 24px 0;
@@ -51,7 +54,7 @@
     width: 300px;
     margin: auto;
 
-    @include device-is('tablet') {
+    @include breakpoints.device-is('tablet') {
       width: 450px;
     }
   }

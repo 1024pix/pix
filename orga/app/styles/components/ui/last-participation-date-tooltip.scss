@@ -1,5 +1,7 @@
+@use 'pix-design-tokens/fonts';
+
 .last-participation-date-tooltip {
-  font-weight: $font-normal;
+  font-weight: fonts.$font-normal;
 
   &__icon {
     fill: var(--pix-neutral-500);
@@ -10,6 +12,6 @@
   }
 
   &__informations {
-    font-weight: $font-medium;
+    font-weight: fonts.$font-medium;
   }
 }

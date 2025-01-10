@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .statistics {
   display: flex;
   gap: var(--pix-spacing-8x);

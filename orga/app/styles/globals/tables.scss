@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/fonts';
+
 table {
   box-sizing: border-box;
   width: 100%;
@@ -27,7 +29,7 @@ thead {
   th {
     font-weight: 500;
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
   }
 }
 
@@ -73,7 +75,7 @@ tbody {
     color: var(--pix-neutral-800);
     font-weight: 400;
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
 
     &.ellipsis {
       overflow: hidden;

@@ -1,10 +1,13 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/fonts';
+
 .register-form {
   max-width: 360px;
 
   &__cgu-label {
     margin: 0;
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
   }
 
   &__cgu-error {

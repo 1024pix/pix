@@ -1,6 +1,11 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+@use 'pix-design-tokens/fonts';
+@use '../../globals/layout';
+
 .action-bar {
   @extend %pix-body-m;
-  @include shadow(-4px, 8px);
+  @include shadows.shadow(-4px, 8px);
 
   position: fixed;
   right: 0;
@@ -9,10 +14,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - $app-sidebar-width) ;
+  width: calc(100% - layout.$app-sidebar-width) ;
   height: 68px;
   color: var(--pix-neutral-500);
-  font-family: $font-roboto;
+  font-family: fonts.$font-roboto;
   background-color: var(--pix-neutral-0);
 
   .action-bar__informations {

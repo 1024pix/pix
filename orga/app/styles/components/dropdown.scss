@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/shadows';
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -21,7 +24,7 @@
       padding: 0;
 
       > button {
-        font-family: $font-roboto;
+        font-family: fonts.$font-roboto;
         text-align: start;
         background-color: transparent;
         border: none;

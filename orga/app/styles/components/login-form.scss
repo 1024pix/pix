@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -15,7 +17,7 @@
     @extend %pix-body-s;
 
     margin-top: var(--pix-spacing-4x);
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     text-align: center;
   }
 

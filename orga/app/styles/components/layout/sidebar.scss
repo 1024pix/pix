@@ -1,10 +1,16 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
+@use '../../globals/layout';
+@use '../../globals/colors';
+
 .sidebar {
   position: sticky;
   top: 0;
   align-self: flex-start;
-  width: $app-sidebar-width;
+  width: layout.$app-sidebar-width;
   height: 100vh;
-  background-color: $dark-blue-orga;
+  background-color: colors.$dark-blue-orga;
 
   &__logo {
     padding: 24px;
@@ -27,16 +33,16 @@
     padding-left: 24px;
     color: var(--pix-neutral-0);
     font-size: 0.875rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     text-decoration: none;
     border-left: 3px solid transparent;
 
     &:hover {
-      background-color: $chambray;
+      background-color: colors.$chambray;
     }
 
     &.active {
-      background-color: $chambray;
+      background-color: colors.$chambray;
       border-left: 3px solid var(--pix-warning-500);
     }
   }
@@ -124,7 +130,7 @@
   }
 }
 
-@include device-is('mobile') {
+@include breakpoints.device-is('mobile') {
   .sidebar {
     position: relative;
     width: 100%;

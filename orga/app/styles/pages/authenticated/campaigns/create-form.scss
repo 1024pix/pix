@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 // enlève la flèche par défaut de la datalist sur chrome
 .campaign-target-profile::-webkit-calendar-picker-indicator {
   opacity: 0;
@@ -20,13 +22,13 @@
 .form__field-with-info {
 
   .pix-multi-select {
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       width: 140px;
     }
   }
 
   .pix-select {
-    @include device-is('desktop') {
+    @include breakpoints.device-is('desktop') {
       width: 100%;
     }
   }

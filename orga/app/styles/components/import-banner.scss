@@ -1,4 +1,6 @@
 
+@use 'pix-design-tokens/typography';
+
 .import-banner {
   &--success {
     @extend %pix-body-m;

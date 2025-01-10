@@ -1,3 +1,6 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+
 .chart-card {
   @extend %pix-shadow-xs;
 

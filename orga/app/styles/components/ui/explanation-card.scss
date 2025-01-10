@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/typography';
+
 .explanation-card {
   padding: var(--pix-spacing-4x);
   color: var(--pix-neutral-500);

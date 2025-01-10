@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/fonts';
+
 .certifications-page {
   display: flex;
   flex-direction: column;
@@ -13,7 +15,7 @@
     margin: 2px 0 32px 0;
     color: var(--pix-neutral-500);
     font-size: 1rem;
-    font-family: $font-roboto;
+    font-family: fonts.$font-roboto;
     line-height: 1.45rem;
   }
 

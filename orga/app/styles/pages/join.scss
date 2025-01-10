@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/shadows';
+
 .join-page {
   @extend %pix-shadow-sm;
 
