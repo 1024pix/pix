@@ -4,7 +4,7 @@
   "title": "À la découverte de l’ENT",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Aujourd’hui, le numérique fait partie du quotidien des familles, à la maison comme à l’école ! <span aria-hidden=\"\\&quot;true\\&quot;\">🎒</span></p><p>Dans ce module, partez à la découverte de l’espace numérique de travail (ENT), l’outil numérique utilisé dans les établissements scolaires.</p>",
+    "description": "<p>Aujourd’hui, le numérique fait partie du quotidien des familles, à la maison comme à l’école&#8239;! <span aria-hidden=\"\\&quot;true\\&quot;\">🎒</span></p><p>Dans ce module, partez à la découverte de l’espace numérique de travail (ENT), l’outil numérique utilisé dans les établissements scolaires.</p>",
     "duration": 10,
     "level": "Débutant",
     "objectives": [
@@ -21,7 +21,7 @@
     },
     {
       "grainId": "f2c81b8b-1574-4304-bd69-8ed05f579794",
-      "content": "<p>Grâce à l'ENT, Martin a accès à beaucoup d'informations, comme les devoirs d’Ava. Voyons cela ensemble !</p>"
+      "content": "<p>Grâce à l'ENT, Martin a accès à beaucoup d'informations, comme les devoirs d’Ava. Voyons cela ensemble&#8239;!</p>"
     },
     {
       "grainId": "bf331dcd-e6ba-4d25-80f0-f95dea9e619f",
@@ -29,7 +29,7 @@
     },
     {
       "grainId": "6a8d4f2b-e60b-475a-98d8-3c4e3710a14a",
-      "content": "<p>Maintenant à vous de jouer !<br>Découvrez 3 fonctionnalités de l’ENT de Martin, et aidez-le à les utiliser.</p>"
+      "content": "<p>Maintenant à vous de jouer&#8239;!<br>Découvrez 3 fonctionnalités de l’ENT de Martin, et aidez-le à les utiliser.</p>"
     },
     {
       "grainId": "b4154d31-a9ab-47ef-a132-3a280ed330cb",
@@ -67,12 +67,12 @@
           "element": {
             "id": "d881a6a8-374b-448d-b167-6db06712f34d",
             "type": "qcu",
-            "instruction": "<p>Où Martin peut-il regarder les devoirs d’Ava ?</p>",
+            "instruction": "<p>Où Martin peut-il regarder les devoirs d’Ava&#8239;?</p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>sur l'espace numérique de travail</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
+                "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
               },
               {
                 "id": "2",
@@ -139,7 +139,7 @@
           "element": {
             "id": "9751eb8f-09c7-4a6b-898f-47c84220386e",
             "type": "text",
-            "content": "<p><br></p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants :</h3> <p><br></p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT : le lien vers l’ENT, un identifiant et un mot de passe. Il faut conserver ces informations tout au long de l'année. </p><p>Souvent, le compte Educonnect permet de se connecter à l'ENT.</p>"
+            "content": "<p><br></p><h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants&nbsp;:</h3> <p><br></p><ul><li>voir l’emploi du temps,</li><li>communiquer avec l’établissement scolaire,</li><li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT&nbsp;: le lien vers l’ENT, un identifiant et un mot de passe. Il faut conserver ces informations tout au long de l'année. </p><p>Souvent, le compte Educonnect permet de se connecter à l'ENT.</p>"
           }
         },
         {
@@ -162,7 +162,7 @@
     {
       "id": "bf331dcd-e6ba-4d25-80f0-f95dea9e619f",
       "type": "activity",
-      "title": "L'ENT : vrai-faux",
+      "title": "L'ENT&nbsp;: vrai-faux",
       "components": [
         {
           "type": "element",
@@ -185,7 +185,7 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">🎉</span></span></p>\n<p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!<span aria-hidden=\"true\">🎉</span></span></p>\n<p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     },
                     {
                       "id": "2",
@@ -211,7 +211,7 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">🎉</span></span></p>\n<p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!<span aria-hidden=\"true\">🎉</span></span></p>\n<p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     },
                     {
                       "id": "2",
@@ -242,7 +242,7 @@
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">🎉</span></span></p>\n<p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!<span aria-hidden=\"true\">🎉</span></span></p>\n<p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -267,7 +267,7 @@
           "element": {
             "id": "0468f3c9-f946-4309-9768-4fda3f28a4b2",
             "type": "text",
-            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite :</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent : messagerie, emploi du temps, cahier de textes, ...</li></ul>"
+            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite&nbsp;:</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent&nbsp;: messagerie, emploi du temps, cahier de textes, ...</li></ul>"
           }
         }
       ]
@@ -300,7 +300,7 @@
                 {
                   "id": "dacb6bd7-a151-4b00-bca8-4de1ab39891a",
                   "type": "qcu",
-                  "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.</p><p>Quelle fonctionnalité doit-il utiliser ?</p>",
+                  "instruction": "<p>Martin veut savoir à quelle heure Ava a cours de sport.</p><p>Quelle fonctionnalité doit-il utiliser&#8239;?</p>",
                   "proposals": [
                     {
                       "id": "2",
@@ -310,7 +310,7 @@
                     {
                       "id": "3",
                       "content": "<p>l'emploi du temps</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                     },
                     {
                       "id": "1",
@@ -348,22 +348,22 @@
                 {
                   "id": "d83eba7d-cfe9-4e7b-ada6-fbcbaa17be23",
                   "type": "qcu",
-                  "instruction": "<p><strong>Combien de messages non lus Martin a-t-il ?</strong></p>",
+                  "instruction": "<p><strong>Combien de messages non lus Martin a-t-il&#8239;?</strong></p>",
                   "proposals": [
                     {
                       "id": "1",
                       "content": "<p>1</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
                     },
                     {
                       "id": "2",
                       "content": "<p>2</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                     },
                     {
                       "id": "3",
                       "content": "<p>3</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie ?</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
                     }
                   ],
                   "feedbacks": {
@@ -386,7 +386,7 @@
                 {
                   "id": "85ef8964-a248-4a9d-a087-091a4aefd30a",
                   "type": "qcu",
-                  "instruction": "<p><strong>Dans quelle matière Ava a-t-elle des devoirs à rendre pour mardi ?</strong></p>",
+                  "instruction": "<p><strong>Dans quelle matière Ava a-t-elle des devoirs à rendre pour mardi&#8239;?</strong></p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -401,7 +401,7 @@
                     {
                       "id": "2",
                       "content": "<p>Français</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -470,7 +470,7 @@
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -491,7 +491,7 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     },
                     {
                       "id": "2",
@@ -522,7 +522,7 @@
                     {
                       "id": "2",
                       "content": "<p>Je n'utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
+                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
                     }
                   ],
                   "feedbacks": {
@@ -547,7 +547,7 @@
           "element": {
             "id": "5a4495bc-22f5-4a9a-aad5-531071bf33c9",
             "type": "text",
-            "content": "<p><strong>Pour chaque carte</strong> :&nbsp; </p>\n<ol>\n    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>\n    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"\\&quot;true\\&quot;\">🤔</span></li>\n    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"\\&quot;true\\&quot;\">↪️</span></li>\n</ol>\n<p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden=\"\\&quot;true\\&quot;\">🎯</span></p>"
+            "content": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp; </p>\n<ol>\n    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>\n    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"\\&quot;true\\&quot;\">🤔</span></li>\n    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"\\&quot;true\\&quot;\">↪️</span></li>\n</ol>\n<p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden=\"\\&quot;true\\&quot;\">🎯</span></p>"
           }
         },
         {
@@ -567,7 +567,7 @@
                   "image": {
                     "url": "https://i.imgur.com/vg3Ro1F.png"
                   },
-                  "text": "Qu'est ce qu'un ENT ?"
+                  "text": "Qu'est ce qu'un ENT&#8239;?"
                 },
                 "verso": {
                   "image": {
@@ -582,7 +582,7 @@
                   "image": {
                     "url": "https://i.imgur.com/vg3Ro1F.png"
                   },
-                  "text": "Quelles personnes peuvent utiliser l'ENT d'un établissement scolaire ?"
+                  "text": "Quelles personnes peuvent utiliser l'ENT d'un établissement scolaire&#8239;?"
                 },
                 "verso": {
                   "image": {
@@ -597,7 +597,7 @@
                   "image": {
                     "url": "https://i.imgur.com/vg3Ro1F.png"
                   },
-                  "text": "Quel compte un parent doit-il utiliser pour envoyer un message à un enseignant sur l'ENT ?"
+                  "text": "Quel compte un parent doit-il utiliser pour envoyer un message à un enseignant sur l'ENT&#8239;?"
                 },
                 "verso": {
                   "image": {
@@ -612,7 +612,7 @@
                   "image": {
                     "url": "https://i.imgur.com/vg3Ro1F.png"
                   },
-                  "text": "Quelle fonctionnalité de l'ENT permet de consulter les devoirs de son enfant ?"
+                  "text": "Quelle fonctionnalité de l'ENT permet de consulter les devoirs de son enfant&#8239;?"
                 },
                 "verso": {
                   "image": {
