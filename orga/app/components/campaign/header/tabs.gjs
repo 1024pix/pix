@@ -11,7 +11,7 @@ export default class CampaignTabs extends Component {
   @service fileSaver;
   @service session;
   @service metrics;
-
+  //TODO: check if something is wrong here or in config
   @action
   async exportData() {
     try {
