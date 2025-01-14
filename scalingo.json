@@ -16,6 +16,12 @@
     "DOMAIN_PIX_CERTIF": {
       "generator": "template",
       "template": "https://certif-pr%PR_NUMBER%.review.pix"
+    },
+    "CI_FRONT_TASKS": {
+      "value": "ci:none"
+    },
+    "BUILD_FRONT_TASKS": {
+      "value": "build:none"
     }
   },
   "scripts": {
