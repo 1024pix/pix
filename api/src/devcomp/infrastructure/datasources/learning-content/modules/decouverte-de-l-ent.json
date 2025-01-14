@@ -85,10 +85,6 @@
                 "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
               }
             ],
-            "feedbacks": {
-              "valid": "<p><br></p>",
-              "invalid": "<p><br></p>"
-            },
             "solution": "1"
           }
         }
@@ -193,10 +189,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "1"
                 }
               ]
@@ -219,10 +211,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "1"
                 }
               ]
@@ -245,10 +233,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!<span aria-hidden=\"true\">🎉</span></span></p>\n<p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "2"
                 }
               ]
@@ -328,10 +312,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "3"
                 }
               ]
@@ -366,10 +346,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p>\n<p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "2"
                 }
               ]
@@ -404,10 +380,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "2"
                 }
               ]
@@ -473,10 +445,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "2"
                 }
               ]
@@ -499,10 +467,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "1"
                 }
               ]
@@ -525,10 +489,6 @@
                       "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p>\n<p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
                     }
                   ],
-                  "feedbacks": {
-                    "valid": "<p><br></p>",
-                    "invalid": "<p><br></p>"
-                  },
                   "solution": "2"
                 }
               ]
