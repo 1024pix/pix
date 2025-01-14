@@ -51,7 +51,7 @@
           "element": {
             "id": "9a56f908-7132-46d3-815c-a0190bec1c04",
             "type": "text",
-            "content": "<iframe width=\"700\" height=\"400\" src=\"https://www.youtube.com/embed/FQXk-uT2DHk?si=ZFI3eoThE1EXPG8_\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
+            "content": "<iframe width=\"700\" height=\"400\" src=\"https://www.youtube.com/embed/FQXk-uT2DHk?si=ZFI3eoThE1EXPG8_\" title=\"Discussion\"></iframe>"
           }
         },
         {
@@ -251,7 +251,7 @@
           "element": {
             "id": "0468f3c9-f946-4309-9768-4fda3f28a4b2",
             "type": "text",
-            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite&nbsp;:</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><br>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li><br>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent&nbsp;: messagerie, emploi du temps, cahier de textes, ...</li></ul>"
+            "content": "\n<h3><span aria-hidden=\"\\&quot;true\\&quot;\"> 📌 </span> Résumons avant de passer à la suite&nbsp;:</h3>\n<p><br></p>\n<ul>\n    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li>\n    <li>Vous pouvez accéder à l’ENT avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li>\n    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent&nbsp;: messagerie, emploi du temps, cahier de textes, ...</li></ul>"
           }
         }
       ]
@@ -406,7 +406,7 @@
           "element": {
             "id": "b3cba471-c794-4a39-b044-5b084b468341",
             "type": "text",
-            "content": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Fp9IIvX7Z7o?si=BvGOl7ST3ho-x-o5\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
+            "content": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Fp9IIvX7Z7o?si=BvGOl7ST3ho-x-o5\" title=\"Discussion\"></iframe>"
           }
         }
       ]
