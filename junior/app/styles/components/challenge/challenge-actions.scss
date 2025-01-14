@@ -1,7 +1,7 @@
 .challenge-actions {
   display: flex;
   justify-content: space-between;
-  margin: var(--pix-spacing-8x) auto;
+  height: fit-content;
 
   button:only-child {
     margin-left: auto;

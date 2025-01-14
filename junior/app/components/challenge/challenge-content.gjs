@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { or } from 'ember-truth-helpers';
 
+import CardWrapper from '../card-wrapper';
 import AutoReply from './content/auto-reply';
 import ChallengeActions from './content/challenge-actions';
 import ChallengeMedia from './content/challenge-media';
@@ -23,17 +24,28 @@ export default class ChallengeContent extends Component {
     });
   }
 
-  get isMediaWithForm() {
+  get shouldDisplayMultipleElements() {
     const challenge = this.args.challenge;
-    return challenge.hasForm && this.hasMedia && challenge.hasType;
+    const hasMediaAndForm = challenge.hasForm && challenge.hasMedia && challenge.hasType;
+    const hasIllustrationAndEmbed = challenge.illustrationUrl && challenge.hasEmbed;
+    const hasIllustrationAndWebComponent = challenge.illustrationUrl && challenge.hasWebComponent;
+    const hasFormAndEmbed = challenge.hasForm && challenge.hasEmbed;
+
+    return hasMediaAndForm || hasIllustrationAndEmbed || hasIllustrationAndWebComponent || hasFormAndEmbed;
   }
 
-  get hasMedia() {
-    return (
-      this.args.challenge.illustrationUrl ||
-      this.args.challenge.hasValidEmbedDocument ||
-      this.args.challenge.hasWebComponent
-    );
+  get challengeContentClassname() {
+    const hasIllustrationAndEmbed = this.args.challenge.illustrationUrl && this.args.challenge.hasEmbed;
+    let classname = '';
+
+    if (this.shouldDisplayMultipleElements) {
+      classname = 'challenge-content__grid-multiple-element';
+
+      if (hasIllustrationAndEmbed) {
+        classname += ' challenge-content__grid-multiple-element--1x-2x';
+      }
+    }
+    return classname;
   }
 
   get shouldDisplayRebootButton() {
@@ -41,54 +53,43 @@ export default class ChallengeContent extends Component {
   }
 
   <template>
-    <div class="challenge-content {{unless this.isMediaWithForm 'challenge-content--single-display'}}">
-      {{#if this.hasMedia}}
-        <div class="challenge-content__media {{unless @challenge.hasWebComponent 'challenge-content__media--framed'}}">
-          {{#if @challenge.illustrationUrl}}
-            <ChallengeMedia @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
-          {{/if}}
-          {{#if @challenge.hasValidEmbedDocument}}
-            <EmbeddedSimulator
-              @url={{@challenge.embedUrl}}
-              @title={{@challenge.embedTitle}}
-              @height={{@challenge.embedHeight}}
-              @hideSimulator={{@isDisabled}}
-              @isMediaWithForm={{this.isMediaWithForm}}
-              @shouldDisplayRebootButton={{this.shouldDisplayRebootButton}}
-            />
-          {{/if}}
-          {{#if @challenge.hasWebComponent}}
-            <EmbeddedWebComponent
-              @tagName={{@challenge.webComponentTagName}}
-              @props={{@challenge.webComponentProps}}
-              @setAnswerValue={{@setAnswerValue}}
-            />
-          {{/if}}
-        </div>
+    <div class="challenge-content {{this.challengeContentClassname}}">
+      {{#if @challenge.illustrationUrl}}
+        <CardWrapper>
+          <ChallengeMedia @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
+        </CardWrapper>
       {{/if}}
-      <div class="challenge-content__proposals">
-        {{#if @challenge.autoReply}}
-          <div class="challenge-content__autoreply">
-            <AutoReply @setAnswerValue={{@setAnswerValue}} />
-          </div>
-        {{/if}}
-        {{#if (or @challenge.isQROC @challenge.isQROCM)}}
-          <div class="challenge-content__qrocm">
+      {{#if @challenge.hasEmbed}}
+        <CardWrapper>
+          <EmbeddedSimulator
+            @url={{@challenge.embedUrl}}
+            @title={{@challenge.embedTitle}}
+            @height={{@challenge.embedHeight}}
+            @hideSimulator={{@isDisabled}}
+            @isMediaWithForm={{this.isMediaWithForm}}
+            @shouldDisplayRebootButton={{this.shouldDisplayRebootButton}}
+          />
+        </CardWrapper>
+      {{/if}}
+      {{#if @challenge.hasWebComponent}}
+        <EmbeddedWebComponent
+          @tagName={{@challenge.webComponentTagName}}
+          @props={{@challenge.webComponentProps}}
+          @setAnswerValue={{@setAnswerValue}}
+        />
+      {{/if}}
+      {{#if @challenge.hasForm}}
+        <div class="challenge-content__form">
+          {{#if (or @challenge.isQROC @challenge.isQROCM)}}
             <Qrocm @challenge={{@challenge}} @setAnswerValue={{@setAnswerValue}} @isDisabled={{@isDisabled}} />
-          </div>
-        {{/if}}
-        {{#if @challenge.isQCU}}
-          <div class="challenge-content__qcu">
+          {{else if @challenge.isQCU}}
             <Qcu
               @challenge={{@challenge}}
               @setAnswerValue={{@setAnswerValue}}
               @assessment={{@assessment}}
               @isDisabled={{@isDisabled}}
             />
-          </div>
-        {{/if}}
-        {{#if @challenge.isQCM}}
-          <div class="challenge-content__qcm">
+          {{else if @challenge.isQCM}}
             <Qcm
               @challenge={{@challenge}}
               @setAnswerValue={{@setAnswerValue}}
@@ -96,21 +97,24 @@ export default class ChallengeContent extends Component {
               @assessment={{@assessment}}
               @isDisabled={{@isDisabled}}
             />
-          </div>
-        {{/if}}
-        <div class="container__actions">
-          <ChallengeActions
-            @validateAnswer={{@validateAnswer}}
-            @skipChallenge={{@skipChallenge}}
-            @level={{@activity.level}}
-            @nextAction={{@resume}}
-            @isLesson={{@challenge.focused}}
-            @disableCheckButton={{@disableCheckButton}}
-            @disableLessonButton={{@disableLessonButton}}
-            @answerHasBeenValidated={{@answerHasBeenValidated}}
-          />
+          {{/if}}
         </div>
-      </div>
+      {{/if}}
+      {{#if @challenge.autoReply}}
+        <div class="challenge-content__autoreply">
+          <AutoReply @setAnswerValue={{@setAnswerValue}} />
+        </div>
+      {{/if}}
+      <ChallengeActions
+        @validateAnswer={{@validateAnswer}}
+        @skipChallenge={{@skipChallenge}}
+        @level={{@activity.level}}
+        @nextAction={{@resume}}
+        @isLesson={{@challenge.isLesson}}
+        @disableCheckButton={{@disableCheckButton}}
+        @disableLessonButton={{@disableLessonButton}}
+        @answerHasBeenValidated={{@answerHasBeenValidated}}
+      />
     </div>
   </template>
 }

@@ -1,8 +1,10 @@
 @use 'pix-design-tokens/breakpoints';
 
 .challenge-content {
-  display: flex;
-  gap: var(--pix-spacing-6x);
+  display: grid;
+  grid-row-gap: var(--pix-spacing-4x);
+  grid-column-gap: var(--pix-spacing-6x);
+  grid-template-columns: 1fr;
   margin: 16px 140px 0;
   transition: all 0.4s;
 
@@ -10,36 +12,37 @@
     margin: 16px 120px 0;
   }
 
-  &--single-display {
-    flex-direction: column;
-  }
+  &__grid-multiple-element {
+    grid-template-areas:
+    "illu  form"
+    "illu actions";
+    grid-template-columns: 1fr 1fr;
 
-  &__media,
-  &__proposals {
-    flex: 1;
-  }
+    &--1x-2x {
+      grid-template-columns: 40% 60%;
+    }
 
-  &__media {
-    &--framed {
-      padding: var(--pix-spacing-4x);
-      background-color: var(--pix-neutral-0);
-      border-radius: 24px;
-      box-shadow: 0 0 1px 0 var(--pix-primary-500), 8px 8px 32px -8px rgb(63 125 216 / 35%);
+    div:nth-child(1) {
+      grid-area: illu;
+    }
+
+    div:nth-child(2) {
+      grid-area: form;
+    }
+
+    div:nth-child(3) {
+      grid-area: actions;
     }
   }
 
-  &__qrocm {
-    align-items: center;
-  }
-
-  &__qcm, &__qcu {
+  &__form {
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
   &__autoreply {
-    width: 0;
+    display: none;
   }
 }
 

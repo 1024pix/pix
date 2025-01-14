@@ -33,19 +33,17 @@ export default class Challenge extends Model {
   @hasMany('activity-answer', { async: true, inverse: 'challenge' }) activityAnswers;
 
   @computed('embedHeight', 'embedTitle', 'embedUrl', 'hasWebComponent')
-  get hasValidEmbedDocument() {
+  get hasEmbed() {
     const embedUrl = this.embedUrl;
-    return (
-      !!embedUrl &&
-      !!this.embedTitle &&
-      !!this.embedHeight &&
-      !this.hasWebComponent &&
-      embedUrl.toLowerCase().indexOf('https://') === 0
-    ); // fixes bug on IE: startsWith in not supported (PR #242)
+    return !!embedUrl && !!this.embedTitle && !this.hasWebComponent && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
   }
 
   get hasWebComponent() {
     return !!this.webComponentProps && !!this.webComponentTagName;
+  }
+
+  get isLesson() {
+    return !!this.focused;
   }
 
   get isQROC() {
@@ -65,10 +63,14 @@ export default class Challenge extends Model {
   }
 
   get hasForm() {
-    return this.autoReply === false;
+    return this.isQROC || this.isQROCM || this.isQCM || this.isQCU;
   }
 
   get hasType() {
     return !!this.type;
+  }
+
+  get hasMedia() {
+    return this.illustrationUrl || this.hasEmbed || this.hasWebComponent;
   }
 }

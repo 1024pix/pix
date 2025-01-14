@@ -98,7 +98,7 @@ module('Unit | Model | Challenge', function (hooks) {
     });
   });
 
-  module('Computed property #hasValidEmbedDocument', function (hooks) {
+  module('Computed property #hasEmbed', function (hooks) {
     let embedOptions;
 
     hooks.beforeEach(function () {

@@ -37,7 +37,7 @@ export default class Challenge extends Component {
   }
 
   get disableLessonButton() {
-    return this.args.challenge.hasValidEmbedDocument ? this.answerValue === null || this.answerValue === '' : false;
+    return this.args.challenge.hasEmbed ? this.answerValue === null || this.answerValue === '' : false;
   }
 
   get robotMood() {
