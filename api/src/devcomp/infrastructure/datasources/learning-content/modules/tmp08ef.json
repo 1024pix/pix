@@ -4,7 +4,7 @@
   "title": "Derrière le prompt : comment fonctionnent les IA génératives ?",
   "isBeta": false,
   "details": {
-    "image": "",
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "<p>ChatGPT, Mistral, Dall-E : les systèmes d’Intelligence Artificielle (IA) générative sont de plus en plus utilisés par le grand public. Ce succès s’explique notamment par les prompts, ces commandes que l’on peut écrire simplement afin d’obtenir des résultats parfois bluffants. ✨ Mais ça n’a rien de magique… </p>\n<p>Dans ce module, vous allez découvrir les coulisses du fonctionnement des prompts et comprendre comment les systèmes d’IA générative produisent leurs réponses en testant avec des exemples concrets.</p>",
     "duration": 10,
     "level": "Intermédiaire",
@@ -92,10 +92,6 @@
                 "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
               }
             ],
-            "feedbacks": {
-              "valid": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>",
-              "invalid": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
-            },
             "solution": "1"
           }
         }
@@ -152,7 +148,7 @@
                 {
                   "id": "d28a281f-75e7-45d8-8f4c-4dc6d9dfa748",
                   "type": "image",
-                  "url": "https://i.imgur.com/63C2NmG.png ",
+                  "url": "https://i.imgur.com/63C2NmG.png",
                   "alt": "Capture d'écran d'un outil de recherche par sélection manuelle d'une partie d'image.",
                   "alternativeText": "<p>todo</p>"
                 },
