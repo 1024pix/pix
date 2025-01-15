@@ -3,12 +3,12 @@
     "campaign-creation": {
       "custom-landing-page_too_long": "De presentatietekst van de campagne is te lang.",
       "external-user-id-required": "Geef de tekst op van het veld dat de deelnemers aan het begin van de test moeten invullen.",
+      "id-pix-type-required": "Selecteer een extern identificatietype.",
       "name-required": "Geef je campagne een naam.",
       "owner_not_in_organization": "De eigenaar maakt geen deel uit van de organisatie.",
       "purpose-required": "Kies het doel van je campagne: Beoordeling of Verzameling van profielen.",
       "target-profile-required": "Selecteer een traject voor je campagne.",
-      "title_too_long": "De campagnetitel is te lang.",
-      "id-pix-type-required": "Selecteer een extern identificatietype."
+      "title_too_long": "De campagnetitel is te lang."
     },
     "csv-import": {
       "property-not-uniq": "Regel {line}: Het veld “{field}” moet uniek zijn binnen het bestand."
@@ -67,12 +67,12 @@
       "message": "'<strong>'Certificaten:'</strong>' Vergeet niet om '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'de sessies af te ronden in Pix Certif'</a>' en de certificaten hier te downloaden via het tabblad \"Certificaten\" voor de start van het schooljaar {year}."
     },
     "import": {
-      "message": "Belangrijke fasen in het schooljaar :",
+      "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'",
       "step1a": "Implement&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Gids download resultaten' class='link link--banner link--bold link--underlined''>'download resultaten'</a>' certificering en",
       "step1b": "Importeren",
       "step1c": "studentendatabase (admin)",
-      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Gids voor het lanceren van back-to-school cursussen' class='link- banner link-old link--underlined' '>'Campagnes maken'</a>' (cursussen rentrée, 6e, thematisch, disciplinair, gericht...).",
-      "step3": "Certificering van lerenden. '<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Gids Certificering van lerenden voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Lees meer over de nieuwe certificering'</a>'."
+      "step2": "<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Gids voor het lanceren van back-to-school cursussen' class='link- banner link-old link--underlined' '>'Campagnes maken'</a>' (cursussen rentrée, 6e, thematisch, disciplinair, gericht...).",
+      "step3": "<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Gids Certificering van lerenden voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Certificering van lerenden'</a>'."
     },
     "language-availability": {
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
@@ -228,7 +228,7 @@
         "placeholder": "Achternaam, voornaam"
       },
       "loading": "Laden...",
-      "placeholder": "-- Selecteer --",
+      "placeholder": "-- Selecteer",
       "title": "Filters"
     },
     "form": {
@@ -243,10 +243,11 @@
       "field": {
         "birthdate": "Geboortedatum",
         "division": "Klasse",
-        "oralization": "Oralisatie"
+        "oralization": "De instructies lezen"
       }
     },
     "loading": "Bezig met laden",
+    "no-content": "Geen inhoud",
     "pagination": {
       "action": {
         "next": "Naar de volgende pagina",
@@ -271,8 +272,7 @@
       },
       "subjects": "Onderwerpen: {value, number}",
       "thematic-results": "Thematische resultaten: {value, number}"
-    },
-    "no-content": "Geen inhoud"
+    }
   },
   "components": {
     "campaign": {
@@ -311,8 +311,14 @@
       "success": "De deelnemers zijn geïmporteerd."
     },
     "organization-participants-header": {
+      "default": {
+        "title": "{count, plural, =0 {Deelnemer} =1 {Deelnemer ({count})} other {Deelnemers ({count})}}"
+      },
       "import-button": "Importeren",
-      "sco-title": "{count, plural, =0 {Leerling} =1 {Leerling ({count})} other {Leerlingen ({count})}}",
+      "sco-title": "{count, plural, =0 {Studenten} =1 {Studenten ({count})} other {studenten ({count})}}",
+      "sco": {
+        "title": "{count, plural, =0 {Élèves} =1 {Élèves ({count})} other {Élèves ({count})}}"
+      },
       "title": "{count, plural, =0 {Deelnemer} =1 {Deelnemer ({count})} other {Deelnemers ({count})}}"
     },
     "participation-status": {
@@ -322,6 +328,21 @@
       "TO_SHARE-ASSESSMENT": "In afwachting van verzending",
       "TO_SHARE-PROFILES_COLLECTION": "In afwachting van verzending"
     },
+    "terms-of-service": {
+      "actions": {
+        "accept": "Accepteren en doorgaan",
+        "document-link": "Lees de gebruiksvoorwaarden",
+        "reject": "Weigeren en verlaten"
+      },
+      "message": {
+        "requested": "Lees en accepteer onze Gebruiksvoorwaarden om Pix te blijven gebruiken.",
+        "update-requested": "We hebben onze AV bijgewerkt. Controleer de wijzigingen en accepteer ze om verder te gaan."
+      },
+      "title": {
+        "requested": "Accepteer onze Algemene Gebruiksvoorwaarden (AVV)",
+        "update-requested": "Belangrijke update van de Algemene Gebruiksvoorwaarden (AGV)"
+      }
+    },
     "ui": {
       "deletion-modal": {
         "confirm-deletion": "Ja, verwijderen",
@@ -330,7 +351,6 @@
     }
   },
   "navigation": {
-    "external-link-title": "Open in a new window",
     "assessment-individual-results": {
       "aria-label": "Navigatie door het deel met individuele beoordelingsresultaten"
     },
@@ -341,6 +361,7 @@
       "number": "{count, plural, =0 {0 credit} =1 {1 credit} other {{count, number} credits}}",
       "tooltip-text": "Het aantal weergegeven credits komt overeen met het aantal credits dat door de organisatie is verworven en momenteel geldig is (ongeacht hun activering). Neem voor meer informatie contact met ons op via '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'."
     },
+    "external-link-title": "Open in een nieuw venster",
     "footer": {
       "a11y": "Toegankelijkheid: gedeeltelijk conform",
       "aria-label": "Navigatie voetnoot",
@@ -351,7 +372,7 @@
     },
     "main": {
       "aria-label": "Hoofdnavigatie",
-      "attestations": "certificaten",
+      "attestations": "Certificaten",
       "campaigns": "Campagnes",
       "certifications": "Certificeringen",
       "documentation": "Documentatie",
@@ -375,6 +396,7 @@
       "status": {
         "active-label": "Sessie actief tot {sessionExpirationDate}",
         "aria-label": "Uitleg over de sessie",
+        "code-label": "Schoolcode",
         "inactive-label": "Sessie inactief",
         "info-text": "Leerlingen kunnen alleen toegang krijgen tot opdrachten als de sessie actief is.'<br>' Aan het einde van de sessie worden leerlingen die midden in een opdracht zitten niet uitgelogd.",
         "title": "Status sessie"
@@ -384,7 +406,7 @@
       "aria-label": "Navigeren door het gedeelte Team"
     },
     "user-logged-menu": {
-      "button": "Veranderende organisatie",
+      "button": "Gebruikersmenu openen",
       "logout": "Uitloggen"
     }
   },
@@ -417,11 +439,12 @@
       "title": "Resultaten voor {firstName} {lastName}"
     },
     "attestations": {
-      "no-attestations": "Er zijn geen certificaten beschikbaar voor jouw selectie",
-      "title": "Certificaten",
-      "description": "Selecteer de klas waarvoor je de attesten in PDF-formaat wilt exporteren.",
+      "basic-description": "Alle certificaten exporteren in PDF-formaat",
+      "divisions-description": "Selecteer de klas waarvoor je certificaten in PDF-formaat wilt exporteren.",
       "download-attestations-button": "Downloaden",
-      "select-label": "Selecteer een of meer klassen"
+      "no-attestations": "Geen certificaten beschikbaar voor uw selectie",
+      "select-label": "Selecteer een of meer klassen",
+      "title": "Certificaten"
     },
     "campaign-activity": {
       "actions": {
@@ -521,7 +544,9 @@
         "COMPETENCES": "De 16 vaardigheden",
         "CUSTOM": "Cursus op maat",
         "DISCIPLINE": "Disciplines",
-        "OTHER": "Autres",
+        "OTHER": {
+          "other": "Autres"
+        },
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vooraf gedefinieerde test",
         "SUBJECT": "Thema's",
@@ -602,16 +627,16 @@
           },
           "sharedResultCount": "Aantal verzonden resultaten"
         },
+        "empty": "Geen deelname",
+        "evolution-tooltip": {
+          "content": "Vooruitgang van de deelnemer tussen zijn laatste twee gedeelde resultaten."
+        },
         "evolution": {
-          "increase": "In uitvoering",
           "decrease": "In verval",
-          "stable": "Constante",
+          "increase": "In de lift",
+          "stable": "Constant",
           "unavailable": "Niet beschikbaar"
         },
-        "evolution-tooltip": {
-          "content": "Evolutie van de deelnemer tussen hun laatste twee gedeelde resultaten."
-        },
-        "empty": "Geen deelname",
         "row-title": "Deelnemer",
         "title": "Lijst van ontvangen resultaten"
       },
@@ -689,7 +714,7 @@
       "external-user-id-label": "Type externe user-ID",
       "external-user-id-types": {
         "email": "E-mail",
-        "string": "Andere"
+        "string": "Overig"
       },
       "landing-page-text": "Tekst op de startpagina",
       "multiple-sendings": {
@@ -812,7 +837,7 @@
     },
     "certifications": {
       "description": "Selecteer de klas waarvoor je de certificeringsresultaten wilt exporteren (.csv) of de certificaten wilt downloaden (.pdf).'<br>' Je kunt deze lijst filteren door de naam van de klas direct in het veld in te voeren.",
-      "documentation-link": "https://cloud.pix.fr/s/8pJqgNNntwDtsDY",
+      "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "documentation-link-label": "Interpretatie van de resultaten.",
       "documentation-link-notice": "Volg deze link voor meer informatie over de interpretatie van de resultaten:",
       "download-attestations-button": "Getuigschriften downloaden",
@@ -868,7 +893,7 @@
         "errors": {
           "default": "De service is tijdelijk niet beschikbaar. Probeer het later nog eens.",
           "email-already-exists": "Dit e-mailadres is al geregistreerd, log in.",
-          "invalid-or-already-used-email": "Invalid or already used e-mail address"
+          "invalid-or-already-used-email": "Ongeldig of al gebruikt e-mailadres"
         },
         "fields": {
           "button": {
@@ -909,6 +934,9 @@
     },
     "missions": {
       "list": {
+        "actions": {
+          "see-mission-details": "Zie details"
+        },
         "aria-label": "Opdracht",
         "banner": {
           "copypaste-container": {
@@ -924,7 +952,7 @@
             "admin": {
               "head": "Stap 1: <b>Gelieve</b>.",
               "link": "de studentendatabase importeren",
-              "tail": "<b>Van Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Uittreksels > Schoolleerlingen of hun begeleiders <b>door alleen leerlingen uit cyclus 3 te selecteren</b>)."
+              "tail": "<b>Van Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Uittreksels > Schoolleerlingen of hun begeleiders)."
             },
             "non-admin": "Stap 1: <b>Vraag de beheerder</b> Pix Orga van je ruimte om de leerlingen te importeren."
           },
@@ -942,13 +970,10 @@
         "caption": "Lijst van opdrachten",
         "empty-state": "Er zijn geen opdrachten",
         "headers": {
+          "actions": "Acties",
           "competences": "Vaardigheden waaraan is gewerkt",
           "name": "Opdracht",
-          "started-by": "Gestart door",
-          "actions": "Acties"
-        },
-        "actions": {
-          "see-mission-details": "Zie details"
+          "started-by": "Gestart door"
         },
         "no-division": "Geen klas",
         "non-admin": {
@@ -957,12 +982,12 @@
       },
       "mission": {
         "details": {
-          "button-label": "Bekijk het educatieve blad",
+          "button-label": "Bekijk de functieomschrijving",
           "competence": {
-            "title": "Vaardigheden waaraan is gewerkt :"
+            "title": "Vaardigheid :"
           },
           "objective": {
-            "title": "Missie doelstellingen :"
+            "title": "Doelstellingen :"
           }
         },
         "table": {
@@ -995,7 +1020,7 @@
             "filters": {
               "aria-label": "Filter studenten",
               "global-result": {
-                "label": "Missiebeoordeling",
+                "label": "Évaluation de la mission",
                 "options": {
                   "exceeded": "Overtroffen",
                   "no-result": "Geen beoordeling",
@@ -1105,9 +1130,11 @@
       "banner": {
         "anchor-error": "De lijst met foutmeldingen bekijken",
         "error-text": "Corrigeer de fouten en importeer het bestand opnieuw.",
+        "fix-error-text": "Corrigeer de fouten en importeer het bestand opnieuw.",
         "import-error": "De import van deelnemers is mislukt.",
         "import-in-progress": "De inhoud van het bestand is gevalideerd en de deelnemers worden geïmporteerd.",
         "in-progress-text": "Vernieuw deze pagina over enkele ogenblikken om de status van het bestand te controleren.",
+        "retry-error-text": "Er is een fout opgetreden, importeer later of schrijf naar Pix support",
         "upload-completed": "Het bestand werd geïmporteerd op {date} door {firstName} {lastName}.",
         "upload-error": "Het bestand kon niet worden geïmporteerd.",
         "upload-in-progress": "Het importeren van het bestand kan enkele minuten duren. Verlaat deze pagina niet.",
@@ -1162,7 +1189,7 @@
       "filters": {
         "aria-label": "Filters deelnemers",
         "participations-count": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count} deelnemers}}",
-        "students-count": "{count, plural, =0 {0 leerling} =1 {1 leerling} other {{count} leerlingen}}",
+        "students-count": "{count, plural, =0 {0 élèves} =1 {1 élève} other {{count} élèves}}",
         "type": {
           "certificability": {
             "label": "Zoeken op certificeerbaarheid",
@@ -1173,8 +1200,8 @@
       "page-title": "Deelnemers",
       "table": {
         "actions": {
-          "enable-oralization": "Activate oralization",
-          "disable-oralization": "Deactivate oralization"
+          "disable-oralization": "Setpoint uitlezing deactiveren",
+          "enable-oralization": "Setpoint uitlezing activeren"
         },
         "column": {
           "checkbox": "Selecteren/Deselecteren {firstname} {lastname}",
@@ -1204,12 +1231,12 @@
         },
         "description": "Tabel met deelnemers gesorteerd op naam.",
         "empty": "Geen deelnemers",
-        "oralization-header-tooltip": "Door ‘leesinstructies’ te activeren, kan de student zijn mondelinge transcriptie krijgen.",
+        "oralization-header-tooltip": "Als je \"lees de instructies\" activeert, krijgt de leerling een gesproken transcript.",
         "row-title": "Deelnemer",
         "row-value": {
           "oralization": {
-            "true": "Geactiveerd",
-            "false": "Gedeactiveerd"
+            "false": "Uitgeschakeld",
+            "true": "Geactiveerd"
           }
         }
       }
@@ -1288,7 +1315,7 @@
     },
     "profiles-list": {
       "table": {
-        "caption": "Deze tabel bevat de lijst met deelnemers die hun profiel hebben gedeeld. Het geeft voor elke deelnemer zijn achternaam, voornaam, de verzonden datum, de Pix-score, de evolutie, de certificeerbaarheidsstatus en het aantal certificeerbare competenties.",
+        "caption": "Deze tabel bevat de lijst met deelnemers die hun profiel hebben gedeeld. Het geeft voor elke deelnemer zijn achternaam, voornaam, de datum van verzending, de Pix-score, de evolutie, de certificeerbaarheidsstatus en het aantal certificeerbare vaardigheden.",
         "column": {
           "ariaSharedProfileCount": "Aantal profielaandelen",
           "certifiable": "Certificeerbaar",
@@ -1301,22 +1328,22 @@
             "label": "Pix-score",
             "value": "{score, number}"
           },
-          "sharedProfileCount": "Aantal profielaandelen",
           "sending-date": {
             "label": "Verzenddatum",
             "on-hold": "In afwachting van verzending"
-          }
-        },
-        "evolution": {
-          "increase": "In uitvoering",
-          "decrease": "In verval",
-          "stable": "Constante",
-          "unavailable": "Niet beschikbaar"
-        },
-        "evolution-tooltip": {
-          "content": "Evolutie van de pix score tussen de laatste twee profielaandelen."
+          },
+          "sharedProfileCount": "Aantal profielaandelen"
         },
         "empty": "In afwachting van profielen",
+        "evolution-tooltip": {
+          "content": "Verandering in pix-score tussen de laatste twee profieldelen."
+        },
+        "evolution": {
+          "decrease": "In verval",
+          "increase": "In de lift",
+          "stable": "Constant",
+          "unavailable": "Niet beschikbaar"
+        },
         "row-title": "Profiel",
         "title": "Lijst van ontvangen profielen"
       },
@@ -1462,28 +1489,28 @@
       "title": "{count, plural, =0 {Studenten} =1 {Studenten ({count})} other {studenten ({count})}}"
     },
     "statistics": {
-      "select-label": "Domein",
-      "title": "Statistieken",
       "before-date": "op",
-      "description": "De tabel hieronder laat zien hoe je deelnemers per onderwerp zijn gepositioneerd.'<br>' Positionering geeft het gemiddelde niveau van je deelnemers weer ten opzichte van het maximale niveau dat ze hadden kunnen bereiken.'<br>' Deze gegevens houden rekening met alle deelnames die zijn gedeeld als onderdeel van de evaluatiecampagnes van je organisatie en die niet zijn verwijderd.",
+      "description": "In de onderstaande tabel kunt u de positionering van uw deelnemers per onderwerp bekijken.'<br>' De positionering geeft het gemiddelde niveau van uw deelnemers weer ten opzichte van het maximale niveau dat ze hadden kunnen behalen.'<br>' Deze gegevens houden rekening met alle deelnames die zijn gedeeld als onderdeel van de evaluatiecampagnes van uw organisatie en die niet zijn verwijderd.",
       "gauge": {
-        "label": "Je deelnemers behaalden een {userLevel} op een maximaal haalbaar niveau van {tubeLevel}."
+        "label": "{userLevel}  {tubeLevel}Over het onderwerp behaalden uw deelnemers een niveau van uit een maximaal haalbaar niveau van ."
       },
       "level": {
-        "advanced": "geavanceerd",
-        "expert": "expert",
-        "independent": "onafhankelijk",
-        "novice": "beginnende"
+        "advanced": "Geavanceerd",
+        "expert": "Expert",
+        "independent": "Onafhankelijk",
+        "novice": "Beginner"
       },
+      "select-label": "Domein",
       "table": {
         "caption": "Deze tabel toont de resultaten van alle deelnemers per onderwerp. Voor elke regel wordt de vaardigheid, het onderwerp, het dekkingspercentage en het behaalde niveau aangegeven.",
         "headers": {
-          "positioning": "positionering",
+          "positioning": "Positionering",
           "reached-level": "Bereikt niveau",
           "skills": "Vaardigheden",
           "topics": "Onderwerpen"
         }
-      }
+      },
+      "title": "Statistieken"
     },
     "sup-organization-participant-activity": {
       "title": "Activiteit van de student"
