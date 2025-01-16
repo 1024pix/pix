@@ -13,6 +13,7 @@ export default class StudentsRoute extends Route {
     const division = params.division;
     if (division) {
       const divisionLearners = school.organizationLearners.filter((learner) => learner.division === division);
+      console.log(divisionLearners);
       return {
         division,
         organizationLearners: divisionLearners,

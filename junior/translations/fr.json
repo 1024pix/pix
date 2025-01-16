@@ -11,6 +11,10 @@
       "label": "Lire la consigne à haute voix",
       "play": "J'écoute",
       "stop": "Stop"
+    },
+    "login-information": {
+      "connected-user" : "Elève connecté : ",
+      "button-label": "Déconnection"
     }
   },
   "navigation": {

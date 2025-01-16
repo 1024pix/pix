@@ -1,16 +1,19 @@
 {{page-title (t "pages.missions.list.title")}}
 <div>
-  <RobotDialog>
-    <Bubble @message={{t "pages.missions.list.instruction" prenom=this.model.organizationLearner.firstName}} />
-    <Bubble
-      @message={{t
-        "pages.missions.list.back-to-students"
-        prenom=this.model.organizationLearner.firstName
-        backUrl=this.schoolUrl
-      }}
-    />
-  </RobotDialog>
+  <div class="header_container">
+    <RobotDialog>
+      <Bubble @message={{t "pages.missions.list.instruction" prenom=this.model.organizationLearner.firstName}} />
+      <Bubble
+        @message={{t
+          "pages.missions.list.back-to-students"
+          prenom=this.model.organizationLearner.firstName
+          backUrl=this.schoolUrl
+        }}
+      />
+    </RobotDialog>
 
+    <LoginInformation @learner={{this.model.organizationLearner}} />
+  </div>
   <div class="cards">
     {{#each this.orderedMissionList as |mission|}}
       <PixButton @triggerAction={{fn this.goToMission mission.id}} class="card">
