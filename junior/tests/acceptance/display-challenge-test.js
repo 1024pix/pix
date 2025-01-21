@@ -29,6 +29,27 @@ module('Acceptance | Challenge', function (hooks) {
     assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).exists();
   });
 
+  test('displays challenge page with embed autoValidated (timer props)', async function (assert) {
+    const assessment = this.server.create('assessment');
+    const challenge = this.server.create('challenge', {
+      autoReply: true,
+      timer: 200,
+      embedTitle: 'Wow',
+      embedUrl: 'https://bidule',
+      instructions: ['1ère instruction', '2ème instruction'],
+    });
+    this.server.create('activity', { assessmentId: assessment.id });
+    // when
+    const screen = await visit(`/assessments/${assessment.id}/challenges`);
+    // then
+    const validateButton = screen.getByRole('button', { name: t('pages.challenge.actions.check') });
+    assert.dom(screen.getByText(challenge.instructions[0])).exists();
+    assert.dom(screen.getByText(challenge.instructions[1])).exists();
+    assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.skip') })).exists();
+    assert.dom(validateButton).exists();
+    assert.ok(validateButton.disabled);
+  });
+
   test('Should display the oralization button if learner has feature enabled', async function (assert) {
     const oragnizationLearner = this.server.create('organization-learner', {
       features: ['ORALIZATION'],

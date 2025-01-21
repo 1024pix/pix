@@ -25,6 +25,7 @@ export default class Challenge extends Model {
   instructions;
   @attr('string') proposals;
   @attr('string') type;
+  @attr('number') timer;
   @attr('boolean') focused;
   @attr('boolean') shuffled;
   @attr() webComponentProps;
@@ -68,6 +69,10 @@ export default class Challenge extends Model {
 
   get hasType() {
     return !!this.type;
+  }
+
+  get isEmbedAutoValidated() {
+    return !!this.timer;
   }
 
   get hasMedia() {

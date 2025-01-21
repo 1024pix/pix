@@ -55,6 +55,7 @@ describe('Unit | Serializer | challenge-serializer', function () {
               prop1: 'value 1',
               prop2: 'value 2',
             },
+            timer: 300,
             'illustration-alt': 'alt',
             'auto-reply': false,
           },

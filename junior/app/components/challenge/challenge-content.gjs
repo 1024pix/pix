@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { or } from 'ember-truth-helpers';
@@ -14,6 +15,7 @@ import Qrocm from './content/qrocm';
 
 export default class ChallengeContent extends Component {
   @tracked isRebootable = false;
+  @tracked isVerifyButtonDisabled = true;
 
   constructor() {
     super(...arguments);
@@ -55,6 +57,11 @@ export default class ChallengeContent extends Component {
 
   get shouldDisplayRebootButton() {
     return this.isRebootable && !this.args.isDisabled;
+  }
+
+  @action
+  enableVerifyButton() {
+    this.isVerifyButtonDisabled = false;
   }
 
   <template>
@@ -107,10 +114,16 @@ export default class ChallengeContent extends Component {
       {{/if}}
       {{#if @challenge.autoReply}}
         <div class="challenge-content__autoreply">
-          <AutoReply @setAnswerValue={{@setAnswerValue}} />
+          <AutoReply
+            @validateAnswer={{@validateAnswer}}
+            @enableVerifyButton={{this.enableVerifyButton}}
+            @isEmbedAutoValidated={{@challenge.isEmbedAutoValidated}}
+            @setAnswerValue={{@setAnswerValue}}
+          />
         </div>
       {{/if}}
       <ChallengeActions
+        @isVerifyButtonDisabled={{this.isVerifyButtonDisabled}}
         @validateAnswer={{@validateAnswer}}
         @skipChallenge={{@skipChallenge}}
         @level={{@activity.level}}
@@ -119,6 +132,7 @@ export default class ChallengeContent extends Component {
         @disableCheckButton={{@disableCheckButton}}
         @disableLessonButton={{@disableLessonButton}}
         @answerHasBeenValidated={{@answerHasBeenValidated}}
+        @isEmbedAutoValidated={{@challenge.isEmbedAutoValidated}}
       />
     </div>
   </template>

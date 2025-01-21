@@ -22,7 +22,23 @@ export default class ChallengeActions extends Component {
           </span>
         </PixButton>
       {{/unless}}
-      {{#if @answerHasBeenValidated}}
+      {{#if @isEmbedAutoValidated}}
+        <PixButton
+          class="pix1d-button {{unless @isVerifyButtonDisabled 'pix1d-button--success'}}"
+          @iconAfter="arrowRight"
+          @isDisabled={{@isVerifyButtonDisabled}}
+          @triggerAction={{@nextAction}}
+          @size="large"
+        >
+          <span>
+            {{#if @isVerifyButtonDisabled}}
+              {{t "pages.challenge.actions.check"}}
+            {{else}}
+              {{t "pages.challenge.actions.continue"}}
+            {{/if}}
+          </span>
+        </PixButton>
+      {{else if @answerHasBeenValidated}}
         <PixButton
           class="pix1d-button pix1d-button--success"
           @iconAfter="arrowRight"

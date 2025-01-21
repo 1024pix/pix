@@ -18,6 +18,7 @@ const serialize = function (challenges) {
       'format',
       'autoReply',
       'focused',
+      'timer',
       'shuffled',
     ],
     transform: (challenge) => {

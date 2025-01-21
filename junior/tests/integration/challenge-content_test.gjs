@@ -16,6 +16,19 @@ module('Integration | Component | challenge item', function (hooks) {
     assert.dom('.challenge-embed-simulator').exists();
   });
 
+  test('displays embed autoValidated', async function (assert) {
+    const challenge = { hasEmbed: true, autoReply: true, timer: 300, isEmbedAutoValidated: true };
+    const screen = await render(
+      <template><ChallengeContent @challenge={{challenge}} @assessment={{assessment}} /></template>,
+    );
+
+    assert.dom('.challenge-embed-simulator').exists();
+    const buttons = screen
+      .getAllByRole('button')
+      .filter((button) => button.innerText.includes('Je vérifie') && button.disabled);
+    assert.strictEqual(buttons.length, 1);
+  });
+
   test('displays web component', async function (assert) {
     const challenge = { hasWebComponent: true, webComponentTagName: 'qcu-image' };
     const screen = await render(
