@@ -10,6 +10,7 @@ export default class ChallengeActions extends Component {
 
   <template>
     <div class="challenge-actions">
+      {{log @isEmbedAutoValidated}}
       {{#unless (or this.hideSkipButton @isLesson)}}
         <PixButton
           class="pix1d-button pix1d-button--skip"
@@ -22,7 +23,19 @@ export default class ChallengeActions extends Component {
           </span>
         </PixButton>
       {{/unless}}
-      {{#if @answerHasBeenValidated}}
+      {{#if @isEmbedAutoValidated}}
+      <PixButton
+        class="pix1d-button"
+        @iconAfter="arrowRight"
+        @isDisabled={{@shouldDisableVerifyButton}}
+        @triggerAction={{@nextAction}}
+        @size="large"
+      >
+        <span>
+          {{'waowwowowo'}}
+        </span>
+      </PixButton>
+      {{else if @answerHasBeenValidated}}
         <PixButton
           class="pix1d-button pix1d-button--success"
           @iconAfter="arrowRight"

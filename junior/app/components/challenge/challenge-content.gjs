@@ -10,9 +10,11 @@ import EmbeddedWebComponent from './content/embedded-web-component';
 import Qcm from './content/qcm';
 import Qcu from './content/qcu';
 import Qrocm from './content/qrocm';
+import { action } from "@ember/object";
 
 export default class ChallengeContent extends Component {
   @tracked isRebootable = false;
+  @tracked shouldDisableVerifyButton = true;
 
   constructor() {
     super(...arguments);
@@ -40,8 +42,14 @@ export default class ChallengeContent extends Component {
     return this.isRebootable && !this.args.isDisabled;
   }
 
+  @action
+  setShouldDisableVerifyButton (value) {
+     this.shouldDisableVerifyButton = value
+  }
+
   <template>
     <div class="challenge-content {{unless this.isMediaWithForm 'challenge-content--single-display'}}">
+      {{log @challenge}}
       {{#if this.hasMedia}}
         <div class="challenge-content__media {{unless @challenge.hasWebComponent 'challenge-content__media--framed'}}">
           {{#if @challenge.illustrationUrl}}
@@ -69,7 +77,12 @@ export default class ChallengeContent extends Component {
       <div class="challenge-content__proposals">
         {{#if @challenge.autoReply}}
           <div class="challenge-content__autoreply">
-            <AutoReply @setAnswerValue={{@setAnswerValue}} />
+            <AutoReply
+              @validateAnswer={{@validateAnswer}}
+              @setShouldDisableVerifyButton={{this.setShouldDisableVerifyButton}}
+              @isEmbedAutoValidated={{@challenge.isEmbedAutoValidated}}
+              @setAnswerValue={{@setAnswerValue}}
+            />
           </div>
         {{/if}}
         {{#if (or @challenge.isQROC @challenge.isQROCM)}}
@@ -100,6 +113,7 @@ export default class ChallengeContent extends Component {
         {{/if}}
         <div class="container__actions">
           <ChallengeActions
+            @shouldDisableVerifyButton={{this.shouldDisableVerifyButton}}
             @validateAnswer={{@validateAnswer}}
             @skipChallenge={{@skipChallenge}}
             @level={{@activity.level}}
@@ -108,6 +122,7 @@ export default class ChallengeContent extends Component {
             @disableCheckButton={{@disableCheckButton}}
             @disableLessonButton={{@disableLessonButton}}
             @answerHasBeenValidated={{@answerHasBeenValidated}}
+            @isEmbedAutoValidated={{@challenge.isEmbedAutoValidated}}
           />
         </div>
       </div>

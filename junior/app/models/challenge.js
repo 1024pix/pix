@@ -71,4 +71,8 @@ export default class Challenge extends Model {
   get hasType() {
     return !!this.type;
   }
+
+  get isEmbedAutoValidated() {
+    return true; //!!this.timer;
+  }
 }

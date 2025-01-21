@@ -16,8 +16,15 @@ export default class AutoReply extends Component {
 
   _receiveEmbedMessage(event) {
     const message = this._getMessageFromEventData(event);
+    // console.log(event);
     if (message && message.answer && message.from === 'pix') {
-      this.args.setAnswerValue(message.answer);
+      if (this.args.isEmbedAutoValidated) {
+        this.args.setAnswerValue(message.answer);
+        this.args.validateAnswer();
+        this.args.setShouldDisableVerifyButton(false);
+      } else {
+        this.args.setAnswerValue(message.answer);
+      }
     }
   }
 
