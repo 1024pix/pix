@@ -30,7 +30,7 @@
     },
     {
       "grainId": "4617af32-54f4-47ac-8d0f-d4fe26925895",
-      "content": "<p>Maintenant que vous connaissez la définition d'une source d'information, voyons l'exemple de Madame Sarah, qui habite à Beauciel. Un soir, elle croit apercevoir une soucoupe volante et elle appelle la radio locale pour raconter son histoire.</p>"
+      "content": "<p>Maintenant que vous connaissez la définition d'une source d'information, voyons un exemple concret.</p>"
     },
     {
       "grainId": "c7d94063-57ee-4e9d-b6d3-effb3e67792a",
@@ -129,7 +129,7 @@
                 {
                   "id": "2dad74c9-206e-48ca-a577-f7b92eda1ca4",
                   "type": "text",
-                  "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span> La source est l’origine de l’information, sa provenance. Ça peut être un article de journal, une photographie, une vidéo...</p><p>Pour trouver la source de l'information, posez vous la question « d'où vient l'information ? ».</p><p> ☑️Exemple 1 : si ma voisine me dit que la Fête des voisins aura lieu jeudi prochain, c’est elle la source de l’information.</p><p>☑️Exemple 2 : Si dans un article du journal « FranceInfo » il est écrit que les Jeux asiatiques d'hiver de 2029 auront lieu dans le désert, cet article est la source de l'information.</p>"
+                  "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span> La source est l’origine de l’information, sa provenance. Ça peut être un article de journal, une photographie, une vidéo...</p><p>Pour trouver la source de l'information, posez vous la question « d'où vient l'information ? ».</p><p>✔️Exemple 1 : si ma voisine me dit que la Fête des voisins aura lieu jeudi prochain, c’est elle la source de l’information.</p><p>✔️Exemple 2 : Si dans un article du journal « FranceInfo » il est écrit que les Jeux asiatiques d'hiver de 2029 auront lieu dans le désert, cet article est la source de l'information.</p>"
                 }
               ]
             },
@@ -138,7 +138,7 @@
                 {
                   "id": "427190ea-9d73-4691-8f0d-0ce335af4d41",
                   "type": "text",
-                  "content": "<h3>Quels sont les types de sources  ?</h3><p><span aria-hidden=\"true\">👉</span>&nbsp;Il y a deux types de sources&nbsp;: </p><ul><li>La source directe : elle est directement liée à l'information.</li><li>La source indirecte : elle passe par des intermédiaires pour obtenir des détails sur l'information.</li></ul><p><span aria-hidden=\"true\">☑️</span> Exemple&nbsp;: Si ma voisine me dit que la Fête des voisins aura lieu jeudi prochain,&nbsp;c'est une source directe. Si je raconte à mes collocataires ce que m'a dit ma voisine sur la Fête des voisins, je suis une source indirecte.</p>"
+                  "content": "<h3>Quels sont les types de sources  ?</h3><p><span aria-hidden=\"true\">👉</span>&nbsp;Il y a deux types de sources&nbsp;: </p><ul><li>La source directe : elle est directement liée à l'information.</li><li>La source indirecte : elle passe par des intermédiaires pour obtenir des détails sur l'information.</li></ul><p><span aria-hidden=\"true\">✔️</span> Exemple&nbsp;: Si ma voisine me dit que la Fête des voisins aura lieu jeudi prochain,&nbsp;c'est une source directe. Si je raconte à mes collocataires ce que m'a dit ma voisine sur la Fête des voisins, je suis une source indirecte.</p>"
                 }
               ]
             }
@@ -190,7 +190,7 @@
           "element": {
             "id": "96cf39cd-88df-4104-a155-0fff0b40ac31",
             "type": "text",
-            "content": "<p>Quelques jours plus tard, la radio publie une interview à ce sujet. </p><p>Après avoir écouté cette interview, vous devrez trouver qui est la source d'information.</p>"
+            "content": "<p>Madame Sarah habite à Beaupigeon. Un soir, elle croit apercevoir une soucoupe volante dans le ciel. Quelques jours plus tard, la radio publie une interview à ce sujet.</p><p>Après avoir écouté cette interview, vous devrez trouver qui est la source d'information.</p>"
           }
         },
         {
@@ -262,7 +262,7 @@
                 {
                   "id": "68bd7fe6-3592-46ae-b89c-28ecf217ba53",
                   "type": "text",
-                  "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>.<span aria-hidden=\"true\">👍</span></h3><p>Le but de ces sources est de partager des informations utiles pour le public, basées sur des faits et vérifiées. On peu faire confiance à cette source, et les information qu'elle donne ont donc beaucoup de chances d'être vraie.</p>"
+                  "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>.<span aria-hidden=\"true\">👍</span></h3><p>Le but de ces sources est de partager des informations basées sur des faits et vérifiées. Ces informations ont généralement beaucoup de chances d'être vraies.</p>"
                 }
               ]
             },
@@ -280,7 +280,7 @@
                 {
                   "id": "6783ead6-b556-42fc-ade8-efa426257b0c",
                   "type": "text",
-                  "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>.&nbsp;<span aria-hidden=\"true\">🤨</span></h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Mais le partage de ces informations a pour principal objectif de gagner de l'argent ou du pouvoir. Ces informations peuvent donc être remises en question.</p>"
+                  "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>.&nbsp;<span aria-hidden=\"true\">🤨</span></h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Elles ont pour objectif de gagner de l'argent ou du pouvoir. Ces informations peuvent donc être remises en question.</p>"
                 }
               ]
             }
