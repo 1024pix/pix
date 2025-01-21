@@ -190,7 +190,7 @@
           "element": {
             "id": "96cf39cd-88df-4104-a155-0fff0b40ac31",
             "type": "text",
-            "content": "<p>Madame Sarah habite à Beaupigeon. Un soir, elle croit apercevoir une soucoupe volante dans le ciel. Quelques jours plus tard, la radio publie une interview à ce sujet.</p><p>Après avoir écouté cette interview, vous devrez trouver qui est la source d'information.</p>"
+            "content": "<p>Madame Sarah habite à Beaupigeon. Un soir, elle croit apercevoir une soucoupe volante dans le ciel.</p><p>Quelques jours plus tard, la radio publie une interview à ce sujet.</p><br><p>Après avoir écouté cette interview, vous devrez trouver qui est la source d'information.</p>"
           }
         },
         {
@@ -280,7 +280,7 @@
                 {
                   "id": "6783ead6-b556-42fc-ade8-efa426257b0c",
                   "type": "text",
-                  "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>.&nbsp;<span aria-hidden=\"true\">🤨</span></h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Elles ont pour objectif de gagner de l'argent ou du pouvoir. Ces informations peuvent donc être remises en question.</p>"
+                  "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>.&nbsp;<span aria-hidden=\"true\">🤨</span></h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Elles ont pour objectif de gagner de l'argent ou du pouvoir. Les informations qu'elles donnent peuvent donc être remises en question.</p>"
                 }
               ]
             }
