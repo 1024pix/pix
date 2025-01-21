@@ -5,10 +5,13 @@ const register = async function (server) {
     {
       method: 'GET',
       path: '/api/feature-toggles',
-      config: {
+      options: {
         auth: false,
         handler: featureToggleController.getActiveFeatures,
         tags: ['api'],
+        cache: {
+          expiresIn: 30 * 1000,
+        },
       },
     },
     // TODO: Test route to be removed soon
