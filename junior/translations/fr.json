@@ -58,8 +58,8 @@
         "placeholder": "Chargement en cours"
       },
       "messages": {
-        "correct-answer": "Bien joué, tu as répondu correctement !",
-        "wrong-answer": "Mauvaise réponse. Tu peux passer à la suite."
+        "correct-answer": "Bien joué, tu as répondu correctement ! Tu peux continuer.",
+        "wrong-answer": "Mauvaise réponse. Tu peux continuer."
       },
       "qcm-error": "Attention, sélectionne plusieurs réponses !",
       "qcm-hint": "Sélectionne plusieurs réponses.",
