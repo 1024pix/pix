@@ -14,20 +14,24 @@
 
   &__grid-multiple-element {
     grid-template-areas:
-    "illu  form"
-    "illu actions";
+    "left  right"
+    "left actions";
     grid-template-columns: 1fr 1fr;
 
-    &--1x-2x {
-      grid-template-columns: 40% 60%;
+    &--40-60 {
+      grid-template-columns: 2fr 3fr;
+    }
+
+    &--60-40 {
+      grid-template-columns: 3fr 2fr;
     }
 
     div:nth-child(1) {
-      grid-area: illu;
+      grid-area: left;
     }
 
     div:nth-child(2) {
-      grid-area: form;
+      grid-area: right;
     }
 
     div:nth-child(3) {

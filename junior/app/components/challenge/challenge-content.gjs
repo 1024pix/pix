@@ -36,13 +36,18 @@ export default class ChallengeContent extends Component {
 
   get challengeContentClassname() {
     const hasIllustrationAndEmbed = this.args.challenge.illustrationUrl && this.args.challenge.hasEmbed;
+    const hasEmbedAndForm = this.args.challenge.hasEmbed && this.args.challenge.hasForm;
     let classname = '';
 
     if (this.shouldDisplayMultipleElements) {
       classname = 'challenge-content__grid-multiple-element';
 
       if (hasIllustrationAndEmbed) {
-        classname += ' challenge-content__grid-multiple-element--1x-2x';
+        classname += ' challenge-content__grid-multiple-element--40-60';
+      }
+
+      if (hasEmbedAndForm) {
+        classname += ' challenge-content__grid-multiple-element--60-40';
       }
     }
     return classname;
