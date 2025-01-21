@@ -97,8 +97,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "\n<p>Oui. Cette information a été vérifiée par des journalistes. Elle a de grandes chances d'être vraie.</p>",
-                    "invalid": "<p>Cette information a de grandes chances d'être vraie.<br> Elle provient d'un article du journal « FranceInfo ». Cette information a été vérifiée par des journalistes.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span><p>Cette information a été vérifiée par des journalistes. Elle a de grandes chances d'être vraie.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Cette information a de grandes chances d'être vraie.<br> Elle provient d'un article du journal « FranceInfo ». Cette information a été vérifiée par des journalistes.</p>"
                   },
                   "solution": "1"
                 }
@@ -172,8 +172,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "\n<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p><p>feedback diagnostic</p>\n<p> La source d'une information est la personne ou le média d'où provient l'information.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>feedback diagnostic</p><p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
+              "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p><p> La source d'une information est la personne ou le média d'où provient l'information.</p>",
+              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
             },
             "solution": "3"
           }
@@ -233,8 +233,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span></p><p>feedback diagnostic</p>\n<p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>feedback diagnostic</p><p>Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
+              "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span></p><p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>",
+              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
             },
             "solution": "2"
           }
@@ -262,7 +262,7 @@
                 {
                   "id": "68bd7fe6-3592-46ae-b89c-28ecf217ba53",
                   "type": "text",
-                  "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>.<span aria-hidden=\"true\">👍</span></h3>\n<p>Le but de ces sources est d'informer et de partager des informations vérifiées, qui ont donc beaucoup de chances d'être vraie</p>"
+                  "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>.<span aria-hidden=\"true\">👍</span></h3><p>Le but de ces sources est d'informer et de partager des informations vérifiées, qui ont donc beaucoup de chances d'être vraie</p>"
                 }
               ]
             },
@@ -271,7 +271,7 @@
                 {
                   "id": "8a748d26-8d33-47bb-a830-65ae068444c9",
                   "type": "text",
-                  "content": "<h3>Certaines sources d'information sont <strong>humoristiques</strong>.&nbsp;<span aria-hidden=\"true\">🤹</span></h3>\n<p>Le but de ces sources est de faire rire et de partager des informations qui ont beaucoup de chances d'être fausses.</p>"
+                  "content": "<h3>Certaines sources d'information sont <strong>humoristiques</strong>.&nbsp;<span aria-hidden=\"true\">🤹</span></h3><p>Le but de ces sources est de faire rire et de partager des informations qui ont beaucoup de chances d'être fausses.</p>"
                 }
               ]
             },
@@ -332,8 +332,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">💫</span></p><p>feedback diagnostic</p><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>feedback diagnostic</p><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                    "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">💫</span></p><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>",
+                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
                   },
                   "solution": "2"
                 }
@@ -367,8 +367,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p><p>feedback diagnostic</p><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>feedback diagnostic</p><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                    "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>",
+                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
                   },
                   "solution": "1"
                 }
@@ -402,8 +402,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p><p>feedback diagnostic</p><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>feedback diagnostic</p><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                    "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>",
+                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
                   },
                   "solution": "3"
                 }
