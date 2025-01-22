@@ -9,7 +9,7 @@
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
-      "<p>Comprendre comment un système d'IA générative produit un texte ou une image</p>",
+      "<p>Comprendre comment un système d’IA générative produit un texte ou une image</p>",
       "<p>Comprendre les fondamentaux du fonctionnement des systèmes d'IA générative</p>",
       "<p>Identifier les limites d'un système d'IA générative</p>"
     ],
@@ -23,12 +23,20 @@
     {
       "grainId": "7f1a599d-e09f-4bae-8d5b-2027b6c6f788",
       "content": "<p>Les productions des systèmes d’IA peuvent donc contenir des incohérences, voire des choses complètement farfelues : des mains à trois doigts, des arbres volants, ou des inventions présentées comme des faits.&nbsp; <br>Pourtant, ces systèmes d’IA sont de plus en plus utilisés … mais de quoi s’agit-il ?<br></p>"
+    },
+    {
+      "grainId": "edbb9d7b-4981-4fd3-be13-9fb2f6c2a049",
+      "content": "<p>Vous connaissez maintenant la définition de l'IA générative, et vous savez que des assistants à base d'IA générative complètent de nombreux outils du quotidien. Mais avez-vous déjà écrit un prompt ? Et si on essayait ?</p>"
+    },
+    {
+      "grainId": "b384dac1-ac7d-4f91-a209-140cc0ca6bea",
+      "content": "<p>Les IA génératives sont impressionnantes … mais savez-vous ce qu’il se passe réellement lorsqu’on les utilise ?</p>"
     }
   ],
   "grains": [
     {
       "id": "651a6720-8da1-40f0-9462-26c67bde64dc",
-      "type": "lesson",
+      "type": "discovery",
       "title": "Des créations parfois étranges",
       "components": [
         {
@@ -160,6 +168,213 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "edbb9d7b-4981-4fd3-be13-9fb2f6c2a049",
+      "type": "challenge",
+      "title": "En pratique : un premier prompt",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "95c4d552-c7d7-4745-ba58-7990db7ccf94",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le site <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; <br><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "67c3ac12-8cc1-4730-a8c8-a3ed598bea8a",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "e2775c21-b269-4512-929c-e0b346c653f7",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">2️⃣</span><span class=\"sr-only\">2</span> Vous pouvez continuer la conversation tant que vous le souhaitez&nbsp; Essayez par exemple de demander de réécrire le poème avec le style de votre auteur préféré. 🪶<br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8c139707-7967-42d2-bf57-f7d0016b046f",
+            "type": "expand",
+            "title": "Idées de prompt",
+            "content": "<p>Si vous manquez d'inspiration, vous pouvez utiliser l'un&nbsp;des prompts suivants :&nbsp;</p><ul><li>Réécris le poème à la façon d'un poème japonais (haiku)</li><li>Réécris le poème à la façon d'un poème d'amour</li><li>Réécris le poème à la façon d'une comptine pour enfants</li></ul><p><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "84066f6c-51b8-4573-8011-a7ca4ad52d6a",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8a2296bd-10e5-4a24-8aea-a2123427d3b6",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">3️⃣</span><span class=\"sr-only\">3</span> Vous pouvez continuer à demander de le réécrire jusqu’à ce que le texte vous plaise 🥰</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "2c0379c8-2513-4516-ab63-ecc52439369a",
+            "type": "qcu",
+            "instruction": "<p>Avez-vous réussi à générer un poème qui vous convient ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Oui</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Non</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Comme vous avez pu le constater, les réponses des deux systèmes d’intelligence artificielle générative ont adopté les contraintes de forme que nous lui avons données dans le prompt. Impressionnant, non ? 🤯<br></p>",
+              "invalid": "<p>Et si vous essayiez à nouveau ? Avec un simple copier / coller du prompt à la première étape vous devriez pouvoir générer un joli poème !</p>"
+            },
+            "solution": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b384dac1-ac7d-4f91-a209-140cc0ca6bea",
+      "type": "lesson",
+      "title": "Quels sont les fondamentaux du fonctionnement des systèmes d’IA générative ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "cc83aa08-9a2e-413d-872d-b84b8bbbe4e0",
+            "type": "video",
+            "title": "Comment fonctionnent les IA génératives ?",
+            "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
+            "poster": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+            "subtitles": "",
+            "transcription": "Todo"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ee03e6b1-6f74-4e57-8cbf-d74fe5873dbb",
+      "type": "activity",
+      "title": "Les notions clés des systèmes d'IA générative",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a4cb8e09-c712-4081-94bf-654f46150daa",
+            "type": "qrocm",
+            "instruction": "<p>Complétez la discussion entre Nadia et Alba :&nbsp;<br></p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>\n    <strong>Alba</strong> : Bonjour Nadia, tu as une minute ?<br><br>\n    <strong>Nadia</strong> : Oui bien sûr, comment puis-je t’aider ?<br><br>\n    <strong>Alba</strong> : C'est à propos de la conférence que nous avons écoutée hier sur les systèmes d'IA générative, je n’ai pas bien compris comment fonctionne la génération de texte. Que se passe-t-il quand j’entre un&nbsp;\n</span>"
+              },
+              {
+                "input": "0",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "choisir le mot dans le menu déroulant",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "prompt"
+                  },
+                  {
+                    "id": "2",
+                    "content": "paramètre"
+                  },
+                  {
+                    "id": "3",
+                    "content": "code"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<span>?<br><br><strong>Nadia</strong> : Lorsque le système va interpréter ta requête, il va ensuite essayer de&nbsp; </span>"
+              },
+              {
+                "input": "1",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "choisir le mot dans le menu déroulant",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "4",
+                    "content": "mesurer"
+                  },
+                  {
+                    "id": "5",
+                    "content": "prédire"
+                  },
+                  {
+                    "id": "6",
+                    "content": "superviser"
+                  }
+                ],
+                "solutions": [
+                  "4"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br>\n\n<strong>Alba</strong> : Merci c’est beaucoup plus clair ! Et pourquoi parfois cela ne fonctionne pas exactement comme prévu ? L’autre jour j’ai posé une question logique toute bête et j’ai l’impression que le système ne sait même pas compter jusqu’à 4 !<br><br>\n\n<strong>Nadia</strong> : Oui c’est normal ! Il n'a pas essayé de faire des maths en suivant un modèle logique. Il a essayé de générer un discours très probable. On appelle ça une</span>\n"
+              },
+              {
+                "input": "2",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "choisir le mot dans le menu déroulant",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "7",
+                    "content": "affabulation"
+                  },
+                  {
+                    "id": "8",
+                    "content": "hallucination"
+                  },
+                  {
+                    "id": "9",
+                    "content": "tergiversation"
+                  }
+                ],
+                "solutions": [
+                  "8"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span>",
+              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span>"
+            }
+          }
         }
       ]
     }
