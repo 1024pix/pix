@@ -166,6 +166,15 @@
                   "content": "<p>Ce smartphone propose d’entourer une partie de l’image pour lancer une recherche liée à l’objet représenté sur l’image. Il s’agit d’une fonctionnalité contenant de l’IA de reconnaissance d’image couplée à des algorithmes plus classiques de recherches d’informations.<br></p>"
                 }
               ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "e5ea66d1-699d-4d02-943e-1441a18200e6",
+                  "type": "text",
+                  "content": "<p><strong>Le point commun des IA génératives : le <em>prompt</em> ou la <em>requête</em></strong><br><br>\n\n\nPour qu’une IA génère un résultat (texte, image, son, etc.), il faut que l’utilisateur saisisse une requête. C’est une instruction en langage naturel qui décrit la tâche que doit réaliser le système d’IA générative.<br><br>\n\nÀ partir de cette requête, le système va répondre, compléter ou illustrer la demande de l’utilisateur.</p>"
+                }
+              ]
             }
           ]
         }
