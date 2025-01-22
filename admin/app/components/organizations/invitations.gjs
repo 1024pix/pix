@@ -48,6 +48,16 @@ export default class OrganizationInvitations extends Component {
                         >
                           Annuler l’invitation
                         </PixButton>
+                        <PixButton
+                          @size="small"
+                          @variant="error"
+                          class="organization-invitations-actions__button"
+                          aria-label="Renvoyer l’invitation de {{invitation.email}}"
+                          @triggerAction={{fn @onSendNewInvitation invitation}}
+                          @iconBefore="send"
+                        >
+                          Renvoyer l'invitation
+                        </PixButton>
                       </td>
                     {{/if}}
                   </tr>

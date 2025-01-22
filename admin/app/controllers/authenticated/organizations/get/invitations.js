@@ -47,6 +47,25 @@ export default class InvitationsController extends Controller {
     this.isLoading = false;
   }
 
+  @action
+  async sendNewInvitation(organizationInvitation) {
+    this.isLoading = true;
+    try {
+      this.store.queryRecord('organization-invitation', {
+        email: organizationInvitation.email,
+        lang: organizationInvitation.lang,
+        role: organizationInvitation.role,
+        organizationId: this.model.organization.id,
+      });
+      this.pixToast.sendSuccessNotification({
+        message: `Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`,
+      });
+    } catch (error) {
+      this.errorResponseHandler.notify(error, this.CUSTOM_ERROR_MESSAGES);
+    }
+    this.isLoading = false;
+  }
+
   _isEmailToInviteValid(email) {
     if (!email) {
       this.userEmailToInviteError = 'Ce champ est requis.';

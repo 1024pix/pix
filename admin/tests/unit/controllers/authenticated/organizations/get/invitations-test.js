@@ -96,4 +96,22 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       assert.ok(notifyStub.calledWithExactly(anError, customErrors));
     });
   });
+  module('#sendNewInvitation', function () {
+    test('it should send a new invitation', function (assert) {
+      // given
+      const queryRecordStub = sinon.stub();
+      store.queryRecord = queryRecordStub;
+      controller.model = { organization: { id: 1 } };
+      const organizationInvitation = { email: 'test@example.net', lang: 'en', role: 'MEMBER' };
+      // when
+      controller.sendNewInvitation(organizationInvitation);
+      // then
+      assert.ok(
+        queryRecordStub.calledWith('organization-invitation', {
+          ...organizationInvitation,
+          organizationId: 1,
+        }),
+      );
+    });
+  });
 });
