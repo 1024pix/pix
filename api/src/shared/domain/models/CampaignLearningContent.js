@@ -1,40 +1,10 @@
 import _ from 'lodash';
 
-class CampaignLearningContent {
+import { LearningContent } from './LearningContent.js';
+
+class CampaignLearningContent extends LearningContent {
   constructor(learningContent) {
-    this._learningContent = learningContent;
-  }
-
-  get skills() {
-    return this._learningContent.skills;
-  }
-
-  get tubes() {
-    return this._learningContent.tubes;
-  }
-
-  get competences() {
-    return this._learningContent.competences.sort((a, b) => a.index.localeCompare(b.index));
-  }
-
-  get areas() {
-    return this._learningContent.areas.sort((a, b) => a.code.localeCompare(b.code));
-  }
-
-  findSkill(skillId) {
-    return this._learningContent.findSkill(skillId);
-  }
-
-  findTube(tubeId) {
-    return this._learningContent.findTube(tubeId);
-  }
-
-  findCompetence(competenceId) {
-    return this._learningContent.findCompetence(competenceId);
-  }
-
-  findArea(areaId) {
-    return this._learningContent.findArea(areaId);
+    super(learningContent);
   }
 
   get maxSkillDifficulty() {
@@ -44,11 +14,6 @@ class CampaignLearningContent {
 
   get tubeIds() {
     return this.tubes.map((tube) => tube.id);
-  }
-
-  /** @deprecated use findCompetence */
-  getCompetence(competenceId) {
-    return this.findCompetence(competenceId);
   }
 
   getValidatedKnowledgeElementsGroupedByTube(knowledgeElements) {
@@ -108,12 +73,6 @@ class CampaignLearningContent {
     }
 
     return knowledgeElementsGroupedByCompetence;
-  }
-
-  findCompetenceIdOfSkill(skillId) {
-    const tubeId = this.findSkill(skillId)?.tubeId;
-    if (!tubeId) return null;
-    return this.findTube(tubeId).competenceId;
   }
 
   findAreaOfCompetence(competence) {
