@@ -232,11 +232,11 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>Oui</p>"
+                "content": "<p>oui</p>"
               },
               {
                 "id": "2",
-                "content": "<p>Non</p>"
+                "content": "<p>non</p>"
               }
             ],
             "feedbacks": {
@@ -262,7 +262,15 @@
             "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
             "poster": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
             "subtitles": "",
-            "transcription": "Todo"
+            "transcription": "<p>Todo</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "9306a3f5-4475-4e9c-a2ff-40db303e4007",
+            "type": "text",
+            "content": "<p>À la suite de cette vidéo, vous devrez réaliser un petit exercice de réutilisation des notions vues dans la vidéo.</p>"
           }
         }
       ]
@@ -371,8 +379,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span>"
+              "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span></p>",
+              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p>"
             }
           }
         }
