@@ -48,7 +48,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 describe('Integration | Repository | Campaign analysis repository', function () {
   describe('#getCampaignAnalysis', function () {
     context('in a rich context close to reality', function () {
-      let learningContent;
+      let learningContent, campaignLearningContent;
       let campaignId;
 
       beforeEach(async function () {
@@ -88,7 +88,8 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
         const framework = domainBuilder.buildFramework({ areas: [area] });
-        learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+        learningContent = domainBuilder.buildLearningContent([framework]);
+        campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
         return databaseBuilder.commit();
       });
@@ -98,7 +99,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         const tutorials = [];
         const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
           campaignId,
-          learningContent,
+          campaignLearningContent,
           tutorials,
         );
 
@@ -119,25 +120,25 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         const tubeARecommendation = actualAnalysis.campaignTubeRecommendations[0];
         expect(_.pick(tubeARecommendation, pickedAttributes)).to.deep.equal({
           campaignId,
-          tube: learningContent.tubes[0],
-          competenceId: learningContent.competences[0].id,
-          id: `${campaignId}_${learningContent.tubes[0].id}`,
-          competenceName: learningContent.competences[0].name,
-          tubePracticalTitle: learningContent.tubes[0].practicalTitle,
-          areaColor: learningContent.areas[0].color,
-          maxSkillLevel: learningContent.maxSkillDifficulty,
+          tube: campaignLearningContent.tubes[0],
+          competenceId: campaignLearningContent.competences[0].id,
+          id: `${campaignId}_${campaignLearningContent.tubes[0].id}`,
+          competenceName: campaignLearningContent.competences[0].name,
+          tubePracticalTitle: campaignLearningContent.tubes[0].practicalTitle,
+          areaColor: campaignLearningContent.areas[0].color,
+          maxSkillLevel: campaignLearningContent.maxSkillDifficulty,
         });
 
         const tubeBRecommendation = actualAnalysis.campaignTubeRecommendations[1];
         expect(_.pick(tubeBRecommendation, pickedAttributes)).to.deep.equal({
           campaignId,
-          tube: learningContent.tubes[1],
-          competenceId: learningContent.competences[0].id,
-          id: `${campaignId}_${learningContent.tubes[1].id}`,
-          competenceName: learningContent.competences[0].name,
-          tubePracticalTitle: learningContent.tubes[1].practicalTitle,
-          areaColor: learningContent.areas[0].color,
-          maxSkillLevel: learningContent.maxSkillDifficulty,
+          tube: campaignLearningContent.tubes[1],
+          competenceId: campaignLearningContent.competences[0].id,
+          id: `${campaignId}_${campaignLearningContent.tubes[1].id}`,
+          competenceName: campaignLearningContent.competences[0].name,
+          tubePracticalTitle: campaignLearningContent.tubes[1].practicalTitle,
+          areaColor: campaignLearningContent.areas[0].color,
+          maxSkillLevel: campaignLearningContent.maxSkillDifficulty,
         });
       });
 
@@ -147,7 +148,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
-            learningContent,
+            campaignLearningContent,
             tutorials,
           );
 
@@ -186,7 +187,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
-            learningContent,
+            campaignLearningContent,
             tutorials,
           );
 
@@ -221,7 +222,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
-            learningContent,
+            campaignLearningContent,
             tutorials,
           );
 
@@ -321,7 +322,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
-            learningContent,
+            campaignLearningContent,
             tutorials,
           );
 
@@ -398,7 +399,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
-            learningContent,
+            campaignLearningContent,
             tutorials,
           );
 
@@ -414,7 +415,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
 
   describe('#getCampaignParticipationAnalysis', function () {
     context('in a rich context close to reality', function () {
-      let learningContent;
+      let learningContent, campaignLearningContent;
       let campaignId;
       let userId;
       let campaignParticipation;
@@ -465,7 +466,8 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
         const framework = domainBuilder.buildFramework({ areas: [area] });
-        learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+        learningContent = domainBuilder.buildLearningContent([framework]);
+        campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
         return databaseBuilder.commit();
       });
@@ -476,7 +478,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         const actualAnalysis = await campaignAnalysisRepository.getCampaignParticipationAnalysis(
           campaignId,
           campaignParticipation,
-          learningContent,
+          campaignLearningContent,
           tutorials,
         );
 
@@ -497,25 +499,25 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         const tubeARecommendation = actualAnalysis.campaignTubeRecommendations[0];
         expect(_.pick(tubeARecommendation, pickedAttributes)).to.deep.equal({
           campaignId,
-          tube: learningContent.tubes[0],
-          competenceId: learningContent.competences[0].id,
-          id: `${campaignId}_${learningContent.tubes[0].id}`,
-          competenceName: learningContent.competences[0].name,
-          tubePracticalTitle: learningContent.tubes[0].practicalTitle,
-          areaColor: learningContent.areas[0].color,
-          maxSkillLevel: learningContent.maxSkillDifficulty,
+          tube: campaignLearningContent.tubes[0],
+          competenceId: campaignLearningContent.competences[0].id,
+          id: `${campaignId}_${campaignLearningContent.tubes[0].id}`,
+          competenceName: campaignLearningContent.competences[0].name,
+          tubePracticalTitle: campaignLearningContent.tubes[0].practicalTitle,
+          areaColor: campaignLearningContent.areas[0].color,
+          maxSkillLevel: campaignLearningContent.maxSkillDifficulty,
         });
 
         const tubeBRecommendation = actualAnalysis.campaignTubeRecommendations[1];
         expect(_.pick(tubeBRecommendation, pickedAttributes)).to.deep.equal({
           campaignId,
-          tube: learningContent.tubes[1],
-          competenceId: learningContent.competences[0].id,
-          id: `${campaignId}_${learningContent.tubes[1].id}`,
-          competenceName: learningContent.competences[0].name,
-          tubePracticalTitle: learningContent.tubes[1].practicalTitle,
-          areaColor: learningContent.areas[0].color,
-          maxSkillLevel: learningContent.maxSkillDifficulty,
+          tube: campaignLearningContent.tubes[1],
+          competenceId: campaignLearningContent.competences[0].id,
+          id: `${campaignId}_${campaignLearningContent.tubes[1].id}`,
+          competenceName: campaignLearningContent.competences[0].name,
+          tubePracticalTitle: campaignLearningContent.tubes[1].practicalTitle,
+          areaColor: campaignLearningContent.areas[0].color,
+          maxSkillLevel: campaignLearningContent.maxSkillDifficulty,
         });
       });
 
@@ -550,7 +552,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const actualAnalysis = await campaignAnalysisRepository.getCampaignParticipationAnalysis(
             campaignId,
             campaignParticipation,
-            learningContent,
+            campaignLearningContent,
             tutorials,
           );
 

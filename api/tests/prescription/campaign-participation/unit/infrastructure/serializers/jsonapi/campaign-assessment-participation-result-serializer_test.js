@@ -22,7 +22,8 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
       });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
       expectedJsonApi = {
         data: {

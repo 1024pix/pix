@@ -14,7 +14,8 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
       // when
       const campaignAnalysis = new CampaignAnalysis({

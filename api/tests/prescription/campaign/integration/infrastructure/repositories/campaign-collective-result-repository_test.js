@@ -46,7 +46,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 describe('Integration | Repository | Campaign collective result repository', function () {
   describe('#getCampaignCollectiveResults', function () {
     context('in a rich context close to reality', function () {
-      let learningContent;
+      let learningContent, campaignLearningContent;
       let campaignId;
 
       beforeEach(async function () {
@@ -150,8 +150,8 @@ describe('Integration | Repository | Campaign collective result repository', fun
           ],
         });
         const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
-
-        learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+        learningContent = domainBuilder.buildLearningContent([framework]);
+        campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       });
 
       context('when there is no participant', function () {
@@ -163,7 +163,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then
@@ -248,7 +248,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then
@@ -331,7 +331,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then
@@ -487,7 +487,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then
@@ -901,7 +901,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then
@@ -954,7 +954,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then
@@ -1037,7 +1037,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            learningContent,
+            campaignLearningContent,
           );
 
           // then

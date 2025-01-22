@@ -177,7 +177,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
     let snappedAt1, snappedAt2, snappedAt3;
     let knowledgeElement1, knowledgeElement2, knowledgeElement3;
     let campaignParticipationId1, campaignParticipationId2, campaignParticipationId3;
-    let learningContent;
+    let learningContent, campaignLearningContent;
 
     beforeEach(async function () {
       userId1 = databaseBuilder.factory.buildUser().id;
@@ -199,7 +199,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       const competence2 = domainBuilder.buildCompetence({ id: 'competence2', tubes: [tube2] });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence1, competence2] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      learningContent = domainBuilder.buildLearningContent([framework]);
+      campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
       snappedAt1 = new Date('2020-01-02');
       databaseBuilder.factory.buildCampaignParticipation({
@@ -209,8 +210,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       });
       knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
         userId: userId1,
-        competenceId: learningContent.skills[0].competenceId,
-        skillId: learningContent.skills[0].id,
+        competenceId: campaignLearningContent.skills[0].competenceId,
+        skillId: campaignLearningContent.skills[0].id,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         userId: userId1,
@@ -227,8 +228,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       });
       knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({
         userId: userId2,
-        competenceId: learningContent.skills[1].competenceId,
-        skillId: learningContent.skills[1].id,
+        competenceId: campaignLearningContent.skills[1].competenceId,
+        skillId: campaignLearningContent.skills[1].id,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         userId: userId2,
@@ -245,8 +246,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       });
       knowledgeElement3 = databaseBuilder.factory.buildKnowledgeElement({
         userId: userId2,
-        competenceId: learningContent.skills[2].competenceId,
-        skillId: learningContent.skills[2].id,
+        competenceId: campaignLearningContent.skills[2].competenceId,
+        skillId: campaignLearningContent.skills[2].id,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         userId: userId2,

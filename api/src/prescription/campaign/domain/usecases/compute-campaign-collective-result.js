@@ -16,7 +16,7 @@ const computeCampaignCollectiveResult = async function ({
   }
 
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-  const campaignLearningContent = new CampaignLearningContent(learningContent);
+  const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
   return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, campaignLearningContent);
 };
 

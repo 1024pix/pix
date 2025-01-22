@@ -7,7 +7,7 @@ import { CampaignAssessmentParticipationResult } from '../../domain/models/Campa
 
 const getByCampaignIdAndCampaignParticipationId = async function ({ campaignId, campaignParticipationId, locale }) {
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-  const campaignLearningContent = new CampaignLearningContent(learningContent);
+  const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
   const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
     campaignId,
     campaignParticipationId,

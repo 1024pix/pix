@@ -29,7 +29,7 @@ const computeCampaignParticipationAnalysis = async function ({
   }
 
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-  const campaignLearningContent = new CampaignLearningContent(learningContent);
+  const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
   const tutorials = await tutorialRepository.list({ locale });
 
   return campaignAnalysisRepository.getCampaignParticipationAnalysis(

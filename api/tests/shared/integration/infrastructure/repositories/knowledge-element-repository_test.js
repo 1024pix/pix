@@ -497,7 +497,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const competence2 = domainBuilder.buildCompetence({ id: 'competence2', tubes: [tube2] });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence1, competence2] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       const userId = databaseBuilder.factory.buildUser().id;
       const limitDate = new Date('2020-01-03');
       // relevant kes
@@ -531,7 +532,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
           userId,
           limitDate,
-          learningContent,
+          campaignLearningContent,
         );
 
       // then

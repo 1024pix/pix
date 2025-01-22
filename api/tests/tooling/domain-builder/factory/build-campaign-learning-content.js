@@ -2,7 +2,7 @@ import { CampaignLearningContent } from '../../../../src/shared/domain/models/Ca
 import { buildLearningContent } from './build-learning-content.js';
 
 function buildCampaignLearningContent(learningContent = buildLearningContent()) {
-  return new CampaignLearningContent(learningContent);
+  return new CampaignLearningContent(learningContent.frameworks);
 }
 
 buildCampaignLearningContent.fromFrameworks = (frameworks) => {
