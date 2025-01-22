@@ -256,6 +256,14 @@
         {
           "type": "element",
           "element": {
+            "id": "9306a3f5-4475-4e9c-a2ff-40db303e4007",
+            "type": "text",
+            "content": "<p>À la suite de cette vidéo, vous devrez réaliser un petit exercice de réutilisation des notions vues dans la vidéo.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "cc83aa08-9a2e-413d-872d-b84b8bbbe4e0",
             "type": "video",
             "title": "Comment fonctionnent les IA génératives ?",
@@ -263,14 +271,6 @@
             "poster": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
             "subtitles": "",
             "transcription": "<p>Todo</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "9306a3f5-4475-4e9c-a2ff-40db303e4007",
-            "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez réaliser un petit exercice de réutilisation des notions vues dans la vidéo.</p>"
           }
         }
       ]
