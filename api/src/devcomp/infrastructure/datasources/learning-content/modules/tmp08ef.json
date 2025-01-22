@@ -5,7 +5,7 @@
   "isBeta": false,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>ChatGPT, Mistral, Dall-E : les systèmes d’Intelligence Artificielle (IA) générative sont de plus en plus utilisés par le grand public. Ce succès s’explique notamment par les prompts, ces commandes que l’on peut écrire simplement afin d’obtenir des résultats parfois bluffants. ✨ Mais ça n’a rien de magique… </p>\n<p>Dans ce module, vous allez découvrir les coulisses du fonctionnement des prompts et comprendre comment les systèmes d’IA générative produisent leurs réponses en testant avec des exemples concrets.</p>",
+    "description": "<p>ChatGPT, Mistral, Dall-E : les systèmes d’Intelligence Artificielle (IA) générative sont de plus en plus utilisés par le grand public. Ce succès s’explique notamment par les prompts, ces commandes que l’on peut écrire simplement afin d’obtenir des résultats parfois bluffants. <span aria-hidden=\"true\">✨ </span> Mais ça n’a rien de magique… </p><br><p>Dans ce module, vous allez découvrir les coulisses du fonctionnement des prompts et comprendre comment les systèmes d’IA générative produisent leurs réponses en testant avec des exemples concrets.</p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
@@ -18,7 +18,7 @@
   "transitionTexts": [
     {
       "grainId": "651a6720-8da1-40f0-9462-26c67bde64dc",
-      "content": "<p>Vous avez peut-être déjà créé du contenu à l’aide d’une IA. La plupart du temps, les résultats sont crédibles. C’est d’ailleurs leur objectif principal.</p>\n<p>Pourtant, on peut y trouver des choses étranges. Voyons cela dans un exemple 👇</p>"
+      "content": "<p>Vous avez peut-être déjà créé du contenu à l’aide d’une IA. La plupart du temps, les résultats sont crédibles. C’est d’ailleurs leur objectif principal.</p>\n<p>Pourtant, on peut y trouver des choses étranges. Voyons cela dans un exemple <span aria-hidden=\"true\">👇 </span></p>"
     },
     {
       "grainId": "7f1a599d-e09f-4bae-8d5b-2027b6c6f788",
@@ -31,6 +31,10 @@
     {
       "grainId": "b384dac1-ac7d-4f91-a209-140cc0ca6bea",
       "content": "<p>Les IA génératives sont impressionnantes … mais savez-vous ce qu’il se passe réellement lorsqu’on les utilise ?</p>"
+    },
+    {
+      "grainId": "9c32181d-ee67-4240-b683-b8ec9d93df2a",
+      "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p>"
     }
   ],
   "grains": [
@@ -126,7 +130,7 @@
                 {
                   "id": "99004131-38da-4d88-92b0-f5263d2016cb",
                   "type": "text",
-                  "content": "<p><strong>Commençons par une définition 📚</strong> </p>\n<p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des requêtes (ou en anglais <em>prompts</em>) <sup>1</sup>.</p>\n<p>Les autres systèmes d’IA, qui ne sont pas <em>génératives</em>, sont des systèmes automatisés reposant généralement sur des algorithmes afin d’accomplir des tâches bien définies. Elles ne créent pas de contenu nouveau ou créatif. Il s’agit par exemple de fonctionnalités de recommandation de musique en fonction des écoutes des utilisateurs.</p>\n<p>1 : source : D’après wikipedia France 16/12/2024</p>"
+                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p><p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des requêtes (ou en anglais <em>prompts</em>) <sup>1</sup>.</p><p>Les autres systèmes d’IA, qui ne sont pas <em>génératives</em>, sont des systèmes automatisés reposant généralement sur des algorithmes afin d’accomplir des tâches bien définies. Elles ne créent pas de contenu nouveau ou créatif. Il s’agit par exemple de fonctionnalités de recommandation de musique en fonction des écoutes des utilisateurs.</p><p>1 : source : D’après wikipedia France 16/12/2024</p>"
                 }
               ]
             },
@@ -172,7 +176,7 @@
                 {
                   "id": "e5ea66d1-699d-4d02-943e-1441a18200e6",
                   "type": "text",
-                  "content": "<p><strong>Le point commun des IA génératives : le <em>prompt</em> ou la <em>requête</em></strong><br><br>\n\n\nPour qu’une IA génère un résultat (texte, image, son, etc.), il faut que l’utilisateur saisisse une requête. C’est une instruction en langage naturel qui décrit la tâche que doit réaliser le système d’IA générative.<br><br>\n\nÀ partir de cette requête, le système va répondre, compléter ou illustrer la demande de l’utilisateur.</p>"
+                  "content": "<p><strong>Le point commun des IA génératives : le <em>prompt</em> ou la <em>requête</em></strong><br><br>Pour qu’une IA génère un résultat (texte, image, son, etc.), il faut que l’utilisateur saisisse une requête. C’est une instruction en langage naturel qui décrit la tâche que doit réaliser le système d’IA générative.<br><br>À partir de cette requête, le système va répondre, compléter ou illustrer la demande de l’utilisateur.</p>"
                 }
               ]
             }
@@ -205,7 +209,7 @@
           "element": {
             "id": "e2775c21-b269-4512-929c-e0b346c653f7",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">2️⃣</span><span class=\"sr-only\">2</span> Vous pouvez continuer la conversation tant que vous le souhaitez&nbsp; Essayez par exemple de demander de réécrire le poème avec le style de votre auteur préféré. 🪶<br></p>"
+            "content": "<p><span aria-hidden=\"true\">2️⃣</span><span class=\"sr-only\">2</span> Vous pouvez continuer la conversation tant que vous le souhaitez&nbsp; Essayez par exemple de demander de réécrire le poème avec le style de votre auteur préféré. <span aria-hidden=\"true\">🪶</span><br></p>"
           }
         },
         {
@@ -229,7 +233,7 @@
           "element": {
             "id": "8a2296bd-10e5-4a24-8aea-a2123427d3b6",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">3️⃣</span><span class=\"sr-only\">3</span> Vous pouvez continuer à demander de le réécrire jusqu’à ce que le texte vous plaise 🥰</p>"
+            "content": "<p><span aria-hidden=\"true\">3️⃣</span><span class=\"sr-only\">3</span> Vous pouvez continuer à demander de le réécrire jusqu’à ce que le texte vous plaise <span aria-hidden=\"true\">🥰</span></p>"
           }
         },
         {
@@ -249,7 +253,7 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Comme vous avez pu le constater, les réponses des deux systèmes d’intelligence artificielle générative ont adopté les contraintes de forme que nous lui avons données dans le prompt. Impressionnant, non ? 🤯<br></p>",
+              "valid": "<p>Comme vous avez pu le constater, les réponses des deux systèmes d’intelligence artificielle générative ont adopté les contraintes de forme que nous lui avons données dans le prompt. Impressionnant, non ? <span aria-hidden=\"true\">🤯 </span><br></p>",
               "invalid": "<p>Et si vous essayiez à nouveau ? Avec un simple copier / coller du prompt à la première étape vous devriez pouvoir générer un joli poème !</p>"
             },
             "solution": "1"
@@ -298,7 +302,7 @@
             "proposals": [
               {
                 "type": "text",
-                "content": "<span>\n    <strong>Alba</strong> : Bonjour Nadia, tu as une minute ?<br><br>\n    <strong>Nadia</strong> : Oui bien sûr, comment puis-je t’aider ?<br><br>\n    <strong>Alba</strong> : C'est à propos de la conférence que nous avons écoutée hier sur les systèmes d'IA générative, je n’ai pas bien compris comment fonctionne la génération de texte. Que se passe-t-il quand j’entre un&nbsp;\n</span>"
+                "content": "<span><strong>Alba</strong> : Bonjour Nadia, tu as une minute ?<br><br><strong>Nadia</strong> : Oui bien sûr, comment puis-je t’aider ?<br><br> <strong>Alba</strong> : C'est à propos de la conférence que nous avons écoutée hier sur les systèmes d'IA générative, je n’ai pas bien compris comment fonctionne la génération de texte. Que se passe-t-il quand j’entre un&nbsp;</span>"
               },
               {
                 "input": "0",
@@ -358,7 +362,7 @@
               },
               {
                 "type": "text",
-                "content": "<span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br>\n\n<strong>Alba</strong> : Merci c’est beaucoup plus clair ! Et pourquoi parfois cela ne fonctionne pas exactement comme prévu ? L’autre jour j’ai posé une question logique toute bête et j’ai l’impression que le système ne sait même pas compter jusqu’à 4 !<br><br>\n\n<strong>Nadia</strong> : Oui c’est normal ! Il n'a pas essayé de faire des maths en suivant un modèle logique. Il a essayé de générer un discours très probable. On appelle ça une</span>\n"
+                "content": "<p><span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>Alba</strong> : Merci c’est beaucoup plus clair ! Et pourquoi parfois cela ne fonctionne pas exactement comme prévu ? L’autre jour j’ai posé une question logique toute bête et j’ai l’impression que le système ne sait même pas compter jusqu’à 4 !<br><br><strong>Nadia</strong> : Oui c’est normal ! Il n'a pas essayé de faire des maths en suivant un modèle logique. Il a essayé de générer un discours très probable. On appelle ça une</span></p>"
               },
               {
                 "input": "2",
@@ -391,6 +395,21 @@
               "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span></p>",
               "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p>"
             }
+          }
+        }
+      ]
+    },
+    {
+      "id": "9c32181d-ee67-4240-b683-b8ec9d93df2a",
+      "type": "summary",
+      "title": "Récap",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "5c072fb2-0baf-48dc-8b80-23c7b49d53f8",
+            "type": "text",
+            "content": "<ul><li>Les utilisateurs interagissent avec les systèmes d’IA générative en décrivant leur demande en langage naturel : c’est le <em>prompt </em>ou<em> requête </em>en français.</li><li>Selon le type de système d’IA générative, la machine va utiliser des algorithmes qui vont chercher à <em>prédire</em> la suite de texte ou la forme d’image la plus probable.</li><li>Parfois, les systèmes d’IA générative produisent des résultats farfelus : on les appelle des <em>hallucinations</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !</li></ul>"
           }
         }
       ]
