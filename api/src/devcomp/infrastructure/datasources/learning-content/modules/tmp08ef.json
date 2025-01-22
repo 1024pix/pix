@@ -35,6 +35,10 @@
     {
       "grainId": "9c32181d-ee67-4240-b683-b8ec9d93df2a",
       "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p>"
+    },
+    {
+      "grainId": "143f1906-9e25-4afe-8f2d-70b61ec76230",
+      "content": "<p>À vous de jouer : vous allez devoir faire halluciner des IA génératives 🥸 🦄</p>"
     }
   ],
   "grains": [
@@ -410,6 +414,62 @@
             "id": "5c072fb2-0baf-48dc-8b80-23c7b49d53f8",
             "type": "text",
             "content": "<ul><li>Les utilisateurs interagissent avec les systèmes d’IA générative en décrivant leur demande en langage naturel : c’est le <em>prompt </em>ou<em> requête </em>en français.</li><li>Selon le type de système d’IA générative, la machine va utiliser des algorithmes qui vont chercher à <em>prédire</em> la suite de texte ou la forme d’image la plus probable.</li><li>Parfois, les systèmes d’IA générative produisent des résultats farfelus : on les appelle des <em>hallucinations</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "143f1906-9e25-4afe-8f2d-70b61ec76230",
+      "type": "challenge",
+      "title": "Défi : Faites halluciner une IA générative",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "014ce746-f31d-424e-975c-0b5b90b2d9f5",
+            "type": "text",
+            "content": "<p>À l'aide de <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a> , écrivez des prompts qui amènent à des hallucinations pour au moins une des deux IA génératives de texte proposées.</p><br><p>🗝️ Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "49d7efba-effc-4835-b7dc-26e9c9cfca53",
+            "type": "expand",
+            "title": "Astuce n°1",
+            "content": "<p>Poser une question logique contenant un piège. 🪤 </p><p>Par exemple : <em>Justine a trois sœurs et un frère, Maxime. Combien de sœurs a Maxime ?</em> <br><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1d5975d3-f528-4048-95c8-bd06f2a647dd",
+            "type": "expand",
+            "title": "Astuce n°2",
+            "content": "<p>Demander de choisir une option parmi des options qui sont toutes fausses 🤥 </p><p>Par exemple : <em>Dans \"les aventuriers des forêts\", avec quelle créature fantastique fait équipe l’héroïne, un Basilic ou un Dragon ?</em> <br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "61a7796a-0830-4344-8bb0-b7f5d778d81f",
+            "type": "qcu",
+            "instruction": "<p>Avez-vous réussi le défi&nbsp;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>oui</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>non</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"\\&quot;feedback__state\\&quot;\">Bravo !</span><span aria-hidden=\"\\&quot;true\\&quot;\">🎉</span><p>N'hésitez pas à vous amuser avec de nouvelles requêtes.</p>",
+              "invalid": "<span class=\"\\&quot;feedback__state\\&quot;\">N'hésitez pas à retenter avec d'autres modèles, certains sont très bien préparés à ce type de manœuvres ... </span>"
+            },
+            "solution": "1"
           }
         }
       ]
