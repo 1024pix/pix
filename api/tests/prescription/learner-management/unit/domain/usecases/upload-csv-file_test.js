@@ -1,4 +1,4 @@
-import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { uploadCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-csv-file.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
@@ -59,7 +59,7 @@ describe('Unit | UseCase | uploadCsvFile', function () {
     organizationImportSavedStub = { id: organizationImportId, upload: sinon.stub() };
 
     sinon
-      .stub(OrganizationImport, 'create')
+      .stub(OrganizationImportStatus, 'create')
       .withArgs({ createdBy: userId, organizationId })
       .returns(organizationImportStub);
 

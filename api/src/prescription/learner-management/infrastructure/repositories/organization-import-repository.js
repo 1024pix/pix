@@ -1,10 +1,10 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { OrganizationImport } from '../../domain/models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../domain/models/OrganizationImportStatus.js';
 import { OrganizationImportDetail } from '../../domain/read-models/OrganizationImportDetail.js';
 
 function _toDomain(data) {
-  return new OrganizationImport(data);
+  return new OrganizationImportStatus(data);
 }
 
 const getLastByOrganizationId = async function (organizationId) {

@@ -1,4 +1,4 @@
-import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { importOrganizationLearnersFromSIECLECSVFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-csv-format.js';
 import { OrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-parser.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
@@ -23,7 +23,7 @@ describe('Unit | UseCase | importOrganizationLearnersFromSIECLECSVFormat', funct
     i18n = Symbol('i18n');
     s3Filename = Symbol('s3FileName');
     encoding = Symbol('encoding');
-    organizationImport = new OrganizationImport({
+    organizationImport = new OrganizationImportStatus({
       id: organizationImportId,
       filename: s3Filename,
       organizationId,

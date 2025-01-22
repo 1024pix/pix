@@ -1,4 +1,4 @@
-import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { replaceSupOrganizationLearners } from '../../../../../../src/prescription/learner-management/domain/usecases/replace-sup-organization-learners.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
@@ -22,7 +22,7 @@ describe('Unit | UseCase | ReplaceSupOrganizationLearner', function () {
 
   beforeEach(function () {
     organizationImportId = Symbol('organizationImportId');
-    organizationImport = new OrganizationImport({
+    organizationImport = new OrganizationImportStatus({
       id: organizationImportId,
       filename: 'file.csv',
       organizationId,

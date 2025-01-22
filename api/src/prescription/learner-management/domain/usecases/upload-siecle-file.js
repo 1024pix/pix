@@ -4,7 +4,7 @@ import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastruc
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
-import { OrganizationImport } from '../models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../models/OrganizationImportStatus.js';
 import { ValidateOrganizationImportFileJob } from '../models/ValidateOrganizationImportFileJob.js';
 
 const uploadSiecleFile = async function ({
@@ -21,7 +21,7 @@ const uploadSiecleFile = async function ({
   dependencies = { logErrorWithCorrelationIds },
 }) {
   await DomainTransaction.execute(async () => {
-    let organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
+    let organizationImport = OrganizationImportStatus.create({ organizationId, createdBy: userId });
 
     await organizationImportRepository.save(organizationImport);
     organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);

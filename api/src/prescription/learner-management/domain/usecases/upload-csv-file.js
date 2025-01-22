@@ -1,5 +1,5 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { OrganizationImport } from '../models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../models/OrganizationImportStatus.js';
 import { ValidateCsvOrganizationImportFileJob } from '../models/ValidateCsvOrganizationImportFileJob.js';
 
 const uploadCsvFile = withTransaction(async function ({
@@ -13,7 +13,7 @@ const uploadCsvFile = withTransaction(async function ({
   importStorage,
   Parser,
 }) {
-  const organizationImportInstance = OrganizationImport.create({ organizationId, createdBy: userId });
+  const organizationImportInstance = OrganizationImportStatus.create({ organizationId, createdBy: userId });
   await organizationImportRepository.save(organizationImportInstance);
 
   const organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);

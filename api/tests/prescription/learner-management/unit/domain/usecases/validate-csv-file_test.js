@@ -2,7 +2,7 @@ import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-mana
 import { AggregateImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { ImportScoCsvOrganizationLearnersJob } from '../../../../../../src/prescription/learner-management/domain/models/ImportScoCsvOrganizationLearnersJob.js';
 import { ImportSupOrganizationLearnersJob } from '../../../../../../src/prescription/learner-management/domain/models/ImportSupOrganizationLearnersJob.js';
-import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { validateCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-csv-file.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
@@ -46,7 +46,7 @@ describe('Unit | UseCase | validateCsvFile', function () {
         code: 'unknown',
       },
     ];
-    organizationImport = new OrganizationImport({
+    organizationImport = new OrganizationImportStatus({
       id: organizationImportId,
       filename: 'file.csv',
       organizationId,

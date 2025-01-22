@@ -3,7 +3,7 @@ import { createReadStream } from 'node:fs';
 import { CommonCsvLearnerParser } from '../../../infrastructure/serializers/csv/common-csv-learner-parser.js';
 import { getDataBuffer } from '../../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError, OrganizationLearnerImportFormatNotFoundError } from '../../errors.js';
-import { OrganizationImport } from '../../models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../models/OrganizationImportStatus.js';
 import { ValidateCommonOrganizationImportFileJob } from '../../models/ValidateCommonOrganizationImportFileJob.js';
 
 const sendOrganizationLearnersFile = async function ({
@@ -16,7 +16,7 @@ const sendOrganizationLearnersFile = async function ({
   importStorage,
   dependencies = { createReadStream, getDataBuffer },
 }) {
-  let organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
+  let organizationImport = OrganizationImportStatus.create({ organizationId, createdBy: userId });
   let filename;
   let encoding;
   const errors = [];

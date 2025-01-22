@@ -1,8 +1,8 @@
 import { IMPORT_STATUSES } from '../constants.js';
 
-export class OrganizationImport {
+export class OrganizationImportStatus {
   static create({ organizationId, createdBy }) {
-    return new OrganizationImport({
+    return new OrganizationImportStatus({
       organizationId,
       createdBy,
       createdAt: new Date(),

@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 
-import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
+import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
@@ -57,7 +57,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
     organizationImportSavedStub = { id: Symbol('OrganizationImportId'), upload: sinon.stub() };
 
     sinon
-      .stub(OrganizationImport, 'create')
+      .stub(OrganizationImportStatus, 'create')
       .withArgs({ createdBy: userId, organizationId })
       .returns(organizationImportStub);
 
