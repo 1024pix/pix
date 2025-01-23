@@ -7,6 +7,14 @@ class CampaignLearningContent extends LearningContent {
     super(learningContent);
   }
 
+  get areas() {
+    return super.areas.sort((a, b) => a.code.localeCompare(b.code));
+  }
+
+  get competences() {
+    return super.competences.sort((a, b) => a.index.localeCompare(b.index));
+  }
+
   get maxSkillDifficulty() {
     const skillMaxDifficulty = _.maxBy(this.skills, 'difficulty');
     return skillMaxDifficulty ? skillMaxDifficulty.difficulty : null;
