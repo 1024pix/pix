@@ -14,6 +14,7 @@ export default class InvitationsController extends Controller {
   @service store;
   @service accessControl;
   @service errorResponseHandler;
+  @service intl;
 
   CUSTOM_ERROR_MESSAGES = {
     DEFAULT: 'Une erreur s’est produite, veuillez réessayer.',
@@ -43,6 +44,27 @@ export default class InvitationsController extends Controller {
       this.userEmailToInvite = null;
     } catch (err) {
       this.errorResponseHandler.notify(err, this.CUSTOM_ERROR_MESSAGES);
+    }
+    this.isLoading = false;
+  }
+
+  @action
+  async sendNewInvitation(organizationInvitation) {
+    this.isLoading = true;
+    try {
+      await this.store.queryRecord('organization-invitation', {
+        email: organizationInvitation.email,
+        lang: organizationInvitation.lang,
+        role: organizationInvitation.role,
+        organizationId: this.model.organization.id,
+      });
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('common.invitations.send-new-confirm', {
+          invitationEmail: organizationInvitation.email,
+        }),
+      });
+    } catch (error) {
+      this.errorResponseHandler.notify(error, this.CUSTOM_ERROR_MESSAGES);
     }
     this.isLoading = false;
   }

@@ -3,9 +3,11 @@ import { fn } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { t } from 'ember-intl';
 
 export default class OrganizationInvitations extends Component {
   @service accessControl;
+  @service intl;
 
   get sortedInvitations() {
     return this.args.invitations.sortBy('updatedAt').reverse();
@@ -40,9 +42,21 @@ export default class OrganizationInvitations extends Component {
                       <td>
                         <PixButton
                           @size="small"
+                          class="organization-invitations-actions__button"
+                          aria-label={{t
+                            "common.invitations.send-new-label"
+                            invitationEmail=invitation.email
+                          }}
+                          @triggerAction={{fn @onSendNewInvitation invitation}}
+                          @iconName="refresh"
+                        >
+                          {{t "common.invitations.send-new"}}
+                        </PixButton>
+                        <PixButton
+                          @size="small"
                           @variant="error"
                           class="organization-invitations-actions__button"
-                          aria-label="Annuler l’invitation de {{invitation.email}}"
+                          aria-label="Annuler l'invitation de {{invitation.email}}"
                           @triggerAction={{fn @onCancelOrganizationInvitation invitation}}
                           @iconBefore="delete"
                         >

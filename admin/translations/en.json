@@ -55,6 +55,11 @@
       "mandatory": "Champ obligatoire",
       "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required"
     },
+    "invitations": {
+      "send-new": "Resend the invitation",
+      "send-new-confirm": "An email has been sent to {invitationEmail}",
+      "send-new-label": "Resend the invitation to {invitationEmail}"
+    },
     "notifications": {
       "close-button": {
         "extra-information": "Close notification"
