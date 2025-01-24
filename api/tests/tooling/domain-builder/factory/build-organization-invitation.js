@@ -8,6 +8,7 @@ const buildOrganizationInvitation = function ({
   status = OrganizationInvitation.StatusType.PENDING,
   code = 'ABCDE12345',
   role,
+  locale = 'fr',
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
 } = {}) {
@@ -19,6 +20,7 @@ const buildOrganizationInvitation = function ({
     status,
     code,
     role,
+    locale,
     createdAt,
     updatedAt,
   });
