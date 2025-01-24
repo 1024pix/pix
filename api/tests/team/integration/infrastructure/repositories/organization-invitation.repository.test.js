@@ -32,6 +32,7 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
       const status = OrganizationInvitation.StatusType.PENDING;
       const code = 'ABCDEFGH01';
       const role = Membership.roles.ADMIN;
+      const locale = 'fr';
 
       // when
       const savedInvitation = await organizationInvitationRepository.create({ organizationId, email, code, role });
@@ -43,6 +44,7 @@ describe('Integration | Team | Infrastructure | Repository | organization-invita
       expect(savedInvitation.status).equal(status);
       expect(savedInvitation.code).equal(code);
       expect(savedInvitation.role).equal(role);
+      expect(savedInvitation.locale).equal(locale);
     });
   });
 

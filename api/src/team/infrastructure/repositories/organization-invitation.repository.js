@@ -10,12 +10,13 @@ import { OrganizationInvitation } from '../../domain/models/OrganizationInvitati
  * @param {string} params.email
  * @param {string} params.code
  * @param {string} params.role
+ * @param {string} params.locale
  * @returns {Promise<OrganizationInvitation>}
  */
-const create = async function ({ organizationId, email, code, role }) {
+const create = async function ({ organizationId, email, code, role, locale }) {
   const status = OrganizationInvitation.StatusType.PENDING;
   const [organizationInvitationCreated] = await knex('organization-invitations')
-    .insert({ organizationId, email, status, code, role })
+    .insert({ organizationId, email, status, code, role, locale })
     .returning('*');
 
   return new OrganizationInvitation(organizationInvitationCreated);
