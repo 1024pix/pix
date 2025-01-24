@@ -190,7 +190,7 @@
           "element": {
             "id": "96cf39cd-88df-4104-a155-0fff0b40ac31",
             "type": "text",
-            "content": "<p>Madame Sarah habite à Beaupigeon. Un soir, elle croit apercevoir une soucoupe volante dans le ciel.</p><p>Quelques jours plus tard, la radio publie une interview à ce sujet.</p><br><p>Après avoir écouté cette interview, vous devrez trouver qui est la source d'information.</p>"
+            "content": "<p>Madame Sarah habite à Beaupigeon. Un soir, elle croit apercevoir une soucoupe volante dans le ciel.</p><p>Quelques jours plus tard, la radio publie une interview à ce sujet.</p><p><strong>Après avoir écouté cette interview, vous devrez trouver qui est la source d'information.</strong></p>"
           }
         },
         {
@@ -201,7 +201,7 @@
             "title": "Une vidéo",
             "url": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.mp4",
             "subtitles": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.vtt",
-            "transcription": "<ul><li> <strong>Journaliste Dupont</strong>&nbsp;: Flash info, bonjour ! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité ? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong>&nbsp;: Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong>&nbsp;: Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
+            "transcription": "<ul><li> <strong>Journaliste Dupont</strong>: Flash info, bonjour ! Ici le journaliste Dupont pour la radio d'à côté. Lundi dernier, aux alentours de vingt et une heures, Madame Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité ?<br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre « Les soucoupes volantes existent-elles.» Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong>: Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong>: Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission. À vous les studios.</li></ul>"
           }
         },
         {
