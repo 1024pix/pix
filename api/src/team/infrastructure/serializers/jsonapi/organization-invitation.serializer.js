@@ -4,7 +4,13 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 
 const serialize = function (invitations) {
   return new Serializer('organization-invitations', {
-    attributes: ['organizationId', 'organizationName', 'email', 'status', 'updatedAt', 'role'],
+    transform: (invitations) => {
+      return {
+        ...invitations,
+        lang: invitations.locale,
+      };
+    },
+    attributes: ['organizationId', 'organizationName', 'email', 'status', 'updatedAt', 'role', 'lang'],
   }).serialize(invitations);
 };
 

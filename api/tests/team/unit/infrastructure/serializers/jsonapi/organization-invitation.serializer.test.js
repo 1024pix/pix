@@ -22,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
             status: invitationObject.status,
             'updated-at': invitationObject.updatedAt,
             role: invitationObject.role,
+            lang: invitationObject.locale,
           },
         },
       };
