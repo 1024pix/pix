@@ -11,6 +11,7 @@ const buildOrganizationInvitation = function ({
   status = OrganizationInvitation.StatusType.PENDING,
   code = 'INVIABC123',
   role = null,
+  locale = 'fr',
   updatedAt = new Date('2020-01-01'),
 } = {}) {
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
@@ -23,6 +24,7 @@ const buildOrganizationInvitation = function ({
     status,
     code,
     role,
+    locale,
     createdAt: new Date(),
     updatedAt,
   };
