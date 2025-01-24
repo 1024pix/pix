@@ -16,6 +16,7 @@ describe('Unit | Team | Domain | Model | OrganizationInvitation', function () {
         status: 'pending',
         code: 'ABCDEFGH01',
         role: null,
+        locale: 'fr',
         createdAt: today,
         updatedAt: today,
       };
@@ -39,6 +40,7 @@ describe('Unit | Team | Domain | Model | OrganizationInvitation', function () {
         status: 'pending',
         code: 'ABCDEFGH01',
         role: 'SUPER-ADMIN',
+        locale: 'fr',
         createdAt: today,
         updatedAt: today,
       };

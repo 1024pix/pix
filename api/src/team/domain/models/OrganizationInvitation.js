@@ -26,6 +26,7 @@ const validationScheme = Joi.object({
   role: Joi.string()
     .valid(...Object.values(roles))
     .optional(),
+  locale: Joi.string().optional(),
   createdAt: Joi.date().optional(),
   updatedAt: Joi.date().optional(),
   organizationId: Joi.number().optional(),
@@ -39,6 +40,7 @@ class OrganizationInvitation {
     code,
     organizationName,
     role,
+    locale,
     createdAt,
     updatedAt,
     //references
@@ -50,6 +52,7 @@ class OrganizationInvitation {
     this.code = code;
     this.organizationName = organizationName;
     this.role = role;
+    this.locale = locale;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     //references
