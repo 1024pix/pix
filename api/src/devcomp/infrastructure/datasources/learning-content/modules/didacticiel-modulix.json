@@ -258,54 +258,6 @@
                   "solution": "1"
                 }
               ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "79dc17f9-142b-4e19-bcbe-bfde4e170d3f",
-                  "type": "qcu",
-                  "instruction": "<p>Pix est découpé en 6 domaines.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Bien vu !</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Et non ! Il y a seulement 5 domaines sur Pix.</p>"
-                  },
-                  "solution": "2"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "9c73500d-abd9-4cc4-ab2d-a3876285b13c",
-                  "type": "qcu",
-                  "instruction": "<p>Les compétences de Pix sont sur 8 niveaux.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Et oui ! A noter, seulement 7 sont actifs aujourd’hui.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Incorrect ! Il existe 8 niveaux par compétence.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
             }
           ]
         }
