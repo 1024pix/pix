@@ -74,6 +74,7 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
  * @returns {Promise<Array<CampaignParticipationKnowledgeElementSnapshots>>}
  */
 const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates) {
+  //TODO: replace here
   const params = userIdsAndSnappedAtDates.map((userIdAndDate) => {
     return [userIdAndDate.userId, userIdAndDate.sharedAt];
   });
@@ -86,6 +87,7 @@ const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAnd
   return results.map((result) => {
     const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });
 
+    //TODO: replace here
     return new CampaignParticipationKnowledgeElementSnapshots({
       userId: result.userId,
       snappedAt: result.snappedAt,
