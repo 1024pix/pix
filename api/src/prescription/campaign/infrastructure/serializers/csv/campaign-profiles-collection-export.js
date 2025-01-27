@@ -80,10 +80,12 @@ class CampaignProfilesCollectionExport {
   }
 
   async _getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
+    //TODO: replace here
     const userIdsAndDates = campaignParticipationResultDataChunk.map(({ userId, sharedAt }) => {
       return { userId, sharedAt };
     });
 
+    //TODO: replace here
     const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
       userIdsAndDates,
       competences: this.competences,
@@ -95,6 +97,7 @@ class CampaignProfilesCollectionExport {
 
   _buildLines(placementProfiles, campaignParticipationResultDatas) {
     const csvLines = campaignParticipationResultDatas.map((campaignParticipationResultData) => {
+      //TODO: replace here
       const placementProfile = placementProfiles.find(({ userId, profileDate }) => {
         const sameUserId = campaignParticipationResultData.userId === userId;
         const sameDate =

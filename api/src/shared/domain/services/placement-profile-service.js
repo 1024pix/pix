@@ -129,12 +129,14 @@ async function _generatePlacementProfile({ userId, profileDate, competences, all
     userCompetences,
   });
 }
-
+//TODO: replace here
 async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
+  //TODO: replace here
   const knowledgeElementsByUserIdAndDates =
     await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(userIdsAndDates);
 
   return userIdsAndDates.map(({ userId, sharedAt }) => {
+    //TODO: replace here
     const keForUser = knowledgeElementsByUserIdAndDates.find((knowledgeElementsByUserIdAndDates) => {
       const sameUserId = knowledgeElementsByUserIdAndDates.userId === userId;
       const sameDate = sharedAt && knowledgeElementsByUserIdAndDates.snappedAt.getTime() === sharedAt.getTime();
@@ -158,10 +160,12 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
   });
 }
 
+//TODO: replace here
 async function getPlacementProfileWithSnapshotting({ userId, limitDate, competences, allowExcessPixAndLevels = true }) {
   const snapshots = await knowledgeElementRepository.findSnapshotForUsers({
     [userId]: limitDate,
   });
+  //TODO: replace here
   const knowledgeElements = snapshots[userId];
   const knowledgeElementsByCompetence = _.groupBy(knowledgeElements, 'competenceId');
 
@@ -170,6 +174,7 @@ async function getPlacementProfileWithSnapshotting({ userId, limitDate, competen
     competences,
     allowExcessPixAndLevels,
   });
+  //TODO: replace here
   return new PlacementProfile({
     userId,
     profileDate: limitDate,
