@@ -18,11 +18,11 @@
   "transitionTexts": [
     {
       "grainId": "651a6720-8da1-40f0-9462-26c67bde64dc",
-      "content": "<p>Vous avez peut-être déjà créé du contenu à l’aide d’une IA. La plupart du temps, les résultats sont crédibles. C’est d’ailleurs leur objectif principal.</p>\n<p>Pourtant, on peut y trouver des choses étranges. Voyons cela dans un exemple <span aria-hidden=\"true\">👇 </span></p>"
+      "content": "<p>Vous avez peut-être déjà créé du contenu à l’aide d’un système d'IA générative.</p><p>La plupart du temps, les résultats sont crédibles. C’est d’ailleurs leur objectif principal.</p><p>Pourtant, ces résultats peuvent être parfois étranges. Voyons cela dans un exemple. <span aria-hidden=\"true\"> 👇</span></p>"
     },
     {
       "grainId": "7f1a599d-e09f-4bae-8d5b-2027b6c6f788",
-      "content": "<p>Les productions des systèmes d’IA peuvent donc contenir des incohérences, voire des choses complètement farfelues : des mains à trois doigts, des arbres volants, ou des inventions présentées comme des faits.&nbsp; <br>Pourtant, ces systèmes d’IA sont de plus en plus utilisés … mais de quoi s’agit-il ?<br></p>"
+      "content": "<p>Les productions des systèmes d’IA peuvent donc contenir des choses incohérentes voire farfelues : des mains à trois doigts, des arbres volants, ou des recettes à base d'œufs de vache.&nbsp;</p><p>Malgré tout, ces systèmes d’IA sont de plus en plus utilisés… mais de quoi s’agit-il ?</p>"
     },
     {
       "grainId": "edbb9d7b-4981-4fd3-be13-9fb2f6c2a049",
@@ -94,17 +94,17 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>La première image</p>",
+                "content": "<p>Image 1</p>",
                 "feedback": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>"
               },
               {
                 "id": "2",
-                "content": "<p>La deuxième image</p>",
+                "content": "<p>Image 2</p>",
                 "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
               },
               {
                 "id": "3",
-                "content": "<p>La troisième image</p>",
+                "content": "<p>Image 3</p>",
                 "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
               }
             ],
@@ -119,14 +119,6 @@
       "title": "C’est quoi en fait, une IA générative ?",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "7a681a67-bd27-4370-8c8b-c29bfb89cfea",
-            "type": "text",
-            "content": "<p>Les systèmes d’IA générative sont conçus pour générer des contenus ressemblant à ceux que des humains pourraient créer.<br></p>"
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
             {
@@ -134,7 +126,7 @@
                 {
                   "id": "99004131-38da-4d88-92b0-f5263d2016cb",
                   "type": "text",
-                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p><p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des requêtes (ou en anglais <em>prompts</em>) <sup>1</sup>.</p><p>Les autres systèmes d’IA, qui ne sont pas <em>génératives</em>, sont des systèmes automatisés reposant généralement sur des algorithmes afin d’accomplir des tâches bien définies. Elles ne créent pas de contenu nouveau ou créatif. Il s’agit par exemple de fonctionnalités de recommandation de musique en fonction des écoutes des utilisateurs.</p><p>1 : source : D’après wikipedia France 16/12/2024</p>"
+                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p><p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des <em>requêtes</em>, ou en anglais <em>prompts</em> (Wikipédia France 16/12/2024).</p><p>Les autres systèmes d’IA, qui ne sont pas <em>génératives</em>, sont des systèmes automatisés reposant généralement sur des algorithmes afin d’accomplir des tâches bien définies. Elles ne produisent pas de contenu nouveau ou créatif. Il s’agit par exemple de fonctionnalités de recommandation de musique en fonction des écoutes des utilisateurs.</p>"
                 }
               ]
             },
@@ -143,7 +135,7 @@
                 {
                   "id": "52e3bd53-2008-4630-b7c5-4e90236ba33b",
                   "type": "text",
-                  "content": "<p><strong>Les IA génératives dans les outils du quotidien</strong><br><br> Avez-vous déjà aperçu le symbole ✨ sur l’interface de certains de vos logiciels ? Souvent, cela signifie qu’un logiciel intègre et utilise de l’IA pour produire certains contenus. En voici quelques exemples :&nbsp;&nbsp;<br><br></p>"
+                  "content": "<p><strong>L'IA générative dans les outils du quotidien</strong> </p><p> Avez-vous déjà aperçu le symbole ✨ sur l’interface de certains de vos logiciels ? Souvent, cela signifie qu’un logiciel intègre et utilise de l’IA pour produire certains contenus. En voici quelques exemples :&nbsp;&nbsp;<br><br></p>"
                 },
                 {
                   "id": "c4f33f60-4b37-4273-b82a-3dde01b5845b",
@@ -171,7 +163,7 @@
                 {
                   "id": "9422dadd-e840-441a-bb6e-14603296b94a",
                   "type": "text",
-                  "content": "<p>Ce smartphone propose d’entourer une partie de l’image pour lancer une recherche liée à l’objet représenté sur l’image. Il s’agit d’une fonctionnalité contenant de l’IA de reconnaissance d’image couplée à des algorithmes plus classiques de recherches d’informations.<br></p>"
+                  "content": "<p>Avec cette application mobile, on peut entourer une partie d'une image pour lancer une recherche. Cette fonctionnalité se base sur de l'IA de reconnaissance d'image couplée à un moteur de recherche classique.</p>"
                 }
               ]
             },
@@ -180,7 +172,7 @@
                 {
                   "id": "e5ea66d1-699d-4d02-943e-1441a18200e6",
                   "type": "text",
-                  "content": "<p><strong>Le point commun des IA génératives : le <em>prompt</em> ou la <em>requête</em></strong><br><br>Pour qu’une IA génère un résultat (texte, image, son, etc.), il faut que l’utilisateur saisisse une requête. C’est une instruction en langage naturel qui décrit la tâche que doit réaliser le système d’IA générative.<br><br>À partir de cette requête, le système va répondre, compléter ou illustrer la demande de l’utilisateur.</p>"
+                  "content": "<p><strong>Le point commun des IA génératives : le <em>prompt</em> ou la <em>requête</em></strong></p><p>Pour qu’une IA génère un résultat (texte, image, son, etc.), il faut que l’utilisateur saisisse une requête. C’est une instruction en langage naturel qui décrit la tâche que doit réaliser le système d’IA générative.</p><p>À partir de cette requête, le système va répondre, compléter ou illustrer la demande de l’utilisateur.</p>"
                 }
               ]
             }
