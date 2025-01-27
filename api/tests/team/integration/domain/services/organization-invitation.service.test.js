@@ -32,13 +32,15 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
 
-      const email = 'member@organization.org';
+      const email = 'member@example.net';
       const role = Membership.roles.ADMIN;
+      const locale = 'fr';
       const expectedOrganizationInvitation = {
         organizationId,
         email,
         status: OrganizationInvitation.StatusType.PENDING,
         role,
+        locale,
       };
 
       // when
@@ -46,6 +48,7 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
         organizationId,
         email,
         role,
+        locale,
         organizationRepository,
         organizationInvitationRepository,
       });

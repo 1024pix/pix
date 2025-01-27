@@ -42,6 +42,7 @@ const createOrUpdateOrganizationInvitation = async ({
       email,
       code,
       role,
+      locale,
     });
   }
 
@@ -99,7 +100,13 @@ const createProOrganizationInvitation = async ({
 
   if (!organizationInvitation) {
     const code = _generateCode();
-    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, role, code });
+    organizationInvitation = await organizationInvitationRepository.create({
+      organizationId,
+      email,
+      role,
+      code,
+      locale,
+    });
   }
 
   await dependencies.mailService.sendOrganizationInvitationEmail({
@@ -148,7 +155,13 @@ const createScoOrganizationInvitation = async ({
   if (!organizationInvitation) {
     const code = _generateCode();
     const role = Membership.roles.ADMIN;
-    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, code, role });
+    organizationInvitation = await organizationInvitationRepository.create({
+      organizationId,
+      email,
+      code,
+      role,
+      locale,
+    });
   }
 
   const organization = await organizationRepository.get(organizationId);

@@ -67,6 +67,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
           email: userEmailAddress,
           code: sinon.match.string,
           role,
+          locale,
         });
         expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWithExactly({
           email: userEmailAddress,
@@ -247,6 +248,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
         const organization = domainBuilder.buildOrganization();
         const organizationInvitation = new OrganizationInvitation({
           role: Membership.roles.ADMIN,
+          locale,
           status: 'pending',
           code,
         });
@@ -256,6 +258,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
             email: userEmailAddress,
             code: sinon.match.string,
             role: organizationInvitation.role,
+            locale: organizationInvitation.locale,
           })
           .resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
@@ -295,6 +298,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
         const organization = domainBuilder.buildOrganization();
         const organizationInvitation = new OrganizationInvitation({
           role: Membership.roles.ADMIN,
+          locale,
           status: 'pending',
           code,
         });
@@ -304,6 +308,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
             email: userEmailAddress,
             code: sinon.match.string,
             role: organizationInvitation.role,
+            locale: organizationInvitation.locale,
           })
           .resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
@@ -425,6 +430,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
         const organization = domainBuilder.buildOrganization();
         const organizationInvitation = new OrganizationInvitation({
           role: Membership.roles.MEMBER,
+          locale,
           status: 'pending',
           code,
         });
@@ -435,6 +441,7 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
             organizationId: organization.id,
             email: userEmailAddress,
             role,
+            locale,
             code: sinon.match.string,
           })
           .resolves(organizationInvitation);
