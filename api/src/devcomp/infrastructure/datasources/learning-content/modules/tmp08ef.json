@@ -466,8 +466,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"\\&quot;feedback__state\\&quot;\">Bravo !</span><span aria-hidden=\"\\&quot;true\\&quot;\">🎉</span><p>N'hésitez pas à vous amuser avec de nouvelles requêtes.</p>",
-              "invalid": "<span class=\"\\&quot;feedback__state\\&quot;\">N'hésitez pas à retenter avec d'autres modèles, certains sont très bien préparés à ce type de manœuvres ... </span>"
+              "valid": "<span class=\"feedback__state\">Bravo !</span><span aria-hidden=\"true\">🎉</span><p>N'hésitez pas à vous amuser avec de nouvelles requêtes.</p>",
+              "invalid": "<span class=\"feedback__state\">N'hésitez pas à retenter avec d'autres modèles, certains sont très bien préparés à ce type de manœuvres ... </span>"
             },
             "solution": "1"
           }
