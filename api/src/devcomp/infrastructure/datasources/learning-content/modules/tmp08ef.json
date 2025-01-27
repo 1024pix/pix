@@ -473,6 +473,72 @@
           }
         }
       ]
+    },
+    {
+      "id": "b3ae83cc-af45-4e5b-8af3-f50be1962142",
+      "type": "summary",
+      "title": "Flashcards",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "903eacfc-3035-4a3a-9f70-f8a7517f81ba",
+            "type": "flashcards",
+            "instruction": "<p>Lisez la question, essayez de trouver la réponse puis retourner la carte en cliquant dessus.<br>Cela permet de tester votre mémoire 🎯</p>",
+            "title": "Les IA génératives",
+            "introImage": {
+              "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
+            },
+            "cards": [
+              {
+                "id": "20058ea4-444e-44b4-941e-cce627a19997",
+                "recto": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
+                  },
+                  "text": "Une IA générative de texte peut parfois produire des résultats qui ne sont pas vrais. Comment appelle-t-on ce phénomène ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
+                  },
+                  "text": "<p>Ce sont les <strong>hallucinations</strong>.</p>"
+                }
+              },
+              {
+                "id": "464e30e1-2c8a-4184-85f7-5e377a36429c",
+                "recto": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
+                  },
+                  "text": "Le domaine de l’IA existe depuis très longtemps, mais son développement récent concerne le champ des IA ..."
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
+                  },
+                  "text": "<p><strong>génératives</strong></p>"
+                }
+              },
+              {
+                "id": "3aaf1894-43b2-4110-bc67-9ea62723b408",
+                "recto": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
+                  },
+                  "text": "Pour l’utilisateur, quel est le point commun entre les IA génératives de texte et d’image ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
+                  },
+                  "text": "<p>Elles utilisent un <strong>prompt</strong> en entrée.</p>"
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }
