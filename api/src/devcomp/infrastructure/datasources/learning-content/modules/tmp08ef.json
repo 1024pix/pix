@@ -26,11 +26,11 @@
     },
     {
       "grainId": "edbb9d7b-4981-4fd3-be13-9fb2f6c2a049",
-      "content": "<p>Vous connaissez maintenant la définition de l'IA générative, et vous savez que des assistants à base d'IA générative complètent de nombreux outils du quotidien. Mais avez-vous déjà écrit un prompt ? Et si on essayait ?</p>"
+      "content": "<p>Vous en savez désormais plus sur les systèmes d'IA générative.</p><p> Mais avez-vous déjà écrit un prompt ? Et si on essayait ?</p>"
     },
     {
       "grainId": "b384dac1-ac7d-4f91-a209-140cc0ca6bea",
-      "content": "<p>Les IA génératives sont impressionnantes … mais savez-vous ce qu’il se passe réellement lorsqu’on les utilise ?</p>"
+      "content": "<p>Les IA génératives sont impressionnantes… mais que se passe-t-il réellement quand on les utilise ?</p><p>On vous explique tout en vidéo! <span aria-hidden=\"true\">📺</span></p>"
     },
     {
       "grainId": "9c32181d-ee67-4240-b683-b8ec9d93df2a",
@@ -191,7 +191,7 @@
           "element": {
             "id": "95c4d552-c7d7-4745-ba58-7990db7ccf94",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le site <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; <br><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></p>"
+            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le site <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; <br><blockquote><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></blockquote></p>"
           }
         },
         {
@@ -206,7 +206,7 @@
           "element": {
             "id": "e2775c21-b269-4512-929c-e0b346c653f7",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">2️⃣</span><span class=\"sr-only\">2</span> Vous pouvez continuer la conversation tant que vous le souhaitez&nbsp; Essayez par exemple de demander de réécrire le poème avec le style de votre auteur préféré. <span aria-hidden=\"true\">🪶</span><br></p>"
+            "content": "<p><span aria-hidden=\"true\">2️⃣</span><span class=\"sr-only\">2</span> Demandez maintenant de réécrire le poème avec le style de votre auteur préféré. <span aria-hidden=\"true\">🪶</span><br></p>"
           }
         },
         {
@@ -215,7 +215,7 @@
             "id": "8c139707-7967-42d2-bf57-f7d0016b046f",
             "type": "expand",
             "title": "Idées de prompt",
-            "content": "<p>Si vous manquez d'inspiration, vous pouvez utiliser l'un&nbsp;des prompts suivants :&nbsp;</p><ul><li>Réécris le poème à la façon d'un poème japonais (haiku)</li><li>Réécris le poème à la façon d'un poème d'amour</li><li>Réécris le poème à la façon d'une comptine pour enfants</li></ul><p><br></p>"
+            "content": "<p>Si vous manquez d'inspiration, vous pouvez utiliser l'un des prompts suivants :&nbsp;</p><ul><li>Réécris le poème à la façon de Victor Hugo.</li><li>Réécris le poème à la façon d'un poème japonais (Haiku).</li><li>Réécris le poème à la façon d'une comptine pour enfants.</li></ul>"
           }
         },
         {
@@ -230,7 +230,7 @@
           "element": {
             "id": "8a2296bd-10e5-4a24-8aea-a2123427d3b6",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">3️⃣</span><span class=\"sr-only\">3</span> Vous pouvez continuer à demander de le réécrire jusqu’à ce que le texte vous plaise <span aria-hidden=\"true\">🥰</span></p>"
+            "content": "<p><span aria-hidden=\"true\">3️⃣</span><span class=\"sr-only\">3</span> Continuez à demander de réécrire ce texte jusqu’à ce qu'il vous plaise.<span aria-hidden=\"true\">🥰</span></p>"
           }
         },
         {
@@ -238,7 +238,7 @@
           "element": {
             "id": "2c0379c8-2513-4516-ab63-ecc52439369a",
             "type": "qcu",
-            "instruction": "<p>Avez-vous réussi à générer un poème qui vous convient ?</p>",
+            "instruction": "<p>Avez-vous réussi à générer un poème qui vous plaît ?</p>",
             "proposals": [
               {
                 "id": "1",
