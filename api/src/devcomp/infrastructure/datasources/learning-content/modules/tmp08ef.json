@@ -90,7 +90,7 @@
           "element": {
             "id": "a0109f4c-aa52-44f9-a0a9-afcd7a74af28",
             "type": "qcu",
-            "instruction": "<p>Sélectionner l'image qui a été générée par un système d'IA générative</p>",
+            "instruction": "<p>Quelle image a été générée par un système d'IA générative ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -126,7 +126,7 @@
                 {
                   "id": "99004131-38da-4d88-92b0-f5263d2016cb",
                   "type": "text",
-                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p><p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des <em>requêtes</em>, ou en anglais <em>prompts</em> (Wikipédia France 16/12/2024).</p><p>Les autres systèmes d’IA, qui ne sont pas <em>génératives</em>, sont des systèmes automatisés reposant généralement sur des algorithmes afin d’accomplir des tâches bien définies. Elles ne produisent pas de contenu nouveau ou créatif. Il s’agit par exemple de fonctionnalités de recommandation de musique en fonction des écoutes des utilisateurs.</p>"
+                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p><p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des <em>requêtes</em>, ou en anglais <em>prompts</em>.</p><p>Les systèmes d’IA qui ne sont pas <em>génératifs</em> sont aussi des systèmes automatisés, mais dédiés à des tâches bien définies. En effet, ils ne produisent pas de contenu nouveau ou créatif. Il s’agit par exemple de fonctionnalités de recommandation de musique en fonction des écoutes des utilisateurs.</p>"
                 }
               ]
             },
@@ -142,6 +142,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/kVzIfHR.png",
                   "alt": "Capture d'écran de l'outil Notion",
+                  "legend": "Faite avant le séminaire de juin 2023",
                   "alternativeText": "<p>todo</p>"
                 },
                 {
@@ -163,7 +164,7 @@
                 {
                   "id": "9422dadd-e840-441a-bb6e-14603296b94a",
                   "type": "text",
-                  "content": "<p>Avec cette application mobile, on peut entourer une partie d'une image pour lancer une recherche. Cette fonctionnalité se base sur de l'IA de reconnaissance d'image couplée à un moteur de recherche classique.</p>"
+                  "content": "<p>Avec cette application mobile, on peut entourer une partie d'une image pour lancer une recherche. Cette fonctionnalité se base sur de l'IA de reconnaissance d'image couplée à un moteur dgit e recherche classique.</p>"
                 }
               ]
             },
