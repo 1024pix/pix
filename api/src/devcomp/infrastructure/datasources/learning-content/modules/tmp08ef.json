@@ -191,7 +191,7 @@
           "element": {
             "id": "95c4d552-c7d7-4745-ba58-7990db7ccf94",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le site <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; <br><blockquote><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></blockquote></p>"
+            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le site <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; </p><blockquote><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></blockquote>"
           }
         },
         {
@@ -268,7 +268,7 @@
           "element": {
             "id": "9306a3f5-4475-4e9c-a2ff-40db303e4007",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez réaliser un petit exercice de réutilisation des notions vues dans la vidéo.</p>"
+            "content": "<p>À la suite de cette vidéo, vous devrez utiliser le vocabulaire de l'IA générative dans un exemple concret.</p>"
           }
         },
         {
