@@ -484,6 +484,7 @@
           "element": {
             "id": "903eacfc-3035-4a3a-9f70-f8a7517f81ba",
             "type": "flashcards",
+            "title": "Flashcards",
             "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp;</p><ol><li>Lire la question. <span aria-hidden=\"true\">👀</span></li><li>Essayer de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li><li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol><p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden=\"true\">🎯</span></p>",
             "introImage": {
               "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
