@@ -293,13 +293,21 @@
         {
           "type": "element",
           "element": {
+            "id": "3fafe614-19eb-4ecf-b1a8-bdf5307ca84c",
+            "type": "text",
+            "content": "<p>Hier, Nadia a fait découvrir à son amie Alba les IA génératives.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "a4cb8e09-c712-4081-94bf-654f46150daa",
             "type": "qrocm",
-            "instruction": "<p>Complétez la discussion entre Nadia et Alba :&nbsp;<br></p>",
+            "instruction": "<p>Lisez et complétez leur discussion.</p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<span><strong>Alba</strong> : Bonjour Nadia, tu as une minute ?<br><br><strong>Nadia</strong> : Oui bien sûr, comment puis-je t’aider ?<br><br> <strong>Alba</strong> : C'est à propos de la conférence que nous avons écoutée hier sur les systèmes d'IA générative, je n’ai pas bien compris comment fonctionne la génération de texte. Que se passe-t-il quand j’entre un&nbsp;</span>"
+                "content": "<span><strong>Alba</strong> : Et qu'est-ce qui se passe quand j'écris un&nbsp;</span>"
               },
               {
                 "input": "0",
@@ -329,7 +337,7 @@
               },
               {
                 "type": "text",
-                "content": "<span>?<br><br><strong>Nadia</strong> : Lorsque le système va interpréter ta requête, il va ensuite essayer de&nbsp; </span>"
+                "content": "<span>?<br><br><strong>Nadia</strong> : En fait, le système va interpréter ta requête, et il va ensuite essayer de&nbsp; </span>"
               },
               {
                 "input": "1",
@@ -359,7 +367,7 @@
               },
               {
                 "type": "text",
-                "content": "<span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>Alba</strong> : Merci c’est beaucoup plus clair ! Et pourquoi parfois cela ne fonctionne pas exactement comme prévu ? L’autre jour j’ai posé une question logique toute bête et j’ai l’impression que le système ne sait même pas compter jusqu’à 4 !<br><br><strong>Nadia</strong> : Oui c’est normal ! Il n'a pas essayé de faire des maths en suivant un modèle logique. Il a essayé de générer un discours très probable. On appelle ça une</span>"
+                "content": "<span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>Alba</strong> : OK ! Mais pourquoi ça ne fonctionne pas toujours comme prévu ? Là, quand je lui pose cette question très simple, il donne une réponse absurde.<br><br><strong>Nadia</strong> : Oui c’est normal. C'est une&nbsp;</span>"
               },
               {
                 "input": "2",
@@ -386,6 +394,10 @@
                 "solutions": [
                   "8"
                 ]
+              },
+              {
+                  "type": "text",
+                  "content": "<span>. Le modèle n'est pas capable de réfléchir comme un humain. Il produit juste un discours \"très probable\"</span>"
               }
             ],
             "feedbacks": {
