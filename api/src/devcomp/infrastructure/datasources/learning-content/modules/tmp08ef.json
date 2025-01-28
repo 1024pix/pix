@@ -138,13 +138,8 @@
                   "type": "image",
                   "url": "https://i.imgur.com/kVzIfHR.png",
                   "alt": "Capture d'écran de l'outil Notion",
-                  "legend": "Faite avant le séminaire de juin 2023",
-                  "alternativeText": "<p>todo</p>"
-                },
-                {
-                  "id": "94c56b28-b18f-4502-bbb3-c02666e3da03",
-                  "type": "text",
-                  "content": "<p>Dans cet outil de prise de notes (Notion), on peut directement demander à une IA générative de texte intégrée de créer un poème ou tout autre type de contenu textuel.<br></p>"
+                  "alternativeText": "<p>todo</p>",
+                  "legend": "Dans cet outil de prise de notes (Notion), on peut directement demander à une IA générative de texte intégrée de créer un poème ou tout autre type de contenu textuel."
                 },
                 {
                   "id": "9422dadd-e840-441a-bb6e-14603296b94a",
@@ -155,12 +150,8 @@
                   "type": "image",
                   "url": "https://i.imgur.com/63C2NmG.png",
                   "alt": "Capture d'écran d'un outil de recherche par sélection manuelle d'une partie d'image.",
-                  "alternativeText": "<p>todo</p>"
-                },
-                {
-                  "id": "9422dadd-e840-441a-bb6e-14603296b94a",
-                  "type": "text",
-                  "content": "<p>Avec cette application mobile, on peut entourer une partie d'une image pour lancer une recherche. Cette fonctionnalité se base sur de l'IA de reconnaissance d'image couplée à un moteur dgit e recherche classique.</p>"
+                  "alternativeText": "<p>todo</p>",
+                  "legend": "Avec cette application mobile, on peut entourer une partie d'une image pour lancer une recherche. Cette fonctionnalité se base sur de l'IA de reconnaissance d'image couplée à un moteur de recherche classique."
                 }
               ]
             },
