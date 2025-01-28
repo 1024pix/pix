@@ -359,7 +359,7 @@
               },
               {
                 "type": "text",
-                "content": "<p><span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>Alba</strong> : Merci c’est beaucoup plus clair ! Et pourquoi parfois cela ne fonctionne pas exactement comme prévu ? L’autre jour j’ai posé une question logique toute bête et j’ai l’impression que le système ne sait même pas compter jusqu’à 4 !<br><br><strong>Nadia</strong> : Oui c’est normal ! Il n'a pas essayé de faire des maths en suivant un modèle logique. Il a essayé de générer un discours très probable. On appelle ça une</span></p>"
+                "content": "<span>quel est le mot suivant le plus probable à partir de la représentation qu’il a créée. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>Alba</strong> : Merci c’est beaucoup plus clair ! Et pourquoi parfois cela ne fonctionne pas exactement comme prévu ? L’autre jour j’ai posé une question logique toute bête et j’ai l’impression que le système ne sait même pas compter jusqu’à 4 !<br><br><strong>Nadia</strong> : Oui c’est normal ! Il n'a pas essayé de faire des maths en suivant un modèle logique. Il a essayé de générer un discours très probable. On appelle ça une</span>"
               },
               {
                 "input": "2",
