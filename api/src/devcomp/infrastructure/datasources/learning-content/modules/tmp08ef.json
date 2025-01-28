@@ -437,7 +437,7 @@
           "element": {
             "id": "61a7796a-0830-4344-8bb0-b7f5d778d81f",
             "type": "qcu",
-            "instruction": "<p>Avez-vous réussi le défi&nbsp;?</p>",
+            "instruction": "<p>Avez-vous réussi à obtenir des hallucinations ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -469,7 +469,7 @@
             "id": "49d7efba-effc-4835-b7dc-26e9c9cfca53",
             "type": "expand",
             "title": "Astuce n°1",
-            "content": "<p>Poser une question logique contenant un piège. 🪤 </p><p>Par exemple : <em>Justine a trois sœurs et un frère, Maxime. Combien de sœurs a Maxime ?</em> <br><br></p>"
+            "content": "<p>Poser une question logique contenant un piège. 🪤 </p><p>Par exemple : </p><blockquote><em>Justine a trois sœurs et un frère, Maxime. Combien de sœurs a Maxime ?</em></blockquote>"
           }
         },
         {
@@ -478,7 +478,7 @@
             "id": "1d5975d3-f528-4048-95c8-bd06f2a647dd",
             "type": "expand",
             "title": "Astuce n°2",
-            "content": "<p>Demander de choisir une option parmi des options qui sont toutes fausses 🤥 </p><p>Par exemple : <em>Dans \"les aventuriers des forêts\", avec quelle créature fantastique fait équipe l’héroïne, un Basilic ou un Dragon ?</em> <br></p>"
+            "content": "<p>Demander de choisir une option parmi des options qui sont toutes fausses 🤥 </p><p>Par exemple : </p><blockquote><em>Dans \"les aventuriers des forêts\", avec quelle créature fantastique fait équipe l’héroïne, un Basilic ou un Dragon ?</em></blockquote>"
           }
         }
       ]
@@ -493,8 +493,7 @@
           "element": {
             "id": "903eacfc-3035-4a3a-9f70-f8a7517f81ba",
             "type": "flashcards",
-            "instruction": "<p>Lisez la question, essayez de trouver la réponse puis retourner la carte en cliquant dessus.<br>Cela permet de tester votre mémoire 🎯</p>",
-            "title": "Les IA génératives",
+            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp;</p><ol><li>Lire la question. <span aria-hidden=\"true\">👀</span></li><li>Essayer de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li><li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol><p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden=\"true\">🎯</span></p>",
             "introImage": {
               "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
             },
