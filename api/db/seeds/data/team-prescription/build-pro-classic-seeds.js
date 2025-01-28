@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { usecases } from '../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
@@ -36,14 +37,20 @@ async function createProCampaignProfileCollection(databaseBuilder) {
       createdAt: dayjs().subtract(15, 'days').toDate(),
       isDisabled: false,
       userId: jeanBonUser.id,
+      organizationId: PRO_ORGANIZATION_ID,
     },
   );
 
-  await createProfileGivenCompetences({ databaseBuilder, userId: jeanBonUser.id, competenceToPick: 1 });
-  // const ke before being a learner
-  // const ke when being a learner
+  // ke before being a learner
+  await createProfileGivenCompetences({
+    databaseBuilder,
+    userId: jeanBonUser.id,
+    competenceToPick: 1,
+    createdAt: dayjs().subtract(16, 'days').toDate(),
+  });
 
-  databaseBuilder.factory.buildCampaignParticipation({
+  // ke when being a learner
+  const jeanBonCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
     userId: jeanBonUser.id,
     participantExternalId: jeanBonUser.email,
     organizationLearnerId: jeanBonOrganizationLearner.id,
@@ -51,9 +58,13 @@ async function createProCampaignProfileCollection(databaseBuilder) {
     status: CampaignParticipationStatuses.TO_SHARE,
     deletedAt: null,
     createdAt: dayjs().subtract(10, 'days').toDate(),
-  });
+  }).id;
 
-  return databaseBuilder.commit();
+  await databaseBuilder.commit();
+  await usecases.shareCampaignResult({
+    userId: jeanBonUser.id,
+    campaignParticipationId: jeanBonCampaignParticipationId,
+  });
 }
 
 export { createProCampaignProfileCollection };

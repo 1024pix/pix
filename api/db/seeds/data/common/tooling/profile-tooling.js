@@ -69,23 +69,23 @@ async function getAnswersAndKnowledgeElementsForBeginnerProfile() {
 }
 
 const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER = {};
-async function getAnswersAndKnowledgeElementsForCompetencesToPick(competencesToPick) {
-  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick]) {
-    ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick] = [];
+async function getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPick) {
+  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competenceToPick]) {
     const pixCompetences = await learningContent.getCoreCompetences();
-    const randomingCompetences = generic.pickRandomAmong(pixCompetences, competencesToPick);
+    // change variable to see
+    const randomingCompetences = generic.pickRandomAmong(pixCompetences, competenceToPick);
 
     await _getAnswersAndKnowledgeElementsForProfile({
       competences: randomingCompetences,
-      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick],
+      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competenceToPick],
       pixScoreByCompetence: PIX_COUNT_BY_LEVEL,
     });
   }
 
-  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick];
+  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competenceToPick];
 }
 
-async function createProfileGivenCompetences({ databaseBuilder, userId, competenceToPick }) {
+async function createProfileGivenCompetences({ databaseBuilder, userId, competenceToPick, createdAt }) {
   const answersAndKnowledgeElementsCollection =
     await getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPick);
 
@@ -93,6 +93,7 @@ async function createProfileGivenCompetences({ databaseBuilder, userId, competen
     databaseBuilder,
     userId,
     answersAndKnowledgeElementsCollection,
+    createdAt,
   });
 
   await databaseBuilder.commit();
@@ -204,7 +205,12 @@ function _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId }) {
   return assessmentId;
 }
 
-function _makeUserReachPixScoreForCompetences({ databaseBuilder, userId, answersAndKnowledgeElementsCollection }) {
+function _makeUserReachPixScoreForCompetences({
+  databaseBuilder,
+  userId,
+  answersAndKnowledgeElementsCollection,
+  createdAt,
+}) {
   const answersAndKnowledgeElementsByCompetenceId = _.groupBy(
     answersAndKnowledgeElementsCollection,
     ({ keData }) => keData.competenceId,
@@ -215,12 +221,14 @@ function _makeUserReachPixScoreForCompetences({ databaseBuilder, userId, answers
     for (const { answerData, keData } of answersAndKnowledgeElements) {
       const answerId = databaseBuilder.factory.buildAnswer({
         assessmentId,
+        createdAt,
         ...answerData,
       }).id;
       databaseBuilder.factory.buildKnowledgeElement({
         assessmentId,
         userId,
         answerId,
+        createdAt,
         ...keData,
       });
     }
