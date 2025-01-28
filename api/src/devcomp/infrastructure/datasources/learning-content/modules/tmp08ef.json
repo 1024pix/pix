@@ -405,7 +405,7 @@
           "element": {
             "id": "5c072fb2-0baf-48dc-8b80-23c7b49d53f8",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p><ul><li>Pour interagir avec les systèmes d'IA génératives, les utilisateurs décrivent leur demande en lanagage naturel. C’est le <em>prompt </em>ou<em> requête </em>en français.<br></li><li>Les systèmes d’IA générative utilisent des algorithmes qui cherchent à <em>prédire</em> la suite du texte ou la forme d’image la plus probable.<br></li><li>Quand un système d’IA générative produit un résultat farfelu, c'est une <em>hallucination</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !<br></li></ul>"
+            "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p><ul><li>Pour interagir avec les systèmes d'IA génératives, les utilisateurs décrivent leur demande en lanagage naturel. C’est le <em>prompt </em>ou<em> requête </em>en français.<br><br></li><li>Les systèmes d’IA générative utilisent des algorithmes qui cherchent à <em>prédire</em> la suite du texte ou la forme d’image la plus probable.<br><br></li><li>Quand un système d’IA générative produit un résultat farfelu, c'est une <em>hallucination</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !<br><br></li></ul>"
           }
         }
       ]
@@ -485,7 +485,7 @@
             "id": "903eacfc-3035-4a3a-9f70-f8a7517f81ba",
             "type": "flashcards",
             "title": "Flashcards",
-            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp;</p><ol><li>Lire la question. <span aria-hidden=\"true\">👀</span></li><li>Essayer de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li><li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol><p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden=\"true\">🎯</span></p>",
+            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp;</p><ol><li>Lisez la question. <span aria-hidden=\"true\">👀</span></li><li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li><li>Retournez la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol><p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden=\"true\">🎯</span></p>",
             "introImage": {
               "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
             },
