@@ -429,25 +429,7 @@
           "element": {
             "id": "014ce746-f31d-424e-975c-0b5b90b2d9f5",
             "type": "text",
-            "content": "<p>À l'aide de <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>, écrivez des prompts qui amènent à des hallucinations pour au moins une des deux IA génératives de texte proposées.</p><br><p>🗝️ Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "49d7efba-effc-4835-b7dc-26e9c9cfca53",
-            "type": "expand",
-            "title": "Astuce n°1",
-            "content": "<p>Poser une question logique contenant un piège. 🪤 </p><p>Par exemple : <em>Justine a trois sœurs et un frère, Maxime. Combien de sœurs a Maxime ?</em> <br><br></p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "1d5975d3-f528-4048-95c8-bd06f2a647dd",
-            "type": "expand",
-            "title": "Astuce n°2",
-            "content": "<p>Demander de choisir une option parmi des options qui sont toutes fausses 🤥 </p><p>Par exemple : <em>Dans \"les aventuriers des forêts\", avec quelle créature fantastique fait équipe l’héroïne, un Basilic ou un Dragon ?</em> <br></p>"
+            "content": "<p>À l'aide de <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>, écrivez des prompts qui amènent à des hallucinations pour au moins une des deux IA génératives de texte proposées.</p>"
           }
         },
         {
@@ -471,6 +453,32 @@
               "invalid": "<span class=\"feedback__state\">N'hésitez pas à retenter avec d'autres modèles, certains sont très bien préparés à ce type de manœuvres ... </span>"
             },
             "solution": "1"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a16433b1-c9bc-4510-a527-5f52fd6e5917",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">🗝️ </span>Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "49d7efba-effc-4835-b7dc-26e9c9cfca53",
+            "type": "expand",
+            "title": "Astuce n°1",
+            "content": "<p>Poser une question logique contenant un piège. 🪤 </p><p>Par exemple : <em>Justine a trois sœurs et un frère, Maxime. Combien de sœurs a Maxime ?</em> <br><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1d5975d3-f528-4048-95c8-bd06f2a647dd",
+            "type": "expand",
+            "title": "Astuce n°2",
+            "content": "<p>Demander de choisir une option parmi des options qui sont toutes fausses 🤥 </p><p>Par exemple : <em>Dans \"les aventuriers des forêts\", avec quelle créature fantastique fait équipe l’héroïne, un Basilic ou un Dragon ?</em> <br></p>"
           }
         }
       ]
