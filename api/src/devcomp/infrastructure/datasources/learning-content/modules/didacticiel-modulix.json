@@ -100,7 +100,7 @@
           "id": "5c468891-6b50-41c6-bb30-8639b52c5bca",
           "type": "expand",
           "title": "Voici un indice pour répondre à la magnifique flashcard",
-          "content": "<p> Souvent, pour s’amuser, les hommes d’équipage\nPrennent des albatros, vastes oiseaux des mers,\nQui suivent, indolents compagnons de voyage,\nLe navire glissant sur les gouffres amers.\n\nÀ peine les ont-ils déposés sur les planches,\nQue ces rois de l’azur, maladroits et honteux,\nLaissent piteusement leurs grandes ailes blanches\nComme des avirons traîner à côté d’eux.\n\nCe voyageur ailé, comme il est gauche et veule !\nLui, naguère si beau, qu’il est comique et laid !\nL’un agace son bec avec un brûle-gueule,\nL’autre mime, en boitant, l’infirme qui volait !\n\nLe Poète est semblable au prince des nuées\nQui hante la tempête et se rit de l’archer ;\nExilé sur le sol au milieu des huées,\nSes ailes de géant l’empêchent de marcher. </p>"
+          "content": "<p> Souvent, pour s’amuser, les hommes d’équipage<br>Prennent des albatros, vastes oiseaux des mers,<br>Qui suivent, indolents compagnons de voyage,<br>Le navire glissant sur les gouffres amers.<br>À peine les ont-ils déposés sur les planches,<br>Que ces rois de l’azur, maladroits et honteux,<br>Laissent piteusement leurs grandes ailes blanches<br>Comme des avirons traîner à côté d’eux.<br>Ce voyageur ailé, comme il est gauche et veule !<br>Lui, naguère si beau, qu’il est comique et laid !<br>L’un agace son bec avec un brûle-gueule,<br>L’autre mime, en boitant, l’infirme qui volait !<br>Le Poète est semblable au prince des nuées<br>Qui hante la tempête et se rit de l’archer ;<br>Exilé sur le sol au milieu des huées,<br>Ses ailes de géant l’empêchent de marcher. </p>"
 
         }},
         {
@@ -108,7 +108,7 @@
           "element": {
             "id": "e9aef60c-f18a-471e-85c7-e50b4731b86b",
             "type": "text",
-            "content": "<h3>Pour afficher mon texte sur plusieurs colonnes, je peux utiliser la classe <em>modulix-two-columns</em>.</h3>\n <p>Des noms d'artistes de musique très sympas:</p>\n<ol class=\"modulix-two-columns\">\n    <li>Dylan</li>\n    <li>The Beatles</li>\n    <li>The Who</li>\n    <li>Blondie</li>\n    <li>Joan Baez</li>\n    <li>Supertramp</li>\n    <li>Kraftwerk</li>\n    <li>Queen</li>\n    <li>David Bowie</li>\n    <li>Céline Dion</li>\n</ol>"
+            "content": "<h3>Pour afficher mon texte sur plusieurs colonnes, je peux utiliser la classe <em>modulix-two-columns</em>.</h3> <p>Des noms d'artistes de musique très sympas:</p><ol class=\"modulix-two-columns\">    <li>Dylan</li>    <li>The Beatles</li>    <li>The Who</li>    <li>Blondie</li>    <li>Joan Baez</li>    <li>Supertramp</li>    <li>Kraftwerk</li>    <li>Queen</li>    <li>David Bowie</li>    <li>Céline Dion</li></ol>"
           }
         },
         {
