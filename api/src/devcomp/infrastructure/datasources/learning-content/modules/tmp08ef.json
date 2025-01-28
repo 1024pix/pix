@@ -30,15 +30,11 @@
     },
     {
       "grainId": "b384dac1-ac7d-4f91-a209-140cc0ca6bea",
-      "content": "<p>Les IA génératives sont impressionnantes… mais que se passe-t-il réellement quand on les utilise ?</p><p>On vous explique tout en vidéo! <span aria-hidden=\"true\">📺</span></p>"
-    },
-    {
-      "grainId": "9c32181d-ee67-4240-b683-b8ec9d93df2a",
-      "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p>"
+      "content": "<p>Les IA génératives sont impressionnantes… mais que se passe-t-il réellement quand on les utilise ?</p><p>On vous explique tout en vidéo&nbsp;! <span aria-hidden=\"true\">📺</span></p>"
     },
     {
       "grainId": "143f1906-9e25-4afe-8f2d-70b61ec76230",
-      "content": "<p>À vous de jouer : vous allez devoir faire halluciner des IA génératives 🥸 🦄</p>"
+      "content": "<p>À vous de jouer&nbsp;! Dans le défi suivant, vous allez faire halluciner des IA génératives. 🥸 🦄</p>"
     }
   ],
   "grains": [
@@ -191,7 +187,7 @@
           "element": {
             "id": "95c4d552-c7d7-4745-ba58-7990db7ccf94",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le site <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; </p><blockquote><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></blockquote>"
+            "content": "<p><span aria-hidden=\"true\">1️⃣</span><span class=\"sr-only\">1</span> Rendez-vous sur le comparateur d'IA conversationnelles <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>&nbsp;et proposez le prompt suivant :&nbsp; </p><blockquote><em>Invente un poème de 8 lignes qui devra contenir les mots \"pharaon\", \"éclair\", \"boucle\" et \"haricot\". La thématique du texte devra concerner l'hiver.</em></blockquote>"
           }
         },
         {
@@ -418,7 +414,7 @@
           "element": {
             "id": "5c072fb2-0baf-48dc-8b80-23c7b49d53f8",
             "type": "text",
-            "content": "<ul><li>Les utilisateurs interagissent avec les systèmes d’IA générative en décrivant leur demande en langage naturel : c’est le <em>prompt </em>ou<em> requête </em>en français.</li><li>Selon le type de système d’IA générative, la machine va utiliser des algorithmes qui vont chercher à <em>prédire</em> la suite de texte ou la forme d’image la plus probable.</li><li>Parfois, les systèmes d’IA générative produisent des résultats farfelus : on les appelle des <em>hallucinations</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !</li></ul>"
+            "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p><ul><li>Pour interagir avec les systèmes d'IA génératives, les utilisateurs décrivent leur demande en lanagage naturel. C’est le <em>prompt </em>ou<em> requête </em>en français.<br></li><li>Les systèmes d’IA générative utilisent des algorithmes qui cherchent à <em>prédire</em> la suite du texte ou la forme d’image la plus probable.<br></li><li>Quand un système d’IA générative produit un résultat farfelu, c'est une <em>hallucination</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !<br></li></ul>"
           }
         }
       ]
@@ -433,7 +429,7 @@
           "element": {
             "id": "014ce746-f31d-424e-975c-0b5b90b2d9f5",
             "type": "text",
-            "content": "<p>À l'aide de <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a> , écrivez des prompts qui amènent à des hallucinations pour au moins une des deux IA génératives de texte proposées.</p><br><p>🗝️ Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous.</p>"
+            "content": "<p>À l'aide de <a href=\"https://www.comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>, écrivez des prompts qui amènent à des hallucinations pour au moins une des deux IA génératives de texte proposées.</p><br><p>🗝️ Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous.</p>"
           }
         },
         {
