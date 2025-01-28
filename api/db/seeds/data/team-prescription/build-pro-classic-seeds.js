@@ -6,7 +6,7 @@ import {
 } from '../../../../src/prescription/shared/domain/constants.js';
 import { PRO_ORGANIZATION_ID, USER_ID_ADMIN_ORGANIZATION } from '../common/constants.js';
 import { createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
-import { createCertifiableProfile } from '../common/tooling/profile-tooling.js';
+import { createProfileGivenCompetences } from '../common/tooling/profile-tooling.js';
 
 async function createProCampaignProfileCollection(databaseBuilder) {
   const { campaignId } = await createProfilesCollectionCampaign({
@@ -39,7 +39,7 @@ async function createProCampaignProfileCollection(databaseBuilder) {
     },
   );
 
-  await createCertifiableProfile({ databaseBuilder, userId: jeanBonUser.id });
+  await createProfileGivenCompetences({ databaseBuilder, userId: jeanBonUser.id, competenceToPick: 1 });
   // const ke before being a learner
   // const ke when being a learner
 

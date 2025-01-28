@@ -10,6 +10,7 @@ const UNREACHABLE_PIX_SCORE = 999999;
 export {
   createCertifiableProfile,
   createPerfectProfile,
+  createProfileGivenCompetences,
   getAnswersAndKnowledgeElementsForAdvancedProfile,
   getAnswersAndKnowledgeElementsForBeginnerProfile,
   getAnswersAndKnowledgeElementsForIntermediateProfile,
@@ -65,6 +66,36 @@ async function getAnswersAndKnowledgeElementsForBeginnerProfile() {
   }
 
   return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE;
+}
+
+const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER = {};
+async function getAnswersAndKnowledgeElementsForCompetencesToPick(competencesToPick) {
+  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick]) {
+    ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick] = [];
+    const pixCompetences = await learningContent.getCoreCompetences();
+    const randomingCompetences = generic.pickRandomAmong(pixCompetences, competencesToPick);
+
+    await _getAnswersAndKnowledgeElementsForProfile({
+      competences: randomingCompetences,
+      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick],
+      pixScoreByCompetence: PIX_COUNT_BY_LEVEL,
+    });
+  }
+
+  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competencesToPick];
+}
+
+async function createProfileGivenCompetences({ databaseBuilder, userId, competenceToPick }) {
+  const answersAndKnowledgeElementsCollection =
+    await getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPick);
+
+  _makeUserReachPixScoreForCompetences({
+    databaseBuilder,
+    userId,
+    answersAndKnowledgeElementsCollection,
+  });
+
+  await databaseBuilder.commit();
 }
 
 const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_INTERMEDIATE_PROFILE = [];
