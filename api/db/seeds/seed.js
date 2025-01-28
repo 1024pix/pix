@@ -14,7 +14,7 @@ import { teamCertificationDataBuilder } from './data/team-certification/data-bui
 import { teamContenuDataBuilder } from './data/team-contenu/data-builder.js';
 import { teamDevcompDataBuilder } from './data/team-devcomp/data-builder.js';
 import { teamEvaluationDataBuilder } from './data/team-evaluation/data-builder.js';
-import { teamPrescriptionDataBuilder } from './data/team-prescription/data-builder.js';
+import { teamPrescriptionDataBuilderv2 } from './data/team-prescription/data-builder.js';
 
 export async function seed(knex) {
   logger.info('START Seeding');
@@ -40,7 +40,9 @@ export async function seed(knex) {
   // SCOPE
   if (config.seeds.context.prescription) {
     logger.info('Seeding : Prescription');
-    await teamPrescriptionDataBuilder({ databaseBuilder });
+    /*     await teamPrescriptionDataBuilder({ databaseBuilder });
+     */
+    await teamPrescriptionDataBuilderv2({ databaseBuilder });
   }
 
   if (config.seeds.context.devcomp) {
