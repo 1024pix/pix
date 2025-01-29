@@ -21,9 +21,12 @@ const getCampaignAnalysis = async function (campaignId, campaignLearningContent,
   });
 
   for (const userIdsAndSharedDates of userIdsAndSharedDatesChunks) {
-    const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
+    const knowledgeElementsByUsers = await knowledgeElementRepository.findSnapshotForUsers(
       Object.fromEntries(userIdsAndSharedDates),
-      campaignLearningContent,
+    );
+
+    const knowledgeElementsByTube = campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(
+      Object.values(knowledgeElementsByUsers).flat(),
     );
     campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
   }
@@ -44,11 +47,13 @@ const getCampaignParticipationAnalysis = async function (
     tutorials,
     participantCount: 1,
   });
-
-  const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
-    { [campaignParticipation.userId]: campaignParticipation.sharedAt },
-    campaignLearningContent,
+  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({
+    [campaignParticipation.userId]: campaignParticipation.sharedAt,
+  });
+  const knowledgeElementsByTube = campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(
+    Object.values(knowledgeElementsByUser).flat(),
   );
+
   campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
 
   campaignAnalysis.finalize(1);

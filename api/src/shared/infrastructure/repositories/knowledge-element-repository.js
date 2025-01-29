@@ -105,12 +105,6 @@ const findUniqByUserIdGroupedByCompetenceId = async function ({ userId, limitDat
   return _.groupBy(knowledgeElements, 'competenceId');
 };
 
-const findValidatedGroupedByTubesWithinCampaign = async function (userIdsAndDates, campaignLearningContent) {
-  const knowledgeElementsGroupedByUser = await findSnapshotForUsers(userIdsAndDates);
-
-  return campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
-};
-
 const findInvalidatedAndDirectByUserId = async function (userId) {
   const invalidatedKnowledgeElements = await knex(tableName)
     .where({
@@ -138,5 +132,4 @@ export {
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
   findUniqByUserIds,
-  findValidatedGroupedByTubesWithinCampaign,
 };
