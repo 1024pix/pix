@@ -61,11 +61,13 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
   return knowledgeElementsGroupedByUser;
 }
 
-async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
+async function countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
   return campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
     _.flatMap(knowledgeElementsGroupedByUser),
   );
+  // move first line to campaign-assessment-participation-result-repository
+  // we keep l.66 without flatMap (to move into model).
 }
 
 const findUniqByUserIds = function (userIds) {
@@ -121,24 +123,12 @@ const findSnapshotGroupedByCompetencesForUsers = async function (userIdsAndDates
   return knowledgeElementsGroupedByUser;
 };
 
-const countValidatedByCompetencesForUsersWithinCampaign = async function (userIdsAndDates, campaignLearningContent) {
-  return _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent);
-};
-
-const countValidatedByCompetencesForOneUserWithinCampaign = async function (
-  userId,
-  limitDate,
-  campaignLearningContent,
-) {
-  return _countValidatedByCompetencesForUsersWithinCampaign({ [userId]: limitDate }, campaignLearningContent);
-};
-
 const findValidatedGroupedByTubesWithinCampaign = async function (userIdsAndDates, campaignLearningContent) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
 
   return campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
 };
-
+//Used in 2 prescription files, once in /shared
 const findSnapshotForUsers = async function (userIdsAndDates) {
   return _findSnapshotsForUsers(userIdsAndDates);
 };
@@ -163,7 +153,6 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
 
 export {
   batchSave,
-  countValidatedByCompetencesForOneUserWithinCampaign,
   countValidatedByCompetencesForUsersWithinCampaign,
   findInvalidatedAndDirectByUserId,
   findSnapshotForUsers,
