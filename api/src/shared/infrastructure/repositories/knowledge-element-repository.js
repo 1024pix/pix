@@ -61,15 +61,6 @@ async function findSnapshotForUsers(userIdsAndDates) {
   return knowledgeElementsGroupedByUser;
 }
 
-async function countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
-  const knowledgeElementsGroupedByUser = await findSnapshotForUsers(userIdsAndDates);
-  return campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
-    _.flatMap(knowledgeElementsGroupedByUser),
-  );
-  // move first line to campaign-assessment-participation-result-repository
-  // we keep l.66 without flatMap (to move into model).
-}
-
 const findUniqByUserIds = function (userIds) {
   return Promise.all(
     userIds.map(async (userId) => {
@@ -140,7 +131,6 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
 
 export {
   batchSave,
-  countValidatedByCompetencesForUsersWithinCampaign,
   findInvalidatedAndDirectByUserId,
   findSnapshotForUsers,
   findUniqByUserId,

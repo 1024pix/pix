@@ -49,11 +49,12 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 }
 
 async function _buildCampaignAssessmentParticipationResults(result, campaignLearningContent) {
+  const knowledgeElementsGroupedByUser = await knowledgeElementRepository.findSnapshotForUsers({
+    [result.userId]: result.sharedAt,
+  });
+  const knowledgeElements = Object.values(knowledgeElementsGroupedByUser).flat();
   const validatedTargetedKnowledgeElementsCountByCompetenceId =
-    await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
-      { [result.userId]: result.sharedAt },
-      campaignLearningContent,
-    );
+    campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
 
   return new CampaignAssessmentParticipationResult({
     ...result,
