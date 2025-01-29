@@ -20,11 +20,12 @@ const getCampaignCollectiveResult = async function (campaignId, campaignLearning
   let participantCount = 0;
   for (const userIdsAndSharedDates of userIdsAndSharedDatesChunks) {
     participantCount += userIdsAndSharedDates.length;
+    const knowledgeElementsGroupedByUser = await knowledgeElementRepository.findSnapshotForUsers(
+      Object.fromEntries(userIdsAndSharedDates),
+    );
+    const knowledgeElements = Object.values(knowledgeElementsGroupedByUser).flat();
     const validatedTargetedKnowledgeElementsCountByCompetenceId =
-      await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
-        Object.fromEntries(userIdsAndSharedDates),
-        campaignLearningContent,
-      );
+      campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
     campaignCollectiveResult.addValidatedSkillCountToCompetences(validatedTargetedKnowledgeElementsCountByCompetenceId);
   }
 
