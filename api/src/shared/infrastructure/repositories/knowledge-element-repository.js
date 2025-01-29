@@ -43,7 +43,7 @@ async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skill
   return _applyFilters(knowledgeElements);
 }
 
-async function _findSnapshotsForUsers(userIdsAndDates) {
+async function findSnapshotForUsers(userIdsAndDates) {
   const knowledgeElementsGroupedByUser =
     await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
 
@@ -62,7 +62,7 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
 }
 
 async function countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
-  const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+  const knowledgeElementsGroupedByUser = await findSnapshotForUsers(userIdsAndDates);
   return campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
     _.flatMap(knowledgeElementsGroupedByUser),
   );
@@ -115,7 +115,7 @@ const findUniqByUserIdGroupedByCompetenceId = async function ({ userId, limitDat
 };
 
 const findSnapshotGroupedByCompetencesForUsers = async function (userIdsAndDates) {
-  const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+  const knowledgeElementsGroupedByUser = await findSnapshotForUsers(userIdsAndDates);
 
   for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
     knowledgeElementsGroupedByUser[userId] = _.groupBy(knowledgeElements, 'competenceId');
@@ -124,13 +124,9 @@ const findSnapshotGroupedByCompetencesForUsers = async function (userIdsAndDates
 };
 
 const findValidatedGroupedByTubesWithinCampaign = async function (userIdsAndDates, campaignLearningContent) {
-  const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+  const knowledgeElementsGroupedByUser = await findSnapshotForUsers(userIdsAndDates);
 
   return campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
-};
-//Used in 2 prescription files, once in /shared
-const findSnapshotForUsers = async function (userIdsAndDates) {
-  return _findSnapshotsForUsers(userIdsAndDates);
 };
 
 const findInvalidatedAndDirectByUserId = async function (userId) {
