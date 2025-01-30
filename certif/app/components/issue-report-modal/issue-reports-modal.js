@@ -10,7 +10,7 @@ export default class IssueReportsModal extends Component {
     this.showDeletionError = false;
     try {
       await this.args.onClickDeleteIssueReport(issueReport);
-    } catch (err) {
+    } catch {
       this.showDeletionError = true;
     }
   }

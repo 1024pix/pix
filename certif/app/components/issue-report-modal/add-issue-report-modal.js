@@ -194,7 +194,7 @@ export default class AddIssueReportModal extends Component {
     try {
       await issueReportToSave.save();
       this.args.closeModal();
-    } catch (err) {
+    } catch {
       issueReportToSave.rollbackAttributes();
       this.showIssueReportSubmitError = true;
     }

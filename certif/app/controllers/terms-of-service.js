@@ -19,7 +19,7 @@ export default class TermsOfServiceController extends Controller {
       });
       this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted = true;
       this.router.transitionTo('authenticated.sessions');
-    } catch (errorResponse) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }

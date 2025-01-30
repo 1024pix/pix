@@ -59,7 +59,7 @@ export default class MembersList extends Component {
       });
       await this.session.waitBeforeInvalidation(5000);
       this.session.invalidate();
-    } catch (error) {
+    } catch {
       this.pixToast.sendErrorNotification({
         message: this.intl.t('pages.team.members.notifications.leave-certification-center.error'),
       });
@@ -78,7 +78,7 @@ export default class MembersList extends Component {
           memberLastName: this.removingMember.lastName,
         }),
       });
-    } catch (e) {
+    } catch {
       this.pixToast.sendErrorNotification({
         message: this.intl.t('pages.team.members.notifications.remove-membership.error'),
       });

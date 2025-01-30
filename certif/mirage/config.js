@@ -224,6 +224,7 @@ function routes() {
       const sessionId = type.split('.')[0];
       const certificationCandidates = schema.certificationCandidates.where({ sessionId });
       certificationCandidates.destroy();
+      const server = makeServer();
       server.createList('certification-candidate', 2, { isLinked: false, sessionId });
     }
     return new Response(204);
@@ -235,6 +236,7 @@ function routes() {
     const studentListToAdd = requestBody.data.attributes['organization-learner-ids'];
     const numberOfStudents = studentListToAdd.length;
     if (numberOfStudents > 0) {
+      const server = makeServer();
       server.createList('certification-candidate', numberOfStudents, { sessionId });
       return schema.certificationCandidates.all();
     }

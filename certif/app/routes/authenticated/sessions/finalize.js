@@ -20,7 +20,7 @@ export default class SessionsFinalizeRoute extends Route {
       await session.certificationReports;
 
       return session;
-    } catch (responseError) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
       this.router.transitionTo('authenticated.sessions.details', session_id);
     }

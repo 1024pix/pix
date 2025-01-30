@@ -170,8 +170,8 @@
         "birth-name": "Nom de naissance",
         "firstname": "Prénom",
         "gender": {
-          "title": "Sexe",
           "man": "Homme",
+          "title": "Sexe",
           "woman": "Femme"
         },
         "insee-code": "Code INSEE",
@@ -239,7 +239,6 @@
       }
     },
     "login": {
-      "title": "Connectez-vous",
       "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix.",
       "actions": {
         "login": {
@@ -250,12 +249,11 @@
         "invitation-already-accepted": "Cette invitation a déjà été acceptée.<br/>Connectez-vous ou contactez l’administrateur de votre espace Pix Certif.",
         "invitation-was-cancelled": "Cette invitation n’est plus valide.<br/>Contactez l’administrateur de votre espace Pix Certif.",
         "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
-      }
+      },
+      "title": "Connectez-vous"
     },
     "login-or-register": {
-      "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
       "login-form": {
-        "title": "J'ai déjà un compte PIX",
         "button": "Se connecter",
         "errors": {
           "status": {
@@ -265,10 +263,10 @@
             "412": "Cette invitation a déjà été acceptée"
           }
         },
-        "login": "Je me connecte"
+        "login": "Je me connecte",
+        "title": "J'ai déjà un compte PIX"
       },
       "register-form": {
-        "title": "Je m’inscris",
         "actions": {
           "login": "S'inscrire",
           "login-button": "Je m'inscris"
@@ -281,8 +279,10 @@
             "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
             "terms-of-use": "conditions d'utilisation de Pix"
           }
-        }
-      }
+        },
+        "title": "Je m’inscris"
+      },
+      "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}"
     },
     "logout": {
       "page-title": "Déconnexion"
@@ -292,7 +292,6 @@
         "information": "La Certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 pour les élèves de Terminale. '<strong>'Aucune session de certification ne devra être programmée au-delà du 7 mars.'</strong>' Finalisation jusqu’au 31 mars. '<br>'Collèges : du 17 mars au 13 juin 2025."
       },
       "enrol-candidates-in-session": {
-        "title": "Inscrire des candidats",
         "certification-candidates-sco": {
           "actions": {
             "enrol-candidates": "Inscrire des candidats"
@@ -311,27 +310,26 @@
             "birthdate": "Date de naissance",
             "division": "Classe",
             "filter": {
-              "title": "Filtrer",
               "extra-information": "Filtrer la liste des élèves en cochant la ou les classes souhaitées",
-              "placeholder": "Chercher une classe ..."
+              "placeholder": "Chercher une classe ...",
+              "title": "Filtrer"
             },
             "first-name": "Prénom",
             "last-name": "Nom"
           }
         },
-        "page-title": "Inscription des candidats"
+        "page-title": "Inscription des candidats",
+        "title": "Inscrire des candidats"
       },
       "restricted-access": {
         "title": "Ouverture de votre espace PixCertif le"
       }
     },
     "session-finalization": {
-      "title": "Finaliser la session {sessionId}",
       "actions": {
         "finalise": "Finaliser"
       },
       "add-issue-modal": {
-        "title": "Signalement du candidat :",
         "actions": {
           "add-reporting": "Ajouter le signalement",
           "cancel": "Annuler",
@@ -379,31 +377,31 @@
         "subcategory-to-textarea-labels": {
           "extra-time-percentage": "Précisez le temps majoré",
           "name-or-birthdate": "Renseignez les informations correctes"
-        }
+        },
+        "title": "Signalement du candidat :"
       },
       "complementary-information": {
-        "title": "Informations complémentaires (facultatif)",
         "candidates-joining-issue": {
           "label": "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
           "link": "Vous trouverez '<'a class=\"session-finalization-complementary-information-step-content__link\" href=\"{joiningIssueSheetUrl}\" target=\"_blank\" rel=\"noreferrer noopener\"'>'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions (PDF, 131ko).'</a>'"
         },
         "description": "Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents.",
-        "incident": "Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats."
+        "incident": "Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.",
+        "title": "Informations complémentaires (facultatif)"
       },
       "confirm-finalisation-modal": {
-        "title": "Finalisation de la session",
         "actions": {
           "confirm": "Confirmer la finalisation"
         },
         "end-of-test-screen": "La case \"Écran de fin du test vu\" n'est pas cochée pour {candidatesCount, plural,one {1 candidat} other {# candidats}}",
         "information": "il ne vous sera plus possible de modifier ces informations par la suite. Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement pouvant varier d'une session à l'autre).",
+        "title": "Finalisation de la session",
         "warning": "Attention :"
       },
       "errors": {
         "no-abort-reason": "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'abandon. Veuillez les renseigner."
       },
       "issue-reports-modal": {
-        "title": "Signalement du candidat :",
         "actions": {
           "add-reporting": "Ajouter un signalement",
           "delete-reporting": "Supprimer le signalement"
@@ -411,13 +409,13 @@
         "errors": {
           "delete-reporting": "Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer après avoir rechargé la page"
         },
-        "subtitle": "Mes signalements"
+        "subtitle": "Mes signalements",
+        "title": "Signalement du candidat :"
       },
       "notification": {
         "success": "Les informations de la session ont été transmises avec succès."
       },
       "reporting": {
-        "title": "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident",
         "completed-reports-information": {
           "description": "Certification(s) terminée(s)",
           "extra-information": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant.",
@@ -437,6 +435,7 @@
           },
           "reporting-count": "{reportingsCount, plural,one {1 signalement} other {# signalements}}"
         },
+        "title": "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident",
         "uncompleted-reports-information": {
           "description": "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
           "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
@@ -457,10 +456,10 @@
             }
           }
         }
-      }
+      },
+      "title": "Finaliser la session {sessionId}"
     },
     "session-supervising": {
-      "title": "Surveiller la session n° {sessionId}",
       "candidate-in-list": {
         "actions": {
           "cancel-confirmation": {
@@ -480,7 +479,6 @@
         "end-date-time": "Fin théorique : ",
         "extratime": "+ temps majoré {extraTimePercentage}",
         "handle-live-alert-modal": {
-          "title": "Signalement du candidat : {candidateFullName}",
           "ask": {
             "description": "Refuser le signalement permet la reprise de la question en cours.<br />Sélectionnez un motif pour valider le signalement et permettre le changement de question.",
             "dismiss-alert-button": "Refuser le signalement",
@@ -494,16 +492,17 @@
             "rejected-banner": "Le signalement a bien été refusé.",
             "validated-banner": "Le signalement a bien été validé."
           },
-          "no-current-live-alert": "Aucun signalement en cours pour ce candidat"
+          "no-current-live-alert": "Aucun signalement en cours pour ce candidat",
+          "title": "Signalement du candidat : {candidateFullName}"
         },
         "modals": {
           "live-alerts": {
             "companion": {
-              "title": "Confirmer que {candidateFullName} a bien l’extension ?",
               "actions": {
                 "success-aria-label": "Confirmer la présence de l’extension et traiter le signalement"
               },
-              "description": "Cette action permettra au candidat de reprendre son test à l’endroit où il l’avait quitté."
+              "description": "Cette action permettra au candidat de reprendre son test à l’endroit où il l’avait quitté.",
+              "title": "Confirmer que {candidateFullName} a bien l’extension ?"
             }
           }
         },
@@ -564,9 +563,7 @@
         "session-id": "Session {sessionId}"
       },
       "login": {
-        "title": "Connexion à l'espace surveillant",
         "form": {
-          "title": "Espace Surveillant",
           "actions": {
             "invigilate": "Surveiller la session",
             "switch-account": "Changer de compte"
@@ -582,25 +579,26 @@
             "aria-label": "Afficher le mot de passe",
             "label": "Mot de passe de la session"
           },
-          "sub-title": "Surveiller une session"
-        }
-      }
+          "sub-title": "Surveiller une session",
+          "title": "Espace Surveillant"
+        },
+        "title": "Connexion à l'espace surveillant"
+      },
+      "title": "Surveiller la session n° {sessionId}"
     },
     "session-supervising-error": {
-      "title": "Une erreur est survenue",
       "description": "Pour accéder à cette session, cliquez sur le bouton \"Surveiller une session\" et renseignez les informations de la session",
       "no-internet-error": "Votre connexion internet est actuellement interrompue, les données affichées ne sont plus à jour. Veuillez vous reconnecter à internet et recharger la page.",
-      "page-title": "Erreur d'accès à la surveillance de session"
+      "page-title": "Erreur d'accès à la surveillance de session",
+      "title": "Une erreur est survenue"
     },
     "sessions": {
       "actions": {
         "return": "Revenir à la liste des sessions"
       },
       "detail": {
-        "title": "Session {sessionId}",
         "candidates": {
           "add-modal": {
-            "title": "Inscrire un candidat",
             "actions": {
               "close-extra-information": "Fermer la modale d'ajout de candidat",
               "enrol-the-candidate": "Inscrire le candidat"
@@ -616,28 +614,28 @@
               "success-remove": "Le candidat a été supprimé avec succès."
             },
             "prepayment-information": "Information du code de prépaiement",
-            "prepayment-tooltip": "(Requis notamment dans le cas d'un achat de crédits combinés)<br />Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br/>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix."
+            "prepayment-tooltip": "(Requis notamment dans le cas d'un achat de crédits combinés)<br />Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br/>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
+            "title": "Inscrire un candidat"
           },
           "detail-modal": {
-            "title": "Détail du candidat",
             "actions": {
               "close-extra-information": "Fermer la fenêtre de détail du candidat"
-            }
+            },
+            "title": "Détail du candidat"
           },
           "edit-modal": {
-            "title": "Modifier les informations d'un candidat",
             "accessibility-adjustment": {
-              "title": "Aménagement d'accessibilité numérique",
               "details": "L'aménagement consiste à retirer les questions non accessibles",
-              "label": "Le candidat a besoin d'un aménagement"
+              "label": "Le candidat a besoin d'un aménagement",
+              "title": "Aménagement d'accessibilité numérique"
             },
             "notifications": {
               "error": "Un problème est survenu pendant la mise à jour du candidat. Merci de réessayer ultérieurement.",
               "success": "Données mises à jour avec succès."
-            }
+            },
+            "title": "Modifier les informations d'un candidat"
           },
           "list": {
-            "title": "Liste des candidats",
             "actions": {
               "delete": {
                 "extra-information": "Supprimer le candidat",
@@ -665,12 +663,12 @@
               "core": "Certification Pix",
               "dual-core-clea": "Double Certification Pix-CléA Numérique"
             },
+            "title": "Liste des candidats",
             "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
             "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne."
           },
           "page-title": "Candidats",
           "panel-actions": {
-            "title": "Inscrire des candidats",
             "actions": {
               "download": {
                 "description": "Pour inscrire des candidats à la session, renseignez leurs informations (Nom, Prénom, …) dans ce document. <br />Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les informations des candidats inscrits à la session.",
@@ -683,6 +681,7 @@
                 "label": "Importer (.ods)"
               }
             },
+            "title": "Inscrire des candidats",
             "warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous."
           }
         },
@@ -703,11 +702,11 @@
         },
         "page-title": "Détails | Session {sessionId} | Pix Certif",
         "panel-clea": {
-          "title": "Des candidats ont obtenu le certificat CléA numérique",
           "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
           "download-button": "Télécharger la liste des candidats",
           "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée.",
-          "link-text": "plateforme du CléA numérique."
+          "link-text": "plateforme du CléA numérique.",
+          "title": "Des candidats ont obtenu le certificat CléA numérique"
         },
         "parameters": {
           "access-code": {
@@ -734,10 +733,10 @@
         },
         "tabs": {
           "details": "Détails"
-        }
+        },
+        "title": "Session {sessionId}"
       },
       "import": {
-        "title": "Créer/éditer plusieurs sessions",
         "candidates-list": {
           "import-fail-prefix": "Aucun candidat n’a été importé. <br/>",
           "import-success": "La liste des candidats a été importée avec succès.",
@@ -745,7 +744,6 @@
           "unknown-document-version": "La version du document est inconnue."
         },
         "step-one": {
-          "title": "Import du modèle",
           "actions": {
             "cancel": {
               "label": "Annuler l'import"
@@ -769,21 +767,21 @@
           },
           "instructions": {
             "creation": {
-              "title": "Pour créer des sessions ?",
               "list": "Vous pouvez créer des sessions :",
               "list-with-candidates": "'<'span class=\"content-text--bold\"'>'Avec candidats'</span>', complétez le modèle dans son intégralité,",
-              "list-without-candidates": "'<'span class=\"content-text--bold\"'>'Sans candidat'</span>', complétez uniquement les informations des sessions."
+              "list-without-candidates": "'<'span class=\"content-text--bold\"'>'Sans candidat'</span>', complétez uniquement les informations des sessions.",
+              "title": "Pour créer des sessions ?"
             },
             "edition": {
-              "title": "Pour éditer la liste des candidats de sessions déjà créées ?",
               "replace": "'<'span class=\"content-text--bold\"'>'Pour remplacer'</span>' une liste pré-existante dans le fichier modèle,",
               "subscription": "'<'span class=\"content-text--bold\"'>'Pour inscrire'</span>' des candidats dans une session vide.",
+              "title": "Pour éditer la liste des candidats de sessions déjà créées ?",
               "warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création."
             }
-          }
+          },
+          "title": "Import du modèle"
         },
         "step-two": {
-          "title": "Récapitulatif",
           "actions": {
             "confirm": {
               "label": "Finaliser la création/édition"
@@ -792,12 +790,11 @@
               "label": "Créer/éditer les sessions"
             },
             "import-again": {
-              "title": "Importer à nouveau",
-              "label": "Importer un nouveau fichier (.csv)"
+              "label": "Importer un nouveau fichier (.csv)",
+              "title": "Importer à nouveau"
             }
           },
           "blocking-errors": {
-            "title": "{blockingErrorReportsCount, plural,one {Erreur bloquante} other {Erreurs bloquantes}}",
             "errors": {
               "CANDIDATE_BILLING_MODE_NOT_VALID": "Donnée du champ \"Tarification part Pix\" invalide (formats acceptés \"Gratuite\", \"Payante\" ou \"Prépayée\")",
               "CANDIDATE_BILLING_MODE_REQUIRED": "Champ obligatoire \"Tarification part Pix\" manquant",
@@ -844,25 +841,27 @@
             },
             "information": "Veuillez corriger toutes les erreurs bloquantes avant de re-importer le fichier .csv :",
             "line": "Ligne",
-            "tag-information": "{blockingErrorReportsCount} {blockingErrorReportsCount, plural,one {erreur} other {erreurs}}"
+            "tag-information": "{blockingErrorReportsCount} {blockingErrorReportsCount, plural,one {erreur} other {erreurs}}",
+            "title": "{blockingErrorReportsCount, plural,one {Erreur bloquante} other {Erreurs bloquantes}}"
           },
           "candidates-count": "{candidatesCount} {candidatesCount, plural,one {candidat} other {candidats}}",
           "non-blocking-errors": {
-            "title": "{nonBlockingErrorReportsCount, plural,one {Point d’attention non bloquant} other {Points d’attention non bloquants}}",
             "errors": {
               "DUPLICATE_CANDIDATE_IN_SESSION": "Le candidat est inscrit plusieurs fois à la même session, une seule inscription sera prise en compte.",
               "EMPTY_SESSION": "La session ne contient pas de candidat"
             },
             "information": "Nous avons détecté {nonBlockingErrorReportsCount, plural,one {un point d’attention non bloquant} other {des points d’attention non bloquants}} lors de l’import, consultez-{nonBlockingErrorReportsCount, plural,one {le} other {les}} avant de procéder à la création ou l’édition de vos sessions :",
             "line": "Ligne",
-            "tag-information": "{nonBlockingErrorReportsCount} {nonBlockingErrorReportsCount, plural,one {erreur} other {erreurs}}"
+            "tag-information": "{nonBlockingErrorReportsCount} {nonBlockingErrorReportsCount, plural,one {erreur} other {erreurs}}",
+            "title": "{nonBlockingErrorReportsCount, plural,one {Point d’attention non bloquant} other {Points d’attention non bloquants}}"
           },
-          "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} sans candidat"
+          "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} sans candidat",
+          "title": "Récapitulatif"
         },
-        "success": "Succès ! {sessionsCount} {sessionsCount, plural, one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural, one {session} other {sessions}} sans candidat {sessionsCount, plural, one {créée} other {créées}} et {candidatesCount} {candidatesCount, plural, one {candidat créé ou édité} other {candidats créés ou édités}}"
+        "success": "Succès ! {sessionsCount} {sessionsCount, plural, one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural, one {session} other {sessions}} sans candidat {sessionsCount, plural, one {créée} other {créées}} et {candidatesCount} {candidatesCount, plural, one {candidat créé ou édité} other {candidats créés ou édités}}",
+        "title": "Créer/éditer plusieurs sessions"
       },
       "list": {
-        "title": "Sessions de certification",
         "actions": {
           "creation": {
             "label": "Créer une session"
@@ -879,7 +878,6 @@
           }
         },
         "delete-modal": {
-          "title": "Supprimer la session",
           "actions": {
             "cancel": {
               "extra-information": "Annuler la suppression de la session"
@@ -896,6 +894,7 @@
             "unknown": "Une erreur s'est produite lors de la suppression de la session."
           },
           "success": "La session a été supprimée avec succès.",
+          "title": "Supprimer la session",
           "warning": "Attention, cette action est irréversible."
         },
         "empty": {
@@ -917,10 +916,10 @@
             "label": "Session de certification",
             "session-and-id": "Session {sessionId}"
           }
-        }
+        },
+        "title": "Sessions de certification"
       },
       "new": {
-        "title": "Création d’une session de certification",
         "actions": {
           "cancel-extra-information": "Annuler la création de session et retourner vers la page précédente",
           "create-session": "Créer la session"
@@ -938,18 +937,18 @@
         "examiner": "Surveillant(s)",
         "extra-information": "Planification d’une session | Pix Certif",
         "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"
+        "time": "Heure de début (heure locale)",
+        "title": "Création d’une session de certification"
       },
       "update": {
-        "title": "Modification d'une session de certification",
         "actions": {
           "cancel-extra-information": "Annuler la modification de la session et retourner vers la page précédente",
           "edit-session": "Modifier la session"
-        }
+        },
+        "title": "Modification d'une session de certification"
       }
     },
     "team": {
-      "title": "Équipe",
       "invite-button": "Inviter un membre",
       "invite-member-button": "Inviter un membre",
       "members": {
@@ -969,8 +968,8 @@
         },
         "modals": {
           "leave-certification-center": {
-            "title": "Quitter cet espace Pix Certif",
-            "message": "Êtes-vous sûr de vouloir quitter cet espace Pix Certif ? Vous n’aurez plus accès à <strong>{certificationCenterName}</strong>.<br/><br/>Vos sessions restent accessibles au reste de l'équipe.<br/><br/>Vos accès à d’autres espaces Pix Certif ne seront pas impactés.<br/><br/>Vous allez être déconnecté."
+            "message": "Êtes-vous sûr de vouloir quitter cet espace Pix Certif ? Vous n’aurez plus accès à <strong>{certificationCenterName}</strong>.<br/><br/>Vos sessions restent accessibles au reste de l'équipe.<br/><br/>Vos accès à d’autres espaces Pix Certif ne seront pas impactés.<br/><br/>Vous allez être déconnecté.",
+            "title": "Quitter cet espace Pix Certif"
           }
         },
         "notifications": {
@@ -988,11 +987,11 @@
           }
         },
         "remove-membership-modal": {
-          "title": "Confirmez-vous la suppression ?",
           "actions": {
             "remove": "Oui, supprimer le membre"
           },
-          "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Certif."
+          "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Certif.",
+          "title": "Confirmez-vous la suppression ?"
         },
         "role": {
           "admin": "Administrateur",
@@ -1000,9 +999,9 @@
         }
       },
       "no-referer-section": {
-        "title": "Aucun référent désigné pour la certification Pix-CléA Numérique",
         "description": "Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.",
-        "select-referer-button": "Désigner un référent"
+        "select-referer-button": "Désigner un référent",
+        "title": "Aucun référent désigné pour la certification Pix-CléA Numérique"
       },
       "notifications": {
         "success": "Un nouveau référent CléA Numérique a été nommé."
@@ -1011,7 +1010,6 @@
       "pix-referer-tooltip": "Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.",
       "referer": "Référent",
       "select-referer-modal": {
-        "title": "Sélection du référent CléA Numérique",
         "actions": {
           "cancel-extra-information": "Annuler la sélection de référent",
           "validate": "Valider",
@@ -1019,7 +1017,8 @@
         },
         "description": "Le Groupement d’intérêt public, sis 21-23 rue des Ardennes 75019 Paris PIX met en œuvre en tant que responsable de traitement un traitement de données à caractère personnel portant sur votre adresse email professionnel de référent Pix.<br />La finalité de ce traitement est la communication des informations nécessaires aux attributions du référent Pix au sein du centre de certification agréé. Le traitement de cette données repose sur l’exécution de la convention d’agrément de votre centre de certification.<br />Les données sont conservées pendant la durée de la convention d’agrément en vigueur entre le GIP Pix et le centre habilité auquel vous êtes rattaché.<br />Vous disposez de droits personnels, droits d'accès, de rectification et d’effacement des données, le droit de limitation ou d’opposition au traitement pour motif légitime et le droit d’introduire une réclamation auprès d’une autorité de contrôle ainsi que le droit de définir des directives relatives à la conservation, à l'effacement et à la communication de vos données à caractère personnel en cas de décès que vous pouvez exercer par courriel auprès de notre DPD en adressant votre demande à l’adresse électronique suivante : dpd@pix.fr .<br />Vous disposez de la possibilité d’introduire une réclamation auprès de Commission nationale Informatique et libertés « CNIL » à l’adresse suivante : 3 Place de Fontenoy – TSA 80715 – 75334 Paris Cedex 07.",
         "empty-option": "--Sélectionner--",
-        "label": "Sélectionner le référent CléA Numérique"
+        "label": "Sélectionner le référent CléA Numérique",
+        "title": "Sélection du référent CléA Numérique"
       },
       "table-headers": {
         "actions": "Actions"
@@ -1028,6 +1027,7 @@
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
         "member": "Membres ({count, plural, =0 {-} other {{count}}})"
       },
+      "title": "Équipe",
       "update-referer-button": "Changer de référent CléA"
     },
     "team-invitations": {
@@ -1053,7 +1053,6 @@
       }
     },
     "team-invite": {
-      "title": "Inviter un membre",
       "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
       "input-label": "Adresse(s) e-mail",
       "invite-button": "Inviter",
@@ -1070,14 +1069,15 @@
           "invitations": "Une invitation a bien été envoyée {emailsCount, plural, one {à l’adresse e-mail {email}.} other {aux adresses e-mails listées.}}"
         }
       },
-      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules."
+      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules.",
+      "title": "Inviter un membre"
     },
     "terms-of-service": {
-      "title": "Conditions générales d'utilisation de la plateforme Pix Certif",
       "actions": {
         "accept": "J’accepte les conditions d’utilisation"
       },
-      "page-title": "Conditions générales"
+      "page-title": "Conditions générales",
+      "title": "Conditions générales d'utilisation de la plateforme Pix Certif"
     }
   }
 }

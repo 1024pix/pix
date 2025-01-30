@@ -130,7 +130,7 @@ export default class EnrolledCandidates extends Component {
         message: this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.success'),
       });
       this.closeEditCandidateModal();
-    } catch (e) {
+    } catch {
       this.pixToast.sendErrorNotification({
         message: this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.error'),
       });

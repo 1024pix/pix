@@ -25,6 +25,6 @@ export default class SubscriptionModel extends Model {
     const matchingHabilitation = centerHabilitations.find(
       (habilitation) => habilitation.id === this.complementaryCertificationId,
     );
-    return matchingHabilitation?.key === COMPLEMENTARY_KEYS.CLEA ?? false;
+    return matchingHabilitation?.key === COMPLEMENTARY_KEYS.CLEA;
   }
 }

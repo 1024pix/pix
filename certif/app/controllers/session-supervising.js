@@ -30,7 +30,7 @@ export default class SessionSupervisingController extends Controller {
 
     try {
       await this.fileSaver.save({ url, token });
-    } catch (error) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }

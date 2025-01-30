@@ -107,7 +107,7 @@ export default class ImportController extends Controller {
           candidatesCount: this.candidatesCount,
         }),
       });
-    } catch (error) {
+    } catch {
       this.isImportStepOne = true;
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }

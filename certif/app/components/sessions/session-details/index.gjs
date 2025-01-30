@@ -22,7 +22,7 @@ export default class SessionDetails extends Component {
     try {
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url: this.args.model.sessionManagement.urlToDownloadSupervisorKitPdf, token });
-    } catch (err) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }
@@ -32,7 +32,7 @@ export default class SessionDetails extends Component {
     try {
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url: this.args.model.session.urlToDownloadAttendanceSheet, token });
-    } catch (err) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }

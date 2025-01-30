@@ -6,7 +6,6 @@ module('Unit | Route | not-found', function (hooks) {
   setupTest(hooks);
 
   test('should redirect to application route', function (assert) {
-    assert.expect(1);
     const route = this.owner.lookup('route:not-found');
     const expectedRedirection = 'application';
 

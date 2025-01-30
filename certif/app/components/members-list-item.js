@@ -76,7 +76,7 @@ export default class MembersListItem extends Component {
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('pages.team.members.notifications.change-member-role.success'),
       });
-    } catch (e) {
+    } catch {
       member.rollbackAttributes();
       this.pixToast.sendErrorNotification({
         message: this.intl.t('pages.team.members.notifications.change-member-role.error'),

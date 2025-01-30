@@ -59,7 +59,7 @@ export default class AuthenticatedTeamListController extends Controller {
         this.shouldShowRefererSelectionModal = !this.shouldShowRefererSelectionModal;
         this.send('refreshModel');
         this.pixToast.sendSuccessNotification({ message: this.intl.t('pages.team.notifications.success') });
-      } catch (responseError) {
+      } catch {
         this.pixToast.sendErrorNotification({
           message: this.intl.t('common.api-error-messages.internal-server-error'),
         });

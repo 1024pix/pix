@@ -42,7 +42,7 @@ export default class CertificationCandidatesController extends Controller {
     try {
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url: this.model.session.urlToDownloadCandidatesImportTemplate, token });
-    } catch (err) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }

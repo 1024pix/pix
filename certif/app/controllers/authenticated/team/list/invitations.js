@@ -14,7 +14,7 @@ export default class AuthenticatedTeamListInvitationsController extends Controll
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('pages.team-invitations.notifications.success.invitation-cancelled'),
       });
-    } catch (error) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
   }
@@ -30,7 +30,7 @@ export default class AuthenticatedTeamListInvitationsController extends Controll
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('pages.team-invitations.notifications.success.invitation-resent'),
       });
-    } catch (error) {
+    } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     } finally {
       setTimeout(
