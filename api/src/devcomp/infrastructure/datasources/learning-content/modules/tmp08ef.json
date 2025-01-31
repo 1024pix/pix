@@ -297,7 +297,7 @@
             "proposals": [
               {
                 "type": "text",
-                "content": "<p><span><strong>👩🏻 Alba</strong> : Et qu'est-ce qui se passe quand j'écris un&nbsp;</span></p>"
+                "content": "<span><strong>👩🏻 Alba</strong> : Et qu'est-ce qui se passe quand j'écris un&nbsp;</span>"
               },
               {
                 "input": "0",
@@ -327,7 +327,7 @@
               },
               {
                 "type": "text",
-                "content": "<p><span>?<br><br><strong>🧑🏽‍🦰 Nadia</strong> : En fait, le système va interpréter ta requête puis&nbsp;il va  essayer de&nbsp; </span>&nbsp;&nbsp;</p>"
+                "content": "<span>?<br><br><strong>🧑🏽‍🦰 Nadia</strong> : En fait, le système va interpréter ta requête puis&nbsp;il va  essayer de&nbsp;</span>"
               },
               {
                 "input": "1",
@@ -357,7 +357,7 @@
               },
               {
                 "type": "text",
-                "content": "<p><span>le mot suivant qui est le plus probable, à partir de la représentation qu’il a faite. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>👩🏻 Alba</strong> : OK ! Mais pourquoi ça ne fonctionne pas toujours comme prévu ? Là, quand je lui pose cette question très simple, il donne une réponse absurde.<br><br><strong>🧑🏽‍🦰 Nadia</strong> : Oui c’est normal. C'est une&nbsp;</span></p>"
+                "content": "<span>le mot suivant qui est le plus probable, à partir de la représentation qu’il a faite. Lorsqu’il a généré un mot, il recommence avec le suivant, en gardant en mémoire la totalité de l’échange !<br><br><strong>👩🏻 Alba</strong> : OK ! Mais pourquoi ça ne fonctionne pas toujours comme prévu ? Là, quand je lui pose cette question très simple, il donne une réponse absurde.<br><br><strong>🧑🏽‍🦰 Nadia</strong> : Oui c’est normal. C'est une&nbsp;</span>"
               },
               {
                 "input": "2",
@@ -387,7 +387,7 @@
               },
               {
                 "type": "text",
-                "content": "<p><span>. Le modèle n'est pas capable de réfléchir comme un humain. Il produit juste un discours \"très probable\".</span></p>"
+                "content": "<span>.<br>Le modèle n'est pas capable de réfléchir comme un humain. Il produit juste un discours \"très probable\".</span>"
               }
             ],
             "feedbacks": {
