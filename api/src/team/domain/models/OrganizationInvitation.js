@@ -75,5 +75,6 @@ class OrganizationInvitation {
 }
 
 OrganizationInvitation.StatusType = statuses;
+OrganizationInvitation.RoleType = roles;
 
 export { OrganizationInvitation, statuses };
