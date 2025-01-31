@@ -134,7 +134,7 @@
                 {
                   "id": "52e3bd53-2008-4630-b7c5-4e90236ba33b",
                   "type": "text",
-                  "content": "<p><strong>L'IA générative dans les outils du quotidien</strong> </p>\n<p> Avez-vous déjà aperçu le symbole ✨ sur l’interface de certains de vos logiciels ? Souvent, cela signifie qu’un logiciel intègre et utilise de l’IA pour produire certains contenus. En voici deux exemples :<br><br></p>"
+                  "content": "<p><strong>L'IA générative dans les outils du quotidien</strong> </p>\n<p> Avez-vous déjà aperçu le symbole ✨ sur l’interface de certains de vos logiciels ? Souvent, cela signifie qu’un logiciel intègre et utilise de l’IA pour produire certains contenus. En voici deux exemples :</p>"
                 },
                 {
                   "id": "c4f33f60-4b37-4273-b82a-3dde01b5845b",
@@ -408,7 +408,7 @@
           "element": {
             "id": "5c072fb2-0baf-48dc-8b80-23c7b49d53f8",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</p><ul><li>Pour interagir avec les systèmes d'IA génératives, les utilisateurs décrivent leur demande en lanagage naturel. C’est le <em>prompt </em>ou<em> requête </em>en français.<br><br></li><li>Les systèmes d’IA générative utilisent des algorithmes qui cherchent à <em>prédire</em> la suite du texte ou la forme d’image la plus probable.<br><br></li><li>Quand un système d’IA générative produit un résultat farfelu, c'est une <em>hallucination</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !<br><br></li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌 </span>Résumons avant de passer à la suite.</h3><ul><li>Pour interagir avec les systèmes d'IA génératives, les utilisateurs décrivent leur demande en lanagage naturel. C’est le <em>prompt </em>ou<em> requête </em>en français.<br><br></li><li>Les systèmes d’IA générative utilisent des algorithmes qui cherchent à <em>prédire</em> la suite du texte ou la forme d’image la plus probable.<br><br></li><li>Quand un système d’IA générative produit un résultat farfelu, c'est une <em>hallucination</em>. Ces phénomènes sont normaux et nous rappellent que ce sont des machines qui les ont générés, et non des humains !<br><br></li></ul>"
           }
         }
       ]
