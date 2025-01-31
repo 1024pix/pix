@@ -58,6 +58,7 @@
             "type": "image",
             "url": "https://i.imgur.com/XwqM36r.png",
             "alt": "image de plage 1",
+            "alternativeText": "",
             "legend": "Image 1"
           }
         },
@@ -68,6 +69,7 @@
             "type": "image",
             "url": "https://i.imgur.com/M97juf2.png",
             "alt": "image de plage 2",
+            "alternativeText": "",
             "legend": "Image 2"
           }
         },
@@ -78,6 +80,7 @@
             "type": "image",
             "url": "https://i.imgur.com/z6kigeT.png",
             "alt": "image de plage 3",
+            "alternativeText": "",
             "legend": "Image 3"
           }
         },
@@ -138,7 +141,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/kVzIfHR.png",
                   "alt": "Capture d'écran de l'outil Notion",
-                  "alternativeText": "<p><br></p>",
+                  "alternativeText": "",
                   "legend": "Dans cet outil de prise de notes (Notion), on peut directement demander à une IA générative de texte intégrée de créer un poème ou tout autre type de contenu textuel."
                 },
                 {
@@ -150,7 +153,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/63C2NmG.png",
                   "alt": "Capture d'écran d'un outil de recherche par sélection manuelle d'une partie d'image.",
-                  "alternativeText": "<p><br></p>",
+                  "alternativeText": "",
                   "legend": "Avec cette application mobile, on peut entourer une partie d'une image pour lancer une recherche. Cette fonctionnalité se base sur de l'IA de reconnaissance d'image couplée à un moteur de recherche classique."
                 }
               ]
