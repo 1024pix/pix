@@ -125,7 +125,7 @@
                 {
                   "id": "99004131-38da-4d88-92b0-f5263d2016cb",
                   "type": "text",
-                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p>\n<p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des <em>requêtes</em>, ou en anglais <em>prompts</em>.</p>\n<hr>\n<p>Les systèmes d’IA qui ne sont pas <em>génératifs</em>&nbsp;réalisent&nbsp;des tâches bien définies et ne produisent donc pas de contenu nouveau ou créatif. Par exemple, recommander des titres de musique en fonction de ce qu'écoutent des utilisateurs.</p>"
+                  "content": "<p><strong>Commençons par une définition <span aria-hidden=\"true\">📚 </span></strong> </p><p>L'intelligence artificielle générative ou IA générative est un type de système d'intelligence artificielle (IA) capable de générer du texte, des images, des vidéos ou d'autres médias en réponse à des <em>requêtes</em>, ou en anglais <em>prompts</em>.</p><hr><p>Les systèmes d’IA qui ne sont pas <em>génératifs</em>&nbsp;réalisent&nbsp;des tâches bien définies et ne produisent donc pas de contenu nouveau ou créatif. Par exemple, recommander des titres de musique en fonction de ce qu'écoutent des utilisateurs.</p>"
                 }
               ]
             },
@@ -134,7 +134,7 @@
                 {
                   "id": "52e3bd53-2008-4630-b7c5-4e90236ba33b",
                   "type": "text",
-                  "content": "<p><strong>L'IA générative dans les outils du quotidien</strong> </p>\n<p> Avez-vous déjà aperçu le symbole ✨ sur l’interface de certains de vos logiciels ? Souvent, cela signifie qu’un logiciel intègre et utilise de l’IA pour produire certains contenus. En voici deux exemples :</p>"
+                  "content": "<p><strong>L'IA générative dans les outils du quotidien</strong> </p><p> Avez-vous déjà aperçu le symbole ✨ sur l’interface de certains de vos logiciels ? Souvent, cela signifie qu’un logiciel intègre et utilise de l’IA pour produire certains contenus. En voici deux exemples :</p>"
                 },
                 {
                   "id": "c4f33f60-4b37-4273-b82a-3dde01b5845b",
@@ -285,7 +285,7 @@
           "element": {
             "id": "3fafe614-19eb-4ecf-b1a8-bdf5307ca84c",
             "type": "text",
-            "content": "<p>Hier, Nadia a fait découvrir à son amie Alba les IA génératives.</p>"
+            "content": "<p>Hier, Nadia a fait découvrir les IA génératives à son amie Alba.</p>"
           }
         },
         {
