@@ -1,7 +1,7 @@
 import { Eligibility, TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
-import { Success } from '../../../../../src/quest/domain/models/Success.js';
+import { Success, TYPES as SUCCESS_TYPES } from '../../../../../src/quest/domain/models/Success.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -187,7 +187,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
       // given
       const successRequirements = [
         {
-          type: 'skill',
+          type: SUCCESS_TYPES.SKILL,
           data: {
             ids: [1, 2, 3],
             threshold: 50,

@@ -2,6 +2,7 @@ import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import { TYPES } from '../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
+import { TYPES as SUCCESS_TYPES } from '../../../../src/quest/domain/models/Success.js';
 import { Assessment, CampaignParticipationStatuses, Membership } from '../../../../src/shared/domain/models/index.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import {
@@ -182,7 +183,7 @@ const buildSixthGradeQuests = (
   ];
   const firstQuestSuccessRequirements = [
     {
-      type: 'skill',
+      type: SUCCESS_TYPES.SKILL,
       data: {
         ids: CAMPAIGN_SKILLS[0],
         threshold: 50,
@@ -224,7 +225,7 @@ const buildSixthGradeQuests = (
 
   const secondQuestSuccessRequirements = [
     {
-      type: 'skill',
+      type: SUCCESS_TYPES.SKILL,
       data: {
         ids: [CAMPAIGN_SKILLS[1], CAMPAIGN_SKILLS[2]].flat(),
         threshold: 50,
