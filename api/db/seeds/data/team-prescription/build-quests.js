@@ -1,5 +1,6 @@
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
+import { TYPES } from '../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
 import { Assessment, CampaignParticipationStatuses, Membership } from '../../../../src/shared/domain/models/index.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
@@ -157,14 +158,14 @@ const buildSixthGradeQuests = (
 ) => {
   const firstQuestRequirement = [
     {
-      type: 'organization',
+      type: TYPES.ORGANIZATION,
       data: {
         type: 'SCO',
       },
       comparison: COMPARISON.ALL,
     },
     {
-      type: 'organization',
+      type: TYPES.ORGANIZATION,
       data: {
         isManagingStudents: true,
         tags: [AEFE_TAG.name],
@@ -172,7 +173,7 @@ const buildSixthGradeQuests = (
       comparison: COMPARISON.ONE_OF,
     },
     {
-      type: 'campaignParticipations',
+      type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
         targetProfileIds: [firstTargetProfile.id],
       },
@@ -198,14 +199,14 @@ const buildSixthGradeQuests = (
 
   const secondQuestEligibilityRequirements = [
     {
-      type: 'organization',
+      type: TYPES.ORGANIZATION,
       data: {
         type: 'SCO',
       },
       comparison: COMPARISON.ALL,
     },
     {
-      type: 'organization',
+      type: TYPES.ORGANIZATION,
       data: {
         isManagingStudents: true,
         tags: [AEFE_TAG.name],
@@ -213,7 +214,7 @@ const buildSixthGradeQuests = (
       comparison: COMPARISON.ONE_OF,
     },
     {
-      type: 'campaignParticipations',
+      type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
         targetProfileIds: [secondTargetProfile.id, thirdTargetProfile.id],
       },

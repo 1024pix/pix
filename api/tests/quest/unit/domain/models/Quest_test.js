@@ -1,4 +1,4 @@
-import { Eligibility } from '../../../../../src/quest/domain/models/Eligibility.js';
+import { Eligibility, TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { Success } from '../../../../../src/quest/domain/models/Success.js';
@@ -15,7 +15,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           // given
           const eligibilityRequirements = [
             {
-              type: 'organization',
+              type: TYPES.ORGANIZATION,
               data: {
                 type: 'SCO',
               },
@@ -50,7 +50,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         before(function () {
           const eligibilityRequirements = [
             {
-              type: 'organization',
+              type: TYPES.ORGANIZATION,
               data: {
                 tags: ['AGRICULTURE', 'AEFE'],
               },
@@ -85,7 +85,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
       before(function () {
         const eligibilityRequirements = [
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             data: {
               isManagingStudents: true,
               tags: ['AEFE'],
@@ -126,14 +126,14 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
 
         const eligibilityRequirements = [
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             data: {
               type: 'SCO',
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             data: {
               isManagingStudents: true,
               tags: ['AEFE'],
@@ -141,14 +141,14 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             comparison: COMPARISON.ONE_OF,
           },
           {
-            type: 'organizationLearner',
+            type: TYPES.ORGANIZATION_LEARNER,
             data: {
               MEFCode: '10010012110',
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'campaignParticipations',
+            type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               targetProfileIds: [eligibleTargetProfileId],
             },

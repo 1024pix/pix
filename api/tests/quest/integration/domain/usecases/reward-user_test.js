@@ -3,6 +3,7 @@ import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import { TYPES } from "../../../../../src/quest/domain/models/Eligibility.js";
 const { INVALIDATED, VALIDATED } = KnowledgeElement.StatusType;
 
 const userId = 1234;
@@ -54,7 +55,7 @@ const setupContext = async (
   const quest = databaseBuilder.factory.buildQuest({
     eligibilityRequirements: [
       {
-        type: 'organization',
+        type: TYPES.ORGANIZATION,
         comparison: COMPARISON.ALL,
         data: {
           type: questOrganization,
@@ -152,7 +153,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         rewardId,
         eligibilityRequirements: [
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
               type: questOrganization,
@@ -173,7 +174,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         rewardId,
         eligibilityRequirements: [
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
               type: questOrganization,
