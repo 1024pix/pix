@@ -3,9 +3,9 @@ import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { Success, TYPES as SUCCESS_TYPES } from '../../../../../src/quest/domain/models/Success.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
-import { expect } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
-describe('Quest | Unit | Domain | Models | Quest ', function () {
+describe.only('Quest | Unit | Domain | Models | Quest ', function () {
   describe('#isEligible', function () {
     describe('when comparison is "all"', function () {
       describe('when data to test is a simple value', function () {
@@ -181,11 +181,11 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
   });
 
   describe('#isSuccessful', function () {
-    let quest;
+    let quest, successRequirements;
 
     before(function () {
       // given
-      const successRequirements = [
+      successRequirements = [
         {
           type: SUCCESS_TYPES.SKILL,
           data: {
@@ -201,10 +201,9 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
       // when
       const success = new Success({
         knowledgeElements: [
-          { status: KnowledgeElement.StatusType.VALIDATED },
-          { status: KnowledgeElement.StatusType.VALIDATED },
-          { status: KnowledgeElement.StatusType.VALIDATED },
-          { status: KnowledgeElement.StatusType.INVALIDATED },
+          domainBuilder.buildKnowledgeElement({ id: 1, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 2, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 3, status: KnowledgeElement.StatusType.INVALIDATED }),
         ],
       });
 
@@ -216,14 +215,67 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
       // when
       const success = new Success({
         knowledgeElements: [
-          { status: KnowledgeElement.StatusType.VALIDATED },
-          { status: KnowledgeElement.StatusType.INVALIDATED },
-          { status: KnowledgeElement.StatusType.INVALIDATED },
-          { status: KnowledgeElement.StatusType.INVALIDATED },
+          domainBuilder.buildKnowledgeElement({ id: 1, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 2, status: KnowledgeElement.StatusType.INVALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 3, status: KnowledgeElement.StatusType.INVALIDATED }),
         ],
       });
 
       // then
+      expect(quest.isSuccessful(success)).to.equal(false);
+    });
+
+    it('should return true if multiple success requirements are met', function () {
+      // when
+      const success = new Success({
+        knowledgeElements: [
+          domainBuilder.buildKnowledgeElement({ id: 1, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 2, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 3, status: KnowledgeElement.StatusType.INVALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 4, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 5, status: KnowledgeElement.StatusType.VALIDATED }),
+        ],
+      });
+
+      successRequirements = [
+        ...successRequirements,
+        {
+          type: SUCCESS_TYPES.SKILL,
+          data: {
+            ids: [4, 5],
+            threshold: 100,
+          },
+        },
+      ];
+      quest = new Quest({ successRequirements });
+      //then
+      expect(quest.isSuccessful(success)).to.equal(true);
+    });
+
+    it('should return false if multiple success requirements are met', function () {
+      // when
+      const success = new Success({
+        knowledgeElements: [
+          domainBuilder.buildKnowledgeElement({ id: 1, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 2, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 3, status: KnowledgeElement.StatusType.INVALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 4, status: KnowledgeElement.StatusType.VALIDATED }),
+          domainBuilder.buildKnowledgeElement({ id: 5, status: KnowledgeElement.StatusType.INVALIDATED }),
+        ],
+      });
+
+      successRequirements = [
+        ...successRequirements,
+        {
+          type: SUCCESS_TYPES.SKILL,
+          data: {
+            ids: [4, 5],
+            threshold: 100,
+          },
+        },
+      ];
+      quest = new Quest({ successRequirements });
+      //then
       expect(quest.isSuccessful(success)).to.equal(false);
     });
   });
