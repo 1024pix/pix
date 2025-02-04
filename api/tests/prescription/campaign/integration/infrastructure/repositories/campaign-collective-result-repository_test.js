@@ -392,7 +392,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
       context('when there is a single participant who shared its contribution', function () {
         beforeEach(function () {
-          const longTimeAgo = new Date('2018-01-01');
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
           const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation(
             'Fred',
@@ -402,83 +401,78 @@ describe('Integration | Repository | Campaign collective result repository', fun
           );
           const fredId = userWithCampaignParticipationFred.userId;
 
-          _.each(
-            [
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl3',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile3',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile5',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recText1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceC',
-                skillId: 'recMedia1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'validated',
-                createdAt: longTimeAgo,
-              },
-              {
-                userId: fredId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-            ],
-            (knowledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          const knowledgeElements = [
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
             },
-          );
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl3',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile3',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile5',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recText1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceC',
+              skillId: 'recMedia1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: fredId,
+            campaignParticipationId: userWithCampaignParticipationFred.campaignParticipation.id,
+            snappedAt: userWithCampaignParticipationFred.sharedAt,
+            snapshot: JSON.stringify(knowledgeElements.map(domainBuilder.buildKnowledgeElement)),
+          });
 
           return databaseBuilder.commit();
         });
@@ -557,342 +551,392 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
           /* KNOWLEDGE ELEMENTS */
 
-          _.each(
-            [
-              // Alice
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl3',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile3',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile5',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recText1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceC',
-                skillId: 'recMedia1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceD',
-                skillId: 'recAlgo1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceD',
-                skillId: 'recAlgo2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'validated',
-                createdAt: longTimeAgo,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              // Bob
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl3',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile3',
-                status: 'validated',
-                createdAt: beforeBeforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile3',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile5',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile5',
-                status: 'invalidated',
-                createdAt: afterCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recText1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceC',
-                skillId: 'recMedia1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'invalidated',
-                createdAt: longTimeAgo,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              // Charlie
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl3',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile3',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile5',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recText1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceC',
-                skillId: 'recMedia1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceC',
-                skillId: 'recMedia2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'validated',
-                createdAt: longTimeAgo,
-              },
-              {
-                userId: charlieId,
-                competenceId: 'recCompetenceF',
-                skillId: 'recComputer1',
-                status: 'invalidated',
-                createdAt: afterCampaignParticipationShareDate,
-              },
-
-              // Dan
-              {
-                userId: danId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: danId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: danId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl3',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: danId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: danId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile3',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: danId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recFile5',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: danId,
-                competenceId: 'recCompetenceB',
-                skillId: 'recText1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              {
-                userId: danId,
-                competenceId: 'recCompetenceC',
-                skillId: 'recMedia1',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              // Elo
-              {
-                userId: eloId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-            ],
-            (knowledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          const knowledgeElementsDataAlice = [
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
             },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl3',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile3',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile5',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recText1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceC',
+              skillId: 'recMedia1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceD',
+              skillId: 'recAlgo1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceD',
+              skillId: 'recAlgo2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'validated',
+              createdAt: longTimeAgo,
+            },
+            {
+              userId: aliceId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+
+          const knowledgeElementsDataBob = [
+            // Bob
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl3',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile3',
+              status: 'validated',
+              createdAt: beforeBeforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile3',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile5',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile5',
+              status: 'invalidated',
+              createdAt: afterCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recText1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceC',
+              skillId: 'recMedia1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'invalidated',
+              createdAt: longTimeAgo,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+
+          const knowledgeElementsDataCharlie = [
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl3',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile3',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile5',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recText1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceC',
+              skillId: 'recMedia1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceC',
+              skillId: 'recMedia2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'validated',
+              createdAt: longTimeAgo,
+            },
+            {
+              userId: charlieId,
+              competenceId: 'recCompetenceF',
+              skillId: 'recComputer1',
+              status: 'invalidated',
+              createdAt: afterCampaignParticipationShareDate,
+            },
+          ];
+
+          const knowledgeElementsDataDan = [
+            // Dan
+            {
+              userId: danId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: danId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: danId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl3',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: danId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: danId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile3',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: danId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recFile5',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: danId,
+              competenceId: 'recCompetenceB',
+              skillId: 'recText1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+
+            {
+              userId: danId,
+              competenceId: 'recCompetenceC',
+              skillId: 'recMedia1',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+          const knowledgeElementsDataElo = [
+            {
+              userId: eloId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+
+          const knowledgeElementsAlice = knowledgeElementsDataAlice.map(databaseBuilder.factory.buildKnowledgeElement);
+          const snapshotsAlice = _(knowledgeElementsAlice).orderBy('createdAt', 'desc').uniqBy('skillId').value();
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationAlice.userId,
+            snappedAt: userWithCampaignParticipationAlice.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(snapshotsAlice),
+            campaignParticipationId: userWithCampaignParticipationAlice.campaignParticipation.id,
+          });
+
+          const knowledgeElementsCharlie = knowledgeElementsDataCharlie.map(
+            databaseBuilder.factory.buildKnowledgeElement,
           );
+          const snapshotsCharlie = _(knowledgeElementsCharlie)
+            .filter((o) => o.createdAt <= campaignParticipationShareDate)
+            .orderBy('createdAt', 'desc')
+            .uniqBy('skillId')
+            .value();
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationCharlie.userId,
+            snappedAt: userWithCampaignParticipationCharlie.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(snapshotsCharlie),
+            campaignParticipationId: userWithCampaignParticipationCharlie.campaignParticipation.id,
+          });
+
+          const knowledgeElementsBob = knowledgeElementsDataBob.map(databaseBuilder.factory.buildKnowledgeElement);
+          const snapshotsBob = _(knowledgeElementsBob)
+            .filter((o) => o.createdAt <= campaignParticipationShareDate)
+            .orderBy('createdAt', 'desc')
+            .uniqBy('skillId')
+            .value();
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationBob.userId,
+            snappedAt: userWithCampaignParticipationBob.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(snapshotsBob),
+            campaignParticipationId: userWithCampaignParticipationBob.campaignParticipation.id,
+          });
+
+          knowledgeElementsDataDan.map(databaseBuilder.factory.buildKnowledgeElement);
+
+          const knowledgeElementsElo = knowledgeElementsDataElo.map(databaseBuilder.factory.buildKnowledgeElement);
+          const snapshotsElo = _(knowledgeElementsElo).orderBy('createdAt', 'desc').uniqBy('skillId').value();
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationElo.userId,
+            snappedAt: userWithCampaignParticipationElo.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(snapshotsElo),
+            campaignParticipationId: userWithCampaignParticipationElo.campaignParticipation.id,
+          });
 
           return databaseBuilder.commit();
         });
@@ -924,14 +968,8 @@ describe('Integration | Repository | Campaign collective result repository', fun
         beforeEach(async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
           const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId,
-            userId,
-            organizationLearnerId,
-            sharedAt: new Date('2020-01-01'),
-            isImproved: true,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
+
+          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId,
             organizationLearnerId,
@@ -939,12 +977,19 @@ describe('Integration | Repository | Campaign collective result repository', fun
             isImproved: false,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({
+          const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
             userId,
             competenceId: 'recCompetenceA',
             skillId: 'recUrl1',
             status: 'validated',
             createdAt: new Date('2020-01-03'),
+          });
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userId,
+            snappedAt: campaignParticipation.sharedAt,
+            snapshot: JSON.stringify([knowledgeElement]),
+            campaignParticipationId: campaignParticipation.id,
           });
 
           await databaseBuilder.commit();
@@ -991,44 +1036,63 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
           /* KNOWLEDGE ELEMENTS */
 
-          _.each(
-            [
-              // Alice
-              {
-                userId: aliceId,
-                competenceId: 'recOldCompetence',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: aliceId,
-                competenceId: 'recOldCompetence',
-                skillId: 'recUrl2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-
-              // Bob
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: bobId,
-                competenceId: 'recCompetenceA',
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-            ],
-            (knowledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          const knowledgeElementsDataAlice = [
+            {
+              userId: aliceId,
+              competenceId: 'recOldCompetence',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
             },
-          );
+            {
+              userId: aliceId,
+              competenceId: 'recOldCompetence',
+              skillId: 'recUrl2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+
+          const knowledgeElementsDataBob = [
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: bobId,
+              competenceId: 'recCompetenceA',
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+
+          const knowledgeElementsAlice = knowledgeElementsDataAlice.map(databaseBuilder.factory.buildKnowledgeElement);
+          const snapshotsAlice = _(knowledgeElementsAlice).orderBy('createdAt', 'desc').uniqBy('skillId').value();
+
+          const knowledgeElementsBob = knowledgeElementsDataBob.map(databaseBuilder.factory.buildKnowledgeElement);
+          const snapshotsBob = _(knowledgeElementsBob)
+            .filter((o) => o.createdAt <= campaignParticipationShareDate)
+            .orderBy('createdAt', 'desc')
+            .uniqBy('skillId')
+            .value();
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationAlice.userId,
+            snappedAt: userWithCampaignParticipationAlice.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(snapshotsAlice),
+            campaignParticipationId: userWithCampaignParticipationAlice.campaignParticipation.id,
+          });
+
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationBob.userId,
+            snappedAt: userWithCampaignParticipationBob.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(snapshotsBob),
+            campaignParticipationId: userWithCampaignParticipationBob.campaignParticipation.id,
+          });
 
           return databaseBuilder.commit();
         });
