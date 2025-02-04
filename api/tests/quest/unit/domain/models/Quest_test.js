@@ -226,23 +226,39 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
   });
 
   describe('#isSuccessful', function () {
-    let quest, successRequirements;
+    describe('without requirement', function () {
+      it('should return true if successRequirement is undefined', function () {
+        const quest = new Quest({});
 
-    before(function () {
-      // given
-      successRequirements = [
-        {
-          type: SUCCESS_TYPES.SKILL,
-          data: {
-            ids: [1, 2, 3],
-            threshold: 50,
-          },
-        },
-      ];
-      quest = new Quest({ successRequirements });
+        //then
+        expect(quest.isSuccessful()).to.equal(true);
+      });
+
+      it('should return true if successRequirement is empty array', function () {
+        const quest = new Quest({ successRequirements: [] });
+
+        //then
+        expect(quest.isSuccessful()).to.equal(true);
+      });
     });
 
     describe('type of requirement is SKILL', function () {
+      let quest, successRequirements;
+
+      before(function () {
+        // given
+        successRequirements = [
+          {
+            type: SUCCESS_TYPES.SKILL,
+            data: {
+              ids: [1, 2, 3],
+              threshold: 50,
+            },
+          },
+        ];
+        quest = new Quest({ successRequirements });
+      });
+
       it('should return true if success requirements are met', function () {
         // when
         const success = new Success({

@@ -48,6 +48,8 @@ class Quest {
    * @param {Success} success
    */
   isSuccessful(success) {
+    if (this.successRequirements === undefined || this.successRequirements.length === 0) return true;
+
     return this.successRequirements.every((successRequirement) => {
       if (successRequirement.type === SUCCESS_TYPES.SKILL) {
         return this.#validateSuccessRequirementsOfTypeSkill({ successRequirement, success });
