@@ -2,22 +2,8 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import * as campaignRepository from '../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { ParticipantResultsShared } from '../../domain/models/ParticipantResultsShared.js';
-
-async function _fetchKnowledgeElements(campaignParticipationId) {
-  const { snapshot: knowledgeElements } = await knex('campaign-participations')
-    .select('snapshot')
-    .join('knowledge-element-snapshots', function () {
-      this.on('knowledge-element-snapshots.userId', '=', 'campaign-participations.userId').andOn(
-        'knowledge-element-snapshots.snappedAt',
-        '=',
-        'campaign-participations.sharedAt',
-      );
-    })
-    .where('campaign-participations.id', campaignParticipationId)
-    .first();
-  return knowledgeElements;
-}
 
 function _fetchUserIdAndSharedAt(campaignParticipationId) {
   return knex('campaign-participations')
@@ -35,7 +21,9 @@ const participantResultsSharedRepository = {
     const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
       campaignParticipationId,
     });
-    const knowledgeElements = await _fetchKnowledgeElements(campaignParticipationId);
+    const knowledgeElements = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([
+      campaignParticipationId,
+    ]);
     const { userId, sharedAt } = await _fetchUserIdAndSharedAt(campaignParticipationId);
     const competences = await competenceRepository.listPixCompetencesOnly();
 
@@ -44,11 +32,12 @@ const participantResultsSharedRepository = {
       limitDate: sharedAt,
       allowExcessPixAndLevels: false,
       competences,
+      campaignParticipationId,
     });
 
     return new ParticipantResultsShared({
       campaignParticipationId,
-      knowledgeElements,
+      knowledgeElements: knowledgeElements[campaignParticipationId],
       skillIds,
       placementProfile,
     });

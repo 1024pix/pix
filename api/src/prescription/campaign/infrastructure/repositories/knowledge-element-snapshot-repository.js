@@ -95,4 +95,30 @@ const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAnd
   });
 };
 
-export { findByUserIdsAndSnappedAtDates, findMultipleUsersFromUserIdsAndSnappedAtDates, save };
+/**
+ *
+ * @param {number[]} campaignParticipationIds
+ * @returns {Object.<number, KnowledgeElement[]>}
+ */
+const findByCampaignParticipationIds = async function (campaignParticipationIds) {
+  const results = await knex
+    .select('campaignParticipationId', 'snapshot')
+    .from('knowledge-element-snapshots')
+    .whereIn('campaignParticipationId', campaignParticipationIds);
+
+  return Object.fromEntries(
+    results.map(({ campaignParticipationId, snapshot }) => [
+      campaignParticipationId,
+      snapshot.map(({ createdAt, ...data }) => {
+        return new KnowledgeElement({ ...data, createdAt: new Date(createdAt) });
+      }),
+    ]),
+  );
+};
+
+export {
+  findByCampaignParticipationIds,
+  findByUserIdsAndSnappedAtDates,
+  findMultipleUsersFromUserIdsAndSnappedAtDates,
+  save,
+};

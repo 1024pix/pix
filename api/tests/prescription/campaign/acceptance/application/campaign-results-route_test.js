@@ -565,13 +565,20 @@ describe('Acceptance | API | campaign-results-route', function () {
         campaignParticipationId: campaignParticipation.id,
       });
 
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke = databaseBuilder.factory.buildKnowledgeElement({
         skillId: 'recSkillId1',
         status: 'validated',
         userId,
         assessmentId: assessment.id,
         competenceId: 'recCompetence1',
         createdAt: new Date('2017-12-01'),
+      });
+
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId,
+        campaignParticipationId: campaignParticipation.id,
+        snapshot: JSON.stringify([ke]),
+        snappedAt: campaignParticipation.sharedAt,
       });
 
       await databaseBuilder.commit();

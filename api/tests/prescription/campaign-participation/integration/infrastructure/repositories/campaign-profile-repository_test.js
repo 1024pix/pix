@@ -203,11 +203,17 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
         });
-        databaseBuilder.factory.buildKnowledgeElement({
+        const ke = databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,
           earnedPix: PIX_COUNT_BY_LEVEL,
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
+        });
+
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          snappedAt: new Date('2020-01-02'),
+          snapshot: JSON.stringify([ke]),
+          campaignParticipationId: campaignParticipation.id,
         });
 
         await databaseBuilder.commit();
@@ -255,39 +261,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         });
 
         expect(campaignProfile.pixScore).to.equal(80);
-      });
-
-      it('computes certifiable competences acquired before the sharing date of the campaign participation', async function () {
-        const campaignId = databaseBuilder.factory.buildCampaign().id;
-
-        const user = databaseBuilder.factory.buildUser({ firstName: 'John', lastName: 'Shaft' });
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-          userId: user.id,
-          sharedAt: new Date('2020-01-02'),
-        });
-        databaseBuilder.factory.buildKnowledgeElement({
-          userId: user.id,
-          earnedPix: PIX_COUNT_BY_LEVEL,
-          competenceId: 'rec1',
-          createdAt: new Date('2020-01-01'),
-        });
-        databaseBuilder.factory.buildKnowledgeElement({
-          userId: user.id,
-          earnedPix: PIX_COUNT_BY_LEVEL * 2,
-          competenceId: 'rec2',
-          createdAt: new Date('2020-01-03'),
-        });
-
-        await databaseBuilder.commit();
-
-        const campaignProfile = await CampaignProfileRepository.findProfile({
-          campaignId,
-          campaignParticipationId: campaignParticipation.id,
-          locale,
-        });
-
-        expect(campaignProfile.certifiableCompetencesCount).to.equal(1);
       });
     });
 

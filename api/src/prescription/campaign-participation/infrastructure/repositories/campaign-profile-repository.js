@@ -11,11 +11,13 @@ const findProfile = async function ({ campaignId, campaignParticipationId, local
   const allAreas = await areaRepository.list({ locale });
 
   const { sharedAt, userId } = profile;
+
   const placementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
     userId,
     limitDate: sharedAt,
     allowExcessPixAndLevels: false,
     competences,
+    campaignParticipationId,
   });
 
   return new CampaignProfile({ ...profile, placementProfile, allAreas });

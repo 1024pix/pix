@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import * as knowledgeElementSnapshotRepository from '../../../prescription/campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 
@@ -33,7 +32,7 @@ function _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds = [] }) {
   });
 }
 
-async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds }) {
+async function findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds }) {
   const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
 
   const knowledgeElements = _.map(
@@ -43,28 +42,10 @@ async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skill
   return _applyFilters(knowledgeElements);
 }
 
-async function findSnapshotForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser =
-    await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
-
-  for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
-    const userId = parseInt(userIdStr);
-    let knowledgeElements = knowledgeElementsFromSnapshot;
-    if (!knowledgeElements) {
-      knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({
-        userId,
-        limitDate: userIdsAndDates[userId],
-      });
-    }
-    knowledgeElementsGroupedByUser[userId] = knowledgeElements;
-  }
-  return knowledgeElementsGroupedByUser;
-}
-
 const findUniqByUserIds = function (userIds) {
   return Promise.all(
     userIds.map(async (userId) => {
-      const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({
+      const knowledgeElements = await findAssessedByUserIdAndLimitDateQuery({
         userId,
       });
 
@@ -81,7 +62,7 @@ const batchSave = async function ({ knowledgeElements }) {
 };
 
 const findUniqByUserId = function ({ userId, limitDate, skillIds }) {
-  return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
+  return findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
 };
 
 const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }) {
@@ -96,19 +77,13 @@ const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }
 };
 
 const findUniqByUserIdAndCompetenceId = async function ({ userId, competenceId }) {
-  const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId });
+  const knowledgeElements = await findAssessedByUserIdAndLimitDateQuery({ userId });
   return knowledgeElements.filter((knowledgeElement) => knowledgeElement.competenceId === competenceId);
 };
 
 const findUniqByUserIdGroupedByCompetenceId = async function ({ userId, limitDate }) {
   const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
   return _.groupBy(knowledgeElements, 'competenceId');
-};
-
-const findValidatedGroupedByTubesWithinCampaign = async function (userIdsAndDates, campaignLearningContent) {
-  const knowledgeElementsGroupedByUser = await findSnapshotForUsers(userIdsAndDates);
-
-  return campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
 };
 
 const findInvalidatedAndDirectByUserId = async function (userId) {
@@ -131,12 +106,11 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
 
 export {
   batchSave,
+  findAssessedByUserIdAndLimitDateQuery,
   findInvalidatedAndDirectByUserId,
-  findSnapshotForUsers,
   findUniqByUserId,
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
   findUniqByUserIds,
-  findValidatedGroupedByTubesWithinCampaign,
 };

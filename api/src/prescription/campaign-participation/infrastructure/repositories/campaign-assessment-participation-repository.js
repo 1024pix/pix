@@ -80,13 +80,13 @@ async function _setSkillsCount(result) {
   if (result.assessmentState !== Assessment.states.COMPLETED) {
     const operativeSkillIds = await campaignRepository.findSkillIds({ campaignId: result.campaignId });
 
-    const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({
-      [result.userId]: result.sharedAt,
+    const knowledgeElementsByUser = await knowledgeElementRepository.findAssessedByUserIdAndLimitDateQuery({
+      userId: result.userId,
+      limitDate: result.sharedAt,
     });
-    const knowledgeElements = knowledgeElementsByUser[result.userId];
 
     targetedSkillsCount = operativeSkillIds.length;
-    testedSkillsCount = _getTestedSkillsCount(operativeSkillIds, knowledgeElements);
+    testedSkillsCount = _getTestedSkillsCount(operativeSkillIds, knowledgeElementsByUser);
   }
 
   return { targetedSkillsCount, testedSkillsCount };

@@ -2,16 +2,15 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../../src/shared/infrastructure/constants.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 import { CampaignAnalysis } from '../../../campaign/domain/read-models/CampaignAnalysis.js';
+import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
-
 const { SHARED } = CampaignParticipationStatuses;
 
 const getCampaignAnalysis = async function (campaignId, campaignLearningContent, tutorials) {
-  const userIdsAndSharedDates = await _getSharedParticipationsWithUserIdsAndDates(campaignId);
-  const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
-  const participantCount = userIdsAndSharedDates.length;
+  const campaignParticipationIds = await _getSharedParticipationsId(campaignId);
+  const campaignParticipationIdsChunks = _.chunk(campaignParticipationIds, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  const participantCount = campaignParticipationIds.length;
 
   const campaignAnalysis = new CampaignAnalysis({
     campaignId,
@@ -20,10 +19,12 @@ const getCampaignAnalysis = async function (campaignId, campaignLearningContent,
     participantCount,
   });
 
-  for (const userIdsAndSharedDates of userIdsAndSharedDatesChunks) {
-    const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
-      Object.fromEntries(userIdsAndSharedDates),
-      campaignLearningContent,
+  for (const campaignParticipationIdChunk of campaignParticipationIdsChunks) {
+    const knowledgeElementsByParticipation =
+      await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(campaignParticipationIdChunk);
+
+    const knowledgeElementsByTube = campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(
+      Object.values(knowledgeElementsByParticipation).flat(),
     );
     campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
   }
@@ -45,9 +46,10 @@ const getCampaignParticipationAnalysis = async function (
     participantCount: 1,
   });
 
-  const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
-    { [campaignParticipation.userId]: campaignParticipation.sharedAt },
-    campaignLearningContent,
+  const snapshot = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([campaignParticipation.id]);
+
+  const knowledgeElementsByTube = campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(
+    snapshot[campaignParticipation.id],
   );
   campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
 
@@ -57,15 +59,10 @@ const getCampaignParticipationAnalysis = async function (
 
 export { getCampaignAnalysis, getCampaignParticipationAnalysis };
 
-async function _getSharedParticipationsWithUserIdsAndDates(campaignId) {
+async function _getSharedParticipationsId(campaignId) {
   const results = await knex('campaign-participations')
-    .select('userId', 'sharedAt')
+    .pluck('id')
     .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
 
-  const userIdsAndDates = [];
-  for (const result of results) {
-    userIdsAndDates.push([result.userId, result.sharedAt]);
-  }
-
-  return userIdsAndDates;
+  return results;
 }

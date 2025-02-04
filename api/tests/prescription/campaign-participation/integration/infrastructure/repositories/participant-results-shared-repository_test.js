@@ -365,6 +365,7 @@ function _buildParticipationWithSnapshot(participationAttributes, knowledgeEleme
     userId: participation.userId,
     snappedAt: participation.sharedAt,
     knowledgeElementsAttributes,
+    campaignParticipationId: participation.id,
   });
 
   return participation;

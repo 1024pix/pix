@@ -107,8 +107,17 @@ describe('Acceptance | API | Campaign Participations', function () {
       });
       databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
       databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId2' });
+      const sharedAt = new Date('2020-01-01');
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
+        sharedAt,
+      });
+
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId,
+        snapshot: JSON.stringify([]),
+        campaignParticipationId: campaignParticipation.id,
+        snappedAt: sharedAt,
       });
 
       await databaseBuilder.commit();

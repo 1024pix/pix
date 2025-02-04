@@ -158,11 +158,15 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
   });
 }
 
-async function getPlacementProfileWithSnapshotting({ userId, limitDate, competences, allowExcessPixAndLevels = true }) {
-  const snapshots = await knowledgeElementRepository.findSnapshotForUsers({
-    [userId]: limitDate,
-  });
-  const knowledgeElements = snapshots[userId];
+async function getPlacementProfileWithSnapshotting({
+  userId,
+  limitDate,
+  competences,
+  allowExcessPixAndLevels = true,
+  campaignParticipationId,
+}) {
+  const snapshots = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([campaignParticipationId]);
+  const knowledgeElements = snapshots[campaignParticipationId];
   const knowledgeElementsByCompetence = _.groupBy(knowledgeElements, 'competenceId');
 
   const userCompetences = _createUserCompetencesV2({

@@ -262,57 +262,66 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             sharedAt: shareDate,
           });
 
-          _.each(
-            [
-              {
-                userId: paulId,
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: joeId,
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              { userId: joeId, skillId: 'recUrl2', status: 'validated', createdAt: afterShareDate },
-              {
-                userId: fredId,
-                skillId: 'recFile2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'recFile3',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'someUntargetedSkill',
-                status: 'validated',
-                campaignId,
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-            ],
-            (knowledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          const keData = [
+            {
+              userId: paulId,
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
             },
-          );
+            {
+              userId: joeId,
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            { userId: joeId, skillId: 'recUrl2', status: 'validated', createdAt: afterShareDate },
+            {
+              userId: fredId,
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'recFile2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'recFile3',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'someUntargetedSkill',
+              status: 'validated',
+              campaignId,
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+          const knowledgeElements = keData.map(databaseBuilder.factory.buildKnowledgeElement);
+
+          [userWithCampaignParticipationFred, userWithCampaignParticipationJoe].forEach((participation) => {
+            databaseBuilder.factory.buildKnowledgeElementSnapshot({
+              userId: participation.userId,
+              campaignParticipationId: participation.campaignParticipation.id,
+              snappedAt: participation.campaignParticipation.sharedAt,
+              snapshot: JSON.stringify(
+                knowledgeElements.filter(
+                  ({ userId, createdAt }) => userId === participation.userId && createdAt <= shareDate,
+                ),
+              ),
+            });
+          });
 
           return databaseBuilder.commit();
         });
@@ -352,45 +361,46 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           _createUserWithNonSharedCampaignParticipation('Fred', campaignId);
           const fredId = userWithCampaignParticipationFred.userId;
 
-          _.each(
-            [
-              {
-                userId: fredId,
-                skillId: 'recUrl1',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'recUrl2',
-                status: 'invalidated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'recFile2',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'recFile3',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-              {
-                userId: fredId,
-                skillId: 'someUntargetedSkill',
-                status: 'validated',
-                campaignId,
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-            ],
-            (knowledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          const keData = [
+            {
+              userId: fredId,
+              skillId: 'recUrl1',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
             },
-          );
-
+            {
+              userId: fredId,
+              skillId: 'recUrl2',
+              status: 'invalidated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'recFile2',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'recFile3',
+              status: 'validated',
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+            {
+              userId: fredId,
+              skillId: 'someUntargetedSkill',
+              status: 'validated',
+              campaignId,
+              createdAt: beforeCampaignParticipationShareDate,
+            },
+          ];
+          const knowledgeElements = keData.map(databaseBuilder.factory.buildKnowledgeElement);
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId: userWithCampaignParticipationFred.userId,
+            campaignParticipationId: userWithCampaignParticipationFred.campaignParticipation.id,
+            snappedAt: userWithCampaignParticipationFred.campaignParticipation.sharedAt,
+            snapshot: JSON.stringify(knowledgeElements.filter(({ createdAt }) => createdAt <= shareDate)),
+          });
           return databaseBuilder.commit();
         });
 
@@ -430,7 +440,26 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           false,
         );
         userId = userWithCampaignParticipation.userId;
-        campaignParticipation = { userId, sharedAt };
+        const beforeCampaignParticipationShareDate = new Date('2019-01-01');
+
+        const keData = [
+          { userId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+          { userId, skillId: 'recUrl2', status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+          { userId, skillId: 'recFile2', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+          { userId, skillId: 'recFile3', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+          {
+            userId,
+            skillId: 'someUntargetedSkill',
+            status: 'validated',
+            createdAt: beforeCampaignParticipationShareDate,
+          },
+        ];
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId,
+          snapshot: JSON.stringify(keData),
+          campaignParticipationId: userWithCampaignParticipation.campaignParticipation.id,
+        });
+        campaignParticipation = { userId, sharedAt, id: userWithCampaignParticipation.campaignParticipation.id };
 
         const url1 = domainBuilder.buildSkill({ id: 'recUrl1', tubeId: 'recTubeUrl', name: '@url1', difficulty: 1 });
         const url2 = domainBuilder.buildSkill({ id: 'recUrl2', tubeId: 'recTubeUrl', name: '@url2', difficulty: 2 });
@@ -522,30 +551,6 @@ describe('Integration | Repository | Campaign analysis repository', function () 
       });
 
       context('participation details', function () {
-        beforeEach(function () {
-          const beforeCampaignParticipationShareDate = new Date('2019-01-01');
-
-          _.each(
-            [
-              { userId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
-              { userId, skillId: 'recUrl2', status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
-              { userId, skillId: 'recFile2', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
-              { userId, skillId: 'recFile3', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
-              {
-                userId,
-                skillId: 'someUntargetedSkill',
-                status: 'validated',
-                createdAt: beforeCampaignParticipationShareDate,
-              },
-            ],
-            (knowledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
-            },
-          );
-
-          return databaseBuilder.commit();
-        });
-
         it('should resolves an analysis based on participant score ignoring untargeted or non validated knowledge elements', async function () {
           // when
           const tutorials = [];
