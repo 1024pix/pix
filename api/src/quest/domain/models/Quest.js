@@ -35,6 +35,10 @@ class Quest {
       if (Array.isArray(criterion)) {
         return criterion.every((valueToTest) => eligibilityData.includes(valueToTest));
       }
+      if (typeof criterion === 'object') {
+        const comparaisonFunction = criterion.comparison === COMPARISON.ONE_OF ? 'some' : 'every';
+        return criterion[comparaisonFunction]((valueToTest) => eligibilityData.includes(valueToTest));
+      }
       return eligibilityData === criterion;
     });
   }

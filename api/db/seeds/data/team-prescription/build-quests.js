@@ -12,9 +12,38 @@ import {
   USER_ID_ADMIN_ORGANIZATION,
   USER_ID_MEMBER_ORGANIZATION,
 } from '../common/constants.js';
-import { TARGET_PROFILE_BADGES_STAGES_ID } from './constants.js';
+import { TARGET_PROFILE_BADGES_STAGES_ID, TARGET_PROFILE_NO_BADGES_NO_STAGES_ID } from './constants.js';
 
 const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');
+
+function buildParenthoodQuest(databaseBuilder) {
+  const { id: rewardId } = databaseBuilder.factory.buildAttestation({
+    templateName: 'parenthood-attestation-template',
+    key: ATTESTATIONS.PARENTHOOD,
+  });
+
+  const targetProfileId = TARGET_PROFILE_NO_BADGES_NO_STAGES_ID;
+  databaseBuilder.factory.buildQuest({
+    rewardType: REWARD_TYPES.ATTESTATION,
+    rewardId,
+    eligibilityRequirements: [
+      {
+        type: TYPES.CAMPAIGN_PARTICIPATIONS,
+        data: {
+          targetProfileIds: [targetProfileId],
+        },
+      },
+    ],
+    successRequirements: [
+      {
+        type: SUCCESS_TYPES.ASSESSMENT,
+        data: {
+          state: Assessment.states.COMPLETED,
+        },
+      },
+    ],
+  });
+}
 
 const USERS = [
   {
@@ -442,4 +471,6 @@ export const buildQuests = async (databaseBuilder) => {
     organizationId: SCO_ORGANIZATION_ID,
     profileRewardId: otherUserProfileRewardId,
   });
+
+  buildParenthoodQuest(databaseBuilder);
 };

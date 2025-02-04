@@ -141,16 +141,20 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             comparison: COMPARISON.ONE_OF,
           },
           {
-            type: TYPES.ORGANIZATION_LEARNER,
+            type: TYPES.ORGANIZATION_LEARNER, // Object
             data: {
               MEFCode: '10010012110',
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            type: TYPES.CAMPAIGN_PARTICIPATIONS, // Array
             data: {
               targetProfileIds: [eligibleTargetProfileId],
+              statuses: {
+                value: ['TO_SHARE', 'SHARED'],
+                comparison: COMPARISON.ONE_OF,
+              },
             },
             comparison: COMPARISON.ALL,
           },

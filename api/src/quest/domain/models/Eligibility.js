@@ -18,6 +18,7 @@ export class Eligibility {
   get campaignParticipations() {
     return {
       targetProfileIds: this.#campaignParticipations.map(({ targetProfileId }) => targetProfileId),
+      statuses: this.#campaignParticipations.map(({ status }) => status),
     };
   }
 

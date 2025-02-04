@@ -31,7 +31,10 @@ export const rewardUser = async ({
       continue;
     }
 
-    const success = await successRepository.find({ userId, skillIds: quest.successRequirements[0].data.ids });
+    const success = await successRepository.find({
+      userId,
+      skillIds: quest.successRequirements[0].data.ids,
+    });
     const userHasSucceedQuest = quest.isSuccessful(success);
 
     if (userHasSucceedQuest) {

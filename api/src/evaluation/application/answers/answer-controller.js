@@ -16,7 +16,7 @@ const save = async function (request, h, dependencies = { answerSerializer, requ
     !config.featureToggles.isAsyncQuestRewardingCalculationEnabled &&
     config.featureToggles.isQuestEnabled
   ) {
-    await questUsecases.rewardUser({ userId });
+    await questUsecases.rewardUser({ userId, assessmentId: answer.assessment.id });
   }
 
   return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
