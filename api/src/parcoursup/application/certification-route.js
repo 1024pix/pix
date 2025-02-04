@@ -80,6 +80,7 @@ const register = async function (server) {
             401: responseObjectErrorDoc,
             403: responseObjectErrorDoc,
             404: responseObjectErrorDoc,
+            409: responseObjectErrorDoc,
           },
         },
       },

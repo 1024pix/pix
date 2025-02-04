@@ -1,8 +1,28 @@
+import { MoreThanOneMatchingCertificationError } from '../../../../../src/parcoursup/domain/errors.js';
 import { getCertificationResult } from '../../../../../src/parcoursup/domain/usecases/get-certification-result.js';
-import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Parcoursup | Unit | Domain | UseCase | getCertificationResult', function () {
   describe('#getCertificationResult', function () {
+    it('should not allow more than one result', async function () {
+      // given
+      const ine = '1234';
+      const certificationRepository = {
+        getByINE: sinon.stub(),
+      };
+
+      const oneCertification = domainBuilder.parcoursup.buildCertificationResult({ ine });
+      const duplicatedCertification = domainBuilder.parcoursup.buildCertificationResult({ ine });
+      certificationRepository.getByINE.withArgs({ ine }).resolves([oneCertification, duplicatedCertification]);
+
+      // when
+      const error = await catchErr(getCertificationResult)({ ine, certificationRepository });
+
+      // then
+      expect(error).to.be.instanceOf(MoreThanOneMatchingCertificationError);
+      expect(error.message).to.equal('More than one candidate found for current search parameters');
+    });
+
     context('with INE', function () {
       it('returns matching certification', async function () {
         // given
@@ -12,7 +32,7 @@ describe('Parcoursup | Unit | Domain | UseCase | getCertificationResult', functi
         };
 
         const expectedCertification = domainBuilder.parcoursup.buildCertificationResult({ ine });
-        certificationRepository.getByINE.withArgs({ ine }).resolves(expectedCertification);
+        certificationRepository.getByINE.withArgs({ ine }).resolves([expectedCertification]);
 
         // when
         const certification = await getCertificationResult({ ine, certificationRepository });
@@ -46,7 +66,7 @@ describe('Parcoursup | Unit | Domain | UseCase | getCertificationResult', functi
             firstName,
             birthdate,
           })
-          .resolves(expectedCertification);
+          .resolves([expectedCertification]);
 
         // when
         const certification = await getCertificationResult({
@@ -77,7 +97,7 @@ describe('Parcoursup | Unit | Domain | UseCase | getCertificationResult', functi
           .withArgs({
             verificationCode,
           })
-          .resolves(expectedCertification);
+          .resolves([expectedCertification]);
 
         // when
         const certification = await getCertificationResult({

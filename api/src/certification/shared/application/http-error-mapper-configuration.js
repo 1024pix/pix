@@ -1,3 +1,4 @@
+import { parcoursupDomainErrorMappingConfiguration } from '../../../parcoursup/application/http-error-mapper-configuration.js';
 import { HttpErrors } from '../../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../shared/application/models/domain-error-mapping-configuration.js';
 import { configurationDomainErrorMappingConfiguration } from '../../configuration/application/http-error-mapper-configuration.js';
@@ -24,5 +25,6 @@ certificationDomainErrorMappingConfiguration.push(
   ...enrolmentDomainErrorMappingConfiguration,
   ...sessionDomainErrorMappingConfiguration,
   ...configurationDomainErrorMappingConfiguration,
+  ...parcoursupDomainErrorMappingConfiguration,
 );
 export { certificationDomainErrorMappingConfiguration };

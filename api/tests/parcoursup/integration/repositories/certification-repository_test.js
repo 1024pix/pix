@@ -35,7 +35,7 @@ describe('Parcoursup | Infrastructure | Integration | Repositories | certificati
         await datamartBuilder.commit();
 
         // when
-        const result = await certificationRepository.getByINE({ ine });
+        const results = await certificationRepository.getByINE({ ine });
 
         // then
         const expectedCertification = domainBuilder.parcoursup.buildCertificationResult({
@@ -62,7 +62,7 @@ describe('Parcoursup | Infrastructure | Integration | Repositories | certificati
             },
           ],
         });
-        expect(result).to.deep.equal(expectedCertification);
+        expect(results).to.deep.equal([expectedCertification]);
       });
     });
 
@@ -116,7 +116,7 @@ describe('Parcoursup | Infrastructure | Integration | Repositories | certificati
         await datamartBuilder.commit();
 
         // when
-        const result = await certificationRepository.getByOrganizationUAI({
+        const results = await certificationRepository.getByOrganizationUAI({
           organizationUai,
           lastName,
           firstName,
@@ -148,7 +148,7 @@ describe('Parcoursup | Infrastructure | Integration | Repositories | certificati
             },
           ],
         });
-        expect(result).to.deep.equal(expectedCertification);
+        expect(results).to.deep.equal([expectedCertification]);
       });
     });
 
@@ -209,7 +209,7 @@ describe('Parcoursup | Infrastructure | Integration | Repositories | certificati
         await datamartBuilder.commit();
 
         // when
-        const result = await certificationRepository.getByVerificationCode({
+        const results = await certificationRepository.getByVerificationCode({
           verificationCode,
         });
 
@@ -236,7 +236,7 @@ describe('Parcoursup | Infrastructure | Integration | Repositories | certificati
             },
           ],
         });
-        expect(result).to.deep.equal(expectedCertification);
+        expect(results).to.deep.equal([expectedCertification]);
       });
     });
 

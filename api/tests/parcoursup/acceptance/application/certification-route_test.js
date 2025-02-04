@@ -15,7 +15,8 @@ describe('Parcoursup | Acceptance | Application | certification-route', function
     PARCOURSUP_CLIENT_ID,
     PARCOURSUP_SCOPE,
     PARCOURSUP_SOURCE,
-    expectedCertification;
+    expectedCertification,
+    certificationResultData;
 
   beforeEach(async function () {
     server = await createServer();
@@ -30,7 +31,7 @@ describe('Parcoursup | Acceptance | Application | certification-route', function
     firstName = 'PRENOM-ELEVE';
     birthdate = '2000-01-01';
 
-    const certificationResultData = {
+    certificationResultData = {
       nationalStudentId: ine,
       organizationUai,
       lastName,
@@ -215,6 +216,37 @@ describe('Parcoursup | Acceptance | Application | certification-route', function
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedCertification);
+    });
+
+    it('should return 409 HTTP status code in case of duplicated certification results', async function () {
+      // given
+      // Same candidate but with another birthdate
+      datamartBuilder.factory.buildCertificationResult({
+        ...certificationResultData,
+        birthdate: '1999-01-01',
+      });
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'POST',
+        url: `/api/application/parcoursup/certification/search`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeaderForApplication(
+            PARCOURSUP_CLIENT_ID,
+            PARCOURSUP_SOURCE,
+            PARCOURSUP_SCOPE,
+          ),
+        },
+        payload: {
+          ine,
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(409);
     });
   });
 });
