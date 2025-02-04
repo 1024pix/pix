@@ -15,6 +15,7 @@ export class Eligibility {
     this.#campaignParticipations = campaignParticipations;
   }
 
+  // TODO: make quest algorithm handle Array or Object as data
   get campaignParticipations() {
     return {
       targetProfileIds: this.#campaignParticipations.map(({ targetProfileId }) => targetProfileId),

@@ -2,7 +2,7 @@ import { Eligibility, TYPES } from '../../../../../src/quest/domain/models/Eligi
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { Success, TYPES as SUCCESS_TYPES } from '../../../../../src/quest/domain/models/Success.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
+import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Quest ', function () {
@@ -151,10 +151,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             type: TYPES.CAMPAIGN_PARTICIPATIONS, // Array
             data: {
               targetProfileIds: [eligibleTargetProfileId],
-              statuses: {
-                value: ['TO_SHARE', 'SHARED'],
-                comparison: COMPARISON.ONE_OF,
-              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -177,6 +173,51 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         // when
         const organization = { type: 'PRO', isManagingStudents: true, tags: ['AEFE'] };
         const eligibilityData = new Eligibility({ organization });
+
+        // then
+        expect(quest.isEligible(eligibilityData)).to.equal(false);
+      });
+    });
+
+    describe('when you want different comparison of data', function () {
+      let quest;
+
+      before(function () {
+        // given
+        const eligibilityRequirements = [
+          {
+            type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              statuses: {
+                value: [CampaignParticipationStatuses.TO_SHARE, CampaignParticipationStatuses.TO_SHARE],
+                comparison: COMPARISON.ONE_OF,
+              },
+            },
+            comparison: COMPARISON.ALL,
+          },
+        ];
+        quest = new Quest({ eligibilityRequirements });
+      });
+
+      it('should return true if eligibility requirements are met', function () {
+        // when
+        const campaignParticipations = [
+          { status: CampaignParticipationStatuses.TO_SHARE },
+          { status: CampaignParticipationStatuses.STARTED },
+        ];
+        const eligibilityData = new Eligibility({ organizationLearner: {}, organization: {}, campaignParticipations });
+
+        // then
+        expect(quest.isEligible(eligibilityData)).to.equal(true);
+      });
+
+      it('should return false if eligibility requirements are met', function () {
+        // when
+        const eligibilityData = new Eligibility({
+          organizationLearner: {},
+          organization: {},
+          campaignParticipations: [],
+        });
 
         // then
         expect(quest.isEligible(eligibilityData)).to.equal(false);

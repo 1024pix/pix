@@ -29,6 +29,7 @@ class Quest {
     const comparaisonFunction = eligibilityRequirement.comparison === COMPARISON.ONE_OF ? 'some' : 'every';
 
     return Object.keys(eligibilityRequirement.data)[comparaisonFunction]((key) => {
+      // TODO: make quest algorithm handle Array or Object as data
       const eligibilityData = eligibility[eligibilityRequirement.type][key];
       const criterion = eligibilityRequirement.data[key];
 
@@ -37,7 +38,7 @@ class Quest {
       }
       if (typeof criterion === 'object') {
         const comparaisonFunction = criterion.comparison === COMPARISON.ONE_OF ? 'some' : 'every';
-        return criterion[comparaisonFunction]((valueToTest) => eligibilityData.includes(valueToTest));
+        return criterion.value[comparaisonFunction]((valueToTest) => eligibilityData.includes(valueToTest));
       }
       return eligibilityData === criterion;
     });
