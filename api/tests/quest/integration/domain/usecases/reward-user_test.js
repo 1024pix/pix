@@ -65,7 +65,7 @@ const setupContext = async (
     ],
     successRequirements: [
       {
-        type: SUCCESS_TYPES.SKILLS,
+        type: SUCCESS_TYPES.SKILL,
         data: {
           ids: ['skillId1', 'skillId2', 'skillId3'],
           threshold: 50,
@@ -163,7 +163,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         ],
         successRequirements: [
           {
-            type: SUCCESS_TYPES.SKILLS,
+            type: SUCCESS_TYPES.SKILL,
             data: {
               ids: ['skillId1', 'skillId2', 'skillId3'],
               threshold: 50,
@@ -184,7 +184,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         ],
         successRequirements: [
           {
-            type: SUCCESS_TYPES.SKILLS,
+            type: SUCCESS_TYPES.SKILL,
             data: {
               ids: ['skillId1', 'skillId2', 'skillId3'],
               threshold: 50,
