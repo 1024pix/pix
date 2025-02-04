@@ -10,6 +10,10 @@ export class OrganizationLearnerWithParticipations {
       tags: tagNames,
       type: organization.type,
     };
-    this.campaignParticipations = campaignParticipations.map(({ id, targetProfileId }) => ({ id, targetProfileId }));
+    this.campaignParticipations = campaignParticipations.map(({ id, targetProfileId, status }) => ({
+      id,
+      targetProfileId,
+      status,
+    }));
   }
 }

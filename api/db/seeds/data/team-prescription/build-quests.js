@@ -31,14 +31,10 @@ function buildParenthoodQuest(databaseBuilder) {
         type: TYPES.CAMPAIGN_PARTICIPATIONS,
         data: {
           targetProfileIds: [targetProfileId],
-        },
-      },
-    ],
-    successRequirements: [
-      {
-        type: SUCCESS_TYPES.ASSESSMENT,
-        data: {
-          state: Assessment.states.COMPLETED,
+          statuses: {
+            value: [CampaignParticipationStatuses.SHARED, CampaignParticipationStatuses.TO_SHARE],
+            comparison: COMPARISON.ONE_OF,
+          },
         },
       },
     ],

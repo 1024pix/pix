@@ -189,7 +189,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               statuses: {
-                value: [CampaignParticipationStatuses.TO_SHARE, CampaignParticipationStatuses.TO_SHARE],
+                value: [CampaignParticipationStatuses.TO_SHARE, CampaignParticipationStatuses.SHARED],
                 comparison: COMPARISON.ONE_OF,
               },
             },

@@ -46,7 +46,11 @@ describe('Unit | API | Organization Learner With Participations', function () {
             tags: tagNames,
             type: organization1.type,
           },
-          campaignParticipations: campaignParticipations.map(({ id, targetProfileId }) => ({ id, targetProfileId })),
+          campaignParticipations: campaignParticipations.map(({ id, targetProfileId, status }) => ({
+            id,
+            targetProfileId,
+            status,
+          })),
         },
         {
           organizationLearner: {
@@ -59,7 +63,11 @@ describe('Unit | API | Organization Learner With Participations', function () {
             tags: tagNames,
             type: organization2.type,
           },
-          campaignParticipations: campaignParticipations.map(({ id, targetProfileId }) => ({ id, targetProfileId })),
+          campaignParticipations: campaignParticipations.map(({ id, targetProfileId, status }) => ({
+            id,
+            targetProfileId,
+            status,
+          })),
         },
       ]);
     });

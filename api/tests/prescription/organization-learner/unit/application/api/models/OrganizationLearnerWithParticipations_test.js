@@ -37,8 +37,16 @@ describe('Unit | Application| API | Models | OrganizationLearnerWithParticipatio
       type: organization.type,
     });
     expect(organizationLearnerWithParticipations.campaignParticipations).to.deep.have.members([
-      { targetProfileId: participationsList[0].targetProfileId, id: participationsList[0].id },
-      { targetProfileId: participationsList[1].targetProfileId, id: participationsList[1].id },
+      {
+        targetProfileId: participationsList[0].targetProfileId,
+        id: participationsList[0].id,
+        status: participationsList[0].status,
+      },
+      {
+        targetProfileId: participationsList[1].targetProfileId,
+        id: participationsList[1].id,
+        status: participationsList[1].status,
+      },
     ]);
   });
 });
