@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('./Competence.js').Competence} Competence
+ */
+
 export class CertificationResult {
   /**
    * @param {Object} props
@@ -9,11 +13,7 @@ export class CertificationResult {
    * @param {string} props.status
    * @param {string} props.pixScore
    * @param {Date} props.certificationDate
-   * @param {Array<Object>} props.competences
-   *        @param {string} props.competences.competence_code
-   *        @param {string} props.competences.competence_name
-   *        @param {string} props.competences.area_name
-   *        @param {string} props.competences.competence_level
+   * @param {Array<Competence>} props.competences
    */
   constructor({
     ine,

@@ -1,6 +1,7 @@
 import { datamartKnex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { CertificationResult } from '../../domain/read-models/CertificationResult.js';
+import { Competence } from '../../domain/read-models/Competence.js';
 
 const getByINE = async ({ ine }) => {
   return _getBySearchParams({
@@ -91,6 +92,15 @@ const getByVerificationCode = async ({ verificationCode }) => {
  */
 const _toDomain = (certificationResultDto) => {
   return certificationResultDto.map((certificationResult) => {
+    const competences = certificationResult.competences.map((competence) => {
+      return new Competence({
+        code: competence.competence_code,
+        name: competence.competence_name,
+        areaName: competence.area_name,
+        level: competence.competence_level,
+      });
+    });
+
     return new CertificationResult({
       ine: certificationResult.national_student_id,
       organizationUai: certificationResult.organization_uai,
@@ -100,14 +110,7 @@ const _toDomain = (certificationResultDto) => {
       status: certificationResult.status,
       pixScore: certificationResult.pix_score,
       certificationDate: certificationResult.certification_date,
-      competences: certificationResult.competences.map((competence) => {
-        return {
-          code: competence.competence_code,
-          name: competence.competence_name,
-          areaName: competence.area_name,
-          level: competence.competence_level,
-        };
-      }),
+      competences,
     });
   });
 };
