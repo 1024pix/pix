@@ -1,5 +1,7 @@
 import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
+import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
+import { TYPES as SUCCESS_TYPES } from '../../../../../src/quest/domain/models/Success.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
@@ -54,7 +56,7 @@ const setupContext = async (
   const quest = databaseBuilder.factory.buildQuest({
     eligibilityRequirements: [
       {
-        type: 'organization',
+        type: TYPES.ORGANIZATION,
         comparison: COMPARISON.ALL,
         data: {
           type: questOrganization,
@@ -63,7 +65,7 @@ const setupContext = async (
     ],
     successRequirements: [
       {
-        type: 'skills',
+        type: SUCCESS_TYPES.SKILLS,
         data: {
           ids: ['skillId1', 'skillId2', 'skillId3'],
           threshold: 50,
@@ -152,7 +154,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         rewardId,
         eligibilityRequirements: [
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
               type: questOrganization,
@@ -161,7 +163,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         ],
         successRequirements: [
           {
-            type: 'skills',
+            type: SUCCESS_TYPES.SKILLS,
             data: {
               ids: ['skillId1', 'skillId2', 'skillId3'],
               threshold: 50,
@@ -173,7 +175,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         rewardId,
         eligibilityRequirements: [
           {
-            type: 'organization',
+            type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
               type: questOrganization,
@@ -182,7 +184,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         ],
         successRequirements: [
           {
-            type: 'skills',
+            type: SUCCESS_TYPES.SKILLS,
             data: {
               ids: ['skillId1', 'skillId2', 'skillId3'],
               threshold: 50,
