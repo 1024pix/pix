@@ -1,4 +1,5 @@
 import { KnowledgeElement } from '../../../shared/domain/models/index.js';
+import { TYPES as SUCCESS_TYPES } from './Success.js';
 
 export const COMPARISON = {
   ALL: 'all',
@@ -42,11 +43,23 @@ class Quest {
    * @param {Success} success
    */
   isSuccessful(success) {
-    const skillsCount = this.successRequirements[0].data.ids.length;
-    const threshold = this.successRequirements[0].data.threshold / 100;
-    const skillsValidatedCount = success.knowledgeElements.filter(
-      (knowledgeElement) => knowledgeElement.status === KnowledgeElement.StatusType.VALIDATED,
-    ).length;
+    return this.successRequirements.every((successRequirement) => {
+      if (successRequirement.type === SUCCESS_TYPES.SKILL) {
+        return this.#validateSuccessRequirementsOfSkillType({ successRequirement, success });
+      }
+    });
+  }
+
+  #validateSuccessRequirementsOfSkillType({ successRequirement, success }) {
+    const knowledgeElementValidatedForSuccess = success.knowledgeElements.filter(
+      (knowledgeElement) =>
+        successRequirement.data.ids.includes(knowledgeElement.skillId) &&
+        knowledgeElement.status === KnowledgeElement.StatusType.VALIDATED,
+    );
+    const skillsCount = successRequirement.data.ids.length;
+    const threshold = successRequirement.data.threshold / 100;
+
+    const skillsValidatedCount = knowledgeElementValidatedForSuccess.length;
 
     return skillsValidatedCount / skillsCount >= threshold;
   }
