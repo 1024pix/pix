@@ -45,12 +45,12 @@ class Quest {
   isSuccessful(success) {
     return this.successRequirements.every((successRequirement) => {
       if (successRequirement.type === SUCCESS_TYPES.SKILL) {
-        return this.#validateSuccessRequirementsOfSkillType({ successRequirement, success });
+        return this.#validateSuccessRequirementsOfTypeSkill({ successRequirement, success });
       }
     });
   }
 
-  #validateSuccessRequirementsOfSkillType({ successRequirement, success }) {
+  #validateSuccessRequirementsOfTypeSkill({ successRequirement, success }) {
     const knowledgeElementValidatedForSuccess = success.knowledgeElements.filter(
       (knowledgeElement) =>
         successRequirement.data.ids.includes(knowledgeElement.skillId) &&
