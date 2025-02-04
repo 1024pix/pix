@@ -134,6 +134,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         userId,
         snappedAt: new Date('2020-01-02'),
         knowledgeElementsAttributes,
+        campaignParticipationId,
       });
       await databaseBuilder.commit();
       const campaignAssessmentParticipationResult =
@@ -195,6 +196,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         userId,
         snappedAt: new Date('2020-01-02'),
         knowledgeElementsAttributes,
+        campaignParticipationId,
       });
       await databaseBuilder.commit();
       const campaignAssessmentParticipationResult =
