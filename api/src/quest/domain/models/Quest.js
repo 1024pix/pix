@@ -1,4 +1,5 @@
 import { KnowledgeElement } from '../../../shared/domain/models/index.js';
+import { TYPES as ELIGIBILITY_TYPES } from './Eligibility.js';
 import { TYPES as SUCCESS_TYPES } from './Success.js';
 
 export const COMPARISON = {
@@ -23,6 +24,18 @@ class Quest {
     return this.eligibilityRequirements.every((eligibilityRequirement) =>
       this.#checkRequirement(eligibilityRequirement, eligibility),
     );
+  }
+
+  isGrantedWithParticipationId({ eligibility, campaignParticipationId }) {
+    const criterion = this.eligibilityRequirements.filter(
+      (eligibilityRequirement) => eligibilityRequirement.type === ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS,
+    );
+    const eligibilityData = eligibility.campaignParticipations.filter(
+      (campaignParticipation) => campaignParticipation.id === campaignParticipationId,
+    );
+
+    // run to the loop ?
+    return false;
   }
 
   #checkRequirement(eligibilityRequirement, eligibility) {
