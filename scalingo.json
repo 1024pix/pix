@@ -20,6 +20,10 @@
     "DOMAIN_PIX_API": {
       "generator": "template",
       "template": "https://api-pr%PR_NUMBER%.review.pix"
+    },
+    "PR_NUMBER": {
+      "generator": "template",
+      "template": "%PR_NUMBER%"
     }
   },
   "scripts": {
