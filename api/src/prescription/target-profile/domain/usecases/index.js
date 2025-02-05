@@ -1,8 +1,8 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import * as learningContentConversionService from '../../../../learning-content/domain/services/learning-content-conversion-service.js';
+import * as learningContentRepository from '../../../../learning-content/infrastructure/repositories/learning-content-repository.js';
 import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';

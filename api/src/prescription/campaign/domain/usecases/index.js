@@ -2,12 +2,11 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
-import * as campaignRepository from '../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as learningContentRepository from '../../../../learning-content/infrastructure/repositories/learning-content-repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
@@ -17,6 +16,7 @@ import * as organizationRepository from '../../../../shared/infrastructure/repos
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
+import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';

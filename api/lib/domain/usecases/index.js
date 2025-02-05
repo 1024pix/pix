@@ -170,7 +170,6 @@ import * as frameworkRepository from '../../infrastructure/repositories/framewor
 import { repositories } from '../../infrastructure/repositories/index.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 // Not used in lib
-import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 // Not used in lib
@@ -178,7 +177,6 @@ import * as targetProfileTrainingRepository from '../../infrastructure/repositor
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
 // Not used in lib
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
-import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
@@ -275,8 +273,6 @@ const dependencies = {
   jurySessionRepository,
   knowledgeElementRepository,
   languageService,
-  learningContentConversionService,
-  learningContentRepository,
   localeService,
   mailService,
   membershipRepository,

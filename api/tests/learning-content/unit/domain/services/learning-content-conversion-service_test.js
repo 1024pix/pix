@@ -1,4 +1,4 @@
-import { findActiveSkillsForCappedTubes } from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
+import { findActiveSkillsForCappedTubes } from '../../../../../src/learning-content/domain/services/learning-content-conversion-service.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Service | learning-content-conversion-service', function () {

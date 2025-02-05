@@ -3,7 +3,6 @@ import { fileURLToPath } from 'node:url';
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as compareStagesAndAcquiredStages from '../../../../evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
@@ -13,6 +12,7 @@ import * as stageAcquisitionRepository from '../../../../evaluation/infrastructu
 import * as stageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as learningContentRepository from '../../../../learning-content/infrastructure/repositories/learning-content-repository.js';
 import { config } from '../../../../shared/config.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
