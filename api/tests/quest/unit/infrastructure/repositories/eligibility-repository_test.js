@@ -35,7 +35,7 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
       // then
       expect(result[0]).to.be.an.instanceof(Eligibility);
       expect(result[0].organization).to.equal(organization);
-      expect(result[0].campaignParticipations.targetProfileIds[0]).to.equal(targetProfileId);
+      expect(result[0].campaignParticipations[0].targetProfileId).to.equal(targetProfileId);
       expect(result[0].organizationLearner.MEFCode).to.equal(mefCode);
     });
   });

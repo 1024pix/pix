@@ -28,61 +28,31 @@ describe('Quest | Unit | Domain | Models | Eligibility ', function () {
     });
   });
 
-  describe('getTargetProfileForCampaignParticipation', function () {
-    it('Should return target profile ID for campaign participation', function () {
+  describe('#buildEligibilityScopedByCampaignParticipationId', function () {
+    it('return new instance of Eligibility scoped on given CampaignParticipation', function () {
       // given
-      const campaignParticipations = [{ id: 1, targetProfileId: 10 }];
-      const eligiblity = new Eligibility({ campaignParticipations });
+      const organization = Symbol('orga');
+      const organizationLearner = Symbol('orgaLearner');
+      const campaignParticipations = [{ id: 1 }, { id: 2 }];
+      const eligibility = new Eligibility({
+        organization,
+        organizationLearner,
+        campaignParticipations,
+      });
 
       // when
-      const result = eligiblity.getTargetProfileForCampaignParticipation(1);
+      const scopedEligibility = eligibility.buildEligibilityScopedByCampaignParticipationId({
+        campaignParticipationId: 2,
+      });
 
       // then
-      expect(result).to.equal(10);
-    });
-
-    it('Should return null when the campaign participation does not exist', function () {
-      // given
-      const campaignParticipations = [{ id: 1, targetProfileId: 10 }];
-      const eligiblity = new Eligibility({ campaignParticipations });
-
-      // when
-      const result = eligiblity.getTargetProfileForCampaignParticipation(2);
-
-      // then
-      expect(result).to.be.null;
-    });
-  });
-
-  describe('#hasCampaignParticipationForTargetProfileId', function () {
-    it('should return true if has campaign participation for given target profile', function () {
-      // given
-      const campaignParticipations = [
-        { id: 1, targetProfileId: 10 },
-        { id: 2, targetProfileId: 20 },
-      ];
-      const eligiblity = new Eligibility({ campaignParticipations });
-
-      // when
-      const result = eligiblity.hasCampaignParticipationForTargetProfileId(10);
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    it('should return false if there are no campaign participation for given target profile', function () {
-      // given
-      const campaignParticipations = [
-        { id: 1, targetProfileId: 10 },
-        { id: 2, targetProfileId: 20 },
-      ];
-      const eligiblity = new Eligibility({ campaignParticipations });
-
-      // when
-      const result = eligiblity.hasCampaignParticipationForTargetProfileId(1);
-
-      // then
-      expect(result).to.be.false;
+      expect(scopedEligibility).to.deepEqualInstance(
+        new Eligibility({
+          organization,
+          organizationLearner,
+          campaignParticipations: [{ id: 2 }],
+        }),
+      );
     });
   });
 });

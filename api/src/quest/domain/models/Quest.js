@@ -1,4 +1,5 @@
 import { KnowledgeElement } from '../../../shared/domain/models/index.js';
+import { TYPES as ELIGIBILITY_TYPES } from './Eligibility.js';
 
 export const COMPARISON = {
   ALL: 'all',
@@ -14,6 +15,36 @@ class Quest {
     this.rewardId = rewardId;
     this.eligibilityRequirements = eligibilityRequirements;
     this.successRequirements = successRequirements;
+  }
+
+  /**
+   * @param {Eligibility} eligibility
+   * @param {number} campaignParticipationId
+   */
+  isCampaignParticipationContributingToQuest({ eligibility, campaignParticipationId }) {
+    const scopedEligibility = eligibility.buildEligibilityScopedByCampaignParticipationId({ campaignParticipationId });
+    const isCampaignParticipationType = (requirement) => requirement.type === ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS;
+    const isNotCampaignParticipationType = (requirement) =>
+      requirement.type !== ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS;
+    const partitionRequirements = (requirements) => {
+      return [requirements.filter(isCampaignParticipationType), requirements.filter(isNotCampaignParticipationType)];
+    };
+    const [requirementsOfCampaignParticipationType, othersRequirements] = partitionRequirements(
+      this.eligibilityRequirements,
+    );
+    let requirementSpecifiqueALaParticipationEstOk = true;
+    if (requirementsOfCampaignParticipationType.length > 0) {
+      requirementSpecifiqueALaParticipationEstOk = requirementsOfCampaignParticipationType.some(
+        (eligibilityRequirement) => this.#checkRequirement(eligibilityRequirement, scopedEligibility),
+      );
+    }
+
+    return (
+      requirementSpecifiqueALaParticipationEstOk &&
+      othersRequirements.every((eligibilityRequirement) =>
+        this.#checkRequirement(eligibilityRequirement, scopedEligibility),
+      )
+    );
   }
 
   /**

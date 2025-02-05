@@ -1,9 +1,9 @@
 import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
+import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
-import { TYPES } from "../../../../../src/quest/domain/models/Eligibility.js";
 const { INVALIDATED, VALIDATED } = KnowledgeElement.StatusType;
 
 const userId = 1234;

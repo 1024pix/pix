@@ -61,7 +61,14 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
           {
             type: 'campaignParticipations',
             data: {
-              targetProfileIds: [firstTargetProfile.id, secondTargetProfile.id],
+              targetProfileIds: [firstTargetProfile.id],
+            },
+            comparison: COMPARISON.ALL,
+          },
+          {
+            type: 'campaignParticipations',
+            data: {
+              targetProfileIds: [secondTargetProfile.id],
             },
             comparison: COMPARISON.ALL,
           },
@@ -88,7 +95,6 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       });
 
       // build target profiles
-
       const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: organizationId,
       });
@@ -100,7 +106,6 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       });
 
       // build campaigns
-
       const firstCampaign = databaseBuilder.factory.buildCampaign({
         organizationId,
         targetProfileId: firstTargetProfile.id,
@@ -117,7 +122,6 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       });
 
       // build campaign participations
-
       databaseBuilder.factory.buildCampaignParticipation({
         organizationLearnerId,
         campaignId: firstCampaign.id,
@@ -146,7 +150,21 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
           {
             type: 'campaignParticipations',
             data: {
-              targetProfileIds: [firstTargetProfile.id, secondTargetProfile.id, thirdTargetProfile.id],
+              targetProfileIds: [firstTargetProfile.id],
+            },
+            comparison: COMPARISON.ALL,
+          },
+          {
+            type: 'campaignParticipations',
+            data: {
+              targetProfileIds: [secondTargetProfile.id],
+            },
+            comparison: COMPARISON.ALL,
+          },
+          {
+            type: 'campaignParticipations',
+            data: {
+              targetProfileIds: [thirdTargetProfile.id],
             },
             comparison: COMPARISON.ALL,
           },
@@ -160,7 +178,6 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         userId,
         campaignParticipationId: secondCampaignParticipationId,
       });
-
       expect(result).to.be.empty;
     });
   });
@@ -236,7 +253,6 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       ],
       successRequirements: [],
     }).id;
-
     await databaseBuilder.commit();
 
     // when

@@ -14,25 +14,23 @@ export class Eligibility {
     this.campaignParticipations = campaignParticipations;
   }
 
+  /**
+   * @param {number} campaignParticipationId
+   */
   hasCampaignParticipation(campaignParticipationId) {
-    return Boolean(
-      this.campaignParticipations.find((campaignParticipation) => campaignParticipation.id === campaignParticipationId),
-    );
-  }
-
-  hasCampaignParticipationForTargetProfileId(targetProfileId) {
-    return Boolean(
-      this.campaignParticipations.find(
-        (campaignParticipation) => campaignParticipation.targetProfileId === targetProfileId,
-      ),
-    );
-  }
-
-  getTargetProfileForCampaignParticipation(campaignParticipationId) {
-    const campaignParticipation = this.campaignParticipations.find(
+    return this.campaignParticipations.some(
       (campaignParticipation) => campaignParticipation.id === campaignParticipationId,
     );
+  }
 
-    return campaignParticipation?.targetProfileId ?? null;
+  /**
+   * @param {number} campaignParticipationId
+   */
+  buildEligibilityScopedByCampaignParticipationId({ campaignParticipationId }) {
+    return new Eligibility({
+      organizationLearner: this.organizationLearner,
+      organization: this.organization,
+      campaignParticipations: this.campaignParticipations.filter((cp) => cp.id === campaignParticipationId),
+    });
   }
 }
