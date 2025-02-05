@@ -119,7 +119,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
       let quest;
       let userTargetProfileId;
 
-      before(function () {
+      beforeEach(function () {
         // given
         const eligibleTargetProfileId = 1000;
         userTargetProfileId = eligibleTargetProfileId;
@@ -173,6 +173,62 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         // when
         const organization = { type: 'PRO', isManagingStudents: true, tags: ['AEFE'] };
         const eligibilityData = new Eligibility({ organization });
+
+        // then
+        expect(quest.isEligible(eligibilityData)).to.equal(false);
+      });
+
+      it('should return true if all eligibility requirements of a same type are met', function () {
+        // given
+        const organization = { type: 'SCO', isManagingStudents: true, tags: ['AEFE'] };
+        const organizationLearner = { MEFCode: '10010012110' };
+        const campaignParticipations = [{ targetProfileId: 1 }, { targetProfileId: 2 }];
+        const eligibilityData = new Eligibility({ organization, organizationLearner, campaignParticipations });
+        const eligibilityRequirements = [
+          {
+            type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              targetProfileIds: [1],
+            },
+            comparison: COMPARISON.ALL,
+          },
+          {
+            type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              targetProfileIds: [2, 3],
+            },
+            comparison: COMPARISON.ALL,
+          },
+        ];
+        quest = new Quest({ eligibilityRequirements });
+
+        // then
+        expect(quest.isEligible(eligibilityData)).to.equal(true);
+      });
+
+      it('should return false if one of eligibility requirement of a same type is not eligible', function () {
+        // given
+        const organization = { type: 'SCO', isManagingStudents: true, tags: ['AEFE'] };
+        const organizationLearner = { MEFCode: '10010012110' };
+        const campaignParticipations = [{ targetProfileId: 1 }, { targetProfileId: 4 }];
+        const eligibilityData = new Eligibility({ organization, organizationLearner, campaignParticipations });
+        const eligibilityRequirements = [
+          {
+            type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              targetProfileIds: [1],
+            },
+            comparison: COMPARISON.ALL,
+          },
+          {
+            type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              targetProfileIds: [2, 3],
+            },
+            comparison: COMPARISON.ALL,
+          },
+        ];
+        quest = new Quest({ eligibilityRequirements });
 
         // then
         expect(quest.isEligible(eligibilityData)).to.equal(false);

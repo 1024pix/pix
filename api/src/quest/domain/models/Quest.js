@@ -25,17 +25,37 @@ class Quest {
     );
   }
 
-  #checkRequirement(eligibilityRequirement, eligibility) {
-    const comparaisonFunction = eligibilityRequirement.comparison === COMPARISON.ONE_OF ? 'some' : 'every';
-
-    return Object.keys(eligibilityRequirement.data)[comparaisonFunction]((key) => {
-      const eligibilityData = eligibility[eligibilityRequirement.type][key];
-      const criterion = eligibilityRequirement.data[key];
-
-      if (Array.isArray(criterion)) {
+  #checkCriterion({ criterion, eligibilityData }) {
+    if (Array.isArray(criterion)) {
+      if (Array.isArray(eligibilityData)) {
         return criterion.every((valueToTest) => eligibilityData.includes(valueToTest));
       }
-      return eligibilityData === criterion;
+      return criterion.some((valueToTest) => valueToTest === eligibilityData);
+    }
+    return eligibilityData === criterion;
+  }
+
+  #checkRequirement(eligibilityRequirement, eligibility) {
+    const comparisonFunction = eligibilityRequirement.comparison === COMPARISON.ONE_OF ? 'some' : 'every';
+
+    if (Array.isArray(eligibility[eligibilityRequirement.type])) {
+      return eligibility[eligibilityRequirement.type].some((item) => {
+        return Object.keys(eligibilityRequirement.data)[comparisonFunction]((key) => {
+          // TODO: Dés que les quêtes ont été mises à jour il faudra retirer cette ligne
+          const alterKey = key === 'targetProfileIds' ? 'targetProfileId' : key;
+          return this.#checkCriterion({
+            criterion: eligibilityRequirement.data[key],
+            eligibilityData: item[alterKey],
+          });
+        });
+      });
+    }
+
+    return Object.keys(eligibilityRequirement.data)[comparisonFunction]((key) => {
+      return this.#checkCriterion({
+        criterion: eligibilityRequirement.data[key],
+        eligibilityData: eligibility[eligibilityRequirement.type][key],
+      });
     });
   }
 

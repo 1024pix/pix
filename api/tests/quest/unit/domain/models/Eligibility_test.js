@@ -2,32 +2,6 @@ import { Eligibility } from '../../../../../src/quest/domain/models/Eligibility.
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Eligibility ', function () {
-  describe('#campaignParticipations', function () {
-    it('Should return an object with targetProfileIds property', function () {
-      // given
-      const campaignParticipations = [{ targetProfileId: 1 }, { targetProfileId: 2 }];
-      const eligiblity = new Eligibility({ campaignParticipations });
-
-      // when
-      const result = eligiblity.campaignParticipations;
-
-      // then
-      expect(result.targetProfileIds).to.deep.equal([1, 2]);
-    });
-
-    it('Should return an empty array on targetProfileIds property', function () {
-      // given
-      const campaignParticipations = [];
-      const eligiblity = new Eligibility({ campaignParticipations });
-
-      // when
-      const result = eligiblity.campaignParticipations;
-
-      // then
-      expect(result.targetProfileIds).to.deep.equal([]);
-    });
-  });
-
   describe('#hasCampaignParticipation', function () {
     it('Should return true if campaign participation exists', function () {
       // given
