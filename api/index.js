@@ -1,16 +1,15 @@
 import 'dotenv/config';
 
-import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
-
-validateEnvironmentVariables();
-
 import { disconnect, prepareDatabaseConnection } from './db/knex-database-connection.js';
 import { createServer } from './server.js';
-import { config } from './src/shared/config.js';
+import { config, schema as configSchema } from './src/shared/config.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-cache.js';
 import { quitAllStorages } from './src/shared/infrastructure/key-value-storages/index.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 import { redisMonitor } from './src/shared/infrastructure/utils/redis-monitor.js';
+import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
+
+validateEnvironmentVariables(configSchema);
 
 let server;
 
