@@ -30,8 +30,8 @@ function buildParenthoodQuest(databaseBuilder) {
       {
         type: TYPES.CAMPAIGN_PARTICIPATIONS,
         data: {
-          targetProfileIds: [targetProfileId],
-          statuses: {
+          targetProfileId: [targetProfileId],
+          status: {
             value: [CampaignParticipationStatuses.SHARED, CampaignParticipationStatuses.TO_SHARE],
             comparison: COMPARISON.ONE_OF,
           },

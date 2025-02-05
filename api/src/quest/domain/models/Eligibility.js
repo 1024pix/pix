@@ -5,46 +5,30 @@ export const TYPES = {
 };
 
 export class Eligibility {
-  #campaignParticipations;
-
   constructor({ organizationLearner, organization, campaignParticipations = [] }) {
     this.organizationLearner = {
       MEFCode: organizationLearner?.MEFCode,
     };
     this.organization = organization;
-    this.#campaignParticipations = campaignParticipations;
-  }
-
-  // TODO: make quest algorithm handle Array or Object as data
-  get campaignParticipations() {
-    return {
-      targetProfileIds: this.#campaignParticipations.map(({ targetProfileId }) => targetProfileId),
-      statuses: this.#campaignParticipations.map(({ status }) => status),
-    };
-  }
-
-  set campaignParticipations(campaignParticipations) {
-    this.#campaignParticipations = campaignParticipations;
+    this.campaignParticipations = campaignParticipations;
   }
 
   hasCampaignParticipation(campaignParticipationId) {
     return Boolean(
-      this.#campaignParticipations.find(
-        (campaignParticipation) => campaignParticipation.id === campaignParticipationId,
-      ),
+      this.campaignParticipations.find((campaignParticipation) => campaignParticipation.id === campaignParticipationId),
     );
   }
 
   hasCampaignParticipationForTargetProfileId(targetProfileId) {
     return Boolean(
-      this.#campaignParticipations.find(
+      this.campaignParticipations.find(
         (campaignParticipation) => campaignParticipation.targetProfileId === targetProfileId,
       ),
     );
   }
 
   getTargetProfileForCampaignParticipation(campaignParticipationId) {
-    const campaignParticipation = this.#campaignParticipations.find(
+    const campaignParticipation = this.campaignParticipations.find(
       (campaignParticipation) => campaignParticipation.id === campaignParticipationId,
     );
 
