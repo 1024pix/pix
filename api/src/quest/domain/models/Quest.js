@@ -27,14 +27,27 @@ class Quest {
   }
 
   isGrantedWithParticipationId({ eligibility, campaignParticipationId }) {
-    const criterion = this.eligibilityRequirements.filter(
+    console.log('eligibility', JSON.stringify(eligibility, undefined, 2));
+    const criteria = this.eligibilityRequirements.filter(
       (eligibilityRequirement) => eligibilityRequirement.type === ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS,
     );
-    const eligibilityData = eligibility.campaignParticipations.filter(
+    const campaignParticipation = eligibility.campaignParticipations.find(
       (campaignParticipation) => campaignParticipation.id === campaignParticipationId,
     );
+    console.log('campaignParticipation', JSON.stringify(campaignParticipation, undefined, 2));
 
-    // run to the loop ?
+    for (const criterion of criteria) {
+      console.log('criterion', JSON.stringify(criterion, undefined, 2));
+      const alterKey = criterion.data.targetProfileIds !== undefined ? 'targetProfileIds' : 'targetProfileId';
+      console.log({ alterKey });
+      const isQuestRelatedToCampaignParticipationId = criterion.data[alterKey].includes(
+        campaignParticipation.targetProfileId,
+      );
+      console.log(isQuestRelatedToCampaignParticipationId);
+
+      if (isQuestRelatedToCampaignParticipationId) return true;
+    }
+
     return false;
   }
 

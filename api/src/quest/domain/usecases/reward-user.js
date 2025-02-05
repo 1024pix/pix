@@ -16,7 +16,6 @@ export const rewardUser = async ({
   }
 
   const eligibilities = await eligibilityRepository.find({ userId });
-  console.log('[OHE]', JSON.stringify(eligibilities, undefined, 2));
   const rewards = await rewardRepository.getByUserId({ userId });
 
   const rewardIds = rewards.map((reward) => reward.rewardId);

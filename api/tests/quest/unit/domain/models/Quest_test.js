@@ -5,7 +5,7 @@ import { Success, TYPES as SUCCESS_TYPES } from '../../../../../src/quest/domain
 import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-describe.only('Quest | Unit | Domain | Models | Quest ', function () {
+describe('Quest | Unit | Domain | Models | Quest ', function () {
   describe('#isEligible', function () {
     describe('edge cases', function () {
       it('make it work with targetProfileIds', function () {

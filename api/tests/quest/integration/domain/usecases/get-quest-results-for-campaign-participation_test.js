@@ -3,7 +3,7 @@ import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignParticipation', function () {
+describe.only('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignParticipation', function () {
   describe('when there are multiple target profiles in the quest requirements', function () {
     it('should get quest results for campaign participation belonging to one of the target profiles', async function () {
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
