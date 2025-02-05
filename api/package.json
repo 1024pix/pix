@@ -162,6 +162,7 @@
     "scalingo-postbuild": "node scripts/generate-cron > cron.json && node scripts/generate-procfile",
     "dev": "nodemon index.js",
     "start": "node index.js",
+    "start:maddo": "node maddo.js",
     "start:watch": "npm run dev",
     "start:job": "node worker.js",
     "start:job:fast": "node worker.js fast",
