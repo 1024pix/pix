@@ -68,31 +68,23 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
 
 /**
  * @function
- * @name findMultipleUsersFromUserIdsAndSnappedAtDates
+ * @name findCampaignParticipationKnowledgeElementSnapshots
  *
- * @param {Array<FindMultipleSnapshotsPayload>} userIdsAndSnappedAtDates
+ * @param {number[]} campaignParticipationIds
  * @returns {Promise<Array<CampaignParticipationKnowledgeElementSnapshots>>}
  */
-const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates) {
-  const params = userIdsAndSnappedAtDates.map((userIdAndDate) => {
-    return [userIdAndDate.userId, userIdAndDate.sharedAt];
-  });
-
-  const results = await knex
-    .select('userId', 'snapshot', 'snappedAt', 'campaignParticipationId')
-    .from('knowledge-element-snapshots')
-    .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], params);
-
-  return results.map((result) => {
-    const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });
-
-    return new CampaignParticipationKnowledgeElementSnapshots({
-      userId: result.userId,
-      snappedAt: result.snappedAt,
-      knowledgeElements: mappedKnowledgeElements,
-      campaignParticipationId: result.campaignParticipationId,
-    });
-  });
+const findCampaignParticipationKnowledgeElementSnapshots = async function (campaignParticipationIds) {
+  const knowledgeElements = await findByCampaignParticipationIds(campaignParticipationIds);
+  const knowledgeElementsList = [];
+  campaignParticipationIds.map((campaignParticipationId) =>
+    knowledgeElementsList.push(
+      new CampaignParticipationKnowledgeElementSnapshots({
+        knowledgeElements: knowledgeElements[campaignParticipationId],
+        campaignParticipationId: campaignParticipationId,
+      }),
+    ),
+  );
+  return knowledgeElementsList;
 };
 
 /**
@@ -119,6 +111,6 @@ const findByCampaignParticipationIds = async function (campaignParticipationIds)
 export {
   findByCampaignParticipationIds,
   findByUserIdsAndSnappedAtDates,
-  findMultipleUsersFromUserIdsAndSnappedAtDates,
+  findCampaignParticipationKnowledgeElementSnapshots,
   save,
 };

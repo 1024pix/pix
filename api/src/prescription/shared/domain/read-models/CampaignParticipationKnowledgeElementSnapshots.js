@@ -1,7 +1,5 @@
 class CampaignParticipationKnowledgeElementSnapshots {
-  constructor({ userId, snappedAt, knowledgeElements, campaignParticipationId } = {}) {
-    this.userId = userId;
-    this.snappedAt = snappedAt;
+  constructor({ knowledgeElements, campaignParticipationId } = {}) {
     this.knowledgeElements = knowledgeElements;
     this.campaignParticipationId = campaignParticipationId;
   }
