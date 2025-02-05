@@ -1,4 +1,5 @@
 ls:
+  .maddo.js: kebab-case
   .js: kebab-case
   _test.js: kebab-case
 
