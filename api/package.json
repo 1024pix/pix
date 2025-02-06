@@ -157,7 +157,7 @@
     "lint:js:uncached": "eslint .",
     "lint:translations": "eslint --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
-    "postdeploy": "DEBUG=knex:* npm run db:migrate",
+    "postdeploy": "DEBUG=knex:query npm run db:migrate",
     "postdeploy:maddo": "node scripts/wait-for-api-deployment",
     "preinstall": "npx check-engine",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json && node scripts/generate-procfile",
