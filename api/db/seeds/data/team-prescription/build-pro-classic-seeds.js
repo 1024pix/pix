@@ -67,4 +67,116 @@ async function createProCampaignProfileCollection(databaseBuilder) {
   });
 }
 
-export { createProCampaignProfileCollection };
+async function createProAssessmentMultipleSendingsCampaign(databaseBuilder) {
+  const { campaignId } = await createProfilesCollectionCampaign({
+    databaseBuilder,
+    organizationId: PRO_ORGANIZATION_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
+    name: "Campagne d'évaluation PRO",
+    code: 'PROASSMUL',
+    externalIdLabel: 'Mets ton adresse mail',
+    externalIdType: CampaignExternalIdTypes.EMAIL,
+    createdAt: dayjs().subtract(30, 'days').toDate(),
+    multipleSendings: true,
+  });
+  const tristeTempsUser = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Triste',
+    lastName: 'Temps',
+    username: null,
+    email: 'triste.temps@prescription.com',
+  });
+
+  const tristeTempsOrganizationLearner =
+    databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+      firstName: tristeTempsUser.firstName,
+      lastName: tristeTempsUser.lastName,
+      deletedAt: null,
+      createdAt: dayjs().subtract(15, 'days').toDate(),
+      isDisabled: false,
+      userId: tristeTempsUser.id,
+      organizationId: PRO_ORGANIZATION_ID,
+    });
+
+  // ke before being a learner
+  await createProfileGivenCompetences({
+    databaseBuilder,
+    userId: tristeTempsUser.id,
+    competenceToPick: 1,
+    createdAt: dayjs().subtract(16, 'days').toDate(),
+  });
+
+  // ke when being a learner
+  const tristeTempsCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+    userId: tristeTempsUser.id,
+    participantExternalId: tristeTempsUser.email,
+    organizationLearnerId: tristeTempsOrganizationLearner.id,
+    campaignId,
+    status: CampaignParticipationStatuses.TO_SHARE,
+    deletedAt: null,
+    createdAt: dayjs().subtract(10, 'days').toDate(),
+  }).id;
+
+  await databaseBuilder.commit();
+  await usecases.shareCampaignResult({
+    userId: tristeTempsUser.id,
+    campaignParticipationId: tristeTempsCampaignParticipationId,
+  });
+}
+
+async function createProAssessmentCampaign(databaseBuilder) {
+  const { campaignId } = await createProfilesCollectionCampaign({
+    databaseBuilder,
+    organizationId: PRO_ORGANIZATION_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
+    name: "Campagne d'évaluation PRO",
+    code: 'PROASSIMP',
+    externalIdLabel: 'Mets ton identifiant',
+    externalIdType: CampaignExternalIdTypes.EMAIL,
+    createdAt: dayjs().subtract(30, 'days').toDate(),
+    multipleSendings: false,
+  });
+  const tristeTempsUser = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Triste',
+    lastName: 'Temps',
+    username: null,
+    email: 'triste.temps@prescription.com',
+  });
+
+  const tristeTempsOrganizationLearner =
+    databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+      firstName: tristeTempsUser.firstName,
+      lastName: tristeTempsUser.lastName,
+      deletedAt: null,
+      createdAt: dayjs().subtract(15, 'days').toDate(),
+      isDisabled: false,
+      userId: tristeTempsUser.id,
+      organizationId: PRO_ORGANIZATION_ID,
+    });
+
+  // ke before being a learner
+  await createProfileGivenCompetences({
+    databaseBuilder,
+    userId: tristeTempsUser.id,
+    competenceToPick: 1,
+    createdAt: dayjs().subtract(16, 'days').toDate(),
+  });
+
+  // ke when being a learner
+  const tristeTempsCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+    userId: tristeTempsUser.id,
+    participantExternalId: tristeTempsUser.email,
+    organizationLearnerId: tristeTempsOrganizationLearner.id,
+    campaignId,
+    status: CampaignParticipationStatuses.TO_SHARE,
+    deletedAt: null,
+    createdAt: dayjs().subtract(10, 'days').toDate(),
+  }).id;
+
+  await databaseBuilder.commit();
+  await usecases.shareCampaignResult({
+    userId: tristeTempsUser.id,
+    campaignParticipationId: tristeTempsCampaignParticipationId,
+  });
+}
+
+export { createProAssessmentCampaign, createProAssessmentMultipleSendingsCampaign, createProCampaignProfileCollection };

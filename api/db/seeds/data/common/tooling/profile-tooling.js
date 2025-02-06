@@ -70,7 +70,8 @@ async function getAnswersAndKnowledgeElementsForBeginnerProfile() {
 
 const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER = {};
 async function getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPick) {
-  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competenceToPick]) {
+  if (!ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competenceToPick]) {
+    ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_COMPETENCE_NUMBER[competenceToPick] = [];
     const pixCompetences = await learningContent.getCoreCompetences();
     // change variable to see
     const randomingCompetences = generic.pickRandomAmong(pixCompetences, competenceToPick);
@@ -88,7 +89,7 @@ async function getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPi
 async function createProfileGivenCompetences({ databaseBuilder, userId, competenceToPick, createdAt }) {
   const answersAndKnowledgeElementsCollection =
     await getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPick);
-
+  console.log(answersAndKnowledgeElementsCollection);
   _makeUserReachPixScoreForCompetences({
     databaseBuilder,
     userId,
@@ -215,6 +216,7 @@ function _makeUserReachPixScoreForCompetences({
     answersAndKnowledgeElementsCollection,
     ({ keData }) => keData.competenceId,
   );
+  console.log(userId, answersAndKnowledgeElementsCollection, answersAndKnowledgeElementsByCompetenceId);
   for (const [competenceId, answersAndKnowledgeElements] of Object.entries(answersAndKnowledgeElementsByCompetenceId)) {
     const assessmentId = _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId });
 
