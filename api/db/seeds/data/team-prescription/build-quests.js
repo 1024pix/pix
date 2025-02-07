@@ -175,7 +175,7 @@ const buildSixthGradeQuests = (
     {
       type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
-        targetProfileIds: [firstTargetProfile.id],
+        targetProfileId: firstTargetProfile.id,
       },
       comparison: COMPARISON.ALL,
     },
@@ -216,7 +216,14 @@ const buildSixthGradeQuests = (
     {
       type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
-        targetProfileIds: [secondTargetProfile.id, thirdTargetProfile.id],
+        targetProfileId: thirdTargetProfile.id,
+      },
+      comparison: COMPARISON.ALL,
+    },
+    {
+      type: TYPES.CAMPAIGN_PARTICIPATIONS,
+      data: {
+        targetProfileId: secondTargetProfile.id,
       },
       comparison: COMPARISON.ALL,
     },
