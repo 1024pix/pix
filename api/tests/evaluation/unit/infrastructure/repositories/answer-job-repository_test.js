@@ -1,12 +1,18 @@
 import { AnswerJobRepository } from '../../../../../src/evaluation/infrastructure/repositories/answer-job-repository.js';
 import { config } from '../../../../../src/shared/config.js';
-import { pgBoss } from '../../../../../src/shared/infrastructure/repositories/jobs/pg-boss.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Evaluation | Unit | Infrastructure | Repositories | AnswerJobRepository', function () {
   beforeEach(function () {
     sinon.stub(config, 'featureToggles');
-    sinon.stub(pgBoss, 'insert').resolves([]);
+    //TODO : comment this stub to quickfix problem (see https://1024pix.atlassian.net/wiki/spaces/DC/pages/4986372097/Erreur+en+RECETTE+Les+certifications+compl+t+es+ne+sont+pas+scor+es+2025-02-07)
+    //sinon.stub(pgBoss, 'insert').resolves([]);
+    const knexStub = { batchInsert: sinon.stub().resolves([]) };
+    sinon.stub(DomainTransaction, 'getConnection').returns(knexStub);
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback();
+    });
     config.featureToggles.isQuestEnabled = true;
     config.featureToggles.isAsyncQuestRewardingCalculationEnabled = true;
   });

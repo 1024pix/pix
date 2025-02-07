@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
+import { DomainTransaction } from '../../../domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../domain/errors.js';
-import { pgBoss } from './pg-boss.js';
 
 export class JobRepository {
   #schema = Joi.object({
@@ -47,18 +47,20 @@ export class JobRepository {
     return {
       name: this.name,
       data,
-      retryLimit: this.retry.retryLimit,
-      retryDelay: this.retry.retryDelay,
-      retryBackoff: this.retry.retryBackoff,
-      expireInSeconds: this.expireIn,
-      onComplete: true,
+      retrylimit: this.retry.retryLimit,
+      retrydelay: this.retry.retryDelay,
+      retrybackoff: this.retry.retryBackoff,
+      expirein: this.expireIn,
+      on_complete: true,
       priority: this.priority,
     };
   }
 
   async #send(jobs) {
-    await pgBoss.insert(jobs);
-    return { rowCount: jobs.length };
+    const knexConn = DomainTransaction.getConnection();
+    const results = await knexConn.batchInsert('pgboss.job', jobs);
+    const rowCount = results.reduce((total, batchResult) => total + (batchResult.rowCount || 0), 0);
+    return { rowCount };
   }
 
   async performAsync(...datas) {
