@@ -71,7 +71,7 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
       new Quest({
         id: 10,
         eligibilityRequirements: [
-          { type: TYPES.CAMPAIGN_PARTICIPATIONS, data: { targetProfileIds: [wrongTargetProfileId] } },
+          { requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS, data: { targetProfileIds: [wrongTargetProfileId] } },
         ],
         successRequirements: [],
         rewardType: 'attestations',

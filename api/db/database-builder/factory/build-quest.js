@@ -10,12 +10,12 @@ const buildQuest = function ({
   updatedAt,
   rewardType = REWARD_TYPES.ATTESTATION,
   rewardId,
-  eligibilityRequirements,
+  eligibilityRequirements = [],
   successRequirements,
 } = {}) {
   rewardId = isUndefined(rewardId) && rewardType === REWARD_TYPES.ATTESTATION ? buildAttestation().id : rewardId;
-  eligibilityRequirements = JSON.stringify(eligibilityRequirements);
-  successRequirements = JSON.stringify(successRequirements);
+  const eligibilityRequirementsForDB = JSON.stringify(eligibilityRequirements);
+  const successRequirementsForDB = JSON.stringify(successRequirements);
 
   const values = {
     id,
@@ -23,14 +23,19 @@ const buildQuest = function ({
     updatedAt: updatedAt ?? createdAt,
     rewardType,
     rewardId,
-    eligibilityRequirements,
-    successRequirements,
+    eligibilityRequirements: eligibilityRequirementsForDB,
+    successRequirements: successRequirementsForDB,
   };
 
-  return databaseBuffer.pushInsertable({
+  const insertedValues = databaseBuffer.pushInsertable({
     tableName: 'quests',
     values,
   });
+  return {
+    ...insertedValues,
+    eligibilityRequirements,
+    successRequirements,
+  };
 };
 
 export { buildQuest };

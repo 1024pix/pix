@@ -11,6 +11,7 @@ describe('Quest | Integration | Repository | quest', function () {
         createdAt: new Date('2020-01-01T00:00:00Z'),
         updatedAt: new Date('2020-01-01T00:00:00Z'),
         rewardId,
+        successRequirements: ['coucou'],
       });
       databaseBuilder.factory.buildQuest({
         createdAt: new Date('2021-02-02T00:00:00Z'),
@@ -24,18 +25,13 @@ describe('Quest | Integration | Repository | quest', function () {
         id: undefined,
         rewardType: 'attestations',
         rewardId,
-        eligibilityRequirements: { eligibility: 'eligibility' },
+        eligibilityRequirements: [],
         successRequirements: { success: 'success' },
       });
 
       // when
       await questRepository.saveInBatch({
-        quests: [
-          expectedNewQuest,
-          new Quest({
-            ...questInDatabase,
-          }),
-        ],
+        quests: [expectedNewQuest, new Quest(questInDatabase)],
       });
 
       // then
@@ -47,6 +43,7 @@ describe('Quest | Integration | Repository | quest', function () {
         sinon.match(
           new Quest({
             ...expectedNewQuest,
+            eligibilityRequirements: expectedNewQuest.eligibilityRequirements,
             id: sinon.match.number,
             createdAt: sinon.match.date,
             updatedAt: sinon.match.date,
@@ -63,21 +60,21 @@ describe('Quest | Integration | Repository | quest', function () {
         id: 1,
         rewardType: REWARD_TYPES.ATTESTATION,
         rewardId: 2,
-        eligibilityRequirements: { toto: 'tata' },
+        eligibilityRequirements: [],
         successRequirements: { titi: 'tutu' },
       });
       databaseBuilder.factory.buildQuest({
         id: 2,
         rewardType: REWARD_TYPES.ATTESTATION,
         rewardId: 2,
-        eligibilityRequirements: { toto: 'tata' },
+        eligibilityRequirements: [],
         successRequirements: { titi: 'tutu' },
       });
       databaseBuilder.factory.buildQuest({
         id: 3,
         rewardType: REWARD_TYPES.ATTESTATION,
         rewardId: 2,
-        eligibilityRequirements: { toto: 'tata' },
+        eligibilityRequirements: [],
         successRequirements: { titi: 'tutu' },
       });
       await databaseBuilder.commit();

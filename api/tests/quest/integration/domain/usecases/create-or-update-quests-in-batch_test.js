@@ -15,7 +15,7 @@ describe('Integration | Quest | Domain | UseCases | create-or-update-quests-in-b
     filePath = await createTempFile(
       'test.csv',
       `Quest ID;Json configuration for quest
-    ;{"rewardType":"coucou","rewardId":null,"eligibilityRequirements":{"eligibility":"eligibility"},"successRequirements":{"success":"success"}}`,
+    ;{"rewardType":"coucou","rewardId":null,"eligibilityRequirements":[],"successRequirements":{"success":"success"}}`,
     );
     const spySave = sinon.spy(repositories.questRepository, 'saveInBatch');
     const spyDelete = sinon.spy(repositories.questRepository, 'deleteByIds');
@@ -33,7 +33,7 @@ describe('Integration | Quest | Domain | UseCases | create-or-update-quests-in-b
           updatedAt: undefined,
           rewardType: 'coucou',
           rewardId: null,
-          eligibilityRequirements: { eligibility: 'eligibility' },
+          eligibilityRequirements: [],
           successRequirements: { success: 'success' },
         }),
       ],

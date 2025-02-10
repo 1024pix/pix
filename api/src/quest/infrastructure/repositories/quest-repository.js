@@ -19,10 +19,16 @@ const saveInBatch = async ({ quests }) => {
   const chunks = chunk(quests, 10);
 
   for (const chunk of chunks) {
-    await knexConn('quests')
-      .insert(chunk.map((c) => ({ ...c, updatedAt: new Date() })))
-      .onConflict('id')
-      .merge();
+    const dtoToSaveInDB = chunk.map((quest) => {
+      const dto = quest.toDTO();
+      return {
+        ...dto,
+        eligibilityRequirements: JSON.stringify(dto.eligibilityRequirements),
+        successRequirements: JSON.stringify(dto.successRequirements),
+        updatedAt: new Date(),
+      };
+    });
+    await knexConn('quests').insert(dtoToSaveInDB).onConflict('id').merge();
   }
 };
 

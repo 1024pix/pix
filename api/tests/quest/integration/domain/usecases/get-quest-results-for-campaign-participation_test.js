@@ -1,3 +1,4 @@
+import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
@@ -52,21 +53,21 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         rewardId,
         eligibilityRequirements: [
           {
-            type: 'organization',
+            requirement_type: TYPES.ORGANIZATION,
             data: {
               type: 'SCO',
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'campaignParticipations',
+            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               targetProfileIds: [firstTargetProfile.id],
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'campaignParticipations',
+            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               targetProfileIds: [secondTargetProfile.id],
             },
@@ -141,28 +142,28 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         rewardId,
         eligibilityRequirements: [
           {
-            type: 'organization',
+            requirement_type: TYPES.ORGANIZATION,
             data: {
               type: 'SCO',
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'campaignParticipations',
+            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               targetProfileIds: [firstTargetProfile.id],
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'campaignParticipations',
+            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               targetProfileIds: [secondTargetProfile.id],
             },
             comparison: COMPARISON.ALL,
           },
           {
-            type: 'campaignParticipations',
+            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
               targetProfileIds: [thirdTargetProfile.id],
             },
@@ -195,7 +196,7 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       rewardId,
       eligibilityRequirements: [
         {
-          type: 'organization',
+          requirement_type: TYPES.ORGANIZATION,
           data: {
             type: 'SCO',
           },
@@ -237,14 +238,14 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       rewardId,
       eligibilityRequirements: [
         {
-          type: 'organization',
+          requirement_type: TYPES.ORGANIZATION,
           data: {
             type: 'SCO',
           },
           comparison: COMPARISON.ALL,
         },
         {
-          type: 'campaignParticipations',
+          requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
           data: {
             targetProfileIds: [targetProfileId],
           },

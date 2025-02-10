@@ -55,7 +55,7 @@ const setupContext = async (
   const quest = databaseBuilder.factory.buildQuest({
     eligibilityRequirements: [
       {
-        type: TYPES.ORGANIZATION,
+        requirement_type: TYPES.ORGANIZATION,
         comparison: COMPARISON.ALL,
         data: {
           type: questOrganization,
@@ -153,7 +153,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         rewardId,
         eligibilityRequirements: [
           {
-            type: TYPES.ORGANIZATION,
+            requirement_type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
               type: questOrganization,
@@ -174,7 +174,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         rewardId,
         eligibilityRequirements: [
           {
-            type: TYPES.ORGANIZATION,
+            requirement_type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
               type: questOrganization,

@@ -1,22 +1,32 @@
 import { KnowledgeElement } from '../../../shared/domain/models/index.js';
 import { TYPES as ELIGIBILITY_TYPES } from './Eligibility.js';
+import { COMPOSE_TYPE, EligibilityRequirement } from './EligibilityRequirement.js';
 
 export const COMPARISON = {
   ALL: 'all',
   ONE_OF: 'one-of',
 };
 
-export const COMPOSE_TYPE = 'compose';
-
 class Quest {
+  #eligibilityRequirements;
+
   constructor({ id, createdAt, updatedAt, rewardType, eligibilityRequirements, successRequirements, rewardId }) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.rewardType = rewardType;
     this.rewardId = rewardId;
-    this.eligibilityRequirements = eligibilityRequirements;
+    this.#eligibilityRequirements = new EligibilityRequirement({
+      requirement_type: COMPOSE_TYPE,
+      data: eligibilityRequirements,
+      comparison: COMPARISON.ALL,
+    });
+
     this.successRequirements = successRequirements;
+  }
+
+  get eligibilityRequirements() {
+    return this.#eligibilityRequirements.data;
   }
 
   /**
@@ -27,104 +37,35 @@ class Quest {
     const scopedEligibility = eligibility.buildEligibilityScopedByCampaignParticipationId({ campaignParticipationId });
 
     const campaignParticipationRequirements = this.#flattenRequirementsByType(
-      this.eligibilityRequirements,
+      this.#eligibilityRequirements.data,
       ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS,
     );
     const otherRequirements = this.#omitRequirementsByType(
-      this.eligibilityRequirements,
+      this.#eligibilityRequirements.data,
       ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS,
     );
 
     const eligibilityRequirements = otherRequirements;
     if (campaignParticipationRequirements.length > 0) {
       eligibilityRequirements.push({
-        type: COMPOSE_TYPE,
+        requirement_type: COMPOSE_TYPE,
         data: campaignParticipationRequirements,
         comparison: COMPARISON.ONE_OF,
       });
     }
-    return this.#isEligible(scopedEligibility, eligibilityRequirements);
-  }
-
-  #omitRequirementsByType(requirements, type) {
-    let result = [];
-    for (const requirement of requirements) {
-      if (requirement.type === COMPOSE_TYPE) {
-        result = result.push(this.#omitRequirementsByType(requirement.data, type));
-      } else if (requirement.type !== type) {
-        result.push(requirement);
-      }
-    }
-    return result;
-  }
-
-  #flattenRequirementsByType(requirements, type) {
-    let result = [];
-    const filteredRequierements = requirements.filter((requirement) => [type, COMPOSE_TYPE].includes(requirement.type));
-    for (const requirement of filteredRequierements) {
-      if (requirement.type === COMPOSE_TYPE) {
-        result = result.concat(this.#flattenRequirementsByType(requirement.data, type));
-      } else {
-        result.push(requirement);
-      }
-    }
-    return result;
-  }
-
-  #getComparisonFunction(comparison) {
-    return comparison === COMPARISON.ONE_OF ? 'some' : 'every';
-  }
-
-  #isEligible(eligibility, eligibilityRequirements, comparison = COMPARISON.ALL) {
-    const comparisonFunction = this.#getComparisonFunction(comparison);
-    return eligibilityRequirements[comparisonFunction]((eligibilityRequirement) => {
-      if (eligibilityRequirement.type === COMPOSE_TYPE) {
-        return this.#isEligible(eligibility, eligibilityRequirement.data, eligibilityRequirement.comparison);
-      } else {
-        return this.#checkRequirement(eligibilityRequirement, eligibility);
-      }
+    const scopedEligibilityRequirements = new EligibilityRequirement({
+      requirement_type: COMPOSE_TYPE,
+      data: eligibilityRequirements,
+      comparison: COMPARISON.ALL,
     });
+    return scopedEligibilityRequirements.isEligible(scopedEligibility);
   }
 
   /**
    * @param {Eligibility} eligibility
    */
   isEligible(eligibility) {
-    return this.#isEligible(eligibility, this.eligibilityRequirements);
-  }
-
-  #checkCriterion({ criterion, eligibilityData }) {
-    if (Array.isArray(criterion)) {
-      if (Array.isArray(eligibilityData)) {
-        return criterion.every((valueToTest) => eligibilityData.includes(valueToTest));
-      }
-      return criterion.some((valueToTest) => valueToTest === eligibilityData);
-    }
-    return eligibilityData === criterion;
-  }
-
-  #checkRequirement(eligibilityRequirement, eligibility) {
-    const comparisonFunction = this.#getComparisonFunction(eligibilityRequirement.comparison);
-
-    if (Array.isArray(eligibility[eligibilityRequirement.type])) {
-      return eligibility[eligibilityRequirement.type].some((item) => {
-        return Object.keys(eligibilityRequirement.data)[comparisonFunction]((key) => {
-          // TODO: Dés que les quêtes ont été mises à jour il faudra retirer cette ligne
-          const alterKey = key === 'targetProfileIds' ? 'targetProfileId' : key;
-          return this.#checkCriterion({
-            criterion: eligibilityRequirement.data[key],
-            eligibilityData: item[alterKey],
-          });
-        });
-      });
-    }
-
-    return Object.keys(eligibilityRequirement.data)[comparisonFunction]((key) => {
-      return this.#checkCriterion({
-        criterion: eligibilityRequirement.data[key],
-        eligibilityData: eligibility[eligibilityRequirement.type][key],
-      });
-    });
+    return this.#eligibilityRequirements.isEligible(eligibility);
   }
 
   /**
@@ -138,6 +79,45 @@ class Quest {
     ).length;
 
     return skillsValidatedCount / skillsCount >= threshold;
+  }
+
+  toDTO() {
+    return {
+      id: this.id,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      rewardType: this.rewardType,
+      rewardId: this.rewardId,
+      eligibilityRequirements: this.#eligibilityRequirements.data.map((item) => item.toDTO()),
+      successRequirements: this.successRequirements,
+    };
+  }
+
+  #omitRequirementsByType(requirements, type) {
+    let result = [];
+    for (const requirement of requirements) {
+      if (requirement.requirement_type === COMPOSE_TYPE) {
+        result = result.push(this.#omitRequirementsByType(requirement.data, type));
+      } else if (requirement.requirement_type !== type) {
+        result.push(requirement);
+      }
+    }
+    return result;
+  }
+
+  #flattenRequirementsByType(requirements, type) {
+    let result = [];
+    const filteredRequierements = requirements.filter((requirement) =>
+      [type, COMPOSE_TYPE].includes(requirement.requirement_type),
+    );
+    for (const requirement of filteredRequierements) {
+      if (requirement.requirement_type === COMPOSE_TYPE) {
+        result = result.concat(this.#flattenRequirementsByType(requirement.data, type));
+      } else {
+        result.push(requirement);
+      }
+    }
+    return result;
   }
 }
 

@@ -158,14 +158,14 @@ const buildSixthGradeQuests = (
 ) => {
   const firstQuestRequirement = [
     {
-      type: TYPES.ORGANIZATION,
+      requirement_type: TYPES.ORGANIZATION,
       data: {
         type: 'SCO',
       },
       comparison: COMPARISON.ALL,
     },
     {
-      type: TYPES.ORGANIZATION,
+      requirement_type: TYPES.ORGANIZATION,
       data: {
         isManagingStudents: true,
         tags: [AEFE_TAG.name],
@@ -173,7 +173,7 @@ const buildSixthGradeQuests = (
       comparison: COMPARISON.ONE_OF,
     },
     {
-      type: TYPES.CAMPAIGN_PARTICIPATIONS,
+      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
         targetProfileId: firstTargetProfile.id,
       },
@@ -199,14 +199,14 @@ const buildSixthGradeQuests = (
 
   const secondQuestEligibilityRequirements = [
     {
-      type: TYPES.ORGANIZATION,
+      requirement_type: TYPES.ORGANIZATION,
       data: {
         type: 'SCO',
       },
       comparison: COMPARISON.ALL,
     },
     {
-      type: TYPES.ORGANIZATION,
+      requirement_type: TYPES.ORGANIZATION,
       data: {
         isManagingStudents: true,
         tags: [AEFE_TAG.name],
@@ -214,14 +214,14 @@ const buildSixthGradeQuests = (
       comparison: COMPARISON.ONE_OF,
     },
     {
-      type: TYPES.CAMPAIGN_PARTICIPATIONS,
+      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
         targetProfileId: thirdTargetProfile.id,
       },
       comparison: COMPARISON.ALL,
     },
     {
-      type: TYPES.CAMPAIGN_PARTICIPATIONS,
+      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
         targetProfileId: secondTargetProfile.id,
       },
