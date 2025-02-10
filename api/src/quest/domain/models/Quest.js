@@ -6,6 +6,8 @@ export const COMPARISON = {
   ONE_OF: 'one-of',
 };
 
+export const COMPOSE_TYPE = 'compose';
+
 class Quest {
   constructor({ id, createdAt, updatedAt, rewardType, eligibilityRequirements, successRequirements, rewardId }) {
     this.id = id;
@@ -23,37 +25,72 @@ class Quest {
    */
   isCampaignParticipationContributingToQuest({ eligibility, campaignParticipationId }) {
     const scopedEligibility = eligibility.buildEligibilityScopedByCampaignParticipationId({ campaignParticipationId });
-    const isCampaignParticipationType = (requirement) => requirement.type === ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS;
-    const isNotCampaignParticipationType = (requirement) =>
-      requirement.type !== ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS;
-    const partitionRequirements = (requirements) => {
-      return [requirements.filter(isCampaignParticipationType), requirements.filter(isNotCampaignParticipationType)];
-    };
-    const [requirementsOfCampaignParticipationType, othersRequirements] = partitionRequirements(
-      this.eligibilityRequirements,
-    );
-    let requirementSpecifiqueALaParticipationEstOk = true;
-    if (requirementsOfCampaignParticipationType.length > 0) {
-      requirementSpecifiqueALaParticipationEstOk = requirementsOfCampaignParticipationType.some(
-        (eligibilityRequirement) => this.#checkRequirement(eligibilityRequirement, scopedEligibility),
-      );
-    }
 
-    return (
-      requirementSpecifiqueALaParticipationEstOk &&
-      othersRequirements.every((eligibilityRequirement) =>
-        this.#checkRequirement(eligibilityRequirement, scopedEligibility),
-      )
+    const campaignParticipationRequirements = this.#flattenRequirementsByType(
+      this.eligibilityRequirements,
+      ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS,
     );
+    const otherRequirements = this.#omitRequirementsByType(
+      this.eligibilityRequirements,
+      ELIGIBILITY_TYPES.CAMPAIGN_PARTICIPATIONS,
+    );
+
+    const eligibilityRequirements = otherRequirements;
+    if (campaignParticipationRequirements.length > 0) {
+      eligibilityRequirements.push({
+        type: COMPOSE_TYPE,
+        data: campaignParticipationRequirements,
+        comparison: COMPARISON.ONE_OF,
+      });
+    }
+    return this.#isEligible(scopedEligibility, eligibilityRequirements);
+  }
+
+  #omitRequirementsByType(requirements, type) {
+    let result = [];
+    for (const requirement of requirements) {
+      if (requirement.type === COMPOSE_TYPE) {
+        result = result.push(this.#omitRequirementsByType(requirement.data, type));
+      } else if (requirement.type !== type) {
+        result.push(requirement);
+      }
+    }
+    return result;
+  }
+
+  #flattenRequirementsByType(requirements, type) {
+    let result = [];
+    const filteredRequierements = requirements.filter((requirement) => [type, COMPOSE_TYPE].includes(requirement.type));
+    for (const requirement of filteredRequierements) {
+      if (requirement.type === COMPOSE_TYPE) {
+        result = result.concat(this.#flattenRequirementsByType(requirement.data, type));
+      } else {
+        result.push(requirement);
+      }
+    }
+    return result;
+  }
+
+  #getComparisonFunction(comparison) {
+    return comparison === COMPARISON.ONE_OF ? 'some' : 'every';
+  }
+
+  #isEligible(eligibility, eligibilityRequirements, comparison = COMPARISON.ALL) {
+    const comparisonFunction = this.#getComparisonFunction(comparison);
+    return eligibilityRequirements[comparisonFunction]((eligibilityRequirement) => {
+      if (eligibilityRequirement.type === COMPOSE_TYPE) {
+        return this.#isEligible(eligibility, eligibilityRequirement.data, eligibilityRequirement.comparison);
+      } else {
+        return this.#checkRequirement(eligibilityRequirement, eligibility);
+      }
+    });
   }
 
   /**
    * @param {Eligibility} eligibility
    */
   isEligible(eligibility) {
-    return this.eligibilityRequirements.every((eligibilityRequirement) =>
-      this.#checkRequirement(eligibilityRequirement, eligibility),
-    );
+    return this.#isEligible(eligibility, this.eligibilityRequirements);
   }
 
   #checkCriterion({ criterion, eligibilityData }) {
@@ -67,7 +104,7 @@ class Quest {
   }
 
   #checkRequirement(eligibilityRequirement, eligibility) {
-    const comparisonFunction = eligibilityRequirement.comparison === COMPARISON.ONE_OF ? 'some' : 'every';
+    const comparisonFunction = this.#getComparisonFunction(eligibilityRequirement.comparison);
 
     if (Array.isArray(eligibility[eligibilityRequirement.type])) {
       return eligibility[eligibilityRequirement.type].some((item) => {

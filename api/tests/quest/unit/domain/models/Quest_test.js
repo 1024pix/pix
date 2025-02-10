@@ -1,5 +1,5 @@
 import { Eligibility, TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
-import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
+import { COMPOSE_TYPE, Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { Success } from '../../../../../src/quest/domain/models/Success.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
@@ -7,6 +7,66 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Quest ', function () {
   describe('#isEligible', function () {
+    describe('when there are requirements of type "requirements"', function () {
+      let quest;
+
+      beforeEach(function () {
+        quest = new Quest({
+          eligibilityRequirements: [
+            {
+              type: COMPOSE_TYPE,
+              comparison: COMPARISON.ONE_OF,
+              data: [
+                {
+                  type: COMPOSE_TYPE,
+                  comparison: COMPARISON.ALL,
+                  data: [
+                    {
+                      type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                      data: {
+                        targetProfileId: 1,
+                      },
+                    },
+                    {
+                      type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                      data: {
+                        targetProfileId: 2,
+                      },
+                    },
+                  ],
+                },
+                {
+                  type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                  data: {
+                    targetProfileId: 3,
+                  },
+                },
+              ],
+            },
+          ],
+        });
+      });
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        {
+          title: 'return false when no requirements passed',
+          data: [{ targetProfileId: 1 }],
+          expected: false,
+        },
+        { title: 'return true when one simple requirement passed', data: [{ targetProfileId: 3 }], expected: true },
+        {
+          title: 'return true when one nested requirement passed',
+          data: [{ targetProfileId: 1 }, { targetProfileId: 2 }],
+          expected: true,
+        },
+      ].forEach((test) => {
+        it(test.title, function () {
+          expect(quest.isEligible(new Eligibility({ campaignParticipations: test.data }))).to.equal(test.expected);
+        });
+      });
+    });
+
     describe('when comparison is "all"', function () {
       describe('when data to test is a simple value', function () {
         let quest;
