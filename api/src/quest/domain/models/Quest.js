@@ -47,11 +47,13 @@ class Quest {
 
     const eligibilityRequirements = otherRequirements;
     if (campaignParticipationRequirements.length > 0) {
-      eligibilityRequirements.push({
-        requirement_type: COMPOSE_TYPE,
-        data: campaignParticipationRequirements,
-        comparison: COMPARISON.ONE_OF,
-      });
+      eligibilityRequirements.push(
+        new EligibilityRequirement({
+          requirement_type: COMPOSE_TYPE,
+          data: campaignParticipationRequirements,
+          comparison: COMPARISON.ONE_OF,
+        }),
+      );
     }
     const scopedEligibilityRequirements = new EligibilityRequirement({
       requirement_type: COMPOSE_TYPE,
@@ -107,10 +109,10 @@ class Quest {
 
   #flattenRequirementsByType(requirements, type) {
     let result = [];
-    const filteredRequierements = requirements.filter((requirement) =>
+    const filteredRequirements = requirements.filter((requirement) =>
       [type, COMPOSE_TYPE].includes(requirement.requirement_type),
     );
-    for (const requirement of filteredRequierements) {
+    for (const requirement of filteredRequirements) {
       if (requirement.requirement_type === COMPOSE_TYPE) {
         result = result.concat(this.#flattenRequirementsByType(requirement.data, type));
       } else {
