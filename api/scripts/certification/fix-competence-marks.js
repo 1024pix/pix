@@ -2,34 +2,24 @@ import 'dotenv/config';
 
 import { knex } from '../../db/knex-database-connection.js';
 import { SESSIONS_VERSIONS } from '../../src/certification/shared/domain/models/SessionVersion.js';
+import { DelayMixin } from '../../src/shared/application/scripts/addons/delay.js';
+import { DryRunMixin } from '../../src/shared/application/scripts/addons/dryRun.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 import { PIX_ORIGIN } from '../../src/shared/domain/constants.js';
 import { Assessment } from '../../src/shared/domain/models/Assessment.js';
 
-export class FixCompetenceMarksScript extends Script {
+export class FixCompetenceMarksScript extends Script.withAddons(DelayMixin, DryRunMixin) {
   constructor() {
     super({
       description: 'Fix "competenceId" in table "competence-marks" from bad referential origin',
       permanent: false,
       options: {
-        dryRun: {
-          type: 'boolean',
-          describe: 'Commit the UPDATE or not',
-          demandOption: false,
-          default: true,
-        },
         batchSize: {
           type: 'number',
           describe: 'Number of rows to update at once',
           demandOption: false,
           default: 1000,
-        },
-        delayBetweenBatch: {
-          type: 'number',
-          describe: 'In ms, force a pause between COMMIT',
-          demandOption: false,
-          default: 100,
         },
       },
     });
@@ -41,7 +31,7 @@ export class FixCompetenceMarksScript extends Script {
     this.logger = logger;
     const dryRun = options.dryRun;
     const batchSize = options.batchSize;
-    const delayInMs = options.delayBetweenBatch;
+    const delayInMs = options.delay;
     this.logger.info(`dryRun=${dryRun} batchSize=${batchSize}`);
 
     let hasNext = true;
