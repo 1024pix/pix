@@ -58,4 +58,14 @@ export class Script {
       if (this.onFinished) await this.onFinished({ logger });
     }
   }
+
+  static withAddons(...addonsClazz) {
+    const applyAddon = addonsClazz[0];
+
+    if (addonsClazz.length > 1) {
+      return applyAddon(Script.withAddons(...addonsClazz.splice(1)));
+    }
+
+    return applyAddon(Script);
+  }
 }
