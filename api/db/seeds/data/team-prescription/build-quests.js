@@ -1,5 +1,6 @@
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../src/quest/domain/models/CriterionProperty.js';
 import { TYPES } from '../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
 import { Assessment, CampaignParticipationStatuses, Membership } from '../../../../src/shared/domain/models/index.js';
@@ -160,22 +161,34 @@ const buildSixthGradeQuests = (
     {
       requirement_type: TYPES.ORGANIZATION,
       data: {
-        type: 'SCO',
+        type: {
+          data: 'SCO',
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
       },
       comparison: COMPARISON.ALL,
     },
     {
       requirement_type: TYPES.ORGANIZATION,
       data: {
-        isManagingStudents: true,
-        tags: [AEFE_TAG.name],
+        isManagingStudents: {
+          data: true,
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
+        tags: {
+          data: [AEFE_TAG.name],
+          comparison: CRITERION_PROPERTY_COMPARISON.ALL,
+        },
       },
       comparison: COMPARISON.ONE_OF,
     },
     {
       requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
-        targetProfileId: firstTargetProfile.id,
+        targetProfileId: {
+          data: firstTargetProfile.id,
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
       },
       comparison: COMPARISON.ALL,
     },
@@ -201,29 +214,44 @@ const buildSixthGradeQuests = (
     {
       requirement_type: TYPES.ORGANIZATION,
       data: {
-        type: 'SCO',
+        type: {
+          data: 'SCO',
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
       },
       comparison: COMPARISON.ALL,
     },
     {
       requirement_type: TYPES.ORGANIZATION,
       data: {
-        isManagingStudents: true,
-        tags: [AEFE_TAG.name],
+        isManagingStudents: {
+          data: true,
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
+        tags: {
+          data: [AEFE_TAG.name],
+          comparison: CRITERION_PROPERTY_COMPARISON.ALL,
+        },
       },
       comparison: COMPARISON.ONE_OF,
     },
     {
       requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
-        targetProfileId: thirdTargetProfile.id,
+        targetProfileId: {
+          data: thirdTargetProfile.id,
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
       },
       comparison: COMPARISON.ALL,
     },
     {
       requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
       data: {
-        targetProfileId: secondTargetProfile.id,
+        targetProfileId: {
+          data: secondTargetProfile.id,
+          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        },
       },
       comparison: COMPARISON.ALL,
     },

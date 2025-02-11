@@ -1,3 +1,4 @@
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../../src/quest/domain/models/CriterionProperty.js';
 import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { Eligibility } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPOSE_TYPE, EligibilityRequirement } from '../../../../../src/quest/domain/models/EligibilityRequirement.js';
@@ -16,14 +17,20 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             {
               requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
               data: {
-                targetProfileId: 1,
+                targetProfileId: {
+                  data: 1,
+                  comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                },
               },
               comparison: COMPARISON.ONE_OF,
             },
             {
               requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
               data: {
-                targetProfileId: 2,
+                targetProfileId: {
+                  data: 2,
+                  comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                },
               },
               comparison: COMPARISON.ALL,
             },
@@ -47,7 +54,10 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
           requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
           comparison: COMPARISON.ALL,
           data: {
-            targetProfileId: 1,
+            targetProfileId: {
+              data: 1,
+              comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+            },
           },
         });
         const eligibilityRequirementB = new EligibilityRequirement({
@@ -73,14 +83,20 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 1,
+                  targetProfileId: {
+                    data: 1,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 2,
+                  targetProfileId: {
+                    data: 2,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
@@ -101,14 +117,20 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 1,
+                  targetProfileId: {
+                    data: 1,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 2,
+                  targetProfileId: {
+                    data: 2,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
@@ -131,14 +153,20 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 1,
+                  targetProfileId: {
+                    data: 1,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 2,
+                  targetProfileId: {
+                    data: 2,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
@@ -159,14 +187,20 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 1,
+                  targetProfileId: {
+                    data: 1,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 2,
+                  targetProfileId: {
+                    data: 2,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ALL,
               },
@@ -188,7 +222,10 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             requirement_type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
           });
           const eligibility = new Eligibility({
@@ -205,7 +242,10 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             requirement_type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
           });
           const eligibility = new Eligibility({
@@ -224,7 +264,10 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             comparison: COMPARISON.ALL,
             data: {
-              targetProfileId: 1,
+              targetProfileId: {
+                data: 1,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
           });
           const eligibility = new Eligibility({
@@ -239,7 +282,10 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             comparison: COMPARISON.ALL,
             data: {
-              targetProfileId: 3,
+              targetProfileId: {
+                data: 3,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
           });
           const eligibility = new Eligibility({
@@ -260,7 +306,12 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
         data: [
           {
             requirement_type: TYPES.ORGANIZATION,
-            data: 'someDataA',
+            data: {
+              keyA: {
+                data: 'valueA',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
+            },
             comparison: COMPARISON.ALL,
           },
           {
@@ -268,12 +319,22 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             data: [
               {
                 requirement_type: TYPES.ORGANIZATION_LEARNER,
-                data: 'someDataB',
+                data: {
+                  keyB: {
+                    data: 'valueB',
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
                 comparison: COMPARISON.ONE_OF,
               },
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-                data: 'someDataC',
+                data: {
+                  keyC: {
+                    data: 'valueC',
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
                 comparison: COMPARISON.ONE_OF,
               },
             ],
@@ -292,7 +353,12 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
         data: [
           {
             requirement_type: TYPES.ORGANIZATION,
-            data: 'someDataA',
+            data: {
+              keyA: {
+                data: 'valueA',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
+            },
             comparison: COMPARISON.ALL,
           },
           {
@@ -300,12 +366,22 @@ describe('Quest | Unit | Domain | Models | EligibilityRequirement ', function ()
             data: [
               {
                 requirement_type: TYPES.ORGANIZATION_LEARNER,
-                data: 'someDataB',
+                data: {
+                  keyB: {
+                    data: 'valueB',
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
                 comparison: COMPARISON.ONE_OF,
               },
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-                data: 'someDataC',
+                data: {
+                  keyC: {
+                    data: 'valueC',
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
                 comparison: COMPARISON.ONE_OF,
               },
             ],

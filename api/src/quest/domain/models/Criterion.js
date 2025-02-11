@@ -1,36 +1,36 @@
+import { CriterionProperty } from './CriterionProperty.js';
+
 export class Criterion {
-  #data;
+  #properties;
 
   constructor({ data }) {
-    this.#data = data;
-  }
-
-  get data() {
-    return Object.freeze(this.#data);
-  }
-
-  toDTO() {
-    return this.#data;
-  }
-
-  check({ item, comparisonFunction }) {
-    return Object.keys(this.#data)[comparisonFunction]((key) => {
-      // TODO: Dés que les quêtes ont été mises à jour il faudra retirer cette ligne
-      const alterKey = key === 'targetProfileIds' ? 'targetProfileId' : key;
-      return this.#checkCriterionAttribute({
-        criterionAttr: this.#data[key],
-        dataAttr: item[alterKey],
+    this.#properties = Object.keys(data).map((key) => {
+      const property = data[key];
+      return new CriterionProperty({
+        key,
+        data: property.data,
+        comparison: property.comparison,
       });
     });
   }
 
-  #checkCriterionAttribute({ criterionAttr, dataAttr }) {
-    if (Array.isArray(criterionAttr)) {
-      if (Array.isArray(dataAttr)) {
-        return criterionAttr.every((valueToTest) => dataAttr.includes(valueToTest));
-      }
-      return criterionAttr.some((valueToTest) => valueToTest === dataAttr);
-    }
-    return dataAttr === criterionAttr;
+  get data() {
+    return this.#properties.reduce((acc, next) => {
+      acc[next.key] = {
+        data: next.data,
+        comparison: next.comparison,
+      };
+      return acc;
+    }, {});
+  }
+
+  toDTO() {
+    return this.data;
+  }
+
+  check({ item, comparisonFunction }) {
+    return this.#properties[comparisonFunction]((property) => {
+      return property.check(item);
+    });
   }
 }

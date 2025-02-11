@@ -1,5 +1,6 @@
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../../src/quest/domain/models/CriterionProperty.js';
 import { Eligibility, TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
-import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
+import { COMPARISON, Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { getQuestResultsForCampaignParticipation } from '../../../../../src/quest/domain/usecases/get-quest-results-for-campaign-participation.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
@@ -71,7 +72,16 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
       new Quest({
         id: 10,
         eligibilityRequirements: [
-          { requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS, data: { targetProfileIds: [wrongTargetProfileId] } },
+          {
+            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              targetProfileId: {
+                data: wrongTargetProfileId,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
+            },
+            comparison: COMPARISON.ALL,
+          },
         ],
         successRequirements: [],
         rewardType: 'attestations',

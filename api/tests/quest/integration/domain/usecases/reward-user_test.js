@@ -1,4 +1,5 @@
 import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../../src/quest/domain/models/CriterionProperty.js';
 import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
@@ -58,7 +59,10 @@ const setupContext = async (
         requirement_type: TYPES.ORGANIZATION,
         comparison: COMPARISON.ALL,
         data: {
-          type: questOrganization,
+          type: {
+            data: questOrganization,
+            comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+          },
         },
       },
     ],
@@ -156,7 +160,10 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
             requirement_type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
-              type: questOrganization,
+              type: {
+                data: questOrganization,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
           },
         ],
@@ -177,7 +184,10 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
             requirement_type: TYPES.ORGANIZATION,
             comparison: COMPARISON.ALL,
             data: {
-              type: questOrganization,
+              type: {
+                data: questOrganization,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
           },
         ],

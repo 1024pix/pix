@@ -1,3 +1,4 @@
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../../src/quest/domain/models/CriterionProperty.js';
 import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
 import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
@@ -12,8 +13,6 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         organizationId,
       });
 
-      // build target profiles
-
       const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: organizationId,
       });
@@ -21,26 +20,20 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         ownerOrganizationId: organizationId,
       });
 
-      // build campaigns
-
       const firstCampaign = databaseBuilder.factory.buildCampaign({
         organizationId,
         targetProfileId: firstTargetProfile.id,
       });
-
       const secondCampaign = databaseBuilder.factory.buildCampaign({
         organizationId,
         targetProfileId: secondTargetProfile.id,
       });
-
-      // build campaign participations
 
       databaseBuilder.factory.buildCampaignParticipation({
         organizationLearnerId,
         campaignId: firstCampaign.id,
         userId,
       });
-
       const { id: secondCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         organizationLearnerId,
         campaignId: secondCampaign.id,
@@ -55,21 +48,30 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileIds: [firstTargetProfile.id],
+              targetProfileId: {
+                data: firstTargetProfile.id,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileIds: [secondTargetProfile.id],
+              targetProfileId: {
+                data: secondTargetProfile.id,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -144,28 +146,40 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileIds: [firstTargetProfile.id],
+              targetProfileId: {
+                data: firstTargetProfile.id,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileIds: [secondTargetProfile.id],
+              targetProfileId: {
+                data: secondTargetProfile.id,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileIds: [thirdTargetProfile.id],
+              targetProfileId: {
+                data: thirdTargetProfile.id,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -198,7 +212,10 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         {
           requirement_type: TYPES.ORGANIZATION,
           data: {
-            type: 'SCO',
+            type: {
+              data: 'SCO',
+              comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+            },
           },
           comparison: COMPARISON.ALL,
         },
@@ -240,14 +257,20 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         {
           requirement_type: TYPES.ORGANIZATION,
           data: {
-            type: 'SCO',
+            type: {
+              data: 'SCO',
+              comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+            },
           },
           comparison: COMPARISON.ALL,
         },
         {
           requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
           data: {
-            targetProfileIds: [targetProfileId],
+            targetProfileId: {
+              data: targetProfileId,
+              comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+            },
           },
           comparison: COMPARISON.ALL,
         },

@@ -16,7 +16,11 @@ export class EligibilityRequirement {
         if (eligibilityRequirement instanceof EligibilityRequirement) {
           return eligibilityRequirement;
         }
-        return new EligibilityRequirement(eligibilityRequirement);
+        return new EligibilityRequirement({
+          requirement_type: eligibilityRequirement.requirement_type,
+          data: eligibilityRequirement.data,
+          comparison: eligibilityRequirement.comparison,
+        });
       });
     } else {
       this.#criterion = data instanceof Criterion ? data : new Criterion({ data });

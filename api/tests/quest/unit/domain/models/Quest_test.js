@@ -1,3 +1,4 @@
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../../src/quest/domain/models/CriterionProperty.js';
 import { Eligibility, TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
 import { COMPOSE_TYPE } from '../../../../../src/quest/domain/models/EligibilityRequirement.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
@@ -8,292 +9,46 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Quest ', function () {
   describe('#isEligible', function () {
-    describe('when there are requirements of type "requirements"', function () {
-      let quest;
-
-      beforeEach(function () {
-        quest = new Quest({
-          eligibilityRequirements: [
-            {
-              requirement_type: COMPOSE_TYPE,
-              comparison: COMPARISON.ONE_OF,
-              data: [
-                {
-                  requirement_type: COMPOSE_TYPE,
-                  comparison: COMPARISON.ALL,
-                  data: [
-                    {
-                      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-                      data: {
-                        targetProfileId: 1,
-                      },
-                    },
-                    {
-                      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-                      data: {
-                        targetProfileId: 2,
-                      },
-                    },
-                  ],
-                },
-                {
-                  requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-                  data: {
-                    targetProfileId: 3,
-                  },
-                },
-              ],
-            },
-          ],
-        });
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        {
-          title: 'return false when no requirements passed',
-          data: [{ targetProfileId: 1 }],
-          expected: false,
-        },
-        { title: 'return true when one simple requirement passed', data: [{ targetProfileId: 3 }], expected: true },
-        {
-          title: 'return true when one nested requirement passed',
-          data: [{ targetProfileId: 1 }, { targetProfileId: 2 }],
-          expected: true,
-        },
-      ].forEach((test) => {
-        it(test.title, function () {
-          expect(quest.isEligible(new Eligibility({ campaignParticipations: test.data }))).to.equal(test.expected);
-        });
-      });
-    });
-
-    describe('when comparison is "all"', function () {
-      describe('when data to test is a simple value', function () {
-        let quest;
-
-        before(function () {
-          // given
-          const eligibilityRequirements = [
-            {
-              requirement_type: TYPES.ORGANIZATION,
-              data: {
-                type: 'SCO',
-              },
-              comparison: COMPARISON.ALL,
-            },
-          ];
-          quest = new Quest({ eligibilityRequirements });
-        });
-
-        it('should return true if is eligible', function () {
-          // when
-          const organization = { type: 'SCO' };
-          const eligibilityData = new Eligibility({ organization });
-
-          // then
-          expect(quest.isEligible(eligibilityData)).to.equal(true);
-        });
-
-        it('should return false if is not eligible', function () {
-          // when
-          const organization = { type: 'PRO' };
-          const eligibilityData = new Eligibility({ organization });
-
-          // then
-          expect(quest.isEligible(eligibilityData)).to.equal(false);
-        });
-      });
-
-      describe('when data to test is an array', function () {
-        let quest;
-
-        before(function () {
-          const eligibilityRequirements = [
-            {
-              requirement_type: TYPES.ORGANIZATION,
-              data: {
-                tags: ['AGRICULTURE', 'AEFE'],
+    it('return true', function () {
+      const quest = new Quest({
+        eligibilityRequirements: [
+          {
+            requirement_type: TYPES.ORGANIZATION,
+            data: {
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
               },
             },
-          ];
-          quest = new Quest({ eligibilityRequirements });
-        });
-
-        it('should return true if is eligible', function () {
-          // when
-          const organization = { tags: ['MARITIME', 'AGRICULTURE', 'AEFE'] };
-          const eligibilityData = new Eligibility({ organization });
-
-          // then
-          expect(quest.isEligible(eligibilityData)).to.equal(true);
-        });
-
-        it('should return false if is not eligible', function () {
-          // when
-          const organization = { tags: ['MARITIME', 'AGRICULTURE'] };
-          const eligibilityData = new Eligibility({ organization });
-
-          // then
-          expect(quest.isEligible(eligibilityData)).to.equal(false);
-        });
+            comparison: COMPARISON.ALL,
+          },
+        ],
       });
+
+      const eligibility = new Eligibility({ organization: { type: 'SCO' } });
+
+      expect(quest.isEligible(eligibility)).to.be.true;
     });
 
-    describe('when comparison is "one-of"', function () {
-      let quest;
-
-      before(function () {
-        const eligibilityRequirements = [
+    it('return false', function () {
+      const quest = new Quest({
+        eligibilityRequirements: [
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              isManagingStudents: true,
-              tags: ['AEFE'],
-            },
-            comparison: 'one-of',
-          },
-        ];
-        quest = new Quest({ eligibilityRequirements });
-      });
-
-      it('should return true if is eligible', function () {
-        //when
-        const organization = { isManagingStudents: true, tags: ['MARITIME'] };
-        const eligibilityData = new Eligibility({ organization });
-
-        // then
-        expect(quest.isEligible(eligibilityData)).to.equal(true);
-      });
-
-      it('should return false if is not eligible', function () {
-        //when
-        const organization = { isManagingStudents: false, tags: ['MARITIME', 'AGRICULTURE'] };
-        const eligibilityData = new Eligibility({ organization });
-
-        // then
-        expect(quest.isEligible(eligibilityData)).to.equal(false);
-      });
-    });
-
-    describe('when there are multiple eligibility requirements', function () {
-      let quest;
-      let userTargetProfileId;
-
-      beforeEach(function () {
-        // given
-        const eligibleTargetProfileId = 1000;
-        userTargetProfileId = eligibleTargetProfileId;
-
-        const eligibilityRequirements = [
-          {
-            requirement_type: TYPES.ORGANIZATION,
-            data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
-          {
-            requirement_type: TYPES.ORGANIZATION,
-            data: {
-              isManagingStudents: true,
-              tags: ['AEFE'],
-            },
-            comparison: COMPARISON.ONE_OF,
-          },
-          {
-            requirement_type: TYPES.ORGANIZATION_LEARNER,
-            data: {
-              MEFCode: '10010012110',
-            },
-            comparison: COMPARISON.ALL,
-          },
-          {
-            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-            data: {
-              targetProfileIds: [eligibleTargetProfileId],
-            },
-            comparison: COMPARISON.ALL,
-          },
-        ];
-        quest = new Quest({ eligibilityRequirements });
+        ],
       });
 
-      it('should return true if all eligibility requirements are met', function () {
-        // when
-        const organization = { type: 'SCO', isManagingStudents: true, tags: ['AEFE'] };
-        const organizationLearner = { MEFCode: '10010012110' };
-        const campaignParticipations = [{ targetProfileId: userTargetProfileId }, { targetProfileId: 2000 }];
-        const eligibilityData = new Eligibility({ organization, organizationLearner, campaignParticipations });
+      const eligibility = new Eligibility({ organization: { type: 'PRO' } });
 
-        // then
-        expect(quest.isEligible(eligibilityData)).to.equal(true);
-      });
-
-      it('should return false if only some eligibility requirements are met', function () {
-        // when
-        const organization = { type: 'PRO', isManagingStudents: true, tags: ['AEFE'] };
-        const eligibilityData = new Eligibility({ organization });
-
-        // then
-        expect(quest.isEligible(eligibilityData)).to.equal(false);
-      });
-
-      it('should return true if all eligibility requirements of a same type are met', function () {
-        // given
-        const organization = { type: 'SCO', isManagingStudents: true, tags: ['AEFE'] };
-        const organizationLearner = { MEFCode: '10010012110' };
-        const campaignParticipations = [{ targetProfileId: 1 }, { targetProfileId: 2 }];
-        const eligibilityData = new Eligibility({ organization, organizationLearner, campaignParticipations });
-        const eligibilityRequirements = [
-          {
-            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-            data: {
-              targetProfileIds: [1],
-            },
-            comparison: COMPARISON.ALL,
-          },
-          {
-            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-            data: {
-              targetProfileIds: [2, 3],
-            },
-            comparison: COMPARISON.ALL,
-          },
-        ];
-        quest = new Quest({ eligibilityRequirements });
-
-        // then
-        expect(quest.isEligible(eligibilityData)).to.equal(true);
-      });
-
-      it('should return false if one of eligibility requirement of a same type is not eligible', function () {
-        // given
-        const organization = { type: 'SCO', isManagingStudents: true, tags: ['AEFE'] };
-        const organizationLearner = { MEFCode: '10010012110' };
-        const campaignParticipations = [{ targetProfileId: 1 }, { targetProfileId: 4 }];
-        const eligibilityData = new Eligibility({ organization, organizationLearner, campaignParticipations });
-        const eligibilityRequirements = [
-          {
-            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-            data: {
-              targetProfileIds: [1],
-            },
-            comparison: COMPARISON.ALL,
-          },
-          {
-            requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-            data: {
-              targetProfileIds: [2, 3],
-            },
-            comparison: COMPARISON.ALL,
-          },
-        ];
-        quest = new Quest({ eligibilityRequirements });
-
-        // then
-        expect(quest.isEligible(eligibilityData)).to.equal(false);
-      });
+      expect(quest.isEligible(eligibility)).to.be.false;
     });
   });
 
@@ -356,21 +111,30 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileId: [1],
+              targetProfileId: {
+                data: 1,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileId: [2],
+              targetProfileId: {
+                data: 2,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -399,21 +163,30 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileId: [1],
+              targetProfileId: {
+                data: 1,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
             data: {
-              targetProfileId: [2],
+              targetProfileId: {
+                data: 2,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -444,7 +217,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'PRO',
+              type: {
+                data: 'PRO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -463,20 +239,27 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         // then
         expect(isContributing).to.be.false;
       });
+
       it('return false when eligibilityRequirement is partially eligible', function () {
         // given
         const eligibilityRequirements = [
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.ORGANIZATION_LEARNER,
             data: {
-              id: 456,
+              id: {
+                data: 456,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -502,14 +285,20 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           {
             requirement_type: TYPES.ORGANIZATION,
             data: {
-              type: 'SCO',
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
           {
             requirement_type: TYPES.ORGANIZATION_LEARNER,
             data: {
-              id: 123,
+              type: {
+                id: 123,
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
             },
             comparison: COMPARISON.ALL,
           },
@@ -552,14 +341,20 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
                   {
                     requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                     data: {
-                      targetProfileId: 1,
+                      targetProfileId: {
+                        data: 1,
+                        comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                      },
                     },
                     comparison: COMPARISON.ONE_OF,
                   },
                   {
                     requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                     data: {
-                      targetProfileId: 2,
+                      targetProfileId: {
+                        data: 2,
+                        comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                      },
                     },
                     comparison: COMPARISON.ALL,
                   },
@@ -568,7 +363,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 3,
+                  targetProfileId: {
+                    data: 3,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ONE_OF,
               },
@@ -600,14 +398,20 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
                   {
                     requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                     data: {
-                      targetProfileId: 1,
+                      targetProfileId: {
+                        data: 1,
+                        comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                      },
                     },
                     comparison: COMPARISON.ONE_OF,
                   },
                   {
                     requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                     data: {
-                      targetProfileId: 2,
+                      targetProfileId: {
+                        data: 2,
+                        comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                      },
                     },
                     comparison: COMPARISON.ALL,
                   },
@@ -616,7 +420,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
               {
                 requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
                 data: {
-                  targetProfileId: 3,
+                  targetProfileId: {
+                    data: 3,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
                 },
                 comparison: COMPARISON.ONE_OF,
               },

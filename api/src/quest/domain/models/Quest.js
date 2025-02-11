@@ -96,10 +96,19 @@ class Quest {
   }
 
   #omitRequirementsByType(requirements, type) {
-    let result = [];
+    const result = [];
     for (const requirement of requirements) {
       if (requirement.requirement_type === COMPOSE_TYPE) {
-        result = result.push(this.#omitRequirementsByType(requirement.data, type));
+        const subRequirements = this.#omitRequirementsByType(requirement.data, type);
+        if (subRequirements.length > 0) {
+          result.push(
+            new EligibilityRequirement({
+              requirement_type: requirement.requirement_type,
+              data: subRequirements,
+              comparison: requirement.comparison,
+            }),
+          );
+        }
       } else if (requirement.requirement_type !== type) {
         result.push(requirement);
       }

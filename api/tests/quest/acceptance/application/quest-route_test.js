@@ -1,5 +1,9 @@
 import iconv from 'iconv-lite';
 
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../src/quest/domain/models/CriterionProperty.js';
+import { TYPES } from '../../../../src/quest/domain/models/Eligibility.js';
+import { COMPOSE_TYPE } from '../../../../src/quest/domain/models/EligibilityRequirement.js';
+import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
 import {
   createServer,
   databaseBuilder,
@@ -23,17 +27,59 @@ describe('Quest | Acceptance | Application | Quest Route ', function () {
       const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
       });
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        targetProfileId,
+      }).id;
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         organizationLearnerId,
         userId,
+        campaignId,
       });
       const rewardId = databaseBuilder.factory.buildAttestation().id;
       databaseBuilder.factory.buildQuest({
         rewardType: 'attestations',
         rewardId,
-        eligibilityRequirements: [],
+        eligibilityRequirements: [
+          {
+            requirement_type: TYPES.ORGANIZATION,
+            data: {
+              type: {
+                data: 'SCO',
+                comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+              },
+            },
+            comparison: COMPARISON.ALL,
+          },
+          {
+            requirement_type: COMPOSE_TYPE,
+            data: [
+              {
+                requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                data: {
+                  targetProfileId: {
+                    data: targetProfileId,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
+                comparison: COMPARISON.ALL,
+              },
+              {
+                requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                data: {
+                  targetProfileId: {
+                    data: targetProfileId + 8,
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
+                comparison: COMPARISON.ALL,
+              },
+            ],
+            comparison: COMPARISON.ONE_OF,
+          },
+        ],
         successRequirements: [],
-      }).id;
+      });
 
       await databaseBuilder.commit();
       const options = {

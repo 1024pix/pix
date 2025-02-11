@@ -1,3 +1,8 @@
+import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../../src/quest/domain/models/CriterionProperty.js';
+import { TYPES } from '../../../../../src/quest/domain/models/Eligibility.js';
+import { COMPOSE_TYPE } from '../../../../../src/quest/domain/models/EligibilityRequirement.js';
+import { COMPARISON } from '../../../../../src/quest/domain/models/Quest.js';
+import { config } from '../../../../../src/shared/config.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
@@ -6,6 +11,7 @@ import {
   generateAuthenticatedUserRequestHeaders,
   knex,
   mockLearningContent,
+  sinon,
 } from '../../../../test-helper.js';
 
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = LOCALE;
@@ -190,6 +196,82 @@ describe('Acceptance | Controller | answer-controller-save', function () {
           const levelup = response.result.included[0].attributes;
 
           expect(levelup['competence-name']).to.equal(testCase.expectedCompetenceName);
+        });
+      });
+
+      describe('when there are quests', function () {
+        beforeEach(function () {
+          sinon.stub(config.featureToggles, 'isAsyncQuestRewardingCalculationEnabled').value(false);
+          sinon.stub(config.featureToggles, 'isQuestEnabled').value(true);
+        });
+
+        it('should return 201 HTTP status code', async function () {
+          // given
+          const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+          const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+          });
+          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({
+            targetProfileId,
+          }).id;
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId,
+            userId,
+            campaignId,
+          });
+          const rewardId = databaseBuilder.factory.buildAttestation().id;
+          databaseBuilder.factory.buildQuest({
+            rewardType: 'attestations',
+            rewardId,
+            eligibilityRequirements: [
+              {
+                requirement_type: TYPES.ORGANIZATION,
+                data: {
+                  type: {
+                    data: 'SCO',
+                    comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                  },
+                },
+                comparison: COMPARISON.ALL,
+              },
+              {
+                requirement_type: COMPOSE_TYPE,
+                data: [
+                  {
+                    requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                    data: {
+                      targetProfileId: {
+                        data: targetProfileId,
+                        comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                      },
+                    },
+                    comparison: COMPARISON.ALL,
+                  },
+                  {
+                    requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+                    data: {
+                      targetProfileId: {
+                        data: targetProfileId + 8,
+                        comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                      },
+                    },
+                    comparison: COMPARISON.ALL,
+                  },
+                ],
+                comparison: COMPARISON.ONE_OF,
+              },
+            ],
+            successRequirements: [],
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject(postAnswersOptions);
+
+          // then
+          expect(response.statusCode).to.equal(201);
         });
       });
     });
