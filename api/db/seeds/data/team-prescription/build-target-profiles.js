@@ -8,18 +8,20 @@ import {
   TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
 } from './constants.js';
 
-async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
-  const configTargetProfile = {
+function _buildConfigTargetProfile({ countTubes = 2, minLevel = 1, maxLevel = 2, chooseCoreFramework = true }) {
+  return {
     frameworks: [
       {
-        chooseCoreFramework: true,
-        countTubes: 5,
-        minLevel: 3,
-        maxLevel: 5,
+        chooseCoreFramework,
+        countTubes,
+        minLevel,
+        maxLevel,
       },
     ],
   };
+}
 
+async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
   await createTargetProfile({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
@@ -27,22 +29,11 @@ async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
     name: 'Pix (Niv3 ~ 5) - NO Badges - NO Stages',
     isSimplifiedAccess: false,
     description: 'Pix (Niv3 ~ 5)',
-    configTargetProfile,
+    configTargetProfile: _buildConfigTargetProfile({ minLevel: 3, maxLevel: 5 }),
   });
 }
 
 async function _createTargetProfileWithBadgesStages(databaseBuilder) {
-  const configTargetProfile = {
-    frameworks: [
-      {
-        chooseCoreFramework: true,
-        countTubes: 10,
-        minLevel: 1,
-        maxLevel: 5,
-      },
-    ],
-  };
-
   const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
@@ -50,7 +41,7 @@ async function _createTargetProfileWithBadgesStages(databaseBuilder) {
     name: 'Pix (Niv1 ~ 5) - Badges - Stages',
     isSimplifiedAccess: false,
     description: 'Pix (Niv1 ~ 5)',
-    configTargetProfile,
+    configTargetProfile: _buildConfigTargetProfile({ countTubes: 2, minLevel: 1, maxLevel: 5 }),
   });
 
   await createBadge({

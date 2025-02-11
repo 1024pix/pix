@@ -89,7 +89,6 @@ async function getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPi
 async function createProfileGivenCompetences({ databaseBuilder, userId, competenceToPick, createdAt }) {
   const answersAndKnowledgeElementsCollection =
     await getAnswersAndKnowledgeElementsForCompetencesToPick(competenceToPick);
-  console.log(answersAndKnowledgeElementsCollection);
   _makeUserReachPixScoreForCompetences({
     databaseBuilder,
     userId,
@@ -216,7 +215,6 @@ function _makeUserReachPixScoreForCompetences({
     answersAndKnowledgeElementsCollection,
     ({ keData }) => keData.competenceId,
   );
-  console.log(userId, answersAndKnowledgeElementsCollection, answersAndKnowledgeElementsByCompetenceId);
   for (const [competenceId, answersAndKnowledgeElements] of Object.entries(answersAndKnowledgeElementsByCompetenceId)) {
     const assessmentId = _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId });
 
