@@ -57,8 +57,8 @@ describe('Quest | Acceptance | Application | Quest Route ', function () {
       const admin = await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
       // TODO j'ai l'impression qu'en séparateur en ; il capte pas les différents headers
-      const input = `Quest ID;Json configuration for quest
-        ;{"rewardType":"coucou","rewardId":null,"eligibilityRequirements":[{"requirement_type":"organization","data":{"type":"SCO"},"comparison":"all"}],"successRequirements":{"success":"success"}}`;
+      const input = `Quest ID,Json configuration for quest
+,"{""rewardType"":""coucou"",""rewardId"":null,""eligibilityRequirements"":[{""requirement_type"":""organization"",""data"":{""type"":""SCO""},""comparison"":""all""}],""successRequirements"":{""success"":""success""}}"`;
 
       const options = {
         method: 'POST',
