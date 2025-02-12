@@ -2,6 +2,7 @@ import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import { COMPARISON as CRITERION_PROPERTY_COMPARISON } from '../../../../src/quest/domain/models/CriterionProperty.js';
 import { TYPES } from '../../../../src/quest/domain/models/Eligibility.js';
+import { COMPOSE_TYPE } from '../../../../src/quest/domain/models/EligibilityRequirement.js';
 import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
 import { Assessment, CampaignParticipationStatuses, Membership } from '../../../../src/shared/domain/models/index.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
@@ -157,7 +158,7 @@ const buildSixthGradeQuests = (
   rewardId,
   [firstTargetProfile, secondTargetProfile, thirdTargetProfile],
 ) => {
-  const firstQuestRequirement = [
+  const questEligibilityRequirements = [
     {
       requirement_type: TYPES.ORGANIZATION,
       data: {
@@ -183,81 +184,50 @@ const buildSixthGradeQuests = (
       comparison: COMPARISON.ONE_OF,
     },
     {
-      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-      data: {
-        targetProfileId: {
-          data: firstTargetProfile.id,
-          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+      requirement_type: COMPOSE_TYPE,
+      data: [
+        {
+          requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+          data: {
+            targetProfileId: {
+              data: firstTargetProfile.id,
+              comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+            },
+          },
+          comparison: COMPARISON.ALL,
         },
-      },
-      comparison: COMPARISON.ALL,
-    },
-  ];
-  const firstQuestSuccessRequirements = [
-    {
-      type: 'skill',
-      data: {
-        ids: CAMPAIGN_SKILLS[0],
-        threshold: 50,
-      },
-    },
-  ];
-
-  databaseBuilder.factory.buildQuest({
-    rewardType: REWARD_TYPES.ATTESTATION,
-    rewardId,
-    eligibilityRequirements: firstQuestRequirement,
-    successRequirements: firstQuestSuccessRequirements,
-  });
-
-  const secondQuestEligibilityRequirements = [
-    {
-      requirement_type: TYPES.ORGANIZATION,
-      data: {
-        type: {
-          data: 'SCO',
-          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+        {
+          requirement_type: COMPOSE_TYPE,
+          data: [
+            {
+              requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+              data: {
+                targetProfileId: {
+                  data: thirdTargetProfile.id,
+                  comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                },
+              },
+              comparison: COMPARISON.ALL,
+            },
+            {
+              requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
+              data: {
+                targetProfileId: {
+                  data: secondTargetProfile.id,
+                  comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
+                },
+              },
+              comparison: COMPARISON.ALL,
+            },
+          ],
+          comparison: COMPARISON.ALL,
         },
-      },
-      comparison: COMPARISON.ALL,
-    },
-    {
-      requirement_type: TYPES.ORGANIZATION,
-      data: {
-        isManagingStudents: {
-          data: true,
-          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
-        },
-        tags: {
-          data: [AEFE_TAG.name],
-          comparison: CRITERION_PROPERTY_COMPARISON.ALL,
-        },
-      },
+      ],
       comparison: COMPARISON.ONE_OF,
     },
-    {
-      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-      data: {
-        targetProfileId: {
-          data: thirdTargetProfile.id,
-          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
-        },
-      },
-      comparison: COMPARISON.ALL,
-    },
-    {
-      requirement_type: TYPES.CAMPAIGN_PARTICIPATIONS,
-      data: {
-        targetProfileId: {
-          data: secondTargetProfile.id,
-          comparison: CRITERION_PROPERTY_COMPARISON.EQUAL,
-        },
-      },
-      comparison: COMPARISON.ALL,
-    },
   ];
 
-  const secondQuestSuccessRequirements = [
+  const questSuccessRequirements = [
     {
       type: 'skill',
       data: {
@@ -270,8 +240,8 @@ const buildSixthGradeQuests = (
   databaseBuilder.factory.buildQuest({
     rewardType: REWARD_TYPES.ATTESTATION,
     rewardId,
-    eligibilityRequirements: secondQuestEligibilityRequirements,
-    successRequirements: secondQuestSuccessRequirements,
+    eligibilityRequirements: questEligibilityRequirements,
+    successRequirements: questSuccessRequirements,
   });
 };
 
