@@ -8,7 +8,6 @@ export const rewardUser = async ({
   if (!userId) {
     return;
   }
-
   const quests = await questRepository.findAll();
 
   if (quests.length === 0) {
