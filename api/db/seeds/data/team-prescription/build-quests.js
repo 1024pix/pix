@@ -110,9 +110,18 @@ const TARGET_PROFILE_TUBES = [
 ];
 
 const CAMPAIGN_SKILLS = [
-  ['skill2wQfMYrOHlL6HI', 'skill1QAVccgLO16Rx8', 'skillX5Rpk2rucNfnF', 'skill1aj7jVAKrVgUye', 'reczOCGv8pz976Acl'],
-  ['skill2wQfMYrOHlL6HI', 'skill1QAVccgLO16Rx8', 'skillX5Rpk2rucNfnF'],
-  ['skill1aj7jVAKrVgUye', 'reczOCGv8pz976Acl', 'skill2mIMdudcltFsaz'],
+  [
+    'recb0ZHKckwrnZeb8',
+    'recgOc2OreHCosoRp',
+    'skill28d761IHIaQs6c',
+    'skill1Jk1w9oDk9twVU',
+    'skill1uRSMtd7N6THAn',
+    'skill1KIPisxUY59N2w',
+    'skill1XYyr7gZO4VdHG',
+    'skill26VkJRWfPciwSG',
+  ],
+  ['recb0ZHKckwrnZeb8', 'recgOc2OreHCosoRp', 'skill28d761IHIaQs6c', 'skill1Jk1w9oDk9twVU'],
+  ['skill1uRSMtd7N6THAn', 'skill1KIPisxUY59N2w', 'skill1XYyr7gZO4VdHG', 'skill26VkJRWfPciwSG'],
 ];
 
 const buildUsers = (databaseBuilder) => USERS.map((user) => databaseBuilder.factory.buildUser.withRawPassword(user));
@@ -325,8 +334,8 @@ export const buildQuests = async (databaseBuilder) => {
     },
     { userId: failedUser.id, division: '6emeA', firstName: 'attestation-failed', lastName: 'attestation-failed' },
     { userId: pendingUser.id, division: '6emeB', firstName: 'attestation-pending', lastName: 'attestation-pending' },
-    { userId: blankUser.id, division: '6emeB', firstName: 'attestation-blank', lastName: 'attestation-blank' },
     { userId: disabledUser.id, division: '6emeB', firstName: 'Disabled', lastName: 'attestation', isDisabled: true },
+    { userId: blankUser.id, division: '6emeB', firstName: 'attestation-blank', lastName: 'attestation-blank' },
   ];
 
   const [
