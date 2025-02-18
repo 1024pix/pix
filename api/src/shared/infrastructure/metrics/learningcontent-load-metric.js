@@ -5,10 +5,10 @@ import { Metric } from './metric.js';
 import { TimeMetricParam } from './time-param.js';
 
 export class LearningContentLoadMetric extends Metric {
-  constructor({ storage }) {
+  constructor({ name, storage }) {
     super({
-      name: 'learningcontent:load',
-      storage: storage,
+      name,
+      storage,
       params: [
         new ContextMetricParam('tableName'),
         new ContainerMetricParam(),

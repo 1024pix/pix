@@ -2,9 +2,18 @@ import Dataloader from 'dataloader';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { LearningContentCache } from '../caches/learning-content-cache.js';
+import { LearningContentLoadMetric } from '../metrics/learningcontent-load-metric.js';
+import { MemoryMetricsStorage } from '../metrics/memory-storage.js';
 import { child, SCOPES } from '../utils/logger.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
+
+const metricsStorage = new MemoryMetricsStorage();
+const loadMetric = new LearningContentLoadMetric({ name: 'learningcontent:load', storage: metricsStorage });
+const loadCacheMissMetric = new LearningContentLoadMetric({
+  name: 'learningcontent:load-cache-miss',
+  storage: metricsStorage,
+});
 
 /**
  * @typedef {(knex: import('knex').QueryBuilder) => Promise<string[]|number[]>} QueryBuilderCallback
@@ -69,6 +78,7 @@ export class LearningContentRepository {
    * @returns {Promise<object|null>}
    */
   async load(id) {
+    loadMetric.increment({ tableName: this.#tableName });
     return this.#dataloader.load(id);
   }
 
@@ -104,6 +114,8 @@ export class LearningContentRepository {
    * @returns {Promise<(object|null)[]>}
    */
   async #loadMany(ids, cacheKey) {
+    loadMetric.increment({ tableName: this.#tableName }, ids.length);
+
     const dtos = await this.#dataloader.loadMany(ids);
 
     if (dtos[0] instanceof Error) {
@@ -141,6 +153,7 @@ export class LearningContentRepository {
    */
   async #batchLoad(ids) {
     logger.debug({ tableName: this.#tableName, count: ids.length }, 'loading from PG');
+    loadCacheMissMetric.increment({ tableName: this.#tableName }, ids.length);
     const dtos = await knex
       .select(`${this.#tableName}.*`)
       .from(knex.raw(`unnest(?::${this.#idType}[]) with ordinality as ids(id, idx)`, [ids])) // eslint-disable-line knex/avoid-injections
