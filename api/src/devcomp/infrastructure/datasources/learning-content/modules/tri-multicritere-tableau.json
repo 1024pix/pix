@@ -18,7 +18,7 @@
   "transitionTexts": [
     {
       "grainId": "cffecfef-01d5-4ae5-839e-40752fe60017",
-      "content": "<p>Vous avez peut-être déjà voulu trier les données d’un tableau à partir de plusieurs critères. Pour cela, il faut faire un tri multicritères. <br>Découvrons avec des exemples les cas où le tri multicritère est utile <span aria-hidden=\"true\">👇</span></p>"
+      "content": "<p>Vous avez peut-être déjà voulu trier les données d’un tableau à partir de plusieurs critères. Pour cela, il faut faire un tri multicritère. <br>Découvrons avec des exemples les cas où le tri multicritère est utile <span aria-hidden=\"true\">👇</span></p>"
     },
     {
       "grainId": "52abc272-638f-48b1-900b-4dd2635bf9a7",
@@ -516,7 +516,7 @@
           "element": {
             "id": "e9ac9d81-41fc-48c2-b74c-7aee31373f39",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">✅</span> On a besoin d’<strong>un tri multicritères sur plusieurs colonnes</strong> quand on doit<strong> cumuler plusieurs critères de tri</strong> (d’abord un premier critère, puis un second, puis un troisième, etc). <br>✔️Par exemple, quand on a besoin de discriminer des ex æquo sur un premier critère.</p>"
+            "content": "<p><span aria-hidden=\"true\">✅</span> On a besoin d’<strong>un tri multicritère sur plusieurs colonnes</strong> quand on doit<strong> cumuler plusieurs critères de tri</strong> (d’abord un premier critère, puis un second, puis un troisième, etc). <br>✔️Par exemple, quand on a besoin de discriminer des ex æquo sur un premier critère.</p>"
           }
         },
         {
