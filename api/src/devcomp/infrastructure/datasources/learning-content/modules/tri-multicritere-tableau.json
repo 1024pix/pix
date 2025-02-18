@@ -503,7 +503,25 @@
           "element": {
             "id": "9c101788-40c6-4343-95e4-fcac920c96b7",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">❓</span> Si vous avez besoin d’aide, cliquez sur les indices ci-dessous :</p><p><br></p><details><summary>Indice 1</summary><p>Voici le résultat que vous devriez obtenir. Observez bien les colonnes pour trouver l'ordre des critères de tri.</p><img src=\"https://i.imgur.com/uZJkEg1.jpeg\" alt=\"Tableau resultat\" /></details><details><summary>Indice 2</summary><p>Il y a 3 critères de tri nécessaires au classement de Sarah.<br>L’énoncé vous permet de trouver l’ordre des critères de tri suivant&nbsp;:</p> <ol> <li>L’étape la plus importante est bien sûr : la découverte du trésor</li> <li>La seconde épreuve est le nombre d’énigmes réussies</li> <li>Le troisième critère est le temps au labyrinthe</li> </ol><p>Ensuite, comparez l’ordre des critères de tri au tableau de l’indice 2 et déterminez le classement de chaque colonne.</p> </details>"
+            "content": "<p><span aria-hidden=\"true\">❓</span> Si vous avez besoin d’aide, cliquez sur les indices ci-dessous&nbsp;: </p>"
+          },
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c5cb4807-d925-42f1-b6b5-9eb20eb777be",
+            "type": "expand",
+            "title": "Indice 1",
+            "content": "<p>Voici le résultat que vous devriez obtenir. Observez bien les colonnes pour trouver l'ordre des critères de tri.</p><img src=\"https://i.imgur.com/uZJkEg1.jpeg\" alt=\"Tableau resultat\" /></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b2ae849f-48d0-4a73-b3a4-c0139dc52617",
+            "type": "expand",
+            "title": "Indice 2",
+            "content": "<p>Il y a 3 critères de tri nécessaires au classement de Sarah.<br>L’énoncé vous permet de trouver l’ordre des critères de tri suivant&nbsp;:</p> <ol> <li>L’étape la plus importante est bien sûr : la découverte du trésor</li> <li>La seconde épreuve est le nombre d’énigmes réussies</li> <li>Le troisième critère est le temps au labyrinthe</li> </ol> <p>Ensuite, comparez l’ordre des critères de tri au tableau de l’indice 2 et déterminez le classement de chaque colonne.</p>"
           }
         }
       ]
