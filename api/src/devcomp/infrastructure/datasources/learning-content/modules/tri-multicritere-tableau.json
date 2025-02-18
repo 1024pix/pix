@@ -18,7 +18,7 @@
   "transitionTexts": [
     {
       "grainId": "cffecfef-01d5-4ae5-839e-40752fe60017",
-      "content": "<p>Vous avez peut-être déjà voulu trier les données d’un tableau à partir de plusieurs critères. Pour cela, il faut faire un tri multicritère. <br>Découvrons avec des exemples les cas où le tri multicritère est utile <span aria-hidden=\"true\">👇</span></p>"
+      "content": "<p>Vous avez peut-être déjà voulu trier les données d’un tableau à partir de plusieurs critères. Pour cela, il faut faire un tri multicritère (ou multiple). <br>Découvrons avec des exemples les cas où le tri multicritère est utile <span aria-hidden=\"true\">👇</span></p>"
     },
     {
       "grainId": "52abc272-638f-48b1-900b-4dd2635bf9a7",
