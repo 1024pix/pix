@@ -138,7 +138,7 @@
                 {
                   "id": "427190ea-9d73-4691-8f0d-0ce335af4d41",
                   "type": "text",
-                  "content": "<h3>Quels sont les types de sources  ?</h3><p><span aria-hidden=\"true\">👉</span>&nbsp;Il y a deux types de sources&nbsp;: </p><ul><li>**la source directe :** l'information provient directement de cette source.</li><li>**la source indirecte :** l'information ne provient pas directement de cette source. Elle passe par d'autres personnes, *des intermédiaires*.</li></ul><p>✔️<strong>Exemple 1 :</strong> si le gardien de l'immeuble dit que la Fête des voisins aura lieu jeudi prochain, cette personne est une source directe.</p><p>✔️<strong>Exemple 2 :</strong> si un habitant de l'immeuble dit aux autres habitants ce que lui a dit le gardien sur la Fête des voisins, cette eprsonne est une source indirecte.</p>"
+                  "content": "<h3>Quels sont les types de sources  ?</h3><p><span aria-hidden=\"true\">👉</span>&nbsp;Il y a deux types de sources&nbsp;: </p><ul><li><strong>la source directe :</strong> l'information provient directement de cette source.</li><li><strong>la source indirecte :</strong> l'information ne provient pas directement de cette source. Elle passe par d'autres personnes, <i>des intermédiaires</i>.</li></ul><p>✔️<strong>Exemple 1 :</strong> si le gardien de l'immeuble dit que la Fête des voisins aura lieu jeudi prochain, cette personne est une source directe.</p><p>✔️<strong>Exemple 2 :</strong> si un habitant de l'immeuble dit aux autres habitants ce que lui a dit le gardien sur la Fête des voisins, cette personne est une source indirecte.</p>"
                 }
               ]
             }
