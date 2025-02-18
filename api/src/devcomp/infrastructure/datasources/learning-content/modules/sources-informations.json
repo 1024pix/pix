@@ -1,7 +1,7 @@
 {
   "id": "68f92c57-9e66-4258-a2f4-b71fad7ab004",
   "slug": "sources-informations",
-  "title": "Les sources d'information, c'est quoi ?",
+  "title": "Les sources d'une information : c'est quoi ?",
   "isBeta": true,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
@@ -129,7 +129,7 @@
                 {
                   "id": "2dad74c9-206e-48ca-a577-f7b92eda1ca4",
                   "type": "text",
-                  "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span> La source est l’origine de l’information, sa provenance. Ça peut être un article de journal, une photographie, une vidéo...</p><p>Pour trouver la source de l'information, posez vous la question « d'où vient l'information ? ».</p><p>**✔️Exemple 1 :** si quelqu'un dit que la Fête des voisins aura lieu jeudi prochain, cette personne est la source de l’information.</p><p>✔️**Exemple 2 :** s'il est écrit que les Jeux asiatiques d'hiver de 2029 auront lieu dans le désert dans un article du journal « FranceInfo », cet article est la source de l'information.</p>"
+                  "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span> La source est l’origine de l’information, sa provenance. Ça peut être un article de journal, une photographie, une vidéo...</p><p>Pour trouver la source de l'information, posez vous la question « d'où vient l'information ? ».</p><p>✔️<strong>Exemple 1 :</strong> si quelqu'un dit que la Fête des voisins aura lieu jeudi prochain, cette personne est la source de l’information.</p><p>✔️<strong>Exemple 2 :</strong> s'il est écrit que les Jeux asiatiques d'hiver de 2029 auront lieu dans le désert dans un article du journal « FranceInfo », cet article est la source de l'information.</p>"
                 }
               ]
             },
@@ -138,7 +138,7 @@
                 {
                   "id": "427190ea-9d73-4691-8f0d-0ce335af4d41",
                   "type": "text",
-                  "content": "<h3>Quels sont les types de sources  ?</h3><p><span aria-hidden=\"true\">👉</span>&nbsp;Il y a deux types de sources&nbsp;: </p><ul><li>**la source directe :** l'information provient directement de cette source.</li><li>**la source indirecte :** l'information ne provient pas directement de cette source. Elle passe par d'autres personnes, *des intermédiaires*.</li></ul><p>✔️**Exemple 1 :** si le gardien de l'immeuble dit que la Fête des voisins aura lieu jeudi prochain, cette personne est une source directe.</p><p>✔️**Exemple 2 :** si un habitant de l'immeuble dit aux autres habitants ce que lui a dit le gardien sur la Fête des voisins, cette eprsonne est une source indirecte.</p>"
+                  "content": "<h3>Quels sont les types de sources  ?</h3><p><span aria-hidden=\"true\">👉</span>&nbsp;Il y a deux types de sources&nbsp;: </p><ul><li>**la source directe :** l'information provient directement de cette source.</li><li>**la source indirecte :** l'information ne provient pas directement de cette source. Elle passe par d'autres personnes, *des intermédiaires*.</li></ul><p>✔️<strong>Exemple 1 :</strong> si le gardien de l'immeuble dit que la Fête des voisins aura lieu jeudi prochain, cette personne est une source directe.</p><p>✔️<strong>Exemple 2 :</strong> si un habitant de l'immeuble dit aux autres habitants ce que lui a dit le gardien sur la Fête des voisins, cette eprsonne est une source indirecte.</p>"
                 }
               ]
             }
