@@ -179,3 +179,29 @@ export class LearningContentRepository {
     this.#findCache.clear();
   }
 }
+
+export function findKey(strings, ...values) {
+  return new FindKey(strings, values);
+}
+
+class FindKey {
+  #strings;
+  #values;
+
+  constructor(strings, values) {
+    this.#strings = strings;
+    this.#values = values;
+  }
+
+  get cacheKey() {
+    return this.#strings.reduce((cacheKey, string, index) => `${cacheKey}${this.#values[index - 1]}${string}`);
+  }
+
+  get metricKey() {
+    return this.#strings.reduce((cacheKey, string, index) => `${cacheKey}${index - 1}${string}`);
+  }
+
+  toString() {
+    return this.cacheKey;
+  }
+}
