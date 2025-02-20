@@ -2,6 +2,7 @@ import Dataloader from 'dataloader';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { LearningContentCache } from '../caches/learning-content-cache.js';
+import { LearningContentFindMetric } from '../metrics/learningcontent-find-metric.js';
 import { LearningContentLoadMetric } from '../metrics/learningcontent-load-metric.js';
 import { MemoryMetricsStorage } from '../metrics/memory-storage.js';
 import { child, SCOPES } from '../utils/logger.js';
@@ -12,6 +13,11 @@ const metricsStorage = new MemoryMetricsStorage();
 const loadMetric = new LearningContentLoadMetric({ name: 'learningcontent:load', storage: metricsStorage });
 const loadCacheMissMetric = new LearningContentLoadMetric({
   name: 'learningcontent:load-cache-miss',
+  storage: metricsStorage,
+});
+const findMetric = new LearningContentFindMetric({ name: 'learningcontent:find', storage: metricsStorage });
+const findCacheMissMetric = new LearningContentFindMetric({
+  name: 'learningcontent:find-cache-miss',
   storage: metricsStorage,
 });
 
@@ -52,14 +58,25 @@ export class LearningContentRepository {
   /**
    * Finds several entities using a request and caches results.
    * The request is built using a knex query builder given to {@link callback}.
-   * {@link cacheKey} must vary according to params given to the query builder.
-   * @param {string} cacheKey
+   * {@link findKey} must vary according to params given to the query builder.
+   * @param {FindKey | string} findKey
    * @param {QueryBuilderCallback} callback
    * @returns {Promise<object[]>}
    */
-  async find(cacheKey, callback) {
+  async find(findKey, callback) {
+    const cacheKey = findKey?.toString();
+
+    const metricKey = findKey?.metricKey;
+    if (metricKey) {
+      findMetric.increment({ tableName: this.#tableName, findKey: metricKey });
+    }
+
     let dtos = this.#findCache.get(cacheKey);
     if (dtos) return dtos;
+
+    if (metricKey) {
+      findCacheMissMetric.increment({ tableName: this.#tableName, findKey: metricKey });
+    }
 
     dtos = this.#findCacheMiss.get(cacheKey);
     if (dtos) return dtos;

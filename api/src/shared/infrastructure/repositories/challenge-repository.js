@@ -6,7 +6,7 @@ import { Accessibility } from '../../domain/models/Challenge.js';
 import { Challenge } from '../../domain/models/index.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
@@ -61,7 +61,7 @@ export async function getMany(ids, locale) {
 
 export async function list(locale) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `list(${locale})`;
+  const cacheKey = findKey`list(${locale})`;
   const findByLocaleCallback = (knex) => knex.whereRaw('?=ANY(??)', [locale, 'locales']).orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findByLocaleCallback);
   const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
@@ -70,7 +70,7 @@ export async function list(locale) {
 
 export async function findValidated(locale) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findValidated(${locale})`;
+  const cacheKey = findKey`findValidated(${locale})`;
   const findValidatedByLocaleCallback = (knex) =>
     knex.whereRaw('?=ANY(??)', [locale, 'locales']).where('status', VALIDATED_STATUS).orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleCallback);
@@ -80,7 +80,7 @@ export async function findValidated(locale) {
 
 export async function findOperative(locale) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findOperative(${locale})`;
+  const cacheKey = findKey`findOperative(${locale})`;
   const findOperativeByLocaleCallback = (knex) =>
     knex.whereRaw('?=ANY(??)', [locale, 'locales']).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleCallback);
@@ -90,7 +90,7 @@ export async function findOperative(locale) {
 
 export async function findValidatedByCompetenceId(competenceId, locale) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findValidatedByCompetenceId(${competenceId}, ${locale})`;
+  const cacheKey = findKey`findValidatedByCompetenceId(${competenceId}, ${locale})`;
   const findValidatedByLocaleByCompetenceIdCallback = (knex) =>
     knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ competenceId, status: VALIDATED_STATUS }).orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleByCompetenceIdCallback);
@@ -101,7 +101,7 @@ export async function findValidatedByCompetenceId(competenceId, locale) {
 export async function findOperativeBySkills(skills, locale) {
   _assertLocaleIsDefined(locale);
   const skillIds = skills.map((skill) => skill.id);
-  const cacheKey = `findOperativeBySkillIds([${skillIds.sort()}], ${locale})`;
+  const cacheKey = findKey`findOperativeBySkillIds([${skillIds.sort()}], ${locale})`;
   const findOperativeByLocaleBySkillIdsCallback = (knex) =>
     knex
       .whereRaw('?=ANY(??)', [locale, 'locales'])
@@ -119,7 +119,7 @@ export async function findActiveFlashCompatible({
   accessibilityAdjustmentNeeded = false,
 } = {}) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded} })`;
+  const cacheKey = findKey`findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded} })`;
   let findCallback;
   if (accessibilityAdjustmentNeeded) {
     findCallback = (knex) =>
@@ -149,7 +149,7 @@ export async function findActiveFlashCompatible({
 
 export async function findFlashCompatibleWithoutLocale({ useObsoleteChallenges } = {}) {
   const acceptedStatuses = useObsoleteChallenges ? [OBSOLETE_STATUS, ...OPERATIVE_STATUSES] : OPERATIVE_STATUSES;
-  const cacheKey = `findFlashCompatibleByStatuses({ useObsoleteChallenges: ${Boolean(useObsoleteChallenges)} })`;
+  const cacheKey = findKey`findFlashCompatibleByStatuses({ useObsoleteChallenges: ${Boolean(useObsoleteChallenges)} })`;
   const findFlashCompatibleByStatusesCallback = (knex) =>
     knex.whereIn('status', acceptedStatuses).whereNotNull('alpha').whereNotNull('delta').orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findFlashCompatibleByStatusesCallback);
@@ -159,7 +159,7 @@ export async function findFlashCompatibleWithoutLocale({ useObsoleteChallenges }
 
 export async function findValidatedBySkillId(skillId, locale) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findValidatedBySkillId(${skillId}, ${locale})`;
+  const cacheKey = findKey`findValidatedBySkillId(${skillId}, ${locale})`;
   const findValidatedByLocaleBySkillIdCallback = (knex) =>
     knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ skillId, status: VALIDATED_STATUS }).orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleBySkillIdCallback);

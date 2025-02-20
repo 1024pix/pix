@@ -3,7 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.skills';
 const ACTIVE_STATUS = 'actif';
@@ -29,14 +29,14 @@ export async function list() {
 }
 
 export async function findActiveByTubeId(tubeId) {
-  const cacheKey = `findActiveByTubeId(${tubeId})`;
+  const cacheKey = findKey`findActiveByTubeId(${tubeId})`;
   const findActiveByTubeIdCallback = (knex) => knex.where({ tubeId, status: ACTIVE_STATUS }).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findActiveByTubeIdCallback);
   return skillDtos.map(toDomain);
 }
 
 export async function findOperativeByTubeId(tubeId) {
-  const cacheKey = `findOperativeByTubeId(${tubeId})`;
+  const cacheKey = findKey`findOperativeByTubeId(${tubeId})`;
   const findOperativeByTubeIdCallback = (knex) =>
     knex.where({ tubeId }).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findOperativeByTubeIdCallback);
@@ -44,14 +44,14 @@ export async function findOperativeByTubeId(tubeId) {
 }
 
 export async function findActiveByCompetenceId(competenceId) {
-  const cacheKey = `findActiveByCompetenceId(${competenceId})`;
+  const cacheKey = findKey`findActiveByCompetenceId(${competenceId})`;
   const findActiveByCompetenceIdCallback = (knex) => knex.where({ competenceId, status: ACTIVE_STATUS }).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findActiveByCompetenceIdCallback);
   return skillDtos.map(toDomain);
 }
 
 export async function findOperativeByCompetenceId(competenceId) {
-  const cacheKey = `findOperativeByCompetenceId(${competenceId})`;
+  const cacheKey = findKey`findOperativeByCompetenceId(${competenceId})`;
   const findOperativeByCompetenceIdCallback = (knex) =>
     knex.where({ competenceId }).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findOperativeByCompetenceIdCallback);

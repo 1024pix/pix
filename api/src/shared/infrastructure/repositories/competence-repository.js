@@ -3,7 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/index.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 const TABLE_NAME = 'learningcontent.competences';
@@ -47,7 +47,7 @@ export async function findByRecordIds({ competenceIds, locale }) {
 }
 
 export async function findByAreaId({ areaId, locale }) {
-  const cacheKey = `findByAreaId({ areaId: ${areaId}, locale: ${locale} })`;
+  const cacheKey = findKey`findByAreaId({ areaId: ${areaId}, locale: ${locale} })`;
   const findByAreaIdCallback = (knex) => knex.where('areaId', areaId).orderBy('id');
   const competenceDtos = await getInstance().find(cacheKey, findByAreaIdCallback);
   return competenceDtos.map((competenceDto) => toDomain({ competenceDto, locale }));

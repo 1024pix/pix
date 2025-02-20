@@ -3,7 +3,7 @@ import { LearningContentResourceNotFound } from '../../domain/errors.js';
 import { Tube } from '../../domain/models/Tube.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.tubes';
 const ACTIVE_STATUS = 'actif';
@@ -20,7 +20,7 @@ export async function get(id) {
 }
 
 export async function list() {
-  const cacheKey = `list()`;
+  const cacheKey = findKey`list()`;
   const listCallback = (knex) => knex;
   const tubeDtos = await getInstance().find(cacheKey, listCallback);
   return toDomainList(tubeDtos);

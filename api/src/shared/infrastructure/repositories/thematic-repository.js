@@ -1,7 +1,7 @@
 import { LOCALE } from '../../domain/constants.js';
 import { Thematic } from '../../domain/models/Thematic.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 const TABLE_NAME = 'learningcontent.thematics';
@@ -14,7 +14,7 @@ export async function list({ locale = FRENCH_FRANCE } = {}) {
 }
 
 export async function findByCompetenceIds(competenceIds, locale) {
-  const cacheKey = `findByCompetenceIds([${competenceIds.sort()}])`;
+  const cacheKey = findKey`findByCompetenceIds([${competenceIds.sort()}])`;
   const findByCompetenceIdsCallback = (knex) => knex.whereIn('competenceId', competenceIds).orderBy('id');
   const thematicDtos = await getInstance().find(cacheKey, findByCompetenceIdsCallback);
   return thematicDtos.map((thematicDto) => toDomain(thematicDto, locale));

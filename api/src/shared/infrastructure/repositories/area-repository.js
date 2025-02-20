@@ -4,7 +4,7 @@ import { Area } from '../../domain/models/Area.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
 import * as competenceRepository from './competence-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.areas';
 
@@ -29,14 +29,14 @@ export async function listWithPixCompetencesOnly({ locale } = {}) {
 }
 
 export async function findByFrameworkIdWithCompetences({ frameworkId, locale }) {
-  const cacheKey = `findByFrameworkIdWithCompetences({ frameworkId: ${frameworkId} })`;
+  const cacheKey = findKey`findByFrameworkIdWithCompetences({ frameworkId: ${frameworkId} })`;
   const findAreasByFrameworkIdCallback = (knex) => knex.where('frameworkId', frameworkId).orderBy('id');
   const areaDtos = await getInstance().find(cacheKey, findAreasByFrameworkIdCallback);
   return toDomainWithCompetences(areaDtos, locale);
 }
 
 export async function findByFrameworkId({ frameworkId, locale }) {
-  const cacheKey = `findByFrameworkId({ frameworkId: ${frameworkId} })`;
+  const cacheKey = findKey`findByFrameworkId({ frameworkId: ${frameworkId} })`;
   const findAreasByFrameworkIdCallback = (knex) => knex.where('frameworkId', frameworkId).orderBy('id');
   const areaDtos = await getInstance().find(cacheKey, findAreasByFrameworkIdCallback);
   return areaDtos.map((areaDto) => toDomain(areaDto, locale));
@@ -51,7 +51,7 @@ export async function findByRecordIds({ areaIds, locale }) {
 }
 
 export async function getAreaCodeByCompetenceId(competenceId) {
-  const cacheKey = `getAreaCodeByCompetenceId(${competenceId})`;
+  const cacheKey = findKey`getAreaCodeByCompetenceId(${competenceId})`;
   const findByCompetenceIdCallback = (knex) => knex.whereRaw('?=ANY(??)', [competenceId, 'competenceIds']).limit(1);
   const [areaDto] = await getInstance().find(cacheKey, findByCompetenceIdCallback);
   return areaDto?.code;

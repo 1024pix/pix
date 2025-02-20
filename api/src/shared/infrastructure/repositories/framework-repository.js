@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../domain/errors.js';
 import { Framework } from '../../domain/models/index.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { findKey, LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.frameworks';
 
@@ -15,7 +15,7 @@ export async function list() {
 }
 
 export async function getByName(name) {
-  const cacheKey = `getByName(${name})`;
+  const cacheKey = findKey`getByName(${name})`;
   const findByNameCallback = (knex) => knex.where('name', name).limit(1);
   const [frameworkDto] = await getInstance().find(cacheKey, findByNameCallback);
   if (!frameworkDto) {
