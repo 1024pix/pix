@@ -10,8 +10,7 @@ export class TimeMetricParam extends MetricParam {
     this.#duration = ms(duration);
   }
 
-  getValue() {
-    const now = Date.now();
-    return now - (now % this.#duration);
+  getValue(_context, time) {
+    return time - (time % this.#duration);
   }
 }

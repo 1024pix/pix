@@ -15,9 +15,17 @@ const loadCacheMissMetric = new LearningContentLoadMetric({
   name: 'learningcontent:load-cache-miss',
   storage: metricsStorage,
 });
+const loadCacheMissPenaltyMetric = new LearningContentLoadMetric({
+  name: 'learningcontent:load-cache-miss-penalty',
+  storage: metricsStorage,
+});
 const findMetric = new LearningContentFindMetric({ name: 'learningcontent:find', storage: metricsStorage });
 const findCacheMissMetric = new LearningContentFindMetric({
   name: 'learningcontent:find-cache-miss',
+  storage: metricsStorage,
+});
+const findCacheMissPenaltyMetric = new LearningContentFindMetric({
+  name: 'learningcontent:find-cache-miss-penalty',
   storage: metricsStorage,
 });
 
@@ -74,8 +82,10 @@ export class LearningContentRepository {
     let dtos = this.#findCache.get(cacheKey);
     if (dtos) return dtos;
 
+    let penaltyTimer;
     if (metricKey) {
       findCacheMissMetric.increment({ tableName: this.#tableName, findKey: metricKey });
+      penaltyTimer = findCacheMissPenaltyMetric.start({ tableName: this.#tableName, findKey: metricKey });
     }
 
     dtos = this.#findCacheMiss.get(cacheKey);
@@ -83,6 +93,10 @@ export class LearningContentRepository {
 
     dtos = this.#loadDtos(callback, cacheKey).finally(() => {
       this.#findCacheMiss.delete(cacheKey);
+
+      if (metricKey) {
+        findCacheMissPenaltyMetric.end(penaltyTimer);
+      }
     });
     this.#findCacheMiss.set(cacheKey, dtos);
 
@@ -170,12 +184,18 @@ export class LearningContentRepository {
    */
   async #batchLoad(ids) {
     logger.debug({ tableName: this.#tableName, count: ids.length }, 'loading from PG');
+
     loadCacheMissMetric.increment({ tableName: this.#tableName }, ids.length);
+    const penaltyTimer = loadCacheMissPenaltyMetric.start({ tableName: this.#tableName });
+
     const dtos = await knex
       .select(`${this.#tableName}.*`)
       .from(knex.raw(`unnest(?::${this.#idType}[]) with ordinality as ids(id, idx)`, [ids])) // eslint-disable-line knex/avoid-injections
       .leftJoin(this.#tableName, `${this.#tableName}.id`, 'ids.id')
       .orderBy('ids.idx');
+
+    loadCacheMissPenaltyMetric.end(penaltyTimer);
+
     return dtos.map((dto) => (dto.id ? dto : null));
   }
 

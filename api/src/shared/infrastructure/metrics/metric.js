@@ -22,6 +22,9 @@ export class Metric {
   /** @type {MetricParam[]} */
   #params;
 
+  /** @type {WeakSet<Timer>} */
+  #timers = new WeakSet();
+
   /**
    * @param {{
    *   name: string
@@ -46,8 +49,59 @@ export class Metric {
 
   /**
    * @param {Context} context
+   * @returns {Timer}
    */
-  #keyFor(context) {
-    return [this.#name, ...this.#params.map((param) => param.getValue(context))].join(':');
+  start(context) {
+    const timer = new Timer(context);
+    this.#timers.add(timer);
+    return timer;
+  }
+
+  /**
+   * @param {Timer} timer
+   */
+  end(timer) {
+    if (!this.#timers.has(timer)) {
+      throw new TypeError(`timer ${timer} does not belong to metric ${this.#name}`);
+    }
+
+    this.#storage.increment(this.#keyFor(timer.context, timer.start), Date.now() - timer.start);
+  }
+
+  /**
+   * @param {Context} context
+   */
+  #keyFor(context, time = Date.now()) {
+    return [this.#name, ...this.#params.map((param) => param.getValue(context, time))].join(':');
+  }
+}
+
+class Timer {
+  static #nextId = 1;
+
+  #id = Timer.#nextId++;
+
+  #start = Date.now();
+
+  /** @type {object} */
+  #context;
+
+  /**
+   * @param {object} context
+   */
+  constructor(context) {
+    this.#context = context;
+  }
+
+  get start() {
+    return this.#start;
+  }
+
+  get context() {
+    return this.#context;
+  }
+
+  toString() {
+    return `Timer #${this.#id}`;
   }
 }
