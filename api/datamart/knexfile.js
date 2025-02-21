@@ -9,6 +9,8 @@ const baseConfiguration = {
   migrationsDirectory: './migrations/',
   seedsDirectory: './seeds/',
   databaseUrl: process.env.DATAMART_DATABASE_URL,
+  databaseSchema:
+    process.env.NODE_ENV === 'test' ? process.env.TEST_DATAMART_DATABASE_SCHEMA : process.env.DATAMART_DATABASE_SCHEMA,
 };
 
 const environments = {

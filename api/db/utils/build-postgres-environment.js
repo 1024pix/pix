@@ -1,4 +1,4 @@
-export function buildPostgresEnvironment({ databaseUrl, pool, migrationsDirectory, seedsDirectory }) {
+export function buildPostgresEnvironment({ databaseUrl, databaseSchema, pool, migrationsDirectory, seedsDirectory }) {
   return {
     client: 'postgresql',
     connection: databaseUrl,
@@ -8,6 +8,7 @@ export function buildPostgresEnvironment({ databaseUrl, pool, migrationsDirector
     },
     migrations: {
       tableName: 'knex_migrations',
+      schemaName: databaseSchema,
       directory: migrationsDirectory,
       loadExtensions: ['.js'],
     },

@@ -1,7 +1,9 @@
+const SCHEMA_NAME =
+  process.env.NODE_ENV === 'test' ? process.env.TEST_DATAMART_DATABASE_SCHEMA : process.env.DATAMART_DATABASE_SCHEMA;
 const TABLE_NAME = 'data_export_parcoursup_certif_result';
 
 const up = async function (knex) {
-  await knex.schema.table(TABLE_NAME, function (table) {
+  await knex.schema.withSchema(SCHEMA_NAME).table(TABLE_NAME, function (table) {
     table.string('organization_uai');
     table.string('last_name');
     table.string('first_name');
@@ -16,7 +18,7 @@ const up = async function (knex) {
 };
 
 const down = async function (knex) {
-  await knex.schema.table(TABLE_NAME, function (table) {
+  await knex.schema.withSchema(SCHEMA_NAME).table(TABLE_NAME, function (table) {
     table.dropColumn('organization_uai');
     table.dropColumn('last_name');
     table.dropColumn('first_name');
