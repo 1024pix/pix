@@ -133,6 +133,7 @@
     "datamart:delete": "node scripts/datamart/drop-datamart",
     "datamart:new-migration": "npx knex --knexfile datamart/knexfile.js migrate:make --stub $PWD/db/template.js $migrationname",
     "datamart:migrate": "knex --knexfile datamart/knexfile.js migrate:latest",
+    "datamart:rollback:latest": "knex --knexfile datamart/knexfile.js migrate:down",
     "datamart:prepare": "run-s datamart:delete datamart:create datamart:migrate",
     "datamart:seed": "knex --knexfile datamart/knexfile.js seed:run",
     "db:new-migration": "npx knex --knexfile db/knexfile.js migrate:make --stub $PWD/db/template.js $migrationname",
