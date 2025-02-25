@@ -31,6 +31,30 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/sessions/{sessionId}/supervision-events',
+      config: {
+        validate: {
+          params: Joi.object({
+            sessionId: identifiersType.sessionId,
+          }),
+        },
+        // pre: [
+        //   {
+        //     method: assessmentSupervisorAuthorization.verifyBySessionId,
+        //     assign: 'isSupervisorForSession',
+        //   },
+        // ],
+        auth: false,
+        handler: sessionForSupervisingController.supervisionEvents,
+        tags: ['api', 'sessions', 'supervising'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle retourne les informations d'une session à surveiller",
+        ],
+      },
+    },
   ]);
 };
 
