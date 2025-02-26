@@ -1,8 +1,8 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
+import * as userReconciliationService from '../../../../src/shared/domain/services/user-reconciliation-service.js';
 import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as userRecommendedTrainingRepository from '../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';

@@ -2,11 +2,10 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as obfuscationService from '../../../../../lib/domain/services/obfuscation-service.js';
-import * as userReconciliationService from '../../../../../lib/domain/services/user-reconciliation-service.js';
-import * as campaignRepository from '../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 import { logErrorWithCorrelationIds } from '../../../../shared/infrastructure/monitoring-tools.js';
 import * as libOrganizationLearnerRepository from '../../../../shared/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
@@ -14,6 +13,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
+import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
