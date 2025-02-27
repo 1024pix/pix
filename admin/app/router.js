@@ -23,6 +23,7 @@ Router.map(function () {
   // private routes
   this.route('authenticated', { path: '' }, function () {
     // all routes that require the session to be authenticated
+    this.route('quest-editor');
     this.route('organizations', function () {
       this.route('new');
       this.route('list');
