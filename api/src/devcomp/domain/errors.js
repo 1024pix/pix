@@ -18,6 +18,12 @@ class ElementInstantiationError extends DomainError {
   }
 }
 
+class PassageCommandInstantiationError extends TypeError {
+  constructor(message = 'A passage command cannot be instantiated directly') {
+    super(message);
+  }
+}
+
 class PassageDoesNotExistError extends DomainError {
   constructor(message = 'The passage does not exist') {
     super(message);
@@ -40,6 +46,7 @@ export {
   ElementInstantiationError,
   ModuleDoesNotExistError,
   ModuleInstantiationError,
+  PassageCommandInstantiationError,
   PassageDoesNotExistError,
   PassageTerminatedError,
   UserNotAuthorizedToFindTrainings,
