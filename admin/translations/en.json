@@ -190,6 +190,7 @@
       },
       "upsert-quests-in-batch": {
         "description": "Beware: there are no validation when importing a CSV file. Check with a spécialiste in the doubt ;)",
+        "editor-link": "Quest editor",
         "notifications": {
           "success": "Quests have been imported."
         },

@@ -1,4 +1,6 @@
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -49,14 +51,20 @@ export default class UpsertQuestsInBatch extends Component {
       @title={{t "components.administration.upsert-quests-in-batch.title"}}
       @description={{t "components.administration.upsert-quests-in-batch.description"}}
     >
-      <PixButtonUpload
-        @id="quests-batch-update-file-upload"
-        @onChange={{this.upsertQuestsInBatch}}
-        @variant="secondary"
-        accept=".csv"
-      >
-        {{t "components.administration.upsert-quests-in-batch.upload-button"}}
-      </PixButtonUpload>
+      <div class="upsert-quests">
+        <PixButtonUpload
+          @id="quests-batch-update-file-upload"
+          @onChange={{this.upsertQuestsInBatch}}
+          @variant="secondary"
+          accept=".csv"
+        >
+          {{t "components.administration.upsert-quests-in-batch.upload-button"}}
+        </PixButtonUpload>
+        <PixButtonLink @route="authenticated.quest-editor" @variant="tertiary">
+          <p>{{t "components.administration.upsert-quests-in-batch.editor-link"}}</p>
+          <PixIcon @name="edit" @ariaHidden={{true}} />
+        </PixButtonLink>
+      </div>
     </AdministrationBlockLayout>
   </template>
 }

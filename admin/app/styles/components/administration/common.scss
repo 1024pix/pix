@@ -1,3 +1,8 @@
 p.description {
   margin-bottom: var(--pix-spacing-8x);
 }
+
+.upsert-quests {
+  display: flex;
+  gap: var(--pix-spacing-4x)
+}

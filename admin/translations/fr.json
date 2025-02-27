@@ -198,6 +198,7 @@
       },
       "upsert-quests-in-batch": {
         "description": "Attention: aucune validation n'est effectuée lors de l'import. Consultez un spécialiste dans le doute ;)",
+        "editor-link": "Editeur de quête",
         "notifications": {
           "success": "Les quêtes ont bien été importées."
         },
