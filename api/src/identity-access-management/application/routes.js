@@ -1,5 +1,6 @@
 import { accountRecoveryRoutes } from './account-recovery/account-recovery.route.js';
 import { anonymizationAdminRoutes } from './anonymization/anonymization.admin.route.js';
+import { ltiRoutes } from './lti/route.js';
 import { oidcProviderAdminRoutes } from './oidc-provider/oidc-provider.admin.route.js';
 import { oidcProviderRoutes } from './oidc-provider/oidc-provider.route.js';
 import { passwordRoutes } from './password/password.route.js';
@@ -12,6 +13,7 @@ const register = async function (server) {
   server.route([
     ...accountRecoveryRoutes,
     ...anonymizationAdminRoutes,
+    ...ltiRoutes,
     ...oidcProviderAdminRoutes,
     ...oidcProviderRoutes,
     ...passwordRoutes,
