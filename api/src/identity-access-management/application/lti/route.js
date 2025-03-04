@@ -1,3 +1,5 @@
+import Joi from 'joi';
+
 import { ltiController } from './controller.js';
 
 export const ltiRoutes = [
@@ -41,6 +43,34 @@ export const ltiRoutes = [
       auth: false,
       cache: false,
       handler: (request, h) => ltiController.contentSelection(request, h),
+      notes: ['pouet'],
+      tags: ['lti'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/lti/config',
+    options: {
+      auth: false,
+      cache: false,
+      validate: {
+        query: Joi.object({
+          openid_configuration: Joi.string().uri().required(),
+          registration_token: Joi.string().required(),
+        }),
+      },
+      handler: ltiController.config,
+      notes: ['pouet'],
+      tags: ['lti'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/lti/score',
+    options: {
+      auth: false,
+      cache: false,
+      handler: ltiController.score,
       notes: ['pouet'],
       tags: ['lti'],
     },
