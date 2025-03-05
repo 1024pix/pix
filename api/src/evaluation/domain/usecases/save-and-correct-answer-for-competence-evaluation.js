@@ -43,40 +43,28 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   const lastQuestionDate = assessment.lastQuestionDate || now;
   correctedAnswer.setTimeSpentFrom({ now, lastQuestionDate });
 
-  let scorecardBeforeAnswer = null;
-  if (correctedAnswer.result.isOK()) {
-    scorecardBeforeAnswer = await scorecardService.computeScorecard({
-      userId,
-      competenceId: challenge.competenceId,
-      areaRepository,
-      competenceRepository,
-      competenceEvaluationRepository,
-      knowledgeElementRepository,
-      locale,
-    });
-  }
-
   const targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
-  const knowledgeElementsFromAnswer = await computeKnowledgeElements({
+  const knowledgeElementsBefore = await knowledgeElementRepository.findUniqByUserId({ userId });
+  const knowledgeElementsToAdd = computeKnowledgeElements({
     assessment,
     answer: correctedAnswer,
     challenge,
     targetSkills,
-    knowledgeElementRepository,
+    knowledgeElementsBefore,
   });
 
-  const answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
+  const answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsToAdd);
   answerSaved.levelup = await computeLevelUpInformation({
     answerSaved,
-    scorecardService,
     userId,
     competenceId: challenge.competenceId,
+    locale,
+    knowledgeElementsBefore,
+    knowledgeElementsAdded: knowledgeElementsToAdd,
+    scorecardService,
     areaRepository,
     competenceRepository,
     competenceEvaluationRepository,
-    knowledgeElementRepository,
-    scorecardBeforeAnswer,
-    locale,
   });
 
   if (userId) {
@@ -86,11 +74,10 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   return answerSaved;
 }
 
-async function computeKnowledgeElements({ assessment, answer, challenge, targetSkills, knowledgeElementRepository }) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({
-    userId: assessment.userId,
-    assessmentId: assessment.id,
-  });
+function computeKnowledgeElements({ assessment, answer, challenge, targetSkills, knowledgeElementsBefore }) {
+  const knowledgeElements = knowledgeElementsBefore.filter(
+    (knowledgeElement) => knowledgeElement.assessmentId === assessment.id,
+  );
   return KnowledgeElement.createKnowledgeElementsForAnswer({
     answer,
     challenge,
@@ -118,36 +105,39 @@ function getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
 
 async function computeLevelUpInformation({
   answerSaved,
-  scorecardService,
   userId,
   competenceId,
-  competenceRepository,
-  areaRepository,
-  competenceEvaluationRepository,
-  knowledgeElementRepository,
-  scorecardBeforeAnswer,
   locale,
+  knowledgeElementsBefore,
+  knowledgeElementsAdded,
+  scorecardService,
+  areaRepository,
+  competenceRepository,
+  competenceEvaluationRepository,
 }) {
-  if (!scorecardBeforeAnswer) {
+  if (!answerSaved.result.isOK()) {
     return {};
   }
-
-  const scorecardAfterAnswer = await scorecardService.computeScorecard({
+  const competence = await competenceRepository.get({ id: competenceId, locale });
+  const area = await areaRepository.get({ id: competence.areaId, locale });
+  const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
+  const competenceEvaluationForCompetence = competenceEvaluations.find(
+    (competenceEval) => competenceEval.competenceId === competenceId,
+  );
+  const knowledgeElementsForCompetenceBefore = knowledgeElementsBefore.filter(
+    (knowledgeElement) => knowledgeElement.competenceId === competenceId,
+  );
+  const knowledgeElementsForCompetenceAfter = [
+    ...knowledgeElementsAdded.filter((knowledgeElement) => knowledgeElement.competenceId === competenceId),
+    ...knowledgeElementsForCompetenceBefore,
+  ];
+  return scorecardService.computeLevelUpInformation({
+    answer: answerSaved,
     userId,
-    competenceId,
-    competenceRepository,
-    areaRepository,
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
-    locale,
+    area,
+    competence,
+    competenceEvaluationForCompetence,
+    knowledgeElementsForCompetenceBefore,
+    knowledgeElementsForCompetenceAfter,
   });
-
-  if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
-    return {
-      id: answerSaved.id,
-      competenceName: scorecardAfterAnswer.name,
-      level: scorecardAfterAnswer.level,
-    };
-  }
-  return {};
 }
