@@ -1,27 +1,32 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError } from '../../../../shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
-import * as knexUtils from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationKnowledgeElementSnapshots } from '../../../shared/domain/read-models/CampaignParticipationKnowledgeElementSnapshots.js';
 
-const save = async function ({ userId, snappedAt, snapshot, campaignParticipationId }) {
-  try {
-    const knexConn = DomainTransaction.getConnection();
+export async function save({ userId, snappedAt, snapshot, campaignParticipationId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const existingSnapshot = await knexConn
+    .select('id')
+    .from('knowledge-element-snapshots')
+    .where('campaignParticipationId', campaignParticipationId)
+    .first();
+  if (existingSnapshot) {
+    return await knexConn('knowledge-element-snapshots')
+      .update({
+        userId,
+        snappedAt,
+        snapshot,
+      })
+      .where('campaignParticipationId', campaignParticipationId);
+  } else {
     return await knexConn('knowledge-element-snapshots').insert({
       userId,
       snappedAt,
       snapshot,
       campaignParticipationId,
     });
-  } catch (error) {
-    if (knexUtils.isUniqConstraintViolated(error)) {
-      throw new AlreadyExistingEntityError(
-        `A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`,
-      );
-    }
   }
-};
+}
 
 /**
  * @function
@@ -30,7 +35,7 @@ const save = async function ({ userId, snappedAt, snapshot, campaignParticipatio
  * @param {number[]} campaignParticipationIds
  * @returns {Promise<Array<CampaignParticipationKnowledgeElementSnapshots>>}
  */
-const findCampaignParticipationKnowledgeElementSnapshots = async function (campaignParticipationIds) {
+export async function findCampaignParticipationKnowledgeElementSnapshots(campaignParticipationIds) {
   const knowledgeElementsByCampaignParticipation = await findByCampaignParticipationIds(campaignParticipationIds);
   return campaignParticipationIds.map(
     (campaignParticipationId) =>
@@ -39,14 +44,14 @@ const findCampaignParticipationKnowledgeElementSnapshots = async function (campa
         campaignParticipationId: campaignParticipationId,
       }),
   );
-};
+}
 
 /**
  *
  * @param {number[]} campaignParticipationIds
  * @returns {Object.<number, KnowledgeElement[]>}
  */
-const findByCampaignParticipationIds = async function (campaignParticipationIds) {
+export async function findByCampaignParticipationIds(campaignParticipationIds) {
   const results = await knex
     .select('campaignParticipationId', 'snapshot')
     .from('knowledge-element-snapshots')
@@ -60,6 +65,4 @@ const findByCampaignParticipationIds = async function (campaignParticipationIds)
       }),
     ]),
   );
-};
-
-export { findByCampaignParticipationIds, findCampaignParticipationKnowledgeElementSnapshots, save };
+}

@@ -1,12 +1,11 @@
 import * as knowledgeElementSnapshotRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', function () {
   describe('#save', function () {
-    it('should save knowledge elements snapshot for a userId and a date', async function () {
+    it('should create a new knowledge elements snapshot when no snapshot exist for given campaignParticipationId', async function () {
       // given
       const snappedAt = new Date('2019-04-01');
       const userId = databaseBuilder.factory.buildUser().id;
@@ -34,28 +33,56 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
       expect(actualUserSnapshot.userId).to.deep.equal(userId);
       expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
-
       expect(actualUserSnapshot.snapshot).to.deep.equal(JSON.parse(knowledgeElements.toSnapshot()));
     });
 
-    it('should throw an error if knowledge elements snapshot already exist for userId and a date', async function () {
+    it('should update the existing knowledge elements snapshot when snapshot exists for given campaignParticipationId', async function () {
       // given
       const snappedAt = new Date('2019-04-01');
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId, snappedAt, campaignParticipationId });
+      const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2019-03-01'),
+        skillId: 'acquis1',
+      });
+      const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2019-03-01'),
+        skillId: 'acquis2',
+      });
+      const knowledgeElement3 = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2019-03-01'),
+        skillId: 'acquis3',
+      });
+      const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement1, knowledgeElement2]);
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId,
+        snappedAt: new Date('2019-01-01'),
+        campaignParticipationId,
+        snapshot: knowledgeElementsBefore.toSnapshot(),
+      });
       await databaseBuilder.commit();
+      const knowledgeElementsAfter = new KnowledgeElementCollection([
+        knowledgeElement1,
+        knowledgeElement2,
+        knowledgeElement3,
+      ]);
 
       // when
-      const error = await catchErr(knowledgeElementSnapshotRepository.save)({
+      await knowledgeElementSnapshotRepository.save({
         userId,
         snappedAt,
-        snapshot: JSON.stringify([]),
+        snapshot: knowledgeElementsAfter.toSnapshot(),
         campaignParticipationId,
       });
 
       // then
-      expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+      const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
+      expect(actualUserSnapshot.userId).to.deep.equal(userId);
+      expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
+      expect(actualUserSnapshot.snapshot).to.deep.equal(JSON.parse(knowledgeElementsAfter.toSnapshot()));
     });
 
     context('when a transaction is given transaction', function () {
