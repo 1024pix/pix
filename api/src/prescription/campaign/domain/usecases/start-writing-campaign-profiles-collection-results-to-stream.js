@@ -24,7 +24,7 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   let additionalHeaders = [];
 
   //TODO: rewrite when we have only one model for Campaign, for now tests are based on Campaign.js from api context
-  if (!campaign.isProfilesCollection()) {
+  if (!campaign.isProfilesCollection) {
     throw new CampaignTypeError();
   }
 

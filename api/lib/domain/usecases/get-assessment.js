@@ -61,7 +61,7 @@ export async function getAssessment({
       assessment.showProgressBar = false;
       assessment.hasCheckpoints = false;
       assessment.showLevelup = false;
-      if (!assessment.isFlash() && (campaign.isAssessment() || campaign.isExam())) {
+      if (!assessment.isFlash() && (campaign.isAssessment || campaign.isExam)) {
         assessment.showProgressBar = true;
         assessment.hasCheckpoints = true;
         assessment.showLevelup = true;

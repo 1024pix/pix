@@ -65,15 +65,15 @@ class Campaign {
     return _.get(this, 'targetProfile.id', null);
   }
 
-  isAssessment() {
+  get isAssessment() {
     return this.type === CampaignTypes.ASSESSMENT;
   }
 
-  isExam() {
+  get isExam() {
     return this.type === CampaignTypes.EXAM;
   }
 
-  isProfilesCollection() {
+  get isProfilesCollection() {
     return this.type === CampaignTypes.PROFILES_COLLECTION;
   }
 

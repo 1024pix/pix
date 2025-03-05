@@ -131,7 +131,7 @@ class Assessment {
         this.showProgressBar = false;
         this.hasCheckpoints = false;
         this.showLevelup = false;
-        if (!this.isFlash() && (campaign.isAssessment() || campaign.isExam())) {
+        if (!this.isFlash() && (campaign.isAssessment || campaign.isExam)) {
           this.showProgressBar = true;
           this.hasCheckpoints = true;
           this.showLevelup = true;

@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | Campaign', function () {
       const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.EXAM });
 
       // when / then
-      expect(campaign.isExam()).to.be.true;
+      expect(campaign.isExam).to.be.true;
     });
 
     it('should return false when campaign is not of type exam', function () {
@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | Campaign', function () {
       const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
 
       // when / then
-      expect(campaign.isExam()).to.be.false;
+      expect(campaign.isExam).to.be.false;
     });
   });
 
@@ -74,7 +74,7 @@ describe('Unit | Domain | Models | Campaign', function () {
       const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
 
       // when / then
-      expect(campaign.isAssessment()).to.be.true;
+      expect(campaign.isAssessment).to.be.true;
     });
 
     it('should return false when campaign is not of type assessment', function () {
@@ -82,7 +82,7 @@ describe('Unit | Domain | Models | Campaign', function () {
       const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
 
       // when / then
-      expect(campaign.isAssessment()).to.be.false;
+      expect(campaign.isAssessment).to.be.false;
     });
   });
 
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | Campaign', function () {
 
       // when / then
       //TODO: rewrite when we have only one Campaign model on domainBuilder
-      expect(campaign.isProfilesCollection()).to.be.true;
+      expect(campaign.isProfilesCollection).to.be.true;
     });
 
     it('should return false when campaign is not of type profiles collection', function () {
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | Campaign', function () {
 
       // when / then
       //TODO: rewrite when we have only one Campaign model on domainBuilder
-      expect(campaign.isProfilesCollection()).to.be.false;
+      expect(campaign.isProfilesCollection).to.be.false;
     });
   });
 
