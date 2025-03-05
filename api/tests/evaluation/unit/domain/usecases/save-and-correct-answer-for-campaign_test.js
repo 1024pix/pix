@@ -15,13 +15,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   let validator;
   let correctAnswerValue;
   let answer;
-  const addOneLevel = {
-    level: 1,
-    pix: 8,
-  };
   let clock;
   let answerRepository,
     challengeRepository,
+    competenceRepository,
+    areaRepository,
+    competenceEvaluationRepository,
     scorecardService,
     knowledgeElementRepository,
     campaignRepository,
@@ -29,10 +28,10 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     flashAlgorithmService,
     algorithmDataFetcherService,
     answerJobRepository;
-  const competenceEvaluationRepository = {};
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
   const locale = 'fr';
+  const assessmentId = 789789;
   const forceOKAnswer = false;
 
   let dependencies;
@@ -43,18 +42,27 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { saveWithKnowledgeElements: sinon.stub() };
     challengeRepository = { get: sinon.stub() };
-    scorecardService = { computeScorecard: sinon.stub() };
+    scorecardService = { computeLevelUpInformation: sinon.stub() };
     campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
     flashAssessmentResultRepository = { save: sinon.stub() };
     flashAlgorithmService = { getCapacityAndErrorRate: sinon.stub() };
     algorithmDataFetcherService = { fetchForFlashLevelEstimation: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserIdAndAssessmentId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     answerJobRepository = {
       performAsync: sinon.stub(),
     };
-
+    competenceRepository = { get: sinon.stub() };
+    areaRepository = { get: sinon.stub() };
+    competenceEvaluationRepository = { findByUserId: sinon.stub() };
+    competenceRepository.get.resolves(domainBuilder.buildCompetence({ id: 'competenceABC123' }));
+    areaRepository.get.resolves(domainBuilder.buildArea());
+    competenceEvaluationRepository.findByUserId.resolves([
+      domainBuilder.buildCompetenceEvaluation({ competenceId: 'rienavoir' }),
+      domainBuilder.buildCompetenceEvaluation({ competenceId: 'competenceABC123' }),
+    ]);
     const challengeId = 'oneChallengeId';
     assessment = domainBuilder.buildAssessment({
+      id: assessmentId,
       userId,
       lastQuestionDate: nowDate,
       type: Assessment.types.CAMPAIGN,
@@ -83,11 +91,36 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       scorecardService,
       answerJobRepository,
       correctionService,
+      areaRepository,
+      competenceRepository,
     };
   });
 
   afterEach(async function () {
     clock.restore();
+  });
+
+  context('when the user which want to save the answer is not the right user', function () {
+    let answer;
+
+    beforeEach(function () {
+      answer = domainBuilder.buildAnswer();
+      assessment = domainBuilder.buildAssessment({ userId: userId + 1 });
+    });
+
+    it('should throw an error if no userId is passed', function () {
+      // when
+      const result = saveAndCorrectAnswerForCampaign({
+        answer,
+        userId,
+        assessment,
+        locale,
+        ...dependencies,
+      });
+
+      // then
+      return expect(result).to.be.rejectedWith(ForbiddenAccess);
+    });
   });
 
   context('when an answer for that challenge is not for an asked challenge', function () {
@@ -109,6 +142,71 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     });
   });
 
+  context('when a challenge has an empty answer and no timeout', function () {
+    it('should throw an error', async function () {
+      // Given
+      const emptyAnswer = domainBuilder.buildAnswer({ value: '' });
+      const challenge = domainBuilder.buildChallenge({
+        id: emptyAnswer.challengeId,
+        validator,
+      });
+      challengeRepository.get.resolves(challenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+
+      // when
+      const error = await catchErr(saveAndCorrectAnswerForCampaign)({
+        answer: emptyAnswer,
+        userId,
+        assessment,
+        locale,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(EmptyAnswerError);
+      expect(error.message).to.equal('The answer value cannot be empty');
+    });
+  });
+
+  context('when a challenge has an empty answer and is timed out', function () {
+    it('should not throw an error', async function () {
+      // Given
+      const emptyAnswer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
+      const challenge = domainBuilder.buildChallenge({
+        id: emptyAnswer.challengeId,
+        validator,
+      });
+      const skills = domainBuilder.buildSkillCollection();
+      campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
+      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
+      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
+      challengeRepository.get.resolves(challenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+      const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
+      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
+
+      // when
+      const { result } = await saveAndCorrectAnswerForCampaign({
+        answer: emptyAnswer,
+        userId,
+        assessment,
+        locale,
+        ...dependencies,
+      });
+
+      // then
+      expect(result).not.to.equal(AnswerStatus.TIMEDOUT);
+    });
+  });
+
   context('when no answer already exists', function () {
     let completedAnswer;
     let savedAnswer;
@@ -126,7 +224,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     context('and assessment is a CAMPAIGN with SMART_RANDOM method', function () {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
-      let scorecard, knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
+      let knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
 
       beforeEach(function () {
         // given
@@ -145,20 +243,18 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         knowledgeElement = domainBuilder.buildKnowledgeElement({
           status: 'validated',
           skillId: skillAlreadyValidated.id,
+          assessmentId: assessment.id,
         });
-        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
-        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
-        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
+        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2, assessmentId: assessment.id });
+        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8, assessmentId: assessment.id });
         challengeRepository.get.resolves(challenge);
 
-        knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-          .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
+        knowledgeElementRepository.findUniqByUserId
+          .withArgs({ userId: assessment.userId })
           .resolves([knowledgeElement]);
-        domainBuilder.buildTargetProfile({ skills });
-
         campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
-        scorecardService.computeScorecard.resolves(scorecard);
+        scorecardService.computeLevelUpInformation.resolves({});
       });
 
       it('should call the answer repository to save the answer', async function () {
@@ -246,40 +342,10 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
 
       context('when the user responds correctly', function () {
-        it('should add the level up to the answer when the user gain one level', async function () {
+        it('should add the level up to the answer', async function () {
           // given
-          const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
-            name: scorecard.name,
-            level: scorecard.level + addOneLevel.level,
-            earnedPix: scorecard.earnedPix + addOneLevel.pix,
-            exactlyEarnedPix: scorecard.exactlyEarnedPix + addOneLevel.pix,
-          });
-          scorecardService.computeScorecard
-            .onFirstCall()
-            .resolves(scorecard)
-            .onSecondCall()
-            .resolves(scorecardAfterAnswer);
-          const expectedLevel = scorecardAfterAnswer.level;
-          // when
-          const result = await saveAndCorrectAnswerForCampaign({
-            answer,
-            userId,
-            assessment,
-            locale,
-            ...dependencies,
-          });
-
-          // then
-          expect(result.levelup).to.deep.equal({
-            id: result.id,
-            competenceName: scorecard.name,
-            level: expectedLevel,
-          });
-        });
-
-        it('should return an empty levelup when not gaining a level', async function () {
-          // given
-          scorecardService.computeScorecard.onFirstCall().resolves(scorecard).onSecondCall().resolves(scorecard);
+          const levelupInformation = Symbol('levelup');
+          scorecardService.computeLevelUpInformation.resolves(levelupInformation);
 
           // when
           const result = await saveAndCorrectAnswerForCampaign({
@@ -291,17 +357,18 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           });
 
           // then
-          expect(result.levelup).to.deep.equal({});
+          expect(result.levelup).to.deep.equal(levelupInformation);
         });
       });
 
       context('when the user responds badly', function () {
         it('should not compute the level up', async function () {
           // given
+          const levelupInformation = Symbol('levelup');
+          scorecardService.computeLevelUpInformation.resolves(levelupInformation);
           answer = domainBuilder.buildAnswer({ value: 'wrong answer' });
-          answer.id = undefined;
-          answer.result = undefined;
-          answer.resultDetails = undefined;
+          answer.result = AnswerStatus.KO;
+          savedAnswer.result = AnswerStatus.KO;
 
           // when
           await saveAndCorrectAnswerForCampaign({
@@ -313,15 +380,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           });
 
           // then
-          expect(scorecardService.computeScorecard).to.not.have.been.called;
+          expect(scorecardService.computeLevelUpInformation).to.not.have.been.called;
         });
       });
     });
 
     context('and assessment is a CAMPAIGN with FLASH method', function () {
-      let firstKnowledgeElement;
-      let secondKnowledgeElement;
-      let scorecard, knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
       let flashData;
       const locale = 'fr';
       const capacity = 1.93274982;
@@ -332,33 +396,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         assessment.type = Assessment.types.CAMPAIGN;
         assessment.method = Assessment.methods.FLASH;
         assessment.campaignParticipationId = 123;
-        skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
-        skillAlreadyValidated = skills[0];
-        skillNotAlreadyValidated = skills[2];
-        challenge = domainBuilder.buildChallenge({
-          skill: skillNotAlreadyValidated,
-          id: answer.challengeId,
-          validator,
-        });
-
-        knowledgeElement = domainBuilder.buildKnowledgeElement({
-          status: 'validated',
-          skillId: skillAlreadyValidated.id,
-        });
-        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
-        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
-        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
-        domainBuilder.buildTargetProfile({ skills });
-        challengeRepository.get.resolves(challenge);
-
-        knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-          .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
-          .resolves([knowledgeElement]);
-
-        campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
-        KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
-        scorecardService.computeScorecard.resolves(scorecard);
-
         flashData = Symbol('flashData');
         algorithmDataFetcherService.fetchForFlashLevelEstimation.returns(flashData);
         flashAlgorithmService.getCapacityAndErrorRate.returns({
@@ -491,7 +528,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
 
       context('when the user responds correctly', function () {
-        it('should not add the level up to the answer when the user gain one level', async function () {
+        it('should not compute the level up', async function () {
           // when
           const result = await saveAndCorrectAnswerForCampaign({
             answer,
@@ -502,6 +539,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           });
 
           // then
+          expect(scorecardService.computeLevelUpInformation).to.not.have.been.called;
           expect(result.levelup).to.deep.equal({});
         });
       });
@@ -510,12 +548,10 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         it('should not compute the level up', async function () {
           // given
           answer = domainBuilder.buildAnswer({ value: 'wrong answer' });
-          answer.id = undefined;
-          answer.result = undefined;
-          answer.resultDetails = undefined;
+          answer.result = AnswerStatus.KO;
 
           // when
-          await saveAndCorrectAnswerForCampaign({
+          const result = await saveAndCorrectAnswerForCampaign({
             answer,
             userId,
             assessment,
@@ -524,16 +560,16 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           });
 
           // then
-          expect(scorecardService.computeScorecard).to.not.have.been.called;
+          expect(scorecardService.computeLevelUpInformation).to.not.have.been.called;
+          expect(result.levelup).to.deep.equal({});
         });
       });
     });
 
     it('should call performAsync from answerJobRepository', async function () {
       // given
-      knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-        .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
-        .resolves([]);
+      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
+      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
       answerJobRepository.performAsync.resolves();
 
       // when
@@ -547,29 +583,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
       // then
       expect(answerJobRepository.performAsync).to.have.been.calledWith(new AnswerJob({ userId }));
-    });
-  });
-
-  context('when the user which want to save the answer is not the right user', function () {
-    let answer;
-
-    beforeEach(function () {
-      answer = domainBuilder.buildAnswer();
-      assessment = domainBuilder.buildAssessment({ userId: userId + 1 });
-    });
-
-    it('should throw an error if no userId is passed', function () {
-      // when
-      const result = saveAndCorrectAnswerForCampaign({
-        answer,
-        userId,
-        assessment,
-        locale,
-        ...dependencies,
-      });
-
-      // then
-      return expect(result).to.be.rejectedWith(ForbiddenAccess);
     });
   });
 
@@ -588,9 +601,8 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;
       answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
-      knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-        .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
-        .resolves([]);
+      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
+      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
 
       await saveAndCorrectAnswerForCampaign({
         answer,
@@ -627,9 +639,8 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       answerSaved = domainBuilder.buildAnswer(focusedOutAnswer);
       answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
-      knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-        .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
-        .resolves([]);
+      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
+      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
     });
 
     it('should not return focused out answer', async function () {
@@ -645,83 +656,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       // Then
       expect(result).not.to.equal(AnswerStatus.FOCUSEDOUT);
       expect(result).to.deep.equal(AnswerStatus.OK);
-    });
-  });
-
-  context('when a challenge has an empty answer and no timeout', function () {
-    it('should throw an error', async function () {
-      // Given
-      const emptyAnswer = domainBuilder.buildAnswer({ value: '' });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
-      });
-      challengeRepository.get.resolves(challenge);
-      assessment = domainBuilder.buildAssessment({
-        userId,
-        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
-        type: Assessment.types.COMPETENCE_EVALUATION,
-      });
-      knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-        .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
-        .resolves([]);
-
-      // when
-      const error = await catchErr(saveAndCorrectAnswerForCampaign)({
-        answer: emptyAnswer,
-        userId,
-        assessment,
-        locale,
-        ...dependencies,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(EmptyAnswerError);
-      expect(error.message).to.equal('The answer value cannot be empty');
-    });
-  });
-
-  context('when a challenge has an empty answer and is timed out', function () {
-    it('should not throw an error', async function () {
-      // Given
-      const emptyAnswer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
-      });
-      const knowledgeElement = domainBuilder.buildKnowledgeElement();
-      const firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
-      const secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
-      const skills = domainBuilder.buildSkillCollection();
-
-      campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
-      knowledgeElementRepository.findUniqByUserIdAndAssessmentId
-        .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
-        .resolves([knowledgeElement]);
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([
-        firstCreatedKnowledgeElement,
-        secondCreatedKnowledgeElement,
-      ]);
-      challengeRepository.get.resolves(challenge);
-      assessment = domainBuilder.buildAssessment({
-        userId,
-        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
-        type: Assessment.types.COMPETENCE_EVALUATION,
-      });
-      const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
-      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
-
-      // when
-      const { result } = await saveAndCorrectAnswerForCampaign({
-        answer: emptyAnswer,
-        userId,
-        assessment,
-        locale,
-        ...dependencies,
-      });
-
-      // then
-      expect(result).not.to.equal(AnswerStatus.TIMEDOUT);
     });
   });
 });
