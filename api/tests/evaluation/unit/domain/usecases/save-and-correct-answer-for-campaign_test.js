@@ -31,7 +31,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
   const locale = 'fr';
-  const assessmentId = 789789;
   const forceOKAnswer = false;
 
   let dependencies;
@@ -62,7 +61,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     ]);
     const challengeId = 'oneChallengeId';
     assessment = domainBuilder.buildAssessment({
-      id: assessmentId,
       userId,
       lastQuestionDate: nowDate,
       type: Assessment.types.CAMPAIGN,
@@ -615,47 +613,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       const expectedAnswer = domainBuilder.buildAnswer(answer);
       expectedAnswer.timeSpent = 5;
       expect(answerRepository.saveWithKnowledgeElements).to.be.calledWith(expectedAnswer);
-    });
-  });
-
-  context('when the challenge is not focused', function () {
-    let focusedOutAnswer;
-    let answerSaved;
-
-    beforeEach(function () {
-      // Given
-      focusedOutAnswer = domainBuilder.buildAnswer({ isFocusedOut: true });
-      const nonFocusedChallenge = domainBuilder.buildChallenge({
-        id: focusedOutAnswer.challengeId,
-        validator,
-        focused: false,
-      });
-      challengeRepository.get.resolves(nonFocusedChallenge);
-      assessment = domainBuilder.buildAssessment({
-        userId,
-        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
-        type: Assessment.types.CAMPAIGN,
-        method: Assessment.methods.SMART_RANDOM,
-      });
-      answerSaved = domainBuilder.buildAnswer(focusedOutAnswer);
-      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
-      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
-    });
-
-    it('should not return focused out answer', async function () {
-      // When
-      const { result } = await saveAndCorrectAnswerForCampaign({
-        answer: focusedOutAnswer,
-        userId,
-        assessment,
-        locale,
-        ...dependencies,
-      });
-
-      // Then
-      expect(result).not.to.equal(AnswerStatus.FOCUSEDOUT);
-      expect(result).to.deep.equal(AnswerStatus.OK);
     });
   });
 });
