@@ -288,7 +288,6 @@ export default class extends Component {
     this.workspace.addChangeListener(() => {
       try {
         const generated = jsonGenerator.workspaceToCode(this.workspace);
-        console.log(generated);
         this.code = JSON.stringify(JSON.parse(generated), undefined, 2);
         this.isValid = true;
       } catch (err) {
