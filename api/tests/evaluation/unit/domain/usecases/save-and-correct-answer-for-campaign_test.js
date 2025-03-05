@@ -369,7 +369,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           savedAnswer.result = AnswerStatus.KO;
 
           // when
-          await saveAndCorrectAnswerForCampaign({
+          const result = await saveAndCorrectAnswerForCampaign({
             answer,
             userId,
             assessment,
@@ -379,6 +379,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
           // then
           expect(scorecardService.computeLevelUpInformation).to.not.have.been.called;
+          expect(result.levelup).to.deep.equal({});
         });
       });
     });
