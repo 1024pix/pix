@@ -5,7 +5,7 @@ import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 import { Scorecard } from '../models/Scorecard.js';
 
-async function computeScorecard({
+export async function computeScorecard({
   userId,
   competenceId,
   competenceRepository,
@@ -34,7 +34,47 @@ async function computeScorecard({
   });
 }
 
-async function resetScorecard({
+export function computeLevelUpInformation({
+  answer,
+  userId,
+  area,
+  competence,
+  competenceEvaluationForCompetence,
+  knowledgeElementsForCompetenceBefore,
+  knowledgeElementsForCompetenceAfter,
+  allowExcessPix = false,
+  allowExcessLevel = false,
+}) {
+  const scorecardBefore = Scorecard.buildFrom({
+    userId,
+    knowledgeElements: knowledgeElementsForCompetenceBefore,
+    competenceEvaluation: competenceEvaluationForCompetence,
+    competence,
+    area,
+    allowExcessPix,
+    allowExcessLevel,
+  });
+  const scorecardAfter = Scorecard.buildFrom({
+    userId,
+    knowledgeElements: knowledgeElementsForCompetenceAfter,
+    competenceEvaluation: competenceEvaluationForCompetence,
+    competence,
+    area,
+    allowExcessPix,
+    allowExcessLevel,
+  });
+
+  if (scorecardBefore.level < scorecardAfter.level) {
+    return {
+      id: answer.id,
+      competenceName: scorecardAfter.name,
+      level: scorecardAfter.level,
+    };
+  }
+  return {};
+}
+
+export async function resetScorecard({
   userId,
   competenceId,
   shouldResetCompetenceEvaluation,
@@ -152,8 +192,6 @@ async function _resetCampaignAssessment({
   return await assessmentRepository.save({ assessment: newAssessment });
 }
 
-function _computeResetSkillsNotIncludedInCampaign({ skillIds, resetSkillIds }) {
+export function _computeResetSkillsNotIncludedInCampaign({ skillIds, resetSkillIds }) {
   return _(skillIds).intersection(resetSkillIds).isEmpty();
 }
-
-export { _computeResetSkillsNotIncludedInCampaign, computeScorecard, resetScorecard };
