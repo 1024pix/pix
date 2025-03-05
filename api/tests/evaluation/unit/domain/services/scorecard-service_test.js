@@ -514,6 +514,108 @@ describe('Unit | Service | ScorecardService', function () {
     });
   });
 
+  describe('#computeLevelUpInformation', function () {
+    const userId = 789;
+    let area, answer, competence, competenceEvaluationForCompetence;
+
+    beforeEach(function () {
+      area = domainBuilder.buildArea({ id: 'areaABC123' });
+      competence = domainBuilder.buildCompetence({
+        id: 'competenceABC123',
+        name: 'Nom de ma competence pour le levelup',
+      });
+      answer = domainBuilder.buildAnswer({ id: 777 });
+      competenceEvaluationForCompetence = domainBuilder.buildCompetenceEvaluation({
+        id: 555,
+        status: CompetenceEvaluation.statuses.STARTED,
+      });
+    });
+
+    it('should return a levelup information when a level up has occurred', function () {
+      // given
+      const knowledgeElementsForCompetenceBefore = [
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceABC123',
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 1,
+          skillId: 'skillA',
+        }),
+      ];
+      const knowledgeElementsForCompetenceAfter = [
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceABC123',
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 1,
+          skillId: 'skillA',
+        }),
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceABC123',
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 10,
+          skillId: 'skillB',
+        }),
+      ];
+
+      // when
+      const levelupInformation = scorecardService.computeLevelUpInformation({
+        answer,
+        userId,
+        area,
+        competence,
+        competenceEvaluationForCompetence,
+        knowledgeElementsForCompetenceBefore,
+        knowledgeElementsForCompetenceAfter,
+      });
+
+      // then
+      expect(levelupInformation).to.deep.equal({
+        id: answer.id,
+        competenceName: 'Nom de ma competence pour le levelup',
+        level: 1,
+      });
+    });
+
+    it('should return an empty object when no level up has occurred', function () {
+      // given
+      const knowledgeElementsForCompetenceBefore = [
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceABC123',
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 1,
+          skillId: 'skillA',
+        }),
+      ];
+      const knowledgeElementsForCompetenceAfter = [
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceABC123',
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 1,
+          skillId: 'skillA',
+        }),
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceABC123',
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 1,
+          skillId: 'skillB',
+        }),
+      ];
+
+      // when
+      const levelupInformation = scorecardService.computeLevelUpInformation({
+        answer,
+        userId,
+        area,
+        competence,
+        competenceEvaluationForCompetence,
+        knowledgeElementsForCompetenceBefore,
+        knowledgeElementsForCompetenceAfter,
+      });
+
+      // then
+      expect(levelupInformation).to.deep.equal({});
+    });
+  });
+
   describe('#_computeResetSkillsNotIncludedInTargetProfile', function () {
     it('should return true when no skill is in common between target profile and reset skills', function () {
       // given
