@@ -162,13 +162,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       let assessment;
 
       beforeEach(function () {
-        assessmentRepository.get.resolves(assessment);
-        assessment = domainBuilder.buildAssessment({
+        assessment = domainBuilder.buildAssessment.ofTypeCampaign({
           id: 1,
           courseId: 'courseId',
           userId: 5,
-          type: 'CAMPAIGN',
         });
+
+        assessmentRepository.get.withArgs(1).resolves(assessment);
       });
 
       it('should call the usecase getNextChallengeForCampaignAssessment', async function () {
