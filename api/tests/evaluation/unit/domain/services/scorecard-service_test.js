@@ -1,5 +1,6 @@
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import * as scorecardService from '../../../../../src/evaluation/domain/services/scorecard-service.js';
+import { computeLevelUpInformation } from '../../../../../src/evaluation/domain/services/scorecard-service.js';
 import {
   Assessment,
   CampaignParticipationStatuses,
