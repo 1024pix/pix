@@ -73,6 +73,7 @@ buildAssessment.ofTypeCampaign = function ({
   campaignParticipationId = '45',
   title = 'campaignTitle',
   method,
+  campaign = buildCampaign(),
   campaignCode,
 } = {}) {
   return buildAssessment({
@@ -94,6 +95,7 @@ buildAssessment.ofTypeCampaign = function ({
     course,
     targetProfile,
     method,
+    campaign,
     campaignCode,
   });
 };

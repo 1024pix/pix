@@ -21,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             'has-ongoing-companion-live-alert': false,
             state: assessment.state,
             type: assessment.type,
-            title: assessment.courseId.toString(),
+            title: certificationCourseId,
             'competence-id': assessment.competenceId,
             'last-question-state': Assessment.statesOfLastQuestion.ASKED,
             method: Assessment.methods.CERTIFICATION_DETERMINED,
@@ -105,10 +105,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
     it('should convert an Assessment model object with type CAMPAIGN into JSON API data', function () {
       //given
-      const assessment = domainBuilder.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
         title: 'Parcours',
-        campaignCode: 'CAMPAGNE1',
+        campaign: domainBuilder.buildCampaign({ title: 'Parcours', code: 'CAMPAGNE1' }),
       });
       assessment.hasCheckpoints = true;
       assessment.showProgressBar = true;
