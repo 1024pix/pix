@@ -107,7 +107,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       //given
       const assessment = domainBuilder.buildAssessment({
         type: Assessment.types.CAMPAIGN,
-        campaignParticipation: { campaign: { code: 'Konami' } },
         title: 'Parcours',
         campaignCode: 'CAMPAGNE1',
       });

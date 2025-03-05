@@ -1,9 +1,6 @@
-import _ from 'lodash';
-
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { buildAnswer } from './build-answer.js';
 import { buildCampaign } from './build-campaign.js';
-import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCourse } from './build-course.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildTargetProfile } from './build-target-profile.js';
@@ -23,7 +20,7 @@ function buildAssessment({
   companionLiveAlerts,
   course = buildCourse({ id: 'courseId' }),
   answers = [buildAnswer()],
-  campaignParticipation = null,
+  campaignParticipationId = null,
   competenceId = null,
   lastQuestionDate = new Date('1992-06-12T01:02:03Z'),
   lastChallengeId = null,
@@ -52,7 +49,7 @@ function buildAssessment({
     lastQuestionState,
     answers,
     course,
-    campaignParticipation,
+    campaignParticipationId,
     method,
     campaignCode,
   });
@@ -73,23 +70,11 @@ buildAssessment.ofTypeCampaign = function ({
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
-  campaignParticipation = null,
-  campaignParticipationId = null,
+  campaignParticipationId = '45',
   title = 'campaignTitle',
   method,
   campaignCode,
 } = {}) {
-  if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
-    campaignParticipationId = campaignParticipation.id;
-  }
-  if (_.isNil(campaignParticipation) && !_.isNil(campaignParticipationId)) {
-    campaignParticipation = buildCampaignParticipation({ id: campaignParticipationId });
-  }
-  if (_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
-    campaignParticipation = buildCampaignParticipation();
-    campaignParticipationId = campaignParticipation.id;
-  }
-
   return buildAssessment({
     id,
     courseId,
@@ -108,7 +93,6 @@ buildAssessment.ofTypeCampaign = function ({
     answers,
     course,
     targetProfile,
-    campaignParticipation,
     method,
     campaignCode,
   });

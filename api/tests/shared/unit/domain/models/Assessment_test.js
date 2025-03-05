@@ -4,7 +4,7 @@ import { CampaignTypes } from '../../../../../src/prescription/shared/domain/con
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-describe.only('Unit | Domain | Models | Assessment', function () {
+describe('Unit | Domain | Models | Assessment', function () {
   describe('#constructor', function () {
     it('should init method when none is defined', function () {
       const assessment = new Assessment({
