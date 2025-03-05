@@ -20,7 +20,11 @@ const beginCampaignParticipationImprovement = async function ({
     return null;
   }
 
-  const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
+  const assessment = Assessment.createImprovingForCampaign({
+    userId,
+    campaignParticipationId,
+    campaign: campaignParticipation.campaign,
+  });
   await assessmentRepository.save({ assessment });
 };
 
