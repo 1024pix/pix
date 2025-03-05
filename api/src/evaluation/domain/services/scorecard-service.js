@@ -183,10 +183,11 @@ async function _resetCampaignAssessment({
   if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInCampaign) {
     return null;
   }
-
+  const campaign = await campaignRepository.get(campaignParticipation.campaignId);
   const newAssessment = Assessment.createForCampaign({
     userId: assessment.userId,
     campaignParticipationId: assessment.campaignParticipationId,
+    campaign,
   });
   await assessmentRepository.abortByAssessmentId(assessment.id);
   return await assessmentRepository.save({ assessment: newAssessment });

@@ -19,14 +19,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
     let usecases;
 
     beforeEach(function () {
-      assessmentWithoutScore = new Assessment({
+      assessmentWithoutScore = domainBuilder.buildAssessment({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
         userId: 5,
         type: 'DEMO',
       });
 
-      assessmentWithScore = new Assessment({
+      assessmentWithScore = domainBuilder.buildAssessment({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
         userId: 5,
@@ -72,7 +72,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       it('should return a null data directly', async function () {
         // given
         assessmentRepository.get.resolves(
-          new Assessment({
+          domainBuilder.buildAssessment({
             id: 1,
             courseId: 'null2356871',
             userId: 5,
@@ -159,15 +159,16 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
     describe('when the assessment is a campaign assessment', function () {
       const defaultLocale = FRENCH_FRANCE;
-      const assessment = new Assessment({
-        id: 1,
-        courseId: 'courseId',
-        userId: 5,
-        type: 'CAMPAIGN',
-      });
+      let assessment;
 
       beforeEach(function () {
         assessmentRepository.get.resolves(assessment);
+        assessment = domainBuilder.buildAssessment({
+          id: 1,
+          courseId: 'courseId',
+          userId: 5,
+          type: 'CAMPAIGN',
+        });
       });
 
       it('should call the usecase getNextChallengeForCampaignAssessment', async function () {

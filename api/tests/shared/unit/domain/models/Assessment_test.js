@@ -1,9 +1,10 @@
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
+import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | Assessment', function () {
+describe.only('Unit | Domain | Models | Assessment', function () {
   describe('#constructor', function () {
     it('should init method when none is defined', function () {
       const assessment = new Assessment({
@@ -12,6 +13,108 @@ describe('Unit | Domain | Models | Assessment', function () {
       });
 
       expect(assessment.method).to.equal('SMART_RANDOM');
+    });
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.COMPETENCE_EVALUATION,
+        hasCheckpoints: true,
+        showProgressBar: true,
+        showLevelup: true,
+        expectedTitle: 'Ma Compétence',
+        attributes: { title: 'Ma Compétence' },
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.CERTIFICATION,
+        hasCheckpoints: false,
+        showProgressBar: false,
+        showLevelup: false,
+        expectedTitle: 'certificationCourseId',
+        attributes: { certificationCourseId: 'certificationCourseId' },
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.DEMO,
+        hasCheckpoints: false,
+        showProgressBar: true,
+        showLevelup: false,
+        expectedTitle: 'Mon Course',
+        attributes: { title: 'Mon Course' },
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.PREVIEW,
+        hasCheckpoints: false,
+        showProgressBar: false,
+        showLevelup: false,
+        expectedTitle: 'Preview',
+        attributes: {},
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.CAMPAIGN,
+        hasCheckpoints: true,
+        showProgressBar: true,
+        showLevelup: true,
+        expectedTitle: 'Ma Campagne',
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        attributes: { campaign: domainBuilder.buildCampaign({ title: 'Ma Campagne', type: CampaignTypes.ASSESSMENT }) },
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.CAMPAIGN,
+        hasCheckpoints: true,
+        showProgressBar: true,
+        showLevelup: true,
+        expectedTitle: 'Ma Campagne',
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        attributes: { campaign: domainBuilder.buildCampaign({ title: 'Ma Campagne', type: CampaignTypes.EXAM }) },
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        type: Assessment.types.CAMPAIGN,
+        hasCheckpoints: false,
+        showProgressBar: false,
+        showLevelup: false,
+        expectedTitle: 'Ma Campagne',
+        attributes: {
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          method: Assessment.methods.FLASH,
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          campaign: domainBuilder.buildCampaign({ title: 'Ma Campagne', type: CampaignTypes.ASSESSMENT }),
+        },
+      },
+    ].forEach(({ type, attributes, showProgressBar, showLevelup, hasCheckpoints, expectedTitle }) => {
+      describe(type, function () {
+        let assessment;
+
+        before(function () {
+          assessment = new Assessment({
+            type,
+            method: null,
+            ...attributes,
+          });
+        });
+
+        it('should init showProgressBar', function () {
+          expect(assessment.showProgressBar).to.equal(showProgressBar);
+        });
+
+        it('should init hasCheckpoints', function () {
+          expect(assessment.hasCheckpoints).to.equal(hasCheckpoints);
+        });
+
+        it('should init showLevelup', function () {
+          expect(assessment.showLevelup).to.equal(showLevelup);
+        });
+
+        it('should init title', function () {
+          expect(assessment.title).to.equal(expectedTitle);
+        });
+      });
     });
   });
 
@@ -143,7 +246,7 @@ describe('Unit | Domain | Models | Assessment', function () {
 
     it('should throw an error when Campaign assessment has no userId', function () {
       //given
-      assessment = new Assessment({ type: 'CAMPAIGN' });
+      assessment = new Assessment({ type: 'CAMPAIGN', campaign: domainBuilder.buildCampaign() });
 
       // when
       try {
@@ -157,7 +260,7 @@ describe('Unit | Domain | Models | Assessment', function () {
   describe('#isForCampaign', function () {
     it('should return true when the assessment is for a CAMPAIGN', function () {
       // given
-      const assessment = new Assessment({ type: 'CAMPAIGN' });
+      const assessment = new Assessment({ type: 'CAMPAIGN', campaign: domainBuilder.buildCampaign() });
 
       // when
       const isForCampaign = assessment.isForCampaign();
@@ -373,7 +476,11 @@ describe('Unit | Domain | Models | Assessment', function () {
       const campaignParticipationId = 456;
 
       // when
-      const assessment = Assessment.createForCampaign({ userId, campaignParticipationId });
+      const assessment = Assessment.createForCampaign({
+        userId,
+        campaignParticipationId,
+        campaign: domainBuilder.buildCampaign(),
+      });
 
       // then
       expect(assessment.userId).to.equal(userId);
@@ -393,7 +500,12 @@ describe('Unit | Domain | Models | Assessment', function () {
       const method = 'FLASH';
 
       // when
-      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId, method });
+      const assessment = Assessment.createImprovingForCampaign({
+        userId,
+        campaignParticipationId,
+        method,
+        campaign: domainBuilder.buildCampaign(),
+      });
 
       // then
       expect(assessment.userId).to.equal(userId);

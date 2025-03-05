@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { buildAnswer } from './build-answer.js';
+import { buildCampaign } from './build-campaign.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCourse } from './build-course.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
@@ -29,9 +30,11 @@ function buildAssessment({
   lastQuestionState = Assessment.statesOfLastQuestion.ASKED,
   method,
   campaignCode,
+  campaign = null,
 } = {}) {
   return new Assessment({
     id,
+    campaign: campaign ? campaign : buildCampaign(),
     courseId,
     certificationCourseId,
     createdAt,
@@ -87,7 +90,7 @@ buildAssessment.ofTypeCampaign = function ({
     campaignParticipationId = campaignParticipation.id;
   }
 
-  return new Assessment({
+  return buildAssessment({
     id,
     courseId,
     createdAt,

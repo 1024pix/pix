@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
+import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Assessment } from '../../domain/models/Assessment.js';
@@ -18,7 +19,10 @@ const getWithAnswers = async function (id) {
     .where('assessmentId', id)
     .orderBy('createdAt');
   assessment.answers = uniqBy(answers, 'challengeId');
-  return new Assessment(assessment);
+  return new Assessment({
+    ...assessment,
+    campaign: await _getAssociatedCampaign(assessment.campaignParticipationId),
+  });
 };
 
 const get = async function (id) {
@@ -28,7 +32,10 @@ const get = async function (id) {
   if (!assessment) {
     throw new NotFoundError("L'assessment n'existe pas ou son accès est restreint");
   }
-  return new Assessment(assessment);
+  return new Assessment({
+    ...assessment,
+    campaign: await _getAssociatedCampaign(assessment.campaignParticipationId),
+  });
 };
 
 const findLastCompletedAssessmentsForEachCompetenceByUser = async function (userId, limitDate) {
@@ -49,7 +56,10 @@ const findLastCompletedAssessmentsForEachCompetenceByUser = async function (user
 const getByAssessmentIdAndUserId = async function (assessmentId, userId) {
   const assessment = await knex('assessments').where({ id: assessmentId, userId }).first();
   if (!assessment) throw new NotFoundError();
-  return new Assessment(assessment);
+  return new Assessment({
+    ...assessment,
+    campaign: await _getAssociatedCampaign(assessment.campaignParticipationId),
+  });
 };
 
 const save = async function ({ assessment }) {
@@ -61,10 +71,22 @@ const save = async function ({ assessment }) {
 
 const findNotAbortedCampaignAssessmentsByUserId = async function (userId) {
   const assessments = await knex('assessments').where({ userId, type: 'CAMPAIGN' }).andWhere('state', '!=', 'aborted');
-  return assessments.map((assessment) => {
-    return new Assessment(assessment);
+  return assessments.map(async (assessment) => {
+    return new Assessment({
+      ...assessment,
+      campaign: await _getAssociatedCampaign(assessment.campaignParticipationId),
+    });
   });
 };
+
+async function _getAssociatedCampaign(campaignParticipationId) {
+  let campaign = null;
+  if (campaignParticipationId) {
+    const campaignId = await campaignRepository.getCampaignIdByCampaignParticipationId(campaignParticipationId);
+    campaign = campaignRepository.get(campaignId);
+  }
+  return campaign;
+}
 
 const abortByAssessmentId = function (assessmentId) {
   return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED });
