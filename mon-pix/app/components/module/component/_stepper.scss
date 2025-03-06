@@ -60,6 +60,7 @@
 
 .stepper-step-position {
   &__content {
+  display: none;
     padding: var(--pix-spacing-1x) var(--pix-spacing-4x);
     color: var(--pix-neutral-800);
   }
