@@ -17,10 +17,6 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Naomi veut envoyer un document par mail à son ami Mickaël.<br>Mais, Naomi ne trouve plus l'adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span><br>Elle décide de lui demander par message.<br>Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
-      "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
-    },
-    {
       "content": "<p>Eh oui&#8239;! Naomi le sait&nbsp;: toutes les adresses mail ont le même format.</p><p>Nous allons étudier en détail l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
       "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
     },
@@ -34,6 +30,21 @@
     }
   ],
   "grains": [
+    {
+      "id": "048e5319-5e81-44cc-ad71-c6c0d3be611f",
+      "type": "transition",
+      "title": "Voici un séparateur",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "aa679f16-91d1-4f65-b9e6-1421affdf824",
+            "type": "text",
+            "content": "<p>Naomi veut envoyer un document par mail à son ami Mickaël.<br>Mais, Naomi ne trouve plus l'adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span><br>Elle décide de lui demander par message.<br>Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>"
+          }
+        }
+      ]
+    },
     {
       "id": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9",
       "type": "discovery",
