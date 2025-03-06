@@ -246,7 +246,6 @@ export default class ModulePassage extends Component {
 
     <main class="module-passage">
       <div class="module-passage__title">
-        <h1>{{@module.title}}</h1>
       </div>
 
       <div
