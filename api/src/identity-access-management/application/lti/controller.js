@@ -41,7 +41,7 @@ function handleDeepLinkingRequest(token) {
           text: 'Campagne PIX dont la note sera envoyée dans Moodle',
           url: 'https://app.pix.fr/campagnes',
           lineItem: {
-            scoreMaximum: 7,
+            scoreMaximum: 10,
           },
         },
         {
@@ -314,7 +314,7 @@ export const ltiController = {
         // TODO : remplacer par une origine en dur à nous
         iss: 'https://moodle.pix.digital',
         // TODO: avoir enregistrer la plateforme et avoir un sub
-        sub: clientId,
+        sub: clientId ?? 'fbnjHCv7IblNfwI',
         aud: tokenURL.href,
       },
       KeyObject.from(key.privateKey),
@@ -350,20 +350,20 @@ export const ltiController = {
       'Réponse token',
     );
 
-    const scoreUrl = new URL('https://moodle.pix.digital/mod/lti/services.php/4/lineitems/7/lineitem/scores?type_id=2');
+    // TODO: enregistrer la scoring URL lors du launch de la campagne
+    // TODO: enregistrer le userId également
+    // TODO: enregistrer l'URL de retour
+    const scoreUrl = new URL(
+      'https://moodle.pix.digital/mod/lti/services.php/4/lineitems/10/lineitem/scores?type_id=2',
+    );
     const score = {
-      '@context': 'http://purl.imsglobal.org/ctx/lis/v2/Score',
-      '@type': 'Score',
-      '@id': 'https://moodle.pix.digital/mod/lti/services.php/4/lineitems/7/lineitem/scores?type_id=2',
       scoreGiven: 83,
       scoreMaximum: 100,
       comment: 'This is exceptional work.',
       activityProgress: 'Completed',
-      scoreOf: 'https://moodle.pix.digital/mod/lti/services.php/4/lineitems/7',
-      timestamp: new Date(),
-      // resultAgent: {
-      //   userId: '5323497',
-      // },
+      gradingProgress: 'FullyGraded',
+      timestamp: new Date().toISOString(),
+      userId: 2,
     };
     const scoreRes = await fetch(scoreUrl, {
       method: 'POST',
@@ -371,7 +371,7 @@ export const ltiController = {
         Authorization: payload.token_type + ' ' + payload.access_token,
         'Content-Type': 'application/vnd.ims.lis.v1.score+json',
       },
-      json: score,
+      body: JSON.stringify(score),
     });
     logger.info(
       {
