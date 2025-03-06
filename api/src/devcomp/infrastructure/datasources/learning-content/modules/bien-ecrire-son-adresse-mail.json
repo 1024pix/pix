@@ -296,27 +296,16 @@
                   }
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "71792e45-966a-4070-b4fc-9e8a773c3f6f",
-      "type": "activity",
-      "title": "Diversité des identifiants et des fournisseurs d’adresse mail",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "2f4794e7-f5f1-4cb6-8b4f-08f4e64b8aa5",
-            "type": "text",
-            "content": "<p>Pour chaque affirmation, choisissez si elle est vraie ou fausse.</p>"
-          }
-        },
-        {
-          "type": "stepper",
-          "steps": [
+            },
+            {
+              "elements": [
+                {
+                  "id": "2f4794e7-f5f1-4cb6-8b4f-08f4e64b8aa5",
+                  "type": "text",
+                  "content": "<p>Pour chaque affirmation, choisissez si elle est vraie ou fausse.</p>"
+                }
+              ]
+            },
             {
               "elements": [
                 {
