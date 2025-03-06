@@ -23,6 +23,13 @@ const key = await crypto.subtle.generateKey(
 const keyid = randomUUID();
 let clientId;
 
+const PLATFORM = {
+  tokenURL: new URL('https://moodle.pix.digital/mod/lti/token.php'),
+  clientId: 'fbnjHCv7IblNfwI',
+  key: { key: KeyObject.from(key.privateKey), keyid: keyid },
+  authUrl: new URL('https://moodle.pix.digital/mod/lti/auth.php'),
+};
+
 function handleDeepLinkingRequest(token) {
   const deepLinkUrl = token['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
 
@@ -77,49 +84,46 @@ function handleDeepLinkingRequest(token) {
     `;
 }
 
-async function serviceAuthFlow(request) {
-  // TODO : remplacer par l'url du mooddle : plateform
-  const tokenURL = new URL('/mod/lti/token.php', request.payload.iss);
-
+async function getAccessToken({ origin, platform, scope }) {
   const client_assertion = jsonwebtoken.sign(
     {
-      // TODO : remplacer par une origine en dur à nous
-      iss: new URL(request.payload.target_link_uri).origin,
-      // TODO: avoir enregistrer la plateforme et avoir un sub
-      sub: request.payload.client_id,
-      aud: tokenURL.href,
+      iss: origin,
+      sub: platform.clientId,
+      aud: platform.tokenURL.href,
     },
-    KeyObject.from(key.privateKey),
+    platform.key.key,
     {
       expiresIn: 3600,
       algorithm: 'RS256',
-      keyid,
+      keyid: platform.key.keyid,
     },
   );
 
-  // TODO : remplacer par l'url du mooddle : plateform
-  const res = await fetch(tokenURL, {
+  const res = await fetch(platform.tokenURL, {
     method: 'POST',
     body: new URLSearchParams({
       grant_type: 'client_credentials',
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       client_assertion,
-      scope: 'https://purl.imsglobal.org/spec/lti-ags/scope/score',
+      scope,
     }),
     headers: {
       'Content-type': 'application/x-www-form-urlencoded',
     },
   });
 
+  const payload = await res.json();
   logger.info(
     {
       client_assertion,
       status: res.statusText,
-      payload: await res.text(),
+      payload,
       headers: res.headers,
     },
     'Réponse token',
   );
+
+  return payload;
 }
 
 async function verifyToken(encodedToken, keysURL) {
@@ -160,13 +164,11 @@ export const ltiController = {
     logger.info({ payload: request.payload, url: request.url.origin }, 'Init');
     clientId = request.payload.client_id;
 
-    const authUrl = new URL('/mod/lti/auth.php', request.payload.iss);
-
     const origin = new URL(request.url.origin);
     origin.protocol = 'https'; // force HTTPS because for tunnelmole
 
     const form = `
-      <form id="ltiAuthForm" name="ltiAuthForm" action="${authUrl.href}" method="POST" enctype="application/x-www-form-urlencoded">
+      <form id="ltiAuthForm" name="ltiAuthForm" action="${PLATFORM.authUrl.href}" method="POST" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="client_id" value="${request.payload.client_id}">
         <input type="hidden" name="login_hint" value="${request.payload.login_hint}">
         <input type="hidden" name="scope" value="openid">
@@ -306,49 +308,13 @@ export const ltiController = {
       .header('Content-Type', 'text/html; charset=utf-8');
   },
   async score(_, h) {
-    // TODO : remplacer par l'url du mooddle : plateform
-    const tokenURL = new URL('https://moodle.pix.digital/mod/lti/token.php');
+    const origin = 'https://api.pix.fr';
 
-    const client_assertion = jsonwebtoken.sign(
-      {
-        // TODO : remplacer par une origine en dur à nous
-        iss: 'https://moodle.pix.digital',
-        // TODO: avoir enregistrer la plateforme et avoir un sub
-        sub: clientId ?? 'fbnjHCv7IblNfwI',
-        aud: tokenURL.href,
-      },
-      KeyObject.from(key.privateKey),
-      {
-        expiresIn: 3600,
-        algorithm: 'RS256',
-        keyid,
-      },
-    );
-
-    // TODO : remplacer par l'url du mooddle : plateform
-    const res = await fetch(tokenURL, {
-      method: 'POST',
-      body: new URLSearchParams({
-        grant_type: 'client_credentials',
-        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-        client_assertion,
-        scope: 'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-      }),
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-      },
+    const accessToken = await getAccessToken({
+      origin,
+      platform: PLATFORM,
+      scope: 'https://purl.imsglobal.org/spec/lti-ags/scope/score',
     });
-
-    const payload = await res.json();
-    logger.info(
-      {
-        client_assertion,
-        status: res.statusText,
-        payload,
-        headers: res.headers,
-      },
-      'Réponse token',
-    );
 
     // TODO: enregistrer la scoring URL lors du launch de la campagne
     // TODO: enregistrer le userId également
@@ -368,7 +334,7 @@ export const ltiController = {
     const scoreRes = await fetch(scoreUrl, {
       method: 'POST',
       headers: {
-        Authorization: payload.token_type + ' ' + payload.access_token,
+        Authorization: accessToken.token_type + ' ' + accessToken.access_token,
         'Content-Type': 'application/vnd.ims.lis.v1.score+json',
       },
       body: JSON.stringify(score),
