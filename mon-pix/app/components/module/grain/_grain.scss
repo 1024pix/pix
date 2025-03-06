@@ -35,6 +35,10 @@ $grain-card-border-radius: var(--pix-spacing-4x);
       outline-offset: -2px;
     }
   }
+
+  .tag--transition {
+    display: none;
+  }
 }
 
 .grain-card {
@@ -54,8 +58,9 @@ $grain-card-border-radius: var(--pix-spacing-4x);
   }
 
   &--transition {
-    &__tag {
-      display: none;
+    .grain-card__footer {
+      padding-top: 0;
+      border: 0;
     }
   }
 
