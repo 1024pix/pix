@@ -20,7 +20,7 @@ export default class ModulixStep extends Component {
 
   @action
   focusAndScroll(htmlElement) {
-    if (!this.args.hasJustAppeared) {
+    if (!this.args.hasJustAppeared || this.hideStep) {
       return;
     }
 
@@ -29,7 +29,7 @@ export default class ModulixStep extends Component {
 
   <template>
     {{#if this.hasDisplayableElements}}
-      <section class="stepper__step hide-step--{{this.args.hideStep}}" tabindex="-1">
+      <section class="stepper__step hide-step--{{this.args.hideStep}}" tabindex="-1" {{didInsert this.focusAndScroll}}>
         <h3
           class="stepper-step__position"
           aria-label="{{t 'pages.modulix.stepper.step.position' currentStep=@currentStep totalSteps=@totalSteps}}"
