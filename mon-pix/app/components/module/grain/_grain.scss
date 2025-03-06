@@ -53,6 +53,12 @@ $grain-card-border-radius: var(--pix-spacing-4x);
     justify-content: flex-end;
   }
 
+  &--transition {
+    &__tag {
+      display: none;
+    }
+  }
+
   &--lesson,
   &--discovery,
   &--summary {

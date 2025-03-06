@@ -39,7 +39,7 @@ export default class ModuleGrain extends Component {
   }
 
   get grainType() {
-    if (ModuleGrain.AVAILABLE_GRAIN_TYPES.includes(this.args.grain.type)) {
+    if (ModuleGrain.AVAILABLE_GRAIN_TYPES.includes(this.args.grain.type) || this.args.grain.type === 'transition') {
       return this.args.grain.type;
     } else {
       return 'lesson';
