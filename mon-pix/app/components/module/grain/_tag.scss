@@ -25,4 +25,14 @@
     width: 1rem;
     height: 1rem;
   }
+
+  &--transition {
+    display: none;
+  }
+
+  &--lesson,
+  &--discovery,
+  &--summary {
+    border-radius: var(--modulix-radius);
+  }
 }
