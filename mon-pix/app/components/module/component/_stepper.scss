@@ -1,6 +1,13 @@
 @use 'pix-design-tokens/typography';
 @use '../passage';
 
+.stepper__step.hide-step--true {
+  display: none;
+  &:last-of-type {
+    display: block;
+  }
+}
+
 .stepper-step {
   &__position {
     @extend %pix-body-m;
@@ -60,7 +67,7 @@
 
 .stepper-step-position {
   &__content {
-  display: none;
+    display: none;
     padding: var(--pix-spacing-1x) var(--pix-spacing-4x);
     color: var(--pix-neutral-800);
   }

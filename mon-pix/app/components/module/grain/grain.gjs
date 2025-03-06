@@ -150,6 +150,10 @@ export default class ModuleGrain extends Component {
     });
   }
 
+  get hideStep() {
+    return this.args.grain.type === 'activity';
+  }
+
   @action
   focusAndScroll(htmlElement) {
     if (!this.args.hasJustAppeared) {
@@ -220,6 +224,7 @@ export default class ModuleGrain extends Component {
                   @onVideoPlay={{@onVideoPlay}}
                   @onFileDownload={{@onFileDownload}}
                   @onExpandToggle={{@onExpandToggle}}
+                  @hideStep={{this.hideStep}}
                 />
               </div>
             {{/if}}
