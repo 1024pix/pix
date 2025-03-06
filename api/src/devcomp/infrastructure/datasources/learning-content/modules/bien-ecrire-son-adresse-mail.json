@@ -15,20 +15,7 @@
       "Écrire une adresse mail correctement, en évitant les erreurs courantes"
     ]
   },
-  "transitionTexts": [
-    {
-      "content": "<p>Eh oui&#8239;! Naomi le sait&nbsp;: toutes les adresses mail ont le même format.</p><p>Nous allons étudier en détail l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
-      "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
-    },
-    {
-      "content": "<p>Récapitulons ensemble avec quelques questions. <span aria-hidden=\"true\">🎯</span></p>",
-      "grainId": "edd7fec3-a649-425b-b8e3-65b13c6c47ea"
-    },
-    {
-      "content": "<p>Pour finir, à vous de jouer : vous allez devoir trouver l'adresse mail de Naomi. <span aria-hidden=\"true\">💫</span></p>",
-      "grainId": "b7ea7630-824a-4a49-83d1-abb9b8d0d120"
-    }
-  ],
+  "transitionTexts": [],
   "grains": [
     {
       "id": "048e5319-5e81-44cc-ad71-c6c0d3be611f",
@@ -59,6 +46,21 @@
             "url": "https://videos.pix.fr/modulix/bien-ecrire-adresse-mail/chat_animation.mp4",
             "subtitles": "https://videos.pix.fr/modulix/bien-ecrire-adresse-mail/chat_animation.vtt",
             "transcription": "<ul><li>Naomi&nbsp;: Salut, tu peux me redonner ton adresse mail stp&#8239;?&nbsp;<span aria-hidden=\"true\">😇</span></li> <li>Mickaël&nbsp;: Oui, c’est mickael.aubert123#laposte.net</li><li>Naomi&nbsp;: T’es sûr&#8239;?&nbsp;<span aria-hidden=\"true\">😬</span></li><li>Naomi&nbsp;: Tu veux dire mickael.aubert123@laposte.net</li><li>Mickaël&nbsp;: Ah oui désolé&#8239;!&nbsp;<span aria-hidden=\"true\">😣</span></li><li>Mickaël&nbsp;: comment tu as su&#8239;? </li><li>Naomi&nbsp;: Dans une adresse mail, il y a toujours le symbole arobase !</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6fecbd1c-bbbd-47d6-ad6f-9271002c1b66",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "901383ed-90d1-4a60-a7af-2120710368df",
+            "type": "text",
+            "content": "<p>Eh oui&#8239;! Naomi le sait&nbsp;: toutes les adresses mail ont le même format.</p><p>Nous allons étudier en détail l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>"
           }
         }
       ]
@@ -144,6 +146,21 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "febf664b-2e2f-4eb9-a0d8-59e1678acdd9",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "27f167b0-077d-43ed-9c91-9368b82fd79c",
+            "type": "text",
+            "content": "<p>Récapitulons ensemble avec quelques questions. <span aria-hidden=\"true\">🎯</span></p>"
+          }
         }
       ]
     },
@@ -427,6 +444,21 @@
             "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
             "type": "text",
             "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>C'est l'<strong>utilisateur qui choisit son identifiant</strong> d'adresse mail. Il peut utiliser des <strong>chiffres</strong> ou des <strong>majuscules</strong>.<br><span aria-hidden=\"true\">✔️</span> Exemples&nbsp;: <code>mickael.aubert123</code> ; <code>M3g4Cool1415</code>, etc.<br></li><li>Il y a une <strong>arobase</strong> (@) dans une adresse mail. Elle permet de <strong>séparer l’identifiant et le fournisseur</strong> d’adresse mail.<br></li><li>Après l'arobase, les adresses mail <strong>se terminent de différentes manières</strong>, selon le <strong>fournisseur d’adresse</strong> mail.<br><span aria-hidden=\"true\">✔️</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e7f286b0-c4c6-46a4-9ff5-5ed5448bc5bd",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "f196b428-5383-4df5-889e-488233dce9aa",
+            "type": "text",
+            "content": "<p>Pour finir, à vous de jouer : vous allez devoir trouver l'adresse mail de Naomi. <span aria-hidden=\"true\">💫</span></p>"
           }
         }
       ]
