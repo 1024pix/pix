@@ -81,7 +81,7 @@ export default class SessionDetails extends Component {
       <SessionDetailsCleaResultsDownload @sessionId={{@model.sessionManagement.id}} />
     {{/if}}
 
-    <div class='panel session-details__controls'>
+    <div class='session-details__controls'>
       <SessionDetailsNav @certificationCandidatesCount={{this.certificationCandidatesCount}} />
       <SessionDetailsControlsLinks
         @urlToDownloadSessionIssueReportSheet={{this.urlToDownloadSessionIssueReportSheet}}

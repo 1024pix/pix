@@ -35,14 +35,14 @@
 {{/if}}
 
 {{#if this.shouldDisplayNavbarSection}}
-  <nav class="panel navbar team__tabs" aria-label="A ajouter">
-    <LinkTo @route="authenticated.team.list.members" class="navbar-item">
+  <PixTabs @variant="certif" class="team__tabs" aria-label="A ajouter">
+    <LinkTo @route="authenticated.team.list.members">
       {{t "pages.team.tabs.member" count=@model.members.length}}
     </LinkTo>
-    <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
+    <LinkTo @route="authenticated.team.list.invitations">
       {{t "pages.team.tabs.invitation" count=@model.invitations.length}}
     </LinkTo>
-  </nav>
+  </PixTabs>
   {{outlet}}
 
 {{else}}

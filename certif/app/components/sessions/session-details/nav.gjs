@@ -1,14 +1,15 @@
+import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 
 <template>
-  <nav class='navbar session-details__controls-navbar-tabs'>
-    <LinkTo @route='authenticated.sessions.details.parameters' class='navbar-item'>
+  <PixTabs @variant='certif'>
+    <LinkTo @route='authenticated.sessions.details.parameters'>
       {{t 'pages.sessions.detail.tabs.details'}}
     </LinkTo>
-    <LinkTo @route='authenticated.sessions.details.certification-candidates' class='navbar-item'>
+    <LinkTo @route='authenticated.sessions.details.certification-candidates'>
       {{t 'common.sessions.candidates'}}
       {{@certificationCandidatesCount}}
     </LinkTo>
-  </nav>
+  </PixTabs>
 </template>
