@@ -12,14 +12,17 @@ export default class SessionSupervisingRoute extends Route {
   @service serverSentEvent;
 
   async model(params) {
-    const model = this.store.queryRecord('session-for-supervising', {
-      sessionId: params.session_id,
+    const model = this.store.createRecord('session-for-supervising', {
+      id: params.session_id,
     });
-    this.serverSentEvent.registerSupervisingEvent(model);
+    //console.dir(model);
+    //this.serverSentEvent.registerSupervisingEvent(model);
 
-    return this.store.peekRecord('session-for-supervising', {
-      sessionId: params.session_id,
-    });
+    return model;
+
+    // return this.store.peekRecord('session-for-supervising', {
+    //   sessionId: params.session_id,
+    // });
     // this.serverSentEvent.registerSupervisingEvent(result);
     // console.log(result);
 
