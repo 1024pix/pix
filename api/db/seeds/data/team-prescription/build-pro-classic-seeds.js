@@ -1,11 +1,15 @@
 import dayjs from 'dayjs';
 
-import { usecases } from '../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
+import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
+import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
+import { usecases as cpUsecases } from '../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
 } from '../../../../src/prescription/shared/domain/constants.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { assessmentController } from '../../../../src/shared/application/assessments/assessment-controller.js';
+import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import { PRO_ORGANIZATION_ID, USER_ID_ADMIN_ORGANIZATION } from '../common/constants.js';
 import { createAssessmentCampaign, createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
 import { createProfileGivenCompetences } from '../common/tooling/profile-tooling.js';
@@ -51,7 +55,7 @@ async function createProCampaignProfileCollection(databaseBuilder) {
     createdAt: dayjs().subtract(16, 'days').toDate(),
   });
 
-  // ke when being a learner
+  // build snapshot for given learner
   const jeanBonCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
     userId: jeanBonUser.id,
     participantExternalId: jeanBonUser.email,
@@ -63,7 +67,7 @@ async function createProCampaignProfileCollection(databaseBuilder) {
   }).id;
 
   await databaseBuilder.commit();
-  await usecases.shareCampaignResult({
+  await cpUsecases.shareCampaignResult({
     userId: jeanBonUser.id,
     campaignParticipationId: jeanBonCampaignParticipationId,
   });
@@ -90,17 +94,6 @@ async function createProAssessmentMultipleSendingsCampaign(databaseBuilder) {
     email: 'triste.temps@prescription.com',
   });
 
-  const tristeTempsOrganizationLearner =
-    databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
-      firstName: tristeTempsUser.firstName,
-      lastName: tristeTempsUser.lastName,
-      deletedAt: null,
-      createdAt: dayjs().subtract(15, 'days').toDate(),
-      isDisabled: false,
-      userId: tristeTempsUser.id,
-      organizationId: PRO_ORGANIZATION_ID,
-    });
-
   // ke before being a learner
   await createProfileGivenCompetences({
     databaseBuilder,
@@ -109,33 +102,67 @@ async function createProAssessmentMultipleSendingsCampaign(databaseBuilder) {
     createdAt: dayjs().subtract(16, 'days').toDate(),
   });
 
-  // ke when being a learner
-  const tristeTempsCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-    userId: tristeTempsUser.id,
-    participantExternalId: tristeTempsUser.email,
-    organizationLearnerId: tristeTempsOrganizationLearner.id,
-    campaignId,
-    status: CampaignParticipationStatuses.TO_SHARE,
-    deletedAt: null,
-    createdAt: dayjs().subtract(10, 'days').toDate(),
-  }).id;
-
-  databaseBuilder.factory.buildAssessment({
-    userId: tristeTempsUser.id,
-    organizationLearnerId: tristeTempsOrganizationLearner.id,
-    state: Assessment.states.COMPLETED,
-    type: Assessment.types.CAMPAIGN,
-    campaignParticipationId: tristeTempsCampaignParticipationId,
-    courseId: null,
-    isImproving: false,
-    competenceId: null,
-  });
-
   await databaseBuilder.commit();
-  await usecases.shareCampaignResult({
+
+  // create campaign participation & assessment
+  const participation = await _buildCampaignParticipation({
     userId: tristeTempsUser.id,
-    campaignParticipationId: tristeTempsCampaignParticipationId,
+    campaignId,
+    participantExternalId: tristeTempsUser.email,
   });
+
+  // loop to build answer like a real participant
+  await _createAnswerForParticipant({ assessment: participation.assessment, userId: tristeTempsUser.id });
+
+  // after this share campaign to orgnization
+  await cpUsecases.shareCampaignResult({
+    userId: tristeTempsUser.id,
+    campaignParticipationId: participation.campaignParticipationId,
+  });
+}
+
+async function _buildCampaignParticipation({ userId, participantExternalId, campaignId }) {
+  await cpUsecases.startCampaignParticipation({
+    campaignParticipation: { campaignId, participantExternalId },
+    userId,
+  });
+
+  // get participation and lastAssessment
+  const campaignParticipation = await cpUsecases.getUserCampaignParticipationToCampaign({
+    userId,
+    campaignId,
+  });
+
+  const assessment = await assessmentRepository.get(campaignParticipation.lastAssessment.id);
+
+  return { assessment, campaignParticipationId: campaignParticipation.id };
+}
+
+async function _createAnswerForParticipant({ assessment, userId }) {
+  //Some logic are in the controller directly instead of usecase, so we cannot use directly get next challenge usecase
+  let nextChallenge = await assessmentController.getNextChallenge({ params: { id: assessment.id } });
+
+  // auto validate ok
+  while (nextChallenge.data !== null) {
+    await assessmentRepository.updateWhenNewChallengeIsAsked({
+      id: assessment.id,
+      lastChallengeId: nextChallenge.data.id,
+    });
+    const fakeAnswer = new Answer({
+      assessmentId: assessment.id,
+      challengeId: nextChallenge.data.id,
+      value: 'FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE',
+    });
+    await evaluationUsecases.saveAndCorrectAnswerForCampaign({
+      answer: fakeAnswer,
+      assessment,
+      userId,
+      forceOKAnswer: true,
+    });
+    nextChallenge = await assessmentController.getNextChallenge({ params: { id: assessment.id } });
+  }
+
+  await libUsecases.completeAssessment({ assessmentId: assessment.id });
 }
 
 async function createProAssessmentCampaign(databaseBuilder) {
@@ -152,22 +179,11 @@ async function createProAssessmentCampaign(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
   });
   const beauTempsUser = databaseBuilder.factory.buildUser.withRawPassword({
-    firstName: 'Triste',
+    firstName: 'Beau',
     lastName: 'Temps',
     username: null,
     email: 'beau.temps@prescription.com',
   });
-
-  const beauTempsOrganizationLearner =
-    databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
-      firstName: beauTempsUser.firstName,
-      lastName: beauTempsUser.lastName,
-      deletedAt: null,
-      createdAt: dayjs().subtract(15, 'days').toDate(),
-      isDisabled: false,
-      userId: beauTempsUser.id,
-      organizationId: PRO_ORGANIZATION_ID,
-    });
 
   // ke before being a learner
   await createProfileGivenCompetences({
@@ -177,35 +193,15 @@ async function createProAssessmentCampaign(databaseBuilder) {
     createdAt: dayjs().subtract(16, 'days').toDate(),
   });
 
-  // ke when being a learner
-  const beauTempsCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+  // create campaign participation & assessment
+  const participation = await _buildCampaignParticipation({
     userId: beauTempsUser.id,
-    participantExternalId: beauTempsUser.email,
-    organizationLearnerId: beauTempsOrganizationLearner.id,
     campaignId,
-    status: CampaignParticipationStatuses.TO_SHARE,
-    deletedAt: null,
-    createdAt: dayjs().subtract(10, 'days').toDate(),
-  }).id;
-
-  databaseBuilder.factory.buildAssessment({
-    userId: beauTempsUser.id,
-    organizationLearnerId: beauTempsOrganizationLearner.id,
-    state: Assessment.states.COMPLETED,
-    type: Assessment.types.CAMPAIGN,
-    campaignParticipationId: beauTempsCampaignParticipationId,
-    courseId: null,
-    isImproving: false,
-    competenceId: null,
+    participantExternalId: beauTempsUser.email,
   });
 
-  await databaseBuilder.commit();
-  //TODO: utiliser assessment-controller-auto-validate-next-challenge pour les seeds de l'assessment ?
-
-  await usecases.shareCampaignResult({
-    userId: beauTempsUser.id,
-    campaignParticipationId: beauTempsCampaignParticipationId,
-  });
+  // loop to build answer like a real participant
+  await _createAnswerForParticipant({ assessment: participation.assessment, userId: beauTempsUser.id });
 }
 
 export { createProAssessmentCampaign, createProAssessmentMultipleSendingsCampaign, createProCampaignProfileCollection };
