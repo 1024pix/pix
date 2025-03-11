@@ -23,6 +23,25 @@ $grain-card-border-radius: var(--pix-spacing-4x);
     padding: 0 var(--pix-spacing-4x);
   }
 
+  &__card,
+  &-card__tag {
+    @media (not (prefers-reduced-motion: reduce)) {
+      animation: 0.8s fadeIn ease-in-out;
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        33% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   &__card {
     border-radius: $grain-card-border-radius 0 $grain-card-border-radius $grain-card-border-radius;
   }
