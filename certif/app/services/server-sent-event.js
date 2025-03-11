@@ -4,12 +4,23 @@ import ENV from 'pix-certif/config/environment';
 export default class ServerSentEventService extends Service {
   @service store;
 
-  registerSupervisingEvent(model) {
-    const evtSource = new EventSource(`${ENV.APP.API_HOST}/api/sessions/7404/supervision-events`, {
+  async registerSupervisingEvent(sessionId) {
+    // TODO : handle reject, authentication (pre handler in back), and errors
+    //        in certif/app/routes/session-supervising.js afterModel function
+
+
+    const { promise, resolve, reject } = Promise.withResolvers();
+
+    // Init connection
+    let isFirstPayload = true;
+    const evtSource = new EventSource(`${ENV.APP.API_HOST}/api/sessions/${sessionId}/supervision-events`, {
       withCredentials: true,
     });
 
+    // TODO : use "on open" to trigger a Loader in service's caller
     evtSource.onopen = (event) => console.log('STARTING EVENT SOURCE');
+
+    // Listening
     evtSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
@@ -21,12 +32,15 @@ export default class ServerSentEventService extends Service {
       //console.dir(normalized);
       //console.dir(normalized.id);
 
+      // TODO : pushPayload is from LEGACY Ember package
+      //        we should use this.store.push() but it requires normalization prior to push
       this.store.pushPayload('session-for-supervising', data);
-
-      //model.set('accessCode', 'POUET');
-      // model.setProperties({
-      //   accessCode: normalized.accessCode,
-      // });
+      if (isFirstPayload) {
+        isFirstPayload = false;
+        resolve(this.store.peekRecord('session-for-supervising', sessionId));
+      }
     };
+
+    return promise;
   }
 }
