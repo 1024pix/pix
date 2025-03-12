@@ -169,11 +169,17 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
           proposals: [
             {
               id: qcuSolution,
-              feedback: 'Answer 1 is correct',
+              feedback: {
+                state: 'correct',
+                diagnosis: 'Answer 1 is correct',
+              },
             },
             {
               id: 'wrongSolution',
-              feedback: 'Answer 2 is wrong',
+              feedback: {
+                state: 'incorrect',
+                diagnosis: 'Answer 2 is wrong',
+              },
             },
           ],
           solution: qcuSolution,
@@ -191,7 +197,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
 
         const expectedCorrection = {
           status: assessResult.result,
-          feedback: qcu.proposals[0].feedback,
+          feedback: qcu.proposals[0].feedback.state + qcu.proposals[0].feedback.diagnosis,
           solution: qcuSolution,
         };
 
@@ -218,11 +224,17 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
           proposals: [
             {
               id: qcuSolution,
-              feedback: 'Answer 1 is correct',
+              feedback: {
+                state: 'correct',
+                diagnosis: 'Answer 1 is correct',
+              },
             },
             {
               id: 'wrongAnswer',
-              feedback: 'Answer 2 is wrong',
+              feedback: {
+                state: 'incorrect',
+                diagnosis: 'Answer 2 is wrong',
+              },
             },
           ],
           solution: qcuSolution,
@@ -240,7 +252,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
 
         const expectedCorrection = {
           status: assessResult.result,
-          feedback: qcu.proposals[1].feedback,
+          feedback: qcu.proposals[1].feedback.state + qcu.proposals[1].feedback.diagnosis,
           solution: qcuSolution,
         };
 
@@ -269,11 +281,17 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
           proposals: [
             {
               id: qcuSolution,
-              feedback: 'Answer 1 is correct',
+              feedback: {
+                state: 'correct',
+                diagnosis: 'Answer 1 is correct',
+              },
             },
             {
               id: 'wrongSolution',
-              feedback: 'Answer 2 is wrong',
+              feedback: {
+                state: 'incorrect',
+                diagnosis: 'Answer 2 is wrong',
+              },
             },
           ],
           feedbacks: { valid: 'OK', invalid: 'KO' },
@@ -292,7 +310,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
 
         const expectedCorrection = {
           status: assessResult.result,
-          feedback: qcu.proposals[0].feedback,
+          feedback: qcu.proposals[0].feedback.state + qcu.proposals[0].feedback.diagnosis,
           solution: qcuSolution,
         };
 
@@ -319,11 +337,17 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
           proposals: [
             {
               id: qcuSolution,
-              feedback: 'Answer 1 is correct',
+              feedback: {
+                state: 'correct',
+                diagnosis: 'Answer 1 is correct',
+              },
             },
             {
               id: 'wrongAnswer',
-              feedback: 'Answer 2 is wrong',
+              feedback: {
+                state: 'incorrect',
+                diagnosis: 'Answer 2 is wrong',
+              },
             },
           ],
           feedbacks: { valid: 'OK', invalid: 'KO' },
@@ -342,7 +366,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
 
         const expectedCorrection = {
           status: assessResult.result,
-          feedback: qcu.proposals[1].feedback,
+          feedback: qcu.proposals[1].feedback.state + qcu.proposals[1].feedback.diagnosis,
           solution: qcuSolution,
         };
 
