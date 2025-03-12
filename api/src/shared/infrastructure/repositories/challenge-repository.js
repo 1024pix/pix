@@ -6,7 +6,7 @@ import { Accessibility } from '../../domain/models/Challenge.js';
 import { Challenge } from '../../domain/models/index.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { LearningContentDatasource } from './learning-content-datasource.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
@@ -261,12 +261,12 @@ function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill,
   });
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME });
   }
   return instance;
 }

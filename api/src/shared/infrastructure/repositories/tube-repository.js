@@ -3,7 +3,7 @@ import { LearningContentResourceNotFound } from '../../domain/errors.js';
 import { Tube } from '../../domain/models/Tube.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { LearningContentDatasource } from './learning-content-datasource.js';
 
 const TABLE_NAME = 'learningcontent.tubes';
 const ACTIVE_STATUS = 'actif';
@@ -85,12 +85,12 @@ function toDomain(tubeDto, locale) {
   });
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME });
   }
   return instance;
 }

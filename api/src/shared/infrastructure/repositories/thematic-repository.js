@@ -1,7 +1,7 @@
 import { LOCALE } from '../../domain/constants.js';
 import { Thematic } from '../../domain/models/Thematic.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { LearningContentDatasource } from './learning-content-datasource.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 const TABLE_NAME = 'learningcontent.thematics';
@@ -48,12 +48,12 @@ function toDomain(thematicDto, locale) {
   });
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME });
   }
   return instance;
 }

@@ -14,7 +14,7 @@ const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONT
  * Datasource for learning content repositories.
  * This datasource uses a {@link Dataloader} to load and cache entities.
  */
-export class LearningContentRepository {
+export class LearningContentDatasource {
   #tableName;
   #idType;
   #dataloader;

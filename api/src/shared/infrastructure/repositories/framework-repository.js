@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../domain/errors.js';
 import { Framework } from '../../domain/models/index.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { LearningContentDatasource } from './learning-content-datasource.js';
 
 const TABLE_NAME = 'learningcontent.frameworks';
 
@@ -51,12 +51,12 @@ function byName(framework1, framework2) {
   return collator.compare(framework1.name, framework2.name);
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME });
   }
   return instance;
 }

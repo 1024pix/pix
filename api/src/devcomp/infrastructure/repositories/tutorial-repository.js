@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
-import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import { LearningContentDatasource } from '../../../shared/infrastructure/repositories/learning-content-datasource.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as paginateModule from '../../../shared/infrastructure/utils/paginate.js';
 import { Tutorial } from '../../domain/models/Tutorial.js';
@@ -161,12 +161,12 @@ export function clearCache(id) {
   return getInstance().clearCache(id);
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME });
   }
   return instance;
 }

@@ -1,7 +1,7 @@
 import { config } from '../../../shared/config.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
-import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import { LearningContentDatasource } from '../../../shared/infrastructure/repositories/learning-content-datasource.js';
 import { Mission, MissionContent, MissionStep } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
 
@@ -61,12 +61,12 @@ function toDomain(missionDto, locale) {
   });
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'integer' });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME, idType: 'integer' });
   }
   return instance;
 }

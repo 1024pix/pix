@@ -1,14 +1,14 @@
-import { LearningContentRepository } from '../../../../../src/shared/infrastructure/repositories/learning-content-repository.js';
+import { LearningContentDatasource } from '../../../../../src/shared/infrastructure/repositories/learning-content-datasource.js';
 import { catchErr, expect, knex, sinon } from '../../../../test-helper.js';
 
 const SCHEMA_NAME = 'learningcontent';
 const TABLE_NAME = 'entities';
 
-describe('Integration | Repository | learning-repository', function () {
+describe('Integration | Repository | learning-datasource', function () {
   /** @type {string} */
   let tableName;
 
-  /** @type {LearningContentRepository} */
+  /** @type {LearningContentDatasource} */
   let repository;
 
   /** @type {sinon.SinonStub} */
@@ -16,7 +16,7 @@ describe('Integration | Repository | learning-repository', function () {
 
   before(function () {
     tableName = `${SCHEMA_NAME}.${TABLE_NAME}`;
-    repository = new LearningContentRepository({ tableName });
+    repository = new LearningContentDatasource({ tableName });
   });
 
   beforeEach(async function () {

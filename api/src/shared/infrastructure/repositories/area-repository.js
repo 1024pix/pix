@@ -4,7 +4,7 @@ import { Area } from '../../domain/models/Area.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
 import * as competenceRepository from './competence-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
+import { LearningContentDatasource } from './learning-content-datasource.js';
 
 const TABLE_NAME = 'learningcontent.areas';
 
@@ -118,12 +118,12 @@ async function toDomainWithCompetences(areaDtos, locale) {
   return areas;
 }
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentDatasource} */
 let instance;
 
 function getInstance() {
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentDatasource({ tableName: TABLE_NAME });
   }
   return instance;
 }
