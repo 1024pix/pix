@@ -77,17 +77,26 @@
                     {
                       "id": "1",
                       "content": "<p>Un tri à un critère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span> Le tri doit être fait sur un seul critère : le nom des enfants.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse !</span> Le tri doit être fait sur un seul critère : le nom des enfants.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Un filtre</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Un filtre ne permet par d’organiser le tableau, il permet d’afficher ou non une sélection d'enfants.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Un filtre ne permet par d’organiser le tableau, il permet d’afficher ou non une sélection d'enfants.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Un tri multicritère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Un seul critère est en jeu dans cette situation : le nom des enfants.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Un seul critère est en jeu dans cette situation : le nom des enfants.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -104,17 +113,26 @@
                     {
                       "id": "1",
                       "content": "<p>Un tri à un critère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri simple va permettre de regrouper les élèves par équipe, mais l’ensemble des enfants resteront affichés.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri simple va permettre de regrouper les élèves par équipe, mais l’ensemble des enfants resteront affichés.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Un filtre</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span> Filtrer sur la colonne « Équipe » lui permettra d’afficher seulement les enfants de l'équipe de son choix.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse !</span> Filtrer sur la colonne « Équipe » lui permettra d’afficher seulement les enfants de l'équipe de son choix.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Un tri multicritère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri multicritère peut permettre de regrouper les enfants par équipe et par score, mais l’ensemble des enfants resteront affichés.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri multicritère peut permettre de regrouper les enfants par équipe et par score, mais l’ensemble des enfants resteront affichés.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -131,17 +149,26 @@
                     {
                       "id": "1",
                       "content": "<p>Un tri à un critère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri simple peut ordonner les résultats des enfants pour une épreuve, mais il ne permet pas d’établir un classement prenant en compte les trois épreuves.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri simple peut ordonner les résultats des enfants pour une épreuve, mais il ne permet pas d’établir un classement prenant en compte les trois épreuves.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Un filtre</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Filtrer ici ne permettrait pas d’afficher un classement, mais de restreindre l’affichage à certains scores.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Filtrer ici ne permettrait pas d’afficher un classement, mais de restreindre l’affichage à certains scores.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Un tri multicritère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!</span> Plusieurs critères vont permettre de faire le classement final, le tri multicritère est donc recommandé.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!</span> Plusieurs critères vont permettre de faire le classement final, le tri multicritère est donc recommandé.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -279,12 +306,8 @@
                 "placeholder": "prénom",
                 "ariaLabel": "écrivez le prénom ici",
                 "defaultValue": "",
-                "tolerances": [
-                  "t3"
-                ],
-                "solutions": [
-                  "emma"
-                ]
+                "tolerances": ["t3"],
+                "solutions": ["emma"]
               },
               {
                 "type": "text",
@@ -299,13 +322,8 @@
                 "placeholder": "lot",
                 "ariaLabel": "écrivez le lot ici",
                 "defaultValue": "",
-                "tolerances": [
-                  "t3"
-                ],
-                "solutions": [
-                  "glace",
-                  "glaces"
-                ]
+                "tolerances": ["t3"],
+                "solutions": ["glace", "glaces"]
               }
             ],
             "feedbacks": {
@@ -461,12 +479,8 @@
                 "placeholder": "prénom",
                 "ariaLabel": "écrivez ici le prénom",
                 "defaultValue": "",
-                "tolerances": [
-                  "t3"
-                ],
-                "solutions": [
-                  "inès"
-                ]
+                "tolerances": ["t3"],
+                "solutions": ["inès"]
               },
               {
                 "type": "text",
@@ -481,13 +495,8 @@
                 "placeholder": "trésor",
                 "ariaLabel": "écrivez ici le contenu du trésor",
                 "defaultValue": "",
-                "tolerances": [
-                  "t3"
-                ],
-                "solutions": [
-                  "des bonbons",
-                  "bonbons"
-                ]
+                "tolerances": ["t3"],
+                "solutions": ["des bonbons", "bonbons"]
               }
             ],
             "feedbacks": {

@@ -91,17 +91,26 @@
               {
                 "id": "1",
                 "content": "<p>Image 1</p>",
-                "feedback": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>Image 2</p>",
-                "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>Image 3</p>",
-                "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                }
               }
             ],
             "solution": "1"
@@ -318,9 +327,7 @@
                     "content": "code"
                   }
                 ],
-                "solutions": [
-                  "1"
-                ]
+                "solutions": ["1"]
               },
               {
                 "type": "text",
@@ -348,9 +355,7 @@
                     "content": "superviser"
                   }
                 ],
-                "solutions": [
-                  "4"
-                ]
+                "solutions": ["4"]
               },
               {
                 "type": "text",
@@ -378,13 +383,11 @@
                     "content": "tergiversation"
                   }
                 ],
-                "solutions": [
-                  "8"
-                ]
+                "solutions": ["8"]
               },
               {
-                  "type": "text",
-                  "content": "<span>. Le modèle n'est pas capable de réfléchir comme un humain. Il produit juste un discours \"très probable\"</span>"
+                "type": "text",
+                "content": "<span>. Le modèle n'est pas capable de réfléchir comme un humain. Il produit juste un discours \"très probable\"</span>"
               }
             ],
             "feedbacks": {

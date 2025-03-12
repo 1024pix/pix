@@ -174,17 +174,26 @@
               {
                 "id": "1",
                 "content": "C'est l'adresse qui permet d'identifier un appareil informatique connecté à internet.",
-                "feedback": "<span class=\"feedback__state\">Bonne réponse <span aria-hidden=\"true\">💫</span></span><p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<span class=\"feedback__state\">Bonne réponse <span aria-hidden=\"true\">💫</span></span><p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "C’est l’adresse qui commence par \"www.\" que l’on tape pour accéder à un site internet.",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<span class=\"feedback__state\">Mauvaise réponse</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                }
               },
               {
                 "id": "3",
                 "content": "C’est l’adresse qui permet d’envoyer des emails à des personnes via internet.",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<span class=\"feedback__state\">Mauvaise réponse</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                }
               }
             ],
             "solution": "1"

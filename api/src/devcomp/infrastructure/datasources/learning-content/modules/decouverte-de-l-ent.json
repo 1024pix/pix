@@ -3,7 +3,7 @@
   "slug": "decouverte-de-l-ent",
   "title": "À la découverte de l’ENT",
   "isBeta": true,
- "details": {
+  "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "<p>Aujourd’hui, le numérique fait partie du quotidien des familles, à la maison comme à l’école&#8239;! <span aria-hidden=\"true\">🎒</span></p><p>Dans ce module, partez à la découverte de l’espace numérique de travail (ENT), l’outil numérique utilisé dans les établissements scolaires.</p>",
     "duration": 10,
@@ -77,17 +77,26 @@
               {
                 "id": "1",
                 "content": "<p>sur l'espace numérique de travail</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L’ENT est l’espace numérique de travail du collège, accessible en ligne.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>sur sa boîte mail</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>sur le site internet de la mairie</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le collège propose un outil numérique pour le suivi de la scolarité.</p>"
+                }
               }
             ],
             "solution": "1"
@@ -186,12 +195,18 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L’ENT est accessible sur ordinateur, smartphone et tablette.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -208,12 +223,18 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Les informations pour se connecter sont fournies en début d’année par le collège.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -230,12 +251,18 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>En fonction de leur département, les collèges n’utilisent pas le même ENT.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -294,27 +321,42 @@
                     {
                       "id": "1",
                       "content": "<p>la messagerie</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>La messagerie permet de contacter les professeurs, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      }
                     },
                     {
                       "id": "5",
                       "content": "<p>le cahier de textes</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>l'emploi du temps</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                      }
                     },
                     {
                       "id": "4",
                       "content": "<p>les documents</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L’application Documents permet de consulter des documents partagés, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L’application Documents permet de consulter des documents partagés, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>le blog</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le blog permet de suivre la vie de la classe, mais ce n’est pas l’application à utiliser dans ce cas.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -338,17 +380,26 @@
                     {
                       "id": "1",
                       "content": "<p>1</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p><p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 1 publication à lire sur le blog. Ce ne sont pas des messages reçus.</p><p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>2</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>3</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p><p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Il y a 3 publications dans le fil de nouveautés. Ce ne sont pas des messages reçus.</p><p>Avez-vous cherché l’icône de la messagerie&#8239;?</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -372,17 +423,26 @@
                     {
                       "id": "1",
                       "content": "<p>Histoire-géographie</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Mathématiques</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Français</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -442,12 +502,18 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le compte ENT est personnel. Votre enfant doit se connecter à son compte pour rendre son devoir.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le compte ENT est personnel. Votre enfant doit se connecter à son compte pour rendre son devoir.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>Votre enfant doit se connecter à son propre compte pour rendre son devoir.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -464,12 +530,18 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n’utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>La messagerie de l’ENT permet de contacter facilement les professeurs.<br>Utilisez votre compte pour envoyer un message en votre nom.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -486,12 +558,18 @@
                     {
                       "id": "1",
                       "content": "<p>J'utilise mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Je n'utilise pas mon compte parent.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span></p><p>L'utilisation de la messagerie est réservée à des sujets liés à la scolarité de vos enfants.</p>"
+                      }
                     }
                   ],
                   "solution": "2"

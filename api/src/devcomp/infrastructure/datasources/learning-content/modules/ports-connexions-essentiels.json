@@ -78,17 +78,26 @@
               {
                 "id": "1",
                 "content": "<p>port n°1</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse.&nbsp;🎉&nbsp;</span></p><p>C'est bien sur ce port que se branche le chargeur.<br> Selon la marque et le modèle de votre ordinateur, ce port peut changer de taille ou de forme.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse.&nbsp;🎉&nbsp;</span></p><p>C'est bien sur ce port que se branche le chargeur.<br> Selon la marque et le modèle de votre ordinateur, ce port peut changer de taille ou de forme.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>port n°2</p>",
-                "feedback": "<p>Mauvaise réponse.<br>Il ne permet pas de charger l'ordinateur.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Mauvaise réponse.<br>Il ne permet pas de charger l'ordinateur.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>port n°3</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Ce port s'apelle le port HDMI, il ne permet pas de charger l'ordinateur.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Ce port s'apelle le port HDMI, il ne permet pas de charger l'ordinateur.</p>"
+                }
               }
             ],
             "solution": "1"
@@ -263,32 +272,50 @@
               {
                 "id": "1",
                 "content": "<p>port n°1</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port d’alimentation électrique qui permet de charger l'ordinateur.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>port n°2</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port Ethernet qui permet de se connecter à la box internet.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>port n°3</p>",
-                "feedback": "<p>Mauvaise réponse.</p><p>C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Mauvaise réponse.</p><p>C'est le port HDMI qui sert souvent à connecter un autre écran ou un vidéoprojecteur. </p>"
+                }
               },
               {
                 "id": "4",
                 "content": "<p>port n°4</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>Maxime a deux ports USB sur son ordinateur. Il peut brancher son clavier sur l'un ou sur l'autre.</p>"
+                }
               },
               {
                 "id": "5",
                 "content": "<p>port n°5</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port jack, qui permet à Maxime de brancher son casque audio.</p>"
+                }
               },
               {
                 "id": "6",
                 "content": "<p>port n°6</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port USB de Type C, ou USB-C. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>C'est le port USB de Type C, ou USB-C. Il permet à Maxime de brancher des appareils audio, vidéo, ou son téléphone portable. </p>"
+                }
               }
             ],
             "solution": "4"

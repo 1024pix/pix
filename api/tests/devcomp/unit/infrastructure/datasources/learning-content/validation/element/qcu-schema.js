@@ -10,7 +10,10 @@ const qcuElementSchema = Joi.object({
     .items({
       id: proposalIdSchema.required(),
       content: htmlSchema.required(),
-      feedback: htmlSchema,
+      feedback: Joi.object({
+        state: htmlSchema.allow('').required(),
+        diagnosis: htmlSchema.required(),
+      }),
     })
     .required(),
   feedbacks: Joi.object({
