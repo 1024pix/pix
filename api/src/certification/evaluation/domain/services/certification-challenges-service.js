@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import * as learningContentRepository from '../../../../shared/infrastructure/repositories/learning-content-repository.js';
 import {
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
   MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,

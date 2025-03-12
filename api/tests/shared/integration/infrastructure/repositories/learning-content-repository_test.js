@@ -1,6 +1,6 @@
-import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
-import { NoSkillsInCampaignError, NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import { NoSkillsInCampaignError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import * as learningContentRepository from '../../../../../src/shared/infrastructure/repositories/learning-content-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | learning-content', function () {
   let framework1Fr, framework1En, framework2Fr, framework2En;

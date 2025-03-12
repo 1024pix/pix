@@ -1,7 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import * as learningContentRepository from '../../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as campaignRepository from '../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
@@ -45,7 +45,7 @@ import * as campaignUpdateValidator from '../validators/campaign-update-validato
  * @typedef { import ('../../../../devcomp/infrastructure/repositories/tutorial-repository.js')} TutorialRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-repository.js')} KnowledgeElementRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js')} KnowledgeElementSnapshotRepository
- * @typedef { import ('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
+ * @typedef { import ('../../../../shared/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
  * @typedef { import ('../../../../team/infrastructure/repositories/membership-repository.js')} MembershipRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js')} StageCollectionRepository
  * @typedef { import ('../../../../evaluation/infrastructure/repositories/badge-repository.js')} BadgeRepository
