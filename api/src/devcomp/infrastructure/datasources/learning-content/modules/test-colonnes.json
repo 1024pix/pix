@@ -42,7 +42,7 @@
           "element": {
             "id": "d8977037-c06a-43f7-a2f3-9e86e73185a9",
             "type": "text",
-            "content": "<ol class=\"modulix-two-columns\"><p><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels. 📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p></ol>"
+            "content": "<ol class=\"modulix-two-columns\"><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels. 📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</li><li><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p></li></ol>"
           }
         },
         {
