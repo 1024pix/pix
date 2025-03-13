@@ -1,14 +1,12 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../../src/shared/infrastructure/constants.js';
 import { CampaignAnalysis } from '../../../campaign/domain/read-models/CampaignAnalysis.js';
 import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
-const { SHARED } = CampaignParticipationStatuses;
+import * as campaignParticipationRepository from './campaign-participation-repository.js';
 
 const getCampaignAnalysis = async function (campaignId, campaignLearningContent, tutorials) {
-  const campaignParticipationIds = await _getSharedParticipationsId(campaignId);
+  const campaignParticipationIds = await campaignParticipationRepository.getSharedParticipationIds(campaignId);
   const campaignParticipationIdsChunks = _.chunk(campaignParticipationIds, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
   const participantCount = campaignParticipationIds.length;
 
@@ -58,11 +56,3 @@ const getCampaignParticipationAnalysis = async function (
 };
 
 export { getCampaignAnalysis, getCampaignParticipationAnalysis };
-
-async function _getSharedParticipationsId(campaignId) {
-  const results = await knex('campaign-participations')
-    .pluck('id')
-    .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
-
-  return results;
-}

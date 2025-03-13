@@ -14,7 +14,7 @@ import { KnowledgeElementCollection } from '../../../shared/domain/models/Knowle
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';
 
-const { TO_SHARE } = CampaignParticipationStatuses;
+const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 
 const { pick } = lodash;
 
@@ -244,6 +244,14 @@ function _rowToResult(row) {
   };
 }
 
+async function getSharedParticipationIds(campaignId) {
+  const results = await knex('campaign-participations')
+    .pluck('id')
+    .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
+
+  return results;
+}
+
 export {
   batchUpdate,
   findOneByCampaignIdAndUserId,
@@ -253,6 +261,7 @@ export {
   getByCampaignIds,
   getCampaignParticipationsForOrganizationLearner,
   getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
+  getSharedParticipationIds,
   hasAssessmentParticipations,
   isRetrying,
   remove,
