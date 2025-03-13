@@ -51,7 +51,7 @@
         {
           "type": "element",
           "element": {
-            "id": "658ae55f-8c00-415a-84ad-efa6e012c953",
+            "id": "b5982495-44c4-4efc-b7b7-ec9ec9abb3f5",
             "type": "text",
             "content": "<p>PASSABLE <br>2 éléments textes ul + li avec class column et img</p>"
           }
@@ -110,7 +110,7 @@
       ]
     },
     {
-      "id": "016ee85c-ada6-4eb9-b6ad-1abb9965d15f",
+      "id": "ef4ca2ea-6969-4dee-92d6-5cb79059cc98",
       "type": "lesson",
       "title": "test 2 avec images dans colonnes",
       "components": [
