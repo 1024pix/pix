@@ -30,7 +30,7 @@
           "element": {
             "id": "023d4b03-841c-49c0-af26-64caee073e5a",
             "type": "text",
-            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p>"
+            "content": "<ul class=\"modulix-two-columns\"><li><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></li><li><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"></li></ul>"
           }
         },
         {
@@ -73,7 +73,7 @@
           "element": {
             "id": "02e0dd42-1dcf-46eb-be21-7bb6c318b640",
             "type": "text",
-            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels. 📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p class=\"modulix-two-columns\"><strong><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></strong></p><p><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p>"
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p>"
           }
         },
         {
@@ -81,7 +81,7 @@
           "element": {
             "id": "d028cb2f-4a43-46fc-b732-2892c52d95b7",
             "type": "text",
-            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p><p><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</p><p><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p><p><strong>Évitez les sites non sûrs ou illicites</strong></p><p>Certains sites peuvent vous infecter en cours de navigation.</p>"
+            "content": "<ul class=\"modulix-two-columns\"><li><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres</strong><br>💻 Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</li><li><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"> <strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</li></ul>"
           }
         }
       ]
@@ -96,7 +96,7 @@
           "element": {
             "id": "e0469fd1-549b-4554-900e-4387ed664815",
             "type": "text",
-            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</p>"
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/W7nlkD3.png\" alt=\"pictogramme\"><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</p>"
           }
         },
         {
@@ -104,7 +104,7 @@
           "element": {
             "id": "a3e4de98-2bb5-4b5a-9a5f-bdc8cd5c045a",
             "type": "text",
-            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Évitez les sites non sûrs ou illicites</strong></p><p>Certains sites peuvent vous infecter en cours de navigation.</p>"
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Évitez les sites non sûrs ou illicites</strong>Certains sites peuvent vous infecter en cours de navigation.</p>"
           }
         }
       ]
