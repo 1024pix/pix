@@ -1,0 +1,117 @@
+{
+  "id": "189b2cc3-adf5-459a-a7d0-dc0d649369bf",
+  "slug": "test-colonne",
+  "title": "test colonnes",
+  "isBeta": false,
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>test colonne</p>",
+    "duration": 2,
+    "level": "Débutant",
+    "objectives": [
+      "<p>tester les colonnes</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "fcdd214a-0c4d-419f-bf6d-fff83a7c8a0e",
+      "content": "<p>ci-dessous un test de colonne</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "fcdd214a-0c4d-419f-bf6d-fff83a7c8a0e",
+      "type": "lesson",
+      "title": "test  1 image pictos au dessus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "689594dc-e701-4d42-89ea-00bffab1e6ac",
+            "type": "image",
+            "url": "https://i.imgur.com/f0BoAxg.png",
+            "alt": "",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d8977037-c06a-43f7-a2f3-9e86e73185a9",
+            "type": "text",
+            "content": "<ol class=\"modulix-two-columns\"><p><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels. 📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p></ol>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a3afd449-4c61-4b63-895c-d02df8caa2a9",
+            "type": "image",
+            "url": "https://i.imgur.com/f0BoAxg.png",
+            "alt": "",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f413a475-2263-48da-b38c-90ff80787098",
+            "type": "text",
+            "content": "<p class=\"modulix-two-columns\"><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</p><p><strong>Évitez les sites non sûrs ou illicites</strong></p><p>Certains sites peuvent vous infecter en cours de navigation.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "016ee85c-ada6-4eb9-b6ad-1abb9965d15f",
+      "type": "lesson",
+      "title": "test 2 avec images dans colonnes",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "02e0dd42-1dcf-46eb-be21-7bb6c318b640",
+            "type": "text",
+            "content": "<p class=\"modulix-two-columns\"><strong><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></strong></p><p><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels. 📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p><strong><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></strong></p><p><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d028cb2f-4a43-46fc-b732-2892c52d95b7",
+            "type": "text",
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p><p><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</p><p><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p><p><strong>Évitez les sites non sûrs ou illicites</strong></p><p>Certains sites peuvent vous infecter en cours de navigation.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e253b250-e8c5-4139-ae32-7136ed66a195",
+      "type": "lesson",
+      "title": "test image + texte côté à côte",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "e0469fd1-549b-4554-900e-4387ed664815",
+            "type": "text",
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p><p><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a3e4de98-2bb5-4b5a-9a5f-bdc8cd5c045a",
+            "type": "text",
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></p><p><strong>Évitez les sites non sûrs ou illicites</strong></p><p>Certains sites peuvent vous infecter en cours de navigation.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
