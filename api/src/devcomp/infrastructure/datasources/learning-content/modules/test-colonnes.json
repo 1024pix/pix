@@ -30,7 +30,7 @@
           "element": {
             "id": "7f3c1f78-2bf1-4d21-b859-da8dc7af5bfc",
             "type": "text",
-            "content": "<p> REUSSITE <br> test pictos au dessus <br> 1 élément texte ul + lix2  avec class column & img </p>"
+            "content": "<p> REUSSITE <br> test pictos au dessus <br> 1 élément texte ul + lix2  avec class column et img </p>"
           }
         },
         {
@@ -53,7 +53,7 @@
           "element": {
             "id": "658ae55f-8c00-415a-84ad-efa6e012c953",
             "type": "text",
-            "content": "<p>PASSABLE <br>2 éléments textes ul + li avec class clumn et img</p>"
+            "content": "<p>PASSABLE <br>2 éléments textes ul + li avec class column et img</p>"
           }
         },
         {
@@ -119,7 +119,7 @@
           "element": {
             "id": "2d4969f1-9307-43a6-bd0d-1a7b4c29e9ab",
             "type": "text",
-            "content": "<p>ECHEC<br>test pictos à côté <br> 1 élément texte p x2  avec class column & img  </p>"
+            "content": "<p>ECHEC<br>test pictos à côté <br> 1 élément texte p x2  avec class column et img  </p>"
           }
         },
         {
@@ -143,7 +143,7 @@
           "element": {
             "id": "46b1e0fe-63cc-49bd-a90a-91976ed19c3b",
             "type": "text",
-            "content": "<p>ECHEC<br>test pictos à côté <br> 2 éléments texte p avec class column & img  </p>"
+            "content": "<p>ECHEC<br>test pictos à côté <br> 2 éléments texte p avec class column et img  </p>"
           }
         },
         {
@@ -174,7 +174,7 @@
           "element": {
             "id": "38817bd7-d8c2-4f0c-9491-e68ffd8f73b7",
             "type": "text",
-            "content": "<p>SUSPENS<br>test pictos à côté <br> 2 éléments texte ul+li avec class column & img  </p>"
+            "content": "<p>SUSPENS<br>test pictos à côté <br> 2 éléments texte ul+li avec class column et img  </p>"
           }
         },
         {
