@@ -21,10 +21,41 @@
   ],
   "grains": [
     {
+      "id": "016ee85c-ada6-4eb9-b6ad-1abb9965d15f",
+      "type": "lesson",
+      "title": "test 2 avec images dans colonnes",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7f3c1f78-2bf1-4d21-b859-da8dc7af5bfc",
+            "type": "text",
+            "content": "<p> REUSSITE <br> test pictos au dessus <br> 1 élément texte ul + lix2  avec class column & img </p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d028cb2f-4a43-46fc-b732-2892c52d95b7",
+            "type": "text",
+            "content": "<ul class=\"modulix-two-columns\"><li><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres</strong><br>💻 Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</li><li><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"> <strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</li></ul>"
+          }
+        }
+      ]
+    },
+    {
       "id": "fcdd214a-0c4d-419f-bf6d-fff83a7c8a0e",
       "type": "lesson",
       "title": "test  1 image pictos au dessus",
       "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "658ae55f-8c00-415a-84ad-efa6e012c953",
+            "type": "text",
+            "content": "<p>PASSABLE <br>2 éléments textes ul + li avec class clumn et img</p>"
+          }
+        },
         {
           "type": "element",
           "element": {
@@ -40,8 +71,23 @@
             "type": "text",
             "content": "<ul class=\"modulix-two-columns\"><li>Télécharger depuis des sources sûres<br>💻 Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</li><li>Utiliser un antivirus<br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</li></ul>"
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": "20e5de35-a7bd-4ddf-8757-fe668bee1f70",
+      "type": "lesson",
+      "title": "test  1 image pictos au dessus",
+      "components": [ 
         {
+          "type": "element",
+          "element": {
+            "id": "658ae55f-8c00-415a-84ad-efa6e012c953",
+            "type": "text",
+            "content": "<p>PASSABLE <br>2 éléments : image + texte p avec class column</p>"
+          }
+        },  
+      {
           "type": "element",
           "element": {
             "id": "a3afd449-4c61-4b63-895c-d02df8caa2a9",
@@ -71,26 +117,35 @@
         {
           "type": "element",
           "element": {
-            "id": "02e0dd42-1dcf-46eb-be21-7bb6c318b640",
+            "id": "2d4969f1-9307-43a6-bd0d-1a7b4c29e9ab",
             "type": "text",
-            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p>"
+            "content": "<p>ECHEC<br>test pictos à côté <br> 1 élément texte p x2  avec class column & img  </p>"
           }
         },
         {
           "type": "element",
           "element": {
-            "id": "d028cb2f-4a43-46fc-b732-2892c52d95b7",
+            "id": "02e0dd42-1dcf-46eb-be21-7bb6c318b640",
             "type": "text",
-            "content": "<ul class=\"modulix-two-columns\"><li><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres</strong><br>💻 Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</li><li><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"> <strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</li></ul>"
+            "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Télécharger depuis des sources sûres<br>💻</strong> Les logiciels depuis les sites des éditeurs officiels.<br>📱 Les applications depuis l’App&nbsp;Store ou le Play&nbsp;Store.</p><p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/0thyS1A.png\" alt=\"pictogramme\"><strong>Utiliser un antivirus</strong><br>Il détecte et combat les fichiers infectés, comme le fait un vaccin pour prévenir les infections. 💉</p>"
           }
         }
       ]
     },
+    
     {
       "id": "e253b250-e8c5-4139-ae32-7136ed66a195",
       "type": "lesson",
       "title": "test image + texte côté à côte",
       "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "46b1e0fe-63cc-49bd-a90a-91976ed19c3b",
+            "type": "text",
+            "content": "<p>ECHEC<br>test pictos à côté <br> 2 éléments texte p avec class column & img  </p>"
+          }
+        },
         {
           "type": "element",
           "element": {
@@ -105,6 +160,37 @@
             "id": "a3e4de98-2bb5-4b5a-9a5f-bdc8cd5c045a",
             "type": "text",
             "content": "<p class=\"modulix-two-columns\"><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"><strong>Évitez les sites non sûrs ou illicites</strong>Certains sites peuvent vous infecter en cours de navigation.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8e74ea69-ab22-48d3-bee0-4655d4afda53",
+      "type": "lesson",
+      "title": "test image + texte côté à côte",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "38817bd7-d8c2-4f0c-9491-e68ffd8f73b7",
+            "type": "text",
+            "content": "<p>SUSPENS<br>test pictos à côté <br> 2 éléments texte ul+li avec class column & img  </p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "9eba5819-7f6f-4908-806e-39f90425f753",
+            "type": "text",
+            "content": "<ul class=\"modulix-two-columns\"><li><img src=\"https://i.imgur.com/W7nlkD3.png\" alt=\"pictogramme\"></li><li><strong>Ne pas brancher un appareil USB dont vous ne connaissez pas la provenance.<br></strong>Ou ne pas se brancher en USB pour recharger dans le train, à la gare, à l'aéroport.</li></ul>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "7b60967e-4547-4187-9709-85624e9001d7",
+            "type": "text",
+            "content": "<ul class=\"modulix-two-columns\"><li><img src=\"https://i.imgur.com/f0BoAxg.png\" alt=\"pictogramme\"></li><li><strong>Évitez les sites non sûrs ou illicites</strong>Certains sites peuvent vous infecter en cours de navigation.</li></ul>"
           }
         }
       ]
