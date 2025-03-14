@@ -2,7 +2,7 @@ import Model, { attr } from '@ember-data/model';
 
 export default class CorrectionResponse extends Model {
   @attr('string') status;
-  @attr('string') feedback;
+  @attr() feedback;
   @attr() solution;
 
   get isOk() {

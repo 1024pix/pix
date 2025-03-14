@@ -67,7 +67,7 @@ class QCUForAnswerVerification extends QCU {
   #getSpecificFeedbackByProposalId(proposalId) {
     const proposalFound = this.proposals.find((proposal) => proposal.id === proposalId);
     if (proposalFound?.feedback) {
-      return proposalFound.feedback.state + proposalFound.feedback.diagnosis;
+      return proposalFound.feedback;
     }
   }
 

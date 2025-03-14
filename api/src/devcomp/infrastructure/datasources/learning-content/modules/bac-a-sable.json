@@ -185,24 +185,24 @@
                 "id": "1",
                 "content": "Des recettes de lasagne",
                 "feedback": {
-                  "state": "",
-                  "diagnosis": "<span class=\"feedback__state\">Incorrect.</span><p>Erreur, ce ne sont pas des lasagnes</p>"
+                  "state": "Incorrect.",
+                  "diagnosis": "<p>Erreur, ce ne sont pas des lasagnes</p>"
                 }
               },
               {
                 "id": "2",
                 "content": "Des recettes de pâté en croûte",
                 "feedback": {
-                  "state": "",
-                  "diagnosis": "<span class=\"feedback__state\">Incorrect.</span><p>Non, ce ne sont pas des recettes de pâté en croûte</p>"
+                  "state": "Incorrect.",
+                  "diagnosis": "<p>Non, ce ne sont pas des recettes de pâté en croûte</p>"
                 }
               },
               {
                 "id": "3",
                 "content": "Des recettes végétariennes",
                 "feedback": {
-                  "state": "",
-                  "diagnosis": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>"
+                  "state": "Correct&#8239;!",
+                  "diagnosis": "<p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>"
                 }
               }
             ],

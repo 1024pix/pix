@@ -106,9 +106,7 @@ export default class ModuleQcu extends ModuleElement {
 
       <div class="element-qcu__feedback" role="status" tabindex="-1">
         {{#if this.shouldDisplayFeedback}}
-          <ModulixFeedback @answerIsValid={{this.answerIsValid}}>
-            {{htmlUnsafe this.correction.feedback}}
-          </ModulixFeedback>
+          <ModulixFeedback @answerIsValid={{this.answerIsValid}} @feedback={{this.correction.feedback}} />
         {{/if}}
       </div>
 
