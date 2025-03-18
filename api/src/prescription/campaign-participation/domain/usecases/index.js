@@ -23,6 +23,7 @@ import * as organizationRepository from '../../../../shared/infrastructure/repos
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as targetProfileRepository from '../../../target-profile/infrastructure/repositories/target-profile-repository.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
@@ -42,6 +43,7 @@ import { participantResultsSharedRepository } from '../../infrastructure/reposit
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
+
 /**
  * @typedef { import ('../../../../shared/infrastructure/repositories/area-repository.js')} AreaRepository
  * @typedef { import ('../../../../shared/infrastructure/repositories/assessment-repository.js')} AssessmentRepository
@@ -60,7 +62,8 @@ import * as poleEmploiSendingRepository from '../../infrastructure/repositories/
  * @typedef { import ('../../../../evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js')} CompareStagesAndAcquiredStages
  * @typedef { import ('../../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js')} CompetenceEvaluationRepository
  * @typedef { import ('../../../../shared/infrastructure/repositories/competence-repository.js')} CompetenceRepository
- * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-repository.js')} KnowledgeElementRepository
+ * @typedef { import ('../../../../shared/infrastructure/repositories/knowledge-element-repository.js')} KnowledgeElementRepository
+ * @typedef { import ('../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js')} KnowledgeElementSnapshotRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/organization-learner-repository.js')} OrganizationLearnerRepository
  * @typedef { import ('../../infrastructure/repositories/participant-result-repository.js')} ParticipantResultRepository
@@ -106,6 +109,7 @@ const dependencies = {
   competenceEvaluationRepository,
   competenceRepository,
   knowledgeElementRepository: injectedSharedRepositories.knowledgeElementRepository,
+  knowledgeElementSnapshotRepository,
   learningContentRepository,
   organizationLearnerRepository,
   organizationRepository,
