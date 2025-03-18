@@ -71,7 +71,7 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.16.0",
     "pg": "^8.7.3",
-    "pg-boss": "^9.0.0",
+    "pg-boss": "^10.0.0",
     "pg-connection-string": "^2.5.0",
     "pg-query-stream": "^4.7.3",
     "pino": "^9.0.0",
