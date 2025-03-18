@@ -1,7 +1,9 @@
-import { Membership } from '../../../../../src/shared/domain/models/index.js';
+import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
+import { KnowledgeElement, Membership } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
+  domainBuilder,
   expect,
   generateAuthenticatedUserRequestHeaders,
   learningContentBuilder,
@@ -474,6 +476,168 @@ describe('Acceptance | API | Campaign Route', function () {
           },
         ],
       });
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/level_by_tubes_and_competences', function () {
+    let campaign, campaignId, userId;
+    const options = {
+      headers: { authorization: null },
+      method: 'GET',
+      url: null,
+    };
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+      const organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+      });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillWeb1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillWeb2' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillUrl1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillUrl2' });
+
+      const learningContentData = {
+        frameworks: [{ id: 'frameworkId', name: 'frameworkName' }],
+        areas: [{ id: 'recArea1', frameworkId: 'frameworkId', competenceIds: ['recCompetence1'] }],
+        competences: [
+          {
+            id: 'recCompetence1',
+            name_i18n: { fr: 'name FR Compétence 1', en: 'name EN Compétence 1' },
+            description_i18n: { fr: 'description FR Compétence 1', en: 'description EN Compétence 1' },
+            index: '1.1',
+            skillIds: ['recSkillWeb1', 'recSkillWeb2', 'recSkillUrl1', 'recSkillUrl2'],
+            areaId: 'recArea1',
+            origin: 'Pix',
+          },
+        ],
+        thematics: [],
+        tubes: [
+          {
+            id: 'recTube1',
+            name: '@tubeWeb1',
+            title: 'Title recTube1',
+            description: 'recTube1 description',
+            practicalTitle_i18n: { fr: 'Tube 1 fr title', en: 'Tube 1 en title' },
+            practicalDescription_i18n: { fr: 'recTube1 fr description', en: 'recTube1 en description' },
+            competenceId: 'recCompetence1',
+            skillIds: ['recSkillWeb1', 'recSkillWeb2'],
+          },
+          {
+            id: 'recTube2',
+            name: '@tubeUrl2',
+            title: 'Title recTube2',
+            description: 'recTube2 description',
+            practicalTitle_i18n: { fr: 'Tube 2 fr title', en: 'Tube 2 en title' },
+            practicalDescription_i18n: { fr: 'recTube2 fr description', en: 'recTube2 en description' },
+            competenceId: 'recCompetence1',
+            skillIds: ['recSkillUrl1', 'recSkillUrl2'],
+          },
+        ],
+        skills: [
+          {
+            id: 'recSkillWeb1',
+            name: '@web1',
+            tubeId: 'recTube1',
+            status: 'actif',
+            level: 1,
+            competenceId: 'recCompetence1',
+          },
+          {
+            id: 'recSkillWeb2',
+            name: '@web2',
+            tubeId: 'recTube1',
+            status: 'actif',
+            level: 2,
+            competenceId: 'recCompetence1',
+          },
+          {
+            id: 'recSkillUrl1',
+            name: '@url1',
+            tubeId: 'recTube2',
+            status: 'actif',
+            level: 3,
+            competenceId: 'recCompetence1',
+          },
+          {
+            id: 'recSkillUrl2',
+            name: '@url2',
+            tubeId: 'recTube2',
+            status: 'actif',
+            level: 4,
+            competenceId: 'recCompetence1',
+          },
+        ],
+        challenges: [],
+      };
+
+      databaseBuilder.factory.learningContent.build(learningContentData);
+
+      const user1 = databaseBuilder.factory.buildUser();
+      const user2 = databaseBuilder.factory.buildUser();
+
+      const participationUser1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: user1.id,
+      });
+      const participationUser2 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: user2.id,
+      });
+
+      const user1ke1 = databaseBuilder.factory.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+        skillId: learningContentData.skills[0].id,
+        userId: participationUser1.userId,
+      });
+      const user1ke2 = databaseBuilder.factory.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        skillId: learningContentData.skills[1].id,
+        userId: participationUser1.userId,
+      });
+
+      const user2ke1 = databaseBuilder.factory.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+        skillId: learningContentData.skills[2].id,
+        userId: participationUser2.userId,
+      });
+
+      const user2ke2 = databaseBuilder.factory.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+        skillId: learningContentData.skills[3].id,
+        userId: participationUser2.userId,
+      });
+
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        campaignParticipationId: participationUser1.id,
+        snapshot: new KnowledgeElementCollection([user1ke1, user1ke2]).toSnapshot(),
+      });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        campaignParticipationId: participationUser2.id,
+        snapshot: new KnowledgeElementCollection([user2ke1, user2ke2]).toSnapshot(),
+      });
+
+      await databaseBuilder.commit();
+
+      options.headers = generateAuthenticatedUserRequestHeaders({ userId });
+      options.url = `/api/campaigns/${campaign.id}/level_by_tubes_and_competences`;
+    });
+
+    it('should return correct mean and max levels for competences and tubes', async function () {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result.data.type).to.deep.equal('campaign-result-levels-per-tubes-and-competences');
     });
   });
 });
