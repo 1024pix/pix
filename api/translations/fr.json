@@ -184,6 +184,9 @@
   },
   "certification-confirmation": {
     "absolute-max-level-indication": "Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.",
+    "file-metadata": {
+      "title": "Attestation(s) de certification Pix"
+    },
     "file-name": "attestation-pix-{deliveredAt}.pdf",
     "from-birthplace": " à { birthplace }",
     "max-level": "(niveaux sur { maxReachableLevelOnCertificationDate })",

@@ -1,53 +1,37 @@
 {{page-title (t "pages.user-account.title")}}
 
 <Global::AppLayout>
-  <main id="main" class="main" role="main">
-    <PixBackgroundHeader class="user-account">
+  {{#if this.isPixAppNewLayoutEnabled}}
+    <main id="main" class="main user-account" role="main">
       <h1 class="user-account__title">{{t "pages.user-account.title"}}</h1>
 
-      <div class="user-account__menu-and-content">
-        <PixBlock class="user-account__menu-block">
-          <nav class="user-account-menu" role="navigation">
-            <ul>
-              <li>
-                <LinkTo @route="authenticated.user-account.personal-information" class="user-account-menu__link">
-                  <PixIcon @name="userCircle" @ariaHidden={{true}} />
-                  {{t "pages.user-account.personal-information.menu-link-title"}}
-                </LinkTo>
-              </li>
-              <li>
-                <LinkTo @route="authenticated.user-account.connection-methods" class="user-account-menu__link">
-                  <PixIcon @name="link" @ariaHidden={{true}} />
-                  {{t "pages.user-account.connexion-methods.menu-link-title"}}
-                </LinkTo>
-              </li>
-              {{#if this.isInternationalDomain}}
-                <li>
-                  <LinkTo @route="authenticated.user-account.language" class="user-account-menu__link">
-                    <PixIcon @name="language" @ariaHidden={{true}} />
-                    {{t "pages.user-account.language.menu-link-title"}}
-                  </LinkTo>
-                </li>
-              {{/if}}
-              {{#if @model.accountInfo.canSelfDeleteAccount}}
-                <li>
-                  <LinkTo
-                    @route="authenticated.user-account.delete-account"
-                    class="user-account-menu__link user-account-menu__link--important"
-                  >
-                    <PixIcon @name="delete" @ariaHidden={{true}} />
-                    {{t "pages.user-account.delete-account.menu-link-title"}}
-                  </LinkTo>
-                </li>
-              {{/if}}
-            </ul>
-          </nav>
-        </PixBlock>
+      <div class="user-account__container">
+        <UserAccount::UserAccountNavigation
+          @class="user-account__navigation"
+          @canSelfDeleteAccount={{@model.accountInfo.canSelfDeleteAccount}}
+        />
 
-        <PixBlock class="user-account__content">
+        <section class="user-account__section">
           {{outlet}}
-        </PixBlock>
+        </section>
       </div>
-    </PixBackgroundHeader>
-  </main>
+    </main>
+  {{else}}
+    <main id="main" class="main" role="main">
+      <PixBackgroundHeader class="user-account-legacy">
+        <h1 class="user-account-legacy__title">{{t "pages.user-account.title"}}</h1>
+
+        <div class="user-account-legacy__menu-and-content">
+          <UserAccount::UserAccountNavigation
+            @class="user-account-legacy__navigation"
+            @canSelfDeleteAccount={{@model.accountInfo.canSelfDeleteAccount}}
+          />
+
+          <PixBlock class="user-account-legacy__content">
+            {{outlet}}
+          </PixBlock>
+        </div>
+      </PixBackgroundHeader>
+    </main>
+  {{/if}}
 </Global::AppLayout>

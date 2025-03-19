@@ -33,6 +33,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
       id: 1,
+      version: SESSIONS_VERSIONS.V2,
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
@@ -72,6 +73,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
       id: 1,
+      version: SESSIONS_VERSIONS.V2,
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
@@ -108,6 +110,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
       id: 1,
+      version: SESSIONS_VERSIONS.V2,
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
@@ -149,6 +152,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage =
       domainBuilder.buildCertificationAttestation({
         id: 1,
+        version: SESSIONS_VERSIONS.V2,
         firstName: 'Jean',
         lastName: 'Bon',
         resultCompetenceTree,
@@ -163,11 +167,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
           },
         ],
         deliveredAt: deliveredBeforeStartDate,
-        version: SESSIONS_VERSIONS.V2,
       });
     const certificateWithComplementaryCertificationsAndWithProfessionalizingMessage =
       domainBuilder.buildCertificationAttestation({
         id: 2,
+        version: SESSIONS_VERSIONS.V2,
         firstName: 'Harry',
         lastName: 'Covert',
         resultCompetenceTree,
@@ -182,7 +186,6 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
           },
         ],
         deliveredAt: deliveredAfterStartDate,
-        version: SESSIONS_VERSIONS.V2,
       });
     const certificateWithoutComplementaryCertificationsAndWithoutProfessionalizingMessage =
       domainBuilder.buildCertificationAttestation({
@@ -200,13 +203,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       domainBuilder.buildCertificationAttestation({
         ...certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage,
         id: 2,
+        version: SESSIONS_VERSIONS.V2,
         firstName: 'Quentin',
         lastName: 'Bug Arrive En Prod',
         cleaCertificationImagePath: null,
         pixPlusDroitCertificationImagePath: null,
         certifiedBadges: [],
         deliveredAt: deliveredAfterStartDate,
-        version: SESSIONS_VERSIONS.V2,
       });
     const referencePdfPath = 'certification-attestation-pdf_several_pages.pdf';
     const i18n = getI18n();
@@ -240,6 +243,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
       id: 1,
+      version: SESSIONS_VERSIONS.V2,
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
@@ -268,6 +272,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
       id: 1,
+      version: SESSIONS_VERSIONS.V2,
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
@@ -303,11 +308,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       const certificateWithoutProfessionalizingMessage = domainBuilder.buildCertificationAttestation({
         id: 1,
         firstName: 'Alain',
+        version: SESSIONS_VERSIONS.V3,
         lastName: 'Cendy',
         resultCompetenceTree,
         certifiedBadges: [],
         deliveredAt: deliveredAfterStartDate,
-        version: SESSIONS_VERSIONS.V3,
       });
       const referencePdfPath = 'certification-attestation-pdf-v3-without-professionalizing-message_test.pdf';
       const i18n = getI18n();

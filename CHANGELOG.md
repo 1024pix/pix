@@ -1,5 +1,71 @@
 # Pix Changelog
 
+## v5.67.0 (19/03/2025)
+
+
+### :rocket: Amélioration
+- [#11755](https://github.com/1024pix/pix/pull/11755) [FEATURE] Supression des colonnes pixOrgaTermsOfServiceAccepted et lastPixOrgaTermsOfServiceValidatedAt de la table users (PIX-16700).
+- [#11737](https://github.com/1024pix/pix/pull/11737) [FEATURE] Supprimer la date de dernière connexion d'une méthode d'authentification après sa réassignation.
+- [#11680](https://github.com/1024pix/pix/pull/11680) [FEATURE] Changement de style des bouton de selection d'une classe (PIX-16977).
+- [#11679](https://github.com/1024pix/pix/pull/11679) [FEATURE] Pix Junior - Adaptation du style du champ de saisie du code (PIX-16762).
+- [#11695](https://github.com/1024pix/pix/pull/11695) [FEATURE] Améliorations visuelles de la page de début de parcours(PIX-16945).
+- [#11671](https://github.com/1024pix/pix/pull/11671) [FEATURE] Initialiser la génération de l'attestation V3 avec PDFKit (PIX-17007).
+- [#11697](https://github.com/1024pix/pix/pull/11697) [FEATURE] Ajout de la page html d'activité inhabituelle pour Baleen (PIX-16320).
+- [#11715](https://github.com/1024pix/pix/pull/11715) [FEATURE] Mise à jour du wording des campagnes de type "EXAM" (Pix-16494).
+- [#11703](https://github.com/1024pix/pix/pull/11703) [FEATURE] Nouveau design du layout pour la page Mon Compte (PIX-16928).
+
+### :building_construction: Tech
+- [#11752](https://github.com/1024pix/pix/pull/11752) [TECH] Supprimer le logo mis par défaut dans les seeds lors de la création de l'organisation (PIX-17072).
+- [#11750](https://github.com/1024pix/pix/pull/11750) [TECH] Correction de flaky sur le test d'acceptance de Account Recovery (PIX-16873).
+
+## v5.66.0 (18/03/2025)
+
+
+### :rocket: Amélioration
+- [#11678](https://github.com/1024pix/pix/pull/11678) [FEATURE] Pix Junior - Ajout d'un lien sur le site Pix depuis la page d'accueil (PIX-16765).
+- [#11648](https://github.com/1024pix/pix/pull/11648) [FEATURE] : modification alt text infographie module PPN#2 Controle parental.
+- [#11709](https://github.com/1024pix/pix/pull/11709) [FEATURE] afficher sur Pix Admin le dernier accès à un centre de certification (PIX-16634).
+- [#11626](https://github.com/1024pix/pix/pull/11626) [FEATURE] PixTable sur Pix Admin épisode 6 (PIX-16988).
+- [#11660](https://github.com/1024pix/pix/pull/11660) [FEATURE] Affichage de la date de dernier accès des membres d'une organisation (PIX-16633).
+
+### :bug: Correction
+- [#11674](https://github.com/1024pix/pix/pull/11674) [BUGFIX] Corriger un test flaky sur Pix App (PIX-16872).
+
+### :arrow_up: Montée de version
+- [#11749](https://github.com/1024pix/pix/pull/11749) [BUMP] Lock file maintenance (dossier racine).
+- [#11748](https://github.com/1024pix/pix/pull/11748) [BUMP] Lock file maintenance (audit-logger).
+- [#11745](https://github.com/1024pix/pix/pull/11745) [BUMP] Lock file maintenance (load-testing).
+- [#11743](https://github.com/1024pix/pix/pull/11743) [BUMP] Update dependency tracked-built-ins to v4 (admin).
+- [#11744](https://github.com/1024pix/pix/pull/11744) [BUMP] Update dependency tracked-built-ins to v4 (certif).
+- [#11742](https://github.com/1024pix/pix/pull/11742) [BUMP] Update dependency jsdoc-to-markdown to v9 (api).
+- [#11741](https://github.com/1024pix/pix/pull/11741) [BUMP] Update dependency js2xmlparser to v5 (load-testing).
+- [#11738](https://github.com/1024pix/pix/pull/11738) [BUMP] Update dependency browser-tools to v1.5.3 (.circleci).
+- [#11730](https://github.com/1024pix/pix/pull/11730) [BUMP] Update dependency eslint-plugin-unicorn to v57 (certif).
+- [#11731](https://github.com/1024pix/pix/pull/11731) [BUMP] Update dependency eslint-plugin-unicorn to v57 (dossier racine).
+- [#11734](https://github.com/1024pix/pix/pull/11734) [BUMP] Update dependency globals to v16 (mon-pix).
+- [#11729](https://github.com/1024pix/pix/pull/11729) [BUMP] Update dependency eslint-plugin-unicorn to v57 (audit-logger).
+- [#11728](https://github.com/1024pix/pix/pull/11728) [BUMP] Update dependency eslint-config-prettier to v10 (mon-pix).
+- [#11727](https://github.com/1024pix/pix/pull/11727) [BUMP] Update dependency eslint-config-prettier to v10 (dossier racine).
+- [#11725](https://github.com/1024pix/pix/pull/11725) [BUMP] Update dependency eslint-config-prettier to v10 (admin).
+- [#11735](https://github.com/1024pix/pix/pull/11735) [BUMP] Update dependency globals to v16 (orga).
+- [#11732](https://github.com/1024pix/pix/pull/11732) [BUMP] Update dependency globals to v16 (admin).
+- [#11733](https://github.com/1024pix/pix/pull/11733) [BUMP] Update dependency globals to v16 (junior).
+- [#11726](https://github.com/1024pix/pix/pull/11726) [BUMP] Update dependency eslint-config-prettier to v10 (audit-logger).
+- [#11724](https://github.com/1024pix/pix/pull/11724) [BUMP] Update dependency ember-template-lint to v7 (orga).
+- [#11723](https://github.com/1024pix/pix/pull/11723) [BUMP] Update dependency ember-template-lint to v7 (mon-pix).
+- [#11722](https://github.com/1024pix/pix/pull/11722) [BUMP] Update dependency ember-template-lint to v7 (junior).
+- [#11716](https://github.com/1024pix/pix/pull/11716) [BUMP] Update dependency @1024pix/pix-ui to ^55.5.0 (junior).
+- [#11721](https://github.com/1024pix/pix/pull/11721) [BUMP] Update dependency ember-template-lint to v7 (certif).
+- [#11707](https://github.com/1024pix/pix/pull/11707) [BUMP] Update dependency ember-page-title to v9 (certif).
+- [#11720](https://github.com/1024pix/pix/pull/11720) [BUMP] Update dependency ember-page-title to v9 (orga).
+- [#11719](https://github.com/1024pix/pix/pull/11719) [BUMP] Update dependency @1024pix/pix-ui to ^55.5.0 (orga).
+- [#11717](https://github.com/1024pix/pix/pull/11717) [BUMP] Update dependency @1024pix/pix-ui to ^55.5.0 (mon-pix).
+- [#11696](https://github.com/1024pix/pix/pull/11696) [BUMP] Update dependency @1024pix/pix-ui to v55 (mon-pix).
+- [#11693](https://github.com/1024pix/pix/pull/11693) [BUMP] Update dependency @1024pix/pix-ui to v55 (certif).
+- [#11711](https://github.com/1024pix/pix/pull/11711) [BUMP] Update dependency @1024pix/pix-ui to ^55.5.0 (admin).
+- [#11712](https://github.com/1024pix/pix/pull/11712) [BUMP] Update dependency eslint-plugin-unicorn to v57 (api).
+- [#11713](https://github.com/1024pix/pix/pull/11713) [BUMP] Update dependency file-type to v20 (api).
+
 ## v5.65.0 (17/03/2025)
 
 

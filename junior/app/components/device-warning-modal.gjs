@@ -102,7 +102,11 @@ export default class DeviceWarningModal extends Component {
         {{/if}}
 
         <section>
-          <img src="/images/logo-in-one-line.svg" alt="Pix Junior" class="logo" />
+          <div class="device-warning-modal-overlay__logos">
+            <img src="/images/government-logo.svg" alt={{t "pages.home.government-logo-alt"}} class="logo" />
+            <img src="/images/logo.svg" alt="Pix Junior" class="logo" />
+          </div>
+
           <h1>
             {{this.title}}
           </h1>

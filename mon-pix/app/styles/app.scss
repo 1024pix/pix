@@ -145,6 +145,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'authentication/signup-form' as *;
 @use 'authentication/sso-selection-form' as *;
 @use 'user-account/delete-account-section' as *;
+@use 'user-account/user-account-navigation' as *;
 
 /* pages */
 @use 'pages/assessment-results' as *;

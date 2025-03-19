@@ -3,8 +3,13 @@ import dayjs from 'dayjs';
 import { V3CertificationAttestation } from '../domain/models/V3CertificationAttestation.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as v3CertificationAttestationPdf from '../infrastructure/utils/pdf/v3-certification-attestation-pdf.js';
 
-const getPDFAttestation = async function (request, h, dependencies = { certificationAttestationPdf }) {
+const getPDFAttestation = async function (
+  request,
+  h,
+  dependencies = { certificationAttestationPdf, v3CertificationAttestationPdf },
+) {
   const userId = request.auth.credentials.userId;
   const certificationCourseId = request.params.certificationCourseId;
   const { i18n } = request;
@@ -16,7 +21,20 @@ const getPDFAttestation = async function (request, h, dependencies = { certifica
   });
 
   if (attestation instanceof V3CertificationAttestation) {
-    return h.response().code(200);
+    const fileName = i18n.__('certification-confirmation.file-name', {
+      deliveredAt: dayjs(attestation.deliveredAt).format('YYYYMMDD'),
+    });
+
+    return h
+      .response(
+        dependencies.v3CertificationAttestationPdf.generate({
+          certificates: [attestation],
+          i18n,
+        }),
+      )
+      .code(200)
+      .header('Content-Disposition', `attachment; filename=${fileName}`)
+      .header('Content-Type', 'application/pdf');
   }
 
   const { buffer, fileName } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({

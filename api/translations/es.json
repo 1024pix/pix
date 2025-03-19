@@ -185,6 +185,9 @@
   "certification-confirmation": {
     "absolute-max-level-indication": "Cuando estén disponibles los 8 niveles del repositorio de píxeles, este número máximo será de 1024 píxeles.",
     "file-name": "attestation-pix-{deliveredAt}.pdf",
+    "file-metadata": {
+      "title": "Pix certificacion confirmación"
+    },
     "from-birthplace": "a { birthplace }",
     "max-level": "(niveles en { maxReachableLevelOnCertificationDate })",
     "max-reachable-level-indication": "* En la fecha en que se obtuvo esta certificación, el número máximo de píxeles alcanzables era { maxReachableScore }, correspondiente al nivel { maxReachableLevelOnCertificationDate }."

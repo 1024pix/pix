@@ -4,7 +4,7 @@ const buildOrganization = function buildOrganization({
   id = databaseBuffer.getNextId(),
   type = 'PRO',
   name = 'Observatoire de Pix',
-  logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+  logoUrl = null,
   externalId = 'EXABC123',
   provinceCode = '66',
   isManagingStudents = false,

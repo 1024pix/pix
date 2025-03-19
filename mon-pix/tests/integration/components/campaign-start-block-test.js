@@ -162,7 +162,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: 'Izuku, commencez votre parcours',
+              name: 'Izuku, prêt à évaluer vos compétences numériques ?',
               level: 1,
             }),
           )
@@ -208,7 +208,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: 'Izuku, commencez votre parcours',
+              name: 'Izuku, prêt à évaluer vos compétences numériques ?',
               level: 1,
             }),
           )

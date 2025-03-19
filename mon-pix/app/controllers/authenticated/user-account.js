@@ -2,9 +2,9 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 
 export default class UserAccountController extends Controller {
-  @service currentDomain;
+  @service featureToggles;
 
-  get isInternationalDomain() {
-    return !this.currentDomain.isFranceDomain;
+  get isPixAppNewLayoutEnabled() {
+    return this.featureToggles.featureToggles.isPixAppNewLayoutEnabled;
   }
 }

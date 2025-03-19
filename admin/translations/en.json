@@ -285,12 +285,12 @@
       "type": {
         "explanation": {
           "ASSESSMENT": "Campaign of type assessment",
-          "EXAM": "exam",
+          "EXAM": "Interrogation mode [beta]",
           "PROFILES_COLLECTION": "Campaign of type profiles collection"
         },
         "information": {
           "ASSESSMENT": "Assessment",
-          "EXAM": "exam",
+          "EXAM": "Interrogation mode [beta]",
           "PROFILES_COLLECTION": "Profiles collection"
         }
       }

@@ -1002,6 +1002,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       const authenticationMethodUpdated = await knex('authentication-methods').select();
       expect(authenticationMethodUpdated[0].userId).to.equal(targetUserId);
       expect(authenticationMethodUpdated[0].updatedAt).to.deep.equal(now);
+      expect(authenticationMethodUpdated[0].lastLoggedAt).to.deep.equal(null);
     });
   });
 

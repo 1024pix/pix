@@ -1,4 +1,7 @@
-<h2 class="user-account__validation-title">{{t "pages.user-account.account-update-email-with-validation.title"}}</h2>
+<h2 class="update-email-with-validation__title">
+  {{t "pages.user-account.account-update-email-with-validation.title"}}
+</h2>
+
 <form onSubmit={{this.onSubmit}}>
   <div class="update-email-with-validation__email-input">
     <PixInput
@@ -28,7 +31,7 @@
     </PixInputPassword>
   </div>
   {{#if this.errorMessage}}
-    <PixNotificationAlert @type="error" class="user-account__error-message">
+    <PixNotificationAlert @type="error">
       {{this.errorMessage}}
     </PixNotificationAlert>
   {{/if}}

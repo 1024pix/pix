@@ -73,11 +73,14 @@
       "title": "Erreur"
     },
     "home": {
+      "ask-to-activate-organization": "J'active mon espace",
       "beta": "Version Bêta",
       "code-description": "Remplir le code de l'école, composé de 6 chiffres et 3 lettres.",
       "code-instruction": "Saisis le code de ton école pour accéder à ta classe",
       "code-label": "Code de l'école",
       "go-to-school": "Je valide le code",
+      "government-logo-alt": "République française. Liberté, égalité, fraternité.",
+      "not-any-code": "Vous n'avez pas de code école ?",
       "page-title": "Page d'accueil",
       "welcome": "Bienvenue sur Pix Junior !"
     },

@@ -161,6 +161,13 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
             // then
             expect(response.statusCode).to.equal(200);
+            expect(response.headers['content-type']).to.equal('application/pdf');
+
+            const filename = `filename=attestation-pix-20181201.pdf`;
+            expect(response.headers['content-disposition']).to.include(filename);
+
+            const fileFormat = response.result.substring(1, 4);
+            expect(fileFormat).to.equal('PDF');
           });
         });
       });

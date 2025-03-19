@@ -277,12 +277,12 @@
       "type": {
         "explanation": {
           "ASSESSMENT": "Beoordelingscampagne",
-          "PROFILES_COLLECTION": "Campagne profielverzameling",
-          "EXAM": "exam"
+          "EXAM": "Vraagmodus [beta]",
+          "PROFILES_COLLECTION": "Campagne profielverzameling"
         },
         "information": {
           "ASSESSMENT": "Beoordeling",
-          "EXAM": "exam",
+          "EXAM": "Vraagmodus [beta]",
           "PROFILES_COLLECTION": "Profielverzameling"
         }
       }
@@ -526,8 +526,8 @@
         "title": "Eigenaar van de campagne"
       },
       "purpose": {
-        "exam": "exam",
-        "exam-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis, sans prendre en compte le profil utilisateur.",
+        "exam": "Vraagmodus [beta]",
+        "exam-info": "Met een campagne in de “quizmodus” kunnen deelnemers worden getest op specifieke onderwerpen, zonder rekening te houden met hun gebruikersprofiel of er invloed op te hebben.",
         "assessment": "Deelnemers evalueren",
         "assessment-info": "Een beoordelingscampagne stelt deelnemers in staat om getest te worden op specifieke onderwerpen.",
         "label": "Wat is het doel van je campagne?",
@@ -702,7 +702,7 @@
       },
       "campaign-type": {
         "assessment": "Beoordelingscampagne",
-        "exam": "Campagne de type examen",
+        "exam": "Quiz-kampanje [beta]",
         "profiles-collection": "Verzamelcampagne profielen",
         "title": "Soort campagne"
       },

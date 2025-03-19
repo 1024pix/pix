@@ -1,3 +1,5 @@
+@use '../globals/breakpoints';
+
 .device-warning-modal-overlay {
   position: fixed;
   top: 0;
@@ -10,6 +12,21 @@
   &--hidden {
     visibility: hidden;
     opacity: 0;
+  }
+
+  &__logos {
+    display: flex;
+    gap: var(--pix-spacing-8x);
+
+    .logo {
+      height: 80px;
+    }
+  }
+
+  @include breakpoints.device-is('mobile') {
+    .logos {
+      gap: var(--pix-spacing-6x);
+    }
   }
 }
 
@@ -55,11 +72,6 @@
       align-items: center;
     }
 
-    .logo {
-      width: 182px;
-      height: 50px;
-    }
-
     .button-link {
       max-width: 200px;
     }
@@ -82,12 +94,6 @@
 
     h2 {
       font-size: 1.5rem;
-    }
-
-    .logo {
-      width: 291px;
-      height: 80px;
-      margin-bottom: var(--pix-spacing-3x);
     }
   }
 }

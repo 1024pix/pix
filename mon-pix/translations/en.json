@@ -555,7 +555,7 @@
         },
         "legal": "By clicking on “Begin“, information about your progress will be shared with the organiser so they can assist you if necessary. At the end of your customised test, your results will be shared with your organisation when clicking on “Submit my results“.",
         "title": "Begin your customised test",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' begin your customised test"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
       },
       "profiles-collection": {
         "action": "Let’s go!",

@@ -13,6 +13,7 @@
       @value={{this.schoolCode}}
       aria-label={{t "pages.home.code-description"}}
       {{on "input" this.handleCode}}
+      class="school-code__pix-code"
     >
       <:label>{{t "pages.home.code-label"}}</:label>
     </PixCode>
@@ -21,6 +22,16 @@
   <PixButton class="pix1d-button" @type="submit" @size="large">
     {{t "pages.home.go-to-school"}}
   </PixButton>
-  <img src="/images/logo.svg" alt="Pix Junior" class="logo" />
+  <p>
+    <strong>{{t "pages.home.not-any-code"}}</strong>
+    <PixButtonLink @href="https://pix.fr/enseignement-primaire" target="_blank" @variant="tertiary">
+      {{t "pages.home.ask-to-activate-organization"}}
+    </PixButtonLink>
+  </p>
+
+  <div class="logos">
+    <img src="/images/government-logo.svg" alt={{t "pages.home.government-logo-alt"}} class="logo" />
+    <img src="/images/logo.svg" alt="Pix Junior" class="logo" />
+  </div>
 </form>
 <Footer />

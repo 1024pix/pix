@@ -36,7 +36,7 @@ parameters:
     default: ''
 
 orbs:
-  browser-tools: circleci/browser-tools@1.5.2
+  browser-tools: circleci/browser-tools@1.5.3
 
 executors:
   node-docker:

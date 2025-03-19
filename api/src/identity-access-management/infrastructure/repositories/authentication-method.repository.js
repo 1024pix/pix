@@ -205,7 +205,7 @@ const updateAuthenticationComplementByUserIdAndIdentityProvider = async function
 const updateAuthenticationMethodUserId = async function ({ originUserId, identityProvider, targetUserId }) {
   await knex(AUTHENTICATION_METHODS_TABLE)
     .where({ userId: originUserId, identityProvider })
-    .update({ userId: targetUserId, updatedAt: new Date() });
+    .update({ userId: targetUserId, updatedAt: new Date(), lastLoggedAt: null });
 };
 
 const update = async function ({ id, authenticationComplement }) {

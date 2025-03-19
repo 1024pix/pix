@@ -553,7 +553,7 @@
         },
         "legal": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Als je aan het einde van de cursus op de knop \"Stuur mijn resultaten\" klikt, worden je resultaten naar de organisator gestuurd.",
         "title": "Begin je Pix-reis",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' begin je test"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
       },
       "profiles-collection": {
         "action": "Laten we gaan!",

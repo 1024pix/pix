@@ -277,12 +277,12 @@
       "type": {
         "explanation": {
           "ASSESSMENT": "Campagne d'évaluation",
-          "EXAM": "exam",
+          "EXAM": "Mode interro [bêta]",
           "PROFILES_COLLECTION": "Campagne de collecte de profil"
         },
         "information": {
           "ASSESSMENT": "Évaluation",
-          "EXAM": "exam",
+          "EXAM": "Mode interro [bêta]",
           "PROFILES_COLLECTION": "Collecte de profil"
         }
       }
@@ -570,8 +570,8 @@
       "purpose": {
         "assessment": "Évaluer les participants",
         "assessment-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis.",
-        "exam": "exam",
-        "exam-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis, sans prendre en compte le profil utilisateur.",
+        "exam": "Mode interro [bêta]",
+        "exam-info": "Une campagne de type “mode interro” permet de tester les participants sur des sujets précis, sans prendre en compte le profil utilisateur, et sans impacter celui-ci.",
         "label": "Quel est l'objectif de votre campagne ?",
         "profiles-collection": "Collecter les profils Pix des participants",
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix.",
@@ -744,7 +744,7 @@
       },
       "campaign-type": {
         "assessment": "Campagne d'évaluation",
-        "exam": "Campagne de type examen",
+        "exam": "Campagne d'interro [bêta]",
         "profiles-collection": "Campagne de collecte de profils",
         "title": "Type de la campagne"
       },

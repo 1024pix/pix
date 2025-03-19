@@ -293,12 +293,12 @@
       "type": {
         "explanation": {
           "ASSESSMENT": "Campagne d'évaluation",
-          "EXAM": "exam",
+          "EXAM": "Mode interro [bêta]",
           "PROFILES_COLLECTION": "Campagne de collecte de profil"
         },
         "information": {
           "ASSESSMENT": "Évaluation",
-          "EXAM": "exam",
+          "EXAM": "Mode interro [bêta]",
           "PROFILES_COLLECTION": "Collecte de profil"
         }
       }

@@ -173,6 +173,9 @@
   },
   "certification-confirmation": {
     "absolute-max-level-indication": "When the 8 levels of the Pix framework will be available, that maximum number will be of 1024 pix.",
+    "file-metadata": {
+      "title": "Pix certification confirmation"
+    },
     "file-name": "pix-confirmation-{deliveredAt}.pdf",
     "from-birthplace": " in { birthplace }",
     "max-level": "(levels on { maxReachableLevelOnCertificationDate })",

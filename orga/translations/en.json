@@ -277,12 +277,12 @@
       "type": {
         "explanation": {
           "ASSESSMENT": "Campaign of type assessment",
-          "EXAM": "exam",
+          "EXAM": "Interrogation mode [beta]",
           "PROFILES_COLLECTION": "Campaign of type profiles collection"
         },
         "information": {
           "ASSESSMENT": "Assessment",
-          "EXAM": "exam",
+          "EXAM": "Interrogation mode [beta]",
           "PROFILES_COLLECTION": "Profiles collection"
         }
       }
@@ -564,8 +564,8 @@
       "purpose": {
         "assessment": "Assess participants",
         "assessment-info": "An assessment campaign tests participants on specific topics.",
-        "exam": "exam",
-        "exam-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis, sans prendre en compte le profil utilisateur.",
+        "exam": "Interrogation mode [beta]",
+        "exam-info": "A ‘interrogation mode’ campaign enables participants to be tested on specific subjects, without taking their user profile into account or having any impact on it.",
         "label": "What is the purpose of your campaign?",
         "profiles-collection": "Collect the participants' Pix profiles",
         "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score.",
@@ -738,7 +738,7 @@
       },
       "campaign-type": {
         "assessment": "Assessment campaign",
-        "exam": "Campagne de type examen",
+        "exam": "Questioning campaign [beta]",
         "profiles-collection": "Profiles collection campaign",
         "title": "Type of campaign"
       },

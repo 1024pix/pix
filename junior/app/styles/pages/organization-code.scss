@@ -1,5 +1,5 @@
 @use '../globals/fonts';
-@use 'pix-design-tokens/breakpoints';
+@use '../globals/breakpoints';
 @use 'pix-design-tokens/typography';
 
 .school-code {
@@ -8,7 +8,7 @@
   margin-top: 2rem;
   margin-left: 3rem;
 
-  p, label {
+  p, label, a {
     width: fit-content;
   }
 
@@ -37,6 +37,11 @@
   &__input {
     display: flex;
     padding-top: var(--pix-spacing-4x);
+  }
+
+  &__pix-code {
+    border: solid 1px var(--pix-neutral-100);
+    border-radius: var(--pix-spacing-2x);
   }
 
   &__rotated-bubble {
@@ -68,36 +73,35 @@
   .pix1d-button {
     width: 215px;
     margin-top: 24px;
+    margin-bottom: 64px;
     padding: 16px 40px;
     font-size: 1.125rem;
   }
 
 
-  .logo {
-    width: 149px;
-    height: 80px;
-    margin-top: 130px;
+  .logos {
+    display: flex;
+    gap: var(--pix-spacing-6x);
+    margin-top: 73px;
     margin-bottom: 20px;
+  }
+
+  .logo {
+    height: 80px;
   }
 
   @include breakpoints.device-is('desktop') {
     margin-top: 30px;
 
-    .logo {
-      width: 209px;
-      height: 112px;
-      margin-top: 130px;
+    .logos {
+      gap: var(--pix-spacing-8x);
+      margin-top: 149px;
       margin-bottom: 16px;
     }
+
+    .logo {
+      height: 112px;
+    }
   }
-
 }
 
-.pix-input-code input.pix-input-code__input.school-code__input {
-  width: 55px;
-  height: 55px;
-  padding: 8px;
-  font-weight: bold;
-  font-size: 1.250rem;
-  border-color: var(--pix-primary-500);
-}

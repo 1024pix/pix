@@ -1,5 +1,20 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
 .email-verification-code {
   color: var(--pix-neutral-800);
+
+  &__title {
+    @extend %pix-title-s;
+
+    padding-bottom: var(--pix-spacing-4x);
+    color: var(--pix-neutral-900);
+    text-align: center;
+
+    @include breakpoints.device-is('tablet') {
+      text-align: start;
+    }
+  }
 
   &__description {
     font-size: 0.875rem;

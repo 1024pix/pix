@@ -1,0 +1,63 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+
+.user-account-navigation {
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  ul li {
+    border-bottom: 1px solid var(--pix-neutral-20);
+
+    &:first-child {
+      a {
+        border-radius: var(--pix-spacing-2x) var(--pix-spacing-2x) 0 0;
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
+
+      a {
+        border-radius: 0 0 var(--pix-spacing-2x) var(--pix-spacing-2x);
+      }
+    }
+  }
+
+  &__link {
+    @extend %pix-body-m;
+
+    display: flex;
+    align-items: center;
+    padding: var(--pix-spacing-4x);
+    color: var(--pix-neutral-800);
+
+    svg {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      background-color: var(--pix-neutral-20);
+    }
+
+    &:focus-within {
+      background-color: var(--pix-neutral-20);
+    }
+
+    &.active {
+      font-weight: var(--pix-font-medium);
+      background-color: var(--pix-neutral-20);
+    }
+
+    &--important {
+      color: var(--pix-error-500);
+    }
+  }
+
+  @include breakpoints.device-is('mobile') {
+    flex-grow: 1;
+  }
+}

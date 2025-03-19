@@ -3,15 +3,20 @@
 @use 'pix-design-tokens/typography';
 
 .campaign-landing-page__container {
-  margin-bottom: var(--pix-spacing-12x);
+  margin: var(--pix-spacing-2x);
+
+  @include breakpoints.device-is('tablet') {
+    width: 80%;
+    margin-top: var(--pix-spacing-12x);
+    margin-bottom: var(--pix-spacing-12x);
+  }
 }
 
 .campaign-landing-page__container__start {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 25px;
-  padding-bottom: var(--pix-spacing-10x);
+  padding: var(--pix-spacing-8x);
 }
 
 .campaign-landing-page__start__image__container {
@@ -21,11 +26,17 @@
   justify-content: space-between;
   width: 90%;
   margin: auto;
-  padding: 25px;
+  margin-bottom: var(--pix-spacing-8x);
 
   @include breakpoints.device-is('tablet') {
     flex-direction: row;
   }
+}
+
+.campaign-landing-page__pix-logo {
+  display: flex;
+  gap: var(--pix-spacing-8x);
+  margin: auto;
 }
 
 .campaign-landing-page__pix-logo .campaign-landing-page__marianne-logo {
@@ -33,24 +44,27 @@
 }
 
 .campaign-landing-page__image {
-  height: 70px;
+  height: 42px;
+
+  @include breakpoints.device-is('tablet') {
+    height: 70px;
+  }
 }
 
 .campaign-landing-page-start {
   display: flex;
   flex-direction: column;
+  gap: var(--pix-spacing-4x);
   width: 80%;
   margin: auto;
   text-align: center;
 
   &__title {
-    @extend %pix-title-l;
+    @extend %pix-title-m;
   }
 
   &__subtitle {
     @extend %pix-title-xs;
-
-    margin-top: var(--pix-spacing-4x);
   }
 
   &__legal {
@@ -87,11 +101,7 @@
 
 .campaign-landing-page__start-button {
   align-self: center;
-  margin: 30px 0;
-
-  @include breakpoints.device-is('tablet') {
-    margin: 30px;
-  }
+  margin: var(--pix-spacing-8x) 0;
 }
 
 .campaign-landing-page__start__warning {

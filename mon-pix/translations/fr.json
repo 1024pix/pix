@@ -555,7 +555,7 @@
         },
         "legal": "En cliquant sur “Je commence”, les informations relatives à votre avancée dans le parcours seront transmises à l’organisateur du parcours pour lui permettre de vous accompagner. A la fin du parcours, en cliquant sur le bouton “J’envoie mes résultats” vos résultats seront transmis à l’organisateur.",
         "title": "Commencez votre parcours Pix",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' commencez votre parcours"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' prêt à évaluer vos compétences numériques ?"
       },
       "profiles-collection": {
         "action": "C'est parti !",

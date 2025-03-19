@@ -98,7 +98,10 @@ describe('Acceptance | Identity Access Management | Application | Route | accoun
         expect(response.statusCode).to.equal(204);
         expect(newUserEmail).to.equal('new-email@example.net');
         expect(cgu).to.equal(true);
-        expect(userAuthenticationMethods).to.deepEqualArray([{ identityProvider: 'GAR' }, { identityProvider: 'PIX' }]);
+        expect(userAuthenticationMethods).to.have.deep.members([
+          { identityProvider: 'GAR' },
+          { identityProvider: 'PIX' },
+        ]);
       });
     });
   });

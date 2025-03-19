@@ -553,7 +553,7 @@
         },
         "legal": "Al hacer clic en «Empiezo» te conectarás a la plataforma y se enviará la información sobre tu progreso en el test al organizador del mismo para que pueda ayudarte si es necesario. Al final del test, haciendo clic en el botón «Envío mis resultados», se enviarán tus resultados al organizador.",
         "title": "Empieza tu test Pix",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' empieza tu test"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
       },
       "profiles-collection": {
         "action": "¡Empecemos!",

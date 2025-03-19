@@ -1,6 +1,6 @@
 {
   "name": "pix-load-testing",
-  "version": "3.65.0",
+  "version": "3.67.0",
   "description": "Permet d'exécuter des tests de charge sur l'API de la plateforme Pix.",
   "homepage": "https://github.com/1024pix/pix/tree/dev/high-level-tests/load-testing#readme",
   "author": "GIP Pix",
@@ -42,7 +42,7 @@
     "@faker-js/faker": "^9.0.0",
     "chai": "^5.0.0",
     "eslint": "^9.0.0",
-    "js2xmlparser": "^4.0.1",
+    "js2xmlparser": "^5.0.0",
     "mocha": "^11.0.0",
     "sinon": "^19.0.0",
     "sinon-chai": "^4.0.0"

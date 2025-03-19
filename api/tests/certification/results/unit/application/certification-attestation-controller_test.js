@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { certificationAttestationController } from '../../../../../src/certification/results/application/certification-attestation-controller.js';
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
 import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
@@ -8,43 +10,91 @@ const { FRENCH } = LANGUAGES_CODE;
 
 describe('Certification | Results | Unit | Application | Controller | certification-attestation-controller', function () {
   describe('#getPDFAttestation', function () {
-    it('should return attestation in PDF binary format', async function () {
-      // given
-      const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
-      const attestationPDF = 'binary string';
-      const fileName = 'attestation-pix-20181003.pdf';
-      const userId = 1;
-      const i18n = Symbol('i18n');
+    describe('when the certification is new v3', function () {
+      it('should return attestation in PDF binary format', async function () {
+        // given
+        const v3CertificationAttestation = domainBuilder.certification.results.buildV3CertificationAttestation();
+        const userId = 1;
+        const i18n = getI18n();
+        const generatedPdf = Symbol('Stream');
 
-      const request = {
-        i18n,
-        auth: { credentials: { userId } },
-        params: { certificationCourseId: certification.id },
-        query: { isFrenchDomainExtension: true, lang: FRENCH },
-      };
+        const request = {
+          i18n,
+          auth: { credentials: { userId: 1 } },
+          params: { certificationCourseId: 1 },
+          query: { lang: FRENCH },
+        };
 
-      sinon
-        .stub(usecases, 'getCertificationAttestation')
-        .withArgs({
-          userId,
-          certificationCourseId: certification.id,
-        })
-        .resolves(certification);
-      const certificationAttestationPdfStub = {
-        getCertificationAttestationsPdfBuffer: sinon.stub(),
-      };
-      certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
-        .withArgs({ certificates: [certification], isFrenchDomainExtension: true, i18n })
-        .resolves({ buffer: attestationPDF, fileName });
+        sinon
+          .stub(usecases, 'getCertificationAttestation')
+          .withArgs({
+            userId,
+            certificationCourseId: request.params.certificationCourseId,
+          })
+          .resolves(v3CertificationAttestation);
 
-      // when
-      const response = await certificationAttestationController.getPDFAttestation(request, hFake, {
-        certificationAttestationPdf: certificationAttestationPdfStub,
+        const generatePdfStub = {
+          generate: sinon.stub().returns(generatedPdf),
+        };
+
+        // when
+        const response = await certificationAttestationController.getPDFAttestation(request, hFake, {
+          v3CertificationAttestationPdf: generatePdfStub,
+        });
+
+        // then
+        expect(generatePdfStub.generate).calledOnceWithExactly({
+          certificates: [v3CertificationAttestation],
+          i18n,
+        });
+        expect(response.source).to.deep.equal(generatedPdf);
+        expect(response.headers['Content-Disposition']).to.contains(
+          `attachment; filename=attestation-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
+        );
       });
+    });
 
-      // then
-      expect(response.source).to.deep.equal(attestationPDF);
-      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestation-pix-20181003.pdf');
+    describe('when the certification is v2 or previous v3', function () {
+      it('should return attestation in PDF binary format', async function () {
+        // given
+        const certificationAttestation = domainBuilder.buildCertificationAttestation();
+        const attestationPDF = 'binary string';
+        const filename = 'attestation-pix-20181003.pdf';
+        const userId = 1;
+        const i18n = Symbol('i18n');
+
+        const request = {
+          i18n,
+          auth: { credentials: { userId } },
+          params: { certificationCourseId: 1 },
+          query: { isFrenchDomainExtension: true, lang: FRENCH },
+        };
+
+        sinon
+          .stub(usecases, 'getCertificationAttestation')
+          .withArgs({
+            userId,
+            certificationCourseId: request.params.certificationCourseId,
+          })
+          .resolves(certificationAttestation);
+
+        const certificationAttestationPdfStub = {
+          getCertificationAttestationsPdfBuffer: sinon.stub(),
+        };
+
+        certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
+          .withArgs({ certificates: [certificationAttestation], isFrenchDomainExtension: true, i18n })
+          .resolves({ buffer: attestationPDF, fileName: filename });
+
+        // when
+        const response = await certificationAttestationController.getPDFAttestation(request, hFake, {
+          certificationAttestationPdf: certificationAttestationPdfStub,
+        });
+
+        // then
+        expect(response.source).to.deep.equal(attestationPDF);
+        expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=${filename}`);
+      });
     });
   });
 

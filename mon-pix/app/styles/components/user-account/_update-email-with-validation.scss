@@ -1,5 +1,6 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/typography';
 
 .update-email-with-validation {
   display: flex;
@@ -7,6 +8,18 @@
 
   @include breakpoints.device-is('desktop') {
     padding: 10px 0;
+  }
+
+  &__title {
+    @extend %pix-title-s;
+
+    padding-bottom: var(--pix-spacing-4x);
+    color: var(--pix-neutral-900);
+    text-align: center;
+
+    @include breakpoints.device-is('tablet') {
+      text-align: start;
+    }
   }
 
   &__password-input,
