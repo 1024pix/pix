@@ -20,7 +20,7 @@ jobs:
         with:
           node-version-file: 'package.json'
       
-      - uses: 1024pix/pix-actions/release@main
+      - uses: 1024pix/pix-actions/release@tech/allow-monorepo-release
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}
