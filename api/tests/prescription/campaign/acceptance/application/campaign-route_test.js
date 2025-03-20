@@ -3,7 +3,6 @@ import { KnowledgeElement, Membership } from '../../../../../src/shared/domain/m
 import {
   createServer,
   databaseBuilder,
-  domainBuilder,
   expect,
   generateAuthenticatedUserRequestHeaders,
   learningContentBuilder,
@@ -480,7 +479,7 @@ describe('Acceptance | API | Campaign Route', function () {
   });
 
   describe('GET /api/campaigns/{campaignId}/level_by_tubes_and_competences', function () {
-    let campaign, campaignId, userId;
+    let campaign, userId;
     const options = {
       headers: { authorization: null },
       method: 'GET',
