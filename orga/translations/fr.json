@@ -93,9 +93,9 @@
       "value": "/{total} places"
     },
     "badges-acquisitions": {
-      "information": "Retrouvez ici le nombre de Résultats Thématiques obtenus par vos participants dans cette campagne ainsi que leur pourcentage d’obtention. ",
+      "information": "Retrouvez ici le nombre de Badges obtenus par vos participants dans cette campagne ainsi que leur pourcentage d’obtention. ",
       "obtained": "obtenus",
-      "title": "Résultats thématiques"
+      "title": "Badges"
     },
     "occupied-seats-count": {
       "anonymous": "dont {count, plural, =1 {1 place} other {{count, number} places}} avec un accès sans compte",
@@ -269,7 +269,7 @@
         "without-account": "Accès sans compte"
       },
       "subjects": "Sujets : {value, number}",
-      "thematic-results": "Résultats thématiques : {value, number}"
+      "thematic-results": "Badges : {value, number}"
     }
   },
   "components": {
@@ -412,7 +412,7 @@
   },
   "pages": {
     "assessment-individual-results": {
-      "badges": "Résultats Thématiques",
+      "badges": "Badges",
       "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
       "participation-label": "Participation #{participationNumber}",
       "participation-not-shared": "Résultats non-envoyés",
@@ -636,7 +636,7 @@
         "aria-label": "Filtres sur les participations",
         "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
         "type": {
-          "badges": "Thématiques obtenues",
+          "badges": "Badges obtenus",
           "groups": {
             "empty": "Aucun groupe",
             "title": "Groupes"
@@ -646,7 +646,7 @@
             "empty": "Tous les statuts",
             "title": "Statut"
           },
-          "unacquired-badges": "Thématiques non obtenues"
+          "unacquired-badges": "Badges non obtenus"
         }
       },
       "result": "Résultat",
@@ -658,7 +658,7 @@
         "caption": "Ce tableau comporte la liste des participants ayant partagé leurs résultats. Il indique pour chaque participant leur nom, prénom et des éléments de résultats.",
         "column": {
           "ariaSharedResultCount": "Nombre de résultats envoyés",
-          "badges": "Résultats Thématiques",
+          "badges": "Badges",
           "evolution": "Évolution",
           "first-name": "Prénom",
           "last-name": "Nom",

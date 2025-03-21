@@ -1929,13 +1929,13 @@
       "already-shared": "¡Gracias, tus resultados se han enviado correctamente!",
       "badge-card": {
         "acquired": "Aprobado",
-        "acquired-full": "Resultado temático obtenido",
+        "acquired-full": "Insignia obtenida",
         "certifiable": "Certificación",
         "not-acquired": "No has aprobado",
-        "not-acquired-full": "Resultado temático no obtenido",
-        "progress-bar-label": "Porcentaje de éxito del resultado temático"
+        "not-acquired-full": "Insignia no obtenida",
+        "progress-bar-label": "Porcentaje de éxito de la insignia"
       },
-      "badges-title": "Tus resultados temáticos",
+      "badges-title": "Tus insignias",
       "details": {
         "caption": "Detalle de tus resultados en términos porcentuales según las competencias",
         "header-result": "Resultados",

@@ -93,9 +93,9 @@
       "value": "/{total} seats"
     },
     "badges-acquisitions": {
-      "information": "Find here the number of Thematic Results obtained by your participants in this campaign as well as their percentage.",
+      "information": "Find here the number of badges obtained by your participants in this campaign as well as their percentage.",
       "obtained": "obtained",
-      "title": "Thematic results"
+      "title": "Badges"
     },
     "occupied-seats-count": {
       "anonymous": "including {count, plural, =1 {1 seat} other {{count, number} seats}} with no-account access",
@@ -269,7 +269,7 @@
         "without-account": "Access without account"
       },
       "subjects": "Topics: {value, number}",
-      "thematic-results": "Thematic results: {value, number}"
+      "thematic-results": "Badges: {value, number}"
     }
   },
   "components": {
@@ -406,7 +406,7 @@
   },
   "pages": {
     "assessment-individual-results": {
-      "badges": "Thematic results",
+      "badges": "Badges",
       "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
       "participation-label": "Participation #{participationNumber}",
       "participation-not-shared": "Results to submit",
@@ -630,7 +630,7 @@
         "aria-label": "Filters on participations",
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
-          "badges": "Acquired thematic results",
+          "badges": "Acquired badges",
           "groups": {
             "empty": "No group",
             "title": "Groups"
@@ -640,7 +640,7 @@
             "empty": "All statuses",
             "title": "Status"
           },
-          "unacquired-badges": "Unacquired thematic results"
+          "unacquired-badges": "Unacquired badges"
         }
       },
       "result": "Result",
@@ -652,7 +652,7 @@
         "caption": "This table lists the participants who have shared their results. For each participant, it shows their surname, first name and elements of results.",
         "column": {
           "ariaSharedResultCount": "Number of sent results",
-          "badges": "Thematic results",
+          "badges": "Badges",
           "evolution": "Evolution",
           "first-name": "First name",
           "last-name": "Last name",

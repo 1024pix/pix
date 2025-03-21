@@ -459,7 +459,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.notOk(screen.queryByRole('columnheader', { name: 'Résultats Thématiques' }));
+      assert.notOk(screen.queryByRole('columnheader', { name: 'Badges' }));
     });
   });
 
@@ -493,7 +493,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.ok(screen.getByRole('columnheader', { name: 'Résultats Thématiques' }));
+      assert.ok(screen.getByRole('columnheader', { name: 'Badges' }));
     });
   });
 

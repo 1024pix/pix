@@ -157,7 +157,7 @@ export default class ParticipationFilters extends Component {
       event: 'custom-event',
       'pix-event-category': 'Campagnes',
       'pix-event-action': 'Filtrer les participations',
-      'pix-event-name': 'Usage du filtre par Résultats Thématiques',
+      'pix-event-name': 'Usage du filtre par Badges',
     });
   }
 
@@ -169,7 +169,7 @@ export default class ParticipationFilters extends Component {
       event: 'custom-event',
       'pix-event-category': 'Campagnes',
       'pix-event-action': 'Filtrer les participations',
-      'pix-event-name': 'Utilisation du filtre "Thématiques non obtenues"',
+      'pix-event-name': 'Utilisation du filtre "Badges non obtenus"',
     });
   }
 

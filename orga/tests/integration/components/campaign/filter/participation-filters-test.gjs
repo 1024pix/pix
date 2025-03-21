@@ -536,7 +536,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
+        assert.notOk(screen.queryByRole('button', { name: 'Badges' }));
         assert.notOk(screen.queryByLabelText('Les bases'));
       });
 
@@ -585,7 +585,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           event: 'custom-event',
           'pix-event-category': 'Campagnes',
           'pix-event-action': 'Filtrer les participations',
-          'pix-event-name': 'Utilisation du filtre "Thématiques non obtenues"',
+          'pix-event-name': 'Utilisation du filtre "Badges non obtenus"',
         });
       });
 
@@ -631,7 +631,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           event: 'custom-event',
           'pix-event-category': 'Campagnes',
           'pix-event-action': 'Filtrer les participations',
-          'pix-event-name': 'Usage du filtre par Résultats Thématiques',
+          'pix-event-name': 'Usage du filtre par Badges',
         });
       });
     });
@@ -696,7 +696,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
+        assert.notOk(screen.queryByRole('button', { name: 'Badges' }));
         assert.notOk(screen.queryByLabelText('Les bases'));
       });
 
@@ -745,7 +745,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           event: 'custom-event',
           'pix-event-category': 'Campagnes',
           'pix-event-action': 'Filtrer les participations',
-          'pix-event-name': 'Utilisation du filtre "Thématiques non obtenues"',
+          'pix-event-name': 'Utilisation du filtre "Badges non obtenus"',
         });
       });
 
@@ -791,7 +791,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           event: 'custom-event',
           'pix-event-category': 'Campagnes',
           'pix-event-action': 'Filtrer les participations',
-          'pix-event-name': 'Usage du filtre par Résultats Thématiques',
+          'pix-event-name': 'Usage du filtre par Badges',
         });
       });
     });
@@ -811,7 +811,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
+        assert.notOk(screen.queryByRole('button', { name: 'Badges' }));
       });
     });
 
@@ -831,7 +831,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
+        assert.notOk(screen.queryByRole('button', { name: 'Badges' }));
       });
     });
   });

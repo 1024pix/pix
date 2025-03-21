@@ -1930,13 +1930,13 @@
       "already-shared": "Bedankt, je resultaten zijn verzonden!",
       "badge-card": {
         "acquired": "Verkregen",
-        "acquired-full": "Thematisch resultaat",
+        "acquired-full": "Badge verkregen",
         "certifiable": "Certificeren",
         "not-acquired": "Niet verkregen",
-        "not-acquired-full": "Thematisch resultaat niet verkregen",
-        "progress-bar-label": "Percentage succesvolle resultaten"
+        "not-acquired-full": "Badge niet verkregen",
+        "progress-bar-label": "Percentage succesvolle badge"
       },
-      "badges-title": "Je thematische resultaten",
+      "badges-title": "Je badges",
       "details": {
         "caption": "Details van je resultaten in percentages volgens vaardigheden",
         "header-result": "Resultaten",

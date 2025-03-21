@@ -93,9 +93,9 @@
       "value": "/{total} plaatsen"
     },
     "badges-acquisitions": {
-      "information": "Hier vind je het aantal thematische resultaten die je deelnemers in deze campagne hebben behaald en hun percentage.",
+      "information": "Hier vind je het aantal badges die je deelnemers in deze campagne hebben behaald en hun percentage.",
       "obtained": "verkregen",
-      "title": "Thematische resultaten"
+      "title": "Badges"
     },
     "occupied-seats-count": {
       "anonymous": "inclusief {count, plural, =1 {1 plaats} other {{count, number} plaatsen}} met toegang zonder account",
@@ -268,7 +268,7 @@
         "without-account": "Toegang zonder account"
       },
       "subjects": "Onderwerpen: {value, number}",
-      "thematic-results": "Thematische resultaten: {value, number}"
+      "thematic-results": "Badges: {value, number}"
     },
     "no-content": "Geen inhoud"
   },
@@ -406,7 +406,7 @@
   },
   "pages": {
     "assessment-individual-results": {
-      "badges": "Thematische resultaten",
+      "badges": "Badges",
       "breadcrumb-current-page-label": "Deelname van {firstName} {lastName}",
       "participation-label": "Deelname #{participationNumber}",
       "participation-not-shared": "Resultaten niet verzonden",
@@ -616,7 +616,7 @@
         "caption": "In deze tabel staan de deelnemers die hun resultaten hebben gedeeld. Voor elke deelnemer worden de achternaam, voornaam en resultaten weergegeven.",
         "column": {
           "ariaSharedResultCount": "Aantal verzonden resultaten",
-          "badges": "Thematische resultaten",
+          "badges": "Badges",
           "evolution": "Evolutie",
           "first-name": "Voornaam",
           "last-name": "Achternaam",
