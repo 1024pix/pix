@@ -58,7 +58,7 @@ const register = async function (server) {
         tags: ['api', 'admin', 'bagde-criteria'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de modifier un critère d'acquisition d'un résultat thématique",
+            "- Elle permet de modifier un critère d'acquisition d'un badge",
         ],
       },
     },

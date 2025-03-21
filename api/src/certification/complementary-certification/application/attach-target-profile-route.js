@@ -69,7 +69,7 @@ const register = async function (server) {
         tags: ['api', 'complementary-certification', 'badges'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de rattacher des résultats thématiques certifiants à une certification complémentaire',
+            '- Elle permet de rattacher des badges certifiants à une certification complémentaire',
         ],
       },
     },

@@ -213,7 +213,7 @@ class CandidateNotAuthorizedToResumeCertificationTestError extends DomainError {
 }
 
 class CertificationBadgeForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un résultat thématique lié à une certification.') {
+  constructor(message = 'Il est interdit de supprimer un badge lié à une certification.') {
     super(message);
   }
 }
@@ -457,7 +457,7 @@ class MissingAssessmentId extends DomainError {
 }
 
 class MissingBadgeCriterionError extends DomainError {
-  constructor(message = 'Vous devez définir au moins un critère pour créer ce résultat thématique.') {
+  constructor(message = 'Vous devez définir au moins un critère pour créer ce badge.') {
     super(message);
   }
 }
@@ -995,7 +995,7 @@ class OrganizationLearnerCannotBeDissociatedError extends DomainError {
 }
 
 class AcquiredBadgeForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un résultat thématique déjà acquis par un utilisateur.') {
+  constructor(message = 'Il est interdit de supprimer un badge déjà acquis par un utilisateur.') {
     super(message);
   }
 }

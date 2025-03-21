@@ -36,7 +36,7 @@ const updateCriterion = async function (id, attributesToUpdate) {
   const [updatedCriterion] = await knex(TABLE_NAME).update(attributesToUpdate).where({ id }).returning('*');
 
   if (!updatedCriterion) {
-    throw new NotFoundError('Erreur, critère de résultat thématique introuvable');
+    throw new NotFoundError('Erreur, critère de badge introuvable');
   }
 
   return new BadgeCriterion(updatedCriterion);

@@ -45,7 +45,7 @@ const register = async function (server) {
         tags: ['api', 'admin', 'badges'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de modifier un résultat thématique.',
+            '- Elle permet de modifier un badge.',
         ],
       },
     },
@@ -73,7 +73,7 @@ const register = async function (server) {
         tags: ['api', 'admin', 'badges'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de supprimer un résultat thématique non assigné.',
+            '- Elle permet de supprimer un badge non assigné.',
         ],
       },
     },
@@ -128,7 +128,7 @@ const register = async function (server) {
         tags: ['api', 'admin', 'badges'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de créer un résultat thématique rattaché au profil cible.',
+            '- Elle permet de créer un badge rattaché au profil cible.',
         ],
       },
     },
