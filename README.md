@@ -4,6 +4,7 @@ Plateforme d'évaluation et de certification des compétences numériques pour t
 ![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
 
 test
+another test
 
 ## Présentation
 
