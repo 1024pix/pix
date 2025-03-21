@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/1024pix/pix-sementic-version/compare/v1.1.0...v1.2.0) (2025-03-21)
+
+### :rocket: Amélioration
+
+- [#5](https://github.com/1024pix/pix-sementic-version/pull/5) Update README.md
+
 # [1.1.0](https://github.com/1024pix/pix-sementic-version/compare/v1.0.2...v1.1.0) (2025-03-19)
 
 ## [1.0.2](https://github.com/1024pix/pix-sementic-version/compare/v1.0.1...v1.0.2) (2025-03-19)
