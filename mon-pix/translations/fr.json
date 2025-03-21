@@ -1848,13 +1848,13 @@
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "badge-card": {
         "acquired": "Obtenu",
-        "acquired-full": "Résultat thématique obtenu",
+        "acquired-full": "Badge obtenu",
         "certifiable": "Certifiant",
         "not-acquired": "Non obtenu",
-        "not-acquired-full": "Résultat thématique non obtenu",
-        "progress-bar-label": "Pourcentage de réussite du résultat thématique"
+        "not-acquired-full": "Badge non obtenu",
+        "progress-bar-label": "Pourcentage de réussite du badge"
       },
-      "badges-title": "Vos résultats thématiques",
+      "badges-title": "Vos badges",
       "details": {
         "caption": "Détails de vos résultats sous forme de pourcentage en fonction des compétences",
         "header-result": "Résultats",
