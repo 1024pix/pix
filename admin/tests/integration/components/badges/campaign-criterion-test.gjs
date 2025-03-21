@@ -154,7 +154,7 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         criterion.save.throws({
           errors: [
             {
-              detail: "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
+              detail: "Il est interdit de modifier un critère d'un badge déjà acquis par un utilisateur.",
             },
           ],
         });
@@ -164,7 +164,7 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
 
         // then
         sinon.assert.calledWith(notificationErrorStub, {
-          message: "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
+          message: "Il est interdit de modifier un critère d'un badge déjà acquis par un utilisateur.",
         });
         assert.ok(true);
       });

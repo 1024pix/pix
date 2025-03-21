@@ -150,7 +150,7 @@ export default class AttachBadges extends Component {
         {{#if this.selectedTargetProfile}}
           <Card
             class="attach-target-profile__card attach-target-profile__card-badges"
-            @title="2. Complétez les informations des résultats thématiques"
+            @title="2. Complétez les informations des badges"
           >
             <Badges
               @targetProfile={{this.selectedTargetProfile}}

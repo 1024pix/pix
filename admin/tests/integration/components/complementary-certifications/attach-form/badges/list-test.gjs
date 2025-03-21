@@ -31,7 +31,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       const screen = await render(<template><List /></template>);
 
       // then
-      assert.dom(screen.getByRole('table', { name: 'Liste des résultats thématiques' })).exists();
+      assert.dom(screen.getByRole('table', { name: 'Liste des badges' })).exists();
       const rows = screen.getAllByRole('row');
       assert.strictEqual(rows.length, 1);
     });

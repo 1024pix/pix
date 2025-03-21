@@ -246,7 +246,7 @@ module('Integration | Component | Stages', function (hooks) {
       assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
       assert.dom(screen.getByText('Voir détail')).exists();
       assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
-      assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
+      assert.dom(screen.queryByText('Aucun badge associé')).doesNotExist();
     });
   });
 
@@ -288,7 +288,7 @@ module('Integration | Component | Stages', function (hooks) {
       assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
       assert.dom(screen.getByText('Voir détail')).exists();
       assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
-      assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
+      assert.dom(screen.queryByText('Aucun badge associé')).doesNotExist();
     });
   });
 

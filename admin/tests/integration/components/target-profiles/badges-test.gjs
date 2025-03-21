@@ -19,7 +19,7 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
 
       // then
       assert.dom('table').doesNotExist();
-      assert.dom(screen.getByText('Aucun résultat thématique associé')).exists();
+      assert.dom(screen.getByText('Aucun badge associé')).exists();
     });
   });
 
@@ -41,7 +41,7 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       const screen = await render(<template><Badges @badges={{badges}} /></template>);
 
       // then
-      assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
+      assert.dom(screen.queryByText('Aucun badge associé')).doesNotExist();
 
       assert.dom(screen.getByRole('table')).exists();
 
@@ -58,7 +58,7 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       assert.dom(screen.getAllByRole('cell')[0].children[0]).hasTagName('a');
       assert
         .dom(screen.getAllByRole('cell')[0].children[0])
-        .hasAttribute('aria-label', 'Voir le détail du résultat thématique ID 1');
+        .hasAttribute('aria-label', 'Voir le détail du badge ID 1');
 
       assert.strictEqual(screen.getAllByRole('cell')[1].children.length, 1);
       assert.dom(screen.getAllByRole('cell')[1].children[0]).hasTagName('img');
@@ -76,10 +76,10 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       assert.strictEqual(screen.getAllByRole('cell')[6].children.length, 2);
       assert
         .dom(screen.getAllByRole('cell')[6].children[0])
-        .hasAttribute('aria-label', 'Voir le détail du résultat thématique My title');
+        .hasAttribute('aria-label', 'Voir le détail du badge My title');
       assert
         .dom(screen.getAllByRole('cell')[6].children[1])
-        .hasAttribute('aria-label', 'Supprimer le résultat thématique My title');
+        .hasAttribute('aria-label', 'Supprimer le badge My title');
     });
 
     module('when the badge is always visible', function () {
@@ -174,11 +174,11 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       await screen.findByRole('dialog');
 
       // then
-      assert.dom(screen.getByRole('heading', { name: "Suppression d'un résultat thématique" })).exists();
+      assert.dom(screen.getByRole('heading', { name: "Suppression d'un badge" })).exists();
       assert
         .dom(
           screen.getByText(
-            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)",
+            "Êtes-vous sûr de vouloir supprimer ce badge ? (Uniquement si le badge n'a pas encore été assigné)",
           ),
         )
         .exists();

@@ -237,7 +237,7 @@ module(
             await targetProfileSelectable.click();
 
             await waitForTableResult();
-            const table = screen.getByRole('table', { name: 'Liste des résultats thématiques' });
+            const table = screen.getByRole('table', { name: 'Liste des badges' });
 
             await fillIn(within(table).getByRole('spinbutton', { name: '200 Badge Arène Feu Niveau' }), '1');
             await fillIn(
@@ -313,7 +313,7 @@ module(
             await targetProfileSelectable.click();
 
             await waitForTableResult();
-            const table = screen.getByRole('table', { name: 'Liste des résultats thématiques' });
+            const table = screen.getByRole('table', { name: 'Liste des badges' });
 
             const ariaLabel = '200 Badge Arène Feu';
             await fillIn(

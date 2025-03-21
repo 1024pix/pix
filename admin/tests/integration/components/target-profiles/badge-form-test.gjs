@@ -45,7 +45,7 @@ module('Integration | Component | BadgeForm', function (hooks) {
     const screen = await render(<template><BadgeForm /></template>);
 
     // then
-    assert.dom(screen.getByRole('heading', { name: "Création d'un résultat thématique" })).exists();
+    assert.dom(screen.getByRole('heading', { name: "Création d'un badge" })).exists();
   });
 
   test('it should display new creation form', async function (assert) {
@@ -68,16 +68,16 @@ module('Integration | Component | BadgeForm', function (hooks) {
     // when
     const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
 
-    await fillIn(screen.getByLabelText(/Nom du résultat thématique/), 'dummy');
+    await fillIn(screen.getByLabelText(/Nom du badge/), 'dummy');
     await fillIn(screen.getByLabelText(/Nom de l'image/), 'dummy');
     await fillIn(screen.getByLabelText(/Texte alternatif pour l'image/), 'dummy');
     await fillIn(screen.getByLabelText(/Clé/), 'dummy');
 
-    await click(screen.getByRole('button', { name: 'Enregistrer le RT' }));
+    await click(screen.getByRole('button', { name: 'Enregistrer le badge' }));
 
     // then
     sinon.assert.calledWith(notificationErrorStub, {
-      message: "Vous devez sélectionner au moins un critère d'obtention de résultat thématique",
+      message: "Vous devez sélectionner au moins un critère d'obtention de badge",
     });
     assert.ok(true);
   });
@@ -165,14 +165,14 @@ module('Integration | Component | BadgeForm', function (hooks) {
       // when
       const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
 
-      await fillIn(screen.getByLabelText(/Nom du résultat thématique/), 'dummy');
+      await fillIn(screen.getByLabelText(/Nom du badge/), 'dummy');
       await fillIn(screen.getByLabelText(/Nom de l'image/), 'dummy');
       await fillIn(screen.getByLabelText(/Texte alternatif pour l'image/), 'dummy');
       await fillIn(screen.getByLabelText(/Clé/), 'dummy');
 
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
       await fillIn(screen.getByLabelText(/Taux de réussite requis/), 20);
-      await click(screen.getByRole('button', { name: 'Enregistrer le RT' }));
+      await click(screen.getByRole('button', { name: 'Enregistrer le badge' }));
 
       // then
       sinon.assert.calledWith(notificationErrorStub, {

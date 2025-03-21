@@ -66,13 +66,13 @@ export default class Criteria extends Component {
   }
 
   <template>
-    <Card @title="Critères d'obtention du résultat thématique">
+    <Card @title="Critères d'obtention du badge">
       <PixNotificationAlert @type="info" @withIcon={{true}}>
-        Vous pouvez définir des critères de réussite du résultat thématique
+        Vous pouvez définir des critères de réussite du badge
         <strong>sur une liste de sujets ET/OU sur l’ensemble du profil cible</strong>.
         <br />
         <strong>Toutes les conditions devront être remplies</strong>
-        pour obtenir le résultat thématique.
+        pour obtenir le badge.
       </PixNotificationAlert>
       <div class="badge-form-criteria-choice">
         <p>Définir un critère d'obtention&nbsp;:</p>

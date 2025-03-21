@@ -35,14 +35,14 @@ export default class List extends Component {
       {{/if}}
 
       <section class="complementary-certification-attach-badges__section">
-        <h1>Résultats thématiques certifiants</h1>
+        <h1>Badges certifiants</h1>
 
         <div class="complementary-certification-attach-badges-section__table">
           <p>
             {{t "common.forms.mandatory-fields" htmlSafe=true}}
           </p>
 
-          <PixTable @variant="primary" @data={{@options}} @caption="Liste des résultats thématiques">
+          <PixTable @variant="primary" @data={{@options}} @caption="Liste des badges">
             <:columns as |row option|>
               <PixTableColumn @context={{option}}>
                 <:header>

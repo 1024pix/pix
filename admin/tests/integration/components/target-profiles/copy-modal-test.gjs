@@ -25,7 +25,7 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
     assert.dom(screen.getByText('Dupliquer le profil cible ?')).exists();
     assert
       .dom(
-        screen.getByText('Cette action dupliquera le profil cible avec ses sujets, résultats thématiques et paliers.'),
+        screen.getByText('Cette action dupliquera le profil cible avec ses sujets, badges et paliers.'),
       )
       .exists();
     assert.dom(screen.getByRole('button', { name: 'Valider' })).exists();

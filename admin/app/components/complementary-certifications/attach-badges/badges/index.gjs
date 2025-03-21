@@ -21,7 +21,7 @@ export default class Badges extends Component {
     if (this.isLoading || this.badges?.length > 0) {
       return undefined;
     }
-    return 'Seul un profil cible comportant au moins un résultat thématique certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de résultat thématique certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.';
+    return 'Seul un profil cible comportant au moins un badge certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de badge certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.';
   }
 
   @action
@@ -67,7 +67,7 @@ export default class Badges extends Component {
   }
 
   #onfetchBadgesError() {
-    this.args.onError('Une erreur est survenue lors de la recherche de résultats thématiques.');
+    this.args.onError('Une erreur est survenue lors de la recherche de badges.');
   }
 
   willDestroy() {

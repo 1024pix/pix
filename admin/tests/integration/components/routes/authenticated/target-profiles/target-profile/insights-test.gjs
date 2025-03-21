@@ -23,8 +23,8 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       );
 
       // then
-      assert.dom(screen.getByText('Résultats thématiques')).exists();
-      assert.dom(screen.getByText('Aucun résultat thématique associé')).exists();
+      assert.dom(screen.getByText('Badges')).exists();
+      assert.dom(screen.getByText('Aucun badge associé')).exists();
     });
 
     test('it should display the stages title and an empty list', async function (assert) {

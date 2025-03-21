@@ -57,7 +57,7 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
           .dom(
             screen.getByRole('alert', {
               value:
-                'Seul un profil cible comportant au moins un résultat thématique certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de résultat thématique certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.',
+                'Seul un profil cible comportant au moins un badge certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de badge certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.',
             }),
           )
           .exists();
@@ -92,7 +92,7 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
 
         // then
         assert.dom(await screen.queryByRole('alert')).doesNotExist();
-        const table = screen.getByRole('table', { name: 'Liste des résultats thématiques' });
+        const table = screen.getByRole('table', { name: 'Liste des badges' });
         assert.dom(within(table).getByRole('cell', { name: '1000' })).exists();
         assert.dom(within(table).getByRole('cell', { name: 'canards' })).exists();
       });

@@ -36,7 +36,7 @@ module('Integration | Component | complementary-certifications/target-profiles/b
     assert.dom(within(table).getByRole('columnheader', { name: 'Image du badge certifié' })).exists();
     assert.dom(within(table).getByRole('columnheader', { name: 'Nom du badge certifié' })).exists();
     assert.dom(within(table).getByRole('columnheader', { name: 'Niveau du badge certifié' })).exists();
-    assert.dom(within(table).getByRole('columnheader', { name: 'ID du RT certifiant' })).exists();
+    assert.dom(within(table).getByRole('columnheader', { name: 'ID du badge certifiant' })).exists();
     assert.dom(within(table).getByRole('row', { name: 'Badge Cascade Badge Cascade 3 1023' })).exists();
     assert.dom(within(table).getByRole('row', { name: 'Badge Volcan Badge Volcan 1 1025' })).exists();
   });

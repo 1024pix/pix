@@ -7,7 +7,7 @@ import Stages from './stages';
 <template>
   <section class="page-section insights">
     <section class="insights__section">
-      <h2 class="insights-section__title">Résultats thématiques</h2>
+      <h2 class="insights-section__title">Badges</h2>
       <Badges @badges={{@targetProfile.badges}} />
       <div class="insights-section__button">
         <PixButtonLink
@@ -16,7 +16,7 @@ import Stages from './stages';
           @model={{@targetProfile.id}}
           @iconBefore="add"
         >
-          Nouveau résultat thématique
+          Nouveau badge
         </PixButtonLink>
       </div>
     </section>

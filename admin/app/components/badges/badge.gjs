@@ -72,7 +72,7 @@ export default class Badge extends Component {
         imageUrl: this.IMAGE_BASE_URL + this.form.imageName,
       };
       await this.args.onUpdateBadge(badgeDTO);
-      this.pixToast.sendSuccessNotification({ message: 'Le résultat thématique a été mis à jour.' });
+      this.pixToast.sendSuccessNotification({ message: 'Le badge a été mis à jour.' });
       this.editMode = false;
     } catch (err) {
       let errorMessage;
@@ -120,7 +120,7 @@ export default class Badge extends Component {
             @route="authenticated.target-profiles.target-profile.insights"
           >{{@targetProfile.internalName}}</LinkTo>
           <span class="wire">&nbsp;>&nbsp;</span>
-          <h1>Résultat thématique {{@badge.id}}</h1>
+          <h1>Badge {{@badge.id}}</h1>
         </p>
       </div>
     </header>
@@ -217,7 +217,7 @@ export default class Badge extends Component {
                 <dd class="page-details__value">{{@badge.id}}</dd>
                 <dt class="page-details__label">Clé&nbsp;:&nbsp;</dt>
                 <dd class="page-details__value">{{@badge.key}}</dd>
-                <dt class="page-details__label">Nom du résultat thématique&nbsp;:&nbsp;</dt>
+                <dt class="page-details__label">Nom du badge&nbsp;:&nbsp;</dt>
                 <dd class="page-details__value">{{@badge.title}}</dd>
                 <dt class="page-details__label">Image&nbsp;:&nbsp;</dt>
                 <dd class="page-details__value">{{this.imageName}}</dd>

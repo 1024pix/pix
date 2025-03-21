@@ -56,7 +56,7 @@ export default class BadgeForm extends Component {
 
     if (!hasCampaignCriteria && !hasCappedTubesCriteria) {
       return this.pixToast.sendErrorNotification({
-        message: "Vous devez sélectionner au moins un critère d'obtention de résultat thématique",
+        message: "Vous devez sélectionner au moins un critère d'obtention de badge",
       });
     }
 
@@ -85,7 +85,7 @@ export default class BadgeForm extends Component {
       });
       await this.args.targetProfile.reload();
 
-      this.pixToast.sendSuccessNotification({ message: 'Le résultat thématique a été créé.' });
+      this.pixToast.sendSuccessNotification({ message: 'Le badge a été créé.' });
       this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
       return badge;
     } catch (error) {
@@ -96,9 +96,9 @@ export default class BadgeForm extends Component {
 
   <template>
     <form class="admin-form admin-form--badge-form" {{on "submit" this.submitBadgeCreation}}>
-      <h2 class="badge-form__title">Création d'un résultat thématique</h2>
+      <h2 class="badge-form__title">Création d'un badge</h2>
       <section class="admin-form__content admin-form__content--with-counters">
-        <Card class="create-target-profile__card" @title="Remplir des informations sur le résultat thématique">
+        <Card class="create-target-profile__card" @title="Remplir des informations sur le badge">
           <div class="badge-form__text-field">
             <PixInput
               @id="title"
@@ -106,7 +106,7 @@ export default class BadgeForm extends Component {
               @requiredLabel={{t "common.forms.mandatory"}}
               {{on "change" (fn this.updateFormValue "title")}}
             >
-              <:label>Nom du résultat thématique :</:label>
+              <:label>Nom du badge :</:label>
             </PixInput>
           </div>
           <div class="badge-form__text-field">
@@ -117,7 +117,7 @@ export default class BadgeForm extends Component {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Voir la liste des résultats thématiques
+                Voir la liste des badges
               </a>
             </p>
             <PixInput
@@ -185,7 +185,7 @@ export default class BadgeForm extends Component {
           {{t "common.actions.cancel"}}
         </PixButtonLink>
         <PixButton @variant="success" @type="submit">
-          Enregistrer le RT
+          Enregistrer le badge
         </PixButton>
       </section>
     </form>
