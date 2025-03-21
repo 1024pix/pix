@@ -3,6 +3,8 @@
 Plateforme d'évaluation et de certification des compétences numériques pour tous.
 ![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
 
+test
+
 ## Présentation
 
 Le numérique est désormais partout. Dans notre vie professionnelle comme privée. Maîtriser Internet et l'informatique
