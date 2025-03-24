@@ -84,7 +84,7 @@
           "element": {
             "id": "fd071bd2-780b-4867-8bc4-647593461c1c",
             "type": "text",
-            "content": "<p>Les tentatives d’arnaque par message sont des messages envoyés par des escrocs.<br>📝 Le but de ces messages est de <strong>tromper</strong> la personne qui les reçoit pour qu’elle <strong>donne ses informations personnelles</strong> (un mot de passe ou un numéro de carte bancaire par exemple).</p>"
+            "content": "<p>📝 Le but des messages d'arnaque est de <strong>tromper</strong> la personne qui les reçoit pour qu’elle <strong>donne ses informations personnelles</strong> (un mot de passe ou un numéro de carte bancaire par exemple).</p>"
           }
         }
       ]
@@ -119,7 +119,7 @@
           "element": {
             "id": "6c2744a2-7ecd-4144-b851-c62b379d7008",
             "type": "text",
-            "content": "<p>🥸 Souvent, les messages d’arnaque prétendent venir d’un proche, d’une entreprise ou d’un service public connu (Les impôts, la CAF ou Ameli par exemple) pour gagner votre confiance.&nbsp;</p><p><br><strong>🤔 Bon à savoir</strong><br>Un service public ou une entreprise commerciale sérieuse ne vous demandera pas vos données bancaires ou vos mots de passe par message ou par téléphone.</p>"
+            "content": "<p>🥸 Souvent, les messages d’arnaque prétendent venir d’un proche, d’une entreprise ou d’un service public connu (Les Impôts, la CAF ou Ameli par exemple) pour gagner votre confiance.&nbsp;</p><p><br><strong>🤔 Bon à savoir</strong><br>Un service public ou une entreprise commerciale sérieuse ne vous demandera pas vos données bancaires ou vos mots de passe par message ou par téléphone.</p>"
           }
         }
       ]
@@ -161,7 +161,7 @@
     },
     {
       "id": "3b13d199-0bce-4def-b1af-210e759c3651",
-      "type": "activity",
+      "type": "challenge",
       "title": "BoutonAB3",
       "components": [
         {
