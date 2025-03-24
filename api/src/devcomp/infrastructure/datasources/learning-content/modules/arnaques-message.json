@@ -4,7 +4,7 @@
   "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques ! ",
   "isBeta": false,
   "details": {
-    "image": "",
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "<p>Chaque jour, nous recevons des messages par mail, SMS ou sur les réseaux sociaux. Mais certains de ces messages cachent des arnaques.&nbsp; Dans ce module, vous allez découvrir comment avoir les bons réflexes lorsque vous recevez ce type de message malveillant. 🛡</p>",
     "duration": 10,
     "level": "Débutant",
@@ -37,7 +37,7 @@
         {
           "type": "element",
           "element": {
-            "id": "29222bd2-5297-4053-a62b-87f9c9354faa",
+            "id": "ff771790-8f45-467e-9021-4409b08e81e7",
             "type": "image",
             "url": "https://i.imgur.com/tpKJ8c3.png",
             "alt": "conversation sur une messagerie instantanée détaillée dans l’alternative textuelle",
@@ -82,7 +82,7 @@
         {
           "type": "element",
           "element": {
-            "id": "29222bd2-5297-4053-a62b-87f9c9358ztr",
+            "id": "fd071bd2-780b-4867-8bc4-647593461c1c",
             "type": "text",
             "content": "<p>Les tentatives d’arnaque par message sont des messages envoyés par des escrocs.<br>📝 Le but de ces messages est de <strong>tromper</strong> la personne qui les reçoit pour qu’elle <strong>donne ses informations personnelles</strong> (un mot de passe ou un numéro de carte bancaire par exemple).</p>"
           }
@@ -103,7 +103,7 @@
             "title": "BoutonAB",
             "url": "https://1024pix.github.io/atelier-contenus/LSI/Arnaques1AB1.html",
             "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
-            "solution": "",
+            "solution": "<p></p>",
             "height": 450
           }
         }
@@ -138,7 +138,7 @@
             "title": "Bouton AB2",
             "url": "https://1024pix.github.io/atelier-contenus/LSI/Arnaques1AB2.html",
             "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
-            "solution": "",
+            "solution": "<p></p>",
             "height": 450
           }
         }
@@ -173,7 +173,7 @@
             "title": "Bouton AB3",
             "url": "https://1024pix.github.io/atelier-contenus/LSI/Arnaques1AB3.html",
             "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
-            "solution": "",
+            "solution": "<p></p>",
             "height": 450
           }
         }
@@ -205,10 +205,10 @@
             "id": "8396e104-258a-4c4e-9f65-da71c5558872",
             "type": "embed",
             "isCompletionRequired": false,
-            "title": "",
+            "title": "Récapitulatif",
             "url": "https://1024pix.github.io/atelier-contenus/LSI/cartes-a-retourner.html",
             "instruction": "<p>Voici les 4 caractéristiques principales des messages d’arnaques&nbsp;:<br>(Cliquez sur chaque carte pour la retourner.)</p>",
-            "solution": "",
+            "solution": "<p></p>",
             "height": 500
           }
         }
