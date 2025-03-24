@@ -5,7 +5,7 @@
   "isBeta": false,
   "details": {
     "image": "",
-    "description": "<p>Chaque jour, nous recevons des messages par mail, SMS ou sur les réseaux sociaux. Mais certains de ces messages cachent des arnaques.&nbsp; Dans ce module, vous allez découvrir comment avoir les bons réflexes lorsque vous recevez ce type de message malveillant. 🛡</p><br>",
+    "description": "<p>Chaque jour, nous recevons des messages par mail, SMS ou sur les réseaux sociaux. Mais certains de ces messages cachent des arnaques.&nbsp; Dans ce module, vous allez découvrir comment avoir les bons réflexes lorsque vous recevez ce type de message malveillant. 🛡</p>",
     "duration": 10,
     "level": "Débutant",
     "objectives": [
@@ -21,7 +21,7 @@
     },
     {
       "grainId": "d560600f-6c7d-47ed-bd9f-5e3850818a72",
-      "content": "<p>✉️ Les tentatives d’arnaque par message sont de faux messages envoyés par des escrocs. Voyons cela ensemble.<br></p>"
+      "content": "<p>✉️ Les tentatives d’arnaque par message sont de faux messages envoyés par des escrocs. Voyons cela ensemble.</p>"
     },
     {
       "grainId": "c9a54e1d-4cad-4bc4-b117-cbea465ecca4",
