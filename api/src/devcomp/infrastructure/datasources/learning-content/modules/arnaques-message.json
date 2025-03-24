@@ -49,7 +49,7 @@
         {
           "type": "element",
           "element": {
-            "id": "29222bd2-5297-4053-a62b-87f9c9354f7m",
+            "id": "ff771790-8f45-467e-9021-4409b08e81e7",
             "type": "qcu",
             "instruction": "<p>À votre avis, que doit faire Raya face à ce SMS ?</p>",
             "proposals": [
@@ -97,7 +97,7 @@
         {
           "type": "element",
           "element": {
-            "id": "29222bd2-5297-4053-a62b-36m9c9354faa",
+            "id": "fd071bd2-780b-4867-8bc4-647593461c1c",
             "type": "embed",
             "isCompletionRequired": false,
             "title": "BoutonAB",
