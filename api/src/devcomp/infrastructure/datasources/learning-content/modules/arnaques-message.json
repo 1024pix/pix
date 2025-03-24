@@ -37,7 +37,7 @@
         {
           "type": "element",
           "element": {
-            "id": "ff771790-8f45-467e-9021-4409b08e81e7",
+            "id": "1333c2f1-55e7-4f4d-8bbd-179ff4dfc91a",
             "type": "image",
             "url": "https://i.imgur.com/tpKJ8c3.png",
             "alt": "conversation sur une messagerie instantanée détaillée dans l’alternative textuelle",
@@ -97,7 +97,7 @@
         {
           "type": "element",
           "element": {
-            "id": "fd071bd2-780b-4867-8bc4-647593461c1c",
+            "id": "cc5fa8da-f797-45d7-82c4-ed5c760aa6c6",
             "type": "embed",
             "isCompletionRequired": false,
             "title": "BoutonAB",
