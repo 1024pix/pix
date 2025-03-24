@@ -57,7 +57,7 @@
       "gateway-timeout-error": "De service ondervindt vertragingen. Probeer het later nog eens.",
       "internal-server-error": "Er is een interne fout opgetreden. Onze teams zijn bezig het probleem op te lossen. Probeer het later nog eens.",
       "login-unauthorized-error": "Het e-mailadres of de ingevoerde gebruikersnaam en/of wachtwoord zijn onjuist.",
-      "login-unexpected-error": "Kan geen verbinding maken. Probeer het over enkele ogenblikken opnieuw. Als het probleem zich blijft voordoen, '<'a href=\"{supportHomeUrl}\" target=\"blank\"'>'neem dan contact met ons op'</a>'.",
+      "login-unexpected-error": "Kan geen verbinding maken. Probeer het over enkele ogenblikken opnieuw. Als het probleem zich blijft voordoen, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'neem dan contact met ons op'</a>'.",
       "login-user-blocked-error": "Je account is geblokkeerd omdat je te veel verbindingspogingen hebt gedaan. U kunt de blokkering opheffen door '<'a href=\"{url}\"'>'contact us'</a>'.",
       "login-user-temporary-blocked-error": "Je hebt te veel inlogpogingen gedaan. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen."
     },
@@ -190,7 +190,8 @@
           "receive-reset-button": "Een reset-link ontvangen"
         },
         "contact-us-link": {
-          "link-text": "Contacteer ons"
+          "link-text": "Contacteer ons",
+          "link-url": "https://pix.fr/support"
         },
         "fields": {
           "email": {
@@ -261,6 +262,9 @@
         "computing-description": "Door een technisch probleem kunnen we je niet informeren over je resultaten. Log morgen opnieuw in op Pix, in de 'Mijn cursus' sectie, om je resultaten te bekijken. Onze excuses voor het ongemak.",
         "not-obtained": "Certificaat niet verkregen :",
         "obtained": "Verkregen certificaat",
+        "SIXTH_GRADE": {
+          "title": "Digitaal bewustzijn"
+        },
         "title": {
           "digital-awarness": "Digitaal bewustzijn"
         }
@@ -277,16 +281,16 @@
       "start-landing-page": {
         "steps": {
           "step1": {
-            "description": "Answer questions adapted to your level",
-            "title": "Pass test"
+            "description": "Vragen beantwoorden die zijn aangepast aan je niveau",
+            "title": "Doe de test"
           },
           "step2": {
-            "description": "Discover your strengths and areas for improvement",
-            "title": "Discover your score"
+            "description": "Ontdek je sterke punten en verbeterpunten",
+            "title": "Ontdek je score"
           },
           "step3": {
-            "description": "Access training tailored to your results",
-            "title": "Make progress"
+            "description": "Toegang tot training afgestemd op jouw resultaten",
+            "title": "Vooruitgang boeken"
           }
         }
       }
@@ -553,7 +557,7 @@
         },
         "legal": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Als je aan het einde van de cursus op de knop \"Stuur mijn resultaten\" klikt, worden je resultaten naar de organisator gestuurd.",
         "title": "Begin je Pix-reis",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' begin je test"
       },
       "profiles-collection": {
         "action": "Laten we gaan!",
@@ -585,7 +589,7 @@
           "finished": "Afgewerkt",
           "started": "Actief"
         },
-        "text-deleted": "Cursus gedeactiveerd door uw organisatie.'<br>'U kunt niet langer op deze cursus handelen.",
+        "text-deleted": "Route gedeactiveerd door uw organisatie.'<br> 'U kunt niet langer handelen op deze route.",
         "text-disabled": "Cursus gedeactiveerd door uw organisatie.'<br> 'U kunt uw resultaten niet langer verzenden."
       },
       "title": "Test"
@@ -624,6 +628,7 @@
       "issued-on": "Uitgegeven op",
       "jury-info": "De opmerkingen van de jury worden niet gedeeld op de verificatiepagina van je certificaat.",
       "jury-title": "Commentaar van de jury",
+      "learn-about-certification-results": "Mijn Pix-certificeringsresultaten begrijpen",
       "professionalizing-warning": "Het Pix-certificaat wordt door France Compétences erkend als een professionele kwalificatie zodra een minimale score van 120 pix is behaald.",
       "title": "Pix-certificaat",
       "verification-code": {
@@ -782,15 +787,15 @@
           "session-number": "Sessienummer",
           "session-number-information": "Alleen meegedeeld door de surveillant aan het begin van de sessie"
         },
-      "placeholders": {
-        "birth-day": "DD",
-        "birth-month": "MM",
-        "birth-name": "ex: Dupont",
-        "birth-year": "JJJJ",
-        "first-name": "ex: Jean",
-        "session-number": "ex: 123456"
-      }
-    },
+        "placeholders": {
+          "birth-day": "DD",
+          "birth-month": "MM",
+          "birth-name": "b.v. Jansen",
+          "birth-year": "JJJJ",
+          "first-name": "b.v. Jan",
+          "session-number": "ex: 123456"
+        }
+      },
       "title": "Doe mee aan een certificeringssessie"
     },
     "certification-not-certifiable": {
@@ -832,7 +837,7 @@
         "candidate-not-authorized-to-resume": "Neem contact op met je surveillant om toestemming te vragen om je toets te hervatten.",
         "candidate-not-authorized-to-start": "Je surveillant heeft je aanwezigheid in de testruimte nog niet bevestigd. Je kunt daarom nog niet beginnen met je certificeringstoets. Stel je surveillant hiervan op de hoogte.",
         "generic": "Er is zojuist een onverwachte serverfout opgetreden.",
-        "missing-code": "You have not entered your access code.",
+        "missing-code": "Uw toegangscode is niet ingevoerd.",
         "session-not-accessible": "De certificeringssessie is niet langer toegankelijk.",
         "unknown": {
           "summary-label": "Bekijk meer details:"
@@ -1295,14 +1300,15 @@
         "title": "Een vaardigheid terugnemen"
       },
       "title": "Home",
-      "welcome": "Welkom { firstName }"
+      "welcome": "{ firstName } Welkom 🎉"
     },
     "download-session-results": {
       "button": {
         "label": "Download de resultaten"
       },
       "errors": {
-        "expiration": "De downloadlink voor de sessieresultaten is verlopen."
+        "expiration": "De downloadlink voor de sessieresultaten is verlopen.",
+        "invalid-token": "De downloadlink voor de sessieresultaten is ongeldig."
       },
       "title": "Download sessie resultaten"
     },
@@ -1330,6 +1336,8 @@
         "missing-code": "Voer een code in.",
         "not-found": "Je code is verkeerd, controleer de indeling (bijv. ABCDEF234) of neem contact op met de organisator."
       },
+      "explanation-link": "https://pix.org/nl-be/wat-is-een-code-en-hoe-gebruik-je-die",
+      "explanation-message": "Wat is een routecode en hoe gebruik je die?",
       "first-title-connected": "{ firstName }, voer uw code in",
       "first-title-not-connected": "Voer uw code in",
       "label": "Voer je code in om te beginnen.",
@@ -1357,8 +1365,8 @@
         "wrong-format": "Controleer het formaat van je code (P-XXXXXXXX)."
       },
       "first-title": "Een Pix-certificaat controleren",
-      "label": "Verificatiecode",
-      "sub-label": "voorbeeld: P-XXXXXXXX",
+      "label": "Verificatiecode (P-XXXXXXXX)",
+      "sub-label": "Voorbeeld: P-XXXXXXXX",
       "title": "Een Pix-certificaat controleren",
       "verify": "Controleer het certificaat"
     },
@@ -1369,12 +1377,12 @@
         "continue": "Ga verder met"
       },
       "errors": {
-        "invalid-external-id": "{ externalIdLabel } De jouwe is ongeldig.",
+        "invalid-external-id": "{ idPixLabel } De jouwe is ongeldig.",
         "invalid-external-id-email": "Het e-mailadres is ongeldig.",
-        "max-length-external-id": "Uw { externalIdLabel } mag niet langer zijn dan 255 tekens.",
-        "max-length-id-pix-label": "Uw { externalIdLabel } mag niet langer zijn dan 255 tekens.",
-        "missing-external-id": "Voer uw { externalIdLabel } in.",
-        "missing-id-pix-label": "Voer uw { externalIdLabel } in."
+        "max-length-external-id": "Uw { idPixLabel } mag niet langer zijn dan 255 tekens.",
+        "max-length-id-pix-label": "Uw { idPixLabel } mag niet langer zijn dan 255 tekens.",
+        "missing-external-id": "Voer uw { idPixLabel } in.",
+        "missing-id-pix-label": "Voer uw { idPixLabel } in."
       },
       "first-title": "Voordat u begint",
       "title": "Mijn login invoeren"
@@ -1657,7 +1665,7 @@
         }
       },
       "preview": {
-        "showJson": "Show JSON",
+        "showJson": "JSON weergeven",
         "textarea-label": "Inhoud module"
       },
       "qcm": {
@@ -1671,8 +1679,8 @@
       },
       "recap": {
         "backToModuleDetails": "Terug naar moduledetails",
-        "goToHomepage": "Mijn Pix-ervaring voortzetten",
         "goToForm": "Beantwoord de vragenlijst",
+        "goToHomepage": "Mijn Pix-ervaring voortzetten",
         "subtitle": "Je hebt de volgende doelen bereikt:",
         "title": "Gefeliciteerd! Module voltooid"
       },
@@ -1758,7 +1766,7 @@
           "no-level": "Vaardigheid niet gestart"
         }
       },
-      "description": "Beoordeel jezelf in je eigen tempo op 16 digitale vaardigheden. Kies een vaardigheid en begin met het verdienen van pix.",
+      "description": "Verken 16 digitale vaardigheden in je eigen tempo, verdeeld over 7 niveaus. Leer door jezelf te testen, verdien Pix en bouw je digitale profiel op. Aan jou de keuze!",
       "first-title": "Je moet 16 vaardigheden testen. Concentreer je en ga!",
       "resume-campaign-banner": {
         "accessibility": {
@@ -1939,6 +1947,7 @@
       "badges-title": "Je thematische resultaten",
       "details": {
         "caption": "Details van je resultaten in percentages volgens vaardigheden",
+        "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Resultaten",
         "header-skill": "Geteste vaardigheden",
         "percentage": "{rate, number, ::percent}",
@@ -1948,6 +1957,11 @@
       },
       "disabled-share": "Deze route is gedeactiveerd door de organisator.'<br>'Het is niet langer mogelijk om resultaten te versturen.",
       "error": "Oeps, er is een fout gemaakt!",
+      "flash": {
+        "abstract": "Goed gedaan, je bent er helemaal voor gegaan!",
+        "nonDefinitive": "(berekening niet definitief)",
+        "pixScore": "Je hebt {score, number, ::.} behaald. Pix"
+      },
       "hero": {
         "acquired-badges-title": "Gewonnen prijzen",
         "bravo": "{name} Goed gedaan!",
@@ -1989,7 +2003,8 @@
           "text": "Je staat op het punt om je <strong>{targetProfileName}</strong> cursus te resetten in een poging om je niveau te verbeteren. Aan het einde van de cursus kun je je resultaten weer insturen.",
           "warning-text": "Je Pix, niveaus en certificeerbaarheid verkregen tijdens deze cursus zullen worden verwijderd."
         },
-        "notification": "Als je de mislukte vragen opnieuw probeert of alles op nul zet om alles opnieuw te proberen, kan je organisatie je laatste resultaat niet meer zien. Om je resultaat mee te laten tellen door de organisator van de test, moet je het opnieuw insturen."
+        "notification": "Als je de mislukte vragen opnieuw maakt of op nul zet om het opnieuw te proberen, moet je je resultaten opnieuw opsturen zodat ze kunnen worden geteld door de organisator. De organisator blijft toegang houden tot je eerder ingestuurde resultaten.",
+        "notifications": "Als je de mislukte vragen opnieuw probeert of alles op nul zet om alles opnieuw te proberen, kan je organisatie je laatste resultaat niet meer zien. Om je resultaat mee te laten tellen door de organisator van de test, moet je het opnieuw insturen."
       },
       "retry": {
         "button": "Mijn reis naspelen",
@@ -2025,10 +2040,10 @@
             "content": "Stuur je resultaten op zodat de cursusorganisator je kan ondersteunen.'<br />'Zodra je je resultaten hebt gedeeld, heb je toegang tot deze trainingen!",
             "share-error": "Er is een fout opgetreden bij het verzenden van uw resultaten. Probeer het opnieuw."
           },
-          "sent-results-modal" : {
-            "return-results-action": "Close and return to results",
-            "subtitle": "Ready to expand your knowledge? \uD83C\uDF93",
-            "title": "Shared results"
+          "sent-results-modal": {
+            "return-results-action": "Sluiten en terugkeren naar resultaten",
+            "subtitle": "Klaar om je kennis uit te breiden?  🎓",
+            "title": "Gedeelde resultaten"
           },
           "tab-label": "Training",
           "title": "Wil je meer weten?"
@@ -2191,8 +2206,8 @@
         "more-information": "Voor meer informatie,",
         "more-information-contact-support": "kunt u contact opnemen met ondersteuning.",
         "title": "Mijn account permanent verwijderen",
-        "warning-email": "Deze actie is onomkeerbaar. {pixScore} Alle vaardigheden, cursussen en pix die je hebt verkregen worden permanent verwijderd voor het PIX-account met het e-mailadres <strong>{email}</strong>.",
-        "warning-other": "Deze actie is onomkeerbaar. {pixScore} Alle vaardigheden, cursussen en pix die je hebt behaald, worden permanent verwijderd van het PIX-account <strong>{firstName} {lastName}</strong>."
+        "warning-email": "Deze actie is onomkeerbaar. {pixScore} Alle vaardigheden, cursussen en pix die je hebt verkregen worden permanent verwijderd voor het PIX-account met het e-mailadres<strong>{email}</strong>.",
+        "warning-other": "Deze actie is onomkeerbaar. {pixScore} Alle vaardigheden, cursussen en pix die je hebt behaald, worden permanent verwijderd van het PIX-account.<strong>{firstName} {lastName}</strong>."
       },
       "email-confirmed": "Geverifieerd e-mailadres.",
       "email-verification": {
@@ -2226,6 +2241,15 @@
       "title": "Mijn account"
     },
     "user-tests": {
+      "anonymised-participations": {
+        "course": "Parken",
+        "states": {
+          "completed": "Afgewerkt",
+          "started": "begonnen"
+        },
+        "title": "Cursussen voor gehandicapten"
+      },
+      "description": "Hier vind je de beoordelingscursussen die je hebt gestart of voltooid.",
       "title": "Mijn carrièrepaden"
     },
     "user-trainings": {
