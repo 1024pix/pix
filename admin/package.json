@@ -123,12 +123,12 @@
     "xss": "^1.0.15"
   },
   "overrides": {
-    "eslint-plugin-ember": {
-      "ember-eslint-parser": "^0.5.0"
-    },
+    "ember-source": "$ember-source",
     "ember-dayjs": {
       "ember-source": "^6.0.0"
     },
-    "globals": "16.0.0"
+    "ember-flatpickr": {
+      "ember-source": "^6.0.1"
+    }
   }
 }
