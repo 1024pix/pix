@@ -1,0 +1,218 @@
+{
+  "id": "c8f085bb-35b4-4721-b75a-827be3377be4",
+  "slug": "arnaques-message",
+  "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques ! ",
+  "isBeta": false,
+  "details": {
+    "image": "",
+    "description": "<p>Chaque jour, nous recevons des messages par mail, SMS ou sur les réseaux sociaux. Mais certains de ces messages cachent des arnaques.&nbsp; Dans ce module, vous allez découvrir comment avoir les bons réflexes lorsque vous recevez ce type de message malveillant. 🛡</p><br>",
+    "duration": 10,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Reconnaître une tentative d’arnaque par message</p>",
+      "<p>Adopter un comportement de prudence</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "eb6be25a-3197-42e1-926f-5afac1749fc9",
+      "content": "<p>Ce matin, Raya a reçu un SMS concernant un colis avec un problème de livraison. 📦<br>Elle s’interroge et demande conseil à ses amies.</p>"
+    },
+    {
+      "grainId": "d560600f-6c7d-47ed-bd9f-5e3850818a72",
+      "content": "<p>✉️ Les tentatives d’arnaque par message sont de faux messages envoyés par des escrocs. Voyons cela ensemble.<br></p>"
+    },
+    {
+      "grainId": "c9a54e1d-4cad-4bc4-b117-cbea465ecca4",
+      "content": "<p>Vous connaissez maintenant les principales caractéristiques d’un message d’arnaque. Récapitulons l’essentiel. 🎯</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "eb6be25a-3197-42e1-926f-5afac1749fc9",
+      "type": "discovery",
+      "title": "Nouveau message",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "29222bd2-5297-4053-a62b-87f9c9354faa",
+            "type": "image",
+            "url": "https://i.imgur.com/tpKJ8c3.png",
+            "alt": "conversation sur une messagerie instantanée détaillée dans l’alternative textuelle",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "29222bd2-5297-4053-a62b-87f9c9354faa",
+            "type": "qcu",
+            "instruction": "<p>À votre avis, que doit faire Raya face à ce SMS ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Cliquer sur le lien pour en savoir plus.</p>",
+                "feedback": "<p>Attention, un message peut cacher une tentative d’arnaque. Cliquer sur un lien inconnu peut être risqué.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Répondre au SMS pour signaler qu’il y a une erreur.</p>",
+                "feedback": "<p>Attention, un message peut cacher une tentative d’arnaque. Dans ce cas, répondre peut être risqué.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Ignorer ce SMS pour se protéger d’une arnaque.</p>",
+                "feedback": "<p>Bien vu ! 🎉 Un message peut cacher une tentative d’arnaque. En cas de doute, le mieux à faire est d’ignorer le message.</p>"
+              }
+            ],
+            "solution": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d560600f-6c7d-47ed-bd9f-5e3850818a72",
+      "type": "lesson",
+      "title": "intro message d’arnaque",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "29222bd2-5297-4053-a62b-87f9c9354faa",
+            "type": "text",
+            "content": "<p>Les tentatives d’arnaque par message sont des messages envoyés par des escrocs.<br>📝 Le but de ces messages est de <strong>tromper</strong> la personne qui les reçoit pour qu’elle <strong>donne ses informations personnelles</strong> (un mot de passe ou un numéro de carte bancaire par exemple).</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "50e3587a-be22-490d-81b6-befc6c121378",
+      "type": "activity",
+      "title": "BoutonAB",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "29222bd2-5297-4053-a62b-87f9c9354faa",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "BoutonAB",
+            "url": "https://1024pix.github.io/atelier-contenus/LSI/BoutonAB.html",
+            "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
+            "solution": "",
+            "height": 450
+          }
+        }
+      ]
+    },
+    {
+      "id": "6aa19e28-727c-448c-aa1a-81068225aabe",
+      "type": "lesson",
+      "title": "Suite",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "6c2744a2-7ecd-4144-b851-c62b379d7008",
+            "type": "text",
+            "content": "<p>🥸 Souvent, les messages d’arnaque prétendent venir d’un proche, d’une entreprise ou d’un service public connu (Les impôts, la CAF ou Ameli par exemple) pour gagner votre confiance.&nbsp;</p><p><br><strong>🤔 Bon à savoir</strong><br>Un service public ou une entreprise commerciale sérieuse ne vous demandera pas vos données bancaires ou vos mots de passe par message ou par téléphone.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c133258d-ceab-4aa5-9752-58249e78ddfc",
+      "type": "activity",
+      "title": "Bouton AB2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "abc3cfa8-1240-4e63-9cf0-a7a460a960d9",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Bouton AB2",
+            "url": "https://1024pix.github.io/atelier-contenus/LSI/BoutonAB.html",
+            "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
+            "solution": "",
+            "height": 450
+          }
+        }
+      ]
+    },
+    {
+      "id": "016afeb8-4f1d-4dfd-8fcf-0c415b9afb29",
+      "type": "lesson",
+      "title": "Suite",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0b2b9cbb-f666-4115-a4ff-5f4bc8a012b6",
+            "type": "text",
+            "content": "<p>❗Les messages d’arnaque vous invitent toujours à <strong>agir rapidement</strong>&nbsp;:&nbsp; en cliquant sur un lienen appelant un numéro de téléphoneou en répondant au message au plus vite<br>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent&nbsp;: à vous<strong> faire peur </strong>(avec une amende impayée par exemple) 😱à vous<strong> faire espérer un gain</strong> (comme un remboursement des impôts) 💵</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3b13d199-0bce-4def-b1af-210e759c3651",
+      "type": "activity",
+      "title": "BoutonAB3",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "e2b5f023-5602-46d0-9a92-3dde4fed3629",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Bouton AB3",
+            "url": "https://1024pix.github.io/atelier-contenus/LSI/BoutonAB.html",
+            "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
+            "solution": "",
+            "height": 450
+          }
+        }
+      ]
+    },
+    {
+      "id": "01cfa09b-26db-43e3-bcfa-f00df9395467",
+      "type": "lesson",
+      "title": "Bon à savoir",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "2e18ccec-cf9c-4210-9a32-66dacc217f48",
+            "type": "text",
+            "content": "<p><strong>🤔 Bon à savoir</strong><br>Vous pouvez recevoir des messages d’arnaques par SMS, email, messagerie instantanée ou sur les réseaux sociaux.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c9a54e1d-4cad-4bc4-b117-cbea465ecca4",
+      "type": "summary",
+      "title": "Récapitulatif",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8396e104-258a-4c4e-9f65-da71c5558872",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://1024pix.github.io/atelier-contenus/LSI/cartes-a-retourner.html",
+            "instruction": "<p>Voici les 4 caractéristiques principales des messages d’arnaques&nbsp;:<br>(Cliquez sur chaque carte pour la retourner.)</p>",
+            "solution": "",
+            "height": 500
+          }
+        }
+      ]
+    }
+  ]
+}
