@@ -5,7 +5,9 @@ export default class ServerSentEventService extends Service {
   @service store;
   @service session;
 
-  async registerSupervisingEvent(sessionId) {
+
+
+  async registerSupervisingEvent(sessionId, handler) {
     // TODO : handle reject, authentication (pre handler in back), and errors
     //        in certif/app/routes/session-supervising.js afterModel function
 
@@ -14,19 +16,30 @@ export default class ServerSentEventService extends Service {
     // Init connection
     const isFirstPayload = true;
 
-    const response = await fetch(`${ENV.APP.API_HOST}/api/sessions/${sessionId}/supervision-events`, {
+    return fetch(`${ENV.APP.API_HOST}/api/sessions/${sessionId}/supervision-events`, {
+      cache: 'no-store',
       headers: {
-        Authorization: this.session.data.authenticated.access_token,
+        Authorization: `Bearer ${this.session.data.authenticated.access_token}`,
+        'Content-Type': 'text/event-stream',
       },
-    });
+    }).then(handler);
 
-    const reader = response?.body?.getReader();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const stringDecodedData = new TextDecoder('utf-8').decode(value);
-      console.log(stringDecodedData);
-    }
+    // const unTruc = () => {
+
+    // }
+
+    // const reader = response?.body?.getReader();
+    // while (true) {
+    //   const { done, value } = await reader.read();
+    //   if (done) break;
+
+
+    //   const raw = new TextDecoder('utf-8').decode(value);
+    //   const [event, data] = this.split(raw);
+    //   console.log(raw);
+    //   const decoded = JSON.parse(data);
+    //   handler(decoded);
+    // }
 
     // Pas possible car ne permet pas de prendre en compte le header Authorization.
     /* const evtSource = new EventSource(`${ENV.APP.API_HOST}/api/sessions/${sessionId}/supervision-events`, {
