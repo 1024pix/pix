@@ -57,7 +57,7 @@
       "gateway-timeout-error": "El servicio está experimentando ralentizaciones. Vuelve a intentarlo más tarde.",
       "internal-server-error": "Se ha producido un error interno. Nuestros equipos están resolviendo el problema. Vuelve a intentarlo más tarde.",
       "login-unauthorized-error": "La dirección de correo electrónico o el nombre de usuario y/o la contraseña introducidos son incorrectos.",
-      "login-unexpected-error": "No se ha podido conectar. Por favor, inténtelo de nuevo en unos momentos. Si el problema persiste, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'póngase en contacto con nosotros'</a>'.",
+      "login-unexpected-error": "No se ha podido conectar. Por favor, inténtelo de nuevo en unos momentos. Si el problema persiste, '<'a href=\"https://pix.org/en/support/\" target=\"blank\"'>'póngase en contacto con nosotros'</a>'.",
       "login-user-blocked-error": "Tu cuenta está bloqueada porque has realizado demasiados intentos de conexión. Para desbloquearla, '<'a href=\"{url}\"'>'ponte en contacto con nosotros'</a>'.",
       "login-user-temporary-blocked-error": "Has realizado demasiados intentos de conexión. Inténtalo de nuevo más tarde o haz clic en '<'a href=\"{url}\"'>'contraseña olvidada'</a>' para restablecerla."
     },

@@ -57,7 +57,7 @@
       "gateway-timeout-error": "De service ondervindt vertragingen. Probeer het later nog eens.",
       "internal-server-error": "Er is een interne fout opgetreden. Onze teams zijn bezig het probleem op te lossen. Probeer het later nog eens.",
       "login-unauthorized-error": "Het e-mailadres of de ingevoerde gebruikersnaam en/of wachtwoord zijn onjuist.",
-      "login-unexpected-error": "Kan geen verbinding maken. Probeer het over enkele ogenblikken opnieuw. Als het probleem zich blijft voordoen, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'neem dan contact met ons op'</a>'.",
+      "login-unexpected-error": "Kan geen verbinding maken. Probeer het over enkele ogenblikken opnieuw. Als het probleem zich blijft voordoen, '<'a href=\"https://pix.org/nl-be/support/\" target=\"blank\"'>'neem dan contact met ons op'</a>'.",
       "login-user-blocked-error": "Je account is geblokkeerd omdat je te veel verbindingspogingen hebt gedaan. U kunt de blokkering opheffen door '<'a href=\"{url}\"'>'contact us'</a>'.",
       "login-user-temporary-blocked-error": "Je hebt te veel inlogpogingen gedaan. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen."
     },
