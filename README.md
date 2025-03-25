@@ -1,6 +1,6 @@
-# Pix semantic version
+# Pix sementic version
 
-Plateforme d'évaluation et de certification des compétences numériques pour tous.
+Platefoeeeeeeerme d'évaluation et de certification des compétences numériques pour tous.
 ![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
 
 ## Présentation
