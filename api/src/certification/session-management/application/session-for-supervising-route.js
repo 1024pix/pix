@@ -40,12 +40,12 @@ const register = async function (server) {
             sessionId: identifiersType.sessionId,
           }),
         },
-        // pre: [
-        //   {
-        //     method: assessmentSupervisorAuthorization.verifyBySessionId,
-        //     assign: 'isSupervisorForSession',
-        //   },
-        // ],
+        pre: [
+          {
+            method: assessmentSupervisorAuthorization.verifyBySessionId,
+            assign: 'isSupervisorForSession',
+          },
+        ],
         auth: false,
         handler: sessionForSupervisingController.supervisionEvents,
         tags: ['api', 'sessions', 'supervising'],
