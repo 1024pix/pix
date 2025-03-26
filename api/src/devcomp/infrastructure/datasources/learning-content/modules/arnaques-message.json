@@ -242,7 +242,7 @@
           "element": {
             "id": "0b2b9cbb-f666-4115-a4ff-5f4bc8a012b6",
             "type": "text",
-            "content": "<p>❗Les messages d’arnaque vous invitent toujours à <strong>agir rapidement</strong>&nbsp;:&nbsp; </p>\n\n    <ul><li>en cliquant sur un lien,</li><li>en appelant un numéro de téléphone,</li><li>ou en répondant au message au plus vite.</li></ul>\n    \n    \n\n<p><br>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent&nbsp;: </p>\n\n    <ul><li>à vous<strong> faire peur </strong>(avec une amende impayée par exemple) ,😱</li><li>à vous<strong> faire espérer un gain</strong> (comme un remboursement des impôts) .💵</li></ul>\n    \n"
+            "content": "<p>❗Les messages d’arnaque vous invitent toujours à <strong>agir rapidement</strong>&nbsp;:&nbsp; </p><ul><li>en cliquant sur un lien,</li><li>en appelant un numéro de téléphone,</li><li>ou en répondant au message au plus vite.</li></ul><p><br>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent&nbsp;::&nbsp;</p><ul><li>à vous<strong> faire peur </strong>(avec une amende impayée par exemple) ,😱</li><li>à vous<strong> faire espérer un gain</strong> (comme un remboursement des impôts) .💵</li></ul>"
           }
         }
       ]
