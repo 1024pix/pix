@@ -1,11 +1,11 @@
 {
   "id": "c8f085bb-35b4-4721-b75a-827be3377be4",
   "slug": "arnaques-message",
-  "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques ! ",
+  "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques ! ",
   "isBeta": false,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Chaque jour, nous recevons des messages par mail, SMS ou sur les réseaux sociaux. Mais certains de ces messages cachent des arnaques.&nbsp; Dans ce module, vous allez découvrir comment avoir les bons réflexes lorsque vous recevez ce type de message malveillant. 🛡</p>",
+    "description": "<p>Chaque jour, nous recevons des messages par mail, SMS ou sur les réseaux sociaux. Mais certains de ces messages cachent des arnaques.&nbsp; Dans ce module, vous allez découvrir comment avoir les bons réflexes lorsque vous recevez ce type de message malveillant. 🛡</p>",
     "duration": 10,
     "level": "Débutant",
     "objectives": [
@@ -17,7 +17,7 @@
   "transitionTexts": [
     {
       "grainId": "eb6be25a-3197-42e1-926f-5afac1749fc9",
-      "content": "<p>Ce matin, Raya a reçu un SMS concernant un colis avec un problème de livraison. 📦<br>Elle s’interroge et demande conseil à ses amies.</p>"
+      "content": "<p>Ce matin, Raya a reçu un SMS concernant un colis avec un problème de livraison. 📦<br>Elle s’interroge et envoie des messages à ses amies.</p>"
     },
     {
       "grainId": "d560600f-6c7d-47ed-bd9f-5e3850818a72",
@@ -25,7 +25,23 @@
     },
     {
       "grainId": "c9a54e1d-4cad-4bc4-b117-cbea465ecca4",
-      "content": "<p>Vous connaissez maintenant les principales caractéristiques d’un message d’arnaque. Récapitulons l’essentiel. 🎯</p>"
+      "content": "<p>Vous connaissez maintenant les principales caractéristiques d’un message d’arnaque.<br> Récapitulons ensemble. </p>"
+    },
+    {
+      "grainId": "69e2bc11-439f-4b2d-8896-627ed1f962a7",
+      "content": "<p>Voyons si vous avez retenu l’essentiel. 🎯</p>"
+    },
+    {
+      "grainId": "ae27b380-d518-4c79-917c-9e7d37ab411e",
+      "content": "<p>Suite aux messages de Raya sur la conversation de groupe “Les supers nanas”, ses amies lui donnent des conseils.</p>"
+    },
+    {
+      "grainId": "8381f56c-1991-4185-b7c0-2d5a6bda1504",
+      "content": "<p>Lorsque l’on reçoit un message inattendu ou surprenant, c’est peut être une tentative d’arnaque.<br>Voici quelques conseils à suivre à la réception d’un nouveau message.<br></p>"
+    },
+    {
+      "grainId": "a574cd0d-f5df-4d3c-adb2-27b0b09f5243",
+      "content": "<p>Raya sait maintenant que le mieux à faire est d’ignorer le message qu’elle a reçu au sujet d‘un colis.</p>"
     }
   ],
   "grains": [
@@ -39,10 +55,10 @@
           "element": {
             "id": "1333c2f1-55e7-4f4d-8bbd-179ff4dfc91a",
             "type": "image",
-            "url": "https://i.imgur.com/tpKJ8c3.png",
+            "url": "https://i.imgur.com/JsgA2cf.png",
             "alt": "conversation sur une messagerie instantanée détaillée dans l’alternative textuelle",
-            "alternativeText": "",
-            "legend": "",
+            "alternativeText": "<p>Discussion du groupe&nbsp;Les supers nanas (notamment Raya, Steph, Dounia, etc.) sur une application de messagerie instantanée&nbsp;:</p><ul><li>Raya&nbsp;: Hey j'ai reçu ce SMS ce matin&nbsp;: <ul><li>capture d'écran d'un SMS avec le texte&nbsp;: Chronopost&nbsp;: La livraison de votre colis est interrompue car il ne respecte pas le poids indiqué, régularisez la situation via ; chronopost-online-info.com</li></ul></li><li>Raya&nbsp;: J'attends pas de colis pourtant...</li><li>Raya est en train d'écrire...</li></ul>",
+            "legend": " ",
             "licence": ""
           }
         },
@@ -51,22 +67,22 @@
           "element": {
             "id": "ff771790-8f45-467e-9021-4409b08e81e7",
             "type": "qcu",
-            "instruction": "<p>À votre avis, que doit faire Raya face à ce SMS ?</p>",
+            "instruction": "<p>À votre avis, le message que Raya a reçu est&nbsp;:&nbsp;</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>Cliquer sur le lien pour en savoir plus.</p>",
-                "feedback": "<p>Attention, un message peut cacher une tentative d’arnaque. Cliquer sur un lien inconnu peut être risqué.</p>"
+                "content": "<p>une alerte au sujet d'un colis pour elle</p>",
+                "feedback": "<p>Attention, un message peut cacher une tentative d’arnaque. </p>"
               },
               {
                 "id": "2",
-                "content": "<p>Répondre au SMS pour signaler qu’il y a une erreur.</p>",
-                "feedback": "<p>Attention, un message peut cacher une tentative d’arnaque. Dans ce cas, répondre peut être risqué.</p>"
+                "content": "<p>une tentative d'arnaque</p>",
+                "feedback": "<p>Bien vu ! 🎉 Un message peut cacher une tentative d’arnaque.</p>"
               },
               {
                 "id": "3",
-                "content": "<p>Ignorer ce SMS pour se protéger d’une arnaque.</p>",
-                "feedback": "<p>Bien vu ! 🎉 Un message peut cacher une tentative d’arnaque. En cas de doute, le mieux à faire est d’ignorer le message.</p>"
+                "content": "<p>une erreur de destinataire</p>",
+                "feedback": "<p>Attention, un message peut cacher une tentative d’arnaque.</p>"
               }
             ],
             "solution": "3"
@@ -77,7 +93,7 @@
     {
       "id": "d560600f-6c7d-47ed-bd9f-5e3850818a72",
       "type": "lesson",
-      "title": "intro message d’arnaque",
+      "title": "Des messages pour obtenir des informations personnelles",
       "components": [
         {
           "type": "element",
@@ -91,8 +107,8 @@
     },
     {
       "id": "50e3587a-be22-490d-81b6-befc6c121378",
-      "type": "activity",
-      "title": "BoutonAB",
+      "type": "discovery",
+      "title": "Tentative d'arnaque ou message sûr ?",
       "components": [
         {
           "type": "element",
@@ -112,7 +128,7 @@
     {
       "id": "6aa19e28-727c-448c-aa1a-81068225aabe",
       "type": "lesson",
-      "title": "Suite",
+      "title": "Des messages pour tromper",
       "components": [
         {
           "type": "element",
@@ -126,35 +142,107 @@
     },
     {
       "id": "c133258d-ceab-4aa5-9752-58249e78ddfc",
-      "type": "activity",
-      "title": "Bouton AB2",
+      "type": "discovery",
+      "title": "Des indices pour reconnaître un message d'arnaque",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "abc3cfa8-1240-4e63-9cf0-a7a460a960d9",
-            "type": "embed",
-            "isCompletionRequired": false,
-            "title": "Bouton AB2",
-            "url": "https://1024pix.github.io/atelier-contenus/LSI/Arnaques1AB2.html",
-            "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
-            "solution": "<p></p>",
-            "height": 450
+            "type": "text",
+            "content": "<p>Les messages suivants sont des messages d’arnaque. <br>Pour chacun des messages, sélectionnez l’indice qui vous fait penser qu’il s’agit d’une tentative d’arnaque.<br></p>"
           }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "6d26fccf-5465-4492-b669-103dd65c1847",
+                  "type": "image",
+                  "url": "https://i.imgur.com/7yjNwjN.png",
+                  "alt": "Image d'un mail décrit dans l'alternative textuelle",
+                  "alternativeText": "",
+                  "legend": "",
+                  "licence": ""
+                },
+                {
+                  "id": "2dcef17d-7189-46e2-a510-308c9b17c5c8",
+                  "type": "qcu",
+                  "instruction": "<p>Quel indice fait penser qu’il s’agit d’un message d’arnaque ?<br></p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>le ton d'urgence</p>",
+                      "feedback": "<p>Bien vu !&nbsp;🎉</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>test</p>",
+                      "feedback": "<p>Et non !&nbsp;</p>"
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>test</p>",
+                      "feedback": "<p>Et non !</p>"
+                    }
+                  ],
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "f8048306-c9a3-42b1-a87b-0e055be5d4e2",
+                  "type": "image",
+                  "url": "https://i.imgur.com/p94dl6y.png",
+                  "alt": "Image d'un mail décrit dans l'alternative textuelle",
+                  "alternativeText": "<p><br></p>",
+                  "legend": "",
+                  "licence": ""
+                },
+                {
+                  "id": "9f05eb53-6566-4c43-a284-014bc8d3ab40",
+                  "type": "qcu",
+                  "instruction": "<p>Quel indice fait penser qu’il s’agit d’un message d’arnaque ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Test</p>",
+                      "feedback": "<p>Et non !</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>l’offre trop alléchante</p>",
+                      "feedback": "<p>Bien vu !&nbsp;🎉</p>"
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>test</p>",
+                      "feedback": "<p>Et non !</p>"
+                    }
+                  ],
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
     {
       "id": "016afeb8-4f1d-4dfd-8fcf-0c415b9afb29",
       "type": "lesson",
-      "title": "Suite",
+      "title": "Des messages qui jouent sur les émotions",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "0b2b9cbb-f666-4115-a4ff-5f4bc8a012b6",
             "type": "text",
-            "content": "<p>❗Les messages d’arnaque vous invitent toujours à <strong>agir rapidement</strong>&nbsp;:&nbsp; en cliquant sur un lienen appelant un numéro de téléphoneou en répondant au message au plus vite<br>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent&nbsp;: à vous<strong> faire peur </strong>(avec une amende impayée par exemple) 😱à vous<strong> faire espérer un gain</strong> (comme un remboursement des impôts) 💵</p>"
+            "content": "<p>❗Les messages d’arnaque vous invitent toujours à <strong>agir rapidement</strong>&nbsp;:&nbsp; </p>\n\n    <ul><li>en cliquant sur un lien,</li><li>en appelant un numéro de téléphone,</li><li>ou en répondant au message au plus vite.</li></ul>\n    \n    \n\n<p><br>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent&nbsp;: </p>\n\n    <ul><li>à vous<strong> faire peur </strong>(avec une amende impayée par exemple) ,😱</li><li>à vous<strong> faire espérer un gain</strong> (comme un remboursement des impôts) .💵</li></ul>\n    \n"
           }
         }
       ]
@@ -162,7 +250,7 @@
     {
       "id": "3b13d199-0bce-4def-b1af-210e759c3651",
       "type": "challenge",
-      "title": "BoutonAB3",
+      "title": "Défi : Tentative d'arnaque ou message sûr ?",
       "components": [
         {
           "type": "element",
@@ -174,20 +262,13 @@
             "url": "https://1024pix.github.io/atelier-contenus/LSI/Arnaques1AB3.html",
             "instruction": "<p>Pour chacun des messages suivants, indiquez si vous pensez qu’il s’agit d’une tentative d’arnaque.</p>",
             "solution": "<p></p>",
-            "height": 450
+            "height": 600
           }
-        }
-      ]
-    },
-    {
-      "id": "01cfa09b-26db-43e3-bcfa-f00df9395467",
-      "type": "lesson",
-      "title": "Bon à savoir",
-      "components": [
+        },
         {
           "type": "element",
           "element": {
-            "id": "2e18ccec-cf9c-4210-9a32-66dacc217f48",
+            "id": "6f33b8d1-6966-4bea-847e-e5bb21394458",
             "type": "text",
             "content": "<p><strong>🤔 Bon à savoir</strong><br>Vous pouvez recevoir des messages d’arnaques par SMS, email, messagerie instantanée ou sur les réseaux sociaux.</p>"
           }
@@ -205,11 +286,253 @@
             "id": "8396e104-258a-4c4e-9f65-da71c5558872",
             "type": "embed",
             "isCompletionRequired": false,
-            "title": "Récapitulatif",
+            "title": "Les 4 caractéristiques principale des messages d'arnaque",
             "url": "https://1024pix.github.io/atelier-contenus/LSI/cartes-a-retourner.html",
             "instruction": "<p>Voici les 4 caractéristiques principales des messages d’arnaques&nbsp;:<br>(Cliquez sur chaque carte pour la retourner.)</p>",
             "solution": "<p></p>",
             "height": 500
+          }
+        }
+      ]
+    },
+    {
+      "id": "69e2bc11-439f-4b2d-8896-627ed1f962a7",
+      "type": "challenge",
+      "title": "Identification des caractéristiques d'un message",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8396e104-258a-4c4e-9f65-da71c5558872",
+            "type": "text",
+            "content": "<p>Raya a reçu le message ci-dessous.<br>Sélectionnez les caractéristiques qui peuvent indiquer qu’il s’agit d’une tentative d’arnaque.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1b9dc9b2-be84-496f-9277-cd6a312ffb2d",
+            "type": "image",
+            "url": "https://i.imgur.com/CMPuMGZ.png",
+            "alt": "Image d'un mail décrit dans l'alternative textuelle",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "77367dfc-55f6-47ad-9e35-1c0dc1914369",
+            "type": "qcm",
+            "instruction": "<p>Quelles caractéristiques de ce mail peuvent indiquer une tentative d’arnaque ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Le message utilise l’urgence pour faire réagir.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Le message se fait passer pour un service public ou une entreprise.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Le message se fait passer pour un proche.</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Le message demande de cliquer sur un lien.</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>Le message demande de rappeler un numéro de téléphone.</p>"
+              },
+              {
+                "id": "6",
+                "content": "<p>Le message cherche à faire peur.</p>"
+              },
+              {
+                "id": "7",
+                "content": "<p>Le message fait espérer un gain.</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bonne réponse !&nbsp;🎉</p>",
+              "invalid": "<p>Mauvaise réponse.&nbsp;</p>"
+            },
+            "solutions": [
+              "1",
+              "2",
+              "4",
+              "6"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ae27b380-d518-4c79-917c-9e7d37ab411e",
+      "type": "discovery",
+      "title": "Suite de la conversation des supers nanas",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "101fec70-6ebc-45b8-b615-9aa99c4860d8",
+            "type": "image",
+            "url": "https://i.imgur.com/Q3HGdSC.png",
+            "alt": "conversation sur une messagerie instantanée détaillée dans l’alternative textuelle",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1183c405-b4e1-487a-8e80-667e5e0ac2df",
+            "type": "qcu",
+            "instruction": "<p>À votre avis, que doit faire Raya face à ce SMS ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Cliquer sur le lien pour en savoir plus.</p>",
+                "feedback": "<p>Attention, cliquer sur un lien inconnu dans un message peut être risqué.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Répondre au SMS pour signaler qu’il y a une erreur.</p>",
+                "feedback": "<p>Attention, répondre à un message dont on ne connaît pas l’expéditeur peut être risqué.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Ignorer ce SMS pour se protéger d'une arnaque.</p>",
+                "feedback": "<p>Bien vu ! 🎉 Lorsque l’on reçoit un message inattendu ou surprenant, ça peut être une arnaque. En cas de doute, le mieux à faire est d’ignorer le message.</p>"
+              }
+            ],
+            "solution": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8381f56c-1991-4185-b7c0-2d5a6bda1504",
+      "type": "lesson",
+      "title": "Eviter les pièges d'un message d'arnaque",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "5bd68b9e-0e03-48b3-8708-6adb195aa65d",
+            "type": "text",
+            "content": "<p>Pour éviter de tomber dans le piège d’un message d’arnaque&nbsp;:&nbsp;<br>⌛Prendre le temps de réfléchir avant d'agir.<br>ℹ️Éviter de communiquer des informations personnelles .<br>🙉Ignorer le message (ne pas cliquer sur un lien et ne pas répondre).</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a574cd0d-f5df-4d3c-adb2-27b0b09f5243",
+      "type": "discovery",
+      "title": "Comment lever ses doutes",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "15476ed1-66df-407b-83eb-5f07559735c3",
+            "type": "text",
+            "content": "<p>À présent, aidez Raya à bien réagir face à deux nouveaux messages. 🔎</p>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "73ee6351-a112-4899-9001-f447fe46eaa8",
+                  "type": "image",
+                  "url": "https://i.imgur.com/6N4z4LS.png",
+                  "alt": "message sur la messagerie instantanée d'un réseau social détaillé dans l'alternative textuelle",
+                  "alternativeText": "<p><br></p>",
+                  "legend": "",
+                  "licence": ""
+                },
+                {
+                  "id": "2deb56da-b087-4264-9a1a-69a5b14f3f13",
+                  "type": "qcu",
+                  "instruction": "<p>Pour le message ci-dessus, quel est le bon conseil à donner à Raya ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Contacter Emma par un autre moyen.</p>",
+                      "feedback": "<p>Bonne réponse ! 🎉</p><p> Rien ne prouve que ce message a bien été envoyé par Emma. En cas de doute, le bon réflexe à adopter est de contacter Emma via un moyen habituel, comme son numéro de téléphone par exemple.<br><br></p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Répondre au message pour avoir plus d’informations.</p>",
+                      "feedback": "<p>Mauvaise réponse. </p><p>Rien ne prouve que ce message a bien été envoyé par Emma. Le plus sûr est de ne pas répondre.<br><br></p>"
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Cliquer sur le lien du message.</p>",
+                      "feedback": "<p>Mauvaise réponse. </p><p>Rien ne prouve que ce message a bien été envoyé par Emma. Cliquer sur un lien inconnu peut être risqué.<br><br></p>"
+                    }
+                  ],
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "e5b86e87-9d13-40ea-b6ee-84c0b4c02438",
+                  "type": "image",
+                  "url": "https://i.imgur.com/UWSKTzb.png",
+                  "alt": "image d'un mail détaillée dans l'alternative textuelle",
+                  "alternativeText": "",
+                  "legend": "",
+                  "licence": ""
+                },
+                {
+                  "id": "783fbd37-e04d-40fd-8d28-53959be8adc2",
+                  "type": "qcu",
+                  "instruction": "<p>Pour le message ci-dessus, que peut faire Raya pour éclaircir la situation ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Cliquer sur le lien pour accéder à son compte.</p>",
+                      "feedback": "<p>Mauvaise réponse.</p><p>Le ton urgent du mail et l’invitation à cliquer sur un lien inconnu rapidement sont des indices pour identifier un message d’arnaque. Il vaut mieux ne pas cliquer sur le lien.<br><br></p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Contacter son conseiller via l’application de la banque.</p>",
+                      "feedback": "<p>Bonne réponse ! 🎉</p><p>Si Raya a un doute à la lecture de ce message, le bon réflexe à adopter est de contacter son conseiller bancaire via son application bancaire pour vérifier l’information. <br><br></p>"
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Faire opposition à ses cartes bancaires.</p>",
+                      "feedback": "<p>Mauvaise réponse. </p><p>Faire opposition à ses cartes bancaires n’est pas nécessaire. Avoir reçu ce mail ne veut pas dire que le compte bancaire de Raya a été piraté.<br><br></p>"
+                    }
+                  ],
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "112af978-fcb1-4edf-8b20-bb168fef83e1",
+      "type": "summary",
+      "title": "Récapitulatif final",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "2d5e74f8-c6e8-4153-b38e-7b5d4356c973",
+            "type": "text",
+            "content": "<p>Lorsque vous recevez un message inattendu ou surprenant&nbsp;:&nbsp; <br></p>\n<p>❌👆 Ne pas cliquer dans le message ou un lien qui s’y trouve.</p>\n<p>❌✉️ Ne pas répondre.</p>\n<p>❌ℹ️ Ne pas donner d'informations personnelles.</p>\n<p>✅ Vérifier l’information par un autre moyen.</p>\n<p><br>&nbsp;⚠️ Selon une étude Ipsos-cybermalveillance, en 2024, 73% des Français déclarent avoir des mails ou des SMS d’arnaque. Il suffit d’un moment d'inattention pour se laisser piéger, restez vigilant ! <br></p>"
           }
         }
       ]
