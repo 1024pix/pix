@@ -1365,7 +1365,7 @@
         "wrong-format": "Controleer het formaat van je code (P-XXXXXXXX)."
       },
       "first-title": "Een Pix-certificaat controleren",
-      "label": "Verificatiecode (P-XXXXXXXX)",
+      "label": "Verificatiecode",
       "sub-label": "Voorbeeld: P-XXXXXXXX",
       "title": "Een Pix-certificaat controleren",
       "verify": "Controleer het certificaat"
@@ -1947,7 +1947,6 @@
       "badges-title": "Je thematische resultaten",
       "details": {
         "caption": "Details van je resultaten in percentages volgens vaardigheden",
-        "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Resultaten",
         "header-skill": "Geteste vaardigheden",
         "percentage": "{rate, number, ::percent}",
@@ -1957,11 +1956,6 @@
       },
       "disabled-share": "Deze route is gedeactiveerd door de organisator.'<br>'Het is niet langer mogelijk om resultaten te versturen.",
       "error": "Oeps, er is een fout gemaakt!",
-      "flash": {
-        "abstract": "Goed gedaan, je bent er helemaal voor gegaan!",
-        "nonDefinitive": "(berekening niet definitief)",
-        "pixScore": "Je hebt {score, number, ::.} behaald. Pix"
-      },
       "hero": {
         "acquired-badges-title": "Gewonnen prijzen",
         "bravo": "{name} Goed gedaan!",

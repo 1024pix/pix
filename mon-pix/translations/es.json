@@ -1365,7 +1365,7 @@
         "wrong-format": "Comprueba el formato del código (P-XXXXXXXX)."
       },
       "first-title": "Comprobar un certificado Pix",
-      "label": "Código de comprobación (P-XXXXXXXX)",
+      "label": "Código de comprobación",
       "sub-label": "Ejemplo: P-XXXXXXXX",
       "title": "Comprobar un certificado Pix",
       "verify": "Comprobar el certificado"
@@ -1947,7 +1947,6 @@
       "badges-title": "Tus resultados temáticos",
       "details": {
         "caption": "Detalle de tus resultados en términos porcentuales según las competencias",
-        "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Resultados",
         "header-skill": "Competencias probadas",
         "percentage": "{rate, number, ::percent}",
@@ -1957,11 +1956,6 @@
       },
       "disabled-share": "Este test ha sido desactivado por el organizador.'<br>'Ya no es posible enviar resultados.",
       "error": "¡Uy, se ha producido un error!",
-      "flash": {
-        "abstract": "¡Enhorabuena, has llegado hasta el final!",
-        "nonDefinitive": "(cálculo no definitivo)",
-        "pixScore": "Has obtenido {score, number, ::.} Pix"
-      },
       "hero": {
         "acquired-badges-title": "Premios obtenidos",
         "bravo": "¡ {name} bien hecho!",
