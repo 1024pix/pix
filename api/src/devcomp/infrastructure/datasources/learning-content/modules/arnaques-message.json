@@ -303,7 +303,7 @@
         {
           "type": "element",
           "element": {
-            "id": "8396e104-258a-4c4e-9f65-da71c5558872",
+            "id": "8396e104-258l-4c4e-9f65-da75c5558872",
             "type": "text",
             "content": "<p>Raya a reçu le message ci-dessous.<br>Sélectionnez les caractéristiques qui peuvent indiquer qu’il s’agit d’une tentative d’arnaque.</p>"
           }
@@ -532,7 +532,7 @@
           "element": {
             "id": "2d5e74f8-c6e8-4153-b38e-7b5d4356c973",
             "type": "text",
-            "content": "<p>Lorsque vous recevez un message inattendu ou surprenant&nbsp;:&nbsp; <br></p>\n<p>❌👆 Ne pas cliquer dans le message ou un lien qui s’y trouve.</p>\n<p>❌✉️ Ne pas répondre.</p>\n<p>❌ℹ️ Ne pas donner d'informations personnelles.</p>\n<p>✅ Vérifier l’information par un autre moyen.</p>\n<p><br>&nbsp;⚠️ Selon une étude Ipsos-cybermalveillance, en 2024, 73% des Français déclarent avoir des mails ou des SMS d’arnaque. Il suffit d’un moment d'inattention pour se laisser piéger, restez vigilant ! <br></p>"
+            "content": "<p>Lorsque vous recevez un message inattendu ou surprenant&nbsp;:&nbsp; <br></p><p>❌👆 Ne pas cliquer dans le message ou un lien qui s’y trouve.</p><p>❌✉️ Ne pas répondre.</p><p>❌ℹ️ Ne pas donner d'informations personnelles.</p><p>✅ Vérifier l’information par un autre moyen.</p><p><br>&nbsp;⚠️ Selon une étude Ipsos-cybermalveillance, en 2024, 73% des Français déclarent avoir des mails ou des SMS d’arnaque. Il suffit d’un moment d'inattention pour se laisser piéger, restez vigilant ! <br></p>"
           }
         }
       ]
