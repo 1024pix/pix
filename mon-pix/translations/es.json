@@ -191,7 +191,7 @@
         },
         "contact-us-link": {
           "link-text": "Contáctanos.",
-          "link-url": "https://pix.fr/support"
+          "link-url": "https://pix.org/en/support/"
         },
         "fields": {
           "email": {
@@ -1313,7 +1313,7 @@
       "title": "Descargar los resultados de la sesión"
     },
     "error": {
-      "content-text": "'<p>'Por favor, vuelve a cargar esta página o vuelve a la página de inicio.'</p><p>'También puedes ponerte en contacto con nosotros con '<a href=\"https://support.pix.fr/support/tickets/new\">'el formulario del centro de ayuda.'</a>'especificando el código de error que aparece a continuación en la descripción.'</p><p>Te pedimos disculpas por las molestias ocasionadas.'</p><p>'El equipo Pix.'</p>'",
+      "content-text": "'<p>'Por favor, vuelve a cargar esta página o vuelve a la página de inicio.'</p><p>'También puedes ponerte en contacto con nosotros con '<a href=\"https://pix.org/en/support/\">'el formulario del centro de ayuda.'</a>'especificando el código de error que aparece a continuación en la descripción.'</p><p>Te pedimos disculpas por las molestias ocasionadas.'</p><p>'El equipo Pix.'</p>'",
       "first-title": "¡Uy, se ha producido un error!"
     },
     "evaluation-results": {
@@ -1525,7 +1525,7 @@
               "placeholder": "AAAA"
             }
           },
-          "cgu": "Acepto las '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'condiciones de uso de Pix'</a>'",
+          "cgu": "Acepto las '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'condiciones de uso de Pix'</a>'",
           "email": {
             "error": "Tu correo electrónico no es válido.",
             "help": "(ej. nombre@ejemplo.fr)",
@@ -2056,7 +2056,7 @@
       }
     },
     "terms-of-service": {
-      "cgu": "Acepto las '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'condiciones de uso de Pix'</a>'",
+      "cgu": "Acepto las '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\">'condiciones de uso de Pix'</a>'",
       "form": {
         "button": "Continúo",
         "error-message": "Debes aceptar las condiciones de uso de Pix."
