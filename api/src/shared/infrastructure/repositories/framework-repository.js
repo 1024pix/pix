@@ -7,6 +7,7 @@ const TABLE_NAME = 'learningcontent.frameworks';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
+// OK
 export async function list() {
   const cacheKey = 'list';
   const listCallback = (knex) => knex.orderBy('name');
