@@ -31,7 +31,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         id: 'area1_id',
         competences: [competence],
       });
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
 
       const learningContent = domainBuilder.buildLearningContent([framework]);
 
@@ -106,7 +106,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         id: 'area1_id',
         competences: [competence],
       });
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
 
       const learningContent = domainBuilder.buildLearningContent([framework]);
 
@@ -183,7 +183,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         id: 'area1_id',
         competences: [competence],
       });
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
 
       const learningContent = domainBuilder.buildLearningContent([framework]);
 

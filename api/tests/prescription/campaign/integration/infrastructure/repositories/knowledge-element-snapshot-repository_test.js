@@ -284,7 +284,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       const competence1 = domainBuilder.buildCompetence({ id: 'competence1', tubes: [tube1] });
       const competence2 = domainBuilder.buildCompetence({ id: 'competence2', tubes: [tube2] });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence1, competence2] });
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
       learningContent = domainBuilder.buildLearningContent([framework]);
       campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 

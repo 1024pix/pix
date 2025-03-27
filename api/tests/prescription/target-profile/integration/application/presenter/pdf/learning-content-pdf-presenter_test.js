@@ -91,8 +91,8 @@ function _makePdfLibPredictable() {
 }
 
 function _buildRichLearningContent() {
-  const ref0 = domainBuilder.buildFramework({ id: 'recRef0', name: 'Réf 0 Jambon', areas: [] });
-  const ref1 = domainBuilder.buildFramework({ id: 'recRef1', name: 'Réf 1 Fromage', areas: [] });
+  const ref0 = { id: 'recRef0', name: 'Réf 0 Jambon', areas: [] };
+  const ref1 = { id: 'recRef1', name: 'Réf 1 Fromage', areas: [] };
   _buildRichArea({
     color: 'jaffa',
     framework: ref0,
@@ -148,7 +148,7 @@ function _buildRichLearningContent() {
 }
 
 function _buildPoorLearningContent() {
-  const ref0 = domainBuilder.buildFramework({ id: 'recRef0', name: 'Réf 0 Jambon', areas: [] });
+  const ref0 = { id: 'recRef0', name: 'Réf 0 Jambon', areas: [] };
   _buildRichArea({
     color: 'jaffa',
     framework: ref0,

@@ -169,7 +169,7 @@ describe('Acceptance | Routes | Campaign Participations', function () {
         status: CampaignParticipationStatuses.SHARED,
       });
 
-      const framework = domainBuilder.buildFramework({ id: 'frameworkId', name: 'someFramework' });
+      const framework = { id: 'frameworkId', name: 'someFramework' };
       const skill1 = {
         id: 'recSK123',
         name: '@sau3',

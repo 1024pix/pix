@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
           areaId: 'area1',
         });
         const area = domainBuilder.buildArea({ id: 'area1', color: 'red', competences: [competence] });
-        const framework = domainBuilder.buildFramework({ areas: [area] });
+        const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
         const learningContent = domainBuilder.buildLearningContent([framework]);
         const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 

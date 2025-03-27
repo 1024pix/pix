@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
       const learningContent = domainBuilder.buildLearningContent([framework]);
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
         answerId: 123,
@@ -119,7 +119,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         id: 'a2_id',
         competences: [competence1Area2],
       });
-      const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area1, area2] };
       learningContent = domainBuilder.buildLearningContent([framework]);
     });
 

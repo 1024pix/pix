@@ -548,7 +548,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
         });
         const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
         const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
-        const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
+        const framework = { id: 'frameworkId', name: 'un framework', areas: [area1, area2] };
 
         learningContent = domainBuilder.buildLearningContent([framework]);
 
@@ -905,7 +905,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
           tubes: [tube],
         });
         const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
-        const framework = domainBuilder.buildFramework({ areas: [area] });
+        const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
         learningContent = domainBuilder.buildLearningContent([framework]);
         stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
           campaignId: campaign.id,

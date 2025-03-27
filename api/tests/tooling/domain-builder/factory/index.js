@@ -95,7 +95,6 @@ import * as buildDataProtectionOfficer from './build-data-protection-officer.js'
 import { buildFeedback } from './build-feedback.js';
 import { buildFinalizedSession } from './build-finalized-session.js';
 import { buildFlashAlgorithmConfiguration } from './build-flash-algorithm-configuration.js';
-import { buildFramework } from './build-framework.js';
 import { buildHabilitation } from './build-habilitation.js';
 import { buildHint } from './build-hint.js';
 import { buildJuryCertification } from './build-jury-certification.js';
@@ -393,7 +392,6 @@ export {
   buildFinalizedSession,
   buildFlashAlgorithmConfiguration,
   buildFlashAssessmentAlgorithm,
-  buildFramework,
   buildHint,
   buildJuryCertification,
   buildJuryCertificationSummary,

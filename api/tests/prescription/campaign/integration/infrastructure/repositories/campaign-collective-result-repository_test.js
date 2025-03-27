@@ -147,7 +147,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             }),
           ],
         });
-        const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
+        const framework = { id: 'frameworkId', name: 'un framework', areas: [area1, area2] };
         learningContent = domainBuilder.buildLearningContent([framework]);
         campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       });

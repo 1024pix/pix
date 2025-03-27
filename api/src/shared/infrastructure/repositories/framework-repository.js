@@ -7,7 +7,6 @@ const TABLE_NAME = 'learningcontent.frameworks';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
-// OK
 export async function list() {
   const cacheKey = 'list';
   const listCallback = (knex) => knex.orderBy('name');
@@ -15,7 +14,6 @@ export async function list() {
   return frameworkDtos.map(toDomain);
 }
 
-// ok
 export async function getByName(name) {
   const cacheKey = `getByName(${name})`;
   const findByNameCallback = (knex) => knex.where('name', name).limit(1);

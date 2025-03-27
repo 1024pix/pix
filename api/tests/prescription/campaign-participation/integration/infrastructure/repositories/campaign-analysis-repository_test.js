@@ -87,7 +87,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           areaId: 'recArea',
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
-        const framework = domainBuilder.buildFramework({ areas: [area] });
+        const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
         learningContent = domainBuilder.buildLearningContent([framework]);
         campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
@@ -494,7 +494,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           areaId: 'recArea',
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
-        const framework = domainBuilder.buildFramework({ areas: [area] });
+        const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
         learningContent = domainBuilder.buildLearningContent([framework]);
         campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 

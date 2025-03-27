@@ -1,4 +1,3 @@
-import { findByNames } from '../../../../learning-content/application/api/frameworks-api.js';
 import { Framework } from '../../domain/read-models/Framework.js';
 
 export async function list({ frameworksApi }) {

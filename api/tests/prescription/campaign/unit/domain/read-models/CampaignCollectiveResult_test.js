@@ -12,7 +12,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
           domainBuilder.buildCompetence({ id: 'recCompetence2', areaId: 'recAreaId' }),
         ],
       });
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
       const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, campaignLearningContent });
@@ -39,7 +39,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
         ],
       });
 
-      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const framework = { id: 'frameworkId', name: 'un framework', areas: [area] };
       const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, campaignLearningContent });

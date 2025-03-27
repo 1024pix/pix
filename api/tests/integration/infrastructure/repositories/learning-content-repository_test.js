@@ -437,13 +437,11 @@ describe('Integration | Repository | learning-content', function () {
 });
 
 function _buildDomainFrameworksFromDB(frameworksDB) {
-  return frameworksDB.map((frameworkDB) =>
-    domainBuilder.buildFramework({
-      id: frameworkDB.id,
-      name: frameworkDB.name,
-      areas: [],
-    }),
-  );
+  return frameworksDB.map((frameworkDB) => ({
+    id: frameworkDB.id,
+    name: frameworkDB.name,
+    areas: [],
+  }));
 }
 
 function _buildDomainAreasFromDB(areasDB, locale) {
