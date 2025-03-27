@@ -1,18 +1,17 @@
 import { LearningContent } from '../../../../src/shared/domain/models/LearningContent.js';
 import { buildArea } from './build-area.js';
 import { buildCompetence } from './build-competence.js';
-import { buildFramework } from './build-framework.js';
 import { buildSkill } from './build-skill.js';
 import { buildThematic } from './build-thematic.js';
 import { buildTube } from './build-tube.js';
 
 function buildLearningContent(frameworks) {
-  frameworks = frameworks || [buildFramework({ id: 'frameworkId', name: 'someFramework' })];
+  frameworks = frameworks || [{ id: 'frameworkId', name: 'someFramework' }];
   return new LearningContent(frameworks);
 }
 
 buildLearningContent.withSimpleContent = () => {
-  const framework = buildFramework({ id: 'frameworkId', name: 'someFramework' });
+  const framework = { id: 'frameworkId', name: 'someFramework' };
   const skill = buildSkill({ id: 'skillId', tubeId: 'tubeId' });
   const tube = buildTube({ id: 'tubeId', competenceId: 'competenceId', skills: [skill] });
   const area = buildArea({ id: 'areaId', frameworkId: framework.id });

@@ -80,7 +80,6 @@ import { Correction } from './Correction.js';
 import { Course } from './Course.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
 import { Examiner } from './Examiner.js';
-import { Framework } from './Framework.js';
 import { Hint } from './Hint.js';
 import { KnowledgeElement } from './KnowledgeElement.js';
 import { LearningContent } from './LearningContent.js';
@@ -170,7 +169,6 @@ export {
   EmailingAttempt,
   Examiner,
   FlashAssessmentAlgorithm,
-  Framework,
   Group,
   Hint,
   KnowledgeElement,

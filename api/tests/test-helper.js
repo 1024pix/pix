@@ -25,6 +25,7 @@ import { createServer } from '../server.js';
 import { createMaddoServer } from '../server.maddo.js';
 import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 import * as tutorialRepository from '../src/devcomp/infrastructure/repositories/tutorial-repository.js';
+import * as frameworkRepository from '../src/learning-content/infrastructure/repositories/framework-repository.js';
 import * as missionRepository from '../src/school/infrastructure/repositories/mission-repository.js';
 import { config } from '../src/shared/config.js';
 import { ORGANIZATION_FEATURE } from '../src/shared/domain/constants.js';
@@ -35,7 +36,6 @@ import * as areaRepository from '../src/shared/infrastructure/repositories/area-
 import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../src/shared/infrastructure/repositories/course-repository.js';
-import * as frameworkRepository from '../src/shared/infrastructure/repositories/framework-repository.js';
 import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../src/shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../src/shared/infrastructure/repositories/tube-repository.js';

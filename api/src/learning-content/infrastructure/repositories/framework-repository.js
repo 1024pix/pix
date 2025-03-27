@@ -1,4 +1,10 @@
-import * as frameworkRepository from '../../../shared/infrastructure/repositories/framework-repository.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+
+const TABLE_NAME = 'learningcontent.frameworks';
+const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
+
 /**
  * @typedef FrameworkFromDB
  * @type {object}
@@ -13,11 +19,9 @@ import * as frameworkRepository from '../../../shared/infrastructure/repositorie
  * @returns {Promise<Array<FrameworkFromDB>>}
  */
 export async function list() {
-  const frameworkModels = await frameworkRepository.list();
-  return frameworkModels.map((frameworkModel) => ({
-    id: frameworkModel.id,
-    name: frameworkModel.name,
-  }));
+  const cacheKey = 'list';
+  const listCallback = (knex) => knex.orderBy('name');
+  return getInstance().find(cacheKey, listCallback);
 }
 
 /**
@@ -30,14 +34,18 @@ export async function list() {
  * @throws {NotFoundError} name does not refer to an existing framework
  */
 export async function findByNames({ names }) {
-  const frameworkModels = [];
+  const frameworksFromDB = [];
   for (const name of names) {
-    frameworkModels.push(await frameworkRepository.getByName(name));
+    const cacheKey = `getByName(${name})`;
+    const findByNameCallback = (knex) => knex.where('name', name).limit(1);
+    const [frameworkFromDB] = await getInstance().find(cacheKey, findByNameCallback);
+    if (!frameworkFromDB) {
+      logger.warn({ frameworkName: name }, 'Référentiel introuvable');
+      throw new NotFoundError(`Framework not found for name ${name}`);
+    }
+    frameworksFromDB.push(frameworkFromDB);
   }
-  return frameworkModels.map((frameworkModel) => ({
-    id: frameworkModel.id,
-    name: frameworkModel.name,
-  }));
+  return frameworksFromDB;
 }
 
 /**
@@ -49,9 +57,33 @@ export async function findByNames({ names }) {
  * @returns {Promise<Array<FrameworkFromDB>>}
  */
 export async function findByIds({ ids }) {
-  const frameworkModels = await frameworkRepository.findByRecordIds(ids);
-  return frameworkModels.map((frameworkModel) => ({
-    id: frameworkModel.id,
-    name: frameworkModel.name,
-  }));
+  const frameworksFromDB = await getInstance().getMany(ids);
+  return frameworksFromDB.filter((frameworkFromDB) => frameworkFromDB).sort(byName);
+}
+
+/**
+ * @function
+ * @name clearCache
+ *
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+export function clearCache(id) {
+  return getInstance().clearCache(id);
+}
+
+const collator = new Intl.Collator('fr', { usage: 'sort' });
+
+function byName(framework1, framework2) {
+  return collator.compare(framework1.name, framework2.name);
+}
+
+/** @type {LearningContentRepository} */
+let instance;
+
+function getInstance() {
+  if (!instance) {
+    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+  }
+  return instance;
 }
