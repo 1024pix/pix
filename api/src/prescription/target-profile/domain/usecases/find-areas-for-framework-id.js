@@ -1,29 +1,21 @@
-import { AreaForAdmin } from '../../../src/shared/domain/models/index.js';
+import { AreaForAdmin } from '../../../../shared/domain/models/index.js';
 
-const getFrameworkAreas = async function ({
+export async function findAreasForFrameworkId({
   frameworkId,
-  frameworkName,
-  locale,
   skillRepository,
   tubeRepository,
   thematicRepository,
   areaRepository,
-  frameworkRepository,
 }) {
-  if (!frameworkId) {
-    const framework = await frameworkRepository.getByName(frameworkName);
-    frameworkId = framework.id;
-  }
-
-  const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId, locale });
+  const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId });
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);
 
   const competenceIds = competences.map(({ id: competenceId }) => competenceId);
-  const thematics = await thematicRepository.findByCompetenceIds(competenceIds, locale);
+  const thematics = await thematicRepository.findByCompetenceIds(competenceIds);
 
   const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
-  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
+  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds);
 
   const skillIds = tubes.flatMap((tube) => tube.skillIds);
   const skills = await skillRepository.findActiveByRecordIds(skillIds);
@@ -42,6 +34,4 @@ const getFrameworkAreas = async function ({
         allSkills: skills,
       }),
   );
-};
-
-export { getFrameworkAreas };
+}

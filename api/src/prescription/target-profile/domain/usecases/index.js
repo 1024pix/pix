@@ -4,7 +4,11 @@ import { fileURLToPath } from 'node:url';
 import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
 import { repositories as libInjectedRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
+import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
+import * as thematicRepository from '../../../../shared/infrastructure/repositories/thematic-repository.js';
+import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as targetProfileRepository from '../../../target-profile/infrastructure/repositories/target-profile-repository.js';
@@ -42,6 +46,10 @@ const dependencies = {
   targetProfileForUpdateRepository,
   targetProfileRepository,
   targetProfileSummaryForAdminRepository,
+  skillRepository,
+  tubeRepository,
+  thematicRepository,
+  areaRepository,
   ...injectedRepositories,
 };
 

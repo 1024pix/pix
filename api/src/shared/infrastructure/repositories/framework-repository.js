@@ -15,6 +15,7 @@ export async function list() {
   return frameworkDtos.map(toDomain);
 }
 
+// ok
 export async function getByName(name) {
   const cacheKey = `getByName(${name})`;
   const findByNameCallback = (knex) => knex.where('name', name).limit(1);

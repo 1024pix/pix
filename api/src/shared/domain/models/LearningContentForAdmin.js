@@ -1,3 +1,4 @@
+// TODO move to prescription/target-profile please
 class AreaForAdmin {
   constructor({ id, frameworkId, title, code, color, allCompetences, allThematics, allTubes, allSkills }) {
     this.id = id;
