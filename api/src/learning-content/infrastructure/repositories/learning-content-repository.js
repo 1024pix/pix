@@ -22,7 +22,7 @@ export class LearningContentRepository {
   }
 
   /**
-   * @param {object[]} objects
+   * @param {object[]} objects Objects coming directly from the LCMS release
    */
   async saveMany(objects) {
     if (!objects) return;
@@ -35,7 +35,7 @@ export class LearningContentRepository {
   }
 
   /**
-   * @param {object} object
+   * @param {object} object Object coming directly from the LCMS release
    */
   async save(object) {
     logger.debug(`saving one item in ${this.#tableName}`);
@@ -45,7 +45,7 @@ export class LearningContentRepository {
   }
 
   /**
-   * Maps an object to a DTO before insertion.
+   * Maps a release object to a DTO before insertion.
    * @param {object} _object
    * @returns {object}
    */
