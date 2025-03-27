@@ -5,7 +5,7 @@ const getLearningContentByTargetProfile = async function ({
   targetProfileAdministrationRepository,
 }) {
   const targetProfileForAdmin = await targetProfileAdministrationRepository.get({ id: targetProfileId });
-  const learningContent = await learningContentRepository.findByTargetProfileId(targetProfileId, language);
+  const learningContent = await learningContentRepository.findByTargetProfileId({ targetProfileId, locale: language });
   return { learningContent, targetProfileName: targetProfileForAdmin.name };
 };
 

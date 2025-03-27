@@ -14,7 +14,7 @@ const computeCampaignCollectiveResult = async function ({
     throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
   }
 
-  const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
+  const campaignLearningContent = await learningContentRepository.findByCampaignId({ campaignId, locale });
   return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, campaignLearningContent);
 };
 

@@ -15,7 +15,7 @@ const computeCampaignAnalysis = async function ({
     throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
   }
 
-  const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
+  const campaignLearningContent = await learningContentRepository.findByCampaignId({ campaignId, locale });
   const tutorials = await tutorialRepository.list({ locale });
 
   return campaignAnalysisRepository.getCampaignAnalysis(campaignId, campaignLearningContent, tutorials);

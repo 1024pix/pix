@@ -260,7 +260,7 @@ describe('Integration | Repository | learning-content', function () {
       tube2Fr.skills = [skill2Fr, skill3Fr];
 
       // when
-      const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId);
+      const learningContentFromCampaign = await learningContentRepository.findByCampaignId({ campaignId });
 
       // then
       expect(learningContentFromCampaign.areas).to.deep.equal([area1Fr]);
@@ -283,7 +283,10 @@ describe('Integration | Repository | learning-content', function () {
       tube2En.skills = [skill2Fr, skill3Fr];
 
       // when
-      const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId, 'en');
+      const learningContentFromCampaign = await learningContentRepository.findByCampaignId({
+        campaignId,
+        locale: 'en',
+      });
 
       // then
       expect(learningContentFromCampaign.frameworks).to.deep.equal([framework1En]);
@@ -296,7 +299,7 @@ describe('Integration | Repository | learning-content', function () {
       await databaseBuilder.commit();
 
       // when
-      const err = await catchErr(learningContentRepository.findByCampaignId)(campaignId);
+      const err = await catchErr(learningContentRepository.findByCampaignId)({ campaignId });
 
       // then
       expect(err).to.be.instanceOf(NoSkillsInCampaignError);
@@ -313,7 +316,7 @@ describe('Integration | Repository | learning-content', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(learningContentRepository.findByTargetProfileId)(targetProfileId);
+        const error = await catchErr(learningContentRepository.findByTargetProfileId)({ targetProfileId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -336,7 +339,7 @@ describe('Integration | Repository | learning-content', function () {
         tube2Fr.skills = [skill2Fr];
 
         // when
-        const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(targetProfileId);
+        const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId({ targetProfileId });
 
         // then
         expect(targetProfileLearningContent.frameworks).to.deep.equal([framework1Fr]);
@@ -357,10 +360,10 @@ describe('Integration | Repository | learning-content', function () {
           tube2En.skills = [skill2Fr];
 
           // when
-          const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(
+          const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId({
             targetProfileId,
-            'en',
-          );
+            locale: 'en',
+          });
 
           // then
           expect(targetProfileLearningContent.frameworks).to.deep.equal([framework1En]);

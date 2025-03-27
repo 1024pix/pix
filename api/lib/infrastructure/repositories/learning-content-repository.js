@@ -13,7 +13,7 @@ import * as thematicRepository from '../../../src/shared/infrastructure/reposito
 import * as tubeRepository from '../../../src/shared/infrastructure/repositories/tube-repository.js';
 import * as learningContentConversionService from '../../domain/services/learning-content/learning-content-conversion-service.js';
 
-async function findByCampaignId(campaignId, locale) {
+async function findByCampaignId({ campaignId, locale }) {
   const skills = await campaignRepository.findSkills({ campaignId });
 
   const frameworks = await _getLearningContentBySkillIds(skills, locale);
@@ -21,7 +21,7 @@ async function findByCampaignId(campaignId, locale) {
   return new CampaignLearningContent(frameworks);
 }
 
-async function findByTargetProfileId(targetProfileId, locale) {
+async function findByTargetProfileId({ targetProfileId, locale }) {
   const cappedTubesDTO = await knex('target-profile_tubes')
     .select({
       id: 'tubeId',

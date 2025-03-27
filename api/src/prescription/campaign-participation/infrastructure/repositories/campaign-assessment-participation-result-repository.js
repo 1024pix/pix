@@ -5,7 +5,7 @@ import * as knowledgeElementRepository from '../../../../shared/infrastructure/r
 import { CampaignAssessmentParticipationResult } from '../../domain/models/CampaignAssessmentParticipationResult.js';
 
 const getByCampaignIdAndCampaignParticipationId = async function ({ campaignId, campaignParticipationId, locale }) {
-  const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
+  const campaignLearningContent = await learningContentRepository.findByCampaignId({ campaignId, locale });
   const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
     campaignId,
     campaignParticipationId,

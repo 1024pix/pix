@@ -25,7 +25,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', function () {
   context('User has access to this result', function () {
     beforeEach(function () {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(campaignLearningContent);
+      learningContentRepository.findByCampaignId.withArgs({ campaignId, locale }).resolves(campaignLearningContent);
     });
 
     it('should resolve a CampaignCollectiveResult', async function () {

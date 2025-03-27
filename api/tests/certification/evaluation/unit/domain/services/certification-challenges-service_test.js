@@ -1096,7 +1096,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       learningContent = domainBuilder.buildLearningContent([framework]);
 
       learningContentRepository = { findByCampaignId: sinon.stub() };
-      learningContentRepository.findByCampaignId.withArgs(123, locale).resolves(learningContent);
+      learningContentRepository.findByCampaignId.withArgs({ campaignId: 123, locale }).resolves(learningContent);
     });
 
     afterEach(function () {

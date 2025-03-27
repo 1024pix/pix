@@ -24,7 +24,7 @@ const getPresentationSteps = async function ({
     throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
 
   const campaignBadges = await badgeRepository.findByCampaignId(campaign.id);
-  const learningContent = await learningContentRepository.findByCampaignId(campaign.id, locale);
+  const learningContent = await learningContentRepository.findByCampaignId({ campaignId: campaign.id, locale });
 
   return {
     customLandingPageText: campaign.customLandingPageText,

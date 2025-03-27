@@ -48,7 +48,7 @@ const pickCertificationChallengesForPixPlus = async function (
   injectedCertifiableProfileForLearningContentRepository = certifiableProfileForLearningContentRepository,
   injectedChallengeRepository = challengeRepository,
 ) {
-  const learningContent = await injectedLearningContentRepository.findByCampaignId(campaignId, locale);
+  const learningContent = await injectedLearningContentRepository.findByCampaignId({ campaignId, locale });
   const certifiableProfile = await injectedCertifiableProfileForLearningContentRepository.get({
     id: userId,
     profileDate: new Date(),

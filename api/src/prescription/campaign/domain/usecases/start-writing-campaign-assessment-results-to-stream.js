@@ -61,7 +61,10 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   }
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaign.id);
-  const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
+  const learningContent = await learningContentRepository.findByCampaignId({
+    campaignId: campaign.id,
+    locale: i18n.getLocale(),
+  });
   const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
 
   const organization = await organizationRepository.get(campaign.organizationId);

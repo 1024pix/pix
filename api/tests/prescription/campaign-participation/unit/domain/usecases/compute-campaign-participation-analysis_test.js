@@ -45,7 +45,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
         campaignParticipation.userId = userId;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-        learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(campaignLearningContent);
+        learningContentRepository.findByCampaignId.withArgs({ campaignId, locale }).resolves(campaignLearningContent);
         tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
         campaignAnalysisRepository.getCampaignParticipationAnalysis
           .withArgs(campaignId, campaignParticipation, campaignLearningContent, tutorials)

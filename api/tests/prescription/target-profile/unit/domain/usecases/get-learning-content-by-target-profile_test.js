@@ -14,7 +14,9 @@ describe('Unit | UseCase | get-learning-content-by-target-profile', function () 
     // given
     const learningContent = domainBuilder.buildLearningContent();
     const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({ name: 'titre profil cible' });
-    learningContentRepository.findByTargetProfileId.withArgs(123, 'fr').resolves(learningContent);
+    learningContentRepository.findByTargetProfileId
+      .withArgs({ targetProfileId: 123, locale: 'fr' })
+      .resolves(learningContent);
     targetProfileAdministrationRepository.get.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
     // when
     const actualLearningContent = await getLearningContentByTargetProfile({
