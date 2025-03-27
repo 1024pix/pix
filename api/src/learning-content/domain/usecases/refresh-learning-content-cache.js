@@ -3,7 +3,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 /** @param {import('./dependencies.js').Dependencies} */
 export async function refreshLearningContentCache({
   lcmsClient,
-  frameworkRepository,
+  writeFrameworkRepository,
   areaRepository,
   competenceRepository,
   thematicRepository,
@@ -17,7 +17,7 @@ export async function refreshLearningContentCache({
   const learningContent = await lcmsClient.getLatestRelease();
 
   await DomainTransaction.execute(async () => {
-    await frameworkRepository.saveMany(learningContent.frameworks);
+    await writeFrameworkRepository.saveMany(learningContent.frameworks);
     await areaRepository.saveMany(learningContent.areas);
     await competenceRepository.saveMany(learningContent.competences);
     await thematicRepository.saveMany(learningContent.thematics);
@@ -29,7 +29,7 @@ export async function refreshLearningContentCache({
     await missionRepository.saveMany(learningContent.missions);
   });
 
-  frameworkRepository.clearCache();
+  writeFrameworkRepository.clearCache();
   areaRepository.clearCache();
   competenceRepository.clearCache();
   thematicRepository.clearCache();

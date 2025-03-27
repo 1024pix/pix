@@ -1,7 +1,7 @@
-import { frameworkRepository } from '../../../../../src/learning-content/infrastructure/repositories/framework-repository.js';
-import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import { frameworkRepository } from '../../../../../../src/learning-content/infrastructure/repositories/write/framework-repository.js';
+import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
-describe('Learning Content | Integration | Repositories | Framework', function () {
+describe('Learning Content | Integration | Repositories | Write Framework', function () {
   afterEach(async function () {
     await knex('learningcontent.frameworks').truncate();
   });

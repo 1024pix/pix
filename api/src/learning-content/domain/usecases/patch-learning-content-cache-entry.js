@@ -3,7 +3,7 @@ export async function patchLearningContentCacheEntry({
   recordId,
   updatedRecord,
   modelName,
-  frameworkRepository,
+  writeFrameworkRepository,
   areaRepository,
   competenceRepository,
   thematicRepository,
@@ -15,7 +15,7 @@ export async function patchLearningContentCacheEntry({
   missionRepository,
 }) {
   const repository = {
-    frameworks: frameworkRepository,
+    frameworks: writeFrameworkRepository,
     areas: areaRepository,
     competences: competenceRepository,
     thematics: thematicRepository,

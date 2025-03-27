@@ -2,7 +2,7 @@ import { patchLearningContentCacheEntry } from '../../../../../src/learning-cont
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Learning Content | Unit | Domain | Usecase | Patch learning content cache entry', function () {
-  let frameworkRepository,
+  let writeFrameworkRepository,
     areaRepository,
     competenceRepository,
     thematicRepository,
@@ -16,7 +16,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
   let repositoriesByModel;
 
   beforeEach(function () {
-    frameworkRepository = {
+    writeFrameworkRepository = {
       save: sinon.stub().rejects('should not be called'),
       clearCache: sinon.stub().rejects('should not be called'),
     };
@@ -57,7 +57,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
       clearCache: sinon.stub().rejects('should not be called'),
     };
     repositories = {
-      frameworkRepository,
+      writeFrameworkRepository,
       areaRepository,
       competenceRepository,
       thematicRepository,
@@ -69,7 +69,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
       missionRepository,
     };
     repositoriesByModel = {
-      frameworks: frameworkRepository,
+      frameworks: writeFrameworkRepository,
       areas: areaRepository,
       competences: competenceRepository,
       thematics: thematicRepository,

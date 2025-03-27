@@ -38,7 +38,7 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
         }),
       };
 
-      const frameworkRepository = {
+      const writeFrameworkRepository = {
         saveMany: sinon.stub(),
         clearCache: sinon.stub(),
       };
@@ -82,7 +82,7 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
       // when
       await createLearningContentRelease({
         lcmsClient,
-        frameworkRepository,
+        writeFrameworkRepository,
         areaRepository,
         competenceRepository,
         thematicRepository,
@@ -97,7 +97,7 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
       // then
       expect(lcmsClient.createRelease).to.have.been.calledOnce;
 
-      expect(frameworkRepository.saveMany).to.have.been.calledOnceWithExactly(frameworks);
+      expect(writeFrameworkRepository.saveMany).to.have.been.calledOnceWithExactly(frameworks);
       expect(areaRepository.saveMany).to.have.been.calledOnceWithExactly(areas);
       expect(competenceRepository.saveMany).to.have.been.calledOnceWithExactly(competences);
       expect(thematicRepository.saveMany).to.have.been.calledOnceWithExactly(thematics);
@@ -108,7 +108,7 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
       expect(tutorialRepository.saveMany).to.have.been.calledOnceWithExactly(tutorials);
       expect(missionRepository.saveMany).to.have.been.calledOnceWithExactly(missions);
 
-      expect(frameworkRepository.clearCache).to.have.been.calledOnceWithExactly();
+      expect(writeFrameworkRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(areaRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(competenceRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(thematicRepository.clearCache).to.have.been.calledOnceWithExactly();
