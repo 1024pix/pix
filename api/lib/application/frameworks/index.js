@@ -8,28 +8,6 @@ const register = async function (server) {
   const adminRoutes = [
     {
       method: 'GET',
-      path: '/api/admin/frameworks',
-      config: {
-        handler: frameworkController.getFrameworks,
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-          },
-        ],
-        tags: ['api', 'admin', 'framework'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
-          'Elle permet de récupérer la liste des référentiels disponibles',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/frameworks/{id}/areas',
       config: {
         handler: frameworkController.getFrameworkAreas,

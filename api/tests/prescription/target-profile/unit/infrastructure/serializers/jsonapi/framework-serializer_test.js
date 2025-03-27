@@ -1,16 +1,21 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/framework-serializer.js';
-import { expect } from '../../../../test-helper.js';
+import { Framework } from '../../../../../../../src/prescription/target-profile/domain/read-models/Framework.js';
+import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/framework-serializer.js';
+import { expect } from '../../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
+describe('Prescription | Target Profile | Unit | Serializer | JSONAPI | framework', function () {
   describe('#serialize', function () {
     it('should return a serialized JSON data object', function () {
       // given
       const frameworks = [
-        { id: 'frameworkId1', name: 'frameworkName1' },
-        { id: 'frameworkId2', name: 'frameworkName2' },
+        new Framework({ id: 'frameworkId1', name: 'frameworkName1' }),
+        new Framework({ id: 'frameworkId2', name: 'frameworkName2' }),
       ];
 
-      const expectedSerializedResult = {
+      // when
+      const result = serializer.serialize(frameworks);
+
+      // then
+      expect(result).to.deep.equal({
         data: [
           {
             type: 'frameworks',
@@ -37,13 +42,7 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
             },
           },
         ],
-      };
-
-      // when
-      const result = serializer.serialize(frameworks);
-
-      // then
-      expect(result).to.deep.equal(expectedSerializedResult);
+      });
     });
   });
 });
