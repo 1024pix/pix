@@ -7,21 +7,20 @@ import { CampaignLearningContent } from '../../../src/shared/domain/models/Campa
 import { LearningContent } from '../../../src/shared/domain/models/LearningContent.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as frameworkRepository from '../../../src/shared/infrastructure/repositories/framework-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../../../src/shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../src/shared/infrastructure/repositories/tube-repository.js';
 import * as learningContentConversionService from '../../domain/services/learning-content/learning-content-conversion-service.js';
 
-async function findByCampaignId({ campaignId, locale }) {
+async function findByCampaignId({ campaignId, locale, frameworksApi }) {
   const skills = await campaignRepository.findSkills({ campaignId });
 
-  const frameworks = await _getLearningContentBySkillIds(skills, locale);
+  const frameworks = await _getLearningContentBySkillIds(skills, locale, frameworksApi);
 
   return new CampaignLearningContent(frameworks);
 }
 
-async function findByTargetProfileId({ targetProfileId, locale }) {
+async function findByTargetProfileId({ targetProfileId, locale, frameworksApi }) {
   const cappedTubesDTO = await knex('target-profile_tubes')
     .select({
       id: 'tubeId',
@@ -33,7 +32,7 @@ async function findByTargetProfileId({ targetProfileId, locale }) {
     throw new NotFoundError("Le profil cible n'existe pas");
   }
 
-  const frameworks = await _getLearningContentByCappedTubes(cappedTubesDTO, locale);
+  const frameworks = await _getLearningContentByCappedTubes(cappedTubesDTO, locale, frameworksApi);
   return new LearningContent(frameworks);
 }
 
@@ -44,7 +43,7 @@ async function findByFrameworkNames({ frameworkNames, locale, frameworksApi }) {
   return new LearningContent(frameworks);
 }
 
-async function _getLearningContentBySkillIds(skills, locale) {
+async function _getLearningContentBySkillIds(skills, locale, frameworksApi) {
   if (_.isEmpty(skills)) {
     throw new NoSkillsInCampaignError();
   }
@@ -57,10 +56,10 @@ async function _getLearningContentBySkillIds(skills, locale) {
     });
   });
 
-  return _getLearningContentByTubes(tubes, locale);
+  return _getLearningContentByTubes(tubes, locale, frameworksApi);
 }
 
-async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
+async function _getLearningContentByCappedTubes(cappedTubesDTO, locale, frameworksApi) {
   const skills = await learningContentConversionService.findActiveSkillsForCappedTubes(cappedTubesDTO);
 
   const tubes = await tubeRepository.findByRecordIds(
@@ -74,10 +73,10 @@ async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
     });
   });
 
-  return _getLearningContentByTubes(tubes, locale);
+  return _getLearningContentByTubes(tubes, locale, frameworksApi);
 }
 
-async function _getLearningContentByTubes(tubes, locale) {
+async function _getLearningContentByTubes(tubes, locale, frameworksApi) {
   const thematicIds = _.uniq(tubes.map((tube) => tube.thematicId));
   const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
   thematics.forEach((thematic) => {
@@ -106,14 +105,15 @@ async function _getLearningContentByTubes(tubes, locale) {
   }
 
   const frameworkIds = _.uniq(areas.map((area) => area.frameworkId));
-  const frameworks = await frameworkRepository.findByRecordIds(frameworkIds);
-  for (const framework of frameworks) {
+  const frameworkDTOs = await frameworksApi.findByIds({ ids: frameworkIds });
+  const clonedFrameworkDTOs = structuredClone(frameworkDTOs);
+  for (const framework of clonedFrameworkDTOs) {
     framework.areas = areas.filter((area) => {
       return area.frameworkId === framework.id;
     });
   }
 
-  return frameworks;
+  return clonedFrameworkDTOs;
 }
 
 async function _getLearningContentByFrameworks(frameworks, locale) {
