@@ -37,13 +37,10 @@ async function findByTargetProfileId({ targetProfileId, locale }) {
   return new LearningContent(frameworks);
 }
 
-async function findByFrameworkNames({ frameworkNames, locale }) {
-  const baseFrameworks = [];
-  for (const frameworkName of frameworkNames) {
-    baseFrameworks.push(await frameworkRepository.getByName(frameworkName));
-  }
+async function findByFrameworkNames({ frameworkNames, locale, frameworksApi }) {
+  const baseFrameworkDTOs = await frameworksApi.findByNames({ names: frameworkNames });
 
-  const frameworks = await _getLearningContentByFrameworks(baseFrameworks, locale);
+  const frameworks = await _getLearningContentByFrameworks(structuredClone(baseFrameworkDTOs), locale);
   return new LearningContent(frameworks);
 }
 

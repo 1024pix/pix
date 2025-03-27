@@ -2,7 +2,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import { repositories as libInjectedRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -33,7 +33,7 @@ import * as targetProfileSummaryForAdminRepository from '../../infrastructure/re
 const dependencies = {
   adminMemberRepository,
   learningContentConversionService,
-  learningContentRepository,
+  learningContentRepository: libInjectedRepositories.learningContentRepository,
   organizationRepository,
   organizationsToAttachToTargetProfileRepository,
   targetProfileAdministrationRepository,

@@ -1,4 +1,4 @@
-import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import { repositories } from '../../../../lib/infrastructure/repositories/index.js';
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
@@ -260,7 +260,7 @@ describe('Integration | Repository | learning-content', function () {
       tube2Fr.skills = [skill2Fr, skill3Fr];
 
       // when
-      const learningContentFromCampaign = await learningContentRepository.findByCampaignId({ campaignId });
+      const learningContentFromCampaign = await repositories.learningContentRepository.findByCampaignId({ campaignId });
 
       // then
       expect(learningContentFromCampaign.areas).to.deep.equal([area1Fr]);
@@ -283,7 +283,7 @@ describe('Integration | Repository | learning-content', function () {
       tube2En.skills = [skill2Fr, skill3Fr];
 
       // when
-      const learningContentFromCampaign = await learningContentRepository.findByCampaignId({
+      const learningContentFromCampaign = await repositories.learningContentRepository.findByCampaignId({
         campaignId,
         locale: 'en',
       });
@@ -299,7 +299,7 @@ describe('Integration | Repository | learning-content', function () {
       await databaseBuilder.commit();
 
       // when
-      const err = await catchErr(learningContentRepository.findByCampaignId)({ campaignId });
+      const err = await catchErr(repositories.learningContentRepository.findByCampaignId)({ campaignId });
 
       // then
       expect(err).to.be.instanceOf(NoSkillsInCampaignError);
@@ -316,7 +316,7 @@ describe('Integration | Repository | learning-content', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(learningContentRepository.findByTargetProfileId)({ targetProfileId });
+        const error = await catchErr(repositories.learningContentRepository.findByTargetProfileId)({ targetProfileId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -339,7 +339,9 @@ describe('Integration | Repository | learning-content', function () {
         tube2Fr.skills = [skill2Fr];
 
         // when
-        const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId({ targetProfileId });
+        const targetProfileLearningContent = await repositories.learningContentRepository.findByTargetProfileId({
+          targetProfileId,
+        });
 
         // then
         expect(targetProfileLearningContent.frameworks).to.deep.equal([framework1Fr]);
@@ -360,7 +362,7 @@ describe('Integration | Repository | learning-content', function () {
           tube2En.skills = [skill2Fr];
 
           // when
-          const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId({
+          const targetProfileLearningContent = await repositories.learningContentRepository.findByTargetProfileId({
             targetProfileId,
             locale: 'en',
           });
@@ -393,7 +395,7 @@ describe('Integration | Repository | learning-content', function () {
       tube4Fr.skills = [skill8Fr];
 
       // when
-      const learningContent = await learningContentRepository.findByFrameworkNames({
+      const learningContent = await repositories.learningContentRepository.findByFrameworkNames({
         frameworkNames: ['Mon référentiel 1', 'Mon référentiel 2'],
       });
 
@@ -422,7 +424,7 @@ describe('Integration | Repository | learning-content', function () {
       tube4En.skills = [skill8Fr];
 
       // when
-      const learningContent = await learningContentRepository.findByFrameworkNames({
+      const learningContent = await repositories.learningContentRepository.findByFrameworkNames({
         frameworkNames: ['Mon référentiel 1', 'Mon référentiel 2'],
         locale: 'en',
       });

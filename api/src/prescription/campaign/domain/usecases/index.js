@@ -1,7 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import { repositories as libInjectedRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as campaignRepository from '../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
@@ -101,7 +101,7 @@ const dependencies = {
   groupRepository,
   knowledgeElementRepository,
   knowledgeElementSnapshotRepository,
-  learningContentRepository,
+  learningContentRepository: libInjectedRepositories.learningContentRepository,
   membershipRepository,
   organizationFeatureApi,
   organizationLearnerImportFormatRepository,

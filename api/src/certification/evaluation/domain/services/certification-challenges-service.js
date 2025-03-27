@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import { repositories as libInjectedRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import {
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
   MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
@@ -44,7 +44,7 @@ const pickCertificationChallengesForPixPlus = async function (
   badgeKey,
   userId,
   locale,
-  injectedLearningContentRepository = learningContentRepository,
+  injectedLearningContentRepository = libInjectedRepositories.learningContentRepository,
   injectedCertifiableProfileForLearningContentRepository = certifiableProfileForLearningContentRepository,
   injectedChallengeRepository = challengeRepository,
 ) {
