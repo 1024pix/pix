@@ -97,4 +97,76 @@ describe('LearningContent | Integration | Application | Api | frameworks', funct
       expect(err.message).to.equal('Framework not found for name zouzou');
     });
   });
+
+  describe('#findByIds', function () {
+    it('should return an empty array when invalid or empty array of ids given', async function () {
+      // when
+      const emptyFrameworkDTOs1 = await frameworksApi.findByIds({ somethingElse: 'coucou' });
+      const emptyFrameworkDTOs2 = await frameworksApi.findByIds({ ids: null });
+      const emptyFrameworkDTOs3 = await frameworksApi.findByIds({ ids: [] });
+      const emptyFrameworkDTOs4 = await frameworksApi.findByIds({ ids: 'coucou' });
+
+      // then
+      expect(emptyFrameworkDTOs1).to.deep.equal([]);
+      expect(emptyFrameworkDTOs2).to.deep.equal([]);
+      expect(emptyFrameworkDTOs3).to.deep.equal([]);
+      expect(emptyFrameworkDTOs4).to.deep.equal([]);
+    });
+
+    it('should return the framework DTOs when frameworks found by ids, ignoring those not found, ordered by name', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recId0',
+        name: 'mon framework 0',
+      });
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recId1',
+        name: 'mon framework 1',
+      });
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recId2',
+        name: 'mon framework 2',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const frameworkDTOs = await frameworksApi.findByIds({
+        ids: ['recId2', 'coucou', 'recId0'],
+      });
+
+      // then
+      expect(frameworkDTOs).to.deepEqualArray([
+        new FrameworkDTO({ id: 'recId0', name: 'mon framework 0' }),
+        new FrameworkDTO({ id: 'recId2', name: 'mon framework 2' }),
+      ]);
+    });
+
+    it('should return the framework DTOs deduped', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recId0',
+        name: 'mon framework 0',
+      });
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recId1',
+        name: 'mon framework 1',
+      });
+      databaseBuilder.factory.learningContent.buildFramework({
+        id: 'recId2',
+        name: 'mon framework 2',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const frameworkDTOs = await frameworksApi.findByIds({
+        ids: ['recId0', 'recId2', 'recId0'],
+      });
+
+      // then
+      expect(frameworkDTOs.sort((a, b) => a.name.localeCompare(b.name))).to.deepEqualArray([
+        new FrameworkDTO({ id: 'recId0', name: 'mon framework 0' }),
+        new FrameworkDTO({ id: 'recId2', name: 'mon framework 2' }),
+      ]);
+    });
+  });
 });

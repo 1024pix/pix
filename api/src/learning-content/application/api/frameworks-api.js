@@ -36,4 +36,20 @@ export async function findByNames({ names = [] }) {
   return frameworks.map(toApi);
 }
 
+/**
+ * @function
+ * @name findByIds
+ *
+ * @param {Object} params
+ * @param {Array<string>} params.ids
+ * @returns {Promise<Array<FrameworkDTO>>}
+ */
+export async function findByIds({ ids = [] }) {
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return [];
+  }
+  const frameworks = await frameworkRepository.findByIds({ ids });
+  return frameworks.map(toApi);
+}
+
 const toApi = (framework) => new FrameworkDTO(framework);

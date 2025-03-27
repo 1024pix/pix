@@ -39,3 +39,19 @@ export async function findByNames({ names }) {
     name: frameworkModel.name,
   }));
 }
+
+/**
+ * @function
+ * @name findByIds
+ *
+ * @param {Object} params
+ * @param {Array<string>} params.ids
+ * @returns {Promise<Array<FrameworkFromDB>>}
+ */
+export async function findByIds({ ids }) {
+  const frameworkModels = await frameworkRepository.findByRecordIds(ids);
+  return frameworkModels.map((frameworkModel) => ({
+    id: frameworkModel.id,
+    name: frameworkModel.name,
+  }));
+}
