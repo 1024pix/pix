@@ -1,5 +1,7 @@
 export class ParticipationStoreLevelPerTubeJob {
-  constructor({ campaignParticipationId }) {
+  constructor({ campaignId, campaignParticipationId, locale }) {
     this.campaignParticipationId = campaignParticipationId;
+    this.campaignId = campaignId;
+    this.locale = locale;
   }
 }
