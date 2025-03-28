@@ -10,6 +10,6 @@ export class ParticipationSharedJobController extends JobController {
   async handle({ data }) {
     const { campaignParticipationId } = data;
 
-    // TODO: Add a usecase
+    await usecases.storeCampaignParticipationLevelPerTube({ campaignParticipationId });
   }
 }
