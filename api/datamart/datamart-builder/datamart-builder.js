@@ -43,11 +43,13 @@ class DatamartBuilder {
   async clean() {
     let rawQuery = '';
 
-    ['data_export_parcoursup_certif_result', 'data_export_parcoursup_certif_result_code_validation'].forEach(
-      (tableName) => {
-        rawQuery += `DELETE FROM ${tableName};`;
-      },
-    );
+    [
+      'data_export_parcoursup_certif_result',
+      'data_export_parcoursup_certif_result_code_validation',
+      'campaign_participation_tube_reached_levels',
+    ].forEach((tableName) => {
+      rawQuery += `DELETE FROM ${tableName};`;
+    });
 
     try {
       await this.knex.raw(rawQuery);
