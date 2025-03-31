@@ -3,6 +3,7 @@ import { CampaignParticipationStatuses } from '../../../../src/prescription/shar
 import {
   createMaddoServer,
   databaseBuilder,
+  datamartBuilder,
   expect,
   generateValidRequestAuthorizationHeaderForApplication,
 } from '../../../test-helper.js';
@@ -36,6 +37,60 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
         status: CampaignParticipationStatuses.STARTED,
       });
 
+      const participation1ReachedLevels = [
+        datamartBuilder.factory.buildCampaignParticipationTubeReachedLevel({
+          campaignParticipationId: participation1.id,
+          tubeId: 'tube1',
+          reachedLevel: 2,
+        }),
+        datamartBuilder.factory.buildCampaignParticipationTubeReachedLevel({
+          campaignParticipationId: participation1.id,
+          tubeId: 'tube2',
+          reachedLevel: 0,
+        }),
+        datamartBuilder.factory.buildCampaignParticipationTubeReachedLevel({
+          campaignParticipationId: participation1.id,
+          tubeId: 'tube3',
+          reachedLevel: 6,
+        }),
+      ];
+
+      const participation2ReachedLevels = [
+        datamartBuilder.factory.buildCampaignParticipationTubeReachedLevel({
+          campaignParticipationId: participation2.id,
+          tubeId: 'tube1',
+          reachedLevel: 1,
+        }),
+        datamartBuilder.factory.buildCampaignParticipationTubeReachedLevel({
+          campaignParticipationId: participation2.id,
+          tubeId: 'tube2',
+          reachedLevel: 2,
+        }),
+        datamartBuilder.factory.buildCampaignParticipationTubeReachedLevel({
+          campaignParticipationId: participation2.id,
+          tubeId: 'tube3',
+          reachedLevel: 4,
+        }),
+      ];
+
+      const tubeNameById = Object.fromEntries(
+        [
+          databaseBuilder.factory.learningContent.buildTube({
+            id: 'tube1',
+            name: '@superTube',
+          }),
+          databaseBuilder.factory.learningContent.buildTube({
+            id: 'tube2',
+            name: '@gigaTube',
+          }),
+          databaseBuilder.factory.learningContent.buildTube({
+            id: 'tube3',
+            name: '@megaTube',
+          }),
+        ].map(({ id, name }) => [id, name]),
+      );
+
+      await datamartBuilder.commit();
       await databaseBuilder.commit();
 
       const options = {
@@ -52,8 +107,22 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal([
-        new CampaignParticipation(participation1),
-        new CampaignParticipation(participation2),
+        new CampaignParticipation({
+          ...participation1,
+          tubesReachedLevel: participation1ReachedLevels.map(({ tubeId, reachedLevel }) => ({
+            id: tubeId,
+            name: tubeNameById[tubeId],
+            level: reachedLevel,
+          })),
+        }),
+        new CampaignParticipation({
+          ...participation2,
+          tubesReachedLevel: participation2ReachedLevels.map(({ tubeId, reachedLevel }) => ({
+            id: tubeId,
+            name: tubeNameById[tubeId],
+            level: reachedLevel,
+          })),
+        }),
       ]);
     });
   });
