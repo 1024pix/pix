@@ -1,4 +1,4 @@
-import { participantResultsSharedRepository } from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/participant-results-shared-repository.js';
+import { repositories } from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect, knex, mockLearningContent } from '../../../../../test-helper.js';
@@ -22,7 +22,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         isCertifiable: true,
       };
 
-      await participantResultsSharedRepository.save(participantResultsShared);
+      await repositories.participantResultsSharedRepository.save({ participantResultsShared });
 
       const campaignParticipation = await knex('campaign-participations').where({ id: 1 }).first();
 
@@ -61,7 +61,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
           isCertifiable: true,
         };
 
-        await participantResultsSharedRepository.save(participantResultsShared);
+        await repositories.participantResultsSharedRepository.save({ participantResultsShared });
 
         const campaignParticipation1 = await knex('campaign-participations').where({ id: 1 }).first();
         const campaignParticipation2 = await knex('campaign-participations').where({ id: 2 }).first();
@@ -104,7 +104,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         await mockLearningContent(learningContent);
 
         //when
-        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+        const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+          campaignParticipationId: participation.id,
+        });
 
         expect(participantResultsShared.masteryRate).to.equals(4 / (16 * MAX_REACHABLE_PIX_BY_COMPETENCE));
         expect(participantResultsShared.id).to.equal(participation.id);
@@ -144,7 +146,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         await mockLearningContent(learningContent);
 
         //when
-        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+        const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+          campaignParticipationId: participation.id,
+        });
 
         expect(participantResultsShared.isCertifiable).to.be.false;
       });
@@ -181,7 +185,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         await mockLearningContent(learningContent);
 
         //when
-        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+        const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+          campaignParticipationId: participation.id,
+        });
 
         expect(participantResultsShared.isCertifiable).to.be.true;
       });
@@ -212,7 +218,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         await mockLearningContent(learningContent);
 
         //when
-        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+        const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+          campaignParticipationId: participation.id,
+        });
 
         expect(participantResultsShared.masteryRate).to.equals(1);
         expect(participantResultsShared.id).to.equal(participation.id);
@@ -245,7 +253,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
           await mockLearningContent(learningContent);
 
           //when
-          const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+          const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+            campaignParticipationId: participation.id,
+          });
           expect(participantResultsShared.masteryRate).to.equals(1);
           expect(participantResultsShared.id).to.equal(participation.id);
           expect(participantResultsShared.pixScore).to.equals(4);
@@ -278,7 +288,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
           await mockLearningContent(learningContent);
 
           //when
-          const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+          const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+            campaignParticipationId: participation.id,
+          });
 
           expect(participantResultsShared.id).to.equal(participation.id);
           expect(participantResultsShared.masteryRate).to.equals(2 / 3);
@@ -321,7 +333,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         await mockLearningContent(learningContent);
 
         //when
-        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+        const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+          campaignParticipationId: participation.id,
+        });
 
         expect(participantResultsShared.isCertifiable).to.be.null;
       });
@@ -342,7 +356,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
       await mockLearningContent(learningContent);
 
       //when
-      const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+      const participantResultsShared = await repositories.participantResultsSharedRepository.get({
+        campaignParticipationId: participation.id,
+      });
 
       expect(participantResultsShared.masteryRate).to.equals(1);
     });

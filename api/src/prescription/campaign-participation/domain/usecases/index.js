@@ -38,7 +38,6 @@ import { participationResultCalculationJobRepository } from '../../infrastructur
 import { participationSharedJobRepository } from '../../infrastructure/repositories/jobs/participation-shared-job-repository.js';
 import { participationStartedJobRepository } from '../../infrastructure/repositories/jobs/participation-started-job-repository.js';
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
-import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
@@ -115,7 +114,7 @@ const dependencies = {
   participationsForUserManagementRepository,
   participationSharedJobRepository,
   participationStartedJobRepository,
-  participantResultsSharedRepository,
+  participantResultsSharedRepository: campaignRepositories.participantResultsSharedRepository,
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   stageAcquisitionRepository,

@@ -6,34 +6,41 @@ import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastru
 import { ParticipantResultsShared } from '../../domain/models/ParticipantResultsShared.js';
 import * as campaignParticipationRepository from './campaign-participation-repository.js';
 
-const participantResultsSharedRepository = {
-  async save(participantResultShared) {
-    await knex('campaign-participations').update(participantResultShared).where({ id: participantResultShared.id });
-  },
-
-  async get(campaignParticipationId) {
-    const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
-      campaignParticipationId,
-    });
-    const knowledgeElements = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([
-      campaignParticipationId,
-    ]);
-    const competences = await competenceRepository.listPixCompetencesOnly();
-    const { userId, sharedAt, id } = await campaignParticipationRepository.get(campaignParticipationId);
-
-    const [placementProfile] = await placementProfileService.getPlacementProfilesWithSnapshotting({
-      participations: [{ userId, sharedAt, campaignParticipationId: id }],
-      competences,
-      allowExcessPixAndLevels: false,
-    });
-
-    return new ParticipantResultsShared({
-      campaignParticipationId,
-      knowledgeElements: knowledgeElements[campaignParticipationId],
-      skillIds,
-      placementProfile,
-    });
-  },
+const save = async function ({ participantResultsShared }) {
+  await knex('campaign-participations').update(participantResultsShared).where({ id: participantResultsShared.id });
 };
 
-export { participantResultsSharedRepository };
+const get = async function ({ campaignParticipationId, campaignsAPI, knowledgeElementSnapshotAPI }) {
+  let knowledgeElements;
+  const campaign = await campaignsAPI.getByCampaignParticipationId(campaignParticipationId);
+  const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
+    campaignParticipationId,
+  });
+
+  if (campaign.isExam) {
+    const results = await knowledgeElementSnapshotAPI.getByParticipation(campaignParticipationId);
+
+    knowledgeElements = results.knowledgeElements;
+  } else {
+    const results = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([campaignParticipationId]);
+
+    knowledgeElements = results[campaignParticipationId];
+  }
+  const competences = await competenceRepository.listPixCompetencesOnly();
+  const { userId, sharedAt, id } = await campaignParticipationRepository.get(campaignParticipationId);
+
+  const [placementProfile] = await placementProfileService.getPlacementProfilesWithSnapshotting({
+    participations: [{ userId, sharedAt, campaignParticipationId: id }],
+    competences,
+    allowExcessPixAndLevels: false,
+  });
+
+  return new ParticipantResultsShared({
+    campaignParticipationId,
+    knowledgeElements,
+    skillIds,
+    placementProfile,
+  });
+};
+
+export { get, save };
