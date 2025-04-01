@@ -45,7 +45,7 @@
     {
       "id": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
       "type": "discovery",
-      "title": "intro",
+      "title": "introduction",
       "components": [
         {
           "type": "element",
@@ -78,7 +78,7 @@
     {
       "id": "32386a53-23a3-4398-9755-3e0e8d0fa0fe",
       "type": "lesson",
-      "title": "",
+      "title": "Définition antivirus",
       "components": [
         {
           "type": "element",
@@ -113,7 +113,7 @@
     {
       "id": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
       "type": "activity",
-      "title": "",
+      "title": "test définition",
       "components": [
         {
           "type": "element",
@@ -242,7 +242,7 @@
     {
       "id": "fa795913-9f83-464b-8c75-74b754bb94cc",
       "type": "activity",
-      "title": "zef",
+      "title": "reconnaitre antivirus",
       "components": [
         {
           "type": "element",
@@ -281,7 +281,7 @@
             "title": "Simulateur recherche virus",
             "url": "https://1024pix.github.io/atelier-contenus/FRI/détection_specifique_1.html",
             "instruction": "<p>Cliquez sur un programme installé, puis sur un virus correspondant.</p>",
-            "solution": "",
+            "solution": "nul",
             "height": 400
           }
         }
@@ -290,7 +290,7 @@
     {
       "id": "59e6bf90-78cb-4c2e-8342-4f3e7d651895",
       "type": "lesson",
-      "title": "",
+      "title": "analyse spécifique",
       "components": [
         {
           "type": "element",
@@ -324,7 +324,7 @@
             "title": "simulateur détection code malveillant",
             "url": "https://1024pix.github.io/atelier-contenus/FRI/detection_ligne_code.html",
             "instruction": "<p>Détectez dans le programme une ligne de code potentiellement malveillant.</p>",
-            "solution": "",
+            "solution": "nul",
             "height": 700
           }
         }
@@ -398,7 +398,7 @@
     {
       "id": "a229264d-d07a-4803-822e-564c37512deb",
       "type": "discovery",
-      "title": "",
+      "title": "MAJ liste virus",
       "components": [
         {
           "type": "element",
@@ -414,10 +414,10 @@
             "id": "a1865db3-adf6-40b3-ad0a-f08e0b213a8e",
             "type": "embed",
             "isCompletionRequired": false,
-            "title": "",
+            "title": "simulateur",
             "url": "https://1024pix.github.io/atelier-contenus/FRI/détection_specifique_2.html",
             "instruction": "<p>Vérifiez si de nouveaux virus peuvent être détectés.</p>",
-            "solution": "",
+            "solution": "nul",
             "height": 600
           }
         }
@@ -426,7 +426,7 @@
     {
       "id": "e36328a9-fe39-45ea-8cd7-b1f65cd7d196",
       "type": "lesson",
-      "title": "",
+      "title": "MAJ antivirus",
       "components": [
         {
           "type": "element",
@@ -441,7 +441,7 @@
     {
       "id": "64815487-9b5e-45f6-b1d1-22220fdb80f5",
       "type": "discovery",
-      "title": "",
+      "title": "arbre de décision",
       "components": [
         {
           "type": "element",
@@ -457,10 +457,10 @@
             "id": "b11bda59-80e2-47e2-85c7-9c1b3d531559",
             "type": "embed",
             "isCompletionRequired": false,
-            "title": "",
+            "title": "construction interactive arbre",
             "url": "https://1024pix.github.io/atelier-contenus/FRI/arbre_decision_interactif.html",
             "instruction": "<p>Découvrons les étapes du traitement suivies par l'antivirus&nbsp;:</p>",
-            "solution": "",
+            "solution": "nul",
             "height": 700
           }
         }
@@ -469,7 +469,7 @@
     {
       "id": "964cc39e-b068-492f-92f8-f3e256e4902d",
       "type": "summary",
-      "title": "",
+      "title": "récap traitement",
       "components": [
         {
           "type": "element",
@@ -484,7 +484,7 @@
     {
       "id": "98b480e7-fca5-49b4-b5de-d31314e43f24",
       "type": "challenge",
-      "title": "",
+      "title": "simulateur windows",
       "components": [
         {
           "type": "element",
@@ -563,11 +563,15 @@
                 "inputType": "text",
                 "size": 20,
                 "display": "inline",
-                "placeholder": "",
-                "ariaLabel": "",
-                "defaultValue": "",
-                "tolerances": [],
-                "solutions": []
+                "placeholder": "Prénom",
+                "ariaLabel": "Propriétaire de la licence à trouver",
+                "defaultValue": "-",
+                "tolerances": [
+                  "t1"
+                ],
+                "solutions": [
+                  "Yohann"
+                ]
               }
             ],
             "feedbacks": {
