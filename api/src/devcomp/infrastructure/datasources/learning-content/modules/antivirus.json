@@ -4,14 +4,14 @@
   "title": "Un antivirus pour protéger vos appareils.🛡️",
   "isBeta": true,
   "details": {
-    "image": "",
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "<p>Les virus peuvent avoir des effets néfastes sur votre matériel et vos données personnelles. 🦠 Heureusement, il existe des solutions pour vous protéger de ces menaces.&nbsp; <br>Dans ce module, vous allez découvrir <strong>comment un antivirus vous protège</strong>.<br><br></p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
-      "",
-      "<p>Comprendre fonctionnement d’un antivirus</p>",
-      "<p>Comprendre l'importance des mises à jour de la base virale</p><p><br></p>"
+      "<p>Connaître le rôle d'un antivirus.</p>",
+      "<p>Comprendre fonctionnement d’un antivirus.</p>",
+      "<p>Comprendre l'importance des mises à jour de la base virale.</p>"
     ],
     "tabletSupport": "comfortable"
   },
