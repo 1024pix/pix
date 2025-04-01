@@ -1,4 +1,5 @@
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
+import { CenterTypes } from '../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { Subscription } from '../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
@@ -8,7 +9,7 @@ import {
   CertificationCenter,
   types as certificationCenterTypes,
 } from '../../../../../src/shared/domain/models/CertificationCenter.js';
-import { Membership } from '../../../../../src/shared/domain/models/index.js';
+import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
 import * as tooling from '../../common/tooling/index.js';
@@ -40,7 +41,7 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
     lastName: 'Organization Member',
     email: 'sco-managing-students-v3@example.net',
     cgu: true,
-    lang: 'fr',
+    lang: LANGUAGES_CODE.FRENCH,
     lastTermsOfServiceValidatedAt: new Date(),
     pixCertifTermsOfServiceAccepted: true,
   });
@@ -52,7 +53,7 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
   // Organization
   const organization = new OrganizationForAdmin({
     name: 'Certification Sco Organization #1',
-    type: 'SCO',
+    type: CenterTypes.SCO,
     isManagingStudents: true,
     externalId,
   });
@@ -63,7 +64,6 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
   });
 
   const organizationMembership = await teamUsecases.createMembership({
-    organizationRole: Membership.roles.ADMIN,
     userId: organizationMember.id,
     organizationId: newOrga.id,
   });
@@ -71,10 +71,10 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
   // Certification center
   const certificationCenter = new CertificationCenter({
     id: SIMPLE_SCO_CERTIFICATION_CENTER_ID,
-    name: 'Sco Certification Center #1',
+    name: 'Certification Center SCO V3 #1',
     type: certificationCenterTypes.SCO,
     externalId,
-    createdAt: new Date('2022-01-30'),
+    createdAt: new Date('2025-04-25'),
     habilitations: [],
   });
 
@@ -113,7 +113,7 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
     email: scoUser.email,
     division: 'Terminal',
     sex: 'F',
-    birthdate: '2000-01-01',
+    birthdate: '2000-10-10',
     isCertifiable: true,
     isDisabled: false,
     certifiableAt: new Date('2022-01-30'),
