@@ -5,7 +5,7 @@ import { CERTIFIABLE_SUCCESS_USER_ID } from './constants.js';
 import { proOrganizationWithCertifCenter } from './create-pro-organization-with-certif-center.js';
 import { scoOrganizationManaginAgriStudentsWithFregata } from './create-sco-organization-managing-agri-student-with-fregata.js';
 import { scoOrganizationNotManagingStudents } from './create-sco-organization-not-managing-students.js';
-import { supCertificationCenterOnly } from './create-sup-certifification-center-only.js';
+import { supCertificationCenterOnly } from './create-sup-certification-center-only.js';
 import { setupConfigurations } from './setup-configuration.js';
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
