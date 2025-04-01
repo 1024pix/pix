@@ -1,0 +1,652 @@
+{
+  "id": "67ef1446-6038-4720-998c-3ee1e6b31122",
+  "slug": "antivirus",
+  "title": "Un antivirus pour protéger vos appareils.🛡️",
+  "isBeta": true,
+  "details": {
+    "image": "",
+    "description": "<p>Les virus peuvent avoir des effets néfastes sur votre matériel et vos données personnelles. 🦠 Heureusement, il existe des solutions pour vous protéger de ces menaces.&nbsp; <br>Dans ce module, vous allez découvrir <strong>comment un antivirus vous protège</strong>.<br><br></p>",
+    "duration": 10,
+    "level": "Intermédiaire",
+    "objectives": [
+      "",
+      "<p>Comprendre fonctionnement d’un antivirus</p>",
+      "<p>Comprendre l'importance des mises à jour de la base virale</p><p><br></p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
+      "content": "<p>Pour son entrée au lycée, Suzanne a reçu l’ancien ordinateur de son oncle. </p><p> Il est en parfait état mais n’a pas fonctionné depuis quelque temps.&nbsp; </p><p> Son oncle a été rassurant&nbsp;: l’ordinateur est protégé par un antivirus !</p>"
+    },
+    {
+      "grainId": "da7bb50d-4793-47fb-a363-eda6f53c99fd",
+      "content": "<p>Nous allons maintenant observer le fonctionnement d’un antivirus, et ainsi découvrir les principaux processus de détection de menaces.</p>"
+    },
+    {
+      "grainId": "a575ca3d-d0c1-4f7c-9e0a-962b689412dd",
+      "content": "<p>Vous l’avez compris, il ne suffit pas de posséder un antivirus pour être protégé. </p><p>Il faut que l’antivirus soit constamment à jour.</p>"
+    },
+    {
+      "grainId": "98b480e7-fca5-49b4-b5de-d31314e43f24",
+      "content": "<p>Retrouvons Suzanne et son ordinateur. </p><p>Cet appareil n’a pas été utilisé depuis longtemps, et il est possible que l’antivirus ne soit pas à jour.</p>"
+    },
+    {
+      "grainId": "a229264d-d07a-4803-822e-564c37512deb",
+      "content": "<p>Les menaces informatiques évoluent en permanence.&nbsp; </p><p>Comment  peut-on s’en protéger ?<br><br></p>"
+    },
+    {
+      "grainId": "64815487-9b5e-45f6-b1d1-22220fdb80f5",
+      "content": "<p>L'antivirus ne se contente pas de détecter les menaces. Ils essaye  s'en débarasser l'appareil qu'il protège.&nbsp;</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
+      "type": "discovery",
+      "title": "intro",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "b77f826e-a4ad-431a-9565-55da36d41e1d",
+            "type": "qcu",
+            "instruction": "<p>À votre avis, à quoi sert cet antivirus ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>L’antivirus permet aux parents de Suzanne de contrôler son activité.</p>",
+                "feedback": "<p>Vous avez choisi la description d'un logiciel de contrôle parental. Vous pouvez réessayer</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>L’antivirus interdit à Suzanne les achats en ligne.</p>",
+                "feedback": "<p>L’autorisation d’achats en ligne provient de la banque. Vous pouvez réessayer.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>L’antivirus protège l’ordinateur de Suzanne des menaces informatiques.</p>",
+                "feedback": "<p><strong>Bonne réponse !&nbsp; 🎉</strong> </p><p>L’antivirus de Suzanne protège son appareil contre les programmes malveillants.<br><br></p>"
+              }
+            ],
+            "solution": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "32386a53-23a3-4398-9755-3e0e8d0fa0fe",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "559c8ed7-5337-42d7-a874-b14930f3c52c",
+            "type": "text",
+            "content": "<p>Un <strong>antivirus</strong> (ou plus précisément <strong>anti-logiciel malveillant</strong>) est un programme informatique qui <strong>protège un appareil</strong> contre des virus et autres menaces informatiques.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d1ee144e-8455-4bfa-8110-002e0bb80b41",
+            "type": "image",
+            "url": "https://i.imgur.com/AkOgklg.png",
+            "alt": "L’antivirus surveille en permanence votre appareil (stockage, programmes, messages reçus…).",
+            "alternativeText": "<p>Image d'illustration<br></p>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d6cc0d50-32ee-4609-8b5a-8ff065788839",
+            "type": "text",
+            "content": "<p>L’antivirus <strong>surveille en permanence</strong> votre appareil (stockage, programmes, messages reçus…).</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "559c8ed7-5337-42d7-a874-b14930f3c52c",
+            "type": "qcu",
+            "instruction": "<p>Un antivirus protège votre appareil&nbsp;:</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Contre la casse</p>",
+                "feedback": "<p>Relisez la leçon précédente. Vous pouvez réessayer👆</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Contre les logiciels malveillants</p>",
+                "feedback": "<p>Bravo !</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Contre la poussière.</p>",
+                "feedback": "<p>Relisez la leçon précédente. Vous pouvez réessayer👆</p>"
+              }
+            ],
+            "solution": "2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "eaa9428e-27aa-4450-9ca3-20ddaf4526c6",
+      "type": "lesson",
+      "title": "antivirus intégrés",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "00cd9c7f-f492-4393-80da-b040c446b46d",
+            "type": "text",
+            "content": "<p>Pour les ordinateurs, tablette et smartphones récents, les systèmes d’exploitation disposent&nbsp;<strong>d’antivirus intégrés</strong>&nbsp;qui vous protègent contre les virus, les logiciels espions et d’autres logiciels malveillants. 🛡️</p><p> <strong>Exemples</strong>&nbsp;: XProtect sur mac, Microsoft Defender sur windows</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "59dfeae6-2c76-48b8-a1d6-3bb8a65fc20c",
+      "type": "activity",
+      "title": "Appareils antivirus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7a2c936c-8fe2-44e8-ab6a-7d3bf939178e",
+            "type": "qcm",
+            "instruction": "<p>Un antivirus peut être installé&nbsp;:</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Sur un ordinateur</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Sur une  tablette.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Sur un casque audio</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Sur une batterie externe</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>Sur un smartphone</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bravo. Plus généralement, l'antivirus protège tout appareil qui échange des données en ligne.</p>",
+              "invalid": "<p>L'antivirus protège tout appareil qui échange des données en ligne. Vous pouvez réessayer 👆</p>"
+            },
+            "solutions": [
+              "1",
+              "2",
+              "5"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "29e4bb2d-f061-4ab0-b211-1c559e2ad3df",
+      "type": "lesson",
+      "title": "Rôle de l'antivirus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "03323b85-8f8b-4a15-8562-26faff012aa7",
+            "type": "text",
+            "content": "<p>Vous pouvez cependant utiliser un autre antivirus (gratuit ou payant) sur votre appareil. </p><p>Voici&nbsp;<strong>quelques exemples</strong>&nbsp;de fournisseurs sérieux d’antivirus pour PC, smartphones et tablettes&nbsp;:</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "6493077a-9910-4eea-97de-63520bd1c1a3",
+            "type": "image",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/images/exemples_antivirus.png",
+            "alt": "exemples d'antivirus",
+            "alternativeText": "<p>exemples d'antivirus&nbsp;: AhnLab, Trend micro, Kaspersky, F-Secure, Rising, Avast, Bitdefender, Eset, Norton, K7 computng, Panda, Bullgard, CA, Webroot, PCTools, Quick Heal, GData, McAfee, AVG</p>",
+            "legend": "exemples d'antivirus",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "e1434f66-21b3-464e-8383-1b07e07ab7cd",
+            "type": "text",
+            "content": "<p><strong>🤔&nbsp;Bon à savoir</strong><br>Mais méfiez-vous,&nbsp;il existe aussi de <strong>faux antivirus</strong>, qui peuvent être des logiciels malveillants ! En cas de doute, demandez conseil à vos amis ou vos collègues.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fa795913-9f83-464b-8c75-74b754bb94cc",
+      "type": "activity",
+      "title": "zef",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "03323b85-8f8b-4a15-8562-26faff012aa7",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Liste de logiciels",
+            "url": "https://epreuves.pix.fr/qcm_image.html?mode=antivirus",
+            "instruction": "<p>Sélectionnez&nbsp;<strong>2 logiciels</strong>&nbsp;qui protègent votre ordinateur.</p>",
+            "solution": "Avast,Avira",
+            "height": 800
+          }
+        }
+      ]
+    },
+    {
+      "id": "da7bb50d-4793-47fb-a363-eda6f53c99fd",
+      "type": "discovery",
+      "title": "Détection des virus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1e96f2cf-8aca-491d-ade4-da34013305a5",
+            "type": "text",
+            "content": "<p>Un antivirus <strong>analyse la liste des programmes installés</strong>.</p><p>À la manière de l’antivirus de Suzanne vous allez comparer la liste des programmes installés sur un appareil à une bibliothèque de virus.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "0f75240c-2e18-414e-b4e3-0ffc4f0ff4bb",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Simulateur recherche virus",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/détection_specifique_1.html",
+            "instruction": "<p>Cliquez sur un programme installé, puis sur un virus correspondant.</p>",
+            "solution": "",
+            "height": 400
+          }
+        }
+      ]
+    },
+    {
+      "id": "59e6bf90-78cb-4c2e-8342-4f3e7d651895",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "84c59511-816a-472a-ab69-5067c227c9db",
+            "type": "text",
+            "content": "<p>📖 L’antivirus <strong>compare</strong> la liste de vos programmes à une <strong>bibliothèque de virus</strong> connus.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6a1d56d2-50bc-4929-a5eb-48c89d1706e2",
+      "type": "discovery",
+      "title": "Détection code malveillant",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "f6173d94-477d-4879-a5c4-0294c288276d",
+            "type": "text",
+            "content": "<p>Un antivirus <strong>analyse le contenu des programmes</strong> installés. </p><p>À la manière de l’antivirus de Suzanne vous allez rechercher si un programme contient du code malveillant.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "01026000-8bdf-4546-8796-8745f9e86602",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "simulateur détection code malveillant",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/detection_ligne_code.html",
+            "instruction": "<p>Détectez dans le programme une ligne de code potentiellement malveillant.</p>",
+            "solution": "",
+            "height": 700
+          }
+        }
+      ]
+    },
+    {
+      "id": "9d4b1cb3-9fad-4cf7-ab39-1334b6b3e200",
+      "type": "lesson",
+      "title": "leçon extrait de code",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "91bd8559-f5cf-4daf-b09a-8a6dc87a2762",
+            "type": "text",
+            "content": "<p>🔎 L’antivirus <strong>recherche</strong> dans vos programmes des <strong>extraits de code potentiellement malveillants / dangereux</strong>. </p><p>Ici encore, il sait ce qu’il doit chercher.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "68584d55-77f0-4db1-94c8-5557cad195c1",
+      "type": "lesson",
+      "title": "Leçon simulation exé",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "49fa5e69-ca4d-4555-aaa1-6dba0c64e2cb",
+            "type": "text",
+            "content": "<p>⚙️ Un troisième mode d'action de l’antivirus est de <strong>simuler l’exécution de vos programmes</strong> pour détecter des comportements dangereux. </p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "90a5ea71-5c9d-4300-9cd4-be3358e3c988",
+            "type": "image",
+            "url": "https://i.imgur.com/EjXCyGq.png",
+            "alt": "Analyse du comportement des programmes installés",
+            "alternativeText": "<p>L'antivirus analyse le comportement des programmes installés</p>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "dc065045-d516-41f3-b7a2-0a67a87f7970",
+            "type": "text",
+            "content": "<p>Lors de cette simulation, le programme testé est isolé du reste de vos fichiers.&nbsp;</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "945d0289-a895-41b8-ada1-3b7415946a63",
+      "type": "summary",
+      "title": "récap détection",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "6144189f-b63a-44ed-8cd1-b7d5745f7915",
+            "type": "text",
+            "content": "<p><strong>Résumons avant de passer à la suite&nbsp;:</strong>&nbsp;</p><p><br>Pour détecter les logiciels malveillants présents sur votre appareil, l’antivirus applique plusieurs actions parmi lesquelles&nbsp;:&nbsp;</p><p><br></p><ul><li><strong>Comparer la liste des programmes</strong> et fichiers présents sur votre appareil à une bibliothèque de menaces connues</li><li><strong>Rechercher à l’intérieur des programmes</strong> et fichiers des extraits de code potentiellement malveillant</li><li><strong>Simuler l’exécution des programmes</strong> présents sur l’appareil pour vérifier leur fonctionnement</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a229264d-d07a-4803-822e-564c37512deb",
+      "type": "discovery",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "b78c32bf-f561-49a7-9d9c-c3b70b9c8a58",
+            "type": "text",
+            "content": "<p><strong>Des milliers de nouveaux virus sont créés chaque jour. 📆</strong> <br></p><p>Reprenons l’activité qui consiste à comparer la liste des programmes installés à la liste des menaces connues.&nbsp; Une nouvelle fonctionnalité est apparue. </p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a1865db3-adf6-40b3-ad0a-f08e0b213a8e",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/détection_specifique_2.html",
+            "instruction": "<p>Vérifiez si de nouveaux virus peuvent être détectés.</p>",
+            "solution": "",
+            "height": 600
+          }
+        }
+      ]
+    },
+    {
+      "id": "e36328a9-fe39-45ea-8cd7-b1f65cd7d196",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "769de9fa-991f-406b-bfbf-32ae0909cb87",
+            "type": "text",
+            "content": "<p>Pour permettre à Suzanne de <strong>rester protégée</strong> face à ces nouvelles menaces, l’éditeur de son antivirus réalise des <strong>mises à jour régulières des bases de signatures</strong>, des méthodes de détection et de traitement.&nbsp; <br></p><p>Ainsi l’antivirus complète ses connaissances et ses savoir-faire. <br></p><p>Ces mises à jour de l’antivirus peuvent être diffusées jusqu’à plusieurs fois par jour.&nbsp; <br></p><p>Il est donc primordial de <strong>s’assurer de leur installation automatique</strong> dès qu’elles sont disponibles. 🔄<br><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "64815487-9b5e-45f6-b1d1-22220fdb80f5",
+      "type": "discovery",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "88461e74-41d2-4abb-8b9d-0b5c77a1b505",
+            "type": "text",
+            "content": "<p>Avec les différentes méthodes de détection vues précédemment, l’antivirus a détecté plusieurs menaces sur l’appareil. Il va maintenant <strong>essayer de les traiter.</strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b11bda59-80e2-47e2-85c7-9c1b3d531559",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/arbre_decision_interactif.html",
+            "instruction": "<p>Découvrons les étapes du traitement suivies par l'antivirus&nbsp;:</p>",
+            "solution": "",
+            "height": 700
+          }
+        }
+      ]
+    },
+    {
+      "id": "964cc39e-b068-492f-92f8-f3e256e4902d",
+      "type": "summary",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7dfa6157-c54d-46a8-acd0-1be296a38ec5",
+            "type": "text",
+            "content": "<p>Lorsqu’un virus est détecté, l’antivirus essaye de le supprimer et de réparer votre appareil&nbsp;:</p>\n\n<ul>\n    <li>🔧 Il peut <strong>réparer</strong> un fichier en supprimant la partie infectée.</li>\n    <li>🚢 S’il n’y arrive pas, il isole le fichier contenant le virus&nbsp;: il le place <strong>en quarantaine</strong>.&nbsp;</li>\n    <li>⚠️ Quand l’antivirus ne peut pas agir, il ne peut que <strong>vous alerter</strong> du danger.</li>\n</ul>\n\n\n\n<p>Dans tous les cas, votre antivirus <strong>vous informe</strong> des menaces trouvées et de son action. Faites-lui confiance !</p>\n<p><strong>🤔 Bon à savoir </strong></p>\n<p>Si l’appareil appartient à une entreprise ou une organisation, <strong>contactez le service informatique</strong> à la moindre alerte.</p>\n<p>Vous pouvez demander à l’antivirus une <strong>analyse approfondie</strong> (scan) pour vous assurer qu’aucune trace de virus n’est présente sur votre appareil.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "98b480e7-fca5-49b4-b5de-d31314e43f24",
+      "type": "challenge",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "552a1886-1f7b-4d58-a930-96fc1f626e07",
+            "type": "text",
+            "content": "<p><strong>Suzanne va vérifier que son antivirus est bien à jour, et forcer la mise à jour.&nbsp;</strong></p><p> Le simulateur suivant présente un écran d’ordinateur.&nbsp; </p><p>L’antivirus est actif et apparaît quelque part.&nbsp; </p><p>À vous de faire les bonnes manipulations pour répondre aux questions suivantes.<br><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c8c6e74f-9efe-4844-b441-47409604b40f",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/defi_antivirus_windows.html",
+            "instruction": "",
+            "solution": "",
+            "height": 500
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "662c7f49-761f-45df-aaed-a36cb809db2c",
+            "type": "qrocm",
+            "instruction": "<p>1. Dans ce simulateur, de combien de temps date la dernière mise à jour de la base de signatures ?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Réponse&nbsp;:&nbsp;</p>"
+              },
+              {
+                "input": "date-maj",
+                "type": "input",
+                "inputType": "text",
+                "size": 10,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "Nombre de mois à trouver",
+                "defaultValue": "0",
+                "tolerances": [
+                  "t1"
+                ],
+                "solutions": [
+                  "3",
+                  "trois"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<p>mois<br></p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>bravo</p>",
+              "invalid": "<p>non</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "fffd2d9d-bfab-44e8-9cce-3153e1f0b847",
+            "type": "qrocm",
+            "instruction": "<p>2. Forcez la mise à jour de la base de signatures de l’antivirus.</p><p>À qui appartient la licence ?<br><br></p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Réponse&nbsp;:</p>"
+              },
+              {
+                "input": "proprietaire-licence",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bravo.&nbsp;C’est sans doute le prénom de l’oncle de Suzanne !<br></p>",
+              "invalid": "<p>Lancez la mise à jour de l’antivirus pour obtenir la réponse. Vous pouvez réessayez 👆</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "0c0ee3bd-aded-4678-864d-85b3ed5c5741",
+            "type": "qrocm",
+            "instruction": "<p>3. Activez le mode “Mise à jour automatique”</p><p>Jusqu’à quelle année l’appareil est-il protégé ?<br></p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Réponse&nbsp;:&nbsp;</p>"
+              },
+              {
+                "input": "date-antivirus",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": [
+                  "2030"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bravo ! </p><p>L’ordinateur est maintenant protégé, l’antivirus se mettra à jour automatiquement jusqu’au 31 décembre 2030.</p>",
+              "invalid": "<p>Accédez à l’interface de l’antivirus pour paramétrer la mise à jour automatique. </p><p>Vous pouvez réessayez 👆<br><br></p>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a575ca3d-d0c1-4f7c-9e0a-962b689412dd",
+      "type": "activity",
+      "title": "Et vous ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "57cbc7d4-2612-4a95-8b7c-9a3437872146",
+            "type": "qcu",
+            "instruction": "<p>Et vous, utilisez-vous un antivirus sur votre appareil ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>J’utilise l’antivirus intégré à mon appareil</p>",
+                "feedback": "<p>Merci. Vous avez terminé ce module.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>J’utilise un autre antivirus installé sur mon appareil</p>",
+                "feedback": "<p>Merci. Vous avez terminé ce module.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Je n’utilise pas d’antivirus</p>",
+                "feedback": "<p>Merci. Vous avez terminé ce module.</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Je ne sais pas si j’utilise un antivirus</p>",
+                "feedback": "<p>Si vous utilisez un système d'exploitation récent (Windows ou Mac Os), vous bénéficiez sûrement d'un antivirus intégré.&nbsp;</p>"
+              }
+            ],
+            "solution": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
