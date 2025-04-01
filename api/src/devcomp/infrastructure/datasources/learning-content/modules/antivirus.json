@@ -491,7 +491,7 @@
           "element": {
             "id": "552a1886-1f7b-4d58-a930-96fc1f626e07",
             "type": "text",
-            "content": "<p><strong>Suzanne va vérifier que son antivirus est bien à jour, et forcer la mise à jour.&nbsp;</strong></p><p> Le simulateur suivant présente un écran d’ordinateur.&nbsp; </p><p>L’antivirus est actif et apparaît quelque part.&nbsp; </p><p>À vous de faire les bonnes manipulations pour répondre aux questions suivantes.<br><br></p>"
+            "content": "<p><strong>Suzanne va vérifier que son antivirus est bien à jour, et forcer la mise à jour.&nbsp;</strong></p><p> Le simulateur suivant présente un écran d’ordinateur.&nbsp; </p><p>L’antivirus est actif et apparaît quelque part.&nbsp; </p>"
           }
         },
         {
@@ -500,10 +500,10 @@
             "id": "c8c6e74f-9efe-4844-b441-47409604b40f",
             "type": "embed",
             "isCompletionRequired": false,
-            "title": "",
+            "title": "Simulateur bureau windows avec antivirus",
             "url": "https://1024pix.github.io/atelier-contenus/FRI/defi_antivirus_windows.html",
-            "instruction": "",
-            "solution": "",
+            "instruction": "<p>À vous de faire les bonnes manipulations pour répondre aux questions suivantes.</p>",
+            "solution": "nul",
             "height": 500
           }
         },
@@ -565,7 +565,7 @@
                 "display": "inline",
                 "placeholder": "Prénom",
                 "ariaLabel": "Propriétaire de la licence à trouver",
-                "defaultValue": "-",
+                "defaultValue": "",
                 "tolerances": [
                   "t1"
                 ],
@@ -597,10 +597,12 @@
                 "inputType": "text",
                 "size": 20,
                 "display": "inline",
-                "placeholder": "",
-                "ariaLabel": "",
+                "placeholder": "année",
+                "ariaLabel": "échéance de la protection à trouver",
                 "defaultValue": "",
-                "tolerances": [],
+                "tolerances": [
+                  "t1"
+                ],
                 "solutions": [
                   "2030"
                 ]
