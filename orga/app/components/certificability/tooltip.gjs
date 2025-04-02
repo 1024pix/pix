@@ -16,9 +16,13 @@ export default class Tooltip extends Component {
     return this.intl.t('components.certificability-tooltip.from-collect-notice');
   }
 
+  get position() {
+    return this.args.position ? this.args.position : 'bottom-left';
+  }
+
   <template>
     <div class="certificability-tooltip">
-      <PixTooltip @id="column-is-certifiable-informations" @position="top-left" @isWide={{true}}>
+      <PixTooltip @id="column-is-certifiable-informations" @position={{this.position}} @isWide={{true}}>
         <:triggerElement>
           <PixIcon
             @name="help"
