@@ -149,6 +149,12 @@
     }
   },
   "components": {
+    "attestations": {
+      "obtainedAt": "Fecha de emisión: {date}",
+      "title": {
+        "numeric-sensivity": "Certificado de sensibilización digital"
+      }
+    },
     "authentication": {
       "login-form": {
         "fields": {
@@ -334,6 +340,7 @@
     },
     "homepage": "Página de inicio de Pix",
     "main": {
+      "attestations": "Mis certificados",
       "code": "Tengo un código",
       "dashboard": "Inicio",
       "help": "Ayuda",
@@ -505,6 +512,10 @@
         "header": "Tus respuestas"
       },
       "title": "Fin de la prueba"
+    },
+    "attestations": {
+      "subtitle": "Acceda a todos sus certificados Pix y descárguelos.",
+      "title": "Mis certificados"
     },
     "authentication": {
       "login": {
@@ -2035,6 +2046,11 @@
             "share-error": "Se ha producido un error al enviar sus resultados. Por favor, inténtalo de nuevo."
           },
           "sent-results-modal": {
+            "return-results-action": "Cerrar y volver a los resultados",
+            "subtitle": "¿Listo para ampliar tus conocimientos?  🎓",
+            "title": "Resultados compartidos"
+          },
+          "shared-results-modal": {
             "return-results-action": "Cerrar y volver a los resultados",
             "subtitle": "¿Listo para ampliar tus conocimientos?  🎓",
             "title": "Resultados compartidos"
