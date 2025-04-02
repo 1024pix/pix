@@ -28,7 +28,7 @@ export default class CampaignBadgeAcquisitions extends Component {
       <ul class="badge-acquisitions__list">
         {{#each this.data as |badgeAcquisition|}}
           <li class="badge-acquisitions__list-item">
-            <PixTooltip @id="badge-tooltip-{{badgeAcquisition.badge.id}}" @position="left" @isInline={{true}}>
+            <PixTooltip @id="badge-tooltip-{{badgeAcquisition.badge.id}}" position="bottom" @isInline={{true}}>
               <:triggerElement>
                 <img
                   src={{badgeAcquisition.badge.imageUrl}}

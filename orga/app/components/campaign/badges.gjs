@@ -13,7 +13,7 @@ const isAcquired = (badge, acquiredBadges = []) => {
 
 <template>
   {{#each @badges as |badge|}}
-    <PixTooltip @id="badge-tooltip-{{badge.id}}">
+    <PixTooltip @id="badge-tooltip-{{badge.id}}" @position="bottom">
       <:triggerElement>
         <img
           src={{badge.imageUrl}}

@@ -59,7 +59,7 @@ function getMissionResultColor(result) {
               <div class="organization-participant__align-element">
                 {{t "pages.missions.mission.table.result.headers.step" (indexNumber index)}}
 
-                <PixTooltip @id="tooltip-{{index}}" @isInline={{true}}>
+                <PixTooltip @id="tooltip-{{index}}" @position="left" @isInline={{true}}>
                   <:triggerElement>
                     <PixIcon
                       @name="help"
