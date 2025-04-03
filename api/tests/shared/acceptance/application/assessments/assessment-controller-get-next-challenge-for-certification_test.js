@@ -147,6 +147,58 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         });
       });
 
+      context('When there is a validated live alert for a challenge', function () {
+        beforeEach(async function () {
+          const user = databaseBuilder.factory.buildUser({ id: userId });
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+            version: SESSIONS_VERSIONS.V3,
+          }).id;
+          databaseBuilder.factory.buildFlashAlgorithmConfiguration();
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            isPublished: false,
+            version: AlgorithmEngineVersion.V3,
+            userId,
+            sessionId,
+          }).id;
+          databaseBuilder.factory.buildCertificationCandidate({ ...user, userId: user.id, sessionId });
+          const assessment = databaseBuilder.factory.buildAssessment({
+            id: assessmentId,
+            type: Assessment.types.CERTIFICATION,
+            certificationCourseId,
+            lastChallengeId: firstChallengeId,
+            userId,
+            lastQuestionDate: new Date('2020-01-20'),
+            state: 'started',
+          });
+          databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+            assessmentId: assessment.id,
+            challengeId: firstChallengeId,
+            status: 'validated',
+          });
+          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+          await databaseBuilder.commit();
+        });
+
+        it('returns another challenge', async function () {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessmentId}/next`,
+            headers: generateAuthenticatedUserRequestHeaders({ userId }),
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.data.id).to.not.equal(firstChallengeId);
+          const assessment = await knex('assessments').first();
+          expect(assessment.lastChallengeId).to.not.equal(firstChallengeId);
+        });
+      });
+
       context('When resuming certification session after leaving', function () {
         it('should return the last challenge the user has seen before leaving the session', async function () {
           const user = databaseBuilder.factory.buildUser({ id: userId });

@@ -22,6 +22,22 @@ export async function getNextChallenge({
     answers,
     lastChallengeId: assessment.lastChallengeId,
   });
+  if (assessment.isCertification()) {
+    nextChallenge = await certificationEvaluationRepository.selectNextCertificationChallenge({
+      assessmentId: assessment.id,
+      locale,
+    });
+
+    if (nextChallenge && nextChallenge.id !== assessment.lastChallengeId) {
+      await assessmentRepository.updateWhenNewChallengeIsAsked({
+        id: assessment.id,
+        lastChallengeId: nextChallenge.id,
+      });
+    }
+
+    return nextChallenge;
+  }
+
   if (waitingForLatestChallengeAnswer) {
     nextChallenge = await challengeRepository.get(assessment.lastChallengeId);
     if (nextChallenge.isOperative) {
@@ -29,12 +45,6 @@ export async function getNextChallenge({
     } else {
       nextChallenge = null;
     }
-  }
-  if (assessment.isCertification()) {
-    nextChallenge = await certificationEvaluationRepository.selectNextCertificationChallenge({
-      assessmentId: assessment.id,
-      locale,
-    });
   }
 
   if (assessment.isPreview()) {
