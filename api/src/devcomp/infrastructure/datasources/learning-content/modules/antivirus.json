@@ -303,7 +303,7 @@
             "type": "embed",
             "isCompletionRequired": false,
             "title": "Simulateur recherche virus",
-            "url": "https://1024pix.github.io/atelier-contenus/FRI/détection_specifique_1.html",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/detection_specifique_1.html",
             "instruction": "<p>Cliquez sur un programme installé, puis sur un virus correspondant.</p>",
             "solution": "nul",
             "height": 400
@@ -439,7 +439,7 @@
             "type": "embed",
             "isCompletionRequired": false,
             "title": "simulateur",
-            "url": "https://1024pix.github.io/atelier-contenus/FRI/détection_specifique_2.html",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/detection_specifique_2.html",
             "instruction": "<p>Vérifiez si de nouveaux virus peuvent être détectés.</p>",
             "solution": "nul",
             "height": 600
@@ -674,8 +674,8 @@
                 "id": "1",
                 "content": "<p>J’utilise l’antivirus intégré à mon appareil</p>",
                 "feedback": {
-                  "state": "",
-                  "diagnosis": ""
+                  "state": "<p><br></p>",
+                  "diagnosis": "<p>Très bien. Pensez à en vérifier les paramètres.</p>"
                 }
               },
               {
@@ -683,7 +683,7 @@
                 "content": "<p>J’utilise un autre antivirus installé sur mon appareil</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": ""
+                  "diagnosis": "<p>Très bien. Pensez à en vérifier les paramètres.</p>"
                 }
               },
               {
@@ -691,7 +691,7 @@
                 "content": "<p>Je n’utilise pas d’antivirus</p>",
                 "feedback": {
                   "state": "<p><br></p>",
-                  "diagnosis": "<p><br></p><p><br></p>"
+                  "diagnosis": "<p>Vous connaissez maintenant les risques.<br></p>"
                 }
               },
               {
