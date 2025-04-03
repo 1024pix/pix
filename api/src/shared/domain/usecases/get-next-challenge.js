@@ -17,29 +17,17 @@ export async function getNextChallenge({
   await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
 
   let nextChallenge = null;
-
-  // Check certification before shortcut with lastChallengeId due to LiveAlert system
+  let waitingForLatestChallengeAnswer;
   if (assessment.isCertification()) {
-    nextChallenge = await certificationEvaluationRepository.selectNextCertificationChallenge({
-      assessmentId: assessment.id,
-      locale,
+    // Force executing the usecase because of the live alert system
+    waitingForLatestChallengeAnswer = false;
+  } else {
+    const answers = await answerRepository.findByAssessment(assessment.id);
+    waitingForLatestChallengeAnswer = checkIfLatestChallengeOfAssessmentIsAwaitingToBeAnswered({
+      answers,
+      lastChallengeId: assessment.lastChallengeId,
     });
-
-    await updateWhenNewChallengeIsAsked({
-      assessment,
-      challenge: nextChallenge,
-      assessmentRepository,
-    });
-
-    return nextChallenge;
   }
-
-  const answers = await answerRepository.findByAssessment(assessment.id);
-  const waitingForLatestChallengeAnswer = checkIfLatestChallengeOfAssessmentIsAwaitingToBeAnswered({
-    answers,
-    lastChallengeId: assessment.lastChallengeId,
-  });
-
   if (waitingForLatestChallengeAnswer) {
     nextChallenge = await challengeRepository.get(assessment.lastChallengeId);
     if (nextChallenge.isOperative) {
@@ -47,6 +35,12 @@ export async function getNextChallenge({
     } else {
       nextChallenge = null;
     }
+  }
+  if (assessment.isCertification()) {
+    nextChallenge = await certificationEvaluationRepository.selectNextCertificationChallenge({
+      assessmentId: assessment.id,
+      locale,
+    });
   }
 
   if (assessment.isPreview()) {
@@ -65,22 +59,14 @@ export async function getNextChallenge({
     nextChallenge = await evaluationUsecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
   }
 
-  await updateWhenNewChallengeIsAsked({
-    assessment,
-    challenge: nextChallenge,
-    assessmentRepository,
-  });
-
-  return nextChallenge;
-}
-
-function updateWhenNewChallengeIsAsked({ assessment, challenge, assessmentRepository }) {
-  if (challenge && challenge.id !== assessment.lastChallengeId) {
-    assessmentRepository.updateWhenNewChallengeIsAsked({
+  if (nextChallenge && nextChallenge.id !== assessment.lastChallengeId) {
+    await assessmentRepository.updateWhenNewChallengeIsAsked({
       id: assessment.id,
-      lastChallengeId: challenge.id,
+      lastChallengeId: nextChallenge.id,
     });
   }
+
+  return nextChallenge;
 }
 
 function checkIfLatestChallengeOfAssessmentIsAwaitingToBeAnswered({ answers, lastChallengeId }) {
