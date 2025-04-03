@@ -5,7 +5,7 @@
   "isBeta": true,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Les virus peuvent avoir des effets néfastes sur votre matériel et vos données personnelles. 🦠 Heureusement, il existe des solutions pour vous protéger de ces menaces.&nbsp; <br>Dans ce module, vous allez découvrir <strong>comment un antivirus vous protège</strong>.<br><br></p>",
+    "description": "<p>Les virus peuvent avoir des effets néfastes sur votre matériel et vos données personnelles. 🦠 Heureusement, il existe des solutions pour vous protéger de ces menaces.&nbsp; <br>Dans ce module, vous allez découvrir <strong>comment un antivirus vous protège</strong>.<br></p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
@@ -52,22 +52,31 @@
           "element": {
             "id": "b77f826e-a4ad-431a-9565-55da36d41e1d",
             "type": "qcu",
-            "instruction": "<p>À votre avis, à quoi sert cet antivirus ?</p>",
+            "instruction": "<p>À votre avis, à quoi sert cet antivirus ?</p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>L’antivirus permet aux parents de Suzanne de contrôler son activité.</p>",
-                "feedback": "<p>Vous avez choisi la description d'un logiciel de contrôle parental. Vous pouvez réessayer</p>"
+                "feedback": {
+                  "state": "<p>Mauvaise réponse.</p>",
+                  "diagnosis": "<p>Vous avez choisi la description d'un logiciel de contrôle parental. Vous pouvez réessayer.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>L’antivirus interdit à Suzanne les achats en ligne.</p>",
-                "feedback": "<p>L’autorisation d’achats en ligne provient de la banque. Vous pouvez réessayer.</p>"
+                "feedback": {
+                  "state": "<p>Mauvaise réponse.</p>",
+                  "diagnosis": "<p>L’autorisation d’achats en ligne provient de la banque. Vous pouvez réessayer.</p>"
+                }
               },
               {
                 "id": "3",
-                "content": "<p>L’antivirus protège l’ordinateur de Suzanne des menaces informatiques.</p>",
-                "feedback": "<p><strong>Bonne réponse !&nbsp; 🎉</strong> </p><p>L’antivirus de Suzanne protège son appareil contre les programmes malveillants.<br><br></p>"
+                "content": "<p>L’antivirus protège l’ordinateur de Suzanne des pirates informatiques</p>",
+                "feedback": {
+                  "state": "<p>Bonne réponse !&nbsp; 🎉</p>",
+                  "diagnosis": "<p>L’antivirus de Suzanne protège son appareil contre les programmes malveillants</p>"
+                }
               }
             ],
             "solution": "3"
@@ -120,22 +129,31 @@
           "element": {
             "id": "559c8ed7-5337-42d7-a874-b14930f3c52c",
             "type": "qcu",
-            "instruction": "<p>Un antivirus protège votre appareil&nbsp;:</p>",
+            "instruction": "<p>Un antivirus protège votre appareil :</p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>Contre la casse</p>",
-                "feedback": "<p>Relisez la leçon précédente. Vous pouvez réessayer👆</p>"
+                "feedback": {
+                  "state": "<p>Mauvaise réponse.<br></p>",
+                  "diagnosis": "<p>Vous pouvez réessayez.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>Contre les logiciels malveillants</p>",
-                "feedback": "<p>Bravo !</p>"
+                "feedback": {
+                  "state": "<p>Bonne réponse</p>",
+                  "diagnosis": "<p><br></p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>Contre la poussière.</p>",
-                "feedback": "<p>Relisez la leçon précédente. Vous pouvez réessayer👆</p>"
+                "feedback": {
+                  "state": "<p>Mauvaise réponse.</p>",
+                  "diagnosis": "<p>Vous pouvez réessayez.</p>"
+                }
               }
             ],
             "solution": "2"
@@ -168,36 +186,42 @@
           "element": {
             "id": "7a2c936c-8fe2-44e8-ab6a-7d3bf939178e",
             "type": "qcm",
-            "instruction": "<p>Un antivirus peut être installé&nbsp;:</p>",
+            "instruction": "<p>Un antivirus peut être installé :</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>Sur un ordinateur</p>"
-              },
-              {
-                "id": "2",
-                "content": "<p>Sur une  tablette.</p>"
-              },
-              {
-                "id": "3",
-                "content": "<p>Sur un casque audio</p>"
-              },
-              {
-                "id": "4",
                 "content": "<p>Sur une batterie externe</p>"
               },
               {
-                "id": "5",
+                "id": "2",
                 "content": "<p>Sur un smartphone</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Sur un ordinateur</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Sur un casque audio</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>Sur une tablette</p>"
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bravo. Plus généralement, l'antivirus protège tout appareil qui échange des données en ligne.</p>",
-              "invalid": "<p>L'antivirus protège tout appareil qui échange des données en ligne. Vous pouvez réessayer 👆</p>"
+              "valid": {
+                "state": "<p>Bonne réponse ! 🎉</p>",
+                "diagnosis": "<p>Un antivirus peut être utile sur tous les appareils connectés à internet</p>"
+              },
+              "invalid": {
+                "state": "<p>Mauvaise réponse.</p>",
+                "diagnosis": "<p>Un antivirus peut être utile sur tous les appareils connectés à internet</p>"
+              }
             },
             "solutions": [
-              "1",
               "2",
+              "3",
               "5"
             ]
           }
@@ -512,37 +536,43 @@
           "element": {
             "id": "662c7f49-761f-45df-aaed-a36cb809db2c",
             "type": "qrocm",
-            "instruction": "<p>1. Dans ce simulateur, de combien de temps date la dernière mise à jour de la base de signatures ?</p>",
+            "instruction": "<p>1. Dans ce simulateur, de combien de temps date la dernière mise à jour de la base de signatures ?</p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<p>Réponse&nbsp;:&nbsp;</p>"
+                "content": "<p>Réponse :&nbsp;</p>"
               },
               {
-                "input": "date-maj",
+                "input": "anciennete-maj",
                 "type": "input",
                 "inputType": "text",
-                "size": 10,
+                "size": 3,
                 "display": "inline",
-                "placeholder": "",
-                "ariaLabel": "Nombre de mois à trouver",
-                "defaultValue": "0",
+                "placeholder": "0",
+                "ariaLabel": "Durée à trouver",
+                "defaultValue": "",
                 "tolerances": [
                   "t1"
                 ],
                 "solutions": [
                   "3",
-                  "trois"
+                  "Trois"
                 ]
               },
               {
                 "type": "text",
-                "content": "<p>mois<br></p>"
+                "content": "<p>mois</p>"
               }
             ],
             "feedbacks": {
-              "valid": "<p>bravo</p>",
-              "invalid": "<p>non</p>"
+              "valid": {
+                "state": "<p>Bonne réponse !&nbsp; 🎉<br></p>",
+                "diagnosis": "<p>En effet, l’ordinateur n’a pas été utilisé depuis longtemps !</p>"
+              },
+              "invalid": {
+                "state": "<p>Mauvaise réponse.</p>",
+                "diagnosis": "<p>Avez-vous trouvé l’icône de l’antivirus dans la barre des tâches ? Vous pouvez réessayer&nbsp;👆</p>"
+              }
             }
           }
         },
@@ -551,20 +581,20 @@
           "element": {
             "id": "fffd2d9d-bfab-44e8-9cce-3153e1f0b847",
             "type": "qrocm",
-            "instruction": "<p>2. Forcez la mise à jour de la base de signatures de l’antivirus.</p><p>À qui appartient la licence ?<br><br></p>",
+            "instruction": "<p>2. Forcez la mise à jour de la base de signatures de l’antivirus.</p><p>À qui appartient la licence ?</p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<p>Réponse&nbsp;:</p>"
+                "content": "<p>Réponse :&nbsp;</p>"
               },
               {
                 "input": "proprietaire-licence",
                 "type": "input",
                 "inputType": "text",
-                "size": 20,
+                "size": 6,
                 "display": "inline",
                 "placeholder": "Prénom",
-                "ariaLabel": "Propriétaire de la licence à trouver",
+                "ariaLabel": "Nom du propriétaire à trouver",
                 "defaultValue": "",
                 "tolerances": [
                   "t1"
@@ -575,8 +605,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bravo.&nbsp;C’est sans doute le prénom de l’oncle de Suzanne !<br></p>",
-              "invalid": "<p>Lancez la mise à jour de l’antivirus pour obtenir la réponse. Vous pouvez réessayez 👆</p>"
+              "valid": {
+                "state": "<p>Bonne réponse !&nbsp; 🎉</p>",
+                "diagnosis": "<p>C’est sans doute le prénom de l’oncle de Suzanne !</p>"
+              },
+              "invalid": {
+                "state": "<p>Mauvaise réponse.</p>",
+                "diagnosis": "<p>Lancez la mise à jour de l’antivirus pour obtenir la réponse. Vous pouvez réessayez 👆</p><p><br></p>"
+              }
             }
           }
         },
@@ -585,20 +621,20 @@
           "element": {
             "id": "0c0ee3bd-aded-4678-864d-85b3ed5c5741",
             "type": "qrocm",
-            "instruction": "<p>3. Activez le mode “Mise à jour automatique”</p><p>Jusqu’à quelle année l’appareil est-il protégé ?<br></p>",
+            "instruction": "<p>3. Activez le mode “Mise à jour automatique”.</p><p>Jusqu’à quelle année l’appareil est-il protégé ?<br></p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<p>Réponse&nbsp;:&nbsp;</p>"
+                "content": "<p>Réponse :</p>"
               },
               {
-                "input": "date-antivirus",
+                "input": "fin-protection",
                 "type": "input",
                 "inputType": "text",
-                "size": 20,
+                "size": 4,
                 "display": "inline",
-                "placeholder": "année",
-                "ariaLabel": "échéance de la protection à trouver",
+                "placeholder": "",
+                "ariaLabel": "Année de fin de protection à trouver",
                 "defaultValue": "",
                 "tolerances": [
                   "t1"
@@ -609,8 +645,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bravo ! </p><p>L’ordinateur est maintenant protégé, l’antivirus se mettra à jour automatiquement jusqu’au 31 décembre 2030.</p>",
-              "invalid": "<p>Accédez à l’interface de l’antivirus pour paramétrer la mise à jour automatique. </p><p>Vous pouvez réessayez 👆<br><br></p>"
+              "valid": {
+                "state": "<p>Bonne réponse !&nbsp; 🎉</p>",
+                "diagnosis": "<p>Bravo ! L’ordinateur est maintenant protégé, l’antivirus se mettra à jour automatiquement jusqu’au 31 décembre 2030.</p>"
+              },
+              "invalid": {
+                "state": "<p>Mauvaise réponse.</p>",
+                "diagnosis": "<p>Accédez à l’interface de l’antivirus pour paramétrer la mise à jour automatique. Vous pouvez réessayez 👆</p>"
+              }
             }
           }
         }
@@ -626,27 +668,39 @@
           "element": {
             "id": "57cbc7d4-2612-4a95-8b7c-9a3437872146",
             "type": "qcu",
-            "instruction": "<p>Et vous, utilisez-vous un antivirus sur votre appareil ?</p>",
+            "instruction": "<p>Et vous, utilisez-vous un antivirus sur votre appareil ?</p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>J’utilise l’antivirus intégré à mon appareil</p>",
-                "feedback": "<p>Merci. Vous avez terminé ce module.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": ""
+                }
               },
               {
                 "id": "2",
                 "content": "<p>J’utilise un autre antivirus installé sur mon appareil</p>",
-                "feedback": "<p>Merci. Vous avez terminé ce module.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": ""
+                }
               },
               {
                 "id": "3",
                 "content": "<p>Je n’utilise pas d’antivirus</p>",
-                "feedback": "<p>Merci. Vous avez terminé ce module.</p>"
+                "feedback": {
+                  "state": "<p><br></p>",
+                  "diagnosis": "<p><br></p><p><br></p>"
+                }
               },
               {
                 "id": "4",
                 "content": "<p>Je ne sais pas si j’utilise un antivirus</p>",
-                "feedback": "<p>Si vous utilisez un système d'exploitation récent (Windows ou Mac Os), vous bénéficiez sûrement d'un antivirus intégré.&nbsp;</p>"
+                "feedback": {
+                  "state": "<p><br></p>",
+                  "diagnosis": "<p>Si vous utilisez un système d'exploitation récent, votre appareil est sans doute protégé par un antivirus intégré.&nbsp;</p>"
+                }
               }
             ],
             "solution": "1"
