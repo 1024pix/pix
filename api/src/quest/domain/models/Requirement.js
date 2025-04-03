@@ -1,6 +1,3 @@
-import Joi from 'joi';
-
-import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { Criterion } from './Criterion.js';
 
 export const COMPARISONS = {
@@ -51,19 +48,10 @@ class BaseRequirement {
   }
 }
 
-const composeRequirementSchema = Joi.object({
-  requirement_type: TYPES.COMPOSE,
-  data: Joi.array().items(Joi.object()).required(),
-  comparison: Joi.string()
-    .valid(...Object.values(COMPARISONS))
-    .required(),
-});
-
 export class ComposedRequirement extends BaseRequirement {
   #subRequirements = null;
 
-  constructor(args) {
-    const { data, comparison } = args;
+  constructor({ data, comparison }) {
     super({ requirement_type: TYPES.COMPOSE, comparison });
     this.#subRequirements = data.map((subRequirement) => {
       if (subRequirement instanceof BaseRequirement) {
@@ -75,15 +63,6 @@ export class ComposedRequirement extends BaseRequirement {
         comparison: subRequirement.comparison,
       });
     });
-
-    this.#validate(args);
-  }
-
-  #validate(args) {
-    const { error } = composeRequirementSchema.validate(args);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.toDTO() });
-    }
   }
 
   get data() {
@@ -110,34 +89,12 @@ export class ComposedRequirement extends BaseRequirement {
   }
 }
 
-const objectRequirementSchema = Joi.object({
-  requirement_type: Joi.string()
-    .valid(...Object.values(TYPES.OBJECT))
-    .required(),
-  data: Joi.object().required(),
-  comparison: Joi.string()
-    .valid(...Object.values(COMPARISONS))
-    .required(),
-});
-
 export class ObjectRequirement extends BaseRequirement {
   #criterion;
 
-  constructor(args) {
-    const { requirement_type, data, comparison } = args;
-
+  constructor({ requirement_type, data, comparison }) {
     super({ requirement_type, comparison });
-
     this.#criterion = data instanceof Criterion ? data : new Criterion({ data });
-
-    this.#validate(args);
-  }
-
-  #validate(args) {
-    const { error } = objectRequirementSchema.validate(args);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.toDTO() });
-    }
   }
 
   get data() {
@@ -211,35 +168,14 @@ export class SkillProfileRequirement extends BaseRequirement {
   }
 }
 
-const cappedTubesRequirementSchema = Joi.object({
-  requirement_type: TYPES.CAPPED_TUBES,
-  data: Joi.object({
-    cappedTubes: Joi.array()
-      .items(Joi.object({ tubeId: Joi.string().required(), level: Joi.number().required() }))
-      .required(),
-    threshold: Joi.number().min(0).max(100).required(),
-  }).required(),
-});
-
 export class CappedTubesRequirement extends BaseRequirement {
   #cappedTubes;
   #threshold;
 
-  constructor(args) {
-    const { data } = args;
+  constructor({ data }) {
     super({ requirement_type: TYPES.CAPPED_TUBES, comparison: null });
-
     this.#cappedTubes = data.cappedTubes;
     this.#threshold = data.threshold;
-
-    this.#validate(args);
-  }
-
-  #validate(args) {
-    const { error } = cappedTubesRequirementSchema.validate(args);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.toDTO() });
-    }
   }
 
   /**

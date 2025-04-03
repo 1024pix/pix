@@ -11,68 +11,9 @@ import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Quest ', function () {
-  describe('#constructor', function () {
-    it('should throw if args are not valid', function () {
-      expect(() => {
-        new Quest({ rewardId: 1 });
-      }).to.throw();
-    });
-
-    it('should not throw if args are valid', function () {
-      expect(() => {
-        new Quest({
-          rewardType: 'attestations',
-          rewardId: 1,
-          eligibilityRequirements: [
-            {
-              data: {
-                status: {
-                  data: ['SHARED', 'TO_SHARE'],
-                  comparison: 'one-of',
-                },
-                targetProfileId: {
-                  data: 2,
-                  comparison: 'equal',
-                },
-              },
-              comparison: 'all',
-              requirement_type: 'campaignParticipations',
-            },
-          ],
-          successRequirements: [
-            {
-              requirement_type: 'cappedTubes',
-              data: {
-                cappedTubes: [
-                  {
-                    tubeId: 'tube11aVujagTGVuMY',
-                    level: 2,
-                  },
-                  {
-                    tubeId: 'recBbCIEKgrQi7eb6',
-                    level: 5,
-                  },
-                ],
-                threshold: 50,
-              },
-            },
-          ],
-        });
-      }).not.to.throw();
-    });
-
-    it('should throw without args', function () {
-      expect(() => {
-        new Quest();
-      }).to.throw();
-    });
-  });
-
   describe('#isEligible', function () {
     it('return true', function () {
       const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
         eligibilityRequirements: [
           {
             requirement_type: REQUIREMENT_TYPES.OBJECT.ORGANIZATION,
@@ -96,8 +37,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
 
     it('return false', function () {
       const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
         eligibilityRequirements: [
           {
             requirement_type: REQUIREMENT_TYPES.OBJECT.ORGANIZATION,
@@ -124,8 +63,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
     it('returns true when successfulRequirement is empty', function () {
       // given
       const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
         eligibilityRequirements: [],
         successRequirements: [],
       });
@@ -145,8 +82,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
     it('returns true when all requirements are met', function () {
       // given
       const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
         eligibilityRequirements: [],
         successRequirements: [
           {
@@ -187,8 +122,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
     it('returns false when at least one requirement is not met', function () {
       // given
       const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
         eligibilityRequirements: [],
         successRequirements: [
           {
@@ -229,8 +162,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
     it('returns false when none of the requirements are met', function () {
       // given
       const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
         eligibilityRequirements: [],
         successRequirements: [
           {
@@ -295,12 +226,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements,
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements });
       const campaignParticipations = [
         { id: 10, targetProfileId: 123 },
         { id: 10, targetProfileId: 456 },
@@ -336,12 +262,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements: [],
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements: [] });
       const campaignParticipations = [{ id: 10, targetProfileId: 789 }];
       const eligibility = new Eligibility({ organization: {}, organizationLearner: {}, campaignParticipations });
       const dataForQuest = new DataForQuest({ eligibility });
@@ -375,12 +296,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements: [],
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements: [] });
       const campaignParticipations = [{ id: 10, targetProfileId: 789 }];
       const eligibility = new Eligibility({ organization: {}, organizationLearner: {}, campaignParticipations });
       const dataForQuest = new DataForQuest({ eligibility });
@@ -417,12 +333,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements,
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements });
       const campaignParticipations = [{ id: 10, targetProfileId: 123 }];
       const eligibility = new Eligibility({ organization: {}, organizationLearner: {}, campaignParticipations });
       const dataForQuest = new DataForQuest({ eligibility });
@@ -461,12 +372,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements,
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements });
       const campaignParticipations = [{ id: 10, targetProfileId: 123 }];
       const eligibility = new Eligibility({ organization: {}, organizationLearner: {}, campaignParticipations });
       const dataForQuest = new DataForQuest({ eligibility });
@@ -487,12 +393,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements: [],
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements: [] });
       const campaignParticipations = [{ id: 10, targetProfileId: 123 }];
       const eligibility = new Eligibility({ organization: {}, organizationLearner: {}, campaignParticipations });
       const dataForQuest = new DataForQuest({ eligibility });
@@ -528,12 +429,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           comparison: REQUIREMENT_COMPARISONS.ALL,
         },
       ];
-      const quest = new Quest({
-        rewardId: 1,
-        rewardType: 'attestations',
-        eligibilityRequirements,
-        successRequirements,
-      });
+      const quest = new Quest({ eligibilityRequirements, successRequirements });
       const campaignParticipations = [
         { id: 10, targetProfileId: 123 },
         { id: 100, targetProfileId: 456 },
@@ -591,12 +487,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             comparison: REQUIREMENT_COMPARISONS.ALL,
           },
         ];
-        const quest = new Quest({
-          rewardId: 1,
-          rewardType: 'attestations',
-          eligibilityRequirements,
-          successRequirements,
-        });
+        const quest = new Quest({ eligibilityRequirements, successRequirements });
         const campaignParticipations = [
           { id: 10, targetProfileId: 1 },
           { id: 11, targetProfileId: 3 },
@@ -649,12 +540,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             comparison: REQUIREMENT_COMPARISONS.ALL,
           },
         ];
-        const quest = new Quest({
-          rewardId: 1,
-          rewardType: 'attestations',
-          eligibilityRequirements,
-          successRequirements: [],
-        });
+        const quest = new Quest({ eligibilityRequirements, successRequirements: [] });
         const campaignParticipations = [
           { id: 10, targetProfileId: 1 },
           { id: 11, targetProfileId: 3 },
@@ -709,12 +595,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             comparison: REQUIREMENT_COMPARISONS.ALL,
           },
         ];
-        const quest = new Quest({
-          rewardId: 1,
-          rewardType: 'attestations',
-          eligibilityRequirements,
-          successRequirements,
-        });
+        const quest = new Quest({ eligibilityRequirements, successRequirements });
         const campaignParticipations = [
           { id: 10, targetProfileId: 1 },
           { id: 11, targetProfileId: 3 },
@@ -751,20 +632,15 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
           {
             requirement_type: REQUIREMENT_TYPES.OBJECT.ORGANIZATION_LEARNER,
             data: {
-              id: {
-                data: 123,
+              type: {
+                id: 123,
                 comparison: CRITERION_COMPARISONS.EQUAL,
               },
             },
             comparison: REQUIREMENT_COMPARISONS.ALL,
           },
         ];
-        const quest = new Quest({
-          rewardId: 1,
-          rewardType: 'attestations',
-          eligibilityRequirements,
-          successRequirements: [],
-        });
+        const quest = new Quest({ eligibilityRequirements, successRequirements: [] });
         const campaignParticipations = [{ id: 10 }, { id: 11 }];
         const eligibility = new Eligibility({ organization, organizationLearner, campaignParticipations });
         const data = new DataForQuest({ eligibility });
@@ -789,7 +665,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         id: 123,
         createdAt: new Date('2020-01-01'),
         updatedAt: new Date('2020-02-02'),
-        rewardType: 'attestations',
+        rewardType: 'attestation',
         rewardId: 456,
         eligibilityRequirements: [
           {
@@ -854,7 +730,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         id: 123,
         createdAt: new Date('2020-01-01'),
         updatedAt: new Date('2020-02-02'),
-        rewardType: 'attestations',
+        rewardType: 'attestation',
         rewardId: 456,
         eligibilityRequirements: [
           {

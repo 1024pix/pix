@@ -1,39 +1,17 @@
-import Joi from 'joi';
-
-import { EntityValidationError } from '../../../shared/domain/errors.js';
-import { CriterionProperty, CriterionPropertyError } from './CriterionProperty.js';
-
-const schema = Joi.object({ data: Joi.object().pattern(Joi.string(), Joi.object()).required() });
+import { CriterionProperty } from './CriterionProperty.js';
 
 export class Criterion {
   #properties;
 
-  constructor(args) {
-    const { data } = args;
-
-    try {
-      this.#properties = Object.keys(data).map((key) => {
-        const property = data[key];
-        return new CriterionProperty({
-          key,
-          data: property.data,
-          comparison: property.comparison,
-        });
+  constructor({ data }) {
+    this.#properties = Object.keys(data).map((key) => {
+      const property = data[key];
+      return new CriterionProperty({
+        key,
+        data: property.data,
+        comparison: property.comparison,
       });
-    } catch (error) {
-      if (error instanceof CriterionPropertyError)
-        throw EntityValidationError.fromJoiErrors(error.details, undefined, { data });
-      else throw error;
-    }
-
-    this.#validate(args);
-  }
-
-  #validate(args) {
-    const { error } = schema.validate(args);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.toDTO() });
-    }
+    });
   }
 
   get data() {

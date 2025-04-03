@@ -199,7 +199,7 @@
         "upload-button": "Import CSV file"
       },
       "upsert-quests-in-batch": {
-        "description": "Check with a spécialiste in the doubt ;)",
+        "description": "Beware: there are no validation when importing a CSV file. Check with a spécialiste in the doubt ;)",
         "notifications": {
           "success": "Quests have been imported."
         },

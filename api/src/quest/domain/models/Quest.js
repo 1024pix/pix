@@ -1,6 +1,3 @@
-import Joi from 'joi';
-
-import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { COMPARISONS as _CRITERION_COMPARISONS } from './CriterionProperty.js';
 import {
   COMPARISONS as _REQUIREMENT_COMPARISONS,
@@ -15,13 +12,6 @@ export const REQUIREMENT_COMPARISONS = _REQUIREMENT_COMPARISONS;
 export const CRITERION_COMPARISONS = _CRITERION_COMPARISONS;
 export const REQUIREMENT_TYPES = _REQUIREMENT_TYPES;
 
-const schema = Joi.object({
-  eligibilityRequirements: Joi.array().items(Joi.object()).required(),
-  successRequirements: Joi.array().items(Joi.object()).required(),
-  rewardType: Joi.string().valid('attestations').required(),
-  rewardId: Joi.number().required(),
-});
-
 class Quest {
   #eligibilityRequirements;
   #successRequirements;
@@ -30,9 +20,6 @@ class Quest {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-
-    this.#validate({ rewardType, rewardId, eligibilityRequirements, successRequirements });
-
     this.rewardType = rewardType;
     this.rewardId = rewardId;
     this.#eligibilityRequirements = new ComposedRequirement({
@@ -44,13 +31,6 @@ class Quest {
       data: successRequirements,
       comparison: REQUIREMENT_COMPARISONS.ALL,
     });
-  }
-
-  #validate(quest) {
-    const { error } = schema.validate(quest);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: quest });
-    }
   }
 
   get eligibilityRequirements() {
