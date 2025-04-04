@@ -252,7 +252,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
       it('should return attestation in PDF binary format', async function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation();
-        const attestationPDF = 'binary string';
+        const certificatPDF = 'binary string';
         const filename = 'attestation-pix-20181003.pdf';
         const userId = 1;
         const i18n = Symbol('i18n');
@@ -278,7 +278,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
 
         certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
           .withArgs({ certificates: [certificationAttestation], isFrenchDomainExtension: true, i18n })
-          .resolves({ buffer: attestationPDF, fileName: filename });
+          .resolves({ buffer: certificatPDF, fileName: filename });
 
         // when
         const response = await certificationController.getPDFAttestation(request, hFake, {
@@ -286,7 +286,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         });
 
         // then
-        expect(response.source).to.deep.equal(attestationPDF);
+        expect(response.source).to.deep.equal(certificatPDF);
         expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=${filename}`);
       });
     });
@@ -366,7 +366,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         const certification1 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 1 });
         const certification2 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 2 });
         const certification3 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 3 });
-        const attestationPDF = 'binary string';
+        const certificatPDF = 'binary string';
         const userId = 1;
         const i18n = getI18n();
 
@@ -390,7 +390,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
             isFrenchDomainExtension: true,
             i18n,
           })
-          .resolves({ buffer: attestationPDF });
+          .resolves({ buffer: certificatPDF });
 
         // when
         const response = await certificationController.getCertificationPDFAttestationsForSession(request, hFake, {
@@ -398,7 +398,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         });
 
         // then
-        expect(response.source).to.deep.equal(attestationPDF);
+        expect(response.source).to.deep.equal(certificatPDF);
         expect(response.headers['Content-Disposition']).to.contains(
           'attachment; filename=attestation-pix-session-12.pdf',
         );
@@ -475,7 +475,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         ];
         const organizationId = domainBuilder.buildOrganization().id;
         const division = '3b';
-        const attestationsPDF = 'binary string';
+        const certificatPDF = 'binary string';
         const userId = 1;
         const lang = FRENCH;
         const i18n = getI18n();
@@ -505,7 +505,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
 
         certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
           .withArgs({ certificates: certifications, isFrenchDomainExtension: true, i18n })
-          .resolves({ buffer: attestationsPDF });
+          .resolves({ buffer: certificatPDF });
 
         // when
         const response = await certificationController.downloadCertificationAttestationsForDivision(
@@ -515,7 +515,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         );
 
         // then
-        expect(response.source).to.deep.equal(attestationsPDF);
+        expect(response.source).to.deep.equal(certificatPDF);
         expect(response.headers['Content-Disposition']).to.contains(
           'attachment; filename=20190101_attestations_3b.pdf',
         );

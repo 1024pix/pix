@@ -247,11 +247,11 @@ module('Integration | Component | user certifications detail header', function (
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
+      await click(screen.getByRole('button', { name: 'Télécharger ma certification' }));
 
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
-        url: '/api/attestation/1234?isFrenchDomainExtension=true&lang=fr',
+        url: '/api/certification/1234?isFrenchDomainExtension=true&lang=fr',
         token: undefined,
       });
       assert.ok(true);
@@ -423,7 +423,7 @@ module('Integration | Component | user certifications detail header', function (
     });
   });
 
-  module('when there is an error during the download of the attestation', function () {
+  module('when there is an error during the download of the certification pdf', function () {
     test('should show the common error message', async function (assert) {
       // given
       stubCurrentUserService(this.owner);
@@ -460,7 +460,7 @@ module('Integration | Component | user certifications detail header', function (
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
+      await click(screen.getByRole('button', { name: 'Télécharger ma certification' }));
 
       // then
       assert.ok(screen.getByText('Une erreur est survenue. Veuillez recommencer ou contacter le support.'));
