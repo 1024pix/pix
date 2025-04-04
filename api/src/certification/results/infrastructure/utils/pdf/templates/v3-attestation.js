@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../../domain/models/V3CertificationAttestation.js').V3CertificationAttestation} V3CertificationAttestation
+ * @typedef {import ('../../../../domain/models/V3Certification.js').V3Certification} V3Certification
  */
 import path from 'node:path';
 import * as url from 'node:url';

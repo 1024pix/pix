@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
-import { V3CertificationAttestation } from '../domain/models/V3CertificationAttestation.js';
+import { V3Certification } from '../domain/models/V3Certification.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as privateCertificateSerializer from '../infrastructure/serializers/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../infrastructure/serializers/shareable-certificate-serializer.js';
@@ -54,7 +54,7 @@ const getPDFAttestation = async function (
     certificationCourseId,
   });
 
-  if (certification instanceof V3CertificationAttestation) {
+  if (certification instanceof V3Certification) {
     const fileName = i18n.__('certification-confirmation.file-name', {
       deliveredAt: dayjs(certification.deliveredAt).format('YYYYMMDD'),
     });
@@ -96,7 +96,7 @@ const getCertificationPDFAttestationsForSession = async function (
     sessionId,
   });
 
-  if (certifications.every((certification) => certification instanceof V3CertificationAttestation)) {
+  if (certifications.every((certification) => certification instanceof V3Certification)) {
     const translatedFileName = i18n.__('certification-confirmation.file-name', {
       deliveredAt: dayjs(certifications[0].deliveredAt).format('YYYYMMDD'),
     });
@@ -140,7 +140,7 @@ const downloadCertificationAttestationsForDivision = async function (
     division,
   });
 
-  if (certifications.every((certification) => certification instanceof V3CertificationAttestation)) {
+  if (certifications.every((certification) => certification instanceof V3Certification)) {
     const normalizedDivision = normalizeAndRemoveAccents(division);
 
     const translatedFileName = i18n.__('certification-confirmation.file-name', {
