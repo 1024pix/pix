@@ -133,7 +133,7 @@ function _mapToHttpError(error) {
   if (error instanceof SharedDomainErrors.AssessmentEndedError) {
     return new HttpErrors.BaseHttpError(error.message);
   }
-  if (error instanceof SharedDomainErrors.CertificationAttestationGenerationError) {
+  if (error instanceof SharedDomainErrors.CertificationGenerationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof SharedDomainErrors.UserCouldNotBeReconciledError) {

@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { PDFDocument, rgb } from 'pdf-lib';
 
-import { CertificationAttestationGenerationError } from '../../../../../shared/domain/errors.js';
+import { CertificationGenerationError } from '../../../../../shared/domain/errors.js';
 import { LANGUAGES_CODE } from '../../../../../shared/domain/services/language-service.js';
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 import { AttestationViewModel } from './AttestationViewModel.js';
@@ -126,7 +126,7 @@ async function _embedCertificationImage(pdfDocument, certificationImagePath) {
     });
   } catch (error) {
     logger.error(error);
-    throw new CertificationAttestationGenerationError();
+    throw new CertificationGenerationError();
   }
   const [page] = await pdfDocument.embedPdf(response.data);
   return page;
