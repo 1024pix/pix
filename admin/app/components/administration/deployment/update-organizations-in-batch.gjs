@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
 import AdministrationBlockLayout from '../block-layout';
+import DownloadTemplate from '../download-template';
 
 export default class UpdateOrganizationsInBatch extends Component {
   @service intl;
@@ -83,14 +84,16 @@ export default class UpdateOrganizationsInBatch extends Component {
       @title={{t "components.administration.update-organizations-in-batch.title"}}
       @description={{t "components.administration.update-organizations-in-batch.description"}}
     >
-      <PixButtonUpload
-        @id="update-organizations-in-batch-file-upload"
-        @onChange={{this.updateOrganizationsInBatch}}
-        @variant="secondary"
-        accept=".csv"
-      >
-        {{t "components.administration.update-organizations-in-batch.upload-button"}}
-      </PixButtonUpload>
+      <DownloadTemplate @url="/api/admin/organizations/update-organizations/template">
+        <PixButtonUpload
+          @id="update-organizations-in-batch-file-upload"
+          @onChange={{this.updateOrganizationsInBatch}}
+          @variant="secondary"
+          accept=".csv"
+        >
+          {{t "components.administration.update-organizations-in-batch.upload-button"}}
+        </PixButtonUpload>
+      </DownloadTemplate>
     </AdministrationBlockLayout>
   </template>
 }
