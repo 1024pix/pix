@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
 import AdministrationBlockLayout from '../block-layout';
+import DownloadTemplate from '../download-template';
 
 export default class OrganizationTagsImport extends Component {
   @service intl;
@@ -62,15 +63,17 @@ export default class OrganizationTagsImport extends Component {
       @title={{t "components.administration.organization-tags-import.title"}}
       @description={{t "components.administration.organization-tags-import.description"}}
     >
-      <PixButtonUpload
-        @id="organization-tags-import-file-upload"
-        @onChange={{this.importOrganizationTags}}
-        @variant="secondary"
-        accept=".csv"
-      >
+      <DownloadTemplate @url="/api/admin/organizations/import-tags-csv/template">
+        <PixButtonUpload
+          @id="organization-tags-import-file-upload"
+          @onChange={{this.importOrganizationTags}}
+          @variant="secondary"
+          accept=".csv"
+        >
 
-        {{t "components.administration.organization-tags-import.upload-button"}}
-      </PixButtonUpload>
+          {{t "components.administration.organization-tags-import.upload-button"}}
+        </PixButtonUpload>
+      </DownloadTemplate>
     </AdministrationBlockLayout>
   </template>
 }
