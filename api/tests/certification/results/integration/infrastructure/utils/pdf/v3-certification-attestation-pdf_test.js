@@ -19,7 +19,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
 
   it('should generate a PDF buffer', async function () {
     // given
-    const certificates = [domainBuilder.certification.results.buildV3CertificationAttestation()];
+    const certificates = [domainBuilder.certification.results.buildV3Certification()];
 
     // when
     const pdfStream = await generate({ certificates, i18n });
@@ -34,9 +34,9 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
   it('should generate a page for each certificate', async function () {
     // given
     const certificates = [
-      domainBuilder.certification.results.buildV3CertificationAttestation(),
-      domainBuilder.certification.results.buildV3CertificationAttestation(),
-      domainBuilder.certification.results.buildV3CertificationAttestation(),
+      domainBuilder.certification.results.buildV3Certification(),
+      domainBuilder.certification.results.buildV3Certification(),
+      domainBuilder.certification.results.buildV3Certification(),
     ];
 
     // when
@@ -54,7 +54,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
   it('should display data content', async function () {
     // given
     const certificates = [
-      domainBuilder.certification.results.buildV3CertificationAttestation({
+      domainBuilder.certification.results.buildV3Certification({
         id: 123,
         firstName: 'Alain',
         lastName: 'Cendy',
@@ -70,7 +70,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
         pixScore: 256,
         sessionId: 789,
       }),
-      domainBuilder.certification.results.buildV3CertificationAttestation({
+      domainBuilder.certification.results.buildV3Certification({
         id: 128,
         firstName: 'Alain',
         lastName: 'Terieur',
@@ -124,7 +124,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
   it('snapshot', async function () {
     // given
     const certificates = [
-      domainBuilder.certification.results.buildV3CertificationAttestation({
+      domainBuilder.certification.results.buildV3Certification({
         id: 123,
         firstName: 'Alain',
         lastName: 'Cendy',
@@ -176,7 +176,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
     it('should display data content without global level information', async function () {
       // given
       const certificates = [
-        domainBuilder.certification.results.buildV3CertificationAttestation({
+        domainBuilder.certification.results.buildV3Certification({
           id: 123,
           firstName: 'Alain',
           lastName: 'Cendy',
