@@ -204,6 +204,24 @@ const register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/organizations/import-tags-csv/template',
+      config: {
+        pre: [
+          {
+            method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: (request, h) => organizationAdminController.getTemplateForAddTagsToOrganizations(request, h),
+        tags: ['api', 'admin', 'organizational-entities', 'organizations', 'tags'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN permettant un accès à l'application d'administration de Pix**\n" +
+            '- Elle permet de télécharger le template pour ajouter en masse des tags à des organisations.',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/organizations/import-tags-csv',
       config: {

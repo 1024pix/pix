@@ -7,6 +7,19 @@ import { organizationTagCsvParser } from '../../infrastructure/parsers/csv/organ
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 
+const ADD_TAGS_TO_ORGANIZATIONS_HEADER = organizationTagCsvParser.CSV_HEADER;
+
+const getTemplateForAddTagsToOrganizations = async function (request, h) {
+  const fields = ADD_TAGS_TO_ORGANIZATIONS_HEADER.columns.map(({ name }) => name);
+  const csvTemplateFileContent = generateCSVTemplate(fields);
+
+  return h
+    .response(csvTemplateFileContent)
+    .header('Content-Type', 'text/csv; charset=utf-8')
+    .header('content-disposition', 'filename=add-tags-to-organizations')
+    .code(200);
+};
+
 const addTagsToOrganizations = async function (request, h) {
   const filePath = request.payload.path;
   const organizationTags = await organizationTagCsvParser.getCsvData(filePath);
@@ -102,6 +115,7 @@ const findPaginatedFilteredOrganizations = async function (request, h, dependenc
 };
 
 const organizationAdminController = {
+  getTemplateForAddTagsToOrganizations,
   addTagsToOrganizations,
   create,
   archiveOrganization,
