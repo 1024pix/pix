@@ -1,4 +1,4 @@
-import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { applyEmberDataSerializers } from 'ember-cli-mirage';
 import { createServer } from 'miragejs';
 
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
@@ -44,7 +44,6 @@ import loadUserRoutes from './routes/users/index';
 export default function makeServer(config) {
   const finalConfig = {
     ...config,
-    models: { ...discoverEmberDataModels(config.store), ...config.models },
     serializers: applyEmberDataSerializers(config.serializers),
     routes,
     logging: true,
