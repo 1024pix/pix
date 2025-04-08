@@ -31,7 +31,7 @@ const getTemplateForAnonymizeGarData = async function (request, h) {
   return h
     .response(csvTemplateFileContent)
     .header('Content-Type', 'text/csv; charset=utf-8')
-    .header('content-disposition', 'filename=update-organizations-in-batch')
+    .header('content-disposition', 'filename=anonymize-gar-data')
     .code(200);
 };
 

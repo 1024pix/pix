@@ -7,6 +7,7 @@ import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
 import AdministrationBlockLayout from '../block-layout';
+import DownloadTemplate from '../download-template';
 
 export default class AnonymizeGarImport extends Component {
   @service intl;
@@ -75,19 +76,21 @@ export default class AnonymizeGarImport extends Component {
       @title={{t "components.administration.anonymize-gar-import.title"}}
       @description={{t "components.administration.anonymize-gar-import.description"}}
     >
-      <PixButtonUpload
-        @id="anonymize-gar-upload"
-        @onChange={{this.anonymizeGar}}
-        @variant="secondary"
-        disabled={{this.isLoading}}
-        accept=".csv"
-      >
-        {{#if this.isLoading}}
-          {{t "common.forms.loading"}}
-        {{else}}
-          {{t "components.administration.anonymize-gar-import.upload-button"}}
-        {{/if}}
-      </PixButtonUpload>
+      <DownloadTemplate @url="/api/admin/anonymize/gar/template">
+        <PixButtonUpload
+          @id="anonymize-gar-upload"
+          @onChange={{this.anonymizeGar}}
+          @variant="secondary"
+          disabled={{this.isLoading}}
+          accept=".csv"
+        >
+          {{#if this.isLoading}}
+            {{t "common.forms.loading"}}
+          {{else}}
+            {{t "components.administration.anonymize-gar-import.upload-button"}}
+          {{/if}}
+        </PixButtonUpload>
+      </DownloadTemplate>
     </AdministrationBlockLayout>
   </template>
 }
