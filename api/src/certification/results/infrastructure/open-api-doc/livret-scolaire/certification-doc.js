@@ -19,7 +19,7 @@ const joiObject = Joi.object({
       "validated: le candidat a obtenu sa certification. rejected: le candidat a eu sa certification rejetée. pending: le candidat a passé sa certification mais elle n'est pas encore publiée",
     ),
   pixScore: Joi.string().example('520').required().description('Nombre de Pix validés par la certification'),
-  verificationCode: Joi.string().example('P-Y468ACDE').description('Code d’attestation de la certification'),
+  verificationCode: Joi.string().example('P-Y468ACDE').description('Code de vérification de la certification'),
   date: Joi.date().example('2020-11-31T12:00:38.133Z').required().description('Date de passage de la certification'),
   deliveredAt: Joi.date().example('2020-12-31T11:00:38.133Z').description('Date de publication de la certification'),
   certificationCenter: Joi.string()
