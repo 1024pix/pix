@@ -1,4 +1,6 @@
 .block-layout {
+  margin-bottom: var(--pix-spacing-4x);
+
   &__actions {
     display: flex;
     gap: var(--pix-spacing-4x);
