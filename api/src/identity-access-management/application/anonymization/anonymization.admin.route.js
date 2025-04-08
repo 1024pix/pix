@@ -38,4 +38,22 @@ export const anonymizationAdminRoutes = [
       ],
     },
   },
+  {
+    method: 'GET',
+    path: '/api/admin/anonymize/gar/template',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      handler: (request, h) => anonymizationAdminController.getTemplateForAnonymizeGarData(request, h),
+      tags: ['api', 'admin', 'organizational-entities', 'organizations'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN permettant un accès à l'application d'administration de Pix**\n" +
+          '- Elle permet de télécharger un template de csv pour anonymiser les utilisateurs du GAR',
+      ],
+    },
+  },
 ];

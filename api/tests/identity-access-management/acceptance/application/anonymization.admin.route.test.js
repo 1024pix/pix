@@ -65,4 +65,25 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       });
     });
   });
+
+  describe('GET /api/admin/anonymize/gar/template', function () {
+    it('responds with a 200 and serialized payload', async function () {
+      // given
+      const user = await insertUserWithRoleSuperAdmin();
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+        url: '/api/admin/anonymize/gar/template',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
