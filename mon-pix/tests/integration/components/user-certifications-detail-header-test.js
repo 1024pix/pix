@@ -247,11 +247,11 @@ module('Integration | Component | user certifications detail header', function (
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger ma certification' }));
+      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
 
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
-        url: '/api/certification/1234?isFrenchDomainExtension=true&lang=fr',
+        url: '/api/attestation/1234?isFrenchDomainExtension=true&lang=fr',
         token: undefined,
       });
       assert.ok(true);
@@ -460,7 +460,7 @@ module('Integration | Component | user certifications detail header', function (
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger ma certification' }));
+      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
 
       // then
       assert.ok(screen.getByText('Une erreur est survenue. Veuillez recommencer ou contacter le support.'));
