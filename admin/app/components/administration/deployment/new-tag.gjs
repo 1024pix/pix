@@ -46,7 +46,7 @@ export default class NewTag extends Component {
           <:label>Nom du tag</:label>
         </PixInput>
 
-        <PixButton @type="submit" @size="small">Créer le tag</PixButton>
+        <PixButton @type="submit">Créer le tag</PixButton>
       </form>
     </AdministrationBlockLayout>
   </template>

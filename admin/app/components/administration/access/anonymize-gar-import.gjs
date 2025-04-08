@@ -80,7 +80,7 @@ export default class AnonymizeGarImport extends Component {
         <PixButtonUpload
           @id="anonymize-gar-upload"
           @onChange={{this.anonymizeGar}}
-          @variant="secondary"
+          @variant="primary"
           disabled={{this.isLoading}}
           accept=".csv"
         >

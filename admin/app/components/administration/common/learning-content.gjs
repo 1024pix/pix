@@ -36,25 +36,29 @@ export default class LearningContent extends Component {
     }
   }
   <template>
-    <AdministrationBlockLayout @title="Référentiel">
+    <AdministrationBlockLayout @title="Référentiel" class="learning-content-section">
       <div>
-        <p>Une version du référentiel de données pédagogique est créée quotidiennement (vers 4h00) et le référentiel
-          utilisé par l'application est mis à jour (vers 6h00).</p>
-        <p>Si le cache a été vidé, il peut s’avérer utile ou nécessaire de recharger le référentiel.</p>
-        <PixNotificationAlert @type="error" @withIcon={{true}}>
+        <div class="learning-content-section__explanation">
+          <p>Une version du référentiel de données pédagogique est créée quotidiennement (vers 4h00) et le référentiel
+            utilisé par l'application est mis à jour (vers 6h00).</p>
+          <p>Si le cache a été vidé, il peut s’avérer utile ou nécessaire de recharger le référentiel.</p>
+        </div>
+        <PixNotificationAlert @type="error" @withIcon={{true}} class="learning-content-section__alert">
           <strong>Attention !</strong>
           Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de
           force majeure, accompagné d’un développeur ou d'une développeuse.
         </PixNotificationAlert>
-        <PixNotificationAlert @type="info">Durée de l’opération : <strong>≈10s</strong>.</PixNotificationAlert>
+        <PixNotificationAlert @type="info" class="learning-content-section__alert">Durée de l’opération :
+          <strong>≈10s</strong>.</PixNotificationAlert>
 
         <PixButton class="btn-refresh-cache" @triggerAction={{this.refreshLearningContent}} @iconBefore="refresh">
           Recharger le cache
         </PixButton>
         <br /><br />
-        <p>Si quelque chose a été changé dans le référentiel et qu'il faut appliquer ces changements dans l'application,
-          il faut créer une nouvelle version et mettre à jour le cache.</p>
-        <PixNotificationAlert @type="info">Durée de l’opération : <strong>≈1mn</strong>.</PixNotificationAlert>
+        <p class="learning-content-section__explanation">Si quelque chose a été changé dans le référentiel et qu'il faut
+          appliquer ces changements dans l'application, il faut créer une nouvelle version et mettre à jour le cache.</p>
+        <PixNotificationAlert @type="info" class="learning-content-section__alert">Durée de l’opération :
+          <strong>≈1mn</strong>.</PixNotificationAlert>
         <PixButton
           @triggerAction={{this.createLearningContentReleaseAndRefreshCache}}
           @variant="primary-bis"

@@ -49,7 +49,7 @@ export default class CampaignsImport extends Component {
         <PixButtonUpload
           @id="campaigns-file-upload"
           @onChange={{this.importCampaigns}}
-          @variant="secondary"
+          @variant="primary"
           accept=".csv"
         >
           {{t "components.administration.campaigns-import.upload-button"}}

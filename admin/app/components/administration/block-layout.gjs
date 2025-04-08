@@ -1,7 +1,7 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 
 <template>
-  <PixBlock class="block-layout page-section" @shadow="light">
+  <PixBlock class="block-layout page-section" @shadow="light" ...attributes>
     <header class="page-section__header">
       <h2 class="page-section__title">
         {{@title}}

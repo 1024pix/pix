@@ -58,7 +58,7 @@ export default class OidcProvidersImport extends Component {
       <PixButtonUpload
         @id="oidc-providers-file-upload"
         @onChange={{this.importOidcProviders}}
-        @variant="secondary"
+        @variant="primary"
         accept=".json"
       >
         {{t "components.administration.oidc-providers-import.upload-button"}}

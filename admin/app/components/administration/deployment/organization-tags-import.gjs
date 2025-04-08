@@ -67,7 +67,7 @@ export default class OrganizationTagsImport extends Component {
         <PixButtonUpload
           @id="organization-tags-import-file-upload"
           @onChange={{this.importOrganizationTags}}
-          @variant="secondary"
+          @variant="primary"
           accept=".csv"
         >
 

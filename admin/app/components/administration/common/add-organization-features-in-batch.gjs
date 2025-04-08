@@ -56,7 +56,7 @@ export default class AddOrganizationFeaturesInBatch extends Component {
           <PixButtonUpload
             @id="organizations-batch-update-file-upload"
             @onChange={{this.addOrganizationFeaturesInBatch}}
-            @variant="secondary"
+            @variant="primary"
             accept=".csv"
           >
             {{t "components.administration.add-organization-features-in-batch.upload-button"}}

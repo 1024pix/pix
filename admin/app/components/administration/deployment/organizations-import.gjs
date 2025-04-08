@@ -47,12 +47,7 @@ export default class OrganizationsImport extends Component {
       @description={{t "components.administration.organizations-import.description"}}
     >
       <DownloadTemplate @url="/api/admin/organizations/import-csv/template">
-        <PixButtonUpload
-          @id="orga-file-upload"
-          @onChange={{this.importOrganizations}}
-          @variant="secondary"
-          accept=".csv"
-        >
+        <PixButtonUpload @id="orga-file-upload" @onChange={{this.importOrganizations}} @variant="primary" accept=".csv">
           {{t "components.administration.organizations-import.upload-button"}}
         </PixButtonUpload>
       </DownloadTemplate>
