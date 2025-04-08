@@ -105,27 +105,28 @@ function deserializeForSessionsImport({
   }));
 }
 
+const requiredFieldNamesForOrganizationsImport = [
+  'type',
+  'externalId',
+  'name',
+  'provinceCode',
+  'credit',
+  'emailInvitations',
+  'emailForSCOActivation',
+  'identityProviderForCampaigns',
+  'organizationInvitationRole',
+  'locale',
+  'tags',
+  'createdBy',
+  'documentationUrl',
+  'targetProfiles',
+  'isManagingStudents',
+  'DPOFirstName',
+  'DPOLastName',
+  'DPOEmail',
+];
+
 async function deserializeForOrganizationsImport(file) {
-  const requiredFieldNames = [
-    'type',
-    'externalId',
-    'name',
-    'provinceCode',
-    'credit',
-    'emailInvitations',
-    'emailForSCOActivation',
-    'identityProviderForCampaigns',
-    'organizationInvitationRole',
-    'locale',
-    'tags',
-    'createdBy',
-    'documentationUrl',
-    'targetProfiles',
-    'isManagingStudents',
-    'DPOFirstName',
-    'DPOLastName',
-    'DPOEmail',
-  ];
   const batchOrganizationOptionsWithHeader = {
     skipEmptyLines: true,
     header: true,
@@ -171,7 +172,7 @@ async function deserializeForOrganizationsImport(file) {
     },
   };
 
-  await checkCsvHeader({ filePath: file, requiredFieldNames });
+  await checkCsvHeader({ filePath: file, requiredFieldNames: requiredFieldNamesForOrganizationsImport });
 
   return await parseCsvWithHeader(file, batchOrganizationOptionsWithHeader);
 }
@@ -454,6 +455,7 @@ export {
   deserializeForSessionsImport,
   parseForCampaignsImport,
   requiredFieldNamesForCampaignsImport,
+  requiredFieldNamesForOrganizationsImport,
   serializeLine,
   verifyColumnsValueAgainstConstraints,
 };

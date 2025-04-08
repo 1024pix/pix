@@ -90,6 +90,34 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
+  describe('GET /api/admin/organizations/import-csv/template', function () {
+    let server;
+    let options;
+
+    beforeEach(async function () {
+      server = await createServer();
+
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
+
+      options = {
+        method: 'GET',
+        url: '/api/admin/organizations/import-csv/template',
+        payload: {},
+        headers: generateAuthenticatedUserRequestHeaders({ userId: userSuperAdmin.id }),
+      };
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return a 200 status code', async function () {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('GET /api/organizations/{id}/campaigns', function () {
     let campaignsData;
     let organizationId, otherOrganizationId;

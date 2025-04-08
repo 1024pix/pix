@@ -1,5 +1,6 @@
 import { organizationForAdminSerializer } from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import * as csvSerializer from '../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
+import { generateCSVTemplate } from '../../../src/shared/infrastructure/serializers/csv/csv-template.js';
 import { extractUserIdFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 
@@ -9,6 +10,16 @@ const createInBatch = async function (request, h) {
   const createdOrganizations = await usecases.createOrganizationsWithTagsAndTargetProfiles({ organizations });
 
   return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
+};
+
+const getTemplateForCreateOrganizationsInBatch = async function (request, h) {
+  const csvTemplateFileContent = generateCSVTemplate(csvSerializer.requiredFieldNamesForOrganizationsImport);
+
+  return h
+    .response(csvTemplateFileContent)
+    .header('Content-Type', 'text/csv; charset=utf-8')
+    .header('content-disposition', 'filename=create-organizations-in-batch')
+    .code(200);
 };
 
 const archiveOrganization = async function (request, h, dependencies = { organizationForAdminSerializer }) {
@@ -31,6 +42,7 @@ const findChildrenOrganizationsForAdmin = async function (
 const organizationController = {
   archiveOrganization,
   createInBatch,
+  getTemplateForCreateOrganizationsInBatch,
   findChildrenOrganizationsForAdmin,
 };
 

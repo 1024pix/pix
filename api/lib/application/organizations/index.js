@@ -46,6 +46,24 @@ const register = async function (server) {
     },
     {
       method: 'GET',
+      path: '/api/admin/organizations/import-csv/template',
+      config: {
+        pre: [
+          {
+            method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: (request, h) => organizationController.getTemplateForCreateOrganizationsInBatch(request, h),
+        tags: ['api', 'admin', 'organizational-entities', 'organizations', 'tags'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN permettant un accès à l'application d'administration de Pix**\n" +
+            '- Elle permet de télécharger le template pour créer de nouvelles organisations en masse.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/admin/organizations/{organizationId}/children',
       config: {
         pre: [
