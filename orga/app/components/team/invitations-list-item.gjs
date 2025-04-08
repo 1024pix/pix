@@ -74,7 +74,6 @@ export default class InvitationsListItem extends Component {
                 @ariaLabel={{t "pages.team-invitations.resend-invitation"}}
                 @iconName="refresh"
                 @triggerAction={{fn this.resendInvitation @invitation}}
-                @withBackground={{true}}
                 disabled={{this.isResending}}
                 aria-disabled={{this.isResending}}
               />
@@ -94,7 +93,6 @@ export default class InvitationsListItem extends Component {
                 @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
                 @iconName="delete"
                 @triggerAction={{fn @cancelInvitation @invitation}}
-                @withBackground={{true}}
               />
             </:triggerElement>
             <:tooltip>

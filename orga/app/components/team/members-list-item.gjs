@@ -244,7 +244,6 @@ export default class MembersListItem extends Component {
                 @iconName="close"
                 @ariaLabel={{t "common.actions.cancel"}}
                 @triggerAction={{this.cancelUpdateRoleOfMember}}
-                @withBackground={{false}}
                 @color="dark-grey"
               />
             </div>

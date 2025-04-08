@@ -44,7 +44,6 @@ export default class HeaderSort extends Component {
           <PixIconButton
             @iconName={{this.icon}}
             @triggerAction={{this.toggleSort}}
-            @withBackground={{false}}
             @size="small"
             @color="dark-grey"
             aria-label={{this.ariaLabel}}

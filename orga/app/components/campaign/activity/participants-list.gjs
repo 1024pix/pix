@@ -148,7 +148,6 @@ export default class ParticipantsList extends Component {
             <:cell>
               <PixIconButton
                 @ariaLabel={{t "pages.campaign-activity.table.delete-button-label"}}
-                @withBackground={{true}}
                 @iconName="delete"
                 @triggerAction={{fn this.openModal participation}}
                 @size="small"
