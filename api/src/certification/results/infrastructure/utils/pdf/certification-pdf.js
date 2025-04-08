@@ -35,7 +35,7 @@ const templates = {
   ENWithComplementaryCertification: 'ENWithComplementaryCertification',
 };
 
-async function getCertificationAttestationsPdfBuffer({
+async function getCertificationsPdfBuffer({
   certificates,
   isFrenchDomainExtension,
   dirname = __dirname,
@@ -422,5 +422,5 @@ async function _finalizeDocument(pdfDocument) {
   return buffer;
 }
 
-const getCertificationAttestationsPdf = { getCertificationAttestationsPdfBuffer };
-export { getCertificationAttestationsPdf, getCertificationAttestationsPdfBuffer };
+const getCertificationAttestationsPdf = { getCertificationsPdfBuffer };
+export { getCertificationAttestationsPdf, getCertificationsPdfBuffer };
