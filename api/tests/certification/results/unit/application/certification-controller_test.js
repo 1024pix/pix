@@ -272,17 +272,17 @@ describe('Certification | Results | Unit | Application | certifications-controll
           })
           .resolves(certificationAttestation);
 
-        const certificationAttestationPdfStub = {
-          getCertificationAttestationsPdfBuffer: sinon.stub(),
+        const certificationPdfStub = {
+          getCertificationsPdfBuffer: sinon.stub(),
         };
 
-        certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
+        certificationPdfStub.getCertificationsPdfBuffer
           .withArgs({ certificates: [certificationAttestation], isFrenchDomainExtension: true, i18n })
           .resolves({ buffer: certificatPDF, fileName: filename });
 
         // when
         const response = await certificationController.getPDFAttestation(request, hFake, {
-          certificationAttestationPdf: certificationAttestationPdfStub,
+          certificationPdf: certificationPdfStub,
         });
 
         // then
@@ -341,8 +341,8 @@ describe('Certification | Results | Unit | Application | certifications-controll
     describe('when attestations are for a v2 session', function () {
       it('should return an attestation in PDF binary format', async function () {
         // given
-        const certificationAttestationPdf = {
-          getCertificationAttestationsPdfBuffer: sinon.stub(),
+        const certificationPdf = {
+          getCertificationsPdfBuffer: sinon.stub(),
         };
         const session = domainBuilder.certification.sessionManagement.buildSession.finalized({ id: 12 });
         domainBuilder.buildCertificationCourse({
@@ -384,7 +384,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
           })
           .resolves([certification1, certification2, certification3]);
 
-        certificationAttestationPdf.getCertificationAttestationsPdfBuffer
+        certificationPdf.getCertificationsPdfBuffer
           .withArgs({
             certificates: [certification1, certification2, certification3],
             isFrenchDomainExtension: true,
@@ -394,7 +394,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
 
         // when
         const response = await certificationController.getCertificationPDFAttestationsForSession(request, hFake, {
-          certificationAttestationPdf,
+          certificationPdf,
         });
 
         // then
@@ -495,15 +495,15 @@ describe('Certification | Results | Unit | Application | certifications-controll
           })
           .resolves(certifications);
 
-        const certificationAttestationPdfStub = {
-          getCertificationAttestationsPdfBuffer: sinon.stub(),
+        const certificationPdfStub = {
+          getCertificationsPdfBuffer: sinon.stub(),
         };
 
         const dependencies = {
-          certificationAttestationPdf: certificationAttestationPdfStub,
+          certificationPdf: certificationPdfStub,
         };
 
-        certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
+        certificationPdfStub.getCertificationsPdfBuffer
           .withArgs({ certificates: certifications, isFrenchDomainExtension: true, i18n })
           .resolves({ buffer: certificatPDF });
 

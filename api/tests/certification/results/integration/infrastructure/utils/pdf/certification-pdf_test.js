@@ -4,7 +4,7 @@ import * as url from 'node:url';
 import dayjs from 'dayjs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
-import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { getCertificationsPdfBuffer } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/certification-pdf.js';
 import { SESSIONS_VERSIONS } from '../../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { CertificationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
@@ -52,7 +52,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const i18n = getI18n();
 
     // when
-    const { buffer } = await getCertificationAttestationsPdfBuffer({
+    const { buffer } = await getCertificationsPdfBuffer({
       certificates: [certificate],
       isFrenchDomainExtension: true,
       i18n,
@@ -89,7 +89,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const i18n = getI18n();
 
     // when
-    const { buffer } = await getCertificationAttestationsPdfBuffer({
+    const { buffer } = await getCertificationsPdfBuffer({
       certificates: [certificate],
       isFrenchDomainExtension: true,
       i18n,
@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const i18n = getI18n();
 
     // when
-    const { buffer } = await getCertificationAttestationsPdfBuffer({
+    const { buffer } = await getCertificationsPdfBuffer({
       certificates: [certificate],
       isFrenchDomainExtension: true,
       i18n,
@@ -215,7 +215,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const i18n = getI18n();
 
     // when
-    const { buffer } = await getCertificationAttestationsPdfBuffer({
+    const { buffer } = await getCertificationsPdfBuffer({
       certificates: [
         certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage,
         certificateWithComplementaryCertificationsAndWithProfessionalizingMessage,
@@ -256,7 +256,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const i18n = getI18n();
 
     // when
-    const error = await catchErr(getCertificationAttestationsPdfBuffer)({
+    const error = await catchErr(getCertificationsPdfBuffer)({
       certificates: [certificate],
       isFrenchDomainExtension: true,
       i18n,
@@ -282,7 +282,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     const i18n = getI18n('en');
 
     // when
-    const { buffer } = await getCertificationAttestationsPdfBuffer({
+    const { buffer } = await getCertificationsPdfBuffer({
       certificates: [certificate],
       isFrenchDomainExtension: false,
       i18n,
@@ -318,7 +318,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       const i18n = getI18n();
 
       // when
-      const { buffer } = await getCertificationAttestationsPdfBuffer({
+      const { buffer } = await getCertificationsPdfBuffer({
         certificates: [certificateWithoutProfessionalizingMessage],
         isFrenchDomainExtension: true,
         i18n,
