@@ -243,7 +243,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         });
         expect(response.source).to.deep.equal(generatedPdf);
         expect(response.headers['Content-Disposition']).to.contains(
-          `attachment; filename=attestation-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=certification-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
         );
       });
     });
@@ -333,7 +333,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         });
         expect(response.source).to.deep.equal(generatedPdf);
         expect(response.headers['Content-Disposition']).to.contains(
-          `attachment; filename=session-${session.id}-attestation-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${session.id}-certification-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
         );
       });
     });
@@ -461,7 +461,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         });
         expect(response.source).to.deep.equal(generatedPdf);
         expect(response.headers['Content-Disposition']).to.contains(
-          `attachment; filename=3eme-b-attestation-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=3eme-b-certification-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
         );
       });
     });

@@ -1,3 +1,6 @@
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import dayjs from 'dayjs';
 
 import { generateCertificateVerificationCode } from '../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
@@ -14,6 +17,7 @@ import {
   insertUserWithRoleSuperAdmin,
   learningContentBuilder,
   mockLearningContent,
+  nock,
 } from '../../../../test-helper.js';
 
 describe('Certification | Results | Acceptance | Application | Certification', function () {
@@ -830,7 +834,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
             expect(response.statusCode).to.equal(200);
             expect(response.headers['content-type']).to.equal('application/pdf');
 
-            const filename = `filename=attestation-pix-20181201.pdf`;
+            const filename = `filename=certification-pix-20181201.pdf`;
             expect(response.headers['content-disposition']).to.include(filename);
 
             const fileFormat = response.result.substring(1, 4);
@@ -842,6 +846,11 @@ describe('Certification | Results | Acceptance | Application | Certification', f
       context('when session version is V2', function () {
         it('should return 200 HTTP status code and the certification', async function () {
           // given
+          const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+          nock('http://tarte.fr')
+            .get('/sticker.pdf')
+            .reply(200, () => readFile(`${__dirname}/sticker.pdf`));
+
           const userId = databaseBuilder.factory.buildUser().id;
           await _buildDatabaseCertification({ userId, certificationCourseId: 1234 });
           await databaseBuilder.commit();
@@ -858,7 +867,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.headers['content-type']).to.equal('application/pdf');
-          expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
+          expect(response.headers['content-disposition']).to.include('filename=certification-pix');
           expect(response.file).not.to.be.null;
         });
       });
@@ -869,6 +878,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
     describe('when the session version is V2', function () {
       it('should return 200 HTTP status code and the certification', async function () {
         // given
+        const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+        nock('http://tarte.fr')
+          .get('/sticker.pdf')
+          .reply(200, () => readFile(`${__dirname}/sticker.pdf`));
         const superAdmin = await insertUserWithRoleSuperAdmin();
         await _buildDatabaseCertification({ userId: superAdmin.id, sessionId: 4567 });
         await databaseBuilder.commit();
@@ -918,7 +931,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${sessionId}-attestation-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${sessionId}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
@@ -1071,7 +1084,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=${organizationLearner.division.toLowerCase()}-attestation-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=${organizationLearner.division.toLowerCase()}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
