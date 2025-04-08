@@ -114,8 +114,8 @@ class CertificationCandidateNotFoundError extends DomainError {
   }
 }
 
-class CertificationAttestationGenerationError extends DomainError {
-  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
+class CertificationGenerationError extends DomainError {
+  constructor(message = 'Une erreur est survenue durant la génération du certificat.') {
     super(message);
   }
 }
@@ -1048,7 +1048,6 @@ export {
   CandidateNotAuthorizedToResumeCertificationTestError,
   CantImproveCampaignParticipationError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationAttestationGenerationError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -1063,6 +1062,7 @@ export {
   CertificationComputeError,
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
+  CertificationGenerationError,
   ChallengeAlreadyAnsweredError,
   ChallengeNotAskedError,
   CsvImportError,

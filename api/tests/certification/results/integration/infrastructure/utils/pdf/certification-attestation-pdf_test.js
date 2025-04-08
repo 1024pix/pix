@@ -6,7 +6,7 @@ import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
 import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { SESSIONS_VERSIONS } from '../../../../../../../src/certification/shared/domain/models/SessionVersion.js';
-import { CertificationAttestationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
+import { CertificationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { catchErr, domainBuilder, expect, nock, sinon } from '../../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
@@ -236,7 +236,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     ).to.be.true;
   });
 
-  it('should throw a CertificationAttestationGenerationError when a sticker cannot be retrieved', async function () {
+  it('should throw a CertificationGenerationError when a sticker cannot be retrieved', async function () {
     // given
     nock('https://images.pix.fr').get('/stickers/macaron.pdf').reply(503);
 
@@ -264,7 +264,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     });
 
     // then
-    expect(error).to.be.an.instanceOf(CertificationAttestationGenerationError);
+    expect(error).to.be.an.instanceOf(CertificationGenerationError);
   });
 
   it('should generate certification confirmation in english', async function () {

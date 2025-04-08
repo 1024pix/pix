@@ -13,10 +13,10 @@ import {
   CampaignTypeError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-  CertificationAttestationGenerationError,
   CertificationCandidateNotFoundError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationEndedByFinalizationError,
+  CertificationGenerationError,
   EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
   InvalidExternalAPIResponseError,
@@ -301,9 +301,9 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       });
     });
 
-    it('should instantiate UnprocessableEntityError when CertificationAttestationGenerationError', async function () {
+    it('should instantiate UnprocessableEntityError when CertificationGenerationError', async function () {
       // given
-      const error = new CertificationAttestationGenerationError();
+      const error = new CertificationGenerationError();
       sinon.stub(HttpErrors, 'UnprocessableEntityError');
       const params = { request: {}, h: hFake, error };
 
