@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
 import AdministrationBlockLayout from '../block-layout';
+import DownloadTemplate from '../download-template';
 
 export default class OrganizationsImport extends Component {
   @service intl;
@@ -45,9 +46,16 @@ export default class OrganizationsImport extends Component {
       @title={{t "components.administration.organizations-import.title"}}
       @description={{t "components.administration.organizations-import.description"}}
     >
-      <PixButtonUpload @id="orga-file-upload" @onChange={{this.importOrganizations}} @variant="secondary" accept=".csv">
-        {{t "components.administration.organizations-import.upload-button"}}
-      </PixButtonUpload>
+      <DownloadTemplate @url="/api/admin/organizations/import-csv/template">
+        <PixButtonUpload
+          @id="orga-file-upload"
+          @onChange={{this.importOrganizations}}
+          @variant="secondary"
+          accept=".csv"
+        >
+          {{t "components.administration.organizations-import.upload-button"}}
+        </PixButtonUpload>
+      </DownloadTemplate>
     </AdministrationBlockLayout>
   </template>
 }
