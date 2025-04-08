@@ -533,7 +533,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
 
           // then
           const expectedCertificationAttestation =
-            domainBuilder.certification.results.buildV3CertificationAttestation(certificationAttestationData);
+            domainBuilder.certification.results.buildV3Certification(certificationAttestationData);
           expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
             'resultCompetenceTree',
           ]);

@@ -207,7 +207,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
     describe('when the attestation is for v3', function () {
       it('should return attestation in PDF binary format', async function () {
         // given
-        const v3CertificationAttestation = domainBuilder.certification.results.buildV3CertificationAttestation();
+        const v3CertificationAttestation = domainBuilder.certification.results.buildV3Certification();
         const userId = 1;
         const i18n = getI18n();
         const generatedPdf = Symbol('Stream');
@@ -299,7 +299,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         const userId = 1;
         const i18n = getI18n();
 
-        const v3CertificationAttestation = domainBuilder.certification.results.buildV3CertificationAttestation();
+        const v3CertificationAttestation = domainBuilder.certification.results.buildV3Certification();
         const session = domainBuilder.certification.sessionManagement.buildSession.finalized({ id: 12 });
         const generatedPdf = Symbol('Stream');
 
@@ -424,7 +424,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         const userId = 1;
         const i18n = getI18n();
 
-        const v3CertificationAttestation = domainBuilder.certification.results.buildV3CertificationAttestation();
+        const v3CertificationAttestation = domainBuilder.certification.results.buildV3Certification();
         const generatedPdf = Symbol('Stream');
 
         const organizationId = domainBuilder.buildOrganization().id;
