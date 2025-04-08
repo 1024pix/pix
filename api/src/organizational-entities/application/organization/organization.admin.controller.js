@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { generateCSVTemplate } from '../../../shared/infrastructure/serializers/csv/csv-template.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
-import { ORGANIZATION_FEATURES_HEADER } from '../../domain/constants.js';
+import { ORGANIZATION_FEATURES_HEADER, ORGANIZATIONS_UPDATE_HEADER } from '../../domain/constants.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { organizationTagCsvParser } from '../../infrastructure/parsers/csv/organization-tag-csv.parser.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
@@ -81,6 +81,17 @@ const getOrganizationDetails = async function (request, h, dependencies = { orga
   return dependencies.organizationForAdminSerializer.serialize(organizationDetails);
 };
 
+const getTemplateForUpdateOrganizationsInBatch = async function (request, h) {
+  const fields = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name);
+  const csvTemplateFileContent = generateCSVTemplate(fields);
+
+  return h
+    .response(csvTemplateFileContent)
+    .header('Content-Type', 'text/csv; charset=utf-8')
+    .header('content-disposition', 'filename=update-organizations-in-batch')
+    .code(200);
+};
+
 const updateOrganizationsInBatch = async function (request, h) {
   await usecases.updateOrganizationsInBatch({ filePath: request.payload.path });
   return h.response().code(204);
@@ -115,6 +126,7 @@ const findPaginatedFilteredOrganizations = async function (request, h, dependenc
 };
 
 const organizationAdminController = {
+  getTemplateForUpdateOrganizationsInBatch,
   getTemplateForAddTagsToOrganizations,
   addTagsToOrganizations,
   create,

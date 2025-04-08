@@ -902,6 +902,23 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
     });
   });
 
+  describe('GET /api/admin/organizations/update-organizations/template', function () {
+    it('responds with a 200', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: admin.id }),
+        url: '/api/admin/organizations/update-organizations/template',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('POST /api/admin/organizations/update-organizations', function () {
     context('when a CSV file is loaded', function () {
       let firstOrganization, otherOrganization;

@@ -291,6 +291,24 @@ const register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/organizations/update-organizations/template',
+      config: {
+        pre: [
+          {
+            method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: (request, h) => organizationAdminController.getTemplateForUpdateOrganizationsInBatch(request, h),
+        tags: ['api', 'admin', 'organizational-entities', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN permettant un accès à l'application d'administration de Pix**\n" +
+            "- Elle permet de télécharger de template du csv pour mettre à jour des informations d'une ou plusieurs organisations",
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/organizations/update-organizations',
       config: {
