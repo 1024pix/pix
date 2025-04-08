@@ -3,7 +3,7 @@
  */
 import PDFDocument from 'pdfkit';
 
-import generateV3AttestationTemplate from './templates/v3-attestation.js';
+import generateV3CertificateTemplate from './templates/v3-certificate.js';
 
 /**
  * @param {Object} params
@@ -27,7 +27,7 @@ const generate = ({ certificates, i18n }) => {
       doc.addPage();
     }
 
-    generateV3AttestationTemplate({
+    generateV3CertificateTemplate({
       pdf: doc,
       data: certificate,
       translate: i18n.__,
