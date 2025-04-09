@@ -1,4 +1,4 @@
-# Pix sementic version 3
+# Pix sementic version 4
 
 Plateforme d'évaluation et de certification des compétences numériques pour tous.
 ![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
