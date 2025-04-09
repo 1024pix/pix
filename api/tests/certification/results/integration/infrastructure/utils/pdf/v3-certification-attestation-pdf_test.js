@@ -4,7 +4,7 @@ import url from 'node:url';
 import dayjs from 'dayjs';
 import { getDocument } from 'pdfjs-dist';
 
-import { generate } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/v3-certification-attestation-pdf.js';
+import { generate } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/v3-certification-pdf.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder, expect } from '../../../../../../test-helper.js';
 

@@ -7,7 +7,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as privateCertificateSerializer from '../infrastructure/serializers/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../infrastructure/serializers/shareable-certificate-serializer.js';
 import * as certificationPdf from '../infrastructure/utils/pdf/certification-pdf.js';
-import * as v3CertificationAttestationPdf from '../infrastructure/utils/pdf/v3-certification-attestation-pdf.js';
+import * as v3CertificationPdf from '../infrastructure/utils/pdf/v3-certification-pdf.js';
 
 const getCertificationByVerificationCode = async function (request, h, dependencies = { requestResponseUtils }) {
   const verificationCode = request.payload.verificationCode;
@@ -39,11 +39,7 @@ const findUserCertifications = async function (request) {
   return privateCertificateSerializer.serialize(privateCertificates, { translate });
 };
 
-const getPDFAttestation = async function (
-  request,
-  h,
-  dependencies = { certificationPdf, v3CertificationAttestationPdf },
-) {
+const getPDFAttestation = async function (request, h, dependencies = { certificationPdf, v3CertificationPdf }) {
   const userId = request.auth.credentials.userId;
   const certificationCourseId = request.params.certificationCourseId;
   const { i18n } = request;
@@ -61,7 +57,7 @@ const getPDFAttestation = async function (
 
     return h
       .response(
-        dependencies.v3CertificationAttestationPdf.generate({
+        dependencies.v3CertificationPdf.generate({
           certificates: [certification],
           i18n,
         }),
@@ -86,7 +82,7 @@ const getPDFAttestation = async function (
 const getCertificationPDFAttestationsForSession = async function (
   request,
   h,
-  dependencies = { certificationPdf, v3CertificationAttestationPdf },
+  dependencies = { certificationPdf, v3CertificationPdf },
 ) {
   const { i18n } = request;
 
@@ -129,7 +125,7 @@ const getCertificationPDFAttestationsForSession = async function (
 const downloadCertificationAttestationsForDivision = async function (
   request,
   h,
-  dependencies = { certificationPdf, v3CertificationAttestationPdf },
+  dependencies = { certificationPdf, v3CertificationPdf },
 ) {
   const organizationId = request.params.organizationId;
   const { i18n } = request;

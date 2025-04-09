@@ -7,7 +7,7 @@ import generateV3CertificateTemplate from './templates/v3-certificate.js';
 
 /**
  * @param {Object} params
- * @param {Array<V3CertificationAttestation>} params.certificates
+ * @param {Array<V3Certification>} params.certificates
  */
 const generate = ({ certificates, i18n }) => {
   const doc = new PDFDocument({
