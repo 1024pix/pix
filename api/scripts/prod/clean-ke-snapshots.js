@@ -29,6 +29,10 @@ function getKnowlegdeElementSnapshotCount() {
   return getKnowlegdeElementSnapshotsQuery().count({ count: 1 }).first();
 }
 
+UPDATE products
+SET details = jsonb_set(details, '{specs,storage}', '"1TB SSD"')
+WHERE name = 'Laptop';
+
 // Définition du script
 export class CleanKeSnapshotScript extends Script {
   constructor() {
