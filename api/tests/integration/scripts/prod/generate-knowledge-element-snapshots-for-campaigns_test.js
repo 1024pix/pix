@@ -3,13 +3,13 @@ import {
   getEligibleCampaignParticipations,
 } from '../../../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns.js';
 import { KnowledgeElementCollection } from '../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campaigns.js', function () {
   describe('#getEligibleCampaignParticipations', function () {
     const maxParticipationCountToGet = 5;
 
-    it('should avoid returning campaign participations that are not shared', async function () {
+    it('should not return not shared campaign participations', async function () {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: null });
@@ -22,7 +22,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       expect(campaignParticipationData).to.have.lengthOf(0);
     });
 
-    it('should avoid returning campaign participations that already have a corresponding snasphot', async function () {
+    it('should not return campaign participations with a not empty snapshot', async function () {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -38,12 +38,13 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
 
       // when
       const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
-
+      const knowledgeElementSnapshot = await knex('knowledge-element-snapshots').first();
       // then
       expect(campaignParticipationData).to.have.lengthOf(0);
+      expect(knowledgeElementSnapshot.snapshot[0]).to.not.be.empty;
     });
 
-    it('should return shared campaign participations from active campaigns that does not have a corresponding snapshot', async function () {
+    it('should return shared campaign participations from active campaigns that have an empty snapshot', async function () {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -52,77 +53,14 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
         sharedAt: new Date('2020-01-01'),
         userId,
       });
-      await databaseBuilder.commit();
-
-      // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
-
-      // then
-      expect(campaignParticipationData).to.have.lengthOf(1);
-      expect(campaignParticipationData[0]).to.deep.equal({
-        id: campaignParticipation.id,
-        userId: campaignParticipation.userId,
-        sharedAt: campaignParticipation.sharedAt,
-      });
-    });
-
-    it('should return shared campaign participations from active campaigns even if there is a snapshot from a different date that already exists', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const campaignParticipationWithoutSnapshot = databaseBuilder.factory.buildCampaignParticipation({
-        sharedAt: new Date('2020-01-01'),
-        userId,
-      });
-
-      const firstCampaignParticiationId = databaseBuilder.factory.buildCampaignParticipation({
-        sharedAt: new Date('2020-02-01'),
-        userId,
-      }).id;
-      const secondCampaignParticiationId = databaseBuilder.factory.buildCampaignParticipation({
-        sharedAt: new Date('2020-03-01'),
-        userId,
-      }).id;
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        snappedAt: new Date('2020-02-01'),
-        campaignParticipationId: firstCampaignParticiationId,
-      });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        snappedAt: new Date('2020-03-01'),
-        campaignParticipationId: secondCampaignParticiationId,
+        campaignParticipationId: campaignParticipation.id,
+        snapshot: {},
       });
       await databaseBuilder.commit();
 
       // when
       const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
-
-      // then
-      expect(campaignParticipationData).to.have.lengthOf(1);
-      expect(campaignParticipationData[0]).to.deep.equal({
-        id: campaignParticipationWithoutSnapshot.id,
-        userId: campaignParticipationWithoutSnapshot.userId,
-        sharedAt: campaignParticipationWithoutSnapshot.sharedAt,
-      });
-    });
-
-    it('should return maximum campaign participation as set in the parameter', async function () {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
-      const userId1 = databaseBuilder.factory.buildUser().id;
-      const userId2 = databaseBuilder.factory.buildUser().id;
-      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId,
-        sharedAt: new Date('2020-01-01'),
-        userId: userId1,
-      });
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId,
-        sharedAt: new Date('2020-01-01'),
-        userId: userId2,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(1);
 
       // then
       expect(campaignParticipationData).to.have.lengthOf(1);

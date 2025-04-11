@@ -53,9 +53,7 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
       'campaign-participations.id',
     )
     .whereNotNull('campaign-participations.sharedAt')
-    .where((qb) => {
-      qb.whereNull('knowledge-element-snapshots.campaignParticipationId');
-    })
+    .where('knowledge-element-snapshots.snapshot', '{}')
     .orderBy('campaign-participations.id')
     .limit(maxSnapshotCount);
 }
