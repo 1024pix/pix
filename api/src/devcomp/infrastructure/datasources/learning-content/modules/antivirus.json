@@ -1,11 +1,11 @@
 {
   "id": "67ef1446-6038-4720-998c-3ee1e6b31122",
   "slug": "antivirus",
-  "title": "Un antivirus pour protéger vos appareils.🛡️",
+  "title": "Protéger vos appareils contre les virus.🛡️",
   "isBeta": true,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Les virus peuvent avoir des effets néfastes sur votre matériel et vos données personnelles. 🦠 Heureusement, il existe des solutions pour vous protéger de ces menaces.&nbsp; <br>Dans ce module, vous allez découvrir <strong>comment un antivirus vous protège</strong>.<br></p>",
+    "description": "<p>Les virus peuvent avoir des effets néfastes sur votre matériel et vos données personnelles. 🦠 Heureusement, il existe des solutions pour vous protéger de ces menaces.&nbsp; <br>Dans ce module, vous allez découvrir <strong>comment protéger vos appareils</strong>.<br></p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
@@ -17,8 +17,8 @@
   },
   "transitionTexts": [
     {
-      "grainId": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
-      "content": "<p>Pour son entrée au lycée, Suzanne a reçu l’ancien ordinateur de son oncle. </p><p> Il est en parfait état mais n’a pas fonctionné depuis quelque temps.&nbsp; </p><p> Son oncle a été rassurant&nbsp;: l’ordinateur est protégé par un antivirus !</p>"
+      "grainId": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
+      "content": "<p>Suzanne a reçu l’ancien ordinateur de son oncle. </p><p> Il est en parfait état mais n’a pas fonctionné depuis quelque temps.&nbsp; </p><p> Son oncle a été rassurant&nbsp;: l’ordinateur <strong>est protégé par un antivirus </strong>!</p>"
     },
     {
       "grainId": "da7bb50d-4793-47fb-a363-eda6f53c99fd",
@@ -34,52 +34,76 @@
     },
     {
       "grainId": "a229264d-d07a-4803-822e-564c37512deb",
-      "content": "<p>Les menaces informatiques évoluent en permanence.&nbsp; </p><p>Comment  peut-on s’en protéger ?<br><br></p>"
+      "content": "<p>L’antivirus est un logiciel qui sait <strong>détecter</strong>  des menaces informatiques.&nbsp;</p><p>Cependant, pour qu’il reste performant, il faut <strong>maintenir ses connaissances à jour</strong>.</p>"
     },
     {
       "grainId": "64815487-9b5e-45f6-b1d1-22220fdb80f5",
-      "content": "<p>L'antivirus ne se contente pas de détecter les menaces. Ils essaye  s'en débarasser l'appareil qu'il protège.&nbsp;</p>"
+      "content": "<p>L'antivirus ne se contente pas de détecter les menaces. Il essaye d'en débarrasser l'appareil qu'il protège. </p><p>Comment fait-il ? </p>"
+    },
+    {
+      "grainId": "fa795913-9f83-464b-8c75-74b754bb94cc",
+      "content": "<p>Voyons si vous\navez retenu l'essentiel. 🎯</p>"
+    },
+    {
+      "grainId": "59dfeae6-2c76-48b8-a1d6-3bb8a65fc20c",
+      "content": "<p>Voyons si vous\navez retenu l'essentiel. 🎯</p>"
+    },
+    {
+      "grainId": "8b50a656-761a-41da-9b3b-0966ae054950",
+      "content": "<p>Voyons si vous\navez retenu l'essentiel. 🎯</p>"
+    },
+    {
+      "grainId": "945d0289-a895-41b8-ada1-3b7415946a63",
+      "content": "<p>Voyons si vous\navez retenu l'essentiel. 🎯</p>"
     }
   ],
   "grains": [
     {
-      "id": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
+      "id": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
       "type": "discovery",
-      "title": "introduction",
+      "title": "test définition",
       "components": [
         {
           "type": "element",
           "element": {
-            "id": "b77f826e-a4ad-431a-9565-55da36d41e1d",
+            "id": "559c8ed7-5337-42d7-a874-b14930f3c52c",
             "type": "qcu",
-            "instruction": "<p>À votre avis, à quoi sert cet antivirus ?</p>",
+            "instruction": "<p>À votre avis, un antivirus protège l'ordinateur :</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>L’antivirus permet aux parents de Suzanne de contrôler son activité.</p>",
+                "content": "<p>Contre la casse</p>",
                 "feedback": {
-                  "state": "<p>Mauvaise réponse.</p>",
-                  "diagnosis": "<p>Vous avez choisi la description d'un logiciel de contrôle parental. Vous pouvez réessayer.</p>"
+                  "state": "<p>Mauvaise réponse.<br></p>",
+                  "diagnosis": "<p>Vous pouvez réessayez.</p>"
                 }
               },
               {
                 "id": "2",
-                "content": "<p>L’antivirus interdit à Suzanne les achats en ligne.</p>",
+                "content": "<p>Contre les logiciels malveillants</p>",
                 "feedback": {
-                  "state": "<p>Mauvaise réponse.</p>",
-                  "diagnosis": "<p>L’autorisation d’achats en ligne provient de la banque. Vous pouvez réessayer.</p>"
+                  "state": "<p>Bonne réponse</p>",
+                  "diagnosis": "<p><br></p>"
                 }
               },
               {
                 "id": "3",
-                "content": "<p>L’antivirus protège l’ordinateur de Suzanne des pirates informatiques</p>",
+                "content": "<p>Contre la poussière.</p>",
                 "feedback": {
-                  "state": "<p>Bonne réponse !&nbsp; 🎉</p>",
-                  "diagnosis": "<p>L’antivirus de Suzanne protège son appareil contre les programmes malveillants</p>"
+                  "state": "<p>Mauvaise réponse.</p>",
+                  "diagnosis": "<p>Vous pouvez réessayez.</p>"
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>Je ne sais pas</p>",
+                "feedback": {
+                  "state": "<p>Nous allons le découvrir ensemble</p>",
+                  "diagnosis": "<p><br></p>"
                 }
               }
             ],
-            "solution": "3"
+            "solution": "2"
           }
         }
       ]
@@ -120,39 +144,47 @@
       ]
     },
     {
-      "id": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
-      "type": "activity",
-      "title": "test définition",
+      "id": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
+      "type": "discovery",
+      "title": "introduction",
       "components": [
         {
           "type": "element",
           "element": {
-            "id": "559c8ed7-5337-42d7-a874-b14930f3c52d",
+            "id": "b77f826e-a4ad-431a-9565-55da36d41e1d",
             "type": "qcu",
-            "instruction": "<p>Un antivirus protège votre appareil :</p>",
+            "instruction": "<p>Suzanne ne comprend pas : sur son ordinateur précédent, elle n’a jamais installé d’antivirus, et pourtant elle n’a jamais eu de problème. </p><p>À votre avis, pourquoi ?</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>Contre la casse</p>",
+                "content": "<p>Elle a eu de la chance.</p>",
                 "feedback": {
-                  "state": "<p>Mauvaise réponse.<br></p>",
-                  "diagnosis": "<p>Vous pouvez réessayez.</p>"
+                  "state": "<p>Mauvaise réponse.</p>",
+                  "diagnosis": "<p>Vous pouvez réessayer.</p>"
                 }
               },
               {
                 "id": "2",
-                "content": "<p>Contre les logiciels malveillants</p>",
+                "content": "<p>Elle avait un antivirus intégré.</p>",
                 "feedback": {
-                  "state": "<p>Bonne réponse</p>",
+                  "state": "<p>Bonne réponse.</p>",
                   "diagnosis": "<p><br></p>"
                 }
               },
               {
                 "id": "3",
-                "content": "<p>Contre la poussière.</p>",
+                "content": "<p>Elle n’allait jamais sur internet.</p>",
                 "feedback": {
-                  "state": "<p>Mauvaise réponse.</p>",
-                  "diagnosis": "<p>Vous pouvez réessayez.</p>"
+                  "state": "<p>Mauvaise réponse !</p>",
+                  "diagnosis": "<p><br></p>"
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>Je ne sais pas.</p>",
+                "feedback": {
+                  "state": "<p>Voyons cela ensemble.</p>",
+                  "diagnosis": ""
                 }
               }
             ],
@@ -177,16 +209,108 @@
       ]
     },
     {
-      "id": "59dfeae6-2c76-48b8-a1d6-3bb8a65fc20c",
-      "type": "activity",
-      "title": "Appareils antivirus",
+      "id": "77074f43-9a86-4fe6-bf43-740ba821aea1",
+      "type": "discovery",
+      "title": "Reconnaître un antivirus",
       "components": [
         {
           "type": "element",
           "element": {
-            "id": "7a2c936c-8fe2-44e8-ab6a-7d3bf939178e",
+            "id": "83498e7f-822c-4300-942c-6fa788f8c275",
+            "type": "qcu",
+            "instruction": "<p>Au-delà des antivirus intégrés, il existe de nombreux fournisseurs d’antivirus.&nbsp; </p><p>Parmi les propositions suivantes, reconnaissez-vous un antivirus ? </p><p>[QCU images]<br><br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>avast</p>",
+                "feedback": {
+                  "state": "<p>Bonne réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>LibreOffice<br></p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Firefox</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              }
+            ],
+            "solution": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "29e4bb2d-f061-4ab0-b211-1c559e2ad3df",
+      "type": "lesson",
+      "title": "Rôle de l'antivirus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "03323b85-8f8b-4a15-8562-26faff012aa7",
+            "type": "text",
+            "content": "<p>Vous pouvez  utiliser un autre antivirus (gratuit ou payant) que l'antivirus intégré sur votre appareil. </p><p>Voici&nbsp;quelques exemples&nbsp;de <strong>fournisseurs sérieux d’antivirus</strong> pour PC, smartphones et tablettes&nbsp;:</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "6493077a-9910-4eea-97de-63520bd1c1a3",
+            "type": "image",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/images/exemples_antivirus.png",
+            "alt": "exemples d'antivirus",
+            "alternativeText": "<p>exemples d'antivirus&nbsp;: AhnLab, Trend micro, Kaspersky, F-Secure, Rising, Avast, Bitdefender, Eset, Norton, K7 computng, Panda, Bullgard, CA, Webroot, PCTools, Quick Heal, GData, McAfee, AVG</p>",
+            "legend": "exemples d'antivirus",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "e1434f66-21b3-464e-8383-1b07e07ab7cd",
+            "type": "text",
+            "content": "<p><strong>🤔&nbsp;Bon à savoir</strong><br>Mais méfiez-vous,&nbsp;il existe aussi de <strong>faux antivirus</strong>, qui peuvent être des logiciels malveillants ! </p><p>En cas de doute, demandez conseil à vos amis ou vos collègues.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "88070faa-8549-4188-ba4a-df1d9405d2c0",
+      "type": "summary",
+      "title": "Première partie",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7aa1eb4b-4dde-437b-9b37-9e42cf4ba2da",
+            "type": "text",
+            "content": "<p>Résumons avant de passer à la suite :&nbsp;</p><ul><li>un antivirus <strong>protège un appareil contre les programmes malveillants</strong></li><li>un antivirus est utile sur <strong>tous les appareils connectés à internet</strong></li><li>un antivirus <strong>peut être installé par défaut</strong> sur un appareil récent (antivirus intégré)</li><li>de <strong>nombreux éditeurs</strong> proposent des antivirus qui peuvent être installés sur un appareil</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fa795913-9f83-464b-8c75-74b754bb94cc",
+      "type": "activity",
+      "title": "reconnaitre antivirus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0f75240c-2e18-414e-b4e3-0ffc4f0ff4bb",
             "type": "qcm",
-            "instruction": "<p>Un antivirus peut être installé :</p>",
+            "instruction": "<p>Sur quel appareil peut-on trouver un antivirus ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -211,11 +335,11 @@
             ],
             "feedbacks": {
               "valid": {
-                "state": "<p>Bonne réponse ! 🎉</p>",
+                "state": "<p>Bonne réponse</p>",
                 "diagnosis": "<p>Un antivirus peut être utile sur tous les appareils connectés à internet</p>"
               },
               "invalid": {
-                "state": "<p>Mauvaise réponse.</p>",
+                "state": "<p>Mauvaise réponse</p>",
                 "diagnosis": "<p>Un antivirus peut être utile sur tous les appareils connectés à internet</p>"
               }
             },
@@ -225,53 +349,11 @@
               "5"
             ]
           }
-        }
-      ]
-    },
-    {
-      "id": "29e4bb2d-f061-4ab0-b211-1c559e2ad3df",
-      "type": "lesson",
-      "title": "Rôle de l'antivirus",
-      "components": [
+        },
         {
           "type": "element",
           "element": {
             "id": "03323b85-8f8b-4a15-8562-26faff012aa7",
-            "type": "text",
-            "content": "<p>Vous pouvez cependant utiliser un autre antivirus (gratuit ou payant) sur votre appareil. </p><p>Voici&nbsp;<strong>quelques exemples</strong>&nbsp;de fournisseurs sérieux d’antivirus pour PC, smartphones et tablettes&nbsp;:</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "6493077a-9910-4eea-97de-63520bd1c1a3",
-            "type": "image",
-            "url": "https://1024pix.github.io/atelier-contenus/FRI/images/exemples_antivirus.png",
-            "alt": "exemples d'antivirus",
-            "alternativeText": "<p>exemples d'antivirus&nbsp;: AhnLab, Trend micro, Kaspersky, F-Secure, Rising, Avast, Bitdefender, Eset, Norton, K7 computng, Panda, Bullgard, CA, Webroot, PCTools, Quick Heal, GData, McAfee, AVG</p>",
-            "legend": "exemples d'antivirus",
-            "licence": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "e1434f66-21b3-464e-8383-1b07e07ab7cd",
-            "type": "text",
-            "content": "<p><strong>🤔&nbsp;Bon à savoir</strong><br>Mais méfiez-vous,&nbsp;il existe aussi de <strong>faux antivirus</strong>, qui peuvent être des logiciels malveillants ! En cas de doute, demandez conseil à vos amis ou vos collègues.</p>"
-          }
-        }
-      ]
-    },
-    {
-      "id": "fa795913-9f83-464b-8c75-74b754bb94cc",
-      "type": "activity",
-      "title": "reconnaitre antivirus",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "03323b85-8f8b-4a15-8562-26faff012aa8",
             "type": "embed",
             "isCompletionRequired": true,
             "title": "Liste de logiciels",
@@ -293,7 +375,7 @@
           "element": {
             "id": "1e96f2cf-8aca-491d-ade4-da34013305a5",
             "type": "text",
-            "content": "<p>Un antivirus <strong>analyse la liste des programmes installés</strong>.</p><p>À la manière de l’antivirus de Suzanne vous allez comparer la liste des programmes installés sur un appareil à une bibliothèque de virus.</p>"
+            "content": "<p><strong>Première méthode de détection.</strong></p><p>L'antivirus dispose d'une liste de virus connus, une sorte de bibliothèque. </p><p>Utilisez cette liste pour repérer les programmes malveillants installés sur l'appareil.<br></p>"
           }
         },
         {
@@ -321,7 +403,7 @@
           "element": {
             "id": "84c59511-816a-472a-ab69-5067c227c9db",
             "type": "text",
-            "content": "<p>📖 L’antivirus <strong>compare</strong> la liste de vos programmes à une <strong>bibliothèque de virus</strong> connus.</p>"
+            "content": "<p>📖 L’antivirus <strong>compare</strong> la liste de vos programmes à une <strong>bibliothèque de virus</strong> <strong>connus</strong>, appelée base de signatures.</p>"
           }
         }
       ]
@@ -336,7 +418,7 @@
           "element": {
             "id": "f6173d94-477d-4879-a5c4-0294c288276d",
             "type": "text",
-            "content": "<p>Un antivirus <strong>analyse le contenu des programmes</strong> installés. </p><p>À la manière de l’antivirus de Suzanne vous allez rechercher si un programme contient du code malveillant.</p>"
+            "content": "<p><strong>Deuxième méthode de détection.</strong></p><p>À la manière de l’antivirus de Suzanne vous allez rechercher si un programme contient du code malveillant.</p><p><br></p>"
           }
         },
         {
@@ -370,6 +452,48 @@
       ]
     },
     {
+      "id": "c749c0e8-e3fe-4400-b97f-3149a939addf",
+      "type": "discovery",
+      "title": "Détection heuristique",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "99c6a9ba-7438-44e5-821c-f79520ef2854",
+            "type": "qcu",
+            "instruction": "<p><strong>Troisième méthode de détection.</strong></p><p> Un antivirus est capable de surveiller le comportement des programmes. </p><p><strong>Par exemple, si l’antivirus remarque que la calculatrice tente d’accéder à internet, à votre avis :</strong> <br><br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>C'est normal</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>C’est un comportement suspect</p>",
+                "feedback": {
+                  "state": "<p>Bonne réponse</p>",
+                  "diagnosis": "<p><br></p>"
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Je ne sais pas</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              }
+            ],
+            "solution": "2"
+          }
+        }
+      ]
+    },
+    {
       "id": "68584d55-77f0-4db1-94c8-5557cad195c1",
       "type": "lesson",
       "title": "Leçon simulation exé",
@@ -385,18 +509,6 @@
         {
           "type": "element",
           "element": {
-            "id": "90a5ea71-5c9d-4300-9cd4-be3358e3c988",
-            "type": "image",
-            "url": "https://i.imgur.com/EjXCyGq.png",
-            "alt": "Analyse du comportement des programmes installés",
-            "alternativeText": "<p>L'antivirus analyse le comportement des programmes installés</p>",
-            "legend": "",
-            "licence": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "dc065045-d516-41f3-b7a2-0a67a87f7970",
             "type": "text",
             "content": "<p>Lors de cette simulation, le programme testé est isolé du reste de vos fichiers.&nbsp;</p>"
@@ -406,7 +518,7 @@
     },
     {
       "id": "945d0289-a895-41b8-ada1-3b7415946a63",
-      "type": "summary",
+      "type": "activity",
       "title": "récap détection",
       "components": [
         {
@@ -414,7 +526,20 @@
           "element": {
             "id": "6144189f-b63a-44ed-8cd1-b7d5745f7915",
             "type": "text",
-            "content": "<p><strong>Résumons avant de passer à la suite&nbsp;:</strong>&nbsp;</p><p><br>Pour détecter les logiciels malveillants présents sur votre appareil, l’antivirus applique plusieurs actions parmi lesquelles&nbsp;:&nbsp;</p><p><br></p><ul><li><strong>Comparer la liste des programmes</strong> et fichiers présents sur votre appareil à une bibliothèque de menaces connues</li><li><strong>Rechercher à l’intérieur des programmes</strong> et fichiers des extraits de code potentiellement malveillant</li><li><strong>Simuler l’exécution des programmes</strong> présents sur l’appareil pour vérifier leur fonctionnement</li></ul>"
+            "content": "<p>Pour détecter les logiciels malveillants présents sur votre appareil, l’antivirus applique plusieurs actions parmi lesquelles&nbsp;:&nbsp;</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "90a5ea71-5c9d-4300-9cd4-be3358e3c988",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "recap-detection",
+            "url": "https://1024pix.github.io/atelier-contenus/FRI/recap-detection-antivirus.html",
+            "instruction": "<p><br></p>",
+            "solution": "",
+            "height": 600
           }
         }
       ]
@@ -442,7 +567,7 @@
             "url": "https://1024pix.github.io/atelier-contenus/FRI/detection_specifique_2.html",
             "instruction": "<p>Vérifiez si de nouveaux virus peuvent être détectés.</p>",
             "solution": "nul",
-            "height": 600
+            "height": 700
           }
         }
       ]
@@ -457,7 +582,100 @@
           "element": {
             "id": "769de9fa-991f-406b-bfbf-32ae0909cb87",
             "type": "text",
-            "content": "<p>Pour permettre à Suzanne de <strong>rester protégée</strong> face à ces nouvelles menaces, l’éditeur de son antivirus réalise des <strong>mises à jour régulières des bases de signatures</strong>, des méthodes de détection et de traitement.&nbsp; <br></p><p>Ainsi l’antivirus complète ses connaissances et ses savoir-faire. <br></p><p>Ces mises à jour de l’antivirus peuvent être diffusées jusqu’à plusieurs fois par jour.&nbsp; <br></p><p>Il est donc primordial de <strong>s’assurer de leur installation automatique</strong> dès qu’elles sont disponibles. 🔄<br><br></p>"
+            "content": "<p>Pour permettre à Suzanne de <strong>rester protégée</strong> face à ces nouvelles menaces, l’éditeur de son antivirus réalise des <strong>mises à jour régulières des bases de signatures</strong>, des méthodes de détection et de traitement.&nbsp; <br></p><p>Ces mises à jour de l’antivirus peuvent être diffusées jusqu’à plusieurs fois par jour.&nbsp; <br></p><p>Il est donc primordial de <strong>s’assurer de leur installation automatique</strong> dès qu’elles sont disponibles. 🔄<br></p><p><strong>🤔 Bon à savoir</strong> </p><p>La plupart des antivirus peuvent être paramétrés pour se mettre à jour automatiquement.<br><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "59dfeae6-2c76-48b8-a1d6-3bb8a65fc20c",
+      "type": "activity",
+      "title": "Suzanne MAJ antivirus",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7a2c936c-8fe2-44e8-ab6a-7d3bf939178e",
+            "type": "qcu",
+            "instruction": "<p>Lorsque Suzanne va allumer l’ordinateur de son oncle, que devra-t-elle faire pour protéger son appareil ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Commencer à naviguer sur internet.</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>Installer un nouvel antivirus</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Mettre à jour l’antivirus</p>",
+                "feedback": {
+                  "state": "<p>Bonne réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>Désinstaller l’antivirus</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              }
+            ],
+            "solution": "3"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b11bda59-80e2-47e2-85c7-9c1b3d531559",
+            "type": "qcu",
+            "instruction": "<p>Pour garantir la sécurité de son nouvel ordinateur, quelle est la méthode la plus efficace pour Suzanne ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Mettre à jour l’antivirus toutes les heures</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>Activer la mise à jour automatique de l’antivirus</p>",
+                "feedback": {
+                  "state": "<p>Bonne réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Installer un deuxième antivirus</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>Ne pas naviguer sur internet</p>",
+                "feedback": {
+                  "state": "<p>Mauvaise réponse</p>",
+                  "diagnosis": ""
+                }
+              }
+            ],
+            "solution": "2"
           }
         }
       ]
@@ -500,7 +718,54 @@
           "element": {
             "id": "7dfa6157-c54d-46a8-acd0-1be296a38ec5",
             "type": "text",
-            "content": "<p>Lorsqu’un virus est détecté, l’antivirus essaye de le supprimer et de réparer votre appareil&nbsp;:</p>\n\n<ul>\n    <li>🔧 Il peut <strong>réparer</strong> un fichier en supprimant la partie infectée.</li>\n    <li>🚢 S’il n’y arrive pas, il isole le fichier contenant le virus&nbsp;: il le place <strong>en quarantaine</strong>.&nbsp;</li>\n    <li>⚠️ Quand l’antivirus ne peut pas agir, il ne peut que <strong>vous alerter</strong> du danger.</li>\n</ul>\n\n\n\n<p>Dans tous les cas, votre antivirus <strong>vous informe</strong> des menaces trouvées et de son action. Faites-lui confiance !</p>\n<p><strong>🤔 Bon à savoir </strong></p>\n<p>Si l’appareil appartient à une entreprise ou une organisation, <strong>contactez le service informatique</strong> à la moindre alerte.</p>\n<p>Vous pouvez demander à l’antivirus une <strong>analyse approfondie</strong> (scan) pour vous assurer qu’aucune trace de virus n’est présente sur votre appareil.</p>"
+            "content": "<p>Lorsqu’un virus est détecté, l’antivirus essaye de le supprimer et de réparer votre appareil&nbsp;:</p>\n\n<ul>\n    <li>🔧 Il peut <strong>réparer</strong> un fichier en supprimant la partie infectée.</li>\n    <li>🚢 S’il n’y arrive pas, il isole le fichier contenant le virus&nbsp;: il le place <strong>en quarantaine</strong>.&nbsp;</li>\n    <li>⚠️ Quand l’antivirus ne peut pas agir, il ne peut que <strong>vous alerter</strong> du danger.</li>\n</ul>\n\n\n\n<p>Dans tous les cas, votre antivirus <strong>vous informe</strong> des menaces trouvées et de son action. Faites-lui confiance !</p>\n<p><strong>🤔 Bon à savoir </strong></p>\n<p>Si l’appareil appartient à une entreprise ou une organisation, <strong>contactez le service informatique</strong> à la moindre alerte.</p>\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8b50a656-761a-41da-9b3b-0966ae054950",
+      "type": "activity",
+      "title": "Eval traitement",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "b414f105-3646-4e46-9824-f58ae8db7073",
+            "type": "qrocm",
+            "instruction": "<p>Complétez le texte suivant :</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Votre antivirus a détecté un virus dans un fichier mais n’a pas réussi à le supprimer. Il va tenter de placer le fichier en </p>"
+              },
+              {
+                "input": "isolement",
+                "type": "input",
+                "inputType": "text",
+                "size": 15,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "mot à trouver",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1"
+                ],
+                "solutions": [
+                  "quarantaine"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": {
+                "state": "<p>Bonne réponse</p>",
+                "diagnosis": "<p>Placé en quarantaine, le fichier est alors isolé et ne peut plus nuire à l’appareil.</p>"
+              },
+              "invalid": {
+                "state": "<p>Mauvaise réponse</p>",
+                "diagnosis": "<p>Regardez l’arbre de décision. Vous pouvez réessayer.</p>"
+              }
+            }
           }
         }
       ]
