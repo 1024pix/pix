@@ -40,10 +40,6 @@
       "content": "<p>L'antivirus ne se contente pas de détecter les menaces. Il essaye d'en débarrasser l'appareil qu'il protège. </p><p>Comment fait-il ? </p>"
     },
     {
-      "grainId": "fa795913-9f83-464b-8c75-74b754bb94cc",
-      "content": "<p>Voyons si vous\navez retenu l'essentiel. 🎯</p>"
-    },
-    {
       "grainId": "59dfeae6-2c76-48b8-a1d6-3bb8a65fc20c",
       "content": "<p>Voyons si vous\navez retenu l'essentiel. 🎯</p>"
     },
@@ -279,7 +275,7 @@
             "title": "recap-detection",
             "url": "https://1024pix.github.io/atelier-contenus/FRI/recap-detection-antivirus.html",
             "instruction": "<p><br></p>",
-            "solution": "",
+            "solution": "nul",
             "height": 600
           }
         }
