@@ -1,8 +1,8 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
+import { setupMirage } from 'mon-pix/tests/test-support/mirage';
 import { module, test } from 'qunit';
 
 const EXPECTED_ROUTE_CAMPAIGN = '/campagnes';

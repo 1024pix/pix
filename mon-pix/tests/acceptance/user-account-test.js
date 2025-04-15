@@ -1,9 +1,9 @@
 import { visit } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, currentURL } from '@ember/test-helpers';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { setupMirage } from 'mon-pix/tests/test-support/mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
