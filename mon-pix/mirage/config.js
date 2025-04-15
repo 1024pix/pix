@@ -1,5 +1,7 @@
 import { createServer } from 'miragejs';
 
+import factories from './factories';
+import models from './models';
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadAnswerRoutes from './routes/answers/index';
 import loadAssessmentRoutes from './routes/assessments/index';
@@ -39,11 +41,15 @@ import loadScoOrganizationLearnersRoutes from './routes/sco-organization-learner
 import loadSupOrganizationLearnersRoutes from './routes/sup-organization-learners/index';
 import updateCertificationCandidates from './routes/update-certification-candidates';
 import loadUserRoutes from './routes/users/index';
+import serializers from './serializers';
 
 export default function makeServer(config) {
   const finalConfig = {
     ...config,
     routes,
+    models,
+    factories,
+    serializers,
     logging: true,
     urlPrefix: 'http://localhost:3000',
   };
