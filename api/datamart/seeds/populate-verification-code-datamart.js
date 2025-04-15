@@ -6,7 +6,7 @@ const NUMBER_OF_SEEDS = Number(process.env.DATAMART_NUMBER_OF_SEEDS) || 100;
 
 const insertGeneralPublicDatamart = async (knex) => {
   logger.info('Start Case 6 : Verification code OK');
-  const generalPublicDatamart = 'data_export_parcoursup_certif_result_code_validation';
+  const generalPublicDatamart = 'certification_results';
   await chunkify({
     numberOfSeeds: NUMBER_OF_SEEDS,
     knex,

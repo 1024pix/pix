@@ -261,7 +261,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
   describe('PATCH /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     it('should respond with a 200', async function () {
       // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const certificationCenterUserId = databaseBuilder.factory.buildUser.withRole({
         id: 1234,
         firstName: 'Super',
@@ -328,7 +328,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
   describe('DELETE /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     it('should respond with a 200', async function () {
       // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const certificationCenterUserId = databaseBuilder.factory.buildUser.withRole({
         id: 1234,
         password: 'Password123',

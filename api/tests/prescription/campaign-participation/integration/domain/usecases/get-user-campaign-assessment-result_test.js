@@ -134,8 +134,6 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
       });
       const knowledgeElementsBefore = new KnowledgeElementCollection(domainKEs);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
-        snappedAt: new Date('2019-01-01'),
         campaignParticipationId,
         snapshot: knowledgeElementsBefore.toSnapshot(),
       });

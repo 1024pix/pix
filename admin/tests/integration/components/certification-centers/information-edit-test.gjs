@@ -18,7 +18,6 @@ module('Integration | Component | certification-centers/information-edit', funct
     dataProtectionOfficerLastName: 'Ptipeu',
     dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
     habilitations: [],
-    isV3Pilot: true,
   });
 
   const toggleEditModeStub = sinon.stub();
@@ -205,7 +204,6 @@ module('Integration | Component | certification-centers/information-edit', funct
         assert.strictEqual(certificationCenter.dataProtectionOfficerFirstName, 'newFirstname');
         assert.strictEqual(certificationCenter.dataProtectionOfficerLastName, 'newLastname');
         assert.strictEqual(certificationCenter.dataProtectionOfficerEmail, 'newMail@example.net');
-        assert.true(certificationCenter.isV3Pilot);
       });
 
       test('it should add the habilitation to the certification center', async function (assert) {

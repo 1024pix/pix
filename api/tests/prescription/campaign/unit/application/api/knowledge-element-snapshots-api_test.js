@@ -27,8 +27,6 @@ describe('Unit | API | KnowledgeElementSnapshots', function () {
       saveSnapshotStub.rejects('I was not called with the expected args.');
       saveSnapshotStub
         .withArgs({
-          userId: snapshotPayload.userId,
-          snappedAt: new Date(),
           knowledgeElementCollection: new KnowledgeElementCollection(snapshotPayload.knowledgeElements),
           campaignParticipationId: snapshotPayload.campaignParticipationId,
         })

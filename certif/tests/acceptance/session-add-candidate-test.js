@@ -20,7 +20,6 @@ module('Acceptance | Session Add Candidate', function (hooks) {
         { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2' },
         { id: 2, label: 'CléA Numérique', key: COMPLEMENTARY_KEYS.CLEA },
       ],
-      isV3Pilot: false,
       isComplementaryAlonePilot: false,
     });
     const certificationPointOfContact = server.create('certification-point-of-contact', {
@@ -94,7 +93,6 @@ module('Acceptance | Session Add Candidate', function (hooks) {
   module('after compatibility', function (hooks) {
     hooks.beforeEach(function () {
       allowedCertificationCenterAccess.update({
-        isV3Pilot: true,
         isComplementaryAlonePilot: true,
       });
     });

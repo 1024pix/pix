@@ -168,8 +168,6 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
       });
       const knowledgeElementsBefore = new KnowledgeElementCollection([ke1, ke2]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
-        snappedAt: new Date(),
         campaignParticipationId,
         snapshot: knowledgeElementsBefore.toSnapshot(),
       });

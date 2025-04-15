@@ -6,7 +6,7 @@ describe('Unit | Devcomp | Domain | Models | Passage', function () {
     it('should create a passage and keep attributes', function () {
       // given
       const id = 1;
-      const moduleId = 'les-adresses-email';
+      const moduleId = '25530e38-fdb9-497a-923e-9e2d1be47918';
       const userId = 123;
       const createdAt = new Date('2020-01-01');
       const updatedAt = new Date('2020-01-01');

@@ -185,7 +185,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
           const store = this.owner.lookup('service:store');
           const passage = store.createRecord('passage');
           const correctionResponse = store.createRecord('correction-response', {
-            feedback: 'Too bad!',
+            feedback: { state: 'Too bad!' },
             status: 'ko',
             solution: '1',
           });

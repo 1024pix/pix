@@ -28,6 +28,5 @@ export async function supCertificationCenterOnly({ databaseBuilder }) {
     createdAt: new Date(),
     updatedAt: new Date(),
     members: [{ id: V3_CERTIFICATION_CENTER_USER_ID }],
-    isV3Pilot: true,
   });
 }

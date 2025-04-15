@@ -250,8 +250,6 @@ function _buildParticipationWithSnapshot(participationAttributes, knowledgeEleme
   const participation = databaseBuilder.factory.buildCampaignParticipation(participationAttributes);
 
   databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
-    userId: participation.userId,
-    snappedAt: participation.sharedAt,
     knowledgeElementsAttributes,
     campaignParticipationId: participation.id,
   });

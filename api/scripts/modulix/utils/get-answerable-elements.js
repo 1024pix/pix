@@ -14,6 +14,7 @@ export function getAnswerableElements(modules) {
 
           elements.push({
             ...component.element,
+            moduleId: module.id,
             moduleSlug: module.slug,
             activityElementPosition: activityElementPosition++,
             grainPosition: module.grains.indexOf(grain),
@@ -31,6 +32,7 @@ export function getAnswerableElements(modules) {
 
               elements.push({
                 ...element,
+                moduleId: module.id,
                 moduleSlug: module.slug,
                 activityElementPosition: activityElementPosition++,
                 grainPosition: module.grains.indexOf(grain),

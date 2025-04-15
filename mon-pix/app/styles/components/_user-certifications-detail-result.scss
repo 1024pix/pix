@@ -3,6 +3,8 @@
 @use 'pix-design-tokens/fonts';
 
 .user-certifications-detail-result {
+  @extend %pix-body-l;
+
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -10,7 +12,6 @@
   max-width: 370px;
   height: 100%;
   color: var(--pix-neutral-800);
-  font-size: 1.125rem;
 
   div {
     line-height: 1.625rem;
@@ -19,11 +20,11 @@
   h2 {
     @extend %pix-title-xs;
 
-    margin-bottom: 8px;
+    margin-bottom: var(--pix-spacing-2x);
   }
 
   .pix-block {
-    padding: 14px 16px;
+    padding: var(--pix-spacing-3x) var(--pix-spacing-4x);
   }
 
   &__complementary-certification {
@@ -39,15 +40,15 @@
     }
 
     span {
+      @extend %pix-body-s;
+
       margin-top: 10px;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
     }
   }
 
   &__jury {
-    margin-bottom: 32px;
-    padding: 14px 24px;
+    margin-bottom: var(--pix-spacing-8x);
+    padding: var(--pix-spacing-3x) var(--pix-spacing-6x);
 
     &__info {
       font-size: 0.75rem;
@@ -59,7 +60,7 @@
     }
 
     &__comment {
-      font-size: 0.875rem;
+      @extend %pix-body-s;
     }
 
     p {
@@ -71,7 +72,7 @@
 
   @include breakpoints.device-is('mobile') {
     min-width: 100%;
-    padding: 16px;
+    padding: var(--pix-spacing-4x);
   }
 
   @include breakpoints.device-is('tablet') {
@@ -80,15 +81,15 @@
 
   @include breakpoints.device-is('desktop') {
     min-width: 30%;
-    margin-left: 20px;
+    margin-left: var(--pix-spacing-5x);
   }
 
   &__container {
     margin-bottom: 32px;
-    padding: 14px 24px;
+    padding: var(--pix-spacing-3x) var(--pix-spacing-6x);
 
     @include breakpoints.device-is('mobile') {
-      padding: 16px;
+      padding: var(--pix-spacing-4x);
     }
   }
 }

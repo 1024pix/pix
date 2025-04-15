@@ -1,28 +1,20 @@
 import _ from 'lodash';
 
-// TODO Bounded context violation
-import { Scorecard } from '../../../evaluation/domain/models/Scorecard.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../shared/domain/errors.js';
 import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 
 const findTutorials = async function ({
-  authenticatedUserId,
-  scorecardId,
+  userId,
+  competenceId,
   knowledgeElementRepository,
   skillRepository,
   tubeRepository,
   tutorialRepository,
   locale,
 }) {
-  // TODO replace scorecardId by competenceId
-  const { userId, competenceId } = Scorecard.parseId(scorecardId);
-
-  // TODO refactor to extract this guard to controller
-  if (parseInt(authenticatedUserId) !== parseInt(userId)) {
-    throw new UserNotAuthorizedToAccessEntityError();
-  }
-
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
+    userId,
+    competenceId,
+  });
   const invalidatedDirectKnowledgeElements = _getInvalidatedDirectKnowledgeElements(knowledgeElements);
 
   if (invalidatedDirectKnowledgeElements.length === 0) {

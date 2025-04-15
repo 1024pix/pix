@@ -576,10 +576,8 @@ describe('Acceptance | API | campaign-results-route', function () {
       });
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
         campaignParticipationId: campaignParticipation.id,
         snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
-        snappedAt: campaignParticipation.sharedAt,
       });
 
       await databaseBuilder.commit();

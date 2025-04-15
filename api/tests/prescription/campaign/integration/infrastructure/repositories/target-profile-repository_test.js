@@ -1,4 +1,4 @@
-import * as targetProfileRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/target-profile-repository.js';
+import { repositories } from '../../../../../../src/prescription/campaign/infrastructure/repositories/index.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile', function () {
@@ -18,7 +18,7 @@ describe('Integration | Repository | Target-profile', function () {
 
     it('should return the target profile matching the campaign id', async function () {
       // when
-      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+      const targetProfile = await repositories.targetProfileRepository.getByCampaignId({ campaignId });
 
       // then
       expect(targetProfile.id).to.equal(targetProfileId);

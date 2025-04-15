@@ -126,7 +126,10 @@ export default class AuthenticationMethod extends Component {
   }
 
   _displayAuthenticationMethodDate(date) {
-    if (!date) return null;
+    if (!date)
+      return this.intl.t(
+        'components.users.user-detail-personal-information.authentication-method.no-last-connection-date-info',
+      );
     return this.intl.t('components.users.user-detail-personal-information.authentication-method.last-logged-at', {
       date: dayjs(date).format('DD/MM/YYYY'),
     });

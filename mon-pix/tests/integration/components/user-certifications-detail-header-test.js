@@ -38,7 +38,9 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
     });
 
     test('should show the certification published date', function (assert) {
@@ -86,7 +88,9 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      const screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
 
       // then
       assert.notOk(screen.queryByText('Né(e) le 22 janvier 2000 à Paris'));
@@ -128,7 +132,7 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
+          hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
@@ -163,7 +167,7 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
+          hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
@@ -198,7 +202,7 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
+          hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
@@ -238,10 +242,12 @@ module('Integration | Component | user certifications detail header', function (
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      const screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
+      await click(screen.getByRole('button', { name: t('pages.certificate.actions.download') }));
 
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
@@ -265,7 +271,9 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      const screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
 
       // then
       assert
@@ -307,7 +315,9 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      const screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
 
       // then
       assert.notOk(
@@ -345,10 +355,12 @@ module('Integration | Component | user certifications detail header', function (
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      const screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
+      await click(screen.getByRole('button', { name: t('pages.certificate.actions.download') }));
 
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
@@ -375,7 +387,7 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
+          hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
@@ -400,7 +412,7 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
+          hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
@@ -443,10 +455,12 @@ module('Integration | Component | user certifications detail header', function (
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
+      const screen = await renderScreen(
+        hbs`<Certifications::UserCertificationsDetailHeader @certification={{this.certification}} />`,
+      );
 
       // when
-      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
+      await click(screen.getByRole('button', { name: t('pages.certificate.actions.download') }));
 
       // then
       assert.ok(screen.getByText('Une erreur est survenue. Veuillez recommencer ou contacter le support.'));

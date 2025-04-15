@@ -4,7 +4,7 @@ import { ModuleDoesNotExistError } from '../errors.js';
 import { PassageStartedEvent } from '../models/passage-events/passage-events.js';
 
 const createPassage = withTransaction(async function ({
-  moduleId,
+  moduleSlug,
   occurredAt,
   userId,
   moduleRepository,
@@ -12,20 +12,20 @@ const createPassage = withTransaction(async function ({
   passageEventRepository,
   userRepository,
 }) {
-  const module = await _getModule({ moduleId, moduleRepository });
+  const module = await _getModule({ slug: moduleSlug, moduleRepository });
   if (userId !== null) {
     await userRepository.get(userId);
   }
 
-  const passage = await passageRepository.save({ moduleId, userId });
+  const passage = await passageRepository.save({ moduleId: module.id, userId });
   await _recordPassageEvent({ module, occurredAt, passage, passageEventRepository });
 
   return passage;
 });
 
-async function _getModule({ moduleId, moduleRepository }) {
+async function _getModule({ slug, moduleRepository }) {
   try {
-    return await moduleRepository.getBySlug({ slug: moduleId });
+    return await moduleRepository.getBySlug({ slug });
   } catch (e) {
     if (e instanceof NotFoundError) {
       throw new ModuleDoesNotExistError();

@@ -7,24 +7,20 @@ import { buildUser } from './build-user.js';
 
 const buildKnowledgeElementSnapshot = function ({
   id = databaseBuffer.getNextId(),
-  userId,
-  snappedAt = new Date('2020-01-01'),
   snapshot,
   campaignParticipationId,
+  userId,
 } = {}) {
-  const dateMinusOneDay = new Date(snappedAt.getTime() - 1000 * 60 * 60 * 24 * 7);
-  userId = _.isUndefined(userId) ? buildUser().id : userId;
   if (!snapshot) {
     const knowledgeElements = [];
-    knowledgeElements.push(buildKnowledgeElement({ userId, createdAt: dateMinusOneDay }));
-    knowledgeElements.push(buildKnowledgeElement({ userId, createdAt: dateMinusOneDay }));
+    userId = _.isUndefined(userId) ? buildUser().id : userId;
+    knowledgeElements.push(buildKnowledgeElement({ userId, createdAt: new Date('2020-01-01') }));
+    knowledgeElements.push(buildKnowledgeElement({ userId, createdAt: new Date('2020-01-01') }));
     snapshot = new KnowledgeElementCollection(knowledgeElements).toSnapshot();
   }
 
   const values = {
     id,
-    userId,
-    snappedAt,
     snapshot,
     campaignParticipationId,
   };

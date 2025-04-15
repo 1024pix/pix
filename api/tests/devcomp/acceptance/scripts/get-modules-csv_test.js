@@ -52,6 +52,22 @@ describe('Acceptance | Script | Get Modules as CSV', function () {
         ],
         grains: [
           {
+            id: 'd6ed29e2-fb0b-4f03-9e26-61029ecde2e3',
+            type: 'transition',
+            title: '',
+            components: [
+              {
+                type: 'element',
+                element: {
+                  id: '08a8b1ea-4771-48ef-a5a5-665c664ba673',
+                  type: 'text',
+                  content:
+                    "<p>Bonjour et bienvenue dans le bac à sable de Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix !</p>",
+                },
+              },
+            ],
+          },
+          {
             id: '47cd065b-dbf2-4adc-b5c3-02fb69cb9ec2',
             type: 'discovery',
             title: 'Test Stepper',
@@ -409,7 +425,7 @@ describe('Acceptance | Script | Get Modules as CSV', function () {
     // Then
     expect(modulesListAsCsv).to.be.a('string');
     expect(modulesListAsCsv).to
-      .equal(`\ufeff"ModuleSlug"\t"ModuleTitle"\t"ModuleLevel"\t"ModuleLink"\t"ModuleIsBeta"\t"ModuleObjectives"\t"ModuleTotalGrains"\t"ModuleTotalLessons"\t"ModuleTotalActivities"\t"ModuleTotalChallenges"\t"ModuleTotalDiscoveries"\t"ModuleTotalSummaries"\t"ModuleDuration"\t"ModuleTotalElements"
-"bac-a-sable"\t"Bac à sable"\t"Débutant"\t"https://app.recette.pix.fr/modules/bac-a-sable"\t"=TRUE"\t"Naviguer dans Modulix.Découvrir les leçons et les activités"\t9\t1\t5\t1\t1\t1\t"=TEXT(5/24/60; ""mm:ss"")"\t13`);
+      .equal(`\ufeff"ModuleId"\t"ModuleSlug"\t"ModuleTitle"\t"ModuleLevel"\t"ModuleLink"\t"ModuleIsBeta"\t"ModuleObjectives"\t"ModuleTotalGrains"\t"ModuleTotalLessons"\t"ModuleTotalActivities"\t"ModuleTotalChallenges"\t"ModuleTotalDiscoveries"\t"ModuleTotalSummaries"\t"ModuleTotalTransitions"\t"ModuleDuration"\t"ModuleTotalElements"
+"6282925d-4775-4bca-b513-4c3009ec5886"\t"bac-a-sable"\t"Bac à sable"\t"Débutant"\t"https://app.recette.pix.fr/modules/bac-a-sable"\t"=TRUE"\t"Naviguer dans Modulix.Découvrir les leçons et les activités"\t10\t1\t5\t1\t1\t1\t1\t"=TEXT(5/24/60; ""mm:ss"")"\t14`);
   });
 });

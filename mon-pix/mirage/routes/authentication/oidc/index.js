@@ -8,7 +8,10 @@ export default function (config) {
         {},
         {
           errors: [
-            { code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key', familyName: 'PIX', givenName: 'test' } },
+            {
+              code: 'SHOULD_VALIDATE_CGU',
+              meta: { authenticationKey: 'key', userClaims: { lastName: 'PIX', firstName: 'test' } },
+            },
           ],
         },
       );

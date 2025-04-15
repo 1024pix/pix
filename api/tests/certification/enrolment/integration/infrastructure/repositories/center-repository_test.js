@@ -42,7 +42,6 @@ describe('Integration | Certification |  Center | Repository | center-repository
           externalId: 'EX123',
           habilitations: [],
           features: [],
-          isV3Pilot: false,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -78,7 +77,6 @@ describe('Integration | Certification |  Center | Repository | center-repository
           externalId: 'EX123',
           habilitations: [],
           features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
-          isV3Pilot: false,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -92,7 +90,6 @@ describe('Integration | Certification |  Center | Repository | center-repository
         databaseBuilder.factory.buildCertificationCenter({
           id: centerId,
           name: 'centerName',
-          isV3Pilot: false,
           type: CertificationCenter.types.SCO,
           externalId: 'EXTERNALABC',
         });
@@ -124,7 +121,6 @@ describe('Integration | Certification |  Center | Repository | center-repository
           id: centerId,
           name: 'centerName',
           externalId: 'EXTERNALABC',
-          isV3Pilot: false,
           type: CertificationCenter.types.SCO,
           habilitations: [],
           features: [],
@@ -182,7 +178,6 @@ describe('Integration | Certification |  Center | Repository | center-repository
           }),
         ],
         features: [],
-        isV3Pilot: false,
       });
       expect(result).to.deepEqualInstance(expectedCenter);
     });

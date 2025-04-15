@@ -17,6 +17,7 @@ export async function getElementsListAsCsv(modules) {
       { label: 'ElementGrainId', value: 'grainId' },
       { label: 'ElementGrainTitle', value: 'grainTitle' },
       { label: 'ElementModuleSlug', value: 'moduleSlug' },
+      { label: 'ElementModuleId', value: 'moduleId' },
     ],
   });
 }
@@ -60,6 +61,7 @@ export function getElements(modules) {
 
           elements.push({
             ...component.element,
+            moduleId: module.id,
             moduleSlug: module.slug,
             elementPosition: elementPosition++,
             grainPosition: module.grains.indexOf(grain),
@@ -77,6 +79,7 @@ export function getElements(modules) {
 
               elements.push({
                 ...element,
+                moduleId: module.id,
                 moduleSlug: module.slug,
                 elementPosition: elementPosition++,
                 grainPosition: module.grains.indexOf(grain),

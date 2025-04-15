@@ -50,7 +50,7 @@ module('Integration | Component | user-certifications-detail-competence', functi
     this.set('area', area);
 
     // when
-    screen = await render(hbs`<UserCertificationsDetailCompetence @area={{this.area}} />`);
+    screen = await render(hbs`<Certifications::UserCertificationsDetailCompetence @area={{this.area}} />`);
   });
 
   test('renders', function (assert) {

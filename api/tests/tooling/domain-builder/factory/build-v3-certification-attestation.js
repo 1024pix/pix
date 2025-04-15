@@ -1,4 +1,4 @@
-import { V3CertificationAttestation } from '../../../../src/certification/results/domain/models/V3CertificationAttestation.js';
+import { V3Certificate } from '../../../../src/certification/results/domain/models/V3Certificate.js';
 
 const buildV3CertificationAttestation = async function ({
   id = 1,
@@ -9,10 +9,9 @@ const buildV3CertificationAttestation = async function ({
   certificationCenter = 'L’université du Pix',
   deliveredAt = new Date('2025-10-30T01:02:03Z'),
   pixScore = 123,
-  maxReachableLevelOnCertificationDate = 5,
   verificationCode = 'P-SOMECODE',
 } = {}) {
-  return new V3CertificationAttestation({
+  return new V3Certificate({
     id,
     firstName,
     lastName,
@@ -21,7 +20,6 @@ const buildV3CertificationAttestation = async function ({
     certificationCenter,
     deliveredAt,
     pixScore,
-    maxReachableLevelOnCertificationDate,
     verificationCode,
   });
 };

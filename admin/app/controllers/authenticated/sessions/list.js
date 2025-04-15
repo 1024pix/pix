@@ -1,11 +1,21 @@
 import Controller from '@ember/controller';
 
 export default class ListController extends Controller {
-  get sessionsWithRequiredActionCount() {
-    return this.model.v2Sessions.length;
+  // v2
+  get v2SessionsToBePublishedCount() {
+    return this.model.v2SessionsToBePublished.length;
   }
 
-  get sessionsWithRequiredActionCountVersion3() {
-    return this.model.v3Sessions.length;
+  get v2SessionsWithRequiredActionCount() {
+    return this.model.v2SessionsWithRequiredAction.length;
+  }
+
+  // v3
+  get v3SessionsToBePublishedCount() {
+    return this.model.v3SessionsToBePublished.length;
+  }
+
+  get v3SessionsWithRequiredActionCount() {
+    return this.model.v3SessionsWithRequiredAction.length;
   }
 }

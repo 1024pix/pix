@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../domain/models/V3CertificationAttestation.js').V3CertificationAttestation} V3CertificationAttestation
+ * @typedef {import ('../../../domain/models/V3Certificate.js').V3Certificate} V3Certificate
  */
 import PDFDocument from 'pdfkit';
 
@@ -7,7 +7,7 @@ import generateV3AttestationTemplate from './templates/v3-attestation.js';
 
 /**
  * @param {Object} params
- * @param {Array<V3CertificationAttestation>} params.certificates
+ * @param {Array<V3Certificate>} params.certificates
  */
 const generate = ({ certificates, i18n }) => {
   const doc = new PDFDocument({

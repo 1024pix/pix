@@ -7,6 +7,7 @@ import * as campaignDetailsManagementSerializer from '../infrastructure/serializ
 import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as campaignToJoinSerializer from '../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
+import * as targetProfileSerializer from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 
 const { PassThrough } = stream;
 
@@ -43,6 +44,12 @@ const getCampaignDetails = async function (request) {
   const { campaignId } = request.params;
   const campaign = await usecases.getCampaignManagement({ campaignId });
   return campaignDetailsManagementSerializer.serialize(campaign);
+};
+
+const getTargetProfile = async function (request, _, dependencies = { targetProfileSerializer }) {
+  const { campaignId } = request.params;
+  const targetProfile = await usecases.getTargetProfile({ campaignId });
+  return dependencies.targetProfileSerializer.serialize(targetProfile);
 };
 
 const findPaginatedFilteredCampaigns = async function (request, _, dependencies = { campaignReportSerializer }) {
@@ -142,6 +149,7 @@ const campaignDetailController = {
   getCsvAssessmentResults,
   getCsvProfilesCollectionResults,
   getCampaignDetails,
+  getTargetProfile,
 };
 
 export { campaignDetailController };

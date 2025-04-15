@@ -13,7 +13,7 @@ import { KnowledgeElementCollection } from '../../../shared/domain/models/Knowle
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';
 
-const { TO_SHARE } = CampaignParticipationStatuses;
+const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 
 const { pick } = lodash;
 
@@ -38,8 +38,6 @@ const updateWithSnapshot = async function (campaignParticipation) {
     limitDate: campaignParticipation.sharedAt,
   });
   await knowledgeElementSnapshotRepository.save({
-    userId: campaignParticipation.userId,
-    snappedAt: campaignParticipation.sharedAt,
     snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
     campaignParticipationId: campaignParticipation.id,
   });
@@ -262,6 +260,15 @@ function _rowToResult(row) {
   };
 }
 
+async function getSharedParticipationIds(campaignId) {
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn('campaign-participations')
+    .pluck('id')
+    .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
+
+  return results;
+}
+
 export {
   batchUpdate,
   findOneByCampaignIdAndUserId,
@@ -272,6 +279,7 @@ export {
   getCampaignParticipationsForOrganizationLearner,
   getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
   getLocked,
+  getSharedParticipationIds,
   hasAssessmentParticipations,
   isRetrying,
   remove,

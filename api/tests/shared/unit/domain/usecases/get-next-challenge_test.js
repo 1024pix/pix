@@ -1,6 +1,8 @@
+import { AssessmentEndedError } from '../../../../../src/shared/domain/errors.js';
+import { Statuses } from '../../../../../src/shared/domain/models/Challenge.js';
 import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import { getNextChallenge } from '../../../../../src/shared/domain/usecases/get-next-challenge.js';
-import { domainBuilder, expect, preventStubsToBeCalledUnexpectedly, sinon } from '../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, preventStubsToBeCalledUnexpectedly, sinon } from '../../../../test-helper.js';
 
 describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () {
   describe('#getNextChallenge', function () {
@@ -8,6 +10,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
     let assessmentRepository_getStub;
     let assessmentRepository_updateLastQuestionDateStub;
     let assessmentRepository_updateWhenNewChallengeIsAskedStub;
+    let answerRepository_findByAssessmentStub;
+    let challengeRepository_getStub;
     let evaluationUsecases_getNextChallengeForPreviewStub;
     let evaluationUsecases_getNextChallengeForDemoStub;
     let evaluationUsecases_getNextChallengeForCampaignAssessmentStub;
@@ -21,6 +25,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
       assessmentRepository_getStub = sinon.stub().named('get');
       assessmentRepository_updateLastQuestionDateStub = sinon.stub().named('updateLastQuestionDate');
       assessmentRepository_updateWhenNewChallengeIsAskedStub = sinon.stub().named('updateWhenNewChallengeIsAsked');
+      answerRepository_findByAssessmentStub = sinon.stub().named('findByAssessment');
+      challengeRepository_getStub = sinon.stub().named('get');
       evaluationUsecases_getNextChallengeForPreviewStub = sinon.stub().named('getNextChallengeForPreview');
       evaluationUsecases_getNextChallengeForDemoStub = sinon.stub().named('getNextChallengeForDemo');
       evaluationUsecases_getNextChallengeForCampaignAssessmentStub = sinon
@@ -33,8 +39,11 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         .stub()
         .named('selectNextCertificationChallenge');
       preventStubsToBeCalledUnexpectedly([
+        assessmentRepository_getStub,
         assessmentRepository_updateLastQuestionDateStub,
         assessmentRepository_updateWhenNewChallengeIsAskedStub,
+        answerRepository_findByAssessmentStub,
+        challengeRepository_getStub,
         evaluationUsecases_getNextChallengeForPreviewStub,
         evaluationUsecases_getNextChallengeForDemoStub,
         evaluationUsecases_getNextChallengeForCampaignAssessmentStub,
@@ -46,6 +55,14 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         get: assessmentRepository_getStub,
         updateLastQuestionDate: assessmentRepository_updateLastQuestionDateStub,
         updateWhenNewChallengeIsAsked: assessmentRepository_updateWhenNewChallengeIsAskedStub,
+      };
+
+      const answerRepository = {
+        findByAssessment: answerRepository_findByAssessmentStub,
+      };
+
+      const challengeRepository = {
+        get: challengeRepository_getStub,
       };
 
       const evaluationUsecases = {
@@ -64,9 +81,135 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         userId,
         locale,
         assessmentRepository,
+        answerRepository,
+        challengeRepository,
         evaluationUsecases,
         certificationEvaluationRepository,
       };
+    });
+
+    context('when assessment is not started', function () {
+      let assessment;
+
+      beforeEach(function () {
+        assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PREVIEW });
+      });
+
+      /* eslint-disable mocha/no-setup-in-describe */
+      [
+        Assessment.states.ABORTED,
+        Assessment.states.COMPLETED,
+        Assessment.states.ENDED_BY_SUPERVISOR,
+        Assessment.states.ENDED_DUE_TO_FINALIZATION,
+      ].forEach((assessmentState) => {
+        it(`should throw a AssessmentEndedError when assessment is ${assessmentState}`, async function () {
+          assessment.state = assessmentState;
+          assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
+
+          const err = await catchErr(getNextChallenge)(dependencies);
+
+          expect(err).to.be.instanceOf(AssessmentEndedError);
+        });
+      });
+      /* eslint-enable mocha/no-setup-in-describe */
+    });
+
+    context('latest challenge asked', function () {
+      context('when there are no challenge saved as latest challenge asked in assessment', function () {
+        it('should compute next challenge', async function () {
+          const assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            type: Assessment.types.PREVIEW,
+            lastChallengeId: null,
+          });
+          assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
+          assessmentRepository_updateLastQuestionDateStub.resolves();
+          assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          const challenge = domainBuilder.buildChallenge({ id: 'challengeForPreview' });
+          evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(challenge);
+          answerRepository_findByAssessmentStub.withArgs(assessment.id).resolves([domainBuilder.buildAnswer()]);
+
+          const actualNextChallenge = await getNextChallenge(dependencies);
+
+          expect(actualNextChallenge).to.deepEqualInstance(challenge);
+        });
+      });
+
+      context('when the latest challenge asked has been answered', function () {
+        it('should compute next challenge', async function () {
+          const assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            type: Assessment.types.PREVIEW,
+            lastChallengeId: 'previousChallengeId',
+          });
+          assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
+          assessmentRepository_updateLastQuestionDateStub.resolves();
+          assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          const challenge = domainBuilder.buildChallenge({ id: 'challengeForPreview' });
+          evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(challenge);
+          answerRepository_findByAssessmentStub
+            .withArgs(assessment.id)
+            .resolves([domainBuilder.buildAnswer({ challengeId: 'previousChallengeId' })]);
+
+          const actualNextChallenge = await getNextChallenge(dependencies);
+
+          expect(actualNextChallenge).to.deepEqualInstance(challenge);
+        });
+      });
+
+      context('when the latest challenge asked has not been answered yet', function () {
+        context('when challenge is operative', function () {
+          it('should return latest challenge', async function () {
+            const assessment = domainBuilder.buildAssessment({
+              state: Assessment.states.STARTED,
+              type: Assessment.types.PREVIEW,
+              lastChallengeId: 'previousChallengeId',
+            });
+            assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
+            assessmentRepository_updateLastQuestionDateStub.resolves();
+            assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+            const previousChallenge = domainBuilder.buildChallenge({
+              id: 'previousChallengeId',
+              status: Statuses.VALIDATED,
+            });
+            answerRepository_findByAssessmentStub
+              .withArgs(assessment.id)
+              .resolves([
+                domainBuilder.buildAnswer({ challengeId: 'someChallengeId' }),
+                domainBuilder.buildAnswer({ challengeId: 'someOtherChallengeId' }),
+              ]);
+            challengeRepository_getStub.withArgs('previousChallengeId').resolves(previousChallenge);
+
+            const actualNextChallenge = await getNextChallenge(dependencies);
+
+            expect(actualNextChallenge).to.deepEqualInstance(previousChallenge);
+          });
+        });
+        context('when challenge is not operative', function () {
+          it('should compute next challenge', async function () {
+            const assessment = domainBuilder.buildAssessment({
+              state: Assessment.states.STARTED,
+              type: Assessment.types.PREVIEW,
+              lastChallengeId: 'previousChallengeId',
+            });
+            assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
+            assessmentRepository_updateLastQuestionDateStub.resolves();
+            assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+            const challenge = domainBuilder.buildChallenge({ id: 'nextChallengeForPreview' });
+            const previousChallenge = domainBuilder.buildChallenge({
+              id: 'previousChallengeId',
+              status: Statuses.OBSOLETE,
+            });
+            evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(challenge);
+            answerRepository_findByAssessmentStub.withArgs(assessment.id).resolves([]);
+            challengeRepository_getStub.withArgs('previousChallengeId').resolves(previousChallenge);
+
+            const actualNextChallenge = await getNextChallenge(dependencies);
+
+            expect(actualNextChallenge).to.deepEqualInstance(challenge);
+          });
+        });
+      });
     });
 
     context('Assessment types', function () {
@@ -74,10 +217,14 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         let assessment;
 
         beforeEach(function () {
-          assessment = domainBuilder.buildAssessment({ type: Assessment.types.PREVIEW });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            type: Assessment.types.PREVIEW,
+          });
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         it('should call usecase and return value from preview usecase', async function () {
@@ -93,10 +240,14 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         let assessment;
 
         beforeEach(function () {
-          assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            type: Assessment.types.DEMO,
+          });
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         it('should call usecase and return value from demo usecase', async function () {
@@ -112,10 +263,14 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         let assessment;
 
         beforeEach(function () {
-          assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            type: Assessment.types.CAMPAIGN,
+          });
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         it('should call usecase and return value from campaign usecase', async function () {
@@ -133,10 +288,14 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         let assessment;
 
         beforeEach(function () {
-          assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            type: Assessment.types.COMPETENCE_EVALUATION,
+          });
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         it('should call usecase and return value from competence evaluation usecase', async function () {
@@ -154,10 +313,15 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         let assessment;
 
         beforeEach(function () {
-          assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.CERTIFICATION });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            id: assessmentId,
+            type: Assessment.types.CERTIFICATION,
+          });
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         it('should call usecase and return value from certification usecase', async function () {
@@ -175,10 +339,15 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         let assessment;
 
         beforeEach(function () {
-          assessment = domainBuilder.buildAssessment({ id: assessmentId, type: 'coucou les zamis' });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            id: assessmentId,
+            type: 'coucou les zamis',
+          });
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         it('should return null', async function () {
@@ -196,31 +365,21 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
 
         beforeEach(function () {
           clock = sinon.useFakeTimers(new Date('2023-10-05'));
-          assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PREVIEW });
+          assessment = domainBuilder.buildAssessment({
+            state: Assessment.states.STARTED,
+            id: assessmentId,
+            type: Assessment.types.PREVIEW,
+          });
           evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves({ id: 'someChallengeId' });
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         afterEach(async function () {
           clock.restore();
         });
 
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        Object.values(Assessment.states)
-          .filter((assessmentState) => assessmentState !== Assessment.states.STARTED)
-          .forEach((assessmentState) => {
-            it(`should not update the last question date when assessment is in state ${assessmentState}`, async function () {
-              assessment.state = assessmentState;
-              assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
-
-              await getNextChallenge(dependencies);
-
-              expect(assessmentRepository_updateLastQuestionDateStub).to.not.have.been.called;
-            });
-          });
-
-        it(`should update the last question date when assessment is in state Started`, async function () {
-          assessment.state = Assessment.states.STARTED;
+        it(`should update the last question date`, async function () {
           assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
           assessmentRepository_updateLastQuestionDateStub.resolves();
 
@@ -235,11 +394,16 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
       context('updating last challenge asked', function () {
         beforeEach(function () {
           assessmentRepository_updateLastQuestionDateStub.resolves();
+          answerRepository_findByAssessmentStub.resolves([]);
         });
 
         context('when no next challenge has been found', function () {
           it('should not update last challenge asked', async function () {
-            const assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PREVIEW });
+            const assessment = domainBuilder.buildAssessment({
+              id: assessmentId,
+              state: Assessment.states.STARTED,
+              type: Assessment.types.PREVIEW,
+            });
             assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
             evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(null);
 
@@ -253,9 +417,13 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
           it('should not update last challenge asked', async function () {
             const assessment = domainBuilder.buildAssessment({
               id: assessmentId,
+              state: Assessment.states.STARTED,
               type: Assessment.types.PREVIEW,
               lastChallengeId: 'currentChallengeId',
             });
+            answerRepository_findByAssessmentStub.resolves([
+              domainBuilder.buildAnswer({ challengeId: 'currentChallengeId' }),
+            ]);
             assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
             evaluationUsecases_getNextChallengeForPreviewStub
               .withArgs({})
@@ -271,9 +439,13 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
           it('should update last challenge asked', async function () {
             const assessment = domainBuilder.buildAssessment({
               id: assessmentId,
+              state: Assessment.states.STARTED,
               type: Assessment.types.PREVIEW,
               lastChallengeId: 'previousChallengeId',
             });
+            answerRepository_findByAssessmentStub.resolves([
+              domainBuilder.buildAnswer({ challengeId: 'previousChallengeId' }),
+            ]);
             assessmentRepository_getStub.withArgs(assessmentId).resolves(assessment);
             evaluationUsecases_getNextChallengeForPreviewStub
               .withArgs({})

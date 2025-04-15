@@ -34,7 +34,7 @@
   &__date {
     margin-right: 40px;
     padding-right: 40px;
-    border-right: 1px solid var(--pix-neutral-20);
+    border-right: 1px solid var(--pix-neutral-500);
   }
 
   &__text {
@@ -127,6 +127,20 @@
 
   &__clipboard-button {
     margin-left: 4px;
+  }
+
+  .pix-icon-button {
+    &:hover {
+      background-color: var(--pix-neutral-0);
+      &:active {
+        color: var(--pix-neutral-0);
+      }
+    }
+    &:focus {
+      &:hover {
+        background-color: var(--pix-neutral-800);
+      }
+    }
   }
 }
 

@@ -23,6 +23,7 @@ import TargetProfileDetails from '../target-profile-details';
         @hasBadges={{@hasBadges}}
         @targetProfileTubesCount={{@targetProfileTubesCount}}
         @targetProfileThematicResultCount={{@targetProfileThematicResultCount}}
+        @simplifiedAccess={{@simplifiedAccess}}
       />
     </:tooltip>
   </PixTooltip>

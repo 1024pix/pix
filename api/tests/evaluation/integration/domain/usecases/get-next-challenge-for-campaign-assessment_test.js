@@ -133,8 +133,6 @@ describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for
       });
       const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
-        snappedAt: new Date('2019-01-01'),
         campaignParticipationId,
         snapshot: knowledgeElementsBefore.toSnapshot(),
       });

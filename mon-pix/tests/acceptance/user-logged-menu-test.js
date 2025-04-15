@@ -75,7 +75,7 @@ module('Acceptance | User account', function (hooks) {
     await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
 
     // when
-    await click(screen.getByRole('link', { name: 'Mes parcours' }));
+    await click(screen.getByRole('link', { name: 'Compétences' }));
 
     // then
     assert.dom(screen.queryByRole('button', { name: 'Henri Consulter mes informations', expanded: false })).exists();

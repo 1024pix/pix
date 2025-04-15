@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
+import { feedbackSchema } from './feedback-schema.js';
 
 const qcuElementSchema = Joi.object({
   id: uuidSchema,
@@ -10,7 +11,7 @@ const qcuElementSchema = Joi.object({
     .items({
       id: proposalIdSchema.required(),
       content: htmlSchema.required(),
-      feedback: htmlSchema.required(),
+      feedback: feedbackSchema.required(),
     })
     .required(),
   solution: proposalIdSchema.required(),

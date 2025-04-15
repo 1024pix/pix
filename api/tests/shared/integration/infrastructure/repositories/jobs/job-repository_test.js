@@ -24,7 +24,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     await expect(name).to.have.been.performed.withJob({
       name,
       data: expectedParams,
-      expirein: '00:15:00',
+      expirein: '48:00:00',
       priority,
       retrydelay: 30,
       retrylimit: 10,
@@ -52,7 +52,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     const name = 'JobTest';
     const expectedParams = [{ jobParam: 1 }, { jobParam: 2 }];
     const retry = JobRetry.STANDARD_RETRY;
-    const expireIn = JobExpireIn.HIGH;
+    const expireIn = JobExpireIn.INFINITE;
     const priority = JobPriority.HIGH;
 
     const job = new JobRepository({ name, retry, expireIn, priority });

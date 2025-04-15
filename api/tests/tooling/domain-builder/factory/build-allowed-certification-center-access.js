@@ -10,7 +10,6 @@ function buildAllowedCertificationCenterAccess({
   isRelatedToManagingStudentsOrganization = false,
   relatedOrganizationTags = [],
   habilitations = [],
-  isV3Pilot = false,
   features = [],
   isInWhitelist,
 } = {}) {
@@ -21,7 +20,6 @@ function buildAllowedCertificationCenterAccess({
       externalId,
       type,
       habilitations,
-      isV3Pilot,
       features,
       isInWhitelist,
     },

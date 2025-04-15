@@ -1,12 +1,8 @@
 <div class="user-tutorials-banner">
-  <section class="global-page-header">
-    <div class="global-page-header__left-content">
-      <h1 class="global-page-header__title">{{t "pages.user-tutorials.title"}}</h1>
-      <p class="global-page-header__description">
-        {{t "pages.user-tutorials.description"}}
-      </p>
-    </div>
-  </section>
+  <Ui::PageTitle>
+    <:title>{{t "pages.user-tutorials.title"}}</:title>
+    <:subtitle>{{t "pages.user-tutorials.description"}}</:subtitle>
+  </Ui::PageTitle>
 
   <ul class="user-tutorials-banner__filters">
     <li class="user-tutorials-banner-filters__filter">

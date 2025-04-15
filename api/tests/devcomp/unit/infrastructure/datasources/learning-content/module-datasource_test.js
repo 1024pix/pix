@@ -7,6 +7,29 @@ import { moduleSchema } from './validation/module-schema.js';
 const modules = await moduleDatasource.list();
 
 describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasource', function () {
+  describe('#getById', function () {
+    describe('when exists', function () {
+      it('should return something', async function () {
+        // Given
+        const id = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
+        const module = await moduleDatasource.getById(id);
+
+        // When & then
+        expect(module).to.exist;
+      });
+    });
+
+    describe("when doesn't exist", function () {
+      it('should throw an LearningContentResourceNotFound', async function () {
+        // given
+        const id = 'fake-uuid';
+
+        // when & then
+        await expect(moduleDatasource.getById(id)).to.have.been.rejectedWith(LearningContentResourceNotFound);
+      });
+    });
+  });
+
   describe('#getBySlug', function () {
     describe('when exists', function () {
       it('should return something', async function () {

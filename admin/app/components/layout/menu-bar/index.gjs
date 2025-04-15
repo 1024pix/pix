@@ -93,7 +93,7 @@ export default class MenuBar extends Component {
             @title={{t "components.layout.menu-bar.entries.trainings"}}
           />
         {{/if}}
-        {{#if (or this.currentUser.adminMember.isSuperAdmin this.currentUser.adminMember.isMetier)}}
+        {{#if this.accessControl.hasAccessToTools}}
           <MenuBarEntry
             @path="authenticated.tools"
             @icon="tools"

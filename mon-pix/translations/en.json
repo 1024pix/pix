@@ -147,6 +147,12 @@
     }
   },
   "components": {
+    "attestations": {
+      "obtainedAt": "Date of issue : {date}",
+      "title": {
+        "numeric-sensivity": "Digital awareness certificate"
+      }
+    },
     "authentication": {
       "login-form": {
         "fields": {
@@ -272,10 +278,10 @@
         "steps": {
           "step1": {
             "description": "Answer questions adapted to your level",
-            "title": "Pass test"
+            "title": "Test yourself"
           },
           "step2": {
-            "description": "Discover your strengths and areas for improvement",
+            "description": "Analyze your strengths and areas for improvement",
             "title": "Discover your score"
           },
           "step3": {
@@ -324,6 +330,7 @@
     },
     "homepage": "Pix's Homepage",
     "main": {
+      "attestations": "My certifications",
       "code": "I have a code",
       "dashboard": "Home",
       "help": "Help",
@@ -335,6 +342,11 @@
       "tutorials": "My tutorials"
     },
     "mobile-button-title": "Open menu",
+    "nav-bar": {
+      "aria-label": "main navigation",
+      "close": "Close navigation",
+      "open": "Open navigation"
+    },
     "not-logged": {
       "sign-in": "Log in",
       "sign-up": "Sign up"
@@ -496,6 +508,10 @@
       },
       "title": "End of test"
     },
+    "attestations": {
+      "subtitle": "Access and download all your Pix certificates.",
+      "title": "My certificates"
+    },
     "authentication": {
       "login": {
         "signup-button": "Sign up"
@@ -596,7 +612,9 @@
       "title": "Customised test"
     },
     "certificate": {
-      "attestation": "Download my certificate",
+      "actions": {
+        "download": "Download my certificate"
+      },
       "back-link": "Return to my certificates",
       "candidate-birth": "Born on {birthdate}",
       "candidate-birth-complete": "Born on {birthdate} in {birthplace}",
@@ -617,7 +635,7 @@
       "issued-on": "Delivered on",
       "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
       "jury-title": "Notes from the examining body",
-      "learn-about-certification-results": "Learn more about my Pix Certification results",
+      "learn-about-certification-results": "How to interpret the results?",
       "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix.",
       "title": "Pix Certificate",
       "verification-code": {
@@ -1539,8 +1557,11 @@
         "button": "Create my account",
         "description": "An account will be created based on the information sent by the organisation",
         "information": {
-          "family-name": "Last name  : {familyName}",
-          "given-name": "First name : {givenName}"
+          "employeeNumber": "Employee number :",
+          "error": "We were unable to retrieve your identity information from the service used. We invite you to contact this organisation's IT support.",
+          "firstName": "First name :",
+          "lastName": "Last name :",
+          "population": "Population :"
         },
         "title": "Sign up"
       },
@@ -1945,7 +1966,7 @@
           },
           "shared-results-modal": {
             "return-results-action": "Close and return to results",
-            "subtitle": "Ready to expand your knowledge? 🎓",
+            "subtitle": "Ready to expand your skills? 🎓",
             "title": "Shared results"
           },
           "tab-label": "Trainings",

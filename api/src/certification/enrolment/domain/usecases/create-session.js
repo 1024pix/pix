@@ -28,17 +28,18 @@ const createSession = async function ({
   const certificationCenterId = session.certificationCenterId;
 
   const accessCode = sessionCodeService.getNewSessionCode();
-  const { isV3Pilot, name: certificationCenterName } = await centerRepository.getById({
+  const { name: certificationCenterName } = await centerRepository.getById({
     id: certificationCenterId,
   });
-  const version = isV3Pilot ? SESSIONS_VERSIONS.V3 : SESSIONS_VERSIONS.V2;
+
+  const defaultVersion = SESSIONS_VERSIONS.V3;
 
   const domainSession = new SessionEnrolment({
     ...session,
     accessCode,
     certificationCenter: certificationCenterName,
     certificationCandidates: [],
-    version,
+    version: defaultVersion,
     createdBy: userId,
   });
 

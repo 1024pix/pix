@@ -43,7 +43,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
-        isV3Pilot: false,
         habilitations: [
           {
             id: complementaryCertificationId,
@@ -192,9 +191,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             server.create('feature-toggle', {
               isNeedToAdjustCertificationAccessibilityEnabled: true,
             });
-            allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-              isV3Pilot: true,
-            });
+            allowedCertificationCenterAccess = server.create('allowed-certification-center-access');
             certificationPointOfContact = server.create('certification-point-of-contact', {
               firstName: 'Lena',
               lastName: 'Rine',

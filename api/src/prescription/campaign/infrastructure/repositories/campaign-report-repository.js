@@ -125,6 +125,7 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
       'users.id AS ownerId',
       'users.firstName AS ownerFirstName',
       'users.lastName AS ownerLastName',
+      'target-profiles.name AS targetProfileName',
       knex.raw(
         'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "participationsCount"',
       ),
@@ -133,6 +134,7 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
       ),
     )
     .join('users', 'users.id', 'campaigns.ownerId')
+    .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
     .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
     .where('campaigns.organizationId', organizationId)
     .whereNull('campaigns.deletedAt')
@@ -153,7 +155,7 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
 
 function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName, isOwnedByMe }, userId) {
   if (name) {
-    qb.whereILike('name', `%${name}%`);
+    qb.whereILike('campaigns.name', `%${name}%`);
   }
   if (ongoing) {
     qb.whereNull('campaigns.archivedAt');

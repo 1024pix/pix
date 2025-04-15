@@ -2,7 +2,6 @@ import { JobController } from '../../../../shared/application/jobs/job-controlle
 import { V3_REPRODUCIBILITY_RATE } from '../../../../shared/domain/constants.js';
 import { CertificationComputeError } from '../../../../shared/domain/errors.js';
 import * as events from '../../../../shared/domain/events/index.js';
-import { AssessmentResult } from '../../../../shared/domain/models/index.js';
 import { AssessmentResultFactory } from '../../../scoring/domain/models/factories/AssessmentResultFactory.js';
 import { assessmentResultRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
@@ -72,11 +71,8 @@ async function _handleV2CertificationScoring({
   certificationCourseRepository,
   services,
 }) {
-  const emitter = AssessmentResult.emitters.PIX_ALGO;
-
   try {
     const { certificationCourse, certificationAssessmentScore } = await services.handleV2CertificationScoring({
-      emitter,
       certificationAssessment,
     });
 
@@ -93,7 +89,6 @@ async function _handleV2CertificationScoring({
       throw error;
     }
     await _saveResultAfterCertificationComputeError({
-      emitter,
       certificationAssessment,
       assessmentResultRepository,
       certificationCourseRepository,
@@ -108,10 +103,8 @@ async function _handleV3CertificationScoring({
   certificationCourseRepository,
   services,
 }) {
-  const emitter = AssessmentResult.emitters.PIX_ALGO;
   const certificationCourse = await services.handleV3CertificationScoring({
     certificationAssessment,
-    emitter,
     locale,
     dependencies: { findByCertificationCourseIdAndAssessmentId: services.findByCertificationCourseIdAndAssessmentId },
   });
@@ -127,7 +120,6 @@ async function _handleV3CertificationScoring({
 }
 
 async function _saveResultAfterCertificationComputeError({
-  emitter,
   certificationAssessment,
   assessmentResultRepository,
   certificationCourseRepository,
@@ -139,7 +131,6 @@ async function _saveResultAfterCertificationComputeError({
   const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
-    emitter,
   });
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,

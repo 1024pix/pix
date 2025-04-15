@@ -69,8 +69,6 @@ class AddMissingKnowledgeElementSnapshots extends Script {
         limitDate: participation.sharedAt,
       });
       await knowledgeElementSnapshotRepository.save({
-        userId: participation.userId,
-        snappedAt: participation.sharedAt,
         snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
         campaignParticipationId,
       });

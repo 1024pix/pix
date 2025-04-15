@@ -4,14 +4,12 @@ import { usecases } from '../domain/usecases/index.js';
 import { getCsvHeaders } from '../infrastructure/files/sessions-import.js';
 
 const createSessions = async function (request, h) {
-  const { certificationCenterId } = request.params;
   const authenticatedUserId = request.auth.credentials.userId;
 
   const { cachedValidatedSessionsKey } = request.payload.data.attributes;
 
   await usecases.createSessions({
     cachedValidatedSessionsKey,
-    certificationCenterId,
     userId: authenticatedUserId,
   });
   return h.response().code(201);

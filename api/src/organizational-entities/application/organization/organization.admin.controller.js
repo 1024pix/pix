@@ -4,6 +4,7 @@ import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/r
 import { ORGANIZATION_FEATURES_HEADER } from '../../domain/constants.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { organizationTagCsvParser } from '../../infrastructure/parsers/csv/organization-tag-csv.parser.js';
+import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 
 const addTagsToOrganizations = async function (request, h) {
@@ -90,6 +91,16 @@ const updateOrganizationInformation = async function (
   return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));
 };
 
+const findPaginatedFilteredOrganizations = async function (request, h, dependencies = { organizationSerializer }) {
+  const options = request.query;
+
+  const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({
+    filter: options.filter,
+    page: options.page,
+  });
+  return dependencies.organizationSerializer.serialize(organizations, pagination);
+};
+
 const organizationAdminController = {
   addTagsToOrganizations,
   create,
@@ -100,6 +111,7 @@ const organizationAdminController = {
   getOrganizationDetails,
   updateOrganizationsInBatch,
   updateOrganizationInformation,
+  findPaginatedFilteredOrganizations,
 };
 
 export { organizationAdminController };

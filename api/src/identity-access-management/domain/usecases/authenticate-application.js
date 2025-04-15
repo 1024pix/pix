@@ -1,11 +1,12 @@
 import { config } from '../../../shared/config.js';
 import {
   ApplicationScopeNotAllowedError,
-  ApplicationWithInvalidClientIdError,
-  ApplicationWithInvalidClientSecretError,
+  ApplicationWithInvalidCredentialsError,
 } from '../../../shared/domain/errors.js';
+import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 
 const { authentication } = config;
+const logger = child('iam:applicationauth', { event: SCOPES.IAM });
 
 export async function authenticateApplication({
   clientId,
@@ -29,9 +30,10 @@ export async function authenticateApplication({
   );
 }
 
-function _checkApplication(application) {
+function _checkApplication(application, clientId) {
   if (!application) {
-    throw new ApplicationWithInvalidClientIdError('The client ID is invalid.');
+    logger.warn({ clientId }, 'The client ID is invalid.');
+    throw new ApplicationWithInvalidCredentialsError();
   }
 }
 
@@ -39,7 +41,8 @@ async function _checkClientSecret(application, clientSecret, cryptoService) {
   try {
     await cryptoService.checkPassword({ password: clientSecret, passwordHash: application.clientSecret });
   } catch {
-    throw new ApplicationWithInvalidClientSecretError('The client secret is invalid.');
+    logger.warn({ clientId: application.clientId }, 'The client secret is invalid.');
+    throw new ApplicationWithInvalidCredentialsError();
   }
 }
 
@@ -48,7 +51,7 @@ function _checkAppScope(application, scope) {
 
   for (const requestedScope of requestedScopes) {
     if (!application.scopes.includes(requestedScope)) {
-      throw new ApplicationScopeNotAllowedError('The scope is invalid.');
+      throw new ApplicationScopeNotAllowedError();
     }
   }
 }

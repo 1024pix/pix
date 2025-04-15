@@ -62,7 +62,6 @@ function _selectCertificationResults() {
       assessmentResultStatus: 'assessment-results.status',
       commentByAutoJury: 'assessment-results.commentByAutoJury',
       commentForOrganization: 'assessment-results.commentForOrganization',
-      emitter: 'assessment-results.emitter',
     })
     .select(
       knex.raw(`

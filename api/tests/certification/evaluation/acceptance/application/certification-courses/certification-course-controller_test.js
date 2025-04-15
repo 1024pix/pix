@@ -1,8 +1,5 @@
 import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import {
-  SESSIONS_VERSIONS,
-  SessionVersion,
-} from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/index.js';
 import {
@@ -479,9 +476,8 @@ describe('Acceptance | API | Certification Course', function () {
 function _createRequestOptions(
   { locale = 'fr-fr', version = SESSIONS_VERSIONS.V2 } = { locale: 'fr-fr', version: SESSIONS_VERSIONS.V2 },
 ) {
-  const isV3Pilot = SessionVersion.isV3(version);
   const userId = databaseBuilder.factory.buildUser().id;
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot }).id;
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   const sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId, version }).id;
   const payload = {
     data: {

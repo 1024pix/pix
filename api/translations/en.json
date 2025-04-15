@@ -239,7 +239,7 @@
     "file-metadata": {
       "title": "Pix certification confirmation"
     },
-    "file-name": "pix-confirmation-{deliveredAt}.pdf",
+    "file-name": "pix-certification-{deliveredAt}.pdf",
     "from-birthplace": " in { birthplace }",
     "max-level": "(levels on { maxReachableLevelOnCertificationDate })",
     "max-reachable-level-indication": "* At the date of the successful completion of this certification, the number of acheivable pix was { maxReachableScore }, corresponding to a level { maxReachableLevelOnCertificationDate }."

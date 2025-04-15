@@ -1,4 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../../domain/models/CertificationCenterInvitation.js';
 
@@ -146,6 +147,19 @@ const markAsCancelled = async function ({ id }) {
 };
 
 /**
+ * @param {Object} params
+ * @param {number} params.certificationCenterId
+ * @param {date} params.updatedAt
+ */
+const markAsCancelledByCertificationCenter = async function ({ certificationCenterId, updatedAt }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn
+    .from('certification-center-invitations')
+    .where({ certificationCenterId, status: CertificationCenterInvitation.StatusType.PENDING })
+    .update({ status: CertificationCenterInvitation.StatusType.CANCELLED, updatedAt });
+};
+
+/**
  * @callback updateModificationDate
  * @param {string} certificationCenterInvitationId
  * @returns {Promise<void>}
@@ -173,6 +187,7 @@ export {
   get,
   getByIdAndCode,
   markAsCancelled,
+  markAsCancelledByCertificationCenter,
   update,
   updateModificationDate,
 };

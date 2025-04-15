@@ -106,7 +106,6 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         }),
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
-        emitter: null,
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -637,7 +636,6 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         }),
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
-        emitter: 'PIX-ALGO',
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,

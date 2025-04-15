@@ -31,7 +31,9 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
         sharedAt: new Date('2020-01-01'),
         userId,
       });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: campaignParticipation.sharedAt, userId });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        campaignParticipationId: campaignParticipation.id,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -71,10 +73,23 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
         sharedAt: new Date('2020-01-01'),
         userId,
       });
-      databaseBuilder.factory.buildCampaignParticipation({ sharedAt: new Date('2020-02-01'), userId });
-      databaseBuilder.factory.buildCampaignParticipation({ sharedAt: new Date('2020-03-01'), userId });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2020-02-01'), userId });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2020-03-01'), userId });
+
+      const firstCampaignParticiationId = databaseBuilder.factory.buildCampaignParticipation({
+        sharedAt: new Date('2020-02-01'),
+        userId,
+      }).id;
+      const secondCampaignParticiationId = databaseBuilder.factory.buildCampaignParticipation({
+        sharedAt: new Date('2020-03-01'),
+        userId,
+      }).id;
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        snappedAt: new Date('2020-02-01'),
+        campaignParticipationId: firstCampaignParticiationId,
+      });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        snappedAt: new Date('2020-03-01'),
+        campaignParticipationId: secondCampaignParticiationId,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -152,8 +167,6 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
 
       // then
       expect(knowledgeElementSnapshotRepositoryStub.save).to.have.been.calledWithExactly({
-        userId: campaignParticipationData[0].userId,
-        snappedAt: campaignParticipationData[0].sharedAt,
         snapshot: new KnowledgeElementCollection(expectedKnowledgeElements).toSnapshot(),
         campaignParticipationId: campaignParticipationData[0].id,
       });

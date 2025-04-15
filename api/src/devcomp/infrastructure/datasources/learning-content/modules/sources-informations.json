@@ -90,12 +90,18 @@
                     {
                       "id": "1",
                       "content": "plutôt oui",
-                      "feedback": "<p>Oui. Cette information a été vérifiée par des journalistes. Elle a de grandes chances d'être vraie.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p>Oui. Cette information a été vérifiée par des journalistes. Elle a de grandes chances d'être vraie.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "plutôt non",
-                      "feedback": "<p>Cette information a de grandes chances d'être vraie.<br> Elle provient d'un article du journal « FranceInfo ». Cette information a été vérifiée par des journalistes.</p>"
+                      "feedback": {
+                        "state": "",
+                        "diagnosis": "<p>Cette information a de grandes chances d'être vraie.<br> Elle provient d'un article du journal « FranceInfo ». Cette information a été vérifiée par des journalistes.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -168,17 +174,26 @@
               {
                 "id": "1",
                 "content": "C'est le jour de l'événement qui a mené à cette information.",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "C'est le réseau social où est publiée cette information.",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "C'est la personne à l'origine de cette information.",
-                "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p> La source d'une information est la personne <strong>témoin</strong> de l'information.</p>"
+                "feedback": {
+                  "state": "Bonne réponse&nbsp;! 🎉",
+                  "diagnosis": "<p> La source d'une information est la personne <strong>témoin</strong> de l'information.</p>"
+                }
               }
             ],
             "solution": "3"
@@ -228,17 +243,26 @@
               {
                 "id": "1",
                 "content": "le journaliste Dupont",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "la professeure Saturne",
-                "feedback": "<span class=\"feedback__state\">Oui,c'est correct.</span><p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>"
+                "feedback": {
+                  "state": "Oui,c'est correct.",
+                  "diagnosis": "<p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "Madame Sarah",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
+                }
               }
             ],
             "solution": "2"
@@ -342,17 +366,26 @@
                     {
                       "id": "1",
                       "content": "fiable",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "humoristique",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "contestable",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -376,17 +409,26 @@
                     {
                       "id": "1",
                       "content": "fiable",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "humoristique",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "contestable",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -410,17 +452,26 @@
                     {
                       "id": "1",
                       "content": "fiable",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "humoristique",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "contestable",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+                      }
                     }
                   ],
                   "solution": "3"

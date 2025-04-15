@@ -1,9 +1,6 @@
 import { ImportSupOrganizationLearnersJob } from '../../../../../../../src/prescription/learner-management/domain/models/ImportSupOrganizationLearnersJob.js';
 import { importSupOrganizationLearnersJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/import-sup-organization-learners-job-repository.js';
-import {
-  JobExpireIn,
-  JobRetry,
-} from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | importSupOrganizationLearnersJobRepository', function () {
@@ -16,7 +13,6 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | impo
 
       // then
       await expect(ImportSupOrganizationLearnersJob.name).to.have.have.been.performed.withJob({
-        expirein: JobExpireIn.HIGH,
         retrylimit: JobRetry.FEW_RETRY.retryLimit,
         retrydelay: JobRetry.FEW_RETRY.retryDelay,
         retrybackoff: JobRetry.FEW_RETRY.retryBackoff,

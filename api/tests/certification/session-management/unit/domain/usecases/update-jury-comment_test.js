@@ -1,7 +1,6 @@
 import { updateJuryComment } from '../../../../../../src/certification/session-management/domain/usecases/update-jury-comment.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { AssessmentResult } from '../../../../../../src/shared/domain/models/index.js';
-import { CompetenceMark } from '../../../../../../src/shared/domain/models/index.js';
+import { AssessmentResult, CompetenceMark } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-jury-comment', function () {
@@ -50,7 +49,6 @@ describe('Unit | UseCase | update-jury-comment', function () {
           ...oldAssessmentResult.clone,
           id: undefined,
           juryId: 456,
-          emitter: AssessmentResult.emitters.PIX_JURY,
           commentByJury: assessmentResultCommentByJury,
         }),
       ),

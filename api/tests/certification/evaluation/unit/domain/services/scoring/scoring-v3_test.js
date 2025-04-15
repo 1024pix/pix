@@ -7,7 +7,6 @@ import { ABORT_REASONS } from '../../../../../../../src/certification/shared/dom
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { CertificationResult } from '../../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 
@@ -115,7 +114,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
 
         assessmentResult = domainBuilder.buildAssessmentResult({
           id: assessmentResultId,
-          emitter: AssessmentResult.emitters.PIX_ALGO,
           pixScore: scoreForCapacity,
           reproducibilityRate: 100,
           status: AssessmentResult.status.VALIDATED,
@@ -212,7 +210,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
         // when
         const expectedCertificationCourse = await handleV3CertificationScoring({
           event,
-          emitter: AssessmentResult.emitters.PIX_ALGO,
           certificationAssessment,
           locale: 'fr',
           answerRepository,
@@ -230,7 +227,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
         const expectedResult = {
           certificationCourseId,
           assessmentResult: new AssessmentResult({
-            emitter: assessmentResult.emitter,
             pixScore: assessmentResult.pixScore,
             reproducibilityRate: assessmentResult.reproducibilityRate,
             status: assessmentResult.status,
@@ -318,7 +314,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             // when
             await handleV3CertificationScoring({
               event,
-              emitter: CertificationResult.emitters.PIX_ALGO,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -342,7 +337,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.VALIDATED,
               assessmentId: certificationAssessment.id,
-              emitter: AssessmentResult.emitters.PIX_ALGO,
             });
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
               certificationCourseId: 1234,
@@ -418,12 +412,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
                   },
                 ]);
 
-              const emitter = CertificationResult.emitters.PIX_ALGO;
-
               // when
               await handleV3CertificationScoring({
                 event,
-                emitter,
                 certificationAssessment,
                 locale: 'fr',
                 answerRepository,
@@ -447,7 +438,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
-                emitter: AssessmentResult.emitters.PIX_ALGO,
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
@@ -573,12 +563,10 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await handleV3CertificationScoring({
               event,
-              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -596,7 +584,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: scoreForCapacity,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.REJECTED,
@@ -626,8 +613,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
               createdAt: certificationCourseStartDate,
               abortReason: ABORT_REASONS.CANDIDATE,
             });
-
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             const answeredChallenges = allChallenges.slice(0, -2);
             const { answers, challengeCalibrationsWithoutLiveAlerts } =
@@ -689,7 +674,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             // when
             await handleV3CertificationScoring({
               event,
-              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -713,7 +697,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
-              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
               commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
                 commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
               }),
@@ -737,7 +720,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             // given
             const expectedCapacity = 2;
             const scoreForCapacity = 438;
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: 675,
@@ -817,7 +799,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             // when
             await handleV3CertificationScoring({
               event,
-              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -835,7 +816,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const expectedResult = {
               certificationCourseId: abortedCertificationCourse.getId(),
               assessmentResult: new AssessmentResult({
-                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: scoreForCapacity,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.CANCELLED,
@@ -874,7 +854,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
               completedAt: null,
               abortReason,
             });
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             const capacityHistory = [
               domainBuilder.buildCertificationChallengeCapacity({
@@ -939,7 +918,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             // when
             await handleV3CertificationScoring({
               event,
-              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -964,7 +942,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.VALIDATED,
               assessmentId: certificationAssessment.id,
-              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
             });
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
               certificationCourseId,
@@ -1055,12 +1032,10 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await handleV3CertificationScoring({
               event,
-              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -1078,7 +1053,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: rawScore,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.VALIDATED,
@@ -1290,7 +1264,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: cappedscoreForCapacity,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.VALIDATED,
@@ -1302,12 +1275,10 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V3', funct
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await handleV3CertificationScoring({
               event,
-              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,

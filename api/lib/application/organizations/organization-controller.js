@@ -1,4 +1,3 @@
-import * as organizationSerializer from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import * as csvSerializer from '../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
 import { extractUserIdFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
@@ -10,16 +9,6 @@ const createInBatch = async function (request, h) {
   const createdOrganizations = await usecases.createOrganizationsWithTagsAndTargetProfiles({ organizations });
 
   return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
-};
-
-const findPaginatedFilteredOrganizations = async function (request, h, dependencies = { organizationSerializer }) {
-  const options = request.query;
-
-  const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({
-    filter: options.filter,
-    page: options.page,
-  });
-  return dependencies.organizationSerializer.serialize(organizations, pagination);
 };
 
 const archiveOrganization = async function (request, h, dependencies = { organizationForAdminSerializer }) {
@@ -43,7 +32,6 @@ const organizationController = {
   archiveOrganization,
   createInBatch,
   findChildrenOrganizationsForAdmin,
-  findPaginatedFilteredOrganizations,
 };
 
 export { organizationController };

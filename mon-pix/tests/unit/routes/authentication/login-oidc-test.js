@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
-import * as fetch from 'fetch';
+import { SessionStorageEntry } from 'mon-pix//utils/session-storage-entry';
 import { ApplicationError } from 'mon-pix/errors/application-error';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -37,7 +37,7 @@ module('Unit | Route | login-oidc', function (hooks) {
 
     module('when no code exists in queryParams', function (hooks) {
       hooks.beforeEach(function () {
-        sinon.stub(fetch, 'default').resolves({
+        sinon.stub(window, 'fetch').resolves({
           json: sinon.stub().resolves({ redirectTarget: 'https://oidc/connexion' }),
         });
         const oidcPartner = {
@@ -141,17 +141,17 @@ module('Unit | Route | login-oidc', function (hooks) {
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
         const identityProviderSlug = 'super-idp-name';
+        const oidcUserAuthenticationStorage = new SessionStorageEntry('oidcUserAuthentication');
+        const authenticationKey = '123';
+        oidcUserAuthenticationStorage.set({ authenticationKey });
 
         // when
-        await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderSlug });
+        await route.afterModel({ shouldValidateCgu: true, identityProviderSlug });
 
         // then
         sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-or-register-oidc', {
           queryParams: {
-            authenticationKey: '123',
             identityProviderSlug,
-            givenName: undefined,
-            familyName: undefined,
           },
         });
         assert.ok(true);
@@ -164,9 +164,12 @@ module('Unit | Route | login-oidc', function (hooks) {
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
         const identityProviderSlug = 'super-idp-name';
+        const oidcUserAuthenticationStorage = new SessionStorageEntry('oidcUserAuthentication');
+        const authenticationKey = null;
+        oidcUserAuthenticationStorage.set({ authenticationKey });
 
         // when
-        await route.afterModel({ authenticationKey: null, shouldValidateCgu: false, identityProviderSlug });
+        await route.afterModel({ shouldValidateCgu: false, identityProviderSlug });
 
         // then
         sinon.assert.notCalled(route.router.replaceWith);
@@ -203,7 +206,7 @@ module('Unit | Route | login-oidc', function (hooks) {
         errors: [
           {
             code: 'SHOULD_VALIDATE_CGU',
-            meta: { authenticationKey: 'key', givenName: 'Mélusine', familyName: 'TITEGOUTTE' },
+            meta: { authenticationKey: 'key', userClaims: { firstName: 'Mélusine', lastName: 'TITEGOUTTE' } },
           },
         ],
       });
@@ -225,10 +228,7 @@ module('Unit | Route | login-oidc', function (hooks) {
       sinon.assert.calledOnce(authenticateStub);
       assert.deepEqual(response, {
         shouldValidateCgu: true,
-        authenticationKey: 'key',
         identityProviderSlug: 'oidc-partner',
-        givenName: 'Mélusine',
-        familyName: 'TITEGOUTTE',
       });
       assert.ok(true);
     });

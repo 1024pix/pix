@@ -12,7 +12,6 @@ export { createCertificationCenter };
  * @param {Date} createdAt
  * @param {Date} updatedAt
  * @param {Array<{id: number, role: string}>} members
- * @param {boolean} isV3Pilot
  * @param {Array<number>} complementaryCertificationIds
  * @param {Array<number>} featureIds
  * @returns {Promise<{certificationCenterId: number}>}
@@ -26,7 +25,6 @@ async function createCertificationCenter({
   createdAt,
   updatedAt,
   members = [],
-  isV3Pilot = false,
   complementaryCertificationIds = [],
   featureIds = [],
 }) {
@@ -38,7 +36,6 @@ async function createCertificationCenter({
     externalId,
     createdAt,
     updatedAt,
-    isV3Pilot,
   }).id;
   _buildCertificationCenterFeatures({
     databaseBuilder,
@@ -93,7 +90,6 @@ function _buildCertificationCenter({
   name,
   type,
   externalId,
-  isV3Pilot,
   createdAt,
   updatedAt,
 }) {
@@ -104,7 +100,6 @@ function _buildCertificationCenter({
     externalId,
     createdAt,
     updatedAt,
-    isV3Pilot,
   });
 }
 

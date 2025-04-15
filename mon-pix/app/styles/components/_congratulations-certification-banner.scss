@@ -90,7 +90,6 @@
 
   @include breakpoints.device-is('tablet') {
     flex-direction: row;
-    width: 55%;
   }
 }
 
@@ -107,7 +106,6 @@
   @extend %pix-body-m;
 
   @include breakpoints.device-is('tablet') {
-    width: 45%;
     margin-bottom: 0;
   }
 

@@ -1,17 +1,10 @@
 {{page-title (t "pages.user-tests.title")}}
-
 <Global::AppLayout>
   <main id="main" role="main" class="global-page-container">
-    <section class="global-page-header">
-      <div class="global-page-header__left-content">
-        <h1 class="global-page-header__title">
-          {{t "pages.user-tests.title"}}
-        </h1>
-        <p class="global-page-header__description">
-          {{t "pages.user-tests.description"}}
-        </p>
-      </div>
-    </section>
+    <Ui::PageTitle>
+      <:title> {{t "pages.user-tests.title"}}</:title>
+      <:subtitle>{{t "pages.user-tests.description"}}</:subtitle>
+    </Ui::PageTitle>
 
     <CampaignParticipationOverview::Grid @model={{this.model}} />
   </main>

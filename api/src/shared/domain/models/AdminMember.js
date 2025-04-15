@@ -57,6 +57,10 @@ class AdminMember {
   get isSupport() {
     return this.role === ROLES.SUPPORT && isNil(this.disabledAt);
   }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }
 
 export { AdminMember };

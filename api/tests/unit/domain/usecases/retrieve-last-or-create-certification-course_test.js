@@ -624,7 +624,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                   const certificationCenter = domainBuilder.buildCertificationCenter({
                     habilitations: [],
-                    isV3Pilot: true,
                   });
                   certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
@@ -678,7 +677,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                   const certificationCenter = domainBuilder.buildCertificationCenter({
                     habilitations: [],
-                    isV3Pilot: true,
                   });
                   certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 

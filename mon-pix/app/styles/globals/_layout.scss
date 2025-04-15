@@ -22,7 +22,7 @@ img {
   gap: var(--pix-spacing-6x);
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: var(--pix-spacing-4x);
+  padding-bottom: var(--pix-spacing-3x);
 
   &__user-pix-score {
     display: flex;
@@ -81,6 +81,7 @@ img {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-bottom: var(--pix-spacing-10x);
 }
 
 .global-page-container__streched-content {

@@ -46,7 +46,7 @@ module('Integration | Component | user-certifications-detail-competences-list', 
     this.set('resultCompetenceTree', resultCompetenceTree);
 
     // when
-    await render(hbs`<UserCertificationsDetailCompetencesList
+    await render(hbs`<Certifications::UserCertificationsDetailCompetencesList
   @resultCompetenceTree={{this.resultCompetenceTree}}
   @maxReachableLevelOnCertificationDate={{this.maxReachableLevelOnCertificationDate}}
 />`);

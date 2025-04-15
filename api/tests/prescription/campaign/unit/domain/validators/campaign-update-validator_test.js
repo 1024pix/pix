@@ -61,53 +61,53 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
       context(`when campaign is of type ${campaign.type}`, function () {
         context('when validation is successful', function () {
           it('should not throw any error', function () {
-            expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
+            expect(() => campaignUpdateValidator.validate(campaign)).to.not.throw();
           });
 
           context('#title', function () {
             it('should resolve when is null', function () {
               // when/then
-              expect(
+              expect(() =>
                 campaignUpdateValidator.validate({
                   ...campaign,
                   title: MISSING_VALUE,
                 }),
-              ).to.not.throw;
+              ).to.not.throw();
             });
 
             it('should resolve when is not provided', function () {
               // when/then
-              expect(
+              expect(() =>
                 campaignUpdateValidator.validate({
                   ...campaign,
                   title: UNDEFINED_VALUE,
                 }),
-              ).to.not.throw;
+              ).to.not.throw();
             });
           });
 
           context('#customResultPageText', function () {
             it('should resolve when is null', function () {
               // when/then
-              expect(
+              expect(() =>
                 campaignUpdateValidator.validate({
                   ...campaign,
                   customResultPageText: MISSING_VALUE,
                 }),
-              ).to.not.throw;
+              ).to.not.throw();
             });
           });
 
           context('#customResultPageButtonText and #customResultPageButtonUrl', function () {
             it('should resolve when both are null', function () {
               // when/then
-              expect(
+              expect(() =>
                 campaignUpdateValidator.validate({
                   ...campaign,
                   customResultPageButtonText: MISSING_VALUE,
                   customResultPageButtonUrl: MISSING_VALUE,
                 }),
-              ).to.not.throw;
+              ).to.not.throw();
             });
           });
 
@@ -387,7 +387,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
+        expect(() => campaignUpdateValidator.validate(campaign)).to.not.throw();
       });
 
       it('should reject with error campaign type is ASSESSMENT and title has more than 50 char', function () {
@@ -460,7 +460,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
+        expect(() => campaignUpdateValidator.validate(campaign)).to.not.throw();
       });
     });
 
@@ -494,7 +494,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
+        expect(() => campaignUpdateValidator.validate(campaign)).to.not.throw();
       });
 
       it('should reject with error when customResultPageButtonText is not filled but customResultPageButtonUrl is', function () {
@@ -570,7 +570,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
+        expect(() => campaignUpdateValidator.validate(campaign)).to.not.throw();
       });
 
       it('should reject with error when it is not a url', function () {

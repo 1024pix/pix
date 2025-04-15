@@ -11,7 +11,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
       // Given
       const proposal1 = Symbol('proposal1');
       const proposal2 = Symbol('proposal2');
-      const feedbacks = { valid: 'valid', invalid: 'invalid' };
+      const feedbacks = { valid: { state: 'valid' }, invalid: { state: 'invalid' } };
       const solutions = Symbol('solutions');
       const expectedSolution = { value: solutions };
 
@@ -72,7 +72,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
         id: 'qcm-id',
         instruction: '',
         proposals: [{ id: qcmSolution1 }, { id: qcmSolution2 }, { id: Symbol('proposal3') }],
-        feedbacks: { valid: 'OK', invalid: 'KO' },
+        feedbacks: { valid: { state: 'OK' }, invalid: { state: 'KO' } },
         solutions: qcmSolutions,
         validator,
       });
@@ -116,7 +116,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
         id: 'qcm-id',
         instruction: '',
         proposals: [{ id: qcmSolution1 }, { id: qcmSolution2 }, { id: Symbol('proposal3') }],
-        feedbacks: { valid: 'OK', invalid: 'KO' },
+        feedbacks: { valid: { state: 'OK' }, invalid: { state: 'KO' } },
         solutions: qcmSolutions,
         validator,
       });
@@ -159,7 +159,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
           id: 'qcm-id',
           instruction: '',
           proposals: [{}],
-          feedbacks: { valid: 'OK', invalid: 'KO' },
+          feedbacks: { valid: { state: 'OK' }, invalid: { state: 'KO' } },
           solutions: qcmSolutions,
         });
 
@@ -213,7 +213,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
             id: 'qcm-id',
             instruction: '',
             proposals: [{}],
-            feedbacks: { valid: 'OK', invalid: 'KO' },
+            feedbacks: { valid: { state: 'OK' }, invalid: { state: 'KO' } },
             solutions: qcmSolutions,
           });
 

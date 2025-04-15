@@ -1,4 +1,5 @@
 import { findPaginatedFilteredOrganizationCampaigns } from '../../../../../../src/prescription/campaign/domain/usecases/find-paginated-filtered-organization-campaigns.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', function () {
@@ -6,6 +7,8 @@ describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-camp
 
   beforeEach(function () {
     campaignReportRepository.findPaginatedFilteredByOrganizationId = sinon.stub();
+    sinon.stub(DomainTransaction, 'execute');
+    DomainTransaction.execute.callsFake((callback) => callback());
   });
 
   describe('#findPaginatedFilteredOrganizationCampaigns', function () {
@@ -18,7 +21,11 @@ describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-camp
       const page = { number: 1, size: 3 };
 
       // when
-      const promise = findPaginatedFilteredOrganizationCampaigns({ organizationId, page, campaignReportRepository });
+      const promise = findPaginatedFilteredOrganizationCampaigns({
+        organizationId,
+        page,
+        campaignReportRepository,
+      });
 
       // then
       return promise.then((campaigns) => {

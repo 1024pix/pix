@@ -94,10 +94,6 @@ class CampaignParticipant {
       );
     }
 
-    if (this.previousCampaignParticipationForUser?.isDeleted) {
-      throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
-    }
-
     if (['STARTED', 'TO_SHARE'].includes(this.previousCampaignParticipationForUser?.status)) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
     }

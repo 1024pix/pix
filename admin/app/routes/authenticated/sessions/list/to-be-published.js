@@ -11,21 +11,13 @@ export default class AuthenticatedSessionsListToBePublishedRoute extends Route {
 
   model(_, transition) {
     if (transition.to.queryParams.version === '3') {
-      return this.store.query('to-be-published-session', {
-        filter: {
-          version: 3,
-        },
-      });
+      return this.modelFor('authenticated.sessions.list').v3SessionsToBePublished;
     }
-    return this.store.query('to-be-published-session', {
-      filter: {
-        version: 2,
-      },
-    });
+    return this.modelFor('authenticated.sessions.list').v2SessionsToBePublished;
   }
 
   @action
   refreshModel() {
-    this.refresh();
+    this.modelFor('authenticated.sessions.list').refreshModel();
   }
 }

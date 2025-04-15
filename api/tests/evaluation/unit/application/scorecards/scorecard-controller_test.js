@@ -1,5 +1,6 @@
 import { usecases as devCompUsecases } from '../../../../../src/devcomp/domain/usecases/index.js';
 import { scorecardController } from '../../../../../src/evaluation/application/scorecards/scorecard-controller.js';
+import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
@@ -54,16 +55,16 @@ describe('Unit | Controller | scorecard-controller', function () {
 
   describe('#findTutorials', function () {
     const tutorials = [];
-
-    beforeEach(function () {
-      sinon
-        .stub(devCompUsecases, 'findTutorials')
-        .withArgs({ authenticatedUserId, scorecardId, locale })
-        .resolves(tutorials);
-    });
+    const competenceId = 13;
+    const userId = authenticatedUserId;
+    const scorecard = { userId, competenceId };
 
     it('should call the expected usecase', async function () {
-      // given
+      sinon
+        .stub(devCompUsecases, 'findTutorials')
+        .withArgs({ userId: authenticatedUserId, competenceId, locale })
+        .resolves(tutorials);
+      sinon.stub(Scorecard, 'parseId').withArgs(scorecardId).resolves(scorecard);
       const tutorialSerializer = {
         serialize: sinon.stub(),
       };

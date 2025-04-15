@@ -22,8 +22,6 @@ export default function () {
   const studentBase = {
     certification_courses_id: generateCertifCourseId(),
     certification_code_verification: generateVerificationCode(),
-    organization_uai: null,
-    national_student_id: null,
     last_name: faker.person.lastName(),
     first_name: generateFirstName(),
     birthdate: getFormattedBirthdate(),

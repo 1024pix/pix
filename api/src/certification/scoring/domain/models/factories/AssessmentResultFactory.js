@@ -1,10 +1,9 @@
-import { AssessmentResult } from '../../../../../shared/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../../shared/domain/models/index.js';
 import { AutoJuryCommentKeys, JuryComment, JuryCommentContexts } from '../../../../shared/domain/models/JuryComment.js';
 
 export class AssessmentResultFactory {
-  static buildAlgoErrorResult({ error, assessmentId, juryId, emitter }) {
+  static buildAlgoErrorResult({ error, assessmentId, juryId }) {
     return new AssessmentResult({
-      emitter,
       commentByJury: error.message,
       pixScore: 0,
       reproducibilityRate: 0,
@@ -14,9 +13,8 @@ export class AssessmentResultFactory {
     });
   }
 
-  static buildCancelledAssessmentResult({ pixScore, reproducibilityRate, assessmentId, juryId, emitter }) {
+  static buildCancelledAssessmentResult({ pixScore, reproducibilityRate, assessmentId, juryId }) {
     return new AssessmentResult({
-      emitter,
       pixScore,
       reproducibilityRate,
       status: AssessmentResult.status.CANCELLED,
@@ -25,9 +23,8 @@ export class AssessmentResultFactory {
     });
   }
 
-  static buildStandardAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter }) {
+  static buildStandardAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId }) {
     return new AssessmentResult({
-      emitter,
       pixScore,
       reproducibilityRate,
       status,
@@ -36,7 +33,7 @@ export class AssessmentResultFactory {
     });
   }
 
-  static buildNotTrustableAssessmentResult({ pixScore, reproducibilityRate, assessmentId, juryId, emitter }) {
+  static buildNotTrustableAssessmentResult({ pixScore, reproducibilityRate, assessmentId, juryId }) {
     const commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,
       commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
@@ -48,7 +45,6 @@ export class AssessmentResultFactory {
     });
 
     return new AssessmentResult({
-      emitter,
       commentForCandidate,
       commentForOrganization,
       pixScore,
@@ -71,7 +67,6 @@ export class AssessmentResultFactory {
     });
 
     return new AssessmentResult({
-      emitter: AssessmentResult.emitters.PIX_ALGO_FRAUD_REJECTION,
       commentForCandidate,
       commentForOrganization,
       pixScore,
@@ -83,7 +78,7 @@ export class AssessmentResultFactory {
     });
   }
 
-  static buildLackOfAnswers({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter, competenceMarks }) {
+  static buildLackOfAnswers({ pixScore, reproducibilityRate, status, assessmentId, juryId, competenceMarks }) {
     const commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,
       commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
@@ -95,7 +90,6 @@ export class AssessmentResultFactory {
     });
 
     return new AssessmentResult({
-      emitter,
       pixScore,
       reproducibilityRate,
       status,
@@ -112,7 +106,6 @@ export class AssessmentResultFactory {
     reproducibilityRate,
     assessmentId,
     juryId,
-    emitter,
     competenceMarks,
   }) {
     const commentForCandidate = new JuryComment({
@@ -126,7 +119,6 @@ export class AssessmentResultFactory {
     });
 
     return new AssessmentResult({
-      emitter,
       pixScore,
       reproducibilityRate,
       status: AssessmentResult.status.CANCELLED,
@@ -138,7 +130,7 @@ export class AssessmentResultFactory {
     });
   }
 
-  static buildInsufficientCorrectAnswers({ pixScore, reproducibilityRate, assessmentId, emitter, juryId }) {
+  static buildInsufficientCorrectAnswers({ pixScore, reproducibilityRate, assessmentId, juryId }) {
     const commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,
       commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
@@ -150,7 +142,6 @@ export class AssessmentResultFactory {
     });
 
     return new AssessmentResult({
-      emitter,
       commentForCandidate,
       commentForOrganization,
       pixScore,

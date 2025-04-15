@@ -7,6 +7,10 @@
   font-weight: bold;
 }
 
+.scoring-simulator__data {
+  margin-bottom: var(--pix-spacing-6x);
+}
+
 .scoring-simulator-form {
   display: flex;
   flex-flow: row nowrap;

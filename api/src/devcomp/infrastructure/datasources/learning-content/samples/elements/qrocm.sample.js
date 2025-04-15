@@ -52,8 +52,8 @@ export function getQrocmSample() {
       },
     ],
     feedbacks: {
-      valid: '<p>Correct !</p>',
-      invalid: '<p>Incorrect !</p>',
+      valid: { state: 'Correct', diagnosis: '<p> Un exemple de feedback </p>' },
+      invalid: { state: 'Incorrect !', diagnosis: '<p> Un exemple de feedback </p>' },
     },
   };
 }

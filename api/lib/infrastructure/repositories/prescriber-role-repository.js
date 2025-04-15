@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { prescriberRoles } from '../../application/preHandlers/models/CampaignAuthorization.js';
+import { prescriberRoles } from '../../../src/shared/application/pre-handlers/CampaignAuthorization.js';
 
 const getForCampaign = async function ({ userId, campaignId }) {
   const result = await _getCampaignAccess({ userId, campaignId });

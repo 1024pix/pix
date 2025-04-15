@@ -20,7 +20,7 @@ describe('Acceptance | Controller | passage-controller', function () {
         const expectedResponse = {
           type: 'passages',
           attributes: {
-            'module-id': 'bien-ecrire-son-adresse-mail',
+            'module-id': 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
           },
         };
 
@@ -54,7 +54,7 @@ describe('Acceptance | Controller | passage-controller', function () {
         const expectedResponse = {
           type: 'passages',
           attributes: {
-            'module-id': 'bien-ecrire-son-adresse-mail',
+            'module-id': 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
           },
         };
 
@@ -90,34 +90,42 @@ describe('Acceptance | Controller | passage-controller', function () {
       const cases = [
         {
           case: 'QCU',
-          moduleId: 'bien-ecrire-son-adresse-mail',
+          moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
           elementId: '845fe6d7-7ac5-46bb-a5d6-0419148b3978',
           userResponse: ['2'],
           expectedUserResponseValue: '2',
-          expectedFeedback:
-            '<p class="feedback__state">Bonne réponse&#8239;!&nbsp;<span aria-hidden="true">🎉</span></p><p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d\'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>',
+          expectedFeedback: {
+            state: 'Bonne réponse&#8239;!&nbsp;🎉',
+            diagnosis:
+              "<p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>",
+          },
           expectedSolution: '2',
         },
         {
           case: 'QROCM-ind',
-          moduleId: 'bien-ecrire-son-adresse-mail',
+          moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
           elementId: '8709ad92-093e-447a-a7b6-3223e6171196',
           userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
-          expectedFeedback:
-            '<span class="feedback__state">Bravo !&nbsp;<span aria-hidden="true">💫</span></span><p>Tout est dans l\'ordre&nbsp;: l\'identifiant, l\'arobase puis le fournisseur d\'adresse mail</p>',
+          expectedFeedback: {
+            state: 'Bravo !&nbsp;\uD83D\uDCAB',
+            diagnosis:
+              "<p>Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+          },
           expectedSolution: {
             email: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
           },
         },
         {
           case: 'QCM',
-          moduleId: 'bac-a-sable',
+          moduleId: '6282925d-4775-4bca-b513-4c3009ec5886',
           elementId: '30701e93-1b4d-4da4-b018-fa756c07d53f',
           userResponse: ['1', '3', '4'],
           expectedUserResponseValue: ['1', '3', '4'],
-          expectedFeedback:
-            '<span class="feedback__state">Correct&#8239;!</span><p>Vous nous avez bien cernés&nbsp;:)</p>',
+          expectedFeedback: {
+            state: 'Correct&#8239;!',
+            diagnosis: '<p>Vous nous avez bien cernés&nbsp;:)</p>',
+          },
           expectedSolution: ['1', '3', '4'],
         },
       ];
@@ -151,7 +159,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           );
           expect(response.result.data.attributes['element-id']).to.equal(testCase.elementId);
           expect(response.result.included[0].attributes.status).to.equal('ok');
-          expect(response.result.included[0].attributes.feedback).to.equal(testCase.expectedFeedback);
+          expect(response.result.included[0].attributes.feedback).to.deep.equal(testCase.expectedFeedback);
           expect(response.result.included[0].attributes.solution).to.deep.equal(testCase.expectedSolution);
         }),
       );

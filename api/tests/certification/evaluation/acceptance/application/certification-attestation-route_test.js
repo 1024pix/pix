@@ -146,7 +146,6 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
               assessmentId: assessment.id,
               level: 1,
               pixScore: 23,
-              emitter: 'PIX-ALGO',
               status: AssessmentResult.status.VALIDATED,
             });
 
@@ -165,7 +164,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
             expect(response.statusCode).to.equal(200);
             expect(response.headers['content-type']).to.equal('application/pdf');
 
-            const filename = `filename=attestation-pix-20181201.pdf`;
+            const filename = `filename=certification-pix-20181201.pdf`;
             expect(response.headers['content-disposition']).to.include(filename);
 
             const fileFormat = response.result.substring(1, 4);
@@ -193,7 +192,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.headers['content-type']).to.equal('application/pdf');
-          expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
+          expect(response.headers['content-disposition']).to.include('filename=certification-pix');
           expect(response.file).not.to.be.null;
         });
       });
@@ -220,7 +219,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
-        expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
+        expect(response.headers['content-disposition']).to.include('filename=certification-pix');
         expect(response.file).not.to.be.null;
       });
     });
@@ -253,7 +252,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${sessionId}-attestation-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${sessionId}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
@@ -406,7 +405,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=${organizationLearner.division.toLowerCase()}-attestation-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=${organizationLearner.division.toLowerCase()}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
@@ -455,7 +454,6 @@ async function _buildDatabaseCertification({
     assessmentId: assessment.id,
     level: 1,
     pixScore: 23,
-    emitter: 'PIX-ALGO',
     status: 'validated',
   });
   const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({

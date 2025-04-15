@@ -17,6 +17,14 @@ module('Integration | Component | Certifications | CertificationEnder', function
     assert.ok(screen.getByText(t('pages.certification-ender.candidate.title')));
   });
 
+  test('should not display the authenticated menu', async function (assert) {
+    // when
+    const screen = await renderScreen(hbs`<Certifications::CertificationEnder />`);
+
+    // then
+    assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
+  });
+
   test('should display the certification number', async function (assert) {
     // given
     this.certificationNumber = 1234;

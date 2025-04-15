@@ -90,140 +90,139 @@ export default class SessionList extends Component {
   }
 
   <template>
-    {{#unless @sessionSummaries.length}}
+    {{#if @sessionSummaries.length}}
+      <PixTable
+        @onRowClick={{@goToSessionDetails}}
+        @data={{@sessionSummaries}}
+        @variant='certif'
+        @caption={{t 'pages.sessions.list.table.session-caption'}}
+      >
+        <:columns as |sessionSummary context|>
+          <PixTableColumn @context={{context}} class='table__column--small'>
+            <:header>
+              {{t 'common.forms.session-labels.session-number'}}
+            </:header>
+            <:cell>
+              <LinkTo
+                @route='authenticated.sessions.details'
+                @model={{sessionSummary.id}}
+                aria-label='{{t "pages.sessions.list.table.row.session-and-id" sessionId=sessionSummary.id}}'
+              >
+                {{sessionSummary.id}}
+              </LinkTo>
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}} class='table__column--hyphen'>
+            <:header>
+              {{t 'common.forms.session-labels.center-name'}}
+            </:header>
+            <:cell>
+              {{sessionSummary.address}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}} class='table__column--hyphen'>
+            <:header>
+              {{t 'common.forms.session-labels.room'}}
+            </:header>
+            <:cell>
+              {{sessionSummary.room}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}} class='table__column--small'>
+            <:header>
+              {{t 'common.forms.session-labels.date'}}
+            </:header>
+            <:cell>
+              {{dayjsFormat sessionSummary.date 'DD/MM/YYYY' allow-empty=true}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}} class='table__column--small'>
+            <:header>
+              {{t 'common.forms.session-labels.time'}}
+            </:header>
+            <:cell>
+              {{dayjsFormat sessionSummary.time 'HH:mm' inputFormat='HH:mm:ss' allow-empty=true}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t 'common.forms.session-labels.invigilator'}}
+            </:header>
+            <:cell>
+              {{sessionSummary.examiner}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}} class='table__column--small'>
+            <:header>
+              {{t 'pages.sessions.list.table.header.enrolled-candidates'}}
+            </:header>
+            <:cell>
+              {{sessionSummary.enrolledCandidatesCount}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t 'pages.sessions.list.table.header.effective-candidates'}}
+            </:header>
+            <:cell>
+              {{sessionSummary.effectiveCandidatesCount}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t 'common.forms.session-labels.status'}}
+            </:header>
+            <:cell>
+              {{this.statusLabel sessionSummary.status}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              <span class='screen-reader-only'>
+                {{t 'pages.sessions.list.table.header.actions'}}
+              </span>
+            </:header>
+            <:cell>
+              {{#if sessionSummary.hasEffectiveCandidates}}
+                <PixTooltip @position='left' @isInline={{true}} @id='tooltip-delete-session-button'>
+                  <:triggerElement>
+                    <PixIconButton
+                      @iconName='delete'
+                      @plainIcon={{true}}
+                      @ariaLabel={{t
+                        'pages.sessions.list.actions.delete-session.label'
+                        sessionSummaryId=sessionSummary.id
+                      }}
+                      disabled={{true}}
+                      aria-describedby='tooltip-delete-session-button'
+                    />
+                  </:triggerElement>
+                  <:tooltip>{{t 'pages.sessions.list.actions.delete-session.disabled'}}</:tooltip>
+                </PixTooltip>
+              {{else}}
+                <PixIconButton
+                  @iconName='delete'
+                  @plainIcon={{true}}
+                  @ariaLabel={{t 'pages.sessions.list.actions.delete-session.label' sessionSummaryId=sessionSummary.id}}
+                  disabled={{false}}
+                  @triggerAction={{fn
+                    this.openSessionDeletionConfirmModal
+                    sessionSummary.id
+                    sessionSummary.enrolledCandidatesCount
+                  }}
+                />
+              {{/if}}
+            </:cell>
+          </PixTableColumn>
+        </:columns>
+      </PixTable>
+
+      <PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.currentLocale}} />
+    {{else}}
       <div class='table__empty content-text'>
         {{t 'pages.sessions.list.table.empty'}}
       </div>
-    {{/unless}}
-    <PixTable
-      @onRowClick={{@goToSessionDetails}}
-      @data={{@sessionSummaries}}
-      @variant='certif'
-      @caption={{t 'pages.sessions.list.table.session-caption'}}
-    >
-      <:columns as |sessionSummary context|>
-        <PixTableColumn @context={{context}} class='table__column--small'>
-          <:header>
-            {{t 'common.forms.session-labels.session-number'}}
-          </:header>
-          <:cell>
-            <LinkTo
-              @route='authenticated.sessions.details'
-              @model={{sessionSummary.id}}
-              aria-label='{{t "pages.sessions.list.table.row.session-and-id" sessionId=sessionSummary.id}}'
-            >
-              {{sessionSummary.id}}
-            </LinkTo>
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}}>
-          <:header>
-            {{t 'common.forms.session-labels.center-name'}}
-          </:header>
-          <:cell>
-            {{sessionSummary.address}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}}>
-          <:header>
-            {{t 'common.forms.session-labels.room'}}
-          </:header>
-          <:cell>
-            {{sessionSummary.room}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}} class='table__column--small'>
-          <:header>
-            {{t 'common.forms.session-labels.date'}}
-          </:header>
-          <:cell>
-            {{dayjsFormat sessionSummary.date 'DD/MM/YYYY' allow-empty=true}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}} class='table__column--small'>
-          <:header>
-            {{t 'common.forms.session-labels.time'}}
-          </:header>
-          <:cell>
-            {{dayjsFormat sessionSummary.time 'HH:mm' inputFormat='HH:mm:ss' allow-empty=true}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}}>
-          <:header>
-            {{t 'common.forms.session-labels.invigilator'}}
-          </:header>
-          <:cell>
-            {{sessionSummary.examiner}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}} class='table__column--small'>
-          <:header>
-            {{t 'pages.sessions.list.table.header.enrolled-candidates'}}
-          </:header>
-          <:cell>
-            {{sessionSummary.enrolledCandidatesCount}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}}>
-          <:header>
-            {{t 'pages.sessions.list.table.header.effective-candidates'}}
-          </:header>
-          <:cell>
-            {{sessionSummary.effectiveCandidatesCount}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}}>
-          <:header>
-            {{t 'common.forms.session-labels.status'}}
-          </:header>
-          <:cell>
-            {{this.statusLabel sessionSummary.status}}
-          </:cell>
-        </PixTableColumn>
-        <PixTableColumn @context={{context}}>
-          <:header>
-            <span class='screen-reader-only'>
-              {{t 'pages.sessions.list.table.header.actions'}}
-            </span>
-          </:header>
-          <:cell>
-            {{#if sessionSummary.hasEffectiveCandidates}}
-              <PixTooltip @position='left' @isInline={{true}} @id='tooltip-delete-session-button'>
-                <:triggerElement>
-                  <PixIconButton
-                    @iconName='delete'
-                    @plainIcon={{true}}
-                    @ariaLabel={{t
-                      'pages.sessions.list.actions.delete-session.label'
-                      sessionSummaryId=sessionSummary.id
-                    }}
-                    disabled={{true}}
-                    aria-describedby='tooltip-delete-session-button'
-                    @withBackground={{true}}
-                  />
-                </:triggerElement>
-                <:tooltip>{{t 'pages.sessions.list.actions.delete-session.disabled'}}</:tooltip>
-              </PixTooltip>
-            {{else}}
-              <PixIconButton
-                @iconName='delete'
-                @plainIcon={{true}}
-                @ariaLabel={{t 'pages.sessions.list.actions.delete-session.label' sessionSummaryId=sessionSummary.id}}
-                disabled={{false}}
-                @withBackground={{true}}
-                @triggerAction={{fn
-                  this.openSessionDeletionConfirmModal
-                  sessionSummary.id
-                  sessionSummary.enrolledCandidatesCount
-                }}
-              />
-            {{/if}}
-          </:cell>
-        </PixTableColumn>
-      </:columns>
-    </PixTable>
-
-    <PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.currentLocale}} />
+    {{/if}}
 
     <SessionDeleteConfirmModal
       @showModal={{this.shouldDisplaySessionDeletionModal}}

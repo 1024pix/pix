@@ -16,15 +16,15 @@ describe('Unit | Application | Validator | checkOrganizationHasFeature', functio
         .withArgs({ organizationId, featureKey })
         .resolves(true);
 
-      // when
-      const response = await checkOrganizationHasFeatureUseCase.execute({
-        organizationId,
-        featureKey,
-        dependencies: { organizationFeatureRepository: organizationFeatureRepositoryStub },
-      });
-
-      // then
-      expect(response).to.not.throw;
+      // when & then
+      expect(
+        async () =>
+          await checkOrganizationHasFeatureUseCase.execute({
+            organizationId,
+            featureKey,
+            dependencies: { organizationFeatureRepository: organizationFeatureRepositoryStub },
+          }),
+      ).to.not.throw();
     });
   });
   context('When organization does not have feature enabled', function () {
@@ -48,7 +48,6 @@ describe('Unit | Application | Validator | checkOrganizationHasFeature', functio
       });
 
       // then
-      expect(response).to.throw;
       expect(response).to.be.an.instanceOf(OrganizationDoesNotHaveFeatureEnabledError);
     });
   });

@@ -1,0 +1,24 @@
+@use 'pix-design-tokens/typography';
+
+.attestation-card {
+  width: fit-content;
+  max-width: 30rem;
+
+  &__header {
+    display: flex;
+    gap: var(--pix-spacing-6x);
+    margin-bottom: var(--pix-spacing-6x);
+  }
+
+  &__title {
+    @extend %pix-title-xs;
+  }
+
+  &__subtitle {
+    @extend %pix-body-s;
+  }
+
+  &__button {
+    min-width: fit-content;
+  }
+}

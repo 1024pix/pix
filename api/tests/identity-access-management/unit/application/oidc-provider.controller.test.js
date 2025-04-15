@@ -83,10 +83,20 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
       it('returns UnauthorizedError', async function () {
         // given
         const authenticationKey = 'aaa-bbb-ccc';
-        const givenName = 'Mélusine';
-        const familyName = 'TITEGOUTTE';
+        const firstName = 'Mélusine';
+        const lastName = 'TITEGOUTTE';
         const email = 'melu@example.net';
-        usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName, email });
+        const userClaims = {
+          firstName,
+          lastName,
+          email,
+        };
+        usecases.authenticateOidcUser.resolves({
+          authenticationKey,
+          userClaims,
+          givenName: firstName,
+          familyName: lastName,
+        });
 
         // when
         const error = await catchErr(oidcProviderController.authenticateOidcUser)(request, hFake);
@@ -95,7 +105,12 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
         expect(error).to.be.an.instanceOf(UnauthorizedError);
         expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
         expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
-        expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName, email });
+        expect(error.meta).to.deep.equal({
+          authenticationKey,
+          userClaims,
+          givenName: firstName,
+          familyName: lastName,
+        });
       });
     });
   });

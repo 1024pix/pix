@@ -63,6 +63,57 @@ describe('Profile | Integration | Domain | get-shared-attestations-for-organizat
       expect(results.data[0].get('lastName')).to.equal('TERIEUR');
     });
 
+    it('should not return profile rewards for anonymous userIds', async function () {
+      const locale = 'FR-fr';
+      const attestation = databaseBuilder.factory.buildAttestation();
+      const firstUser = databaseBuilder.factory.buildUser({
+        firstName: 'alex',
+        lastName: 'Terieur',
+        isAnonymous: true,
+        hasBeenAnonymised: false,
+      });
+      const secondUser = databaseBuilder.factory.buildUser({
+        firstName: 'theo',
+        lastName: 'Courant',
+        isAnonymous: false,
+        hasBeenAnonymised: true,
+      });
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId: firstUser.id });
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId: secondUser.id });
+
+      const firstProfileReward = databaseBuilder.factory.buildProfileReward({
+        rewardId: attestation.id,
+        userId: firstUser.id,
+      });
+      databaseBuilder.factory.buildOrganizationsProfileRewards({
+        organizationId,
+        profileRewardId: firstProfileReward.id,
+      });
+      const secondProfileReward = databaseBuilder.factory.buildProfileReward({
+        rewardId: attestation.id,
+        userId: secondUser.id,
+      });
+      databaseBuilder.factory.buildOrganizationsProfileRewards({
+        organizationId,
+        profileRewardId: secondProfileReward.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const results = await usecases.getSharedAttestationsForOrganizationByUserIds({
+        attestationKey: attestation.key,
+        organizationId,
+        userIds: [firstUser.id, secondUser.id],
+        locale,
+      });
+
+      expect(results).to.deep.equal({
+        data: [],
+        templateName: attestation.templateName,
+      });
+    });
+
     it('should return AttestationNotFound error if attestation does not exist', async function () {
       //given
       const locale = 'FR-fr';

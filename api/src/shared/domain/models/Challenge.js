@@ -20,6 +20,12 @@ const Accessibility = Object.freeze({
   OK: 'OK',
 });
 
+const Statuses = Object.freeze({
+  VALIDATED: 'validé',
+  ARCHIVED: 'archivé',
+  OBSOLETE: 'périmé',
+});
+
 /**
  * Traduction: Épreuve
  */
@@ -163,6 +169,10 @@ class Challenge {
     return this._isCompliant('Tablet');
   }
 
+  get isOperative() {
+    return [Statuses.VALIDATED, Statuses.ARCHIVED].includes(this.status);
+  }
+
   get isAccessible() {
     return (
       (this.blindnessCompatibility === Accessibility.OK || this.blindnessCompatibility === Accessibility.RAS) &&
@@ -208,4 +218,4 @@ class Challenge {
 
 Challenge.Type = ChallengeType;
 
-export { Accessibility, Challenge, ChallengeType as Type };
+export { Accessibility, Challenge, Statuses, ChallengeType as Type };

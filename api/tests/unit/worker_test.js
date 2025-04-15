@@ -152,7 +152,7 @@ describe('#registerJobs', function () {
       expect(jobQueueStub.scheduleCronJob).to.have.been.calledWithExactly({
         name: 'ScheduleComputeOrganizationLearnersCertificabilityJob',
         cron: '0 21 * * *',
-        options: { tz: 'Europe/Paris', expireIn: JobExpireIn.FOUR_HOURS },
+        options: { tz: 'Europe/Paris', expireIn: JobExpireIn.INFINITE },
       });
     });
 

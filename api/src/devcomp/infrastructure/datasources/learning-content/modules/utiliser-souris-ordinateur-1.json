@@ -448,17 +448,26 @@
                     {
                       "id": "1",
                       "content": "<p>Vous allez voir, c'est facile !</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span> <p>Vous avez lancé la vidéo et trouvé la bonne réponse</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>Vous avez lancé la vidéo et trouvé la bonne réponse.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Vous verrez, c'est plié !",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "Vous pensiez que c'était simple ?",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
+                      }
                     }
                   ],
                   "solution": "1"

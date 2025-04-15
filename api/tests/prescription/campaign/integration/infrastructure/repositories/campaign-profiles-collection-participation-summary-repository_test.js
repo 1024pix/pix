@@ -170,8 +170,6 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: campaignParticipation.userId,
-          snappedAt: campaignParticipation.sharedAt,
           campaignParticipationId: campaignParticipation.id,
           snapshot: new KnowledgeElementCollection([ke1, ke2]).toSnapshot(),
         });

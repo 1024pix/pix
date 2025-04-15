@@ -1,10 +1,13 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import fetch from 'fetch';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 import { createTranslatedApplicationError } from 'mon-pix/errors/factories/create-application-error';
 import JSONApiError from 'mon-pix/errors/json-api-error';
+
+import { SessionStorageEntry } from '../../utils/session-storage-entry';
+
+const oidcUserAuthenticationStorage = new SessionStorageEntry('oidcUserAuthentication');
 
 export default class LoginOidcRoute extends Route {
   @service intl;
@@ -37,23 +40,21 @@ export default class LoginOidcRoute extends Route {
 
   async model(params, transition) {
     const queryParams = transition.to.queryParams;
+
     const identityProviderSlug = params.identity_provider_slug;
     if (queryParams.code) {
       return this._handleCallbackRequest(queryParams.code, queryParams.state, queryParams.iss, identityProviderSlug);
     }
   }
 
-  afterModel({ shouldValidateCgu, authenticationKey, identityProviderSlug, givenName, familyName } = {}) {
-    const shouldCreateAnAccountForUser = shouldValidateCgu && authenticationKey;
+  afterModel({ shouldValidateCgu, identityProviderSlug } = {}) {
+    const shouldCreateAnAccountForUser = shouldValidateCgu && oidcUserAuthenticationStorage.get().authenticationKey;
 
     if (!shouldCreateAnAccountForUser) return;
 
     return this.router.replaceWith('authentication.login-or-register-oidc', {
       queryParams: {
-        authenticationKey,
         identityProviderSlug,
-        givenName,
-        familyName,
       },
     });
   }
@@ -76,9 +77,10 @@ export default class LoginOidcRoute extends Route {
       const error = new JSONApiError(apiError.detail, apiError);
 
       const shouldValidateCgu = error.code === 'SHOULD_VALIDATE_CGU';
-      const { authenticationKey, givenName, familyName } = error.meta ?? {};
-      if (shouldValidateCgu && authenticationKey) {
-        return { shouldValidateCgu, authenticationKey, identityProviderSlug, givenName, familyName };
+
+      if (shouldValidateCgu && error.meta.authenticationKey) {
+        oidcUserAuthenticationStorage.set(error.meta);
+        return { shouldValidateCgu, identityProviderSlug };
       }
 
       throw error;

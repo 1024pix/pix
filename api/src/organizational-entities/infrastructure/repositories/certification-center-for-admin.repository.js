@@ -1,5 +1,6 @@
-import { CenterForAdmin } from '../../../certification/enrolment/domain/models/CenterForAdmin.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { CenterForAdmin } from '../../domain/models/CenterForAdmin.js';
 
 const save = async function (certificationCenter) {
   const knexConn = DomainTransaction.getConnection();
@@ -7,7 +8,6 @@ const save = async function (certificationCenter) {
     name: certificationCenter.name,
     type: certificationCenter.type,
     externalId: certificationCenter.externalId,
-    isV3Pilot: true,
   });
   return _toDomain(certificationCenterCreated);
 };
@@ -23,7 +23,28 @@ const update = async function (certificationCenter) {
     .where({ id: certificationCenter.id });
 };
 
-export { save, update };
+/**
+ * @type {function}
+ * @param {Object} params
+ * @param {string|number} params.certificationCenterId
+ * @param {string|number} params.archivedBy
+ * @param {date} params.archiveDate
+ */
+const archive = async function ({ certificationCenterId, archivedBy, archiveDate }) {
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCenter = await knexConn('certification-centers').where({ id: certificationCenterId }).first();
+  if (!certificationCenter) {
+    throw new NotFoundError();
+  }
+  if (certificationCenter.archivedBy) {
+    return;
+  }
+  await knexConn('certification-centers')
+    .where({ id: certificationCenterId })
+    .update({ archivedBy, archivedAt: archiveDate });
+};
+
+export { archive, save, update };
 
 function _toDomain(certificationCenterDTO) {
   return new CenterForAdmin({
@@ -36,7 +57,6 @@ function _toDomain(certificationCenterDTO) {
       createdAt: certificationCenterDTO.createdAt,
       updatedAt: certificationCenterDTO.updatedAt,
       isComplementaryAlonePilot: undefined,
-      isV3Pilot: certificationCenterDTO.isV3Pilot,
     },
   });
 }

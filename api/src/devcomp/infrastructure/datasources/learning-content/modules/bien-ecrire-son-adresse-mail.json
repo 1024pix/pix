@@ -164,13 +164,23 @@
                       "placeholder": "",
                       "ariaLabel": "Réponse 1 sur 1",
                       "defaultValue": "",
-                      "tolerances": ["t1"],
-                      "solutions": ["@"]
+                      "tolerances": [
+                        "t1"
+                      ],
+                      "solutions": [
+                        "@"
+                      ]
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse !&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Pour réussir la prochaine fois, remontez voir la leçon ou utilisez l'indice ci-dessous.</p>"
+                    "valid": {
+                      "state": "Bonne réponse !&nbsp;🎉",
+                      "diagnosis": ""
+                    },
+                    "invalid": {
+                      "state": "Mauvaise réponse.",
+                      "diagnosis": "<p>Pour réussir la prochaine fois, remontez voir la leçon ou utilisez l'indice ci-dessous.</p>"
+                    }
                   }
                 },
                 {
@@ -241,12 +251,20 @@
                           "content": "le fournisseur d'adresse mail"
                         }
                       ],
-                      "solutions": ["2"]
+                      "solutions": [
+                        "2"
+                      ]
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez retrouvé le bon format d’une adresse mail.</p>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse&#8239;!</span><p>Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
+                    "valid": {
+                      "state": "Bonne réponse&#8239;!&nbsp;🎉",
+                      "diagnosis": "<p>Vous avez retrouvé le bon format d’une adresse mail.</p>"
+                    },
+                    "invalid": {
+                      "state": "Mauvaise réponse&#8239;!",
+                      "diagnosis": "<p>Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
+                    }
                   }
                 }
               ]
@@ -281,12 +299,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span><p>Cette adresse est correctement écrite.<br>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&#8239;! 🎉",
+                        "diagnosis": "<p>Cette adresse est correctement écrite.<br>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Cette adresse est correctement écrite.<br>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse",
+                        "diagnosis": "<p>Cette adresse est correctement écrite.<br>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -303,12 +327,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Le symbole @ (arobase) permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&#8239;!&nbsp;🎉",
+                        "diagnosis": "<p>Le symbole @ (arobase) permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Le symbole @ (arobase) permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse",
+                        "diagnosis": "<p>Le symbole @ (arobase) permet de séparer l’identifiant et le fournisseur d’adresse. Il y donc toujours un arobase.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -325,12 +355,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+                      "feedback": {
+                        "state": "Mauvaise réponse",
+                        "diagnosis": "<p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;🎉</span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y a en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+                      "feedback": {
+                        "state": "Bonne réponse&#8239;!&nbsp;🎉",
+                        "diagnosis": "<p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y a en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -347,12 +383,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<p class=\"feedback__state\">Mauvaise réponse</p><p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse",
+                        "diagnosis": "<p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<p class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></p><p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&#8239;!&nbsp;🎉",
+                        "diagnosis": "<p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -403,13 +445,24 @@
                 "placeholder": "",
                 "ariaLabel": "Adresse mail de Naomi",
                 "defaultValue": "",
-                "tolerances": ["t1"],
-                "solutions": ["naomizao457@yahoo.com", "naomizao457@yahoo.fr"]
+                "tolerances": [
+                  "t1"
+                ],
+                "solutions": [
+                  "naomizao457@yahoo.com",
+                  "naomizao457@yahoo.fr"
+                ]
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bravo !&nbsp;<span aria-hidden=\"true\">💫</span></span><p>Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Pour réussir la prochaine fois, utilisez les indices ci-dessous&nbsp;<span aria-hidden=\"true\">👇</span> </p>"
+              "valid": {
+                "state": "Bravo !&nbsp;\uD83D\uDCAB",
+                "diagnosis": "<p>Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Pour réussir la prochaine fois, utilisez les indices ci-dessous&nbsp;<span aria-hidden=\"true\">👇</span> </p>"
+              }
             }
           }
         },

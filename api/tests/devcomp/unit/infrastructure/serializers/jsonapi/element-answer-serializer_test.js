@@ -13,7 +13,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
         // given
         const givenCorrectionResponse = new QcuCorrectionResponse({
           status: AnswerStatus.OK,
-          feedback: 'Good job!',
+          feedback: { state: 'Good job!' },
           solution: '1',
         });
 
@@ -44,7 +44,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
           included: [
             {
               attributes: {
-                feedback: 'Good job!',
+                feedback: { state: 'Good job!' },
                 status: 'ok',
                 solution: givenCorrectionResponse.solution,
               },
@@ -77,7 +77,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
         };
         const givenCorrectionResponse = new QrocmCorrectionResponse({
           status: AnswerStatus.OK,
-          feedback: 'Good job!',
+          feedback: { state: 'Good job!' },
           solution,
         });
 
@@ -107,7 +107,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
           included: [
             {
               attributes: {
-                feedback: 'Good job!',
+                feedback: { state: 'Good job!' },
                 status: 'ok',
                 solution: givenCorrectionResponse.solution,
               },
@@ -132,7 +132,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
         const userAnswerValue = ['3', '4'];
         const givenCorrectionResponse = new QcmCorrectionResponse({
           status: AnswerStatus.OK,
-          feedback: 'Good job!',
+          feedback: { state: 'Good job!' },
           solution: solutions,
         });
 
@@ -162,7 +162,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
           included: [
             {
               attributes: {
-                feedback: 'Good job!',
+                feedback: { state: 'Good job!' },
                 status: 'ok',
                 solution: givenCorrectionResponse.solution,
               },

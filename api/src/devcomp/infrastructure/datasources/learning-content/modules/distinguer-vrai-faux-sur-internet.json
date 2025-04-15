@@ -77,12 +77,18 @@
                     {
                       "id": "1",
                       "content": "plutôt vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p>C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "plutôt faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est pourtant vrai. C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est pourtant vrai. C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -106,12 +112,18 @@
                     {
                       "id": "1",
                       "content": "plutôt vrai",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse&#8239;!</span><p> Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse&#8239;!",
+                        "diagnosis": "<p> Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "plutôt faux",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est une fake news. C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> C'est une fake news. C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -135,12 +147,18 @@
                     {
                       "id": "1",
                       "content": "plutôt vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "plutôt faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Et pourtant, c'est vrai. C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Et pourtant, c'est vrai. C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -205,22 +223,34 @@
                     {
                       "id": "1",
                       "content": "une opinion",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "une rumeur",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "une anecdote",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "4",
                       "content": "une information",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -237,22 +267,34 @@
                     {
                       "id": "1",
                       "content": "une opinion",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "une rumeur",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "une anecdote",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens.</p>"
+                      }
                     },
                     {
                       "id": "4",
                       "content": "une information",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -269,22 +311,34 @@
                     {
                       "id": "1",
                       "content": "une opinion",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "une rumeur",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "une anecdote",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "4",
                       "content": "une information",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -301,22 +355,34 @@
                     {
                       "id": "1",
                       "content": "une opinion",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "une rumeur",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "une anecdote",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
+                      }
                     },
                     {
                       "id": "4",
                       "content": "une information",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> C'est un fait qui est vérifiable via plusieurs sources. C'est bien une information.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> C'est un fait qui est vérifiable via plusieurs sources. C'est bien une information.</p>"
+                      }
                     }
                   ],
                   "solution": "4"
@@ -409,8 +475,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> Tous ces éléments permettent de vérifier une information. </p>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>!</p>"
+              "valid": {
+                "state": "Bonne réponse ! 🎉",
+                "diagnosis": "<p> Tous ces éléments permettent de vérifier une information. </p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>!</p>"
+              }
             },
             "solutions": ["2", "3", "5"]
           }
@@ -451,17 +523,26 @@
                     {
                       "id": "1",
                       "content": "L’auteur de la publication n'est pas neutre.",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p>Ce vendeur n'est pas neutre. Il exagère la réalité pour essayer d'augmenter ses ventes. </p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Ce vendeur n'est pas neutre. Il exagère la réalité pour essayer d'augmenter ses ventes. </p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Les dates de la publication et de la source sont incohérentes.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "La source d’information est absente de la publication.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -485,17 +566,26 @@
                     {
                       "id": "1",
                       "content": "L’auteur de la publication n'est pas neutre.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Les dates de la publication et de la source sont incohérentes.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "La source d’information est absente de la publication.",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -524,17 +614,26 @@
                     {
                       "id": "1",
                       "content": "L’auteur de la publication n'est pas neutre.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Les dates de la publication et de la source sont incohérentes.",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! 🎉</span><p> La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "La source d’information est absente de la publication.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -618,8 +717,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse ! ✨</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p> Essayez à nouveau, en appliquant la méthode « Qui ? Quand ? D'où ? ». Si vous avez un doute sur ces informations, il faut être prudent.</p>"
+              "valid": {
+                "state": "Bonne réponse ! ✨",
+                "diagnosis": "<p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p> Essayez à nouveau, en appliquant la méthode « Qui ? Quand ? D'où ? ». Si vous avez un doute sur ces informations, il faut être prudent.</p>"
+              }
             },
             "solutions": ["2", "3"]
           }

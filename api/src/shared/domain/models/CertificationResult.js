@@ -17,18 +17,6 @@ const status = {
   STARTED: 'started',
 };
 
-/**
- * @readonly
- * @enum {string}
- */
-const emitters = {
-  PIX_ALGO: 'PIX-ALGO',
-  PIX_ALGO_AUTO_JURY: 'PIX-ALGO-AUTO-JURY',
-  PIX_ALGO_NEUTRALIZATION: 'PIX-ALGO-NEUTRALIZATION',
-  PIX_ALGO_FRAUD_REJECTION: 'PIX-ALGO-FRAUD-REJECTION',
-  PIX_ALGO_CANCELLATION: 'PIX-ALGO-CANCELLATION',
-};
-
 class CertificationResult {
   /**
    * @param {Object} props
@@ -41,7 +29,6 @@ class CertificationResult {
    * @param {number} props.sessionId
    * @param {status} props.status
    * @param {number} props.pixScore
-   * @param {string} props.emitter
    * @param {JuryComment} props.commentForOrganization
    * @param {Array<CompetenceMark>} props.competencesWithMark
    * @param {Array<ComplementaryCertificationCourseResult>} props.complementaryCertificationCourseResults
@@ -57,7 +44,6 @@ class CertificationResult {
     sessionId,
     status,
     pixScore,
-    emitter,
     commentForOrganization,
     competencesWithMark,
     complementaryCertificationCourseResults,
@@ -72,7 +58,6 @@ class CertificationResult {
     this.sessionId = sessionId;
     this.status = status;
     this.pixScore = pixScore;
-    this.emitter = emitter;
     this.commentForOrganization = commentForOrganization;
     this.competencesWithMark = competencesWithMark;
     this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
@@ -122,7 +107,6 @@ class CertificationResult {
       sessionId: certificationResultDTO.sessionId,
       status: certificationStatus,
       pixScore: certificationResultDTO.pixScore,
-      emitter: certificationResultDTO.emitter,
       commentForOrganization,
       competencesWithMark,
       complementaryCertificationCourseResults,
@@ -162,5 +146,4 @@ class CertificationResult {
 }
 
 CertificationResult.status = status;
-CertificationResult.emitters = emitters;
 export { CertificationResult };

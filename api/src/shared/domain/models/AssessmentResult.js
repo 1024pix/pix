@@ -16,16 +16,6 @@ const status = Object.freeze({
   ERROR: 'error',
 });
 
-/**
- * @readonly
- * @enum {string}
- */
-const emitters = Object.freeze({
-  PIX_ALGO: 'PIX-ALGO',
-  PIX_JURY: 'Jury Pix',
-  PIX_ALGO_FRAUD_REJECTION: 'PIX-ALGO-FRAUD-REJECTION',
-});
-
 class AssessmentResult {
   /**
    * @param {number} id
@@ -33,7 +23,6 @@ class AssessmentResult {
    * @param {string} commentByJury
    * @param {JuryComment} commentForOrganization
    * @param {Date} createdAt
-   * @param {emitters} emitter
    * @param {number} pixScore
    * @param {number} reproducibilityRate
    * @param {status} status
@@ -47,7 +36,6 @@ class AssessmentResult {
     commentByJury,
     commentForOrganization,
     createdAt,
-    emitter,
     pixScore,
     reproducibilityRate,
     status,
@@ -60,7 +48,6 @@ class AssessmentResult {
     this.commentByJury = commentByJury;
     this.commentForOrganization = commentForOrganization;
     this.createdAt = createdAt;
-    this.emitter = emitter;
     this.pixScore = pixScore;
     this.reproducibilityRate = reproducibilityRate;
     this.status = status;
@@ -89,7 +76,6 @@ class AssessmentResult {
       commentForCandidate: this.commentForCandidate?.clone(),
       commentByJury: this.commentByJury,
       commentForOrganization: this.commentForOrganization?.clone(),
-      emitter: this.emitter,
       pixScore: this.pixScore,
       reproducibilityRate: this.reproducibilityRate,
       status: this.status,
@@ -112,5 +98,4 @@ class AssessmentResult {
 }
 
 AssessmentResult.status = status;
-AssessmentResult.emitters = emitters;
 export { AssessmentResult, status };

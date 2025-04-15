@@ -2,16 +2,16 @@ import 'dotenv/config';
 
 import Joi from 'joi';
 
-import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
-import { certificationRescoringByScriptJobRepository } from '../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
+import CertificationRescoredByScript from '../../src/certification/session-management/domain/events/CertificationRescoredByScript.js';
 import { csvFileParser } from '../../src/shared/application/scripts/parsers.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
+import { handlersAsServices } from '../../src/shared/domain/events/index.js';
 
 const columnsSchemas = [{ name: 'certificationCourseId', schema: Joi.number() }];
 
 export class RescoreCertificationScript extends Script {
-  constructor() {
+  constructor(services = handlersAsServices) {
     super({
       description: 'Rescore all certification given by CSV file. This script will schedule job to rescore',
       permanent: true,
@@ -25,36 +25,20 @@ export class RescoreCertificationScript extends Script {
         },
       },
     });
+    this.services = services;
   }
 
   async handle({ options, logger }) {
     const { file: certificationCourses } = options;
-    const certificationCourseIds = certificationCourses.map(({ certificationCourseId }) => certificationCourseId);
 
-    logger.info(`Publishing ${certificationCourseIds.length} rescoring jobs`);
-    const jobs = await this.#scheduleRescoringJobs(certificationCourseIds);
-
-    const errors = jobs.filter((result) => result.status === 'rejected');
-    if (errors.length) {
-      errors.forEach((result) => logger.error(result.reason, 'Some jobs could not be published'));
-      return 1;
+    for (const { certificationCourseId } of certificationCourses) {
+      logger.info(`Rescoring certification-courses>id ${certificationCourseId.length}`);
+      await this.services.handleCertificationRescoring({
+        event: new CertificationRescoredByScript({ certificationCourseId }),
+      });
     }
 
-    logger.info(`${jobs.length} jobs successfully published`);
     return 0;
-  }
-
-  async #scheduleRescoringJobs(certificationCourseIds) {
-    const promisefiedJobs = certificationCourseIds.map(async (certificationCourseId) => {
-      try {
-        await certificationRescoringByScriptJobRepository.performAsync(
-          new CertificationRescoringByScriptJob({ certificationCourseId }),
-        );
-      } catch (error) {
-        throw new Error(`Error for certificationCourseId: [${certificationCourseId}]`, { cause: error });
-      }
-    });
-    return Promise.allSettled(promisefiedJobs);
   }
 }
 

@@ -124,7 +124,6 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
         organizationRepository: organizationRepositoryStub,
       });
 
-      expect(error).to.throw;
       expect(error).to.be.an.instanceof(UserNotFoundError);
     });
 
@@ -141,7 +140,6 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
         organizationRepository: organizationRepositoryStub,
       });
 
-      expect(error).to.throw;
       expect(error).to.be.an.instanceof(NotFoundError);
     });
   });

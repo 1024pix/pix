@@ -278,8 +278,14 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🥒</span></span><br>Bravo ! Vous avez bien complété la phrase.</p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse. <span aria-hidden=\"true\">🍽️</span></span><br>Bien tenté ! Mais la phrase n’est pas identique. Réessayez !</p>"
+                    "valid": {
+                      "state": "Bonne réponse ! 🥒",
+                      "diagnosis": "<p>Bravo ! Vous avez bien complété la phrase.</p>"
+                    },
+                    "invalid": {
+                      "state": "Mauvaise réponse. \uD83C\uDF7D\uFE0F",
+                      "diagnosis": "<p> Bien tenté ! Mais la phrase n’est pas identique. Réessayez !</p>"
+                    }
                   }
                 }
               ]
@@ -515,12 +521,20 @@
                       "ariaLabel": "Cliquer ici",
                       "defaultValue": "",
                       "tolerances": [],
-                      "solutions": ["céleri"]
+                      "solutions": [
+                        "céleri"
+                      ]
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span>&nbsp;<br></p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span><br>N'oubliez pas d'utiliser le e accentué.</p>"
+                    "valid": {
+                      "state": "Bonne réponse ! 🎉",
+                      "diagnosis": ""
+                    },
+                    "invalid": {
+                      "state": "Mauvaise réponse. ",
+                      "diagnosis": "<p>N'oubliez pas d'utiliser le e accentué.</p>"
+                    }
                   }
                 }
               ]
@@ -542,12 +556,20 @@
                       "ariaLabel": "Cliquer ici",
                       "defaultValue": "",
                       "tolerances": [],
-                      "solutions": ["pastèque"]
+                      "solutions": [
+                        "pastèque"
+                      ]
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span><br>N'oubliez pas d'utiliser le e accentué.</p>"
+                    "valid": {
+                      "state": "Bonne réponse ! 🎉",
+                      "diagnosis": ""
+                    },
+                    "invalid": {
+                      "state": "Mauvaise réponse.",
+                      "diagnosis": "<p>N'oubliez pas d'utiliser le e accentué.</p>"
+                    }
                   }
                 }
               ]
@@ -569,12 +591,20 @@
                       "ariaLabel": "Cliquer ici",
                       "defaultValue": "",
                       "tolerances": [],
-                      "solutions": ["bac à glaçons"]
+                      "solutions": [
+                        "bac à glaçons"
+                      ]
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span></p>",
-                    "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span><br>N'oubliez pas d'utiliser les deux lettres accentuées.</p>"
+                    "valid": {
+                      "state": "Bonne réponse ! 🎉",
+                      "diagnosis": ""
+                    },
+                    "invalid": {
+                      "state": "Mauvaise réponse.",
+                      "diagnosis": "<p>N'oubliez pas d'utiliser les deux lettres accentuées.</p>"
+                    }
                   }
                 }
               ]
@@ -610,6 +640,21 @@
             "id": "bed8da7e-630d-4400-b1c2-9e250ccee7e4",
             "type": "text",
             "content": "<p><span aria-hidden=\"true\">💡</span> Si besoin, cliquez sur <strong>Recommencer </strong>pour recommencer depuis le début.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "becb6f0a-ce4c-4016-9588-0afadefd56ff",
+      "type": "summary",
+      "title": "Recap module clavier 1/2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "52b120fe-5aa5-4ebc-aafc-ddd173377620",
+            "type": "text",
+            "content": "<p>📌 Pour taper, modifier ou effacer du texte, on clique dans une zone de texte avec la souris. Puis, on utilise les touches du clavier.&nbsp; Voici les touches du clavier à retenir : </p><ul><li><strong>Les lettres</strong> pour taper des lettres.</li><li><strong>Espace </strong>pour ajouter un espace entre deux motsEntrée pour aller à la ligne.</li><li><strong>Effacer </strong>pour supprimer le caractère à gauche du curseur de texte.</li><li><strong>Les flèches directionnelles</strong> pour déplacer le curseur de texte.</li></ul><p><br>📝&nbsp;Vous pouvez maintenant&nbsp;<a href=\"https://cloud.pix.fr/s/xRpPokaYdD85RM3\" target=\"_blank\">Ouvrir votre fiche de synthèse</a>.</p>"
           }
         }
       ]

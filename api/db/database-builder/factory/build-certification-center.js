@@ -7,8 +7,9 @@ const buildCertificationCenter = function ({
   externalId = 'EX123',
   createdAt = new Date('2020-01-01'),
   updatedAt,
-  isV3Pilot = false,
   isScoBlockedAccessWhitelist = false,
+  archivedAt = null,
+  archivedBy = null,
 } = {}) {
   const values = {
     id,
@@ -17,8 +18,9 @@ const buildCertificationCenter = function ({
     externalId,
     createdAt,
     updatedAt,
-    isV3Pilot,
     isScoBlockedAccessWhitelist,
+    archivedAt,
+    archivedBy,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-centers',

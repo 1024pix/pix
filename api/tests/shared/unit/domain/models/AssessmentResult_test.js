@@ -19,7 +19,6 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.commentForOrganization = undefined;
       expectedAssessmentResult.commentByJury = undefined;
       expectedAssessmentResult.createdAt = undefined;
-      expectedAssessmentResult.emitter = undefined;
       expectedAssessmentResult.juryId = undefined;
       expectedAssessmentResult.pixScore = undefined;
       expectedAssessmentResult.reproducibilityRate = undefined;

@@ -32,7 +32,6 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
     commentByJury: assessmentResultDTO.commentByJury,
     commentForOrganization,
     createdAt: assessmentResultDTO.createdAt,
-    emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
     pixScore: assessmentResultDTO.pixScore,
     reproducibilityRate: reproducibilityRateAsNumber,
@@ -41,7 +40,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
 }
 
 const save = async function ({ certificationCourseId, assessmentResult }) {
-  const { pixScore, reproducibilityRate, status, emitter, commentByJury, id, juryId, assessmentId } = assessmentResult;
+  const { pixScore, reproducibilityRate, status, commentByJury, id, juryId, assessmentId } = assessmentResult;
   const commentByAutoJury = _getCommentByAutoJury(assessmentResult);
 
   if (_.isNil(assessmentId)) {
@@ -54,7 +53,6 @@ const save = async function ({ certificationCourseId, assessmentResult }) {
       pixScore,
       reproducibilityRate,
       status,
-      emitter,
       commentByJury,
       id,
       juryId,

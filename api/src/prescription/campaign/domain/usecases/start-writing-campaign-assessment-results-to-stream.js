@@ -60,7 +60,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
     throw new CampaignTypeError();
   }
 
-  const targetProfile = await targetProfileRepository.getByCampaignId(campaign.id);
+  const targetProfile = await targetProfileRepository.getByCampaignId({ campaignId: campaign.id });
   const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
   const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
 

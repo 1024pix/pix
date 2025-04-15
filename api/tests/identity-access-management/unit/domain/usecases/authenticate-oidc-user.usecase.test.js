@@ -231,9 +231,13 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         expect(authenticationSessionService.save).to.have.been.calledWithExactly({ userInfo, sessionContent });
         expect(result).to.deep.equal({
           authenticationKey,
+          userClaims: {
+            firstName: 'Mélusine',
+            lastName: 'TITEGOUTTE',
+            email: 'melu@example.net',
+          },
           givenName: 'Mélusine',
           familyName: 'TITEGOUTTE',
-          email: 'melu@example.net',
           isAuthenticationComplete: false,
         });
       });

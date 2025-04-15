@@ -107,7 +107,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
     const error = httpErrorMapper.httpErrorFn(new InvalidSessionSupervisingLoginError());
 
     // then
-    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
     expect(error.message).to.equal(SESSION_SUPERVISING.INCORRECT_DATA.getMessage());
     expect(error.code).to.equal(SESSION_SUPERVISING.INCORRECT_DATA.code);
   });

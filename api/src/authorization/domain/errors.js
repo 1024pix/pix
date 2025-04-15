@@ -8,10 +8,4 @@ class AdminMemberError extends DomainError {
   }
 }
 
-class ApplicationWithInvalidClientSecretError extends DomainError {
-  constructor(message = 'The client secret is invalid.') {
-    super(message);
-  }
-}
-
-export { AdminMemberError, ApplicationWithInvalidClientSecretError };
+export { AdminMemberError };

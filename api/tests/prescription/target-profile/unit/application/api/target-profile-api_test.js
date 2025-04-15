@@ -7,7 +7,7 @@ import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | API | TargetProfile', function () {
-  describe('#getById', function () {
+  describe('#getByIdForAdmin', function () {
     it('should return target profile', async function () {
       const targetProfileId = 1;
       const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({ id: targetProfileId });
@@ -16,7 +16,7 @@ describe('Unit | API | TargetProfile', function () {
       const getTargetProfileForAdminStub = sinon.stub(usecases, 'getTargetProfileForAdmin');
       getTargetProfileForAdminStub.withArgs({ targetProfileId }).resolves(targetProfileForAdmin);
 
-      const targetProfile = await targetProfileApi.getById(targetProfileId);
+      const targetProfile = await targetProfileApi.getByIdForAdmin(targetProfileId);
 
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
     });
@@ -27,7 +27,7 @@ describe('Unit | API | TargetProfile', function () {
       const getTargetProfileForAdminStub = sinon.stub(usecases, 'getTargetProfileForAdmin');
       getTargetProfileForAdminStub.withArgs({ targetProfileId }).rejects();
 
-      const error = await catchErr(targetProfileApi.getById)(targetProfileId);
+      const error = await catchErr(targetProfileApi.getByIdForAdmin)(targetProfileId);
 
       expect(error).to.be.ok;
     });

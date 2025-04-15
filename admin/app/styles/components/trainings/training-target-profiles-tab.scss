@@ -1,17 +1,8 @@
 /* stylelint-disable selector-class-pattern */
 .training-target-profiles {
-  .page-section__header {
-    justify-content: center;
-  }
-
   label {
     font-weight: bold;
     font-size: 1.125rem;
-  }
-
-  .training__forms-section {
-    display: flex;
-    justify-content: space-around;
   }
 
   .training__form {

@@ -93,7 +93,6 @@ describe('Unit | Controller | mass-import-controller', function () {
       // given
       const request = {
         payload: { data: { attributes: { cachedValidatedSessionsKey: 'uuid' } } },
-        params: { certificationCenterId: 123 },
         auth: { credentials: { userId: 2 } },
       };
 
@@ -107,7 +106,6 @@ describe('Unit | Controller | mass-import-controller', function () {
       // then
       expect(usecases.createSessions).to.have.been.calledWithExactly({
         cachedValidatedSessionsKey: 'uuid',
-        certificationCenterId: 123,
         userId: 2,
       });
     });

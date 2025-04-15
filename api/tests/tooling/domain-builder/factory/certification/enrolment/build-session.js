@@ -1,4 +1,5 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 
 const buildSession = function ({
@@ -22,7 +23,7 @@ const buildSession = function ({
   assignedCertificationOfficerId = null,
   invigilatorPassword = 'PIX212',
   certificationCandidates = [],
-  version = 2,
+  version = SESSIONS_VERSIONS.V3,
   createdBy = null,
 } = {}) {
   return new SessionEnrolment({

@@ -3,8 +3,7 @@ import { authenticateApplication } from '../../../../../src/identity-access-mana
 import { config } from '../../../../../src/shared/config.js';
 import {
   ApplicationScopeNotAllowedError,
-  ApplicationWithInvalidClientIdError,
-  ApplicationWithInvalidClientSecretError,
+  ApplicationWithInvalidCredentialsError,
 } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
@@ -23,7 +22,7 @@ describe('Unit | Usecase | authenticate-application', function () {
 
       const err = await catchErr(authenticateApplication)({ ...payload, clientApplicationRepository });
 
-      expect(err).to.be.instanceOf(ApplicationWithInvalidClientIdError);
+      expect(err).to.be.instanceOf(ApplicationWithInvalidCredentialsError);
     });
   });
 
@@ -54,7 +53,7 @@ describe('Unit | Usecase | authenticate-application', function () {
 
         const err = await catchErr(authenticateApplication)({ ...payload, clientApplicationRepository, cryptoService });
 
-        expect(err).to.be.instanceOf(ApplicationWithInvalidClientSecretError);
+        expect(err).to.be.instanceOf(ApplicationWithInvalidCredentialsError);
       });
     });
 

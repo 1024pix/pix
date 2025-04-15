@@ -1,14 +1,10 @@
 import { findTutorials } from '../../../../../src/devcomp/domain/usecases/find-tutorials.js';
-import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | find-tutorials', function () {
-  let authenticatedUserId;
+  let userId;
   let competenceId;
-  let scorecardId;
-  let parseIdStub;
   let knowledgeElementRepository;
   let skillRepository;
   let tubeRepository;
@@ -17,10 +13,8 @@ describe('Unit | UseCase | find-tutorials', function () {
   let locale;
 
   beforeEach(function () {
-    scorecardId = '1_recabC123';
     competenceId = 'recABc123';
-    authenticatedUserId = 1;
-    parseIdStub = sinon.stub(Scorecard, 'parseId');
+    userId = 1;
     knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
     skillRepository = { findActiveByCompetenceId: sinon.stub() };
     tubeRepository = { findByNames: sinon.stub() };
@@ -29,10 +23,6 @@ describe('Unit | UseCase | find-tutorials', function () {
   });
 
   context('When user is authenticated', function () {
-    beforeEach(function () {
-      parseIdStub.withArgs(scorecardId).returns({ competenceId, userId: authenticatedUserId });
-    });
-
     context('And user asks for tutorials belonging to his scorecard', function () {
       it('should resolve', function () {
         // given
@@ -40,8 +30,8 @@ describe('Unit | UseCase | find-tutorials', function () {
 
         // when
         const result = findTutorials({
-          authenticatedUserId,
-          scorecardId,
+          userId,
+          competenceId,
           knowledgeElementRepository,
           skillRepository,
           tubeRepository,
@@ -101,14 +91,14 @@ describe('Unit | UseCase | find-tutorials', function () {
             const inferredTutorialIdList = [inferredTutorial.id];
 
             tutorialRepository.findByRecordIdsForCurrentUser
-              .withArgs({ ids: tutorialIdList1, userId: authenticatedUserId, locale })
+              .withArgs({ ids: tutorialIdList1, userId: userId, locale })
               .returns([tutorial1, tutorial2]);
             tutorialRepository.findByRecordIdsForCurrentUser
-              .withArgs({ ids: tutorialIdList2, userId: authenticatedUserId, locale })
+              .withArgs({ ids: tutorialIdList2, userId: userId, locale })
               .returns([tutorial3]);
 
             tutorialRepository.findByRecordIdsForCurrentUser
-              .withArgs({ ids: inferredTutorialIdList, userId: authenticatedUserId })
+              .withArgs({ ids: inferredTutorialIdList, userId: userId })
               .returns([inferredTutorial]);
 
             const skill_1 = domainBuilder.buildSkill({
@@ -227,8 +217,8 @@ describe('Unit | UseCase | find-tutorials', function () {
           it('should return the tutorials related to the scorecard', async function () {
             // when
             const result = await findTutorials({
-              authenticatedUserId,
-              scorecardId,
+              userId,
+              competenceId,
               knowledgeElementRepository,
               skillRepository,
               tubeRepository,
@@ -267,8 +257,8 @@ describe('Unit | UseCase | find-tutorials', function () {
 
           // when
           const result = await findTutorials({
-            authenticatedUserId,
-            scorecardId,
+            userId,
+            competenceId,
             knowledgeElementRepository,
             skillRepository,
             tubeRepository,
@@ -280,27 +270,6 @@ describe('Unit | UseCase | find-tutorials', function () {
           expect(skillRepository.findActiveByCompetenceId).to.not.have.been.called;
           expect(result).to.deep.equal([]);
         });
-      });
-    });
-
-    context('And user asks for a scorecard that do not belongs to him', function () {
-      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', function () {
-        // given
-        const unauthorizedUserId = 42;
-
-        // when
-        const promise = findTutorials({
-          authenticatedUserId: unauthorizedUserId,
-          scorecardId,
-          knowledgeElementRepository,
-          skillRepository,
-          tubeRepository,
-          tutorialRepository,
-          userSavedTutorialRepository,
-        });
-
-        // then
-        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntityError);
       });
     });
   });

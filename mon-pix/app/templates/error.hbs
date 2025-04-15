@@ -2,19 +2,25 @@
 
 <Global::AppLayout>
   <div class="error-page">
-    <div class="rounded-panel rounded-panel--strong error-page__body-section">
+    <PixBlock class="error-page__body-section">
       <div class="error-page__main-content">
-        <h1 class="error-page-main-content__title">{{t "pages.error.first-title"}}</h1>
+        <h1 class="error-page__main-content__title">{{t "pages.error.first-title"}}</h1>
         {{t "pages.error.content-text" htmlSafe=true}}
-        <LinkTo @route="authentication.login" class="button button--extra-big button--link error-page__index-link">
-          {{t "navigation.back-to-homepage"}}</LinkTo>
+        <PixButtonLink
+          @route="authentication.login"
+          @size="large"
+          aria-label={{t "navigation.back-to-homepage"}}
+          class="error-page__main-content__button-link"
+        >
+          {{t "navigation.back-to-homepage"}}
+        </PixButtonLink>
       </div>
       <div class="error-page__error">
         <p class="error-page__error-title">{{this.errorTitle}}</p>
         <p>{{this.errorStatus}}</p>
-        <p>{{this.errorMessage}}</p>
         <p>{{this.errorDetail}}</p>
+        <p>{{this.errorMessage}}</p>
       </div>
-    </div>
+    </PixBlock>
   </div>
 </Global::AppLayout>

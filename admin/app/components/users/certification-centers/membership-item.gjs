@@ -96,6 +96,8 @@ export default class UsersCertificationCentersMembershipItemComponent extends Co
       <:cell>
         {{#if @certificationCenterMembership.lastAccessedAt}}
           {{dayjsFormat @certificationCenterMembership.lastAccessedAt "DD/MM/YYYY"}}
+        {{else}}
+          {{t "components.users.certification-centers.memberships.no-last-connection-date-info"}}
         {{/if}}
       </:cell>
     </PixTableColumn>

@@ -28,7 +28,7 @@ const buildCertificationResultCodeValidation = function ({
   };
 
   datamartBuffer.pushInsertable({
-    tableName: 'data_export_parcoursup_certif_result_code_validation',
+    tableName: 'certification_results',
     values,
   });
 };

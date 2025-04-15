@@ -16,15 +16,15 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
   describe('when module does not exist', function () {
     it('should throw a ModuleDoesNotExist error', async function () {
       // given
-      const moduleId = Symbol('moduleId');
+      const moduleSlug = 'module-that-does-not-exist';
 
       const moduleRepositoryStub = {
         getBySlug: sinon.stub(),
       };
-      moduleRepositoryStub.getBySlug.withArgs({ slug: moduleId }).throws(new NotFoundError());
+      moduleRepositoryStub.getBySlug.withArgs({ slug: moduleSlug }).throws(new NotFoundError());
 
       // when
-      const error = await catchErr(createPassage)({ moduleId, moduleRepository: moduleRepositoryStub });
+      const error = await catchErr(createPassage)({ moduleSlug, moduleRepository: moduleRepositoryStub });
 
       // then
       expect(error).to.be.instanceOf(ModuleDoesNotExistError);
@@ -59,17 +59,26 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
   it('should save the passage and record passage started event', async function () {
     // given
     const moduleId = Symbol('moduleId');
-    const passageId = Symbol('passageId');
+    const moduleSlug = 'les-adresses-email';
+    const passageId = 1234;
     const userId = Symbol('userId');
 
-    const slug = 'les-adresses-email';
     const title = 'Les adresses email';
     const isBeta = false;
     const grains = [Symbol('text')];
     const transitionTexts = [];
     const details = Symbol('details');
     const version = Symbol('version');
-    const module = new Module({ id: moduleId, slug, title, isBeta, grains, details, transitionTexts, version });
+    const module = new Module({
+      id: moduleId,
+      slug: moduleSlug,
+      title,
+      isBeta,
+      grains,
+      details,
+      transitionTexts,
+      version,
+    });
 
     const occurredAt = new Date('2025-01-01');
     const passageCreatedAt = new Date('2025-03-05');
@@ -93,7 +102,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
     const moduleRepositoryStub = {
       getBySlug: sinon.stub(),
     };
-    moduleRepositoryStub.getBySlug.withArgs({ slug: moduleId }).resolves(module);
+    moduleRepositoryStub.getBySlug.withArgs({ slug: moduleSlug }).resolves(module);
     const passageRepositoryStub = {
       save: sinon.stub(),
     };
@@ -106,7 +115,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
     // when
     const result = await createPassage({
       occurredAt,
-      moduleId,
+      moduleSlug,
       userId,
       passageRepository: passageRepositoryStub,
       passageEventRepository: passageEventRepositoryStub,

@@ -8,7 +8,6 @@ const buildCenter = function ({
   externalId = 'EX123',
   habilitations,
   features,
-  isV3Pilot,
   matchingOrganization = null,
 } = {}) {
   return new Center({
@@ -18,7 +17,6 @@ const buildCenter = function ({
     externalId,
     habilitations,
     features,
-    isV3Pilot,
     matchingOrganization,
   });
 };

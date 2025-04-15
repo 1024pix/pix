@@ -184,7 +184,10 @@
         "pix-and-pix-plus": "Pix and Pix+ certifications",
         "pix-plus": "Pix+ certification only"
       },
-      "line": "Line {line}: "
+      "line": "Line {line}: ",
+      "table": {
+        "empty-result": "No result"
+      }
     },
     "notifications": {
       "close-button": {

@@ -44,4 +44,44 @@ describe('Profile | Unit | Controller | attestation-controller', function () {
       expect(hFake.response).to.have.been.calledWith(expectedBuffer);
     });
   });
+
+  describe('#getUserAttestationsDetails', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'getProfileRewardsByUserId').rejects();
+      sinon.stub(usecases, 'getAttestationDetails').rejects();
+    });
+
+    it('should call the expected usecase', async function () {
+      // given
+      const userId = 12;
+      const profileRewards = Symbol('profileReward');
+      const attestationDetails = Symbol('attestationDetail');
+      const serializerReturns = Symbol('result_serializer');
+      const dependencies = {
+        attestationSerializer: {
+          serialize: sinon.stub(),
+        },
+      };
+
+      usecases.getProfileRewardsByUserId.withArgs({ userId }).resolves(profileRewards);
+      usecases.getAttestationDetails.withArgs({ profileRewards }).resolves(attestationDetails);
+      dependencies.attestationSerializer.serialize.withArgs(attestationDetails).returns(serializerReturns);
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+      };
+
+      // when
+      const result = await attestationController.getUserAttestationsDetails(request, hFake, dependencies);
+
+      // then
+      expect(usecases.getProfileRewardsByUserId).to.have.been.calledWithExactly({ userId });
+      expect(usecases.getAttestationDetails).to.have.been.calledWithExactly({ profileRewards });
+      expect(dependencies.attestationSerializer.serialize).to.have.been.calledWithExactly(attestationDetails);
+      expect(result).to.be.equals(serializerReturns);
+    });
+  });
 });

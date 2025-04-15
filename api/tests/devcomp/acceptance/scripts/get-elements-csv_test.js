@@ -86,20 +86,20 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
       // Then
       expect(elementsListAsCsv).to.be.a('string');
       expect(elementsListAsCsv).to
-        .equal(`\ufeff"ElementId"\t"ElementType"\t"ElementPosition"\t"ElementGrainPosition"\t"ElementGrainId"\t"ElementGrainTitle"\t"ElementModuleSlug"
-"47823e8f-a4af-44d6-96f7-5b6fc7bc6b51"\t"flashcards"\t1\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"
-"e9aef60c-f18a-471e-85c7-e50b4731b86b"\t"text"\t2\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"
-"048e5319-5e81-44cc-ad71-c6c0d3be611f"\t"separator"\t3\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"
-"8d7687c8-4a02-4d7e-bf6c-693a6d481c78"\t"image"\t4\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"
-"84726001-1665-457d-8f13-4a74dc4768ea"\t"expand"\t5\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"
-"901ccbaa-f4e6-4322-b863-8e8eab08a33a"\t"download"\t6\t2\t"b14df125-82d5-4d55-a660-7b34cd9ea1ab"\t"Un fichier à télécharger"\t"bac-a-sable"
-"31106aeb-8346-44a6-8ed4-ebaa2106a373"\t"qcu"\t7\t2\t"b14df125-82d5-4d55-a660-7b34cd9ea1ab"\t"Un fichier à télécharger"\t"bac-a-sable"
-"3a9f2269-99ba-4631-b6fd-6802c88d5c26"\t"video"\t8\t3\t"73ac3644-7637-4cee-86d4-1a75f53f0b9c"\t"Vidéo de présentation de Pix"\t"bac-a-sable"
-"71de6394-ff88-4de3-8834-a40057a50ff4"\t"qcu"\t9\t4\t"533c69b8-a836-41be-8ffc-8d4636e31224"\t"Voici un vrai-faux"\t"bac-a-sable"
-"79dc17f9-142b-4e19-bcbe-bfde4e170d3f"\t"qcu"\t10\t4\t"533c69b8-a836-41be-8ffc-8d4636e31224"\t"Voici un vrai-faux"\t"bac-a-sable"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"\t"qcm"\t11\t5\t"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"\t"Les 3 piliers de Pix"\t"bac-a-sable"
-"c23436d4-6261-49f1-b50d-13a547529c29"\t"qrocm"\t12\t6\t"4ce2a31a-6584-4dae-87c6-d08b58d0f3b9"\t"Connaissez-vous bien Pix"\t"bac-a-sable"
-"0e3315fd-98ad-492f-9046-4aa867495d84"\t"embed"\t13\t7\t"46577fb1-aadb-49ba-b3fd-721a11da8eb4"\t"Embed non-auto"\t"bac-a-sable"`);
+        .equal(`\ufeff"ElementId"\t"ElementType"\t"ElementPosition"\t"ElementGrainPosition"\t"ElementGrainId"\t"ElementGrainTitle"\t"ElementModuleSlug"\t"ElementModuleId"
+"47823e8f-a4af-44d6-96f7-5b6fc7bc6b51"\t"flashcards"\t1\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"e9aef60c-f18a-471e-85c7-e50b4731b86b"\t"text"\t2\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"048e5319-5e81-44cc-ad71-c6c0d3be611f"\t"separator"\t3\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"8d7687c8-4a02-4d7e-bf6c-693a6d481c78"\t"image"\t4\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"84726001-1665-457d-8f13-4a74dc4768ea"\t"expand"\t5\t1\t"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"\t"Voici une leçon"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"901ccbaa-f4e6-4322-b863-8e8eab08a33a"\t"download"\t6\t2\t"b14df125-82d5-4d55-a660-7b34cd9ea1ab"\t"Un fichier à télécharger"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"31106aeb-8346-44a6-8ed4-ebaa2106a373"\t"qcu"\t7\t2\t"b14df125-82d5-4d55-a660-7b34cd9ea1ab"\t"Un fichier à télécharger"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"3a9f2269-99ba-4631-b6fd-6802c88d5c26"\t"video"\t8\t3\t"73ac3644-7637-4cee-86d4-1a75f53f0b9c"\t"Vidéo de présentation de Pix"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"71de6394-ff88-4de3-8834-a40057a50ff4"\t"qcu"\t9\t4\t"533c69b8-a836-41be-8ffc-8d4636e31224"\t"Voici un vrai-faux"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"79dc17f9-142b-4e19-bcbe-bfde4e170d3f"\t"qcu"\t10\t4\t"533c69b8-a836-41be-8ffc-8d4636e31224"\t"Voici un vrai-faux"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"30701e93-1b4d-4da4-b018-fa756c07d53f"\t"qcm"\t11\t5\t"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"\t"Les 3 piliers de Pix"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"c23436d4-6261-49f1-b50d-13a547529c29"\t"qrocm"\t12\t6\t"4ce2a31a-6584-4dae-87c6-d08b58d0f3b9"\t"Connaissez-vous bien Pix"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"
+"0e3315fd-98ad-492f-9046-4aa867495d84"\t"embed"\t13\t7\t"46577fb1-aadb-49ba-b3fd-721a11da8eb4"\t"Embed non-auto"\t"bac-a-sable"\t"6282925d-4775-4bca-b513-4c3009ec5886"`);
     });
   });
 });

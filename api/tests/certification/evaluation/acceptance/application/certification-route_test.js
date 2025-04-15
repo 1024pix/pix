@@ -455,7 +455,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           assessmentId: assessment.id,
           level: 1,
           pixScore: 23,
-          emitter: 'PIX-ALGO',
           status: 'validated',
         });
 
@@ -811,7 +810,6 @@ async function _buildDatabaseForV2Certification() {
     assessmentId: assessment.id,
     level: 1,
     pixScore: 23,
-    emitter: 'PIX-ALGO',
     status: 'validated',
     commentByAutoJury: AutoJuryCommentKeys.FRAUD,
   });

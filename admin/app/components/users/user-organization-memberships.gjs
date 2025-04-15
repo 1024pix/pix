@@ -76,6 +76,8 @@ export default class UserOrganizationMemberships extends Component {
             <:cell>
               {{#if organizationMembership.lastAccessedAt}}
                 {{dayjsFormat organizationMembership.lastAccessedAt "DD/MM/YYYY"}}
+              {{else}}
+                {{t "components.users.organizations.memberships.no-last-connection-date-info"}}
               {{/if}}
             </:cell>
           </PixTableColumn>

@@ -40,7 +40,6 @@ const debugScoringForV3Certification = Debug('pix:certif:v3:scoring');
  */
 export const handleV3CertificationScoring = async ({
   event,
-  emitter,
   certificationAssessment,
   locale,
   answerRepository,
@@ -100,7 +99,6 @@ export const handleV3CertificationScoring = async ({
   const assessmentResult = await _createV3AssessmentResult({
     toBeCancelled,
     allAnswers: candidateAnswers,
-    emitter,
     certificationAssessment,
     certificationAssessmentScore,
     certificationCourse,
@@ -134,7 +132,6 @@ export const handleV3CertificationScoring = async ({
 function _createV3AssessmentResult({
   toBeCancelled,
   allAnswers,
-  emitter,
   certificationAssessment,
   certificationAssessmentScore,
   certificationCourse,
@@ -146,7 +143,6 @@ function _createV3AssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
-      emitter,
     });
   }
 
@@ -165,7 +161,6 @@ function _createV3AssessmentResult({
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
-      emitter,
       juryId,
     });
   }
@@ -175,7 +170,6 @@ function _createV3AssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
-      emitter,
       juryId,
     });
   }
@@ -185,7 +179,6 @@ function _createV3AssessmentResult({
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter,
     juryId,
   });
 }

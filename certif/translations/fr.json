@@ -184,7 +184,10 @@
         "pix-and-pix-plus": "La certification Pix et Pix+",
         "pix-plus": "Seulement la certification Pix+"
       },
-      "line": "Ligne {line} : "
+      "line": "Ligne {line} : ",
+      "table": {
+        "empty-result": "Aucun résultat"
+      }
     },
     "notifications": {
       "close-button": {

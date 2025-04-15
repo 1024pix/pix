@@ -131,8 +131,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         },
       ];
       databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
-        userId,
-        snappedAt: new Date('2020-01-02'),
         knowledgeElementsAttributes,
         campaignParticipationId,
       });
@@ -193,8 +191,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       ];
 
       databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
-        userId,
-        snappedAt: new Date('2020-01-02'),
         knowledgeElementsAttributes,
         campaignParticipationId,
       });

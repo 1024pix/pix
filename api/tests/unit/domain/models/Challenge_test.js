@@ -4,7 +4,7 @@ import { ValidatorQCU } from '../../../../src/evaluation/domain/models/Validator
 import { ValidatorQROC } from '../../../../src/evaluation/domain/models/ValidatorQROC.js';
 import { ValidatorQROCMDep } from '../../../../src/evaluation/domain/models/ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from '../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
-import { Accessibility, Challenge } from '../../../../src/shared/domain/models/Challenge.js';
+import { Accessibility, Challenge, Statuses } from '../../../../src/shared/domain/models/Challenge.js';
 import { Skill } from '../../../../src/shared/domain/models/Skill.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
@@ -364,6 +364,41 @@ describe('Unit | Domain | Models | Challenge', function () {
           });
         },
       );
+    });
+  });
+
+  describe('#isOperative', function () {
+    it('should return true when challenge is validated', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ status: Statuses.VALIDATED });
+
+      // when
+      const isOperative = challenge.isOperative;
+
+      // then
+      expect(isOperative).to.be.true;
+    });
+
+    it('should return true when challenge is archived', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ status: Statuses.ARCHIVED });
+
+      // when
+      const isOperative = challenge.isOperative;
+
+      // then
+      expect(isOperative).to.be.true;
+    });
+
+    it('should return false when challenge is obsolete', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ status: Statuses.OBSOLETE });
+
+      // when
+      const isOperative = challenge.isOperative;
+
+      // then
+      expect(isOperative).to.be.false;
     });
   });
 });

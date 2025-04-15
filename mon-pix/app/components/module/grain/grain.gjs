@@ -164,6 +164,10 @@ export default class ModuleGrain extends Component {
     await this.args.onModuleTerminate({ grainId: this.args.grain.id });
   }
 
+  get hasTitle() {
+    return this.args.grain.title && this.args.grain.title.length > 0;
+  }
+
   get elementId() {
     return `grain_${this.args.grain.id}`;
   }
@@ -175,7 +179,9 @@ export default class ModuleGrain extends Component {
       tabindex="-1"
       {{didInsert this.focusAndScroll}}
     >
-      <h2 class="screen-reader-only">{{@grain.title}}</h2>
+      {{#if this.hasTitle}}
+        <h2 class="screen-reader-only">{{@grain.title}}</h2>
+      {{/if}}
 
       {{#if @transition}}
         <header class="grain__header">

@@ -56,14 +56,14 @@ module('Acceptance | Module | Routes | verifyQcm', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: "Bravo ! C'est la bonne réponse.",
+      feedback: { state: "Bravo ! C'est la bonne réponse." },
       status: 'ok',
       solution: [qcm1.proposals[1].id, qcm1.proposals[2].id],
     });
 
     server.create('correction-response', {
       id: 'elementId-2',
-      feedback: 'Pas ouf',
+      feedback: { state: 'Pas ouf' },
       status: 'ko',
       solution: [qcm2.proposals[0].id, qcm2.proposals[2].id],
     });

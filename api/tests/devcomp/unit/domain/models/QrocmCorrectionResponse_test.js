@@ -48,7 +48,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmCorrectionResponse', function 
     it('should throw an error', function () {
       // when
       const error = catchErrSync(
-        () => new QrocmCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' }),
+        () => new QrocmCorrectionResponse({ status: AnswerStatus.OK, feedback: { state: 'Bien joué !' } }),
       )();
 
       // then

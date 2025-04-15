@@ -5,7 +5,7 @@
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { AssessmentResult, CompetenceMark } from '../../../../shared/domain/models/index.js';
+import { CompetenceMark } from '../../../../shared/domain/models/index.js';
 
 /**
  * @param {Object} params
@@ -32,7 +32,6 @@ const updateJuryComment = async function ({
     const updatedAssessmentResult = latestAssessmentResult.clone();
     updatedAssessmentResult.commentByJury = assessmentResultCommentByJury;
     updatedAssessmentResult.juryId = juryId;
-    updatedAssessmentResult.emitter = AssessmentResult.emitters.PIX_JURY;
 
     const { id: assessmentResultId } = await assessmentResultRepository.save({
       certificationCourseId,

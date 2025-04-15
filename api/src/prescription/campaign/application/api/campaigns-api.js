@@ -102,6 +102,7 @@ export const update = async (payload) => {
  * @type {object}
  * @property {number} organizationId
  * @property {PageDefinition} page
+ * @property {boolean} withCoverRate
  */
 
 /**
@@ -131,6 +132,7 @@ export const findAllForOrganization = async (payload) => {
   const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({
     organizationId: payload.organizationId,
     page: payload.page,
+    withCoverRate: payload.withCoverRate ?? false,
   });
 
   const campaignsList = campaigns.map((campaign) => new CampaignListItem(campaign));

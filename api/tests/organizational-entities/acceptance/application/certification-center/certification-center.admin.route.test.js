@@ -4,6 +4,7 @@ import {
   expect,
   generateAuthenticatedUserRequestHeaders,
   insertUserWithRoleSuperAdmin,
+  knex,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | Organization Entities | Admin | Route | Certification Centers', function () {
@@ -72,12 +73,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
               },
               relationships: {
                 habilitations: {
-                  data: [
-                    {
-                      id: '12',
-                      type: 'complementary-certifications',
-                    },
-                  ],
+                  data: [],
                 },
                 'certification-center-memberships': {
                   links: {
@@ -104,16 +100,6 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
                     related: '/api/certification-centers/2/certification-center-memberships',
                   },
                 },
-              },
-            },
-          ],
-          included: [
-            {
-              id: '12',
-              type: 'complementary-certifications',
-              attributes: {
-                label: 'Pix+Edu 1er degré',
-                key: 'EDU_1ER_DEGRE',
               },
             },
           ],
@@ -179,7 +165,6 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
                 name: 'Nouveau Centre de Certif',
                 type: 'SCO',
                 'data-protection-officer-email': 'adrienne.quepourra@example.net',
-                'is-v3-pilot': true,
               },
               relationships: {
                 habilitations: {
@@ -201,7 +186,6 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
         expect(response.result.data.attributes['data-protection-officer-email']).to.equal(
           'adrienne.quepourra@example.net',
         );
-        expect(response.result.data.attributes['is-v3-pilot']).to.equal(true);
         expect(response.result.data.id).to.be.ok;
       });
     });
@@ -289,10 +273,11 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
               type: 'SUP',
               'external-id': 'EX123',
               'created-at': undefined,
+              'archived-at': null,
+              'archivist-full-name': null,
               'data-protection-officer-first-name': undefined,
               'data-protection-officer-last-name': undefined,
               'data-protection-officer-email': undefined,
-              'is-v3-pilot': false,
               'is-complementary-alone-pilot': false,
             },
             relationships: {
@@ -379,7 +364,6 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
                 'data-protection-officer-first-name': 'Justin',
                 'data-protection-officer-last-name': 'Ptipeu',
                 'data-protection-officer-email': 'justin.ptipeu@example.net',
-                'is-v3-pilot': true,
                 name: 'Justin Ptipeu Orga',
                 type: 'PRO',
               },
@@ -393,9 +377,51 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
         expect(result.data.attributes['data-protection-officer-first-name']).to.equal('Justin');
         expect(result.data.attributes['data-protection-officer-last-name']).to.equal('Ptipeu');
         expect(result.data.attributes['data-protection-officer-email']).to.equal('justin.ptipeu@example.net');
-        expect(result.data.attributes['is-v3-pilot']).to.equal(true);
         expect(result.data.attributes.name).to.equal('Justin Ptipeu Orga');
       });
+    });
+  });
+
+  describe('POST /api/admin/certification-centers/{certificationCenterId}/archive', function () {
+    it('archives the certification center and related data and returns 204', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const previousUpdate = new Date(2022, 4, 5);
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterInvitation({
+        certificationCenterId,
+        statusCode: 'pending',
+        updatedAt: previousUpdate,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: `/api/admin/certification-centers/${certificationCenterId}/archive`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: adminMember.id }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+
+      const archivedCenter = await knex('certification-centers').where({ id: certificationCenterId }).first();
+      expect(archivedCenter.archivedBy).to.deep.equal(adminMember.id);
+      expect(archivedCenter.archivedAt).to.be.instanceOf(Date);
+      expect(archivedCenter.archivedAt).not.to.deep.equal(previousUpdate);
+
+      const disabledMembership = await knex('certification-center-memberships')
+        .where({ certificationCenterId })
+        .first();
+      expect(disabledMembership.updatedByUserId).to.equal(adminMember.id);
+      expect(disabledMembership.disabledAt).to.deep.equal(archivedCenter.archivedAt);
+
+      const cancelledInvitation = await knex('certification-center-invitations')
+        .where({ certificationCenterId })
+        .first();
+      expect(cancelledInvitation.status).to.deep.equal('cancelled');
+      expect(cancelledInvitation.updatedAt).to.deep.equal(archivedCenter.archivedAt);
     });
   });
 });

@@ -18,7 +18,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
         const organizationCreationParams = { name: 'ACME', type: 'PRO', documentationUrl: 'https://kingArthur.com' };
 
         // when/then
-        expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
+        expect(() => organizationCreationValidator.validate(organizationCreationParams)).to.not.throw();
       });
     });
 
@@ -95,7 +95,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             const organizationCreationParams = { name: 'ACME', type };
 
             // when/then
-            return expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
+            return expect(() => organizationCreationValidator.validate(organizationCreationParams)).to.not.throw();
           });
         });
       });

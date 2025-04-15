@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
-import * as fetch from 'fetch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -12,7 +11,7 @@ module('Unit | Route | login-oidc', function (hooks) {
       let fetchStub;
 
       hooks.beforeEach(function () {
-        fetchStub = sinon.stub(fetch, 'default').resolves({
+        fetchStub = sinon.stub(window, 'fetch').resolves({
           json: sinon.stub().resolves({
             redirectTarget: `https://oidc.example.net/connexion`,
           }),
@@ -164,7 +163,9 @@ module('Unit | Route | login-oidc', function (hooks) {
               authenticationKey: 'key',
               givenName: 'Mélusine',
               familyName: 'TITEGOUTTE',
-              email: 'melu@example.net',
+              userClaims: {
+                email: 'melu@example.net',
+              },
             },
           },
         ],

@@ -1,5 +1,5 @@
-import { CenterForAdmin } from '../../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import * as centerRepository from '../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
+import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { updateCertificationCenter } from '../../../../../src/organizational-entities/domain/usecases/update-certification-center.usecase.js';
 import * as certificationCenterForAdminRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-for-admin.repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../../../../src/organizational-entities/infrastructure/repositories/complementary-certification-habilitation.repository.js';

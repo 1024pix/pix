@@ -38,7 +38,7 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
     id: SIMPLE_SCO_ORGANIZATION_MEMBER_ID,
     firstName: 'Sco',
     lastName: 'Organization Member',
-    email: 'simple-sco-organization-member@example.net',
+    email: 'sco-managing-students-v3@example.net',
     cgu: true,
     lang: 'fr',
     lastTermsOfServiceValidatedAt: new Date(),
@@ -76,7 +76,6 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
     externalId,
     createdAt: new Date('2022-01-30'),
     habilitations: [],
-    isV3Pilot: true,
   });
 
   const certificationCenterForAdmin = await organizationalEntitiesUsecases.createCertificationCenter({
@@ -93,13 +92,12 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
    */
   const scoUser = databaseBuilder.factory.buildUser.withRawPassword({
     id: SIMPLE_SCO_CERTIFICATION_USER_ID,
-    firstName: 'Sco',
-    lastName: 'Certifiable',
+    firstName: 'certifiable',
+    lastName: 'sco-user',
     email: 'certifiable-sco-user@example.net',
     cgu: true,
     lang: 'fr',
     lastTermsOfServiceValidatedAt: new Date(),
-    pixCertifTermsOfServiceAccepted: true,
   });
 
   await tooling.profile.createCertifiableProfile({
@@ -113,11 +111,53 @@ export default async function simpleScoManagingStudentsCertificationCase({ datab
     firstName: scoUser.firstName,
     lastName: scoUser.lastName,
     email: scoUser.email,
-    sex: scoUser.sex,
+    division: 'Terminal',
+    sex: 'F',
     birthdate: '2000-01-01',
     isCertifiable: true,
+    isDisabled: false,
     certifiableAt: new Date('2022-01-30'),
   });
+
+  for (let index = 0; index < 10; index++) {
+    const otherUser = databaseBuilder.factory.buildUser.withRawPassword({
+      firstName: `Élève-${index}`,
+      lastName: `Non certifiable`,
+      email: `non-certifiable-sco-user_${index}@example.net`,
+      cgu: true,
+      lang: 'fr',
+    });
+    databaseBuilder.factory.buildOrganizationLearner({
+      firstName: otherUser.firstName,
+      lastName: otherUser.lastName,
+      sex: 'M',
+      birthdate: '2000-01-01',
+      birthCity: null,
+      birthCityCode: '75115',
+      birthCountryCode: '100',
+      birthProvinceCode: null,
+      division: '6eme',
+      isDisabled: false,
+      organizationId: newOrga.id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    databaseBuilder.factory.buildOrganizationLearner({
+      firstName: otherUser.firstName,
+      lastName: otherUser.lastName,
+      sex: 'M',
+      birthdate: '2000-01-01',
+      birthCity: null,
+      birthCityCode: '75115',
+      birthCountryCode: '100',
+      birthProvinceCode: null,
+      division: 'Terminal',
+      isDisabled: false,
+      organizationId: newOrga.id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
 
   await databaseBuilder.commit();
 

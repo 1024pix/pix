@@ -116,7 +116,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Good job!',
+      feedback: { state: 'Correct!', diagnosis: '<p>Good job!</p>' },
       status: 'ok',
       solution: 'solution',
     });
@@ -132,8 +132,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     );
 
     // then
-    const status = screen.getByRole('status');
-    assert.strictEqual(status.innerText, 'Good job!');
+    assert.dom(screen.getByText('Correct!')).exists();
+    assert.dom(screen.getByText('Good job!')).exists();
     assert.ok(screen.getByRole('radio', { name: 'radio1', disabled: true }));
     assert.ok(screen.getByRole('radio', { name: 'radio2', disabled: true }));
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
@@ -143,7 +143,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
+      feedback: { state: 'Wrong!', diagnosis: 'Too Bad!' },
       status: 'ko',
       solution: 'solution',
     });
@@ -159,8 +159,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     );
 
     // then
-    const status = screen.getByRole('status');
-    assert.strictEqual(status.innerText, 'Too Bad!');
+    assert.dom(screen.getByText('Wrong!')).exists();
+    assert.dom(screen.getByText('Too Bad!')).exists();
     assert.ok(screen.getByRole('radio', { name: 'radio1', disabled: true }));
     assert.ok(screen.getByRole('radio', { name: 'radio2', disabled: true }));
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
@@ -170,7 +170,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
+      feedback: { state: 'Wrong!', diagnosis: '<p>Try again!</p>' },
       status: 'ko',
       solution: 'solution',
     });
@@ -193,7 +193,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
+      feedback: { state: 'Correct!', diagnosis: '<p>Good job!</p>' },
       status: 'ko',
       solution: 'solution',
     });
@@ -218,7 +218,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Nice!',
+      feedback: { state: 'Correct!', diagnosis: '<p>Nice!</p>' },
       status: 'ok',
       solution: 'solution',
     });

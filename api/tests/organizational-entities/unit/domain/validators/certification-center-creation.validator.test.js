@@ -18,7 +18,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
         const certificationCenterCreationParams = { name: 'ACME', type: 'PRO' };
 
         // when/then
-        expect(certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not.throw;
+        expect(() => certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not.throw();
       });
     });
 
@@ -122,8 +122,9 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
             const certificationCenterCreationParams = { name: 'ACME', type };
 
             // when/then
-            return expect(certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not
-              .throw;
+            return expect(() =>
+              certificationCenterCreationValidator.validate(certificationCenterCreationParams),
+            ).to.not.throw();
           });
         });
       });

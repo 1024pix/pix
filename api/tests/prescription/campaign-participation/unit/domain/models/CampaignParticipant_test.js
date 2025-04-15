@@ -574,8 +574,9 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         );
       });
 
-      it('throws a ForbiddenAccess exception when the previous participation is deleted', async function () {
+      it('not throws a ForbiddenAccess exception when the previous participation is deleted', async function () {
         const userIdentity = { id: 1 };
+
         const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
           multipleSendings: true,
           externalIdLabel: null,
@@ -593,10 +594,15 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             hasParticipated: false,
           },
         });
-        const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
-        expect(error).to.be.an.instanceof(ForbiddenAccess);
-        expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+        campaignParticipant.start({ participantExternalId: null });
+
+        expect(campaignParticipant.campaignParticipation).to.deep.include({
+          campaignId: campaignToStartParticipation.id,
+          status: 'STARTED',
+          userId: userIdentity.id,
+          organizationLearnerId: null,
+        });
       });
 
       describe('and isReset param is true', function () {

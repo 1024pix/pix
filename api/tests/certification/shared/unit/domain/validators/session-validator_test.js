@@ -21,7 +21,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
   describe('#validate', function () {
     context('when validation is successful', function () {
       it('should not throw any error', function () {
-        expect(sessionValidator.validate(session)).to.not.throw;
+        expect(() => {
+          sessionValidator.validate(session);
+        }).to.not.throw();
       });
     });
 
@@ -161,7 +163,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
   describe('#validateForMassSessionImport', function () {
     context('when validation is successful', function () {
       it('should not throw any error', function () {
-        expect(sessionValidator.validateForMassSessionImport(session, 1)).to.not.throw;
+        expect(() => sessionValidator.validateForMassSessionImport(session, 1)).to.not.throw();
       });
     });
 
@@ -271,7 +273,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
     context('when validating id', function () {
       context('when id not in submitted filters', function () {
         it('should not throw any error', function () {
-          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
+          expect(() => sessionValidator.validateAndNormalizeFilters({})).to.not.throw();
         });
       });
 
@@ -285,11 +287,11 @@ describe('Unit | Domain | Validators | session-validator', function () {
 
         context('when id is an integer', function () {
           it('accept a string containing an int', function () {
-            expect(sessionValidator.validateAndNormalizeFilters({ id: '123' })).to.not.throw;
+            expect(() => sessionValidator.validateAndNormalizeFilters({ id: '123' })).to.not.throw();
           });
 
           it('should not throw any error', function () {
-            expect(sessionValidator.validateAndNormalizeFilters({ id: 123 })).to.not.throw;
+            expect(() => sessionValidator.validateAndNormalizeFilters({ id: 123 })).to.not.throw();
           });
         });
       });
@@ -298,7 +300,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
     context('when validating certificationCenterName', function () {
       context('when certificationCenterName not in submitted filters', function () {
         it('should not throw any error', function () {
-          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
+          expect(() => sessionValidator.validateAndNormalizeFilters({})).to.not.throw();
         });
       });
 
@@ -315,7 +317,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
         context('when certificationCenterName is a string', function () {
           it('should not throw an error', async function () {
             const certificationCenterName = '   Coucou le dév qui lit ce message !   ';
-            expect(sessionValidator.validateAndNormalizeFilters({ certificationCenterName })).to.not.throw;
+            expect(() => sessionValidator.validateAndNormalizeFilters({ certificationCenterName })).to.not.throw();
             expect(
               sessionValidator.validateAndNormalizeFilters({ certificationCenterName }).certificationCenterName,
             ).to.equal(certificationCenterName.trim());
@@ -327,7 +329,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
     context('when validating status', function () {
       context('when status not in submitted filters', function () {
         it('should not throw any error', function () {
-          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
+          expect(() => sessionValidator.validateAndNormalizeFilters({})).to.not.throw();
         });
       });
 
@@ -348,10 +350,18 @@ describe('Unit | Domain | Validators | session-validator', function () {
 
         context('when status is in the statuses list', function () {
           it('should not throw an error', async function () {
-            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.CREATED })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.FINALIZED })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.IN_PROCESS })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.PROCESSED })).to.not.throw;
+            expect(() =>
+              sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.CREATED }),
+            ).to.not.throw();
+            expect(() =>
+              sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.FINALIZED }),
+            ).to.not.throw();
+            expect(() =>
+              sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.IN_PROCESS }),
+            ).to.not.throw();
+            expect(() =>
+              sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.PROCESSED }),
+            ).to.not.throw();
           });
         });
       });
@@ -360,7 +370,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
     context('when validating version', function () {
       context('when version not in submitted filters', function () {
         it('should not throw any error', function () {
-          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
+          expect(() => sessionValidator.validateAndNormalizeFilters({})).to.not.throw();
         });
       });
 
@@ -385,8 +395,8 @@ describe('Unit | Domain | Validators | session-validator', function () {
 
         context('when resultsSentToPrescriberAt is a number in the allowed list', function () {
           it('should not throw an error', async function () {
-            expect(sessionValidator.validateAndNormalizeFilters({ version: 2 })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ version: 3 })).to.not.throw;
+            expect(() => sessionValidator.validateAndNormalizeFilters({ version: 2 })).to.not.throw();
+            expect(() => sessionValidator.validateAndNormalizeFilters({ version: 3 })).to.not.throw();
           });
         });
       });

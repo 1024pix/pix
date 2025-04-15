@@ -1,4 +1,5 @@
-import { Membership } from '../../../../../src/shared/domain/models/index.js';
+import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
+import { KnowledgeElement, Membership } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
@@ -474,6 +475,74 @@ describe('Acceptance | API | Campaign Route', function () {
           },
         ],
       });
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/level-per-tubes-and-competences', function () {
+    let campaign, userId;
+    const options = {
+      headers: { authorization: null },
+      method: 'GET',
+      url: null,
+    };
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+      const organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+      });
+
+      const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
+
+      const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
+
+      const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+
+      const tubeId = databaseBuilder.factory.learningContent.buildTube({ competenceId }).id;
+
+      const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId, status: 'actif' }).id;
+
+      const user1 = databaseBuilder.factory.buildUser();
+
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+
+      const participationUser1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: user1.id,
+      });
+
+      const user1ke1 = databaseBuilder.factory.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+        skillId,
+        userId: participationUser1.userId,
+      });
+
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        campaignParticipationId: participationUser1.id,
+        snapshot: new KnowledgeElementCollection([user1ke1]).toSnapshot(),
+      });
+
+      await databaseBuilder.commit();
+
+      options.headers = generateAuthenticatedUserRequestHeaders({ userId });
+      options.url = `/api/campaigns/${campaign.id}/level-per-tubes-and-competences`;
+    });
+
+    it('should return correct mean and max levels for competences and tubes', async function () {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result.data.type).to.deep.equal('campaign-result-levels-per-tubes-and-competences');
     });
   });
 });

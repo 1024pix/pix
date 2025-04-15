@@ -445,13 +445,15 @@ describe('Integration | Repository | Campaign-Report', function () {
 
   describe('#findPaginatedFilteredByOrganizationId', function () {
     let filter, page;
-    let organizationId, targetProfileId, ownerId;
+    let organizationId, targetProfileId, owner, ownerId;
     let campaign;
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
-      targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
-      ownerId = databaseBuilder.factory.buildUser({}).id;
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId, name: 'targetProfileName1' }).id;
+      owner = databaseBuilder.factory.buildUser({});
+      ownerId = owner.id;
+
       await databaseBuilder.commit();
 
       filter = {};
@@ -461,7 +463,11 @@ describe('Integration | Repository | Campaign-Report', function () {
     context('when the given organization has deleted campaigns', function () {
       it('should return an empty array', async function () {
         // given
-        databaseBuilder.factory.buildCampaign({ organizationId, deletedAt: new Date() });
+        databaseBuilder.factory.buildCampaign({
+          organizationId,
+          deletedAt: new Date(),
+          type: CampaignTypes.PROFILES_COLLECTION,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -479,8 +485,12 @@ describe('Integration | Repository | Campaign-Report', function () {
 
       it('should return one campaign', async function () {
         // given
-        databaseBuilder.factory.buildCampaign({ organizationId, deletedAt: new Date() });
-        databaseBuilder.factory.buildCampaign({ organizationId });
+        databaseBuilder.factory.buildCampaign({
+          organizationId,
+          deletedAt: new Date(),
+          type: CampaignTypes.ASSESSMENT,
+        });
+        databaseBuilder.factory.buildCampaign({ organizationId, type: CampaignTypes.PROFILES_COLLECTION });
         await databaseBuilder.commit();
 
         // when
@@ -521,6 +531,8 @@ describe('Integration | Repository | Campaign-Report', function () {
     context('when the given organization has campaigns', function () {
       it('should return campaign with all attributes', async function () {
         // given
+        databaseBuilder.factory.buildUser({ firstName: 'Walter', lastName: 'White' });
+
         campaign = databaseBuilder.factory.buildCampaign({
           name: 'campaign name',
           code: 'AZERTY789',
@@ -539,21 +551,20 @@ describe('Integration | Repository | Campaign-Report', function () {
 
         // then
         expect(campaignsWithReports[0]).to.be.instanceof(CampaignReport);
-        expect(campaignsWithReports[0]).to.deep.include(
-          _.pick(campaign, [
-            'id',
-            'name',
-            'code',
-            'createdAt',
-            'archivedAt',
-            'type',
-            'ownerId',
-            'ownerLastName',
-            'ownerFirstName',
-            'participationsCount',
-            'sharedParticipationsCount',
-          ]),
-        );
+        expect(campaignsWithReports[0]).to.deep.include({
+          id: campaign.id,
+          name: campaign.name,
+          code: campaign.code,
+          createdAt: campaign.createdAt,
+          archivedAt: campaign.archivedAt,
+          type: campaign.type,
+          ownerId: campaign.ownerId,
+          ownerLastName: owner.lastName,
+          ownerFirstName: owner.firstName,
+          participationsCount: 0,
+          sharedParticipationsCount: 0,
+          targetProfileName: 'targetProfileName1',
+        });
       });
 
       it('should return hasCampaign to true if the organization has one campaign at least', async function () {

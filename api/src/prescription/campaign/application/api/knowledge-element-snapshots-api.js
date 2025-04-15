@@ -22,8 +22,6 @@ import { KnowledgeElementSnapshot } from './models/KnowledgeElementSnapshot.js';
  */
 export async function save(knowledgeElementSnapshotPayload) {
   await usecases.saveKnowledgeElementSnapshotForParticipation({
-    userId: knowledgeElementSnapshotPayload.userId,
-    snappedAt: new Date(),
     knowledgeElementCollection: new KnowledgeElementCollection(knowledgeElementSnapshotPayload.knowledgeElements),
     campaignParticipationId: knowledgeElementSnapshotPayload.campaignParticipationId,
   });

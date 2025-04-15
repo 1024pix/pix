@@ -47,7 +47,7 @@
       "refresh-page": "Pagina verversen",
       "show-less": "Minder tonen",
       "show-more": "Meer bekijken",
-      "sign-out": "Log uit.",
+      "sign-out": "Uitloggen",
       "stay": "Blijf",
       "validate": "Valideer"
     },
@@ -87,8 +87,8 @@
       }
     },
     "data-protection-policy-information-banner": {
-      "title": "Ons privacybeleid is gewijzigd. We nodigen je uit om het te lezen:",
-      "url-label": "Beleid gegevensbescherming."
+      "title": "Ons privacybeleid is gewijzigd. Lees het hier:",
+      "url-label": "Gegevensbeschermingsbeleid."
     },
     "error": "Er is een fout opgetreden. Probeer het opnieuw of neem contact op met de klantenservice.",
     "form": {
@@ -132,26 +132,32 @@
     "pix": "Pix",
     "skip-links": {
       "skip-to-content": "Ga naar inhoud",
-      "skip-to-footer": "Ga naar de onderkant van de pagina"
+      "skip-to-footer": "Ga naar het einde van de pagina"
     },
     "validation": {
       "password": {
         "error": "Je hebt het verkeerde wachtwoord ingevoerd. Je wachtwoord moet langer zijn dan 8 tekens en ten minste één cijfer, één kleine letter en één hoofdletter bevatten.",
         "rules": {
-          "contains-digit": "een minimumcijfer",
-          "contains-lowercase": "een klein minimum",
+          "contains-digit": "ten minste één cijfer",
+          "contains-lowercase": "ten minste één kleine letter",
           "contains-uppercase": "ten minste één hoofdletter",
-          "min-length": "Minimaal 8 tekens"
+          "min-length": "Minstens 8 tekens"
         }
       }
     }
   },
   "components": {
+    "attestations": {
+      "obtainedAt": "Datum van uitgave: {date}",
+      "title": {
+        "numeric-sensivity": "Digitaal bewustzijnscertificaat"
+      }
+    },
     "authentication": {
       "login-form": {
         "fields": {
           "login": {
-            "error": "Uw e-mailadres of login is niet ingevuld."
+            "error": "Uw e-mailadres of gebruikersnaam is niet ingevuld."
           },
           "password": {
             "error": "Uw wachtwoord is niet ingevoerd."
@@ -170,30 +176,30 @@
       },
       "other-authentication-providers": {
         "login": {
-          "heading": "Andere verbindingsmethoden",
-          "login-with-featured-identity-provider-link": "Maak verbinding met {featuredIdentityProvider}"
+          "heading": "Andere inlogmethodes",
+          "login-with-featured-identity-provider-link": "Inloggen via de {featuredIdentityProvider}"
         },
         "select-another-organization-link": "Kies een andere organisatie",
         "signup": {
-          "heading": "Andere manieren van registratie",
+          "heading": "Andere registratiemethodes",
           "signup-with-featured-identity-provider-link": "Registreren bij {featuredIdentityProvider}"
         }
       },
       "password-reset-demand-form": {
         "actions": {
-          "receive-reset-button": "Een reset-link ontvangen"
+          "receive-reset-button": "Ontvang een resetlink"
         },
         "contact-us-link": {
-          "link-text": "Contacteer ons"
+          "link-text": "Raadpleeg het helpcentrum"
         },
         "fields": {
           "email": {
-            "error-message-invalid": "Uw e-mailadres is ongeldig.",
-            "label": "E-mail adres",
+            "error-message-invalid": "Je e-mailadres is ongeldig.",
+            "label": "E-mailadres",
             "placeholder": "b.v. jan.jansen@email.com"
           }
         },
-        "no-email-question": "Geen e-mailadres opgegeven?",
+        "no-email-question": "Problemen bij het inloggen?",
         "rule": "Alle velden zijn verplicht."
       },
       "password-reset-demand-received-info": {
@@ -222,7 +228,7 @@
       },
       "signup-form": {
         "actions": {
-          "submit": "Ik wil graag registreren"
+          "submit": "Registreren"
         },
         "errors": {
           "invalid-locale-format": "Uw locale \"{invalidLocale}\" heeft de verkeerde indeling.",
@@ -231,8 +237,8 @@
         },
         "fields": {
           "email": {
-            "error": "Uw e-mailadres is ongeldig.",
-            "label": "E-mail adres",
+            "error": "Je e-mailadres is ongeldig.",
+            "label": "E-mailadres",
             "placeholder": "b.v. jan.jansen@email.com"
           },
           "firstname": {
@@ -241,7 +247,7 @@
             "placeholder": "b.v. Jan"
           },
           "lastname": {
-            "error": "Je naam is niet ingevuld.",
+            "error": "Je achternaam is niet ingevuld.",
             "label": "Achternaam",
             "placeholder": "b.v. Jansen"
           },
@@ -271,16 +277,16 @@
       "start-landing-page": {
         "steps": {
           "step1": {
-            "description": "Answer questions adapted to your level",
-            "title": "Pass test"
+            "description": "Vragen beantwoorden die zijn aangepast aan je niveau",
+            "title": "Beoordeel jezelf"
           },
           "step2": {
-            "description": "Discover your strengths and areas for improvement",
-            "title": "Discover your score"
+            "description": "Analyseer je sterke punten en verbeterpunten",
+            "title": "Ontdek je score"
           },
           "step3": {
-            "description": "Access training tailored to your results",
-            "title": "Make progress"
+            "description": "Toegang tot training afgestemd op jouw resultaten",
+            "title": "Vooruitgang boeken"
           }
         }
       }
@@ -313,17 +319,18 @@
     "footer": {
       "a11y": "Toegankelijkheid: gedeeltelijk conform",
       "data-protection-policy": "Gegevensbeschermingsbeleid",
-      "eula": "UGC",
+      "eula": "Algemene gebruiksvoorwaarden",
       "help-center": "Helpcentrum",
       "label": "Secundair menu",
       "legal-notice": "Wettelijke informatie",
       "server-status": "Servicestatus",
-      "sitemap": "Kaart",
+      "sitemap": "Sitemap",
       "student-data-protection-policy": "Beleid gegevensbescherming studenten",
       "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
     },
     "homepage": "Startpagina Pix",
     "main": {
+      "attestations": "Mijn getuigschriften",
       "code": "Ik heb een code",
       "dashboard": "Home",
       "help": "Help",
@@ -335,6 +342,11 @@
       "tutorials": "Mijn tutorials"
     },
     "mobile-button-title": "Open het menu",
+    "nav-bar": {
+      "aria-label": "hoofdnavigatie",
+      "close": "Sluit de navigatie",
+      "open": "Open navigatie"
+    },
     "not-logged": {
       "sign-in": "Inloggen",
       "sign-up": "Meld je nu aan"
@@ -347,11 +359,15 @@
     "user": {
       "account": "Mijn account",
       "certifications": "Mijn certificaten",
-      "sign-out": "Log uit.",
+      "sign-out": "Uitloggen",
       "tests": "Mijn tests"
     }
   },
   "pages": {
+    "attestations" : {
+      "title": "Mijn getuigschriften",
+      "subtitle": "Krijg toegang tot al je Pix-certificaten en download ze."
+    },
     "account-recovery": {
       "errors": {
         "account-exists": "Er bestaat al een account met dit e-mailadres.",
@@ -385,7 +401,7 @@
               "invalid-or-already-used-email": "Ongeldig of al gebruikt e-mailadres",
               "new-backup-email": "Voer een geldig e-mailadres in om uw account te herstellen",
               "new-email-already-exist": "Dit e-mailadres is al in gebruik",
-              "wrong-email-format": "Uw e-mailadres is ongeldig."
+              "wrong-email-format": "Je e-mailadres is ongeldig."
             }
           }
         },
@@ -463,12 +479,12 @@
       "update-sco-record": {
         "fill-password": "Voer je wachtwoord in en Pix is van jou!",
         "form": {
-          "email-label": "E-mail adres",
+          "email-label": "E-mailadres",
           "errors": {
             "empty-password": "Het wachtwoordveld is verplicht.",
             "invalid-password": "Je wachtwoord moet minstens 8 tekens lang zijn en minstens één hoofdletter, één kleine letter en één cijfer bevatten."
           },
-          "login-button": "Ik ben online",
+          "login-button": "Inloggen",
           "password-label": "Wachtwoord"
         },
         "welcome-message": "Welkom terug { firstName }!"
@@ -506,8 +522,8 @@
           "message": "{providerName} Je wordt doorgestuurd naar de \" \" inlogpagina om je te identificeren op Pix."
         },
         "signup": {
-          "button": "Ik wil graag registreren",
-          "link": "Aanmelden",
+          "button": "Registreren",
+          "link": "Registreren",
           "title": "Heb je geen account?"
         },
         "title": "Kies een andere organisatie"
@@ -546,7 +562,7 @@
         },
         "legal": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Als je aan het einde van de cursus op de knop \"Stuur mijn resultaten\" klikt, worden je resultaten naar de organisator gestuurd.",
         "title": "Begin je Pix-reis",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
+        "title-with-username": "<span>{userFirstName},</span><br> ben je klaar om je vaardigheden te testen?"
       },
       "profiles-collection": {
         "action": "Laten we gaan!",
@@ -557,7 +573,7 @@
       },
       "title": "Presentatie",
       "warning-message": "Ben jij niet {firstName} {lastName }?",
-      "warning-message-logout": "Log uit."
+      "warning-message-logout": "Uitloggen"
     },
     "campaign-participation-overview": {
       "card": {
@@ -627,7 +643,7 @@
         "title": "Verificatie code",
         "tooltip": "Geef deze code om een derde partij de echtheid van je certificaat te laten controleren"
       },
-      "learn-about-certification-results": "Inzicht in mijn Pix-certificeringsresultaten"
+      "learn-about-certification-results": "Hoe moeten de resultaten worden geïnterpreteerd?"
     },
     "certification-ender": {
       "candidate": {
@@ -702,7 +718,7 @@
         },
         "4": {
           "list": {
-            "1": "Ga naar de onderkant van de pagina",
+            "1": "Ga naar het einde van de pagina",
             "2": "Selecteer \"Een probleem met de vraag melden\".",
             "3": "Klik op \"Ja, ik weet het zeker\".",
             "4": "Bel de supervisor die zal ingrijpen om je te helpen"
@@ -797,7 +813,7 @@
     "certification-results": {
       "action": {
         "confirm": "Ik bevestig",
-        "logout": "Log uit."
+        "logout": "Uitloggen"
       },
       "finished": {
         "description": "Je resultaten zijn binnenkort beschikbaar in je account.",
@@ -1278,7 +1294,7 @@
       "recommended-competences": {
         "extra-information": "Toegang tot alle aanbevolen vaardigheden",
         "profile-link": "Alle vaardigheden",
-        "subtitle": "Verken de vaardigheden die voor jou aanbevolen worden.",
+        "subtitle": "Verken de vaardigheden die we jou aanbevelen",
         "title": "Aanbevolen vaardigheden"
       },
       "score": {
@@ -1340,7 +1356,7 @@
       "start": "Toegang tot de cursus",
       "title": "Ik heb een code",
       "warning-message": "Ben jij niet {firstName} {lastName }?",
-      "warning-message-logout": "Log uit."
+      "warning-message-logout": "Uitloggen"
     },
     "fill-in-certificate-verification-code": {
       "description": "Een Pix-certificaat getuigt van een vaardigheidsniveau in digitale vaardigheden: voer hieronder de \"verificatiecode\" in voor het Pix-certificaat dat je wilt controleren.",
@@ -1399,7 +1415,7 @@
           "label": "Voornaam"
         },
         "lastname": {
-          "error": "Je naam is niet ingevuld.",
+          "error": "Je achternaam is niet ingevuld.",
           "label": "Achternaam"
         }
       },
@@ -1444,13 +1460,13 @@
         "data-sharing-refused": "We informeren u dat de overdracht van uw gegevens, zoals gespecificeerd op de vorige pagina, essentieel is om toegang te krijgen tot de service en deze te gebruiken.",
         "error-message": "Je moet de gebruiksvoorwaarden van Pix accepteren.",
         "expired-authentication-key": "Uw verificatieverzoek is verlopen.",
-        "invalid-email": "Uw e-mailadres is ongeldig.",
+        "invalid-email": "Je e-mailadres is ongeldig.",
         "login-unauthorized-error": "Het ingevoerde e-mailadres en/of wachtwoord is onjuist."
       },
       "login-form": {
-        "button": "Ik ben online",
+        "button": "Inloggen",
         "description": "Log in om je bestaande account te koppelen en je eerder beoordeelde vaardigheden op te halen",
-        "email": "E-mail adres",
+        "email": "E-mailadres",
         "password": "Wachtwoord",
         "title": "Ik heb al een Pix-account"
       },
@@ -1472,7 +1488,7 @@
         "error": "Het e-mailadres of de ingevoerde gebruikersnaam en/of wachtwoord zijn onjuist",
         "fields": {
           "login": {
-            "label": "E-mailadres of login"
+            "label": "E-mailadres of gebruikersnaam"
           },
           "password": {
             "label": "Wachtwoord"
@@ -1489,7 +1505,7 @@
       },
       "register-form": {
         "button": "Meld je nu aan",
-        "button-form": "Ik wil graag registreren",
+        "button-form": "Registreren",
         "fields": {
           "birthdate": {
             "day": {
@@ -1511,21 +1527,21 @@
           },
           "cgu": "Ik ga akkoord met de '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'gebruiksvoorwaarden van Pix'</a>'.",
           "email": {
-            "error": "Uw e-mailadres is ongeldig.",
+            "error": "Je e-mailadres is ongeldig.",
             "help": "(voorbeeld: naam.voornaam@voorbeeld.org)",
-            "label": "E-mail adres"
+            "label": "E-mailadres"
           },
           "firstname": {
             "error": "Je voornaam is niet ingevuld.",
             "label": "Voornaam"
           },
           "lastname": {
-            "error": "Je naam is niet ingevuld.",
+            "error": "Je achternaam is niet ingevuld.",
             "label": "Achternaam"
           },
           "password": {
             "error": "Je wachtwoord moet minstens 8 tekens lang zijn en minstens één hoofdletter, één kleine letter en één cijfer bevatten.",
-            "help": "(minimaal 8 tekens, waaronder een hoofdletter, een kleine letter en een cijfer)",
+            "help": "(minstens 8 tekenss, waaronder een hoofdletter, een kleine letter en een cijfer)",
             "label": "Wachtwoord",
             "show-button": "het wachtwoord leesbaar maken"
           },
@@ -1624,11 +1640,11 @@
           "no": "Helemaal niet: {totalNo}",
           "yes": "Ja ! {totalYes}"
         },
-        "direction": "Zoek het antwoord en draai de kaart om",
+        "direction": "Zoek het antwoord en draai de sitemap om",
         "navigation": {
           "currentStep": "{current} Stap op {total}"
         },
-        "position": "{currentCardPosition}Kaart /{totalCards}"
+        "position": "{currentCardPosition}sitemap /{totalCards}"
       },
       "grain": {
         "tag": {
@@ -1689,7 +1705,7 @@
       "authentication-method-to-add": "Verbinding toegevoegd :",
       "confirm": "Ga verder met",
       "current-authentication-methods": "Mijn huidige verbindingsmethoden:",
-      "email": "E-mail adres",
+      "email": "E-mailadres",
       "external-connection": "Externe aansluiting",
       "external-connection-via": "Verbinding via",
       "information": "Aangezien de vaardigheidstoetsing persoonlijk is, moet je account strikt persoonlijk blijven.",
@@ -1700,7 +1716,7 @@
       "username": "Inloggen"
     },
     "password-reset-demand": {
-      "title": "Bent u uw wachtwoord vergeten?"
+      "title": "Wachtwoord vergeten?"
     },
     "profile-already-shared": {
       "actions": {
@@ -1747,10 +1763,10 @@
       },
       "title": "Vaardigheden",
       "total-score-helper": {
-        "explanation": "'<p>'Dit is het maximale aantal pix dat men kan bereiken wanneer alle 8 niveaus van het Pix-referentiesysteem beschikbaar zijn.'</p><p>'Vandaag is '<span class=\"hexagon-score-information__text--strong\">'het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
+        "explanation": "'<p>'Dit is het maximale aantal pix dat men kan bereiken wanneer alle 8 niveaus van het Pix-referentiesysteem beschikbaar zijn.'</p><p>'Momenteel is '<span class=\"hexagon-score-information__text--strong\">'het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
         "icon": "Informatie over pix",
         "label": "Tooltip openen",
-        "title": "Waarom 1024 pixels?"
+        "title": "Waarom 1024 pix?"
       }
     },
     "reset-password": {
@@ -1792,26 +1808,26 @@
     },
     "sign-in": {
       "actions": {
-        "submit": "Ik ben online"
+        "submit": "Inloggen"
       },
       "fields": {
         "legend": "Informatie die nodig is om in te loggen.",
         "login": {
-          "label": "E-mailadres of login",
+          "label": "E-mailadres of gebruikersnaam",
           "placeholder": "b.v. jan.jansen@email.com"
         },
         "password": {
           "label": "Wachtwoord"
         }
       },
-      "first-title": "Log in op",
-      "forgotten-password": "Bent u uw wachtwoord vergeten?",
+      "first-title": "Inloggen",
+      "forgotten-password": "Wachtwoord vergeten?",
       "title": "Verbinding"
     },
     "sign-up": {
       "actions": {
         "login": "Inloggen",
-        "submit": "Ik wil graag registreren"
+        "submit": "Registreren"
       },
       "errors": {
         "invalid-locale-format": "Uw locale \"{invalidLocale}\" heeft de verkeerde indeling.",
@@ -1822,7 +1838,7 @@
           "help": "(voorbeeld: naam.voornaam@voorbeeld.org)"
         }
       },
-      "first-title": "Aanmelden",
+      "first-title": "Registreren",
       "title": "Registratie"
     },
     "sitemap": {
@@ -1835,7 +1851,7 @@
         "subcontractors": "Lijst van onderaannemers"
       },
       "resources": "Middelen",
-      "title": "Kaart"
+      "title": "Sitemap"
     },
     "skill-review": {
       "abstract": "Je beheerst '<strong>'{rate, number, ::percent}'</strong><br>'van de getoetste vaardigheden.",
@@ -1944,9 +1960,9 @@
             "share-error": "Er is een fout opgetreden bij het verzenden van uw resultaten. Probeer het opnieuw."
           },
           "shared-results-modal": {
-            "return-results-action": "Close and return to results",
-            "subtitle": "Ready to expand your knowledge? 🎓",
-            "title": "Shared results"
+            "return-results-action": "Sluiten en terugkeren naar resultaten",
+            "subtitle": "Klaar om je vaardigheden te ontwikkelen? \uD83C\uDF93",
+            "title": "Verdeelde resultaten!"
           },
           "tab-label": "Training",
           "title": "Wil je meer weten?"
@@ -2028,11 +2044,11 @@
       "button": "Reset",
       "fields": {
         "error": "Je wachtwoord moet minstens 8 tekens lang zijn en minstens één hoofdletter, één kleine letter en één cijfer bevatten.",
-        "help": "(minimaal 8 tekens, waaronder een hoofdletter, een kleine letter en een cijfer)",
+        "help": "(minstens 8 tekens, waaronder een hoofdletter, een kleine letter en een cijfer)",
         "label": "Wachtwoord"
       },
       "first-title": "Wachtwoord resetten",
-      "go-to-login": "Ik ben online",
+      "go-to-login": "Inloggen",
       "subtitle": "Kies een nieuw wachtwoord om verder te gaan",
       "title": "Mijn wachtwoord wijzigen",
       "validation": "Je wachtwoord is bijgewerkt."
@@ -2042,7 +2058,7 @@
         "fields": {
           "errors": {
             "empty-password": "Je wachtwoord mag niet leeg zijn.",
-            "invalid-email": "Uw e-mailadres is ongeldig.",
+            "invalid-email": "Je e-mailadres is ongeldig.",
             "invalid-or-already-used-email": "Ongeldig of al gebruikt e-mailadres",
             "invalid-password": "Het ingevoerde wachtwoord is ongeldig.",
             "new-email-already-exist": "Dit e-mailadres is al in gebruik."
@@ -2067,7 +2083,7 @@
             "mismatching-email": "De twee e-mailadressen zijn niet identiek. Controleer uw inzending.",
             "new-email-already-exist": "Dit e-mailadres is al in gebruik.",
             "unknown-error": "Er is een fout opgetreden. Probeer het opnieuw of neem contact op met de klantenservice.",
-            "wrong-email-format": "Uw e-mailadres is ongeldig."
+            "wrong-email-format": "Je e-mailadres is ongeldig."
           },
           "new-email-confirmation": {
             "label": "Bevestiging van e-mailadres"
@@ -2090,7 +2106,7 @@
           "via": "via {identityProviderOrganizationName}"
         },
         "edit-button": "Bewerk",
-        "email": "E-mail adres",
+        "email": "E-mailadres",
         "menu-link-title": "Mijn verbindingsmethoden",
         "username": "Inloggen"
       },

@@ -1,7 +1,6 @@
 import { service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
-import fetch from 'fetch';
 import ENV from 'pix-admin/config/environment';
 import { decodeToken } from 'pix-admin/helpers/jwt';
 

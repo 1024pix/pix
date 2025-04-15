@@ -48,8 +48,6 @@ describe('Integration | Prescription | Scripts | add-missing-knowledge-element-s
         sharedAt: sharedAt2,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: user.id,
-        snappedAt: sharedAt2,
         campaignParticipationId: participationWithsnapshot.id,
       });
       await databaseBuilder.commit();

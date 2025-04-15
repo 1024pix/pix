@@ -70,58 +70,6 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.dom(screen.getByText('Tableau de bord')).exists();
   });
 
-  module('certification center is V3 pilot', function () {
-    test('it should display that the certification center is V3 Pilot', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const certificationCenter = store.createRecord('certification-center', {
-        type: 'SCO',
-        isV3Pilot: true,
-      });
-
-      // when
-      const screen = await render(
-        <template><InformationView @certificationCenter={{certificationCenter}} /></template>,
-      );
-
-      // then
-      assert
-        .dom(
-          screen.getByLabelText(
-            t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.active'),
-          ),
-        )
-        .exists();
-    });
-  });
-
-  module('certification center is not V3 pilot', function () {
-    test('it should display that the certification center is not V3 Pilot', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const certificationCenter = store.createRecord('certification-center', {
-        type: 'SCO',
-        isV3Pilot: false,
-      });
-
-      // when
-      const screen = await render(
-        <template><InformationView @certificationCenter={{certificationCenter}} /></template>,
-      );
-
-      // then
-      assert
-        .dom(
-          screen.getByLabelText(
-            t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.inactive'),
-          ),
-        )
-        .exists();
-    });
-  });
-
   module('certification center is complementary alone pilot', function () {
     test('it should display that the certification center is complementary alone pilot', async function (assert) {
       // given

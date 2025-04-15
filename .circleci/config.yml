@@ -188,10 +188,6 @@ workflows:
           context: Pix
           requires:
             - mon_pix_build
-      # - mon_pix_e2e_playwright_test:
-      #     context: Pix
-      #     requires:
-      #       - mon_pix_build
 
       - orga_build:
           context: Pix
@@ -209,6 +205,10 @@ workflows:
           context: Pix
           requires:
             - orga_build
+      # - orga_e2e_playwright_test:
+      #     context: Pix
+      #     requires:
+      #       - orga_build
 
       - certif_install:
           context: Pix
@@ -950,11 +950,11 @@ jobs:
 
   # Temporary disabled until e2e tests are migrated to Playwright
   #
-  # mon_pix_e2e_playwright_test:
+  # orga_e2e_playwright_test:
   #   executor:
   #     name: node-redis-postgres-s3-docker-medium
   #   working_directory: ~/pix/high-level-tests/e2e-playwright
-  #   parallelism: 2
+  #   parallelism: 1
   #   steps:
   #     - attach_workspace:
   #         at: ~/pix
@@ -980,6 +980,9 @@ jobs:
   #         keys:
   #           - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
   #     - run:
+  #         name: Install Playwright Browser
+  #         command: npx playwright install --with-deps chromium
+  #     - run:
   #         name: Install Pix API
   #         working_directory: ~/pix/api
   #         command: npm ci
@@ -997,19 +1000,16 @@ jobs:
   #           MAILING_ENABLED: 'false'
   #           AUTH_SECRET: 'secret'
   #     - run:
-  #         name: Start Pix App
-  #         working_directory: ~/pix/mon-pix
+  #         name: Start Pix Orga
+  #         working_directory: ~/pix/orga
   #         command: npx ember server --path=./dist --proxy=http://localhost:3000
   #         background: true
   #     - run:
-  #         name: Install Playwright Browser
-  #         command: npx playwright install --with-deps chromium
-  #     - run:
   #         name: Run Pix App e2e tests (with sharding)
-  #         command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx playwright test --project=pix-app --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+  #         command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx playwright test --project=pix-orga --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
   #         environment:
   #           PIX_API_PORT: 3000
-  #           PIX_APP_URL: http://localhost:4200
+  #           PIX_ORGA_URL: http://localhost:4201
   #           DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
   #           AUTH_SECRET: 'secret'
   #     - store_test_results:

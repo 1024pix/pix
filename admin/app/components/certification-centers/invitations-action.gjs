@@ -61,7 +61,7 @@ export default class CertificationCenterInvitationsAction extends Component {
   <template>
     <section class="page-section certification-center-invitations">
       <form>
-        <h2 class="certification-center-invitations__heading">Inviter un membre</h2>
+        <h2 class="page-section__header">Inviter un membre</h2>
         <div class="certification-center-invitations-form-container">
           <PixInput
             @id="userEmailToInvite"

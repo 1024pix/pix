@@ -137,25 +137,4 @@ describe('Unit | Shared | Domain | Errors', function () {
       });
     });
   });
-
-  context('CertificationCenterPilotFeaturesConflictError', function () {
-    it('exports "CertificationCenterPilotFeaturesConflictError" class', function () {
-      // then
-      expect(errors.CertificationCenterPilotFeaturesConflictError).to.exist;
-      expect(errors.CertificationCenterPilotFeaturesConflictError.prototype).to.be.instanceOf(errors.DomainError);
-    });
-
-    context('when an instance of "CertificationCenterPilotFeaturesConflictError" is created', function () {
-      it('contains "message" and "code" attributes', function () {
-        // given & when
-        const error = new errors.CertificationCenterPilotFeaturesConflictError();
-
-        // then
-        expect(error).to.have.property('code');
-        expect(error.code).to.equal('PILOT_FEATURES_CONFLICT');
-        expect(error).to.have.property('message');
-        expect(error.message).to.equal('Certification center pilot features incompatibility');
-      });
-    });
-  });
 });

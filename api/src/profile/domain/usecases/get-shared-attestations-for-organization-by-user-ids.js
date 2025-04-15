@@ -32,11 +32,15 @@ export async function getSharedAttestationsForOrganizationByUserIds({
     throw new NoProfileRewardsFoundError();
   }
 
+  const data = [];
+
+  filteredProfileRewards.forEach(({ userId, createdAt }) => {
+    const user = users.find((user) => user.id === userId);
+    if (user) data.push(user.toForm(createdAt, locale, stringUtils.normalizeAndRemoveAccents));
+  });
+
   return {
-    data: filteredProfileRewards.map(({ userId, createdAt }) => {
-      const user = users.find((user) => user.id === userId);
-      return user.toForm(createdAt, locale, stringUtils.normalizeAndRemoveAccents);
-    }),
+    data,
     templateName: attestationData.templateName,
   };
 }

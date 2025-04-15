@@ -18,7 +18,7 @@ describe('Unit | Shared | Domain | Validator | password-validator', function () 
         password = 'Pix12345';
 
         // then
-        expect(passwordValidator.validate(password)).to.not.throw;
+        expect(() => passwordValidator.validate(password)).to.not.throw();
       });
     });
 

@@ -105,8 +105,10 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
         // given
         const buildData = {
           requirement_type: TYPES.CAPPED_TUBES,
-          comparison: 'irrelevant',
-          data: {},
+          data: {
+            cappedTubes: [],
+            threshold: 0,
+          },
         };
 
         // when
@@ -133,6 +135,41 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
   });
 
   describe('ComposedRequirement', function () {
+    describe('#validate', function () {
+      it('should throw if args are not valid', function () {
+        expect(() => {
+          new ComposedRequirement({ data: [] });
+        }).to.throw;
+      });
+
+      it('should throw without args', function () {
+        expect(() => {
+          new ComposedRequirement();
+        }).to.throw;
+      });
+
+      it('should not throw if args are valid', function () {
+        expect(() => {
+          new ComposedRequirement({
+            requirement_type: 'compose',
+            comparison: 'all',
+            data: [
+              {
+                requirement_type: 'campaignParticipations',
+                comparison: 'all',
+                data: {
+                  targetProfileId: {
+                    data: 1,
+                    comparison: 'equal',
+                  },
+                },
+              },
+            ],
+          });
+        }).to.throw;
+      });
+    });
+
     describe('constructor', function () {
       it('should build the same instance whether we are passing through raw requirements or instanciated requirements', function () {
         // given
@@ -406,6 +443,35 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
   });
 
   describe('ObjectRequirement', function () {
+    describe('#validate', function () {
+      it('should throw if args are not valid', function () {
+        expect(() => {
+          new ObjectRequirement({ data: [] });
+        }).to.throw();
+      });
+
+      it('should throw without args', function () {
+        expect(() => {
+          new ObjectRequirement();
+        }).to.throw();
+      });
+
+      it('should not throw if args are valid', function () {
+        expect(() => {
+          new ObjectRequirement({
+            requirement_type: 'campaignParticipations',
+            comparison: 'all',
+            data: {
+              targetProfileId: {
+                data: 1,
+                comparison: 'equal',
+              },
+            },
+          });
+        }).not.to.throw();
+      });
+    });
+
     describe('constructor', function () {
       it('should build the same instance whether we are passing through raw criterion or instanciated criterion', function () {
         // given
@@ -654,6 +720,37 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
   });
 
   describe('CappedTubesRequirement', function () {
+    describe('#validate', function () {
+      it('should throw if args are not valid', function () {
+        expect(() => {
+          new CappedTubesRequirement({
+            data: {
+              cappedTubes: [{ tubeId: '1', level: 2 }],
+              threshold: -1000,
+            },
+          });
+        }).to.throw();
+      });
+
+      it('should throw without args', function () {
+        expect(() => {
+          new CappedTubesRequirement();
+        }).to.throw();
+      });
+
+      it('should not throw if args are valid', function () {
+        expect(() => {
+          new CappedTubesRequirement({
+            requirement_type: TYPES.CAPPED_TUBES,
+            data: {
+              cappedTubes: [{ tubeId: '1', level: 2 }],
+              threshold: 50,
+            },
+          });
+        }).not.to.throw();
+      });
+    });
+
     describe('isFulfilled', function () {
       let successWith60MasteryPercentage;
       const cappedTubes = [

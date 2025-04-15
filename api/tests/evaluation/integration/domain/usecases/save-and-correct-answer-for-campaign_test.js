@@ -207,8 +207,6 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
       });
       const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
-        snappedAt: new Date('2019-01-01'),
         campaignParticipationId,
         snapshot: knowledgeElementsBefore.toSnapshot(),
       });

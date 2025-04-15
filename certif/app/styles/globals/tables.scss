@@ -8,6 +8,11 @@
     &--small {
       width: 10%;
     }
+
+    &--hyphen {
+      min-width: 15ch;
+      hyphens: auto;
+    }
   }
 
   &__empty {

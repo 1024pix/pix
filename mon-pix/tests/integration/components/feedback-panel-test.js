@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { waitForDialog } from '../../helpers/wait-for';
 
 module('Integration | Component | feedback-panel', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -62,29 +63,22 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       test('should display a confirmation modal', async function (assert) {
         // given
-        const modalTitle = screen.getByText('Confirmation du signalement');
-
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
         // then
-        assert.notOk(
-          modalTitle.closest('.pix-modal__overlay').classList.toString().includes('pix-modal__overlay--hidden'),
-        );
+        await waitForDialog();
+        assert.dom(screen.getByRole('dialog', { name: 'Confirmation du signalement' })).exists();
       });
 
       test('should be able to close the modal', async function (assert) {
         // given
-        const modalTitle = screen.getByText('Confirmation du signalement');
-
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
         await click(screen.getByText(t('common.actions.cancel')));
 
         // then
-        assert.ok(
-          modalTitle.closest('.pix-modal__overlay').classList.toString().includes('pix-modal__overlay--hidden'),
-        );
+        assert.dom(screen.queryByRole('dialog', { name: 'Confirmation du signalement' })).doesNotExist();
       });
 
       test('should display the "mercix" view without content value', async function (assert) {

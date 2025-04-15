@@ -204,45 +204,84 @@ describe('Unit | API | Campaigns', function () {
   });
 
   describe('#findAllForOrganization', function () {
-    it('should return paginated campaign list from organizationId', async function () {
-      const organizationId = Symbol('organizationId');
-      const page = Symbol('page');
-      const meta = Symbol('meta');
-      const campaignInformation1 = domainBuilder.buildCampaignReport({
-        id: 777,
-        code: 'SOMETHING',
-        name: 'Godzilla',
-        title: 'is Biohazard',
-        customLandingPageText: 'Rooooooooooooar',
-        createdAt: new Date('2020-01-01'),
-        archivedAt: new Date('2023-01-01'),
+    context('when withCoverRate is false or not filled in', function () {
+      it('should return paginated campaign list from organizationId without cover rate', async function () {
+        const organizationId = Symbol('organizationId');
+        const page = Symbol('page');
+        const meta = Symbol('meta');
+        const targetProfileName = Symbol('targetProfileName');
+
+        const campaignInformation1 = domainBuilder.buildCampaignReport({
+          id: 777,
+          code: 'SOMETHING',
+          name: 'Godzilla',
+          title: 'is Biohazard',
+          customLandingPageText: 'Rooooooooooooar',
+          createdAt: new Date('2020-01-01'),
+          archivedAt: new Date('2023-01-01'),
+          targetProfileName,
+        });
+
+        const getCampaignStub = sinon.stub(usecases, 'findPaginatedFilteredOrganizationCampaigns');
+        getCampaignStub
+          .withArgs({ organizationId, page, withCoverRate: false })
+          .resolves({ models: [campaignInformation1], meta });
+
+        // when
+        const result = await campaignApi.findAllForOrganization({ organizationId, page });
+
+        // then
+        const firstCampaignListItem = result.models[0];
+        expect(result.meta).to.be.equal(meta);
+        expect(firstCampaignListItem).not.to.be.instanceOf(CampaignReport);
+        expect(firstCampaignListItem.id).to.be.equal(campaignInformation1.id);
+        expect(firstCampaignListItem.name).to.be.equal(campaignInformation1.name);
+        expect(firstCampaignListItem.createdAt).to.be.equal(campaignInformation1.createdAt);
+        expect(firstCampaignListItem.archivedAt).to.be.equal(campaignInformation1.archivedAt);
+        expect(firstCampaignListItem.targetProfileName).to.be.equal(targetProfileName);
+        expect(firstCampaignListItem.tubes).to.be.undefined;
       });
-      const campaignInformation2 = domainBuilder.buildCampaignReport({
-        id: 666,
-        code: 'SOMETHING',
-        name: 'Monarch',
-        title: 'is a butterfly',
-        customLandingPageText: 'pshh pshh pshhh pshhh',
-        createdAt: new Date('2020-01-01'),
-        archivedAt: new Date('2023-01-01'),
+    });
+    context('when withCoverRate is true', function () {
+      it('should return paginated campaign list from organizationId with cover rate', async function () {
+        const organizationId = Symbol('organizationId');
+        const page = Symbol('page');
+        const meta = Symbol('meta');
+        const targetProfileName = Symbol('targetProfileName');
+        const coverRate = domainBuilder.prescription.campaign.buildCampaignResultLevelsPerTubesAndCompetences();
+
+        const campaignInformation1 = domainBuilder.buildCampaignReport({
+          id: 777,
+          code: 'SOMETHING',
+          name: 'Godzilla',
+          title: 'is Biohazard',
+          customLandingPageText: 'Rooooooooooooar',
+          createdAt: new Date('2020-01-01'),
+          archivedAt: new Date('2023-01-01'),
+          targetProfileName,
+        });
+
+        campaignInformation1.setCoverRate(coverRate);
+
+        const getCampaignStub = sinon.stub(usecases, 'findPaginatedFilteredOrganizationCampaigns');
+        getCampaignStub
+          .withArgs({ organizationId, page, withCoverRate: true })
+          .resolves({ models: [campaignInformation1], meta });
+
+        // when
+        const result = await campaignApi.findAllForOrganization({ organizationId, page, withCoverRate: true });
+
+        // then
+        const firstCampaignListItem = result.models[0];
+        expect(result.meta).to.be.equal(meta);
+        expect(firstCampaignListItem).not.to.be.instanceOf(CampaignReport);
+        expect(firstCampaignListItem.id).to.be.equal(campaignInformation1.id);
+        expect(firstCampaignListItem.name).to.be.equal(campaignInformation1.name);
+        expect(firstCampaignListItem.createdAt).to.be.equal(campaignInformation1.createdAt);
+        expect(firstCampaignListItem.archivedAt).to.be.equal(campaignInformation1.archivedAt);
+        expect(firstCampaignListItem.targetProfileName).to.be.equal(targetProfileName);
+        expect(firstCampaignListItem.tubes).to.be.equal(coverRate.levelsPerTube);
       });
-
-      const getCampaignStub = sinon.stub(usecases, 'findPaginatedFilteredOrganizationCampaigns');
-      getCampaignStub
-        .withArgs({ organizationId, page })
-        .resolves({ models: [campaignInformation1, campaignInformation2], meta });
-
-      // when
-      const result = await campaignApi.findAllForOrganization({ organizationId, page });
-
-      // then
-      const firstCampaignListItem = result.models[0];
-      expect(result.meta).to.be.equal(meta);
-      expect(firstCampaignListItem).not.to.be.instanceOf(CampaignReport);
-      expect(firstCampaignListItem.id).to.be.equal(campaignInformation1.id);
-      expect(firstCampaignListItem.name).to.be.equal(campaignInformation1.name);
-      expect(firstCampaignListItem.createdAt).to.be.equal(campaignInformation1.createdAt);
-      expect(firstCampaignListItem.archivedAt).to.be.equal(campaignInformation1.archivedAt);
     });
   });
 });

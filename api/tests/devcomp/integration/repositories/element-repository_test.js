@@ -8,7 +8,7 @@ describe('Integration | DevComp | Repositories | ElementRepository', function ()
   describe('#getByIdForAnswerVerification', function () {
     it('should return an element from a component element', async function () {
       // given
-      const moduleId = 'bac-a-sable';
+      const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
       const elementId = '71de6394-ff88-4de3-8834-a40057a50ff4';
       const element = new QCUForAnswerVerification({
         id: elementId,
@@ -33,9 +33,9 @@ describe('Integration | DevComp | Repositories | ElementRepository', function ()
         solution: '1',
       });
       const moduleDatasourceStub = {
-        getBySlug: sinon.stub(),
+        getById: sinon.stub(),
       };
-      moduleDatasourceStub.getBySlug.withArgs(moduleId).resolves({
+      moduleDatasourceStub.getById.withArgs(moduleId).resolves({
         id: '6282925d-4775-4bca-b513-4c3009ec5886',
         slug: 'bac-a-sable',
         title: 'Bac à sable',
@@ -122,9 +122,9 @@ describe('Integration | DevComp | Repositories | ElementRepository', function ()
         solution: '1',
       });
       const moduleDatasourceStub = {
-        getBySlug: sinon.stub(),
+        getById: sinon.stub(),
       };
-      moduleDatasourceStub.getBySlug.withArgs(moduleId).resolves({
+      moduleDatasourceStub.getById.withArgs(moduleId).resolves({
         id: '6282925d-4775-4bca-b513-4c3009ec5886',
         slug: 'bac-a-sable',
         title: 'Bac à sable',

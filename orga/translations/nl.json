@@ -384,7 +384,9 @@
       "statistics": "Statistieken",
       "sup-organization-participants": "Studenten",
       "support": "Helpcentrum",
-      "team": "Team"
+      "team": "Team",
+      "close": "Sluit de navigatie",
+      "open": "Open navigatie"
     },
     "places": {
       "link": "Zie details",

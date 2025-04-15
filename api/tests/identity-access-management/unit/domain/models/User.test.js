@@ -586,6 +586,35 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
   });
 
+  describe('#isActive', function () {
+    it('return true when user isAnonymous (without real account)', function () {
+      // given
+      const user = domainBuilder.buildUser({ isAnonymous: true });
+
+      // when
+      // then
+      expect(user.isActive).to.be.true;
+    });
+
+    it('return true when user hasBeenAnonymized (user demand to delete his account)', function () {
+      // given
+      const user = domainBuilder.buildUser({ isAnonymous: false, hasBeenAnonymised: true });
+
+      // when
+      // then
+      expect(user.isActive).to.be.true;
+    });
+
+    it('return false when user not Anonymous and still active ', function () {
+      // given
+      const user = domainBuilder.buildUser({ isAnonymous: false, hasBeenAnonymised: false });
+
+      // when
+      // then
+      expect(user.isActive).to.be.false;
+    });
+  });
+
   describe('#mapToDatabaseDto', function () {
     it('maps user model into user database DTO', function () {
       // given
@@ -652,41 +681,6 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       expect(anonymizedUser.lastDataProtectionPolicySeenAt).to.be.null;
       expect(anonymizedUser.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
       expect(anonymizedUser.updatedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
-    });
-  });
-
-  describe('#has', function () {
-    it('should return false when user has no organization learner ids at all', function () {
-      // given
-      const user = domainBuilder.certification.enrolment.buildUser({ organizationLearnerIds: [] });
-
-      // when
-      const hasOrgaLearnerId = user.has({ organizationLearnerId: 123 });
-
-      // then
-      expect(hasOrgaLearnerId).to.be.false;
-    });
-
-    it('should return false when user does not have the given organizationLearnerId in its ids', function () {
-      // given
-      const user = domainBuilder.certification.enrolment.buildUser({ organizationLearnerIds: [456, 789] });
-
-      // when
-      const hasOrgaLearnerId = user.has({ organizationLearnerId: 123 });
-
-      // then
-      expect(hasOrgaLearnerId).to.be.false;
-    });
-
-    it('should return true when user has the given organizationLearnerId in its ids', function () {
-      // given
-      const user = domainBuilder.certification.enrolment.buildUser({ organizationLearnerIds: [456, 789, 123] });
-
-      // when
-      const hasOrgaLearnerId = user.has({ organizationLearnerId: 123 });
-
-      // then
-      expect(hasOrgaLearnerId).to.be.true;
     });
   });
 });

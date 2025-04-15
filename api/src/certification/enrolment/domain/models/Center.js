@@ -15,16 +15,14 @@ export class Center {
    * @param {Array<Habilitation>} props.habilitations center habilitations
    * @param {Array<string>} props.features activated center features
    * @param externalId
-   * @param isV3Pilot
    */
-  constructor({ id, name, externalId, isV3Pilot, type, habilitations, features, matchingOrganization }) {
+  constructor({ id, name, externalId, type, habilitations, features, matchingOrganization }) {
     this.id = id;
     this.name = name;
     this.type = type;
     this.externalId = externalId;
     this.habilitations = habilitations ?? [];
     this.features = features ?? [];
-    this.isV3Pilot = !!isV3Pilot;
     this.matchingOrganization = matchingOrganization;
   }
 
@@ -41,7 +39,7 @@ export class Center {
   }
 
   get isCoreComplementaryCompatibilityEnabled() {
-    return this.isV3Pilot && this.isComplementaryAlonePilot;
+    return this.isComplementaryAlonePilot;
   }
 
   isHabilitated(key) {

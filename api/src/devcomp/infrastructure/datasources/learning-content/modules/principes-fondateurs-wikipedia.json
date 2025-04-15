@@ -94,8 +94,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p> La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
+              "valid": {
+                "state": "Bonne réponse&nbsp;! 🎉",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p> La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
+              }
             },
             "solutions": ["1", "4"]
           }
@@ -215,8 +221,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p> Vous avez bien identifié les principes de Wikipédia. </p>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span></p>"
+              "valid": {
+                "state": "Bonne réponse&nbsp;! 🎉",
+                "diagnosis": "<p> Vous avez bien identifié les principes de Wikipédia. </p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span></p>"
+              }
             },
             "solutions": ["1", "3", "4"]
           }
@@ -238,22 +250,34 @@
               {
                 "id": "1",
                 "content": "100",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "250",
-                "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p> Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                "feedback": {
+                  "state": "Bonne réponse&nbsp;! 🎉",
+                  "diagnosis": "<p> Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "400",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                }
               },
               {
                 "id": "4",
                 "content": "700",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                }
               }
             ],
             "solution": "2"
@@ -276,17 +300,26 @@
               {
                 "id": "1",
                 "content": "les publicités",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "les abonnements payants",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p> Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "les dons",
-                "feedback": "<span class=\"feedback__state\">Oui, c'est correct.</span><p> Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+                "feedback": {
+                  "state": "Oui, c'est correct.",
+                  "diagnosis": "<p> Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+                }
               }
             ],
             "solution": "3"
@@ -366,8 +399,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span>"
+              "valid": {
+                "state": "Bonne réponse&nbsp;! 🎉",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": ""
+              }
             }
           }
         },
@@ -404,8 +443,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span>"
+              "valid": {
+                "state": "Bonne réponse&nbsp;! 🎉",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": ""
+              }
             }
           }
         },
@@ -454,8 +499,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span>"
+              "valid": {
+                "state": "Bonne réponse&nbsp;! 🎉",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": ""
+              }
             }
           }
         }

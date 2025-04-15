@@ -467,7 +467,6 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           // given
           const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
             type: CERTIFICATION_CENTER_TYPES.SUP,
-            isV3Pilot: true,
           }).id;
 
           const onlyComplementarySubscriptionUserId = databaseBuilder.factory.buildUser({

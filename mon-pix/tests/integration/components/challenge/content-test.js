@@ -11,12 +11,9 @@ module('Integration | Component | Challenge | Content', function (hooks) {
 
   let screen;
 
-  hooks.before(function () {
-    sinon.stub(window, 'fetch');
-  });
-
   hooks.beforeEach(async function () {
     // given
+    sinon.stub(window, 'fetch');
     const router = this.owner.lookup('service:router');
     router.transitionTo = sinon.stub();
 
@@ -53,6 +50,10 @@ module('Integration | Component | Challenge | Content', function (hooks) {
   @resetAllChallengeInfo={{this.fakeFunction}}
 />`,
     );
+  });
+
+  hooks.afterEach(function () {
+    sinon.restore();
   });
 
   module('on challenge skip', function () {

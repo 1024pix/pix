@@ -65,23 +65,20 @@ describe('Script | Prod | Clean knowledge-element-snapshot snapshot (jsonb)', fu
 
       databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
         id: 1,
-        userId: user.id,
-        snappedAt: participation.sharedAt,
         knowledgeElementsAttributes: [{ skillId: 'skill_1', status: 'validated', earnedPix: 40, userId: user.id }],
+        campaignParticipationId: participation.id,
       });
       databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
         id: 2,
-        userId: user.id,
-        snappedAt: participation2.sharedAt,
         knowledgeElementsAttributes: [{ skillId: 'skill_2', status: 'validated', earnedPix: 40, userId: user.id }],
+        campaignParticipationId: participation2.id,
       });
       databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
         id: 3,
-        userId: user.id,
-        snappedAt: participation3.sharedAt,
         knowledgeElementsAttributes: [
           { skillId: 'skill_2', status: 'validated', earnedPix: 40, userId: null, assessmentId: null, answerId: null },
         ],
+        campaignParticipationId: participation3.id,
       });
 
       await databaseBuilder.commit();

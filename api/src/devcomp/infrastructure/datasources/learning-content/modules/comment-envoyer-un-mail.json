@@ -76,17 +76,26 @@
               {
                 "id": "1",
                 "content": "<p>le Studio Scène</p>",
-                "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span>"
+                "feedback": {
+                  "state": "Bonne réponse !🎉",
+                  "diagnosis": ""
+                }
               },
               {
                 "id": "2",
                 "content": "<p>le Théâtre Lumière</p>",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Ce théâtre a contacté Rayan par SMS. </p><p>Cherchez l’offre avec des adresses mail écrites et essayez à nouveau.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Ce théâtre a contacté Rayan par SMS. </p><p>Cherchez l’offre avec des adresses mail écrites et essayez à nouveau.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>le Théâtre Éclat</p>",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Ce théâtre a contacté Rayan avec une messagerie instantanée.</p><p>Cherchez l’offre avec des adresses mail écrites et essayez à nouveau.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Ce théâtre a contacté Rayan avec une messagerie instantanée.</p><p>Cherchez l’offre avec des adresses mail écrites et essayez à nouveau.</p>"
+                }
               }
             ],
             "solution": "1"
@@ -178,12 +187,18 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span><p>Le champ À sert à indiquer le destinataire du mail. Il est obligatoire de le compléter pour que le mail soit envoyé et qu'une personne le reçoive.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !🎉",
+                        "diagnosis": "<p>Le champ À sert à indiquer le destinataire du mail. Il est obligatoire de le compléter pour que le mail soit envoyé et qu'une personne le reçoive.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><span aria-hidden=\"true\">🎉</span><p>Le champ À sert à indiquer le destinataire du mail. Il est obligatoire de le compléter pour que le mail soit envoyé et qu'une personne le reçoive.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le champ À sert à indiquer le destinataire du mail. Il est obligatoire de le compléter pour que le mail soit envoyé et qu'une personne le reçoive.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -200,12 +215,18 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span><p>Le champ Objet sert à expliquer rapidement le contenu du mail. S’il n’est pas complété, le champ sera rempli automatiquement avec <code>(aucun objet)</code>.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !🎉",
+                        "diagnosis": "<p>Le champ Objet sert à expliquer rapidement le contenu du mail. S’il n’est pas complété, le champ sera rempli automatiquement avec <code>(aucun objet)</code>.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Le champ Objet sert à expliquer rapidement le contenu du mail. S’il n’est pas complété, le champ sera rempli automatiquement avec <code>(aucun objet)</code>.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le champ Objet sert à expliquer rapidement le contenu du mail. S’il n’est pas complété, le champ sera rempli automatiquement avec <code>(aucun objet)</code>.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -222,12 +243,18 @@
                     {
                       "id": "1",
                       "content": "<p>vrai</p>",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span><p>La personne qui envoie le mail (expéditeur) doit être connectée à un compte avec une adresse mail. C’est cette adresse qui est automatiquement écrite dans le champ <code>De</code>.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !🎉",
+                        "diagnosis": "<p>La personne qui envoie le mail (expéditeur) doit être connectée à un compte avec une adresse mail. C’est cette adresse qui est automatiquement écrite dans le champ <code>De</code>.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>faux</p>",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>La personne qui envoie le mail (expéditeur) doit être connectée à un compte avec une adresse mail. C’est cette adresse qui est automatiquement écrite dans le champ <code>De</code>.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>La personne qui envoie le mail (expéditeur) doit être connectée à un compte avec une adresse mail. C’est cette adresse qui est automatiquement écrite dans le champ <code>De</code>.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -387,12 +414,20 @@
                     "content": "Costumes pour le 27 octobre"
                   }
                 ],
-                "solutions": ["4"]
+                "solutions": [
+                  "4"
+                ]
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Observez à nouveau le mail et réessayez.</p>"
+              "valid": {
+                "state": "Bonne réponse !🎉",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Observez à nouveau le mail et réessayez.</p>"
+              }
             }
           }
         }
@@ -421,12 +456,18 @@
               {
                 "id": "1",
                 "content": "<p>oui</p>",
-                "feedback": "<p>Bravo. Vous obtiendrez peut-être une réponse !</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Bravo. Vous obtiendrez peut-être une réponse !</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>non</p>",
-                "feedback": "<p>Pour réussir, retournez voir la vidéo ou demandez de l'aide si vous êtes accompagné.<br>Si vous n'avez pas d'adresse mail, vous pouvez vous en créer une gratuitement sur internet.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Pour réussir, retournez voir la vidéo ou demandez de l'aide si vous êtes accompagné.<br>Si vous n'avez pas d'adresse mail, vous pouvez vous en créer une gratuitement sur internet.</p>"
+                }
               }
             ],
             "solution": "1"

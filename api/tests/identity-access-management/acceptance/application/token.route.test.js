@@ -565,7 +565,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       // then
       expect(response.result.errors[0]).to.deep.equal({
         title: 'Unauthorized',
-        detail: 'The client ID is invalid.',
+        detail: 'The client ID and/or secret are invalid.',
         status: '401',
       });
     });
@@ -585,7 +585,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       // then
       expect(response.result.errors[0]).to.deep.equal({
         title: 'Unauthorized',
-        detail: 'The client secret is invalid.',
+        detail: 'The client ID and/or secret are invalid.',
         status: '401',
       });
     });

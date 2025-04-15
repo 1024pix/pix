@@ -48,7 +48,7 @@ describe('Unit | Devcomp | Domain | Models | QcuCorrectionResponse', function ()
     it('should throw an error', function () {
       // when
       const error = catchErrSync(
-        () => new QcuCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' }),
+        () => new QcuCorrectionResponse({ status: AnswerStatus.OK, feedback: { state: 'Bien joué !' } }),
       )();
 
       // then

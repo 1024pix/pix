@@ -7,7 +7,7 @@ import { AlgorithmEngineVersion } from '../../../../src/certification/shared/dom
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { _forTestOnly } from '../../../../src/shared/domain/events/index.js';
-import { AssessmentResult, CertificationResult } from '../../../../src/shared/domain/models/index.js';
+import { AssessmentResult } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { handleCertificationRescoring } = _forTestOnly.handlers;
@@ -717,7 +717,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
         const assessmentResultToBeSaved = new AssessmentResult({
           id: undefined,
-          emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
           commentByJury: 'Oopsie',
           pixScore: 0,
           reproducibilityRate: 0,

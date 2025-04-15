@@ -172,6 +172,7 @@ export default class CampaignView extends Component {
                   @hasBadges={{@campaign.hasBadges}}
                   @targetProfileTubesCount={{@campaign.targetProfileTubesCount}}
                   @targetProfileThematicResultCount={{@campaign.targetProfileThematicResultCount}}
+                  @simplifiedAccess={{@campaign.targetProfile.isSimplifiedAccess}}
                 />
               </dd>
             </div>

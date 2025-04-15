@@ -119,6 +119,38 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           .exists();
       });
 
+      test('it should display with account when simplified access is false', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          targetProfile: store.createRecord('target-profile', {
+            isSimplifiedAccess: false,
+          }),
+        });
+
+        // when
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+        // then
+        assert.ok(screen.getByText(t('common.target-profile-details.simplified-access.with-account')));
+      });
+
+      test('it should display without account when simplified access is true', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          targetProfile: store.createRecord('target-profile', {
+            isSimplifiedAccess: true,
+          }),
+        });
+
+        // when
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+        // then
+        assert.ok(screen.getByText(t('common.target-profile-details.simplified-access.without-account')));
+      });
+
       module('Badge context', function () {
         test('it should not display target profile thematic result when empty related to campaign', async function (assert) {
           // given

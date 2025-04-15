@@ -47,7 +47,7 @@ const sessionDomainErrorMappingConfiguration = [
   },
   {
     name: InvalidSessionSupervisingLoginError.name,
-    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code),
+    httpErrorFn: (error) => new HttpErrors.UnauthorizedError(error.message, error.code),
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
 

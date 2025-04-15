@@ -142,17 +142,26 @@
                     {
                       "id": "1",
                       "content": "<p>Elle se détend au soleil.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span><br>Ce personnage n'est pas sur le balcon le plus bas. Vous pouvez utiliser la molette pour descendre encore plus bas dans l'image.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Ce personnage n'est pas sur le balcon le plus bas. Vous pouvez utiliser la molette pour descendre encore plus bas dans l'image.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Elle arrose ses plantes.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span><br>Vous avez réussi à descendre dans toute l'image jusqu'au dernier balcon.<span aria-hidden=\"true\">🏢 </span></p>"
+                      "feedback": {
+                        "state": "Bonne réponse !",
+                        "diagnosis": "<p>Vous avez réussi à descendre dans toute l'image jusqu'au dernier balcon.<span aria-hidden=\"true\">🏢 </span></p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Elle étend son linge.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span><br>Cette activité est celle du personnage du premier balcon de l'immeuble. Utilisez la molette de votre souris quand votre pointeur est sur l'image. Faites défiler l'image pour découvrir les autres fenêtres et balcons de l'immeuble.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Cette activité est celle du personnage du premier balcon de l'immeuble. Utilisez la molette de votre souris quand votre pointeur est sur l'image. Faites défiler l'image pour découvrir les autres fenêtres et balcons de l'immeuble.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -186,17 +195,26 @@
               {
                 "id": "1",
                 "content": "<p>journal</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Pour remonter dans le module, faites rouler la molette doucement vers le haut et cherchez un encadré bleu clair.&nbsp; Le symbole que vous cherchez se trouve sous l’image.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Pour remonter dans le module, faites rouler la molette doucement vers le haut et cherchez un encadré bleu clair.&nbsp; Le symbole que vous cherchez se trouve sous l’image.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>papier</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span> </p><p>Vous avez parcouru le module de haut en bas. À tout moment, vous pouvez utiliser la molette pour relire quelque chose, revoir une vidéo, etc.</p>"
+                "feedback": {
+                  "state": "Bonne réponse !",
+                  "diagnosis": "<p>Vous avez parcouru le module de haut en bas. À tout moment, vous pouvez utiliser la molette pour relire quelque chose, revoir une vidéo, etc.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>page</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Pour remonter dans le module, faites rouler la molette doucement vers le haut et cherchez un encadré bleu clair.&nbsp; Le symbole que vous cherchez se trouve sous l’image.</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Pour remonter dans le module, faites rouler la molette doucement vers le haut et cherchez un encadré bleu clair.&nbsp; Le symbole que vous cherchez se trouve sous l’image.</p>"
+                }
               }
             ],
             "solution": "2"
@@ -314,17 +332,26 @@
               {
                 "id": "1",
                 "content": "<p>4</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse.</span></p><p>Il y a bien 4 photos dans le dossier «&nbsp;80 ans Mamie&nbsp;». Bravo ! Vous avez fait 4 doubles-clics et réussi à naviguer dans un explorateur de fichiers.</p>"
+                "feedback": {
+                  "state": "Bonne réponse.",
+                  "diagnosis": "<p>Il y a bien 4 photos dans le dossier «&nbsp;80 ans Mamie&nbsp;». Bravo ! Vous avez fait 4 doubles-clics et réussi à naviguer dans un explorateur de fichiers.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>5</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p><strong>Vous avez répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse.</strong><br>Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» :</p><ul><li>Cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus</li> <li>Suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics.</li><li>Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;».</li></ul>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p><strong>Vous avez répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse.</strong><br>Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» :</p><ul><li>Cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus</li> <li>Suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics.</li><li>Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;».</li></ul>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>6</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p><strong>Vous avez répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse.</strong><br>Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» :</p><ul><li>Cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus</li> <li>Suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics.</li><li>Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;».</li></ul>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p><strong>Vous avez répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse.</strong><br>Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» :</p><ul><li>Cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus</li> <li>Suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics.</li><li>Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;».</li></ul>"
+                }
               }
             ],
             "solution": "1"

@@ -27,7 +27,6 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
     commentByJury: assessmentResultDTO.commentByJury,
     commentByAutoJury: assessmentResultDTO.commentByAutoJury,
     createdAt: assessmentResultDTO.createdAt,
-    emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
     pixScore: assessmentResultDTO.pixScore,
     commentForCandidate,

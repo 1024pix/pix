@@ -89,7 +89,6 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             isAccessBlockedLycee: false,
             isAccessBlockedAEFE: false,
             isAccessBlockedAgri: false,
-            isV3Pilot: true,
             habilitations: [
               {
                 id: 123,

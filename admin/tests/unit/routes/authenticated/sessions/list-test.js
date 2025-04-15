@@ -16,36 +16,41 @@ module('Unit | Route | authenticated/sessions/list', function (hooks) {
   });
 
   module('#model', function () {
-    test('it should fetch the list of sessions with required action', async function (assert) {
+    test('it should fetch the sessions lists', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/sessions/list');
-      const v2Sessions = [
-        {
-          certificationCenterName: 'Centre SCO des Anne-Solo',
-          finalizedAt: '2020-04-15T15:00:34.000Z',
-        },
-      ];
 
-      const v3Sessions = [
-        {
-          certificationCenterName: 'Centre SCO v3',
-          finalizedAt: '2020-04-15T15:00:34.000Z',
-        },
-      ];
+      const v2SessionWithRequiredAction = [Symbol('v2SessionWithRequiredAction')];
+      const v2SessionToBePublished = [Symbol('v2SessionToBePublished')];
+
       const queryStub = sinon.stub();
-      queryStub.withArgs('with-required-action-session', { filter: { version: 2 } }).resolves(v2Sessions);
-      queryStub.withArgs('with-required-action-session', { filter: { version: 3 } }).resolves(v3Sessions);
+      queryStub
+        .withArgs('with-required-action-session', { filter: { version: 2 } })
+        .resolves(v2SessionWithRequiredAction);
+      queryStub.withArgs('to-be-published-session', { filter: { version: 2 } }).resolves(v2SessionToBePublished);
+
+      const v3SessionsWithRequiredAction = [Symbol('v3SessionWithRequiredAction')];
+      const v3SessionToBePublished = [Symbol('v3SessionToBePublished')];
+
+      queryStub
+        .withArgs('with-required-action-session', { filter: { version: 3 } })
+        .resolves(v3SessionsWithRequiredAction);
+      queryStub.withArgs('to-be-published-session', { filter: { version: 3 } }).resolves(v3SessionToBePublished);
 
       store.query = queryStub;
 
       // when
-      const result = await route.model();
+      const { refreshModel, ...result } = await route.model();
 
       // then
       assert.deepEqual(result, {
-        v2Sessions,
-        v3Sessions,
+        v2SessionsToBePublished: v2SessionToBePublished,
+        v2SessionsWithRequiredAction: v2SessionWithRequiredAction,
+        v3SessionsToBePublished: v3SessionToBePublished,
+        v3SessionsWithRequiredAction: v3SessionsWithRequiredAction,
       });
+
+      assert.strictEqual(typeof refreshModel, 'function');
     });
   });
 });

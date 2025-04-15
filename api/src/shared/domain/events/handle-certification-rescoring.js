@@ -11,7 +11,6 @@ import CertificationRescoredByScript from '../../../certification/session-manage
 import { AlgorithmEngineVersion } from '../../../certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { V3_REPRODUCIBILITY_RATE } from '../constants.js';
 import { CertificationComputeError } from '../errors.js';
-import { CertificationResult } from '../models/index.js';
 import CertificationCancelled from './CertificationCancelled.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
@@ -79,13 +78,10 @@ async function _handleV2CertificationScoring({
   scoringCertificationService,
   certificationEvaluationServices,
 }) {
-  const emitter = _getEmitterFromEvent(event);
-
   try {
     const { certificationCourse, certificationAssessmentScore } =
       await certificationEvaluationServices.handleV2CertificationScoring({
         event,
-        emitter,
         certificationAssessment,
       });
 
@@ -115,7 +111,6 @@ async function _handleV2CertificationScoring({
       certificationCourseRepository,
       certificationComputeError: error,
       juryId: event.juryId,
-      emitter,
     });
   }
 }
@@ -127,10 +122,8 @@ async function _handleV3CertificationScoring({
   certificationCourseRepository,
   certificationEvaluationServices,
 }) {
-  const emitter = _getEmitterFromEvent(event);
   const certificationCourse = await certificationEvaluationServices.handleV3CertificationScoring({
     event,
-    emitter,
     certificationAssessment,
     locale,
     dependencies: { findByCertificationCourseIdAndAssessmentId: services.findByCertificationCourseIdAndAssessmentId },
@@ -174,44 +167,16 @@ async function _saveResultAfterCertificationComputeError({
   assessmentResultRepository,
   certificationComputeError,
   juryId,
-  emitter,
 }) {
   const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
     juryId,
-    emitter,
   });
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
     assessmentResult,
   });
-}
-
-function _getEmitterFromEvent(event) {
-  let emitter;
-
-  if (event instanceof ChallengeNeutralized || event instanceof ChallengeDeneutralized) {
-    emitter = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
-  }
-
-  if (
-    event instanceof CertificationJuryDone ||
-    event instanceof CertificationRescoredByScript ||
-    event instanceof CertificationUncancelled
-  ) {
-    emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
-  }
-
-  if (event instanceof CertificationCourseRejected || event instanceof CertificationCourseUnrejected) {
-    emitter = CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION;
-  }
-
-  if (event instanceof CertificationCancelled) {
-    emitter = CertificationResult.emitters.PIX_ALGO_CANCELLATION;
-  }
-
-  return emitter;
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;

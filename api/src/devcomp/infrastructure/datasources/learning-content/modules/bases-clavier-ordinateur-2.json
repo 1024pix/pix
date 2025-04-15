@@ -88,12 +88,21 @@
                 "ariaLabel": "zone de saisie",
                 "defaultValue": "",
                 "tolerances": [],
-                "solutions": ["voilà le zèbre déçu", "« voilà le zèbre déçu »"]
+                "solutions": [
+                  "voilà le zèbre déçu",
+                  "« voilà le zèbre déçu »"
+                ]
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><br>Bravo ! <span aria-hidden=\"true\">🦓</span> Vous savez utiliser le clavier pour taper des lettres, des espaces et des caractères accentués.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Pour retrouver les caractères dont vous avez besoin, vous pouvez utiliser les indices. N’hésitez pas à réessayer.</p>"
+              "valid": {
+                "state": "Bonne réponse ! 🎉",
+                "diagnosis": "<p>Bravo ! 🦓 Vous savez utiliser le clavier pour taper des lettres, des espaces et des caractères accentués.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Pour retrouver les caractères dont vous avez besoin, vous pouvez utiliser les indices. N’hésitez pas à réessayer.</p>"
+              }
             }
           }
         },
@@ -314,13 +323,23 @@
                 "placeholder": "recopiez la phrase ",
                 "ariaLabel": "zone de saisie",
                 "defaultValue": "",
-                "tolerances": ["t1"],
-                "solutions": ["Coucou, peux-tu mettre ces 3 pommes à cet endroit ?"]
+                "tolerances": [
+                  "t1"
+                ],
+                "solutions": [
+                  "Coucou, peux-tu mettre ces 3 pommes à cet endroit ?"
+                ]
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🍏🍏🍏</span></span></p><p>Bravo, vous maîtrisez la touche majuscule ⇧.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse. <span aria-hidden=\"true\">🍎🍎🍎</span></span></p><p>Pour taper les caractères spéciaux, faites bien attention à leur position sur la touche. Elle vous indique si vous avez besoin d’utiliser la touche majuscule ⇧.</p>"
+              "valid": {
+                "state": "Bonne réponse ! \uD83C\uDF4F\uD83C\uDF4F\uD83C\uDF4F",
+                "diagnosis": "<p>Bravo, vous maîtrisez la touche majuscule ⇧.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse. \uD83C\uDF4E\uD83C\uDF4E\uD83C\uDF4E",
+                "diagnosis": "<p>Pour taper les caractères spéciaux, faites bien attention à leur position sur la touche. Elle vous indique si vous avez besoin d’utiliser la touche majuscule ⇧.</p>"
+              }
             }
           }
         }
@@ -356,7 +375,7 @@
           "element": {
             "id": "172ad359-9878-4308-940a-5cdf64019769",
             "type": "image",
-            "url": "https://i.imgur.com/NYPpOQ7.jpeg",
+            "url": "https://i.imgur.com/XbaDcLl.jpeg",
             "alt": "",
             "alternativeText": "",
             "legend": "",
@@ -471,6 +490,14 @@
             "alternativeText": "<ul><li>Pour taper un caractère en haut de la touche, il faut appuyer sur la touche majuscule ⇧ en même temps que la touche du caractère.</li><li>Pour taper un caractère en bas à gauche de la touche, il faut uniquement appuyer sur la touche du caractère.</li><li>Pour taper un caractère en bas à droite de la touche,&nbsp; il faut appuyer sur la touche Alt Gr en même temps que la touche du caractère.</li><li>Pour taper une majuscule, il faut appuyer sur la touche majuscule ⇧ en même temps que la touche lettre.</li></ul>",
             "legend": "",
             "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "e51added-60dc-453b-98ed-b3230711155e",
+            "type": "text",
+            "content": "<p>📝&nbsp;Vous pouvez maintenant&nbsp;<a href=\"https://cloud.pix.fr/s/6TTTsJMJgJnqEjj\" target=\"_blank\">Ouvrir votre fiche de synthèse</a></p>"
           }
         }
       ]

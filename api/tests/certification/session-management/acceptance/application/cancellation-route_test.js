@@ -1,7 +1,7 @@
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
-import { Assessment, CertificationResult } from '../../../../../src/shared/domain/models/index.js';
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/index.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/index.js';
 import {
@@ -318,7 +318,6 @@ describe('Certification | Session-management | Acceptance | Application | Routes
       const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessment.id,
         status: AssessmentResult.status.CANCELLED,
-        emitter: CertificationResult.emitters.PIX_ALGO_CANCELLATION,
       });
       databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
         certificationCourseId: certificationCourse.id,
@@ -395,7 +394,6 @@ describe('Certification | Session-management | Acceptance | Application | Routes
         .where({
           assessmentId: assessment.id,
           status: AssessmentResult.status.REJECTED,
-          emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
           juryId: juryMember.id,
         })
         .first();

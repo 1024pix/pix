@@ -39,7 +39,6 @@ module(
             { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
           ],
           isComplementaryAlonePilot: false,
-          isV3Pilot: false,
         });
       }
 
@@ -530,7 +529,6 @@ module(
               { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
             ],
             isComplementaryAlonePilot: true,
-            isV3Pilot: true,
           });
         }
         this.owner.register('service:current-user', CurrentUserStub);

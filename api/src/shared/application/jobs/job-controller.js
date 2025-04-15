@@ -14,7 +14,7 @@ export class JobController {
   constructor(jobName, options = {}) {
     this.jobName = jobName;
     this.jobGroup = options.jobGroup ?? JobGroup.DEFAULT;
-    this.expireIn = options.expireIn ?? JobExpireIn.DEFAULT;
+    this.expireIn = options.expireIn ?? JobExpireIn.INFINITE;
 
     this.#validate();
   }

@@ -310,7 +310,6 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
         // given
         const certificationResult = domainBuilder.buildCertificationResult.cancelled({
           ...aCertificationResultData,
-          emitter: CertificationResult.emitters.PIX_ALGO,
           commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
             commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
           }),
@@ -329,7 +328,6 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
         // given
         const certificationResult = domainBuilder.buildCertificationResult.validated({
           ...aCertificationResultData,
-          emitter: CertificationResult.emitters.PIX_ALGO,
           commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
             fallbackComment: 'MANUAL COMMENT',
           }),

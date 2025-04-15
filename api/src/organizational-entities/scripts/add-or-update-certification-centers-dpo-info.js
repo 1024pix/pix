@@ -1,10 +1,9 @@
 import Joi from 'joi';
 
-import { updateCertificationCenterDataProtectionOfficerInformation } from '../../../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import { csvFileParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
-import * as dataProtectionOfficerRepository from '../infrastructure/repositories/data-protection-officer.repository.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const columnsSchemas = [
   { name: 'certificationCenterId', schema: Joi.number() },
@@ -35,10 +34,7 @@ export class AddOrUpdateCertificationCentersDpoInfoScript extends Script {
     const errors = [];
     for (const dataProtectionOfficer of dataProtectionOfficers) {
       try {
-        await updateCertificationCenterDataProtectionOfficerInformation({
-          dataProtectionOfficer,
-          dataProtectionOfficerRepository,
-        });
+        await usecases.updateCertificationCenterDataProtectionOfficerInformation({ dataProtectionOfficer });
       } catch (error) {
         errors.push({ dataProtectionOfficer, error });
       }

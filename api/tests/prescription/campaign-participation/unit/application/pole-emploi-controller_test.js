@@ -59,7 +59,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
         const error = await catchErr(poleEmploiController.getSendings)(request, hFake, { poleEmploiService });
 
         //then
-        expect(error).to.throw;
+        expect(error).to.be.ok;
       });
     });
     context('when there are filters', function () {

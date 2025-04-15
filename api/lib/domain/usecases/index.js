@@ -37,6 +37,7 @@ import * as codeGenerator from '../../../src/shared/domain/services/code-generat
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import * as obfuscationService from '../../../src/shared/domain/services/obfuscation-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
+import * as userReconciliationService from '../../../src/shared/domain/services/user-reconciliation-service.js';
 import * as userService from '../../../src/shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../src/shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../src/shared/domain/validators/user-validator.js';
@@ -66,7 +67,6 @@ import { repositories } from '../../infrastructure/repositories/index.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
-import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });

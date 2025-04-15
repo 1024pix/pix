@@ -27,7 +27,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
       context('when validation is successful', function () {
         it('should not throw any error', function () {
-          expect(userValidator.validate({ user })).to.not.throw;
+          expect(() => userValidator.validate({ user })).to.not.throw();
         });
       });
 
@@ -251,7 +251,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
       context('when validation is successful', function () {
         it('should not throw any error', function () {
-          expect(userValidator.validate({ user, cguRequired })).to.not.throw;
+          expect(() => userValidator.validate({ user, cguRequired })).to.not.throw();
         });
       });
 

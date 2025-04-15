@@ -11,6 +11,7 @@ import {
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { CsvImportError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { identifiersType } from '../../../../../src/shared/domain/types/identifiers-type.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Organizational Entities | Application | Route | Admin | Organization', function () {
@@ -23,6 +24,71 @@ describe('Integration | Organizational Entities | Application | Route | Admin | 
 
   afterEach(function () {
     sinon.restore();
+  });
+
+  describe('GET /api/admin/organizations', function () {
+    const method = 'GET';
+
+    context('when user is not allowed to access resource', function () {
+      it('should resolve a 403 HTTP response', async function () {
+        // given
+        const method = 'GET';
+        const url = '/api/admin/organizations';
+
+        sinon
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        sinon.stub(organizationAdminController, 'findPaginatedFilteredOrganizations').returns('ok');
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when request is invalid', function () {
+      it('should return BadRequest (400) if id is not numeric', async function () {
+        // given
+        const idNotNumeric = 'foo';
+        const url = `/api/admin/organizations?filter[id]=${idNotNumeric}`;
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      context('when id is outside number limits', function () {
+        it('should return HTTP statusCode 400 if id number is less than the minimum value', async function () {
+          // given
+          const minNumberLimit = identifiersType.positiveInteger32bits.min;
+          const wrongNumber = minNumberLimit - 1;
+          const url = `/api/admin/organizations?filter[id]=${wrongNumber}`;
+
+          // when
+          const response = await httpTestServer.request(method, url);
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('should return HTTP statusCode 400 if id number is greater than the maximum value', async function () {
+          // given
+
+          const maxNumberLimit = identifiersType.positiveInteger32bits.max;
+          const wrongNumber = maxNumberLimit + 1;
+          const url = `/api/admin/organizations?filter[id]=${wrongNumber}`;
+
+          // when
+          const response = await httpTestServer.request(method, url);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+    });
   });
 
   describe('POST /api/admin/organizations/add-organization-features', function () {

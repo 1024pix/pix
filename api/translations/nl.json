@@ -236,12 +236,12 @@
   },
   "certification-confirmation": {
     "absolute-max-level-indication": "Als de 8 niveaus van de Pix-opslagplaats beschikbaar zijn, zal dit maximumaantal 1024 pixels zijn.",
-    "file-name": "attest-pix-{geleverdbij}.pdf",
+    "file-name": "certificering-pix-{deliveredAt}.pdf",
     "file-metadata": {
-      "title": "Pix certification attest"
+      "title": "Pix certificering"
     },
-    "from-birthplace": "naar { geboorteplaats }",
-    "max-level": "(niveaus op { maxReachableLevelOnCertificationDate })",
+    "from-birthplace": "naar {birthplace}",
+    "max-level": "(niveaus op {maxReachableLevelOnCertificationDate})",
     "max-reachable-level-indication": "* Op de datum waarop deze certificering werd behaald, was het maximaal haalbare aantal pix { maxReachableScore }, wat overeenkomt met het niveau { maxReachableLevelOnCertificationDate }."
   },
   "certification-result-email": {

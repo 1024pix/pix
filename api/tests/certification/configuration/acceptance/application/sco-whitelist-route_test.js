@@ -28,19 +28,16 @@ describe('Certification | Configuration | Acceptance | API | sco-whitelist-route
         payload: buffer,
       };
       databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: 'ext1',
         isScoBlockedAccessWhitelist: false,
       });
       databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: 'ext2',
         isScoBlockedAccessWhitelist: false,
       });
       databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: 'ext3',
         isScoBlockedAccessWhitelist: true,
@@ -70,19 +67,16 @@ describe('Certification | Configuration | Acceptance | API | sco-whitelist-route
         payload: buffer,
       };
       databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: 'ext1',
         isScoBlockedAccessWhitelist: false,
       });
       databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.PRO,
         externalId: thisExternalIdCannotBeWhitelisted,
         isScoBlockedAccessWhitelist: false,
       });
       const whitelistRollbackedToThis = databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: 'ext3',
         isScoBlockedAccessWhitelist: true,

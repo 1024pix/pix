@@ -29,6 +29,7 @@ async function _createScoCampaigns(databaseBuilder, trainingIds, participantCoun
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     configCampaign: {
       participantCount,
+      completionDistribution: { started: participantCount },
       profileDistribution: { beginner: 1, perfect: 1, blank: 1 },
       recommendedTrainingsIds: trainingIds,
     },

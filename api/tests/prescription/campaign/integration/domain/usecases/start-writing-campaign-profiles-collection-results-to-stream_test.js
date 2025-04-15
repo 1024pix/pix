@@ -176,8 +176,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: participationShared.userId,
-          snappedAt: participationShared.sharedAt,
           snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
           campaignParticipationId: participationShared.id,
         });
@@ -249,8 +247,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         );
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: participationShared.userId,
-          snappedAt: participationShared.sharedAt,
           snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
           campaignParticipationId: participationShared.id,
         });
@@ -398,8 +394,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         );
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: participationShared.userId,
-          snappedAt: participationShared.sharedAt,
           snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
           campaignParticipationId: participationShared.id,
         });
@@ -481,8 +475,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: participationShared.userId,
-          snappedAt: participationShared.sharedAt,
           snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
           campaignParticipationId: participationShared.id,
         });
@@ -567,8 +559,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: participationShared.userId,
-          snappedAt: participationShared.sharedAt,
           snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
           campaignParticipationId: participationShared.id,
         });

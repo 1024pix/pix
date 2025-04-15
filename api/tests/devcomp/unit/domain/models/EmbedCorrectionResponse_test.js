@@ -35,7 +35,7 @@ describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function 
     it('should throw an error', function () {
       // when
       const error = catchErrSync(
-        () => new EmbedCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' }),
+        () => new EmbedCorrectionResponse({ status: AnswerStatus.OK, feedback: { state: 'Bien joué !' } }),
       )();
 
       // then

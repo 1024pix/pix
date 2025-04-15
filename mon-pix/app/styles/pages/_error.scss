@@ -1,4 +1,5 @@
 @use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
 
 .error-page {
   display: flex;
@@ -7,15 +8,20 @@
   margin-top: 5%;
 
   &__error {
-    margin: 20px;
-    padding: 20px;
+    margin: var(--pix-spacing-6x);
+    padding: var(--pix-spacing-6x);
     color: var(--pix-neutral-500);
     background: var(--pix-neutral-20);
+
+    p {
+      margin-bottom: var(--pix-spacing-4x);
+    }
   }
 
   &__error-title {
-    font-weight: 600;
-    font-size: 0.938rem;
+    @extend %pix-body-l;
+
+    font-weight: var(--pix-font-bold);
   }
 }
 
@@ -25,40 +31,56 @@
   @include breakpoints.device-is('desktop') {
     max-width: 980px;
   }
+
+  @include breakpoints.device-is('mobile') {
+    margin:  0 0 var(--pix-spacing-4x);
+  }
 }
 
 .error-page__main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 20px;
-  padding: 40px;
-  border-bottom: 1px dashed var(--pix-neutral-100);
+  margin: 0 var(--pix-spacing-6x);
+  padding: var(--pix-spacing-8x);
+  border-bottom: solid 1px var(--pix-neutral-100);
 
   @include breakpoints.device-is('desktop') {
-    padding: 80px 0;
+    padding: var(--pix-spacing-6x) 0;
+  }
+
+  @include breakpoints.device-is('mobile') {
+    padding: 0 0 var(--pix-spacing-4x);
+  }
+
+  &__title {
+    @extend %pix-title-m;
+
+    padding-bottom: var(--pix-spacing-6x);
+    text-align: center;
   }
 
   p {
-    padding-bottom: 0.8rem;
-    font-size: 1rem;
+    @extend %pix-body-l;
+
+    padding-bottom: var(--pix-spacing-3x);
+    color: var(--pix-neutral-500);
     text-align: center;
 
     a {
       text-decoration: underline;
     }
   }
-}
 
-.error-page-main-content__title {
-  padding-bottom: 20px;
-  font-size: 1.5rem;
+  &__button-link {
+    margin-top: var(--pix-spacing-6x);
+  }
 }
 
 .error-page__index-link {
-  margin-top: 20px;
+  margin-top: var(--pix-spacing-6x);
 
   @include breakpoints.device-is('desktop') {
-    margin-top: 40px;
+    margin-top: var(--pix-spacing-8x);
   }
 }

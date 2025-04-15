@@ -312,9 +312,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
 
           [userWithCampaignParticipationFred, userWithCampaignParticipationJoe].forEach((participation) => {
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
-              userId: participation.userId,
               campaignParticipationId: participation.campaignParticipation.id,
-              snappedAt: participation.campaignParticipation.sharedAt,
               snapshot: JSON.stringify(
                 knowledgeElements.filter(
                   ({ userId, createdAt }) => userId === participation.userId && createdAt <= shareDate,
@@ -396,9 +394,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           ];
           const knowledgeElements = keData.map(databaseBuilder.factory.buildKnowledgeElement);
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationFred.userId,
             campaignParticipationId: userWithCampaignParticipationFred.campaignParticipation.id,
-            snappedAt: userWithCampaignParticipationFred.campaignParticipation.sharedAt,
             snapshot: JSON.stringify(knowledgeElements.filter(({ createdAt }) => createdAt <= shareDate)),
           });
           return databaseBuilder.commit();

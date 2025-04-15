@@ -8,6 +8,7 @@ export async function getModulesListAsCsv(modules) {
     data: modules,
     delimiter: '\t',
     fileHeaders: [
+      { label: 'ModuleId', value: 'id' },
       { label: 'ModuleSlug', value: 'slug' },
       { label: 'ModuleTitle', value: 'title' },
       { label: 'ModuleLevel', value: 'details.level' },
@@ -40,6 +41,10 @@ export async function getModulesListAsCsv(modules) {
       {
         label: 'ModuleTotalSummaries',
         value: (row) => row.grains.filter((grain) => grain.type === 'summary').length,
+      },
+      {
+        label: 'ModuleTotalTransitions',
+        value: (row) => row.grains.filter((grain) => grain.type === 'transition').length,
       },
       { label: 'ModuleDuration', value: (row) => `=TEXT(${row.details.duration}/24/60; "mm:ss")` },
       {

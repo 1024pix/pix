@@ -1,4 +1,8 @@
+import lodash from 'lodash';
+
 import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+
+const { omit } = lodash;
 
 /**
  * @typedef {function} authenticateOidcUser
@@ -63,8 +67,17 @@ async function authenticateOidcUser({
 
   if (!user) {
     const authenticationKey = await authenticationSessionService.save({ userInfo, sessionContent });
-    const { firstName: givenName, lastName: familyName, email } = userInfo;
-    return { authenticationKey, givenName, familyName, email, isAuthenticationComplete: false };
+
+    const userClaims = omit(userInfo, ['externalIdentityId']);
+
+    return {
+      authenticationKey,
+      userClaims,
+      isAuthenticationComplete: false,
+      // TODO: The properties givenName and familyName are kept for backward compatibility with the Front. They will be removed soon.
+      givenName: userClaims.firstName,
+      familyName: userClaims.lastName,
+    };
   }
 
   await _assertUserHasAccessToApplication({ requestedApplication, user, adminMemberRepository });

@@ -17,7 +17,7 @@ module('Unit | Services | session', function (hooks) {
 
   hooks.beforeEach(function () {
     sessionService = this.owner.lookup('service:session');
-    sessionService.currentUser = { load: sinon.stub(), user: null };
+    sessionService.currentUser = { load: sinon.stub(), loadAttestationDetails: sinon.stub(), user: null };
     sessionService.currentDomain = { getExtension: sinon.stub() };
     sessionService.locale = {
       setLocaleCookie: sinon.stub(),
@@ -106,6 +106,7 @@ module('Unit | Services | session', function (hooks) {
 
         // then
         sinon.assert.calledOnce(sessionService.currentUser.load);
+        sinon.assert.calledOnce(sessionService.currentUser.loadAttestationDetails);
         sinon.assert.calledWith(sessionService.locale.setLocale, DEFAULT_LOCALE);
         assert.ok(true);
       });

@@ -98,9 +98,9 @@ export default class MembersTable extends Component {
                     <:triggerElement>
                       <PixIconButton
                         @ariaLabel={{t 'pages.team.members.actions.edit-role'}}
+                        @plainIcon={{true}}
                         @iconName='edit'
                         @triggerAction={{fn @onChangeMemberRoleButtonClicked member}}
-                        @withBackground={{true}}
                       />
                     </:triggerElement>
                     <:tooltip>
@@ -114,8 +114,8 @@ export default class MembersTable extends Component {
                       <PixIconButton
                         @ariaLabel={{t 'pages.team.members.actions.remove-membership'}}
                         @iconName='delete'
+                        @plainIcon={{true}}
                         @triggerAction={{fn @onRemoveMemberButtonClicked member}}
-                        @withBackground={{true}}
                       />
                     </:triggerElement>
                     <:tooltip>
@@ -131,8 +131,8 @@ export default class MembersTable extends Component {
                       <PixIconButton
                         @ariaLabel={{t 'pages.team.members.actions.leave-certification-center'}}
                         @iconName='delete'
+                        @plainIcon={{true}}
                         @triggerAction={{@onLeaveCertificationCenterButtonClicked}}
-                        @withBackground={{true}}
                       />
                     </:triggerElement>
                     <:tooltip>

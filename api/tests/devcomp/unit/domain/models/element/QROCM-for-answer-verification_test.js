@@ -45,8 +45,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           },
         ],
         feedbacks: {
-          valid: 'Bravo!',
-          invalid: 'Mince!',
+          valid: { state: 'Bravo!' },
+          invalid: { state: 'Mince!' },
         },
       });
 
@@ -61,8 +61,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         selectBlock: ['t2', 't3'],
       });
       expect(qrocm.feedbacks).deep.equal({
-        valid: 'Bravo!',
-        invalid: 'Mince!',
+        valid: { state: 'Bravo!' },
+        invalid: { state: 'Mince!' },
       });
     });
 
@@ -182,8 +182,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           },
         ],
         feedbacks: {
-          valid: 'OK',
-          invalid: 'KO',
+          valid: { state: 'OK' },
+          invalid: { state: 'KO' },
         },
       });
       qrocm.userResponse = userResponse;
@@ -293,8 +293,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           },
         ],
         feedbacks: {
-          valid: 'OK',
-          invalid: 'KO',
+          valid: { state: 'OK' },
+          invalid: { state: 'KO' },
         },
       });
       qrocm.userResponse = userResponse;
@@ -396,8 +396,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
             },
           ],
           feedbacks: {
-            valid: 'OK',
-            invalid: 'KO',
+            valid: { state: 'OK' },
+            invalid: { state: 'KO' },
           },
         });
 
@@ -504,8 +504,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
               },
             ],
             feedbacks: {
-              valid: 'OK',
-              invalid: 'KO',
+              valid: { state: 'OK' },
+              invalid: { state: 'KO' },
             },
           });
 

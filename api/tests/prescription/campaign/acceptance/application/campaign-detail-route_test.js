@@ -109,6 +109,42 @@ describe('Acceptance | API | campaign-detail-route', function () {
     });
   });
 
+  describe('GET /api/campaigns/{campaignId}/target-profile', function () {
+    const options = {
+      headers: { authorization: null },
+      method: 'GET',
+      url: null,
+    };
+
+    let campaign;
+    let userId;
+    let targetProfile;
+
+    beforeEach(async function () {
+      targetProfile = databaseBuilder.factory.buildTargetProfile();
+      campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId: campaign.organizationId,
+        userId,
+      });
+
+      options.headers = generateAuthenticatedUserRequestHeaders({ userId });
+      options.url = `/api/campaigns/${campaign.id}/target-profile`;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return the target profile', async function () {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal('target-profiles');
+    });
+  });
+
   describe('GET /api/campaigns/{campaignId}/csv-profiles-collection-results', function () {
     const options = {
       headers: { authorization: null },

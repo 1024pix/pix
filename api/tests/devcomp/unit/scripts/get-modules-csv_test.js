@@ -43,7 +43,7 @@ describe('Unit | Scripts | Get Modules as CSV', function () {
       // when
       const result = _getTotalElementsCount(grains);
 
-      //then
+      // then
       expect(result).to.equal(3);
     });
 
@@ -82,7 +82,7 @@ describe('Unit | Scripts | Get Modules as CSV', function () {
       // when
       const result = _getTotalElementsCount(grains);
 
-      //then
+      // then
       expect(result).to.equal(2);
     });
 

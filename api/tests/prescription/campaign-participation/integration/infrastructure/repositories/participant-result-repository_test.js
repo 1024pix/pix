@@ -1130,8 +1130,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         ];
         const knowledgeElementsInSnapshot = new KnowledgeElementCollection(knowledgeElements);
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId,
-          snappedAt: new Date(),
           campaignParticipationId,
           snapshot: knowledgeElementsInSnapshot.toSnapshot(),
         });
@@ -1179,8 +1177,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         ];
         const knowledgeElementsInSnapshot = new KnowledgeElementCollection(knowledgeElements);
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId,
-          snappedAt: new Date(),
           campaignParticipationId,
           snapshot: knowledgeElementsInSnapshot.toSnapshot(),
         });
@@ -1246,8 +1242,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           ];
           const knowledgeElementsInSnapshot = new KnowledgeElementCollection(knowledgeElements);
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId,
-            snappedAt: new Date(),
             campaignParticipationId,
             snapshot: knowledgeElementsInSnapshot.toSnapshot(),
           });
@@ -1469,8 +1463,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             }),
           ]);
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId,
-            snappedAt: new Date(),
             campaignParticipationId,
             snapshot: knowledgeElementsInSnapshot.toSnapshot(),
           });

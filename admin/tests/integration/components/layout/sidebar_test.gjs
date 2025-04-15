@@ -415,7 +415,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
       });
     });
 
-    test('should not contain link to "tools" management page when user has "Certif" role', async function (assert) {
+    test('should contain link to "tools" management page when user has "Certif" role', async function (assert) {
       // given
       currentUser.adminMember = certifMember;
 
@@ -423,7 +423,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
       const screen = await render(<template><Sidebar /></template>);
 
       // then
-      assert.dom(screen.queryByRole('link', { name: 'Outils' })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: 'Outils' })).exists();
     });
 
     test('should not contain link to "tools" management page when user has "Support" role', async function (assert) {

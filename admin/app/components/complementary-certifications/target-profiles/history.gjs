@@ -6,7 +6,7 @@ import { t } from 'ember-intl';
 
 <template>
   <section class="page-section">
-    <h2 class="complementary-certification-details__history-title">
+    <h2 class="complementary-certification-details__history-title page-section__header">
       {{t "components.complementary-certifications.target-profiles.history-list.title"}}
     </h2>
     <PixTable

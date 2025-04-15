@@ -14,7 +14,6 @@ export const getByCenterId = async function ({ centerId }) {
     .select({
       id: 'certification-centers.id',
       features: knexConn.raw('array_remove(array_agg(DISTINCT "features"."key"), NULL)'),
-      isV3Pilot: 'certification-centers.isV3Pilot',
     })
     .leftJoin(
       'certification-center-features',
@@ -30,7 +29,7 @@ export const getByCenterId = async function ({ centerId }) {
     throw new NotFoundError('Center not found');
   }
 
-  return _toDomain({ centerId, features: data.features, isV3Pilot: data.isV3Pilot });
+  return _toDomain({ centerId, features: data.features });
 };
 
 /**
@@ -38,17 +37,10 @@ export const getByCenterId = async function ({ centerId }) {
  * @param {CenterPilotFeatures} params.centerPilotFeatures
  * @returns {void}
  */
-export const update = async function ({ centerPilotFeatures }) {
-  const knexConn = DomainTransaction.getConnection();
-  return knexConn('certification-centers')
-    .update({ isV3Pilot: centerPilotFeatures.isV3Pilot, updatedAt: knexConn.fn.now() })
-    .where({ id: centerPilotFeatures.centerId });
-};
 
-function _toDomain({ centerId, features = [], isV3Pilot }) {
+function _toDomain({ centerId, features = [] }) {
   const centerPilotFeatures = new CenterPilotFeatures({
     centerId,
-    isV3Pilot,
     isComplementaryAlonePilot: features.find(
       (featureKey) => featureKey === CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
     ),

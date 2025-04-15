@@ -41,6 +41,7 @@ const serialize = function (campaignReports, meta) {
       'badges',
       'groups',
       'multipleSendings',
+      'targetProfile',
     ],
     stages: {
       ref: 'id',
@@ -89,6 +90,16 @@ const serialize = function (campaignReports, meta) {
       relationshipLinks: {
         related(record, current, parent) {
           return `/api/campaigns/${parent.id}/groups`;
+        },
+      },
+    },
+    targetProfile: {
+      ref: 'id',
+      ignoreRelationshipData: true,
+      nullIfMissing: true,
+      relationshipLinks: {
+        related(record, current, parent) {
+          return `/api/campaigns/${parent.id}/target-profile`;
         },
       },
     },

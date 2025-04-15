@@ -229,7 +229,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         assert.deepEqual(controller.id, null);
         assert.deepEqual(controller.certificationCenterName, null);
         assert.deepEqual(controller.certificationCenterType, null);
-        assert.deepEqual(controller.status, 'finalized');
+        assert.deepEqual(controller.status, null);
         assert.deepEqual(controller.version, null);
       });
     });

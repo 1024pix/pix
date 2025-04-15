@@ -1,22 +1,16 @@
 <main id="main" class="profile-scorecards global-page-container" role="main">
-  <section class="global-page-header">
-    <div class="global-page-header__left-content">
-      <h1 class="global-page-header__title">
-        {{t "pages.profile.title"}}
-      </h1>
-      <p class="global-page-header__description">
-        {{t "pages.profile.description"}}
-      </p>
-    </div>
-    <div class="global-page-header__right-content">
-      <h2 class="sr-only">{{t "pages.profile.accessibility.user-score"}}</h2>
+  <Ui::PageTitle>
+    <:title>{{t "pages.profile.title"}}</:title>
+    <:subtitle>{{t "pages.profile.description"}}</:subtitle>
+    <:extraContent>
       <HexagonScore
         @pixScore={{@model.profile.pixScore}}
         @maxReachablePixScore={{@model.profile.maxReachablePixScore}}
         @maxReachableLevel={{@model.profile.maxReachableLevel}}
       />
-    </div>
-  </section>
+    </:extraContent>
+    <:extraContentTitle>{{t "pages.profile.accessibility.user-score"}}</:extraContentTitle>
+  </Ui::PageTitle>
 
   {{#if @model.profile.scorecards}}
     <ProfileScorecards

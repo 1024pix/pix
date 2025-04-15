@@ -10,7 +10,6 @@ describe('Integration | Certification | Enrolment | UseCase | get-mass-import-te
       const centerId = databaseBuilder.factory.buildCertificationCenter({
         type: CenterTypes.SUP,
         externalId: '1234AB',
-        isV3Pilot: false,
       }).id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({

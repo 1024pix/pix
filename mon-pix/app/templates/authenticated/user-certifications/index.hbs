@@ -1,11 +1,10 @@
-<main id="main" role="main" class="global-page-container">
-  <section class="global-page-header">
-    <div class="global-page-header__left-content">
-      <h1 class="global-page-header__title">
-        {{t "pages.certifications-list.title"}}
-      </h1>
-    </div>
-  </section>
+<Global::AppLayout>
+  <main id="main" role="main" class="global-page-container">
+    <Ui::PageTitle>
+      <:title> {{t "pages.certifications-list.title"}}</:title>
+      <:subtitle>{{t "pages.user-tests.description"}}</:subtitle>
+    </Ui::PageTitle>
 
-  <UserCertificationsPanel @certifications={{@model}} />
-</main>
+    <UserCertificationsPanel @certifications={{@model}} />
+  </main>
+</Global::AppLayout>

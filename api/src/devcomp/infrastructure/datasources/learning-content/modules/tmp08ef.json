@@ -91,17 +91,26 @@
               {
                 "id": "1",
                 "content": "<p>Image 1</p>",
-                "feedback": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Un palmier à la forme étrange et des ombres à de mauvais endroits : il y a bien des aberrations dans cette image !</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>Image 2</p>",
-                "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>Image 3</p>",
-                "feedback": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Cette image est pourtant bien réelle. Pour réussir, cherchez des détails étranges dans les arbres, les ombres, les contours des rochers.</p>"
+                }
               }
             ],
             "solution": "1"
@@ -230,12 +239,18 @@
               {
                 "id": "1",
                 "content": "<p>oui</p>",
-                "feedback": "<p>Comme vous avez pu le constater, les réponses des deux systèmes d’intelligence artificielle générative ont adopté les contraintes de forme que nous lui avons données dans le prompt. Impressionnant, non ? <span aria-hidden=\"true\">🤯 </span><br></p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Comme vous avez pu le constater, les réponses des deux systèmes d’intelligence artificielle générative ont adopté les contraintes de forme que nous lui avons données dans le prompt. Impressionnant, non ? <span aria-hidden=\"true\">🤯 </span><br></p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>non</p>",
-                "feedback": "<p>Et si vous essayiez à nouveau ? Avec un simple copier / coller du prompt à la première étape vous devriez pouvoir générer un joli poème !</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et si vous essayiez à nouveau ? Avec un simple copier / coller du prompt à la première étape vous devriez pouvoir générer un joli poème !</p>"
+                }
               }
             ],
             "solution": "1"
@@ -380,8 +395,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bonne réponse !</span><span aria-hidden=\"true\">✨</span></p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p>"
+              "valid": {
+                "state": "Bonne réponse ! ✨",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": ""
+              }
             }
           }
         }
@@ -425,12 +446,18 @@
               {
                 "id": "1",
                 "content": "<p>oui</p>",
-                "feedback": "<span class=\"feedback__state\">Bravo !</span><span aria-hidden=\"true\">🎉</span><p>N'hésitez pas à vous amuser avec de nouvelles requêtes.</p>"
+                "feedback": {
+                  "state": "Bravo ! 🎉",
+                  "diagnosis": "<p>N'hésitez pas à vous amuser avec de nouvelles requêtes.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>non</p>",
-                "feedback": "<span class=\"feedback__state\">N'hésitez pas à retenter avec d'autres modèles, certains sont très bien préparés à ce type de manœuvres ... </span>"
+                "feedback": {
+                  "state": "N'hésitez pas à retenter avec d'autres modèles, certains sont très bien préparés à ce type de manœuvres ...",
+                  "diagnosis": ""
+                }
               }
             ],
             "solution": "1"

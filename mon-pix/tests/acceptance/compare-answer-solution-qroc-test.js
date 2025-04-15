@@ -4,6 +4,8 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { waitForDialog } from '../helpers/wait-for';
+
 module('Acceptance | Compare answers and solutions for QROC questions', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -31,10 +33,10 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
 
     test('should not yet display the modal nor its content', async function (assert) {
       // given & when
-      await visit(`/assessments/${assessment.id}/results`);
+      const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // then
-      assert.dom('.pix-modal__overlay--hidden .comparison-window').exists();
+      assert.dom(screen.queryByRole('dialog')).doesNotExist();
       assert.dom('.comparison-window__header .comparison-window__result-item-index').doesNotExist();
       assert.dom('.comparison-window__header .comparison-window__title .comparison-window__title-text').doesNotExist();
     });
@@ -49,8 +51,8 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      assert.dom('.pix-modal__overlay--hidden .comparison-window').doesNotExist();
-      assert.dom('.pix-modal__overlay .comparison-window').exists();
+      await waitForDialog();
+      assert.dom(screen.getByRole('dialog')).exists();
     });
 
     test('should contain an instruction', async function (assert) {

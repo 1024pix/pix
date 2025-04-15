@@ -28,7 +28,6 @@ import { AlgorithmEngineVersion } from '../../../../shared/domain/models/Algorit
 /**
  * @param {Object} params
  * @param {{juryId: number}} params.[event]
- * @param {'PIX-ALGO'|'Jury Pix'|'PIX-ALGO-FRAUD-REJECTION'} params.emitter
  * @param {CertificationAssessment} params.certificationAssessment
  * @param {AssessmentResultRepository} params.assessmentResultRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
@@ -43,7 +42,6 @@ import { AlgorithmEngineVersion } from '../../../../shared/domain/models/Algorit
  */
 export const handleV2CertificationScoring = async ({
   event,
-  emitter,
   certificationAssessment,
   assessmentResultRepository,
   certificationCourseRepository,
@@ -70,7 +68,6 @@ export const handleV2CertificationScoring = async ({
 
   const assessmentResult = _createV2AssessmentResult({
     juryId: event?.juryId,
-    emitter,
     toBeCancelled,
     certificationCourse,
     certificationAssessment,
@@ -260,7 +257,6 @@ function _getResult(answers, certificationChallenges, testedCompetences, allArea
  */
 function _createV2AssessmentResult({
   juryId,
-  emitter,
   toBeCancelled,
   certificationCourse,
   certificationAssessmentScore,
@@ -273,7 +269,6 @@ function _createV2AssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
-      emitter,
     });
   }
 
@@ -291,7 +286,6 @@ function _createV2AssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
-      emitter,
       juryId,
     });
   }
@@ -300,7 +294,6 @@ function _createV2AssessmentResult({
     scoringCertificationService.isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })
   ) {
     return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
-      emitter,
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
@@ -310,7 +303,6 @@ function _createV2AssessmentResult({
 
   if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
     return AssessmentResultFactory.buildInsufficientCorrectAnswers({
-      emitter,
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
@@ -323,7 +315,6 @@ function _createV2AssessmentResult({
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter,
     juryId,
   });
 }

@@ -27,6 +27,23 @@ module('Integration | Component | Module | Grain', function (hooks) {
     assert.dom('.grain').hasAttribute('id', 'grain_12345-abcdef');
   });
 
+  module('when grain has an empty title', function () {
+    test('should not display heading', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { id: '12345-abcdef', title: '' });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+      <Module::Grain::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.deepEqual(screen.queryByRole('heading', { name: grain.title, level: 2 }), null);
+      assert.dom('.grain').hasAttribute('id', 'grain_12345-abcdef');
+    });
+  });
+
   module('when grain has transition', function () {
     test('should display transition', async function (assert) {
       // given
@@ -816,7 +833,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         });
         const passage = store.createRecord('passage');
         const correctionResponse = store.createRecord('correction-response', {
-          feedback: 'Too bad!',
+          feedback: { state: 'Too bad!' },
           status: 'ko',
           solution: '1',
         });
@@ -1324,7 +1341,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
             });
 
             const passage = store.createRecord('passage');
-            const correction = store.createRecord('correction-response', { status: 'ok', feedback: 'super' });
+            const correction = store.createRecord('correction-response', {
+              status: 'ok',
+              feedback: { state: 'super' },
+            });
             store.createRecord('element-answer', {
               elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
               correction,
@@ -1384,7 +1404,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
             });
 
             const passage = store.createRecord('passage');
-            const correction = store.createRecord('correction-response', { status: 'ok', feedback: 'super' });
+            const correction = store.createRecord('correction-response', {
+              status: 'ok',
+              feedback: { state: 'super' },
+            });
             store.createRecord('element-answer', {
               elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
               correction,
@@ -1460,7 +1483,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 ],
               });
 
-              const correction = store.createRecord('correction-response', { status: 'ok', feedback: 'super' });
+              const correction = store.createRecord('correction-response', {
+                status: 'ok',
+                feedback: { state: 'super' },
+              });
               store.createRecord('element-answer', {
                 elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
                 correction,
@@ -1522,7 +1548,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 ],
               });
 
-              const correction = store.createRecord('correction-response', { status: 'ok', feedback: 'super' });
+              const correction = store.createRecord('correction-response', {
+                status: 'ok',
+                feedback: { state: 'super' },
+              });
               store.createRecord('element-answer', {
                 elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
                 correction,

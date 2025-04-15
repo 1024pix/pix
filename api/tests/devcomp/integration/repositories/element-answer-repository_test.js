@@ -18,7 +18,7 @@ describe('Integration | DevComp | Repositories | ElementAnswerRepository', funct
 
     it('should have an element answer', async function () {
       // given
-      const passage = databaseBuilder.factory.buildPassage({ id: 1, moduleId: 'my-module' });
+      const passage = databaseBuilder.factory.buildPassage({ id: 1, moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d' });
       await databaseBuilder.commit();
 
       const passageId = passage.id,

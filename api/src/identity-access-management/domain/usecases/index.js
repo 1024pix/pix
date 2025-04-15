@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as userRecommendedTrainingRepository from '../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
@@ -15,6 +14,7 @@ import { cryptoService } from '../../../shared/domain/services/crypto-service.js
 import { mailService } from '../../../shared/domain/services/mail-service.js';
 import * as obfuscationService from '../../../shared/domain/services/obfuscation-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
+import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 import * as userService from '../../../shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';

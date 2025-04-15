@@ -1,21 +1,26 @@
 [
   {
+    "id": 1,
     "legalDocumentVersionId": 1,
     "userId": 1
   },
   {
+    "id": 2,
     "legalDocumentVersionId": 1,
     "userId": 3
   },
   {
+    "id": 3,
     "legalDocumentVersionId": 1,
     "userId": 10
   },
   {
+    "id": 4,
     "legalDocumentVersionId": 1,
     "userId": 13
   },
   {
+    "id": 5,
     "legalDocumentVersionId": 1,
     "userId": 14
   }

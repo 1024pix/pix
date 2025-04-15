@@ -1,5 +1,6 @@
 import { RescoreCertificationScript } from '../../../../scripts/certification/rescore-certifications.js';
-import { createTempFile, expect, knex, sinon } from '../../../test-helper.js';
+import CertificationRescoredByScript from '../../../../src/certification/session-management/domain/events/CertificationRescoredByScript.js';
+import { createTempFile, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Scripts | Certification | rescore-certfication', function () {
   it('should parse input file', async function () {
@@ -18,27 +19,23 @@ describe('Integration | Scripts | Certification | rescore-certfication', functio
     ]);
   });
 
-  it('should save pg boss jobs for each certification course ids', async function () {
+  it('should call the rescoring service for each certification course ids', async function () {
     // given
     const file = [{ certificationCourseId: 1 }, { certificationCourseId: 2 }];
     const logger = { info: sinon.spy(), error: sinon.spy() };
-    const script = new RescoreCertificationScript();
+    const handlersAsServices = { handleCertificationRescoring: sinon.stub() };
+    const script = new RescoreCertificationScript(handlersAsServices);
 
     // when
     await script.handle({ logger, options: { file } });
 
     // then
-    const [job1, job2] = await knex('pgboss.job')
-      .where({ name: 'CertificationRescoringByScriptJob' })
-      .orderBy('createdon', 'asc');
-
-    expect([job1.data, job2.data]).to.have.deep.members([
-      {
-        certificationCourseId: 1,
-      },
-      {
-        certificationCourseId: 2,
-      },
-    ]);
+    expect(handlersAsServices.handleCertificationRescoring).to.have.been.calledTwice;
+    expect(handlersAsServices.handleCertificationRescoring).to.have.been.calledWithExactly({
+      event: new CertificationRescoredByScript({ certificationCourseId: 1 }),
+    });
+    expect(handlersAsServices.handleCertificationRescoring).to.have.been.calledWithExactly({
+      event: new CertificationRescoredByScript({ certificationCourseId: 2 }),
+    });
   });
 });

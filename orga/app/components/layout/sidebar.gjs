@@ -86,7 +86,12 @@ export default class SidebarMenu extends Component {
   }
 
   <template>
-    <PixNavigation @variant="orga" @navigationAriaLabel={{t "navigation.main.aria-label"}} @menuLabel="Menu">
+    <PixNavigation
+      @variant="orga"
+      @navigationAriaLabel={{t "navigation.main.aria-label"}}
+      @openLabel={{t "navigation.main.open"}}
+      @closeLabel={{t "navigation.main.close"}}
+    >
       <:brand>
         <LinkTo @route={{this.redirectionRoute}}>
           <img src="{{this.rootUrl}}/pix-orga.svg" class="pix-orga-logo" alt="{{t 'common.home-page'}}" />

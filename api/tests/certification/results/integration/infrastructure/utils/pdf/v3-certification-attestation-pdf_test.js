@@ -144,6 +144,8 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
     const referencePdfPath = 'v3-attestation-test.pdf';
     const pdfStream = await generate({ certificates, i18n });
     const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+    // Method used to generate a new PDF certification attestation
+    // Please check this method if you want to do so in case of snapshot upgrade
     await _writeFile(pdfBuffer, referencePdfPath);
 
     // when

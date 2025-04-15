@@ -42,4 +42,46 @@ describe('Integration | Infrastructure | database-connection', function () {
       await expect(datawarehouseDatabaseConnection.prepare()).to.be.fulfilled;
     });
   });
+
+  describe('#getPoolMetrics', function () {
+    it('should return pool metrics', async function () {
+      // given
+      const { environment } = config;
+      const databaseConnection = new DatabaseConnection(liveKnexConfigs[environment]);
+
+      // when
+      const poolMetrics = databaseConnection.getPoolMetrics();
+
+      // then
+      expect(poolMetrics).to.deep.equal({
+        live: {
+          used: 0,
+          free: 0,
+          pendingAcquires: 0,
+          pendingCreates: 0,
+          min: 1,
+          max: 4,
+        },
+      });
+    });
+
+    it('should not return metrics when connection is not defined', async function () {
+      // given
+      const databaseConnection = new DatabaseConnection({
+        name: 'not-existing-pg',
+        client: 'postgresql',
+        connection: undefined,
+        pool: {
+          min: 1,
+          max: 2,
+        },
+      });
+
+      // when
+      const poolMetrics = databaseConnection.getPoolMetrics();
+
+      // then
+      expect(poolMetrics).to.deep.equal({});
+    });
+  });
 });

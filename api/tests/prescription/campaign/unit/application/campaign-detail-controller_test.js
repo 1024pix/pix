@@ -81,6 +81,54 @@ describe('Unit | Application | Controller | Campaign detail', function () {
     });
   });
 
+  describe('#getTargetProfile', function () {
+    const campaignId = 1;
+
+    let request, targetProfile;
+    let targetProfileSerializerStub;
+
+    beforeEach(function () {
+      targetProfile = {
+        id: 1,
+        name: 'My target profile',
+        isSimplifiedAccess: false,
+      };
+      request = {
+        params: {
+          campaignId,
+        },
+        auth: {
+          credentials: {
+            userId: 1,
+          },
+        },
+        query: {},
+      };
+
+      sinon.stub(usecases, 'getTargetProfile');
+      targetProfileSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      usecases.getTargetProfile.resolves(targetProfile);
+    });
+
+    it('should return the targetProfile', async function () {
+      // given
+      const expectedResult = Symbol('targetProfile');
+      targetProfileSerializerStub.serialize.withArgs(targetProfile).returns(expectedResult);
+
+      const dependencies = {
+        targetProfileSerializer: targetProfileSerializerStub,
+      };
+      // when
+      const response = await campaignDetailController.getTargetProfile(request, hFake, dependencies);
+
+      // then
+      expect(usecases.getTargetProfile).calledWith({ campaignId });
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
   describe('#findPaginatedFilteredCampaigns', function () {
     let organizationId;
     let request;

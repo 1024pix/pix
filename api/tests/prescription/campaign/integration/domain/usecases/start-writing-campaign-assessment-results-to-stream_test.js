@@ -114,20 +114,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               userId: participant.id,
             });
 
-            const ke1 = databaseBuilder.factory.buildKnowledgeElement({
-              status: 'validated',
-              skillId: 'recSkillWeb1',
-              competenceId: 'recCompetence1',
-              userId: participant.id,
-              createdAt,
-            });
-
-            databaseBuilder.factory.buildKnowledgeElementSnapshot({
-              userId: participant.id,
-              snappedAt: sharedAt,
-              snapshot: new KnowledgeElementCollection([ke1]).toSnapshot(),
-            });
-
             ['recSkillWeb1'].forEach((skillId) => {
               databaseBuilder.factory.buildCampaignSkill({
                 campaignId: campaign.id,
@@ -216,8 +202,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               createdAt,
             });
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
-              userId: participant.id,
-              snappedAt: sharedAt,
               campaignParticipationId: campaignParticipation.id,
               snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
             });
@@ -357,8 +341,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               createdAt,
             });
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
-              userId: participant.id,
-              snappedAt: sharedAt,
               campaignParticipationId: campaignParticipation.id,
               snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
             });
@@ -468,8 +450,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               createdAt,
             });
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
-              userId: participant.id,
-              snappedAt: sharedAt,
               campaignParticipationId: campaignParticipation.id,
               snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
             });
@@ -716,8 +696,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             });
 
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
-              userId: participant.id,
-              snappedAt: sharedAt,
               campaignParticipationId: campaignParticipation.id,
               snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
             });

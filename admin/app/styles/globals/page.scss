@@ -6,9 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: var(--pix-spacing-2x) var(--pix-spacing-4x) 0 var(--pix-spacing-4x);
     padding-bottom: var(--pix-spacing-6x);
-    border-bottom: 1px solid var(--pix-neutral-100);
 
     .page-actions {
       display: flex;
@@ -29,24 +27,19 @@
     }
   }
 
-  .page-header {
-    margin-top: var(--pix-spacing-4x);
-  }
-
   .page-body {
     inset: 60px 0 0 80px;
-    padding: var(--pix-spacing-2x);
 
     .page-section {
-      margin-bottom: 10px;
-      padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
-      background: var(--pix-neutral-0);
-      border-radius: 5px;
 
       &__header {
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
+        margin-top: var(--pix-spacing-6x);
+        margin-bottom: 0;
+        padding-top: var(--pix-spacing-3x);
+        padding-bottom: var(--pix-spacing-2x);
+        border-top: 1px solid var(--pix-neutral-100);
       }
 
       h2, &__title {

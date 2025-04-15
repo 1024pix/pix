@@ -19,7 +19,7 @@ function bannerContent() {
 
 <template>
   {{#if (isEnabled)}}
-    <PixBannerAlert @type={{(bannerType)}} class="sticker-banner">
+    <PixBannerAlert @type={{(bannerType)}}>
       {{textWithMultipleLang (bannerContent)}}
     </PixBannerAlert>
   {{/if}}

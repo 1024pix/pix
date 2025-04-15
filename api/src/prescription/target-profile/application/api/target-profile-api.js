@@ -21,15 +21,28 @@ export const getByOrganizationId = async (organizationId) => {
 
 /**
  * @function
+ * @name getByIdForAdmin
+ *
+ * @param {number} id
+ * @returns {Promise<TargetProfile>}
+ */
+export const getByIdForAdmin = async (id) => {
+  const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId: id });
+
+  return new TargetProfile(targetProfileForAdmin);
+};
+
+/**
+ * @function
  * @name getById
  *
  * @param {number} id
  * @returns {Promise<TargetProfile>}
  */
 export const getById = async (id) => {
-  const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId: id });
+  const targetProfile = await usecases.getTargetProfile({ targetProfileId: id });
 
-  return new TargetProfile(targetProfileForAdmin);
+  return new TargetProfile(targetProfile);
 };
 
 /**

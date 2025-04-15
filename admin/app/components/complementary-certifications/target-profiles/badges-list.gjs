@@ -16,7 +16,7 @@ export default class BadgesList extends Component {
 
   <template>
     <section class="page-section">
-      <h2 class="complementary-certification-details__badges-title">
+      <h2 class="complementary-certification-details__badges-title page-section__header">
         {{t "components.complementary-certifications.target-profiles.badges-list.title"}}
       </h2>
       <PixTable

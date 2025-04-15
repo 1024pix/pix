@@ -14,7 +14,11 @@ export default class AuthenticatedCertificationCentersGetTeamRoute extends Route
       },
     });
 
-    return { certificationCenterMemberships, certificationCenterId };
+    return {
+      certificationCenterMemberships,
+      isCertificationCenterArchived: certificationCenter.isArchived,
+      certificationCenterId,
+    };
   }
 
   @action

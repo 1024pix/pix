@@ -38,11 +38,11 @@ module('Acceptance | mes-formations', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/mes-formations');
-      assert.dom('.user-trainings-banner__title').exists();
-      assert.ok(find('.user-trainings-banner__title').textContent.includes('Mes formations'));
-      assert.dom('.user-trainings-banner__description').exists();
+      assert.dom('.global-page-header__title').exists();
+      assert.ok(find('.global-page-header__title').textContent.includes('Mes formations'));
+      assert.dom('.global-page-header__description').exists();
       assert.ok(
-        find('.user-trainings-banner__description').textContent.includes(
+        find('.global-page-header__description').textContent.includes(
           'Continuez à progresser grâce aux formations recommandées à l’issue de vos parcours d’évaluation.',
         ),
       );

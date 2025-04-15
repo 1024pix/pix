@@ -23,7 +23,9 @@ class CampaignReport {
     badges = [],
     stages = [],
     multipleSendings,
+    targetProfileName,
   } = {}) {
+    this.targetProfileName = targetProfileName;
     this.id = id;
     this.name = name;
     this.code = code;
@@ -80,6 +82,10 @@ class CampaignReport {
   setStages(stageCollection) {
     this._stageCollection = stageCollection;
     this.stages = stageCollection.stages;
+  }
+
+  setCoverRate(campaignResultLevelsPerTubesAndCompetences) {
+    this.tubes = campaignResultLevelsPerTubesAndCompetences.levelsPerTube;
   }
 
   computeAverageResult(masteryRates) {

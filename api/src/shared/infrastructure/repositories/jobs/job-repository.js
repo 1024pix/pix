@@ -38,7 +38,7 @@ export class JobRepository {
 
     this.retry = config.retry || JobRetry.NO_RETRY;
 
-    this.expireIn = config.expireIn || JobExpireIn.DEFAULT;
+    this.expireIn = config.expireIn || JobExpireIn.INFINITE;
     this.priority = config.priority || JobPriority.DEFAULT;
 
     this.#validate();
@@ -130,7 +130,9 @@ export const JobRetry = Object.freeze({
  * @enum {string}
  */
 export const JobExpireIn = Object.freeze({
-  DEFAULT: '00:15:00',
-  HIGH: '00:30:00',
-  FOUR_HOURS: '04:00:00',
+  INFINITE: '48:00:00',
+  /*
+   pg-boss n'arrête pas les jobs expirés. De plus, il empile d'autres jobs par dessus et relance le job expiré, ce qui peut provoquer des états incohérents.
+   Par conséquent nous définissons 48 heures comme durée maximale, ce qui fait plus que la durée maximale d'un conteneur.
+   */
 });

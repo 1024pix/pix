@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { identifiersType as prescriptionIdentifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { campaignController } from './campaign-controller.js';
@@ -54,6 +55,20 @@ const register = async function (server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Récupération de l'analyse de la campagne par son id",
         ],
+        tags: ['api', 'campaign'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/level-per-tubes-and-competences',
+      config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignController.getLevelPerTubesAndCompetences,
         tags: ['api', 'campaign'],
       },
     },

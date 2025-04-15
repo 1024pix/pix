@@ -1,5 +1,4 @@
 import { setupTest } from 'ember-qunit';
-import * as fetch from 'fetch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -36,7 +35,7 @@ module('Unit | Service | file-saver', function (hooks) {
     module('when options are given', function (hooks) {
       let fetchAPIStub;
       hooks.beforeEach(function () {
-        fetchAPIStub = sinon.stub(fetch, 'default').resolves({
+        fetchAPIStub = sinon.stub(window, 'fetch').resolves({
           ok: true,
           headers: {
             get: sinon.stub().returns(`attachment; filename=${responseFileName}`),

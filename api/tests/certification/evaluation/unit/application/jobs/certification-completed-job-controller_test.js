@@ -9,7 +9,6 @@ import {
 } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { V3_REPRODUCIBILITY_RATE } from '../../../../../../src/shared/domain/constants.js';
 import { CertificationComputeError } from '../../../../../../src/shared/domain/errors.js';
-import { AssessmentResult } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Application | jobs | CertificationCompletedJobController', function () {
@@ -140,7 +139,6 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.have.been.calledWithExactly({
             error: computeError,
             assessmentId: certificationAssessment.id,
-            emitter: AssessmentResult.emitters.PIX_ALGO,
           });
           expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
             certificationCourseId: 1234,

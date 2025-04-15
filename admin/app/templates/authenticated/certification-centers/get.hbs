@@ -10,16 +10,17 @@
     @updateCertificationCenter={{this.updateCertificationCenter}}
   />
 
-  <PixTabs @variant="primary" @ariaLabel="Navigation de la section centre de certification" class="navigation">
-    <LinkTo @route="authenticated.certification-centers.get.team">
-      Équipe
-    </LinkTo>
+  {{#unless this.model.certificationCenter.isArchived}}
+    <PixTabs @variant="primary" @ariaLabel="Navigation de la section centre de certification" class="navigation">
+      <LinkTo @route="authenticated.certification-centers.get.team">
+        Équipe
+      </LinkTo>
 
-    <LinkTo @route="authenticated.certification-centers.get.invitations">
-      Invitations
-    </LinkTo>
-  </PixTabs>
+      <LinkTo @route="authenticated.certification-centers.get.invitations">
+        Invitations
+      </LinkTo>
+    </PixTabs>
+  {{/unless}}
 
   {{outlet}}
-
 </main>

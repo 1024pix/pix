@@ -7,7 +7,6 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
   describe('#save', function () {
     it('should create a new knowledge elements snapshot when no snapshot exist for given campaignParticipationId', async function () {
       // given
-      const snappedAt = new Date('2019-04-01');
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
       const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
@@ -23,22 +22,18 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
 
       // when
       await knowledgeElementSnapshotRepository.save({
-        userId,
-        snappedAt,
         snapshot: knowledgeElements.toSnapshot(),
         campaignParticipationId,
       });
 
       // then
       const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
-      expect(actualUserSnapshot.userId).to.deep.equal(userId);
-      expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
+      expect(actualUserSnapshot.campaignParticipationId).to.deep.equal(campaignParticipationId);
       expect(actualUserSnapshot.snapshot).to.deep.equal(JSON.parse(knowledgeElements.toSnapshot()));
     });
 
     it('should update the existing knowledge elements snapshot when snapshot exists for given campaignParticipationId', async function () {
       // given
-      const snappedAt = new Date('2019-04-01');
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
       const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
@@ -58,8 +53,6 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       });
       const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement1, knowledgeElement2]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
-        snappedAt: new Date('2019-01-01'),
         campaignParticipationId,
         snapshot: knowledgeElementsBefore.toSnapshot(),
       });
@@ -72,22 +65,18 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
 
       // when
       await knowledgeElementSnapshotRepository.save({
-        userId,
-        snappedAt,
         snapshot: knowledgeElementsAfter.toSnapshot(),
         campaignParticipationId,
       });
 
       // then
       const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
-      expect(actualUserSnapshot.userId).to.deep.equal(userId);
-      expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
+      expect(actualUserSnapshot.campaignParticipationId).to.deep.equal(campaignParticipationId);
       expect(actualUserSnapshot.snapshot).to.deep.equal(JSON.parse(knowledgeElementsAfter.toSnapshot()));
     });
 
     context('when a transaction is given transaction', function () {
       it('saves knowledge elements snapshot using a transaction', async function () {
-        const snappedAt = new Date('2019-04-01');
         const userId = databaseBuilder.factory.buildUser().id;
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
 
@@ -101,20 +90,16 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
 
         await DomainTransaction.execute(async () => {
           await knowledgeElementSnapshotRepository.save({
-            userId,
-            snappedAt,
             snapshot: knowledgeElements.toSnapshot(),
             campaignParticipationId,
           });
         });
         const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
-        expect(actualUserSnapshot.userId).to.deep.equal(userId);
-        expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
+        expect(actualUserSnapshot.campaignParticipationId).to.deep.equal(campaignParticipationId);
         expect(actualUserSnapshot.snapshot).to.deep.equal(JSON.parse(knowledgeElements.toSnapshot()));
       });
 
       it('does not save knowledge elements snapshot using a transaction', async function () {
-        const snappedAt = new Date('2019-04-01');
         const userId = databaseBuilder.factory.buildUser().id;
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
         const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
@@ -127,8 +112,6 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         try {
           await DomainTransaction.execute(async () => {
             await knowledgeElementSnapshotRepository.save({
-              userId,
-              snappedAt,
               knowledgeElements,
               campaignParticipationId,
             });
@@ -169,11 +152,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
 
     it('should return only keys corresponding to existing snapshots', async function () {
       // given
-      const snappedAt1 = new Date('2020-01-02');
       const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId1,
-        snappedAt: snappedAt1,
         snapshot: new KnowledgeElementCollection([knowledgeElement1]).toSnapshot(),
         campaignParticipationId,
       });
@@ -200,28 +180,20 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
 
     it('should find knowledge elements snapshoted grouped by campaignParticipationIds', async function () {
       // given
-      const snappedAt1 = new Date('2020-01-02');
       const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId1,
-        snappedAt: snappedAt1,
         snapshot: new KnowledgeElementCollection([knowledgeElement1]).toSnapshot(),
         campaignParticipationId,
       });
-      const snappedAt2 = new Date('2020-02-02');
+
       const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId2,
-        snappedAt: snappedAt2,
         snapshot: new KnowledgeElementCollection([knowledgeElement2]).toSnapshot(),
         campaignParticipationId: secondCampaignParticipationId,
       });
 
-      const snappedAt3 = new Date('2020-02-03');
       const knowledgeElement3 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId2,
-        snappedAt: snappedAt3,
         snapshot: new KnowledgeElementCollection([knowledgeElement3]).toSnapshot(),
         campaignParticipationId: otherCampaignParticipationId,
       });
@@ -300,8 +272,6 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         skillId: campaignLearningContent.skills[0].id,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId1,
-        snappedAt: snappedAt1,
         snapshot: new KnowledgeElementCollection([knowledgeElement1]).toSnapshot(),
         campaignParticipationId: campaignParticipationId1,
       });
@@ -318,8 +288,6 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         skillId: campaignLearningContent.skills[1].id,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId2,
-        snappedAt: snappedAt2,
         snapshot: new KnowledgeElementCollection([knowledgeElement2]).toSnapshot(),
         campaignParticipationId: campaignParticipationId2,
       });
@@ -336,8 +304,6 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         skillId: campaignLearningContent.skills[2].id,
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId: userId2,
-        snappedAt: snappedAt3,
         snapshot: new KnowledgeElementCollection([knowledgeElement3]).toSnapshot(),
         campaignParticipationId: campaignParticipationId3,
       });

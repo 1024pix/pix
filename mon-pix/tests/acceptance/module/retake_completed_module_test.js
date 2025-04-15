@@ -59,7 +59,7 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: "Bravo ! C'est la bonne réponse.",
+      feedback: { state: "Bravo ! C'est la bonne réponse." },
       status: 'ok',
       solution: 'qcu-1-proposal-2',
     });

@@ -1,8 +1,6 @@
 [
   {
     "id": 1,
-    "userId": 4,
-    "snappedAt": "2019-04-22T06:00:00Z",
     "campaignParticipationId": 1,
     "snapshot": "[{\"id\":1,\"userId\":4,\"assessmentId\":1,\"source\":\"direct\",\"answerId\":1,\"status\":\"validated\",\"skillId\":\"recdFsWU9ij5bXZhD\",\"competenceId\":\"recoVElv3xmVppK5a\",\"createdAt\":\"2019-04-21T06:00:00Z\",\"earnedPix\":0.65},{\"id\":2,\"userId\":4,\"assessmentId\":1,\"source\":\"direct\",\"answerId\":2,\"status\":\"invalidated\",\"skillId\":\"recJieHaORILprKhL\",\"competenceId\":\"recxlJqKdbWHHFZMQ\",\"createdAt\":\"2019-04-21T06:00:00Z\",\"earnedPix\":0}]"
   }

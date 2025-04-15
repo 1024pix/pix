@@ -46,21 +46,17 @@ function _validateAndNormalizeArgs({ concurrency, maxSnapshotCount }) {
 
 async function getEligibleCampaignParticipations(maxSnapshotCount) {
   return knex('campaign-participations')
-    .select('campaign-participations.userId', 'campaign-participations.sharedAt', 'campaign-participations.id')
-    .leftJoin('knowledge-element-snapshots', function () {
-      this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId').andOn(
-        'knowledge-element-snapshots.snappedAt',
-        'campaign-participations.sharedAt',
-      );
-    })
+    .select('campaign-participations.id', 'campaign-participations.userId', 'campaign-participations.sharedAt')
+    .leftJoin(
+      'knowledge-element-snapshots',
+      'knowledge-element-snapshots.campaignParticipationId',
+      'campaign-participations.id',
+    )
     .whereNotNull('campaign-participations.sharedAt')
     .where((qb) => {
-      qb.whereNull('knowledge-element-snapshots.snappedAt').orWhereRaw('?? != ??', [
-        'campaign-participations.sharedAt',
-        'knowledge-element-snapshots.snappedAt',
-      ]);
+      qb.whereNull('knowledge-element-snapshots.campaignParticipationId');
     })
-    .orderBy('campaign-participations.userId')
+    .orderBy('campaign-participations.id')
     .limit(maxSnapshotCount);
 }
 
@@ -79,8 +75,6 @@ async function generateKnowledgeElementSnapshots(
       });
       try {
         await dependencies.knowledgeElementSnapshotRepository.save({
-          userId,
-          snappedAt: sharedAt,
           snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
           campaignParticipationId: id,
         });

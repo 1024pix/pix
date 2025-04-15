@@ -19,6 +19,9 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
         const screen = await visit('/connexion/oidc-partner?code=code&state=state');
         await click(screen.getByLabelText(t('common.cgu.label')));
         await click(screen.getByRole('button', { name: 'Je crée mon compte' }));
+        // eslint-disable-next-line ember/no-settled-after-test-helper
+        await settled();
+
         await click(screen.getByRole('button', { name: 'Lloyd Consulter mes informations' }));
 
         // when

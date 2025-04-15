@@ -1,5 +1,5 @@
-import { CenterForAdmin } from '../../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import { certificationCenterAdminController } from '../../../../../src/organizational-entities/application/certification-center/certification-center.admin.controller.js';
+import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
@@ -20,7 +20,6 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
                 'data-protection-officer-last-name': 'Lastname',
                 'external-id': '12345',
                 'is-complementary-alone-pilot': true,
-                'is-v3-pilot': false,
               },
               id: '1',
               relationships: {
@@ -55,7 +54,6 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
           createdAt: null,
           externalId: '12345',
           habilitations: [],
-          isV3Pilot: false,
           isComplementaryAlonePilot: true,
           name: 'name',
           type: 'PRO',

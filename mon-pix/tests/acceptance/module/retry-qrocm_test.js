@@ -60,7 +60,7 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: 'Faux',
+      feedback: { state: 'Faux' },
       status: 'ko',
       solution: { 'premiere-partie': '2' },
     });
@@ -180,7 +180,7 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: 'Faux',
+      feedback: { state: 'Faux' },
       status: 'ko',
       solution: { symbole: '@', 'premiere-partie': '2' },
     });

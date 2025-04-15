@@ -21,7 +21,7 @@ export default class AuthenticatedSessionsWithRequiredActionListController exten
   }
 
   get hasSessionsToProcess() {
-    return this.model.length;
+    return Boolean(this.model?.length);
   }
 
   @action toggleAssignedSessionsDisplay() {

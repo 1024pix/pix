@@ -4,19 +4,22 @@
   </p>
   {{yield to="eligibleComplementaryCertifications"}}
   <div class="congratulations-banner__links">
-    <a
-      href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
+    <PixButtonLink
+      @href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
       class="congratulations-banner-links__link"
       target="_blank"
+      @variant="transparent-dark"
       rel="noopener noreferrer"
     >
       {{t "pages.certification-joiner.congratulation-banner.link.text"}}
       <PixIcon @name="openNew" @plainIcon={{true}} @title={{t "navigation.external-link-title"}} />
-    </a>
-    <LinkTo @route="authenticated.user-certifications" class="congratulations-banner-links__link">{{t
-        "pages.certification-start.link-to-user-certification"
-      }}
+    </PixButtonLink>
+    <PixButtonLink
+      @route="authenticated.user-certifications"
+      @variant="transparent-dark"
+      class="congratulations-banner-links__link"
+    >{{t "pages.certification-start.link-to-user-certification"}}
       <PixIcon @name="eye" @plainIcon={{true}} @ariaHidden={{true}} />
-    </LinkTo>
+    </PixButtonLink>
   </div>
 </div>

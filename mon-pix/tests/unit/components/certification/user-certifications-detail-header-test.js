@@ -11,7 +11,7 @@ module('Unit | Component | certifications', function (hooks) {
     module('when domain is french', function () {
       test('should call the file-saver service for downloadAttestation with the right parameters', async function (assert) {
         // given
-        const component = createGlimmerComponent('user-certifications-detail-header');
+        const component = createGlimmerComponent('certifications/user-certifications-detail-header');
         const certificationId = 12;
         const token = 'a token';
 
@@ -50,7 +50,7 @@ module('Unit | Component | certifications', function (hooks) {
       module('when user lang is en', function () {
         test('should call the file-saver service for downloadAttestation with the right parameters', async function (assert) {
           // given
-          const component = createGlimmerComponent('user-certifications-detail-header');
+          const component = createGlimmerComponent('certifications/user-certifications-detail-header');
           const certificationId = 12;
           const token = 'a token';
 

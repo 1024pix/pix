@@ -76,6 +76,13 @@
   color: var(--pix-neutral-500);
 }
 
+/** Reset modal **/
+.scorecard-details-reset-modal__footer {
+  display: flex;
+  gap: var(--pix-spacing-2x);
+  justify-content: flex-end;
+}
+
 /** Tutorials */
 .scorecard-details__tutorials {
   margin-top: var(--pix-spacing-8x);

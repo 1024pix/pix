@@ -1,5 +1,5 @@
 import {
-  createServer,
+  createMaddoServer,
   datamartBuilder,
   expect,
   generateValidRequestAuthorizationHeaderForApplication,
@@ -19,7 +19,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
     certificationResultData;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createMaddoServer();
 
     PARCOURSUP_CLIENT_ID = 'test-parcoursupClientId';
     PARCOURSUP_SCOPE = 'parcoursup';

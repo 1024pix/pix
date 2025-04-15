@@ -305,8 +305,6 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
             domainBuilder.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }),
           ];
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId,
-            snappedAt: new Date(),
             snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
             campaignParticipationId,
           });
@@ -449,8 +447,6 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
             domainBuilder.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }),
           ];
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId,
-            snappedAt: new Date(),
             snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
             campaignParticipationId,
           });

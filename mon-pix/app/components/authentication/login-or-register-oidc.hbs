@@ -2,39 +2,46 @@
 <div class="login-or-register-oidc-form__container">
   <div class="login-or-register-oidc-form__register-container">
     <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.register-form.title"}}</h2>
-    <div>
-      <p class="login-or-register-oidc-form__description">
-        {{! template-lint-disable "no-bare-strings" }}
-        {{t "pages.login-or-register-oidc.register-form.description"}}
-        <em>{{this.identityProviderOrganizationName}}</em>&nbsp;:
-      </p>
-      <div class="login-or-register-oidc-form__information">
-        <ul>
-          <li>{{t "pages.login-or-register-oidc.register-form.information.given-name" givenName=this.givenName}}</li>
-          <li>{{t "pages.login-or-register-oidc.register-form.information.family-name" familyName=this.familyName}}</li>
-        </ul>
+    {{#if this.userClaimsToDisplay.length}}
+      <div>
+        <p class="login-or-register-oidc-form__description">
+          {{! template-lint-disable "no-bare-strings" }}
+          {{t "pages.login-or-register-oidc.register-form.description"}}
+          <em>{{this.identityProviderOrganizationName}}</em>&nbsp;:
+        </p>
+        <div class="login-or-register-oidc-form__information">
+          <ul>
+            {{#each this.userClaimsToDisplay as |userClaimToDisplay|}}
+              <li>{{userClaimToDisplay}}</li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="login-or-register-oidc-form__cgu-container">
-      <PixCheckbox {{on "change" this.onChange}}>
-        <:label>{{t
-            "common.cgu.message"
-            cguUrl=this.cguUrl
-            dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
-            htmlSafe=true
-          }}</:label>
-      </PixCheckbox>
-    </div>
+      <div class="login-or-register-oidc-form__cgu-container">
+        <PixCheckbox {{on "change" this.onChange}}>
+          <:label>{{t
+              "common.cgu.message"
+              cguUrl=this.cguUrl
+              dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
+              htmlSafe=true
+            }}</:label>
+        </PixCheckbox>
+      </div>
 
-    {{#if this.registerErrorMessage}}
+      {{#if this.registerErrorMessage}}
+        <PixNotificationAlert @type="error" class="login-or-register-oidc-form__cgu-error">
+          {{this.registerErrorMessage}}
+        </PixNotificationAlert>
+      {{/if}}
+
+      <PixButton @type="submit" @triggerAction={{this.register}} @isLoading={{this.isRegisterLoading}}>
+        {{t "pages.login-or-register-oidc.register-form.button"}}
+      </PixButton>
+    {{else}}
       <PixNotificationAlert @type="error" class="login-or-register-oidc-form__cgu-error">
-        {{this.registerErrorMessage}}
+        {{this.userClaimsErrorMessage}}
       </PixNotificationAlert>
     {{/if}}
-
-    <PixButton @type="submit" @triggerAction={{this.register}} @isLoading={{this.isRegisterLoading}}>
-      {{t "pages.login-or-register-oidc.register-form.button"}}
-    </PixButton>
   </div>
 
   <div class="login-or-register-oidc-form__divider"></div>

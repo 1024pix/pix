@@ -65,6 +65,14 @@
   &__menu {
     border-left: 1px solid var(--pix-neutral-100);
     padding: var(--pix-spacing-2x);
+
+    .pix-icon-button {
+      color: var(--pix-neutral-0);
+
+      &:hover {
+        color: var(--pix-neutral-800);
+      }
+    }
   }
 
   .dropdown__content {

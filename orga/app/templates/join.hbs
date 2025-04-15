@@ -1,8 +1,0 @@
-{{page-title (t "pages.login-or-register.title" organizationName=@model.organizationName)}}
-<div class="join-page">
-  <Auth::LoginOrRegister
-    @organizationInvitationId={{this.invitationId}}
-    @organizationInvitationCode={{this.code}}
-    @organizationName={{@model.organizationName}}
-  />
-</div>

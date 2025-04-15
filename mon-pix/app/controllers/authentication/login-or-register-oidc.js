@@ -3,8 +3,12 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+import { SessionStorageEntry } from '../../utils/session-storage-entry';
+
+const oidcUserAuthenticationStorage = new SessionStorageEntry('oidcUserAuthentication');
+
 export default class LoginOrRegisterOidcController extends Controller {
-  queryParams = ['authenticationKey', 'identityProviderSlug', 'givenName', 'familyName'];
+  queryParams = ['identityProviderSlug'];
 
   @service url;
   @service oidcIdentityProviders;
@@ -15,7 +19,6 @@ export default class LoginOrRegisterOidcController extends Controller {
   @service currentDomain;
 
   @tracked showOidcReconciliation = false;
-  @tracked authenticationKey = null;
   @tracked identityProviderSlug = null;
   @tracked email = '';
   @tracked fullNameFromPix = '';
@@ -27,12 +30,24 @@ export default class LoginOrRegisterOidcController extends Controller {
     return this.url.showcase;
   }
 
+  get oidcUserAuthenticationStorage() {
+    return oidcUserAuthenticationStorage.get();
+  }
+
+  get userClaims() {
+    return this.oidcUserAuthenticationStorage?.userClaims;
+  }
+
   get isInternationalDomain() {
     return !this.currentDomain.isFranceDomain;
   }
 
   get selectedLanguage() {
     return this.intl.primaryLocale;
+  }
+
+  get authenticationKey() {
+    return this.oidcUserAuthenticationStorage?.authenticationKey;
   }
 
   @action

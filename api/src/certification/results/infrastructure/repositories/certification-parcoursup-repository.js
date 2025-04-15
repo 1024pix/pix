@@ -19,7 +19,7 @@ const getByOrganizationUAI = async ({ organizationUai, lastName, firstName, birt
 };
 
 const _getBySearchParams = async (searchParams) => {
-  const certificationResultDto = await datamartKnex('data_export_parcoursup_certif_result')
+  const certificationResultDto = await datamartKnex('sco_certification_results')
     .select({
       national_student_id: 'national_student_id',
       organization_uai: 'organization_uai',
@@ -58,7 +58,7 @@ const _getBySearchParams = async (searchParams) => {
 };
 
 const getByVerificationCode = async ({ verificationCode }) => {
-  const certificationResultDto = await datamartKnex('data_export_parcoursup_certif_result_code_validation')
+  const certificationResultDto = await datamartKnex('certification_results')
     .select({
       last_name: 'last_name',
       first_name: 'first_name',

@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { getDefaultNormalizer, render } from '@1024pix/ember-testing-library';
 import PixToastContainer from '@1024pix/pix-ui/components/pix-toast-container';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
@@ -59,7 +59,7 @@ module('Integration | Component |  administration/upsert-quests-in-batch', funct
   });
 
   module('when import fails', function () {
-    test('it displays an error notification by status', async function (assert) {
+    test('it displays an error block', async function (assert) {
       // given
       fetchStub
         .withArgs(`${ENV.APP.API_HOST}/api/admin/quests`, {
@@ -74,7 +74,15 @@ module('Integration | Component |  administration/upsert-quests-in-batch', funct
         .resolves(
           fetchResponse({
             body: {
-              errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }],
+              errors: [
+                {
+                  status: '412',
+                  title: "Un soucis avec l'import",
+                  code: '412',
+                  detail: "Erreur d'import",
+                  meta: { data: { something: 1 } },
+                },
+              ],
             },
             status: 412,
           }),
@@ -86,7 +94,17 @@ module('Integration | Component |  administration/upsert-quests-in-batch', funct
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(await screen.findByText('Les préconditions ne sont pas réunies.'));
+      assert.ok(await screen.findByText("Erreur d'import", { exact: false }));
+      assert.ok(
+        await screen.findByText(
+          `{
+  "something": 1
+}`,
+          {
+            normalizer: getDefaultNormalizer({ trim: false, collapseWhitespace: false }),
+          },
+        ),
+      );
     });
 
     test('it displays an error notification', async function (assert) {

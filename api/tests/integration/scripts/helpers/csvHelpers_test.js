@@ -61,11 +61,12 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
 
       // then
       expect(
-        await checkCsvHeader({
-          filePath: withValidHeaderFilePath,
-          requiredFieldNames,
-        }),
-      ).to.not.throw;
+        async () =>
+          await checkCsvHeader({
+            filePath: withValidHeaderFilePath,
+            requiredFieldNames,
+          }),
+      ).to.not.throw();
     });
   });
 });

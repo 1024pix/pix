@@ -57,21 +57,22 @@
       text-decoration: underline;
     }
 
-    ul {
-      margin-left: 30px;
-      list-style-type: disc;
-    }
-
     .details-list {
-
-      li {
-        display: flex;
-        align-items: flex-start;
-      }
+      margin-left: 30px;
 
       img {
         width: 21px;
         margin: 4px;
+      }
+
+      &--with-bullet {
+        display: list-item;
+        list-style-type: disc;
+      }
+
+      &--with-image {
+        display: flex;
+        align-items: flex-start;
       }
 
       &__title {

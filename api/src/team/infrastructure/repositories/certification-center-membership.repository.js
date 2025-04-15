@@ -64,6 +64,24 @@ const countActiveMembersForCertificationCenter = async function (certificationCe
 };
 
 /**
+ * @param {Object} params
+ * @param {string} params.certificationCenterId
+ * @param {date} params.disabledAt
+ * @param {string} params.updatedByUserId
+ */
+const disableMembershipsByCertificationCenterId = async function ({
+  certificationCenterId,
+  disabledAt,
+  updatedByUserId,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn
+    .from(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .where({ certificationCenterId, disabledAt: null })
+    .update({ disabledAt, updatedByUserId });
+};
+
+/**
  * Get the number of active memberships for a user
  *
  * @param {string} userId - The ID of the user
@@ -221,7 +239,7 @@ const disableById = async function ({ certificationCenterMembershipId, updatedBy
     const now = new Date();
     const result = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
       .where({ id: certificationCenterMembershipId })
-      .update({ disabledAt: now, updatedAt: now, updatedByUserId })
+      .update({ disabledAt: now, updatedByUserId })
       .returning('*');
 
     if (result.length === 0) {
@@ -275,7 +293,7 @@ const disableMembershipsByUserId = async function ({ userId, updatedByUserId }) 
   await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .whereNull('disabledAt')
     .andWhere({ userId })
-    .update({ disabledAt: now, updatedAt: now, updatedByUserId });
+    .update({ disabledAt: now, updatedByUserId });
 };
 
 const update = async function (certificationCenterMembership) {
@@ -362,6 +380,7 @@ const certificationCenterMembershipRepository = {
   create,
   disableById,
   disableMembershipsByUserId,
+  disableMembershipsByCertificationCenterId,
   findActiveAdminsByCertificationCenterId,
   findActiveByCertificationCenterIdSortedByRole,
   findByCertificationCenterIdAndUserId,

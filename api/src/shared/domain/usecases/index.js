@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import * as complementaryCertificationBadgeRepository from '../../../certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 import * as badgeRepository from '../../../evaluation/infrastructure/repositories/badge-repository.js';
+import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import { repositories as sharedInjectedRepositories } from '../../infrastructure/repositories/index.js';
@@ -17,6 +18,7 @@ const usecasesWithoutInjectedDependencies = {
 
 const dependencies = {
   assessmentRepository,
+  answerRepository,
   complementaryCertificationBadgeRepository,
   badgeRepository,
   challengeRepository,

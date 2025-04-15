@@ -18,7 +18,6 @@ import * as scoringService from '../../../../../../../src/evaluation/domain/serv
 import { CertificationComputeError } from '../../../../../../../src/shared/domain/errors.js';
 import CertificationCancelled from '../../../../../../../src/shared/domain/events/CertificationCancelled.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { CertificationResult } from '../../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
@@ -273,7 +272,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           });
           const savedAssessmentResult = domainBuilder.certification.scoring.buildAssessmentResult.standard({
             id: assessmentResultId,
-            emitter: AssessmentResult.emitters.PIX_ALGO,
             pixScore: certificationAssessmentScore.nbPix,
             reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
             status: certificationAssessmentScore.status,
@@ -294,7 +292,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         it('builds and save an assessment result with the expected arguments', async function () {
           // when
           await handleV2CertificationScoring({
-            emitter: AssessmentResult.emitters.PIX_ALGO,
             certificationAssessment,
             assessmentResultRepository,
             certificationCourseRepository,
@@ -309,7 +306,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
             status: certificationAssessmentScore.status,
             assessmentId: certificationAssessment.id,
-            emitter: AssessmentResult.emitters.PIX_ALGO,
           });
           expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
             certificationCourseId,
@@ -320,7 +316,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         it('builds and save as many competence marks as present in the certificationAssessmentScore', async function () {
           // when
           await handleV2CertificationScoring({
-            emitter: AssessmentResult.emitters.PIX_ALGO,
             certificationAssessment,
             assessmentResultRepository,
             certificationCourseRepository,
@@ -364,7 +359,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           await handleV2CertificationScoring({
-            emitter: AssessmentResult.emitters.PIX_ALGO,
             certificationAssessment,
             assessmentResultRepository,
             certificationCourseRepository,
@@ -379,7 +373,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
             status: status.REJECTED,
             assessmentId: certificationAssessment.id,
-            emitter: AssessmentResult.emitters.PIX_ALGO,
             commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
               commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
             }),
@@ -429,7 +422,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           // when
           await handleV2CertificationScoring({
             event,
-            emitter: CertificationResult.emitters.PIX_ALGO_CANCELLATION,
             certificationAssessment,
             assessmentResultRepository,
             certificationCourseRepository,
@@ -444,7 +436,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
             status: AssessmentResult.status.CANCELLED,
             assessmentId: certificationAssessment.id,
-            emitter: CertificationResult.emitters.PIX_ALGO_CANCELLATION,
             juryId,
           });
 
@@ -491,7 +482,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
         const assessmentResultToBeSaved = new AssessmentResult({
           id: undefined,
-          emitter: 'PIX-ALGO-NEUTRALIZATION',
           pixScore: 9,
           reproducibilityRate: 80,
           status: AssessmentResult.status.VALIDATED,
@@ -515,7 +505,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         // when
         await handleV2CertificationScoring({
           event,
-          emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
           certificationAssessment,
           assessmentResultRepository,
           certificationCourseRepository,
@@ -569,7 +558,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             hasEnoughNonNeutralizedChallengesToBeTrusted: false,
           });
           const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.notTrustable({
-            emitter: 'PIX-ALGO-NEUTRALIZATION',
             pixScore: 30,
             reproducibilityRate: 80,
             assessmentId: 123,
@@ -593,7 +581,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           // when
           await handleV2CertificationScoring({
             event,
-            emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
             certificationAssessment,
             assessmentResultRepository,
             certificationCourseRepository,
@@ -618,7 +605,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               hasEnoughNonNeutralizedChallengesToBeTrusted: false,
             });
             const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.notTrustable({
-              emitter: 'PIX-ALGO-NEUTRALIZATION',
               pixScore: 0,
               reproducibilityRate: 45,
               assessmentId: 123,
@@ -641,7 +627,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             // when
             await handleV2CertificationScoring({
               event,
-              emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
               certificationAssessment,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -689,7 +674,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             hasEnoughNonNeutralizedChallengesToBeTrusted: true,
           });
           const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.standard({
-            emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
             pixScore: 30,
             reproducibilityRate: 80,
             status: AssessmentResult.status.VALIDATED,
@@ -714,7 +698,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           // when
           await handleV2CertificationScoring({
             event,
-            emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
             certificationAssessment,
             assessmentResultRepository,
             certificationCourseRepository,
@@ -785,7 +768,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             // when
             await handleV2CertificationScoring({
               event,
-              emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
               certificationAssessment,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -839,7 +821,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
                 pixScore: 0,
                 reproducibilityRate: 33,
                 assessmentId: 123,
-                emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
                 juryId: 7,
               });
             assessmentResultRepository.save.resolves({
@@ -856,7 +837,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             // when
             await handleV2CertificationScoring({
               event,
-              emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
               certificationAssessment,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -902,7 +882,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
                   pixScore: 0,
                   reproducibilityRate: 33,
                   assessmentId: 123,
-                  emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
                   juryId: 7,
                 });
 
@@ -920,7 +899,6 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               // when
               await handleV2CertificationScoring({
                 event,
-                emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
                 certificationAssessment,
                 assessmentResultRepository,
                 certificationCourseRepository,

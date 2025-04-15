@@ -346,7 +346,7 @@ describe('Unit | Service | ScorecardService', function () {
             campaignRepository,
           });
         };
-        expect(await call()).not.to.throw;
+        expect(call).not.to.throw();
       });
 
       // then

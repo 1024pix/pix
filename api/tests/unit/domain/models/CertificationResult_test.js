@@ -7,7 +7,6 @@ const CERTIFICATION_RESULT_STATUS_ERROR = CertificationResult.status.ERROR;
 const CERTIFICATION_RESULT_STATUS_REJECTED = CertificationResult.status.REJECTED;
 const CERTIFICATION_RESULT_STATUS_STARTED = CertificationResult.status.STARTED;
 const CERTIFICATION_RESULT_STATUS_VALIDATED = CertificationResult.status.VALIDATED;
-const CERTIFICATION_RESULT_EMITTER_PIXALGO = CertificationResult.emitters.PIX_ALGO;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
   context('#static from', function () {
@@ -29,7 +28,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         assessmentId: 789,
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
-        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
         commentForOrganization: 'Un commentaire orga 1',
         juryId: 159,
         competenceMarks: [
@@ -77,7 +75,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
         status: CERTIFICATION_RESULT_STATUS_VALIDATED,
-        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
           fallbackComment: certificationResultData.commentForOrganization,
         }),

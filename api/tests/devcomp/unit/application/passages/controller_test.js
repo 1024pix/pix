@@ -7,7 +7,7 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
     it('should call createPassage use-case and return serialized passage', async function () {
       // given
       const serializedPassage = Symbol('serialized modules');
-      const moduleId = Symbol('module-id');
+      const moduleSlug = Symbol('module-slug');
       const passage = Symbol('passage');
       const userId = Symbol('user-id');
       const passageSerializer = {
@@ -20,7 +20,7 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       const created = sinon.stub();
       hStub.response.withArgs(serializedPassage).returns({ created });
 
-      const request = { payload: { data: { attributes: { 'module-id': moduleId } } } };
+      const request = { payload: { data: { attributes: { 'module-id': moduleSlug } } } };
 
       const extractUserIdFromRequestStub = sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
       extractUserIdFromRequestStub.withArgs(request).returns(userId);
@@ -32,10 +32,10 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       const usecases = {
         createPassage: sinon.stub(),
       };
-      usecases.createPassage.withArgs({ moduleId, userId, occurredAt: new Date(requestTimestamp) }).returns(passage);
+      usecases.createPassage.withArgs({ moduleSlug, userId, occurredAt: new Date(requestTimestamp) }).returns(passage);
 
       // when
-      await passageController.create({ payload: { data: { attributes: { 'module-id': moduleId } } } }, hStub, {
+      await passageController.create({ payload: { data: { attributes: { 'module-id': moduleSlug } } } }, hStub, {
         passageSerializer,
         usecases,
       });

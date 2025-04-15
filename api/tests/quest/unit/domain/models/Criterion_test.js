@@ -3,6 +3,33 @@ import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../sr
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Criterion ', function () {
+  describe('#validate', function () {
+    it('should throw if args are not valid', function () {
+      expect(() => {
+        new Criterion({ data: [] });
+      }).to.throw();
+    });
+
+    it('should throw without args', function () {
+      expect(() => {
+        new Criterion();
+      }).to.throw();
+    });
+
+    it('should not throw if args are valid', function () {
+      expect(() => {
+        new Criterion({
+          data: {
+            targetProfileId: {
+              data: 1,
+              comparison: 'equal',
+            },
+          },
+        });
+      }).not.to.throw();
+    });
+  });
+
   describe('#check', function () {
     describe('when comparisonFunction is some', function () {
       it('should return true if one data attribute is equal to its criterion attribute', function () {

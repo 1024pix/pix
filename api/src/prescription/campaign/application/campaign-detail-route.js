@@ -45,6 +45,21 @@ const register = async function (server) {
     },
     {
       method: 'GET',
+      path: '/api/campaigns/{campaignId}/target-profile',
+      config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignDetailController.getTargetProfile,
+        notes: ["- Récupération d'un profile cible par l'id de la campagne"],
+        tags: ['api', 'campaign'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/admin/campaigns/{campaignId}',
       config: {
         pre: [

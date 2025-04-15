@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
-import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { createAndReconcileUserToOrganizationLearner } from '../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
@@ -17,6 +16,7 @@ import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import * as mailService from '../../../../src/shared/domain/services/mail-service.js';
 import * as obfuscationService from '../../../../src/shared/domain/services/obfuscation-service.js';
+import * as userReconciliationService from '../../../../src/shared/domain/services/user-reconciliation-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../../src/shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../../src/shared/domain/validators/user-validator.js';

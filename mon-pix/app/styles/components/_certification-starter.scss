@@ -4,6 +4,7 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 @use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/colors';
 
 .certification-starter {
   @include breakpoints.device-is('desktop') {
@@ -12,6 +13,10 @@
 }
 
 .certification-start-page {
+  &__header .pix-background-header__background {
+    background: colors.$pix-primary-certif-gradient;
+  }
+
   &__block {
     margin: var(--pix-spacing-3x) 0;
     padding: var(--pix-spacing-4x) var(--pix-spacing-4x) var(--pix-spacing-12x) var(--pix-spacing-4x);

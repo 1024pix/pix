@@ -4,19 +4,39 @@ export default class CurrentUserService extends Service {
   @service session;
   @service store;
 
-  _user = undefined;
+  #user;
+  #attestationsDetails = [];
 
   get user() {
-    return this._user;
+    return this.#user;
+  }
+
+  get attestationsDetails() {
+    return this.#attestationsDetails;
+  }
+
+  get hasAttestationsDetails() {
+    return this.#attestationsDetails.length > 0;
   }
 
   async load() {
     if (this.session.isAuthenticated) {
       try {
-        this._user = await this.store.queryRecord('user', { me: true });
+        this.#user = await this.store.queryRecord('user', { me: true });
+        this.#attestationsDetails = await this.store.findAll('attestation-detail');
       } catch {
-        this._user = null;
+        this.#user = null;
         return this.session.invalidate();
+      }
+    }
+  }
+
+  async loadAttestationDetails() {
+    if (this.session.isAuthenticated) {
+      try {
+        this.#attestationsDetails = await this.store.findAll('attestation-detail');
+      } catch {
+        this.#attestationsDetails = [];
       }
     }
   }

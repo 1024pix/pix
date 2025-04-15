@@ -223,7 +223,6 @@ async function _createCertificationResultsInError({ assessmentIds, transaction }
       assessmentId,
       level: null,
       pixScore: 0,
-      emitter: 'PIX-ALGO',
       status: 'error',
     });
   }
@@ -238,7 +237,6 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
       assessmentId,
       level: null,
       pixScore: 0,
-      emitter: 'PIX-ALGO',
       status,
     });
   }

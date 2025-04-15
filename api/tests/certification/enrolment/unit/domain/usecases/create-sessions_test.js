@@ -1,7 +1,6 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -65,7 +64,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   context('when there are cached sessions matching the key', function () {
     context('when at least one of the sessions does NOT exist', function () {
       context('when session has no candidate', function () {
-        it('should should only save the session', async function () {
+        it('should only save the session', async function () {
           // given
           const center = domainBuilder.certification.enrolment.buildCenter();
           centerRepository.getById.withArgs({ id: center.id }).resolves(center);
@@ -150,102 +149,6 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             sessionId: 1234,
             candidate,
           });
-        });
-      });
-
-      context('when certification center is V3 Pilot', function () {
-        it('should save the session with the V3 version', async function () {
-          // given
-          const center = domainBuilder.certification.enrolment.buildCenter({
-            id: 567,
-            isV3Pilot: true,
-          });
-          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
-          const sessionCreatorId = 1234;
-          const temporaryCachedSessions = [
-            {
-              id: undefined,
-              certificationCenter: 'Centre de Certifix',
-              certificationCenterId: center.id,
-              address: 'Site 1',
-              room: 'Salle 1',
-              date: '2023-03-12',
-              time: '01:00',
-              examiner: 'Pierre',
-              description: 'desc',
-              invigilatorPassword: 'Y722GA',
-              accessCode: 'accessCode',
-              certificationCandidates: [],
-              createdBy: sessionCreatorId,
-            },
-          ];
-          temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-          const cachedValidatedSessionsKey = 'uuid';
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-          sessionRepository.save.resolves({ id: 1234 });
-
-          // when
-          await createSessions({
-            cachedValidatedSessionsKey,
-            userId: sessionCreatorId,
-            certificationCenterId: center.id,
-            ...dependencies,
-          });
-
-          // then
-          const expectedSession = new SessionEnrolment({
-            ...temporaryCachedSessions[0],
-            version: SESSIONS_VERSIONS.V3,
-            createdBy: sessionCreatorId,
-          });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
-        });
-      });
-
-      context('when certification center is not V3 Pilot', function () {
-        it('should save the session with the V2 version', async function () {
-          // given
-          const sessionCreatorId = 1234;
-          const center = domainBuilder.certification.enrolment.buildCenter({ id: 567, isV3Pilot: false });
-          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
-          const temporaryCachedSessions = [
-            {
-              id: undefined,
-              certificationCenter: 'Centre de Certifix',
-              certificationCenterId: center.id,
-              address: 'Site 1',
-              room: 'Salle 1',
-              date: '2023-03-12',
-              time: '01:00',
-              examiner: 'Pierre',
-              description: 'desc',
-              invigilatorPassword: 'Y722GA',
-              accessCode: 'accessCode',
-              certificationCandidates: [],
-              createdBy: sessionCreatorId,
-            },
-          ];
-          temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-
-          const cachedValidatedSessionsKey = 'uuid';
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-          sessionRepository.save.resolves({ id: 1234 });
-
-          // when
-          await createSessions({
-            cachedValidatedSessionsKey,
-            userId: sessionCreatorId,
-            certificationCenterId: center.id,
-            ...dependencies,
-          });
-
-          // then
-          const expectedSession = new SessionEnrolment({
-            ...temporaryCachedSessions[0],
-            version: SESSIONS_VERSIONS.V2,
-            createdBy: sessionCreatorId,
-          });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
         });
       });
     });

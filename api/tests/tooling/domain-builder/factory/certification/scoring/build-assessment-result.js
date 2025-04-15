@@ -2,35 +2,26 @@ import { AssessmentResultFactory } from '../../../../../../src/certification/sco
 
 const buildAssessmentResult = {};
 
-buildAssessmentResult.error = function ({ error, assessmentId, juryId, emitter } = {}) {
-  return AssessmentResultFactory.buildAlgoErrorResult({ error, assessmentId, juryId, emitter });
+buildAssessmentResult.error = function ({ error, assessmentId, juryId } = {}) {
+  return AssessmentResultFactory.buildAlgoErrorResult({ error, assessmentId, juryId });
 };
 
-buildAssessmentResult.standard = function ({
-  pixScore,
-  reproducibilityRate,
-  status,
-  assessmentId,
-  juryId,
-  emitter,
-} = {}) {
+buildAssessmentResult.standard = function ({ pixScore, reproducibilityRate, status, assessmentId, juryId } = {}) {
   return AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore,
     reproducibilityRate,
     status,
     assessmentId,
     juryId,
-    emitter,
   });
 };
 
-buildAssessmentResult.notTrustable = function ({ pixScore, reproducibilityRate, assessmentId, juryId, emitter } = {}) {
+buildAssessmentResult.notTrustable = function ({ pixScore, reproducibilityRate, assessmentId, juryId } = {}) {
   return AssessmentResultFactory.buildNotTrustableAssessmentResult({
     pixScore,
     reproducibilityRate,
     assessmentId,
     juryId,
-    emitter,
   });
 };
 
@@ -44,7 +35,6 @@ buildAssessmentResult.insufficientCorrectAnswers = function ({
   assessmentId,
   juryId,
   competenceMarks,
-  emitter,
 } = {}) {
   return AssessmentResultFactory.buildInsufficientCorrectAnswers({
     pixScore,
@@ -52,7 +42,6 @@ buildAssessmentResult.insufficientCorrectAnswers = function ({
     assessmentId,
     juryId,
     competenceMarks,
-    emitter,
   });
 };
 
@@ -62,7 +51,6 @@ buildAssessmentResult.lackOfAnswersForTechnicalReason = function ({
   assessmentId,
   juryId,
   competenceMarks,
-  emitter,
 } = {}) {
   return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
     pixScore,
@@ -70,7 +58,6 @@ buildAssessmentResult.lackOfAnswersForTechnicalReason = function ({
     assessmentId,
     juryId,
     competenceMarks,
-    emitter,
   });
 };
 

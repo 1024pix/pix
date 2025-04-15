@@ -237,17 +237,13 @@
     </div>
   </:content>
   <:footer>
-    <ul class="scorecard-details-reset-modal__footer">
-      <li>
-        <PixButton @variant="secondary" @triggerAction={{this.closeModal}}>
-          {{t "common.actions.cancel"}}
-        </PixButton>
-      </li>
-      <li>
-        <PixButton id="pix-modal-footer__button-reset" @variant="error" @triggerAction={{this.reset}}>
-          {{t "pages.competence-details.actions.reset.label"}}
-        </PixButton>
-      </li>
-    </ul>
+    <div class="scorecard-details-reset-modal__footer">
+      <PixButton @variant="secondary" @triggerAction={{this.closeModal}}>
+        {{t "common.actions.cancel"}}
+      </PixButton>
+      <PixButton id="pix-modal-footer__button-reset" @variant="error" @triggerAction={{this.reset}}>
+        {{t "pages.competence-details.actions.reset.label"}}
+      </PixButton>
+    </div>
   </:footer>
 </PixModal>

@@ -64,6 +64,10 @@
 
 .certification-center-information-display {
 
+  &__archived-warning {
+    max-width: fit-content
+  }
+
   &__action-buttons {
     display: flex;
     gap: 8px;

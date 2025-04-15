@@ -5,9 +5,10 @@
   @extend %pix-title-m;
 
   margin-top: var(--pix-spacing-6x);
-  margin-bottom: var(--pix-spacing-6x);
+  margin-bottom: var(--pix-spacing-3x);
 
   @include breakpoints.device-is('tablet') {
     margin-top: 0;
+    margin-bottom: var(--pix-spacing-6x);
   }
 }

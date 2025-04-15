@@ -121,6 +121,34 @@ const register = async function (server) {
         tags: ['api', 'admin', 'certification-center'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-centers/{certificationCenterId}/archive',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: (request, h) => certificationCenterAdminController.archiveCertificationCenter(request, h),
+        tags: ['api', 'admin', 'organizational-entities', 'certification-centers'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet d'archiver un centre de certification",
+        ],
+      },
+    },
   ]);
 };
 

@@ -692,20 +692,12 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Erreur, vous devez changer votre mot de passe.');
     });
 
-    it('responds Unauthorized when a ApplicationWithInvalidClientSecretError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.ApplicationWithInvalidClientSecretError());
+    it('responds Unauthorized when a ApplicationWithInvalidCredentialsError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.ApplicationWithInvalidCredentialsError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
-      expect(responseDetail(response)).to.equal('The client secret is invalid.');
-    });
-
-    it('responds Unauthorized when a ApplicationWithInvalidClientIdError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.ApplicationWithInvalidClientIdError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
-      expect(responseDetail(response)).to.equal('The client ID is invalid.');
+      expect(responseDetail(response)).to.equal('The client ID and/or secret are invalid.');
     });
   });
 

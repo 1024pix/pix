@@ -35,14 +35,6 @@ export default class LoginOrRegisterOidcComponent extends Component {
     return this.oidcIdentityProviders[this.args.identityProviderSlug]?.organizationName;
   }
 
-  get givenName() {
-    return this.args.givenName;
-  }
-
-  get familyName() {
-    return this.args.familyName;
-  }
-
   get currentLanguage() {
     return this.intl.primaryLocale;
   }
@@ -53,6 +45,41 @@ export default class LoginOrRegisterOidcComponent extends Component {
 
   get dataProtectionPolicyUrl() {
     return this.url.dataProtectionPolicyUrl;
+  }
+
+  get userClaimsErrorMessage() {
+    const { userClaims } = this.args;
+
+    if (!userClaims) {
+      return this.intl.t(`pages.login-or-register-oidc.register-form.information.error`);
+    } else {
+      return null;
+    }
+  }
+
+  get userClaimsToDisplay() {
+    const { userClaims } = this.args;
+
+    const result = [];
+
+    if (userClaims) {
+      const { firstName, lastName, ...rest } = userClaims;
+      result.push(`${this.intl.t(`pages.login-or-register-oidc.register-form.information.firstName`)} ${firstName}`);
+      result.push(`${this.intl.t(`pages.login-or-register-oidc.register-form.information.lastName`)} ${lastName}`);
+
+      Object.entries(rest).map(([key, value]) => {
+        let label = `${this.intl.t(`pages.login-or-register-oidc.register-form.information.${key}`)}`;
+        const translation = `${this.intl.t(`pages.login-or-register-oidc.register-form.information.${key}`)}`;
+
+        if (translation.includes('Missing translation')) {
+          label = `${key} :`;
+        }
+
+        return result.push(`${label} ${value}`);
+      });
+    }
+
+    return result;
   }
 
   @action

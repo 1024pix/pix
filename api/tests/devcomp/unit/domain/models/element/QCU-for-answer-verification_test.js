@@ -8,9 +8,16 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
   describe('#constructor', function () {
     it('should instanciate a QCU For Verification with right attributes', function () {
       // Given
-      const proposal1 = { id: Symbol('proposal1') };
-      const proposal2 = { id: Symbol('proposal2') };
-      const feedbacks = { valid: 'valid', invalid: 'invalid' };
+      const feedback1 = {
+        state: 'Correct&#8239;!',
+        diagnosis: '<p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>',
+      };
+      const proposal1 = { id: Symbol('proposal1'), feedback: feedback1 };
+      const feedback2 = {
+        state: 'Incorrect',
+        diagnosis: '<p>Erreur ! Ce ne sont pas des lasagnes</p>',
+      };
+      const proposal2 = { id: Symbol('proposal2'), feedback: feedback2 };
       const solution = proposal1.id;
       const expectedSolution = { value: solution };
 
@@ -20,7 +27,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         instruction: 'instruction',
         locales: ['fr-FR'],
         proposals: [proposal1, proposal2],
-        feedbacks,
         solution,
       });
 
@@ -82,11 +88,17 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         proposals: [
           {
             id: qcuSolution,
-            feedback: 'Answer 1 is correct',
+            feedback: {
+              status: 'correct',
+              diagnosis: 'Answer 1 is correct',
+            },
           },
           {
             id: 'wrongSolution',
-            feedback: 'Answer 2 is wrong',
+            feedback: {
+              state: 'incorrect',
+              diagnosis: 'Answer 2 is wrong',
+            },
           },
         ],
         solution: qcuSolution,
@@ -131,11 +143,17 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         proposals: [
           {
             id: qcuSolution,
-            feedback: 'Answer 1 is correct',
+            feedback: {
+              state: 'correct',
+              diagnosis: 'Answer 1 is correct',
+            },
           },
           {
             id: 'wrongAnswer',
-            feedback: 'Answer 2 is wrong',
+            feedback: {
+              state: 'incorrect',
+              diagnosis: 'Answer 2 is wrong',
+            },
           },
         ],
         solution: qcuSolution,
@@ -176,8 +194,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const qcu = new QCUForAnswerVerification({
           id: 'qcu-id',
           instruction: '',
-          proposals: [{ id: qcuSolution }],
-          feedbacks: { valid: 'OK', invalid: 'KO' },
+          proposals: [{ id: qcuSolution, feedback: { state: 'correct', diagnosis: 'OK' } }],
           solution: qcuSolution,
         });
 
@@ -228,8 +245,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
           const qcu = new QCUForAnswerVerification({
             id: 'qcu-id',
             instruction: '',
-            proposals: [{ id: qcuSolution }],
-            feedbacks: { valid: 'OK', invalid: 'KO' },
+            proposals: [{ id: qcuSolution, feedback: { state: 'correct', diagnosis: 'OK' } }],
             solution: qcuSolution,
           });
 

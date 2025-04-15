@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 import { CampaignParticipationKnowledgeElementSnapshots } from '../../../shared/domain/read-models/CampaignParticipationKnowledgeElementSnapshots.js';
 
-export async function save({ userId, snappedAt, snapshot, campaignParticipationId }) {
+export async function save({ snapshot, campaignParticipationId }) {
   const knexConn = DomainTransaction.getConnection();
   const existingSnapshot = await knexConn
     .select('id')
@@ -12,15 +12,11 @@ export async function save({ userId, snappedAt, snapshot, campaignParticipationI
   if (existingSnapshot) {
     return await knexConn('knowledge-element-snapshots')
       .update({
-        userId,
-        snappedAt,
         snapshot,
       })
       .where('campaignParticipationId', campaignParticipationId);
   } else {
     return await knexConn('knowledge-element-snapshots').insert({
-      userId,
-      snappedAt,
       snapshot,
       campaignParticipationId,
     });

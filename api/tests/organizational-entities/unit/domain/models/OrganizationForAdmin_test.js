@@ -153,6 +153,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
   context('#updateWithDataProtectionOfficerAndTags', function () {
     let features;
+
     beforeEach(function () {
       features = {
         LEARNER_IMPORT: { active: false },
@@ -161,6 +162,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: { active: false },
       };
     });
+
     it('updates organization name', function () {
       // given
       const originalName = 'original name';
@@ -713,21 +715,6 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         // then
         expect(givenOrganization.provinceCode).to.equal('044');
       });
-    });
-  });
-
-  context('#updateIdentityProviderForCampaigns', function () {
-    it('updates IdentityProviderForCampaigns', function () {
-      // given
-      const initialIdentityProviderForCampaigns = 'genericOidcProviderCode';
-      const newIdentityProviderForCampaigns = 'GAR';
-      const givenOrganization = new OrganizationForAdmin({
-        identityProviderForCampaigns: initialIdentityProviderForCampaigns,
-      });
-      // when
-      givenOrganization.updateIdentityProviderForCampaigns(newIdentityProviderForCampaigns);
-      // then
-      expect(givenOrganization.identityProviderForCampaigns).to.equal(newIdentityProviderForCampaigns);
     });
   });
 

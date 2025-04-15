@@ -1,10 +1,8 @@
 {{page-title (t "pages.competence-result.title")}}
 
-<Global::AppLayout>
-  <main id="main" class="background-banner-wrapper" role="main">
-    <div class="background-banner"></div>
-
-    <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+<main id="main" role="main">
+  <PixBackgroundHeader>
+    <PixBlock>
       <div class="competence-results-panel__header">
         {{#if @model.scorecard.hasNotEarnedAnything}}
           <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
@@ -60,6 +58,6 @@
       {{#if @model.scorecard}}
         <ScorecardDetails @scorecard={{@model.scorecard}} />
       {{/if}}
-    </div>
-  </main>
-</Global::AppLayout>
+    </PixBlock>
+  </PixBackgroundHeader>
+</main>

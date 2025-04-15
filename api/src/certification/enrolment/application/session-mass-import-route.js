@@ -51,7 +51,6 @@ const register = async function (server) {
           },
         ],
         validate: {
-          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
           payload: Joi.object({
             data: {
               attributes: {

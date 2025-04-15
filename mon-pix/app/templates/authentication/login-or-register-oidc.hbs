@@ -21,8 +21,7 @@
       <Authentication::LoginOrRegisterOidc
         @identityProviderSlug={{this.identityProviderSlug}}
         @authenticationKey={{this.authenticationKey}}
-        @givenName={{this.givenName}}
-        @familyName={{this.familyName}}
+        @userClaims={{this.userClaims}}
         @onLogin={{this.onLogin}}
       />
     {{/if}}

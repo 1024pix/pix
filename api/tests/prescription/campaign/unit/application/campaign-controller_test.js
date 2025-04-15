@@ -99,4 +99,40 @@ describe('Unit | Application | Controller | Campaign', function () {
       expect(response).to.equal(expectedResults);
     });
   });
+
+  describe('#getLevelPerTubesAndCompetences', function () {
+    const campaignId = 1;
+    const locale = FRENCH_SPOKEN;
+    let campaignResultLevelsPerTubesAndCompetencesSerializerStub;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'getResultLevelsPerTubesAndCompetences');
+      campaignResultLevelsPerTubesAndCompetencesSerializerStub = {
+        serialize: sinon.stub(),
+      };
+    });
+
+    it('should return expected results', async function () {
+      // given
+      const resultLevels = Symbol('resultLevels');
+      const expectedResults = Symbol('results');
+      usecases.getResultLevelsPerTubesAndCompetences.withArgs({ campaignId, locale }).resolves(resultLevels);
+      campaignResultLevelsPerTubesAndCompetencesSerializerStub.serialize
+        .withArgs(resultLevels)
+        .returns(expectedResults);
+
+      const request = {
+        params: { campaignId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignController.getLevelPerTubesAndCompetences(request, hFake, {
+        campaignResultLevelsPerTubesAndCompetencesSerializer: campaignResultLevelsPerTubesAndCompetencesSerializerStub,
+      });
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+  });
 });

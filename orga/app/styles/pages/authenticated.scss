@@ -1,6 +1,10 @@
-.sticker-banner {
-  position: sticky;
-  top: 0;
-  z-index: 200;
+.unauthenticated-page {
+  & > .pix-app-layout__main, .pix-app-layout__footer, .pix-app-layout__navigation {
+    padding: 0;
+  }
+
+  & > .pix-app-layout__main {
+    max-width: 100%;
+  }
 }
 

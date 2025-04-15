@@ -163,9 +163,7 @@ export default class ModuleQrocm extends ModuleElement {
 
       <div class="element-qrocm__feedback" role="status" tabindex="-1">
         {{#if this.shouldDisplayFeedback}}
-          <ModulixFeedback @answerIsValid={{this.answerIsValid}}>
-            {{htmlUnsafe this.correction.feedback}}
-          </ModulixFeedback>
+          <ModulixFeedback @answerIsValid={{this.answerIsValid}} @feedback={{this.correction.feedback}} />
         {{/if}}
       </div>
 

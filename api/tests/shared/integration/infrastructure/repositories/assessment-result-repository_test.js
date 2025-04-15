@@ -18,7 +18,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 33,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
           commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
             commentByAutoJury: AutoJuryCommentKeys.FRAUD,
             fallbackComment: 'candidate',
@@ -55,7 +54,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 33,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
           commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
             commentByAutoJury: AutoJuryCommentKeys.FRAUD,
             fallbackComment: 'candidate',
@@ -95,7 +93,6 @@ describe('Integration | Repository | AssessmentResult', function () {
             pixScore: 33,
             reproducibilityRate: 29.1,
             status: AssessmentResult.status.VALIDATED,
-            emitter: 'some-emitter',
             commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
               fallbackComment: 'candidate',
             }),
@@ -138,7 +135,6 @@ describe('Integration | Repository | AssessmentResult', function () {
             pixScore: 33,
             reproducibilityRate: 29.1,
             status: AssessmentResult.status.VALIDATED,
-            emitter: 'some-emitter',
             commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
               fallbackComment: 'candidate',
             }),
@@ -177,7 +173,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 33,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
           commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
             fallbackComment: 'candidate',
           }),
@@ -343,7 +338,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 33,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
           commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
             fallbackComment: 'candidate',
           }),
@@ -413,7 +407,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 33,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
           commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
             fallbackComment: 'candidate',
           }),
@@ -436,7 +429,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 66,
           reproducibilityRate: 28.1,
           status: AssessmentResult.status.REJECTED,
-          emitter: 'some-other-emitter',
           commentForCandidate: expectedAssessmentResult.commentForCandidate.fallbackComment,
           commentForOrganization: expectedAssessmentResult.commentForOrganization.fallbackComment,
           createdAt: new Date('1990-01-01T22:06:00Z'),
@@ -481,7 +473,6 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.id = undefined;
         expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.createdAt = undefined;
-        expectedAssessmentResult.emitter = undefined;
         expectedAssessmentResult.reproducibilityRate = undefined;
         expectedAssessmentResult.pixScore = undefined;
         expectedAssessmentResult.juryId = undefined;
@@ -510,7 +501,6 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.id = undefined;
         expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.createdAt = undefined;
-        expectedAssessmentResult.emitter = undefined;
         expectedAssessmentResult.reproducibilityRate = undefined;
         expectedAssessmentResult.pixScore = undefined;
         expectedAssessmentResult.juryId = undefined;
@@ -549,7 +539,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           pixScore: 62,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
           assessmentId: 2,

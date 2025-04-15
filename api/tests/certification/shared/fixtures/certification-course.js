@@ -144,7 +144,6 @@ export const createSuccessfulCertificationCourse = async ({ sessionId, userId, c
     assessmentId: assessment.id,
     level: 1,
     pixScore: 23,
-    emitter: 'PIX-ALGO',
     status: 'validated',
   });
 

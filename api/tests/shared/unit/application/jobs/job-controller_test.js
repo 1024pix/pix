@@ -30,7 +30,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
     // given
     const jobName = 'jobName';
     const jobGroup = JobGroup.DEFAULT;
-    const expireIn = JobExpireIn.DEFAULT;
+    const expireIn = JobExpireIn.INFINITE;
 
     // when
     const controller = new JobController(jobName);

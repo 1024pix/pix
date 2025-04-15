@@ -7,13 +7,10 @@ describe('Integration | UseCase | save-knowledge-element-snapshot-for-participat
   it('should persist knowledgeElement', async function () {
     const knowledgeElement = domainBuilder.buildKnowledgeElement();
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-    const userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
 
     const knowledgeElementCollection = new KnowledgeElementCollection([knowledgeElement]);
     const result = await usecases.saveKnowledgeElementSnapshotForParticipation({
-      userId,
-      snappedAt: new Date('2025-03-06'),
       campaignParticipationId,
       knowledgeElementCollection,
     });

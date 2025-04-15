@@ -1,9 +1,11 @@
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
 import {
   assertEnumValue,
+  assertHasUuidLength,
   assertInstanceOf,
   assertNotNullOrUndefined,
 } from '../../../../../src/shared/domain/models/asserts.js';
-import { expect } from '../../../../test-helper.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Models | asserts', function () {
   describe('#assertNotNullOrUndefined', function () {
@@ -39,6 +41,21 @@ describe('Unit | Shared | Models | asserts', function () {
       });
     });
 
+    describe('given invalid value with custom error message', function () {
+      it('should throw', function () {
+        // given
+        const errorMessage = 'This is an error with my custom message';
+        const anEnum = { X: 'y' };
+
+        // When
+        const error = catchErrSync(() => assertEnumValue(anEnum, 'z', errorMessage))();
+
+        // Then
+        expect(error).to.be.instanceOf(TypeError);
+        expect(error.message).to.equal('This is an error with my custom message');
+      });
+    });
+
     describe('given valid values', function () {
       it('should not throw', function () {
         // given
@@ -68,6 +85,46 @@ describe('Unit | Shared | Models | asserts', function () {
 
         // When, Then
         expect(() => assertInstanceOf(aDate, Date)).not.to.throw();
+      });
+    });
+  });
+
+  describe('#assertHasUuidLength', function () {
+    describe('given invalid value', function () {
+      it('should throw', function () {
+        // given
+        const value = '00e0c3fa-d812-45c8-b0cc-f317004988f9d';
+
+        // when
+        const error = catchErrSync(() => assertHasUuidLength(value))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('Uuid value must be exactly 36 characters long');
+      });
+    });
+
+    describe('given invalid value and a custom error message', function () {
+      it('should throw withe the custom error message', function () {
+        // given
+        const value = '00e0c3fa-d812-45c8-b0cc-f317004988';
+
+        // when
+        const error = catchErrSync(() => assertHasUuidLength(value, 'NOPE'))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('NOPE');
+      });
+    });
+
+    describe('given valid value', function () {
+      it('should not throw', function () {
+        // given
+        const value = '00e0c3fa-d812-45c8-b0cc-f317004988f9';
+
+        // when/then
+        expect(() => assertHasUuidLength(value)).not.to.throw();
       });
     });
   });

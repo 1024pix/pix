@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { htmlNotAllowedSchema, htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
+import { feedbackSchema } from './feedback-schema.js';
 
 const blockInputSchema = Joi.object({
   input: htmlNotAllowedSchema.required(),
@@ -58,8 +59,8 @@ const qrocmElementSchema = Joi.object({
     )
     .required(),
   feedbacks: Joi.object({
-    valid: htmlSchema,
-    invalid: htmlSchema,
+    valid: feedbackSchema,
+    invalid: feedbackSchema,
   }).required(),
 });
 

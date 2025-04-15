@@ -211,7 +211,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snappedAt: new Date('2020-01-02'),
           snapshot: JSON.stringify([ke]),
           campaignParticipationId: campaignParticipation.id,
         });

@@ -1,13 +1,9 @@
 <main id="main" role="main" class="global-page-container">
   <h1 class="sr-only">{{t "pages.dashboard.title"}}</h1>
 
-  <section class="global-page-header">
-    <div class="global-page-header__left-content">
-      <h1 class="global-page-header__title">
-        {{t "pages.dashboard.welcome" firstName=this.userFirstname}}
-      </h1>
-    </div>
-  </section>
+  <Ui::PageTitle>
+    <:title>{{t "pages.dashboard.welcome" firstName=this.userFirstname}}</:title>
+  </Ui::PageTitle>
 
   <div class="dashboard-content">
     {{! This banner is displayed on tablet }}

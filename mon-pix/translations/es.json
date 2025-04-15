@@ -147,6 +147,12 @@
     }
   },
   "components": {
+    "attestations": {
+      "obtainedAt": "Fecha de emisión: {date}",
+      "title": {
+        "numeric-sensivity": "Certificado de sensibilización digital"
+      }
+    },
     "authentication": {
       "login-form": {
         "fields": {
@@ -271,16 +277,16 @@
       "start-landing-page": {
         "steps": {
           "step1": {
-            "description": "Answer questions adapted to your level",
-            "title": "Pass test"
+            "description": "Responde a preguntas adaptadas a tu nivel",
+            "title": "Evalúa tus habilidades"
           },
           "step2": {
-            "description": "Discover your strengths and areas for improvement",
-            "title": "Discover your score"
+            "description": "Analyza tus puntos fuertes y tus areas de mejora",
+            "title": "Descubre tus resultados"
           },
           "step3": {
-            "description": "Access training tailored to your results",
-            "title": "Make progress"
+            "description": "Accede a contenidos adaptados a tus resultados para progresar",
+            "title": "Mejora"
           }
         }
       }
@@ -324,6 +330,7 @@
     },
     "homepage": "Página de inicio de Pix",
     "main": {
+      "attestations": "Mis títulos",
       "code": "Tengo un código",
       "dashboard": "Inicio",
       "help": "Ayuda",
@@ -335,6 +342,11 @@
       "tutorials": "Mis tutoriales"
     },
     "mobile-button-title": "Abrir el menú",
+    "nav-bar": {
+      "aria-label": "navegación principal",
+      "close": "Cerrar la navegación",
+      "open": "Abrir la navegación"
+    },
     "not-logged": {
       "sign-in": "Conectarse",
       "sign-up": "Inscribirse"
@@ -352,6 +364,10 @@
     }
   },
   "pages": {
+    "attestations" : {
+      "title": "Mis títulos",
+      "subtitle": "Acceda a todos sus certificados Pix y descárguelos."
+    },
     "account-recovery": {
       "errors": {
         "account-exists": "Ya existe una cuenta con esta dirección de correo electrónico.",
@@ -546,7 +562,7 @@
         },
         "legal": "Al hacer clic en «Empiezo» te conectarás a la plataforma y se enviará la información sobre tu progreso en el test al organizador del mismo para que pueda ayudarte si es necesario. Al final del test, haciendo clic en el botón «Envío mis resultados», se enviarán tus resultados al organizador.",
         "title": "Empieza tu test Pix",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
+        "title-with-username": "<span>¿{userFirstName},</span><br>Listo para evaluar tus habilidades?"
       },
       "profiles-collection": {
         "action": "¡Empecemos!",
@@ -627,7 +643,7 @@
         "title": "Código de comprobación",
         "tooltip": "Facilita este código para que un tercero pueda comprobar la autenticidad de tu certificado"
       },
-      "learn-about-certification-results": "Comprender mis resultados de certificación Pix"
+      "learn-about-certification-results": "¿Cómo interpretar los resultados?"
     },
     "certification-ender": {
       "candidate": {
@@ -1944,9 +1960,9 @@
             "share-error": "Se ha producido un error al enviar sus resultados. Por favor, inténtalo de nuevo."
           },
           "shared-results-modal": {
-            "return-results-action": "Close and return to results",
-            "subtitle": "Ready to expand your knowledge? 🎓",
-            "title": "Shared results"
+            "return-results-action": "Cerrar y volver a los resultados",
+            "subtitle": "¿Listo para desarrollar tus habilidades? \uD83C\uDF93",
+            "title": "Resultados compartidos"
           },
           "tab-label": "Formación",
           "title": "¿Quiere saber más?"

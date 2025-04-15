@@ -155,8 +155,6 @@ describe('Integration | Repository | Campaign Participation', function () {
         });
         const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement1, knowledgeElement2]);
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId,
-          snappedAt: new Date('2019-01-01'),
           campaignParticipationId: campaignParticipation.id,
           snapshot: knowledgeElementsBefore.toSnapshot(),
         });
@@ -356,7 +354,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should lock table for update', async function () {
       const error = await catchErr(DomainTransaction.execute)(async () => {
-        campaignParticipationRepository.getLocked(participation.id);
+        await campaignParticipationRepository.getLocked(participation.id);
         // we mimick a concurrent call on the campaign-participations table on the same row
         return knex('campaign-participations').where({ id: participation.id }).first().forUpdate().timeout(100);
       });
@@ -1506,6 +1504,69 @@ describe('Integration | Repository | Campaign Participation', function () {
       it('returns true', async function () {
         const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
         expect(result).to.be.true;
+      });
+    });
+  });
+
+  describe('#getSharedParticipationIds', function () {
+    context('no shared participation', function () {
+      it('should return an empty array', async function () {
+        // given
+        const participation = databaseBuilder.factory.buildCampaignParticipation({
+          status: CampaignParticipationStatuses.TO_SHARE,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: participation.campaignId,
+          status: CampaignParticipationStatuses.STARTED,
+        });
+        await databaseBuilder.commit();
+        // given
+        // when
+        const result = await campaignParticipationRepository.getSharedParticipationIds(participation.campaignId);
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+    context('with participation in another campaign', function () {
+      it('should return an empty array', async function () {
+        // given
+        const campaign1 = databaseBuilder.factory.buildCampaign();
+        const campaign2 = databaseBuilder.factory.buildCampaign();
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign1.id,
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        await databaseBuilder.commit();
+        // given
+        // when
+        const result = await campaignParticipationRepository.getSharedParticipationIds(campaign2.id);
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+    context('with improved shared participation', function () {
+      it('should return only not improved participation ', async function () {
+        // given
+        const improvedParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          status: CampaignParticipationStatuses.SHARED,
+          isImproved: true,
+        });
+        const participation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: improvedParticipation.campaignId,
+          status: CampaignParticipationStatuses.SHARED,
+          userId: improvedParticipation.userId,
+          organizationLearnerId: improvedParticipation.organizationLearnerId,
+        });
+        await databaseBuilder.commit();
+        // when
+        const result = await campaignParticipationRepository.getSharedParticipationIds(participation.campaignId);
+
+        // then
+        expect(result).lengthOf(1);
+        expect(result[0]).equal(participation.id);
       });
     });
   });

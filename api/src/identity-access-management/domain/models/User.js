@@ -84,6 +84,10 @@ class User {
     this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
   }
 
+  get isActive() {
+    return this.isAnonymous || this.hasBeenAnonymised;
+  }
+
   get shouldChangePassword() {
     const pixAuthenticationMethod = this.authenticationMethods.find(
       (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,

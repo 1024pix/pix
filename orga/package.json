@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "5.76.0",
+  "version": "5.91.0",
   "private": false,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "license": "AGPL-3.0",
@@ -58,13 +58,13 @@
     "@1024pix/ember-matomo-tag-manager": "^2.4.3",
     "@1024pix/ember-testing-library": "^3.0.6",
     "@1024pix/eslint-plugin": "^2.1.1",
-    "@1024pix/pix-ui": "^55.9.0",
-    "@1024pix/stylelint-config": "^5.1.28",
+    "@1024pix/pix-ui": "^55.15.0",
+    "@1024pix/stylelint-config": "^5.1.29",
     "@babel/eslint-parser": "^7.25.9",
     "@babel/plugin-proposal-decorators": "^7.25.9",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^4.0.0",
-    "@ember/test-helpers": "^5.0.0",
+    "@ember/test-helpers": "^5.2.1",
     "@embroider/compat": "^3.8.0",
     "@embroider/core": "^3.5.0",
     "@embroider/macros": "^1.16.10",
@@ -76,7 +76,7 @@
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "dayjs": "^1.11.13",
     "ember-auto-import": "^2.8.1",
-    "ember-cli": "^6.1.0",
+    "ember-cli": "^6.3.0",
     "ember-cli-app-version": "^7.0.0",
     "ember-cli-babel": "^8.2.0",
     "ember-cli-clipboard": "^1.1.0",
@@ -98,7 +98,7 @@
     "ember-qunit": "^9.0.1",
     "ember-resolver": "^13.1.0",
     "ember-simple-auth": "^7.1.1",
-    "ember-source": "^6.1.0",
+    "ember-source": "^6.3.0",
     "ember-template-imports": "^4.2.0",
     "ember-template-lint": "^7.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
@@ -122,10 +122,14 @@
     "qunit-dom": "^3.4.0",
     "sass": "^1.83.1",
     "showdown": "^2.1.0",
-    "sinon": "^19.0.0",
+    "sinon": "^20.0.0",
     "striptags": "^3.2.0",
     "stylelint": "^16.12.0",
     "webpack": "^5.97.1",
     "xss": "^1.0.15"
+  },
+  "exports": {
+    "./tests/*": "./tests/*",
+    "./*": "./app/*"
   }
 }

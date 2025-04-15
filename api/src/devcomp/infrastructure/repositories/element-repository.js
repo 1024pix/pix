@@ -5,7 +5,7 @@ import { ElementForVerificationFactory } from '../factories/element-for-verifica
 async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasource }) {
   let moduleData;
   try {
-    moduleData = await moduleDatasource.getBySlug(moduleId);
+    moduleData = await moduleDatasource.getById(moduleId);
   } catch (e) {
     if (e instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();

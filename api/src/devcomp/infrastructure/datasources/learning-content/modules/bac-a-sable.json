@@ -11,32 +11,6 @@
     "tabletSupport": "inconvenient",
     "objectives": ["Non régression fonctionnelle"]
   },
-  "transitionTexts": [
-    {
-      "content": "<p>Bonjour et bienvenue dans le bac à sable de Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix&#8239;!</p>",
-      "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
-    },
-    {
-      "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo&nbsp;<span aria-hidden=\"true\">📺</span></p>",
-      "grainId": "73ac3644-7637-4cee-86d4-1a75f53f0b9c"
-    },
-    {
-      "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer&nbsp;<span aria-hidden=\"true\">🚀</span></p>",
-      "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
-    },
-    {
-      "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM&#8239;!</p>",
-      "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
-    },
-    {
-      "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden=\"true\">👆</span></p>",
-      "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
-    },
-    {
-      "content": "<p>Vous arrivez à la fin de ce module. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden=\"true\">🌟</span> </p>",
-      "grainId": "7cf75e70-8749-4392-8081-f2c02badb0fb"
-    }
-  ],
   "grains": [
     {
       "id": "a39ce6eb-f3db-447f-808f-aa6a06b940c9",
@@ -220,6 +194,21 @@
       ]
     },
     {
+      "id": "d6ed29e2-fb0b-4f03-9e26-61029ecde2e3",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "08a8b1ea-4771-48ef-a5a5-665c664ba673",
+            "type": "text",
+            "content": "<p>Bonjour et bienvenue dans le bac à sable de Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix !</p>"
+          }
+        }
+      ]
+    },
+    {
       "id": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd",
       "type": "discovery",
       "title": "Voici un grain de découverte",
@@ -365,20 +354,44 @@
               {
                 "id": "1",
                 "content": "Des recettes de lasagne",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Erreur, ce ne sont pas des lasagnes</p>"
+                "feedback": {
+                  "state": "Incorrect.",
+                  "diagnosis": "<p>Erreur, ce ne sont pas des lasagnes</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "Des recettes de pâté en croûte",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Non, ce ne sont pas des recettes de pâté en croûte</p>"
+                "feedback": {
+                  "state": "Incorrect.",
+                  "diagnosis": "<p>Non, ce ne sont pas des recettes de pâté en croûte</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "Des recettes végétariennes",
-                "feedback": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>"
+                "feedback": {
+                  "state": "Correct&#8239;!",
+                  "diagnosis": "<p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>"
+                }
               }
             ],
             "solution": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8147aced-4150-4a5d-afed-54c7a9dff056",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "5da6a142-c66b-42d4-9afd-86d369ebd2b5",
+            "type": "text",
+            "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo&nbsp;<span aria-hidden=\"true\">📺</span></p>"
           }
         }
       ]
@@ -411,6 +424,21 @@
       ]
     },
     {
+      "id": "6566cc3a-9d74-4bd9-bda0-3dcb37129a26",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1df5f2eb-f8f9-4a07-ab56-2c001541306b",
+            "type": "text",
+            "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer&nbsp;<span aria-hidden=\"true\">🚀</span></p>"
+          }
+        }
+      ]
+    },
+    {
       "id": "533c69b8-a836-41be-8ffc-8d4636e31224",
       "type": "activity",
       "title": "Voici un vrai-faux",
@@ -428,12 +456,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ces 16 compétences sont rangées dans 5 domaines.</p>"
+                      "feedback": {
+                        "state": "Correct&#8239;!",
+                        "diagnosis": "<p> Ces 16 compétences sont rangées dans 5 domaines.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>!</p>"
+                      "feedback": {
+                        "state": "Incorrect.",
+                        "diagnosis": "<p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>!</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -450,12 +484,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p> Et non ! Il y a seulement 5 domaines sur Pix.</p>"
+                      "feedback": {
+                        "state": "Incorrect.",
+                        "diagnosis": "<p> Et non ! Il y a seulement 5 domaines sur Pix.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Bien vu !</p>"
+                      "feedback": {
+                        "state": "Correct&#8239;!",
+                        "diagnosis": "<p> Bien vu !</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -472,12 +512,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Et oui ! A noter, seulement 7 sont actifs aujourd’hui.</p>"
+                      "feedback": {
+                        "state": "Correct&#8239;!",
+                        "diagnosis": "<p> Et oui ! A noter, seulement 7 sont actifs aujourd’hui.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Incorrect.</span><p> Incorrect ! Il existe 8 niveaux par compétence.</p>"
+                      "feedback": {
+                        "state": "Incorrect.",
+                        "diagnosis": "<p> Incorrect ! Il existe 8 niveaux par compétence.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -485,6 +531,21 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "358e6d74-4adf-463a-9bf4-69ddca521d87",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "41186193-1c38-4827-84b7-e70848367d42",
+            "type": "text",
+            "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM&#8239;!</p>"
+          }
         }
       ]
     },
@@ -522,10 +583,31 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Vous nous avez bien cernés&nbsp;:)</p>",
-              "invalid": "<span class=\"feedback__state\">Et non&#8239;!</span><p> Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
+              "valid": {
+                "state": "Correct&#8239;!",
+                "diagnosis": "<p>Vous nous avez bien cernés&nbsp;:)</p>"
+              },
+              "invalid": {
+                "state": "Et non&#8239;!",
+                "diagnosis": "<p> Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
+              }
             },
             "solutions": ["1", "3", "4"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "f589dd19-ac78-425f-8f0d-83246e5e68f4",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "35ae00c5-9d46-4f53-83f1-3724ce39b53d",
+            "type": "text",
+            "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden=\"true\">👆</span></p>"
           }
         }
       ]
@@ -545,17 +627,26 @@
               {
                 "id": "1",
                 "content": "Bienvenue",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p> Remonter la page pour retrouver le premier mot&#8239;!</p>"
+                "feedback": {
+                  "state": "Incorrect.",
+                  "diagnosis": "<p> Remonter la page pour retrouver le premier mot&#8239;!</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "Bonjour",
-                "feedback": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Vous avez bien remonté la page</p>"
+                "feedback": {
+                  "state": "Correct&#8239;!",
+                  "diagnosis": "<p> Vous avez bien remonté la page</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "Nous",
-                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p> Remonter la page pour retrouver le premier mot&#8239;!</p>"
+                "feedback": {
+                  "state": "Incorrect.",
+                  "diagnosis": "<p> Remonter la page pour retrouver le premier mot&#8239;!</p>"
+                }
               }
             ],
             "solution": "2"
@@ -609,8 +700,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> vous nous connaissez bien&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p> vous y arriverez la prochaine fois&#8239;!</p>"
+              "valid": {
+                "state": "Correct&#8239;!",
+                "diagnosis": "<p> vous nous connaissez bien &nbsp; <span aria-hidden=\"true\">🎉</span></p>"
+              },
+              "invalid": {
+                "state": "Incorrect&#8239;!",
+                "diagnosis": "<p> vous y arriverez la prochaine fois&#8239;!</p>"
+              }
             }
           }
         }
@@ -658,8 +755,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+              "valid": {
+                "state": "Correct&#8239;!",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "Incorrect&#8239;!",
+                "diagnosis": ""
+              }
             }
           }
         }
@@ -681,6 +784,21 @@
             "instruction": "<p>Vous participez à la visioconférence ci-dessous.</p><p>Il y a du bruit à côté de vous.</p><p>Coupez le son de votre micro pour ne pas déranger vos interlocuteurs.</p>",
             "solution": "toto",
             "height": 600
+          }
+        }
+      ]
+    },
+    {
+      "id": "5d70a05e-bfac-40b0-9588-e359db862d76",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "72fee40a-7279-4372-acf5-aaf508b1c145",
+            "type": "text",
+            "content": "<p>Vous arrivez à la fin de ce module. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden=\"true\">🌟</span> </p>"
           }
         }
       ]
@@ -711,8 +829,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Vous êtes prêt à explorer&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p> Vous y arriverez la prochaine fois&#8239;!</p>"
+              "valid": {
+                "state": "Correct&#8239;!",
+                "diagnosis": "<p>Vous êtes prêt à explorer &nbsp; <span aria-hidden=\"true\">🎉</span></p>"
+              },
+              "invalid": {
+                "state": "Incorrect&#8239;!",
+                "diagnosis": "<p> Vous y arriverez la prochaine fois&#8239;!</p>"
+              }
             }
           }
         }

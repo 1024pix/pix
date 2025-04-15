@@ -1,3 +1,4 @@
+import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { PassageEventInstantiationError } from '../../errors.js';
 
@@ -22,10 +23,26 @@ class PassageEvent {
 
     this.id = id;
     this.type = type;
-    this.occurredAt = occurredAt;
+    this.setOccurredAt(occurredAt);
     this.createdAt = createdAt;
-    this.passageId = passageId;
+    this.setPassageId(passageId);
     this.data = data;
+  }
+
+  setPassageId(passageId) {
+    if (typeof passageId !== 'number') {
+      throw new DomainError('The passageId should be a number');
+    }
+
+    this.passageId = passageId;
+  }
+
+  setOccurredAt(occurredAt) {
+    if (Object.prototype.toString.call(occurredAt) !== '[object Date]') {
+      throw new DomainError('The occurredAt property should be a Date object');
+    }
+
+    this.occurredAt = occurredAt;
   }
 }
 

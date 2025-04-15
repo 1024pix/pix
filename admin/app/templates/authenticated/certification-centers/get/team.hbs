@@ -1,38 +1,40 @@
-<section class="page-section">
-  <header class="page-section__header">
-    <h2 class="page-section__title">Ajouter un membre</h2>
-  </header>
+{{#unless @model.isCertificationCenterArchived}}
+  <section class="page-section">
+    <header class="page-section__header">
+      <h2 class="page-section__title">Ajouter un membre</h2>
+    </header>
 
-  <div class="certification-center__section">
-    <PixInput
-      id="userEmailToAdd"
-      type="email"
-      @value={{this.userEmailToAdd}}
-      aria-label="Adresse e-mail du nouveau membre"
-      class="form-field__text form-control"
-      placeholder="membre@inviter.net"
-      {{on "input" (pick "target.value" (set this "userEmailToAdd"))}}
-      {{on "focusout" this.updateEmailErrorMessage}}
-    />
+    <div class="certification-center__section">
+      <PixInput
+        id="userEmailToAdd"
+        type="email"
+        @value={{this.userEmailToAdd}}
+        aria-label="Adresse e-mail du nouveau membre"
+        class="form-field__text form-control"
+        placeholder="membre@inviter.net"
+        {{on "input" (pick "target.value" (set this "userEmailToAdd"))}}
+        {{on "focusout" this.updateEmailErrorMessage}}
+      />
 
-    <PixButton
-      @triggerAction={{this.addCertificationCenterMembership}}
-      @isDisabled={{this.isDisabled}}
-      @size="small"
-      aria-label="Ajouter le membre"
-    >
-      Valider
-    </PixButton>
-  </div>
-  {{#if this.errorMessage}}
-    <div class="certification-center__section error">
-      {{this.errorMessage}}
+      <PixButton
+        @triggerAction={{this.addCertificationCenterMembership}}
+        @isDisabled={{this.isDisabled}}
+        @size="small"
+        aria-label="Ajouter le membre"
+      >
+        Valider
+      </PixButton>
     </div>
-  {{/if}}
-</section>
+    {{#if this.errorMessage}}
+      <div class="certification-center__section error">
+        {{this.errorMessage}}
+      </div>
+    {{/if}}
+  </section>
 
-<CertificationCenters::MembershipsSection
-  @certificationCenterMemberships={{@model.certificationCenterMemberships}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-  @onCertificationCenterMembershipRoleChange={{this.updateCertificationCenterMembershipRole}}
-/>
+  <CertificationCenters::MembershipsSection
+    @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+    @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+    @onCertificationCenterMembershipRoleChange={{this.updateCertificationCenterMembershipRole}}
+  />
+{{/unless}}

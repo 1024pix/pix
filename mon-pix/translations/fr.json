@@ -147,6 +147,12 @@
     }
   },
   "components": {
+    "attestations": {
+      "obtainedAt": "Date de délivrance: {date}",
+      "title": {
+        "numeric-sensivity": "Attestation de sensibilisation au numérique"
+      }
+    },
     "authentication": {
       "login-form": {
         "fields": {
@@ -272,10 +278,10 @@
         "steps": {
           "step1": {
             "description": "Répondez à des questions qui s'adaptent à votre niveau",
-            "title": "Passez le test"
+            "title": "Évaluez-vous"
           },
           "step2": {
-            "description": "Découvrez vos forces et axes de progression",
+            "description": "Analysez vos forces et axes de progression",
             "title": "Découvrez votre score"
           },
           "step3": {
@@ -324,6 +330,7 @@
     },
     "homepage": "Page d'accueil de Pix",
     "main": {
+      "attestations": "Mes attestations",
       "code": "J'ai un code",
       "dashboard": "Accueil",
       "help": "Aide",
@@ -332,9 +339,14 @@
       "skills": "Compétences",
       "start-certification": "Certification",
       "trainings": "Mes formations",
-      "tutorials": "Mes tutos"
+      "tutorials": "Mes tutoriels"
     },
     "mobile-button-title": "Ouvrir le menu",
+    "nav-bar": {
+      "aria-label": "navigation principale",
+      "close": "Fermer la navigation",
+      "open": "Ouvrir la navigation"
+    },
     "not-logged": {
       "sign-in": "Se connecter",
       "sign-up": "S'inscrire"
@@ -496,6 +508,10 @@
       },
       "title": "Fin du test"
     },
+    "attestations": {
+      "subtitle": "Accédez et téléchargez l’ensemble de vos attestations Pix.",
+      "title": "Mes attestations"
+    },
     "authentication": {
       "login": {
         "signup-button": "S'inscrire"
@@ -596,7 +612,9 @@
       "title": "Parcours"
     },
     "certificate": {
-      "attestation": "Télécharger mon attestation",
+      "actions": {
+        "download": "Télécharger mon certificat"
+      },
       "back-link": "Retour à mes certifications",
       "candidate-birth": "Né(e) le {birthdate}",
       "candidate-birth-complete": "Né(e) le {birthdate} à {birthplace}",
@@ -617,7 +635,7 @@
       "issued-on": "Délivré le",
       "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
       "jury-title": "Observations du jury",
-      "learn-about-certification-results": "Comprendre mes résultats de Certification Pix",
+      "learn-about-certification-results": "Comment interpréter les résultats ?",
       "professionalizing-warning": "Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix",
       "title": "Certificat Pix",
       "verification-code": {
@@ -1539,8 +1557,11 @@
         "button": "Je crée mon compte",
         "description": "Un compte va être créé à partir des éléments transmis par l'organisme",
         "information": {
-          "family-name": "Nom : {familyName}",
-          "given-name": "Prénom : {givenName}"
+          "employeeNumber": "Numéro d'employé :",
+          "error": "Nous n’avons pas pu récupérer vos informations d’identité auprès du service utilisé. Nous vous invitons à contacter le support informatique de cette organisation.",
+          "firstName": "Prénom :",
+          "lastName": "Nom :",
+          "population": "Population :"
         },
         "title": "Je n’ai pas de compte Pix"
       },
@@ -1945,7 +1966,7 @@
           },
           "shared-results-modal" : {
             "return-results-action": "Fermer et revenir aux résultats",
-            "subtitle": "Prêt à développer vos connaissances ?  \uD83C\uDF93",
+            "subtitle": "Prêt à développer vos compétences ?  \uD83C\uDF93",
             "title": "Résultats partagés"
           },
           "tab-label": "Formations",
@@ -2205,7 +2226,7 @@
         "reset-aria-label": "Réinitialiser et désélectionner tous les filtres",
         "see-results": "Voir les résultats"
       },
-      "title": "Tutoriels"
+      "title": "Mes tutoriels"
     }
   }
 }

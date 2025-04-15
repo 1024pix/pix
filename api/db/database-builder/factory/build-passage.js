@@ -2,7 +2,7 @@ import { databaseBuffer } from '../database-buffer.js';
 
 const buildPassage = ({
   id = databaseBuffer.getNextId(),
-  moduleId = 'mon-super-module',
+  moduleId = 'c47ffa11-5785-434b-9ea8-8d70c877715b',
   userId = null,
   createdAt = new Date('2024-01-01'),
   updatedAt = new Date('2024-01-01'),

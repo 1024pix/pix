@@ -3,8 +3,10 @@ import Hapi from '@hapi/hapi';
 import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
+import { databaseConnections } from './db/database-connections.js';
 import { knex } from './db/knex-database-connection.js';
 import { authentication } from './lib/infrastructure/authentication.js';
+import * as parcoursupRoutes from './src/certification/results/application/parcoursup-route.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
 import * as campaignsRoutes from './src/maddo/application/campaigns-routes.js';
 import * as organizationsRoutes from './src/maddo/application/organizations-routes.js';
@@ -144,15 +146,9 @@ const enableLegacyOpsMetrics = async function (server) {
   const oppsy = new Oppsy(server);
 
   oppsy.on('ops', (data) => {
-    const knexPool = knex.client.pool;
     server.log(['ops'], {
       ...data,
-      knexPool: {
-        used: knexPool.numUsed(),
-        free: knexPool.numFree(),
-        pendingAcquires: knexPool.numPendingAcquires(),
-        pendingCreates: knexPool.numPendingCreates(),
-      },
+      ...databaseConnections.getPoolMetrics(),
     });
   });
 
@@ -187,6 +183,7 @@ const setupRoutesAndPlugins = async function (server) {
     healthcheckRoutes,
     organizationsRoutes,
     replicationsRoutes,
+    parcoursupRoutes,
   ];
   const routesWithOptions = routes.map((route) => ({
     plugin: route,

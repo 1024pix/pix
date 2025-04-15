@@ -16,7 +16,6 @@ import {
   CertificationAttestationGenerationError,
   CertificationCandidateNotFoundError,
   CertificationCandidateOnFinalizedSessionError,
-  CertificationCenterPilotFeaturesConflictError,
   CertificationEndedByFinalizationError,
   EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
@@ -384,24 +383,6 @@ describe('Shared | Unit | Application | ErrorManager', function () {
           error.message,
           error.code,
           error.meta,
-        );
-      });
-    });
-
-    context('when handling an CertificationCenterPilotFeaturesConflictError', function () {
-      it('maps to ForbiddenError', async function () {
-        // given
-        const error = new CertificationCenterPilotFeaturesConflictError();
-        sinon.stub(HttpErrors, 'ForbiddenError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
-          'Certification center pilot features incompatibility',
-          'PILOT_FEATURES_CONFLICT',
         );
       });
     });

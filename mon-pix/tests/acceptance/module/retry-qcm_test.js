@@ -41,7 +41,7 @@ module('Acceptance | Module | Routes | retryQcm', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: 'Faux',
+      feedback: { state: 'Faux' },
       status: 'ko',
       solution: [qcm.proposals[1].id, qcm.proposals[2].id],
     });
@@ -110,7 +110,7 @@ module('Acceptance | Module | Routes | retryQcm', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: 'Faux',
+      feedback: { state: 'Faux' },
       status: 'ko',
       solution: [qcm.proposals[1].id, qcm.proposals[2].id],
     });

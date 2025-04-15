@@ -190,7 +190,6 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
             name: 'PRO_CERTIFICATION_CENTER',
             type: 'PRO',
             externalId: 'EXTERNAL_ID',
-            isV3Pilot: true,
           });
         const complementaryAlonePilotFeatureId = databaseBuilder.factory.buildFeature(
           CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE,

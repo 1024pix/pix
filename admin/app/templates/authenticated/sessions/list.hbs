@@ -8,20 +8,22 @@
     <PixTabs @variant="primary" @ariaLabel="Navigation de la section sessions" class="navigation">
       <LinkTo @route="authenticated.sessions.list.with-required-action" @query={{hash version=3}}>
         {{t "pages.sessions.list.required-actions.v3"}}
-        ({{this.sessionsWithRequiredActionCountVersion3}})
+        ({{this.v3SessionsWithRequiredActionCount}})
       </LinkTo>
       <LinkTo @route="authenticated.sessions.list.to-be-published" @query={{hash version=3}}>
         {{t "pages.sessions.list.to-be-published.v3"}}
+        ({{this.v3SessionsToBePublishedCount}})
       </LinkTo>
       <LinkTo @route="authenticated.sessions.list.all">
         {{t "pages.sessions.list.all"}}
       </LinkTo>
       <LinkTo @route="authenticated.sessions.list.with-required-action" @query={{hash version=2}}>
         {{t "pages.sessions.list.required-actions.v2"}}
-        ({{this.sessionsWithRequiredActionCount}})
+        ({{this.v2SessionsWithRequiredActionCount}})
       </LinkTo>
       <LinkTo @route="authenticated.sessions.list.to-be-published" @query={{hash version=2}}>
         {{t "pages.sessions.list.to-be-published.v2"}}
+        ({{this.v2SessionsToBePublishedCount}})
       </LinkTo>
     </PixTabs>
     <section class="page-section">

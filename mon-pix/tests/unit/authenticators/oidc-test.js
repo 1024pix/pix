@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
-import * as fetch from 'fetch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -23,18 +22,10 @@ module('Unit | Authenticator | oidc', function (hooks) {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        'Accept-Language': 'fr',
         'Content-Type': 'application/json',
       },
     };
-    const body = JSON.stringify({
-      data: {
-        attributes: {
-          identity_provider: identityProviderCode,
-          code,
-          state,
-        },
-      },
-    });
     const accessToken =
       'aaa.' +
       btoa(`{
@@ -47,7 +38,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
       '.bbb';
 
     hooks.beforeEach(function () {
-      sinon.stub(fetch, 'default').resolves({
+      sinon.stub(window, 'fetch').resolves({
         json: sinon.stub().resolves({ access_token: accessToken, logout_url_uuid: logoutUrlUuid }),
         ok: true,
       });
@@ -72,6 +63,14 @@ module('Unit | Authenticator | oidc', function (hooks) {
     test('retrieves an access token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
+      const body = JSON.stringify({
+        data: {
+          attributes: {
+            identity_provider: identityProviderCode,
+            authentication_key: 'key',
+          },
+        },
+      });
 
       // when
       const token = await authenticator.authenticate({
@@ -81,16 +80,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
       });
 
       // then
-      request.headers['Accept-Language'] = 'fr';
-      request.body = JSON.stringify({
-        data: {
-          attributes: {
-            identity_provider: identityProviderCode,
-            authentication_key: 'key',
-          },
-        },
-      });
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/users`, request);
+      sinon.assert.calledWith(window.fetch, 'http://localhost:3000/api/oidc/users', { ...request, body });
       assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
@@ -104,6 +94,15 @@ module('Unit | Authenticator | oidc', function (hooks) {
     test('retrieves an access token with code and state in body', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
+      const body = JSON.stringify({
+        data: {
+          attributes: {
+            identity_provider: identityProviderCode,
+            code,
+            state,
+          },
+        },
+      });
 
       // when
       const token = await authenticator.authenticate({
@@ -114,8 +113,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
       });
 
       // then
-      request.body = body;
-      sinon.assert.calledWith(fetch.default, 'http://localhost:3000/api/oidc/token', request);
+      sinon.assert.calledWith(window.fetch, 'http://localhost:3000/api/oidc/token', { ...request, body });
       assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
@@ -142,13 +140,21 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
         const authenticator = this.owner.lookup('authenticator:oidc');
         authenticator.session = sessionStub;
+        const body = JSON.stringify({
+          data: {
+            attributes: {
+              identity_provider: identityProviderCode,
+              code,
+              state,
+            },
+          },
+        });
 
         // when
         await authenticator.authenticate({ code, state, identityProviderSlug, hostSlug: 'token' });
 
         // then
-        request.body = body;
-        sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
+        sinon.assert.calledWith(window.fetch, `http://localhost:3000/api/oidc/token`, { ...request, body });
         sinon.assert.calledOnce(sessionStub.invalidate);
         assert.ok(true);
       });
@@ -171,7 +177,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         authenticator.session = sessionStub;
         const redirectLogoutUrl =
           'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion';
-        sinon.stub(fetch, 'default').resolves({
+        sinon.stub(window, 'fetch').resolves({
           json: sinon.stub().resolves({ redirectLogoutUrl }),
         });
 

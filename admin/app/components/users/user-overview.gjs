@@ -369,8 +369,12 @@ export default class UserOverview extends Component {
                     {{dayjsFormat @user.userLogin.temporaryBlockedUntil "DD/MM/YYYY HH:mm"}}</li>
                 {{/if}}
                 <li>
-                  Date de dernière connexion globale :
-                  {{#if @user.lastLoggedAt}}{{dayjsFormat @user.lastLoggedAt "DD/MM/YYYY"}}{{/if}}
+                  {{t "components.users.user-overview.global-last-login"}}
+                  {{#if @user.lastLoggedAt}}
+                    {{dayjsFormat @user.lastLoggedAt "DD/MM/YYYY"}}
+                  {{else}}
+                    {{t "components.users.user-overview.no-last-connection-date-info"}}
+                  {{/if}}
                 </li>
               </ul>
             </div>

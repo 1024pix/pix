@@ -31,7 +31,7 @@ describe('Unit | Devcomp | Domain | UseCases | terminate-passage', function () {
     describe('when passage is found', function () {
       it('should not verify if passage is terminated', async function () {
         // given
-        const passageId = Symbol('passageId');
+        const passageId = 1234;
 
         const passage = {
           terminatedAt: Symbol('terminatedAt'),
@@ -53,7 +53,7 @@ describe('Unit | Devcomp | Domain | UseCases | terminate-passage', function () {
 
       it('should call terminate method and update passage and return it, then record an event', async function () {
         // given
-        const passageId = Symbol('passageId');
+        const passageId = 1234;
         const occurredAt = new Date('2025-01-01');
 
         const passageRepository = {

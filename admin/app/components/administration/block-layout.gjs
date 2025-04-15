@@ -12,6 +12,6 @@ import PixBlock from '@1024pix/pix-ui/components/pix-block';
       <p class="description">{{@description}}</p>
     {{/if}}
 
-    <div class="block-layout__actions">{{yield}}</div>
+    <div class="block-layout__actions {{@actionsClass}}">{{yield}}</div>
   </PixBlock>
 </template>

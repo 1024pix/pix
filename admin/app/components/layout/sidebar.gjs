@@ -98,7 +98,7 @@ export default class Sidebar extends Component {
           </PixNavigationButton>
 
         {{/if}}
-        {{#if (or this.currentUser.adminMember.isSuperAdmin this.currentUser.adminMember.isMetier)}}
+        {{#if this.accessControl.hasAccessToTools}}
 
           <PixNavigationButton class="sidebar__link" @route="authenticated.tools" @icon="tools">
             {{t "components.layout.sidebar.tools"}}

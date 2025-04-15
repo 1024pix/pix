@@ -30,7 +30,8 @@ export default class EvaluationResults extends Component {
   }
 
   get trainingsForModal() {
-    return this.args.model.trainings.slice(0, 2);
+    const MAX_TRAININGS_MODAL_DISPLAYED = 3;
+    return this.args.model.trainings.slice(0, MAX_TRAININGS_MODAL_DISPLAYED);
   }
 
   @action

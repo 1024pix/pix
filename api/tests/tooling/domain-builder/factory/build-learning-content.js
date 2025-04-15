@@ -16,7 +16,7 @@ buildLearningContent.withSimpleContent = () => {
   const skill = buildSkill({ id: 'skillId', tubeId: 'tubeId' });
   const tube = buildTube({ id: 'tubeId', competenceId: 'competenceId', skills: [skill] });
   const area = buildArea({ id: 'areaId', frameworkId: framework.id });
-  const competence = buildCompetence({ id: 'competenceId', area, tubes: [tube] });
+  const competence = buildCompetence({ id: 'competenceId', areaId: area.id, tubes: [tube] });
   const thematic = buildThematic({ id: 'thematicId', competenceId: 'competenceId', tubeIds: ['tubeId'] });
   competence.thematics = [thematic];
   area.competences = [competence];

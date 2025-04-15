@@ -84,4 +84,21 @@ export class DatabaseConnection {
     const rows = resultSet.rows;
     return _.map(rows, 'table_name');
   }
+
+  getPoolMetrics() {
+    if (!this.knex.client.pool) {
+      return {};
+    }
+
+    return {
+      [this.#name]: {
+        used: this.knex.client.pool.numUsed(),
+        free: this.knex.client.pool.numFree(),
+        pendingAcquires: this.knex.client.pool.numPendingAcquires(),
+        pendingCreates: this.knex.client.pool.numPendingCreates(),
+        min: this.knex.client.pool.min,
+        max: this.knex.client.pool.max,
+      },
+    };
+  }
 }

@@ -34,7 +34,7 @@ describe('Unit | Domain | Validators | target-profile/creationCommandValidator',
         const targetProfileCreationCommand = validParams;
 
         // when/then
-        expect(creationCommandValidator.validate(targetProfileCreationCommand)).to.not.throw;
+        expect(() => creationCommandValidator.validate(targetProfileCreationCommand)).to.not.throw();
       });
     });
 

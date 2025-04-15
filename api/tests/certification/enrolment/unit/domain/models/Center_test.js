@@ -8,7 +8,7 @@ import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Center', function () {
   context('#isComplementaryAlonePilot', function () {
-    it('should return false', function () {
+    it('should return false when center is not complementary alone pilot', function () {
       // given
       const center = domainBuilder.certification.enrolment.buildCenter({
         type: CenterTypes.SUP,
@@ -19,7 +19,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
       expect(center.isComplementaryAlonePilot).is.false;
     });
 
-    it('should return true when center', function () {
+    it('should return true when center is complementary alone pilot', function () {
       // given
       const center = domainBuilder.certification.enrolment.buildCenter({
         type: CenterTypes.SUP,
@@ -236,10 +236,9 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
   });
 
   context('#get isCoreComplementaryCompatibilityEnabled', function () {
-    it('should return true when center is both isV3Pilot and isComplementaryAlonePilot', function () {
+    it('should return true when center is isComplementaryAlonePilot', function () {
       // given
       const center = domainBuilder.certification.enrolment.buildCenter({
-        isV3Pilot: true,
         features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
       });
 
@@ -250,37 +249,9 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
       expect(isCoreComplementaryCompatibilityEnabled).to.be.true;
     });
 
-    it('should return false when center is isV3Pilot but not isComplementaryAlonePilot', function () {
+    it('should return false when center is not complementary alone pilot', function () {
       // given
       const center = domainBuilder.certification.enrolment.buildCenter({
-        isV3Pilot: true,
-        features: [],
-      });
-      // when
-      const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
-
-      // then
-      expect(isCoreComplementaryCompatibilityEnabled).to.be.false;
-    });
-
-    it('should return false when center is not isV3Pilot but is isComplementaryAlonePilot', function () {
-      // given
-      const center = domainBuilder.certification.enrolment.buildCenter({
-        isV3Pilot: false,
-        features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
-      });
-
-      // when
-      const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
-
-      // then
-      expect(isCoreComplementaryCompatibilityEnabled).to.be.false;
-    });
-
-    it('should return false when center is neither isV3Pilot nor isComplementaryAlonePilot', function () {
-      // given
-      const center = domainBuilder.certification.enrolment.buildCenter({
-        isV3Pilot: false,
         features: [],
       });
 

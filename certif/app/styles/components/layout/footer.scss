@@ -8,6 +8,7 @@
   justify-content: space-between;
   flex-shrink: 0;
   line-height: 1;
+  padding-top: var(--pix-spacing-4x);
 
   @include breakpoints.device-is('desktop') {
     flex-direction: row;

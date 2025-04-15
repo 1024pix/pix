@@ -114,10 +114,8 @@ describe('Acceptance | API | Campaign Participations', function () {
       });
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
         snapshot: JSON.stringify([]),
         campaignParticipationId: campaignParticipation.id,
-        snappedAt: sharedAt,
       });
 
       await databaseBuilder.commit();

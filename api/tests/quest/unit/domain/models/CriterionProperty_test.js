@@ -3,6 +3,34 @@ import { COMPARISONS, CriterionProperty } from '../../../../../src/quest/domain/
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
+  describe('#validate', function () {
+    it('should not throw with valid args', function () {
+      expect(() => {
+        new CriterionProperty({
+          key: 'something',
+          data: 1,
+          comparison: 'equal',
+        });
+      }).not.to.throw();
+    });
+
+    it('should throw without args', function () {
+      expect(function () {
+        new CriterionProperty();
+      }).to.throw();
+    });
+
+    it('should throw with invalid args', function () {
+      expect(function () {
+        new CriterionProperty({
+          key: 1,
+          data: {},
+          comparison: 'wrong',
+        });
+      }).to.throw();
+    });
+  });
+
   describe('#check', function () {
     describe('when criterion attribute is not an Array', function () {
       context('when comparison is EQUAL', function () {

@@ -132,7 +132,6 @@ const duplicateCancelledAssessmentResult = async ({ assessmentResult, transactio
       assessmentId: assessmentResult.assessmentId,
       reproducibilityRate: assessmentResult.reproducibilityRate,
       commentByAutoJury: getCommentByAutoJury({ commentByAutoJury: assessmentResult.commentByAutoJury }),
-      emitter: assessmentResult.emitter,
       status: AssessmentResult.status.CANCELLED,
       juryId: config.infra.engineeringUserId,
       createdAt: assessmentResult.createdAt,

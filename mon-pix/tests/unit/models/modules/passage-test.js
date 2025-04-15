@@ -19,7 +19,7 @@ module('Unit | Model | Module | Passage', function (hooks) {
           type: 'qcus',
         };
         const expectedCorrection = store.createRecord('correction-response', {
-          feedback: 'Too Bad!',
+          feedback: { state: 'Too Bad!' },
           status: 'ko',
           solution: 'solution',
         });

@@ -1,4 +1,11 @@
-import { clickByName, fillByLabel, fireEvent, render, within } from '@1024pix/ember-testing-library';
+import {
+  clickByName,
+  fillByLabel,
+  fireEvent,
+  render,
+  waitForElementToBeRemoved,
+  within,
+} from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import CampaignCriterion from 'pix-admin/components/badges/campaign-criterion';
@@ -68,7 +75,13 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         await clickByName('Modifier le seuil de ce critère');
         const modal = within(await screen.findByRole('dialog'));
         // then
-        assert.notOk(this.element.querySelector('.pix-modal__overlay--hidden'));
+        assert.ok(
+          modal.queryByRole('heading', {
+            level: 1,
+            name: "Modification du seuil du critère d'obtention basé sur l'ensemble du profil cible",
+          }),
+        );
+
         assert.dom(modal.getByDisplayValue(60)).exists();
       });
 
@@ -87,8 +100,16 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         );
         await clickByName('Modifier le seuil de ce critère');
         const modal = within(await screen.findByRole('dialog'));
-        await click(modal.getByRole('button', { name: 'Annuler' }));
-        assert.dom(this.element.querySelector('.pix-modal__overlay--hidden')).exists();
+        const cancelButton = await screen.findByRole('button', { name: 'Annuler' });
+        await Promise.all([waitForElementToBeRemoved(() => screen.queryByRole('dialog')), click(cancelButton)]);
+
+        // then
+        assert.notOk(
+          modal.queryByRole('heading', {
+            level: 1,
+            name: "Modification du seuil du critère d'obtention basé sur l'ensemble du profil cible",
+          }),
+        );
       });
 
       test('should call the save method and success notification service', async function (assert) {
@@ -126,7 +147,12 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         sinon.assert.calledWith(notificationSuccessStub, {
           message: "Seuil d'obtention du critère modifié avec succès.",
         });
-        assert.dom(this.element.querySelector('.pix-modal__overlay--hidden')).exists();
+        assert.ok(
+          modal.queryByRole('heading', {
+            level: 1,
+            name: "Modification du seuil du critère d'obtention basé sur l'ensemble du profil cible",
+          }),
+        );
       });
 
       test('should display an error notification', async function (assert) {

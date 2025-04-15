@@ -1,8 +1,10 @@
 import Controller from '@ember/controller';
+import { service } from '@ember/service';
 
 export default class SharedCertificationController extends Controller {
-  get shouldDisplayDetailsSection() {
-    const model = this.model;
-    return Boolean(model.commentForCandidate || model.hasAcquiredComplementaryCertifications);
+  @service featureToggles;
+
+  get displayV3CertificationShared() {
+    return this.featureToggles.featureToggles?.isV3CertificationPageEnabled && this.model.version === 3;
   }
 }

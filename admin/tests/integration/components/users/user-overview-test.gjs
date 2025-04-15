@@ -21,7 +21,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       this.owner.register('service:access-control', AccessControlStub);
     });
 
-    module('when the admin look at user details', function () {
+    module('when the admin looks at user details', function () {
       module('when the user is anonymised', function () {
         module('when the user has self deleted his account', function () {
           test('displays the dedicated deletion message', async function (assert) {
@@ -110,11 +110,11 @@ module('Integration | Component | users | user-overview', function (hooks) {
           lang: 'fr',
           locale: 'fr-FR',
           createdAt: new Date('2021-12-10'),
+          lastLoggedAt: new Date('2023-12-10'),
         });
 
         // when
         const screen = await render(<template><UserOverview @user={{user}} /></template>);
-
         // then
         assert.dom(screen.getByText(`Prénom : ${user.firstName}`)).exists();
         assert.dom(screen.getByText(`Nom : ${user.lastName}`)).exists();
@@ -389,8 +389,8 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.queryByText("Utilisateur temporairement bloqué jusqu'au :")).doesNotExist();
         });
 
-        module('when the user has a last global connection', function () {
-          test('displays user last global connection', async function (assert) {
+        module('displays last global connection', function () {
+          test(`displays user's last login date when he has one`, async function (assert) {
             // given
             const store = this.owner.lookup('service:store');
 
@@ -400,7 +400,40 @@ module('Integration | Component | users | user-overview', function (hooks) {
             const screen = await render(<template><UserOverview @user={{user}} /></template>);
 
             // then
-            assert.dom(screen.getByText('Date de dernière connexion globale : 28/11/2022')).exists();
+            const globalLastLogin = t('components.users.user-overview.global-last-login');
+
+            assert.dom(screen.getByText(`${globalLastLogin} 28/11/2022`)).exists();
+          });
+
+          test('displays default last login date when user has no last login date', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+
+            const user = store.createRecord('user', {
+              firstName: 'John',
+              lastName: 'Snow',
+              email: 'john.snow@winterfell.got',
+              username: 'kingofthenorth',
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+
+            // when
+            const screen = await render(<template><UserOverview @user={{user}} /></template>);
+
+            // then
+            const globalLastLogin = t('components.users.user-overview.global-last-login');
+            const lastLoginDefaultDate = t('components.users.user-overview.no-last-connection-date-info');
+
+            assert.dom(screen.getByText(`Prénom : ${user.firstName}`)).exists();
+            assert.dom(screen.getByText(`Nom : ${user.lastName}`)).exists();
+            assert.dom(screen.getByText(`Adresse e-mail : ${user.email}`)).exists();
+            assert.dom(screen.getByText(`Identifiant : ${user.username}`)).exists();
+            assert.dom(screen.getByText('Langue : fr')).exists();
+            assert.dom(screen.getByText('Locale : fr-FR')).exists();
+            assert.dom(screen.getByText('Date de création : 10/12/2021')).exists();
+            assert.dom(screen.queryByText(`${globalLastLogin} ${lastLoginDefaultDate}`)).exists();
           });
         });
       });

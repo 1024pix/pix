@@ -183,10 +183,6 @@ class OrganizationForAdmin {
     this.parentOrganizationId = parentOrganizationId;
   }
 
-  updateIdentityProviderForCampaigns(identityProviderForCampaigns) {
-    this.identityProviderForCampaigns = identityProviderForCampaigns;
-  }
-
   updateIsManagingStudents(features) {
     const hasLearnerImportFeature =
       features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] && features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key].active;
@@ -209,7 +205,7 @@ class OrganizationForAdmin {
     this.documentationUrl = organization.documentationUrl;
     this.updateIsManagingStudents(organization.features);
     this.showSkills = organization.features[ORGANIZATION_FEATURE.SHOW_SKILLS.key].active;
-    this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
+    this.identityProviderForCampaigns = organization.identityProviderForCampaigns;
     this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
     this.features = organization.features;
     this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = {

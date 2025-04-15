@@ -47,13 +47,16 @@ describe('Integration | Repository | user-recommended-training-repository', func
       };
 
       // then
-      expect(await saveSameUserRecommendedTraining()).not.to.throw;
-      const updatedUserRecommendedTraining = await knex('user-recommended-trainings')
-        .where({
-          id: userRecommendedTraining.id,
-        })
-        .first();
-      expect(updatedUserRecommendedTraining.updatedAt).to.be.above(userRecommendedTraining.updatedAt);
+      expect(async () => {
+        await saveSameUserRecommendedTraining();
+
+        const updatedUserRecommendedTraining = await knex('user-recommended-trainings')
+          .where({
+            id: userRecommendedTraining.id,
+          })
+          .first();
+        expect(updatedUserRecommendedTraining.updatedAt).to.be.above(userRecommendedTraining.updatedAt);
+      }).not.to.throw();
     });
   });
 

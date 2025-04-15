@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import trim from 'lodash/trim';
-import { FINALIZED } from 'pix-admin/models/session';
 
 export default class AuthenticatedSessionsAllRoute extends Route {
   @service store;
@@ -49,7 +48,7 @@ export default class AuthenticatedSessionsAllRoute extends Route {
       controller.certificationCenterName = null;
       controller.certificationCenterExternalId = null;
       controller.certificationCenterType = null;
-      controller.status = FINALIZED;
+      controller.status = null;
       controller.version = null;
     }
   }

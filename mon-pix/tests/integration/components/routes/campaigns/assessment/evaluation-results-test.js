@@ -117,6 +117,12 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
           .dom(within(sharedResultsModal).queryByRole('heading', { level: 3, name: 'Mon super training 1 youhou' }))
           .exists();
         assert
+          .dom(within(sharedResultsModal).queryByRole('heading', { level: 3, name: 'Mon super training 2 youhou' }))
+          .exists();
+        assert
+          .dom(within(sharedResultsModal).queryByRole('heading', { level: 3, name: 'Mon super training 3 youhou' }))
+          .exists();
+        assert
           .dom(within(sharedResultsModal).queryByRole('heading', { level: 3, name: 'Mon super training 4 youhou' }))
           .doesNotExist();
       });

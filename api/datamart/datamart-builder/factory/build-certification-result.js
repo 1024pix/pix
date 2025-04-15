@@ -30,7 +30,7 @@ const buildCertificationResult = function ({
   };
 
   datamartBuffer.pushInsertable({
-    tableName: 'data_export_parcoursup_certif_result',
+    tableName: 'sco_certification_results',
     values,
   });
 

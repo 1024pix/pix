@@ -1,5 +1,6 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import MembershipItem from 'pix-admin/components/users/certification-centers/membership-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -18,48 +19,85 @@ module('Integration | Component | users | certification-centers | membership-ite
   hooks.afterEach(function () {
     sinon.restore();
   });
+  module('displays a certification center membership table row item', function () {
+    test('with last access date if there is one', async function (assert) {
+      // given
+      const certificationCenter = store.createRecord('certification-center', {
+        id: 2,
+        name: 'Centre Jean-Bonboeur',
+        type: 'SUP',
+        externalId: 'PAIN123',
+      });
+      const certificationCenterMembership = store.createRecord('certification-center-membership', {
+        id: 1,
+        certificationCenter,
+        role: 'MEMBER',
+        lastAccessedAt: new Date('2020-01-01'),
+      });
 
-  test('displays a certification center membership table row item', async function (assert) {
-    // given
-    const certificationCenter = store.createRecord('certification-center', {
-      id: 2,
-      name: 'Centre Jean-Bonboeur',
-      type: 'SUP',
-      externalId: 'PAIN123',
+      const disableCertificationCenterMembership = sinon.stub();
+      const onCertificationCenterMembershipRoleChange = sinon.stub();
+
+      //  when
+      const screen = await renderScreen(
+        <template>
+          <MembershipItem
+            @certificationCenterMembership={{certificationCenterMembership}}
+            @onCertificationCenterMembershipRoleChange={{onCertificationCenterMembershipRoleChange}}
+            @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('cell', { name: certificationCenterMembership.id })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCenter.id })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCenter.name })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCenter.type })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCenter.externalId })).exists();
+      assert.dom(screen.getByRole('cell', { name: '01/01/2020' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Membre' })).exists();
+      assert
+        .dom(screen.getByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
+        .exists();
+      assert.dom(screen.getByRole('button', { name: 'Désactiver le membre de centre de certification' })).exists();
     });
-    const certificationCenterMembership = store.createRecord('certification-center-membership', {
-      id: 1,
-      certificationCenter,
-      role: 'MEMBER',
-      lastAccessedAt: new Date('2020-01-01'),
+
+    test('with default access date if there is none', async function (assert) {
+      // given
+      const certificationCenter = store.createRecord('certification-center', {
+        id: 2,
+        name: 'Centre Jean-Bonboeur',
+        type: 'SUP',
+        externalId: 'PAIN123',
+      });
+      const certificationCenterMembership = store.createRecord('certification-center-membership', {
+        id: 1,
+        certificationCenter,
+        role: 'MEMBER',
+      });
+
+      const disableCertificationCenterMembership = sinon.stub();
+      const onCertificationCenterMembershipRoleChange = sinon.stub();
+
+      //  when
+      const screen = await renderScreen(
+        <template>
+          <MembershipItem
+            @certificationCenterMembership={{certificationCenterMembership}}
+            @onCertificationCenterMembershipRoleChange={{onCertificationCenterMembershipRoleChange}}
+            @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+          />
+        </template>,
+      );
+
+      // then
+      const defaultLastAccessDate = t(
+        'components.users.user-detail-personal-information.authentication-method.no-last-connection-date-info',
+      );
+
+      assert.dom(screen.getByRole('cell', { name: defaultLastAccessDate })).exists();
     });
-
-    const disableCertificationCenterMembership = sinon.stub();
-    const onCertificationCenterMembershipRoleChange = sinon.stub();
-
-    //  when
-    const screen = await renderScreen(
-      <template>
-        <MembershipItem
-          @certificationCenterMembership={{certificationCenterMembership}}
-          @onCertificationCenterMembershipRoleChange={{onCertificationCenterMembershipRoleChange}}
-          @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
-        />
-      </template>,
-    );
-
-    // then
-    assert.dom(screen.getByRole('cell', { name: certificationCenterMembership.id })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCenter.id })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCenter.name })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCenter.type })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCenter.externalId })).exists();
-    assert.dom(screen.getByRole('cell', { name: '01/01/2020' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Membre' })).exists();
-    assert
-      .dom(screen.getByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
-      .exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre de centre de certification' })).exists();
   });
 
   module('when clicking on "Modifier le rôle" button', function () {

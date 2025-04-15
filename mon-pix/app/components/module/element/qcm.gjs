@@ -102,9 +102,7 @@ export default class ModuleQcm extends ModuleElement {
 
       <div class="element-qcm__feedback" role="status" tabindex="-1">
         {{#if this.shouldDisplayFeedback}}
-          <ModulixFeedback @answerIsValid={{this.answerIsValid}}>
-            {{htmlUnsafe this.correction.feedback}}
-          </ModulixFeedback>
+          <ModulixFeedback @answerIsValid={{this.answerIsValid}} @feedback={{this.correction.feedback}} />
         {{/if}}
       </div>
 

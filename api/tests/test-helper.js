@@ -201,6 +201,16 @@ async function insertMultipleSendingFeatureForNewOrganization() {
   return feature.id;
 }
 
+async function insertPixJuniorFeatureForNewOrganization() {
+  databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
+  databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT);
+  databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.ORALIZATION_MANAGED_BY_PRESCRIBER);
+  databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+    name: ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE,
+  });
+  await databaseBuilder.commit();
+}
+
 // Hapi
 const hFake = {
   response(source) {
@@ -367,6 +377,7 @@ export {
   HttpTestServer,
   insertMultipleSendingFeatureForNewOrganization,
   insertOrganizationUserWithRoleAdmin,
+  insertPixJuniorFeatureForNewOrganization,
   insertUserWithRoleCertif,
   insertUserWithRoleSuperAdmin,
   knex,

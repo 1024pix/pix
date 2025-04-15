@@ -8,8 +8,4 @@ export class SessionVersion {
   static isV3(version) {
     return version === SESSIONS_VERSIONS.V3;
   }
-
-  static isV1(version) {
-    return version === SESSIONS_VERSIONS.V1;
-  }
 }

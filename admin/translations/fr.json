@@ -199,7 +199,7 @@
         "upload-button": "Importer un fichier CSV"
       },
       "upsert-quests-in-batch": {
-        "description": "Attention: aucune validation n'est effectuée lors de l'import. Consultez un spécialiste dans le doute ;)",
+        "description": "Consultez un spécialiste dans le doute ;)",
         "notifications": {
           "success": "Les quêtes ont bien été importées."
         },
@@ -319,7 +319,8 @@
       "membership-item": {
         "actions": {
           "edit-role": "Modifier le rôle"
-        }
+        },
+        "no-last-connection-date-info": "Non connecté depuis 03/2025"
       },
       "membership-item-role": {
         "select-role": "Sélectionner un rôle"
@@ -455,6 +456,9 @@
           "caption": "Liste des organisations. Contient l'identifiant, le nom, de type et l'identifiant externe de l'organisation."
         }
       },
+      "member-items": {
+        "no-last-connection-date-info": "Non connecté depuis 03/2025"
+      },
       "target-profiles-section": {
         "table": {
           "caption": "Liste des profils cibles rattachés à l'organisation. Contient son identifiant et son nom interne. Une action permet de détacher le profil cible quand cela est possible."
@@ -500,6 +504,7 @@
               "select-role": "Sélectionner un rôle"
             }
           },
+          "no-last-connection-date-info": "Non connecté depuis 03/2025",
           "section-title": "Centres de certification de l’utilisateur",
           "table-headers": {
             "actions-label": "Actions",
@@ -525,6 +530,7 @@
       },
       "organizations": {
         "memberships": {
+          "no-last-connection-date-info": "Non connecté depuis 03/2025",
           "table": {
             "caption": "Liste des organisations dont l'utilisateur est membre. Contient l'identifiant en tant que membre, l'identifiant, le nom, l'identifiant externe et le type de l'organisation, et enfin le rôle du membre. Plusieurs actions permettent de changer le rôle du membre et de le désactiver de l'organisation."
           }
@@ -538,6 +544,7 @@
         "authentication-method": {
           "last-application-connection-date": "Date de dernière connexion",
           "last-logged-at": "Dernière connexion le {date}",
+          "no-last-connection-date-info": "Non connecté depuis 03/2025",
           "should-change-password-status": "Mot de passe temporaire :"
         },
         "cgu": {
@@ -558,6 +565,8 @@
         "copied": "Copié !"
       },
       "user-overview": {
+        "global-last-login": "Date de dernière connexion globale :",
+        "no-last-connection-date-info": "Non connecté depuis 03/2025",
         "sso": "SSO"
       }
     }
@@ -644,6 +653,9 @@
         "deployment": {
           "label": "Déploiement"
         },
+        "junior": {
+          "label": "Junior"
+        },
         "organizations": {
           "label": "Organisations"
         }
@@ -658,6 +670,7 @@
           },
           "title": "Habilitations aux certifications complémentaires"
         },
+        "is-archived-warning": "Archivé le {archivedAt} par {archivedBy}.",
         "pilot-features": {
           "is-complementary-alone-pilot": {
             "aria-label": {
@@ -665,13 +678,6 @@
               "inactive": "N'est pas phase test compatibilité Pix v3 / Pix+"
             },
             "label": "phase test compatibilité Pix v3 / Pix+"
-          },
-          "is-v3-pilot": {
-            "aria-label": {
-              "active": "Est pilote certification V3",
-              "inactive": "N'est pas pilote certification V3"
-            },
-            "label": "pilote certification V3"
           },
           "title": "Fonctionnalités pilotes"
         }
@@ -997,6 +1003,11 @@
         }
       }
     },
+    "tools": {
+      "navigation": {
+        "aria-label": "Navigation de la section outils"
+      }
+    },
     "trainings": {
       "training": {
         "details": {
@@ -1057,10 +1068,10 @@
     },
     "user-details": {
       "navbar": {
-        "authentication-methods": "Méthodes de connexion",
         "certification-centers-list": "Pix Certif",
         "cgu": "CGU",
         "cgu-aria-label": "Conditions générales d'utilisation",
+        "connections": "Connexions",
         "details": "Informations prescrit",
         "organizations-list": "Pix Orga",
         "participations-list": "Participations",

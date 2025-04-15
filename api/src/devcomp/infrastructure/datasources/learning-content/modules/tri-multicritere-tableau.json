@@ -77,17 +77,26 @@
                     {
                       "id": "1",
                       "content": "<p>Un tri à un critère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span> Le tri doit être fait sur un seul critère : le nom des enfants.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !",
+                        "diagnosis": "<p>Le tri doit être fait sur un seul critère : le nom des enfants.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Un filtre</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Un filtre ne permet par d’organiser le tableau, il permet d’afficher ou non une sélection d'enfants.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Un filtre ne permet par d’organiser le tableau, il permet d’afficher ou non une sélection d'enfants.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Un tri multicritère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Un seul critère est en jeu dans cette situation : le nom des enfants.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Un seul critère est en jeu dans cette situation : le nom des enfants.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -104,17 +113,26 @@
                     {
                       "id": "1",
                       "content": "<p>Un tri à un critère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri simple va permettre de regrouper les élèves par équipe, mais l’ensemble des enfants resteront affichés.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le tri simple va permettre de regrouper les élèves par équipe, mais l’ensemble des enfants resteront affichés.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Un filtre</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !</span> Filtrer sur la colonne « Équipe » lui permettra d’afficher seulement les enfants de l'équipe de son choix.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !",
+                        "diagnosis": "<p>Filtrer sur la colonne « Équipe » lui permettra d’afficher seulement les enfants de l'équipe de son choix.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Un tri multicritère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri multicritère peut permettre de regrouper les enfants par équipe et par score, mais l’ensemble des enfants resteront affichés.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le tri multicritère peut permettre de regrouper les enfants par équipe et par score, mais l’ensemble des enfants resteront affichés.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -131,17 +149,26 @@
                     {
                       "id": "1",
                       "content": "<p>Un tri à un critère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Le tri simple peut ordonner les résultats des enfants pour une épreuve, mais il ne permet pas d’établir un classement prenant en compte les trois épreuves.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le tri simple peut ordonner les résultats des enfants pour une épreuve, mais il ne permet pas d’établir un classement prenant en compte les trois épreuves.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Un filtre</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Filtrer ici ne permettrait pas d’afficher un classement, mais de restreindre l’affichage à certains scores.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Filtrer ici ne permettrait pas d’afficher un classement, mais de restreindre l’affichage à certains scores.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Un tri multicritère</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse&#8239;!</span> Plusieurs critères vont permettre de faire le classement final, le tri multicritère est donc recommandé.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&#8239;!",
+                        "diagnosis": "<p>Plusieurs critères vont permettre de faire le classement final, le tri multicritère est donc recommandé.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -300,8 +327,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Correct !</span> Vous avez obtenu le classement des meilleurs tireurs aux fléchettes et parmi eux, ceux qui ont aussi réussi le quiz.</p><p>En inversant l’ordre de ce tri, le classement aurait été différent.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span> Avez-vous bien utilisé un tri multicritère ?&nbsp; Vérifiez également l’ordre de vos critères de tri.</p><p>Pour réussir, utilisez les indices ci-dessous ou regardez à nouveau la vidéo pour vous aider <span aria-hidden=\"true\">👆</span></p>"
+              "valid": {
+                "state": "Correct !",
+                "diagnosis": "<p>Vous avez obtenu le classement des meilleurs tireurs aux fléchettes et parmi eux, ceux qui ont aussi réussi le quiz.</p><p>En inversant l’ordre de ce tri, le classement aurait été différent.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Avez-vous bien utilisé un tri multicritère ?&nbsp; Vérifiez également l’ordre de vos critères de tri.</p><p>Pour réussir, utilisez les indices ci-dessous ou regardez à nouveau la vidéo pour vous aider <span aria-hidden=\"true\">👆</span></p>"
+              }
             }
           }
         },
@@ -473,8 +506,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bravo&#8239;!</span><br>Le tri avancé a bien permis de classer les enfants par découverte du trésor, puis par plus grand nombre d’énigmes résolues, puis par temps le plus court au labyrinthe.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span><br>Le classement de Sarah demande de trier selon trois critères.<br>Réessayez. Aidez-vous des indices au besoin.</p>"
+              "valid": {
+                "state": "Bravo&#8239;!",
+                "diagnosis": "<p>Le tri avancé a bien permis de classer les enfants par découverte du trésor, puis par plus grand nombre d’énigmes résolues, puis par temps le plus court au labyrinthe.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Le classement de Sarah demande de trier selon trois critères.<br>Réessayez. Aidez-vous des indices au besoin.</p>"
+              }
             }
           }
         },

@@ -1,5 +1,5 @@
-import { ResultCompetence } from '../../../../certification/results/domain/models/ResultCompetence.js';
 import { Area } from '../../../../shared/domain/models/Area.js';
+import { ResultCompetence } from './ResultCompetence.js';
 
 const NOT_PASSED_LEVEL = -1;
 const NOT_PASSED_SCORE = 0;

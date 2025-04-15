@@ -90,7 +90,9 @@ const get = async function (userId) {
 };
 
 const getByIds = async function (userIds) {
-  const dbUsers = await knex('users').whereIn('id', userIds);
+  const knexConn = DomainTransaction.getConnection();
+
+  const dbUsers = await knexConn('users').whereIn('id', userIds);
 
   return dbUsers.map((dbUser) => new User(dbUser));
 };

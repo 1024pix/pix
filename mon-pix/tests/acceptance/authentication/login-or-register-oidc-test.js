@@ -19,10 +19,7 @@ module('Acceptance | Login or register oidc', function (hooks) {
         const screen = await visit('/connexion/oidc-partner?code=oidc_example_code&state=auth_session_state');
 
         // then
-        assert.strictEqual(
-          currentURL(),
-          '/connexion/oidc?authenticationKey=key&familyName=PIX&givenName=test&identityProviderSlug=oidc-partner',
-        );
+        assert.strictEqual(currentURL(), '/connexion/oidc?identityProviderSlug=oidc-partner');
         assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
       });
     });

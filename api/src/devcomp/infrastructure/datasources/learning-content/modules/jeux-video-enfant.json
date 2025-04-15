@@ -83,12 +83,18 @@
               {
                 "id": "1",
                 "content": "<p>oui</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>non</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! 🎉</span></p><p>Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                "feedback": {
+                  "state": "Bonne réponse ! 🎉",
+                  "diagnosis": "<p>Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                }
               }
             ],
             "solution": "2"
@@ -148,17 +154,26 @@
                     {
                       "id": "1",
                       "content": "<p>Le jeu est trop difficile pour les enfants de moins de 12 ans.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le pictogramme âge PEGI n’indique pas la difficulté d’un jeu. Par exemple un jeu avec le pictogramme PEGI 3 peut être trop compliqué pour un enfant de 4 ans.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le pictogramme âge PEGI n’indique pas la difficulté d’un jeu. Par exemple un jeu avec le pictogramme PEGI 3 peut être trop compliqué pour un enfant de 4 ans.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Le jeu est inadapté aux enfants de moins de 12 ans.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! 🎉</span></p><p>Le pictogramme âge PEGI indique la présence de contenus inadaptés aux enfants en dessous de l’âge indiqué. Il n’indique pas la difficulté du jeu.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Le pictogramme âge PEGI indique la présence de contenus inadaptés aux enfants en dessous de l’âge indiqué. Il n’indique pas la difficulté du jeu.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Le jeu ne peut pas être vendu à un enfant de moins de 12 ans.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le pictogramme âge PEGI est indicatif. Il donne une information mais n’empêche pas la vente en fonction de l’âge.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le pictogramme âge PEGI est indicatif. Il donne une information mais n’empêche pas la vente en fonction de l’âge.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -182,17 +197,26 @@
                     {
                       "id": "1",
                       "content": "<p>Le jeu doit être utilisé avec l’accompagnement des parents</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! 🎉</span></p><p> Ce pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs. Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p> Ce pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs. Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Le jeu n’a aucune recommandation PEGI.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Le jeu est déconseillé aux enfants de moins de 7 ans.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Attention, il peut y avoir des contenus pour tous les âges.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Attention, il peut y avoir des contenus pour tous les âges.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -301,17 +325,26 @@
                     {
                       "id": "1",
                       "content": "<p>Il n’y a pas d’achats intégrés dans ce jeu.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Avez-vous vérifié la présence de mots tels que «&nbsp;achats intra-jeu&nbsp;» ou «&nbsp;achats intégrés&nbsp;» sur cette fiche ?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous vérifié la présence de mots tels que «&nbsp;achats intra-jeu&nbsp;» ou «&nbsp;achats intégrés&nbsp;» sur cette fiche ?</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Il y a des achats intégrés dans ce jeu, mais pas de loot boxes.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Avez-vous vérifié la présence de la mention obligatoire «&nbsp;Inclut des contenus aléatoires&nbsp;» sur cette fiche ?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous vérifié la présence de la mention obligatoire «&nbsp;Inclut des contenus aléatoires&nbsp;» sur cette fiche ?</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Il y a des achats intégrés et des loot boxes dans ce jeu.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! 🎉</span></p><p>La mention&nbsp; «&nbsp;Achats dans le jeu&nbsp;» est complétée par la mention obligatoire «&nbsp;Inclut des contenus aléatoires&nbsp;».</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>La mention&nbsp; «&nbsp;Achats dans le jeu&nbsp;» est complétée par la mention obligatoire «&nbsp;Inclut des contenus aléatoires&nbsp;».</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -335,17 +368,26 @@
                     {
                       "id": "1",
                       "content": "<p>Il n’y a pas d’achats intégrés dans ce jeu.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Avez-vous vérifié la présence de mots tels que «&nbsp;achats intra-jeu&nbsp;» ou «&nbsp;achats intégrés&nbsp;» sur cette boîte ?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous vérifié la présence de mots tels que «&nbsp;achats intra-jeu&nbsp;» ou «&nbsp;achats intégrés&nbsp;» sur cette boîte ?</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>Il y a des achats intégrés dans ce jeu, mais pas de loot boxes.<br></p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! 🎉</span></p><p>Le pictogramme «&nbsp;Achats intégrés&nbsp;» est à côté du pictogramme «&nbsp;PEGI 3&nbsp;» sur cette boîte. Si le jeu contenait des Loot boxes, il y aurait aussi la mention «&nbsp;Inclut des contenus aléatoires&nbsp;».</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Le pictogramme «&nbsp;Achats intégrés&nbsp;» est à côté du pictogramme «&nbsp;PEGI 3&nbsp;» sur cette boîte. Si le jeu contenait des Loot boxes, il y aurait aussi la mention «&nbsp;Inclut des contenus aléatoires&nbsp;».</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>Il y a des achats intégrés et des loot boxes dans ce jeu.</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Avez-vous vérifié la présence de la mention obligatoire «&nbsp;Inclut des contenus aléatoires&nbsp;» sur cette fiche ?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous vérifié la présence de la mention obligatoire «&nbsp;Inclut des contenus aléatoires&nbsp;» sur cette fiche ?</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -449,17 +491,26 @@
               {
                 "id": "1",
                 "content": "<p>Mon petit dragon</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Ce jeu contient des achats intégrés. Avez-vous vérifié la présence d’achats intégrés ou d’interactions entre les utilisateurs dans les autres jeux ?</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Ce jeu contient des achats intégrés. Avez-vous vérifié la présence d’achats intégrés ou d’interactions entre les utilisateurs dans les autres jeux ?</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>La quête de l’eau</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse ! 🎉</span></p><p>Ce jeu est adapté à partir de 7 ans et ne contient ni achats intégrés ni interactions entre les joueurs dans le jeu. <br>Le pictogramme «&nbsp;peur&nbsp;» à côté du pictogramme «&nbsp;7&nbsp;» indique que le jeu contient des images ou des sons qui peuvent effrayer mais qu’il est évalué par la signalétique PEGI comme adapté pour des enfants à partir de 7 ans.</p>"
+                "feedback": {
+                  "state": "Bonne réponse ! 🎉",
+                  "diagnosis": "<p>Ce jeu est adapté à partir de 7 ans et ne contient ni achats intégrés ni interactions entre les joueurs dans le jeu. <br>Le pictogramme «&nbsp;peur&nbsp;» à côté du pictogramme «&nbsp;7&nbsp;» indique que le jeu contient des images ou des sons qui peuvent effrayer mais qu’il est évalué par la signalétique PEGI comme adapté pour des enfants à partir de 7 ans.</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>Le tournoi des cieux</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Ce jeu propose des interactions entre les utilisateurs. Avez-vous vérifié la présence d’achats intégrés ou d’interactions entre les utilisateurs dans les autres jeux ?</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Ce jeu propose des interactions entre les utilisateurs. Avez-vous vérifié la présence d’achats intégrés ou d’interactions entre les utilisateurs dans les autres jeux ?</p>"
+                }
               }
             ],
             "solution": "2"

@@ -127,7 +127,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Good job!',
+      feedback: { state: 'Correct!', diagnosis: 'Good job!' },
       status: 'ok',
       solution: ['1', '4'],
     });
@@ -143,8 +143,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
     );
 
     // then
-    const status = screen.getByRole('status');
-    assert.strictEqual(status.innerText, 'Good job!');
+    assert.dom(screen.getByText('Correct!')).exists();
+    assert.dom(screen.getByText('Good job!')).exists();
     assert.ok(screen.getByRole('checkbox', { name: 'checkbox1', disabled: true }));
     assert.ok(screen.getByRole('checkbox', { name: 'checkbox2', disabled: true }));
     assert.ok(screen.getByRole('checkbox', { name: 'checkbox3', disabled: true }));
@@ -155,7 +155,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
+      feedback: { state: 'Wrong!', diagnosis: 'Too Bad!' },
       status: 'ko',
       solution: ['1', '4'],
     });
@@ -171,9 +171,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
     );
 
     // then
-    const status = screen.getByRole('status');
-    assert.strictEqual(status.innerText, 'Too Bad!');
-
+    assert.dom(screen.getByText('Wrong!')).exists();
+    assert.dom(screen.getByText('Too Bad!')).exists();
     assert.ok(screen.getByRole('checkbox', { name: 'checkbox1', disabled: true }));
     assert.ok(screen.getByRole('checkbox', { name: 'checkbox2', disabled: true }));
     assert.ok(screen.getByRole('checkbox', { name: 'checkbox3', disabled: true }));
@@ -184,7 +183,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
+      feedback: { state: 'Wrong!', diagnosis: 'Too Bad' },
       status: 'ko',
       solution: 'solution',
     });
@@ -207,7 +206,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
+      feedback: { state: 'Wrong!', diagnosis: 'Too Bad' },
       status: 'ko',
       solution: 'solution',
     });
@@ -232,7 +231,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Nice!',
+      feedback: { state: 'Correct', diagnosis: 'Nice!' },
       status: 'ok',
       solution: 'solution',
     });

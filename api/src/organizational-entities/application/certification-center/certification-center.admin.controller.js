@@ -1,9 +1,17 @@
 import { usecases as certificationConfigurationUsecases } from '../../../certification/configuration/domain/usecases/index.js';
-import { usecases as certificationUsecases } from '../../../certification/enrolment/domain/usecases/index.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { extractUserIdFromRequest } from '../../../shared/infrastructure/monitoring-tools.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
+
+const archiveCertificationCenter = async function (request, h) {
+  const certificationCenterId = request.params.certificationCenterId;
+  const userId = extractUserIdFromRequest(request);
+  await usecases.archiveCertificationCenter({ certificationCenterId, userId });
+
+  return h.response().code(204);
+};
 
 const create = async function (request) {
   const certificationCenter = certificationCenterForAdminSerializer.deserialize(request.payload);
@@ -35,7 +43,7 @@ const findPaginatedFilteredCertificationCenters = async function (
 const getCertificationCenterDetails = async function (request) {
   const certificationCenterId = request.params.id;
 
-  const certificationCenterDetails = await certificationUsecases.getCenterForAdmin({ id: certificationCenterId });
+  const certificationCenterDetails = await usecases.getCenterForAdmin({ id: certificationCenterId });
 
   return certificationCenterForAdminSerializer.serialize(certificationCenterDetails);
 };
@@ -56,9 +64,8 @@ const update = async function (request) {
         complementaryCertificationIds,
       });
 
-      const certificationCenterPilotFeatures = await certificationConfigurationUsecases.registerCenterPilotFeatures({
+      const certificationCenterPilotFeatures = await certificationConfigurationUsecases.getCenterPilotFeatures({
         centerId: updatedCertificationCenter.id,
-        isV3Pilot: certificationCenterInformation.isV3Pilot,
       });
 
       return { updatedCertificationCenter, certificationCenterPilotFeatures };
@@ -70,6 +77,7 @@ const update = async function (request) {
 };
 
 const certificationCenterAdminController = {
+  archiveCertificationCenter,
   create,
   findPaginatedFilteredCertificationCenters,
   getCertificationCenterDetails,

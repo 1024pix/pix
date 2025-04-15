@@ -1,27 +1,11 @@
 {{page-title (t "pages.shared-certification.title")}}
 
-<PixBackgroundHeader class="user-certifications-page-get">
-  <PixButtonLink
-    @route="fill-in-certificate-verification-code"
-    @variant="transparent-dark"
-    @iconBefore="arrowLeft"
-    class="user-certifications-page__previous-button"
-  >
-    {{t "pages.shared-certification.back-link"}}
-  </PixButtonLink>
-
-  <PixBlock class="user-certifications-page-get__header">
-    <UserCertificationsDetailHeader @certification={{this.model}} />
-  </PixBlock>
-
-  <div class="user-certifications-page-get__details-body">
-    <UserCertificationsDetailCompetencesList
-      @resultCompetenceTree={{this.model.resultCompetenceTree}}
-      @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
-    />
-    {{#if this.shouldDisplayDetailsSection}}
-      <UserCertificationsDetailResult @certification={{@model}} />
+<Global::AppLayout>
+  <main id="main" class="global-page-container" role="main">
+    {{#if this.displayV3CertificationShared}}
+      <Certifications::Shared::v3Certification @certification={{this.model}} />
+    {{else}}
+      <Certifications::Shared::v2Certification @model={{this.model}} />
     {{/if}}
-  </div>
-
-</PixBackgroundHeader>
+  </main>
+</Global::AppLayout>

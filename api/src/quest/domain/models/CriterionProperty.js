@@ -1,3 +1,5 @@
+import Joi from 'joi';
+
 import { InvalidComparisonError } from '../errors.js';
 
 export const COMPARISONS = {
@@ -7,15 +9,41 @@ export const COMPARISONS = {
   LIKE: 'like',
 };
 
+const schema = Joi.object({
+  key: Joi.string().required(),
+  data: Joi.any().required(),
+  comparison: Joi.string()
+    .valid(...Object.values(COMPARISONS))
+    .required(),
+});
+
+export class CriterionPropertyError extends Error {
+  constructor({ message, details }) {
+    super(message);
+    this.details = details;
+  }
+}
+
 export class CriterionProperty {
   #key;
   #data;
   #comparison;
 
-  constructor({ key, data, comparison }) {
+  constructor(args) {
+    const { key, data, comparison } = args;
+
     this.#key = key;
     this.#data = data;
     this.#comparison = comparison;
+
+    this.#validate(args);
+  }
+
+  #validate(args) {
+    const { error } = schema.validate(args);
+    if (error) {
+      throw new CriterionPropertyError({ message: 'arguments are invalid', details: error.details });
+    }
   }
 
   get key() {

@@ -72,6 +72,5 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     updatedAt: new Date(),
     members: [{ id: SCO_CERTIFICATION_NOT_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID }],
     complementaryCertificationIds: [],
-    isV3Pilot: true,
   });
 }

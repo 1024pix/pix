@@ -60,7 +60,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: 'Faux',
+      feedback: { state: 'Faux' },
       status: 'ko',
       solution: qcu1.proposals[1].id,
     });
@@ -148,7 +148,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
     // look at mirage
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: 'Faux',
+      feedback: { state: 'Faux' },
       status: 'ko',
       solution: qcu1.proposals[1].id,
     });

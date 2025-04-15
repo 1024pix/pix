@@ -15,7 +15,7 @@ describe('Integration | Quest | Domain | UseCases | create-or-update-quests-in-b
     filePath = await createTempFile(
       'test.csv',
       `Quest ID;Json configuration for quest
-    ;{"rewardType":"coucou","rewardId":null,"eligibilityRequirements":[],"successRequirements":[]}`,
+    ;{"rewardType":"attestations","rewardId":1,"eligibilityRequirements":[],"successRequirements":[]}`,
     );
     const spySave = sinon.spy(repositories.questRepository, 'saveInBatch');
     const spyDelete = sinon.spy(repositories.questRepository, 'deleteByIds');
@@ -31,8 +31,8 @@ describe('Integration | Quest | Domain | UseCases | create-or-update-quests-in-b
           id: undefined,
           createdAt: undefined,
           updatedAt: undefined,
-          rewardType: 'coucou',
-          rewardId: null,
+          rewardType: 'attestations',
+          rewardId: 1,
           eligibilityRequirements: [],
           successRequirements: [],
         }),
@@ -45,9 +45,9 @@ describe('Integration | Quest | Domain | UseCases | create-or-update-quests-in-b
     filePath = await createTempFile(
       'test.csv',
       `Quest ID;Json configuration for quest;deleteQuest
-    3;{"rewardType":"coucou","rewardId":null,"eligibilityRequirements":[],"successRequirements":[]};OUI
-    5;{"rewardType":"bonjour","rewardId":null,"eligibilityRequirements":[],"successRequirements":[]};oui
-    4;{"rewardType":"salut","rewardId":null,"eligibilityRequirements":[],"successRequirements":[]};Non
+    3;{"rewardType":"attestations","rewardId":1,"eligibilityRequirements":[],"successRequirements":[]};OUI
+    5;{"rewardType":"attestations","rewardId":2,"eligibilityRequirements":[],"successRequirements":[]};oui
+    4;{"rewardType":"attestations","rewardId":3,"eligibilityRequirements":[],"successRequirements":[]};Non
     `,
     );
     const spySave = sinon.spy(repositories.questRepository, 'saveInBatch');
@@ -63,8 +63,8 @@ describe('Integration | Quest | Domain | UseCases | create-or-update-quests-in-b
           id: '4',
           createdAt: undefined,
           updatedAt: undefined,
-          rewardType: 'salut',
-          rewardId: null,
+          rewardType: 'attestations',
+          rewardId: 3,
           eligibilityRequirements: [],
           successRequirements: [],
         }),

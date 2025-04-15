@@ -1,6 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import UserOrganizationMemberships from 'pix-admin/components/users/user-organization-memberships';
 import { module, test } from 'qunit';
 
@@ -63,6 +64,9 @@ module('Integration | Component | users | organization-memberships', function (h
       );
 
       // then
+      const defaultLastAccessDate = t(
+        'components.users.user-detail-personal-information.authentication-method.no-last-connection-date-info',
+      );
       const rows = await screen.findAllByRole('row');
       assert.dom(within(rows[1]).getByRole('cell', { name: '222' })).exists();
       assert.dom(within(rows[1]).getByRole('cell', { name: '100095' })).exists();
@@ -75,6 +79,7 @@ module('Integration | Component | users | organization-memberships', function (h
       assert.dom(within(rows[2]).getByRole('cell', { name: '100025' })).exists();
       assert.dom(within(rows[2]).getByRole('cell', { name: 'Dragon & Co' })).exists();
       assert.dom(within(rows[2]).getByRole('cell', { name: 'PRO' })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: defaultLastAccessDate })).exists();
     });
   });
 });

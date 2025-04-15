@@ -3,8 +3,11 @@
 @use 'pix-design-tokens/fonts';
 
 .comparison-window {
+  top: 0;
   width: calc(100% - 1rem);
   max-width: 990px;
+  margin: var(--pix-spacing-4x) 0;
+  transform: translateX(-50%);
 }
 
 .comparison-window-content__body {

@@ -10,8 +10,8 @@ export function getQcmSample(nbOfProposals = 3) {
       content: `Proposition ${i + 1}`,
     })),
     feedbacks: {
-      valid: '<p>Correct !</p>',
-      invalid: '<p>Incorrect !</p>',
+      valid: { state: 'Correct !', diagnosis: '<p>Un exemple de diagnostic...</p>' },
+      invalid: { state: 'Incorrect !', diagnosis: '<p>Un exemple de diagnostic...</p>' },
     },
     solutions: ['1', '2'],
   };

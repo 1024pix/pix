@@ -162,17 +162,6 @@ const findActiveScoOrganizationsByExternalId = async function (externalId) {
   return organizationsDB.map((model) => _toDomain(model));
 };
 
-const findPaginatedFiltered = async function ({ filter, page }) {
-  const knexConn = DomainTransaction.getConnection();
-  const query = knexConn(ORGANIZATIONS_TABLE_NAME)
-    .modify(_setSearchFiltersForQueryBuilder, filter)
-    .orderBy('name', 'ASC');
-
-  const { results, pagination } = await fetchPage(query, page);
-  const organizations = results.map((model) => _toDomain(model));
-  return { models: organizations, pagination };
-};
-
 const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, filter, page }) {
   const query = knex(ORGANIZATIONS_TABLE_NAME)
     .select('organizations.*')
@@ -213,7 +202,6 @@ export {
   create,
   findActiveScoOrganizationsByExternalId,
   findByExternalIdsFetchingIdsOnly,
-  findPaginatedFiltered,
   findPaginatedFilteredByTargetProfile,
   findScoOrganizationsByUai,
   get,

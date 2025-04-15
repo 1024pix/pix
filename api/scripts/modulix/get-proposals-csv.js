@@ -26,6 +26,7 @@ export async function getProposalsListAsCsv(modules) {
       { label: 'ProposalGrainId', value: 'grainId' },
       { label: 'ProposalGrainTitle', value: 'grainTitle' },
       { label: 'ProposalModuleSlug', value: 'moduleSlug' },
+      { label: 'ProposalModuleId', value: 'moduleId' },
     ],
   });
 }

@@ -79,7 +79,7 @@ export default class Url extends Service {
   }
 
   get invigilatorDocumentationUrl() {
-    return 'https://cloud.pix.fr/s/S5LHayrjbM4Zn5f';
+    return 'https://cloud.pix.fr/s/s4H9x4PD4eKokqX';
   }
 
   #isFrenchSpoken() {

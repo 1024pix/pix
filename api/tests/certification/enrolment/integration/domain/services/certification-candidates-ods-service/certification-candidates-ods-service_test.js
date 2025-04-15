@@ -37,7 +37,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       label: 'CléA Numérique',
       key: ComplementaryCertificationKeys.CLEA,
     });
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: false }).id;
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
     const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -281,8 +281,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
 
     context('when isCoreComplementaryCompatibilityEnabled false for center', function () {
-      const isV3Pilot = false;
-
       it('should return extracted and validated certification candidates with complementary certification', async function () {
         // given
         mailCheck.checkDomainIsValid.resolves();
@@ -303,9 +301,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
         });
 
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          isV3Pilot,
-        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId,
           complementaryCertificationId: cleaComplementaryCertification.id,
@@ -369,7 +365,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
 
     context('when isCoreComplementaryCompatibilityEnabled true for center', function () {
-      const isV3Pilot = true;
       let pixPlusEdu1erDegreComplementaryCertification,
         pixPlusDroitComplementaryCertification,
         pixPlusEdu2ndDegreComplementaryCertification,
@@ -394,9 +389,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           label: 'Pix+ Pro Santé',
           key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
         });
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          isV3Pilot,
-        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         const complementaryAlonePilotFeatureId = databaseBuilder.factory.buildFeature(
           CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE,
         ).id;

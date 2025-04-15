@@ -75,17 +75,26 @@
               {
                 "id": "1",
                 "content": "<p>ChatGPT n'a pas compris la demande de l'utilisateur.</p>",
-                "feedback": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
+                "feedback": {
+                  "state": "Incorrect&nbsp;!",
+                  "diagnosis": "<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>ChatGPT n’est pas capable de faire des jeux de mots drôles.</p>",
-                "feedback": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
+                "feedback": {
+                  "state": "Incorrect&nbsp;!",
+                  "diagnosis": "<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
+                }
               },
               {
                 "id": "3",
                 "content": "ChatGPT n'a pas raté son jeu de mots : il est réussi mais en anglais.",
-                "feedback": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
+                "feedback": {
+                  "state": "Correct&nbsp;!",
+                  "diagnosis": "<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
+                }
               }
             ],
             "solution": "3"
@@ -154,8 +163,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p><p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Regardez bien la vidéo précédente et réessayez&nbsp;!</p>"
+              "valid": {
+                "state": "Correct&nbsp;!",
+                "diagnosis": "<p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>"
+              },
+              "invalid": {
+                "state": "Incorrect&nbsp;!",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Regardez bien la vidéo précédente et réessayez&nbsp;!</p>"
+              }
             },
             "solutions": ["1", "3", "5"]
           }
@@ -201,17 +216,26 @@
                     {
                       "id": "1",
                       "content": "Le LLM a été programmé en majorité par des Français.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse&nbsp;! </span> <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse&nbsp;! ",
+                        "diagnosis": " <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Le LLM a été entraîné avec des données où le Québec est sous-représenté.",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p>Un prompt en langue française amène le LLM à répondre en français. Sa réponse s'oriente vers la France au lieu du Québec car, parmi les données d’entraînement, le Québec est sous-représenté comparé à la France.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>Un prompt en langue française amène le LLM à répondre en français. Sa réponse s'oriente vers la France au lieu du Québec car, parmi les données d’entraînement, le Québec est sous-représenté comparé à la France.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "Le LLM a été paramétré pour privilégier des pays européens.",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse&nbsp;! </span> <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse&nbsp;! ",
+                        "diagnosis": " <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -240,17 +264,26 @@
                     {
                       "id": "1",
                       "content": "Le LLM a été programmé pour favoriser les personnages masculins.",
-                      "feedback": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
+                      "feedback": {
+                        "state": "Incorrect&nbsp;!",
+                        "diagnosis": "<p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Le LLM a été entraîné avec des données où les pompiers masculins sont surreprésentés.",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "Le LLM s'est basé sur le genre de l'auteure du prompt, Erica.",
-                      "feedback": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
+                      "feedback": {
+                        "state": "Incorrect&nbsp;!",
+                        "diagnosis": "<p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -279,17 +312,26 @@
                     {
                       "id": "1",
                       "content": "Le LLM a été programmé pour que les extraterrestres soient considérés comme existants.",
-                      "feedback": "<span class=\"feedback__state\">Incorrect&nbsp;! </span><p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
+                      "feedback": {
+                        "state": "Incorrect&nbsp;!",
+                        "diagnosis": "<p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Le LLM a été entraîné avec de trop nombreuses histoires de science-fiction.",
-                      "feedback": "<span class=\"feedback__state\">Incorrect&nbsp;! </span><p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
+                      "feedback": {
+                        "state": "Incorrect&nbsp;!",
+                        "diagnosis": "<p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "Le LLM s'est basé sur la croyance de Stéphane qui est présente dans son prompt.",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p>Le LLM n'est pas le seul à comporter des biais. Les utilisateurs peuvent transmettre leurs biais via leur prompt.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>Le LLM n'est pas le seul à comporter des biais. Les utilisateurs peuvent transmettre leurs biais via leur prompt.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -351,12 +393,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -373,12 +421,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Sur Compar:IA , donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Sur Compar:IA , donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -395,12 +449,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse&nbsp;! 🎉</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse&nbsp;! 🎉",
+                        "diagnosis": "<p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -467,12 +527,18 @@
               {
                 "id": "1",
                 "content": "oui",
-                "feedback": "<span class=\"feedback__state\">Bravo&nbsp;! <span aria-hidden=\"true\">💫</span></span>"
+                "feedback": {
+                  "state": "Bravo&nbsp;! \uD83D\uDCAB",
+                  "diagnosis": ""
+                }
               },
               {
                 "id": "2",
                 "content": "non",
-                "feedback": "<p>Avez-vous utilisé les indices ci-dessous ? Les LLM s'améliorent de jour en jour pour palier à ces résultats biaisés. Ce défi sera donc de plus en plus dur à relever.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Avez-vous utilisé les indices ci-dessous ? Les LLM s'améliorent de jour en jour pour palier à ces résultats biaisés. Ce défi sera donc de plus en plus dur à relever.</p>"
+                }
               }
             ],
             "solution": "1"

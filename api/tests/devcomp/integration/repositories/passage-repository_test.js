@@ -21,7 +21,7 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
       await databaseBuilder.commit();
 
       const passage = {
-        moduleId: 'recModuleId',
+        moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         userId: userId,
       };
 
@@ -45,7 +45,7 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
     it('should save a passage no userId provided', async function () {
       // given
       const passage = {
-        moduleId: 'recModuleId',
+        moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         userId: null,
       };
 
@@ -82,7 +82,7 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
       // given
       const passage = databaseBuilder.factory.buildPassage({
         id: 1,
-        moduleId: 'my-module',
+        moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         userId: null,
         createdAt: new Date('2023-01-01'),
       });
@@ -114,7 +114,11 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
     describe('when passage exists', function () {
       it('should return the found passage', async function () {
         // given
-        const passage = databaseBuilder.factory.buildPassage({ id: 1, moduleId: 'my-module', userId: null });
+        const passage = databaseBuilder.factory.buildPassage({
+          id: 1,
+          moduleId: '25530e38-fdb9-497a-923e-9e2d1be47918',
+          userId: null,
+        });
         await databaseBuilder.commit();
 
         // when

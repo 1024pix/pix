@@ -58,7 +58,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     mailCheck = { checkDomainIsValid: sinon.stub() };
     centerRepository.getById.resolves(
       domainBuilder.certification.enrolment.buildCenter({
-        isV3Pilot: true,
         features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
       }),
     );
@@ -316,11 +315,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             context('isCoreComplementaryCompatibilityEnabled is false for center', function () {
               it('should insert the candidate and return the id', async function () {
                 // given
-                centerRepository.getById.resolves(
-                  domainBuilder.certification.enrolment.buildCenter({
-                    isV3Pilot: false,
-                  }),
-                );
+                centerRepository.getById.resolves(domainBuilder.certification.enrolment.buildCenter({}));
                 candidateToEnroll.subscriptions = [
                   domainBuilder.buildCoreSubscription({
                     certificationCandidateId: null,

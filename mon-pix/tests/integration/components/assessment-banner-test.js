@@ -6,6 +6,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { waitForDialog } from '../../helpers/wait-for';
 
 module('Integration | Component | assessment-banner', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -28,37 +29,26 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
     test('it should display home button', function (assert) {
       // then
-      assert.dom(screen.queryByRole('button', { name: 'Quitter' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Quitter' })).exists();
       assert.dom(screen.getByText("Besoin d'une pause ?")).isVisible();
     });
 
     test('it should open modal', async function (assert) {
       // when
-      await click(screen.queryByRole('button', { name: 'Quitter' }));
+      await click(screen.getByRole('button', { name: 'Quitter' }));
 
       // then
-      assert.notOk(
-        screen
-          .getByText("Besoin d'une pause ?")
-          .closest('.pix-modal__overlay')
-          .classList.toString()
-          .includes('pix-modal__overlay--hidden'),
-      );
+      await waitForDialog();
+      assert.dom(screen.getByRole('dialog', { name: "Besoin d'une pause ?" })).exists();
     });
 
     test('it should close modal on stay button click', async function (assert) {
       // when
-      await click(screen.queryByRole('button', { name: 'Quitter' }));
+      await click(screen.getByRole('button', { name: 'Quitter' }));
       await click(screen.getByText('Rester'));
 
       // then
-      assert.ok(
-        screen
-          .getByText("Besoin d'une pause ?")
-          .closest('.pix-modal__overlay')
-          .classList.toString()
-          .includes('pix-modal__overlay--hidden'),
-      );
+      assert.dom(screen.queryByRole('dialog', { name: "Besoin d'une pause ?" })).doesNotExist();
     });
   });
 

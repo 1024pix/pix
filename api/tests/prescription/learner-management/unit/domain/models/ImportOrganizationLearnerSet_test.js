@@ -302,9 +302,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
           const secondLearnerAttributes = { ...learnerAttributes, group: 'cheese' };
 
-          const response = learnerSet.addLearners([learnerAttributes, secondLearnerAttributes]);
-
-          expect(response).to.not.throw;
+          expect(() => learnerSet.addLearners([learnerAttributes, secondLearnerAttributes])).to.not.throw();
         });
       });
       context('checkDateRule', function () {
@@ -321,8 +319,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('when the date respect the format, should not throw an error', async function () {
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-          const response = learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026-03-06' }]);
-          expect(response).to.not.throw;
+          expect(() => learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026-03-06' }])).to.not.throw();
         });
 
         it('should throw date error when the format is not respected', async function () {
@@ -365,8 +362,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-          const response = learnerSet.addLearners([{ ...learnerAttributes, cycle: 'Cycle III' }]);
-          expect(response).to.not.throw;
+          expect(() => learnerSet.addLearners([{ ...learnerAttributes, cycle: 'Cycle III' }])).to.not.throw();
         });
 
         it('when the value DOES NOT correspond to the expectedValues, should throw an error', async function () {

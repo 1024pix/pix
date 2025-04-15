@@ -25,7 +25,6 @@ export async function getById({ id }) {
       features: knexConn.raw('array_remove(array_agg(DISTINCT "certificationCenterFeatures"."key"), NULL)'),
       createdAt: 'certification-centers.createdAt',
       updatedAt: 'certification-centers.updatedAt',
-      isV3Pilot: 'certification-centers.isV3Pilot',
     })
     .from('certification-centers')
     .leftJoin(
@@ -82,7 +81,6 @@ function toDomain(row, matchingOrganization) {
     id: row.id,
     name: row.name,
     externalId: row.externalId,
-    isV3Pilot: row.isV3Pilot,
     type: row.type,
     habilitations: _toDomainHabilitation(row.habilitations),
     features: row.features,

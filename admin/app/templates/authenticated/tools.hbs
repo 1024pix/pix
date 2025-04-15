@@ -1,57 +1,27 @@
 {{page-title "Outils"}}
+
 <div class="page tools">
   <header>
     <h1>Outils</h1>
   </header>
 
   <main class="page-body">
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">Archiver des campagnes en masse</h2>
-      </header>
-      <PixNotificationAlert class="tools__warning" @type="warning" @withIcon={{true}}>
-        L'envoi du fichier .csv via le bouton ci-dessous va archiver toutes campagnes renseignées.<br />
-        Le fichier ne doit comporter qu'une seule colonne, correspondant aux id des campagnes, et avoir comme en-tête
-        <strong>“campaignId”</strong>
-        dans la première cellule de la colonne.
-      </PixNotificationAlert>
-      <PixButtonUpload @id="file-upload" @onChange={{this.archiveCampaigns}} accept=".csv">
-        Envoyer le fichier des campagnes à archiver
-      </PixButtonUpload>
-    </section>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">Afficher un arbre de passage de missions Pix Junior</h2>
-      </header>
-      <PixNotificationAlert class="tools__warning" @type="warning" @withIcon={{true}}>
-        Cette fonctionnalité est un POC destiné à l'analyse des résultats de passage Pix Junior.<br />
-        Elle permet de visualiser les résultats d'une question Metabase sous la forme d'un arbre sur le site
-        <a href="https://mermaid.live/">https://mermaid.live/</a>
-      </PixNotificationAlert>
-      <PixNotificationAlert class="tools__info" @type="info" @withIcon={{true}}>
-        <strong>Mode d'emploi</strong>
-        <ol>
-          <li>1. Exécuter la question Metabase
-            <a
-              href="https://metabase.pix.fr/question/14059-chemins-des-eleves"
-              target="_blank"
-              rel="noreferrer noopener"
-            >Chemin des élèves</a>
-            avec les paramètres souhaités.
-          </li>
-          <li>2. Télécharger les résultats au format json.</li>
-          <li>3. Envoyer le fichier json grace au bouton ci-dessous.</li>
-          <li>4. À l'aide du lien généré, accéder à la représentation graphique de l'arbre de résultats.</li>
-        </ol>
-      </PixNotificationAlert>
-      <PixButtonUpload @id="json-file-upload" @onChange={{this.displayTree}} accept=".json">
-        Envoyer le fichier des chemins Pix Junior
-      </PixButtonUpload>
-      {{#if this.juniorMermaidFlowchart}}
-        <a href={{this.juniorMermaidFlowchart}} target="_blank" rel="noreferrer noopener">
-          Lien vers l'arbre de passage de missions.
-        </a>
-      {{/if}}
-    </section>
+    <PixTabs @variant="primary" @ariaLabel={{t "pages.tools.navigation.aria-label"}} class="navigation">
+      {{#unless this.currentUserRole.isCertif}}
+        <LinkTo @route="authenticated.tools.campaigns">
+          {{t "pages.administration.navigation.campaigns.label"}}
+        </LinkTo>
+        <LinkTo @route="authenticated.tools.junior">
+          {{t "pages.administration.navigation.junior.label"}}
+        </LinkTo>
+      {{/unless}}
+      {{#unless this.currentUserRole.isMetier}}
+        <LinkTo @route="authenticated.tools.certification">
+          {{t "pages.administration.navigation.certification.label"}}
+        </LinkTo>
+      {{/unless}}
+    </PixTabs>
+
+    {{outlet}}
   </main>
 </div>

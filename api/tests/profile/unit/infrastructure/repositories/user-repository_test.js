@@ -7,14 +7,14 @@ describe('Unit | Profile | Infrastructure | Repositories | UserRepository', func
     // given
     const userIds = [1, 2];
     const usersApi = {
-      getUserDetailsByUserIds: sinon.stub(),
+      getActiveByUserIds: sinon.stub(),
     };
     const usersFromApi = [
       { id: 1, firstName: 'Théo', lastName: 'Courant' },
       { id: 2, firstName: 'Alex', lastName: 'Térieur' },
     ];
     const expectedUsers = usersFromApi.map((user) => new User(user));
-    usersApi.getUserDetailsByUserIds.withArgs({ userIds }).resolves(usersFromApi);
+    usersApi.getActiveByUserIds.withArgs({ userIds }).resolves(usersFromApi);
 
     // when
     const users = await userRepository.getByIds({ userIds, usersApi });

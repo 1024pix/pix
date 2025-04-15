@@ -69,7 +69,7 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
 
     server.create('correction-response', {
       id: 'elementId-1',
-      feedback: "Bravo ! C'est la bonne réponse.",
+      feedback: { state: "Bravo ! C'est la bonne réponse." },
       status: 'ok',
       solution: { symbole: '@', 'premiere-partie': '2' },
     });

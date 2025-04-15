@@ -14,13 +14,13 @@ describe('Acceptance | Application | target-profile-api', function () {
     });
   });
 
-  describe('#getById', function () {
+  describe('#getByIdForAdmin', function () {
     it('should not fail', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
 
       await databaseBuilder.commit();
 
-      const result = await targetProfileApi.getById(targetProfileId);
+      const result = await targetProfileApi.getByIdForAdmin(targetProfileId);
       expect(result).to.be.ok;
     });
   });

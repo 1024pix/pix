@@ -513,7 +513,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
     describe('PixScore by competences', function () {
       it('should assign pixScore and level to user competence based on knowledge elements', async function () {
         // given
-        const sharedAt = new Date('2022-01-05');
         const ke = databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
@@ -524,8 +523,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: userId,
-          snappedAt: sharedAt,
           campaignParticipationId: campaignParticipation.id,
           snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
         });
@@ -553,7 +550,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
       it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
         // given
-        const sharedAt = new Date('2022-01-05');
         const ke1 = databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
@@ -575,8 +571,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId: userId,
-          snappedAt: sharedAt,
           campaignParticipationId: campaignParticipation.id,
           snapshot: new KnowledgeElementCollection([ke1, ke2]).toSnapshot(),
         });
@@ -604,8 +598,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId: campaignParticipation.id,
-            userId: userId,
-            snappedAt: campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
           });
 
@@ -639,8 +631,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId: campaignParticipation.id,
-            userId: userId,
-            snappedAt: campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
           });
 

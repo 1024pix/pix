@@ -147,11 +147,11 @@ module('Integration | Component | data-protection-policy-information-banner', fu
 
               // then
               assert
-                .dom(screen.getByRole('link', { name: 'Beleid gegevensbescherming.' }))
+                .dom(screen.getByRole('link', { name: 'Gegevensbeschermingsbeleid.' }))
                 .hasAttribute('href', 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens');
 
               const content = screen.getByText((content) =>
-                content.startsWith('Ons privacybeleid is gewijzigd. We nodigen je uit om het te lezen:'),
+                content.startsWith('Ons privacybeleid is gewijzigd. Lees het hier:'),
               );
               assert.dom(content).exists();
             });

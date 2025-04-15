@@ -82,17 +82,26 @@
                     {
                       "id": "1",
                       "content": "Liège",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Marseille",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "Toulouse",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">✨</span></span>"
+                      "feedback": {
+                        "state": "Bonne réponse ! ✨",
+                        "diagnosis": ""
+                      }
                     }
                   ],
                   "solution": "3"
@@ -109,17 +118,26 @@
                     {
                       "id": "1",
                       "content": "la marque de son ordinateur",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "son adresse IP",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">✨</span></span>"
+                      "feedback": {
+                        "state": "Bonne réponse !✨",
+                        "diagnosis": ""
+                      }
                     },
                     {
                       "id": "3",
                       "content": "son historique de navigation",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -172,17 +190,26 @@
               {
                 "id": "1",
                 "content": "C'est l'adresse qui permet d'identifier un appareil informatique connecté à internet.",
-                "feedback": "<span class=\"feedback__state\">Bonne réponse <span aria-hidden=\"true\">💫</span></span><p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>"
+                "feedback": {
+                  "state": "Bonne réponse \uD83D\uDCAB",
+                  "diagnosis": "<p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "C’est l’adresse qui commence par \"www.\" que l’on tape pour accéder à un site internet.",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                }
               },
               {
                 "id": "3",
                 "content": "C’est l’adresse qui permet d’envoyer des emails à des personnes via internet.",
-                "feedback": "<span class=\"feedback__state\">Mauvaise réponse</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Vous pensez peut-être plutôt à l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
+                }
               }
             ],
             "solution": "1"
@@ -216,12 +243,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -238,12 +271,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -260,12 +299,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -282,12 +327,18 @@
                     {
                       "id": "1",
                       "content": "Vrai",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "Faux",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -343,8 +394,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez peut-être même trouvé la ville dans laquelle elle se trouve.</p>",
-              "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Pour avoir de l'aide, utiliser les indices ci-dessous.</p>"
+              "valid": {
+                "state": "Bonne réponse.&nbsp;🎉",
+                "diagnosis": "<p>Vous avez peut-être même trouvé la ville dans laquelle elle se trouve.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse",
+                "diagnosis": "<p>Pour avoir de l'aide, utiliser les indices ci-dessous.</p>"
+              }
             }
           }
         },
@@ -418,12 +475,18 @@
                     {
                       "id": "1",
                       "content": "l'adresse IP privée",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Ces échanges se font sur le réseau <strong>local</strong> de Mélanie</p>"
+                      "feedback": {
+                        "state": "Bonne réponse.&nbsp;🎉",
+                        "diagnosis": "<p>Ces échanges se font sur le réseau <strong>local</strong> de Mélanie</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "l'adresse IP publique",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> L'adresse IP publique permet les échanges entre la box internet de Mélanie et les sites qu'elle visite.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> L'adresse IP publique permet les échanges entre la box internet de Mélanie et les sites qu'elle visite.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -440,12 +503,18 @@
                     {
                       "id": "1",
                       "content": "l'adresse IP privée",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Cela permet de bien distinguer chacun des appareils de Mélanie</p>"
+                      "feedback": {
+                        "state": "Bonne réponse.&nbsp;🎉",
+                        "diagnosis": "<p>Cela permet de bien distinguer chacun des appareils de Mélanie</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "l'adresse IP publique",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> L'adresse IP publique est spécifique à la box internet. Chaque appareil qui y est connecté a sa propre adresse IP privée.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> L'adresse IP publique est spécifique à la box internet. Chaque appareil qui y est connecté a sa propre adresse IP privée.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -462,12 +531,18 @@
                     {
                       "id": "1",
                       "content": "l'adresse IP privée",
-                      "feedback": "<span class=\"feedback__state\">Mauvaise réponse.</span><p> L'adresse IP <strong>privée</strong> (locale) de Mélanie est visible uniquement par les appareils de son réseau local.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p> L'adresse IP <strong>privée</strong> (locale) de Mélanie est visible uniquement par les appareils de son réseau local.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "l'adresse IP publique",
-                      "feedback": "<span class=\"feedback__state\">Bonne réponse.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Cette adresse est <strong>publique</strong> donc <strong>visible</strong>.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse.&nbsp;🎉",
+                        "diagnosis": "<p>Cette adresse est <strong>publique</strong> donc <strong>visible</strong>.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -493,12 +568,18 @@
               {
                 "id": "1",
                 "content": "oui",
-                "feedback": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "non",
-                "feedback": "<p> Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p> Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
+                }
               }
             ],
             "solution": "1"

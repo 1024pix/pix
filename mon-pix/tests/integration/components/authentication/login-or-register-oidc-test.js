@@ -26,17 +26,22 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     }
     this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
 
-    this.set('givenName', 'Mélusine');
-    this.set('familyName', 'TITEGOUTTE');
+    const userClaims = {
+      firstName: 'Mélusine',
+      lastName: 'TITEGOUTTE',
+    };
+
+    this.set('userClaims', userClaims);
   });
 
   test('should display heading', async function (assert) {
     // given & when
     const screen = await render(
-      hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} />`,
-    );
-
-    // then
+      hbs`<Authentication::LoginOrRegisterOidc
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{this.userClaims}}
+/>`,
+    ); // then
     assert.ok(
       screen.getByRole('heading', {
         name: t('pages.login-or-register-oidc.title'),
@@ -46,42 +51,64 @@ module('Integration | Component | authentication | login-or-register-oidc', func
   });
 
   module('on register form', function () {
-    test('should display elements for OIDC identity provider', async function (assert) {
-      // given & when
-      const screen = await render(
-        hbs`<Authentication::LoginOrRegisterOidc
+    module('when userClaims are found', function () {
+      test('should display elements for OIDC identity provider', async function (assert) {
+        // given & when
+        const screen = await render(
+          hbs`<Authentication::LoginOrRegisterOidc
   @identityProviderSlug={{this.identityProviderSlug}}
-  @givenName={{this.givenName}}
-  @familyName={{this.familyName}}
+  @userClaims={{this.userClaims}}
 />`,
-      );
+        );
 
-      // then
-      assert.ok(
-        screen.getByRole('heading', {
-          name: t('pages.login-or-register-oidc.register-form.title'),
-          level: 2,
-        }),
-      );
-      assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.register-form.button') }));
-      assert.ok(screen.getByText('Partenaire OIDC'));
-      assert.ok(
-        screen.getByText(
-          t('pages.login-or-register-oidc.register-form.information.given-name', {
-            givenName: 'Mélusine',
+        // then
+        assert.ok(
+          screen.getByRole('heading', {
+            name: t('pages.login-or-register-oidc.register-form.title'),
+            level: 2,
           }),
-        ),
-      );
-      assert.ok(
-        screen.getByText(
-          t('pages.login-or-register-oidc.register-form.information.family-name', {
-            familyName: 'TITEGOUTTE',
+        );
+        assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.register-form.button') }));
+        assert.ok(screen.getByText('Partenaire OIDC'));
+        assert.ok(
+          screen.getByText(`${t('pages.login-or-register-oidc.register-form.information.firstName')} Mélusine`),
+        );
+        assert.ok(
+          screen.getByText(`${t('pages.login-or-register-oidc.register-form.information.lastName')} TITEGOUTTE`),
+        );
+        assert.ok(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
+        assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
+      });
+    });
+
+    module('when userClaims are not found', function () {
+      test('diplays an error and no register form', async function (assert) {
+        // given & when
+        const screen = await render(
+          hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+        );
+
+        // then
+        assert.ok(
+          screen.getByRole('heading', {
+            name: t('pages.login-or-register-oidc.register-form.title'),
+            level: 2,
           }),
-        ),
-      );
-      assert.ok(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
-      assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
-      assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
+        );
+        assert.ok(screen.getByText(t('pages.login-or-register-oidc.register-form.information.error')));
+        assert.notOk(screen.queryByRole('button', { name: t('pages.login-or-register-oidc.register-form.button') }));
+        assert.notOk(screen.queryByText('Partenaire OIDC'));
+        assert.notOk(
+          screen.queryByText(`${t('pages.login-or-register-oidc.register-form.information.firstName')} Mélusine`),
+        );
+        assert.notOk(
+          screen.queryByText(`${t('pages.login-or-register-oidc.register-form.information.lastName')} TITEGOUTTE`),
+        );
+        assert.notOk(screen.queryByRole('checkbox', { name: t('common.cgu.label') }));
+        assert.notOk(screen.queryByRole('link', { name: t('common.cgu.cgu') }));
+        assert.notOk(screen.queryByRole('link', { name: t('common.cgu.data-protection-policy') }));
+      });
     });
   });
 
@@ -91,12 +118,9 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       const screen = await render(
         hbs`<Authentication::LoginOrRegisterOidc
   @identityProviderSlug={{this.identityProviderSlug}}
-  @givenName={{this.givenName}}
-  @familyName={{this.familyName}}
+  @userClaims={{this.userClaims}}
 />`,
-      );
-
-      // then
+      ); // then
       assert.ok(
         screen.getByRole('heading', {
           name: t('pages.login-or-register-oidc.login-form.title'),
@@ -106,20 +130,8 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       assert.ok(screen.getByRole('textbox', { name: t('pages.login-or-register-oidc.login-form.email') }));
       assert.ok(screen.getByRole('link', { name: t('pages.sign-in.forgotten-password') }));
       assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.login-form.button') }));
-      assert.ok(
-        screen.getByText(
-          t('pages.login-or-register-oidc.register-form.information.given-name', {
-            givenName: 'Mélusine',
-          }),
-        ),
-      );
-      assert.ok(
-        screen.getByText(
-          t('pages.login-or-register-oidc.register-form.information.family-name', {
-            familyName: 'TITEGOUTTE',
-          }),
-        ),
-      );
+      assert.ok(screen.getByText(`${t('pages.login-or-register-oidc.register-form.information.firstName')} Mélusine`));
+      assert.ok(screen.getByText(`${t('pages.login-or-register-oidc.register-form.information.lastName')} TITEGOUTTE`));
     });
   });
 });

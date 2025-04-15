@@ -1189,7 +1189,6 @@ function _makeCandidatesPassCertification({
       pixScore: assessmentResultPixScore,
       reproducibilityRate: 100,
       status: 'validated',
-      emitter: 'PIX-ALGO',
       commentForCandidate: '',
       commentForOrganization: '',
       juryId: null,

@@ -25,7 +25,7 @@ class SessionEnrolment {
     certificationCandidates,
     certificationCenterId,
     invigilatorPassword,
-    version = SESSIONS_VERSIONS.V2,
+    version = SESSIONS_VERSIONS.V3,
     createdBy,
     finalizedAt,
   } = {}) {

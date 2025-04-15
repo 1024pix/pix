@@ -1,7 +1,9 @@
 .new-candidate-modal {
+  top: 0;
   min-width: 576px;
   max-width: 576px;
   margin: 100px auto;
+  transform: translateX(-50%);
 
   &__form {
     display: flex;

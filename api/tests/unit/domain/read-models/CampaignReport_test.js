@@ -39,6 +39,20 @@ describe('Unit | Domain | Models | CampaignReport', function () {
     });
   });
 
+  describe('#setCoverRate', function () {
+    it('should set cover rate', function () {
+      // given
+      const campaignResultLevelsPerTubesAndCompetences =
+        domainBuilder.prescription.campaign.buildCampaignResultLevelsPerTubesAndCompetences();
+      const campaignReport = domainBuilder.buildCampaignReport();
+
+      // when
+      campaignReport.setCoverRate(campaignResultLevelsPerTubesAndCompetences);
+      // then
+      expect(campaignReport.tubes).to.deep.equal(campaignResultLevelsPerTubesAndCompetences.levelsPerTube);
+    });
+  });
+
   describe('#setTargetProfileInformation', function () {
     it('should define target profile informations', function () {
       const targetProfileForSpecifier = {

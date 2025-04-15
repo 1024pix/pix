@@ -466,9 +466,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           ];
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: fredId,
             campaignParticipationId: userWithCampaignParticipationFred.campaignParticipation.id,
-            snappedAt: userWithCampaignParticipationFred.sharedAt,
             snapshot: new KnowledgeElementCollection(
               knowledgeElements.map(domainBuilder.buildKnowledgeElement),
             ).toSnapshot(),
@@ -889,8 +887,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsAlice = knowledgeElementsDataAlice.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationAlice.userId,
-            snappedAt: userWithCampaignParticipationAlice.campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection(
               knowledgeElementsAlice.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
             ).toSnapshot(),
@@ -902,8 +898,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
           );
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationCharlie.userId,
-            snappedAt: userWithCampaignParticipationCharlie.campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection(
               knowledgeElementsCharlie.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
             ).toSnapshot(),
@@ -913,8 +907,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsBob = knowledgeElementsDataBob.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationBob.userId,
-            snappedAt: userWithCampaignParticipationBob.campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection(
               knowledgeElementsBob.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
             ).toSnapshot(),
@@ -926,8 +918,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsElo = knowledgeElementsDataElo.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationElo.userId,
-            snappedAt: userWithCampaignParticipationElo.campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection(
               knowledgeElementsElo.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
             ).toSnapshot(),
@@ -982,8 +972,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
           });
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userId,
-            snappedAt: campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection([knowledgeElement]).toSnapshot(),
             campaignParticipationId: campaignParticipation.id,
           });
@@ -1071,15 +1059,11 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsBob = knowledgeElementsDataBob.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationAlice.userId,
-            snappedAt: userWithCampaignParticipationAlice.campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection(knowledgeElementsAlice).toSnapshot(),
             campaignParticipationId: userWithCampaignParticipationAlice.campaignParticipation.id,
           });
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            userId: userWithCampaignParticipationBob.userId,
-            snappedAt: userWithCampaignParticipationBob.campaignParticipation.sharedAt,
             snapshot: new KnowledgeElementCollection(knowledgeElementsBob).toSnapshot(),
             campaignParticipationId: userWithCampaignParticipationBob.campaignParticipation.id,
           });

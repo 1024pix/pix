@@ -264,7 +264,7 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             finalizedSessionRepository.get.resolves(domainBuilder.buildFinalizedSession());
 
             // when/then
-            expect(
+            expect(async () => {
               await publishSession({
                 sessionId: 'sessionId',
                 publishedAt: now,
@@ -272,12 +272,12 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
                 finalizedSessionRepository,
                 sessionRepository,
                 sharedSessionRepository,
-              }),
-            ).to.not.throw;
+              });
 
-            expect(certificationRepository.publishCertificationCourses).to.have.been.calledOnceWithExactly([
-              { pixCertificationStatus: null, isCancelled: true },
-            ]);
+              expect(certificationRepository.publishCertificationCourses).to.have.been.calledOnceWithExactly([
+                { pixCertificationStatus: null, isCancelled: true },
+              ]);
+            }).to.not.throw();
           });
         });
       });

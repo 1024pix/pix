@@ -41,7 +41,7 @@ describe('Integration | Devcomp | Application | Passage | Router | passage-route
         const validPayload = {
           data: {
             attributes: {
-              'module-id': 'existing id',
+              'module-id': 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
             },
           },
         };

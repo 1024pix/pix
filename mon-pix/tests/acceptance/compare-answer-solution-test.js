@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
+import { waitForDialog } from '../helpers/wait-for';
 
 module('Compare answers and solutions for QCM questions', function (hooks) {
   setupApplicationTest(hooks);
@@ -70,16 +71,17 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
   module('Content of the correction modal', function () {
     test('should be able to open the correction modal', async function (assert) {
-      // given & when
+      // given
       const screen = await visit(`/assessments/${assessment.id}/results`);
+      assert.notOk(screen.queryByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' }));
+      const buttons = screen.getAllByRole('button', { name: 'Réponses et tutos' });
+
+      // when
+      await click(buttons[0]);
+      await waitForDialog();
 
       // then
-      assert.notOk(screen.queryByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' }));
-
-      await click('.result-item__correction-button');
-
-      assert.dom('.pix-modal__overlay--hidden .comparison-window').doesNotExist();
-      assert.dom('.pix-modal__overlay .comparison-window').exists();
+      assert.ok(screen.getByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' }));
     });
 
     test('should be able to send a feedback', async function (assert) {

@@ -238,8 +238,6 @@ async function createAssessmentCampaign({
 
       if (isShared) {
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          userId,
-          snappedAt: sharedAt,
           snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
           campaignParticipationId,
         });
@@ -402,8 +400,6 @@ async function createProfilesCollectionCampaign({
         );
       }
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        userId,
-        snappedAt: sharedAt,
         snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
         campaignParticipationId,
       });

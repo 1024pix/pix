@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
-import * as fetch from 'fetch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -42,7 +41,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
       '.bbb';
 
     hooks.beforeEach(function () {
-      sinon.stub(fetch, 'default').resolves({
+      sinon.stub(window, 'fetch').resolves({
         json: sinon.stub().resolves({ access_token: accessToken }),
         ok: true,
       });
@@ -84,7 +83,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
           },
         },
       });
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/admin/oidc/user/reconcile`, request);
+      sinon.assert.calledWith(window.fetch, `http://localhost:3000/api/admin/oidc/user/reconcile`, request);
       assert.deepEqual(token, {
         access_token: accessToken,
         source,
@@ -107,7 +106,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
       // then
       request.body = body;
-      sinon.assert.calledWith(fetch.default, 'http://localhost:3000/api/oidc/token', request);
+      sinon.assert.calledWith(window.fetch, 'http://localhost:3000/api/oidc/token', request);
       assert.deepEqual(token, {
         access_token: accessToken,
         source,
@@ -138,7 +137,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
         // then
         request.body = body;
-        sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
+        sinon.assert.calledWith(window.fetch, `http://localhost:3000/api/oidc/token`, request);
         sinon.assert.calledOnce(sessionStub.invalidate);
         assert.ok(true);
       });

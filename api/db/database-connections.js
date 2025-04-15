@@ -18,6 +18,13 @@ class DatabaseConnections {
   async checkStatuses() {
     return Promise.all(this.#connections.map((connection) => connection.checkStatus()));
   }
+
+  getPoolMetrics() {
+    const pools = this.#connections.reduce((acc, current) => {
+      return { ...acc, ...current.getPoolMetrics() };
+    }, {});
+    return { pools };
+  }
 }
 
 export const databaseConnections = new DatabaseConnections();

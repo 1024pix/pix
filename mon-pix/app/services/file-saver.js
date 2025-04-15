@@ -1,5 +1,4 @@
 import Service from '@ember/service';
-import fetch from 'fetch';
 
 export default class FileSaver extends Service {
   _downloadFileForIEBrowser({ fileContent, fileName }) {

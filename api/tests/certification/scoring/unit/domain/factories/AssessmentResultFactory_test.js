@@ -1,6 +1,6 @@
 import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { AssessmentResult, CertificationResult } from '../../../../../../src/shared/domain/models/index.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResultFactory', function () {
@@ -16,14 +16,12 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         error,
         assessmentId: 123,
         juryId: 456,
-        emitter: 'Moi',
       });
 
       // then
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         assessmentId: 123,
         juryId: 456,
-        emitter: 'Moi',
         commentByJury: 'message for jury',
         status: AssessmentResult.status.ERROR,
         pixScore: 0,
@@ -47,14 +45,12 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 456,
-        emitter: 'Moi',
       });
 
       // then
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         assessmentId: 123,
         juryId: 456,
-        emitter: 'Moi',
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
         reproducibilityRate: 90,
@@ -76,14 +72,12 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         reproducibilityRate: 50.25,
         assessmentId: 123,
         juryId: 456,
-        emitter: CertificationResult.emitters.PIX_ALGO_CANCELLATION,
       });
 
       // then
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         assessmentId: 123,
         juryId: 456,
-        emitter: CertificationResult.emitters.PIX_ALGO_CANCELLATION,
         status: AssessmentResult.status.CANCELLED,
         pixScore: 55,
         reproducibilityRate: 50.25,
@@ -102,14 +96,12 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         reproducibilityRate: 50.25,
         assessmentId: 123,
         juryId: 456,
-        emitter: 'Moi',
       });
 
       // then
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         assessmentId: 123,
         juryId: 456,
-        emitter: 'Moi',
         status: AssessmentResult.status.CANCELLED,
         pixScore: 55,
         reproducibilityRate: 50.25,
@@ -138,7 +130,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         reproducibilityRate: 50.25,
         assessmentId: 123,
         juryId: 456,
-        emitter: 'PIX-ALGO-FRAUD-REJECTION',
         competenceMarks,
       });
 
@@ -146,7 +137,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         assessmentId: 123,
         juryId: 456,
-        emitter: 'PIX-ALGO-FRAUD-REJECTION',
         status: AssessmentResult.status.REJECTED,
         pixScore: 55,
         reproducibilityRate: 50.25,
@@ -168,7 +158,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
     it('should return an insufficient correct answers AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResultFactory.buildInsufficientCorrectAnswers({
-        emitter: CertificationResult.emitters.PIX_ALGO,
         pixScore: 0,
         reproducibilityRate: 49,
         assessmentId: 123,
@@ -183,7 +172,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         reproducibilityRate: 49,
         assessmentId: 123,
         juryId: 456,
-        emitter: 'PIX-ALGO',
         commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
           commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
         }),
@@ -201,7 +189,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
     it('should return a cancelled AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
-        emitter: CertificationResult.emitters.PIX_ALGO,
         pixScore: 0,
         reproducibilityRate: 49,
         assessmentId: 123,
@@ -215,7 +202,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         reproducibilityRate: 49,
         assessmentId: 123,
         juryId: 456,
-        emitter: CertificationResult.emitters.PIX_ALGO,
         commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
           commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
         }),

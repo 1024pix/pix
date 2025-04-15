@@ -1,10 +1,6 @@
 import dayjs from 'dayjs';
 
 import * as studentInformationForAccountRecoverySerializer from '../../../src/identity-access-management/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
-import {
-  getForwardedOrigin,
-  RequestedApplication,
-} from '../../../src/identity-access-management/infrastructure/utils/network.js';
 import * as scoOrganizationLearnerSerializer from '../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import { DomainTransaction } from '../../../src/shared/domain/DomainTransaction.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
@@ -61,30 +57,6 @@ const createAndReconcileUserToOrganizationLearner = async function (
   });
 
   return h.response().code(204);
-};
-
-const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function (
-  request,
-  h,
-  dependencies = { scoOrganizationLearnerSerializer },
-) {
-  const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
-
-  const origin = getForwardedOrigin(request.headers);
-  const requestedApplication = RequestedApplication.fromOrigin(origin);
-  const accessToken = await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
-    birthdate,
-    campaignCode,
-    token,
-    audience: origin,
-    requestedApplication,
-  });
-
-  const scoOrganizationLearner = {
-    accessToken,
-  };
-
-  return h.response(dependencies.scoOrganizationLearnerSerializer.serializeExternal(scoOrganizationLearner)).code(200);
 };
 
 const updatePassword = async function (request, h, dependencies = { scoOrganizationLearnerSerializer }) {
@@ -168,7 +140,6 @@ const batchGenerateOrganizationLearnersUsernameWithTemporaryPassword = async fun
 const scoOrganizationLearnerController = {
   generateUsername,
   createAndReconcileUserToOrganizationLearner,
-  createUserAndReconcileToOrganizationLearnerFromExternalUser,
   updatePassword,
   generateUsernameWithTemporaryPassword,
   checkScoAccountRecovery,

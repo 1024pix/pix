@@ -36,7 +36,10 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
         fullNameFromPix: 'Glace Alo',
         authenticationMethods: [{ identityProvider: 'OIDC_PARTNER' }],
       });
-      controller.authenticationKey = authenticationKey;
+
+      sinon.stub(controller, 'authenticationKey').get(function () {
+        return authenticationKey;
+      });
       controller.identityProviderSlug = 'oidc-partner';
       sinon.stub(controller.store, 'createRecord').returns({ login });
 
@@ -75,6 +78,7 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
 
       const email = 'glace.alo@example.net';
       const password = 'pix123';
+      const authenticationKey = '1234567azerty';
       const controller = this.owner.lookup('controller:authentication/login-or-register-oidc');
       const login = sinon.stub().resolves({
         email,
@@ -89,6 +93,9 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
       controller.showOidcReconciliation = false;
       controller.identityProviderSlug = 'oidc-partner';
       sinon.spy(controller.store, 'createRecord');
+      sinon.stub(controller, 'authenticationKey').get(function () {
+        return authenticationKey;
+      });
 
       // when
       await controller.onLogin({ enteredEmail: email, enteredPassword: password });

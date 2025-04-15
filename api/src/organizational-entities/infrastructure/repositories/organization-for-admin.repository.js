@@ -4,6 +4,7 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../shared/domain/errors.js';
+import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { OrganizationInvitation } from '../../../team/domain/models/OrganizationInvitation.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 import { Tag } from '../../domain/models/Tag.js';
@@ -216,6 +217,23 @@ const update = async function (organization) {
     .where({ id: organization.id });
 };
 
+/**
+ * @param {Object} params
+ * @param {Object} params.filter
+ * @param {number} params.page
+ * @return {Promise<OrganizationForAdmin>}
+ */
+const findPaginatedFiltered = async function ({ filter, page }) {
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn(ORGANIZATIONS_TABLE_NAME)
+    .modify(_setSearchFiltersForQueryBuilder, filter)
+    .orderBy('name', 'ASC');
+
+  const { results, pagination } = await fetchPage(query, page);
+  const organizations = results.map((model) => _toDomain(model));
+  return { models: organizations, pagination };
+};
+
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
     .insert(dataProtectionOfficer)
@@ -273,6 +291,25 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
     .ignore();
 }
 
+function _setSearchFiltersForQueryBuilder(qb, filter) {
+  const { id, name, type, externalId, hideArchived } = filter;
+  if (id) {
+    qb.where('organizations.id', id);
+  }
+  if (name) {
+    qb.whereILike('name', `%${name}%`);
+  }
+  if (type) {
+    qb.where('type', type);
+  }
+  if (externalId) {
+    qb.whereILike('externalId', `%${externalId}%`);
+  }
+  if (hideArchived) {
+    qb.whereNull('archivedAt');
+  }
+}
+
 function _paramsForFeature(importFormats, key, value) {
   if (key === ORGANIZATION_FEATURE.LEARNER_IMPORT.key) {
     const learnerImportFormat = importFormats.find(({ name }) => name === value.params.name);
@@ -327,6 +364,7 @@ function _toDomain(rawOrganization) {
 export const organizationForAdminRepository = {
   archive,
   exist,
+  findPaginatedFiltered,
   findChildrenByParentOrganizationId,
   get,
   save,

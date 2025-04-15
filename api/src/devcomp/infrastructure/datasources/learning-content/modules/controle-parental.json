@@ -69,17 +69,26 @@
               {
                 "id": "1",
                 "content": "<p>Il permet d’encadrer les pratiques numériques de son enfant.</p>",
-                "feedback": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
+                "feedback": {
+                  "state": "Bonne réponse !&nbsp;🎉",
+                  "diagnosis": "<p>En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>Il permet de surveiller la santé de son enfant.</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le contrôle parental ne concerne pas la surveillance de la santé.<br>Regardez à nouveau la conversation et réessayez !</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Le contrôle parental ne concerne pas la surveillance de la santé.<br>Regardez à nouveau la conversation et réessayez !</p>"
+                }
               },
               {
                 "id": "3",
                 "content": "<p>Il permet de vérifier que son enfant a fait ses devoirs scolaires.</p>",
-                "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le contrôle parental ne concerne pas le suivi de la scolarité.<br>Regardez à nouveau la conversation et réessayez !</p>"
+                "feedback": {
+                  "state": "Mauvaise réponse.",
+                  "diagnosis": "<p>Le contrôle parental ne concerne pas le suivi de la scolarité.<br>Regardez à nouveau la conversation et réessayez !</p>"
+                }
               }
             ],
             "solution": "1"
@@ -145,17 +154,26 @@
                     {
                       "id": "1",
                       "content": "<p>la gestion du temps d’écran</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p><span class=\"feedback__state\"></span></p><p>La gestion du temps d’écran permet de mettre des limites de temps d’utilisation.<br>Elle ne permet pas de bloquer l’accès à un contenu en fonction de l’âge de son enfant.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>La gestion du temps d’écran permet de mettre des limites de temps d’utilisation.<br>Elle ne permet pas de bloquer l’accès à un contenu en fonction de l’âge de son enfant.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>le filtrage des contenus</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>Le filtrage de contenus permet de bloquer l’accès aux contenus en fonction de l’âge de son enfant.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !&nbsp;🎉",
+                        "diagnosis": "<p>Le filtrage de contenus permet de bloquer l’accès aux contenus en fonction de l’âge de son enfant.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>le suivi de l’activité en ligne</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le suivi de l’activité en ligne permet de suivre l’utilisation de la console. <br>Il ne permet pas de bloquer l’accès à un contenu en fonction de l’âge de son enfant.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le suivi de l’activité en ligne permet de suivre l’utilisation de la console. <br>Il ne permet pas de bloquer l’accès à un contenu en fonction de l’âge de son enfant.</p>"
+                      }
                     }
                   ],
                   "solution": "2"
@@ -177,17 +195,26 @@
                     {
                       "id": "1",
                       "content": "<p>la gestion du temps d’écran</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>Avec la gestion du temps d’écran, il est possible de définir des plages horaires où l’utilisation du smartphone est bloquée.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !&nbsp;🎉",
+                        "diagnosis": "<p>Avec la gestion du temps d’écran, il est possible de définir des plages horaires où l’utilisation du smartphone est bloquée.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>le filtrage des contenus</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le filtrage de contenus permet de bloquer l’accès à des contenus en fonction de l’âge par exemple.<br> Il ne permet pas de définir des temps de blocage du smartphone de son enfant.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le filtrage de contenus permet de bloquer l’accès à des contenus en fonction de l’âge par exemple.<br> Il ne permet pas de définir des temps de blocage du smartphone de son enfant.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>le suivi de l’activité en ligne</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Le suivi de l’activité en ligne permet de suivre l’utilisation du smartphone. <br>Il ne permet pas de définir des temps de blocage du smartphone de son enfant.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le suivi de l’activité en ligne permet de suivre l’utilisation du smartphone. <br>Il ne permet pas de définir des temps de blocage du smartphone de son enfant.</p>"
+                      }
                     }
                   ],
                   "solution": "1"
@@ -209,17 +236,26 @@
                     {
                       "id": "1",
                       "content": "<p>la gestion du temps d’écran</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>La gestion du temps d’écran permet de mettre des limites de temps d’utilisation.<br>Elle ne permet pas de connaître le temps d’utilisation d’une application par son enfant.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>La gestion du temps d’écran permet de mettre des limites de temps d’utilisation.<br>Elle ne permet pas de connaître le temps d’utilisation d’une application par son enfant.</p>"
+                      }
                     },
                     {
                       "id": "2",
                       "content": "<p>le filtrage des contenus</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p><span class=\"feedback__state\"></span></p><p>Le filtrage de contenus permet de bloquer l’accès à des contenus en fonction de l’âge par exemple. <br>Il ne permet pas de connaître le temps d’utilisation d’une application par son enfant.</p>"
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Le filtrage de contenus permet de bloquer l’accès à des contenus en fonction de l’âge par exemple. <br>Il ne permet pas de connaître le temps d’utilisation d’une application par son enfant.</p>"
+                      }
                     },
                     {
                       "id": "3",
                       "content": "<p>le suivi de l’activité en ligne</p>",
-                      "feedback": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>Le suivi de l’activité en ligne permet de connaître les applications utilisées le plus souvent par son enfant sur son smartphone.</p>"
+                      "feedback": {
+                        "state": "Bonne réponse !&nbsp;🎉",
+                        "diagnosis": "<p>Le suivi de l’activité en ligne permet de connaître les applications utilisées le plus souvent par son enfant sur son smartphone.</p>"
+                      }
                     }
                   ],
                   "solution": "3"
@@ -382,8 +418,14 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Bonne réponse !&nbsp;🎉</span></p><p>Pour accompagner au mieux Max, Nina peut activer des options de contrôle parental sur les appareils et les plateformes en ligne.</p>",
-              "invalid": "<p><span class=\"feedback__state\">Mauvaise réponse.</span></p><p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Relisez l’infographie et essayez à nouveau !</p>"
+              "valid": {
+                "state": "Bonne réponse !&nbsp;🎉",
+                "diagnosis": "<p>Pour accompagner au mieux Max, Nina peut activer des options de contrôle parental sur les appareils et les plateformes en ligne.</p>"
+              },
+              "invalid": {
+                "state": "Mauvaise réponse.",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Relisez l’infographie et essayez à nouveau !</p>"
+              }
             },
             "solutions": ["1", "2", "3", "5"]
           }
@@ -405,12 +447,18 @@
               {
                 "id": "1",
                 "content": "<p>oui</p>",
-                "feedback": "<p>Bravo ! ✨ Vous pouvez aussi regarder sur les sites et plateformes en ligne s'ils proposent des options de contrôle parental.</p>"
+                "feedback": {
+                  "state": "Bravo ! ✨",
+                  "diagnosis": "<p>Vous pouvez aussi regarder sur les sites et plateformes en ligne s'ils proposent des options de contrôle parental.</p>"
+                }
               },
               {
                 "id": "2",
                 "content": "<p>non</p>",
-                "feedback": "<p>Avez-vous regardé dans les paramètres de vos appareils ? Il y a souvent un symbole de roue crantée.&nbsp;⚙️</p>"
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Avez-vous regardé dans les paramètres de vos appareils ? Il y a souvent un symbole de roue crantée.&nbsp;⚙️</p>"
+                }
               }
             ],
             "solution": "1"

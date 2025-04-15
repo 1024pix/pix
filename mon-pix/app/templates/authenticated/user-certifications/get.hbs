@@ -1,33 +1,34 @@
-<PixBackgroundHeader class="user-certifications-page-get">
-  <PixButtonLink
-    @route="authenticated.user-certifications"
-    @variant="transparent-dark"
-    @iconBefore="arrowLeft"
-    class="user-certifications-page__previous-button"
-  >
-    {{t "pages.certificate.back-link"}}
-  </PixButtonLink>
+<Global::AppLayout>
+  <main id="main" class="global-page-container" role="main">
+    <PixButtonLink
+      @route="authenticated.user-certifications"
+      @variant="tertiary"
+      @iconBefore="arrowLeft"
+      class="user-certifications-page__previous-button"
+    >
+      {{t "pages.certificate.back-link"}}
+    </PixButtonLink>
 
-  <PixBlock class="user-certifications-page-get__header">
-    <UserCertificationsDetailHeader @certification={{@model}} />
-  </PixBlock>
+    <PixBlock class="user-certifications-page-get__header">
+      <Certifications::UserCertificationsDetailHeader @certification={{@model}} />
+    </PixBlock>
 
-  <div class="user-certifications-page-get__details-body">
-    <UserCertificationsDetailCompetencesList
-      @resultCompetenceTree={{@model.resultCompetenceTree}}
-      @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
-    />
-    {{#if this.shouldDisplayDetailsSection}}
-      <UserCertificationsDetailResult @certification={{@model}} />
-    {{/if}}
-  </div>
+    <div class="user-certifications-page-get__details-body">
+      <Certifications::UserCertificationsDetailCompetencesList
+        @resultCompetenceTree={{@model.resultCompetenceTree}}
+        @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
+      />
+      {{#if this.shouldDisplayDetailsSection}}
+        <Certifications::UserCertificationsDetailResult @certification={{@model}} />
+      {{/if}}
+    </div>
 
-  <p class="user-certifications-page-get__note">
-    {{t
-      "pages.certificate.competences.information"
-      maxReachableLevelOnCertificationDate=this.model.maxReachableLevelOnCertificationDate
-      maxReachablePixCountOnCertificationDate=this.model.maxReachablePixCountOnCertificationDate
-    }}
-  </p>
-
-</PixBackgroundHeader>
+    <p class="user-certifications-page-get__note">
+      {{t
+        "pages.certificate.competences.information"
+        maxReachableLevelOnCertificationDate=this.model.maxReachableLevelOnCertificationDate
+        maxReachablePixCountOnCertificationDate=this.model.maxReachablePixCountOnCertificationDate
+      }}
+    </p>
+  </main>
+</Global::AppLayout>

@@ -7,6 +7,15 @@ import { LearningContentResourceNotFound } from '../../../../shared/domain/error
 const referential = await importModules();
 
 const moduleDatasource = {
+  getById: async (id) => {
+    const foundModule = referential.modules.find((module) => module.id === id);
+
+    if (foundModule === undefined) {
+      throw new LearningContentResourceNotFound();
+    }
+
+    return foundModule;
+  },
   getBySlug: async (slug) => {
     const foundModule = referential.modules.find((module) => module.slug === slug);
 

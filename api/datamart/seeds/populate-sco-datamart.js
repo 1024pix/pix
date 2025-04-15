@@ -9,7 +9,7 @@ import { chunkify } from './cases/tools.js';
 const NUMBER_OF_SEEDS = Number(process.env.DATAMART_NUMBER_OF_SEEDS) || 100;
 
 const insertScoDatamart = async (knex) => {
-  const scoDatamart = 'data_export_parcoursup_certif_result';
+  const scoDatamart = 'sco_certification_results';
 
   logger.info('Start Case 1 : INE ok');
   await chunkify({ numberOfSeeds: NUMBER_OF_SEEDS, knex, datamart: scoDatamart, generateFn: caseINEok });

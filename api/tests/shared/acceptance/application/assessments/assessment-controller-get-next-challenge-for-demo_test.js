@@ -1,3 +1,4 @@
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
@@ -58,6 +59,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
           id: assessmentId,
           type: 'DEMO',
           courseId: 'course_id',
+          state: Assessment.states.STARTED,
         });
         return databaseBuilder.commit();
       });
@@ -83,6 +85,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
           id: assessmentId,
           type: 'DEMO',
           courseId: 'course_id',
+          state: Assessment.states.STARTED,
         });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         return databaseBuilder.commit();
@@ -100,6 +103,34 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
 
         // then
         expect(response.result.data.id).to.equal('second_challenge');
+      });
+    });
+
+    context('when the first challenge has not been answered yet', function () {
+      beforeEach(function () {
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentId,
+          type: 'DEMO',
+          courseId: 'course_id',
+          state: Assessment.states.STARTED,
+          lastChallengeId: 'first_challenge',
+        });
+        databaseBuilder.factory.buildAnswer({ challengeId: 'some_other_challenge', assessmentId });
+        return databaseBuilder.commit();
+      });
+
+      it('should return the first challenge again', async function () {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/assessments/' + assessmentId + '/next',
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.result.data.id).to.equal('first_challenge');
       });
     });
 
