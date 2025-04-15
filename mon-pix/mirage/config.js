@@ -1,4 +1,3 @@
-import { applyEmberDataSerializers } from 'ember-cli-mirage';
 import { createServer } from 'miragejs';
 
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
@@ -44,7 +43,6 @@ import loadUserRoutes from './routes/users/index';
 export default function makeServer(config) {
   const finalConfig = {
     ...config,
-    serializers: applyEmberDataSerializers(config.serializers),
     routes,
     logging: true,
     urlPrefix: 'http://localhost:3000',
