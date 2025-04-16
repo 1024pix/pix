@@ -1,6 +1,6 @@
 {
   "id": "67ef1446-6038-4720-998c-3ee1e6b31122",
-  "slug": "antivirus",
+  "slug": "protegez-vos-appareils-contre-les-virus",
   "title": "Protégez vos appareils contre les virus.🛡️",
   "isBeta": true,
   "details": {
@@ -14,21 +14,23 @@
     ],
     "tabletSupport": "comfortable"
   },
-  "transitionTexts": [
-    {
-      "grainId": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
-      "content": "<p>Suzanne a reçu l’ancien ordinateur de son oncle. </p><p> Il est en parfait état mais n’a pas fonctionné depuis quelque temps.&nbsp; </p><p> Son oncle a été rassurant&nbsp;: l’ordinateur <strong>est protégé par un antivirus </strong>!</p>"
-    },
-    {
-      "grainId": "fa795913-9f83-464b-8c75-74b754bb94cc",
-      "content": "<p>Voyons si vous avez retenu l'essentiel. 🎯</p>"
-    },
-    {
-      "grainId": "a575ca3d-d0c1-4f7c-9e0a-962b689412dd",
-      "content": "<p>Vous l’avez compris, l'antivirus est indispensable pour protéger l'ordinateur de Suzanne. </p>"
-    }
-  ],
+  "transitionTexts": [],
   "grains": [
+    {
+      "id": "68f651d0-0cae-44cb-a8d3-f8ef61ad98ae",
+      "type": "transition",
+      "title": "Intro",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "12e6605c-7f4e-490e-904c-c15f15746c1f",
+            "type": "text",
+            "content": "<p>Lalie utilise un ordinateur pour travailler, jouer et naviguer sur internet. </p><p>Youna lui conseille <strong>d'installer un antivirus</strong>.&nbsp;</p>"
+          }
+        }
+      ]
+    },
     {
       "id": "7ef67950-2150-4ca4-b607-10fd5dcdcf03",
       "type": "discovery",
@@ -39,7 +41,7 @@
           "element": {
             "id": "559c8ed7-5337-42d7-a874-b14930f3c52c",
             "type": "qcu",
-            "instruction": "<p>À votre avis, un antivirus protège l'ordinateur :</p>",
+            "instruction": "<p>À votre avis, un antivirus protègera l'ordinateur de Lalie&nbsp;:</p>",
             "proposals": [
               {
                 "id": "1",
@@ -69,8 +71,8 @@
                 "id": "4",
                 "content": "<p>Je ne sais pas</p>",
                 "feedback": {
-                  "state": "<p>Nous allons le découvrir ensemble</p>",
-                  "diagnosis": "<p><br></p>"
+                  "state": "<p>Pas d'inquiétude !</p>",
+                  "diagnosis": "<p>Nous allons le découvrir ensemble</p>"
                 }
               }
             ],
@@ -117,14 +119,14 @@
     {
       "id": "12c49cf6-f884-482c-bcb6-2b3f0205a9d6",
       "type": "discovery",
-      "title": "introduction",
+      "title": "Découverte antivirus intégrés",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "b77f826e-a4ad-431a-9565-55da36d41e1d",
             "type": "qcu",
-            "instruction": "<p>Suzanne ne comprend pas : sur son ordinateur précédent, elle n’a jamais installé d’antivirus, et pourtant elle n’a jamais eu de problème. </p><p>À votre avis, pourquoi ?</p>",
+            "instruction": "<p>Lalie ne comprend pas&nbsp;: sur son ordinateur précédent, elle n’a jamais installé d’antivirus, et pourtant elle n’a jamais eu de problème. </p><p>À votre avis, pourquoi ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -146,7 +148,7 @@
                 "id": "3",
                 "content": "<p>Elle n’allait jamais sur internet.</p>",
                 "feedback": {
-                  "state": "<p>Mauvaise réponse !</p>",
+                  "state": "<p>Mauvaise réponse !</p>",
                   "diagnosis": "<p><br></p>"
                 }
               },
@@ -154,8 +156,8 @@
                 "id": "4",
                 "content": "<p>Je ne sais pas.</p>",
                 "feedback": {
-                  "state": "<p>Voyons cela ensemble.</p>",
-                  "diagnosis": ""
+                  "state": "<p>Pas d'inquiétude !</p>",
+                  "diagnosis": "<p>Voyons cela ensemble.</p>"
                 }
               }
             ],
@@ -201,14 +203,14 @@
           "element": {
             "id": "83498e7f-822c-4300-942c-6fa788f8c275",
             "type": "qcu",
-            "instruction": "<p>Au-delà des antivirus intégrés, il existe de nombreux fournisseurs d’antivirus.&nbsp; </p><p>Parmi les propositions suivantes, reconnaissez-vous un antivirus ? </p><p><br><br></p>",
+            "instruction": "<p>Au-delà des antivirus intégrés, il existe de nombreux fournisseurs d’antivirus.&nbsp; </p><p>Parmi les propositions suivantes, reconnaissez-vous un antivirus ? </p><p><br><br></p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>LibreOffice<br></p>",
                 "feedback": {
                   "state": "<p>Mauvaise réponse</p>",
-                  "diagnosis": ""
+                  "diagnosis": "<p>Il s'agit d'une suite bureautique.</p>"
                 }
               },
               {
@@ -216,7 +218,7 @@
                 "content": "<p>Firefox</p>",
                 "feedback": {
                   "state": "<p>Mauvaise réponse</p>",
-                  "diagnosis": ""
+                  "diagnosis": "<p>Il s'agit d'un navigateur internet.</p>"
                 }
               },
               {
@@ -224,7 +226,7 @@
                 "content": "<p>Avast</p>",
                 "feedback": {
                   "state": "<p>Bonne réponse</p>",
-                  "diagnosis": ""
+                  "diagnosis": "<p>Il s'agit bien d'un antivirus.</p>"
                 }
               }
             ],
@@ -243,7 +245,7 @@
           "element": {
             "id": "03323b85-8f8b-4a15-8562-26faff012aa7",
             "type": "text",
-            "content": "<p>Vous pouvez  utiliser un autre antivirus (gratuit ou payant) que l'antivirus intégré sur votre appareil. </p><p>Voici&nbsp;quelques exemples&nbsp;de <strong>fournisseurs sérieux d’antivirus</strong> pour PC, smartphones et tablettes&nbsp;:</p>"
+            "content": "<p>Lalie peut utiliser un autre antivirus (gratuit ou payant) que l'antivirus intégré sur son appareil. </p><p>Voici&nbsp;quelques exemples&nbsp;de <strong>fournisseurs sérieux d’antivirus</strong> pour PC, smartphones et tablettes&nbsp;:</p>"
           }
         },
         {
@@ -278,7 +280,22 @@
           "element": {
             "id": "7aa1eb4b-4dde-437b-9b37-9e42cf4ba2da",
             "type": "text",
-            "content": "<p>Résumons avant de passer à la suite :&nbsp;</p><ul><li>un antivirus <strong>protège un appareil contre les programmes malveillants</strong></li><li>un antivirus est utile sur <strong>tous les appareils connectés à internet</strong></li><li>un antivirus <strong>peut être installé par défaut</strong> sur un appareil récent (antivirus intégré)</li><li>de <strong>nombreux éditeurs</strong> proposent des antivirus qui peuvent être installés sur un appareil</li></ul>"
+            "content": "<p>Résumons avant de passer à la suite&nbsp;:&nbsp;</p><ul><li>un antivirus <strong>protège un appareil contre les programmes malveillants</strong></li><li>un antivirus est utile sur <strong>tous les appareils connectés à internet</strong></li><li>un antivirus <strong>peut être installé par défaut</strong> sur un appareil récent (antivirus intégré)</li><li>de <strong>nombreux éditeurs</strong> proposent des antivirus qui peuvent être installés sur un appareil</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ee9f75b7-64a7-4f0c-8876-e3fe3edfe750",
+      "type": "transition",
+      "title": "Transition évaluation",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1c3870f7-6277-48e3-a1de-c3c903a9f139",
+            "type": "text",
+            "content": "<p>Voyons si vous avez retenu l'essentiel. 🎯</p>"
           }
         }
       ]
@@ -293,7 +310,7 @@
           "element": {
             "id": "dbe82018-c28e-4724-8f83-981df66a0eff",
             "type": "qcm",
-            "instruction": "<p>Sur quel appareil peut-on trouver un antivirus ?</p>",
+            "instruction": "<p>Sur quel appareil peut-on trouver un antivirus ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -318,7 +335,7 @@
             ],
             "feedbacks": {
               "valid": {
-                "state": "<p>Bonne réponse ! 🎉</p>",
+                "state": "<p>Bonne réponse ! 🎉</p>",
                 "diagnosis": "<p>Un antivirus peut être utile sur tous les appareils connectés à internet.</p>"
               },
               "invalid": {
@@ -349,6 +366,21 @@
       ]
     },
     {
+      "id": "414d561c-d3ef-47cd-9d4f-295f8c3e40a2",
+      "type": "transition",
+      "title": "Transition conclusion",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "395e9e6f-6b67-4618-85a3-7054f7ff3b03",
+            "type": "text",
+            "content": "<p>Vous l’avez compris, <strong>l'antivirus est indispensable</strong> pour protéger l'ordinateur de Lalie.</p>"
+          }
+        }
+      ]
+    },
+    {
       "id": "a575ca3d-d0c1-4f7c-9e0a-962b689412dd",
       "type": "activity",
       "title": "Et vous ?",
@@ -358,7 +390,7 @@
           "element": {
             "id": "57cbc7d4-2612-4a95-8b7c-9a3437872146",
             "type": "qcu",
-            "instruction": "<p>Et vous, utilisez-vous un antivirus sur votre appareil ?</p>",
+            "instruction": "<p>Et vous, utilisez-vous un antivirus sur votre appareil ?</p>",
             "proposals": [
               {
                 "id": "1",
