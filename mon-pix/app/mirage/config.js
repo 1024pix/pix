@@ -60,6 +60,18 @@ export default function makeServer(config) {
   return server;
 }
 
+export function config(input) {
+  return {
+    ...input,
+    routes,
+    models,
+    factories,
+    serializers,
+    logging: true,
+    urlPrefix: 'http://localhost:3000',
+  };
+}
+
 /* eslint max-statements: off */
 function routes() {
   this.namespace = 'api';

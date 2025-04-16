@@ -1,8 +1,7 @@
-import { setupMirage as _setupMirage } from 'ember-cli-mirage/test-support';
-import mirageConfig from 'mon-pix/mirage/config';
+import { setupMirage as _setupMirage } from 'ember-mirage/test-support';
+import { config } from 'mon-pix/mirage/config';
 
 export function setupMirage(hooks, options) {
   options = options || {};
-  options.makeServer = options.makeServer || mirageConfig;
-  return _setupMirage(hooks, options);
+  return _setupMirage(hooks, { config });
 }

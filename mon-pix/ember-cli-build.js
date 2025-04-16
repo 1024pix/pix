@@ -50,6 +50,7 @@ module.exports = function (defaults) {
   return require('@embroider/compat').compatBuild(app, Webpack, {
     staticAddonTestSupportTrees: true,
     staticAddonTrees: true,
+    staticAppPaths: ['mirage'],
     staticModifiers: true,
     staticHelpers: app.env === 'production',
     staticComponents: app.env === 'production',

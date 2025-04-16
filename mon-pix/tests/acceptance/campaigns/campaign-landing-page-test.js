@@ -17,7 +17,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
     let campaign;
 
     hooks.beforeEach(function () {
-      campaign = server.create('campaign');
+      campaign = this.server.create('campaign');
     });
 
     module('on international domain (.org)', function () {
@@ -25,7 +25,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
         module('when accessing the campaign landing page with "Français" as default language', function () {
           test('does not display the language switcher', async function (assert) {
             // given
-            const user = server.create('user', 'withEmail');
+            const user = this.server.create('user', 'withEmail');
 
             // when
             await authenticate(user);
@@ -96,7 +96,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
   module('for autonomous course', function () {
     test('should display the autonomous course start block component', async function (assert) {
       // given
-      const autonomousCourse = server.create('campaign', 'forAutonomousCourse');
+      const autonomousCourse = this.server.create('campaign', 'forAutonomousCourse');
 
       // when
       const screen = await visit(`/campagnes/${autonomousCourse.code}`);
