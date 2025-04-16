@@ -172,10 +172,14 @@ export default class ModuleGrain extends Component {
     return `grain_${this.args.grain.id}`;
   }
 
+  get hasTag() {
+    return false;
+  }
+
   <template>
     <article
       id={{this.elementId}}
-      class="grain {{if @hasJustAppeared 'grain--active'}}"
+      class="grain {{if @hasJustAppeared 'grain--active'}} "
       tabindex="-1"
       {{didInsert this.focusAndScroll}}
     >
@@ -189,9 +193,11 @@ export default class ModuleGrain extends Component {
         </header>
       {{/if}}
 
-      <div class="grain-card__tag">
-        <GrainTag @type={{this.grainType}} />
-      </div>
+      {{#if this.hasTag}}
+        <div class="grain-card__tag">
+          <GrainTag @type={{this.grainType}} />
+        </div>
+      {{/if}}
       <div class="grain__card grain-card--{{this.grainType}}">
         <div class="grain-card__content">
           <!-- eslint-disable-next-line no-unused-vars -->

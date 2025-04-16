@@ -10,6 +10,8 @@ $grain-card-border-radius: var(--pix-spacing-4x);
 
   width: 100%;
 
+  // margin: var(--pix-spacing-12x) 0;
+
   &--active {
     @extend .auto-scroll;
   }
@@ -25,7 +27,7 @@ $grain-card-border-radius: var(--pix-spacing-4x);
   }
 
   &__card {
-    border-radius: $grain-card-border-radius 0 $grain-card-border-radius $grain-card-border-radius;
+    border-radius: $grain-card-border-radius;
   }
 
   &:focus-visible {
@@ -44,40 +46,77 @@ $grain-card-border-radius: var(--pix-spacing-4x);
   }
 
   &__footer {
-    padding: var(--pix-spacing-6x);
-    border-top: 1px solid var(--pix-neutral-100);
+    padding: var(--pix-spacing-2x) var(--pix-spacing-6x);
+    border-top: 0 solid var(--pix-neutral-100);
     border-radius: 0 0 $grain-card-border-radius $grain-card-border-radius;
   }
 
   &__tag {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
   }
 
-  &--lesson,
-  &--discovery,
+  &--lesson {
+    background: transparent;
+
+    &__tag {
+      background-color: inherit;
+    }
+
+    .grain-card__footer {
+      background: transparent;
+    }
+  }
+
+  &--discovery {
+    background: transparent;
+
+    &__tag {
+      background-color: inherit;
+    }
+
+    .grain-card__footer {
+      background: transparent;
+    }
+  }
+
   &--summary {
-    background: var(--modulix-lesson-card-background);
+    background: var(--pix-secondary-100);
 
     &__tag {
       background-color: inherit;
     }
 
     .grain-card__footer {
-      background: var(--modulix-lesson-card-footer-background);
+      padding: var(--pix-spacing-6x);
+      background: var(--pix-secondary-100);
+      border-top: 1px solid var(--pix-neutral-100);
     }
   }
 
-  &--activity,
-  &--challenge {
-    background: var(--modulix-activity-card-background);
+  &--activity {
+    background: transparent;
 
     &__tag {
       background-color: inherit;
     }
 
     .grain-card__footer {
-      background: var(--modulix-activity-card-footer-background);
+      background: transparent;
+    }
+  }
+
+  &--challenge {
+    background: rgba(var(--pix-primary-100-inline), 0.3);
+
+    &__tag {
+      background-color: inherit;
+    }
+
+    .grain-card__footer {
+      padding: var(--pix-spacing-6x);
+      background: rgba(var(--pix-primary-100-inline), 0.3);
+      border-top: 1px solid var(--pix-neutral-100);
     }
   }
 }

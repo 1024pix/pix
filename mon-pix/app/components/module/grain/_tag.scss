@@ -13,12 +13,24 @@
   text-transform: uppercase;
   border-radius: var(--modulix-radius) var(--modulix-radius) 0 0;
 
-  &--activity, &--challenge {
+  &--activity {
     background: var(--modulix-activity-card-background);
   }
 
-  &--lesson, &--discovery, &--summary {
+  &--challenge {
+    background: rgba(var(--pix-primary-100-inline), 0.3);
+  }
+
+  &--lesson {
+    background: transparent;
+  }
+
+  &--discovery {
     background: var(--modulix-lesson-card-background);
+  }
+
+  &--summary {
+    background: var(--pix-secondary-100);
   }
 
   &_icon {
