@@ -10,6 +10,8 @@
   &__image {
     display: block;
     width: 100%;
+    max-width: 700px;
+    margin: auto;
     object-fit: contain;
     border-radius: var(--modulix-radius-s);
   }
