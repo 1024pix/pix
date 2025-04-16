@@ -47,6 +47,138 @@
   ],
   "grains": [
     {
+      "id": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30",
+      "type": "activity",
+      "title": "Vrai-faux : traces de l'IP publique",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
+            "type": "text",
+            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : certaines personnes utilisent des VPN pour modifier leur adresse IP.<br>Dans les exemples suivants, aucun VPN n'est utilisé.</i></p>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "74b6d2c6-a332-4f48-9896-e3bd52fb9bdc",
+                  "type": "qcu",
+                  "instruction": "<p>Une adresse IP publique est donnée par le point d’accès internet (box internet, 3G/4G, etc.).</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai",
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux",
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
+                  "type": "qcu",
+                  "instruction": "<p>Si vous êtes connecté à la même box internet que Mélanie, vous aurez la même adresse IP publique qu'elle.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai",
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux",
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
+                  "type": "qcu",
+                  "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai",
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux",
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "04d94597-3815-4745-9acd-4f32b8fa93f0",
+                  "type": "qcu",
+                  "instruction": "<p>Les personnes qui connaissent l'adresse IP publique de Mélanie peuvent savoir précisément où elle habite.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai",
+                      "feedback": {
+                        "state": "Bonne réponse ! 🎉",
+                        "diagnosis": "<p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux",
+                      "feedback": {
+                        "state": "Mauvaise réponse.",
+                        "diagnosis": "<p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f",
       "type": "activity",
       "title": "Étrange : ce site interne sait où je suis !",
@@ -214,138 +346,6 @@
             ],
             "solution": "1"
           }
-        }
-      ]
-    },
-    {
-      "id": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30",
-      "type": "activity",
-      "title": "Vrai-faux : traces de l'IP publique",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
-            "type": "text",
-            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : certaines personnes utilisent des VPN pour modifier leur adresse IP.<br>Dans les exemples suivants, aucun VPN n'est utilisé.</i></p>"
-          }
-        },
-        {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "74b6d2c6-a332-4f48-9896-e3bd52fb9bdc",
-                  "type": "qcu",
-                  "instruction": "<p>Une adresse IP publique est donnée par le point d’accès internet (box internet, 3G/4G, etc.).</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Bonne réponse ! 🎉",
-                        "diagnosis": "<p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Mauvaise réponse.",
-                        "diagnosis": "<p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
-                      }
-                    }
-                  ],
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
-                  "type": "qcu",
-                  "instruction": "<p>Si vous êtes connecté à la même box internet que Mélanie, vous aurez la même adresse IP publique qu'elle.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Bonne réponse ! 🎉",
-                        "diagnosis": "<p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Mauvaise réponse.",
-                        "diagnosis": "<p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
-                      }
-                    }
-                  ],
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
-                  "type": "qcu",
-                  "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Bonne réponse ! 🎉",
-                        "diagnosis": "<p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Mauvaise réponse.",
-                        "diagnosis": "<p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
-                      }
-                    }
-                  ],
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "04d94597-3815-4745-9acd-4f32b8fa93f0",
-                  "type": "qcu",
-                  "instruction": "<p>Les personnes qui connaissent l'adresse IP publique de Mélanie peuvent savoir précisément où elle habite.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Bonne réponse ! 🎉",
-                        "diagnosis": "<p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Mauvaise réponse.",
-                        "diagnosis": "<p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
-                      }
-                    }
-                  ],
-                  "solution": "2"
-                }
-              ]
-            }
-          ]
         }
       ]
     },
