@@ -1656,7 +1656,8 @@
         },
         "direction": "Look for the answer then turn the card",
         "navigation": {
-          "currentStep": "Step {current} of {total}"
+          "longCurrentStep": "Step {current} of {total}",
+          "shortCurrentStep": "{current}/{total}"
         },
         "position": "Card {currentCardPosition}/{totalCards}"
       },

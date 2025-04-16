@@ -1645,7 +1645,8 @@
         },
         "direction": "Busca la respuesta y gira la tarjeta",
         "navigation": {
-          "currentStep": "{current} Paso a paso {total}"
+          "shortCurrentStep": "{current}/{total}",
+          "longCurrentStep": "{current} Paso a paso {total}"
         },
         "position": "{currentCardPosition}Tarjeta /{totalCards}"
       },

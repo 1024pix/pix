@@ -1,11 +1,13 @@
 @use 'pix-design-tokens/typography';
 
 .module-navbar {
+  @extend %pix-body-s;
+
   position: sticky;
   top: 0;
   z-index: var(--modulix-z-index-above-all);
   height: var(--module-navbar-height);
-  padding: var(--pix-spacing-3x);
+  padding: var(--pix-spacing-2x);
   background: var(--pix-neutral-0);
   box-shadow: 0 4px 20px 0 rgb(0 0 0 / 6%);
 

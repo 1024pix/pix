@@ -1645,7 +1645,8 @@
         },
         "direction": "Zoek het antwoord en draai de sitemap om",
         "navigation": {
-          "currentStep": "{current} Stap op {total}"
+          "shortCurrentStep": "{current}/{total}",
+          "longCurrentStep": "{current} Stap op {total}"
         },
         "position": "{currentCardPosition}sitemap /{totalCards}"
       },

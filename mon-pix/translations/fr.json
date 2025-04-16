@@ -1656,7 +1656,8 @@
         },
         "direction": "Cherchez la réponse puis tournez la carte",
         "navigation": {
-          "currentStep": "Étape {current} sur {total}"
+          "longCurrentStep": "Étape {current} sur {total}",
+          "shortCurrentStep": "{current}/{total}"
         },
         "position": "Carte {currentCardPosition}/{totalCards}"
       },

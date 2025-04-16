@@ -55,17 +55,17 @@ export default class ModulixNavbar extends Component {
     <nav
       id="module-navbar"
       class="module-navbar"
-      aria-label={{t "pages.modulix.flashcards.navigation.currentStep" current=@currentStep total=@totalSteps}}
+      aria-label={{t "pages.modulix.flashcards.navigation.longCurrentStep" current=@currentStep total=@totalSteps}}
     >
       <div class="module-navbar__content">
         <PixButton
-          @variant="tertiary"
           @triggerAction={{this.openSidebar}}
+          @iconBefore="book"
+          @variant="secondary"
           aria-label={{t "pages.modulix.sidebar.button"}}
         >
-          {{t "pages.modulix.flashcards.navigation.currentStep" current=@currentStep total=@totalSteps}}
+          {{t "pages.modulix.flashcards.navigation.shortCurrentStep" current=@currentStep total=@totalSteps}}
         </PixButton>
-
         <PixProgressBar @hidePercentage={{true}} @isDecorative={{true}} @value={{this.progressValue}} />
       </div>
     </nav>
