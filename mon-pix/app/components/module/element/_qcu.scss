@@ -4,6 +4,10 @@
   &__instruction {
     margin-bottom: var(--pix-spacing-2x);
     font-weight: var(--pix-font-medium);
+
+    &--short {
+      font-weight: var(--pix-font-normal);
+    }
   }
 
   &__direction {
@@ -14,6 +18,16 @@
 
   &__proposals {
     margin: var(--pix-spacing-4x) 0;
+    &--short {
+      display: flex;
+      width: 100%;
+      gap: var(--pix-spacing-4x);
+      flex-wrap: wrap;
+
+      .button--short {
+        flex-grow: 1;
+      }
+    }
   }
 
   &__required-field-missing {
@@ -23,4 +37,10 @@
   &__feedback {
     margin-bottom: var(--pix-spacing-4x);
   }
+}
+
+$pix-qcu-max-width: 500px;
+.element-qcu--short {
+  max-width: $pix-qcu-max-width;
+  margin: auto;
 }
