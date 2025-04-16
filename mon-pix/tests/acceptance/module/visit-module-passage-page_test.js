@@ -10,10 +10,10 @@ module('Acceptance | Module | Routes | get', function (hooks) {
 
   test('can visit /modules/:slug/passage', async function (assert) {
     // given
-    const grain = server.create('grain', {
+    const grain = this.server.create('grain', {
       id: 'grain1',
     });
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       grains: [grain],
@@ -31,11 +31,11 @@ module('Acceptance | Module | Routes | get', function (hooks) {
     const module = {
       title: 'Bien écrire son adresse mail',
     };
-    const grain = server.create('grain', {
+    const grain = this.server.create('grain', {
       id: 'grain1',
     });
 
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: module.title,
       grains: [grain],

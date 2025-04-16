@@ -13,7 +13,7 @@ module('Acceptance | Checkpoint', function (hooks) {
   let assessment;
 
   hooks.beforeEach(function () {
-    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
   module('With answers', function (hooks) {
@@ -21,8 +21,8 @@ module('Acceptance | Checkpoint', function (hooks) {
 
     hooks.beforeEach(function () {
       for (let i = 0; i < NB_ANSWERS; ++i) {
-        const challenge = server.create('challenge', 'forCompetenceEvaluation');
-        server.create('answer', {
+        const challenge = this.server.create('challenge', 'forCompetenceEvaluation');
+        this.server.create('answer', {
           value: 'SomeAnswer',
           result: 'ko',
           challenge,
@@ -67,7 +67,7 @@ module('Acceptance | Checkpoint', function (hooks) {
   module('When user is anonymous', function () {
     test('should not display home link', async function (assert) {
       //given
-      const user = server.create('user', 'withEmail', {
+      const user = this.server.create('user', 'withEmail', {
         isAnonymous: true,
       });
       await authenticate(user);

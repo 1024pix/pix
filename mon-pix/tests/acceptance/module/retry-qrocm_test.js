@@ -40,7 +40,7 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
       ],
     };
 
-    const grain = server.create('grain', {
+    const grain = this.server.create('grain', {
       id: 'grainId',
       title: 'title',
       components: [
@@ -51,14 +51,14 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
       ],
     });
 
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       isBeta: true,
       grains: [grain],
     });
 
-    server.create('correction-response', {
+    this.server.create('correction-response', {
       id: 'elementId-1',
       feedback: { state: 'Faux' },
       status: 'ko',
@@ -160,7 +160,7 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
       ],
     };
 
-    const grain = server.create('grain', {
+    const grain = this.server.create('grain', {
       id: 'grainId',
       title: 'title',
       components: [
@@ -171,14 +171,14 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
       ],
     });
 
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       isBeta: true,
       grains: [grain],
     });
 
-    server.create('correction-response', {
+    this.server.create('correction-response', {
       id: 'elementId-1',
       feedback: { state: 'Faux' },
       status: 'ko',

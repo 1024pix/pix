@@ -15,11 +15,11 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
   module('Challenge answered: the answers inputs should be disabled', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
       await authenticate(user);
-      const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      const challenge = server.create('challenge', 'forCompetenceEvaluation');
-      answer = server.create('answer', 'skipped', { assessment, challenge });
+      const assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      const challenge = this.server.create('challenge', 'forCompetenceEvaluation');
+      answer = this.server.create('answer', 'skipped', { assessment, challenge });
     });
 
     test('should display the lock overlay and disable input', async function (assert) {
@@ -45,15 +45,15 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
     let challengeBis;
 
     hooks.beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
       await authenticate(user);
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType', {
+      assessment = this.server.create('assessment', 'ofCompetenceEvaluationType', {
         title: 'Assessment title',
       });
-      server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
+      this.server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
         instruction: 'Instruction [lien](http://www.a.link.example.url)',
       });
-      challengeBis = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
+      challengeBis = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
         instruction: 'Second instruction',
       });
     });
@@ -157,11 +157,11 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
   module('When user is anonymous', function () {
     test('should not display home link', async function (assert) {
       //given
-      const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
+      const assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      this.server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
         instruction: 'Instruction [lien](http://www.a.link.example.url)',
       });
-      const user = server.create('user', 'withEmail', {
+      const user = this.server.create('user', 'withEmail', {
         isAnonymous: true,
       });
 

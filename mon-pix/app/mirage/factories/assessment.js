@@ -37,7 +37,7 @@ export default Factory.extend({
     type: 'COMPETENCE_EVALUATION',
     afterCreate(assessment, server) {
       assessment.update({
-        progression: server.create('progression', { id: '3', completionRate: 20 }),
+        progression: this.server.create('progression', { id: '3', completionRate: 20 }),
       });
     },
   }),

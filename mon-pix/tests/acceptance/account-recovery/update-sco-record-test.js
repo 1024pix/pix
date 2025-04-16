@@ -49,7 +49,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+      this.server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
@@ -80,7 +80,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+      this.server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
@@ -111,7 +111,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+      this.server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
@@ -142,7 +142,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+      this.server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
@@ -165,7 +165,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       const email = 'George@example.net';
       const password = 'Password123';
-      server.create('user', { id: '2', email, password });
+      this.server.create('user', { id: '2', email, password, lang: 'fr' });
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
@@ -201,7 +201,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.patch('/account-recovery', () => errorsApi);
+      this.server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
@@ -243,7 +243,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.patch('/account-recovery', () => errorsApi);
+      this.server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
@@ -283,7 +283,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.patch('/account-recovery', () => errorsApi);
+      this.server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
       const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), {
@@ -323,7 +323,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.patch('/account-recovery', () => errorsApi);
+      this.server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
       const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), {
@@ -362,7 +362,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
           ],
         },
       );
-      server.patch('/account-recovery', () => errorsApi);
+      this.server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
       const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), {

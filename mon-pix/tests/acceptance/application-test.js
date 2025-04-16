@@ -12,7 +12,7 @@ module('Acceptance | Application', function (hooks) {
   module('When there are no information banners', function () {
     test('it should not display any banner', async function (assert) {
       // given
-      server.create('information-banner', 'withoutBanners', { id: 'pix-app-local' });
+      this.server.create('information-banner', 'withoutBanners', { id: 'pix-app-local' });
 
       // when
       const screen = await visit(`/`);
@@ -25,12 +25,12 @@ module('Acceptance | Application', function (hooks) {
   module('When there is an information banner', function () {
     test('it should display it', async function (assert) {
       // given
-      const banner = server.create('banner', {
+      const banner = this.server.create('banner', {
         id: 'pix-app-local:1',
         severity: 'info',
         message: '[en]some text[/en][fr]du texte[/fr]',
       });
-      server.create('information-banner', { id: 'pix-app-local', banners: [banner] });
+      this.server.create('information-banner', { id: 'pix-app-local', banners: [banner] });
 
       // when
       const screen = await visit(`/`);

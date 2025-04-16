@@ -12,7 +12,7 @@ module('Acceptance | User tests', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Authenticated cases as simple user', function (hooks) {
@@ -22,7 +22,7 @@ module('Acceptance | User tests', function (hooks) {
 
     test('can visit /mes-parcours', async function (assert) {
       //given
-      server.create('campaign-participation-overview', {
+      this.server.create('campaign-participation-overview', {
         assessmentState: 'started',
         campaignCode: '123',
         campaignTitle: 'Campaign 1',
@@ -39,14 +39,14 @@ module('Acceptance | User tests', function (hooks) {
 
     test('should display user participation cards', async function (assert) {
       // given
-      server.create('campaign-participation-overview', {
+      this.server.create('campaign-participation-overview', {
         assessmentState: 'started',
         campaignCode: '123',
         campaignTitle: 'Campaign 1',
         createdAt: new Date('2020-04-20T04:05:06Z'),
         isShared: false,
       });
-      server.create('campaign-participation-overview', {
+      this.server.create('campaign-participation-overview', {
         assessmentState: 'completed',
         campaignCode: '123',
         campaignTitle: 'Campaign 2',

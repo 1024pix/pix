@@ -13,7 +13,7 @@ module('Acceptance | Profile | Start competence', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Authenticated cases as simple user', function (hooks) {
@@ -27,9 +27,9 @@ module('Acceptance | Profile | Start competence', function (hooks) {
       const competenceId = firstScorecard.competenceId;
       const splitIndex = firstScorecard.index.split('.');
       const competenceNumber = splitIndex[splitIndex.length - 1];
-      const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      server.create('challenge', 'forCompetenceEvaluation', 'QCM');
-      server.create('competence-evaluation', { user, competenceId, assessment });
+      const assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      this.server.create('challenge', 'forCompetenceEvaluation', 'QCM');
+      this.server.create('competence-evaluation', { user, competenceId, assessment });
 
       // when
       const screen = await visit('/competences');

@@ -16,7 +16,7 @@ module('Acceptance | Navbar', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Authenticated cases as simple user', function (hooks) {
@@ -66,7 +66,7 @@ module('Acceptance | Navbar', function (hooks) {
 
     test('should not display while in campaign', async function (assert) {
       // given
-      const campaign = server.create('campaign', 'withOneChallenge');
+      const campaign = this.server.create('campaign', 'withOneChallenge');
 
       // when
       await resumeCampaignOfTypeAssessmentByCode(campaign.code, false);

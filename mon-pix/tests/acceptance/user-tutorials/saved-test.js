@@ -14,10 +14,10 @@ module('Acceptance | User-tutorials | Saved', function (hooks) {
 
   hooks.beforeEach(async function () {
     const numberOfTutorials = 100;
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
     await authenticate(user);
     await server.db.tutorials.remove();
-    server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
+    this.server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
   });
 
   module('When there are tutorials saved', function () {
@@ -37,7 +37,7 @@ module('Acceptance | User-tutorials | Saved', function (hooks) {
         const numberOfTutorials = 10;
         await server.db.tutorials.remove();
         await server.db.userSavedTutorials.remove();
-        server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
+        this.server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
         await visit('/mes-tutos/enregistres');
 
         // when

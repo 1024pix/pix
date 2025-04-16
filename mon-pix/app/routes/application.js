@@ -31,7 +31,7 @@ export default class ApplicationRoute extends Route {
   }
 
   async model() {
-    const informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+    const informationBanner = await this.store.findRecord('information-banner', 1); //`${ENV.APP.APPLICATION_NAME}`);
     return {
       headElement: document.querySelector('head'),
       informationBanner,

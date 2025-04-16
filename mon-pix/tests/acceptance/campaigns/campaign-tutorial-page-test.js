@@ -20,8 +20,8 @@ module('Acceptance | Campaigns | campaign-tutorial-page', function (hooks) {
 
     hooks.beforeEach(async function () {
       //given
-      campaign = server.create('campaign');
-      user = server.create('user', { hasSeenAssessmentInstructions: false });
+      campaign = this.server.create('campaign');
+      user = this.server.create('user', { hasSeenAssessmentInstructions: false });
       await authenticate(user);
 
       // when
@@ -63,8 +63,8 @@ module('Acceptance | Campaigns | campaign-tutorial-page', function (hooks) {
   module('when the user has already seen the tutorial', function () {
     test('should not render the tutorial page', async function (assert) {
       // given
-      const campaign = server.create('campaign');
-      const user = server.create('user', 'withEmail', { hasSeenAssessmentInstructions: true });
+      const campaign = this.server.create('campaign');
+      const user = this.server.create('user', 'withEmail', { hasSeenAssessmentInstructions: true });
       await authenticate(user);
 
       // when

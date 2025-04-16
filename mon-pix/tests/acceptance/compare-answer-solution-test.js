@@ -16,41 +16,41 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
   let assessment;
 
   hooks.beforeEach(function () {
-    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-    let challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
-    server.create('answer', {
+    assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+    let challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QCU');
+    this.server.create('answer', {
       value: 'SomeAnswer',
       result: 'ko',
       challenge,
       assessment,
-      correction: server.create('correction', {
+      correction: this.server.create('correction', {
         solution: '1',
         hint: 'Cliquer sur 1',
       }),
     });
-    challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCM');
-    server.create('answer', {
+    challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QCM');
+    this.server.create('answer', {
       value: 'SomeAnswer',
       result: 'ko',
       challenge,
       assessment,
     });
-    challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
-    server.create('answer', {
+    challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+    this.server.create('answer', {
       value: 'SomeAnswer',
       result: 'ko',
       challenge,
       assessment,
     });
-    challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM');
-    server.create('answer', {
+    challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCM');
+    this.server.create('answer', {
       value: 'SomeAnswer',
       result: 'ko',
       challenge,
       assessment,
     });
-    challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMind');
-    server.create('answer', {
+    challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMind');
+    this.server.create('answer', {
       value: 'SomeAnswer',
       result: 'ko',
       challenge,

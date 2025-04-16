@@ -44,15 +44,15 @@ export default Factory.extend({
 
   withOneChallenge: trait({
     afterCreate(campaign, server) {
-      server.create('challenge', 'forCampaign');
+      this.server.create('challenge', 'forCampaign');
     },
   }),
 
   withThreeChallenges: trait({
     afterCreate(campaign, server) {
-      server.create('challenge', 'forCampaign');
-      server.create('challenge', 'forCampaign');
-      server.create('challenge', 'forCampaign');
+      this.server.create('challenge', 'forCampaign');
+      this.server.create('challenge', 'forCampaign');
+      this.server.create('challenge', 'forCampaign');
     },
   }),
 

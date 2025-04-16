@@ -15,7 +15,7 @@ module('Acceptance | mes-formations', function (hooks) {
   module('When user has recommended trainings', function () {
     test('should display menu item "Mes formations"', async function (assert) {
       // given
-      user = server.create('user', 'withEmail', 'withSomeTrainings');
+      user = this.server.create('user', 'withEmail', 'withSomeTrainings');
 
       // when
       await authenticate(user);
@@ -30,7 +30,7 @@ module('Acceptance | mes-formations', function (hooks) {
   module('When the user tries to reach /mes-formations', function () {
     test('the user-trainings page is displayed to the user', async function (assert) {
       // given
-      user = server.create('user', 'withEmail', 'withSomeTrainings');
+      user = this.server.create('user', 'withEmail', 'withSomeTrainings');
 
       // when
       await authenticate(user);

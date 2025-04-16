@@ -20,7 +20,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
   module('Visit the user dashboard page', function (hooks) {
     hooks.beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
     });
 
     test('is not possible when user is not connected', async function (assert) {
@@ -45,7 +45,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
   module('campaign-participation-overviews', function (hooks) {
     hooks.beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
     });
 
     module('when user is on campaign start page', function () {
@@ -66,7 +66,7 @@ module('Acceptance | User dashboard page', function (hooks) {
     module('when user is doing a campaign of type assessment', function () {
       module('when user has not completed the campaign', function (hooks) {
         hooks.beforeEach(async function () {
-          const uncompletedCampaign = server.create(
+          const uncompletedCampaign = this.server.create(
             'campaign',
             {
               externalIdLabel: 'email',
@@ -78,7 +78,7 @@ module('Acceptance | User dashboard page', function (hooks) {
             'withThreeChallenges',
           );
 
-          server.create('campaign-participation-overview', {
+          this.server.create('campaign-participation-overview', {
             assessmentState: 'started',
             campaignCode: uncompletedCampaign.code,
             campaignTitle: uncompletedCampaign.title,
@@ -104,7 +104,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
       module('when user has completed the campaign but not shared his/her results', function (hooks) {
         hooks.beforeEach(async function () {
-          const unsharedCampaign = server.create(
+          const unsharedCampaign = this.server.create(
             'campaign',
             {
               externalIdLabel: 'email',
@@ -143,7 +143,7 @@ module('Acceptance | User dashboard page', function (hooks) {
   module('recommended-competences', function () {
     test('should display recommended-competences section', async function (assert) {
       // given
-      const user = server.create('user', 'withEmail');
+      const user = this.server.create('user', 'withEmail');
       await authenticate(user);
 
       // when
@@ -156,7 +156,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
     test('should display the link to profile', async function (assert) {
       // given
-      const user = server.create('user', 'withEmail');
+      const user = this.server.create('user', 'withEmail');
       await authenticate(user);
 
       // when
@@ -174,7 +174,7 @@ module('Acceptance | User dashboard page', function (hooks) {
   module('retryable-competences', function () {
     test('should display the improvable-competences section', async function (assert) {
       // given
-      const user = server.create('user', 'withEmail');
+      const user = this.server.create('user', 'withEmail');
       await authenticate(user);
 
       // when
@@ -187,7 +187,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
   module('started-competences', function (hooks) {
     hooks.beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
       await authenticate(user);
     });
 
@@ -219,7 +219,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
     module('when user has new information to see', function (hooks) {
       hooks.beforeEach(async function () {
-        user = server.create('user', 'withEmail', { firstName: 'Henri' });
+        user = this.server.create('user', 'withEmail', { firstName: 'Henri' });
       });
 
       module('when user has closable information', function () {
@@ -244,14 +244,14 @@ module('Acceptance | User dashboard page', function (hooks) {
         let campaign, campaignParticipation;
 
         hooks.beforeEach(async function () {
-          campaign = server.create('campaign', {
+          campaign = this.server.create('campaign', {
             isArchived: false,
             title: 'SomeTitle',
             type: 'PROFILES_COLLECTION',
             code: 'SNAP1234',
           });
 
-          campaignParticipation = server.create('campaign-participation', {
+          campaignParticipation = this.server.create('campaign-participation', {
             campaign,
             user,
             isShared: false,
@@ -296,7 +296,7 @@ module('Acceptance | User dashboard page', function (hooks) {
     module('when user has no new information to see', function () {
       test('should not render any new-information banner', async function (assert) {
         // given
-        user = server.create('user', 'withEmail', { hasSeenNewDashboardInfo: true, firstName: 'Henri' });
+        user = this.server.create('user', 'withEmail', { hasSeenNewDashboardInfo: true, firstName: 'Henri' });
         await authenticate(user);
 
         // when

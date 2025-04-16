@@ -16,7 +16,7 @@ module('Acceptance | Campaigns | Simplified access | Anonymous user access to no
 
   module('When user logged as anonymous, and the access to campaign is simplified', function (hooks) {
     hooks.beforeEach(async function () {
-      campaign = server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
+      campaign = this.server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
     });
 

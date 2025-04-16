@@ -16,7 +16,7 @@ module('Acceptance | terms-of-service', function (hooks) {
   module('When user log in and must validate Pix latest terms of service', function () {
     test('should be redirected to terms-of-services page', async function (assert) {
       // given
-      const user = server.create('user', {
+      const user = this.server.create('user', {
         email: 'with-email',
         password: 'pix123',
         cgu: true,
@@ -35,7 +35,7 @@ module('Acceptance | terms-of-service', function (hooks) {
   module('when the user has validated terms of service', function () {
     test('should redirect to default page when user validate the terms of service', async function (assert) {
       // given
-      const user = server.create('user', {
+      const user = this.server.create('user', {
         email: 'with-email',
         password: 'pix123',
         cgu: true,

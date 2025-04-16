@@ -12,7 +12,7 @@ module('Acceptance | Module | Routes | details', function (hooks) {
 
   test('should visit and include the module title and footer', async function (assert) {
     // given
-    const module = server.create('module', {
+    const module = this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       isBeta: false,
@@ -40,7 +40,7 @@ module('Acceptance | Module | Routes | details', function (hooks) {
   module('when module is beta', function () {
     test('should display a beta banner', async function (assert) {
       // given
-      server.create('module', {
+      this.server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
         isBeta: true,
@@ -64,10 +64,10 @@ module('Acceptance | Module | Routes | details', function (hooks) {
   });
   test('should redirect /modules/:slug to /modules/:slug/details', async function (assert) {
     // given
-    const grain = server.create('grain', {
+    const grain = this.server.create('grain', {
       id: 'grain1',
     });
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       details: {

@@ -16,7 +16,7 @@ module('Acceptance | Certificate verification', function (hooks) {
     module('when session version is v3', function () {
       test('displays v3 shared certificate page', async function (assert) {
         // given
-        server.create('feature-toggle', { id: '0', isV3CertificationPageEnabled: true });
+        this.server.create('feature-toggle', { id: '0', isV3CertificationPageEnabled: true });
         const screen = await visit('/verification-certificat');
         await fillIn(screen.getByRole('textbox', { name: 'Code de vérification * Exemple: P-XXXXXXXX' }), 'P-V3V3V3V3');
 
@@ -31,7 +31,7 @@ module('Acceptance | Certificate verification', function (hooks) {
     module('when session version is v2', function () {
       test('displays v2 shared certificate page', async function (assert) {
         // given
-        server.create('feature-toggle', { id: '0', isV3CertificationPageEnabled: true });
+        this.server.create('feature-toggle', { id: '0', isV3CertificationPageEnabled: true });
         const screen = await visit('/verification-certificat');
         await fillIn(screen.getByRole('textbox', { name: 'Code de vérification * Exemple: P-XXXXXXXX' }), 'P-123VALID');
 
@@ -49,7 +49,7 @@ module('Acceptance | Certificate verification', function (hooks) {
     module('when session version is v3', function () {
       test('displays v2(old) shared certificate page', async function (assert) {
         // given
-        server.create('feature-toggle', { id: '0', isV3CertificationPageEnabled: false });
+        this.server.create('feature-toggle', { id: '0', isV3CertificationPageEnabled: false });
         const screen = await visit('/verification-certificat');
         await fillIn(screen.getByRole('textbox', { name: 'Code de vérification * Exemple: P-XXXXXXXX' }), 'P-V3V3V3V3');
 

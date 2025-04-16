@@ -16,7 +16,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   let qrocmDepChallenge;
 
   hooks.beforeEach(async function () {
-    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
   module('When challenge is not already answered', function () {
@@ -25,7 +25,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       hooks.beforeEach(async function () {
         // when
-        qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
+        qrocmDepChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
         screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
@@ -85,7 +85,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     module('and challenge contains select field', function () {
       test('should not be able to validate with the initial option', async function (assert) {
         // given
-        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
@@ -98,7 +98,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       test('should not be able to validate the empty option', async function (assert) {
         // given
-        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
@@ -113,7 +113,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       test('should validate an option and redirect to next page', async function (assert) {
         // given
-        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
@@ -134,8 +134,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       hooks.beforeEach(async function () {
         // given
-        qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
-        server.create('answer', {
+        qrocmDepChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
+        this.server.create('answer', {
           value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
           result: 'ko',
           assessment,
@@ -164,8 +164,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     module('and challenge contains select field', function () {
       test('should set the select with previous answer and propose to continue', async function (assert) {
         // given
-        const qrocmWithSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
-        server.create('answer', {
+        const qrocmWithSelectChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        this.server.create('answer', {
           value: "banana: 'mango'\n",
           result: 'ko',
           assessment,
@@ -196,13 +196,13 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     hooks.beforeEach(async function () {
       // given
-      qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
-      qrocmIndChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMind');
-      qrocmIndSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+      qrocmDepChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
+      qrocmIndChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMind');
+      qrocmIndSelectChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
 
-      tutorial = server.create('tutorial');
-      learningMoreTutorial = server.create('tutorial');
-      correctionDep = server.create('correction', {
+      tutorial = this.server.create('tutorial');
+      learningMoreTutorial = this.server.create('tutorial');
+      correctionDep = this.server.create('correction', {
         solution: 'station1:\n- Versailles-Chantiers\nstation2:\n- Poissy',
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
@@ -210,21 +210,21 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         answersEvaluation: [false, false],
         solutionsWithoutGoodAnswers: ['Versailles-Chantiers', 'Poissy'],
       });
-      server.create('answer', {
+      this.server.create('answer', {
         value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
         result: 'ko',
         assessmentId: assessment.id,
         challengeId: qrocmDepChallenge.id,
         correction: correctionDep,
       });
-      correctionInd = server.create('correction', {
+      correctionInd = this.server.create('correction', {
         solution: 'titre:\n- Le petit prince\nauteur:\n- Saint-Exupéry',
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
         answersEvaluation: [],
       });
-      server.create('answer', {
+      this.server.create('answer', {
         value: "titre: 'Le rouge et le noir'\nauteur: 'Stendhal'\n",
         result: 'ko',
         assessmentId: assessment.id,
@@ -232,14 +232,14 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         correction: correctionInd,
       });
 
-      correctionIndSelect = server.create('correction', {
+      correctionIndSelect = this.server.create('correction', {
         solution: 'banana:\n- mango',
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
         answersEvaluation: [],
       });
-      server.create('answer', {
+      this.server.create('answer', {
         value: "banana: 'potato'\n",
         result: 'ko',
         assessmentId: assessment.id,

@@ -50,7 +50,7 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
       ],
     };
 
-    const grain = server.create('grain', {
+    const grain = this.server.create('grain', {
       id: 'grainId',
       title: 'title',
       components: [
@@ -61,13 +61,13 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
       ],
     });
 
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       grains: [grain],
     });
 
-    server.create('correction-response', {
+    this.server.create('correction-response', {
       id: 'elementId-1',
       feedback: { state: "Bravo ! C'est la bonne réponse." },
       status: 'ok',

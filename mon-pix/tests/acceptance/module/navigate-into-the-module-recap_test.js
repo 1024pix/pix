@@ -23,13 +23,13 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleRecap', function (ho
         type: 'text',
         content: '<h3>content</h3>',
       };
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
 
-      const grain = server.create('grain', {
+      const grain = this.server.create('grain', {
         id: 'grain1',
         components: [{ type: 'element', element: text }],
       });
-      server.create('module', {
+      this.server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
         isBeta: true,

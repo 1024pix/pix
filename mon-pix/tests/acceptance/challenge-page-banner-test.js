@@ -17,8 +17,8 @@ module('Acceptance | Challenge page banner', function (hooks) {
   let campaign;
 
   hooks.beforeEach(async function () {
-    user = server.create('user', 'withEmail');
-    campaign = server.create('campaign', { title: 'SomeTitle' });
+    user = this.server.create('user', 'withEmail');
+    campaign = this.server.create('campaign', { title: 'SomeTitle' });
     await authenticate(user);
   });
 
@@ -36,7 +36,7 @@ module('Acceptance | Challenge page banner', function (hooks) {
 
     test('should display accessibility information in the banner', async function (assert) {
       // given
-      server.create('campaign-participation', { campaign, user, isShared: false, createdAt: Date.now() });
+      this.server.create('campaign-participation', { campaign, user, isShared: false, createdAt: Date.now() });
 
       // when
       const screen = await visit(`campagnes/${campaign.code}`);
@@ -66,11 +66,11 @@ module('Acceptance | Challenge page banner', function (hooks) {
       let challenge;
 
       hooks.beforeEach(function () {
-        server.create('feature-toggle', { id: '0', isTextToSpeechButtonEnabled: true });
-        assessment = server.create('assessment', 'ofCompetenceEvaluationType', {
+        this.server.create('feature-toggle', { id: '0', isTextToSpeechButtonEnabled: true });
+        assessment = this.server.create('assessment', 'ofCompetenceEvaluationType', {
           title: 'Assessment title',
         });
-        challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
+        challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
           instruction: 'Instruction à lire',
         });
       });

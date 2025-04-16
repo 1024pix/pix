@@ -10,8 +10,8 @@ module('Acceptance | Starting a course', function (hooks) {
   let demoCourse;
 
   hooks.beforeEach(async function () {
-    server.createList('challenge', 3, 'forDemo');
-    demoCourse = server.create('course', { nbChallenges: 3 });
+    this.server.createList('challenge', 3, 'forDemo');
+    demoCourse = this.server.create('course', { nbChallenges: 3 });
   });
 
   test('should be able to start a test directly from the course endpoint', async function (assert) {

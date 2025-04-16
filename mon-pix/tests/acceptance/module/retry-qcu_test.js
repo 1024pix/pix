@@ -29,7 +29,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
       ],
     };
 
-    const grain1 = server.create('grain', {
+    const grain1 = this.server.create('grain', {
       id: 'grainId1',
       title: 'title',
       components: [
@@ -40,7 +40,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
       ],
     });
 
-    const grain2 = server.create('grain', {
+    const grain2 = this.server.create('grain', {
       id: 'grainId2',
       title: 'title',
       components: [
@@ -51,14 +51,14 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
       ],
     });
 
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       isBeta: true,
       grains: [grain1, grain2],
     });
 
-    server.create('correction-response', {
+    this.server.create('correction-response', {
       id: 'elementId-1',
       feedback: { state: 'Faux' },
       status: 'ko',
@@ -114,7 +114,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
       ],
     };
 
-    const grain1 = server.create('grain', {
+    const grain1 = this.server.create('grain', {
       id: 'grainId1',
       title: 'title',
       type: 'activity',
@@ -126,7 +126,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
       ],
     });
 
-    const grain2 = server.create('grain', {
+    const grain2 = this.server.create('grain', {
       id: 'grainId2',
       title: 'title',
       type: 'activity',
@@ -138,7 +138,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
       ],
     });
 
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
       isBeta: true,
@@ -146,7 +146,7 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
     });
 
     // look at mirage
-    server.create('correction-response', {
+    this.server.create('correction-response', {
       id: 'elementId-1',
       feedback: { state: 'Faux' },
       status: 'ko',

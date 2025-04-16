@@ -11,7 +11,7 @@ export default Factory.extend({
   afterCreate(answer, server) {
     if (!answer.correction) {
       answer.update({
-        correction: server.create('correction'),
+        correction: this.server.create('correction'),
       });
     }
   },

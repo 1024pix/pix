@@ -13,7 +13,7 @@ module('Acceptance | User certifications page', function (hooks) {
   let userWithNoCertificates;
 
   hooks.beforeEach(function () {
-    userWithNoCertificates = server.create('user', 'withEmail');
+    userWithNoCertificates = this.server.create('user', 'withEmail');
   });
 
   module('Access to the user certifications page', function () {
@@ -79,7 +79,7 @@ module('Acceptance | User certifications page', function (hooks) {
     module('when user has some certificates', function () {
       test('should display the user certificates', async function (assert) {
         // given
-        const userWithSomeCertificates = server.create('user', 'withEmail', 'withSomeCertificates');
+        const userWithSomeCertificates = this.server.create('user', 'withEmail', 'withSomeCertificates');
 
         // when
         await authenticate(userWithSomeCertificates);

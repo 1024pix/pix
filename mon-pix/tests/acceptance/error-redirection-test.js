@@ -12,7 +12,7 @@ module('Acceptance | Error page', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   test('should display the error page when the api returned an error which is not 401', async function (assert) {

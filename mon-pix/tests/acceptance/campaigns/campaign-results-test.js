@@ -18,9 +18,9 @@ module('Acceptance | Campaigns | Results', function (hooks) {
   let campaignParticipation;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
-    campaign = server.create('campaign', { isArchived: false });
-    campaignParticipation = server.create('campaign-participation', { campaign });
+    user = this.server.create('user', 'withEmail');
+    campaign = this.server.create('campaign', { isArchived: false });
+    campaignParticipation = this.server.create('campaign-participation', { campaign });
   });
 
   module('Display campaign results', function () {
@@ -42,11 +42,11 @@ module('Acceptance | Campaigns | Results', function (hooks) {
       hooks.beforeEach(async function () {
         // given
         await authenticate(user);
-        const competenceResult = server.create('competence-result', {
+        const competenceResult = this.server.create('competence-result', {
           name: competenceResultName,
           masteryPercentage: 85,
         });
-        server.create('campaign-participation-result', {
+        this.server.create('campaign-participation-result', {
           id: campaignParticipation.id,
           competenceResults: [competenceResult],
           masteryPercentage: 85,
@@ -77,7 +77,7 @@ module('Acceptance | Campaigns | Results', function (hooks) {
       module('when the evaluation results have been shared', function () {
         test('should redirect to home page', async function (assert) {
           // given
-          server.create('campaign-participation-result', {
+          this.server.create('campaign-participation-result', {
             id: campaignParticipation.id,
             isShared: true,
           });
@@ -94,7 +94,7 @@ module('Acceptance | Campaigns | Results', function (hooks) {
       module('when the evaluation results have not been shared yet', function () {
         test('should open a confirm modal', async function (assert) {
           // given
-          server.create('campaign-participation-result', {
+          this.server.create('campaign-participation-result', {
             id: campaignParticipation.id,
             isShared: false,
           });

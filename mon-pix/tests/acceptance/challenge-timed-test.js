@@ -15,8 +15,8 @@ module('Acceptance | Timed challenge', function (hooks) {
     module('when asking for confirmation', function (hooks) {
       hooks.beforeEach(async function () {
         // given
-        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-        timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+        assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+        timedChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -35,8 +35,8 @@ module('Acceptance | Timed challenge', function (hooks) {
       module('and the challenge has not been already answered', function (hooks) {
         hooks.beforeEach(async function () {
           // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+          assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+          timedChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -60,9 +60,9 @@ module('Acceptance | Timed challenge', function (hooks) {
       module('and the challenge has already been skipped before', function (hooks) {
         hooks.beforeEach(async function () {
           // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
-          server.create('answer', 'skipped', {
+          assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+          timedChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'timed');
+          this.server.create('answer', 'skipped', {
             assessment,
             challenge: timedChallenge,
           });
@@ -119,9 +119,9 @@ module('Acceptance | Timed challenge', function (hooks) {
   module('when user seen two timed challenge', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
-      server.create('challenge', 'forCompetenceEvaluation', 'timed');
+      assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      timedChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'timed');
+      this.server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -140,8 +140,8 @@ module('Acceptance | Timed challenge', function (hooks) {
 
   module('Not Timed Challenge', function (hooks) {
     hooks.beforeEach(function () {
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      server.create('challenge', 'forCompetenceEvaluation');
+      assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      this.server.create('challenge', 'forCompetenceEvaluation');
     });
 
     test('should display the challenge statement', async function (assert) {

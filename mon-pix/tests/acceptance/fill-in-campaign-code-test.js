@@ -18,7 +18,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
   let user;
 
   hooks.beforeEach(async function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('When connected', function () {
@@ -40,7 +40,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
     module('and starts a campaign with GAR as identity provider', function () {
       test('should not redirect the user and display a modal', async function (assert) {
         // given
-        const campaign = server.create('campaign', {
+        const campaign = this.server.create('campaign', {
           identityProvider: 'GAR',
           targetProfileName: 'My Profile',
           organizationName: 'AWS',
@@ -59,7 +59,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
       module('and wants to continue', function () {
         test('should be redirected to the campaign entry page', async function (assert) {
           // given
-          const campaign = server.create('campaign', {
+          const campaign = this.server.create('campaign', {
             identityProvider: 'GAR',
             targetProfileName: 'My Profile',
             organizationName: 'AWS',
@@ -80,7 +80,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
       module('and wants to connect to his Mediacentre', function () {
         test('should stay on the same page after closing the modal', async function (assert) {
           // given
-          const campaign = server.create('campaign', {
+          const campaign = this.server.create('campaign', {
             identityProvider: 'GAR',
             targetProfileName: 'My Profile',
             organizationName: 'AWS',
@@ -102,7 +102,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
     module('and starts a campaign without GAR as identity provider', function () {
       test('should redirect the user to the campaign entry page', async function (assert) {
         // given
-        const campaign = server.create('campaign');
+        const campaign = this.server.create('campaign');
 
         // when
         const screen = await visit(`/campagnes`);

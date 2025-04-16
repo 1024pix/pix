@@ -30,7 +30,7 @@ module('Acceptance | User account page', function (hooks) {
 
     hooks.beforeEach(async function () {
       // given
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
       await authenticate(user);
     });
 
@@ -81,7 +81,7 @@ module('Acceptance | User account page', function (hooks) {
       module('When user can delete their account', () => {
         test('it displays "Delete my account" menu', async function (assert) {
           // given
-          const user = server.create('user', 'withEmail', 'withCanSelfDeleteAccount');
+          const user = this.server.create('user', 'withEmail', 'withCanSelfDeleteAccount');
           await authenticate(user);
 
           // when

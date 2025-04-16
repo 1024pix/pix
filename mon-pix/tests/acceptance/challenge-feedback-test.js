@@ -15,9 +15,9 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
   let firstChallenge;
 
   hooks.beforeEach(function () {
-    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-    firstChallenge = server.create('challenge', 'forCompetenceEvaluation');
-    server.create('challenge', 'forCompetenceEvaluation');
+    assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+    firstChallenge = this.server.create('challenge', 'forCompetenceEvaluation');
+    this.server.create('challenge', 'forCompetenceEvaluation');
   });
 
   module('From a challenge', function (hooks) {
@@ -110,7 +110,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
   module('From the comparison modal at the end of the test', function (hooks) {
     let screen;
     hooks.beforeEach(async function () {
-      server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
+      this.server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
       screen = await visit(`/assessments/${assessment.id}/checkpoint`);
     });
     test('should not display the feedback form', async function (assert) {

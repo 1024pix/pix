@@ -21,7 +21,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
 
   test('should land on default page when password is successfully updated', async function (assert) {
     // given
-    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const userShouldChangePassword = this.server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await authenticateByUsername(userShouldChangePassword);
     await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'newPass12345!');
 
@@ -36,7 +36,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
 
   test('should display validation error message when update password fails with http 400 error', async function (assert) {
     // given
-    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const userShouldChangePassword = this.server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await visit('/connexion');
 
     await fillIn(
@@ -71,7 +71,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
 
   test('should display error message when update password fails with http 401 error', async function (assert) {
     // given
-    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const userShouldChangePassword = this.server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await visit('/connexion');
     await fillIn(
       screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
@@ -104,7 +104,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
 
   test('should display error message when update password fails with http 404 error', async function (assert) {
     // given
-    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const userShouldChangePassword = this.server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await authenticateByUsername(userShouldChangePassword);
 
     this.server.post('/expired-password-updates', () => {
@@ -128,7 +128,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
 
   test('should display error message when update password fails', async function (assert) {
     // given
-    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const userShouldChangePassword = this.server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await visit('/connexion');
     await fillIn(
       screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),

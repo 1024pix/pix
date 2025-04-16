@@ -21,8 +21,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
       module(`when ${data.challengeType} challenge is focused`, function () {
         test('should display a specific page title', async function (assert) {
           // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+          assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+          this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -35,13 +35,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           module('when user has not seen the challenge tooltip yet', function (hooks) {
             hooks.beforeEach(async function () {
               // given
-              const user = server.create('user', 'withEmail', {
+              const user = this.server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: false,
               });
               await authenticate(user);
 
-              assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+              assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
               // when
               await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -66,8 +66,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             module('when user closes tooltip', function (hooks) {
               hooks.beforeEach(async function () {
                 // given
-                assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-                server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+                assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+                this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
                 // when
                 await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -128,13 +128,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
           module('when user has already seen challenge tooltip', function (hooks) {
             hooks.beforeEach(async function () {
-              const user = server.create('user', 'withEmail', {
+              const user = this.server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: true,
               });
               await authenticate(user);
 
-              assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+              assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
               await visit(`/assessments/${assessment.id}/challenges/0`);
             });
@@ -156,12 +156,17 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         module('when user has already answered the question', function () {
           test('should not display the overlay, dashed-border and warning messages', async function (assert) {
             // given
-            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-            server.create('answer', {
+            assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+            this.server.create('answer', {
               value: 'Reponse',
               result: 'ko',
               assessment,
-              challenge: server.create('challenge', 'forCompetenceEvaluation', `${data.challengeType}`, 'withFocused'),
+              challenge: this.server.create(
+                'challenge',
+                'forCompetenceEvaluation',
+                `${data.challengeType}`,
+                'withFocused',
+              ),
             });
 
             // when
@@ -180,7 +185,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         module('when user has focused out of the window', function (hooks) {
           hooks.beforeEach(async function () {
             // given
-            const user = server.create('user', 'withEmail', {
+            const user = this.server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
             await authenticate(user);
@@ -195,10 +200,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               );
               focusedCertificationChallengeWarningManager.reset();
 
-              assessment = server.create('assessment', 'ofCertificationType');
-              server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+              assessment = this.server.create('assessment', 'ofCertificationType');
+              this.server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
 
-              const certificationCourse = server.create('certification-course', {
+              const certificationCourse = this.server.create('certification-course', {
                 accessCode: 'ABCD12',
                 sessionId: 1,
                 nbChallenges: 1,
@@ -239,8 +244,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           module('when assessment is not of type certification', function (hooks) {
             hooks.beforeEach(async function () {
               // given
-              assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+              assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
@@ -264,12 +269,12 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         module('when user has already focusedout the challenge', function (hooks) {
           hooks.beforeEach(async function () {
             // given
-            const user = server.create('user', 'withEmail', {
+            const user = this.server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
             await authenticate(user);
-            assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeUnfocus');
-            server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+            assessment = this.server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeUnfocus');
+            this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
             // when
             await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -290,7 +295,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
         module('when user has focused out of the window and leaves the challenge', function (hooks) {
           hooks.beforeEach(async function () {
-            const user = server.create('user', 'withEmail', {
+            const user = this.server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
             await authenticate(user);
@@ -299,13 +304,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           module('when user goes to another assessment', function () {
             test('should not display a warning alert saying it has been focused out', async function (assert) {
               // given
-              const assessment1 = server.create(
+              const assessment1 = this.server.create(
                 'assessment',
                 'ofCompetenceEvaluationType',
                 'withCurrentChallengeUnfocus',
               );
-              const assessment2 = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+              const assessment2 = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
               await visit(`/assessments/${assessment1.id}/challenges/0`);
 
               // when
@@ -321,8 +326,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           module('when user returns to the same assessment', function () {
             test('should display a warning alert saying it has been focused out', async function (assert) {
               // given
-              const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+              const assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // when
@@ -349,13 +354,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             module('when user has not seen the challenge tooltip yet', function (hooks) {
               hooks.beforeEach(async function () {
                 // given
-                const user = server.create('user', 'withEmail', {
+                const user = this.server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: false,
                 });
                 await authenticate(user);
 
-                assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-                server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+                assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+                this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 
                 // when
                 await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -369,8 +374,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               module('when user closes tooltip', function (hooks) {
                 hooks.beforeEach(async function () {
                   // given
-                  assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-                  server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+                  assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+                  this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 
                   // when
                   await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -395,13 +400,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
             module('when user has already seen challenge tooltip', function (hooks) {
               hooks.beforeEach(async function () {
-                const user = server.create('user', 'withEmail', {
+                const user = this.server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: true,
                 });
                 await authenticate(user);
 
-                assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-                server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+                assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+                this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 
                 await visit(`/assessments/${assessment.id}/challenges/0`);
               });
@@ -425,12 +430,12 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           module('when user has already answered the question', function () {
             test('should not display the overlay, dashed-border and warning messages', async function (assert) {
               // given
-              assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('answer', {
+              assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('answer', {
                 value: 'Reponse',
                 result: 'ko',
                 assessment,
-                challenge: server.create(
+                challenge: this.server.create(
                   'challenge',
                   'forCompetenceEvaluation',
                   `${data.challengeType}`,
@@ -453,8 +458,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
           test('should not display warning block', async function (assert) {
             // given
-            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-            server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+            assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+            this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 
             // when
             await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -466,10 +471,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           module('when user has focused out of document', function (hooks) {
             hooks.beforeEach(async function () {
               // given
-              const user = server.create('user', 'withEmail');
+              const user = this.server.create('user', 'withEmail');
               await authenticate(user);
-              assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-              server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+              assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+              this.server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 
               // when
               await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -496,7 +501,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
     module('when there are several focused challenges in a row', function () {
       test('should display the focus page once', async function (assert) {
         // given
-        const user = server.create('user', 'withEmail');
+        const user = this.server.create('user', 'withEmail');
         await authenticate(user);
 
         const focusedCertificationChallengeWarningManager = this.owner.lookup(
@@ -504,11 +509,11 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         );
         focusedCertificationChallengeWarningManager.reset();
 
-        assessment = server.create('assessment', 'ofCertificationType');
-        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
-        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+        assessment = this.server.create('assessment', 'ofCertificationType');
+        this.server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+        this.server.create('challenge', 'forCertification', 'QCM', 'withFocused');
 
-        const certificationCourse = server.create('certification-course', {
+        const certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 2,
@@ -535,7 +540,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
     module('when there is a non focus challenge between two focused challenges', function () {
       test('should display the focus page twice', async function (assert) {
         // given
-        const user = server.create('user', 'withEmail');
+        const user = this.server.create('user', 'withEmail');
         await authenticate(user);
 
         const focusedCertificationChallengeWarningManager = this.owner.lookup(
@@ -543,12 +548,12 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         );
         focusedCertificationChallengeWarningManager.reset();
 
-        assessment = server.create('assessment', 'ofCertificationType');
-        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
-        server.create('challenge', 'forCertification', 'QCM');
-        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+        assessment = this.server.create('assessment', 'ofCertificationType');
+        this.server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+        this.server.create('challenge', 'forCertification', 'QCM');
+        this.server.create('challenge', 'forCertification', 'QCM', 'withFocused');
 
-        const certificationCourse = server.create('certification-course', {
+        const certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 2,
@@ -576,7 +581,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
     module('when a challenge is focused and timed', function () {
       test('should display focus first then timer information page', async function (assert) {
         // given
-        const user = server.create('user', 'withEmail');
+        const user = this.server.create('user', 'withEmail');
         await authenticate(user);
 
         const focusedCertificationChallengeWarningManager = this.owner.lookup(
@@ -584,10 +589,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         );
         focusedCertificationChallengeWarningManager.reset();
 
-        assessment = server.create('assessment', 'ofCertificationType');
-        server.create('challenge', 'forCertification', 'QCM', 'withFocused', { timer: 60 });
+        assessment = this.server.create('assessment', 'ofCertificationType');
+        this.server.create('challenge', 'forCertification', 'QCM', 'withFocused', { timer: 60 });
 
-        const certificationCourse = server.create('certification-course', {
+        const certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 2,
@@ -640,9 +645,9 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
       );
       focusedCertificationChallengeWarningManager.reset();
 
-      assessment = server.create('assessment', 'ofCertificationType');
+      assessment = this.server.create('assessment', 'ofCertificationType');
 
-      const certificationCourse = server.create('certification-course', {
+      const certificationCourse = this.server.create('certification-course', {
         accessCode: 'ABCD12',
         sessionId: 1,
         nbChallenges: 1,
@@ -657,13 +662,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
       function (data) {
         module(`when ${data.challengeType} challenge is focused`, function (hooks) {
           hooks.beforeEach(function () {
-            server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+            this.server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
           });
           module('when user has not answered the question', function () {
             module('when user has not seen the challenge tooltip yet', function (hooks) {
               hooks.beforeEach(async function () {
                 // given
-                const user = server.create('user', 'withEmail', {
+                const user = this.server.create('user', 'withEmail', {
                   hasSeenFocusedChallengeTooltip: false,
                 });
                 await authenticate(user);
@@ -755,14 +760,14 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
     module('when there is a companion live alert', function () {
       test('should hide feedback button', async function (assert) {
         // given
-        const certificationCourse = server.create('certification-course', {
+        const certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 1,
           firstName: 'Alain',
           lastName: 'Cendy',
           version: 2,
-          assessment: server.create('assessment', {
+          assessment: this.server.create('assessment', {
             type: 'CERTIFICATION',
             title: 'assessment COMPANION',
             hasOngoingCompanionLiveAlert: true,
@@ -770,7 +775,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         });
 
         assessment = certificationCourse.assessment;
-        server.create('challenge', 'forCertification', 'QCM');
+        this.server.create('challenge', 'forCertification', 'QCM');
 
         // when
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -790,9 +795,9 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         );
         focusedCertificationChallengeWarningManager.reset();
 
-        assessment = server.create('assessment', 'ofCertificationType');
+        assessment = this.server.create('assessment', 'ofCertificationType');
 
-        const certificationCourse = server.create('certification-course', {
+        const certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 1,
@@ -811,13 +816,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
       ].forEach(function (data) {
         module(`when ${data.challengeType} challenge is focused`, function (hooks) {
           hooks.beforeEach(function () {
-            server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+            this.server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
           });
           module('when user has not answered the question', function () {
             module('when user has not seen the challenge tooltip yet', function (hooks) {
               hooks.beforeEach(async function () {
                 // given
-                const user = server.create('user', 'withEmail', {
+                const user = this.server.create('user', 'withEmail', {
                   hasSeenFocusedChallengeTooltip: false,
                 });
                 await authenticate(user);
@@ -914,9 +919,9 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         );
         focusedCertificationChallengeWarningManager.reset();
 
-        assessment = server.create('assessment', 'ofCertificationType');
+        assessment = this.server.create('assessment', 'ofCertificationType');
 
-        certificationCourse = server.create('certification-course', {
+        certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 1,
@@ -936,13 +941,13 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
       ].forEach(function (data) {
         module(`when ${data.challengeType} challenge is focused`, function (hooks) {
           hooks.beforeEach(function () {
-            server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+            this.server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
           });
           module('when user has not answered the question', function () {
             module('when user has not seen the challenge tooltip yet', function (hooks) {
               hooks.beforeEach(async function () {
                 // given
-                const user = server.create('user', 'withEmail', {
+                const user = this.server.create('user', 'withEmail', {
                   hasSeenFocusedChallengeTooltip: false,
                 });
                 await authenticate(user);
@@ -1032,14 +1037,14 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
     module('when there is a companion live alert', function () {
       test('should hide feedback button', async function (assert) {
         // given
-        const certificationCourse = server.create('certification-course', {
+        const certificationCourse = this.server.create('certification-course', {
           accessCode: 'ABCD12',
           sessionId: 1,
           nbChallenges: 1,
           firstName: 'Alain',
           lastName: 'Cendy',
           version: 3,
-          assessment: server.create('assessment', {
+          assessment: this.server.create('assessment', {
             type: 'CERTIFICATION',
             title: 'assessment COMPANION',
             hasOngoingCompanionLiveAlert: true,
@@ -1047,7 +1052,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         });
 
         assessment = certificationCourse.assessment;
-        server.create('challenge', 'forCertification', 'QCM');
+        this.server.create('challenge', 'forCertification', 'QCM');
 
         // when
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);

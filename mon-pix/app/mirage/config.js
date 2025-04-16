@@ -43,7 +43,7 @@ import updateCertificationCandidates from './routes/update-certification-candida
 import loadUserRoutes from './routes/users/index';
 import serializers from './serializers';
 
-export default function makeServer(config) {
+export function makeServer(config) {
   const finalConfig = {
     ...config,
     routes,
@@ -60,16 +60,20 @@ export default function makeServer(config) {
   return server;
 }
 
-export function config(input) {
+export function config(config) {
   return {
-    ...input,
-    routes,
+    ...config,
+    routes: defineRoutes,
     models,
     factories,
     serializers,
     logging: true,
     urlPrefix: 'http://localhost:3000',
   };
+}
+
+function defineRoutes() {
+  this.config({ routes });
 }
 
 /* eslint max-statements: off */

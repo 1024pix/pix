@@ -15,7 +15,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
   let user;
 
   hooks.beforeEach(async function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
     await authenticate(user);
     await server.db.tutorials.remove();
   });
@@ -23,7 +23,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
   module('When there are recommended tutorials', function () {
     test('should display paginated tutorial cards', async function (assert) {
       // given
-      server.createList('tutorial', 100);
+      this.server.createList('tutorial', 100);
 
       // when
       await visit('/mes-tutos/recommandes');
@@ -40,7 +40,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
     module('when a tutorial is not already saved', function () {
       test('should saved it when user click on save button', async function (assert) {
         // given
-        server.createList('tutorial', 1);
+        this.server.createList('tutorial', 1);
         const screen = await visit('/mes-tutos/recommandes');
 
         // when
@@ -55,7 +55,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
     module('when a tutorial is saved', function () {
       test('should not remove it from the list when clicking on the remove button', async function (assert) {
         // given
-        server.createList('tutorial', 1, 'withUserSavedTutorial');
+        this.server.createList('tutorial', 1, 'withUserSavedTutorial');
         const screen = await visit('/mes-tutos/recommandes');
 
         // when
@@ -69,7 +69,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
     module('when a tutorial is liked', function () {
       test('should retrieve the appropriate status when changing page', async function (assert) {
         // given
-        server.createList('tutorial', 1, 'withUserSavedTutorial', 'withTutorialEvaluation');
+        this.server.createList('tutorial', 1, 'withUserSavedTutorial', 'withTutorialEvaluation');
         const screen = await visit('/mes-tutos/recommandes');
 
         // when
@@ -84,8 +84,8 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
     module('when user is filtering by competences', function () {
       test('should filter tutorial by competence and close sidebar', async function (assert) {
         // given
-        server.create('area', 'withCompetences');
-        server.createList('tutorial', 100);
+        this.server.create('area', 'withCompetences');
+        this.server.createList('tutorial', 100);
         const screen = await visit('/mes-tutos/recommandes');
         assert.dom('.tutorial-card').exists({ count: 10 });
         await click(screen.getByRole('button', { name: 'Filtrer' }));
@@ -105,7 +105,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
       module('when user access again to tutorials recommended page', function () {
         test('should reset competences filters', async function (assert) {
           // given
-          server.createList('tutorial', 1);
+          this.server.createList('tutorial', 1);
           const screen = await visit('/mes-tutos/recommandes?competences=1&pageNumber=1');
 
           // when

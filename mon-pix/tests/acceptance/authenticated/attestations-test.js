@@ -14,7 +14,7 @@ module('Acceptance | Authenticated | Attestations', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
     this.url = this.owner.lookup('service:url');
   });
 

@@ -17,13 +17,13 @@ module('Acceptance | Certifications | Information', function (hooks) {
   let user;
 
   hooks.beforeEach(async function () {
-    user = server.create('user', 'withEmail', 'certifiable');
+    user = this.server.create('user', 'withEmail', 'certifiable');
   });
 
   module('when certification candidate participates in a V3 session', function () {
     test('should display the certification instructions page', async function (assert) {
       // given
-      server.create('certification-candidate-subscription', {
+      this.server.create('certification-candidate-subscription', {
         id: '2',
         sessionId: 123,
         eligibleSubscriptions: null,
@@ -58,7 +58,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
     module('when user validates instructions', function () {
       test('should validate checkbox and redirect to the certification start page', async function (assert) {
         // given
-        server.create('certification-candidate-subscription', {
+        this.server.create('certification-candidate-subscription', {
           id: '2',
           sessionId: 123,
           eligibleSubscriptions: null,
@@ -99,7 +99,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
     module('when user has already validated instructions', function () {
       test('should redirect to the certification start page', async function (assert) {
         // given
-        server.create('certification-candidate-subscription', {
+        this.server.create('certification-candidate-subscription', {
           id: '2',
           sessionId: 123,
           eligibleSubscriptions: null,

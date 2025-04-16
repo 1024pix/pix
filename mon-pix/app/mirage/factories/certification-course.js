@@ -16,7 +16,7 @@ export default Factory.extend({
   afterCreate(certificationCourse, server) {
     if (!certificationCourse.assessment) {
       certificationCourse.update({
-        assessment: server.create('assessment', {
+        assessment: this.server.create('assessment', {
           type: 'CERTIFICATION',
           certificationNumber: certificationCourse.id,
           certificationCourse,

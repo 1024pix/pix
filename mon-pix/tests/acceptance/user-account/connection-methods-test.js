@@ -31,8 +31,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
         email: 'john.doe@example.net',
         username: 'john.doe0101',
       };
-      const user = server.create('user', 'withEmail', userDetails);
-      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      const user = this.server.create('user', 'withEmail', userDetails);
+      this.server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
 
       // when
@@ -45,8 +45,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
 
     test("should display user's GAR authentication method", async function (assert) {
       // given
-      const garUser = server.create('user', 'external');
-      server.create('authentication-method', 'withGarIdentityProvider', { user: garUser });
+      const garUser = this.server.create('user', 'external');
+      this.server.create('authentication-method', 'withGarIdentityProvider', { user: garUser });
       sinon.stub(PixWindow, 'getLocationHash').returns(generateGarAuthenticationURLHash(garUser));
       await authenticateByGAR(garUser);
 
@@ -63,8 +63,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const userDetails = {
         email: 'john.doe@example.net',
       };
-      const user = server.create('user', 'withEmail', userDetails);
-      server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
+      const user = this.server.create('user', 'withEmail', userDetails);
+      this.server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
 
       // when
       await authenticate(user);
@@ -83,8 +83,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
             email: 'jean.ticipe@example.net',
             emailConfirmed: true,
           };
-          const user = server.create('user', 'withEmail', userDetails);
-          server.create('authentication-method', 'withPixIdentityProvider', { user });
+          const user = this.server.create('user', 'withEmail', userDetails);
+          this.server.create('authentication-method', 'withPixIdentityProvider', { user });
           await authenticate(user);
 
           // when
@@ -102,8 +102,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
             email: 'jean.ticipe@example.net',
             emailConfirmed: false,
           };
-          const user = server.create('user', 'withEmail', userDetails);
-          server.create('authentication-method', 'withPixIdentityProvider', { user });
+          const user = this.server.create('user', 'withEmail', userDetails);
+          this.server.create('authentication-method', 'withPixIdentityProvider', { user });
           await authenticate(user);
 
           // when
@@ -122,7 +122,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const userDetails = {
         username: 'john.doe0101',
       };
-      const user = server.create('user', 'withUsername', userDetails);
+      const user = this.server.create('user', 'withUsername', userDetails);
       await authenticateByUsername(user);
 
       // when
@@ -139,7 +139,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const userDetails = {
         email: 'john.doe@example.net',
       };
-      const user = server.create('user', 'withEmail', userDetails);
+      const user = this.server.create('user', 'withEmail', userDetails);
       await authenticate(user);
 
       // when
@@ -153,8 +153,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
   module('email editing', function () {
     test('should reset email editing process when changing page', async function (assert) {
       // given
-      const user = server.create('user', 'withEmail');
-      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      const user = this.server.create('user', 'withEmail');
+      this.server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
       const screen = await visit('/mon-compte/methodes-de-connexion');
       await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-button') }));
@@ -170,8 +170,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
 
     test('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function (assert) {
       // given
-      const user = server.create('user', 'withEmail');
-      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      const user = this.server.create('user', 'withEmail');
+      this.server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
       const newEmail = 'new-email@example.net';
       const screen = await visit('/mon-compte/methodes-de-connexion');

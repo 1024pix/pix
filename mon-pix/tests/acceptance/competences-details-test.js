@@ -18,7 +18,7 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
 
   hooks.beforeEach(function () {
     server = this.server;
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Authenticated cases as simple user', function (hooks) {

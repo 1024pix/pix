@@ -13,7 +13,7 @@ module('Acceptance | Module | Routes | recap', function (hooks) {
 
   test("can't visit /modules/:slug/recap", async function (assert) {
     // given
-    server.create('module', {
+    this.server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       details: { tabletSupport: 'comfortable' },
     });

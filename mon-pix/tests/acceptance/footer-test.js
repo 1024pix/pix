@@ -14,7 +14,7 @@ module('Acceptance | Footer', function (hooks) {
 
   module('when user is connected', function (hooks) {
     hooks.beforeEach(async function () {
-      const user = server.create('user', 'withEmail');
+      const user = this.server.create('user', 'withEmail');
       await authenticate(user);
     });
 
@@ -43,7 +43,7 @@ module('Acceptance | Footer', function (hooks) {
 
   test('should not be displayed while in campaign', async function (assert) {
     // given
-    const campaign = server.create('campaign', 'withOneChallenge', {
+    const campaign = this.server.create('campaign', 'withOneChallenge', {
       isSimplifiedAccess: true,
     });
 

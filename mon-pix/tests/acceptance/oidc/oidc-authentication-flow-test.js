@@ -35,7 +35,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
     module('when user have a pix account', function () {
       test('should redirect user to reconciliation page', async function (assert) {
         // given
-        server.create('user', {
+        this.server.create('user', {
           email: 'lloyd.ce@example.net',
           password: 'pix123',
           cgu: true,

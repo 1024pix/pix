@@ -18,7 +18,7 @@ module('Acceptance | competences results', function (hooks) {
   const assessmentId = 10;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Authenticated cases as simple user', function (hooks) {

@@ -16,8 +16,8 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
   let qcuChallenge;
 
   hooks.beforeEach(async function () {
-    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-    qcuChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
+    assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+    qcuChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QCU');
   });
 
   module('When challenge is not already answered', function (hooks) {
@@ -80,7 +80,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
   module('When challenge is already answered', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      server.create('answer', {
+      this.server.create('answer', {
         value: '2',
         result: 'ko',
         assessment,
@@ -113,15 +113,15 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
     let correction, tutorial, learningMoreTutorial;
     hooks.beforeEach(async function () {
       // given
-      tutorial = server.create('tutorial');
-      learningMoreTutorial = server.create('tutorial');
-      correction = server.create('correction', {
+      tutorial = this.server.create('tutorial');
+      learningMoreTutorial = this.server.create('tutorial');
+      correction = this.server.create('correction', {
         solution: '1',
         hint: 'Cliquer sur 1',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
       });
-      server.create('answer', {
+      this.server.create('answer', {
         value: '2',
         result: 'ko',
         assessmentId: assessment.id,

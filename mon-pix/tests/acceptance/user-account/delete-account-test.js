@@ -21,7 +21,7 @@ module('Acceptance | user-account | delete-account', function (hooks) {
     test('it deletes their account', async function (assert) {
       // given
       const userDetails = { email: 'john.doe@example.net', username: 'john.doe0101' };
-      const user = server.create('user', 'withCanSelfDeleteAccount', userDetails);
+      const user = this.server.create('user', 'withCanSelfDeleteAccount', userDetails);
       await authenticate(user);
 
       // when
@@ -43,7 +43,7 @@ module('Acceptance | user-account | delete-account', function (hooks) {
   module('when user cannot self-delete their account', function () {
     test('it is redirected to account personal information page', async function (assert) {
       // given
-      const user = server.create('user');
+      const user = this.server.create('user');
       await authenticate(user);
 
       // when

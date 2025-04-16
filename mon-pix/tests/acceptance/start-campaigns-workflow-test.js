@@ -36,7 +36,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
     let prescritUser;
 
     hooks.beforeEach(function () {
-      prescritUser = server.create('user', 'withEmail', {
+      prescritUser = this.server.create('user', 'withEmail', {
         mustValidateTermsOfService: false,
         lastTermsOfServiceValidatedAt: null,
       });
@@ -59,7 +59,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When campaign is not restricted', function () {
           test('should display landing page', async function (assert) {
             // given
-            const campaign = server.create('campaign', { isRestricted: false, externalIdLabel: null });
+            const campaign = this.server.create('campaign', { isRestricted: false, externalIdLabel: null });
             const screen = await visit('/campagnes');
 
             // when
@@ -94,7 +94,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               );
 
               // given
-              const campaign = server.create('campaign', { isRestricted: false });
+              const campaign = this.server.create('campaign', { isRestricted: false });
               const screen = await visit('/campagnes');
               await fillIn(
                 screen.getByRole('textbox', { name: `${t('pages.fill-in-campaign-code.label')} *` }),
@@ -129,7 +129,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         module('When campaign is restricted and SCO', function (hooks) {
           hooks.beforeEach(function () {
-            campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
+            campaign = this.server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
           });
 
           module('When the student has an account but is not reconciled', function () {
@@ -158,7 +158,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 server.get('sco-organization-learners', () => {
                   return { data: null };
                 });
-                server.create('sco-organization-learner', {
+                this.server.create('sco-organization-learner', {
                   campaignCode: campaign.code,
                 });
                 const screen = await visit('/campagnes');
@@ -336,7 +336,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         module('When campaign is restricted and SUP', function (hooks) {
           hooks.beforeEach(function () {
-            campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
+            campaign = this.server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
           });
 
           test('should redirect to landing page', async function (assert) {
@@ -383,7 +383,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         module('When is a simplified access campaign', function (hooks) {
           hooks.beforeEach(function () {
-            campaign = server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
+            campaign = this.server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
           });
 
           test('should redirect to landing page', async function (assert) {
@@ -429,7 +429,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       module('When the user has already seen the landing page', function () {
         test('should redirect to signin page', async function (assert) {
           // given & when
-          const campaign = server.create('campaign');
+          const campaign = this.server.create('campaign');
           await startCampaignByCode(campaign.code);
 
           // then
@@ -440,7 +440,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       module('When the user has not seen the landing page', function () {
         test('should redirect to landing page', async function (assert) {
           // when
-          const campaign = server.create('campaign');
+          const campaign = this.server.create('campaign');
           await visit(`/campagnes/${campaign.code}`);
 
           // then
@@ -450,7 +450,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When campaign has custom text for the landing page', function () {
           test('should show the custom text on the landing page', async function (assert) {
             // given
-            const campaign = server.create('campaign', { customLandingPageText: 'SomeText' });
+            const campaign = this.server.create('campaign', { customLandingPageText: 'SomeText' });
 
             // when
             const screen = await visit(`/campagnes/${campaign.code}`);
@@ -470,7 +470,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       module('When campaign is not restricted', function () {
         test('should redirect to landing page', async function (assert) {
           // given
-          campaign = server.create('campaign');
+          campaign = this.server.create('campaign');
 
           // when
           await visit(`/campagnes/${campaign.code}`);
@@ -482,7 +482,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
       module('When campaign is restricted and SCO', function (hooks) {
         hooks.beforeEach(function () {
-          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
+          campaign = this.server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
         module('When association is not already done', function () {
@@ -506,7 +506,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             server.get('sco-organization-learners', () => {
               return { data: null };
             });
-            server.create('sco-organization-learner', {
+            this.server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
 
@@ -560,7 +560,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         module('When association is already done', function (hooks) {
           hooks.beforeEach(function () {
-            server.create('sco-organization-learner', {
+            this.server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
           });
@@ -588,7 +588,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
       module('When campaign is restricted and SUP', function (hooks) {
         hooks.beforeEach(function () {
-          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
+          campaign = this.server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
         });
 
         test('should redirect to landing page', async function (assert) {
@@ -640,7 +640,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When participant external id is not set in the url', function () {
           test('should show the identifiant page after clicking on start button in landing page', async function (assert) {
             // given & when
-            campaign = server.create('campaign', { externalIdLabel: 'nom de naissance de maman' });
+            campaign = this.server.create('campaign', { externalIdLabel: 'nom de naissance de maman' });
             await startCampaignByCode(campaign.code);
 
             // then
@@ -651,7 +651,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When participant external id is set in the url', function () {
           test('should begin campaign participation', async function (assert) {
             // given & when
-            campaign = server.create('campaign', { externalIdLabel: 'nom de naissance de maman' });
+            campaign = this.server.create('campaign', { externalIdLabel: 'nom de naissance de maman' });
             await startCampaignByCodeAndExternalId(campaign.code);
 
             // then
@@ -663,7 +663,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       module('When campaign does not have external id', function () {
         test('should begin campaign participation', async function (assert) {
           // given & when
-          campaign = server.create('campaign', { externalIdLabel: null });
+          campaign = this.server.create('campaign', { externalIdLabel: null });
           await startCampaignByCode(campaign.code);
 
           // then
@@ -674,7 +674,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       module('When campaign does not have external id but a participant external id is set in the url', function () {
         test('should begin campaign participation', async function (assert) {
           // given & when
-          campaign = server.create('campaign', { externalIdLabel: null });
+          campaign = this.server.create('campaign', { externalIdLabel: null });
           await startCampaignByCodeAndExternalId(campaign.code);
 
           // then
@@ -684,7 +684,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
       module('When the campaign is restricted and organization learner is disabled', function (hooks) {
         hooks.beforeEach(function () {
-          campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
+          campaign = this.server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
         });
 
         test('should redirect to landing page', async function (assert) {
@@ -718,7 +718,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
       module('When is a simplified access campaign', function (hooks) {
         hooks.beforeEach(function () {
-          campaign = server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
+          campaign = this.server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
         });
 
         test('should redirect to landing page', async function (assert) {
@@ -745,7 +745,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
     module('When user is logged as anonymous and campaign is simplified access', function () {
       test('should replace previous connected anonymous user', async function (assert) {
         // given
-        campaign = server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
+        campaign = this.server.create('campaign', { isSimplifiedAccess: true, externalIdLabel: 'Les anonymes' });
         await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
         const session = currentSession();
         const previousUserId = session.data.authenticated['user_id'];
@@ -770,7 +770,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
     module('When user is logged in an external platform', function () {
       module('When campaign is restricted and SCO', function (hooks) {
         hooks.beforeEach(function () {
-          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
+          campaign = this.server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
         module('When association is not already done and reconciliation token is provided', function () {
@@ -873,9 +873,9 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           let garUser;
 
           hooks.beforeEach(async function () {
-            garUser = server.create('user', AUTHENTICATED_SOURCE_FROM_GAR);
+            garUser = this.server.create('user', AUTHENTICATED_SOURCE_FROM_GAR);
             await authenticateByGAR(garUser);
-            server.create('sco-organization-learner', {
+            this.server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
           });
@@ -894,7 +894,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               server.get('sco-organization-learners', () => {
                 return { data: null };
               });
-              server.create('sco-organization-learner', {
+              this.server.create('sco-organization-learner', {
                 campaignCode: campaign.code,
               });
               const screen = await visit('/campagnes');
@@ -946,7 +946,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should begin campaign participation if GAR authentication method has been added', async function (assert) {
             // given
-            server.create('sco-organization-learner', {
+            this.server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
 
@@ -1092,7 +1092,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           module('When user should change password', function () {
             test('should begin campaign participation after updating password expired', async function (assert) {
               // given
-              const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+              const userShouldChangePassword = this.server.create('user', 'withUsername', 'shouldChangePassword');
 
               server.post('/sco-organization-learners/external', async function () {
                 return new Response(
@@ -1116,7 +1116,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 );
               });
 
-              server.create('sco-organization-learner', {
+              this.server.create('sco-organization-learner', {
                 campaignCode: campaign.code,
               });
 

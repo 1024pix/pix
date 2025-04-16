@@ -33,7 +33,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
             replace: replaceLocationStub,
           }),
         );
-        campaign = server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
+        campaign = this.server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
       });
 
       test('should redirect to landing page', async function (assert) {
@@ -105,7 +105,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
       let replaceLocationStub;
 
       hooks.beforeEach(async function () {
-        const prescritUser = server.create('user', 'withEmail', {
+        const prescritUser = this.server.create('user', 'withEmail', {
           mustValidateTermsOfService: false,
           lastTermsOfServiceValidatedAt: null,
         });
@@ -117,7 +117,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
             replace: replaceLocationStub,
           }),
         );
-        campaign = server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
+        campaign = this.server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
       });
 
       module('When user is logged in with an oidc organization', function (hooks) {

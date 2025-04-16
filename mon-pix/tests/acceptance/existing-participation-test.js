@@ -14,9 +14,9 @@ module('Acceptance | Existing Participation', function (hooks) {
   module('Authenticated cases as simple user', function () {
     test('displays an error message', async function (assert) {
       // given
-      const user = server.create('user', 'withEmail');
-      server.create('campaign', { code: '123' });
-      server.create('organization-learner-identity', {
+      const user = this.server.create('user', 'withEmail');
+      this.server.create('campaign', { code: '123' });
+      this.server.create('organization-learner-identity', {
         firstName: 'First',
         lastName: 'Last',
       });

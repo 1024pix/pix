@@ -13,7 +13,7 @@ module('Acceptance | mes-tutos', function (hooks) {
 
   module('When the new tutorials page is disabled', function (hooks) {
     hooks.beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+      user = this.server.create('user', 'withEmail');
       await authenticate(user);
     });
 

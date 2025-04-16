@@ -16,7 +16,7 @@ module('Acceptance | Authentication redirections', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Success cases', function () {
@@ -58,7 +58,7 @@ module('Acceptance | Authentication redirections', function (hooks) {
     module('when user should change password', function () {
       test('should redirect to /update-expired-password', async function (assert) {
         // given
-        user = server.create('user', 'withUsername', 'shouldChangePassword');
+        user = this.server.create('user', 'withUsername', 'shouldChangePassword');
 
         // when
         await authenticateByUsername(user);

@@ -15,7 +15,7 @@ module('Acceptance | Competence Evaluations | Resume Competence Evaluations', f
   let user;
 
   hooks.beforeEach(function () {
-    user = server.create('user', 'withEmail');
+    user = this.server.create('user', 'withEmail');
   });
 
   module('Resume a competence evaluation', function () {

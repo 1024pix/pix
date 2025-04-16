@@ -22,7 +22,7 @@ module('Acceptance | Login', function (hooks) {
 
   test('user logs in', async function (assert) {
     // given
-    const user = server.create('user', 'withEmail');
+    const user = this.server.create('user', 'withEmail');
 
     const screen = await visit('/connexion');
 

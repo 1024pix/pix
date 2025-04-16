@@ -15,7 +15,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
   module('when user arrive on the module details page', function () {
     test('should display the link to passage button', async function (assert) {
       // given
-      server.create('module', {
+      this.server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
         grains: [],
@@ -37,11 +37,11 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
 
     test('should navigate to passage page by clicking on start module button', async function (assert) {
       // given
-      const grain = server.create('grain', {
+      const grain = this.server.create('grain', {
         id: 'grain1',
       });
 
-      server.create('module', {
+      this.server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
         grains: [grain],
