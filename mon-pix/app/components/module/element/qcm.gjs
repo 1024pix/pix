@@ -109,11 +109,11 @@ export default class ModuleQcm extends ModuleElement {
       {{#if this.shouldDisplayRetryButton}}
         <PixButton
           class="element-qcm__retry-button"
-          @variant="secondary"
+          @variant="tertiary"
           @size="small"
           @type="button"
           @triggerAction={{this.retry}}
-          @iconAfter="refresh"
+          @iconBefore="refresh"
         >
           {{t "pages.modulix.buttons.activity.retry"}}
         </PixButton>

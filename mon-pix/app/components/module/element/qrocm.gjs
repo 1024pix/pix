@@ -170,11 +170,11 @@ export default class ModuleQrocm extends ModuleElement {
       {{#if this.shouldDisplayRetryButton}}
         <PixButton
           class="element-qrocm__retry-button"
-          @variant="secondary"
+          @variant="tertiary"
           @size="small"
           @type="button"
           @triggerAction={{this.retry}}
-          @iconAfter="refresh"
+          @iconBefore="refresh"
         >
           {{t "pages.modulix.buttons.activity.retry"}}
         </PixButton>
