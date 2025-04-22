@@ -16,7 +16,7 @@ const supervisionEvents = async function (request, h) {
     const sessionId = request.params.sessionId;
     const session = await usecases.getSessionForSupervising({ sessionId });
     const response = JSON.stringify(sessionForSupervisingSerializer.serialize(session));
-    channel.write(`data: ${response}\n\n`);
+    channel.write(`${response}\n\n`);
 
   }, 2000);
   return h.response(channel).code(200).type('text/event-stream').header('Connection', 'keep-alive').header('Cache-Control', 'no-cache');
