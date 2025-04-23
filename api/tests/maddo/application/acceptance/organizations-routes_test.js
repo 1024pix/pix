@@ -1,4 +1,4 @@
-import { Campaign } from '../../../../src/maddo/domain/models/Campaign.js';
+import { Campaign } from '../../../../src/maddo/domain/models/Campaign.ts';
 import { Organization } from '../../../../src/maddo/domain/models/Organization.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
