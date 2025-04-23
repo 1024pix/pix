@@ -1,9 +1,13 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import ENV from 'pix-certif/config/environment';
 
-const NO_INTERNET_MESSAGE = 'Failed to fetch';
+/**
+ * TODO remaining :
+ *  * quit button does not seem to fire deactivate error
+ *  * test what happens if backend restart (please try that on RA not with local server)
+ */
+
 export default class SessionSupervisingRoute extends Route {
   @service store;
   @service router;
@@ -11,75 +15,43 @@ export default class SessionSupervisingRoute extends Route {
   @service intl;
   @service serverSentEvent;
 
-  split = (input) => {
-    const rgx = /[:]\s*/;
-    const match = rgx.exec(input);
-    // ": comment" -> index=0 -> ignore
-    const idx = match && match.index;
-    if (idx) {
-      return [input.substring(0, idx), input.substring(idx + match[0].length)];
-    }
-  };
-
-  // source d'inspi:  https://github.com/lukeed/fetch-event-stream/blob/main/mod.ts
-  // source d'inspi:  https://developer.mozilla.org/en-US/docs/Web/API/TextDecoderStream#examples
-  // source d'inspi:  https://yama-corp.com/fr/developpement/2024-08-02/les-server-sent-events-sse/
-  myHandler = async (response) => {
-    console.log('COUCOU');
-    console.log(typeof response);
-
-    const reader = response?.body?.getReader();
-    // while (true) {
-    const { done, value } = await reader.read();
-    // if (done) break;
-
-    const raw = new TextDecoder('utf-8').decode(value);
-    const [event, data] = this.split(raw);
-    console.log(raw);
-    const decoded = JSON.parse(data);
-    this.store.pushPayload('session-for-supervising', decoded);
-    // }
-  };
-
-  async model(params) {
-    return this.serverSentEvent.start(params.session_id);
+  async beforeModel(transition) {
+    const params = transition.to.params;
+    return this.serverSentEvent.connect(params.session_id);
   }
 
-  afterModel(model) {
-    //console.log("start listening");
-    //this.serverSentEvent.events(model).then();
+  async model(params) {
+    // Init the ember model that will be filled with server events
+    const model = this.store.push({
+      data: {
+        type: 'session-for-supervising',
+        id: params.session_id,
+      },
+    });
 
-    // this.poller = setInterval(async () => {
-    //   try {
-    //     await this.store.queryRecord('session-for-supervising', { sessionId: model.id });
-    //   } catch (response) {
-    //     this.#stopPolling();
-    //     if (response?.errors?.[0]?.status === '401') {
-    //       this.router.replaceWith('login-session-supervisor');
-    //     }
-    //     if (response.message === NO_INTERNET_MESSAGE) {
-    //       this.pixToast.sendErrorNotification({
-    //         message: this.intl.t('pages.session-supervising-error.no-internet-error'),
-    //       });
-    //     }
-    //   }
-    // }, ENV.APP.sessionSupervisingPollingRate);
+    this.serverSentEvent.registerOnModelUpdateHandler(async (event) => {
+      this.store.pushPayload('session-for-supervising', event.value);
+    });
+
+    this.serverSentEvent.registerOnErrorHandler((error) => {
+      console.warn(error);
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.session-supervising-error.no-internet-error'),
+      });
+    });
+
+    this.serverSentEvent.startListening();
+
+    return model;
   }
 
   deactivate() {
-    this.#stopPolling();
+    this.serverSentEvent.stopListening();
   }
 
   @action
   error() {
-    this.#stopPolling();
+    this.serverSentEvent.stopListening();
     return true;
-  }
-
-  #stopPolling() {
-    if (this.poller) {
-      clearInterval(this.poller);
-      this.poller = null;
-    }
   }
 }
