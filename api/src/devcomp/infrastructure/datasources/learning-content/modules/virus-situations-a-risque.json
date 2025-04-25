@@ -1,0 +1,576 @@
+{
+  "id": "3115f1bc-ea20-4332-ab6c-fc653d392023",
+  "slug": "virus-risque",
+  "title": "Virus informatiques : les situations à risques",
+  "isBeta": false,
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "<p>Un virus informatique peut perturber le fonctionnement d’un ordinateur, d’une tablette ou d’un smartphone. Dans ce module, vous en apprendrez plus sur les virus et découvrirez les situations à risques.</p>",
+    "duration": 10,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Reconnaître des situations à risque d’infection par des virus</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [],
+  "grains": [
+    {
+      "id": "5fc34535-f1b8-45de-b07b-25f128f94a60",
+      "type": "transition",
+      "title": "intro",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "57f144bb-85e4-4338-968e-6e6729c82830",
+            "type": "text",
+            "content": "<p>Léo et Nikita échangent par messages.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "760ce769-d5b8-441d-9904-5d38042c7452",
+      "type": "discovery",
+      "title": "Qu'est-ce que c'est ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "51518411-f266-40b6-82c6-67dc8d0b2dac",
+            "type": "image",
+            "url": "https://i.imgur.com/1dhewaQ.jpeg",
+            "alt": "image d'une discussion par message. détail dans l'alternative textuelle",
+            "alternativeText": "<p>Léo : Je suis dégouté ! Je crois que mon ordinateur est en train de tomber en panne. </p><p>Nikita : Oh mince, qu’est-ce qui se passe ? </p><p>Léo : Il est très lent et j’ai une fenêtre bizarre qui n’arrête pas de s’ouvrir. </p><p>Nikita : Oulah ! Mais c’est pas plutôt un virus qu’il a ton ordinateur ? </p><p>Léo : Un virus ? Mais je ne vois rien pourtant !&nbsp; </p><p>Nikita : C’est normal, un virus c’est invisible.</p>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "ec3ea29d-c380-42dd-abcd-55bc1a44bd1e",
+            "type": "qcu",
+            "instruction": "<p>À ton avis, qui a raison ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Léo : c’est une panne</p>",
+                "feedback": {
+                  "state": "<p>Pas exactement.</p>",
+                  "diagnosis": "<p>Il est probable qu’un virus informatique ralentit l’ordinateur de Léo. <br>Nikita a raison, un virus est invisible mais il peut perturber le fonctionnement de votre matériel informatique.</p>"
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>Nikita : c’est un virus</p>",
+                "feedback": {
+                  "state": "<p>Bien vu !</p>",
+                  "diagnosis": "<p>Il est probable qu’un virus informatique ralentit l’ordinateur de Léo. <br>Nikita a raison, un virus est invisible mais il peut perturber le fonctionnement de votre matériel informatique.</p>"
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Je ne sais pas</p>",
+                "feedback": {
+                  "state": "<p>Ce n’est pas grave.</p>",
+                  "diagnosis": "<p>Il est probable qu’un virus informatique ralentit l’ordinateur de Léo. <br>Nikita a raison, un virus est invisible mais il peut perturber le fonctionnement de votre matériel informatique.</p>"
+                }
+              }
+            ],
+            "solution": "2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3c7dff33-f9bd-492f-a8b3-1921ab336d5d",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "dc8e2663-f969-4d2c-9612-677a38d1340c",
+            "type": "text",
+            "content": "<p>À quoi correspondent vraiment les virus informatiques ? 🦠</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "82e47735-0bf0-47ce-9834-77b12b256ba4",
+      "type": "lesson",
+      "title": "Les virus informatiques en 4 points",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "2bcb9ddb-f7b7-4480-8fe6-a3b86a7e33b1",
+            "type": "text",
+            "content": "<p>Les virus informatiques en 4 points :</p><ol><li>Ce sont des <strong>programmes informatiques malveillants.</strong></li><li>Ils peuvent <strong>causer des problèmes de fonctionnement</strong> sur vos appareils.</li><li>Ce sont des outils créés et utilisés par des <strong>pirates informatiques</strong>.</li><li>Ils sont diffusés au plus grand nombre.</li></ol>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "244e0c41-8ec1-4231-a6ec-48d3d8c5a694",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "612d2018-7eda-4f2f-9c29-1e6bd51d7eed",
+            "type": "text",
+            "content": "<p>🤔 <strong>Bon à savoir&nbsp;</strong> <br>Les virus sont une catégorie de programmes malveillants. Mais par raccourci, dans la vie courante, on appelle souvent «&nbsp;virus&nbsp;» tous les programmes et logiciels malveillants.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3ad705c2-a94c-4f04-af44-608ce6c6f89a",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8709de2c-00f5-46af-977f-71a7f1ded7e7",
+            "type": "text",
+            "content": "<p>Mais alors, comment s'installent les virus informatiques ?<br>Essayez de reconnaître des situations à risque d’infection. 🕵️</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7c3a3b6d-d6a1-4d00-9a8b-6edddd8216c3",
+      "type": "discovery",
+      "title": "Estimez le risque 1",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "17c9d8c8-100e-49d3-8efd-569eb864d662",
+            "type": "text",
+            "content": "<p>Imany cherche à regarder le film <em>Pix Le Film</em> qui vient de sortir au cinéma. Elle trouve un site en tapant “regarder Pix Le Film en ligne gratuit”. Le site lui demande d’installer un lecteur spécial. Elle le fait, pourtant le film ne démarre pas.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "4f5d74d3-21f8-41f2-bd50-84db786fcb56",
+            "type": "image",
+            "url": "https://i.imgur.com/8LkKAqD.jpeg",
+            "alt": "",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1d742734-a63d-4f28-9e82-f5f7e65e0870",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "jauge 1",
+            "url": "https://1024pix.github.io/atelier-contenus/PCH/Jauge-3.html",
+            "instruction": "<p>Estimez le risque d’attrapper un virus de la situation ci-dessus de «&nbsp;Sans danger&nbsp;» à «&nbsp;Grand danger&nbsp;».</p>",
+            "solution": "",
+            "height": 340
+          }
+        }
+      ]
+    },
+    {
+      "id": "567bd5b3-6a0d-4644-9d96-d158ee4d7537",
+      "type": "lesson",
+      "title": "feedback",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0029de63-6472-4a81-9155-96aa1b35e542",
+            "type": "text",
+            "content": "<p>Cette situation n’est pas sûre. Le lecteur qu’Imany a installé contient peut-être un virus.</p><p><br><strong>Comment on le voit ?</strong> </p><ul><li>Le site propose de visionner gratuitement des films qui sont au cinéma, c’est un service illégal.&nbsp;</li><li>Le site demande à Imany de télécharger et d’installer un lecteur, alors qu’il existe des lecteurs en ligne.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "68cee184-7478-47bd-98a3-711a442ce351",
+      "type": "lesson",
+      "title": "Virus qu'on rencontre",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "60f4b2e2-5708-4c68-9b04-e6e42b7ce300",
+            "type": "text",
+            "content": "<p>Comme Imany, on peut télécharger un virus caché dans une application sans le savoir.&nbsp;</p><p><br>Les virus se cachent dans <strong>des fichiers, des pages web, des logiciels ou des applications</strong>.&nbsp; Un virus peut donc vous infecter sans que vous ne vous en rendiez compte. &nbsp;</p><p><br>Voici des exemples de situations :</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "17be8fd3-76a0-42af-87af-2baf0102c0ea",
+            "type": "image",
+            "url": "https://i.imgur.com/pfqi1sa.png",
+            "alt": "Illustration de 3 situations, détaillées dans l'alternative textuelle.",
+            "alternativeText": "<ul><li>Installer un logiciel ou une application comprenant un virus.</li><li>Consulter un site web malveillant qui a pour but de vous transmettre un virus.</li><li>Télécharger un fichier trouvé sur internet comprenant un virus.</li></ul>",
+            "legend": "",
+            "licence": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "8f8fd5af-68e6-49a9-9388-b8b82c7d0dda",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "bcea5854-028a-4ca4-81ca-782cb298f6f8",
+            "type": "text",
+            "content": "<p>Essayons une autre situation.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "29422a22-8815-4445-a647-6de78b2204ef",
+      "type": "discovery",
+      "title": "Estimez le risque 2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "6ec740e5-4a34-44fc-ab10-efd90cf8fed2",
+            "type": "text",
+            "content": "<p>Lorenzo reçoit le mail ci-dessous :</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "213e3d34-9864-46f8-8437-8e8386333347",
+            "type": "image",
+            "url": "https://i.imgur.com/smcTfpL.jpeg",
+            "alt": "Notification d'un nouveau message dans une boite mail, détail dans l'alternative textuelle.",
+            "alternativeText": "<ul><li>Expéditeur : SuuuperMarket</li><li>Adresse mail de l’envoyeur : ziguit67tr0@live.com </li><li>Object : BRAVO - RéCUPEREZ VOTRE CADEAU </li><li>Aperçu du début du message : &gt;&gt;URGENT&lt;&lt; Félicitation vous êtes notre gagnant !<br><br></li></ul>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c86f4503-61da-41a3-9845-c9bd75584b01",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Jauge 2",
+            "url": "https://1024pix.github.io/atelier-contenus/PCH/Jauge-3.html",
+            "instruction": "<p>Estimez le risque d’attrapper un virus de la situation ci-dessus de «&nbsp;Sans danger&nbsp;» à «&nbsp;Grand danger&nbsp;».</p>",
+            "solution": "",
+            "height": 340
+          }
+        }
+      ]
+    },
+    {
+      "id": "6364f51d-baf4-45d5-9ba7-cfd470256d6d",
+      "type": "lesson",
+      "title": "Feedback2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "38b9d2f4-cd91-4d1f-9353-de1992047b9b",
+            "type": "text",
+            "content": "<p>Cette situation n’est pas très sûre. Ce mail vient probablement d’un pirate informatique et peut contenir un virus.&nbsp;</p><p><strong><br>Comment on le voit ?</strong> </p><ul><li>Ici ziguit67tr0@live.com essaye de se faire passer pour le SuuuperMarket.&nbsp;</li><li>Ce mail vous incite à agir rapidement dans l’espoir d’un gain.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "382361cc-df44-4276-9ce0-68864dcac8b4",
+      "type": "lesson",
+      "title": "Virus reçu",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "c5fef190-a5c0-4e44-a646-30cc713b65e2",
+            "type": "text",
+            "content": "<p>Comme Lorenzo, vous avez probablement déjà reçu des messages contenant des virus, sans même le savoir.</p><p><br>Un message envoyé par un organisme, une personne ou une publicité peut cacher un virus. Cela concerne autant<strong> les mails, que les SMS, les forums ou les messageries des réseaux sociaux</strong>. &nbsp;<br><br> Vous pouvez être contaminé par un virus informatique reçu de plusieurs façons :<br><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "48c1fe0c-7cbd-4c14-8a84-29f96fec2ff1",
+            "type": "image",
+            "url": "https://i.imgur.com/zqkirFi.png",
+            "alt": "Illustration de 3 façons, détail dans l'alternative textuelle.",
+            "alternativeText": "<ul><li>En <strong>téléchargeant </strong>ou en <strong>ouvrant une pièce jointe</strong>.</li><li>En <strong>cliquant </strong>sur un lien.</li><li>En <strong>ouvrant </strong>le message.</li></ul>",
+            "legend": "",
+            "licence": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "fe63b43a-289f-4d27-929a-155688b6afbf",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0ac26e76-629d-40ca-922f-7b8133c32991",
+            "type": "text",
+            "content": "<p>Voyons un autre cas de figure.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "afa433cc-1e5d-44a7-b069-43f20e68c755",
+      "type": "discovery",
+      "title": "Estimez le danger 3",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "9bfa723c-fde5-41d9-880d-05d88c4975e5",
+            "type": "text",
+            "content": "<p>Bob veut brancher à son ordinateur une clé USB trouvée par terre pour trouver des indices sur son propriétaire.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "cf024caa-96f9-4c76-b767-d76e1d24c602",
+            "type": "image",
+            "url": "https://i.imgur.com/TgcdOZz.jpeg",
+            "alt": "",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "cdb4b157-61fa-445b-9ca8-a84d4af7c1f0",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Jauge 3",
+            "url": "https://1024pix.github.io/atelier-contenus/PCH/Jauge-3.html",
+            "instruction": "<p>Estimez le risque d’attrapper un virus de la situation ci-dessus de «&nbsp;Sans danger&nbsp;» à «&nbsp;Grand danger&nbsp;».</p>",
+            "solution": "",
+            "height": 340
+          }
+        }
+      ]
+    },
+    {
+      "id": "fa52ae1e-6db3-42fc-a91a-a226b06cd5bf",
+      "type": "lesson",
+      "title": "Feedback 3",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "59408917-6457-4753-b5a2-0bf590061d7c",
+            "type": "text",
+            "content": "<p>Cette situation n’est pas sûre. La clé USB trouvée par Bob peut contenir un virus. <br></p><p><strong>Comment on le voit ?</strong> </p><p>La clé USB est inconnue. Bob ne peut pas savoir si cette clé USB est infectée ou non. Il y a donc un grand danger.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1f52ba9-8b3d-4a4c-9537-083730dd6493",
+      "type": "lesson",
+      "title": "Un virus branché",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "9fcda8ef-77fc-4cae-8be5-1e36592cf493",
+            "type": "text",
+            "content": "<p>Comme Bob, vous avez peut-être déjà branché un appareil à votre matériel en USB ou en USB-C sans être certain de sa provenance.</p><p><br>Un virus <strong>peut être introduit dans l’appareil</strong> à partir d’un support qui se branche <strong>en USB ou en USB type C</strong>. Par exemple : un disque dur externe, un smartphone, un chauffe-mug, une cigarette électronique, un ventilateur, une lampe de bureau…</p><p><br>Vous pouvez être contaminé par un virus informatique en vous branchant de plusieurs façons :</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c4279797-d029-45a0-9fde-2d363d8626d9",
+            "type": "image",
+            "url": "https://i.imgur.com/s1cqB5I.png",
+            "alt": "Illustration des deux prises USB et USB-C et de deux façons d'être contaminé, détail en alternative textuelle.",
+            "alternativeText": "<ul><li>Si on branche un appareil contaminé à notre appareil.</li><li>Si on branche notre appareil à un support de charge ou à un appareil contaminé</li></ul>",
+            "legend": "",
+            "licence": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "da4a9c44-703c-4600-adac-42ec5673fd2b",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "c73ea22d-7526-410d-a612-4559d052f73e",
+            "type": "text",
+            "content": "<p>Il y a donc 3 types de situations où vous courrez un risque d’infection. Récapitulons.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5164a08d-92db-4cc6-84ad-e48e4b62b8fe",
+      "type": "summary",
+      "title": "Recap",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "82f10e78-623c-428e-8fa6-9ed334ac9453",
+            "type": "text",
+            "content": "<p>⚙️ <strong>Infection par téléchargement, installation ou consultation</strong></p><p><strong></strong> <br>Télécharger un fichier, installer un logiciel ou une application, consulter un site.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f05fe79a-9017-489c-9590-75e95db52b55",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "7535e1a5-9607-487d-9967-a918bc67122d",
+            "type": "text",
+            "content": "<p>📩 <strong>Infection par messages reçus</strong></p><p><br>Ouvrir un message (mails, SMS, ou messageries des réseaux sociaux), télécharger ou ouvrir une pièce jointe, cliquer sur un lien.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "87581be9-3467-4fb9-9650-6625c3bcc6ae",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8317838e-cb7e-4838-9acf-f50690ef0d48",
+            "type": "text",
+            "content": "<p>🔌<strong>Infection par branchement USB ou USB-C</strong></p><p><br>Brancher un appareil contaminé au sien, ou brancher son appareil à un support contaminé.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cdbe4c9f-f1a7-4518-874c-f78bbe048c6e",
+      "type": "transition",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "c34fc24c-ed86-4435-a783-e6564bdf05ff",
+            "type": "text",
+            "content": "<p>À vous de jouer. 🕹️ </p><p>Saurez-vous reconnaître les situations à partir d’exemples ?<br><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "75f9c70d-e305-4bf5-8e6d-b7e1e39303be",
+      "type": "activity",
+      "title": "Identifier les situations à risques",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "2c652214-378f-4954-a018-7751642b2c5e",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Swipe situation",
+            "url": "https://1024pix.github.io/atelier-contenus/PCH/Swiper-Activite-Danger-virus-niv1.html",
+            "instruction": "<p>Pour chaque situation,&nbsp;</p><ul><li> faites glisser la carte vers le gauche si la situation est à risque,</li><li>faites glisser la carte vers le droite si la situation est sans risque.</li></ul>",
+            "solution": "",
+            "height": 450
+          }
+        }
+      ]
+    },
+    {
+      "id": "1a0f5f28-679c-4c72-af6b-2acf94e94ae9",
+      "type": "challenge",
+      "title": "Défi : dans al vie quotidienne",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "4b2fcde7-d283-4dee-8506-d6d7824ea62e",
+            "type": "text",
+            "content": "<p>Voici une journée classique de Michelle et son usage de son téléphone.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d31960bf-b98e-4c26-8a98-fc8cd2031e12",
+            "type": "text",
+            "content": "<div style=\"position: relative; padding-top: 56.25%;\"><iframe title=\"Modulix - Virus Débutant - Défi - V1 - 2504\" width=\"100%\" height=\"100%\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/ffd875f7-60ab-473c-9084-1531c16cc67d?title=0&amp;warningTitle=0&amp;controlBar=0&amp;peertubeLink=0&amp;p2p=0\" allowfullscreen=\"\" sandbox=\"allow-same-origin allow-scripts allow-popups allow-forms\" style=\"position: absolute; inset: 0px;\"></iframe></div>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "35ecc098-f473-4d09-a7e1-cfde7a19dedd",
+            "type": "qrocm",
+            "instruction": "<p>À quel moment Michelle a-t-elle pu attraper un virus ?</p>",
+            "proposals": [
+              {
+                "input": "",
+                "type": "input",
+                "inputType": "text",
+                "size": 40,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": [
+                  "En cliquant sur le lien"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": {
+                "state": "<p>C'est exact, bravo !</p>",
+                "diagnosis": "<p>C'est bien en cliquant sur le lien envoyé par un inconnu que Michelle s'est exposée au risque d'être contaminée par un virus.</p>"
+              },
+              "invalid": {
+                "state": "<p>Pas exactement</p>",
+                "diagnosis": "<p>C'est en cliquant sur le lien envoyé par un inconnu que Michelle s'est exposée au risque d'être contaminée par un virus.</p>"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
