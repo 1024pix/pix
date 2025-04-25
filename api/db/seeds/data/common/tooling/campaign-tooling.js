@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
+import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
@@ -116,6 +117,8 @@ async function createAssessmentCampaign({
     targetProfileId,
   });
 
+  const createdAssessments = [];
+
   if (configCampaign) {
     if (configCampaign.anonymousParticipation) {
       _createAnonymousParticipation(databaseBuilder, realOrganizationId, realCampaignId, realCreatedAt);
@@ -150,20 +153,13 @@ async function createAssessmentCampaign({
         .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(createdDate)), 'days')
         .toDate();
 
-      const {
-        status,
-        answersAndKnowledgeElements,
-        validatedSkillsCount,
-        masteryRate,
-        pixScore,
-        buildBadgeIds,
-        buildStageAcquisitions,
-      } = await _getCompletionCampaignParticipationData(
-        completionDistribution.shift(),
-        campaignSkills,
-        targetProfileId,
-        databaseBuilder,
-      );
+      const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadgeIds } =
+        await _getCompletionCampaignParticipationData(
+          completionDistribution.shift(),
+          campaignSkills,
+          targetProfileId,
+          databaseBuilder,
+        );
 
       const isStarted = status === CampaignParticipationStatuses.STARTED;
       const isShared = status === CampaignParticipationStatuses.SHARED;
@@ -183,7 +179,7 @@ async function createAssessmentCampaign({
         isCertifiable: null,
       }).id;
 
-      const assessmentId = databaseBuilder.factory.buildAssessment({
+      const assessment = databaseBuilder.factory.buildAssessment({
         userId,
         type: Assessment.types.CAMPAIGN,
         createdAt: createdDate,
@@ -193,7 +189,12 @@ async function createAssessmentCampaign({
         lastQuestionState: isStarted ? null : Assessment.statesOfLastQuestion.ASKED,
         competenceId: null,
         campaignParticipationId,
-      }).id;
+      });
+
+      createdAssessments.push(assessment);
+
+      const assessmentId = assessment.id;
+
       const keDataForSnapshot = [];
 
       for (const { answerData, keData } of answersAndKnowledgeElements) {
@@ -224,17 +225,6 @@ async function createAssessmentCampaign({
         }
       }
 
-      if (buildStageAcquisitions) {
-        const stages = await databaseBuilder.knex('stages').where({ targetProfileId });
-
-        const stageZero = stages.find((stage) => stage.level === 0 || stage.threshold === 0);
-
-        databaseBuilder.factory.buildStageAcquisition({
-          stageId: stageZero.id,
-          campaignParticipationId,
-        });
-      }
-
       if (isShared) {
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
@@ -257,6 +247,14 @@ async function createAssessmentCampaign({
   }
 
   await databaseBuilder.commit();
+
+  // Create stage acquisitions for each participation
+  await Promise.all(
+    createdAssessments.map((assessment) =>
+      evaluationUsecases.handleStageAcquisition({ assessment: new Assessment(assessment) }),
+    ),
+  );
+
   return { campaignId: realCampaignId };
 }
 
@@ -663,9 +661,6 @@ async function _getCompletionCampaignParticipationData(
     .groupBy('badges.id')
     .where({ targetProfileId });
 
-  const stages = await databaseBuilder.knex('stages').where({ targetProfileId });
-  const buildStageAcquisitions = stages.length > 0;
-
   switch (completionName) {
     case 'STARTED':
       answersAndKnowledgeElements = [];
@@ -712,7 +707,6 @@ async function _getCompletionCampaignParticipationData(
     masteryRate,
     pixScore,
     buildBadgeIds,
-    buildStageAcquisitions,
   };
 }
 
