@@ -7,6 +7,8 @@ import * as campaignRepository from '../../../../../src/prescription/campaign/in
 import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
+import * as stageAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js';
+import * as stageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
@@ -107,6 +109,8 @@ const dependencies = {
   organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
   organizationRepository,
   placementProfileService,
+  stageRepository,
+  stageAcquisitionRepository,
   stageCollectionRepository,
   targetProfileRepository: campaignRepositories.targetProfileRepository, // TODO
   tutorialRepository,
