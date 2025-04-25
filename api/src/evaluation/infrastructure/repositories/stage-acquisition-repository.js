@@ -79,4 +79,30 @@ const saveStages = async (stages, campaignParticipationId) => {
   return knexConnection(STAGE_ACQUISITIONS_TABLE_NAME).insert(acquiredStages);
 };
 
+/**
+ * @param {number} campaignId
+ *
+ * @returns {Promise<number>}
+ */
+export const getAverageReachedStageByCampaignId = async (campaignId) => {
+  const knexConnection = DomainTransaction.getConnection();
+
+  const result = await knexConnection.raw(
+    `
+    SELECT AVG("count")
+    FROM (
+        SELECT "campaignParticipationId", COUNT(*) AS "count"
+        FROM "stage-acquisitions"
+        JOIN "campaign-participations" ON "campaign-participations"."id" = "stage-acquisitions"."campaignParticipationId"
+        JOIN "campaigns" ON "campaigns"."id" = "campaign-participations"."campaignId"
+        WHERE "campaigns"."id" = ??
+        GROUP BY "campaignParticipationId"
+    ) AS "subquery";
+  `,
+    campaignId,
+  );
+
+  return Math.round(result.rows[0].avg);
+};
+
 export { getByCampaignParticipation, getByCampaignParticipations, getStageIdsByCampaignParticipation, saveStages };

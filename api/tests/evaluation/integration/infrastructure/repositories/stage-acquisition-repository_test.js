@@ -1,5 +1,6 @@
 import { StageAcquisition } from '../../../../../src/evaluation/domain/models/StageAcquisition.js';
 import {
+  getAverageReachedStageByCampaignId,
   getByCampaignParticipation,
   getByCampaignParticipations,
   getStageIdsByCampaignParticipation,
@@ -132,6 +133,124 @@ describe('Evaluation | Integration | Repository | Stage Acquisition', function (
 
       expect(result).to.have.lengthOf(2);
       expect(result[0]).to.contains({ stageId: stages[0].id });
+    });
+  });
+
+  describe(getAverageReachedStageByCampaignId.name, function () {
+    it('should return the averaged reached stage for a campaign (round under)', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+
+      databaseBuilder.factory.buildStage({ id: 1, targetProfileId });
+      databaseBuilder.factory.buildStage({ id: 2, targetProfileId });
+      databaseBuilder.factory.buildStage({ id: 3, targetProfileId });
+
+      const campaignParticipationId1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+      }).id;
+
+      const campaignParticipationId2 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+      }).id;
+
+      const campaignParticipationId3 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+      }).id;
+
+      // first participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 1,
+        campaignParticipationId: campaignParticipationId1,
+      });
+      // first participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 2,
+        campaignParticipationId: campaignParticipationId1,
+      });
+
+      // second participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({ stageId: 1, campaignParticipationId: campaignParticipationId2 });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 2,
+        campaignParticipationId: campaignParticipationId2,
+      });
+
+      // third participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 1,
+        campaignParticipationId: campaignParticipationId3,
+      });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 2,
+        campaignParticipationId: campaignParticipationId3,
+      });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 3,
+        campaignParticipationId: campaignParticipationId3,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const averageReachedStageNumber = await getAverageReachedStageByCampaignId(campaignId);
+
+      // then
+      expect(averageReachedStageNumber).to.deep.equal(2);
+    });
+
+    it('should return the averaged reached stage for a campaign (round up)', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+
+      databaseBuilder.factory.buildStage({ id: 1, targetProfileId });
+      databaseBuilder.factory.buildStage({ id: 2, targetProfileId });
+      databaseBuilder.factory.buildStage({ id: 3, targetProfileId });
+
+      const campaignParticipationId1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+      }).id;
+
+      const campaignParticipationId2 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+      }).id;
+
+      const campaignParticipationId3 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+      }).id;
+
+      // first participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 1,
+        campaignParticipationId: campaignParticipationId1,
+      });
+      // first participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 2,
+        campaignParticipationId: campaignParticipationId1,
+      });
+
+      // second participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({ stageId: 1, campaignParticipationId: campaignParticipationId2 });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 2,
+        campaignParticipationId: campaignParticipationId2,
+      });
+
+      // third participation acquired stages
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: 1,
+        campaignParticipationId: campaignParticipationId3,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const averageReachedStageNumber = await getAverageReachedStageByCampaignId(campaignId);
+
+      // then
+      expect(averageReachedStageNumber).to.deep.equal(2);
     });
   });
 });

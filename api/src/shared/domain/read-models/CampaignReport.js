@@ -88,6 +88,7 @@ class CampaignReport {
   setStages(stageCollection) {
     this._stageCollection = stageCollection;
     this.stages = stageCollection.stages;
+    this.totalStage = stageCollection.totalStages;
   }
 
   setCoverRate(campaignResultLevelsPerTubesAndCompetences) {
@@ -106,26 +107,18 @@ class CampaignReport {
     );
   }
 
+  /**
+   * @param {number} reachedStage
+   */
+  setReachedStage(reachedStage) {
+    this.reachedStage = reachedStage;
+  }
+
   computeAverageResult(masteryRates) {
     const totalMasteryRates = masteryRates.length;
     if (totalMasteryRates > 0) {
       this.averageResult = _.sum(masteryRates) / totalMasteryRates;
     } else this.averageResult = null;
-  }
-
-  computeReachedStage(validatedSkillsCounts) {
-    const totalValidatedSkillsCounts = validatedSkillsCounts.length;
-    let averageValidatedSkillsCount = 0;
-
-    if (totalValidatedSkillsCounts > 0) {
-      averageValidatedSkillsCount = _.sum(validatedSkillsCounts) / totalValidatedSkillsCounts;
-    }
-
-    if (this._stageCollection.hasStage) {
-      const reachedStage = this._stageCollection.getReachedStage(averageValidatedSkillsCount, this.averageResult * 100);
-      this.reachedStage = reachedStage.reachedStage;
-      this.totalStage = reachedStage.totalStage;
-    }
   }
 }
 

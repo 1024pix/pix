@@ -5,7 +5,7 @@
  * @param {string} columnName
  * @param {number} campaignId
  * @description
- * This function is meant to be use as a subquery on the table campaign-participations aliased as "cp"
+ * This function is meant to be used as a subquery on the table campaign-participations aliased as "cp"
  * to get latest campaign participation of an organization learner for given campaignId
  *
  * @returns {Knex.QueryBuilder}
