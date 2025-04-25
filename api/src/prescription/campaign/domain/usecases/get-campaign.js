@@ -3,22 +3,27 @@ const getCampaign = async function ({
   badgeRepository,
   campaignReportRepository,
   stageCollectionRepository,
+  stageAcquisitionRepository,
 }) {
   const campaignReport = await campaignReportRepository.get(campaignId);
 
   if (campaignReport.isAssessment || campaignReport.isExam) {
-    const [badges, stageCollection, aggregatedResults] = await Promise.all([
+    const [badges, stageCollection, masteryRates] = await Promise.all([
       badgeRepository.findByCampaignId(campaignId),
-      stageCollectionRepository.findStageCollection({ campaignId: campaignId }),
-      campaignReportRepository.findMasteryRatesAndValidatedSkillsCount(campaignId),
+      stageCollectionRepository.findStageCollection({ campaignId }),
+      campaignReportRepository.findMasteryRates(campaignId),
     ]);
 
     campaignReport.setBadges(badges);
-    campaignReport.setStages(stageCollection);
+    campaignReport.computeAverageResult(masteryRates);
 
-    campaignReport.computeAverageResult(aggregatedResults.masteryRates);
-    campaignReport.computeReachedStage(aggregatedResults.validatedSkillsCounts);
+    if (stageCollection.hasStage) {
+      campaignReport.setStages(stageCollection);
+      const reachedStage = await stageAcquisitionRepository.getAverageReachedStageByCampaignId(campaignId);
+      campaignReport.setReachedStage(reachedStage);
+    }
   }
+
   return campaignReport;
 };
 

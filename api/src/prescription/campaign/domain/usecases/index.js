@@ -110,8 +110,8 @@ const dependencies = {
   organizationRepository,
   placementProfileService,
   stageRepository,
-  stageAcquisitionRepository,
   stageCollectionRepository,
+  stageAcquisitionRepository,
   targetProfileRepository: campaignRepositories.targetProfileRepository, // TODO
   tutorialRepository,
   userRepository,

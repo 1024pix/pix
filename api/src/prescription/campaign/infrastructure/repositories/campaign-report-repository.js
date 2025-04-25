@@ -86,31 +86,16 @@ const get = async function (id) {
   return campaignReport;
 };
 
-const findMasteryRatesAndValidatedSkillsCount = async function (campaignId) {
-  const results = await knex
-    .from('campaign-participations as cp')
-    .select([
-      'organizationLearnerId',
-      getLatestParticipationSharedForOneLearner(knex, 'masteryRate', campaignId),
-      getLatestParticipationSharedForOneLearner(knex, 'validatedSkillsCount', campaignId),
-    ])
-    .groupBy('organizationLearnerId')
-    .where('status', SHARED)
-    .where('deletedAt', null)
-    .where({ campaignId });
-
-  const aggregatedResults = {
-    masteryRates: [],
-    validatedSkillsCounts: [],
-  };
-
-  results.forEach((result) => {
-    aggregatedResults.masteryRates.push(Number(result.masteryRate));
-    aggregatedResults.validatedSkillsCounts.push(Number(result.validatedSkillsCount));
-  });
-
-  return aggregatedResults;
-};
+const findMasteryRates = async (campaignId) =>
+  (
+    await knex
+      .from('campaign-participations as cp')
+      .select(['organizationLearnerId', getLatestParticipationSharedForOneLearner(knex, 'masteryRate', campaignId)])
+      .groupBy('organizationLearnerId')
+      .where('status', SHARED)
+      .where('deletedAt', null)
+      .where({ campaignId })
+  ).map(({ masteryRate }) => Number(masteryRate));
 
 const findPaginatedFilteredByOrganizationId = async function ({ organizationId, filter = {}, page, userId }) {
   const query = knex('campaigns')
@@ -170,4 +155,4 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
   }
 }
 
-export { findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId, get };
+export { findMasteryRates, findPaginatedFilteredByOrganizationId, get };
