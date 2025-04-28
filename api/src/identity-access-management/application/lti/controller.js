@@ -4,7 +4,6 @@ import { createPublicKey, KeyObject, randomUUID } from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { child } from '../../../shared/infrastructure/utils/logger.js';
 
 const logger = child('lti', { event: 'lti' });
@@ -22,16 +21,20 @@ const key = await crypto.subtle.generateKey(
 
 const keyid = randomUUID();
 let clientId;
+let userId;
+let scoreUrl;
 
 const PLATFORM = {
   tokenURL: new URL('https://moodle.pix.digital/mod/lti/token.php'),
-  clientId: 'fbnjHCv7IblNfwI',
   key: { key: KeyObject.from(key.privateKey), keyid: keyid },
   authUrl: new URL('https://moodle.pix.digital/mod/lti/auth.php'),
 };
 
-function handleDeepLinkingRequest(token) {
+function handleDeepLinkingRequest(token, request) {
   const deepLinkUrl = token['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
+
+  const origin = new URL(request.url.origin);
+  origin.protocol = 'https'; // force HTTPS because for tunnelmole
 
   const jwtResponse = jsonwebtoken.sign(
     {
@@ -44,25 +47,12 @@ function handleDeepLinkingRequest(token) {
       'https://purl.imsglobal.org/spec/lti-dl/claim/content_items': [
         {
           type: 'ltiResourceLink',
-          title: 'Titre de la campagne',
+          title: 'Campagne Pix',
           text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          url: 'https://app.pix.fr/campagnes',
+          url: 'http://localhost:4200/campagnes/CONTEN123',
           lineItem: {
-            scoreMaximum: 10,
+            scoreMaximum: 100,
           },
-        },
-        {
-          type: 'ltiResourceLink',
-          title: 'Campagne 2',
-          text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          url: 'https://app.pix.fr/connexion',
-          // lineItem: {
-          //   scoreMaximum: 7,
-          //   label: 'compétence de la campagne',
-          //   resourceId: 'id de la campagne ?',
-          //   tag: 'originality',
-          //   gradesReleased: true,
-          // },
         },
       ],
     },
@@ -88,7 +78,7 @@ async function getAccessToken({ origin, platform, scope }) {
   const client_assertion = jsonwebtoken.sign(
     {
       iss: origin,
-      sub: platform.clientId,
+      sub: clientId,
       aud: platform.tokenURL.href,
     },
     platform.key.key,
@@ -188,7 +178,6 @@ export const ltiController = {
   },
 
   async launch(request, h) {
-    logger.info({ payload: request.payload }, 'Launch');
     const encodedToken = request.payload.id_token;
 
     const decodedToken = jsonwebtoken.decode(encodedToken, { complete: true });
@@ -196,20 +185,30 @@ export const ltiController = {
 
     const verifiedToken = await verifyToken(encodedToken, certsURL);
 
+    logger.info({ token: verifiedToken }, 'Launch');
+
     // "https://purl.imsglobal.org/spec/lti/claim/message_type": "LtiDeepLinkingRequest",
     const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
     if (messageType === 'LtiDeepLinkingRequest') {
       logger.info('deep linking');
-      const form = handleDeepLinkingRequest(verifiedToken);
+      const form = handleDeepLinkingRequest(verifiedToken, request);
       return h.response(form).header('Content-Type', 'text/html; charset=utf-8');
     }
 
     const targetLinkUri = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'];
 
-    // TODO : chercher l'user et le créer si pas existant
-    const token = tokenService.createAccessTokenFromUser({ userId: 100000, source: 'app', audience: 'pix' });
+    scoreUrl = new URL(verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'].lineitem);
+    scoreUrl.pathname += '/scores';
+    scoreUrl = scoreUrl.href;
 
-    return h.redirect(targetLinkUri).header('NOTRE_RETOUR', JSON.stringify(token));
+    userId = verifiedToken.sub;
+
+    logger.info({ scoreUrl, userId }, 'Lancement activité');
+
+    // TODO : chercher l'user et le créer si pas existant
+    // const token = tokenService.createAccessTokenFromUser({ userId: 100000, source: 'app', audience: 'pix' });
+
+    return h.redirect(targetLinkUri); //.header('NOTRE_RETOUR', JSON.stringify(token));
   },
   contentSelection(request) {
     logger.info('Séléction du contenu');
@@ -264,7 +263,7 @@ export const ltiController = {
             type: 'LtiDeepLinkingRequest',
             target_link_uri: new URL('/api/lti/content-selection', origin).href,
             label: 'Select a campaign',
-            'label#fr': 'Séléctionner une campagne',
+            'label#fr': 'Sélectionner une campagne',
             supported_types: ['ltiResourceLink'],
             placements: ['ContentArea'],
           },
@@ -307,11 +306,12 @@ export const ltiController = {
       )
       .header('Content-Type', 'text/html; charset=utf-8');
   },
-  async score(_, h) {
-    const origin = 'https://api.pix.fr';
+  async score(request, h) {
+    const origin = new URL(request.url.origin);
+    origin.protocol = 'https'; // force HTTPS because for tunnelmole
 
     const accessToken = await getAccessToken({
-      origin,
+      origin: origin.href,
       platform: PLATFORM,
       scope: 'https://purl.imsglobal.org/spec/lti-ags/scope/score',
     });
@@ -319,9 +319,6 @@ export const ltiController = {
     // TODO: enregistrer la scoring URL lors du launch de la campagne
     // TODO: enregistrer le userId également
     // TODO: enregistrer l'URL de retour
-    const scoreUrl = new URL(
-      'https://moodle.pix.digital/mod/lti/services.php/4/lineitems/10/lineitem/scores?type_id=2',
-    );
     const score = {
       scoreGiven: 83,
       scoreMaximum: 100,
@@ -329,7 +326,7 @@ export const ltiController = {
       activityProgress: 'Completed',
       gradingProgress: 'FullyGraded',
       timestamp: new Date().toISOString(),
-      userId: 2,
+      userId,
     };
     const scoreRes = await fetch(scoreUrl, {
       method: 'POST',
