@@ -1,5 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { STAGE_ACQUISITIONS_TABLE_NAME } from '../../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import { StageAcquisitionCollection } from '../../../../shared/domain/models/user-campaign-results/StageAcquisitionCollection.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
@@ -7,38 +9,33 @@ import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-
 
 const { SHARED } = CampaignParticipationStatuses;
 
-async function findPaginatedByCampaignId({
+export const findPaginatedByCampaignId = async ({
   page = {},
   campaignId,
   filters = {},
   dependencies = { stageCollectionRepository },
-}) {
+}) => {
   const stageCollection = await dependencies.stageCollectionRepository.findStageCollection({ campaignId });
+  const { results, pagination } = await fetchPage(getParticipantsResultList(campaignId, filters), page);
+  const participations = await buildCampaignAssessmentParticipationResultList(results, stageCollection);
 
-  const { results, pagination } = await _getResultListPaginated(campaignId, stageCollection, filters, page);
-  const participations = await _buildCampaignAssessmentParticipationResultList(results, stageCollection);
   return {
     participations,
     pagination,
   };
-}
+};
 
-async function _getResultListPaginated(campaignId, stageCollection, filters, page) {
-  const query = _getParticipantsResultList(campaignId, stageCollection, filters);
-  return fetchPage(query, page);
-}
-
-function _getParticipantsResultList(campaignId, stageCollection, filters) {
-  return knex
-    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, stageCollection, filters))
+const getParticipantsResultList = (campaignId, filters) =>
+  knex
+    .with('campaign_participation_summaries', (qb) => getParticipations(qb, campaignId, filters))
     .select('*')
     .from('campaign_participation_summaries')
-    .modify(_filterByAcquiredBadges, filters)
-    .modify(_filterByUnacquiredBadges, filters)
+    .modify(filterByAcquiredBadges, filters)
+    .modify(filterByUnacquiredBadges, filters)
+    .modify(filterByStage, filters)
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
-}
 
-function _getParticipations(qb, campaignId, stageCollection, filters) {
+const getParticipations = (qb, campaignId, filters) => {
   qb.select(
     'view-active-organization-learners.firstName',
     'view-active-organization-learners.lastName',
@@ -75,31 +72,34 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.deletedAt', 'IS', null)
-    .modify(_filterByDivisions, filters)
-    .modify(_filterByGroups, filters)
-    .modify(_addAcquiredBadgeIds, filters)
-    .modify(_filterByStage, stageCollection, filters)
-    .modify(_filterBySearch, filters)
-    .modify(_orderBy, filters);
-}
+    .modify(filterByDivisions, filters)
+    .modify(filterByGroups, filters)
 
-function _filterByDivisions(queryBuilder, filters) {
+    .modify(addAcquiredBadgeIds, filters)
+    .modify(addHighestAcquiredStageId, filters)
+
+    .modify(filterBySearch, filters)
+
+    .modify(orderBy, filters);
+};
+
+const filterByDivisions = (queryBuilder, filters) => {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     queryBuilder.whereRaw('LOWER("view-active-organization-learners"."division") = ANY(:divisionsLowerCase)', {
       divisionsLowerCase,
     });
   }
-}
+};
 
-function _filterByGroups(queryBuilder, filters) {
+const filterByGroups = (queryBuilder, filters) => {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
     queryBuilder.whereIn(knex.raw('LOWER("view-active-organization-learners"."group")'), groupsLowerCase);
   }
-}
+};
 
-function _filterBySearch(queryBuilder, filters) {
+const filterBySearch = (queryBuilder, filters) => {
   if (filters.search) {
     const search = filters.search.trim().toLowerCase();
     queryBuilder.where(function () {
@@ -115,18 +115,40 @@ function _filterBySearch(queryBuilder, filters) {
         .orWhereILike('view-active-organization-learners.firstName', `%${search}%`);
     });
   }
-}
+};
 
-function _addAcquiredBadgeIds(queryBuilder, filters) {
+const addAcquiredBadgeIds = (queryBuilder, filters) => {
   if (filters.badges || filters.unacquiredBadges) {
     queryBuilder
       .select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
       .leftJoin('badge-acquisitions', 'badge-acquisitions.campaignParticipationId', 'campaign-participations.id')
       .distinctOn('campaign-participations.id', 'campaign-participations.organizationLearnerId');
   }
-}
+};
 
-function _orderBy(queryBuilder, filters) {
+const addHighestAcquiredStageId = (queryBuilder, filters) => {
+  if (filters.stages) {
+    queryBuilder
+      .select(
+        knex.raw(`(SELECT "stages"."id"
+        FROM stages
+                 JOIN "stage-acquisitions" ON "stages"."id" = "stage-acquisitions"."stageId"
+        WHERE "stage-acquisitions"."campaignParticipationId" = "campaign-participations"."id"
+        ORDER BY CASE
+             WHEN level = 0 THEN 0
+             WHEN threshold = 0 THEN 0
+             WHEN "isFirstSkill" = true THEN 1
+             ELSE 2 END DESC,
+         level DESC,
+         threshold DESC
+        LIMIT 1) as highest_stage_reached`),
+      )
+      .leftJoin('stage-acquisitions', 'stage-acquisitions.campaignParticipationId', 'campaign-participations.id')
+      .distinctOn('campaign-participations.id', 'campaign-participations.organizationLearnerId');
+  }
+};
+
+const orderBy = (queryBuilder, filters) => {
   const orderByClauses = [
     { column: 'campaign-participations.organizationLearnerId' },
     {
@@ -135,73 +157,67 @@ function _orderBy(queryBuilder, filters) {
       nulls: 'last',
     },
   ];
-  if (filters.badges || filters.unacquiredBadges) {
+  if (filters.badges || filters.unacquiredBadges || filters.stages) {
     orderByClauses.unshift({ column: 'campaign-participations.id' });
   }
   queryBuilder.orderBy(orderByClauses);
-}
+};
 
-function _filterByAcquiredBadges(queryBuilder, filters) {
+const filterByStage = (queryBuilder, filters) => {
+  if (filters.stages) {
+    queryBuilder.whereIn('highest_stage_reached', filters.stages);
+  }
+};
+
+const filterByAcquiredBadges = (queryBuilder, filters) => {
   if (filters.badges) {
     queryBuilder.whereRaw(':badgeIds <@ "badges_acquired"', { badgeIds: filters.badges });
   }
-}
+};
 
-function _filterByUnacquiredBadges(queryBuilder, filters) {
+const filterByUnacquiredBadges = (queryBuilder, filters) => {
   if (filters.unacquiredBadges) {
     queryBuilder.whereRaw(':badgeIds && "badges_acquired" is false', {
       badgeIds: filters.unacquiredBadges,
     });
   }
-}
-
-function _filterByStage(queryBuilder, stageCollection, filters) {
-  if (!filters.stages) return;
-  const allBoundaries = stageCollection.getThresholdBoundaries();
-  const boundariesForStagesInFilter = allBoundaries.filter(({ id }) => filters.stages.includes(id));
-  queryBuilder.where((builder) => {
-    boundariesForStagesInFilter.forEach((stageBoundary) => {
-      if (stageCollection.isZeroStageId(stageBoundary.id) && stageCollection.hasFirstSkillStage) {
-        builder.where('campaign-participations.validatedSkillsCount', '=', 0);
-      } else if (stageCollection.isFirstSkillStageId(stageBoundary.id)) {
-        builder.orWhere((subBuilder) => {
-          subBuilder.where('campaign-participations.validatedSkillsCount', '>', 0);
-          subBuilder.where('campaign-participations.masteryRate', '<=', stageBoundary.to / 100);
-        });
-      } else {
-        builder.orWhereBetween('campaign-participations.masteryRate', [
-          stageBoundary.from / 100,
-          stageBoundary.to / 100,
-        ]);
-      }
-    });
-  });
-}
-
-async function _buildCampaignAssessmentParticipationResultList(results, stageCollection) {
-  return PromiseUtils.mapSeries(results, async (result) => {
+};
+/**
+ *
+ * @param results
+ * @param {StageCollection} stageCollection
+ *
+ * @returns {Promise<Array>}
+ */
+const buildCampaignAssessmentParticipationResultList = async (results, stageCollection) =>
+  PromiseUtils.mapSeries(results, async (result) => {
     const badges = await getAcquiredBadges(result.campaignParticipationId);
-    const participantReachedStage = stageCollection.getReachedStage(
-      result.validatedSkillsCount,
-      result.masteryRate * 100,
-    );
+
+    if (!stageCollection.hasStage) {
+      return new CampaignAssessmentParticipationResultMinimal({
+        ...result,
+        badges,
+      });
+    }
+
+    const acquiredStages = await getAcquiredStages(result.campaignParticipationId);
+    const acquiredStagesCollection = new StageAcquisitionCollection(stageCollection.stages, acquiredStages);
 
     return new CampaignAssessmentParticipationResultMinimal({
       ...result,
-      reachedStage: participantReachedStage.reachedStage,
-      totalStage: participantReachedStage.totalStage,
-      prescriberTitle: participantReachedStage.prescriberTitle,
-      prescriberDescription: participantReachedStage.prescriberDescription,
+      reachedStage: acquiredStagesCollection.reachedStageNumber,
+      totalStage: acquiredStagesCollection.totalNumberOfStages,
+      prescriberTitle: acquiredStagesCollection.reachedStage.prescriberTitle,
+      prescriberDescription: acquiredStagesCollection.reachedStage.prescriberDescription,
       badges,
     });
   });
-}
 
-async function getAcquiredBadges(campaignParticipationId) {
-  return await knex('badge-acquisitions')
+const getAcquiredStages = async (campaignParticipationId) =>
+  await knex(STAGE_ACQUISITIONS_TABLE_NAME).select('*').where({ campaignParticipationId });
+
+const getAcquiredBadges = async (campaignParticipationId) =>
+  await knex('badge-acquisitions')
     .select(['badges.id AS id', 'title', 'altMessage', 'imageUrl'])
     .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
     .where({ campaignParticipationId: campaignParticipationId });
-}
-
-export { findPaginatedByCampaignId };
