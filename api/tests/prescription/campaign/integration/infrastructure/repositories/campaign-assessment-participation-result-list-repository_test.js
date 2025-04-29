@@ -4,8 +4,8 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../../../test-helper.js';
-
 const { STARTED } = CampaignParticipationStatuses;
+const { buildCampaign, buildStage, buildStageAcquisition, buildCampaignParticipation } = databaseBuilder.factory;
 
 describe('Integration | Repository | Campaign Assessment Participation Result List', function () {
   describe('#findPaginatedByCampaignId', function () {
@@ -1087,233 +1087,66 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         await mockLearningContent(learningContentObjects);
       });
 
-      it('returns participants which have the given stage', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [
-          { id: 'Skill1' },
-          { id: 'Skill2' },
-          { id: 'Skill3' },
-          { id: 'Skill4' },
-        ]);
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 });
-        const firstSkillStageId = databaseBuilder.factory.buildStage({
+      it('retrieves participants who have reached the specified stage', async function () {
+        campaign = buildCampaign();
+
+        const stage1Id = buildStage({
           targetProfileId: campaign.targetProfileId,
+          level: 0,
           threshold: null,
+          isFirstSkill: false,
+        }).id;
+        const stage2Id = buildStage({
+          targetProfileId: campaign.targetProfileId,
           level: null,
+          threshold: null,
           isFirstSkill: true,
         }).id;
-        const { id: stageId } = databaseBuilder.factory.buildStage({
+        const stage3Id = buildStage({
           targetProfileId: campaign.targetProfileId,
-          threshold: 25,
-        });
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 75 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0,
-          participantExternalId: 'Juste Before',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.1,
-          validatedSkillsCount: 2,
-          participantExternalId: 'FirstSkill',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.25,
-          participantExternalId: 'Stage Reached Boundary IN',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.74,
-          participantExternalId: 'Stage Reached Boundary OUT',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.75,
-          participantExternalId: 'Just After',
-          campaignId: campaign.id,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
-          campaignId: campaign.id,
-          filters: { stages: [stageId, firstSkillStageId] },
-        });
-
-        const participantExternalIds = participations.map((result) => result.participantExternalId);
-
-        // then
-        expect(participantExternalIds).to.exactlyContain([
-          'FirstSkill',
-          'Stage Reached Boundary IN',
-          'Stage Reached Boundary OUT',
-        ]);
-      });
-
-      it('returns participants which have the given stage (again)', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [
-          { id: 'Skill1' },
-          { id: 'Skill2' },
-          { id: 'Skill3' },
-          { id: 'Skill4' },
-        ]);
-        const zeroStageId = databaseBuilder.factory.buildStage({
-          targetProfileId: campaign.targetProfileId,
-          threshold: 0,
-        }).id;
-        databaseBuilder.factory.buildStage({
-          targetProfileId: campaign.targetProfileId,
+          level: 1,
           threshold: null,
-          level: null,
-          isFirstSkill: true,
+          isFirstSkill: false,
         }).id;
-        const { id: stageId } = databaseBuilder.factory.buildStage({
+        const stage4Id = buildStage({
           targetProfileId: campaign.targetProfileId,
-          threshold: 25,
-        });
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 75 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0,
-          validatedSkillsCount: 0,
-          participantExternalId: 'Zero Stage reached',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0,
-          validatedSkillsCount: 2,
-          participantExternalId: 'FirstSkill',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.25,
-          participantExternalId: 'Stage Reached Boundary IN',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.74,
-          participantExternalId: 'Stage Reached Boundary OUT',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.75,
-          participantExternalId: 'Just After',
-          campaignId: campaign.id,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
-          campaignId: campaign.id,
-          filters: { stages: [stageId, zeroStageId] },
-        });
-
-        const participantExternalIds = participations.map((result) => result.participantExternalId);
-
-        // then
-        expect(participantExternalIds).to.exactlyContain([
-          'Zero Stage reached',
-          'Stage Reached Boundary IN',
-          'Stage Reached Boundary OUT',
-        ]);
-      });
-
-      it('returns participants which have the given stage (again without first skill stage)', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [
-          { id: 'Skill1' },
-          { id: 'Skill2' },
-          { id: 'Skill3' },
-          { id: 'Skill4' },
-        ]);
-        const zeroStageId = databaseBuilder.factory.buildStage({
-          targetProfileId: campaign.targetProfileId,
-          threshold: 0,
+          level: 2,
+          threshold: null,
+          isFirstSkill: false,
         }).id;
-        const { id: stageId } = databaseBuilder.factory.buildStage({
-          targetProfileId: campaign.targetProfileId,
-          threshold: 25,
+
+        [
+          { campaignParticipationId: 1, stageAcquiredIds: [stage1Id, stage2Id] },
+          { campaignParticipationId: 2, stageAcquiredIds: [stage1Id, stage2Id, stage3Id] },
+          { campaignParticipationId: 3, stageAcquiredIds: [stage1Id] },
+          { campaignParticipationId: 4, stageAcquiredIds: [stage1Id, stage2Id] },
+          { campaignParticipationId: 5, stageAcquiredIds: [stage1Id, stage2Id, stage3Id, stage4Id] },
+        ].forEach(({ campaignParticipationId, stageAcquiredIds }) => {
+          buildCampaignParticipation({
+            id: campaignParticipationId,
+            campaignId: campaign.id,
+          });
+
+          stageAcquiredIds.forEach((stageAcquiredId) =>
+            buildStageAcquisition({
+              stageId: stageAcquiredId,
+              campaignParticipationId,
+            }),
+          );
         });
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 75 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.1,
-          participantExternalId: 'Zero Stage reached',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.25,
-          participantExternalId: 'Stage Reached Boundary IN',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.74,
-          participantExternalId: 'Stage Reached Boundary OUT',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.75,
-          participantExternalId: 'Just After',
-          campaignId: campaign.id,
-        });
+
         await databaseBuilder.commit();
 
         // when
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
           campaignId: campaign.id,
-          filters: { stages: [stageId, zeroStageId] },
+          filters: { stages: [stage2Id, stage3Id] },
         });
 
-        const participantExternalIds = participations.map((result) => result.participantExternalId);
-
-        // then
-        expect(participantExternalIds).to.exactlyContain([
-          'Zero Stage reached',
-          'Stage Reached Boundary IN',
-          'Stage Reached Boundary OUT',
-        ]);
-      });
-
-      it('returns participants which have validated skill count between several boundaries', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [
-          { id: 'Skill1' },
-          { id: 'Skill2' },
-          { id: 'Skill3' },
-        ]);
-
-        const { id: stage1Id } = databaseBuilder.factory.buildStage({
-          targetProfileId: campaign.targetProfileId,
-          threshold: 0,
-        });
-        const { id: stage2Id } = databaseBuilder.factory.buildStage({
-          targetProfileId: campaign.targetProfileId,
-          threshold: 33,
-        });
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 66 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0,
-          participantExternalId: 'The good',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.33,
-          participantExternalId: 'The bad',
-          campaignId: campaign.id,
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation({
-          masteryRate: 0.66,
-          participantExternalId: 'The ugly',
-          campaignId: campaign.id,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
-          campaignId: campaign.id,
-          filters: { stages: [stage1Id, stage2Id] },
-        });
-
-        const participantExternalIds = participations.map((result) => result.participantExternalId);
+        const participantIds = participations.map(({ campaignParticipationId }) => campaignParticipationId);
 
         // then
-        expect(participantExternalIds).to.exactlyContain(['The good', 'The bad']);
+        expect(participantIds).to.exactlyContain([1, 2, 4]);
       });
     });
 
