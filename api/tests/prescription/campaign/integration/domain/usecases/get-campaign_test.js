@@ -2,55 +2,19 @@ import * as badgeRepository from '../../../../../../src/evaluation/infrastructur
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as campaignReportRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-report-repository.js';
 import * as campaignRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | UseCase | get-campaign', function () {
-  context('Type Assessment', function () {
+  context('Type ASSESSMENT', function () {
     let userId;
     let campaign;
     let targetProfileId;
 
     beforeEach(async function () {
-      const skillId = 'recArea1_Competence1_Tube1_Skill1';
-      const learningContent = {
-        areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-        competences: [
-          {
-            id: 'recArea1_Competence1',
-            areaId: 'recArea1',
-            skillIds: [skillId],
-            origin: 'Pix',
-          },
-        ],
-        thematics: [],
-        tubes: [
-          {
-            id: 'recArea1_Competence1_Tube1',
-            competenceId: 'recArea1_Competence1',
-          },
-        ],
-        skills: [
-          {
-            id: skillId,
-            name: '@recArea1_Competence1_Tube1_Skill1',
-            status: 'actif',
-            tubeId: 'recArea1_Competence1_Tube1',
-            competenceId: 'recArea1_Competence1',
-          },
-        ],
-        challenges: [
-          {
-            id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-            skillId: skillId,
-            competenceId: 'recArea1_Competence1',
-            status: 'validé',
-            locales: ['fr-fr'],
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
-
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       userId = databaseBuilder.factory.buildUser().id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -58,9 +22,9 @@ describe('Integration | UseCase | get-campaign', function () {
         name: 'TroTro',
         targetProfileId,
         organizationId,
-        type: 'ASSESSMENT',
+        type: CampaignTypes.ASSESSMENT,
       });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+
       databaseBuilder.factory.buildMembership({
         organizationId,
         userId,
@@ -73,7 +37,6 @@ describe('Integration | UseCase | get-campaign', function () {
       // when
       const resultCampaign = await usecases.getCampaign({
         campaignId: campaign.id,
-        userId,
         badgeRepository,
         campaignRepository,
         campaignReportRepository,
@@ -104,7 +67,6 @@ describe('Integration | UseCase | get-campaign', function () {
 
       // then
       expect(resultCampaign.stages).to.have.lengthOf(1);
-      expect(resultCampaign.reachedStage).to.equal(1);
       expect(resultCampaign.totalStage).to.equal(1);
     });
 
@@ -128,26 +90,31 @@ describe('Integration | UseCase | get-campaign', function () {
 
     it('should get the average result of participations', async function () {
       //given
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 0 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 25 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 75 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 100 });
+      databaseBuilder.factory.buildStage({ id: 1, targetProfileId, threshold: 0 });
+      databaseBuilder.factory.buildStage({ id: 2, targetProfileId, threshold: 25 });
+      databaseBuilder.factory.buildStage({ id: 3, targetProfileId, threshold: 75 });
+      databaseBuilder.factory.buildStage({ id: 4, targetProfileId, threshold: 100 });
 
       databaseBuilder.factory.buildCampaignParticipation({
+        id: 1,
         campaignId: campaign.id,
         masteryRate: 0.3,
-        validatedSkillsCount: 4,
       });
       databaseBuilder.factory.buildCampaignParticipation({
+        id: 2,
         campaignId: campaign.id,
         masteryRate: 0.5,
-        validatedSkillsCount: 12,
       });
       databaseBuilder.factory.buildCampaignParticipation({
+        id: 3,
         campaignId: campaign.id,
         masteryRate: 0.5,
-        validatedSkillsCount: 12,
-        status: 'TO_SHARE',
+        status: CampaignParticipationStatuses.TO_SHARE,
+      });
+
+      [1, 2, 3].forEach((i) => {
+        databaseBuilder.factory.buildStageAcquisition({ stageId: 1, campaignParticipationId: i });
+        databaseBuilder.factory.buildStageAcquisition({ stageId: 2, campaignParticipationId: i });
       });
 
       await databaseBuilder.commit();
@@ -169,164 +136,100 @@ describe('Integration | UseCase | get-campaign', function () {
   });
 
   context('Type EXAM', function () {
-    let userId;
-    let campaign;
-    let targetProfileId;
+    context('when there are no participation', function () {
+      let campaign;
 
-    beforeEach(async function () {
-      const skillId = 'recArea1_Competence1_Tube1_Skill1';
-      const learningContent = {
-        areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-        competences: [
-          {
-            id: 'recArea1_Competence1',
-            areaId: 'recArea1',
-            skillIds: [skillId],
-            origin: 'Pix',
-          },
-        ],
-        thematics: [],
-        tubes: [
-          {
-            id: 'recArea1_Competence1_Tube1',
-            competenceId: 'recArea1_Competence1',
-          },
-        ],
-        skills: [
-          {
-            id: skillId,
-            name: '@recArea1_Competence1_Tube1_Skill1',
-            status: 'actif',
-            tubeId: 'recArea1_Competence1_Tube1',
-            competenceId: 'recArea1_Competence1',
-          },
-        ],
-        challenges: [
-          {
-            id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-            skillId: skillId,
-            competenceId: 'recArea1_Competence1',
-            status: 'validé',
-            locales: ['fr-fr'],
-          },
-        ],
-      };
-      await mockLearningContent(learningContent);
+      before(async function () {
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: 'TroTro',
+          type: CampaignTypes.EXAM,
+        });
 
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      userId = databaseBuilder.factory.buildUser().id;
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      campaign = databaseBuilder.factory.buildCampaign({
-        name: 'TroTro',
-        targetProfileId,
-        organizationId,
-        type: CampaignTypes.EXAM,
-      });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
-      databaseBuilder.factory.buildMembership({
-        organizationId,
-        userId,
+        await databaseBuilder.commit();
       });
 
-      await databaseBuilder.commit();
+      it('should get the campaign', async function () {
+        // when
+        const resultCampaign = await usecases.getCampaign({
+          campaignId: campaign.id,
+          badgeRepository,
+          campaignRepository,
+          campaignReportRepository,
+        });
+
+        // then
+        expect(resultCampaign.name).to.equal(campaign.name);
+        expect(resultCampaign.badges).to.have.lengthOf(0);
+        expect(resultCampaign.stages).to.have.lengthOf(0);
+        expect(resultCampaign.reachedStage).to.be.null;
+        expect(resultCampaign.totalStage).to.be.null;
+      });
     });
 
-    it('should get the campaign with no participation', async function () {
-      // when
-      const resultCampaign = await usecases.getCampaign({
-        campaignId: campaign.id,
-        userId,
-        badgeRepository,
-        campaignRepository,
-        campaignReportRepository,
+    context('when there are participations', function () {
+      let userId;
+      let targetProfileId;
+      let campaign;
+      let resultCampaign;
+
+      before(async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        userId = databaseBuilder.factory.buildUser().id;
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildBadge({ targetProfileId });
+        const stageId = databaseBuilder.factory.buildStage({ targetProfileId }).id;
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: 'TroTro',
+          targetProfileId,
+          organizationId,
+          type: CampaignTypes.EXAM,
+        });
+        databaseBuilder.factory.buildMembership({
+          organizationId,
+          userId,
+        });
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          masteryRate: 0.3,
+        }).id;
+
+        databaseBuilder.factory.buildStageAcquisition({
+          stageId,
+          campaignParticipationId,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          masteryRate: 0.5,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          masteryRate: 0.5,
+          status: CampaignParticipationStatuses.TO_SHARE,
+        });
+
+        await databaseBuilder.commit();
+
+        resultCampaign = await usecases.getCampaign({
+          campaignId: campaign.id,
+          badgeRepository,
+          campaignRepository,
+          campaignReportRepository,
+        });
       });
 
-      // then
-      expect(resultCampaign.name).to.equal(campaign.name);
-      expect(resultCampaign.badges).to.have.lengthOf(0);
-      expect(resultCampaign.stages).to.have.lengthOf(0);
-      expect(resultCampaign.reachedStage).to.be.null;
-      expect(resultCampaign.totalStage).to.be.null;
-    });
-
-    it('should get the campaign stages', async function () {
-      //given
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 0 });
-
-      await databaseBuilder.commit();
-
-      // when
-      const resultCampaign = await usecases.getCampaign({
-        campaignId: campaign.id,
-        userId,
-        badgeRepository,
-        campaignRepository,
-        campaignReportRepository,
+      it('should get the campaign stages', async function () {
+        expect(resultCampaign.stages).to.have.lengthOf(1);
+        expect(resultCampaign.reachedStage).to.equal(1);
+        expect(resultCampaign.totalStage).to.equal(1);
       });
 
-      // then
-      expect(resultCampaign.stages).to.have.lengthOf(1);
-      expect(resultCampaign.reachedStage).to.equal(1);
-      expect(resultCampaign.totalStage).to.equal(1);
-    });
-
-    it('should get the campaign badges', async function () {
-      //given
-      databaseBuilder.factory.buildBadge({ targetProfileId });
-      await databaseBuilder.commit();
-
-      // when
-      const resultCampaign = await usecases.getCampaign({
-        campaignId: campaign.id,
-        userId,
-        badgeRepository,
-        campaignRepository,
-        campaignReportRepository,
+      it('should get the campaign badges', async function () {
+        expect(resultCampaign.badges).to.have.lengthOf(1);
       });
 
-      // then
-      expect(resultCampaign.badges).to.have.lengthOf(1);
-    });
-
-    it('should get the average result of participations', async function () {
-      //given
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 0 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 25 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 75 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 100 });
-
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
-        masteryRate: 0.3,
-        validatedSkillsCount: 4,
+      it('should get the average result of participations', async function () {
+        expect(resultCampaign.averageResult).to.equal(0.4);
       });
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
-        masteryRate: 0.5,
-        validatedSkillsCount: 12,
-      });
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
-        masteryRate: 0.5,
-        validatedSkillsCount: 12,
-        status: 'TO_SHARE',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const resultCampaign = await usecases.getCampaign({
-        campaignId: campaign.id,
-        userId,
-        badgeRepository,
-        campaignRepository,
-        campaignReportRepository,
-      });
-
-      // then
-      expect(resultCampaign.averageResult).to.equal(0.4);
-      expect(resultCampaign.reachedStage).to.equal(2);
-      expect(resultCampaign.totalStage).to.equal(4);
     });
   });
 
@@ -338,7 +241,7 @@ describe('Integration | UseCase | get-campaign', function () {
       const campaignId = databaseBuilder.factory.buildCampaign({
         name: 'NO_SE',
         organizationId,
-        type: 'PROFILES_COLLECTION',
+        type: CampaignTypes.PROFILES_COLLECTION,
       }).id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
@@ -359,7 +262,6 @@ describe('Integration | UseCase | get-campaign', function () {
       // when
       const resultCampaign = await usecases.getCampaign({
         campaignId,
-        userId,
         badgeRepository,
         campaignRepository,
         campaignReportRepository,
