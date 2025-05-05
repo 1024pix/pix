@@ -80,6 +80,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
  * @property {updateOrganizationInformation} updateOrganizationInformation
+ * @property {archiveOrganizationsInBatch} archiveOrganizationsInBatch
  */
 
 /**
