@@ -1479,6 +1479,30 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     });
   });
 
+  describe('#deserializeForOrganizationBatchArchive', function () {
+    it('should check the required header', async function () {
+      // given
+      const filePath = 'file://organizations.csv';
+      const checkCsvHeaderStub = sinon.stub();
+      const readCsvFileStub = sinon.stub();
+      const parseCsvDataStub = sinon.stub();
+      parseCsvDataStub.resolves([{ "ID de l'organisation": 1234 }, { "ID de l'organisation": 5678 }]);
+
+      const requiredFieldNames = ["ID de l'organisation"];
+
+      // when
+      const serializedData = await csvSerializer.deserializeForOrganizationBatchArchive(filePath, {
+        checkCsvHeader: checkCsvHeaderStub,
+        readCsvFile: readCsvFileStub,
+        parseCsvData: parseCsvDataStub,
+      });
+
+      // then
+      expect(checkCsvHeaderStub).to.have.been.calledWithExactly({ filePath, requiredFieldNames });
+      expect(serializedData).to.deep.equal([1234, 5678]);
+    });
+  });
+
   describe('#parseForCampaignsImport', function () {
     const headerCsv =
       "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire*;Texte de la page de fin de parcours;Texte du bouton de la page de fin de parcours;URL du bouton de la page de fin de parcours\n";
