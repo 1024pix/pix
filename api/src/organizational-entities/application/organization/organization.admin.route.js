@@ -240,6 +240,40 @@ const register = async function (server) {
     },
     {
       method: 'POST',
+      path: '/api/admin/organizations/batch-archive',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        payload: {
+          maxBytes: MAX_FILE_SIZE_UPLOAD,
+          output: 'file',
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '20',
+              }),
+              h,
+            );
+          },
+        },
+        handler: (request, h) => organizationAdminController.archiveInBatch(request, h),
+        tags: ['api', 'admin', 'organizational-entities', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet d'archiver plusieurs organizations dont les ID sont transmis par un CSV",
+        ],
+      },
+    },
+    {
+      method: 'POST',
       path: '/api/admin/organizations/{organizationId}/attach-child-organization',
       config: {
         pre: [

@@ -70,6 +70,14 @@ const createInBatch = async function (request, h) {
   return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
 };
 
+const archiveInBatch = async function (request, h) {
+  const userId = extractUserIdFromRequest(request);
+  const organizationIds = await csvSerializer.deserializeForOrganizationBatchArchive(request.payload.path);
+  await usecases.archiveOrganizationsInBatch({ organizationIds, userId });
+
+  return h.response().code(204);
+};
+
 const getOrganizationDetails = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;
 
@@ -121,6 +129,7 @@ const organizationAdminController = {
   create,
   createInBatch,
   archiveOrganization,
+  archiveInBatch,
   attachChildOrganization,
   getTemplateForAddOrganizationFeatureInBatch,
   addOrganizationFeatureInBatch,
