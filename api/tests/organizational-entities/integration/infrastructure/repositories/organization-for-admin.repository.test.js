@@ -329,9 +329,15 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       await databaseBuilder.commit();
 
       // when
-      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: superAdminUserId });
+      const hasOrganizationBeenArchived = Boolean(
+        await organizationForAdminRepository.archive({
+          id: organizationId,
+          archivedBy: superAdminUserId,
+        }),
+      );
 
       // then
+      expect(hasOrganizationBeenArchived).to.be.true;
       const pendingInvitations = await knex('organization-invitations').where({
         organizationId,
         status: pendingStatus,

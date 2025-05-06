@@ -36,7 +36,7 @@ const archive = async function ({ id, archivedBy }) {
 
   await knex('memberships').where({ organizationId: id, disabledAt: null }).update({ disabledAt: archiveDate });
 
-  await knex(ORGANIZATIONS_TABLE_NAME)
+  return knex(ORGANIZATIONS_TABLE_NAME)
     .where({ id: id, archivedBy: null })
     .update({ archivedBy: archivedBy, archivedAt: archiveDate });
 };
