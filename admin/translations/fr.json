@@ -156,6 +156,17 @@
         "title": "Ajout de tags en masse sur des organisations",
         "upload-button": "Importer un fichier CSV"
       },
+      "organizations-batch-archive": {
+        "description": "Permet d'archiver des organisations par lot. Chaque ligne doit porter l'identifiant de l'organisation à archiver.",
+        "notifications": {
+          "errors": {
+            "error-in-batch": "L'archivage d'une des organisations a échoué. L'organization concernée est à la ligne {currentLine} du fichier comportant {totalLines} lignes. Corrigez la ligne concernée et ré-importez le fichier."
+          },
+          "success": "Les organisations ont bien été archivées."
+        },
+        "title": "Archivage des organisations en masse",
+        "upload-button": "Importer un fichier CSV"
+      },
       "organizations-import": {
         "description": "Les organisations déjà existantes ne seront pas modifiées.",
         "notifications": {

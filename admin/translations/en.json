@@ -156,6 +156,17 @@
         "title": "Bulk addition of tags on organisations",
         "upload-button": "Import CSV file"
       },
+      "organizations-batch-archive": {
+        "description": "Archive organizations in batch. Each line must contain a organization ID to archive.",
+        "notifications": {
+          "errors": {
+            "error-in-batch": "The organizations archiving has failed. The organization ID line n°{currentLine} failed, out of {totalLines} lines."
+          },
+          "success": "The organizations have been archived."
+        },
+        "title": "Archiving of organizations in batch",
+        "upload-button": "Import a CSV file"
+      },
       "organizations-import": {
         "description": "Existing organizations will not be changed.",
         "notifications": {
