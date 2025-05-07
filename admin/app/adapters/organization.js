@@ -48,4 +48,10 @@ export default class OrganizationAdapter extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/organizations/${parentOrganizationId}/attach-child-organization`;
     return this.ajax(url, 'POST', { data: { childOrganizationIds } });
   }
+
+  archiveOrganizations(files) {
+    if (!files || files.length === 0) return;
+    const url = `${this.host}/${this.namespace}/organizations/batch-archive`;
+    return this.ajax(url, 'POST', { data: files[0] });
+  }
 }

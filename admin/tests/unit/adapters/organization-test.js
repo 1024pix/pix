@@ -84,4 +84,29 @@ module('Unit | Adapters | organization', function (hooks) {
       );
     });
   });
+
+  module('#archiveOrganizations', function () {
+    test('should not call ajax if files is empty', async function (assert) {
+      // given
+      const files = [];
+
+      // when
+      await adapter.archiveOrganizations(files);
+
+      // then
+      assert.notOk(adapter.ajax.called);
+    });
+
+    test('should call ajax with the correct URL and method', async function (assert) {
+      // given
+      const files = ['file1', 'file2'];
+      const expectedUrl = `${ENV.APP.API_HOST}/api/admin/organizations/batch-archive`;
+
+      // when
+      await adapter.archiveOrganizations(files);
+
+      // then
+      assert.ok(adapter.ajax.calledWith(expectedUrl, 'POST'));
+    });
+  });
 });
