@@ -15,7 +15,7 @@ export class Campaign {
   private targetProfileName: string;
   private code: string;
   private createdAt: Date;
-  private tubes: Tubes[];
+  private tubes?: Tubes[];
 
   constructor({
     id,
