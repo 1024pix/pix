@@ -133,7 +133,6 @@ const schema = Joi.object({
   EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN: Joi.string().optional().default('3d'),
   ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
   FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
-  FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   LCMS_API_KEY: Joi.string().requiredForApi(),
@@ -292,9 +291,6 @@ const configuration = (function () {
     },
     featureToggles: {
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
-      isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
-        process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
-      ),
       isDirectMetricsEnabled: toBoolean(process.env.FT_ENABLE_DIRECT_METRICS),
       isOppsyDisabled: toBoolean(process.env.FT_OPPSY_DISABLED),
       isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
@@ -507,7 +503,6 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.deprecatePoleEmploiPushNotification = false;
-    config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isDirectMetricsEnabled = false;
     config.featureToggles.isOppsyDisabled = false;
     config.featureToggles.isTextToSpeechButtonEnabled = false;
