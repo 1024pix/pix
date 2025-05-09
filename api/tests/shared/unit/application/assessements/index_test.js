@@ -2,8 +2,8 @@ import { assessmentAuthorization } from '../../../../../src/evaluation/applicati
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/index.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Router | assessment-router', function () {
@@ -139,15 +139,8 @@ describe('Unit | Application | Router | assessment-router', function () {
   });
 
   describe('POST /api/admin/assessments/{id}/always-ok-validate-next-challenge', function () {
-    let originalEnvValue;
-
     beforeEach(async function () {
-      originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
-      settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
-    });
-
-    afterEach(function () {
-      settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = originalEnvValue;
+      await featureToggles.set('isAlwaysOkValidateNextChallengeEndpointEnabled', true);
     });
 
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {

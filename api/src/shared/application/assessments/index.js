@@ -2,11 +2,9 @@ import Joi from 'joi';
 
 import { assessmentAuthorization } from '../../../evaluation/application/pre-handlers/assessment-authorization.js';
 import { securityPreHandlers } from '../../application/security-pre-handlers.js';
-import { config } from '../../config.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import { assessmentController } from './assessment-controller.js';
-
-const { featureToggles } = config;
 
 const register = async function (server) {
   const routes = [
@@ -175,7 +173,10 @@ const register = async function (server) {
     },
   ];
 
-  if (featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled) {
+  const isAlwaysOkValidateNextChallengeEndpointEnabled = await featureToggles.get(
+    'isAlwaysOkValidateNextChallengeEndpointEnabled',
+  );
+  if (isAlwaysOkValidateNextChallengeEndpointEnabled) {
     routes.push({
       method: 'POST',
       path: '/api/admin/assessments/{id}/always-ok-validate-next-challenge',

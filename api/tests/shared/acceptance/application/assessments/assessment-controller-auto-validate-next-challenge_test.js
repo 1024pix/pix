@@ -1,5 +1,5 @@
-import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import {
   createServer,
   databaseBuilder,
@@ -46,21 +46,15 @@ const learningContent = [
 ];
 
 describe('Acceptance | API | assessment-controller-auto-validate-next-challenge', function () {
-  let originalEnvValue;
   let server;
   let assessmentId;
 
   beforeEach(async function () {
-    originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
-    settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
+    await featureToggles.set('isAlwaysOkValidateNextChallengeEndpointEnabled', true);
 
     server = await createServer();
     const learningContentObjects = learningContentBuilder(learningContent);
     await mockLearningContent(learningContentObjects);
-  });
-
-  afterEach(function () {
-    settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = originalEnvValue;
   });
 
   describe('POST /api/admin/assessments/:id/always-ok-validate-next-challenge', function () {
