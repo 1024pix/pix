@@ -87,5 +87,21 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
       expect(lastAnswer.result).to.eql('ok');
       expect(lastAnswer.value).to.eql('FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE');
     });
+
+    it('return a htp 404 when feature toggle is set to false', async function () {
+      // given
+      await featureToggles.set('isAlwaysOkValidateNextChallengeEndpointEnabled', false);
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: `/api/admin/assessments/${assessmentId}/always-ok-validate-next-challenge`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(404);
+      const lastAnswer = await knex.select('*').from('answers').where({ assessmentId }).first();
+      expect(lastAnswer).to.not.exist;
+    });
   });
 });
