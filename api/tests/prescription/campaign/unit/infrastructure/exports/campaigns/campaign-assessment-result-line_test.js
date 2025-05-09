@@ -795,7 +795,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             participantKnowledgeElementsByCompetenceId: {
               [competences[0].id]: [knowledgeElement],
             },
-            acquiredBadges: { [campaignParticipationInfo.campaignParticipationId]: [{ title: badge.title }] },
+            acquiredBadges: [badge.title],
             translate,
           });
 
@@ -956,6 +956,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
               areas: learningContent.areas,
               competences: learningContent.competences,
               stageCollection,
+              acquiredStages: [{ id: 1 }, { id: 2 }, { id: 3 }],
               participantKnowledgeElementsByCompetenceId,
               translate,
             });
@@ -1009,6 +1010,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
               competences: learningContent.competences,
               areas: learningContent.areas,
               stageCollection,
+              acquiredStages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 3 }],
               participantKnowledgeElementsByCompetenceId,
               translate,
             });

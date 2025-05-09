@@ -24,6 +24,7 @@ class CampaignAssessmentResultLine {
     stageCollection,
     participantKnowledgeElementsByCompetenceId,
     acquiredBadges,
+    acquiredStages,
     translate,
   }) {
     this.organization = organization;
@@ -39,10 +40,8 @@ class CampaignAssessmentResultLine {
       _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length),
     );
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
-    this.acquiredBadges =
-      acquiredBadges && acquiredBadges[campaignParticipationInfo.campaignParticipationId]
-        ? acquiredBadges[campaignParticipationInfo.campaignParticipationId].map((badge) => badge.title)
-        : [];
+    this.acquiredStages = acquiredStages;
+    this.acquiredBadges = acquiredBadges;
     this.campaignParticipationService = campaignParticipationService;
     this.translate = translate;
 
@@ -198,10 +197,7 @@ class CampaignAssessmentResultLine {
       return this.emptyContent;
     }
 
-    const masteryPercentage = this.campaignParticipationInfo.masteryRate * 100;
-    const validatedSkillsCount = this.campaignParticipationInfo.validatedSkillsCount;
-
-    return this.stageCollection.getReachedStage(validatedSkillsCount, masteryPercentage).reachedStage - 1;
+    return this.acquiredStages.length - 1;
   }
 
   get _studentNumber() {

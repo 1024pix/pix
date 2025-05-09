@@ -26,6 +26,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     let i18n;
     let createdAt, sharedAt, createdAtFormated, sharedAtFormated;
     let now;
+    let stageIds;
 
     beforeEach(async function () {
       i18n = getI18n();
@@ -36,8 +37,21 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         name: '+Profile 1',
         organizationId: organization.id,
       });
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 0 });
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 1 });
+      stageIds = [
+        databaseBuilder.factory.buildStage({
+          targetProfileId: targetProfile.id,
+          threshold: 0,
+          message: '0',
+          title: '0',
+        }).id,
+        databaseBuilder.factory.buildStage({
+          targetProfileId: targetProfile.id,
+          threshold: 1,
+          message: '1',
+          title: '1',
+        }).id,
+      ];
+
       databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
 
       // participation
@@ -173,6 +187,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               sharedAt,
             });
 
+            databaseBuilder.factory.buildStageAcquisition({
+              stageId: stageIds[0],
+              campaignParticipationId: campaignParticipation.id,
+            });
+
             databaseBuilder.factory.buildAssessment({
               campaignParticipationId: campaignParticipation.id,
               userId: participant.id,
@@ -231,7 +250,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               `"${createdAtFormated}";` +
               '"Oui";' +
               `"${sharedAtFormated}";` +
-              '1;' +
+              '0;' +
               '"Non";' +
               '0,67;' +
               '0,67;' +
@@ -312,6 +331,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               sharedAt,
             });
 
+            databaseBuilder.factory.buildStageAcquisition({
+              stageId: stageIds[0],
+              campaignParticipationId: campaignParticipation.id,
+            });
+
             databaseBuilder.factory.buildAssessment({
               campaignParticipationId: campaignParticipation.id,
               userId: participant.id,
@@ -371,7 +395,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               `"${createdAtFormated}";` +
               '"Oui";' +
               `"${sharedAtFormated}";` +
-              '1;' +
+              '0;' +
               '"Non";' +
               '0,67;' +
               '0,67;' +
@@ -416,9 +440,19 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               campaignId: campaign.id,
               organizationLearnerId: organizationLearner.id,
               userId: participant.id,
-              masteryRate: 0.67,
+              masteryRate: 1,
+              validatedSkillsCount: 3,
               createdAt,
               sharedAt,
+            });
+
+            databaseBuilder.factory.buildStageAcquisition({
+              stageId: stageIds[0],
+              campaignParticipationId: campaignParticipation.id,
+            });
+            databaseBuilder.factory.buildStageAcquisition({
+              stageId: stageIds[1],
+              campaignParticipationId: campaignParticipation.id,
             });
 
             databaseBuilder.factory.buildAssessment({
@@ -443,7 +477,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               createdAt,
             });
             const ke3 = databaseBuilder.factory.buildKnowledgeElement({
-              status: 'invalidated',
+              status: 'validated',
               skillId: 'recSkillWeb3',
               competenceId: 'recCompetence1',
               userId: participant.id,
@@ -499,16 +533,16 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '"Non";' +
               '"Oui";' +
               '"Non";' +
-              '0,67;' +
-              '0,67;' +
+              '1;' +
+              '1;' +
               '3;' +
-              '2;' +
-              '0,67;' +
               '3;' +
-              '2;' +
+              '1;' +
+              '3;' +
+              '3;' +
               '"OK";' +
               '"OK";' +
-              '"KO"';
+              '"OK"';
 
             // when
             await usecases.startWritingCampaignAssessmentResultsToStream({
@@ -641,6 +675,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               sharedAt,
             });
 
+            databaseBuilder.factory.buildStageAcquisition({
+              stageId: stageIds[0],
+              campaignParticipationId: campaignParticipation.id,
+            });
+
             databaseBuilder.factory.buildAssessment({
               campaignParticipationId: campaignParticipation.id,
               userId: participant.id,
@@ -751,7 +790,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               `"${createdAtFormated}";` +
               '"Oui";' +
               `"${sharedAtFormated}";` +
-              '1;' +
+              '0;' +
               '"Non";' +
               '0,67;' +
               '0,67;' +

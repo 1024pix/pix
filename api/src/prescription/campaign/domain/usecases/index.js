@@ -41,7 +41,8 @@ import * as campaignMediaComplianceService from '../services/campaign-media-comp
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
 
 /**
- * @typedef { import ('../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js')} BadgeAcquisitionRepository
+ * @typedef { import ('../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js')} BadgeAcquisitionRepository
+ * @typedef { import ('../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js')} StageAcquisitionRepository
  * @typedef { import ('../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js')} CampaignRepository
  * @typedef { import ('../../../../devcomp/infrastructure/repositories/tutorial-repository.js')} TutorialRepository
  * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-repository.js')} KnowledgeElementRepository

@@ -18,6 +18,8 @@ import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/c
  * @typedef {import ('./index.js').StageCollectionRepository} StageCollectionRepository
  * @typedef {import ('./index.js').OrganizationFeatureApi} OrganizationFeatureApi
  * @typedef {import ('./index.js').OrganizationLearnerImportFormat} OrganizationLearnerImportFormat
+ * @typedef {import ('./index.js').StageAcquisitionRepository} StageAcquisitionRepository
+ * @typedef {import ('./index.js').BadgeAcquisitionRepository} BadgeAcquisitionRepository
  */
 
 /**
@@ -35,6 +37,8 @@ import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/c
  * @param {StageCollectionRepository} params.stageCollectionRepository
  * @param {OrganizationFeatureApi} params.organizationFeatureApi
  * @param {OrganizationLearnerImportFormat} params.organizationLearnerImportFormatRepository
+ * @param {BadgeAcquisitionRepository} params.badgeAcquisitionRepository
+ * @param {StageAcquisitionRepository} params.stageAcquisitionRepository
  */
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,
@@ -51,6 +55,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   stageCollectionRepository,
   organizationFeatureApi,
   organizationLearnerImportFormatRepository,
+  stageAcquisitionRepository,
 }) {
   let additionalHeaders = [];
   const campaign = await campaignRepository.get(campaignId);
@@ -93,6 +98,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
       campaignParticipationInfos,
       knowledgeElementRepository,
       badgeAcquisitionRepository,
+      stageAcquisitionRepository,
       knowledgeElementSnapshotRepository,
     )
     .then(() => {

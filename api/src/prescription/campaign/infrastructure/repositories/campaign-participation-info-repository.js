@@ -1,9 +1,12 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { CampaignParticipationInfo } from '../../domain/read-models/CampaignParticipationInfo.js';
 
 const findByCampaignId = async function (campaignId) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+
+  const results = await knexConn
     .with('campaignParticipationWithUserAndRankedAssessment', (qb) => {
       qb.select([
         'campaign-participations.*',

@@ -111,7 +111,7 @@ const get = async function (id) {
     throw new NotFoundError(`Not found organization for ID ${id}`);
   }
 
-  const tagsDB = await knex('tags')
+  const tagsDB = await knexConn('tags')
     .select(['tags.id', 'tags.name'])
     .join('organization-tags', 'organization-tags.tagId', 'tags.id')
     .where('organization-tags.organizationId', id);

@@ -36,6 +36,7 @@ class CampaignAssessmentExport {
     campaignParticipationInfos,
     knowledgeElementRepository,
     badgeAcquisitionRepository,
+    stageAcquisitionRepository,
     knowledgeElementSnapshotRepository,
     constants = {
       CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
@@ -52,13 +53,23 @@ class CampaignAssessmentExport {
       async (campaignParticipationInfoChunk) => {
         const sharedParticipations = campaignParticipationInfoChunk.filter(({ isShared }) => isShared);
 
+        const acquiredBadges = await this.#getAcquiredBadgesByCampaignParticipations({
+          campaignParticipationInfoChunk: sharedParticipations,
+          badgeAcquisitionRepository,
+        });
+        const acquiredStages = await this.#getAcquiredStagesByCampaignParticipations({
+          campaignParticipationInfoChunk: sharedParticipations,
+          stageAcquisitionRepository,
+        });
+
         const csvLines = await Promise.all(
           campaignParticipationInfoChunk.map((campaignParticipationInfo) =>
             this.#buildCSVLineForParticipation({
+              acquiredBadges,
+              acquiredStages,
               campaignParticipationInfo,
               campaignParticipationInfoChunk,
               knowledgeElementRepository,
-              badgeAcquisitionRepository,
               knowledgeElementSnapshotRepository,
               sharedParticipations,
             }),
@@ -137,9 +148,10 @@ class CampaignAssessmentExport {
     campaignParticipationInfo,
     campaignParticipationInfoChunk,
     knowledgeElementRepository,
-    badgeAcquisitionRepository,
     knowledgeElementSnapshotRepository,
     sharedParticipations,
+    acquiredStages,
+    acquiredBadges,
   }) {
     return new CampaignAssessmentResultLine({
       organization: this.organization,
@@ -158,10 +170,15 @@ class CampaignAssessmentExport {
         knowledgeElementSnapshotRepository,
         sharedParticipations,
       }),
-      acquiredBadges: await this.#getAcquiredBadgesByCampaignParticipations({
-        campaignParticipationInfoChunk,
-        badgeAcquisitionRepository,
-      }),
+      acquiredStages:
+        acquiredStages &&
+        acquiredStages.filter(
+          (stage) => stage.campaignParticipationId === campaignParticipationInfo.campaignParticipationId,
+        ),
+      acquiredBadges:
+        acquiredBadges && acquiredBadges[campaignParticipationInfo.campaignParticipationId]
+          ? acquiredBadges[campaignParticipationInfo.campaignParticipationId].map((badge) => badge.title)
+          : [],
       translate: this.translate,
     }).toCsvLine();
   }
@@ -210,19 +227,22 @@ class CampaignAssessmentExport {
     return participantKnowledgeElementsByCompetenceId;
   }
 
-  async #getAcquiredBadgesByCampaignParticipations({ campaignParticipationInfoChunk, badgeAcquisitionRepository }) {
-    let acquiredBadgesByCampaignParticipations = null;
+  #getAcquiredBadgesByCampaignParticipations({ campaignParticipationInfoChunk, badgeAcquisitionRepository }) {
+    if (!this.targetProfile.hasBadges) return null;
 
     const campaignParticipationsIds = campaignParticipationInfoChunk.map((info) => info.campaignParticipationId);
 
-    if (this.targetProfile.hasBadges) {
-      acquiredBadgesByCampaignParticipations =
-        await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
-          campaignParticipationsIds,
-        });
-    }
+    return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
+      campaignParticipationsIds,
+    });
+  }
 
-    return acquiredBadgesByCampaignParticipations;
+  #getAcquiredStagesByCampaignParticipations({ campaignParticipationInfoChunk, stageAcquisitionRepository }) {
+    if (!this.stageCollection.hasStage) return null;
+
+    const campaignParticipationsIds = campaignParticipationInfoChunk.map((info) => info.campaignParticipationId);
+
+    return stageAcquisitionRepository.getByCampaignParticipations(campaignParticipationsIds);
   }
 }
 
