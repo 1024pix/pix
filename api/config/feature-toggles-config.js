@@ -5,6 +5,13 @@ export default {
     defaultValue: false,
     tags: ['frontend'],
   },
+  isAlwaysOkValidateNextChallengeEndpointEnabled: {
+    description:
+      "Enable the /api/admin/assessments/{id}/always-ok-validate-next-challenge' endpoint. The api musts bee restarted after modification",
+    type: 'boolean',
+    defaultValue: false,
+    tags: ['restarted'],
+  },
   isAsyncQuestRewardingCalculationEnabled: {
     type: 'boolean',
     description: 'Used to switch between synchronous and asynchronous mode for quest reward calculation',
