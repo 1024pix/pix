@@ -185,12 +185,8 @@ const setupRoutesAndPlugins = async function (server) {
     replicationsRoutes,
     parcoursupRoutes,
   ];
-  const routesWithOptions = routes.map((route) => ({
-    plugin: route,
-    options: { tags: ['maddo'] },
-  }));
 
-  await server.register([...plugins, ...routesWithOptions]);
+  await server.register([...plugins, ...routes]);
 };
 
 const setupOpenApiSpecification = async function (server) {
