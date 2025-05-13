@@ -168,7 +168,9 @@ export default class ListItems extends Component {
                 {{t "pages.sessions.table.headers.certification-name"}}
               </:header>
               <:cell>
-                {{session.certificationCenterName}}
+                <LinkTo @route="authenticated.sessions.session" @model={{session.id}}>
+                  {{session.certificationCenterName}}
+                </LinkTo>
               </:cell>
             </PixTableColumn>
             <PixTableColumn @context={{context}} class="break-word">
