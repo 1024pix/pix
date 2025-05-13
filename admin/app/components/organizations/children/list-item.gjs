@@ -18,7 +18,9 @@ import { t } from 'ember-intl';
       {{t "components.organizations.children-list.table-headers.name"}}
     </:header>
     <:cell>
-      {{@organization.name}}
+      <LinkTo @route="authenticated.organizations.get" @model={{@organization.id}}>
+        {{@organization.name}}
+      </LinkTo>{{@organization.name}}
     </:cell>
   </PixTableColumn>
   <PixTableColumn @context={{@context}} class="break-word">

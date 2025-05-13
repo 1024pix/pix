@@ -32,7 +32,9 @@ export default class MemberItem extends Component {
         Prénom
       </:header>
       <:cell>
-        {{@organizationMembership.user.firstName}}
+        <LinkTo @route="authenticated.users.get" @model={{@organizationMembership.user.id}}>
+          {{@organizationMembership.user.firstName}}
+        </LinkTo>
       </:cell>
     </PixTableColumn>
     <PixTableColumn @context={{@context}}>
@@ -40,7 +42,9 @@ export default class MemberItem extends Component {
         Nom
       </:header>
       <:cell>
-        {{@organizationMembership.user.lastName}}
+        <LinkTo @route="authenticated.users.get" @model={{@organizationMembership.user.id}}>
+          {{@organizationMembership.user.lastName}}
+        </LinkTo>
       </:cell>
     </PixTableColumn>
     <PixTableColumn @context={{@context}} class="break-word">

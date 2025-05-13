@@ -19,7 +19,11 @@ import CampaignType from '../campaigns/type';
         </PixTableColumn>
         <PixTableColumn @context={{context}}>
           <:header>Nom</:header>
-          <:cell>{{campaign.name}}</:cell>
+          <:cell>
+            <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
+              {{campaign.name}}
+            </LinkTo>
+          </:cell>
         </PixTableColumn>
         <PixTableColumn @context={{context}}>
           <:header>Type</:header>

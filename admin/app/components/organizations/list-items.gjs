@@ -103,7 +103,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
               Nom
             </:header>
             <:cell>
-              {{organization.name}}
+              <LinkTo @route="authenticated.organizations.get" @model={{organization.id}}>{{organization.name}}</LinkTo>
             </:cell>
           </PixTableColumn>
           <PixTableColumn @context={{context}}>
