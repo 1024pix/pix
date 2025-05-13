@@ -28,7 +28,9 @@ import { t } from 'ember-intl';
             Prénom
           </:header>
           <:cell>
-            {{user.firstName}}
+            <LinkTo @route="authenticated.users.get" @model={{user.id}}>
+              {{user.firstName}}
+            </LinkTo>
           </:cell>
         </PixTableColumn>
         <PixTableColumn @context={{context}}>
@@ -36,7 +38,9 @@ import { t } from 'ember-intl';
             Nom
           </:header>
           <:cell>
-            {{user.lastName}}
+            <LinkTo @route="authenticated.users.get" @model={{user.id}}>
+              {{user.lastName}}
+            </LinkTo>
           </:cell>
         </PixTableColumn>
         <PixTableColumn @context={{context}} class="break-word">
@@ -52,7 +56,9 @@ import { t } from 'ember-intl';
             Identifiant
           </:header>
           <:cell>
-            {{user.username}}
+            <LinkTo @route="authenticated.users.get" @model={{user.id}}>
+              {{user.username}}
+            </LinkTo>
           </:cell>
         </PixTableColumn>
       </:columns>
