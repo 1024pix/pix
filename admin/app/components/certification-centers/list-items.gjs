@@ -53,7 +53,9 @@ export default class CertificationCenterListItems extends Component {
                 Nom
               </:header>
               <:cell>
-                {{certificationCenter.name}}
+                <LinkTo @route="authenticated.certification-centers.get" @model={{certificationCenter.id}}>
+                  {{certificationCenter.name}}
+                </LinkTo>
               </:cell>
             </PixTableColumn>
             <PixTableColumn @context={{context}}>
