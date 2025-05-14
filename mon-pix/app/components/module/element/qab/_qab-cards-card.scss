@@ -1,88 +1,69 @@
 @use 'pix-design-tokens/typography';
 
-.element-flashcards-card,
-.element-flashcards-intro-card,
-.element-flashcards-outro-card {
+.element-qab-cards-card,
+.element-qab-cards-intro-card,
+.element-qab-cards-outro-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-width: 345px;
-  width: 500px;
-  height: 440px;
+  max-width: 500px;
+  height: 350px;
   margin: auto auto var(--pix-spacing-2x);
   padding: var(--pix-spacing-6x);
   background: var(--pix-neutral-0);
   border: 5px solid var(--pix-neutral-100);
   border-radius: var(--modulix-radius-l);
   box-shadow: 0 12px 24px 0 rgb(7 20 46 / 12%);
-}
 
-/* To get higher specifity than `.modulix-passage h3` we double classes usage */
-.element-flashcards-intro-card {
-  .element-flashcards-intro-card {
-    &__title {
-      @extend %pix-title-s;
-    }
+  &--feedback--success {
+    border-color: var(--pix-success-500);
+  }
+
+  &--feedback--error {
+    border-color: var(--pix-error-500);
   }
 }
 
-.element-flashcards-card {
+.element-qab-cards-card {
   &__content {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     gap: var(--pix-spacing-6x);
     justify-content: center;
-
-    &--with-image {
-      justify-content: flex-start;
-    }
-  }
-
-  &__image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      height: auto;
-      max-height: 250px;
-      border-radius: var(--modulix-radius-s);
-    }
   }
 
   &__text {
+    @extend %pix-title-m;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--pix-neutral-900);
     text-align: center;
+    flex-direction: column;
 
-    &--recto {
-      font-weight: bold;
+    &--feedback {
+      width: 0;
+      height: 0;
     }
   }
 
   &__footer {
     display: flex;
-    align-items: center;
-
-    &--recto {
-      flex-direction: column;
-    }
-
-    &--verso {
-      justify-content: flex-start;
-    }
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-6x);
   }
 }
 
-.element-flashcards-intro-card,
-.element-flashcards-outro-card {
+.element-qab-cards-intro-card,
+.element-qab-cards-outro-card {
   align-items: center;
   padding: var(--pix-spacing-2x);
   padding-bottom: var(--pix-spacing-6x);
-  border: 0;
+  background: var(--pix-primary-10);
 
   &__title {
     @extend %pix-title-s;
@@ -93,7 +74,7 @@
   }
 }
 
-.element-flashcards-outro-card {
+.element-qab-cards-outro-card {
   &__header {
     display: flex;
     flex-direction: column;
@@ -101,9 +82,9 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 173px;
+    min-height: 250px;
     text-align: center;
-    background-image: url('/images/modulix/flashcards-outro-image.svg');
+    background-image: url('/images/modulix/qab-cards-outro-image.svg');
     background-repeat: no-repeat;
     background-size: contain;
   }
@@ -122,27 +103,33 @@
   }
 
   &__question {
-    @extend %pix-body-s;
+    @extend %pix-body-l;
 
     margin-bottom: var(--pix-spacing-2x);
     font-weight: var(--pix-font-bold);
   }
+}
 
-  &__counter {
-    @extend %pix-body-l;
+.qab-custom-action-button {
+  @extend %pix-body-l;
+  font-weight: var(--pix-font-medium);
 
-    font-weight: var(--pix-font-bold);
+  border: 2px solid var(--pix-neutral-100);
+  padding: var(--pix-spacing-4x) var(--pix-spacing-8x);
+  border-radius: var(--modulix-radius-s);
+  background: var(--pix-neutral-0);
 
-    &__yes {
-      color: var(--pix-success-500);
-    }
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+    background-color: var(--pix-neutral-100);
+  }
 
-    &__almost {
-      color: var(--pix-warning-500);
-    }
+  &--feedback--selected--success {
+    background-color: var(--pix-success-100) !important;
+  }
 
-    &__no {
-      color: var(--pix-error-500);
-    }
+  &--feedback--selected--error {
+    background-color: var(--pix-error-100) !important;
   }
 }

@@ -89,6 +89,8 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use '../components/module/element/flashcards/flashcards' as *;
 @use '../components/module/element/flashcards/flashcards-card' as *;
 @use '../components/module/element/image' as *;
+@use '../components/module/element/qab/qab-cards' as *;
+@use '../components/module/element/qab/qab-cards-card' as *;
 @use '../components/module/element/qcu' as *;
 @use '../components/module/element/qcm' as *;
 @use '../components/module/element/qrocm' as *;
@@ -191,9 +193,10 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'pages/certification-instructions' as *;
 @use 'pages/download-session-results' as *;
 
-
 .unauthenticated-page {
-  & > .pix-app-layout__main, .pix-app-layout__footer, .pix-app-layout__navigation {
+  & > .pix-app-layout__main,
+  .pix-app-layout__footer,
+  .pix-app-layout__navigation {
     padding: 0;
   }
 

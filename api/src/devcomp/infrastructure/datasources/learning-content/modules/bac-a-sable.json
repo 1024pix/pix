@@ -13,6 +13,62 @@
   },
   "grains": [
     {
+      "id": "533c69b8-a836-41be-8ffc-8d4636e31224",
+      "type": "activity",
+      "title": "Voici un vrai-faux",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
+            "type": "qab",
+            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp;</p><ol><li>Lisez la question. 👀</li><li>Répondez par vrai ou faux. 🤔</li></ol>",
+            "questions": [
+              {
+                "id": "f9aa8ec5-c62b-41b5-9ea6-0736f1e554a9",
+                "instruction": "<p>Pix évalue 16 compétences numériques différentes&nbsp;?</p>",
+                "proposals": [
+                  { "id": "1", "content": "Vrai" },
+                  { "id": "2", "content": "Faux" }
+                ],
+                "solution": "1"
+              },
+              {
+                "id": "79dc17f9-142b-4e19-bcbe-bfde4e170d3f",
+                "instruction": "<p>Pix est découpé en 6 domaines&nbsp;?</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Vrai"
+                  },
+                  {
+                    "id": "2",
+                    "content": "Faux"
+                  }
+                ],
+                "solution": "2"
+              },
+              {
+                "id": "9c73500d-abd9-4cc4-ab2d-a3876285b13c",
+                "instruction": "<p>Les compétences de Pix sont sur 8 niveaux&nbsp;?</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Vrai"
+                  },
+                  {
+                    "id": "2",
+                    "content": "Faux"
+                  }
+                ],
+                "solution": "1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd",
       "type": "discovery",
       "title": "Voici un grain de découverte",
@@ -171,7 +227,7 @@
                 "id": "2",
                 "content": "Après avoir mis le dentifrice",
                 "feedback": {
-                  "state":  "",
+                  "state": "",
                   "diagnosis": "<p>Possible, mais attention à ne pas faire tomber le dentifrice !</p>"
                 }
               },
@@ -179,7 +235,7 @@
                 "id": "3",
                 "content": "Pendant que le dentifrice est mis",
                 "feedback": {
-                  "state":  "",
+                  "state": "",
                   "diagnosis": "<p>Digne des plus grands acrobates !</p>"
                 }
               }
@@ -469,102 +525,6 @@
             "type": "text",
             "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer&nbsp;<span aria-hidden=\"true\">🚀</span></p>"
           }
-        }
-      ]
-    },
-    {
-      "id": "533c69b8-a836-41be-8ffc-8d4636e31224",
-      "type": "activity",
-      "title": "Voici un vrai-faux",
-      "components": [
-        {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
-                  "type": "qcu",
-                  "instruction": "<p>Pix évalue 16 compétences numériques différentes.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Correct&#8239;!",
-                        "diagnosis": "<p> Ces 16 compétences sont rangées dans 5 domaines.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Incorrect.",
-                        "diagnosis": "<p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>!</p>"
-                      }
-                    }
-                  ],
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "79dc17f9-142b-4e19-bcbe-bfde4e170d3f",
-                  "type": "qcu",
-                  "instruction": "<p>Pix est découpé en 6 domaines.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Incorrect.",
-                        "diagnosis": "<p> Et non ! Il y a seulement 5 domaines sur Pix.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Correct&#8239;!",
-                        "diagnosis": "<p> Bien vu !</p>"
-                      }
-                    }
-                  ],
-                  "solution": "2"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "9c73500d-abd9-4cc4-ab2d-a3876285b13c",
-                  "type": "qcu",
-                  "instruction": "<p>Les compétences de Pix sont sur 8 niveaux.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai",
-                      "feedback": {
-                        "state": "Correct&#8239;!",
-                        "diagnosis": "<p> Et oui ! A noter, seulement 7 sont actifs aujourd’hui.</p>"
-                      }
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux",
-                      "feedback": {
-                        "state": "Incorrect.",
-                        "diagnosis": "<p> Incorrect ! Il existe 8 niveaux par compétence.</p>"
-                      }
-                    }
-                  ],
-                  "solution": "1"
-                }
-              ]
-            }
-          ]
         }
       ]
     },

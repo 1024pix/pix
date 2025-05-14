@@ -7,6 +7,7 @@ import EmbedElement from 'mon-pix/components/module/element/embed';
 import ExpandElement from 'mon-pix/components/module/element/expand';
 import FlashcardsElement from 'mon-pix/components/module/element/flashcards/flashcards';
 import ImageElement from 'mon-pix/components/module/element/image';
+import QabCardsElement from 'mon-pix/components/module/element/qab/qab-cards';
 import QcmElement from 'mon-pix/components/module/element/qcm';
 import QcuElement from 'mon-pix/components/module/element/qcu';
 import QrocmElement from 'mon-pix/components/module/element/qrocm';
@@ -39,6 +40,8 @@ export default class ModulixElement extends Component {
       <SeparatorElement />
     {{else if (eq @element.type "flashcards")}}
       <FlashcardsElement @flashcards={{@element}} @onSelfAssessment={{@onSelfAssessment}} />
+    {{else if (eq @element.type "qab")}}
+      <QabCardsElement @cards={{@element}} />
     {{else if (eq @element.type "qcu")}}
       <QcuElement
         @element={{@element}}

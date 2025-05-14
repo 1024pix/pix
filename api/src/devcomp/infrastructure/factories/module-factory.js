@@ -105,6 +105,8 @@ export class ModuleFactory {
         return ModuleFactory.#buildText(element);
       case 'video':
         return ModuleFactory.#buildVideo(element);
+      case 'qab':
+        return ModuleFactory.#buildQAB(element);
       case 'qcm':
         return ModuleFactory.#buildQCM(element);
       case 'qcu':
@@ -192,6 +194,10 @@ export class ModuleFactory {
       transcription: element.transcription,
       poster: element.poster,
     });
+  }
+
+  static #buildQAB(element) {
+    return element;
   }
 
   static #buildQCM(element) {
