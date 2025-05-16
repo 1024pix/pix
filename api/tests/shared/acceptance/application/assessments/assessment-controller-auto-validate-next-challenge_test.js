@@ -51,16 +51,12 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
   let assessmentId;
 
   beforeEach(async function () {
-    originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
-    settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
+    originalEnvValue = settings.endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled;
+    settings.endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
 
     server = await createServer();
     const learningContentObjects = learningContentBuilder(learningContent);
     await mockLearningContent(learningContentObjects);
-  });
-
-  afterEach(function () {
-    settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = originalEnvValue;
   });
 
   describe('POST /api/admin/assessments/:id/always-ok-validate-next-challenge', function () {

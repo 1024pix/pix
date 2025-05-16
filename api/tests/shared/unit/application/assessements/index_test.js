@@ -135,6 +135,7 @@ describe('Unit | Application | Router | assessment-router', function () {
 
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
       // given
+      settings.endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
         h
           .response({ errors: new Error('Unauthorized') })

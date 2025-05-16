@@ -295,9 +295,6 @@ const configuration = (function () {
     },
     featureToggles: {
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
-      isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
-        process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
-      ),
       isDirectMetricsEnabled: toBoolean(process.env.FT_ENABLE_DIRECT_METRICS),
       isOppsyDisabled: toBoolean(process.env.FT_OPPSY_DISABLED),
       isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
@@ -465,6 +462,11 @@ const configuration = (function () {
     autonomousCourse: {
       autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
     },
+    endpoints: {
+      isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
+        process.env.ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT_ENABLED,
+      ),
+    },
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -519,7 +521,6 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.deprecatePoleEmploiPushNotification = false;
-    config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isDirectMetricsEnabled = false;
     config.featureToggles.isOppsyDisabled = false;
     config.featureToggles.isTextToSpeechButtonEnabled = false;
@@ -626,6 +627,7 @@ const configuration = (function () {
     config.apiManager.url = 'http://external-partners-access/';
 
     config.infra.engineeringUserId = 800;
+    config.endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
   }
 
   return config;

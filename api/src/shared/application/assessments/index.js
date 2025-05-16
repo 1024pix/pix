@@ -6,7 +6,7 @@ import { config } from '../../config.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { assessmentController } from './assessment-controller.js';
 
-const { featureToggles } = config;
+const { endpoints } = config;
 
 const register = async function (server) {
   const routes = [
@@ -146,7 +146,7 @@ const register = async function (server) {
     },
   ];
 
-  if (featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled) {
+  if (endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled) {
     routes.push({
       method: 'POST',
       path: '/api/admin/assessments/{id}/always-ok-validate-next-challenge',
