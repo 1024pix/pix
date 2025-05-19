@@ -46,12 +46,10 @@ const learningContent = [
 ];
 
 describe('Acceptance | API | assessment-controller-auto-validate-next-challenge', function () {
-  let originalEnvValue;
   let server;
   let assessmentId;
 
   beforeEach(async function () {
-    originalEnvValue = settings.endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled;
     settings.endpoints.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
 
     server = await createServer();
