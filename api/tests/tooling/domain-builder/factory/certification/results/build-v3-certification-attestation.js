@@ -14,6 +14,7 @@ const buildCertificate = function ({
   resultCompetenceTree = null,
   algorithmEngineVersion = AlgorithmEngineVersion.V3,
   certificationDate = new Date('2015-10-03T01:02:03Z'),
+  acquiredComplementaryCertification = null,
 } = {}) {
   return new Certificate({
     id,
@@ -28,6 +29,7 @@ const buildCertificate = function ({
     resultCompetenceTree,
     algorithmEngineVersion,
     certificationDate,
+    acquiredComplementaryCertification,
   });
 };
 

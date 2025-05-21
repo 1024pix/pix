@@ -177,6 +177,9 @@
         "score-content": {
           "global-level": "Niveau global",
           "level-explanation": "Votre niveau signifie que :"
+        },
+        "complementary-content": {
+          "title": "Certification complémentaire obtenue :"
         }
       }
     },

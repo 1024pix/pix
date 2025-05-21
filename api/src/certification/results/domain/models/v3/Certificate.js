@@ -31,6 +31,7 @@ export class Certificate {
     resultCompetenceTree,
     algorithmEngineVersion,
     certificationDate,
+    acquiredComplementaryCertification,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -46,6 +47,7 @@ export class Certificate {
     this.resultCompetenceTree = this.globalLevel ? resultCompetenceTree : null;
     this.algorithmEngineVersion = algorithmEngineVersion;
     this.certificationDate = certificationDate;
+    this.acquiredComplementaryCertification = acquiredComplementaryCertification;
   }
 
   #findLevel() {

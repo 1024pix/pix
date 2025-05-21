@@ -118,6 +118,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
       expect(pageContent).to.include('Vous avez des pratiques numériques simples');
       expect(pageContent).to.include('Vous savez naviguer sur le Web');
       expect(pageContent).to.include(`${certificates[index].maxReachableScore}`);
+      expect(pageContent).to.not.include('Certification complémentaire obtenue :');
     });
   });
 
@@ -217,6 +218,45 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certification Attestat
       expect(content).to.include(`${certificates[0].maxReachableScore}`);
       expect(content).to.not.include('Niveau global');
       expect(content).to.not.include('Votre niveau signifie que :');
+    });
+  });
+
+  describe('when the candidate acquired a complementary certification (cléa only)', function () {
+    it('should display the complementary certification section', async function () {
+      // given
+      const certificates = [
+        domainBuilder.certification.results.buildCertificate({
+          id: 123,
+          firstName: 'Alain',
+          lastName: 'Cendy',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId: 456,
+          date: new Date('2020-01-01'),
+          verificationCode: 'P-SOMECODE',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 50,
+          sessionId: 789,
+          acquiredComplementaryCertification: { label: 'CléA Numérique' },
+        }),
+      ];
+
+      // when
+      const pdfStream = await generate({ certificates, i18n });
+
+      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+
+      // then
+      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+
+      const page = await parsedPdf.getPage(1);
+      const text = await page.getTextContent();
+      const content = text.items.map((item) => item.str).join(' ');
+
+      expect(content).to.include(`Certification complémentaire obtenue :`);
     });
   });
 });

@@ -173,6 +173,21 @@ export default function generateV3AttestationTemplate({ pdf, data, translate }) 
       .text(globalLevelDescription);
   }
 
+  if (data.acquiredComplementaryCertification) {
+    pdf
+      .font('Nunito-Bold')
+      .fontSize(11)
+      .fillColor('#253858')
+      .text(translate('certification.attestation.v3.complementary-content.title'), 530, 470, {
+        width: 250,
+      });
+
+    pdf.image(path.resolve(__dirname, 'clea.jpg'), 628, 490, {
+      width: 50,
+      height: 50,
+    });
+  }
+
   function _formatText(content) {
     return content.replaceAll('&#x2F;', '/').replaceAll('&#39;', "'");
   }

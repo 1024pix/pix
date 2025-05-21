@@ -611,6 +611,114 @@ describe('Integration | Infrastructure | Repository | Certification', function (
             });
             expect(certificationAttestation).to.deepEqualInstance(expectedCertificationAttestation);
           });
+
+          context('when a complementary certification is acquired', function () {
+            it('should return a V3Certificate with complementary', async function () {
+              // given
+              await featureToggles.set('isV3CertificationAttestationEnabled', true);
+              await featureToggles.set('isV3CertificationPageEnabled', true);
+
+              const locale = 'en';
+
+              const certificationAttestationData = {
+                id: 123,
+                firstName: 'Sarah Michelle',
+                lastName: 'Gellar',
+                birthdate: '1977-04-14',
+                birthplace: 'Saint-Ouen',
+                isPublished: true,
+                userId: 456,
+                date: new Date('2020-01-01'),
+                verificationCode: 'P-SOMECODE',
+                maxReachableLevelOnCertificationDate: 5,
+                deliveredAt: new Date('2021-05-05'),
+                certificationCenter: 'Centre des poules bien dodues',
+                pixScore: 51,
+                sessionId: 789,
+              };
+              const version = _buildSession({
+                userId: certificationAttestationData.userId,
+                sessionId: certificationAttestationData.sessionId,
+                publishedAt: certificationAttestationData.deliveredAt,
+                certificationCenter: certificationAttestationData.certificationCenter,
+              });
+              const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+                id: certificationAttestationData.id,
+                firstName: certificationAttestationData.firstName,
+                lastName: certificationAttestationData.lastName,
+                birthdate: certificationAttestationData.birthdate,
+                birthplace: certificationAttestationData.birthplace,
+                isPublished: certificationAttestationData.isPublished,
+                isCancelled: false,
+                createdAt: certificationAttestationData.date,
+                verificationCode: certificationAttestationData.verificationCode,
+                maxReachableLevelOnCertificationDate: certificationAttestationData.maxReachableLevelOnCertificationDate,
+                sessionId: certificationAttestationData.sessionId,
+                userId: certificationAttestationData.userId,
+                version,
+              }).id;
+              databaseBuilder.factory.buildAssessmentResult.last({
+                certificationCourseId,
+                pixScore: certificationAttestationData.pixScore,
+                status: AssessmentResult.status.VALIDATED,
+                createdAt: new Date('2020-01-02'),
+              }).id;
+
+              const badgeId = databaseBuilder.factory.buildBadge().id;
+              const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+                key: 'CLEA',
+              }).id;
+
+              const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+                badgeId,
+                complementaryCertificationId,
+              }).id;
+              const { id: complementaryCertificationCourseId } =
+                databaseBuilder.factory.buildComplementaryCertificationCourse({
+                  certificationCourseId,
+                  complementaryCertificationId,
+                  complementaryCertificationBadgeId,
+                });
+              databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+                complementaryCertificationCourseId,
+                complementaryCertificationBadgeId,
+                acquired: true,
+              });
+
+              await databaseBuilder.commit();
+
+              // when
+              const certificationAttestation = await certificateRepository.getCertificationAttestation({
+                certificationCourseId: 123,
+                locale,
+              });
+
+              // then
+              const expectedCertificationAttestation = domainBuilder.certification.results.buildCertificate({
+                ...certificationAttestationData,
+                id: certificationAttestationData.id,
+                firstName: certificationAttestationData.firstName,
+                lastName: certificationAttestationData.lastName,
+                birthdate: certificationAttestationData.birthdate,
+                birthplace: certificationAttestationData.birthplace,
+                certificationCenter: certificationAttestationData.certificationCenter,
+                deliveredAt: certificationAttestationData.deliveredAt,
+                pixScore: certificationAttestationData.pixScore,
+                algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                certificationDate: certificationAttestationData.date,
+                acquiredComplementaryCertification: {
+                  imageUrl: 'http://badge-image-url.fr',
+                  isTemporaryBadge: false,
+                  label: 'Label par defaut',
+                  message: null,
+                  stickerUrl: 'http://stiker-url.fr',
+                },
+              });
+              expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+                'resultCompetenceTree',
+              ]);
+            });
+          });
         });
 
         it('should return a Certificate', async function () {
