@@ -19,6 +19,6 @@ const keys = {
 
 const badges = { keys };
 
-const DEFAULT_PASSWORD = 'pix123';
+const DEFAULT_PASSWORD = 'pixathon';
 
 export { badges, DEFAULT_PASSWORD };
