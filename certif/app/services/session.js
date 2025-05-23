@@ -1,11 +1,7 @@
 import { service } from '@ember/service';
 import { runTask } from 'ember-lifeline';
 import SessionService from 'ember-simple-auth/services/session';
-import {
-  DEFAULT_LOCALE,
-  FRENCH_INTERNATIONAL_LOCALE,
-  SUPPORTED_LANGUAGES,
-} from 'pix-certif/services/locale';
+import { DEFAULT_LOCALE, FRENCH_INTERNATIONAL_LOCALE, SUPPORTED_LANGUAGES } from 'pix-certif/services/locale';
 
 export default class CurrentSessionService extends SessionService {
   @service currentDomain;
