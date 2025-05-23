@@ -1,11 +1,7 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
-import {
-  DEFAULT_LOCALE,
-  FRENCH_INTERNATIONAL_LOCALE,
-  SUPPORTED_LANGUAGES,
-} from 'pix-orga/services/locale';
+import { DEFAULT_LOCALE, FRENCH_INTERNATIONAL_LOCALE, SUPPORTED_LANGUAGES } from 'pix-orga/services/locale';
 
 export default class CurrentSessionService extends SessionService {
   @service currentDomain;
