@@ -5,7 +5,7 @@ import languages from 'pix-certif/languages';
 export const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 export const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 export const FRENCH_FRANCE_LOCALE = 'fr-FR';
-export const DEFAULT_LOCALE = FRENCH_INTERNATIONAL_LOCALE;
+export const DEFAULT_LOCALE = ENGLISH_INTERNATIONAL_LOCALE;
 export const SUPPORTED_LANGUAGES = Object.keys(languages);
 
 const { COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = config.APP;
