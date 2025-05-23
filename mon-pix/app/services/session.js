@@ -1,7 +1,7 @@
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
-import { FRENCH_FRANCE_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'mon-pix/services/locale';
+import { DEFAULT_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'mon-pix/services/locale';
 import { SessionStorageEntry } from 'mon-pix/utils/session-storage-entry.js';
 
 const FRANCE_TLD = 'fr';
@@ -119,7 +119,7 @@ export default class CurrentSessionService extends SessionService {
       this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);
 
       if (!this.locale.hasLocaleCookie()) {
-        this.locale.setLocaleCookie(FRENCH_FRANCE_LOCALE);
+        this.locale.setLocaleCookie(DEFAULT_LOCALE);
       }
       return;
     }
@@ -134,7 +134,7 @@ export default class CurrentSessionService extends SessionService {
       return;
     }
 
-    this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);
+    this.locale.setLocale(DEFAULT_LOCALE);
   }
 
   _getRouteAfterInvalidation() {
