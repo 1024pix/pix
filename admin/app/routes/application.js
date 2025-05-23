@@ -1,7 +1,8 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-const defaultLocale = 'fr';
+export const ENGLISH_INTERNATIONAL_LOCALE = 'en';
+export const DEFAULT_LOCALE = ENGLISH_INTERNATIONAL_LOCALE;
 
 export default class ApplicationRoute extends Route {
   @service session;
@@ -11,7 +12,7 @@ export default class ApplicationRoute extends Route {
 
   async beforeModel() {
     await this.session.setup();
-    this.intl.setLocale([defaultLocale]);
+    this.intl.setLocale(DEFAULT_LOCALE);
 
     await this.featureToggles.load();
 
