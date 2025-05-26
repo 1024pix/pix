@@ -155,6 +155,34 @@ server {
 
   <% end %>
 
+  set $plausible_script_url https://plausible.io/js/script.js;
+  set $plausible_event_url https://plausible.io/api/event;
+
+  location = /js/script.js {
+      proxy_pass $plausible_script_url;
+      proxy_set_header Host plausible.io;
+
+
+      # Cache the script for 6 hours, as long as plausible.io returns a valid response
+     # proxy_cache jscache;
+     # proxy_cache_valid 200 6h;
+     # proxy_cache_use_stale updating error timeout invalid_header http_500;
+
+      # Optional. Adds a header to tell if you got a cache hit or miss
+     # add_header X-Cache $upstream_cache_status;
+  }
+
+  location = /api/event {
+      proxy_pass $plausible_event_url;
+      proxy_set_header Host plausible.io;
+      proxy_buffering off;
+      proxy_http_version 1.1;
+
+      proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Forwarded-Host  $host;
+  }
+
   add_header X-Content-Type-Options "nosniff";
   add_header X-Frame-Options "SAMEORIGIN";
   add_header X-XSS-Protection 1;
