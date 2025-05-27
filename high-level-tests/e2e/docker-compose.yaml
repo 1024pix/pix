@@ -51,7 +51,7 @@ services:
     user: node
     image: node:22.14.0
     env_file: ./env-api
-    command: npm run dev
+    command: npm start
     volumes:
       - ../..:/code
     working_dir: /code/api
