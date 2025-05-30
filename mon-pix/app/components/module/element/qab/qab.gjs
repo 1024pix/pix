@@ -7,13 +7,14 @@ import QabScoreCard from 'mon-pix/components/module/element/qab/qab-score-card';
 import { htmlUnsafe } from '../../../../helpers/html-unsafe';
 import ModuleElement from '../module-element';
 
-export const NEXT_CARD_DELAY = 2000;
+export const NEXT_CARD_DELAY = 1000;
 
 export default class ModuleQab extends ModuleElement {
   @tracked selectedOption = null;
   @tracked currentStep = 'cards'; // 'cards' | 'score'
   @tracked currentCardStatus = '';
   @tracked currentCardIndex = 0;
+  @tracked answeredCardIndexes = [];
   @tracked score = 0;
 
   get numberOfCards() {
@@ -38,6 +39,10 @@ export default class ModuleQab extends ModuleElement {
     return this.selectedOption !== null;
   }
 
+  markCurrentCardAsAnswered() {
+    this.answeredCardIndexes = [...this.answeredCardIndexes, this.currentCardIndex];
+  }
+
   @action
   goToNextCard() {
     this.currentCardIndex = this.currentCardIndex + 1;
@@ -58,7 +63,9 @@ export default class ModuleQab extends ModuleElement {
       this.score++;
       this.currentCardStatus = 'success';
     }
-    window.setTimeout(() => this.goToNextCard(), NEXT_CARD_DELAY);
+    const nextCardTransitionDelay = NEXT_CARD_DELAY + 100 * this.getCardZIndex(this.currentCardIndex);
+    window.setTimeout(() => this.markCurrentCardAsAnswered(), NEXT_CARD_DELAY);
+    window.setTimeout(() => this.goToNextCard(), nextCardTransitionDelay);
   }
 
   @action
@@ -66,6 +73,7 @@ export default class ModuleQab extends ModuleElement {
     this.currentStep = 'cards';
     this.currentCardIndex = 0;
     this.score = 0;
+    this.answeredCardIndexes = [];
   }
 
   get shouldDisplayCards() {
@@ -76,6 +84,16 @@ export default class ModuleQab extends ModuleElement {
     return this.currentStep === 'score';
   }
 
+  @action
+  getCardZIndex(index) {
+    return this.numberOfCards - index;
+  }
+
+  @action
+  isCardAnswered(cardIndex) {
+    return this.answeredCardIndexes.includes(cardIndex);
+  }
+
   <template>
     <form onSubmit={{this.onSubmit}} class="element-qab" aria-describedby="instruction-{{this.element.id}}">
       <fieldset class="element-qab__container">
@@ -83,15 +101,19 @@ export default class ModuleQab extends ModuleElement {
           {{htmlUnsafe this.element.instruction}}
         </div>
         <div class="element-qab__cards">
-          {{#if this.shouldDisplayCards}}
-            <QabCard @card={{this.currentCard}} @status={{this.currentCardStatus}} />
-          {{/if}}
-          {{#if this.shouldDisplayScore}}
-            <QabScoreCard @score={{this.score}} @total={{this.numberOfCards}} @onRetry={{this.onRetry}} />
-          {{/if}}
+          {{#each this.element.cards as |card index|}}
+            <QabCard
+              @card={{card}}
+              @status={{this.currentCardStatus}}
+              @index={{index}}
+              @zIndex={{this.getCardZIndex index}}
+              @isAnswered={{this.isCardAnswered index}}
+            />
+          {{/each}}
+          <QabScoreCard @score={{this.score}} @total={{this.numberOfCards}} @onRetry={{this.onRetry}} />
         </div>
-        {{#if this.shouldDisplayCards}}
-          <div class="element-qab__proposals">
+        <div class="element-qab__proposals">
+          {{#if this.shouldDisplayCards}}
             <QabProposalButton
               @text={{this.currentCard.proposalA}}
               @option="A"
@@ -106,8 +128,8 @@ export default class ModuleQab extends ModuleElement {
               @isSelected={{this.isProposalSelected "B"}}
               @isDisabled={{this.isAnswered}}
             />
-          </div>
-        {{/if}}
+          {{/if}}
+        </div>
       </fieldset>
     </form>
   </template>

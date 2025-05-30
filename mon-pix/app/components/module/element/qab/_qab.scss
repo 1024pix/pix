@@ -11,8 +11,8 @@
   }
 
   &__cards {
-    display: flex;
-    justify-content: center;
+    position: relative;
+    height: 380px;
   }
 
   &__proposals {
@@ -20,6 +20,7 @@
     flex-wrap: wrap;
     gap: var(--pix-spacing-3x);
     justify-content: center;
+    height: 75px;
     max-width: 240px;
     margin: auto;
   }

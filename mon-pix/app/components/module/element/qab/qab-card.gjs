@@ -15,7 +15,13 @@ export default class QabCard extends Component {
   }
 
   <template>
-    <div class="qab-card">
+    <div
+      class="qab-card {{if @isAnswered 'qab-card--answered'}}"
+      style="
+      z-index: {{@zIndex}};
+      --reverse-index: {{@zIndex}};
+    "
+    >
       {{#if this.isSuccess}}
         <p role="status" class="sr-only"> {{t "pages.modulix.qab.correct-answer"}} </p>
       {{/if}}

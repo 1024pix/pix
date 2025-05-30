@@ -2,15 +2,19 @@
 @use 'pix-design-tokens/typography';
 
 .qab-card {
+  position: absolute;
   display: flex;
   justify-content: center;
   width: 100%;
   max-width: 240px;
   min-height: 380px;
+  height: 380px;
   padding: var(--pix-spacing-3x);
   background: var(--pix-neutral-0);
   border-radius: var(--pix-spacing-3x);
   box-shadow: 8px 8px 28px 0 rgb(0 0 0 / 25%);
+  transition: translate 400ms ease-in, rotate 400ms ease-in;
+  transition-delay: calc(100ms * var(--reverse-index));
 
   &__container {
     --qab-card-content-border-color: var(--pix-primary-300);
@@ -30,6 +34,11 @@
     &--success {
       --qab-card-content-border-color: var(--pix-success-300);
     }
+  }
+
+  &--answered {
+    translate: -100vw -10vh;
+    rotate: -20deg;
   }
 }
 
