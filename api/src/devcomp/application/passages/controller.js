@@ -64,7 +64,7 @@ const promptToLLMChat = async function (request, h, { usecases }) {
   const { prompt } = request.payload;
   const userId = request.auth.credentials.userId;
   const llmResponse = await usecases.promptToLLMChat({ passageId, chatId, userId, prompt });
-  return h.response(llmResponse).header('Content-Encoding', 'identity').type('text/event-stream').code(201);
+  return h.response(llmResponse).header('X-Accel-Buffering', 'no').type('text/event-stream; charset=utf-8').code(201);
 };
 
 const passageController = { create, verifyAndSaveAnswer, terminate, startEmbedLlmChat, promptToLLMChat };
