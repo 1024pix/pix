@@ -78,7 +78,7 @@ export default class AssociateScoStudentWithMediacentreForm extends Component {
     const externalUserToken = this.session.externalUserTokenFromGar;
     return this.store.createRecord('external-user', {
       birthdate: this.attributes.birthdate,
-      campaignCode: this.args.campaignCode,
+      organizationId: this.args.organizationId,
       externalUserToken,
     });
   }

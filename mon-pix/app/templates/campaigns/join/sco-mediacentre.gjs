@@ -13,6 +13,7 @@ import AssociateScoStudentWithMediacentreForm from 'mon-pix/components/routes/ca
       <div class="join-restricted-campaign">
         <AssociateScoStudentWithMediacentreForm
           @organizationName={{@model.organizationName}}
+          @organizationId={{@model.organizationId}}
           @campaignCode={{@model.code}}
           @onSubmit={{@controller.createAndReconcile}}
         />
