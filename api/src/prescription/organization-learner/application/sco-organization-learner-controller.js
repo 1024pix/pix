@@ -55,7 +55,8 @@ const createAndReconcileUserToOrganizationLearner = async function (
   await usecases.createAndReconcileUserToOrganizationLearner({
     userAttributes,
     password: payload.password,
-    campaignCode: payload['campaign-code'],
+    organizationId: payload['organization-id'],
+    redirectionUrl: payload['redirection-url'],
     locale,
     i18n: request.i18n,
   });

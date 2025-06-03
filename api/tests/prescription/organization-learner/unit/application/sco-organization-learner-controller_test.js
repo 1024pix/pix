@@ -62,7 +62,7 @@ describe('Prescription | Unit | Application | Controller | sco-organization-lear
         'first-name': 'Robert',
         'last-name': 'Smith',
         birthdate: '2012-12-12',
-        'campaign-code': 'RESTRICTD',
+        'organization-id': 1,
         password: 'P@ssw0rd',
         username: 'robert.smith1212',
         'with-username': true,
