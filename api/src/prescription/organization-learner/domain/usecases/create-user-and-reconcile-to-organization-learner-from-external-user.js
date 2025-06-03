@@ -3,7 +3,7 @@ import { AuthenticationMethod } from '../../../../identity-access-management/dom
 import { User } from '../../../../identity-access-management/domain/models/User.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CampaignCodeError, ObjectValidationError } from '../../../../shared/domain/errors.js';
+import { ObjectValidationError } from '../../../../shared/domain/errors.js';
 
 const existingUserReconciliationErrors = [
   STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION.samlId.code,
@@ -12,7 +12,7 @@ const existingUserReconciliationErrors = [
 
 const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function ({
   birthdate,
-  campaignCode,
+  organizationId,
   token,
   obfuscationService,
   tokenService,
@@ -21,7 +21,6 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   userReconciliationService,
   userService,
   authenticationMethodRepository,
-  campaignRepository,
   userRepository,
   userLoginRepository,
   userToCreateRepository,
@@ -30,11 +29,6 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   lastUserApplicationConnectionsRepository,
   studentRepository,
 }) {
-  const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign) {
-    throw new CampaignCodeError();
-  }
-
   const externalUser = await tokenService.extractExternalUserFromIdToken(token);
   const firstName = externalUser.firstName;
   const lastName = externalUser.lastName;
@@ -57,7 +51,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   try {
     matchedOrganizationLearner =
       await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
-        organizationId: campaign.organizationId,
+        organizationId,
         reconciliationInfo,
         organizationLearnerRepository: libOrganizationLearnerRepository,
       });

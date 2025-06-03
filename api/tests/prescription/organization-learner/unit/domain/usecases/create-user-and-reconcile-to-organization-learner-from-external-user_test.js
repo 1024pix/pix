@@ -4,12 +4,12 @@ import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from '../
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
+  const organizationId = 1;
   let obfuscationService;
   let tokenService;
   let userReconciliationService;
   let userService;
   let authenticationMethodRepository;
-  let campaignRepository;
   let userRepository;
   let userLoginRepository;
   let organizationLearnerRepository;
@@ -19,9 +19,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   const requestedApplication = new RequestedApplication('app');
 
   beforeEach(function () {
-    campaignRepository = {
-      getByCode: sinon.stub(),
-    };
     tokenService = {
       extractExternalUserFromIdToken: sinon.stub(),
       createAccessTokenForSaml: sinon.stub(),
@@ -56,7 +53,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
 
-      campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
@@ -66,14 +62,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       // when
       await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
-        campaignCode: 'ABCDE',
+        organizationId,
         token: 'a token',
         obfuscationService,
         tokenService,
         userReconciliationService,
         userService,
         authenticationMethodRepository,
-        campaignRepository,
         userRepository,
         userLoginRepository,
         organizationLearnerRepository,
@@ -102,7 +97,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
       const token = Symbol('token');
 
-      campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
@@ -113,7 +107,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       // when
       const result = await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
-        campaignCode: 'ABCDE',
+        organizationId,
         token: 'a token',
         obfuscationService,
         tokenService,
@@ -121,7 +115,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         userReconciliationService,
         userService,
         authenticationMethodRepository,
-        campaignRepository,
         userRepository,
         userLoginRepository,
         organizationLearnerRepository,
@@ -142,7 +135,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
 
-      campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
@@ -153,14 +145,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       // when
       await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
-        campaignCode: 'ABCDE',
+        organizationId,
         token: 'a token',
         obfuscationService,
         tokenService,
         userReconciliationService,
         userService,
         authenticationMethodRepository,
-        campaignRepository,
         userRepository,
         userLoginRepository,
         organizationLearnerRepository,
@@ -180,7 +171,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
       const token = Symbol('token');
 
-      campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
@@ -192,7 +182,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       // when
       const result = await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
-        campaignCode: 'ABCDE',
+        organizationId,
         token: 'a token',
         obfuscationService,
         tokenService,
@@ -200,7 +190,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         userReconciliationService,
         userService,
         authenticationMethodRepository,
-        campaignRepository,
         userRepository,
         userLoginRepository,
         organizationLearnerRepository,

@@ -2,7 +2,6 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-acce
 import { RequestedApplication } from '../../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import {
-  CampaignCodeError,
   NotFoundError,
   ObjectValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
@@ -18,23 +17,11 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     requestedApplication = new RequestedApplication('app');
   });
 
-  context('When there is no campaign with the given code', function () {
-    it('should throw a campaign code error', async function () {
-      // when
-      const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
-        campaignCode: 'NOTEXIST',
-      });
-
-      // then
-      expect(error).to.be.instanceof(CampaignCodeError);
-    });
-  });
-
   context('When the token is invalid', function () {
-    let campaignCode;
+    let organizationId;
 
     beforeEach(async function () {
-      campaignCode = databaseBuilder.factory.buildCampaign().code;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
@@ -49,7 +36,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
         // when
         const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
-          campaignCode,
+          organizationId,
           token,
           tokenService,
         });
@@ -71,7 +58,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
         // when
         const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
-          campaignCode,
+          organizationId,
           token,
           tokenService,
         });
@@ -93,7 +80,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
         // when
         const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
-          campaignCode,
+          organizationId,
           token,
         });
 
@@ -105,11 +92,11 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
   });
 
   context('When no organizationLearner is found', function () {
-    let campaignCode;
+    let organizationId;
     let token;
 
     beforeEach(async function () {
-      campaignCode = databaseBuilder.factory.buildCampaign().code;
+      organizationId = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
       const externalUser = {
         firstName: 'Saml',
@@ -126,7 +113,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       // when
       const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
         birthdate,
-        campaignCode,
+        organizationId,
         token,
       });
 
@@ -141,13 +128,11 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     const lastName = 'Dumoulin-Lemarchand';
     const samlId = 'SamlId';
 
-    let campaignCode;
     let organizationId;
     let token;
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      campaignCode = databaseBuilder.factory.buildCampaign({ organizationId }).code;
       await databaseBuilder.commit();
 
       const externalUser = { firstName, lastName, samlId };
@@ -169,7 +154,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       // when
       await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: organizationLearner.birthdate,
-        campaignCode,
+        organizationId,
         token,
         tokenService,
         audience,
@@ -208,7 +193,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
           // when
           const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
             birthdate: organizationLearner.birthdate,
-            campaignCode,
+            organizationId,
             token,
           });
 
@@ -253,7 +238,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
             // when
             await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
-              campaignCode,
+              organizationId,
               token,
               birthdate: organizationLearner.birthdate,
               audience,
@@ -307,7 +292,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
             // when
             await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
-              campaignCode,
+              organizationId,
               token,
               birthdate: organizationLearner.birthdate,
               audience,
@@ -360,7 +345,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
         // when
         await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
           birthdate: organizationLearner.birthdate,
-          campaignCode,
+          organizationId,
           token,
           audience,
           requestedApplication,
