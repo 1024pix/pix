@@ -17,13 +17,11 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
 
   describe('POST /api/sco-organization-learners/external', function () {
     let organization;
-    let campaign;
     let options;
     let organizationLearner;
 
     beforeEach(async function () {
       // given
-
       options = {
         method: 'POST',
         url: '/api/sco-organization-learners/external',
@@ -40,7 +38,6 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
         organizationId: organization.id,
         userId: null,
       });
-      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       await databaseBuilder.commit();
     });
 
@@ -56,7 +53,7 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
 
         options.payload.data = {
           attributes: {
-            'campaign-code': campaign.code,
+            'organization-id': organization.id,
             'external-user-token': idTokenForExternalUser,
             birthdate: organizationLearner.birthdate,
             'access-token': null,
@@ -103,7 +100,7 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
 
           options.payload.data = {
             attributes: {
-              'campaign-code': campaign.code,
+              'organization-id': organization.id,
               'external-user-token': idTokenForExternalUser,
               birthdate: organizationLearner.birthdate,
               'access-token': null,
@@ -150,7 +147,7 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
 
           options.payload.data = {
             attributes: {
-              'campaign-code': campaign.code,
+              'organization-id': organization.id,
               'external-user-token': idTokenForExternalUser,
               birthdate: organizationLearner.birthdate,
               'access-token': null,
@@ -179,7 +176,7 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
 
           options.payload.data = {
             attributes: {
-              'campaign-code': campaign.code,
+              'organization-id': organization.id,
               'external-user-token': invalidIdToken,
               birthdate: organizationLearner.birthdate,
               'access-token': null,

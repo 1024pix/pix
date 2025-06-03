@@ -34,7 +34,7 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       payload = {
         data: {
           attributes: {
-            'campaign-code': 'RESTRICTD',
+            'organization-id': 123,
             'external-user-token': 'external-user-token',
             birthdate: '1948-12-21',
             'access-token': null,
@@ -44,9 +44,9 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       };
     });
 
-    it('should return a 400 Bad Request when campaignCode is missing', async function () {
+    it('should return a 400 Bad Request when organizationId is missing', async function () {
       // given
-      payload.data.attributes['campaign-code'] = '';
+      payload.data.attributes['organization-id'] = '';
 
       // when
       response = await httpTestServer.request(method, url, payload);
@@ -54,7 +54,7 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       // then
       expect(response.statusCode).to.equal(400);
       expect(JSON.parse(response.payload).errors[0].detail).to.equal(
-        '"data.attributes.campaign-code" is not allowed to be empty',
+        '"data.attributes.organization-id" must be a number',
       );
     });
 
@@ -101,7 +101,11 @@ describe('Integration | Application | Route | sco-organization-learners', functi
         payload = {
           data: {
             attributes: {
+<<<<<<< HEAD
               'organization-id': 123,
+=======
+              'organization-id': 'RESTRICTD',
+>>>>>>> 0133f395cb (feat(api): stopped using campaignCode in route api/sco-organization-learners/external)
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: '2012-12-12',

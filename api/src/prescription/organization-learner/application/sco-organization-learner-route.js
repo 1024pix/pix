@@ -27,7 +27,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'organization-id': Joi.number().empty(null).required(),
                 'external-user-token': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
                 'access-token': Joi.string().allow(null).optional(),
