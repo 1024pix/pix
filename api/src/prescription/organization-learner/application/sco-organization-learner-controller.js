@@ -14,13 +14,17 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   h,
   dependencies = { scoOrganizationLearnerSerializer },
 ) {
-  const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
+  const {
+    birthdate,
+    'organization-id': organizationId,
+    'external-user-token': token,
+  } = request.payload.data.attributes;
 
   const origin = getForwardedOrigin(request.headers);
   const requestedApplication = RequestedApplication.fromOrigin(origin);
   const accessToken = await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
     birthdate,
-    campaignCode,
+    organizationId,
     token,
     audience: origin,
     requestedApplication,

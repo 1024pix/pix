@@ -28,7 +28,7 @@ describe('Prescription | Unit | Application | Controller | sco-organization-lear
           data: {
             attributes: {
               birthdate: '01-01-2000',
-              'campaign-code': 'BADGES123',
+              'organization-id': 123,
               'external-user-token': '123SamlId',
             },
           },
