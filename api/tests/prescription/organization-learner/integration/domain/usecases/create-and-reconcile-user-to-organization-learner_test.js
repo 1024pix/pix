@@ -3,7 +3,6 @@ const { pick } = lodash;
 
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import {
-  CampaignCodeError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../../../src/shared/domain/errors.js';
@@ -17,31 +16,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
   const locale = 'fr';
 
-  let campaignCode;
   let organizationId;
   let password;
   let organizationLearner;
   let userAttributes;
 
-  context('When there is no campaign with the given code', function () {
-    it('should throw a campaign code error', async function () {
-      // when
-      const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
-        campaignCode: 'NOTEXIST',
-        locale,
-        password,
-        userAttributes,
-        i18n,
-      });
-
-      // then
-      expect(error).to.be.instanceof(CampaignCodeError);
-    });
-  });
-
   context('When no organizationLearner is found', function () {
     beforeEach(async function () {
-      campaignCode = databaseBuilder.factory.buildCampaign().code;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
@@ -55,7 +37,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
       // when
       const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
-        campaignCode,
+        organizationId,
         locale,
         password,
         userAttributes,
@@ -71,9 +53,6 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
   context('When an organizationLearner matches on names', function () {
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      campaignCode = databaseBuilder.factory.buildCampaign({
-        organizationId,
-      }).code;
 
       await databaseBuilder.commit();
     });
@@ -96,7 +75,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
         // when
         const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
-          campaignCode,
+          organizationId,
           locale,
           password,
           userAttributes,
@@ -146,7 +125,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
           // when
           const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
-            campaignCode,
+            organizationId,
             locale,
             password: '',
             userAttributes,
@@ -181,7 +160,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
           // when
           const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
-            campaignCode,
+            organizationId,
             locale,
             password,
             userAttributes,
@@ -202,7 +181,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
           // when
           const result = await usecases.createAndReconcileUserToOrganizationLearner({
-            campaignCode,
+            organizationId,
             locale,
             password,
             userAttributes,
@@ -261,7 +240,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
           // when
           const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
-            campaignCode,
+            organizationId,
             locale,
             password,
             userAttributes,
@@ -291,7 +270,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
           // when
           const result = await usecases.createAndReconcileUserToOrganizationLearner({
-            campaignCode,
+            organizationId,
             locale,
             password,
             userAttributes,

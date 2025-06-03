@@ -8,18 +8,16 @@ import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { AlreadyRegisteredEmailError } from '../../../../shared/domain/errors.js';
 import {
   AlreadyRegisteredUsernameError,
-  CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../shared/domain/errors.js';
-import { urlBuilder } from '../../../../shared/infrastructure/utils/url-builder.js';
 
 const createAndReconcileUserToOrganizationLearner = async function ({
-  campaignCode,
+  organizationId,
+  redirectionUrl,
   locale,
   password,
   userAttributes,
   authenticationMethodRepository,
-  campaignRepository,
   emailRepository,
   emailValidationDemandRepository,
   libOrganizationLearnerRepository,
@@ -32,14 +30,9 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   passwordValidator,
   userValidator,
 }) {
-  const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign) {
-    throw new CampaignCodeError();
-  }
-
   const matchedOrganizationLearner =
     await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
-      organizationId: campaign.organizationId,
+      organizationId,
       reconciliationInfo: userAttributes,
       organizationLearnerRepository: libOrganizationLearnerRepository,
       userRepository,
@@ -82,7 +75,6 @@ const createAndReconcileUserToOrganizationLearner = async function ({
 
   const createdUser = await userRepository.get(userId);
   if (!isUsernameMode) {
-    const redirectionUrl = urlBuilder.getCampaignUrl(locale, campaignCode);
     const token = await emailValidationDemandRepository.save(createdUser.id);
 
     await emailRepository.sendEmailAsync(

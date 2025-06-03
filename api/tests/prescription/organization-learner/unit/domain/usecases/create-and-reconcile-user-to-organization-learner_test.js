@@ -3,7 +3,6 @@ import { createAndReconcileUserToOrganizationLearner } from '../../../../../../s
 import { config } from '../../../../../../src/shared/config.js';
 import {
   AlreadyRegisteredUsernameError,
-  CampaignCodeError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../../../src/shared/domain/errors.js';
@@ -20,6 +19,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
   let campaignCode;
   let userAttributes;
+  let redirectionUrl;
 
   let authenticationMethodRepository;
   let campaignRepository;
@@ -38,6 +38,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
   beforeEach(function () {
     campaignCode = 'ABCD12';
+    redirectionUrl = `${config.domain.pixApp + config.domain.tldFr}/campagnes/${campaignCode}`;
     userAttributes = {
       firstName: 'Joe',
       lastName: 'Poe',
@@ -65,45 +66,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     passwordValidator = { validate: sinon.stub() };
     userValidator = { validate: sinon.stub() };
 
-    campaignRepository.getByCode
-      .withArgs(campaignCode)
-      .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
     userRepository.isUsernameAvailable.resolves();
     userRepository.checkIfEmailIsAvailable.resolves();
     emailRepository.sendEmailAsync.resolves();
 
     passwordValidator.validate.returns();
     userValidator.validate.returns();
-  });
-
-  context('When there is no campaign with the given code', function () {
-    it('should throw a campaign code error', async function () {
-      // given
-      campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
-
-      // when
-      const result = await catchErr(createAndReconcileUserToOrganizationLearner)({
-        campaignCode,
-        locale,
-        password,
-        userAttributes,
-        authenticationMethodRepository,
-        campaignRepository,
-        emailValidationDemandRepository,
-        organizationLearnerRepository,
-        userRepository,
-        cryptoService,
-        emailRepository,
-        obfuscationService,
-        userReconciliationService,
-        userService,
-        passwordValidator,
-        userValidator,
-      });
-
-      // then
-      expect(result).to.be.instanceof(CampaignCodeError);
-    });
   });
 
   context('When no organizationLearner found', function () {
@@ -115,7 +83,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
       // when
       const result = await catchErr(createAndReconcileUserToOrganizationLearner)({
-        campaignCode,
+        organizationId,
+        redirectionUrl,
         locale,
         password,
         userAttributes,
@@ -189,7 +158,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
           // when
           const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
-            campaignCode,
+            organizationId,
+            redirectionUrl,
             locale,
             password,
             userAttributes,
@@ -220,7 +190,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
           // when
           const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
-            campaignCode,
+            organizationId,
+            redirectionUrl,
             locale,
             password,
             userAttributes,
@@ -251,7 +222,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         it('should create user and associate organizationLearner', async function () {
           // when
           const result = await createAndReconcileUserToOrganizationLearner({
-            campaignCode,
+            organizationId,
+            redirectionUrl,
             locale,
             password,
             userAttributes,
@@ -280,12 +252,13 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             firstName: userAttributes.firstName,
             locale,
             token,
-            redirectionUrl: `${config.domain.pixApp + config.domain.tldFr}/campagnes/${campaignCode}`,
+            redirectionUrl,
           });
 
           // when
           await createAndReconcileUserToOrganizationLearner({
-            campaignCode,
+            organizationId,
+            redirectionUrl,
             locale,
             password,
             userAttributes,
@@ -317,7 +290,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
             // when
             const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
-              campaignCode,
+              organizationId,
+              redirectionUrl,
               locale,
               password,
               userAttributes,
@@ -355,7 +329,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
           // when
           const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
-            campaignCode,
+            organizationId,
+            redirectionUrl,
             locale,
             password,
             userAttributes,
@@ -382,7 +357,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         it('should create user and associate organizationLearner', async function () {
           // when
           const result = await createAndReconcileUserToOrganizationLearner({
-            campaignCode,
+            organizationId,
+            redirectionUrl,
             locale,
             password,
             userAttributes,
@@ -413,7 +389,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
             // when
             const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
-              campaignCode,
+              organizationId,
+              redirectionUrl,
               locale,
               password,
               userAttributes,
