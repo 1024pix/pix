@@ -63,6 +63,15 @@ export default class CurrentSessionService extends SessionService {
     await this._loadCurrentUserAndSetLocale(language);
   }
 
+  get redirectionUrl() {
+    const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
+    if (campaignCode) {
+      const baseUrl = window.location.protocol + '//' + window.location.host;
+      return baseUrl + this.router.urlFor('campaigns', { code: campaignCode });
+    }
+    return null;
+  }
+
   requireAuthenticationAndApprovedTermsOfService(transition, authenticationRoute) {
     if (this.isAuthenticated && this.currentUser.user.mustValidateTermsOfService) {
       this.attemptedTransition = transition;

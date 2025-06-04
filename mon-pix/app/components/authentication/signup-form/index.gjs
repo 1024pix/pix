@@ -92,10 +92,9 @@ export default class SignupForm extends Component {
     this.isLoading = true;
 
     try {
-      const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
       user.lang = this.intl.primaryLocale;
 
-      await user.save({ adapterOptions: { campaignCode } });
+      await user.save({ adapterOptions: { redirectionUrl: this.session.redirectionUrl } });
       await this.session.authenticateUser(user.email, user.password);
 
       user.password = null;
