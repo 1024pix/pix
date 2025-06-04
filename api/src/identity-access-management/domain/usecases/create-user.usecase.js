@@ -1,6 +1,5 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
-import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
 import { createAccountCreationEmail } from '../emails/create-account-creation.email.js';
 import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
 
@@ -22,12 +21,11 @@ import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
  * @return {Promise<User|undefined>}
  */
 const createUser = withTransaction(async function ({
-  campaignCode,
   localeFromHeader,
   password,
   user,
   authenticationMethodRepository,
-  campaignRepository,
+  redirectionUrl,
   emailRepository,
   emailValidationDemandRepository,
   userRepository,
@@ -58,14 +56,6 @@ const createUser = withTransaction(async function ({
     userToCreateRepository,
     authenticationMethodRepository,
   });
-
-  let redirectionUrl = null;
-  if (campaignCode) {
-    const campaign = await campaignRepository.getByCode(campaignCode);
-    if (campaign) {
-      redirectionUrl = urlBuilder.getCampaignUrl(localeFromHeader, campaignCode);
-    }
-  }
 
   const token = await emailValidationDemandRepository.save(savedUser.id);
 

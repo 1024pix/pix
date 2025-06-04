@@ -136,7 +136,7 @@ const createUser = async function (request, h, dependencies = { userSerializer, 
   const canonicalLocaleFromCookie = localeFromCookie
     ? dependencies.localeService.getCanonicalLocale(localeFromCookie)
     : undefined;
-  const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
+  const redirectionUrl = request.payload.meta ? request.payload.meta['redirection-url'] : null;
   const user = { ...dependencies.userSerializer.deserialize(request.payload), locale: canonicalLocaleFromCookie };
   const localeFromHeader = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
@@ -145,7 +145,7 @@ const createUser = async function (request, h, dependencies = { userSerializer, 
   const savedUser = await usecases.createUser({
     user,
     password,
-    campaignCode,
+    redirectionUrl,
     localeFromHeader,
     i18n: request.i18n,
   });
