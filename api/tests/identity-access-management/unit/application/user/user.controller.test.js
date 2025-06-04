@@ -268,7 +268,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
             user: { ...deserializedUser, locale: localeFromCookie },
             password,
             localeFromHeader,
-            campaignCode: null,
+            redirectionUrl: null,
             i18n: undefined,
           };
 

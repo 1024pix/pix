@@ -434,6 +434,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
 
     context('step send account creation email to user', function () {
       const user = new User({ email: userEmail, locale: localeFromHeader });
+      let redirectionUrl;
+
+      beforeEach(function () {
+        redirectionUrl = `${config.domain.pixApp + config.domain.tldFr}/campagnes/${campaignCode}`;
+      });
 
       it('should send the account creation email', async function () {
         // given
@@ -443,7 +448,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           firstName: user.firstName,
           locale: localeFromHeader,
           token,
-          redirectionUrl: `${config.domain.pixApp + config.domain.tldFr}/campagnes/${campaignCode}`,
+          redirectionUrl,
         });
 
         // when
@@ -451,9 +456,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           user,
           localeFromHeader,
           password,
-          campaignCode,
+          redirectionUrl,
           authenticationMethodRepository,
-          campaignRepository,
           emailRepository,
           emailValidationDemandRepository,
           userRepository,
@@ -562,9 +566,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         user,
         localeFromHeader,
         password,
-        campaignCode,
+        redirectionUrl,
         authenticationMethodRepository,
-        campaignRepository,
         emailRepository,
         emailValidationDemandRepository,
         userRepository,
