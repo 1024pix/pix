@@ -74,8 +74,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           });
 
           module('When user create its account', function () {
-            test('should send campaignCode to API', async function (assert) {
-              let sentCampaignCode;
+            test('should send redirectionUrl to API', async function (assert) {
+              let sentRedirectionUrl;
 
               const prescritUser = {
                 firstName: 'firstName',
@@ -87,7 +87,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               this.server.post(
                 '/users',
                 (schema, request) => {
-                  sentCampaignCode = JSON.parse(request.requestBody).meta['campaign-code'];
+                  sentRedirectionUrl = JSON.parse(request.requestBody).meta['redirection-url'];
                   return schema.users.create({});
                 },
                 201,
@@ -122,7 +122,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
 
               // then
-              assert.strictEqual(sentCampaignCode, campaign.code);
+              const router = this.owner.lookup('service:router');
+              const redirectionUrl =
+                window.location.protocol +
+                '//' +
+                window.location.host +
+                router.urlFor('campaigns', { code: campaign.code });
+              assert.strictEqual(sentRedirectionUrl, redirectionUrl);
             });
           });
         });

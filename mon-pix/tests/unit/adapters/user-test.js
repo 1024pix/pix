@@ -96,21 +96,21 @@ module('Unit | Adapters | user', function (hooks) {
   });
 
   module('#createRecord', function () {
-    module('when campaignCode adapterOption is defined', function () {
-      test('should add campaign-code meta', async function (assert) {
+    module('when redirectionUrl adapterOption is defined', function () {
+      test('should add redirection-url meta', async function (assert) {
         // given
-        const campaignCode = 'AZERTY123';
+        const redirectionUrl = 'http://localhost:4200/campagnes/AZERTY123';
         const expectedUrl = 'http://localhost:3000/api/users';
         const expectedMethod = 'POST';
         const expectedData = {
           data: {
-            meta: { 'campaign-code': campaignCode },
+            meta: { 'redirection-url': redirectionUrl },
             data: {},
           },
         };
         const snapshot = {
           record: {},
-          adapterOptions: { campaignCode },
+          adapterOptions: { redirectionUrl },
           serialize: function () {
             return { data: {} };
           },

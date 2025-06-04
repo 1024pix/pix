@@ -8,10 +8,10 @@ export default class User extends ApplicationAdapter {
   createRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
 
-    if (adapterOptions && adapterOptions.campaignCode) {
+    if (adapterOptions && adapterOptions.redirectionUrl) {
       const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
       const { data } = this.serialize(snapshot);
-      const payload = { data: { data, meta: { 'campaign-code': adapterOptions.campaignCode } } };
+      const payload = { data: { data, meta: { 'redirection-url': adapterOptions.redirectionUrl } } };
       return this.ajax(url, 'POST', payload);
     }
 
