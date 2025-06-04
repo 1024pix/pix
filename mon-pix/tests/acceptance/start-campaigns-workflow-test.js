@@ -232,7 +232,6 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                     'last-name': 'last',
                     'first-name': 'first',
                     birthdate: '2010-10-10',
-                    'campaign-code': 'RESTRICTD',
                     username: 'first.last1010',
                   },
                   id: 'foo',

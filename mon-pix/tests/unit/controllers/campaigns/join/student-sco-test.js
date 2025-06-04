@@ -27,7 +27,7 @@ module('Unit | Controller | campaigns | join | student-sco', function (hooks) {
       },
     };
 
-    controller.set('model', { organizationId });
+    controller.set('model', { campaign: { organizationId } });
     controller.set('session', sessionStub);
     controller.set('currentUser', currentUserStub);
   });

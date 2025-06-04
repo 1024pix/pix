@@ -27,14 +27,14 @@ export default class StudentScoController extends Controller {
     await this.currentUser.load();
     await this._reconcileUser();
 
-    this.campaignStorage.set(this.model.code, 'associationDone', true);
+    this.campaignStorage.set(this.model.campaign.code, 'associationDone', true);
   }
 
   _reconcileUser() {
     return this.store
       .createRecord('sco-organization-learner', {
         userId: this.currentUser.user.id,
-        organizationId: this.model.organizationId,
+        organizationId: this.model.campaign.organizationId,
       })
       .save({ adapterOptions: { tryReconciliation: true } });
   }

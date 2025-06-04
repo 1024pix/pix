@@ -235,6 +235,7 @@ export default class RegisterForm extends Component {
   @service session;
   @service store;
   @service intl;
+  @service router;
 
   @tracked isLoading = false;
   @tracked errorMessage = null;
@@ -311,8 +312,9 @@ export default class RegisterForm extends Component {
         this.isLoading = false;
         this.username = response.username;
         return (this.dependentUser = this.store.createRecord('dependent-user', {
-          id: this.args.campaignCode + '_' + this.lastName,
-          campaignCode: this.args.campaignCode,
+          id: this.args.organizationId + '_' + this.lastName,
+          redirectionUrl: this.args.redirectionUrl,
+          organizationId: this.args.organizationId,
           firstName: this.firstName,
           lastName: this.lastName,
           birthdate: this.birthdate,

@@ -28,7 +28,7 @@ import RegisterForm from 'mon-pix/components/routes/register-form';
             }}
           >
             {{#if @displayRegisterForm}}
-              <RegisterForm @campaignCode={{@campaignCode}} @organizationId={{@organizationId}} />
+              <RegisterForm @redirectionUrl={{@redirectionUrl}} @organizationId={{@organizationId}} />
             {{/if}}
           </div>
         </div>
