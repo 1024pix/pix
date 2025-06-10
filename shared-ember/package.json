@@ -1,0 +1,9 @@
+{
+  "name": "shared-ember",
+  "keywords": [
+    "ember-addon"
+  ],
+  "peerDependencies": {
+    "ember-source": "^6.5.0"
+  }
+}
