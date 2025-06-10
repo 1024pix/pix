@@ -13,9 +13,12 @@ export default class ApplicationRoute extends Route {
   @service pixMetrics;
   @service store;
   @service router;
+  @service benjamin;
 
   constructor() {
     super(...arguments);
+
+    this.benjamin.hello();
 
     const trackRouteChange = (transition) => {
       if (!transition.to || transition.to.metadata?.doNotTrackPage) {

@@ -149,5 +149,10 @@
   "exports": {
     "./tests/*": "./tests/*",
     "./*": "./app/*"
+  },
+  "ember-addon": {
+    "paths": [
+      "../shared-ember"
+    ]
   }
 }
