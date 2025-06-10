@@ -93,6 +93,33 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'PUT',
+      path: '/api/admin/complementary-certifications/{complementaryCertificationKey}/consolidated-framework',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            complementaryCertificationKey: Joi.string().valid(...Object.values(ComplementaryCertificationKeys)),
+          }),
+        },
+        handler: complementaryCertificationController.updateConsolidatedFrameworkCalibration,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
+          'Elle permet de déclencher la récupération de la calibration de chacun des épreuves du référentiel',
+        ],
+      },
+    },
   ]);
 };
 

@@ -21,9 +21,14 @@ const createConsolidatedFramework = async function (request, h) {
   return h.response().code(201);
 };
 
+const updateConsolidatedFrameworkCalibration = async function (request, h) {
+  return h.response().code(200);
+};
+
 const complementaryCertificationController = {
   findComplementaryCertifications,
   searchAttachableTargetProfilesForComplementaryCertifications,
   createConsolidatedFramework,
+  updateConsolidatedFrameworkCalibration,
 };
 export { complementaryCertificationController };

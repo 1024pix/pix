@@ -102,4 +102,24 @@ describe('Certification | Configuration | Unit | Application | Router | compleme
       });
     });
   });
+
+  describe('PUT /api/admin/complementary-certifications/{complementaryCertificationKey}/consolidated-framework', function () {
+    it('should return 200 HTTP status code', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) => h.response().code(200));
+      sinon.stub(complementaryCertificationController, 'updateConsolidatedFrameworkCalibration').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(
+        'PUT',
+        `/api/admin/complementary-certifications/${ComplementaryCertificationKeys.PIX_PLUS_DROIT}/consolidated-framework`,
+      );
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      sinon.assert.calledOnce(complementaryCertificationController.updateConsolidatedFrameworkCalibration);
+    });
+  });
 });
