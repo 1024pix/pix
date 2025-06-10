@@ -22,6 +22,7 @@ const createConsolidatedFramework = async function (request, h) {
 };
 
 const updateConsolidatedFrameworkCalibration = async function (request, h) {
+  usecases.updateConsolidatedFrameworkCalibration();
   return h.response().code(200);
 };
 
