@@ -65,7 +65,7 @@
                 "id": "1",
                 "content": "<p>oui</p>",
                 "feedback": {
-                  "state": "<p><br></p>",
+                  "state": "<p></p>",
                   "diagnosis": "<p>Et non ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
                 }
               },
@@ -73,7 +73,7 @@
                 "id": "2",
                 "content": "<p>non</p>",
                 "feedback": {
-                  "state": "<p><br></p>",
+                  "state": "<p></p>",
                   "diagnosis": "<p>Effectivement, sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
                 }
               }
