@@ -7,6 +7,7 @@
  */
 
 import { LOCALE } from '../../../../shared/domain/constants.js';
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 /**
  * @param {Object} params
@@ -17,20 +18,30 @@ import { LOCALE } from '../../../../shared/domain/constants.js';
  * @param {ChallengeRepository} params.challengeRepository
  * @param {ConsolidatedFrameworkRepository} params.consolidatedFrameworkRepository
  */
-export const createConsolidatedFramework = async ({
-  complementaryCertificationKey,
-  tubeIds,
-  tubeRepository,
-  skillRepository,
-  challengeRepository,
-  consolidatedFrameworkRepository,
-}) => {
-  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, LOCALE.FRENCH_SPOKEN);
 
-  const skillIds = tubes.flatMap((tube) => tube.skillIds);
-  const skills = await skillRepository.findActiveByRecordIds(skillIds);
+export const createConsolidatedFramework = withTransaction(
+  async ({
+    complementaryCertificationKey,
+    tubeIds,
+    tubeRepository,
+    skillRepository,
+    challengeRepository,
+    uuidService,
+    consolidatedFrameworkRepository,
+    complementaryCertificationRepository,
+  }) => {
+    const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, LOCALE.FRENCH_SPOKEN);
 
-  const challenges = await challengeRepository.findOperativeBySkills(skills, LOCALE.FRENCH_SPOKEN);
+    const skillIds = tubes.flatMap((tube) => tube.skillIds);
+    const skills = await skillRepository.findActiveByRecordIds(skillIds);
 
-  return consolidatedFrameworkRepository.create({ complementaryCertificationKey, challenges });
-};
+    const challenges = await challengeRepository.findOperativeBySkills(skills, LOCALE.FRENCH_SPOKEN);
+
+    return consolidatedFrameworkRepository.create({
+      complementaryCertificationKey,
+      challenges,
+      uuidService,
+      complementaryCertificationRepository,
+    });
+  },
+);

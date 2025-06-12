@@ -1,12 +1,19 @@
 import { createConsolidatedFramework } from '../../../../../../src/certification/configuration/domain/usecases/create-consolidated-framework.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | create-consolidated-framework', function () {
-  let challengeRepository, consolidatedFrameworkRepository, tubeRepository, skillRepository;
+  let challengeRepository,
+    consolidatedFrameworkRepository,
+    tubeRepository,
+    skillRepository,
+    complementaryCertificationRepository,
+    uuidService;
 
   beforeEach(function () {
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     tubeRepository = {
       findActiveByRecordIds: sinon.stub(),
     };
@@ -19,6 +26,8 @@ describe('Certification | Configuration | Unit | UseCase | create-consolidated-f
     consolidatedFrameworkRepository = {
       create: sinon.stub(),
     };
+    complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
+    uuidService = Symbol('uuidService');
   });
 
   it('should create a new consolidated framework', async function () {
@@ -51,6 +60,8 @@ describe('Certification | Configuration | Unit | UseCase | create-consolidated-f
       skillRepository,
       challengeRepository,
       consolidatedFrameworkRepository,
+      uuidService,
+      complementaryCertificationRepository,
     });
 
     // then
@@ -66,6 +77,8 @@ describe('Certification | Configuration | Unit | UseCase | create-consolidated-f
     expect(consolidatedFrameworkRepository.create).to.have.been.calledOnceWithExactly({
       complementaryCertificationKey,
       challenges,
+      uuidService,
+      complementaryCertificationRepository,
     });
   });
 });

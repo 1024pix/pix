@@ -1,7 +1,11 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { complementaryCertificationRepository } from '../../../shared/infrastructure/repositories/complementary-certification-repository.js';
 
-export async function create({ complementaryCertificationKey, challenges }) {
+export async function create({
+  complementaryCertificationKey,
+  challenges,
+  uuidService,
+  complementaryCertificationRepository,
+}) {
   const knexConn = DomainTransaction.getConnection();
 
   const complementaryCertification = await complementaryCertificationRepository.getByKey(complementaryCertificationKey);
@@ -11,7 +15,8 @@ export async function create({ complementaryCertificationKey, challenges }) {
     challengeId: challenge.id,
   }));
 
+  const versionUuid = uuidService.randomUUID();
   for (const challengeDTO of challengesDTO) {
-    await knexConn('certification-frameworks-challenges').insert({ ...challengeDTO });
+    await knexConn('certification-frameworks-challenges').insert({ ...challengeDTO, version: versionUuid });
   }
 }

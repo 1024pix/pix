@@ -1,3 +1,4 @@
+import * as uuidService from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -37,6 +38,7 @@ const dependencies = {
   consolidatedFrameworkRepository,
   skillRepository,
   tubeRepository,
+  uuidService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
