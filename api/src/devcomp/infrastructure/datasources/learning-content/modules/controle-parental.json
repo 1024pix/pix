@@ -330,7 +330,7 @@
           "element": {
             "id": "5432d74b-3bcd-44f6-a031-8e0ba0cdceda",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p>\n<p>\n    <br>\n</p>\n<p>\n    <br>\n</p>\n<p>\n<br></p><p></p><p><details>\n    <summary>Indice 1</summary>\n    <p>Le contrôle parental fait partie des paramètres de l’appareil. ⚙️</p>\n</details>\n<details>\n    <summary>Indice 2</summary>\n    <p>Ici, le contrôle parental s’active sur l’appareil de l’enfant.</p>\n</details>\n<details>\n    <summary>Solution</summary>\n    <p>Il faut appuyer sur «Activer Contrôle parental» </p><br><br>\n</details>\n</p><p></p>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p><br></p><p><details>    <summary>Indice 1</summary>    <p>Le contrôle parental fait partie des paramètres de l’appareil. ⚙️</p></details><details>    <summary>Indice 2</summary>    <p>Ici, le contrôle parental s’active sur l’appareil de l’enfant.</p></details><details>    <summary>Solution</summary>    <p>Il faut appuyer sur «Activer Contrôle parental» </p></details></p>"
           }
         },
         {
