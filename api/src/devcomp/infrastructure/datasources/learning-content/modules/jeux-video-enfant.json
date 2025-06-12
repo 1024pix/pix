@@ -281,7 +281,7 @@
         {
           "type": "element",
           "element": {
-            "id": "d0187e73-2fc0-4ad1-88c8-5d373cfeac00",
+            "id": "74384c69-38b3-462f-80d6-0050dd043670",
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_achats_integres_mentions.png",
             "alt": "Image du pictogramme PEGI décrite dans l’alternative textuelle",
@@ -308,7 +308,7 @@
         {
           "type": "element",
           "element": {
-            "id": "d0187e73-2fc0-4ad1-88c8-5d373cfeac00",
+            "id": "4ff89b5e-d7a0-4197-bcc9-64107bad8fc6",
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boite_mystere.png",
             "alt": "",
@@ -464,7 +464,7 @@
       ]
     },
     {
-      "id": "1be9a0ef-7b9a-4c02-b024-7e98a2579b10",
+      "id": "08d3d7fa-7d43-43b4-abf1-2b391e94a6d7",
       "type": "lesson",
       "title": "Les interactions entre joueurs - 1",
       "components": [
@@ -483,7 +483,7 @@
         {
           "type": "element",
           "element": {
-            "id": "d0187e73-2fc0-4ad1-88c8-5d373cfeac00",
+            "id": "10e2771d-0d1b-4f92-84cd-9477edd831f9",
             "type": "text",
             "content": "<p>De nombreux jeux vidéo en ligne se jouent en équipe. Les joueurs doivent donc discuter ensemble, par écrit ou en vocal, afin de collaborer et progresser dans le jeu.</p>\n<p><br><strong>Ces discussions en ligne comportent des risques</strong>. 🎧&nbsp;<br>Un enfant peut être exposé à des personnes avec de mauvaises intentions ou à du contenu choquant. 😱</p>"
           }
@@ -521,7 +521,7 @@
         {
           "type": "element",
           "element": {
-            "id": "139b7a65-92b9-4d4c-ba16-1badbbe24bd1",
+            "id": "8ff00e34-fa20-4ec9-8888-b1d6ae5d799b",
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_capture_pegi.png",
             "alt": "Capture d’écran de la page d’installation d’un jeu vidéo avec la mention « interactivité des utilisateurs » encadrée",
@@ -632,7 +632,7 @@
         {
           "type": "element",
           "element": {
-            "id": "7346e1eb-4591-4913-9c39-9d23dfcf7db8",
+            "id": "f54a66b6-b950-4aea-96bd-cec69a4b5b75",
             "type": "text",
             "content": "<p><strong>📌&nbsp; Avant de choisir un jeu vidéo pour votre enfant, il y a trois informations clés à vérifier :</strong></p>"
           }
@@ -640,7 +640,7 @@
         {
           "type": "element",
           "element": {
-            "id": "99f21e69-cdb4-4428-9153-ae857a148ee7",
+            "id": "0fece1bc-b5e4-4a99-9a89-cf03af00589f",
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_resume.png",
             "alt": "Infographie détaillée dans l’alternative textuelle",
