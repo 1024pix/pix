@@ -26,7 +26,7 @@ async function _setupEcosystem() {
 }
 
 const start = async function () {
-  if (config.featureToggles.setupEcosystemBeforeStart) {
+  if (config.hapi.setupEcosystemBeforeStart) {
     await _setupEcosystem();
   }
   server = await createServer();

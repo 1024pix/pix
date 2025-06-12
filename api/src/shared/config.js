@@ -298,12 +298,12 @@ const configuration = (function () {
       isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
-      setupEcosystemBeforeStart: toBoolean(process.env.FT_SETUP_ECOSYSTEM_BEFORE_START) || false,
       showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
     },
     hapi: {
       options: {},
       enableRequestMonitoring: toBoolean(process.env.ENABLE_REQUEST_MONITORING),
+      setupEcosystemBeforeStart: toBoolean(process.env.FT_SETUP_ECOSYSTEM_BEFORE_START) || false,
     },
     infra: {
       appName: process.env.APP,
