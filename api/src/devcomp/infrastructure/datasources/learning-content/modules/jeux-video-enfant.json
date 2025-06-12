@@ -41,7 +41,7 @@
           "element": {
             "id": "442fa2ba-d532-423b-ba89-c4ff38ff270c",
             "type": "text",
-            "content": "<p>Avant d’acheter et de télécharger le jeu réclamé par sa fille de 8 ans, Franck se rend sur la fiche du jeu en ligne pour regarder les informations concernant le jeu. 👀</p>"
+            "content": "<p>Avant d’acheter et de télécharger le jeu, Franck se rend sur la fiche du jeu en ligne pour regarder les informations concernant le jeu. 👀</p>"
           }
         },
         {
@@ -65,16 +65,16 @@
                 "id": "1",
                 "content": "<p>oui</p>",
                 "feedback": {
-                  "state": "Mauvaise réponse.",
-                  "diagnosis": "<p>Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                  "state": "<p><br></p>",
+                  "diagnosis": "<p>Et non ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
                 }
               },
               {
                 "id": "2",
                 "content": "<p>non</p>",
                 "feedback": {
-                  "state": "Bonne réponse ! 🎉",
-                  "diagnosis": "<p>Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                  "state": "<p><br></p>",
+                  "diagnosis": "<p>Effectivement, sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
                 }
               }
             ],
@@ -113,21 +113,6 @@
             "poster": "https://assets.pix.org/modules/jeux-video-enfant/signaletique_pegi_ppn3.jpg",
             "subtitles": "https://assets.pix.org/modules/jeux-video-enfant/signaletique_pegi_ppn3.vtt",
             "transcription": "<p>La signalétique PEGI<br><br> Franck regarde la fiche du jeu vidéo que sa fille aimerait avoir. <br>Ce jeu est-il adapté à son âge ?&nbsp; <br>Pour le savoir, Franck peut s’appuyer sur la signalétique PEGI. La signalétique PEGI est un ensemble de pictogrammes qui sont présents sur tous les jeux vendus en France et dans de nombreux pays, que ce soit sur les boîtes vendues en magasins ou sur les boutiques en ligne.&nbsp; <br>Ces pictogrammes donnent une indication aux parents mais ils n’interdisent pas la vente des jeux.&nbsp; La première série de pictogrammes marque le fait que le jeu n’est pas adapté aux enfants en dessous de l’âge indiqué. Ainsi, un jeu avec le pictogramme PEGI 7 sera déconseillé aux enfants de moins de 7 ans.&nbsp; Attention, ces pictogrammes n’indiquent pas la difficulté du jeu par rapport à l’âge de l’enfant. <br>Par exemple, un jeu avec le pictogramme PEGI 3 ne contient pas de contenus choquants pour un enfant de 3 ans, mais il peut être trop compliqué pour lui ! (ex échec) <br>A côté du pictogramme d’âge, il peut y avoir, en plus, des marqueurs thématiques qui donnent une information sur le contenu du jeu Sur certains jeux ou applications, il n’y a pas de pictogramme d’âge, mais un pictogramme “Accompagnement des parents recommandé”.&nbsp; <br>Ce pictogramme est présent sur des jeux et applications qui contiennent des contenus créés par les utilisateurs. Il peut donc y avoir des contenus adaptés pour les plus jeunes mais d’autres moins, il vaut donc mieux utiliser le jeu en étant accompagné par les parents. <br>Et si, comme Franck, vous voulez en savoir plus sur la signalétique PEGI, rendez-vous sur pédagojeux.fr. PédaGoJeux est un collectif qui informe et accompagne les familles autour des jeux vidéo.</p>"
-          }
-        }
-      ]
-    },
-    {
-      "id": "00ef7c51-943d-4a06-811c-293cd7722108",
-      "type": "transition",
-      "title": "",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "9a84d404-4972-45b0-bcff-b16b07cf0e2f",
-            "type": "text",
-            "content": "<p>Voyons si vous avez retenu l’essentiel. 🎯</p>"
           }
         }
       ]
@@ -254,67 +239,91 @@
       ]
     },
     {
-      "id": "d09b483b-c182-44be-9c55-8c570e7b70d2",
+      "id": "a737dcc1-f7ad-4253-8de9-bb4096f75ddf",
       "type": "lesson",
-      "title": "Les achats intégrés",
+      "title": "Les achats intégrés - 1",
       "components": [
         {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "5c339176-6325-4108-ac25-e8b811304d2c",
-                  "type": "image",
-                  "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_jeu_achats.png",
-                  "alt": "",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "44c670d6-fdfc-4cdd-8a8b-2304b8fe019b",
-                  "type": "text",
-                  "content": "<p>👛 Dans un jeu vidéo (gratuit ou payant), des achats de quelques centimes ou euros peuvent être proposés tout au long de la partie pour obtenir, par exemple : </p><ul><li>de la <strong>monnaie virtuelle</strong>&nbsp;</li><li>des <strong>bonus </strong>ou des <strong>vies </strong>supplémentaires</li><li>des améliorations pour les personnages&nbsp;</li></ul><p>Ces achats en jeu sont appelés des <strong>achats intégrés</strong>.</p><p>⚠️ <strong>Attention</strong><br> Même si ce sont des petites sommes d’argent, la facture peut vite grimper ! Et si une carte bancaire est enregistrée sur l’appareil (smartphone, console, etc.), l’achat sera débité automatiquement sans que vous soyez averti.</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "594dc9c3-d5e2-4698-82c6-62fbeca24e75",
-                  "type": "text",
-                  "content": "<p>Si un jeu contient des achats intégrés, le joueur doit obligatoirement être prévenu.</p><p>🔎 Pour le savoir, regardez la boîte ou la fiche du jeu en ligne et cherchez le <strong>pictogramme PEGI </strong>ci-dessous ou les mentions «&nbsp;<strong>achats intégrés</strong>&nbsp;» ou «&nbsp;<strong>achats intra-jeu facultatifs</strong>&nbsp;».</p>"
-                },
-                {
-                  "id": "cfbb169d-45d8-4029-a62b-a2d78d33cfc4",
-                  "type": "image",
-                  "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_achats_integres_mentions.png",
-                  "alt": "Image du pictogramme PEGI décrite dans l’alternative textuelle",
-                  "alternativeText": "<p>Images du Pictogramme PEGI Achats intégrés et des différentes mentions&nbsp;: «&nbsp;achats intra-jeu&nbsp;», «&nbsp;achats intra-jeu facultatifs&nbsp;», «&nbsp;inclut des achats intégrés&nbsp;», «&nbsp;achats intra-jeu (y compris divers articles&nbsp;», «&nbsp;achats numériques&nbsp;».</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "a5bc3ebf-2417-445c-96ed-8b199ecbff52",
-                  "type": "text",
-                  "content": "<p>Certains jeux proposent des achats intégrés particulièrement attirants &nbsp;: <strong>les loot boxes</strong>.</p>"
-                },
-                {
-                  "id": "453c0d40-58b4-4cb8-b972-30c8e382d5f3",
-                  "type": "image",
-                  "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boite_mystere.png",
-                  "alt": "",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "dd17d894-7c5e-467e-a3f8-ee6710bba415",
-                  "type": "text",
-                  "content": "<p>📦 Une loot box (boîte à butins) est un <strong>objet virtuel </strong> (un coffre, une boîte, ... etc) qu’un joueur peut acheter dans le jeu.<br>Chaque loot box contient des objets, communs ou très rares, à utiliser dans le jeu.<br><strong>Ce contenu est aléatoire, comme pour une pochette-surprise ou des cartes à collectionner.</strong><br>Le joueur est souvent incité à acheter des loot boxes lors des parties, pour obtenir l’objet qu’il souhaite ou pour avancer plus efficacement dans le jeu.</p><p><br>🤔 <strong>Bon à savoir</strong>&nbsp;<br>Depuis mai 2020, un jeu qui propose des loot boxes doit obligatoirement indiquer «&nbsp;<strong>Inclut des contenus aléatoires</strong>&nbsp;» sur la boîte ou la fiche du jeu.</p>"
-                }
-              ]
-            }
-          ]
+          "type": "element",
+          "element": {
+            "id": "7346e1eb-4591-4913-9c39-9d23dfcf7db8",
+            "type": "image",
+            "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boite_mystere.png",
+            "alt": "",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "99f21e69-cdb4-4428-9153-ae857a148ee7",
+            "type": "text",
+            "content": "<p>👛 Dans un jeu vidéo (gratuit ou payant), des achats de quelques centimes ou euros peuvent être proposés tout au long de la partie pour obtenir, par exemple : </p>\n<ul>\n    <li>de la <strong>monnaie virtuelle</strong>&nbsp;</li>\n    <li>des <strong>bonus </strong>ou des <strong>vies </strong>supplémentaires</li>\n    <li>des améliorations pour les personnages&nbsp;</li>\n</ul>\n<p>Ces achats en jeu sont appelés des <strong>achats intégrés</strong>.</p>\n<p>⚠️ <strong>Attention</strong><br> Même si ce sont des petites sommes d’argent, la facture peut vite grimper ! Et si une carte bancaire est enregistrée sur l’appareil (smartphone, console, etc.), l’achat sera débité automatiquement sans que vous soyez averti.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4c16ac05-95bd-48c7-8fe4-f627b6a57a87",
+      "type": "lesson",
+      "title": "Les achats intégrés - 2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "816f9d5f-6a25-4b4d-959d-30a9cb133652",
+            "type": "text",
+            "content": "<p>Si un jeu contient des achats intégrés, le joueur doit obligatoirement être prévenu.</p>\n<p>🔎 Pour le savoir, regardez la boîte ou la fiche du jeu en ligne et cherchez le <strong>pictogramme PEGI </strong>ci-dessous ou les mentions «&nbsp;<strong>achats intégrés</strong>&nbsp;» ou «&nbsp;<strong>achats intra-jeu facultatifs</strong>&nbsp;».</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d0187e73-2fc0-4ad1-88c8-5d373cfeac00",
+            "type": "image",
+            "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_achats_integres_mentions.png",
+            "alt": "Image du pictogramme PEGI décrite dans l’alternative textuelle",
+            "alternativeText": "<p>Images du Pictogramme PEGI Achats intégrés et des différentes mentions&nbsp;: «&nbsp;achats intra-jeu&nbsp;», «&nbsp;achats intra-jeu facultatifs&nbsp;», «&nbsp;inclut des achats intégrés&nbsp;», «&nbsp;achats intra-jeu (y compris divers articles&nbsp;», «&nbsp;achats numériques&nbsp;».</p>",
+            "legend": "",
+            "licence": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "1be9a0ef-7b9a-4c02-b024-7e98a2579b10",
+      "type": "lesson",
+      "title": "Les achats intégrés - 3",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "6ebe47c3-7e95-4175-bbe1-ad7c76452b96",
+            "type": "text",
+            "content": "<p>Certains jeux proposent des achats intégrés particulièrement attirants &nbsp;: <strong>les loot boxes</strong>.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d0187e73-2fc0-4ad1-88c8-5d373cfeac00",
+            "type": "image",
+            "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boite_mystere.png",
+            "alt": "",
+            "alternativeText": "<p><br></p>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "5391b616-10d3-40bc-bcf5-a64542d3a9dd",
+            "type": "text",
+            "content": "<p>📦 Une loot box (boîte à butins) est un <strong>objet virtuel </strong> (un coffre, une boîte, ... etc) qu’un joueur peut acheter dans le jeu.<br>Chaque loot box contient des objets, communs ou très rares, à utiliser dans le jeu.<br><strong>Ce contenu est aléatoire, comme pour une pochette-surprise ou des cartes à collectionner.</strong><br>Le joueur est souvent incité à acheter des loot boxes lors des parties, pour obtenir l’objet qu’il souhaite ou pour avancer plus efficacement dans le jeu.</p>\n<p><br>🤔 <strong>Bon à savoir</strong>&nbsp;<br>Depuis mai 2020, un jeu qui propose des loot boxes doit obligatoirement indiquer «&nbsp;<strong>Inclut des contenus aléatoires</strong>&nbsp;» sur la boîte ou la fiche du jeu.</p>"
+          }
         }
       ]
     },
@@ -328,7 +337,7 @@
           "element": {
             "id": "b7989927-5257-4f02-82d7-23d92e666c4c",
             "type": "text",
-            "content": "<p>Vous savez à présent ce que sont les achats intégrés. <br>À vous de jouer pour les repérer sur des boîtes ou des fiches de jeux.</p>"
+            "content": "<p>Vous savez à présent ce que sont les achats intégrés.<br></p>"
           }
         }
       ]
@@ -449,66 +458,77 @@
           "element": {
             "id": "d841ddce-baf4-48c7-95b8-c03bb38fa232",
             "type": "text",
-            "content": "<p>Après avoir vérifié le pictogramme d’âge PEGI et la présence d’achats intégrés, Franck peut vérifier une troisième information clé : la possibilité d’interagir avec d’autres joueurs dans le jeu. 💬</p>"
+            "content": "<p>Franck peut vérifier une troisième information clé : la possibilité d’interagir avec d’autres joueurs dans le jeu. 💬</p>"
           }
         }
       ]
     },
     {
-      "id": "779de80b-ba18-4e95-ab6d-bbc5ce8edd5a",
+      "id": "1be9a0ef-7b9a-4c02-b024-7e98a2579b10",
       "type": "lesson",
-      "title": "Les interactions entre joueurs",
+      "title": "Les interactions entre joueurs - 1",
       "components": [
         {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "f8910400-71fb-4d54-a447-11e21a910ed6",
-                  "type": "image",
-                  "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_photo.jpg",
-                  "alt": "",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "d54a96df-a22e-4e2d-8ffa-747e035d0554",
-                  "type": "text",
-                  "content": "<p>De nombreux jeux vidéo en ligne se jouent en équipe. Les joueurs doivent donc discuter ensemble, par écrit ou en vocal, afin de collaborer et progresser dans le jeu.</p><p><br><strong>Ces discussions en ligne comportent des risques</strong>. 🎧&nbsp;<br>Un enfant peut être exposé à des personnes avec de mauvaises intentions ou à du contenu choquant. 😱</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "d85a05a1-0c9d-4ce7-ad25-9333eb3a75c3",
-                  "type": "text",
-                  "content": "<h3>Quels sont les risques ?</h3><p>Il est impossible de savoir qui se trouve réellement de l’autre côté de l’écran. Les personnes avec de mauvaises intentions cherchent souvent à : </p><ul><li>manipuler les autres joueurs,</li><li>proposer des rencontres dans la vraie vie,</li><li>pousser à partager des photos ou des informations personnelles.</li></ul><p>⚠️ <strong>Attention</strong><br>Même avec un jeu qui ne permet pas de discuter avec d’autres joueurs, ce risque n’est pas écarté. En effet, certaines consoles permettent de discuter en ligne, tout comme les ordinateurs et les smartphones.</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "6b8112ec-45ab-4665-b690-9adf0b6e93ac",
-                  "type": "text",
-                  "content": "<h3>Comment se protéger ?</h3><p>🔎 D’abord, il faut être attentif lors du choix d’un jeu vidéo. Sur les boîtes ou les pages en ligne des jeux, la mention d’interaction entre joueurs peut prendre différentes formes : «&nbsp;<strong>les utilisateurs interagissent</strong>&nbsp;», «&nbsp;<strong>interaction entre les joueurs</strong>&nbsp;», «&nbsp;<strong>interactivité des utilisateurs</strong>&nbsp;»...</p>"
-                },
-                {
-                  "id": "9e9b11ab-0ffb-4dc9-917a-f5e336300ce5",
-                  "type": "image",
-                  "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_capture_pegi.png",
-                  "alt": "Capture d’écran de la page d’installation d’un jeu vidéo avec la mention « interactivité des utilisateurs » encadrée",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "61751690-1ee8-41ee-86c4-f9903230c9f6",
-                  "type": "text",
-                  "content": "<p>⚙️ Pour limiter les discussions qui passent par les consoles, smartphones ou ordinateurs, il est possible de paramétrer le contrôle parental de chacun des appareils.</p><p>🗣️ Enfin, il est important de discuter fréquemment avec les enfants des risques et des usages à autoriser ou non.</p>"
-                }
-              ]
-            }
-          ]
+          "type": "element",
+          "element": {
+            "id": "4f78384e-4348-4a1e-9681-7cb067adf601",
+            "type": "image",
+            "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_photo.jpg",
+            "alt": "",
+            "alternativeText": "<p><br></p>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d0187e73-2fc0-4ad1-88c8-5d373cfeac00",
+            "type": "text",
+            "content": "<p>De nombreux jeux vidéo en ligne se jouent en équipe. Les joueurs doivent donc discuter ensemble, par écrit ou en vocal, afin de collaborer et progresser dans le jeu.</p>\n<p><br><strong>Ces discussions en ligne comportent des risques</strong>. 🎧&nbsp;<br>Un enfant peut être exposé à des personnes avec de mauvaises intentions ou à du contenu choquant. 😱</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "21c63eec-3188-481a-9007-a5d39204d07a",
+      "type": "lesson",
+      "title": "Les interactions entre joueurs - 2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "28387cab-bfbf-4c67-a62e-c9636b7a25f2",
+            "type": "text",
+            "content": "<h3>Quels sont les risques ?</h3>\n<p>Il est impossible de savoir qui se trouve réellement de l’autre côté de l’écran. Les personnes avec de mauvaises intentions cherchent souvent à : </p>\n<ul>\n    <li>manipuler les autres joueurs,</li>\n    <li>proposer des rencontres dans la vraie vie,</li>\n    <li>pousser à partager des photos ou des informations personnelles.</li>\n</ul>\n<p>⚠️ <strong>Attention</strong><br>Même avec un jeu qui ne permet pas de discuter avec d’autres joueurs, ce risque n’est pas écarté. En effet, certaines consoles permettent de discuter en ligne, tout comme les ordinateurs et les smartphones.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "565ed54b-9f3a-4d45-b86f-3666969596b6",
+      "type": "lesson",
+      "title": "Les interactions entre joueurs - 3",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "43b97dfe-c6fc-4659-8223-e38592e04e05",
+            "type": "text",
+            "content": "<h3>Comment se protéger ?</h3>\n<p>🔎 D’abord, il faut être attentif lors du choix d’un jeu vidéo. Sur les boîtes ou les pages en ligne des jeux, la mention d’interaction entre joueurs peut prendre différentes formes : «&nbsp;<strong>les utilisateurs interagissent</strong>&nbsp;», «&nbsp;<strong>interaction entre les joueurs</strong>&nbsp;», «&nbsp;<strong>interactivité des utilisateurs</strong>&nbsp;»...</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "139b7a65-92b9-4d4c-ba16-1badbbe24bd1",
+            "type": "image",
+            "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_capture_pegi.png",
+            "alt": "Capture d’écran de la page d’installation d’un jeu vidéo avec la mention « interactivité des utilisateurs » encadrée",
+            "alternativeText": "",
+            "legend": "",
+            "licence": ""
+          }
         }
       ]
     },
@@ -522,7 +542,7 @@
           "element": {
             "id": "45a1378d-e5bc-43a1-a5c8-b190d5aad710",
             "type": "text",
-            "content": "<p>Franck sait maintenant que Dragon’s Kingdom, le jeu demandé par Marilou n’est pas adapté à son âge.<br>Après discussion avec sa fille de 8 ans, Franck souhaite lui acheter un autre jeu sur les dragons. 🐲</p>"
+            "content": "<p>Franck sait maintenant qu'il ne souhaite pas offrir Dragon's Kingdom à sa fille de 8 ans.<br>Après discussion avecelle, Franck souhaite lui acheter un autre jeu sur les dragons. 🐲</p>"
           }
         }
       ]
