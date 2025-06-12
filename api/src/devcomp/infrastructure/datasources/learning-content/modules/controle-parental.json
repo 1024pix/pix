@@ -19,14 +19,14 @@
     {
       "id": "0e993f27-5189-47d4-ba37-efd4b466dd9d",
       "type": "transition",
-      "title": "",
+      "title": "Transition - 1",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "474c3482-deb8-44ca-91f0-15575c0f1f37",
             "type": "text",
-            "content": "<p>Max va bientôt entrer au collège. <br>Ses parents souhaitent lui offrir son premier smartphone, mais ils ont peur que Max voie des contenus choquants. <br>Sa mère, Nina, demande conseil à des amis. <br>Lancez la vidéo pour voir leur discussion.&nbsp;\uD83D\uDCFA</p>"
+            "content": "<p>Max va bientôt entrer au collège. <br>Ses parents souhaitent lui offrir son premier smartphone, mais ils ont peur que Max voie des contenus choquants. <br>Sa mère, Nina, demande conseil à des amis. <br>Lancez la vidéo pour voir leur discussion.&nbsp;📺</p>"
           }
         }
       ]
@@ -41,7 +41,7 @@
           "element": {
             "id": "d8b50659-5ad8-4565-83eb-a3f7d82c0359",
             "type": "video",
-            "title": "Un smartphone pour la rentrée ?",
+            "title": "Un smartphone pour la rentrée ?",
             "url": "https://assets.pix.org/modules/controle-parental/intro_ppn2/intro_ppn2.mp4",
             "poster": "https://assets.pix.org/modules/controle-parental/intro_ppn2/vignette_intro_ppn2.jpg",
             "subtitles": "",
@@ -88,14 +88,14 @@
     {
       "id": "464204ad-c607-4bdd-abe6-2cbebdfa3cf8",
       "type": "transition",
-      "title": "",
+      "title": "Transition - 2",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "fa615c0d-1d9f-46fc-bf1c-1605130491e5",
             "type": "text",
-            "content": "<p>Grâce au contrôle parental, Nina va pouvoir accompagner les usages en ligne de Max sur son premier smartphone.&nbsp;\uD83D\uDCF1</p><p>Voyons cela ensemble !</p>"
+            "content": "<p>Grâce au contrôle parental, Nina va pouvoir accompagner les usages en ligne de Max sur son premier smartphone.&nbsp;📱</p><p>Voyons cela ensemble !</p>"
           }
         }
       ]
@@ -122,7 +122,7 @@
             "url": "https://assets.pix.org/modules/controle-parental/fonctionnalit%C3%A9s_controle_parental_ppn2/fonctionnalit%C3%A9s_controle_parental_ppn2.mp4",
             "poster": "https://assets.pix.org/modules/controle-parental/fonctionnalit%C3%A9s_controle_parental_ppn2/vignette_fonctionnalit%C3%A9s_ppn2.jpg",
             "subtitles": "https://assets.pix.org/modules/controle-parental/fonctionnalit%C3%A9s_controle_parental_ppn2/fonctionnalit%C3%A9s_controle_parental_ppn2.vtt",
-            "transcription": "<p><strong>Les fonctionnalités du contrôle parental</strong> <br>Comme Max entre au collège, ses parents pensent lui offrir son premier smartphone. Sa mère, Nina, s'inquiète… comment accompagner Max dans ses premiers pas ? <br>Les outils de contrôle parental permettent d'aider les parents à protéger leurs enfants en ligne.&nbsp;Explorons ensemble leurs fonctionnalités les plus courantes.</p><ul>    <li>Gestion du temps d'écran</li></ul><p>Grâce aux options de gestion du temps d’écran, un parent peut définir des limites de temps pour chaque jour ou chaque application et des plages horaires d'utilisation. <br>Par exemple, un parent peut paramétrer le blocage d’un appareil après l’heure du coucher de son enfant</p><ul>    <li>Filtrage de contenus</li></ul><p>Grâce aux options de filtrage de contenus, en fonction de l’âge de son enfant,&nbsp; un parent peut choisir de bloquer certaines catégories de contenus (applications, vidéos, jeux).&nbsp; <br>Il est souvent possible de définir une liste de blocage de sites et de services ou encore de désactiver certaines options (tel que les achats en ligne ou l’échange de messages avec d’autres utilisateurs). </p><ul>    <li>Suivi de l'activité en ligne</li></ul><p>Avec le suivi de l’activité en ligne, un parent peut consulter le temps passé par son enfant sur un appareil et sur les différentes applications ou jeux installés. <br> Cela lui permet de suivre régulièrement l’usage numérique de son enfant, de discuter avec lui et d’adapter les limites qu’il lui fixe.</p><ul>    <li>Options avancées*</li></ul><p>Certains outils de contrôle parental proposent des options plus poussées.&nbsp;Par exemple, consulter l’historique de navigation de son enfant, suivre ses déplacements en temps réel ou accéder aux messages qu’il envoie.&nbsp;<br>Attention, ces options ne sont pas toutes respectueuses de la vie privée de l’enfant. Utilisées sans discussion, elles peuvent nuire à la confiance entre l’enfant et son parent. </p>    <p>Les outils de contrôle parental ont de nombreuses fonctionnalités. Comme Nina chaque parent peut les adapter aux besoins de son enfant et au fil du temps.</p>"
+            "transcription": "<p><strong>Les fonctionnalités du contrôle parental</strong> <br>Comme Max entre au collège, ses parents pensent lui offrir son premier smartphone. Sa mère, Nina, s'inquiète… comment accompagner Max dans ses premiers pas ? <br>Les outils de contrôle parental permettent d'aider les parents à protéger leurs enfants en ligne.&nbsp;Explorons ensemble leurs fonctionnalités les plus courantes.</p><ul>    <li>Gestion du temps d'écran</li></ul><p>Grâce aux options de gestion du temps d’écran, un parent peut définir des limites de temps pour chaque jour ou chaque application et des plages horaires d'utilisation. <br>Par exemple, un parent peut paramétrer le blocage d’un appareil après l’heure du coucher de son enfant</p><ul>    <li>Filtrage de contenus</li></ul><p>Grâce aux options de filtrage de contenus, en fonction de l’âge de son enfant,&nbsp; un parent peut choisir de bloquer certaines catégories de contenus (applications, vidéos, jeux).&nbsp; <br>Il est souvent possible de définir une liste de blocage de sites et de services ou encore de désactiver certaines options (tel que les achats en ligne ou l’échange de messages avec d’autres utilisateurs). </p><ul>    <li>Suivi de l'activité en ligne</li></ul><p>Avec le suivi de l’activité en ligne, un parent peut consulter le temps passé par son enfant sur un appareil et sur les différentes applications ou jeux installés. <br> Cela lui permet de suivre régulièrement l’usage numérique de son enfant, de discuter avec lui et d’adapter les limites qu’il lui fixe.</p><ul>    <li>Options avancées*</li></ul><p>Certains outils de contrôle parental proposent des options plus poussées.&nbsp;Par exemple, consulter l’historique de navigation de son enfant, suivre ses déplacements en temps réel ou accéder aux messages qu’il envoie.&nbsp;<br>Attention, ces options ne sont pas toutes respectueuses de la vie privée de l’enfant. Utilisées sans discussion, elles peuvent nuire à la confiance entre l’enfant et son parent. </p>    <p>Les outils de contrôle parental ont de nombreuses fonctionnalités. Comme Nina chaque parent peut les adapter aux besoins de son enfant et au fil du temps.</p>"
           }
         }
       ]
@@ -130,14 +130,14 @@
     {
       "id": "531aa39a-d460-4495-a492-8dc05ed60d76",
       "type": "transition",
-      "title": "",
+      "title": "Transition - 3",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "301d0040-a548-44b0-8b83-281d6ee2c60b",
             "type": "text",
-            "content": "<p>Voyons si vous avez retenu l’essentiel.&nbsp;\uD83C\uDFAF</p>"
+            "content": "<p>Voyons si vous avez retenu l’essentiel.&nbsp;🎯</p>"
           }
         }
       ]
@@ -147,14 +147,6 @@
       "type": "activity",
       "title": "Quelle est la fonctionnalité adaptée ?",
       "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "510822a9-aba9-43e0-8ef7-cd5f377ae78d",
-            "type": "text",
-            "content": "<p>Pour chacune des situations suivantes, sélectionnez la fonctionnalité de contrôle parental adaptée.</p>"
-          }
-        },
         {
           "type": "stepper",
           "steps": [
@@ -288,7 +280,7 @@
     {
       "id": "778bfefa-6156-4f4f-8a57-b09a930628a9",
       "type": "transition",
-      "title": "",
+      "title": "Transition - 4",
       "components": [
         {
           "type": "element",
@@ -338,7 +330,7 @@
           "element": {
             "id": "5432d74b-3bcd-44f6-a031-8e0ba0cdceda",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>Le contrôle parental fait partie des paramètres de l’appareil. ⚙️</p></details><details><summary>Indice 2</summary><p>Ici, le contrôle parental s’active sur l’appareil de l’enfant.</p></details><details><summary>Solution</summary><p>Voici les étapes à suivre : </p><iframe id=\"inlineFrameExample\" title=\"Inline Frame Example\" width=\"425\" height=\"790\" src=\"https://www.image-heberg.fr/files/1733406264146730843.gif\"></iframe></details>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p>\n<p>\n    <br>\n</p>\n<p>\n    <br>\n</p>\n<p>\n<br></p><p></p><p><details>\n    <summary>Indice 1</summary>\n    <p>Le contrôle parental fait partie des paramètres de l’appareil. ⚙️</p>\n</details>\n<details>\n    <summary>Indice 2</summary>\n    <p>Ici, le contrôle parental s’active sur l’appareil de l’enfant.</p>\n</details>\n<details>\n    <summary>Solution</summary>\n    <p>Il faut appuyer sur «Activer Contrôle parental» </p><br><br>\n</details>\n</p><p></p>"
           }
         },
         {
@@ -368,7 +360,7 @@
           "element": {
             "id": "2b03d03b-39fd-433a-8895-1144aa69d766",
             "type": "text",
-            "content": "<h3>📌 Les 4 points à retenir sur le contrôle parental&nbsp;: </h3><p><br></p><ul>    <li>Il est un <strong>outil numérique pour protéger les enfants et encadrer leurs usages numériques.</strong>&nbsp;🛡️</li>    <li>Il ne remplace pas les échanges parents-enfants, il les complète !&nbsp;🗣️</li>    <li>Il a de nombreuses fonctionnalités&nbsp;: <strong>gestion du temps en ligne, filtrage des contenus et suivi des activités</strong>.&nbsp;⏳</li>    <li>Pour l’activer et le paramétrer, rendez-vous dans les <strong>paramètres</strong> de l'appareil.&nbsp;⚙️</li></ul>"
+            "content": "<h3>📌 Les 4 points à retenir sur le contrôle parental&nbsp;: </h3><ul>    <li>Il est un <strong>outil numérique pour protéger les enfants et encadrer leurs usages numériques.</strong>&nbsp;🛡️</li>    <li>Il ne remplace pas les échanges parents-enfants, il les complète !&nbsp;🗣️</li>    <li>Il a de nombreuses fonctionnalités&nbsp;: <strong>gestion du temps en ligne, filtrage des contenus et suivi des activités</strong>.&nbsp;⏳</li>    <li>Pour l’activer et le paramétrer, rendez-vous dans les <strong>paramètres</strong> de l'appareil.&nbsp;⚙️</li></ul>"
           }
         }
       ]
@@ -376,14 +368,14 @@
     {
       "id": "6b6781ec-9e38-4ffe-8200-b93720941be9",
       "type": "transition",
-      "title": "",
+      "title": "Transition - 5",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "feba82d9-0c9d-4d7b-8f66-474416edd792",
             "type": "text",
-            "content": "<p>Il n’y a pas que sur les smartphones qu’il y a des options de contrôle parental !&nbsp; Partons à la découverte des appareils et des plateformes qui proposent des options de contrôle parental.</p>"
+            "content": "<p>Il n’y a pas que sur les smartphones qu’il y a des options de contrôle parental !&nbsp;<br>Partons à la découverte des appareils et des plateformes qui proposent des options de contrôle parental.</p>"
           }
         }
       ]
@@ -418,18 +410,18 @@
             "type": "text",
             "content": "<p>💡 <strong>Bon à savoir</strong>&nbsp;: </p><p>Depuis juillet 2024,<strong> tous les nouveaux appareils connectés vendus en France doivent obligatoirement être équipés d’un contrôle parental</strong> pré-installé, activable facilement dès le premier démarrage.</p>"
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": "86105910-a266-4572-911c-42294ffef925",
+      "type": "activity",
+      "title": "Où Nina peut-elle activer du contrôle parental ? ",
+      "components": [
         {
           "type": "element",
           "element": {
-            "id": "37ff3330-b8df-47e0-80d2-e382678dc3da",
-            "type": "separator"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "725a2e07-46dd-4fff-a41e-08656432b3e7",
+            "id": "ded86ed5-0f85-465a-a5f9-40c753e82ae0",
             "type": "text",
             "content": "<p>En plus de son tout nouveau smartphone, Max utilise d’autres appareils numériques et plateformes en ligne.</p>"
           }
@@ -437,7 +429,7 @@
         {
           "type": "element",
           "element": {
-            "id": "9f20ae6f-bb80-4d43-bce0-882b8e9726cd",
+            "id": "3f5f4673-b84f-4830-bf18-6931558d60cc",
             "type": "qcm",
             "instruction": "<p>Où Nina peut-elle activer des options de contrôle parental pour accompagner Max ?</p>",
             "proposals": [
@@ -468,15 +460,20 @@
             ],
             "feedbacks": {
               "valid": {
-                "state": "Bonne réponse !&nbsp;🎉",
+                "state": "<p>Bonne réponse !&nbsp;🎉<br></p>",
                 "diagnosis": "<p>Pour accompagner au mieux Max, Nina peut activer des options de contrôle parental sur les appareils et les plateformes en ligne.</p>"
               },
               "invalid": {
-                "state": "Mauvaise réponse.",
-                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées.</p><p>Relisez l’infographie et essayez à nouveau !</p>"
+                "state": "<p>Mauvaise réponse.</p>",
+                "diagnosis": "<p>Certaines bonnes réponses n'ont peut-être pas été sélectionnées. Relisez l’infographie et essayez à nouveau !</p>"
               }
             },
-            "solutions": ["1", "2", "3", "5"]
+            "solutions": [
+              "1",
+              "2",
+              "3",
+              "5"
+            ]
           }
         }
       ]
@@ -484,14 +481,14 @@
     {
       "id": "d7f90547-b24d-47d1-9383-2dc360ea6a28",
       "type": "transition",
-      "title": "",
+      "title": "Transition - 6",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "4efaa439-2698-4ef9-b61e-a60f88e1a9fb",
             "type": "text",
-            "content": "<p>Grâce au contrôle parental, Nina va pouvoir accompagner Max dans ses usages numériques plus sereinement.<br>Pour terminer ce module, trouvez les options de contrôle parental de vos appareils connectés.&nbsp;\uD83D\uDD0E<br></p>"
+            "content": "<p>Grâce au contrôle parental, Nina va pouvoir accompagner Max dans ses usages numériques plus sereinement.<br>Pour terminer ce module, trouvez les options de contrôle parental de vos appareils connectés.&nbsp;🔎</p>"
           }
         }
       ]
@@ -506,13 +503,13 @@
           "element": {
             "id": "6ce0eec7-8b4e-4b28-8805-ed83a2b8db68",
             "type": "qcu",
-            "instruction": "<p>Cherchez sur vos appareils connectés les options de contrôle parental.<br>Avez-vous réussi à les trouver ?</p>",
+            "instruction": "<p>Avez-vous réussi à trouver les options de contrôle parental de vos appreils ?</p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>oui</p>",
                 "feedback": {
-                  "state": "Bravo ! ✨",
+                  "state": "<p>Bravo ! ✨</p>",
                   "diagnosis": "<p>Vous pouvez aussi regarder sur les sites et plateformes en ligne s'ils proposent des options de contrôle parental.</p>"
                 }
               },
