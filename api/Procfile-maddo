@@ -1,4 +1,13 @@
 postdeploy: npm run postdeploy:maddo
+# notify succeeded deployment
+curl -X POST --location "$NOTIFY_URL" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "app-name": "$APP_NAME",
+          "environment": "$ENVIRONMENT",
+          "version": "v$npm pkg get version"
+        }'
+
 # Do not call npm start directly
 # npm does not forward process signals (e.g. SIGINT / SIGKILL ...)
 # see https://github.com/1024pix/pix/pull/796
