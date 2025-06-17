@@ -44,7 +44,7 @@ export default {
   shouldDisplayNewAnalysisPage: {
     description: 'Display the new page for campaign analysis',
     type: 'boolean',
-    defaultValue: false,
+    defaultValue: true,
     tags: ['frontend', 'pix-orga', 'team-prescription'],
   },
   isV3CertificationPageEnabled: {
