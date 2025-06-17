@@ -1,0 +1,491 @@
+{
+  "id": "40ab5711-4025-4052-a269-00fd0448d60a",
+  "slug": "ia-dit-ia",
+  "title": "IA, vous avez dit IA ? ",
+  "isBeta": true,
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "<p>Depuis quelques années, on entend beaucoup parler de l'IA, dans la presse, à la télévision et même dans les discours politiques. Mais c'est quoi au juste l'IA ? C'est ce que vous allez découvrir dans ce module.<br><br></p>",
+    "duration": 10,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Définir l’intelligence artificielle simplement</p>",
+      "<p>Lister des types de tâches que font les logiciels d’IA</p>",
+      "<p>Repérer l’utilisation dIA dans des services numériques courants</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "grains": [
+    {
+      "id": "6311f17f-b02c-4f22-a10e-c349d962218e",
+      "type": "discovery",
+      "title": "Accroche",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "e0a5a488-113c-4c30-89e0-354e874aa534",
+            "type": "text",
+            "content": "<p>Peut-être avez vous vu ces dernières années de nombreux titres de presse parlant d'IA ? Derrière ces deux lettres se cache l'<strong>Intelligence Artificielle</strong>.&nbsp;</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "16b6fdf3-4aee-4e4f-86b1-6a7f69241289",
+            "type": "image",
+            "url": "https://i.imgur.com/mqNIXAo.png",
+            "alt": "4 unes de la presse francophone décrites dans l'alternative textuelle",
+            "alternativeText": "<p>Image montrant quatre couvertures de magazines français consacrées à l’intelligence artificielle (IA)&nbsp;:\n</p><ul><li>\n\nLe Nouvel Obs – Titre&nbsp;: \"Nos vies sous IA\" avec une main robotique tenant une figurine humaine.\n</li><li>\n\nPhilosophie Magazine (Hors-série) – Titre&nbsp;: \"IA, le mythe du XXIe siècle\", avec un visage humain partiellement robotisé.\n</li><li>\n\nCourrier International – Titre&nbsp;: \"L’IA en roue libre\", illustré d’un cerveau humanoïde aux commandes d’un corps.\n</li><li>\n\nSciences et Avenir – Titre&nbsp;: \"IA, ce qu’elle change\", avec une couverture bleue illustrant un réseau neuronal.</li></ul>",
+            "legend": "",
+            "licence": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8de9c100-b1a7-4134-9a67-01918610bc80",
+            "type": "qcu",
+            "instruction": "<p>À votre avis, de quand date l’intelligence artificielle ?&nbsp;⌛</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>1950-1960</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Oui, en effet l’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>1960-1970</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Presque ! L’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>1970-1980</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Pas mal, mais c'est encore plus ancien ! L’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>1980-1990</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Pas mal, mais c'est encore plus ancien ! L’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              },
+              {
+                "id": "5",
+                "content": "<p>1990-2000</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et non, c'est beaucoup plus ancien ! L’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              },
+              {
+                "id": "6",
+                "content": "<p>2000-2010</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et non, c'est beaucoup plus ancien ! L’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              },
+              {
+                "id": "7",
+                "content": "<p>après 2010</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et non, c'est beaucoup plus ancien ! L’expression “intelligence artificielle” naît en 1956. A cette époque, Alan Turing imagine un test pour décider si un logiciel tient une conversation aussi bien qu’un humain.</p>"
+                }
+              }
+            ],
+            "solution": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dbbff46a-197e-4663-950a-81b4f4fa532a",
+      "type": "transition",
+      "title": "Transition - 1",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3c870d58-e8dd-4129-9348-159975b1fc69",
+            "type": "text",
+            "content": "<p>A cause de la récente popularisation de chatGPT, on a l’impression que l’IA c’est nouveau. Mais pas du tout !&nbsp; l’IA ça date ! 🦣&nbsp;<br>Et si on regardait plus précisément de quoi il s’agit ? <br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0010b969-e9a0-4ed4-957d-5fe365c6ce56",
+      "type": "discovery",
+      "title": "Découverte - 1 : Que peut faire un ordinateur ? ",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "937b62e7-c4f5-479a-8e1f-afbe7881fa92",
+            "type": "text",
+            "content": "<p>Selon vous, que peut faire un ordinateur ?</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "183c3094-b691-44ca-a75c-baed6b3c93c6",
+            "type": "text",
+            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-ordinateur.html\\&quot;\" height=\"\\&quot;450\\&quot;\"></iframe>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bd0e1d7a-2538-439e-ab8c-006393e03efb",
+      "type": "lesson",
+      "title": "Leçon - 1 : Que peut faire un ordinateur ? ",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "d4c2fcb1-74b0-474e-8bda-470c83ced9c2",
+            "type": "text",
+            "content": "<p>Aujourd’hui les ordinateurs sont capables de réaliser toutes sortes de tâches. <br>Des tâches que nous faisons sans y penser comme reconnaître un chat dans une image.&nbsp;👀<br>Et des tâches qui nous demandent plus de concentration comme résoudre des problèmes de maths.&nbsp;🧠 <br>Le <strong>domaine scientifique</strong> qui a permis ces progrès se nomme <strong>l’intelligence artificielle</strong>. D’autres sciences et techniques y ont contribué&nbsp;: l’informatique, l’électronique, la robotique, les statistiques, les sciences cognitives, les neurosciences, etc.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "f141f0e8-4b40-4844-84e6-241b94228547",
+      "type": "transition",
+      "title": "Transition - 2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "6405e82a-354c-4faf-935b-c81953cf9a2c",
+            "type": "text",
+            "content": "<p>Regardons plus en détail les tâches que réalisent les logiciels d’IA aujourd'hui, et dans quels cas on les utilise.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c1f654a7-5476-43d7-bf07-22d11b30337a",
+      "type": "discovery",
+      "title": "Découverte - 2 : Où trouver des utilisations de l'IA ? ",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8dba133c-906f-4793-939f-015df7d2acce",
+            "type": "text",
+            "content": "<p>Mariam est équipée de nombreux appareils électroniques. Explorez son salon pour trouver les services et les objets qui utilisent&nbsp; de l’IA.&nbsp;<br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a066ebc9-7f82-439b-85c3-aa2e8686e52a",
+            "type": "text",
+            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\\&quot;\" height=\"\\&quot;500\\&quot;\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "658f3722-cf66-4fe0-9dcc-ee4ce1b6a673",
+            "type": "qrocm",
+            "instruction": "<p>Combien avez-vous trouvé d’utilisation de l’IA ?</p>",
+            "proposals": [
+              {
+                "input": "1",
+                "type": "input",
+                "inputType": "number",
+                "size": 1,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "nombre d'utilisation de l'IA",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": [
+                  6
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": {
+                "state": "<p><br></p>",
+                "diagnosis": "<p>C'est ça !&nbsp;</p>"
+              },
+              "invalid": {
+                "state": "",
+                "diagnosis": "<p>Et non, explorez de nouveau le salon de Mariam, l'IA est présente dans de nombreux cas.</p>"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "16244191-1e74-4396-b9bd-d27ace391181",
+      "type": "lesson",
+      "title": "Leçon - 2 : Où trouver des utilisations de l'IA",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "bfe6d7e1-8282-4a34-a659-c189ea396feb",
+            "type": "text",
+            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle. </p><p>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong> : reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p>D’autres logiciels deviennent de plus en plus généralistes. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "96bef636-2d29-45dd-9605-4e590e13a4ba",
+      "type": "transition",
+      "title": "Transition - 3",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "91820684-cf0b-4b95-acf5-16f70409f506",
+            "type": "text",
+            "content": "<p>L’IA est aussi utilisée dans des secteurs d’activité professionnelle ! Voyons quelques exemples.<br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7ee0c174-9a2b-413c-adee-682dc5ed1c70",
+      "type": "discovery",
+      "title": "Découverte - 3 : IA et secteurs d'activité",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a2b1291d-6043-4582-ac69-337835330c07",
+            "type": "text",
+            "content": "<p>Prenons le cas de<strong> la reconnaissance d’image</strong>.&nbsp;🔎🖼️</p><p>Retournez les cartes ci-dessous pour découvrir comment est utilisé la reconnaissance d'image dans différents secteurs d'activité.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c4a0562d-60f8-48b3-8489-2c8c195597b8",
+            "type": "text",
+            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-cartes.html\\&quot;\" height=\"\\&quot;450\\&quot;\"></iframe>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fdf3c015-b354-4f35-a463-76cfc0de4b03",
+      "type": "lesson",
+      "title": "Leçon - 3 : IA et secteurs d'activité",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1bf335c7-a606-4e65-aa36-07adf42d3b6f",
+            "type": "text",
+            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité : l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc. <br><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple :&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2b67c7bb-cda3-4923-9c3b-4225e082bc57",
+      "type": "summary",
+      "title": "Récapitulatif",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "715a385e-dcfb-4001-9e5d-5b00ab365221",
+            "type": "text",
+            "content": "<ul><li>L’intelligence artificielle est un domaine scientifique qui étudie comment permettre à des machines (ordinateurs et robots) d’imiter les mécanismes de l’intelligence pour réaliser toutes sortes de tâches.&nbsp;🔬</li><li>Certains logiciels d’IA sont spécialisés dans un type de tâches :&nbsp; la reconnaissance d’image, la reconnaissance vocale, la recommandation de contenu, la prédiction, etc. D’autres sont plus généralistes, comme chatGPT, Le chat ou MidJourney, qui sont capables de générer des textes, des images, des programmes, et même résoudre des problèmes de math.&nbsp;👩‍💻</li><li>Les techniques d’IA sont utilisées dans des outils et services de notre quotidien. Leur utilisation permet de faire des progrès dans de nombreux secteurs d’activité.&nbsp;👷‍♂️</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7a4f925d-782c-40aa-812c-01278b60caee",
+      "type": "activity",
+      "title": "Activité d'application - 1 : Vrai ou faux ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0fea05ff-8378-40b9-b078-ee55015dc1e6",
+            "type": "text",
+            "content": "<p>Voyons si vous avez retenu l'essentiel.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c9da5d5a-e701-4883-9649-38e0a849a01f",
+            "type": "qab",
+            "instruction": "<p>Répondez aux affirmations suivantes.</p>",
+            "cards": [
+              {
+                "id": "38e4c2ef-7b29-48ad-8caa-107f6c41a8e3",
+                "text": "L’IA c’est récent, ça date de chatGPT.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "B"
+              },
+              {
+                "id": "52347fb2-5242-4334-b30b-7b7af18a7fe1",
+                "text": "L’intelligence artificielle est un domaine scientifique.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "A"
+              },
+              {
+                "id": "0c3e3cbb-68a7-46d4-a9d6-5afd7e92ee2d",
+                "text": "L’informatique contribue aux progrès de l’IA.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "A"
+              },
+              {
+                "id": "bad09d31-f94a-4493-889d-889f5199ca0c",
+                "text": "Un logiciel d’intelligence artificielle sait tout faire.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "B"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ad658376-7f8b-4f86-af0f-a9b80585e699",
+      "type": "activity",
+      "title": "Activité d'application - 2 : Types d'algorithmes d'IA",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "b2dc8d40-47cd-4f67-af34-b66ef6506b57",
+            "type": "text",
+            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos.html\\&quot;height=\\&quot;450\\&quot;\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b16e82b6-b42e-4815-ae5b-f65a83b322aa",
+            "type": "text",
+            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos-dd.html\\&quot;height=\\&quot;450\\&quot;\"></iframe>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c66c376f-421e-40d9-bfec-40982a3e819a",
+      "type": "transition",
+      "title": "Transition - 4",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "97501ed5-7d0c-4b3e-ad58-498d7d4dbc44",
+            "type": "text",
+            "content": "<p>Maintenant, vous en savez plus sur l’intelligence artificielle et les types de tâches pour lesquelles elle est employée.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "582f39f8-787f-4401-bc06-538cf5cd534e",
+      "type": "challenge",
+      "title": "Les rouleaux d'Herculanum",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7e2ae8c4-0aec-4cbb-9888-e82bf3244bf5",
+            "type": "text",
+            "content": "<p>Lisez l’article ci-dessous, puis répondez à la question.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d2bcb01c-fe30-4470-9ddf-a55a1cef1b1e",
+            "type": "text",
+            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\\&quot;height=\\&quot;450\\&quot;\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "4c6feef7-417a-47ef-9df5-b19aca5da5a2",
+            "type": "qrocm",
+            "instruction": "<p>L'IA utilisée pour cette découverte est spécialisée dans un type de tâches.<br>Quel est ce type de tâche ?&nbsp;</p>",
+            "proposals": [
+              {
+                "input": "1",
+                "type": "input",
+                "inputType": "text",
+                "size": 12,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1",
+                  "t2",
+                  "t3"
+                ],
+                "solutions": [
+                  "la reconnaissance d'image",
+                  "reconnaissance d'image"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": {
+                "state": "<p>Bonne réponse !&nbsp;</p>",
+                "diagnosis": ""
+              },
+              "invalid": {
+                "state": "<p>Mauvaise réponse.</p>",
+                "diagnosis": ""
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
