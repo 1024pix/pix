@@ -460,7 +460,7 @@
                 "size": 12,
                 "display": "inline",
                 "placeholder": "",
-                "ariaLabel": "",
+                "ariaLabel": "Type de tâches de l'IA",
                 "defaultValue": "",
                 "tolerances": [
                   "t1",
@@ -469,7 +469,8 @@
                 ],
                 "solutions": [
                   "la reconnaissance d'image",
-                  "reconnaissance d'image"
+                  "reconnaissance d'image",
+                  "reconnaissance image"
                 ]
               }
             ],
