@@ -36,7 +36,7 @@
             "type": "image",
             "url": "https://i.imgur.com/mqNIXAo.png",
             "alt": "4 unes de la presse francophone décrites dans l'alternative textuelle",
-            "alternativeText": "<p>Image montrant quatre couvertures de magazines français consacrées à l’intelligence artificielle (IA)&nbsp;:\n</p><ul><li>\n\nLe Nouvel Obs – Titre&nbsp;: \"Nos vies sous IA\" avec une main robotique tenant une figurine humaine.\n</li><li>\n\nPhilosophie Magazine (Hors-série) – Titre&nbsp;: \"IA, le mythe du XXIe siècle\", avec un visage humain partiellement robotisé.\n</li><li>\n\nCourrier International – Titre&nbsp;: \"L’IA en roue libre\", illustré d’un cerveau humanoïde aux commandes d’un corps.\n</li><li>\n\nSciences et Avenir – Titre&nbsp;: \"IA, ce qu’elle change\", avec une couverture bleue illustrant un réseau neuronal.</li></ul>",
+            "alternativeText": "<p>Image montrant quatre couvertures de magazines français consacrées à l’intelligence artificielle (IA)&nbsp;:</p><ul><li>Le Nouvel Obs – Titre&nbsp;: \"Nos vies sous IA\" avec une main robotique tenant une figurine humaine.</li><li>Philosophie Magazine (Hors-série) – Titre&nbsp;: \"IA, le mythe du XXIe siècle\", avec un visage humain partiellement robotisé.</li><li>Courrier International – Titre&nbsp;: \"L’IA en roue libre\", illustré d’un cerveau humanoïde aux commandes d’un corps.</li><li>Sciences et Avenir – Titre&nbsp;: \"IA, ce qu’elle change\", avec une couverture bleue illustrant un réseau neuronal.</li></ul>",
             "legend": "",
             "licence": ""
           }
@@ -120,7 +120,7 @@
           "element": {
             "id": "3c870d58-e8dd-4129-9348-159975b1fc69",
             "type": "text",
-            "content": "<p>A cause de la récente popularisation de chatGPT, on a l’impression que l’IA c’est nouveau. Mais pas du tout !&nbsp; l’IA ça date ! 🦣&nbsp;<br>Et si on regardait plus précisément de quoi il s’agit ? <br></p>"
+            "content": "<p>A cause de la récente popularisation de chatGPT, on a l’impression que l’IA c’est nouveau. Mais pas du tout !&nbsp; l’IA ça date ! 🦣&nbsp;<br>Et si on regardait plus précisément de quoi il s’agit ? <br></p>"
           }
         }
       ]
@@ -143,7 +143,7 @@
           "element": {
             "id": "183c3094-b691-44ca-a75c-baed6b3c93c6",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-ordinateur.html\\&quot;\" height=\"\\&quot;450\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-ordinateur.html\" height=\"450\"></iframe>"
           }
         }
       ]
@@ -181,7 +181,7 @@
     {
       "id": "c1f654a7-5476-43d7-bf07-22d11b30337a",
       "type": "discovery",
-      "title": "Découverte - 2 : Où trouver des utilisations de l'IA ? ",
+      "title": "Découverte - 2 : Où trouver des utilisations de l'IA ? ",
       "components": [
         {
           "type": "element",
@@ -196,7 +196,7 @@
           "element": {
             "id": "a066ebc9-7f82-439b-85c3-aa2e8686e52a",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\\&quot;\" height=\"\\&quot;500\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\" height=\"450\"></iframe>"
           }
         },
         {
@@ -204,7 +204,7 @@
           "element": {
             "id": "658f3722-cf66-4fe0-9dcc-ee4ce1b6a673",
             "type": "qrocm",
-            "instruction": "<p>Combien avez-vous trouvé d’utilisation de l’IA ?</p>",
+            "instruction": "<p>Combien avez-vous trouvé d’utilisation de l’IA ?</p>",
             "proposals": [
               {
                 "input": "1",
@@ -223,8 +223,8 @@
             ],
             "feedbacks": {
               "valid": {
-                "state": "<p><br></p>",
-                "diagnosis": "<p>C'est ça !&nbsp;</p>"
+                "state": "",
+                "diagnosis": "<p>C'est ça !&nbsp;</p>"
               },
               "invalid": {
                 "state": "",
@@ -238,14 +238,14 @@
     {
       "id": "16244191-1e74-4396-b9bd-d27ace391181",
       "type": "lesson",
-      "title": "Leçon - 2 : Où trouver des utilisations de l'IA",
+      "title": "Leçon - 2 : Où trouver des utilisations de l'IA",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "bfe6d7e1-8282-4a34-a659-c189ea396feb",
             "type": "text",
-            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle. </p><p>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong> : reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p>D’autres logiciels deviennent de plus en plus généralistes. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
+            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle. </p><p>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong>&nbsp;: reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p>D’autres logiciels deviennent de plus en plus généralistes. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
           }
         }
       ]
@@ -260,7 +260,7 @@
           "element": {
             "id": "91820684-cf0b-4b95-acf5-16f70409f506",
             "type": "text",
-            "content": "<p>L’IA est aussi utilisée dans des secteurs d’activité professionnelle ! Voyons quelques exemples.<br></p>"
+            "content": "<p>L’IA est aussi utilisée dans des secteurs d’activité professionnelle ! Voyons quelques exemples.<br></p>"
           }
         }
       ]
@@ -268,7 +268,7 @@
     {
       "id": "7ee0c174-9a2b-413c-adee-682dc5ed1c70",
       "type": "discovery",
-      "title": "Découverte - 3 : IA et secteurs d'activité",
+      "title": "Découverte - 3 : IA et secteurs d'activité",
       "components": [
         {
           "type": "element",
@@ -283,7 +283,7 @@
           "element": {
             "id": "c4a0562d-60f8-48b3-8489-2c8c195597b8",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-cartes.html\\&quot;\" height=\"\\&quot;450\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-cartes.html\" height=\"450\"></iframe>"
           }
         }
       ]
@@ -291,14 +291,14 @@
     {
       "id": "fdf3c015-b354-4f35-a463-76cfc0de4b03",
       "type": "lesson",
-      "title": "Leçon - 3 : IA et secteurs d'activité",
+      "title": "Leçon - 3 : IA et secteurs d'activité",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "1bf335c7-a606-4e65-aa36-07adf42d3b6f",
             "type": "text",
-            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité : l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc. <br><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple :&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
+            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité&nbsp;: l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc. <br><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple&nbsp;:&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
           }
         }
       ]
@@ -313,7 +313,7 @@
           "element": {
             "id": "715a385e-dcfb-4001-9e5d-5b00ab365221",
             "type": "text",
-            "content": "<ul><li>L’intelligence artificielle est un domaine scientifique qui étudie comment permettre à des machines (ordinateurs et robots) d’imiter les mécanismes de l’intelligence pour réaliser toutes sortes de tâches.&nbsp;🔬</li><li>Certains logiciels d’IA sont spécialisés dans un type de tâches :&nbsp; la reconnaissance d’image, la reconnaissance vocale, la recommandation de contenu, la prédiction, etc. D’autres sont plus généralistes, comme chatGPT, Le chat ou MidJourney, qui sont capables de générer des textes, des images, des programmes, et même résoudre des problèmes de math.&nbsp;👩‍💻</li><li>Les techniques d’IA sont utilisées dans des outils et services de notre quotidien. Leur utilisation permet de faire des progrès dans de nombreux secteurs d’activité.&nbsp;👷‍♂️</li></ul>"
+            "content": "<ul><li>L’intelligence artificielle est un domaine scientifique qui étudie comment permettre à des machines (ordinateurs et robots) d’imiter les mécanismes de l’intelligence pour réaliser toutes sortes de tâches.&nbsp;🔬</li><li>Certains logiciels d’IA sont spécialisés dans un type de tâches&nbsp;:&nbsp; la reconnaissance d’image, la reconnaissance vocale, la recommandation de contenu, la prédiction, etc. D’autres sont plus généralistes, comme chatGPT, Le chat ou MidJourney, qui sont capables de générer des textes, des images, des programmes, et même résoudre des problèmes de math.&nbsp;👩‍💻</li><li>Les techniques d’IA sont utilisées dans des outils et services de notre quotidien. Leur utilisation permet de faire des progrès dans de nombreux secteurs d’activité.&nbsp;👷‍♂️</li></ul>"
           }
         }
       ]
@@ -321,7 +321,7 @@
     {
       "id": "7a4f925d-782c-40aa-812c-01278b60caee",
       "type": "activity",
-      "title": "Activité d'application - 1 : Vrai ou faux ?",
+      "title": "Activité d'application - 1 : Vrai ou faux ?",
       "components": [
         {
           "type": "element",
@@ -390,14 +390,14 @@
     {
       "id": "ad658376-7f8b-4f86-af0f-a9b80585e699",
       "type": "activity",
-      "title": "Activité d'application - 2 : Types d'algorithmes d'IA",
+      "title": "Activité d'application - 2 : Types d'algorithmes d'IA",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "b2dc8d40-47cd-4f67-af34-b66ef6506b57",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos.html\\&quot;height=\\&quot;450\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos.html\" height=\"450\"></iframe>"
           }
         },
         {
@@ -405,7 +405,7 @@
           "element": {
             "id": "b16e82b6-b42e-4815-ae5b-f65a83b322aa",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos-dd.html\\&quot;height=\\&quot;450\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos-dd.html\" height=\"450\"></iframe>"
           }
         }
       ]
@@ -443,7 +443,7 @@
           "element": {
             "id": "d2bcb01c-fe30-4470-9ddf-a55a1cef1b1e",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\\&quot;height=\\&quot;450\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\" height=\"450\"></iframe>"
           }
         },
         {
@@ -451,7 +451,7 @@
           "element": {
             "id": "4c6feef7-417a-47ef-9df5-b19aca5da5a2",
             "type": "qrocm",
-            "instruction": "<p>L'IA utilisée pour cette découverte est spécialisée dans un type de tâches.<br>Quel est ce type de tâche ?&nbsp;</p>",
+            "instruction": "<p>L'IA utilisée pour cette découverte est spécialisée dans un type de tâches.<br>Quel est ce type de tâche ?&nbsp;</p>",
             "proposals": [
               {
                 "input": "1",
@@ -476,7 +476,7 @@
             ],
             "feedbacks": {
               "valid": {
-                "state": "<p>Bonne réponse !&nbsp;</p>",
+                "state": "<p>Bonne réponse !&nbsp;</p>",
                 "diagnosis": ""
               },
               "invalid": {
