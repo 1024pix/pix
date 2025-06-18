@@ -477,11 +477,11 @@
             "feedbacks": {
               "valid": {
                 "state": "<p>Bonne réponse !&nbsp;</p>",
-                "diagnosis": ""
+                "diagnosis": "<p>Ce sont des algorithmes de reconnaissance d'images qui ont permis cette découverte.</p>"
               },
               "invalid": {
                 "state": "<p>Mauvaise réponse.</p>",
-                "diagnosis": ""
+                "diagnosis": "<p>Ce sont des algorithmes de reconnaissance d'images qui ont permis cette découverte.</p>"
               }
             }
           }
