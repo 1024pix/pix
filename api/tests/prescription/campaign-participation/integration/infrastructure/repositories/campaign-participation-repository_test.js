@@ -945,7 +945,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       const campaignId = campaign1.id;
 
       // when
-      const participationResultDatas = await campaignParticipationRepository.findInfoByCampaignId(campaignId);
+      const { models: participationResultDatas } =
+        await campaignParticipationRepository.findInfoByCampaignId(campaignId);
 
       // then
       expect(participationResultDatas).lengthOf(1);
@@ -984,7 +985,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const participationResultDatas = await campaignParticipationRepository.findInfoByCampaignId(campaignId);
+      const { models: participationResultDatas } =
+        await campaignParticipationRepository.findInfoByCampaignId(campaignId);
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
@@ -1006,7 +1008,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       const campaignId = campaign1.id;
 
       // when
-      const participationResultDatas = await campaignParticipationRepository.findInfoByCampaignId(campaignId);
+      const { models: participationResultDatas } =
+        await campaignParticipationRepository.findInfoByCampaignId(campaignId);
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
@@ -1052,7 +1055,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       it('should return the division of the school registration linked to the campaign', async function () {
-        const campaignParticipationInfos = await campaignParticipationRepository.findInfoByCampaignId(campaign.id);
+        const { models: campaignParticipationInfos } = await campaignParticipationRepository.findInfoByCampaignId(
+          campaign.id,
+        );
 
         expect(campaignParticipationInfos).to.have.lengthOf(1);
         expect(campaignParticipationInfos[0].division).to.equal('3eme');
@@ -1080,7 +1085,8 @@ describe('Integration | Repository | Campaign Participation', function () {
         await databaseBuilder.commit();
 
         // when
-        const participationResultDatas = await campaignParticipationRepository.findInfoByCampaignId(campaignId);
+        const { models: participationResultDatas } =
+          await campaignParticipationRepository.findInfoByCampaignId(campaignId);
 
         // then
         expect(participationResultDatas).to.lengthOf(2);
@@ -1102,10 +1108,35 @@ describe('Integration | Repository | Campaign Participation', function () {
         await databaseBuilder.commit();
 
         // when
-        const participationResultDatas = await campaignParticipationRepository.findInfoByCampaignId(campaign.id);
+        const { models: participationResultDatas } = await campaignParticipationRepository.findInfoByCampaignId(
+          campaign.id,
+        );
 
         // then
         expect(participationResultDatas[0].sharedAt).to.equal(null);
+      });
+    });
+
+    context('pagination', function () {
+      it('should use given page and return pagination metadata', async function () {
+        // given
+        const campaignId = campaign1.id;
+        const page = { number: 2, size: 10 };
+
+        // when
+        const { models: participationResultDatas, meta } = await campaignParticipationRepository.findInfoByCampaignId(
+          campaignId,
+          page,
+        );
+
+        // then
+        expect(participationResultDatas).lengthOf(0);
+        expect(meta).to.deep.equal({
+          page: 2,
+          pageCount: 1,
+          pageSize: 10,
+          rowCount: 1,
+        });
       });
     });
   });

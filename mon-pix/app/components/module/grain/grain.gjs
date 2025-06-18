@@ -194,10 +194,11 @@ export default class ModuleGrain extends Component {
       tabindex="-1"
       {{didInsert this.focusAndScroll}}
     >
-      {{#if this.hasTitle}}
-        <h2 class="screen-reader-only">{{@grain.title}}</h2>
-      {{/if}}
-
+      <h2 class="screen-reader-only">{{t
+          "pages.modulix.flashcards.navigation.longCurrentStep"
+          current=@currentStep
+          total=@totalSteps
+        }}</h2>
       <div class="grain__card grain-card--{{this.grainType}}">
         <div class="grain-card__content">
           <!-- eslint-disable-next-line no-unused-vars -->

@@ -30,7 +30,7 @@ const save = async (userId) => {
   await emailValidationDemandTemporaryStorage.save({
     key: token,
     value: userId,
-    expirationDelaySeconds: config.temporaryStorageForEmailValidationDemand.expirationDelaySeconds,
+    expirationDelaySeconds: config.temporaryStorageForEmailValidationDemands.expirationDelaySeconds,
   });
   return token;
 };

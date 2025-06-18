@@ -170,13 +170,16 @@ export const findCampaignSkillIdsForCampaignParticipations = async (campaignPart
  * @name getCampaignParticipations
  *
  * @param {CampaignParticipationsPayload} payload
- * @returns {Promise<Array<AssessmentCampaignParticipationAPI>|Array<ProfilesCollectionCampaignParticipationAPI>>}
+ * @returns {Promise<{models: Array<AssessmentCampaignParticipationAPI>|Array<ProfilesCollectionCampaignParticipationAPI>, meta: Pagination}>}
  */
-export const getCampaignParticipations = async function ({ campaignId }) {
-  const campaignParticipations = await usecases.getCampaignParticipations({ campaignId });
-  return campaignParticipations.map((campaignParticipation) =>
-    campaignParticipation instanceof AssessmentCampaignParticipation
-      ? new AssessmentCampaignParticipationAPI(campaignParticipation)
-      : new ProfilesCollectionCampaignParticipationAPI(campaignParticipation),
-  );
+export const getCampaignParticipations = async function ({ campaignId, page }) {
+  const { models: campaignParticipations, meta } = await usecases.getCampaignParticipations({ campaignId, page });
+  return {
+    models: campaignParticipations.map((campaignParticipation) =>
+      campaignParticipation instanceof AssessmentCampaignParticipation
+        ? new AssessmentCampaignParticipationAPI(campaignParticipation)
+        : new ProfilesCollectionCampaignParticipationAPI(campaignParticipation),
+    ),
+    meta,
+  };
 };

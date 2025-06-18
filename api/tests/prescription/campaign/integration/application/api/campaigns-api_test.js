@@ -100,12 +100,13 @@ describe('Integration | Application | campaign-api', function () {
       const result = await campaignApi.getCampaignParticipations({
         campaignId: campaign.id,
         locale: 'fr',
+        page: { size: 2, number: 1 },
       });
 
       // then
-      expect(result[0]).instanceOf(CampaignParticipation);
-      expect(result[1]).instanceOf(CampaignParticipation);
-      expect(result).to.deep.equal([
+      expect(result.models[0]).instanceOf(CampaignParticipation);
+      expect(result.models[1]).instanceOf(CampaignParticipation);
+      expect(result.models).to.deep.equal([
         {
           campaignParticipationId: participation2.id,
           participantFirstName: organizationLearner2.firstName,
@@ -140,6 +141,12 @@ describe('Integration | Application | campaign-api', function () {
           ],
         },
       ]);
+      expect(result.meta).to.deep.equal({
+        page: 1,
+        pageCount: 1,
+        pageSize: 2,
+        rowCount: 2,
+      });
     });
   });
 });

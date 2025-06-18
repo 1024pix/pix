@@ -22,9 +22,6 @@ export default class ModulixNavbar extends Component {
       <div class="module-navbar__content">
         <PixProgressBar @hidePercentage={{true}} @isDecorative={{true}} @value={{this.progressValue}} />
       </div>
-      <p class="sr-only" aria-atomic="true" aria-live="polite">
-        {{t "pages.modulix.flashcards.navigation.longCurrentStep" current=@currentStep total=@totalSteps}}
-      </p>
     </nav>
   </template>
 }

@@ -1,7 +1,6 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | update-user-for-account-recovery', function () {
@@ -121,7 +120,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
     context('when user has GAR authentication method', function () {
       it('sets username to null and removes GAR authentication method', async function () {
         // given
-        await featureToggles.set('isNewAccountRecoveryEnabled', true);
 
         const password = 'pix123';
         const user = databaseBuilder.factory.buildUser({ email: null });

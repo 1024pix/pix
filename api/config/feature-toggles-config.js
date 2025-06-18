@@ -29,12 +29,6 @@ export default {
     defaultValue: false,
     tags: ['team-prescription', 'pix-api', 'backend'],
   },
-  isNewAccountRecoveryEnabled: {
-    type: 'boolean',
-    description: 'Using and testing feature account recovery process',
-    defaultValue: false,
-    tags: ['team-acces', 'frontend'],
-  },
   isSelfAccountDeletionEnabled: {
     description: 'Toggle self account deletion feature',
     type: 'boolean',

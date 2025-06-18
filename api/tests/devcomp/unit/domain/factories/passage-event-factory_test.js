@@ -13,6 +13,10 @@ import {
   PassageStartedEvent,
   PassageTerminatedEvent,
 } from '../../../../../src/devcomp/domain/models/passage-events/passage-events.js';
+import {
+  QABCardAnsweredEvent,
+  QABCardRetriedEvent,
+} from '../../../../../src/devcomp/domain/models/passage-events/qab-events.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
 import { catchErrSync } from '../../../../test-helper.js';
 
@@ -188,6 +192,44 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
 
         // then
         expect(builtEvent).to.be.instanceOf(QCUDeclarativeAnsweredEvent);
+      });
+    });
+
+    describe('when given a QAB_CARD_ANSWERED event', function () {
+      it('should return a QabCardAnsweredEvent instance', function () {
+        // given
+        const rawEvent = {
+          occurredAt: new Date(),
+          passageId: 2,
+          sequenceNumber: 3,
+          elementId: 'c505e7c9-327e-4be5-9c62-ce4627b85f98',
+          type: 'QAB_CARD_ANSWERED',
+          cardId: '34b916b9-9103-4060-818d-98b2dc67111d',
+          chosenProposal: 'A',
+        };
+        // when
+        const builtEvent = PassageEventFactory.build(rawEvent);
+
+        // then
+        expect(builtEvent).to.be.instanceOf(QABCardAnsweredEvent);
+      });
+    });
+
+    describe('when given a QAB_CARD_RETRIED event', function () {
+      it('should return a QabCardAnsweredEvent instance', function () {
+        // given
+        const rawEvent = {
+          occurredAt: new Date(),
+          passageId: 2,
+          sequenceNumber: 3,
+          elementId: 'c505e7c9-327e-4be5-9c62-ce4627b85f98',
+          type: 'QAB_CARD_RETRIED',
+        };
+        // when
+        const builtEvent = PassageEventFactory.build(rawEvent);
+
+        // then
+        expect(builtEvent).to.be.instanceOf(QABCardRetriedEvent);
       });
     });
   });

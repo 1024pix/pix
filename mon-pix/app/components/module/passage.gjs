@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { pageTitle } from 'ember-page-title';
 
+import { inc } from '../../helpers/inc';
 import didInsert from '../../modifiers/modifier-did-insert';
 import ModuleGrain from './grain/grain';
 import BetaBanner from './layout/beta-banner';
@@ -243,6 +244,8 @@ export default class ModulePassage extends Component {
         {{#each this.grainsToDisplay as |grain index|}}
           <ModuleGrain
             @grain={{grain}}
+            @currentStep={{inc index}}
+            @totalSteps={{this.displayableGrains.length}}
             @onElementRetry={{this.onElementRetry}}
             @passage={{@passage}}
             @onImageAlternativeTextOpen={{this.onImageAlternativeTextOpen}}

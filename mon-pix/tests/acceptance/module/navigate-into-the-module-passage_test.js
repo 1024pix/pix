@@ -28,9 +28,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
       const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
       // then
-      assert.dom(screen.getByRole('heading', { name: grains[0].title, level: 2 })).exists();
-      assert.dom(screen.queryByRole('heading', { name: grains[1].title, level: 2 })).doesNotExist();
-      assert.dom(screen.queryByRole('heading', { name: grains[2].title, level: 2 })).doesNotExist();
+      assert.strictEqual(screen.getAllByRole('article').length, 1);
       assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists({ count: 1 });
     });
   });
@@ -58,8 +56,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
         await clickByName('Continuer');
 
         // then
-        const secondGrain = grains[1];
-        assert.dom(screen.getByRole('heading', { name: secondGrain.title, level: 2 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Étape 2 sur 3', level: 2 })).exists();
         assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists();
       });
     });

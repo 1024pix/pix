@@ -391,36 +391,24 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
     });
   });
 
-  module('when feature toggle isNewAccountRecovery is enabled', function (hooks) {
-    let replaceLocationStub;
+  test('should display on reset passord form a quit button redirecting to login page ', async function (assert) {
+    // given
+    const replaceLocationStub = sinon.stub().resolves();
+    this.owner.register(
+      'service:location',
+      Service.extend({
+        replace: replaceLocationStub,
+      }),
+    );
 
-    hooks.beforeEach(async function () {
-      replaceLocationStub = sinon.stub().resolves();
-      this.owner.register(
-        'service:location',
-        Service.extend({
-          replace: replaceLocationStub,
-        }),
-      );
-    });
+    const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
-    test('should display on reset passord form a quit button redirecting to login page ', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isNewAccountRecoveryEnabled: true };
-        async load() {}
-      }
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
+    // when
+    const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+    await settled();
+    await click(screen.getByText(t('common.actions.quit')));
 
-      const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-
-      // when
-      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await settled();
-      await click(screen.getByText(t('common.actions.quit')));
-
-      // then
-      assert.ok(replaceLocationStub.calledWith('/?lang=fr'));
-    });
+    // then
+    assert.ok(replaceLocationStub.calledWith('/?lang=fr'));
   });
 });

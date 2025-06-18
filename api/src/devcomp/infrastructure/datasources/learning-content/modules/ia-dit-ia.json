@@ -120,7 +120,7 @@
           "element": {
             "id": "3c870d58-e8dd-4129-9348-159975b1fc69",
             "type": "text",
-            "content": "<p>À cause de la récente popularité de chatGPT, on a l’impression que l’IA c’est nouveau. Mais pas du tout !&nbsp; l’IA ça date ! 🦣&nbsp;<br>Et si on regardait plus précisément ce qu'est l'IA ? <br></p>"
+            "content": "<p>A cause de la récente popularisation de chatGPT, on a l’impression que l’IA c’est nouveau. Mais pas du tout !&nbsp; l’IA ça date ! 🦣&nbsp;<br>Et si on regardait plus précisément de quoi il s’agit ? <br></p>"
           }
         }
       ]
@@ -143,7 +143,7 @@
           "element": {
             "id": "183c3094-b691-44ca-a75c-baed6b3c93c6",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-ordinateur.html\" height=\"350\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-ordinateur.html\" height=\"450\"></iframe>"
           }
         }
       ]
@@ -158,7 +158,7 @@
           "element": {
             "id": "d4c2fcb1-74b0-474e-8bda-470c83ced9c2",
             "type": "text",
-            "content": "<p>Aujourd’hui les ordinateurs sont capables de réaliser toutes sortes de tâches : <br>👀 Des tâches que nous faisons sans y penser comme reconnaître un chat dans une image.&nbsp;<br>🧠 Et des tâches qui nous demandent plus de concentration comme résoudre des problèmes de maths.&nbsp;</p><p>Le <strong>domaine scientifique</strong> qui a permis ces progrès se nomme <strong>l’intelligence artificielle</strong>. D’autres sciences et techniques y ont contribué&nbsp;: l’informatique, l’électronique, la robotique, les statistiques, les sciences cognitives, les neurosciences, etc.</p>"
+            "content": "<p>Aujourd’hui les ordinateurs sont capables de réaliser toutes sortes de tâches. <br>Des tâches que nous faisons sans y penser comme reconnaître un chat dans une image.&nbsp;👀<br>Et des tâches qui nous demandent plus de concentration comme résoudre des problèmes de maths.&nbsp;🧠 <br>Le <strong>domaine scientifique</strong> qui a permis ces progrès se nomme <strong>l’intelligence artificielle</strong>. D’autres sciences et techniques y ont contribué&nbsp;: l’informatique, l’électronique, la robotique, les statistiques, les sciences cognitives, les neurosciences, etc.</p>"
           }
         }
       ]
@@ -196,7 +196,7 @@
           "element": {
             "id": "a066ebc9-7f82-439b-85c3-aa2e8686e52a",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\" height=\"550\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\" height=\"450\"></iframe>"
           }
         },
         {
@@ -245,7 +245,7 @@
           "element": {
             "id": "bfe6d7e1-8282-4a34-a659-c189ea396feb",
             "type": "text",
-            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle. </p><p>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong>&nbsp;: reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p>D’autres logiciels deviennent de plus en plus <strong>généralistes</strong>. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
+            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle. </p><p>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong>&nbsp;: reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p>D’autres logiciels deviennent de plus en plus généralistes. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
           }
         }
       ]
@@ -298,7 +298,7 @@
           "element": {
             "id": "1bf335c7-a606-4e65-aa36-07adf42d3b6f",
             "type": "text",
-            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité&nbsp;: l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc. </p><p><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple&nbsp;:&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
+            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité&nbsp;: l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc. <br><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple&nbsp;:&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
           }
         }
       ]
@@ -313,7 +313,7 @@
           "element": {
             "id": "715a385e-dcfb-4001-9e5d-5b00ab365221",
             "type": "text",
-            "content": "<ul><li><strong>L’intelligence artificielle est un domaine scientifique</strong> qui étudie comment permettre à des machines d’imiter les mécanismes de l’intelligence pour réaliser des tâches.&nbsp;🔬</li><li>Certains logiciels d’IA sont <strong>spécialisés dans un type de tâches</strong>&nbsp;:&nbsp; la reconnaissance d’image, la reconnaissance vocale, la recommandation de contenu, la prédiction, etc. D’autres sont plus <strong>généralistes</strong> et sont capables de générer des contenus variés.&nbsp;👩‍💻</li><li>Les techniques d’IA sont utilisées dans des outils et services de notre quotidien. Leur utilisation permet de faire des progrès dans de nombreux secteurs d’activité.&nbsp;👷‍♂️</li></ul>"
+            "content": "<ul><li>L’intelligence artificielle est un domaine scientifique qui étudie comment permettre à des machines (ordinateurs et robots) d’imiter les mécanismes de l’intelligence pour réaliser toutes sortes de tâches.&nbsp;🔬</li><li>Certains logiciels d’IA sont spécialisés dans un type de tâches&nbsp;:&nbsp; la reconnaissance d’image, la reconnaissance vocale, la recommandation de contenu, la prédiction, etc. D’autres sont plus généralistes, comme chatGPT, Le chat ou MidJourney, qui sont capables de générer des textes, des images, des programmes, et même résoudre des problèmes de math.&nbsp;👩‍💻</li><li>Les techniques d’IA sont utilisées dans des outils et services de notre quotidien. Leur utilisation permet de faire des progrès dans de nombreux secteurs d’activité.&nbsp;👷‍♂️</li></ul>"
           }
         }
       ]
@@ -397,7 +397,7 @@
           "element": {
             "id": "b2dc8d40-47cd-4f67-af34-b66ef6506b57",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos.html\" height=\"550\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos.html\" height=\"450\"></iframe>"
           }
         },
         {
@@ -405,7 +405,7 @@
           "element": {
             "id": "b16e82b6-b42e-4815-ae5b-f65a83b322aa",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos-dd.html\" height=\"850\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-algos-dd.html\" height=\"450\"></iframe>"
           }
         }
       ]
@@ -420,7 +420,7 @@
           "element": {
             "id": "97501ed5-7d0c-4b3e-ad58-498d7d4dbc44",
             "type": "text",
-            "content": "<p>Maintenant, vous en savez plus sur l’intelligence artificielle et les types de tâches pour lesquelles elle est utilisée.</p>"
+            "content": "<p>Maintenant, vous en savez plus sur l’intelligence artificielle et les types de tâches pour lesquelles elle est employée.</p>"
           }
         }
       ]
@@ -443,7 +443,7 @@
           "element": {
             "id": "d2bcb01c-fe30-4470-9ddf-a55a1cef1b1e",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\" height=\"400\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\" height=\"450\"></iframe>"
           }
         },
         {

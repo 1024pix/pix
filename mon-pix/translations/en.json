@@ -1885,6 +1885,7 @@
     "sign-up": {
       "actions": {
         "login": "Log in",
+        "sign-up-on-pix": "Sign up for Pix",
         "submit": "Sign up"
       },
       "errors": {
@@ -1897,6 +1898,7 @@
         }
       },
       "first-title": "Sign up",
+      "save-progress-message": "To keep track of your progress and continue to evaluate yourself, register with Pix!",
       "title": "Sign up"
     },
     "sitemap": {

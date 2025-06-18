@@ -1,6 +1,4 @@
-
 # Traductions
-
 
 ## Contexte
 
@@ -22,10 +20,19 @@ techniques et peuvent facilement faire des erreurs entraînant des régressions,
 des risques de sécurité. Les traducteurs peuvent vouloir traduire des bouts de
 HTML ou des URL …
 
+## Process de traduction
+
+Les traductions sont séparées par locale dans des fichiers dédiés.
+
+Les équipes alimentent les fichiers de traduction à l'aide de Deepl lors du développement
+des fonctionnalités associées.
+
+À la validation d'une PR, toutes les clés de traduction doivent être alimentées.
 
 ## Pratiques à suivre
 
 Il faut privilégier :
+
 * les traitements basés sur la notion de locale plutôt que les traitements basés
   sur la notion de langue
 * une gestion générique de toutes les locales plutôt qu’une condition pour
@@ -33,9 +40,11 @@ Il faut privilégier :
 * les phrases et paragraphes auto-porteurs et indépendants
 
 Il faut éviter de :
+
 * mettre du HTML dans les fichiers de traduction
 
 Il ne faut pas :
+
 * mettre des URL dans les fichiers de traduction
 
 ### Pour les frontaux
@@ -53,7 +62,6 @@ besoins existent pour l’envoi d’emails.
 On note que le fichier
 [`api/src/shared/infrastructure/utils/url-builder.js`](https://github.com/1024pix/pix/blob/dev/api/src/shared/infrastructure/utils/url-builder.js)
 est disponible mais une solution existante à recommander n’existe pas encore.
-
 
 ## Références (ADR, autres docs, PR, etc.)
 

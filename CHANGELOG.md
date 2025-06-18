@@ -1,5 +1,52 @@
 # Pix Changelog
 
+# [5.137.0](https://github.com/1024pix/pix/compare/v5.136.1...v5.137.0) (2025-06-18)
+
+### :rocket: Amélioration
+
+- [#12499](https://github.com/1024pix/pix/pull/12499) Ajouter un bouton d'inscription à la fin d'un parcours anonyme (PIX-18016) 
+- [#12465](https://github.com/1024pix/pix/pull/12465) Enlever les titres de grain de l'interface de Modulix (PIX-17911) 
+- [#12562](https://github.com/1024pix/pix/pull/12562) Enregistrer les traces d'apprentissages pour les Questions A/B (QAB) (PIX-18001) 
+- [#12550](https://github.com/1024pix/pix/pull/12550) Générer un token de vérification pour les utilisateurs anonymes (PIX-18021) 
+- [#12541](https://github.com/1024pix/pix/pull/12541) Remplir l'onglet profil cible dans la page des complémentaires sur Pix Admin (PIX-18187). 
+- [#12558](https://github.com/1024pix/pix/pull/12558) Retourner les participations de campagnes par page (PIX-18218). 
+
+### :bug: Correction
+
+- [#12578](https://github.com/1024pix/pix/pull/12578) Corriger des clés de traduction du bouton "s'inscrire" en nl, es, en (PIX-18326) 
+
+### :building_construction: Tech
+
+- [#12529](https://github.com/1024pix/pix/pull/12529) :truck: Déplace la route `generate username with temporary password` vers `src/prescription/` (pix-17853) 
+- [#12544](https://github.com/1024pix/pix/pull/12544) Ajout d'une section "Process de traduction" sur la documentation 
+- [#12536](https://github.com/1024pix/pix/pull/12536) Supprimer le feature toggle isNewAccountRecoveryEnabled (PIX-17518) 
+
+### :arrow_up: Montée de version
+
+- [#12576](https://github.com/1024pix/pix/pull/12576) Update nginx Docker tag to v1.27.5
+
+## [5.136.1](https://github.com/1024pix/pix/compare/v5.136.0...v5.136.1) (2025-06-17)
+
+### :bug: Correction
+
+- [#12571](https://github.com/1024pix/pix/pull/12571) Corriger les niveaux des tags dans la page analyse et statistiques (PIX-18322) 
+
+### :building_construction: Tech
+
+- [#12534](https://github.com/1024pix/pix/pull/12534) Création de la table des challenges calibrés dans le datamart (PIX-18232). 
+- [#12570](https://github.com/1024pix/pix/pull/12570) Supprimer l’utilisation du WebComponent cartes-a-retourner 
+
+### :arrow_up: Montée de version
+
+- [#12561](https://github.com/1024pix/pix/pull/12561) Update adobe/s3mock Docker tag to v4 (.circleci) 
+- [#12563](https://github.com/1024pix/pix/pull/12563) Update adobe/s3mock Docker tag to v4 (docker) 
+- [#12564](https://github.com/1024pix/pix/pull/12564) Update adobe/s3mock Docker tag to v4 (dossier racine) 
+- [#12414](https://github.com/1024pix/pix/pull/12414) Update dependency @1024pix/pix-ui to ^55.21.1 (admin) 
+- [#12565](https://github.com/1024pix/pix/pull/12565) Update dependency babel-plugin-ember-template-compilation to v3 (junior) 
+- [#12557](https://github.com/1024pix/pix/pull/12557) Update dependency bcrypt to v6 (api) 
+- [#12567](https://github.com/1024pix/pix/pull/12567) Update dependency ember-cp-validations to v7 (admin) 
+- [#12569](https://github.com/1024pix/pix/pull/12569) Update dependency eslint-plugin-cypress to v5 (e2e)
+
 # [5.136.0](https://github.com/1024pix/pix/compare/v5.135.0...v5.136.0) (2025-06-17)
 
 ### :rocket: Amélioration

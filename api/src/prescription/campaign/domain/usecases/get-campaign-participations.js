@@ -9,30 +9,37 @@ import {
 const getCampaignParticipations = async function ({
   campaignId,
   locale,
+  page,
   campaignRepository,
   campaignParticipationRepository,
   knowledgeElementSnapshotRepository,
   learningContentRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
-  const participations = await campaignParticipationRepository.findInfoByCampaignId(campaignId);
+  const { models: participations, meta } = await campaignParticipationRepository.findInfoByCampaignId(campaignId, page);
 
   if (campaign.isProfilesCollection) {
-    return participations.map((participation) => {
-      return new ProfilesCollectionCampaignParticipation(participation);
-    });
+    return {
+      models: participations.map((participation) => {
+        return new ProfilesCollectionCampaignParticipation(participation);
+      }),
+      meta,
+    };
   }
 
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
   const knowledgeElementsByParticipations = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(
     participations.map((participation) => participation.id),
   );
-  return participations.map((participation) => {
-    const tubes = computeTubes(campaignId, participation, learningContent, {
-      [participation.id]: knowledgeElementsByParticipations[participation.id],
-    });
-    return new AssessmentCampaignParticipation({ ...participation, tubes });
-  });
+  return {
+    models: participations.map((participation) => {
+      const tubes = computeTubes(campaignId, participation, learningContent, {
+        [participation.id]: knowledgeElementsByParticipations[participation.id],
+      });
+      return new AssessmentCampaignParticipation({ ...participation, tubes });
+    }),
+    meta,
+  };
 };
 
 function computeTubes(campaignId, campaignParticipation, learningContent, knowledgeElementsByParticipation) {

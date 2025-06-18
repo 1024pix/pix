@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
+import or from 'ember-truth-helpers/helpers/or';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
 import AcquiredBadges from './acquired-badges';
@@ -56,6 +57,16 @@ export default class EvaluationResultsHero extends Component {
     return (
       this.featureToggles.featureToggles?.isQuestEnabled && !this.currentUser.user.isAnonymous && this.hasQuestResults
     );
+  }
+
+  get isUserAnonymousAndUpgradeToRealUserEnabled() {
+    return this.featureToggles.featureToggles?.upgradeToRealUserEnabled && this.currentUser.user.isAnonymous;
+  }
+
+  get dynamicRoute() {
+    return this.featureToggles.featureToggles?.upgradeToRealUserEnabled && this.currentUser.user.isAnonymous
+      ? 'inscription'
+      : 'authentication.login';
   }
 
   get hasQuestResults() {
@@ -224,12 +235,18 @@ export default class EvaluationResultsHero extends Component {
         <div class="evaluation-results-hero-details__actions">
           {{#if @isSharableCampaign}}
             {{#if @campaignParticipationResult.isShared}}
+              {{#if this.isUserAnonymousAndUpgradeToRealUserEnabled}}
+                <p>{{t "pages.sign-up.save-progress-message"}}</p>
+                <PixButtonLink @route="inscription" @size="large">
+                  {{t "pages.sign-up.actions.sign-up-on-pix"}}
+                </PixButtonLink>
+              {{/if}}
               {{#if @hasTrainings}}
                 <PixButton @triggerAction={{this.handleSeeTrainingsClick}} @size="large">
                   {{t "pages.skill-review.hero.see-trainings"}}
                 </PixButton>
               {{else}}
-                {{#unless @campaign.hasCustomResultPageButton}}
+                {{#unless (or @campaign.hasCustomResultPageButton this.isUserAnonymousAndUpgradeToRealUserEnabled)}}
                   {{this.handleBackToHomepageDisplay}}
                   <PixButtonLink @route="authentication.login" @size="large" onclick={{this.handleBackToHomepageClick}}>
                     {{t "navigation.back-to-homepage"}}
@@ -264,9 +281,16 @@ export default class EvaluationResultsHero extends Component {
           {{else}}
             {{#unless @campaign.hasCustomResultPageButton}}
               {{this.handleBackToHomepageDisplay}}
-              <PixButtonLink @route="authentication.login" @size="large" onclick={{this.handleBackToHomepageClick}}>
-                {{if this.currentUser.user.isAnonymous (t "common.actions.login") (t "navigation.back-to-homepage")}}
-              </PixButtonLink>
+              {{#if this.isUserAnonymousAndUpgradeToRealUserEnabled}}
+                <p>{{t "pages.sign-up.save-progress-message"}}</p>
+                <PixButtonLink @route={{this.dynamicRoute}} @size="large" onclick={{this.handleBackToHomepageClick}}>
+                  {{t "pages.sign-up.actions.sign-up-on-pix"}}
+                </PixButtonLink>
+              {{else}}
+                <PixButtonLink @route="authentication.login" @size="large" onclick={{this.handleBackToHomepageClick}}>
+                  {{t "navigation.back-to-homepage"}}
+                </PixButtonLink>
+              {{/if}}
             {{/unless}}
           {{/if}}
 

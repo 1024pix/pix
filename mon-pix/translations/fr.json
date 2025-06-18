@@ -1885,6 +1885,7 @@
     "sign-up": {
       "actions": {
         "login": "Se connecter",
+        "sign-up-on-pix": "S'inscrire sur Pix",
         "submit": "Je m'inscris"
       },
       "errors": {
@@ -1897,6 +1898,7 @@
         }
       },
       "first-title": "Inscrivez-vous",
+      "save-progress-message": "Pour conserver votre progression et continuer à vous évaluer, inscrivez-vous sur Pix !",
       "title": "Inscription"
     },
     "sitemap": {

@@ -10,7 +10,6 @@ const USER_ACCOUNT_RECOVERY_FOR_IDENTITY_PROVIDER_CODES = [FER_IDENTITY_PROVIDER
 export default class OidcIdentityProviders extends Service {
   @service store;
   @service currentDomain;
-  @service featureToggles;
 
   get list() {
     return this.store.peekAll('oidc-identity-provider');
@@ -55,9 +54,6 @@ export default class OidcIdentityProviders extends Service {
   }
 
   shouldDisplayAccountRecoveryBanner(identityProviderCode) {
-    return (
-      this.featureToggles.featureToggles.isNewAccountRecoveryEnabled &&
-      USER_ACCOUNT_RECOVERY_FOR_IDENTITY_PROVIDER_CODES.includes(identityProviderCode)
-    );
+    return USER_ACCOUNT_RECOVERY_FOR_IDENTITY_PROVIDER_CODES.includes(identityProviderCode);
   }
 }

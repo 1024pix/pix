@@ -48,7 +48,7 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organizationLearner1.organizationId,
       });
-      const participation2 = databaseBuilder.factory.buildCampaignParticipation({
+      databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         status: CampaignParticipationStatuses.STARTED,
         organizationLearnerId: organizationLearner2.id,
@@ -63,15 +63,21 @@ describe('Integration | UseCase | get-campaign-participations', function () {
 
       await databaseBuilder.commit();
 
+      const page = {
+        size: 1,
+        number: 1,
+      };
+
       // when
-      const participations = await usecases.getCampaignParticipations({
+      const { models, meta } = await usecases.getCampaignParticipations({
         campaignId: campaign.id,
         locale: FRENCH_SPOKEN,
+        page,
       });
 
       // then
-      expect(participations).to.have.lengthOf(2);
-      expect(participations).to.deep.members([
+      expect(models).to.have.lengthOf(1);
+      expect(models).to.deep.members([
         new AssessmentCampaignParticipation({
           campaignParticipationId: participation1.id,
           userId: participation1.userId,
@@ -94,19 +100,13 @@ describe('Integration | UseCase | get-campaign-participations', function () {
             },
           ],
         }),
-        new AssessmentCampaignParticipation({
-          campaignParticipationId: participation2.id,
-          userId: participation2.userId,
-          participantExternalId: participation2.participantExternalId,
-          status: participation2.status,
-          masteryRate: participation2.masteryRate,
-          createdAt: participation2.createdAt,
-          sharedAt: participation2.sharedAt,
-          participantFirstName: organizationLearner2.firstName,
-          participantLastName: organizationLearner2.lastName,
-          tubes: undefined,
-        }),
       ]);
+      expect(meta).to.deep.equal({
+        page: 1,
+        pageCount: 2,
+        pageSize: 1,
+        rowCount: 2,
+      });
     });
   });
   context('when campaign type is profile collection', function () {
@@ -141,16 +141,16 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       await databaseBuilder.commit();
 
       // when
-      const participations = await usecases.getCampaignParticipations({
+      const { models, meta } = await usecases.getCampaignParticipations({
         campaignId: campaign.id,
         locale: FRENCH_SPOKEN,
       });
 
       //then
-      expect(participations).to.have.lengthOf(2);
-      expect(participations[0]).instanceOf(ProfilesCollectionCampaignParticipation);
-      expect(participations[1]).instanceOf(ProfilesCollectionCampaignParticipation);
-      expect(participations).to.deep.members([
+      expect(models).to.have.lengthOf(2);
+      expect(models[0]).instanceOf(ProfilesCollectionCampaignParticipation);
+      expect(models[1]).instanceOf(ProfilesCollectionCampaignParticipation);
+      expect(models).to.deep.members([
         {
           campaignParticipationId: participation1.id,
           userId: participation1.userId,
@@ -174,6 +174,12 @@ describe('Integration | UseCase | get-campaign-participations', function () {
           participantLastName: organizationLearner2.lastName,
         },
       ]);
+      expect(meta).to.deep.equal({
+        page: 1,
+        pageCount: 1,
+        pageSize: 10,
+        rowCount: 2,
+      });
     });
   });
 });

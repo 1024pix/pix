@@ -118,7 +118,7 @@ const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 const ALL_TREATMENTS = ['t1', 't2', 't3'];
 const PIX_ORIGIN = 'Pix';
 
-const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId;
+const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId || 0;
 
 const STUDENT_RECONCILIATION_ERRORS = {
   RECONCILIATION: {

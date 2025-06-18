@@ -37,25 +37,19 @@ export default class UpdateScoRecordFormComponent extends Component {
     <h1 class="account-recovery__content--title">
       {{t "pages.account-recovery.update-sco-record.welcome-message" firstName=@firstName}}
     </h1>
-    {{#if this.isNewAccountRecoveryEnabled}}
-      <p id="choose-password" class="account-recovery__content--information-text--details">
-        {{t "pages.account-recovery.update-sco-record.form.choose-password"}}
+    <p id="choose-password" class="account-recovery__content--information-text--details">
+      {{t "pages.account-recovery.update-sco-record.form.choose-password"}}
+    </p>
+    {{#if (or @hasGarAuthenticationMethod @hasScoUsername)}}
+      <p id="removal-notice" class="account-recovery__content--information-text--details">
+        {{t
+          "pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice"
+          connections=this.scoConnectionsText
+          htmlSafe=true
+        }}
       </p>
-      {{#if (or @hasGarAuthenticationMethod @hasScoUsername)}}
-        <p id="removal-notice" class="account-recovery__content--information-text--details">
-          {{t
-            "pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice"
-            connections=this.scoConnectionsText
-            htmlSafe=true
-          }}
-        </p>
-        <p id="new-connection-info" class="account-recovery__content--information-text--details">
-          {{t "pages.account-recovery.update-sco-record.form.new-connection-info"}}
-        </p>
-      {{/if}}
-    {{else}}
-      <p class="account-recovery__content--information-text--details">
-        {{t "pages.account-recovery.update-sco-record.fill-password"}}
+      <p id="new-connection-info" class="account-recovery__content--information-text--details">
+        {{t "pages.account-recovery.update-sco-record.form.new-connection-info"}}
       </p>
     {{/if}}
     <form onSubmit={{this.submitUpdate}} class="account-recovery__content--form">
@@ -100,15 +94,12 @@ export default class UpdateScoRecordFormComponent extends Component {
       </div>
     </form>
 
-    {{#if this.isNewAccountRecoveryEnabled}}
-      <PixButtonLink @route="logout" class="account-recovery__content--actions update-sco-record-form__buttons">
-        {{t "common.actions.quit"}}
-      </PixButtonLink>
-    {{/if}}
+    <PixButtonLink @route="logout" class="account-recovery__content--actions update-sco-record-form__buttons">
+      {{t "common.actions.quit"}}
+    </PixButtonLink>
   </template>
   @service intl;
   @service url;
-  @service featureToggles;
   @tracked cguAndProtectionPoliciesAccepted = false;
   @tracked password = '';
   @tracked passwordValidation = new PasswordValidation();
@@ -128,10 +119,6 @@ export default class UpdateScoRecordFormComponent extends Component {
       this.cguAndProtectionPoliciesAccepted &&
       !this.args.isLoading
     );
-  }
-
-  get isNewAccountRecoveryEnabled() {
-    return this.featureToggles.featureToggles?.isNewAccountRecoveryEnabled;
   }
 
   get scoConnectionsText() {

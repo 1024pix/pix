@@ -8,6 +8,7 @@ import {
   FlashcardsVersoSeenEvent,
 } from '../models/passage-events/flashcard-events.js';
 import { PassageStartedEvent, PassageTerminatedEvent } from '../models/passage-events/passage-events.js';
+import { QABCardAnsweredEvent, QABCardRetriedEvent } from '../models/passage-events/qab-events.js';
 
 class PassageEventFactory {
   static build(eventData) {
@@ -28,6 +29,10 @@ class PassageEventFactory {
         return new FlashcardsRetriedEvent(eventData);
       case 'QCU_DECLARATIVE_ANSWERED':
         return new QCUDeclarativeAnsweredEvent(eventData);
+      case 'QAB_CARD_ANSWERED':
+        return new QABCardAnsweredEvent(eventData);
+      case 'QAB_CARD_RETRIED':
+        return new QABCardRetriedEvent(eventData);
       default:
         throw new DomainError(`Passage event with type ${eventData.type} does not exist`);
     }

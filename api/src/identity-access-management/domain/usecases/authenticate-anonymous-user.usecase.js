@@ -19,6 +19,7 @@ export const authenticateAnonymousUser = async function ({
   audience,
   campaignToJoinRepository,
   userToCreateRepository,
+  anonymousUserTokenRepository,
   tokenService,
 }) {
   const campaign = await campaignToJoinRepository.getByCode({ code: campaignCode });
@@ -26,8 +27,10 @@ export const authenticateAnonymousUser = async function ({
     throw new UserCantBeCreatedError();
   }
 
-  const userToAdd = UserToCreate.createAnonymous({ lang });
-  const newUser = await userToCreateRepository.create({ user: userToAdd });
+  const userToCreate = UserToCreate.createAnonymous({ lang });
 
-  return tokenService.createAccessTokenFromAnonymousUser({ userId: newUser.id, audience });
+  const anonymousUser = await userToCreateRepository.create({ user: userToCreate });
+  await anonymousUserTokenRepository.save(anonymousUser.id);
+
+  return tokenService.createAccessTokenFromAnonymousUser({ userId: anonymousUser.id, audience });
 };

@@ -30,6 +30,7 @@ import * as emailRepository from '../../../shared/mail/infrastructure/repositori
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
+import { anonymousUserTokenRepository } from '../../infrastructure/repositories/anonymous-user-token.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact.repository.js';
 import { clientApplicationRepository } from '../../infrastructure/repositories/client-application.repository.js';
@@ -60,6 +61,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 const repositories = {
   accountRecoveryDemandRepository,
   adminMemberRepository,
+  anonymousUserTokenRepository,
   authenticationMethodRepository,
   campaignParticipationRepository,
   campaignRepository,

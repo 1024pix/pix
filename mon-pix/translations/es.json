@@ -1877,7 +1877,8 @@
     "sign-up": {
       "actions": {
         "login": "Iniciar sesión",
-        "submit": "Crear cuenta"
+        "submit": "Crear cuenta",
+        "sign-up-on-pix": "Crear cuenta en Pix"
       },
       "errors": {
         "invalid-locale-format": "Tu configuración local «{invalidLocale}» tiene un formato incorrecto.",
@@ -1889,6 +1890,7 @@
         }
       },
       "first-title": "Inscríbete",
+      "save-progress-message": "Para hacer un seguimiento de tus progresos y seguir evaluándote, ¡regístrate en Pix!",
       "title": "Inscripción"
     },
     "sitemap": {

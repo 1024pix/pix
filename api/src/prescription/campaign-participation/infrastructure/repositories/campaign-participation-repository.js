@@ -5,6 +5,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { Campaign } from '../../../campaign/domain/models/Campaign.js';
 import { CampaignParticipationInfo } from '../../../campaign/domain/read-models/CampaignParticipationInfo.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
@@ -146,9 +147,9 @@ const remove = async function ({ id, attributes }) {
   return await knexConn('campaign-participations').where({ id }).update(attributes);
 };
 
-const findInfoByCampaignId = async function (campaignId) {
+const findInfoByCampaignId = async function (campaignId, page) {
   const knexConn = DomainTransaction.getConnection();
-  const results = await knexConn('campaign-participations')
+  const query = knexConn('campaign-participations')
     .select([
       'campaign-participations.*',
       'view-active-organization-learners.studentNumber',
@@ -168,7 +169,9 @@ const findInfoByCampaignId = async function (campaignId) {
     .orderBy('firstName', 'ASC')
     .orderBy('createdAt', 'DESC');
 
-  return results.map(_rowToResult);
+  const { results, pagination } = await fetchPage(query, page);
+
+  return { models: results.map(_rowToResult), meta: pagination };
 };
 
 const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {

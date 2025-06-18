@@ -33,10 +33,10 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
     additionalHeaders = importFormat.exportableColumns;
   }
 
-  const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+  const [allPixCompetences, organization, { models: campaignParticipationResultDatas }] = await Promise.all([
     competenceRepository.listPixCompetencesOnly({ locale: i18n.getLocale() }),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findInfoByCampaignId(campaign.id),
+    campaignParticipationRepository.findInfoByCampaignId(campaign.id, { size: 1000000, number: 1 }),
   ]);
 
   const campaignProfilesCollectionExport = new CampaignProfilesCollectionExport({

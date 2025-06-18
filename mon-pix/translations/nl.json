@@ -1880,7 +1880,8 @@
     "sign-up": {
       "actions": {
         "login": "Inloggen",
-        "submit": "Registreren"
+        "submit": "Registreren",
+        "sign-up-on-pix": "Inschrijven bij Pix"
       },
       "errors": {
         "invalid-locale-format": "Uw locale \"{invalidLocale}\" heeft de verkeerde indeling.",
@@ -1892,6 +1893,7 @@
         }
       },
       "first-title": "Registreren",
+      "save-progress-message": "Om je voortgang bij te houden en jezelf te blijven evalueren, registreer je bij Pix!",
       "title": "Registratie"
     },
     "sitemap": {

@@ -447,8 +447,11 @@ const configuration = (function () {
       expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,
     },
-    temporaryStorageForEmailValidationDemand: {
+    temporaryStorageForEmailValidationDemands: {
       expirationDelaySeconds: ms(process.env.EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN || '3d') / 1000,
+    },
+    temporaryStorageForAnonymousUserTokens: {
+      expirationDelaySeconds: ms(process.env.ANONYMOUS_USER_TOKEN_TEMPORARY_STORAGE_LIFESPAN || '1d') / 1000,
     },
     v3Certification: {
       numberOfChallengesPerCourse: 32,

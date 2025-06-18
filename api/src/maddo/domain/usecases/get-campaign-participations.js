@@ -1,3 +1,3 @@
-export async function getCampaignParticipations({ campaignId, clientId, campaignParticipationRepository }) {
-  return campaignParticipationRepository.findByCampaignId(campaignId, clientId);
+export async function getCampaignParticipations({ campaignId, clientId, page, campaignParticipationRepository }) {
+  return campaignParticipationRepository.findByCampaignId(campaignId, clientId, page);
 }

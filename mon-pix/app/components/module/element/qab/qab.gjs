@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import QabProposalButton from 'mon-pix/components/module/element/qab/proposal-button';
 import QabCard from 'mon-pix/components/module/element/qab/qab-card';
@@ -21,6 +22,8 @@ export default class ModuleQab extends ModuleElement {
   @tracked displayedCards;
   @tracked cardStatuses = new TrackedMap();
   @tracked removedCards = new TrackedMap();
+
+  @service passageEvents;
 
   constructor() {
     super(...arguments);
@@ -82,6 +85,14 @@ export default class ModuleQab extends ModuleElement {
 
     this.cardStatuses.set(this.currentCard.id, this.currentCardStatus);
     window.setTimeout(async () => await this.goToNextCard(), NEXT_CARD_TRANSITION_DELAY);
+    this.passageEvents.record({
+      type: 'QAB_CARD_ANSWERED',
+      data: {
+        cardId: this.currentCard.id,
+        chosenProposal: event.submitter.value,
+        elementId: this.element.id,
+      },
+    });
   }
 
   @action
@@ -91,6 +102,13 @@ export default class ModuleQab extends ModuleElement {
     this.cardStatuses.clear();
     this.displayedCards = new TrackedArray(this.element.cards);
     this.score = 0;
+
+    this.passageEvents.record({
+      type: 'QAB_CARD_RETRIED',
+      data: {
+        elementId: this.element.id,
+      },
+    });
   }
 
   get shouldDisplayCards() {

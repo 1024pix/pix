@@ -1,4 +1,3 @@
-import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
@@ -53,23 +52,16 @@ export const updateUserForAccountRecovery = async function ({
 
   const now = new Date();
   const userValuesToUpdate = {
-    // username: null // Uncomment this line when the feature toggle will be deleted
+    username: null,
     cgu: true,
     email: newEmail,
     emailConfirmedAt: now,
     lastTermsOfServiceValidatedAt: now,
   };
-
-  // Remove this if when the feature toggle will be activated
-  const toggle = await featureToggles.get('isNewAccountRecoveryEnabled');
-  if (toggle) {
-    userValuesToUpdate.username = null;
-    // move the following line out if
-    await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
-      userId,
-      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-    });
-  }
+  await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
+    userId,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+  });
 
   await userRepository.updateWithEmailConfirmed({
     id: userId,

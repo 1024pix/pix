@@ -150,6 +150,37 @@ const register = async function (server) {
         tags: ['api', 'sco-organization-learners'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/sco-organization-learners/username-password-generation',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+            assign: 'belongsToScoOrganizationAndManageStudents',
+          },
+        ],
+        handler: scoOrganizationLearnerController.generateUsernameWithTemporaryPassword,
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'organization-id': identifiersType.organizationId,
+                'organization-learner-id': identifiersType.organizationLearnerId,
+              },
+            },
+          }),
+        },
+        notes: [
+          "- Génère un identifiant pour l'élève avec un mot de passe temporaire \n" +
+            "- La demande de génération d'identifiant doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
+        ],
+        tags: ['api', 'sco-organization-learners'],
+      },
+    },
   ]);
 };
 

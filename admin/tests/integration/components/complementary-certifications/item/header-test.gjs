@@ -2,7 +2,7 @@ import { render, within } from '@1024pix/ember-testing-library';
 import Header from 'pix-admin/components/complementary-certifications/item/header';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | complementary-certifications/item/header', function (hooks) {
   setupIntlRenderingTest(hooks);

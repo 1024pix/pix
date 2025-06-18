@@ -8,14 +8,18 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Module | QAB', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let clock;
+
+  let clock, passageEventService, passageEventRecordStub;
 
   hooks.beforeEach(function () {
     clock = sinon.useFakeTimers();
+    passageEventService = this.owner.lookup('service:passageEvents');
+    passageEventRecordStub = sinon.stub(passageEventService, 'record');
   });
 
   hooks.afterEach(function () {
     clock.restore();
+    passageEventRecordStub.restore();
   });
 
   test('it should display a QAB with a single card with two proposal', async function (assert) {
@@ -63,7 +67,7 @@ module('Integration | Component | Module | QAB', function (hooks) {
   });
 
   module('when user answers a card', function () {
-    test('it should display the next card', async function (assert) {
+    test('it should display the next card and send an event', async function (assert) {
       // given
       const qabElement = _getQabElement();
 
@@ -73,6 +77,15 @@ module('Integration | Component | Module | QAB', function (hooks) {
       await clock.tickAsync(NEXT_CARD_DELAY);
 
       // then
+      sinon.assert.calledWithExactly(passageEventRecordStub, {
+        type: 'QAB_CARD_ANSWERED',
+        data: {
+          cardId: qabElement.cards[0].id,
+          chosenProposal: 'A',
+          elementId: qabElement.id,
+        },
+      });
+
       assert.dom(screen.getByText('Les chiens ne transpirent pas.')).exists();
     });
 
@@ -141,7 +154,7 @@ module('Integration | Component | Module | QAB', function (hooks) {
       });
 
       module('when user clicks the retry button', function () {
-        test('should reset the component and display the first card', async function (assert) {
+        test('should reset the component, display the first card and send an event', async function (assert) {
           // given
           const qabElement = _getQabElement();
           const onAnswerStub = sinon.stub();
@@ -157,8 +170,20 @@ module('Integration | Component | Module | QAB', function (hooks) {
           await click(screen.getByRole('button', { name: 'Réessayer' }));
 
           // then
+
+          assert.dom(screen.getByText('Les chiens ne transpirent pas.')).exists();
           assert.dom(screen.getByText('Maintenant, entraînez-vous sur des exemples concrets !')).exists();
           assert.dom(screen.getByText('Les boules de pétanques sont creuses.')).exists();
+
+          const recordQabCardRetriedCall = passageEventRecordStub.getCall(2);
+          assert.deepEqual(recordQabCardRetriedCall.args, [
+            {
+              type: 'QAB_CARD_RETRIED',
+              data: {
+                elementId: qabElement.id,
+              },
+            },
+          ]);
         });
       });
     });

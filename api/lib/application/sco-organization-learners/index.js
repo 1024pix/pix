@@ -3,8 +3,6 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, UnprocessableEntityError } from '../../../src/shared/application/http-errors.js';
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { libScoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 
 const register = async function (server) {
@@ -36,37 +34,6 @@ const register = async function (server) {
         notes: [
           '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est inscrit à ' +
             "l'organisation détenant la campagne. Cet élève n'est, de plus, pas encore associé à l'organisation.",
-        ],
-        tags: ['api', 'sco-organization-learners'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/sco-organization-learners/username-password-generation',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-            assign: 'belongsToScoOrganizationAndManageStudents',
-          },
-        ],
-        handler: libScoOrganizationLearnerController.generateUsernameWithTemporaryPassword,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'organization-id': identifiersType.organizationId,
-                'organization-learner-id': identifiersType.organizationLearnerId,
-              },
-            },
-          }),
-        },
-        notes: [
-          "- Génère un identifiant pour l'élève avec un mot de passe temporaire \n" +
-            "- La demande de génération d'identifiant doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
         ],
         tags: ['api', 'sco-organization-learners'],
       },

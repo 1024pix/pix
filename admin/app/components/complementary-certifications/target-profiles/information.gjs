@@ -9,7 +9,7 @@ export default class Information extends Component {
   @service currentUser;
 
   get isMultipleCurrentTargetProfiles() {
-    return this.args.complementaryCertification.currentTargetProfiles?.length > 1;
+    return this.args.complementaryCertification?.currentTargetProfiles?.length > 1;
   }
 
   get hasAccessToAttachNewTargetProfile() {

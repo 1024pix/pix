@@ -111,11 +111,29 @@ const updatePassword = async function (request, h, dependencies = { scoOrganizat
     .code(200);
 };
 
+const generateUsernameWithTemporaryPassword = async function (
+  request,
+  h,
+  dependencies = { scoOrganizationLearnerSerializer },
+) {
+  const payload = request.payload.data.attributes;
+  const organizationId = payload['organization-id'];
+  const organizationLearnerId = payload['organization-learner-id'];
+
+  const result = await usecases.generateUsernameWithTemporaryPassword({
+    organizationLearnerId,
+    organizationId,
+  });
+
+  return h.response(dependencies.scoOrganizationLearnerSerializer.serializeCredentialsForDependent(result)).code(200);
+};
+
 const scoOrganizationLearnerController = {
   createUserAndReconcileToOrganizationLearnerFromExternalUser,
   createAndReconcileUserToOrganizationLearner,
   updatePassword,
   batchGenerateOrganizationLearnersUsernameWithTemporaryPassword,
+  generateUsernameWithTemporaryPassword,
 };
 
 export { scoOrganizationLearnerController };

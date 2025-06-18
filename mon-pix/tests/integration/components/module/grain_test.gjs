@@ -11,36 +11,21 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Module | Grain', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display given grain', async function (assert) {
+  test('should display given grain with its current step', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const grain = store.createRecord('grain', { id: '12345-abcdef', title: 'Grain title' });
-    this.set('grain', grain);
+    const grain = store.createRecord('grain', { id: '12345-abcdef' });
+    const currentStep = 1;
+    const totalSteps = 10;
 
     // when
-    const screen = await render(hbs`
-      <Module::Grain::Grain @grain={{this.grain}} />`);
+    const screen = await render(
+      <template><ModuleGrain @grain={{grain}} @currentStep={{currentStep}} @totalSteps={{totalSteps}} /></template>,
+    );
 
     // then
-    assert.ok(screen.getByRole('heading', { name: grain.title, level: 2 }));
+    assert.ok(screen.getByRole('heading', { name: `Étape ${currentStep} sur ${totalSteps}`, level: 2 }));
     assert.dom('.grain').hasAttribute('id', 'grain_12345-abcdef');
-  });
-
-  module('when grain has an empty title', function () {
-    test('should not display heading', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const grain = store.createRecord('grain', { id: '12345-abcdef', title: '' });
-      this.set('grain', grain);
-
-      // when
-      const screen = await render(hbs`
-      <Module::Grain::Grain @grain={{this.grain}} />`);
-
-      // then
-      assert.deepEqual(screen.queryByRole('heading', { name: grain.title, level: 2 }), null);
-      assert.dom('.grain').hasAttribute('id', 'grain_12345-abcdef');
-    });
   });
 
   module('when component is an element', function () {
@@ -100,7 +85,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           },
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: customElement }],
         });
 
@@ -123,7 +107,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           isAnswerable: false,
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: textElement }],
         });
         this.set('grain', grain);
@@ -148,7 +131,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           isAnswerable: true,
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: qcuElement }],
         });
         this.set('grain', grain);
@@ -175,7 +157,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           isAnswerable: true,
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: qcuDeclarativeElement }],
         });
         this.set('grain', grain);
@@ -215,7 +196,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           ],
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: qabElement }],
         });
         this.set('grain', grain);
@@ -275,7 +255,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           isAnswerable: true,
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: qrocmElement }],
         });
         this.set('grain', grain);
@@ -305,7 +284,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           type: 'image',
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: imageElement }],
         });
         this.set('grain', grain);
@@ -347,7 +325,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           ],
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: flashCardsElement }],
         });
         this.set('grain', grain);
@@ -372,7 +349,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           type: 'expand',
         };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element: expandElement }],
         });
         this.set('grain', grain);
@@ -393,7 +369,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         const store = this.owner.lookup('service:store');
         const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [{ type: 'element', element }],
         });
         this.set('grain', grain);
@@ -452,7 +427,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           };
 
           const grain = store.createRecord('grain', {
-            title: '1st Grain title',
             components: [
               { type: 'element', element },
               { type: 'element', element: qcuDeclarativeElement },
@@ -481,7 +455,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           const store = this.owner.lookup('service:store');
           const element = { type: 'qcu', isAnswerable: true };
           const grain = store.createRecord('grain', {
-            title: '1st Grain title',
             components: [{ type: 'element', element }],
           });
           store.createRecord('module', { grains: [grain] });
@@ -528,7 +501,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           const store = this.owner.lookup('service:store');
           const element = { type: 'qcu', isAnswerable: true };
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [{ type: 'element', element }],
           });
           this.set('grain', grain);
@@ -548,7 +520,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           const store = this.owner.lookup('service:store');
           const element = { type: 'qcu', isAnswerable: true };
           const grain = store.createRecord('grain', {
-            title: '1st Grain title',
             components: [{ type: 'element', element }],
           });
           store.createRecord('module', { grains: [grain] });
@@ -571,7 +542,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           const store = this.owner.lookup('service:store');
           const element = { type: 'qcu', isAnswerable: true };
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [{ type: 'element', element }],
           });
           this.set('grain', grain);
@@ -591,7 +561,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           const store = this.owner.lookup('service:store');
           const element = { type: 'qcu', isAnswerable: true };
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [{ type: 'element', element }],
           });
           store.createRecord('module', { grains: [grain] });
@@ -616,7 +585,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
       const store = this.owner.lookup('service:store');
       const element = { type: 'text', isAnswerable: false };
       const grain = store.createRecord('grain', {
-        title: '1st Grain title',
         components: [{ type: 'element', element }],
       });
       store.createRecord('module', { id: 'module-id', grains: [grain] });
@@ -644,7 +612,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { type: 'qcu', isAnswerable: true };
-      const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
+      const grain = store.createRecord('grain', { components: [{ type: 'element', element }] });
       store.createRecord('module', { id: 'module-id', grains: [grain] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
@@ -675,7 +643,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
-      const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
+      const grain = store.createRecord('grain', { components: [{ type: 'element', element }] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
       this.set('passage', passage);
@@ -708,7 +676,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         isAnswerable: false,
       };
       const grain = store.createRecord('grain', {
-        title: 'Grain title',
         components: [{ type: 'stepper', steps: [{ elements: [textElement] }] }],
       });
 
@@ -752,7 +719,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         const onElementAnswerStub = sinon.stub();
         const store = this.owner.lookup('service:store');
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [
             {
               type: 'stepper',
@@ -810,7 +776,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         const onElementRetryStub = sinon.stub();
         const store = this.owner.lookup('service:store');
         const grain = store.createRecord('grain', {
-          title: 'Grain title',
           components: [
             {
               type: 'stepper',
@@ -874,7 +839,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           const store = this.owner.lookup('service:store');
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [
               {
                 type: 'stepper',
@@ -924,7 +888,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           const store = this.owner.lookup('service:store');
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [
               {
                 type: 'stepper',
@@ -988,7 +951,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           ];
 
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [
               {
                 type: 'stepper',
@@ -1037,7 +999,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
           ];
 
           const grain = store.createRecord('grain', {
-            title: 'Grain title',
             components: [
               {
                 type: 'stepper',
@@ -1104,7 +1065,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
             ];
 
             const grain = store.createRecord('grain', {
-              title: 'Grain title',
               components: [
                 {
                   type: 'stepper',
@@ -1153,7 +1113,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
             ];
 
             const grain = store.createRecord('grain', {
-              title: 'Grain title',
               components: [
                 {
                   type: 'stepper',
@@ -1207,7 +1166,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
               ];
 
               const grain = store.createRecord('grain', {
-                title: 'Grain title',
                 components: [
                   {
                     type: 'stepper',
@@ -1257,7 +1215,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
               ];
 
               const grain = store.createRecord('grain', {
-                title: 'Grain title',
                 components: [
                   {
                     type: 'stepper',
@@ -1318,7 +1275,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
             const store = this.owner.lookup('service:store');
             const grain = store.createRecord('grain', {
-              title: 'Grain title',
               components: [
                 {
                   type: 'stepper',
@@ -1381,7 +1337,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
             const store = this.owner.lookup('service:store');
             const grain = store.createRecord('grain', {
-              title: 'Grain title',
               components: [
                 {
                   type: 'stepper',
@@ -1461,7 +1416,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
               const store = this.owner.lookup('service:store');
               const grain = store.createRecord('grain', {
-                title: 'Grain title',
                 components: [
                   {
                     type: 'stepper',
@@ -1526,7 +1480,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
               const store = this.owner.lookup('service:store');
               const grain = store.createRecord('grain', {
-                title: 'Grain title',
                 components: [
                   {
                     type: 'stepper',

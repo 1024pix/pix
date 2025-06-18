@@ -1,5 +1,6 @@
+import '@ember/service';
+
 import { render } from '@1024pix/ember-testing-library';
-import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
@@ -10,31 +11,37 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | account-recovery | update-sco-record', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('when newAccountRecovery feature toggle is false', function () {
-    test('displays old reset password form', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isNewAccountRecoveryEnabled: false };
-      }
-
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
-
+  module('displays new reset password form', function (hooks) {
+    hooks.beforeEach(async function () {
       const newEmail = 'philippe.example.net';
       const firstName = 'Philippe';
+
       this.set('firstName', firstName);
       this.set('email', newEmail);
+    });
+
+    test('displays common content for all users', async function (assert) {
+      // given
+      this.set('hasGarAuthenticationMethod', false);
+      this.set('hasScoUsername', false);
+
       // when
       const screen = await render(
-        hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}} />`,
+        hbs`<AccountRecovery::UpdateScoRecordForm
+  @firstName={{this.firstName}}
+  @email={{this.email}}
+  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
+  @hasScoUsername={{this.hasScoUsername}}
+/>`,
       );
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName }),
+          name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName: this.firstName }),
         }),
       );
-      assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.fill-password'), { exact: false }));
+      assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.form.choose-password')));
       assert.ok(
         screen.getByRole('textbox', {
           name: t('pages.account-recovery.update-sco-record.form.email-label'),
@@ -50,178 +57,118 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       });
       assert.ok(submitButton);
       assert.true(submitButton.disabled);
+      assert.ok(screen.getByText(t('common.actions.quit')));
       assert.dom(screen.getByRole('checkbox', { name: t('common.cgu.label') })).exists();
       assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
       assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
     });
-  });
 
-  module('when newAccountRecovery feature toggle is true', function () {
-    module('displays new reset password form', function (hooks) {
-      hooks.beforeEach(async function () {
-        class FeatureTogglesStub extends Service {
-          featureToggles = { isNewAccountRecoveryEnabled: true };
-        }
+    test('displays no school connection removal warning when user has no school connections', async function (assert) {
+      // given
+      this.set('hasGarAuthenticationMethod', false);
+      this.set('hasScoUsername', false);
 
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
-
-        const newEmail = 'philippe.example.net';
-        const firstName = 'Philippe';
-
-        this.set('firstName', firstName);
-        this.set('email', newEmail);
-      });
-
-      test('displays common content for all users', async function (assert) {
-        // given
-        this.set('hasGarAuthenticationMethod', false);
-        this.set('hasScoUsername', false);
-
-        // when
-        const screen = await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm
+      // when
+      await render(
+        hbs`<AccountRecovery::UpdateScoRecordForm
   @firstName={{this.firstName}}
   @email={{this.email}}
   @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
   @hasScoUsername={{this.hasScoUsername}}
 />`,
-        );
+      );
 
-        // then
-        assert.ok(
-          screen.getByRole('heading', {
-            name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName: this.firstName }),
-          }),
-        );
-        assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.form.choose-password')));
-        assert.ok(
-          screen.getByRole('textbox', {
-            name: t('pages.account-recovery.update-sco-record.form.email-label'),
-            exact: false,
-          }),
-        );
-        assert.ok(
-          screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), { exact: false }),
-        );
+      // then
+      assert.dom('#removal-notice').doesNotExist();
+      assert.dom('#new-connection-info').doesNotExist();
+    });
 
-        const submitButton = screen.getByRole('button', {
-          name: t('pages.account-recovery.update-sco-record.form.login-button'),
-        });
-        assert.ok(submitButton);
-        assert.true(submitButton.disabled);
-        assert.ok(screen.getByText(t('common.actions.quit')));
-        assert.dom(screen.getByRole('checkbox', { name: t('common.cgu.label') })).exists();
-        assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
-        assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
+    test('displays specific removal warning when user has username and GAR authentication method', async function (assert) {
+      // given
+      this.set('hasGarAuthenticationMethod', true);
+      this.set('hasScoUsername', true);
+      const garConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.gar');
+      const usernameConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.username');
+      const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
+
+      const formatter = new Intl.ListFormat('fr', {
+        style: 'long',
+        type: 'conjunction',
       });
 
-      test('displays no school connection removal warning when user has no school connections', async function (assert) {
-        // given
-        this.set('hasGarAuthenticationMethod', false);
-        this.set('hasScoUsername', false);
+      const scoConnectionsText = formatter.format([garConnection, usernameConnection]);
 
-        // when
-        await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm
+      const expectedRemovalNotice = t(
+        'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
+        { connections: scoConnectionsText },
+      );
+
+      // when
+      await render(
+        hbs`<AccountRecovery::UpdateScoRecordForm
   @firstName={{this.firstName}}
   @email={{this.email}}
   @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
   @hasScoUsername={{this.hasScoUsername}}
 />`,
-        );
+      );
 
-        // then
-        assert.dom('#removal-notice').doesNotExist();
-        assert.dom('#new-connection-info').doesNotExist();
-      });
+      // then
+      assert.dom('#removal-notice').includesText(expectedRemovalNotice);
+      assert.dom('#new-connection-info').includesText(newConnectionInfo);
+    });
 
-      test('displays specific removal warning when user has username and GAR authentication method', async function (assert) {
-        // given
-        this.set('hasGarAuthenticationMethod', true);
-        this.set('hasScoUsername', true);
-        const garConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.gar');
-        const usernameConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.username');
-        const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
+    test('displays specific removal warning when user has username and no GAR authentication method', async function (assert) {
+      // given
+      this.set('hasGarAuthenticationMethod', false);
+      this.set('hasScoUsername', true);
 
-        const formatter = new Intl.ListFormat('fr', {
-          style: 'long',
-          type: 'conjunction',
-        });
+      const usernameConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.username');
+      const expectedRemovalNotice = t(
+        'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
+        { connections: usernameConnection },
+      );
+      const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
 
-        const scoConnectionsText = formatter.format([garConnection, usernameConnection]);
-
-        const expectedRemovalNotice = t(
-          'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
-          { connections: scoConnectionsText },
-        );
-
-        // when
-        await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm
+      // when
+      await render(
+        hbs`<AccountRecovery::UpdateScoRecordForm
   @firstName={{this.firstName}}
   @email={{this.email}}
   @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
   @hasScoUsername={{this.hasScoUsername}}
 />`,
-        );
+      );
 
-        // then
-        assert.dom('#removal-notice').includesText(expectedRemovalNotice);
-        assert.dom('#new-connection-info').includesText(newConnectionInfo);
-      });
+      // then
+      assert.dom('#removal-notice').includesText(expectedRemovalNotice);
+      assert.dom('#new-connection-info').includesText(newConnectionInfo);
+    });
 
-      test('displays specific removal warning when user has username and no GAR authentication method', async function (assert) {
-        // given
-        this.set('hasGarAuthenticationMethod', false);
-        this.set('hasScoUsername', true);
+    test('displays specific removal warning when user has GAR authentication method and no username', async function (assert) {
+      // given
+      this.set('hasGarAuthenticationMethod', true);
+      this.set('hasScoUsername', false);
+      const garConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.gar');
+      const expectedRemovalNotice = t(
+        'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
+        { connections: garConnection },
+      );
+      const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
 
-        const usernameConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.username');
-        const expectedRemovalNotice = t(
-          'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
-          { connections: usernameConnection },
-        );
-        const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
-
-        // when
-        await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm
+      // when
+      await render(
+        hbs`<AccountRecovery::UpdateScoRecordForm
   @firstName={{this.firstName}}
   @email={{this.email}}
   @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
   @hasScoUsername={{this.hasScoUsername}}
 />`,
-        );
+      );
 
-        // then
-        assert.dom('#removal-notice').includesText(expectedRemovalNotice);
-        assert.dom('#new-connection-info').includesText(newConnectionInfo);
-      });
-
-      test('displays specific removal warning when user has GAR authentication method and no username', async function (assert) {
-        // given
-        this.set('hasGarAuthenticationMethod', true);
-        this.set('hasScoUsername', false);
-        const garConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.gar');
-        const expectedRemovalNotice = t(
-          'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
-          { connections: garConnection },
-        );
-        const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
-
-        // when
-        await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm
-  @firstName={{this.firstName}}
-  @email={{this.email}}
-  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
-  @hasScoUsername={{this.hasScoUsername}}
-/>`,
-        );
-
-        // then
-        assert.dom('#removal-notice').includesText(expectedRemovalNotice);
-        assert.dom('#new-connection-info').includesText(newConnectionInfo);
-      });
+      // then
+      assert.dom('#removal-notice').includesText(expectedRemovalNotice);
+      assert.dom('#new-connection-info').includesText(newConnectionInfo);
     });
   });
 
