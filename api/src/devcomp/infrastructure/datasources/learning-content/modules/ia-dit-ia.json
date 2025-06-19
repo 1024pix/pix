@@ -11,7 +11,7 @@
     "objectives": [
       "<p>Définir l’intelligence artificielle simplement</p>",
       "<p>Lister des types de tâches que font les logiciels d’IA</p>",
-      "<p>Repérer l’utilisation dIA dans des services numériques courants</p>"
+      "<p>Repérer l’utilisation de l'IA dans des services numériques courants</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -26,7 +26,7 @@
           "element": {
             "id": "e0a5a488-113c-4c30-89e0-354e874aa534",
             "type": "text",
-            "content": "<p>Peut-être avez vous vu ces dernières années de nombreux titres de presse parlant d'IA ? Derrière ces deux lettres se cache l'<strong>Intelligence Artificielle</strong>.&nbsp;</p>"
+            "content": "<p>Peut-être avez vous vu ces dernières années de nombreux titres de presse parlant d'<strong>IA</strong> ? Derrière ces deux lettres se cache l'<strong>Intelligence Artificielle</strong>.&nbsp;</p>"
           }
         },
         {
@@ -158,7 +158,7 @@
           "element": {
             "id": "d4c2fcb1-74b0-474e-8bda-470c83ced9c2",
             "type": "text",
-            "content": "<p>Aujourd’hui les ordinateurs sont capables de réaliser toutes sortes de tâches : <br>👀 Des tâches que nous faisons sans y penser comme reconnaître un chat dans une image.&nbsp;<br>🧠 Et des tâches qui nous demandent plus de concentration comme résoudre des problèmes de maths.<br></p><p>Le <strong>domaine scientifique</strong> qui a permis ces progrès se nomme <strong>l’intelligence artificielle</strong>. D’autres sciences et techniques y ont contribué&nbsp;: l’informatique, l’électronique, la robotique, les statistiques, les sciences cognitives, les neurosciences, etc.</p>"
+            "content": "<p>Aujourd’hui les ordinateurs sont capables de réaliser toutes sortes de tâches : <br>👀 Des tâches que nous faisons sans y penser comme reconnaître un chien dans une image.&nbsp;<br>🧠 Et des tâches qui nous demandent plus de concentration comme résoudre des problèmes de maths.<br></p><p>Le <strong>domaine scientifique</strong> qui a permis ces progrès se nomme <strong>l’intelligence artificielle</strong>. D’autres sciences et techniques y ont contribué&nbsp;: l’informatique, l’électronique, la robotique, les statistiques, les sciences cognitives, les neurosciences, etc.</p>"
           }
         }
       ]
@@ -196,7 +196,7 @@
           "element": {
             "id": "a066ebc9-7f82-439b-85c3-aa2e8686e52a",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\" height=\"550\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-image-interactive.html\" height=\"530\"></iframe>"
           }
         },
         {
@@ -245,7 +245,7 @@
           "element": {
             "id": "bfe6d7e1-8282-4a34-a659-c189ea396feb",
             "type": "text",
-            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle.<br></p><p>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong>&nbsp;: reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p>D’autres logiciels deviennent de plus en plus <strong>généralistes</strong>. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
+            "content": "<p>De nombreux objets et <strong>services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle.</p><p><br>Certains logiciels sont <strong>spécialisés </strong>dans un <strong>type de tâche</strong>&nbsp;: reconnaître des images et leur contenu, reconnaître des sons et leur contenu, recommander des contenus adaptés à des besoins, prédire des tendances dans des données.&nbsp;🔮</p><p><br>D’autres logiciels deviennent de plus en plus <strong>généralistes</strong>. C’est le cas de chatGPT ou Le chat qui sont capables de traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de maths, etc.&nbsp;🦾<br></p>"
           }
         }
       ]
@@ -283,7 +283,7 @@
           "element": {
             "id": "c4a0562d-60f8-48b3-8489-2c8c195597b8",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-cartes.html\" height=\"700\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-cartes.html\" height=\"620\"></iframe>"
           }
         }
       ]
@@ -298,7 +298,7 @@
           "element": {
             "id": "1bf335c7-a606-4e65-aa36-07adf42d3b6f",
             "type": "text",
-            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité&nbsp;: l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc.<br></p><p><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple&nbsp;:&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
+            "content": "<p>L’intelligence artificielle a des applications dans tous les secteurs d’activité&nbsp;: l’agriculture,&nbsp; la culture, l’éducation, la finance, l’industrie, le loisir, la santé, la science, la sécurité, le transport, etc.</p><p><br><strong>💡 Parfois, le recours à des techniques d’IA permet de faire des découvertes ou des progrès importants</strong>. Par exemple&nbsp;:&nbsp;</p><ul><li>l’interprétation des images médicales et le contourage des tumeurs a permis d’améliorer le dépistage de certains cancers</li><li>l’analyse de grandes quantités de données sur les mouvements de l’eau à permis de mieux comprendre l’influence du changement climatique sur le cycle de l’eau.</li></ul>"
           }
         }
       ]
@@ -443,7 +443,7 @@
           "element": {
             "id": "d2bcb01c-fe30-4470-9ddf-a55a1cef1b1e",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\" height=\"400\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/LSI/ia-dit-ia-article.html\" height=\"450\"></iframe>"
           }
         },
         {
