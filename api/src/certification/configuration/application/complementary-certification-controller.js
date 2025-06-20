@@ -29,9 +29,18 @@ const createConsolidatedFramework = async function (request, h) {
     .code(201);
 };
 
+const calibrateConsolidatedFramework = async function (request, h) {
+  const { complementaryCertificationKey } = request.params;
+  const { createdAt } = request.payload.data.attributes;
+  await usecases.calibrateConsolidatedFramework({ createdAt, complementaryCertificationKey });
+
+  return h.response().code(200);
+};
+
 const complementaryCertificationController = {
   findComplementaryCertifications,
   searchAttachableTargetProfilesForComplementaryCertifications,
   createConsolidatedFramework,
+  calibrateConsolidatedFramework,
 };
 export { complementaryCertificationController };

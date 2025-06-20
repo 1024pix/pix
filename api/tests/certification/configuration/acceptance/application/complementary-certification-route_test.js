@@ -1,7 +1,10 @@
+import _ from 'lodash';
+
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import {
   createServer,
   databaseBuilder,
+  datamartBuilder,
   expect,
   generateAuthenticatedUserRequestHeaders,
   insertUserWithRoleSuperAdmin,
@@ -300,6 +303,64 @@ describe('Certification | Configuration | Acceptance | API | complementary-certi
           complementaryCertificationKey: complementaryCertification.key,
         },
       ]);
+    });
+  });
+
+  describe('PATCH /api/admin/complementary-certifications/{complementaryCertificationKey}/consolidated-framework', function () {
+    it('should return 200 HTTP status code and update framework with calibration', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+      const createdAt = new Date('2023-06-18');
+      const certificationFrameworkChallenge = databaseBuilder.factory.buildCertificationFrameworksChallenge({
+        challengeId: 'recChallengeId',
+        complementaryCertificationKey: complementaryCertification.key,
+        createdAt,
+      });
+
+      await databaseBuilder.commit();
+
+      const activeCalibratedChallenge = datamartBuilder.factory.buildActiveCalibratedChallenge({
+        calibrationId: 1,
+        challengeId: 'recChallengeId',
+        alpha: 3.3,
+        delta: 4.4,
+        scope: 'DROIT',
+      });
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/complementary-certifications/${complementaryCertification.key}/consolidated-framework`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+        payload: {
+          data: {
+            attributes: {
+              createdAt,
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+
+      const consolidatedFramework = await knex('certification-frameworks-challenges').where({
+        complementaryCertificationKey: complementaryCertification.key,
+        createdAt,
+      });
+      expect(consolidatedFramework).to.have.length(1);
+      expect(_.omit(consolidatedFramework[0], 'id')).to.deep.equal({
+        alpha: activeCalibratedChallenge.alpha,
+        delta: activeCalibratedChallenge.delta,
+        challengeId: certificationFrameworkChallenge.challengeId,
+        complementaryCertificationKey: complementaryCertification.key,
+        createdAt: certificationFrameworkChallenge.createdAt,
+      });
     });
   });
 });

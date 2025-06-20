@@ -10,6 +10,7 @@ const buildCertificationFrameworksChallenge = function ({
   delta = 3.5,
   complementaryCertificationKey,
   challengeId,
+  createdAt = new Date(),
 } = {}) {
   complementaryCertificationKey = _.isUndefined(complementaryCertificationKey)
     ? buildComplementaryCertification().key
@@ -23,6 +24,7 @@ const buildCertificationFrameworksChallenge = function ({
     delta,
     complementaryCertificationKey,
     challengeId,
+    createdAt,
   };
 
   return databaseBuffer.pushInsertable({

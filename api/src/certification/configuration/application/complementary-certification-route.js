@@ -1,4 +1,7 @@
-import Joi from 'joi';
+import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
+
+const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
@@ -90,6 +93,40 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           'Elle permet de créer un nouveau référentiel cadre pour une complémentaire à partir de sujets',
+        ],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/admin/complementary-certifications/{complementaryCertificationKey}/consolidated-framework',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            complementaryCertificationKey: Joi.string().valid(...Object.values(ComplementaryCertificationKeys)),
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                createdAt: Joi.date().required(),
+              },
+            },
+          }),
+        },
+        handler: complementaryCertificationController.calibrateConsolidatedFramework,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
+          'Elle declenche la synchronization entre une calibration (contenu formatif) et son référentiel cadre (Pix)',
         ],
       },
     },
