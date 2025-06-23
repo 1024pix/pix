@@ -7,16 +7,26 @@ const serialize = function (results) {
     attributes: ['levelsPerCompetence', 'maxReachableLevel', 'meanReachedLevel'],
     transform(results) {
       const levelsPerCompetence = results.levelsPerCompetence.map((competence) => {
+        const levelsPerTube = results.levelsPerTube.filter((tube) => tube.competenceId === competence.id);
+
         return {
           ...competence,
-          levelsPerTube: results.levelsPerTube.filter((tube) => tube.competenceId === competence.id),
+          maxLevel: competence.maxLevel.toFixed(1),
+          meanLevel: competence.meanLevel.toFixed(1),
+          levelsPerTube: levelsPerTube.map((levelPerTube) => {
+            return {
+              ...levelPerTube,
+              maxLevel: levelPerTube.maxLevel.toFixed(1),
+              meanLevel: levelPerTube.meanLevel.toFixed(1),
+            };
+          }),
         };
       }, []);
 
       return {
         id: results.id,
-        maxReachableLevel: results.maxReachableLevel,
-        meanReachedLevel: results.meanReachedLevel,
+        maxReachableLevel: results.maxReachableLevel.toFixed(1),
+        meanReachedLevel: results.meanReachedLevel.toFixed(1),
         levelsPerCompetence,
       };
     },

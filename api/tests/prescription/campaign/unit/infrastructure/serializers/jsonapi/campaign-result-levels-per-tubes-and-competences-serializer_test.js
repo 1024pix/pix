@@ -5,7 +5,7 @@ import { domainBuilder } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-competences-serializer', function () {
   describe('#serialize', function () {
-    it('should convert CampaignResultLevelPerTubesAndCompentences acquisitions statistics into JSON API data', function () {
+    it('should convert CampaignResultLevelPerTubesAndCompetences acquisitions statistics into JSON API data', function () {
       const campaignId = 1;
       const model = domainBuilder.prescription.campaign.buildCampaignResultLevelsPerTubesAndCompetences();
       const json = serializer.serialize(model);
@@ -15,8 +15,8 @@ describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-com
           type: 'campaign-result-levels-per-tubes-and-competences',
           id: `${campaignId}`,
           attributes: {
-            'max-reachable-level': 1,
-            'mean-reached-level': 0.5,
+            'max-reachable-level': 3.0,
+            'mean-reached-level': 0.3,
           },
           relationships: {
             'levels-per-competence': {
@@ -34,8 +34,8 @@ describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-com
             attributes: {
               'competence-id': 'competence1',
               'competence-name': 'compétence 1',
-              'max-level': 1,
-              'mean-level': 0.5,
+              'max-level': 3.0,
+              'mean-level': 0.3,
               description: 'tube 1 description',
               title: 'tube 1',
             },
@@ -46,8 +46,8 @@ describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-com
             attributes: {
               description: 'description compétence 1',
               index: '1.1',
-              'max-level': 1,
-              'mean-level': 0.5,
+              'max-level': 3.0,
+              'mean-level': 0.3,
               name: 'compétence 1',
             },
             relationships: {

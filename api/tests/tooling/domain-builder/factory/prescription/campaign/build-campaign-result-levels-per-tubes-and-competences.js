@@ -17,10 +17,21 @@ function buildCampaignResultLevelsPerTubesAndCompetences() {
     tubeId: 'tube1',
     difficulty: 1,
   });
+  const skill2 = buildSkill({
+    id: 'recSkillWeb2',
+    tubeId: 'tube2',
+    difficulty: 2,
+  });
+  const skill3 = buildSkill({
+    id: 'recSkillWeb2',
+    tubeId: 'tube2',
+    difficulty: 3,
+  });
+
   const tube1 = buildTube({
     id: 'tube1',
     competenceId: 'competence1',
-    skills: [skill1],
+    skills: [skill1, skill2, skill3],
     practicalTitle: 'tube 1',
     practicalDescription: 'tube 1 description',
   });
@@ -54,18 +65,27 @@ function buildCampaignResultLevelsPerTubesAndCompetences() {
 
   const user2ke1 = buildKnowledgeElement({
     status: KnowledgeElement.StatusType.INVALIDATED,
-    skillId: skill1.id,
+    skillId: skill2.id,
     userId: 2,
+  });
+
+  const user3ke1 = buildKnowledgeElement({
+    status: KnowledgeElement.StatusType.INVALIDATED,
+    skillId: skill3.id,
+    userId: 3,
   });
 
   const keData = {
     participationId1: new KnowledgeElementCollection([user1ke1]).latestUniqNonResetKnowledgeElements,
     participationId2: new KnowledgeElementCollection([user2ke1]).latestUniqNonResetKnowledgeElements,
+    participationId3: new KnowledgeElementCollection([user3ke1]).latestUniqNonResetKnowledgeElements,
   };
+
   const campaignResult = new CampaignResultLevelsPerTubesAndCompetences({
     campaignId: 1,
     learningContent,
   });
+
   campaignResult.addKnowledgeElementSnapshots(keData);
   return campaignResult;
 }
