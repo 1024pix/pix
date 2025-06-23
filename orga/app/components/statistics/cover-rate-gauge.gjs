@@ -1,35 +1,18 @@
 import { guidFor } from '@ember/object/internals';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
-import { t } from 'ember-intl';
+import { formatNumber, t } from 'ember-intl';
 
-const MAX_REACHABLE_LEVEL = 8;
+import { MAX_REACHABLE_LEVEL } from '../../helpers/levels-info';
 
 export default class CoverRateGauge extends Component {
   get id() {
     return guidFor(this);
   }
 
-  get reachedLevel() {
-    return this.formatNumber(this.args.userLevel);
-  }
-
-  get maxLevel() {
-    return this.formatNumber(this.args.tubeLevel);
-  }
-
   get translation() {
     return this.args.label || 'components.cover-rate-gauge.label';
   }
-
-  formatNumber = (str) => {
-    const num = Number(str);
-    const oneDigitNum = num.toFixed(1);
-    if (oneDigitNum.toString().endsWith('0')) {
-      return Math.ceil(num);
-    }
-    return oneDigitNum;
-  };
 
   getGaugeSizeStyle = (level, { withExtraPercentage }) => {
     const gaugeSize = (level / MAX_REACHABLE_LEVEL) * 100;
@@ -42,33 +25,33 @@ export default class CoverRateGauge extends Component {
         <div
           aria-hidden="true"
           class="cover-rate-gauge__level cover-rate-gauge__level--tube-level"
-          style={{this.getGaugeSizeStyle this.maxLevel withExtraPercentage=true}}
+          style={{this.getGaugeSizeStyle @tubeLevel withExtraPercentage=true}}
         >
-          {{this.maxLevel}}
+          {{formatNumber @tubeLevel}}
         </div>
         <div class="cover-rate-gauge__background {{if @hideMaxMin ' cover-rate-gauge__background--hide-max-min'}}">
 
           <label for={{this.id}} class="screen-reader-only">
-            {{t this.translation reachedLevel=this.reachedLevel maxLevel=this.maxLevel}}
+            {{t this.translation reachedLevel=@userLevel maxLevel=@tubeLevel}}
           </label>
 
           <progress
             aria-hidden="true"
             class="cover-rate-gauge__progress"
             id={{this.id}}
-            max={{this.maxLevel}}
-            value={{this.reachedLevel}}
-            style={{this.getGaugeSizeStyle this.maxLevel withExtraPercentage=false}}
+            max={{@tubeLevel}}
+            value={{@userLevel}}
+            style={{this.getGaugeSizeStyle @tubeLevel withExtraPercentage=false}}
           >
-            {{this.reachedLevel}}
+            {{formatNumber @userLevel}}
           </progress>
         </div>
         <div
           aria-hidden="true"
           class="cover-rate-gauge__level cover-rate-gauge__level--user-level"
-          style={{this.getGaugeSizeStyle this.reachedLevel withExtraPercentage=true}}
+          style={{this.getGaugeSizeStyle @userLevel withExtraPercentage=true}}
         >
-          {{this.reachedLevel}}
+          {{formatNumber @userLevel}}
         </div>
       </div>
     </div>
