@@ -70,10 +70,10 @@ describe('Integration | Repository | CampaignToJoin', function () {
       // given
       const { code, organizationId } = databaseBuilder.factory.buildCampaign();
 
-      (organizationFeatureAPI.getAllFeaturesFromOrganization
+      organizationFeatureAPI.getAllFeaturesFromOrganization
         .withArgs(organizationId)
-        .resolves({ hasLearnersImportFeature: true }),
-        databaseBuilder.factory.buildCampaign());
+        .resolves({ hasLearnersImportFeature: true });
+      databaseBuilder.factory.buildCampaign();
 
       await databaseBuilder.commit();
 

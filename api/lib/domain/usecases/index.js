@@ -1,5 +1,3 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -18,13 +16,11 @@ import * as thematicRepository from '../../../src/shared/infrastructure/reposito
 import * as tubeRepository from '../../../src/shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
 const dependencies = {
-  certificationCompletedJobRepository,
   areaRepository,
   campaignRepository,
   competenceRepository,
