@@ -48,7 +48,7 @@
                 {
                   "userName": "Gustave",
                   "direction": "incoming",
-                  "content": "Je ne comprends pas... Tu arrives à faire plein de choses avec l'IA. Mais avec moi, ça ne marche pas !😒"
+                  "content": "Emma, je ne comprends pas... Tu arrives à faire plein de choses avec l'IA. Mais avec moi, ça ne marche pas !😒"
                 },
                 {
                   "userName": "Emma",
@@ -261,13 +261,9 @@
         {
           "type": "element",
           "element": {
-            "id": "4fd08276-0da3-4726-aa83-8ac498dcd561",
-            "type": "image",
-            "url": "https://assets.pix.org/draft/modules/tableaumanchette/travailmanchette.png",
-            "alt": "Un tableau d'exercice pour travailler la manchette",
-            "alternativeText": "<p>Un tableau avec 3 exercices pour travailler la manchette selon son niveau (débutant, intermédiaire, avancé)</p>",
-            "legend": "",
-            "licence": ""
+            "id": "29b0a00a-fb1e-4737-a84f-c154e3faff48",
+            "type": "text",
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/poi-tableau-volley-manchette.html\" height=\"600\"></iframe>"
           }
         },
         {
@@ -594,7 +590,7 @@
           "element": {
             "id": "e90e7470-54a6-444d-bc77-39cfc9b0fad1",
             "type": "text",
-            "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du tournoi :&nbsp;</p><p><br><em>- max 12 équipes. 5v5, équipes mixtes → tout le monde ok</em></p><p><em>- arbitres → bénévoles, relancer ceux du dernier tournoi-</em></p><p><em>- 2 sponsors ( eau+ salle de sport) ok, pizzeria en négos</em></p><p><em>- playlist en cours un peu d’ambiance, c’est gérésono ? </em></p><p><em>-&nbsp;pas clair → voir avec mairie pr matos</em></p><p><em>- si pluie → gymnase dispo ? ok ! :-)</em></p><p><em>- buvette : jus, sandwichs, fruits → pas de chaudrécompenses ? médailles → à chiffrer</em></p>"
+            "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du tournoi :&nbsp;</p><p><br><em>- max 12 équipes. équipes mixtes → tout le monde ok</em></p><p><em> - arbitres → bénévoles, relancer ceux du dernier tournoi </em></p><p><em>- musique : demander mairie pour sono </em></p><p><em>- si pluie → gymnase dispo ? ok ! :-) </em></p><p><em>- buvette : jus, sandwichs, fruits → pas de chaud </em></p><p><em>- récompenses ? médailles → à chiffrer<br></em></p>"
           }
         },
         {
@@ -646,7 +642,7 @@
           "element": {
             "id": "c992a84d-933f-4a33-8485-5b64cacd6aea",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/actualitestournoi.html\" height=\"900\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/actualitestournoi.html\" height=\"880\"></iframe>"
           }
         },
         {
