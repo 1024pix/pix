@@ -263,13 +263,13 @@
           "element": {
             "id": "29b0a00a-fb1e-4737-a84f-c154e3faff48",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/poi-tableau-volley-manchette.html\" height=\"600\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/poi-tableau-volley-manchette.html\" height=\"400\"></iframe>"
           }
         },
         {
           "type": "element",
           "element": {
-            "id": "29b0a00a-fb1e-4737-a84f-c154e3faff48",
+            "id": "df111a09-7761-4407-81c5-5c96262248e9"
             "type": "qrocm",
             "instruction": "<p>Quel est le format utilisé habituellement par Gustave ?</p><br>",
             "proposals": [
