@@ -12,6 +12,7 @@ const localhostApplicationPortMapping = {
   4202: PIX_ADMIN_APPLICATION_NAME,
   4203: PIX_CERTIF_APPLICATION_NAME,
   4205: PIX_JUNIOR_APPLICATION_NAME,
+  4206: PIX_APP_APPLICATION_NAME, // todo(poc-auth): manage this
 };
 
 /**
