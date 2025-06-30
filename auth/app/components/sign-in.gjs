@@ -1,15 +1,24 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
+import { service } from '@ember/service';
 
 export default class SignIn extends Component {
+  @service session;
+
   @tracked email = '';
   @tracked password = '';
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Email:', this.email);
     console.log('Password:', this.password);
+
+    await this.session.authenticate(
+      'authenticator:oauth2',
+      this.email,
+      this.password,
+    );
   };
 
   onChangeEmail = (event) => {
