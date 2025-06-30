@@ -64,4 +64,16 @@ const getNextChallengeByCourseIdForV3 = async function (courseId, ignoredChallen
   return new CertificationChallenge(certificationChallenge);
 };
 
-export { getNextChallengeByCourseIdForV3, getNextNonAnsweredChallengeByCourseId, save };
+const selectNextCertificationChallenge = async function ({ assessmentId, locale, certificationEvaluationApi }) {
+  return certificationEvaluationApi.selectNextCertificationChallenge({
+    assessmentId,
+    locale,
+  });
+};
+
+export {
+  getNextChallengeByCourseIdForV3,
+  getNextNonAnsweredChallengeByCourseId,
+  save,
+  selectNextCertificationChallenge,
+};
