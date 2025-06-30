@@ -5,7 +5,7 @@
   "isBeta": true,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Les IA génératives (ChatGPT, LeChat, DeepSeek…) permettent de répondre à une grande variété de nos demandes. Mais la qualité de leurs réponses dépend beaucoup des questions qu’on leur pose.&nbsp;🤔 </p><p>Dans ce module, vous allez apprendre à formuler des prompts efficaces pour répondre à vos besoins&nbsp;et à ajuster au fur et à mesure vos demandes pour améliorer le résultat obtenu.&nbsp;🚀</p>",
+    "description": "<p>Les IA génératives (ChatGPT, LeChat, DeepSeek…) permettent de répondre à une grande variété de nos demandes. Mais la qualité de leurs réponses dépend beaucoup des questions qu’on leur pose, c'est-à-dire, des prompts qu'on leur donne.🤔 </p><p>Dans ce module, vous allez apprendre à formuler des prompts efficaces pour répondre à vos besoins&nbsp;et à ajuster au fur et à mesure vos demandes pour améliorer le résultat obtenu.&nbsp;🚀</p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
@@ -48,7 +48,7 @@
                 {
                   "userName": "Gustave",
                   "direction": "incoming",
-                  "content": "Emma, je ne comprends pas... Tu arrives à faire plein de choses avec l'IA. Mais avec moi, ça ne marche pas !😒"
+                  "content": "Je ne comprends pas... Tu arrives à faire plein de choses avec l'IA. Mais avec moi, ça ne marche pas !😒"
                 },
                 {
                   "userName": "Emma",
@@ -261,15 +261,19 @@
         {
           "type": "element",
           "element": {
-            "id": "29b0a00a-fb1e-4737-a84f-c154e3faff48",
-            "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/poi-tableau-volley-manchette.html\" height=\"400\"></iframe>"
+            "id": "4fd08276-0da3-4726-aa83-8ac498dcd561",
+            "type": "image",
+            "url": "https://assets.pix.org/draft/modules/tableaumanchette/travailmanchette.png",
+            "alt": "Un tableau d'exercice pour travailler la manchette",
+            "alternativeText": "<p>Un tableau avec 3 exercices pour travailler la manchette selon son niveau (débutant, intermédiaire, avancé)</p>",
+            "legend": "",
+            "licence": ""
           }
         },
         {
           "type": "element",
           "element": {
-            "id": "df111a09-7761-4407-81c5-5c96262248e9"
+            "id": "22bff52e-1760-45a8-9d89-e441a679eda4",
             "type": "qrocm",
             "instruction": "<p>Quel est le format utilisé habituellement par Gustave ?</p><br>",
             "proposals": [
@@ -288,7 +292,9 @@
                   "t3"
                 ],
                 "solutions": [
-                  "tableau"
+                  "tableau",
+                  "table",
+                  "tablo"
                 ]
               }
             ],
@@ -337,7 +343,7 @@
           "element": {
             "id": "6ff09171-639a-4e55-a4d5-9beb8e4afea4",
             "type": "text",
-            "content": "<p>\n    <br>\n</p>\n<p>\n</p><p></p><p></p><details>\n    <summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary>\n    <p><span aria-hidden=\"true\">❌</span>Il vous arrive d'envoyer votre prompt alors que vous vouliez juste aller à la ligne ? <br> <span aria-hidden=\"true\">✅</span> Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift⬆️)et Entrée </p>\n</details>\n<p></p><p></p><p></p>\n<p><br></p>"
+            "content": "<p>\n</p><details>\n    <summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary>\n    <p><span aria-hidden=\"true\">❌</span>Il vous arrive d'envoyer votre prompt alors que vous vouliez juste aller à la ligne ? <br> <span aria-hidden=\"true\">✅</span> Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift⬆️)et Entrée </p>\n</details>\n<p></p><p><br></p>\n<p><br></p>\n<p><br></p>\n<p><br></p>\n<p><br></p>"
           }
         }
       ]
@@ -352,7 +358,7 @@
           "element": {
             "id": "c4a6a0a4-bbc8-4462-9098-af1e9d453cf3",
             "type": "text",
-            "content": "<p>➡️Sans indication, l'IA choisira elle-même un format, qui risque ne pas correspondre vos attentes.&nbsp;🤔​</p><p>Préciser le <strong>format</strong> attendu dans le prompt permet de gagner du temps&nbsp;:&nbsp; </p><p>il peut s’agir d’un <strong>texte</strong>, d’un <strong>tableau</strong>, d’une <strong>liste</strong>, d’un <strong>plan détaillé</strong>… </p><p>On peut aussi préciser des <strong>contraintes </strong>dans ce format, par exemple&nbsp;:&nbsp; </p><ul><li>un texte d’une <strong>longueur maximale</strong> de 10 lignes, </li><li>un plan détaillé <strong>en précisant la structure</strong>, le nombre de parties et le titre.</li></ul><p>Mais vous n’avez pas besoin de préciser tous les détails et les contraintes dès le départ, vous pouvez le faire <strong>au fur et à mesure,</strong> en demandant des modifications.<br><br></p><p>💡Bon à savoir&nbsp;: Vous pouvez aussi demander à l’IA de partir d’un <strong>exemple </strong>et de le reproduire.<br><br></p>"
+            "content": "<p>➡️Sans indication, l'IA choisira elle-même un format, qui risque ne pas correspondre à vos attentes.&nbsp;🤔​</p><p>Préciser le <strong>format</strong> attendu dans le prompt permet de gagner du temps&nbsp;:&nbsp; </p><p>il peut s’agir d’un <strong>texte</strong>, d’un <strong>tableau</strong>, d’une <strong>liste</strong>, d’un <strong>plan détaillé</strong>… </p><p>On peut aussi préciser des <strong>contraintes </strong>dans ce format, par exemple&nbsp;:&nbsp; </p><ul><li>un texte d’une <strong>longueur maximale</strong> de 10 lignes, </li><li>un plan détaillé <strong>en précisant la structure</strong>, le nombre de parties et le titre.</li></ul><p>Mais vous n’avez pas besoin de préciser tous les détails et les contraintes dès le départ, vous pouvez le faire <strong>au fur et à mesure,</strong> en demandant des modifications.<br><br></p><p>💡Bon à savoir&nbsp;: Vous pouvez aussi demander à l’IA de partir d’un <strong>exemple </strong>et de le reproduire.<br><br></p>"
           }
         }
       ]
@@ -590,7 +596,7 @@
           "element": {
             "id": "e90e7470-54a6-444d-bc77-39cfc9b0fad1",
             "type": "text",
-            "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du tournoi :&nbsp;</p><p><br><em>- max 12 équipes. équipes mixtes → tout le monde ok</em></p><p><em> - arbitres → bénévoles, relancer ceux du dernier tournoi </em></p><p><em>- musique : demander mairie pour sono </em></p><p><em>- si pluie → gymnase dispo ? ok ! :-) </em></p><p><em>- buvette : jus, sandwichs, fruits → pas de chaud </em></p><p><em>- récompenses ? médailles → à chiffrer<br></em></p>"
+            "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du tournoi :&nbsp;</p><p><br><em>- max 12 équipes. 5v5, équipes mixtes → tout le monde ok</em></p><p><em>- arbitres → bénévoles, relancer ceux du dernier tournoi-</em></p><p><em>- 2 sponsors ( eau+ salle de sport) ok, pizzeria en négos</em></p><p><em>- playlist en cours un peu d’ambiance, c’est gérésono ? </em></p><p><em>-&nbsp;pas clair → voir avec mairie pr matos</em></p><p><em>- si pluie → gymnase dispo ? ok ! :-)</em></p><p><em>- buvette : jus, sandwichs, fruits → pas de chaudrécompenses ? médailles → à chiffrer</em></p>"
           }
         },
         {
@@ -642,7 +648,7 @@
           "element": {
             "id": "c992a84d-933f-4a33-8485-5b64cacd6aea",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/actualitestournoi.html\" height=\"880\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/JTE/actualitestournoi.html\" height=\"900\"></iframe>"
           }
         },
         {
