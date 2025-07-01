@@ -6,17 +6,17 @@ import pageTitle from 'ember-page-title/helpers/page-title';
 import { on } from '@ember/modifier';
 
 export default class ApplicationTemplate extends Component {
-  @service session;
+  @service authentication;
 
   @action
   invalidateSession() {
-    this.session.invalidate();
+    this.authentication.invalidate();
   }
 
   <template>
     {{pageTitle "Auth"}}
 
-    {{#if this.session.isAuthenticated}}
+    {{#if this.authentication.isAuthenticated}}
       <button type="button" {{on "click" this.invalidateSession}}>
         Logout
       </button>

@@ -2,9 +2,9 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
-  @service session;
+  @service authentication;
 
   async beforeModel() {
-    await this.session.setup();
+    await this.authentication.setup();
   }
 }

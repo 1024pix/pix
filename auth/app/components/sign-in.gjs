@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 
 export default class SignIn extends Component {
-  @service session;
+  @service authentication;
 
   @tracked email = 'superadmin@example.net';
   @tracked password = 'pix123';
@@ -17,18 +17,14 @@ export default class SignIn extends Component {
     console.log('Password:', this.password);
 
     try {
-      await this.session.authenticate(
-        'authenticator:oauth2',
-        this.email,
-        this.password,
-      );
+      await this.authentication.authenticate(this.email, this.password);
     } catch (error) {
       console.error('Authentication failed:', error);
     }
 
-    if (this.session.isAuthenticated) {
+    if (this.authentication.isAuthenticated) {
       console.log('Authentication successful');
-      window.location = 'http://localhost:4200'; // Redirect to the home page
+      window.location = 'http://localhost:4200';
     } else {
       console.log('Authentication failed');
     }
