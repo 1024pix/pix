@@ -7,8 +7,8 @@ import { service } from '@ember/service';
 export default class SignIn extends Component {
   @service session;
 
-  @tracked email = '';
-  @tracked password = '';
+  @tracked email = 'superadmin@example.net';
+  @tracked password = 'pix123';
 
   @action
   async handleSubmit(event) {
@@ -28,6 +28,7 @@ export default class SignIn extends Component {
 
     if (this.session.isAuthenticated) {
       console.log('Authentication successful');
+      window.location = 'http://localhost:4200'; // Redirect to the home page
     } else {
       console.log('Authentication failed');
     }
