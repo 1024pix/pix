@@ -138,7 +138,7 @@ const schema = Joi.object({
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   LCMS_API_KEY: Joi.string().requiredForApi(),
   LCMS_API_URL: Joi.string().uri().requiredForApi(),
-  LCMS_API_RELEASE_ID: Joi.number().integer().min(1).optional(),
+  LCMS_API_RELEASE_ID: Joi.any(),
   LLM_API_GET_CONFIGURATIONS_URL: Joi.string().optional(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
   LOG_ENABLED: Joi.string().required().valid('true', 'false'),
@@ -325,7 +325,7 @@ const configuration = (function () {
     lcms: {
       url: _removeTrailingSlashFromUrl(process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL || ''),
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
-      releaseId: _getNumber(process.env.LCMS_API_RELEASE_ID, null),
+      releaseId: process.env.LCMS_API_RELEASE_ID || null,
     },
     llm: {
       temporaryStorage: {

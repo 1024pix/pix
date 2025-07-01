@@ -12,7 +12,7 @@ const getRelease = async function () {
     signature = 'pix-api';
   }
 
-  const url = lcmsConfig.url + '/releases/' + (lcmsConfig.releaseId ? lcmsConfig.releaseId.toString() : 'latest');
+  const url = lcmsConfig.url + '/releases/' + (lcmsConfig.releaseId ?? 'latest');
   const response = await httpAgent.get({
     url,
     headers: { Authorization: `Bearer ${lcmsConfig.apiKey}`, Referer: signature },

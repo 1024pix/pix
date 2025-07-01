@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
     context('when a release id is specified', function () {
       beforeEach(function () {
         originalEnvValue = config.lcms.releaseId;
-        config.lcms.releaseId = 123;
+        config.lcms.releaseId = '123';
       });
 
       afterEach(function () {
