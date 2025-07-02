@@ -13,7 +13,7 @@ export default class AuthenticationService extends Service {
   redirectUri = null;
 
   setup(redirect_uri) {
-    this.redirectUri = redirect_uri;
+    this.redirectUri = decodeURI(redirect_uri);
 
     this.session = this.getStoredSession();
   }

@@ -55,7 +55,10 @@ export default class CurrentSessionService extends SessionService {
     }
 
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
-    super.handleInvalidation(routeAfterInvalidation);
+    // todo(auth)
+    const encodedRedirectUri = encodeURIComponent(`${window.location.origin}${routeAfterInvalidation}`);
+    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
+    super.handleInvalidation(authRoute);
   }
 
   async handleUserLanguageAndLocale(transition = null) {

@@ -29,7 +29,10 @@ export default class CurrentSessionService extends SessionService {
 
   handleInvalidation() {
     this.store.clear();
-    super.handleInvalidation('/connexion');
+    // todo(auth)
+    const url = encodeURIComponent(window.location.origin);
+    const authRoute = `http://localhost:4206?redirect_uri=${url}`;
+    super.handleInvalidation(authRoute);
   }
 
   handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {

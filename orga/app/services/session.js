@@ -28,8 +28,11 @@ export default class CurrentSessionService extends SessionService {
 
   async handleInvalidation() {
     this.store.clear();
+    // todo(auth)
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
-    await super.handleInvalidation(routeAfterInvalidation);
+    const encodedRedirectUri = encodeURIComponent(`${window.location.origin}${routeAfterInvalidation}`);
+    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
+    return super.handleInvalidation(authRoute);
   }
 
   handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
