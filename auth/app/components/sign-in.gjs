@@ -24,7 +24,7 @@ export default class SignIn extends Component {
 
     if (this.authentication.isAuthenticated) {
       console.log('Authentication successful');
-      window.location = 'http://localhost:4200';
+      window.location = this.args.redirect_uri;
     } else {
       console.log('Authentication failed');
     }
@@ -41,6 +41,7 @@ export default class SignIn extends Component {
   }
 
   <template>
+    <h1>Connexion à: {{@redirect_uri}}</h1>
     <form {{on "submit" this.handleSubmit}}>
       <label for="email">Email</label>
       <input
