@@ -13,8 +13,6 @@ export default class SignIn extends Component {
   @action
   async handleSubmit(event) {
     event.preventDefault();
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
 
     try {
       await this.authentication.authenticate(this.email, this.password);
@@ -23,10 +21,7 @@ export default class SignIn extends Component {
     }
 
     if (this.authentication.isAuthenticated) {
-      console.log('Authentication successful');
       window.location = this.args.redirect_uri;
-    } else {
-      console.log('Authentication failed');
     }
   }
 

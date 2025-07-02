@@ -8,13 +8,13 @@ export default class ApplicationRoute extends Route {
       refreshModel: true,
     }
   }
-  async beforeModel() {
-    await this.authentication.setup();
-  }
 
   async model (params) {
+    const redirectUri = params.redirect_uri || 'http://localhost:4200';
+
+    await this.authentication.setup(redirectUri);
     return {
-      redirect_uri: params.redirect_uri
+      redirect_uri: redirectUri
     }
   }
 }
