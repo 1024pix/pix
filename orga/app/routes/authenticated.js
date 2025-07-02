@@ -10,7 +10,12 @@ export default class AuthenticatedRoute extends Route {
   @service store;
 
   beforeModel(transition) {
-    this.session.requireAuthentication(transition, 'login');
+    // todo(auth)
+    const encodedRedirectUri = encodeURIComponent(`${window.location.href}`);
+    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
+    this.session.requireAuthentication(transition, () => {
+      window.location = authRoute;
+    });
 
     if (transition.isAborted) {
       return;
