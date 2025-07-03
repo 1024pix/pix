@@ -6,6 +6,7 @@ import { oidcProviderRoutes } from './oidc-provider/oidc-provider.route.js';
 import { organizationLearnerAccountRecoveryRoutes } from './organization-learner-account-recovery/organization-learner-account-recovery.route.js';
 import { passwordRoutes } from './password/password.route.js';
 import { samlRoutes } from './saml/saml.route.js';
+import { oauthRoutes } from './token/oauth.route.js';
 import { tokenRoutes } from './token/token.route.js';
 import { userAdminRoutes } from './user/user.admin.route.js';
 import { userRoutes } from './user/user.route.js';
@@ -22,6 +23,7 @@ const allRoutes = [
   ...tokenRoutes,
   ...userAdminRoutes,
   ...userRoutes,
+  ...oauthRoutes,
 ];
 
 function register(server, { routes = allRoutes, tags }) {
