@@ -8,6 +8,8 @@ import { test } from './fixtures.ts';
 type PixAuthType = 'pix-app' | 'pix-app-gar' | 'pix-orga';
 
 export const LOGGED_USER_ID = 1;
+export const LOGGED_APP_USER_ID = 1;
+export const LOGGED_ORGA_USER_ID = 2;
 
 export function getAuthStatePath(type: PixAuthType) {
   return path.join(import.meta.dirname, `../node_modules/.playwright/auth-${type}.json`);
@@ -15,7 +17,17 @@ export function getAuthStatePath(type: PixAuthType) {
 
 export function useLoggedUser(type: PixAuthType) {
   test.use({ storageState: getAuthStatePath(type) });
-  return LOGGED_USER_ID;
+  return LOGGED_APP_USER_ID;
+}
+
+export function useLoggedAppUser(type: PixAuthType) {
+  test.use({ storageState: getAuthStatePath(type) });
+  return LOGGED_APP_USER_ID;
+}
+
+export function useLoggedOrgaUser(type: PixAuthType) {
+  test.use({ storageState: getAuthStatePath(type) });
+  return LOGGED_ORGA_USER_ID;
 }
 
 export function getGarTokenForNewUser(firstName: string, lastName: string, expiresIn: ms.StringValue = '1h') {

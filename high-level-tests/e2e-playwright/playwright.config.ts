@@ -48,8 +48,17 @@ export default defineConfig({
       use: { baseURL: process.env.PIX_ORGA_URL },
       dependencies: ['pix-orga-setup'],
     },
+    {
+      name: 'pix-next-challenge-regression',
+      testDir: 'next-challenge-regression',
+      dependencies: ['pix-app-setup', 'pix-orga-setup'],
+    },
   ],
 
+  // 3 modes
+  // ci -> circleci yaml que tout se passe
+  // local ->
+  // intég -> tout est déjà lancé il faut fixer les .env et c'est tout
   webServer: isCI
     ? [
         {
@@ -61,21 +70,23 @@ export default defineConfig({
     : [
         {
           cwd: '../../api',
-          command: 'npm run db:prepare && npm run start',
+          command: 'npm run db:prepare && npm run cache:refresh && npm run start',
           url: `http://localhost:${process.env.PIX_API_PORT}`,
           reuseExistingServer: false,
           stdout: 'ignore',
           stderr: 'pipe',
           env: {
-            PORT: process.env.PIX_API_PORT || '',
-            DATABASE_URL: process.env.DATABASE_URL || '',
-            DATAMART_DATABASE_URL: process.env.DATAMART_DATABASE_URL || '',
-            DATAWAREHOUSE_DATABASE_URL: process.env.DATAWAREHOUSE_DATABASE_URL || '',
-            REDIS_URL: process.env.REDIS_URL || '',
+            PORT: process.env.PIX_API_PORT ?? '',
+            DATABASE_URL: process.env.DATABASE_URL ?? '',
+            DATAMART_DATABASE_URL: process.env.DATAMART_DATABASE_URL ?? '',
+            DATAWAREHOUSE_DATABASE_URL: process.env.DATAWAREHOUSE_DATABASE_URL ?? '',
+            REDIS_URL: process.env.REDIS_URL ?? '',
             START_JOB_IN_WEB_PROCESS: 'false',
             PIX_AUDIT_LOGGER_ENABLED: 'false',
             MAILING_ENABLED: 'false',
-            FT_PIXAPP_NEW_LAYOUT_ENABLED: 'false',
+            LCMS_API_URL: process.env.LCMS_API_URL ?? '',
+            LCMS_API_KEY: process.env.LCMS_API_KEY ?? '',
+            LCMS_API_RELEASE_ID: process.env.LCMS_API_RELEASE_ID ?? '',
           },
         },
         {
@@ -85,6 +96,9 @@ export default defineConfig({
           reuseExistingServer: false,
           stdout: 'ignore',
           stderr: 'pipe',
+          env: {
+            DEFAULT_LOCALE: 'fr',
+          },
         },
         {
           cwd: '../../orga',
@@ -93,6 +107,9 @@ export default defineConfig({
           reuseExistingServer: false,
           stdout: 'ignore',
           stderr: 'pipe',
+          env: {
+            DEFAULT_LOCALE: 'fr',
+          },
         },
       ],
 });
