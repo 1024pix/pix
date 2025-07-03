@@ -1,6 +1,10 @@
+import { HttpErrors } from '../../../shared/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
+import { RefreshToken } from '../../domain/models/RefreshToken.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { getForwardedOrigin, RequestedApplication } from '../../infrastructure/utils/network.js';
+import { PKCEUtils } from '../../infrastructure/utils/pkce.js';
+import { authorizationCodeStore } from './oauth.controller.js';
 
 const authenticateAnonymousUser = async function (request, h) {
   const { campaign_code: campaignCode, lang } = request.payload;
@@ -56,6 +60,38 @@ const createToken = async function (request, h, dependencies = { tokenService })
 
     accessToken = tokensInfo.accessToken;
     expirationDelaySeconds = tokensInfo.expirationDelaySeconds;
+  } else if (grantType === 'authorization_code') {
+    const { code, client_id: clientId, code_verifier: codeVerifier } = request.payload;
+
+    const authorizationCode = authorizationCodeStore.findByCode(code);
+    if (!authorizationCode) {
+      throw new HttpErrors.BadRequestError('Invalid authorization code');
+    }
+
+    if (authorizationCode.clientId !== clientId) {
+      throw new HttpErrors.BadRequestError('Client ID does not match the authorization code');
+    }
+
+    if (
+      !PKCEUtils.validateCodeChallenge(
+        authorizationCode.codeChallenge,
+        codeVerifier,
+        authorizationCode.codeChallengeMethod,
+      )
+    ) {
+      throw new HttpErrors.BadRequestError('Invalid code verifier');
+    }
+
+    const userId = authorizationCode.userId;
+    if (!userId) {
+      throw new HttpErrors.BadRequestError('Authorization code does not have an associated user');
+    }
+
+    const accessTokenInfo = tokenService.createAccessTokenFromUser({ userId, source: 'pix', audience: origin });
+    accessToken = accessTokenInfo.accessToken;
+    expirationDelaySeconds = accessTokenInfo.expirationDelaySeconds;
+
+    refreshToken = RefreshToken.generate({ userId, source: 'pix', audience: origin });
   }
 
   const userId = dependencies.tokenService.extractUserId(accessToken);

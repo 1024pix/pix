@@ -73,6 +73,15 @@ export const tokenRoutes = [
               grant_type: Joi.string().valid('refresh_token').required(),
               refresh_token: Joi.string(),
             }),
+          Joi.object()
+            .required()
+            .keys({
+              grant_type: Joi.string().valid('authorization_code').required(),
+              code: Joi.string().required(),
+              redirect_uri: Joi.string().required(),
+              client_id: Joi.string().required(),
+              code_verifier: Joi.string().required(),
+            }),
         ),
       },
       pre: [{ method: securityPreHandlers.checkIfUserIsBlocked }],

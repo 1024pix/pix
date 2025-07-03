@@ -5,7 +5,7 @@ import { PKCEUtils } from '../../infrastructure/utils/pkce.js';
 import { AuthorizationCodeStore } from './AuthorizationCode.js';
 
 const authorizedClientIds = ['pix-orga'];
-const authorizationCodeStore = new AuthorizationCodeStore();
+export const authorizationCodeStore = new AuthorizationCodeStore();
 
 const authorize = async (req, h) => {
   const { response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method } = req.query;
@@ -49,7 +49,7 @@ const generateAuthorizationCode = async (req, h) => {
     userRepository,
   });
 
-  const code = authorizationCodeStore.create({
+  const { code } = authorizationCodeStore.create({
     clientId: client_id,
     userId: user.id,
     redirectUri: redirect_uri,
