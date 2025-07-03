@@ -1,7 +1,11 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
+import { pixAuthenticationService } from '../../domain/services/pix-authentication-service.js';
+import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import { PKCEUtils } from '../../infrastructure/utils/pkce.js';
+import { AuthorizationCodeStore } from './AuthorizationCode.js';
 
 const authorizedClientIds = ['pix-orga'];
+const authorizationCodeStore = new AuthorizationCodeStore();
 
 const authorize = async (req, h) => {
   const { response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method } = req.query;
@@ -31,4 +35,35 @@ const authorize = async (req, h) => {
   return h.redirect(`http://localhost:4206?${params.toString()}`);
 };
 
-export const oauthController = { authorize };
+const generateAuthorizationCode = async (req, h) => {
+  const { username, password, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method } =
+    req.payload;
+
+  if (!authorizedClientIds.includes(client_id)) {
+    throw new HttpErrors.BadRequestError('Client not authorized');
+  }
+
+  const user = await pixAuthenticationService.getUserByUsernameAndPassword({
+    username,
+    password,
+    userRepository,
+  });
+
+  const code = authorizationCodeStore.create({
+    clientId: client_id,
+    userId: user.id,
+    redirectUri: redirect_uri,
+    scopes: [scope],
+    state,
+    codeChallenge: code_challenge,
+    codeChallengeMethod: code_challenge_method,
+  });
+
+  const url = new URL(redirect_uri);
+  url.searchParams.set('code', code);
+  if (state) url.searchParams.set('state', state);
+
+  return h.response({ redirect: url.toString() });
+};
+
+export const oauthController = { authorize, generateAuthorizationCode };

@@ -39,41 +39,56 @@ export default class AuthenticationService extends Service {
 
     const cookieName = this.getCookieName();
 
-    const body = Object.keys(obj)
-      .map((key) => {
-        const value = obj[key];
+    // const body = Object.keys(obj)
+    //   .map((key) => {
+    //     const value = obj[key];
 
-        if (value) {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-        } else {
-          return null;
-        }
-      })
-      .filter(Boolean)
-      .join('&');
+    //     if (value) {
+    //       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+    //     } else {
+    //       return null;
+    //     }
+    //   })
+    //   .filter(Boolean)
+    //   .join('&');
 
-    const response = await fetch('http://localhost:4206/api/token', {
+    //todo extract parameters
+    const response = await fetch('http://localhost:4206/api/oauth/authorize', {
       method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      body,
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        username,
+        password,
+        client_id: 'pix-orga',
+        redirect_uri: 'http://localhost:4202/callback',
+        state: '123',
+        code_challenge: '123',
+        code_challenge_method: 'S256',
+      }),
     });
 
     const payload = await response.json();
 
-    const session = {
-      authenticator: 'authenticator:oauth2',
-      ...payload,
-      expires_at: Date.now() + payload.expires_in * 1000,
-    };
+    // const session = {
+    //   authenticator: 'authenticator:oauth2',
+    //   ...payload,
+    //   expires_at: Date.now() + payload.expires_in * 1000,
+    // };
 
-    const authenticated = encodeURIComponent(
-      JSON.stringify({ authenticated: session }),
-    );
+    // const authenticated = encodeURIComponent(
+    //   JSON.stringify({ authenticated: session }),
+    // );
 
-    cookies.set(cookieName, authenticated, { expires: 10 });
-    cookies.set(`${cookieName}-expiration_time`, payload.expires_in, { expires: 10 });
+    // cookies.set(cookieName, authenticated, { expires: 10 });
+    // cookies.set(`${cookieName}-expiration_time`, payload.expires_in, {
+    //   expires: 10,
+    // });
 
-    this.session = session;
+    // this.session = session;
+
+    console.log({ payload });
+
+    window.location = payload.redirect;
   }
 
   get isAuthenticated() {
