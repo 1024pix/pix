@@ -7,7 +7,6 @@ import { test } from './fixtures.ts';
 
 type PixAuthType = 'pix-app' | 'pix-app-gar' | 'pix-orga';
 
-export const LOGGED_USER_ID = 1;
 export const LOGGED_APP_USER_ID = 1;
 export const LOGGED_ORGA_USER_ID = 2;
 

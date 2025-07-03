@@ -323,8 +323,16 @@ const configuration = (function () {
       },
     },
     lcms: {
-      url: _removeTrailingSlashFromUrl(process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL || ''),
-      apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
+      url: _removeTrailingSlashFromUrl(
+        (process.env.IS_RUNNING_PLAYWRIGHT === 'true' && process.env.PLAYWRIGHT_LCMS_API_URL) ||
+          process.env.CYPRESS_LCMS_API_URL ||
+          process.env.LCMS_API_URL ||
+          '',
+      ),
+      apiKey:
+        (process.env.IS_RUNNING_PLAYWRIGHT === 'true' && process.env.PLAYWRIGHT_LCMS_API_KEY) ||
+        process.env.CYPRESS_LCMS_API_KEY ||
+        process.env.LCMS_API_KEY,
       releaseId: process.env.LCMS_API_RELEASE_ID || null,
     },
     llm: {

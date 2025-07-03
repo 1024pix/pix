@@ -205,10 +205,6 @@ workflows:
           context: Pix
           requires:
             - orga_build
-      # - orga_e2e_playwright_test:
-      #     context: Pix
-      #     requires:
-      #       - orga_build
 
       - certif_install:
           context: Pix
@@ -248,6 +244,12 @@ workflows:
           context: Pix
           requires:
             - junior_install
+
+      - next_challenge_e2e_playwright_test:
+          context: Pix
+          requires:
+            - mon_pix_build
+            - orga_build
 
 jobs:
   checkout:
@@ -863,7 +865,7 @@ jobs:
       - run:
           name: Start Pix App
           working_directory: ~/pix/mon-pix
-          command: npx ember server --path=./dist --proxy=http://localhost:3000
+          command: npx ember serve --path=./dist --proxy=http://localhost:3000
           background: true
       - run:
           name: Prepare database
@@ -944,7 +946,7 @@ jobs:
       - run:
           name: Start Pix Orga
           working_directory: ~/pix/orga
-          command: npx ember server --path=./dist --proxy=http://localhost:3000
+          command: npx ember serve --path=./dist --proxy=http://localhost:3000
           background: true
       - run:
           name: Prepare database
@@ -972,6 +974,113 @@ jobs:
       - store_test_results:
           path: /home/circleci/test-results
 
+  next_challenge_e2e_playwright_test:
+    executor:
+      name: node-redis-postgres-s3-docker-medium
+    working_directory: ~/pix/high-level-tests/e2e-playwright
+    parallelism: 1
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-playwright-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-playwright-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Typescript
+          command: npm run tsc
+      - run:
+          working_directory: ~/pix/api
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+      - run:
+          name: Install Playwright Browser
+          command: npx playwright install --with-deps chromium
+      - run:
+          name: Install Pix API
+          working_directory: ~/pix/api
+          command: npm ci
+      - run:
+          name: Start Pix API
+          working_directory: ~/pix/api
+          command: npm start
+          background: true
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            REDIS_URL: 'redis://localhost:6379'
+            START_JOB_IN_WEB_PROCESS: 'true'
+            PIX_AUDIT_LOGGER_ENABLED: 'false'
+            MAILING_ENABLED: 'false'
+            AUTH_SECRET: 'secret'
+            LCMS_API_RELEASE_ID: '2115?forCI'
+            IS_RUNNING_PLAYWRIGHT: 'true'
+      - run:
+          name: Start Pix Orga
+          working_directory: ~/pix/orga
+          command: DEFAULT_LOCALE=fr npx ember serve --path=./dist --proxy=http://localhost:3000
+          background: true
+      - run:
+          name: Start Pix App
+          working_directory: ~/pix/mon-pix
+          command: DEFAULT_LOCALE=fr npx ember serve --path=./dist --proxy=http://localhost:3000
+          background: true
+      - run:
+          name: Prepare database
+          working_directory: ~/pix/api
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            REDIS_URL: 'redis://localhost:6379'
+            START_JOB_IN_WEB_PROCESS: 'true'
+            PIX_AUDIT_LOGGER_ENABLED: 'false'
+            MAILING_ENABLED: 'false'
+            AUTH_SECRET: 'secret'
+            LCMS_API_RELEASE_ID: '2115?forCI'
+            IS_RUNNING_PLAYWRIGHT: 'true'
+          command: npm run db:prepare
+      - run:
+          name: Refresh cache
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            REDIS_URL: 'redis://localhost:6379'
+            START_JOB_IN_WEB_PROCESS: 'true'
+            PIX_AUDIT_LOGGER_ENABLED: 'false'
+            MAILING_ENABLED: 'false'
+            AUTH_SECRET: 'secret'
+            LCMS_API_RELEASE_ID: '2115?forCI'
+            IS_RUNNING_PLAYWRIGHT: 'true'
+          working_directory: ~/pix/api
+          command: npm run cache:refresh
+      - run:
+          name: Run Next Challenge App e2e tests (with sharding)
+          command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx playwright test --project=pix-next-challenge-regression --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+          environment:
+            PIX_API_PORT: 3000
+            PIX_APP_URL: http://localhost:4200
+            PIX_ORGA_URL: http://localhost:4201
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            AUTH_SECRET: 'secret'
+            TEST_MODE: 'check'
+      - store_test_results:
+          path: ./node_modules/.playwright/junit
+      - store_artifacts:
+          path: ./node_modules/.playwright/output
+          destination: screenshots
   # Temporary disabled until e2e tests are migrated to Playwright
   #
   # orga_e2e_playwright_test:
@@ -1026,7 +1135,7 @@ jobs:
   #     - run:
   #         name: Start Pix Orga
   #         working_directory: ~/pix/orga
-  #         command: npx ember server --path=./dist --proxy=http://localhost:3000
+  #         command: npx ember serve --path=./dist --proxy=http://localhost:3000
   #         background: true
   #     - run:
   #         name: Run Pix App e2e tests (with sharding)
