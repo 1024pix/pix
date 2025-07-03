@@ -129,7 +129,7 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules",
-    "cache:refresh": "node scripts/refresh-cache",
+    "cache:refresh": "node scripts/refresh-cache.js",
     "banner:add": "node banner/scripts/add.js",
     "banner:remove": "node banner/scripts/remove.js",
     "datamart:create": "node scripts/database/create-database --name datamart",
