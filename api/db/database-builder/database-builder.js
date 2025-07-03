@@ -148,11 +148,15 @@ export class DatabaseBuilder {
     this.#isFirstCommit = false;
   }
 
-  async emptyDatabase() {
+  async emptyDatabase({ keepLearningContent = false } = {}) {
     this.#beforeEmptyDatabase?.();
 
-    const sortedTableNames = this.#tablesOrderedByDependency.map(sanitizeTableName).join(',');
-
+    const sortedTableNames = this.#tablesOrderedByDependency
+      .map(sanitizeTableName)
+      .filter((tableName) => {
+        return keepLearningContent ? !tableName.includes('learningcontent') : true;
+      })
+      .join(',');
     return this.knex.raw(`TRUNCATE ${sortedTableNames}`);
   }
 
