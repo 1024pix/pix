@@ -576,7 +576,7 @@ jobs:
     working_directory: ~/pix/mon-pix
     parallelism: 3
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - attach_workspace:
           at: ~/pix
       - run:
@@ -636,7 +636,7 @@ jobs:
     working_directory: ~/pix/orga
     parallelism: 3
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - attach_workspace:
           at: ~/pix
       - run:
@@ -689,7 +689,7 @@ jobs:
     working_directory: ~/pix/junior
     parallelism: 3
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - attach_workspace:
           at: ~/pix
       - run:
@@ -742,7 +742,7 @@ jobs:
     working_directory: ~/pix/certif
     parallelism: 3
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - attach_workspace:
           at: ~/pix
       - run:
@@ -795,7 +795,7 @@ jobs:
     working_directory: ~/pix/admin
     parallelism: 3
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - attach_workspace:
           at: ~/pix
       - run:
@@ -815,7 +815,7 @@ jobs:
     parallelism: 4
     working_directory: ~/pix/high-level-tests/e2e
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - run:
           name: Manual safety start of X11 server
           command: |
@@ -896,7 +896,7 @@ jobs:
       name: node-browsers-redis-postgres-docker
     working_directory: ~/pix/high-level-tests/e2e
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome_for_testing
       - run:
           name: Manual safety start of X11 server
           command: |
