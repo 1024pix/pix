@@ -615,7 +615,7 @@
             "isCompletionRequired": false,
             "title": "Simulateur de LLM",
             "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmbux83260005wa011nxx2c6n",
-            "instruction": "<p>Discutez avec l’IA de Pix jusqu'à obtenir un compte-rendu fidèle.<br></p>",
+            "instruction": "<p>Discutez avec l’IA de Pix jusqu'à obtenir un compte-rendu qui correspond bien aux notes de Gustave.<br></p>",
             "solution": "Pix",
             "height": 800
           }
