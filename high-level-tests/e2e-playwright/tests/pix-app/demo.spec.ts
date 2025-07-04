@@ -1,11 +1,11 @@
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
 
-import { DEMO_COURSE_ID } from '../helpers/constants';
-import { commonSeeds } from '../helpers/db';
-import { test } from '../helpers/fixtures';
-import { rightWrongAnswerCycle } from '../helpers/utils';
-import { ChallengePage } from '../pages/pix-app';
+import { DEMO_COURSE_ID, NB_CHALLENGES_IN_DEMO_COURSE } from '../../helpers/constants';
+import { commonSeeds } from '../../helpers/db';
+import { test } from '../../helpers/fixtures';
+import { rightWrongAnswerCycle } from '../../helpers/utils';
+import { ChallengePage } from '../../pages/pix-app';
 
 test.beforeEach(async () => {
   await commonSeeds();
@@ -14,7 +14,7 @@ test.beforeEach(async () => {
 test('user assesses on course demo', async ({ page, testMode }) => {
   test.setTimeout(100_000);
   let results;
-  const resultFilePath = './next-challenge-regression/demo.json';
+  const resultFilePath = './tests/data/demo.json';
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
@@ -35,6 +35,9 @@ test('user assesses on course demo', async ({ page, testMode }) => {
           results.challengeImprints.push(challengeImprint);
         } else {
           expect(challengeImprint).toBe(results.challengeImprints[challengeIndex]);
+          await expect(page.getByLabel('Votre progression')).toContainText(
+            `Question ${challengeIndex + 1} / ${NB_CHALLENGES_IN_DEMO_COURSE}`,
+          );
         }
         ++challengeIndex;
         await challengePage.setRightOrWrongAnswer(rightWrongAnswerCycleIter.next().value as boolean);
@@ -44,5 +47,7 @@ test('user assesses on course demo', async ({ page, testMode }) => {
   });
   if (testMode === 'record') {
     fs.writeFileSync(resultFilePath, JSON.stringify(results));
+  } else {
+    await expect(page.locator('body')).toContainText(/Vos réponses/);
   }
 });

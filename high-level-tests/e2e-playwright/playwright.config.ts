@@ -53,6 +53,11 @@ export default defineConfig({
       testDir: 'next-challenge-regression',
       dependencies: ['pix-app-setup', 'pix-orga-setup'],
     },
+    {
+      name: 'pix-app-v2',
+      testDir: 'tests/pix-app',
+      dependencies: ['pix-app-setup', 'pix-orga-setup'],
+    },
   ],
 
   // 3 modes
