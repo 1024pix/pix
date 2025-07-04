@@ -1,11 +1,11 @@
 import { expect } from '@playwright/test';
 
-import { getAuthStatePath, LOGGED_USER_ID } from '../helpers/auth.ts';
+import { getAuthStatePath, LOGGED_ORGA_USER_ID } from '../helpers/auth.ts';
 import { databaseBuilder } from '../helpers/db.ts';
 import { test } from '../helpers/fixtures.ts';
 
 test('authenticates user to pix orga', async ({ page }) => {
-  const user = databaseBuilder.factory.buildUser.withMembership({ id: LOGGED_USER_ID });
+  const user = databaseBuilder.factory.buildUser.withMembership({ id: LOGGED_ORGA_USER_ID });
   await databaseBuilder.commit();
 
   // visit login page

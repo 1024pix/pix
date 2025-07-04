@@ -12,7 +12,7 @@ test.beforeEach(async () => {
 });
 
 test('user assesses on course demo', async ({ page, testMode }) => {
-  test.setTimeout(300_000);
+  test.setTimeout(100_000);
   let results;
   const resultFilePath = './next-challenge-regression/demo.json';
   if (testMode === 'record') {

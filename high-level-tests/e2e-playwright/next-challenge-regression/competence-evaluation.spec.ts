@@ -13,7 +13,7 @@ test.beforeEach(async () => {
 });
 
 test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
-  test.setTimeout(300_000);
+  test.setTimeout(140_000);
   let results;
   const resultFilePath = './next-challenge-regression/competence-evaluation.json';
   if (testMode === 'record') {

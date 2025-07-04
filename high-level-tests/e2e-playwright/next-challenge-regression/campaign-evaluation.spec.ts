@@ -20,7 +20,7 @@ test.beforeEach(async () => {
 });
 
 test('user plays a campaign', async ({ browser, testMode }) => {
-  test.setTimeout(300_000);
+  test.setTimeout(180_000);
   let results;
   const resultFilePath = './next-challenge-regression/campaign-evaluation.json';
   if (testMode === 'record') {

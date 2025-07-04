@@ -1,11 +1,11 @@
 import { expect } from '@playwright/test';
 
-import { getAuthStatePath, getGarTokenForExistingUser, LOGGED_USER_ID } from '../helpers/auth.ts';
+import { getAuthStatePath, getGarTokenForExistingUser, LOGGED_APP_USER_ID } from '../helpers/auth.ts';
 import { databaseBuilder } from '../helpers/db.ts';
 import { test } from '../helpers/fixtures.ts';
 
 test('authenticates user to pix app', async ({ page }) => {
-  const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_USER_ID });
+  const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_APP_USER_ID });
   await databaseBuilder.commit();
 
   // visit login page
@@ -30,7 +30,7 @@ test('authenticates user to pix app', async ({ page }) => {
 });
 
 test('authenticates GAR user to pix app', async ({ page }) => {
-  const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_USER_ID });
+  const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_APP_USER_ID });
   await databaseBuilder.commit();
 
   // visit login page
