@@ -604,7 +604,7 @@
           "element": {
             "id": "e0f68d47-e46e-4ec7-b368-a95b1972151c",
             "type": "text",
-            "content": "<p>Gustave veut envoyer un <strong>compte-rendu </strong>aux personnes qui n’ont pas pû présentes.</p>"
+            "content": "<p>Gustave veut envoyer un <strong>compte-rendu </strong>aux personnes qui n’ont pas pû être présentes.</p>"
           }
         },
         {
@@ -615,7 +615,7 @@
             "isCompletionRequired": false,
             "title": "Simulateur de LLM",
             "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmbux83260005wa011nxx2c6n",
-            "instruction": "<p>Discute avec l’IA de Pix jusqu'à obtenir un compte-rendu fidèle.<br></p>",
+            "instruction": "<p>Discutez avec l’IA de Pix jusqu'à obtenir un compte-rendu fidèle.<br></p>",
             "solution": "Pix",
             "height": 800
           }
