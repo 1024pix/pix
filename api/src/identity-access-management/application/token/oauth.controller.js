@@ -32,7 +32,7 @@ const authorize = async (req, h) => {
     code_challenge_method,
   });
 
-  return h.redirect(`http://localhost:4206?${params.toString()}`);
+  return h.response({ redirect: `http://localhost:4206?${params.toString()}` });
 };
 
 const generateAuthorizationCode = async (req, h) => {
