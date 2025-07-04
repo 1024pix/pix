@@ -2,6 +2,7 @@ import OAuth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-passwor
 import ENV from 'pix-orga/config/environment';
 
 import { PKCEUtils } from '../utils/pkce.js';
+import { run } from '@ember/runloop';
 
 const CLIENT_ID = 'pix-orga';
 
@@ -43,8 +44,45 @@ export default class Oauth2Code extends OAuth2PasswordGrant {
     window.location.href = redirect;
   }
 
-  authenticate(code, scope = [], headers = {}) {
-    console.log('Oauth2 code authenticate', code, scope, headers);
+  authenticate(code, state, scope = [], headers = {}) {
+    console.log('Oauth2 code authenticate', code, state, scope, headers);
     // call serverTokenEndpoint
+
+    return new Promise((resolve, reject) => {
+      const data = {
+        grant_type: 'authorization_code',
+        code,
+        client_id: CLIENT_ID,
+        code_verifier: sessionStorage.getItem('code_verifier'),
+      };
+      const serverTokenEndpoint = this.serverTokenEndpoint;
+
+      this.makeRequest(serverTokenEndpoint, data, headers).then(
+        (response) => {
+          // eslint-disable-next-line ember/no-runloop
+          run(() => {
+            if (!this._validate(response)) {
+              reject('access_token is missing in server response');
+            }
+
+            const expiresAt = this._absolutizeExpirationTime(response['expires_in']);
+            this._scheduleAccessTokenRefresh(
+              response['expires_in'],
+              expiresAt,
+              response['refresh_token']
+            );
+            if (expiresAt) {
+              response = Object.assign(response, { expires_at: expiresAt });
+            }
+
+            resolve(response);
+          });
+        },
+        (response) => {
+          // eslint-disable-next-line ember/no-runloop
+          run(null, reject, response);
+        }
+      );
+    });
   }
 }
