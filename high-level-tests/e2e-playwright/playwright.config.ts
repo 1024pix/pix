@@ -54,9 +54,10 @@ export default defineConfig({
       dependencies: ['pix-app-setup', 'pix-orga-setup'],
     },
     {
-      name: 'pix-app-v2',
-      testDir: 'tests/pix-app',
+      name: 'evaluations',
+      testDir: 'tests/evaluations',
       dependencies: ['pix-app-setup', 'pix-orga-setup'],
+      testMatch: '**/*.ts',
     },
   ],
 

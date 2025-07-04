@@ -1,12 +1,17 @@
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
 
-import { useLoggedUser } from '../helpers/auth';
-import { COMPETENCE_TITLES } from '../helpers/constants';
-import { commonSeeds } from '../helpers/db.js';
-import { test } from '../helpers/fixtures';
-import { rightWrongAnswerCycle } from '../helpers/utils';
-import { ChallengePage, CompetenceResultPage, FinalCheckpointPage, IntermediateCheckpointPage } from '../pages/pix-app';
+import { useLoggedUser } from '../../helpers/auth';
+import { COMPETENCE_TITLES } from '../../helpers/constants';
+import { commonSeeds } from '../../helpers/db.js';
+import { test } from '../../helpers/fixtures';
+import { rightWrongAnswerCycle } from '../../helpers/utils';
+import {
+  ChallengePage,
+  CompetenceResultPage,
+  FinalCheckpointPage,
+  IntermediateCheckpointPage,
+} from '../../pages/pix-app';
 useLoggedUser('pix-app');
 test.beforeEach(async () => {
   await commonSeeds();
@@ -15,7 +20,7 @@ test.beforeEach(async () => {
 test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
   test.setTimeout(140_000);
   let results;
-  const resultFilePath = './next-challenge-regression/competence-evaluation.json';
+  const resultFilePath = './tests/evaluations/data/competence-evaluation.json';
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
@@ -30,7 +35,7 @@ test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
   const rightWrongAnswerCycleIter = rightWrongAnswerCycle({ numRight: 1, numWrong: 2 });
   await page.goto(process.env.PIX_APP_URL);
   await page.getByRole('link', { name: 'Toutes les compétences' }).click();
-  let challengeIndex = 0;
+  let globalChallengeIndex = 0;
   let competenceIndex = 0;
   for (const competenceTitle of [
     COMPETENCE_TITLES[3],
@@ -43,6 +48,7 @@ test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
       await page.getByRole('link', { name: competenceTitle }).first().click();
       await page.getByRole('link', { name: 'Commencer' }).click();
 
+      let challengeIndexInCompetence = 0;
       await test.step(`"${competenceTitle}" answering right or wrong according to pattern`, async () => {
         while (!page.url().endsWith('/checkpoint?finalCheckpoint=true')) {
           const challengePage = new ChallengePage(page);
@@ -50,9 +56,13 @@ test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
           if (testMode === 'record') {
             results.challengeImprints.push(challengeImprint);
           } else {
-            expect(challengeImprint).toBe(results.challengeImprints[challengeIndex]);
+            expect(challengeImprint).toBe(results.challengeImprints[globalChallengeIndex]);
+            await expect(page.getByLabel('Votre progression')).toContainText(
+              `Question ${(challengeIndexInCompetence % 5) + 1} / 5`,
+            );
           }
-          ++challengeIndex;
+          ++globalChallengeIndex;
+          ++challengeIndexInCompetence;
           await challengePage.setRightOrWrongAnswer(rightWrongAnswerCycleIter.next().value as boolean);
           await challengePage.validateAnswer();
 

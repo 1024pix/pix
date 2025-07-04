@@ -1,19 +1,19 @@
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
 
-import { getAuthStatePath } from '../helpers/auth.js';
-import { COMPETENCE_TITLES } from '../helpers/constants';
-import { commonSeeds } from '../helpers/db.js';
-import { test } from '../helpers/fixtures';
-import { rightWrongAnswerCycle } from '../helpers/utils';
+import { getAuthStatePath } from '../../helpers/auth.js';
+import { COMPETENCE_TITLES } from '../../helpers/constants';
+import { commonSeeds } from '../../helpers/db.js';
+import { test } from '../../helpers/fixtures';
+import { rightWrongAnswerCycle } from '../../helpers/utils';
 import {
   CampaignResultsPage,
   ChallengePage,
   FinalCheckpointPage,
   IntermediateCheckpointPage,
   StartCampaignPage,
-} from '../pages/pix-app';
-import { CreateCampaignPage } from '../pages/pix-orga';
+} from '../../pages/pix-app';
+import { CreateCampaignPage } from '../../pages/pix-orga';
 
 test.beforeEach(async () => {
   await commonSeeds();
@@ -22,7 +22,7 @@ test.beforeEach(async () => {
 test('user plays a campaign', async ({ browser, testMode }) => {
   test.setTimeout(180_000);
   let results;
-  const resultFilePath = './next-challenge-regression/campaign-evaluation.json';
+  const resultFilePath = './tests/evaluations/data/campaign-evaluation.json';
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
@@ -63,6 +63,9 @@ test('user plays a campaign', async ({ browser, testMode }) => {
           results.challengeImprints.push(challengeImprint);
         } else {
           expect(challengeImprint).toBe(results.challengeImprints[challengeIndex]);
+          await expect(pixAppPage.getByLabel('Votre progression')).toContainText(
+            `Question ${(challengeIndex % 5) + 1} / 5`,
+          );
         }
         ++challengeIndex;
         await challengePage.setRightOrWrongAnswer(rightWrongAnswerCycleIter.next().value as boolean);

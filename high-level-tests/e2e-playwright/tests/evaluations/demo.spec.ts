@@ -14,7 +14,7 @@ test.beforeEach(async () => {
 test('user assesses on course demo', async ({ page, testMode }) => {
   test.setTimeout(100_000);
   let results;
-  const resultFilePath = './tests/data/demo.json';
+  const resultFilePath = './tests/evaluations/data/demo.json';
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
