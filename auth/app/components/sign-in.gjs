@@ -14,7 +14,14 @@ export default class SignIn extends Component {
   async handleSubmit(event) {
     event.preventDefault();
 
-    const { redirect_uri, scope, state, codeChallenge, codeChallengeMethod, clientId } = this.args.model;
+    const {
+      scope,
+      state,
+      codeChallenge,
+      codeChallengeMethod,
+      redirectUri,
+      clientId,
+    } = this.args.model;
 
     try {
       await this.authentication.authenticate({
@@ -24,15 +31,16 @@ export default class SignIn extends Component {
         state,
         codeChallenge,
         codeChallengeMethod,
+        redirectUri,
         clientId,
       });
     } catch (error) {
       console.error('Authentication failed:', error);
     }
+  }
 
-    if (this.authentication.isAuthenticated) {
-      window.location = redirect_uri;
-    }
+  get redirectUri() {
+    return decodeURIComponent(this.args.model.redirectUri);
   }
 
   @action
@@ -46,7 +54,10 @@ export default class SignIn extends Component {
   }
 
   <template>
-    <h1>Connexion à: {{@model.redirect_uri}}</h1>
+    <h1>Connexion à
+      {{@model.clientId}}
+      et redirige vers
+      {{this.redirectUri}}</h1>
     <form {{on "submit" this.handleSubmit}}>
       <label for="email">Email</label>
       <input

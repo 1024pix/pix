@@ -1,29 +1,10 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
-import { action } from '@ember/object';
 import SignIn from 'auth/components/sign-in';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import { on } from '@ember/modifier';
 
-export default class ApplicationTemplate extends Component {
-  @service authentication;
+<template>
+  {{pageTitle "Auth"}}
 
-  @action
-  invalidateSession() {
-    this.authentication.invalidate();
-  }
+  <SignIn @model={{@model}} />
 
-  <template>
-    {{pageTitle "Auth"}}
-
-    {{#if this.authentication.isAuthenticated}}
-      <button type="button" {{on "click" this.invalidateSession}}>
-        Logout
-      </button>
-    {{else}}
-      <SignIn @model={{@model}} />
-    {{/if}}
-
-    {{outlet}}
-  </template>
-}
+  {{outlet}}
+</template>

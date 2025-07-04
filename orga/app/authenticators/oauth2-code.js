@@ -1,8 +1,8 @@
+import { run } from '@ember/runloop';
 import OAuth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-password-grant';
 import ENV from 'pix-orga/config/environment';
 
 import { PKCEUtils } from '../utils/pkce.js';
-import { run } from '@ember/runloop';
 
 const CLIENT_ID = 'pix-orga';
 
@@ -10,19 +10,17 @@ export default class Oauth2Code extends OAuth2PasswordGrant {
   serverTokenEndpoint = `${ENV.APP.API_HOST}/api/token`;
   serverTokenRevocationEndpoint = `${ENV.APP.API_HOST}/api/revoke`;
 
-  static async authorize(_redirectUri) {
-    // todo(auth):  This should be replaced with a real state
-    const state = 'dummy-state';
+  static async buildAuthorizationUri(redirectUri) {
+    const state = crypto.randomUUID();
     const pkce = await PKCEUtils.createPKCEPair();
 
-    // todo(auth): see if sessionStorage is appropriate for storing the code verifier
     sessionStorage.setItem('code_verifier', pkce.codeVerifier);
     sessionStorage.setItem('state', state);
 
     const params = new URLSearchParams({
       response_type: 'code',
       client_id: CLIENT_ID,
-      redirect_uri: 'http://localhost:4201/auth/callback', // todo(auth): manage correctly redirect URI
+      redirect_uri: redirectUri,
       code_challenge: pkce.codeChallenge,
       code_challenge_method: pkce.method,
       state,
@@ -41,12 +39,15 @@ export default class Oauth2Code extends OAuth2PasswordGrant {
       throw new Error('Authorization failed');
     }
 
-    window.location.href = redirect;
+    return redirect;
   }
 
-  authenticate(code, state, scope = [], headers = {}) {
-    console.log('Oauth2 code authenticate', code, state, scope, headers);
-    // call serverTokenEndpoint
+  authenticate(code, state, _scope = [], headers = {}) {
+    const originalState = sessionStorage.getItem('state');
+
+    if (state !== originalState) {
+      return Promise.reject(new Error('State does not match'));
+    }
 
     return new Promise((resolve, reject) => {
       const data = {
@@ -66,11 +67,7 @@ export default class Oauth2Code extends OAuth2PasswordGrant {
             }
 
             const expiresAt = this._absolutizeExpirationTime(response['expires_in']);
-            this._scheduleAccessTokenRefresh(
-              response['expires_in'],
-              expiresAt,
-              response['refresh_token']
-            );
+            this._scheduleAccessTokenRefresh(response['expires_in'], expiresAt, response['refresh_token']);
             if (expiresAt) {
               response = Object.assign(response, { expires_at: expiresAt });
             }
@@ -81,7 +78,7 @@ export default class Oauth2Code extends OAuth2PasswordGrant {
         (response) => {
           // eslint-disable-next-line ember/no-runloop
           run(null, reject, response);
-        }
+        },
       );
     });
   }

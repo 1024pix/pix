@@ -13,9 +13,10 @@ export default class AuthenticatedRoute extends Route {
 
   async beforeModel(transition) {
     // todo(auth)
-    const encodedRedirectUri = encodeURIComponent(`${window.location.href}`);
-    this.session.requireAuthentication(transition, async () => {
-      await Oauth2Code.authorize(encodedRedirectUri);
+    const encodedRedirectUri = encodeURIComponent(window.location.href);
+    const authorizationUri = await Oauth2Code.buildAuthorizationUri(encodedRedirectUri);
+    this.session.requireAuthentication(transition, () => {
+      window.location.href = authorizationUri;
     });
 
     if (transition.isAborted) {

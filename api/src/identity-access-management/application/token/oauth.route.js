@@ -13,9 +13,7 @@ export const oauthRoutes = [
           response_type: Joi.string().required(),
           client_id: Joi.string().required(),
           redirect_uri: Joi.string()
-            .uri({
-              scheme: ['http', 'https'],
-            })
+            // .uri({ scheme: ['http', 'https'] })
             .required(),
           scope: Joi.string(),
           state: Joi.string().required(),
@@ -39,9 +37,7 @@ export const oauthRoutes = [
           password: Joi.string().required(),
           client_id: Joi.string().required(),
           redirect_uri: Joi.string()
-            .uri({
-              scheme: ['http', 'https'],
-            })
+            // .uri({ scheme: ['http', 'https'] })
             .required(),
           scope: Joi.string(),
           state: Joi.string().required(),

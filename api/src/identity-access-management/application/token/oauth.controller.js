@@ -4,13 +4,15 @@ import * as userRepository from '../../infrastructure/repositories/user.reposito
 import { PKCEUtils } from '../../infrastructure/utils/pkce.js';
 import { AuthorizationCodeStore } from './AuthorizationCode.js';
 
-const authorizedClientIds = ['pix-orga'];
+// todo(auth): how to manage all environements ? pix.fr vs pix.org
+const authorizedClientIds = { 'pix-orga': { authorizationCallbackUri: 'http://localhost:4201/auth/callback' } };
+
 export const authorizationCodeStore = new AuthorizationCodeStore();
 
 const authorize = async (req, h) => {
   const { response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method } = req.query;
 
-  if (!authorizedClientIds.includes(client_id)) {
+  if (!authorizedClientIds[client_id]) {
     throw new HttpErrors.BadRequestError('Client not authorized');
   }
 
@@ -39,7 +41,7 @@ const generateAuthorizationCode = async (req, h) => {
   const { username, password, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method } =
     req.payload;
 
-  if (!authorizedClientIds.includes(client_id)) {
+  if (!authorizedClientIds[client_id]) {
     throw new HttpErrors.BadRequestError('Client not authorized');
   }
 
@@ -59,8 +61,11 @@ const generateAuthorizationCode = async (req, h) => {
     codeChallengeMethod: code_challenge_method,
   });
 
-  const url = new URL(redirect_uri);
+  const { authorizationCallbackUri } = authorizedClientIds[client_id];
+
+  const url = new URL(authorizationCallbackUri);
   url.searchParams.set('code', code);
+  url.searchParams.set('redirect_uri', redirect_uri);
   if (state) url.searchParams.set('state', state);
 
   return h.response({ redirect: url.toString() });
