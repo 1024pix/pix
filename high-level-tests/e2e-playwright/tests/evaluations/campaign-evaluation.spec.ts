@@ -1,10 +1,9 @@
-import { expect } from '@playwright/test';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 
-import { getAuthStatePath } from '../../helpers/auth.js';
 import { COMPETENCE_TITLES } from '../../helpers/constants';
-import { commonSeeds } from '../../helpers/db.js';
-import { test } from '../../helpers/fixtures';
+import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
+import { PIX_ORGA_PRO_DATA } from '../../helpers/db-data';
+import { expect, test } from '../../helpers/fixtures';
 import { rightWrongAnswerCycle } from '../../helpers/utils';
 import {
   CampaignResultsPage,
@@ -16,10 +15,34 @@ import {
 import { CreateCampaignPage } from '../../pages/pix-orga';
 
 test.beforeEach(async () => {
-  await commonSeeds();
+  await buildAuthenticatedUsers({ withCguAccepted: true });
+  const targetProfileId = databaseBuilder.factory.buildTargetProfile({
+    name: 'PC PLAYWRIGHT',
+    ownerOrganizationId: PIX_ORGA_PRO_DATA.organizationId,
+    isSimplifiedAccess: false,
+    description: 'PC pour Playwright',
+    comment: null,
+    imageUrl: null,
+    outdated: false,
+    areKnowledgeElementsResettable: false,
+  }).id;
+  const tubeIds = await databaseBuilder
+    .knex('learningcontent.tubes')
+    .pluck('learningcontent.tubes.id')
+    .join('learningcontent.competences', 'learningcontent.tubes.competenceId', 'learningcontent.competences.id')
+    .where('learningcontent.competences.origin', '=', 'Pix')
+    .orderBy('learningcontent.tubes.id');
+  for (const tubeId of tubeIds) {
+    databaseBuilder.factory.buildTargetProfileTube({
+      targetProfileId,
+      tubeId,
+      level: 2,
+    });
+  }
+  await databaseBuilder.commit();
 });
 
-test('user plays a campaign', async ({ browser, testMode }) => {
+test('user plays a campaign', async ({ pixAppUserContext, pixOrgaProContext, testMode }) => {
   test.setTimeout(180_000);
   let results;
   const resultFilePath = './tests/evaluations/data/campaign-evaluation.json';
@@ -29,11 +52,10 @@ test('user plays a campaign', async ({ browser, testMode }) => {
       masteryPercentages: [],
     };
   } else {
-    results = fs.readFileSync(resultFilePath, 'utf-8');
+    results = await fs.readFile(resultFilePath, 'utf-8');
     results = JSON.parse(results);
   }
-  const pixOrgaContext = await browser.newContext({ storageState: getAuthStatePath('pix-orga') });
-  const pixOrgaPage = await pixOrgaContext.newPage();
+  const pixOrgaPage = await pixOrgaProContext.newPage();
   await pixOrgaPage.goto(process.env.PIX_ORGA_URL);
   let campaignCode: string;
   await test.step('creates the campaign', async () => {
@@ -46,8 +68,7 @@ test('user plays a campaign', async ({ browser, testMode }) => {
     campaignCode = await pixOrgaPage.locator('dd.campaign-header-title__campaign-code > span').textContent();
   });
 
-  const pixAppContext = await browser.newContext({ storageState: getAuthStatePath('pix-app') });
-  const pixAppPage = await pixAppContext.newPage();
+  const pixAppPage = await pixAppUserContext.newPage();
   await pixAppPage.goto(process.env.PIX_APP_URL);
   const rightWrongAnswerCycleIter = rightWrongAnswerCycle({ numRight: 1, numWrong: 1 });
   await test.step('plays the campaign', async () => {
@@ -99,9 +120,14 @@ test('user plays a campaign', async ({ browser, testMode }) => {
         }
         ++competenceIndex;
       }
+
+      if (testMode === 'check') {
+        await campaignResultsPage.sendResults();
+        await expect(pixAppPage.getByText('Vos résultats ont été envoyés')).toBeVisible();
+      }
     });
   });
   if (testMode === 'record') {
-    fs.writeFileSync(resultFilePath, JSON.stringify(results));
+    await fs.writeFile(resultFilePath, JSON.stringify(results));
   }
 });

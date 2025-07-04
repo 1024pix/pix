@@ -1,5 +1,5 @@
 .env.e2e
-
+.auth/
 # Playwright
 node_modules/
 /test-results/

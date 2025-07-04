@@ -1068,7 +1068,7 @@ jobs:
           command: npm run cache:refresh
       - run:
           name: Run Next Challenge App e2e tests (with sharding)
-          command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx playwright test --project=evaluations --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+          command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
           environment:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200

@@ -1,10 +1,13 @@
-import { test as base } from '@playwright/test';
+import { BrowserContext, test as base } from '@playwright/test';
 
+import { PIX_APP_USER_CREDENTIALS, PIX_ORGA_PRO_CREDENTIALS } from './auth.js';
 import { cleanDB } from './db.js';
 
 export const test = base.extend<{
   forEachTest: void;
   testMode: string;
+  pixAppUserContext: BrowserContext;
+  pixOrgaProContext: BrowserContext;
 }>({
   forEachTest: [
     // eslint-disable-next-line no-empty-pattern
@@ -18,4 +21,18 @@ export const test = base.extend<{
   testMode: async ({}, use) => {
     await use(process.env.TEST_MODE || 'check');
   },
+  pixAppUserContext: async ({ browser }, use) => {
+    const context = await browser.newContext({ storageState: `.auth/${PIX_APP_USER_CREDENTIALS.appAndRole}.json` });
+    await use(context);
+    await context.close();
+  },
+  pixOrgaProContext: async ({ browser }, use) => {
+    const context = await browser.newContext({
+      storageState: `.auth/${PIX_ORGA_PRO_CREDENTIALS.appAndRole}.json`,
+    });
+    await use(context);
+    await context.close();
+  },
 });
+
+export const expect = test.expect;

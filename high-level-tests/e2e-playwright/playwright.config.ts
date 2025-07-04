@@ -10,6 +10,7 @@ if (!isCI) dotenv.config({ path: path.resolve(import.meta.dirname, '.env.e2e') }
 
 // See https://playwright.dev/docs/test-configuration
 export default defineConfig({
+  globalSetup: './global-setup',
   outputDir: `${playwrightFolder}/output`,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
@@ -25,46 +26,26 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'pix-app-setup',
-      testDir: 'pix-app',
-      use: { baseURL: process.env.PIX_APP_URL },
-      testMatch: /.*\.setup\.ts/,
+      name: 'login',
+      testDir: 'tests/login',
+      testMatch: '**/*.ts',
     },
     {
       name: 'pix-app',
-      testDir: 'pix-app',
-      use: { baseURL: process.env.PIX_APP_URL },
-      dependencies: ['pix-app-setup'],
-    },
-    {
-      name: 'pix-orga-setup',
-      testDir: 'pix-orga',
-      use: { baseURL: process.env.PIX_ORGA_URL },
-      testMatch: /.*\.setup\.ts/,
+      testDir: 'tests/pix-app',
+      testMatch: '**/*.ts',
     },
     {
       name: 'pix-orga',
-      testDir: 'pix-orga',
-      use: { baseURL: process.env.PIX_ORGA_URL },
-      dependencies: ['pix-orga-setup'],
-    },
-    {
-      name: 'pix-next-challenge-regression',
-      testDir: 'next-challenge-regression',
-      dependencies: ['pix-app-setup', 'pix-orga-setup'],
+      testDir: 'tests/pix-orga',
+      testMatch: '**/*.ts',
     },
     {
       name: 'evaluations',
       testDir: 'tests/evaluations',
-      dependencies: ['pix-app-setup', 'pix-orga-setup'],
       testMatch: '**/*.ts',
     },
   ],
-
-  // 3 modes
-  // ci -> circleci yaml que tout se passe
-  // local ->
-  // intég -> tout est déjà lancé il faut fixer les .env et c'est tout
   webServer: isCI
     ? [
         {

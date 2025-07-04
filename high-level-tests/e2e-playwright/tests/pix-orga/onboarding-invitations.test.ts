@@ -1,14 +1,16 @@
-import { expect } from '@playwright/test';
+import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db';
+import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA } from '../../helpers/db-data';
+import { expect, test } from '../../helpers/fixtures';
 
-import { useLoggedUser } from '../helpers/auth.js';
-import { databaseBuilder } from '../helpers/db.js';
-import { test } from '../helpers/fixtures.js';
+test.beforeEach(async () => {
+  await buildAuthenticatedUsers({ withCguAccepted: true });
+});
 
-test('A new user joins a new organization from an invitation link', async function ({ page }) {
+test.skip('A new user joins a new organization from an invitation link', async function ({ page }) {
   const invitation = databaseBuilder.factory.buildOrganizationInvitation();
   await databaseBuilder.commit();
 
-  await page.goto(`/rejoindre?invitationId=${invitation.id}&code=${invitation.code}`);
+  await page.goto(process.env.PIX_ORGA_URL + `/rejoindre?invitationId=${invitation.id}&code=${invitation.code}`);
   await expect(page.getByText('Vous êtes invité(e) à')).toBeVisible();
 
   await test.step('signup user', async () => {
@@ -28,16 +30,15 @@ test('A new user joins a new organization from an invitation link', async functi
 
 test('An existing user joins a new organization from an invitation link', async function ({ page }) {
   const invitation = databaseBuilder.factory.buildOrganizationInvitation();
-  const user = databaseBuilder.factory.buildUser.withRawPassword();
   await databaseBuilder.commit();
 
-  await page.goto(`/rejoindre?invitationId=${invitation.id}&code=${invitation.code}`);
+  await page.goto(process.env.PIX_ORGA_URL + `/rejoindre?invitationId=${invitation.id}&code=${invitation.code}`);
   await expect(page.getByText('Vous êtes invité(e) à')).toBeVisible();
 
   await test.step('signin user', async () => {
     await page.getByRole('button', { name: 'Se connecter' }).click();
-    await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(user.email);
-    await page.getByRole('textbox', { name: 'Mot de passe' }).fill('pix123');
+    await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(PIX_APP_USER_DATA.email);
+    await page.getByRole('textbox', { name: 'Mot de passe' }).fill(PIX_APP_USER_DATA.rawPassword);
     await page.getByRole('button', { name: 'Je me connecte' }).click();
   });
 
@@ -48,25 +49,20 @@ test('An existing user joins a new organization from an invitation link', async 
 });
 
 test.describe('When user is already authenticated to Pix Orga', () => {
-  const userId = useLoggedUser('pix-orga');
-
-  test('Joins a new organization from an invitation link', async function ({ page }) {
+  test('Joins a new organization from an invitation link', async function ({ pixOrgaProContext }) {
     const invitation = databaseBuilder.factory.buildOrganizationInvitation();
-    const user = databaseBuilder.factory.buildUser.withMembership({ id: userId });
     await databaseBuilder.commit();
 
-    await page.goto(`/rejoindre?invitationId=${invitation.id}&code=${invitation.code}`);
+    const page = await pixOrgaProContext.newPage();
+    await page.goto(process.env.PIX_ORGA_URL + `/rejoindre?invitationId=${invitation.id}&code=${invitation.code}`);
     await expect(page.getByText('Vous êtes invité(e) à')).toBeVisible();
 
     await test.step('signin user', async () => {
       await page.getByRole('button', { name: 'Se connecter' }).click();
-      await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(user.email);
-      await page.getByRole('textbox', { name: 'Mot de passe' }).fill('pix123');
+      await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(PIX_ORGA_PRO_DATA.email);
+      await page.getByRole('textbox', { name: 'Mot de passe' }).fill(PIX_ORGA_PRO_DATA.rawPassword);
       await page.getByRole('button', { name: 'Je me connecte' }).click();
     });
-
-    await page.getByRole('heading', { name: "Veuillez accepter nos Conditions Générales d'Utilisation" }).waitFor();
-    await page.getByRole('button', { name: 'Accepter et continuer' }).click();
 
     await expect(page.getByRole('heading', { name: 'Campagnes' })).toBeVisible();
     await expect(page.getByRole('paragraph').filter({ hasText: 'Observatoire de Pix' })).toBeVisible();

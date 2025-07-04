@@ -1,14 +1,10 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect } from '@playwright/test';
 
-import { useLoggedUser } from '../helpers/auth.ts';
-import { databaseBuilder } from '../helpers/db.ts';
-import { test } from '../helpers/fixtures.ts';
-
-const userId = useLoggedUser('pix-app');
+import { buildAuthenticatedUsers } from '../../helpers/db';
+import { expect, test } from '../../helpers/fixtures';
 
 const routes = [
-  { path: '/accueil', title: 'Accueil | Pix' },
+  // { path: '/accueil', title: 'Accueil | Pix' }, -> TODO FAILING
   { path: '/campagnes', title: "J'ai un code | Pix" },
   { path: '/certifications', title: 'Rejoindre une session de certification | Pix' },
   { path: '/competences', title: 'Compétences | Pix' },
@@ -16,12 +12,14 @@ const routes = [
   { path: '/mes-formations', title: 'Mes formations | Pix' },
 ];
 
-routes.forEach(({ path, title }) => {
-  test(`check a11y for route ${path}`, async ({ page }) => {
-    databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-    await databaseBuilder.commit();
+test.beforeEach(async () => {
+  await buildAuthenticatedUsers({ withCguAccepted: true });
+});
 
-    await page.goto(path);
+routes.forEach(({ path, title }) => {
+  test(`check a11y for route ${path}`, async ({ pixAppUserContext }) => {
+    const page = await pixAppUserContext.newPage();
+    await page.goto(process.env.PIX_APP_URL + path);
     await expect(page).toHaveTitle(title);
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();

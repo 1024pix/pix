@@ -1,10 +1,8 @@
-import { expect } from '@playwright/test';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 
-import { useLoggedUser } from '../../helpers/auth';
 import { COMPETENCE_TITLES } from '../../helpers/constants';
-import { commonSeeds } from '../../helpers/db.js';
-import { test } from '../../helpers/fixtures';
+import { buildAuthenticatedUsers } from '../../helpers/db.js';
+import { expect, test } from '../../helpers/fixtures';
 import { rightWrongAnswerCycle } from '../../helpers/utils';
 import {
   ChallengePage,
@@ -12,13 +10,14 @@ import {
   FinalCheckpointPage,
   IntermediateCheckpointPage,
 } from '../../pages/pix-app';
-useLoggedUser('pix-app');
+
 test.beforeEach(async () => {
-  await commonSeeds();
+  await buildAuthenticatedUsers({ withCguAccepted: true });
 });
 
-test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
+test('user assessing on 5 Pix Competences', async ({ pixAppUserContext, testMode }) => {
   test.setTimeout(140_000);
+  const page = await pixAppUserContext.newPage();
   let results;
   const resultFilePath = './tests/evaluations/data/competence-evaluation.json';
   if (testMode === 'record') {
@@ -28,7 +27,7 @@ test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
       pixScores: [],
     };
   } else {
-    results = fs.readFileSync(resultFilePath, 'utf-8');
+    results = await fs.readFile(resultFilePath, 'utf-8');
     results = JSON.parse(results);
   }
 
@@ -92,6 +91,6 @@ test('user assessing on 5 Pix Competences', async ({ page, testMode }) => {
     ++competenceIndex;
   }
   if (testMode === 'record') {
-    fs.writeFileSync(resultFilePath, JSON.stringify(results));
+    await fs.writeFile(resultFilePath, JSON.stringify(results));
   }
 });

@@ -1,15 +1,13 @@
-import { expect } from '@playwright/test';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 
-import { SEED_FOR_RANDOM_DATABASE } from '../../helpers/constants';
-import { commonSeeds, databaseBuilder } from '../../helpers/db';
-import { test } from '../../helpers/fixtures';
+import { databaseBuilder } from '../../helpers/db';
+import { RANDOM_SEED } from '../../helpers/db-data';
+import { expect, test } from '../../helpers/fixtures';
 import { ChallengePage } from '../../pages/pix-app';
 
 let PREVIEW_CHALLENGE_ID: string;
 test.beforeEach(async () => {
-  await commonSeeds();
-  await databaseBuilder.knex.raw('SELECT setseed(?)', [SEED_FOR_RANDOM_DATABASE]);
+  await databaseBuilder.knex.raw('SELECT setseed(?)', [RANDOM_SEED]);
   const { id } = await databaseBuilder
     .knex('learningcontent.challenges')
     .select('id')
@@ -29,7 +27,7 @@ test('user assesses on preview challenge', async ({ page, testMode }) => {
       challengeImprints: [],
     };
   } else {
-    results = fs.readFileSync(resultFilePath, 'utf-8');
+    results = await fs.readFile(resultFilePath, 'utf-8');
     results = JSON.parse(results);
   }
   await test.step(`PREVIEW assessment started`, async () => {
@@ -47,7 +45,7 @@ test('user assesses on preview challenge', async ({ page, testMode }) => {
   });
 
   if (testMode === 'record') {
-    fs.writeFileSync(resultFilePath, JSON.stringify(results));
+    await fs.writeFile(resultFilePath, JSON.stringify(results));
   } else {
     await expect(page.locator('body')).toContainText(/Vos réponses/);
   }

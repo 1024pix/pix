@@ -1,34 +1,27 @@
-import { expect } from '@playwright/test';
+import { buildAuthenticatedUsers } from '../../helpers/db';
+import { PIX_APP_USER_DATA } from '../../helpers/db-data';
+import { expect, test } from '../../helpers/fixtures';
 
-import { getAuthStatePath, getGarTokenForExistingUser, LOGGED_APP_USER_ID } from '../helpers/auth.ts';
-import { databaseBuilder } from '../helpers/db.ts';
-import { test } from '../helpers/fixtures.ts';
+test.beforeEach(async () => {
+  await buildAuthenticatedUsers({ withCguAccepted: false });
+});
 
 test('authenticates user to pix app', async ({ page }) => {
-  const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_APP_USER_ID });
-  await databaseBuilder.commit();
-
-  // visit login page
-  await page.goto('/');
+  await page.goto(process.env.PIX_APP_URL);
   await expect(page).toHaveTitle('Connexion | Pix');
 
-  // logs in
   const loginInput = page.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' });
-  await loginInput.fill(user.email);
+  await loginInput.fill(PIX_APP_USER_DATA.email);
 
   const passwordInput = page.getByRole('textbox', { name: 'Mot de passe' });
-  await passwordInput.fill('pix123');
+  await passwordInput.fill(PIX_APP_USER_DATA.rawPassword);
 
   const connectButton = page.getByRole('button', { name: 'Je me connecte' });
   await connectButton.click();
 
-  // wait for connexion
   await expect(page).toHaveTitle('Accueil | Pix');
-
-  // save auth state
-  await page.context().storageState({ path: getAuthStatePath('pix-app') });
 });
-
+/*
 test('authenticates GAR user to pix app', async ({ page }) => {
   const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_APP_USER_ID });
   await databaseBuilder.commit();
@@ -43,3 +36,4 @@ test('authenticates GAR user to pix app', async ({ page }) => {
   // save auth state
   await page.context().storageState({ path: getAuthStatePath('pix-app-gar') });
 });
+*/

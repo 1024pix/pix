@@ -1,14 +1,32 @@
-import { expect } from '@playwright/test';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 
-import { DEMO_COURSE_ID, NB_CHALLENGES_IN_DEMO_COURSE } from '../../helpers/constants';
-import { commonSeeds } from '../../helpers/db';
-import { test } from '../../helpers/fixtures';
+import { databaseBuilder } from '../../helpers/db';
+import { RANDOM_SEED } from '../../helpers/db-data';
+import { expect, test } from '../../helpers/fixtures';
 import { rightWrongAnswerCycle } from '../../helpers/utils';
 import { ChallengePage } from '../../pages/pix-app';
 
+const NB_CHALLENGES_IN_DEMO_COURSE = 30;
+const DEMO_COURSE_ID = 'coursePLAYWRIGHT';
+
 test.beforeEach(async () => {
-  await commonSeeds();
+  await databaseBuilder.knex.raw('SELECT setseed(?)', [RANDOM_SEED]);
+  const challengeIds = await databaseBuilder
+    .knex('learningcontent.challenges')
+    .pluck('id')
+    .where('status', '=', 'validé')
+    .whereRaw('? = ANY(locales)', ['fr'])
+    .orderByRaw('random()')
+    .limit(NB_CHALLENGES_IN_DEMO_COURSE);
+  databaseBuilder.factory.learningContent.buildCourse({
+    id: DEMO_COURSE_ID,
+    name: 'Test démo Playwright',
+    description: 'un test de démo pour Playwright',
+    isActive: true,
+    competences: [],
+    challenges: challengeIds,
+  });
+  await databaseBuilder.commit();
 });
 
 test('user assesses on course demo', async ({ page, testMode }) => {
@@ -20,7 +38,7 @@ test('user assesses on course demo', async ({ page, testMode }) => {
       challengeImprints: [],
     };
   } else {
-    results = fs.readFileSync(resultFilePath, 'utf-8');
+    results = await fs.readFile(resultFilePath, 'utf-8');
     results = JSON.parse(results);
   }
   const rightWrongAnswerCycleIter = rightWrongAnswerCycle({ numRight: 1, numWrong: 1 });
@@ -46,7 +64,7 @@ test('user assesses on course demo', async ({ page, testMode }) => {
     });
   });
   if (testMode === 'record') {
-    fs.writeFileSync(resultFilePath, JSON.stringify(results));
+    await fs.writeFile(resultFilePath, JSON.stringify(results));
   } else {
     await expect(page.locator('body')).toContainText(/Vos réponses/);
   }

@@ -12,4 +12,8 @@ export class CampaignResultsPage {
     const masteryPercentageText = await this.page.getByRole('row', { name: competenceTitle }).textContent();
     return masteryPercentageText.match(/(\d+)\s*%/)?.[1];
   }
+
+  async sendResults() {
+    await this.page.getByRole('button', { name: "J'envoie mes résultats" }).click();
+  }
 }

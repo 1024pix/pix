@@ -15,7 +15,3 @@ export const COMPETENCE_TITLES = [
   'Résoudre des problèmes techniques',
   'Construire un environnement numérique',
 ];
-
-export const SEED_FOR_RANDOM_DATABASE = 0.123;
-export const NB_CHALLENGES_IN_DEMO_COURSE = 30;
-export const DEMO_COURSE_ID = 'coursePLAYWRIGHT';
