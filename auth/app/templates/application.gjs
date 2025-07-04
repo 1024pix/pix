@@ -21,7 +21,7 @@ export default class ApplicationTemplate extends Component {
         Logout
       </button>
     {{else}}
-      <SignIn @redirect_uri={{@model.redirect_uri}} />
+      <SignIn @model={{@model}} />
     {{/if}}
 
     {{outlet}}

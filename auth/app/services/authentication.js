@@ -34,7 +34,7 @@ export default class AuthenticationService extends Service {
     }
   }
 
-  async authenticate(username, password) {
+  async authenticate({username, password, scope, state, codeChallenge, codeChallengeMethod, clientId}) {
     const obj = { username, password, grant_type: 'password' };
 
     const cookieName = this.getCookieName();
@@ -59,11 +59,12 @@ export default class AuthenticationService extends Service {
       body: JSON.stringify({
         username,
         password,
-        client_id: 'pix-orga',
-        redirect_uri: 'http://localhost:4202/callback',
-        state: '123',
-        code_challenge: '123',
-        code_challenge_method: 'S256',
+        scope,
+        client_id: clientId,
+        redirect_uri: this.redirectUri,
+        state,
+        code_challenge: codeChallenge,
+        code_challenge_method: codeChallengeMethod,
       }),
     });
 
