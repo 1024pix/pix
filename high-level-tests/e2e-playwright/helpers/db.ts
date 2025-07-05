@@ -2,7 +2,12 @@ import Knex from 'knex';
 
 // @ts-expect-error Get database-builder from API project
 import { DatabaseBuilder } from '../../../api/db/database-builder/database-builder.js';
-import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA } from './db-data.js';
+import {
+  PIX_APP_USER_DATA,
+  PIX_ORGA_PRO_DATA,
+  PIX_ORGA_SCO_ISMANAGING_DATA,
+  PIX_ORGA_SUP_ISMANAGING_DATA,
+} from './db-data.js';
 
 const knex = Knex({ client: 'postgresql', connection: process.env.DATABASE_URL });
 
@@ -32,7 +37,7 @@ export async function buildAuthenticatedUsers({ withCguAccepted }: { withCguAcce
     service: 'pix-orga',
     versionAt: '2020-01-01',
   }).id;
-  for (const data of [PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA]) {
+  for (const data of [PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA, PIX_ORGA_SUP_ISMANAGING_DATA]) {
     databaseBuilder.factory.buildOrganization(data.organization);
     databaseBuilder.factory.buildUser.withMembership({
       ...data,

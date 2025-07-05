@@ -1,14 +1,12 @@
-import path from 'node:path';
-
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
-import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA } from './db-data.js';
-import { test } from './fixtures.ts';
-
-type PixAuthType = 'pix-app' | 'pix-app-gar' | 'pix-orga';
-
-export const LOGGED_APP_USER_ID = 1;
+import {
+  PIX_APP_USER_DATA,
+  PIX_ORGA_PRO_DATA,
+  PIX_ORGA_SCO_ISMANAGING_DATA,
+  PIX_ORGA_SUP_ISMANAGING_DATA,
+} from './db-data.js';
 
 export type Credentials = {
   id: number;
@@ -42,15 +40,14 @@ export const PIX_ORGA_SCO_ISMANAGING_CREDENTIALS: Credentials = {
   rawPassword: PIX_ORGA_SCO_ISMANAGING_DATA.rawPassword,
   appAndRole: 'pix-orga_sco-is-managing',
 };
-
-export function getAuthStatePath(type: PixAuthType) {
-  return path.join(import.meta.dirname, `../node_modules/.playwright/auth-${type}.json`);
-}
-
-export function useLoggedUser(type: PixAuthType) {
-  test.use({ storageState: getAuthStatePath(type) });
-  return LOGGED_APP_USER_ID;
-}
+export const PIX_ORGA_SUP_ISMANAGING_CREDENTIALS: Credentials = {
+  id: PIX_ORGA_SUP_ISMANAGING_DATA.id,
+  firstName: PIX_ORGA_SUP_ISMANAGING_DATA.firstName,
+  lastName: PIX_ORGA_SUP_ISMANAGING_DATA.lastName,
+  email: PIX_ORGA_SUP_ISMANAGING_DATA.email,
+  rawPassword: PIX_ORGA_SUP_ISMANAGING_DATA.rawPassword,
+  appAndRole: 'pix-orga_sup-is-managing',
+};
 
 export function getGarTokenForNewUser(firstName: string, lastName: string, expiresIn: ms.StringValue = '1h') {
   return jwt.sign(

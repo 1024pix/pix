@@ -6,6 +6,7 @@ import {
   PIX_APP_USER_CREDENTIALS,
   PIX_ORGA_PRO_CREDENTIALS,
   PIX_ORGA_SCO_ISMANAGING_CREDENTIALS,
+  PIX_ORGA_SUP_ISMANAGING_CREDENTIALS,
 } from './helpers/auth';
 import { buildAuthenticatedUsers } from './helpers/db';
 
@@ -61,6 +62,7 @@ export default async function globalSetup() {
     await loginAndSaveStorageState(browser, PIX_APP_USER_CREDENTIALS, pixAppLogin);
     await loginAndSaveStorageState(browser, PIX_ORGA_PRO_CREDENTIALS, pixOrgaLogin);
     await loginAndSaveStorageState(browser, PIX_ORGA_SCO_ISMANAGING_CREDENTIALS, pixOrgaLogin);
+    await loginAndSaveStorageState(browser, PIX_ORGA_SUP_ISMANAGING_CREDENTIALS, pixOrgaLogin);
 
     await browser.close();
   } catch (error) {

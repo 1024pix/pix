@@ -45,4 +45,18 @@ export const PIX_ORGA_SCO_ISMANAGING_DATA = {
   },
 };
 
+export const PIX_ORGA_SUP_ISMANAGING_DATA = {
+  id: iterDBId.next().value as number,
+  firstName: 'PixOrga',
+  lastName: 'SupIsManagingPrescripteur',
+  email: 'pix-orga_sup-is-managing-prescripteur@example.net',
+  rawPassword: 'pix123',
+  organization: {
+    id: iterDBId.next().value as number,
+    type: 'SUP',
+    isManagingStudents: true,
+    externalId: 'ORGASUPISMANAGING',
+  },
+};
+
 export const RANDOM_SEED = 0.123;
