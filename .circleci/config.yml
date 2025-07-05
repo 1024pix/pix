@@ -250,6 +250,7 @@ workflows:
           requires:
             - mon_pix_build
             - orga_build
+            - certif_install
 
 jobs:
   checkout:
@@ -1037,6 +1038,11 @@ jobs:
           command: DEFAULT_LOCALE=fr npx ember serve --path=./dist --proxy=http://localhost:3000
           background: true
       - run:
+          name: Start Pix Certif
+          working_directory: ~/pix/certif
+          command: DEFAULT_LOCALE=fr npx ember serve --path=./dist --proxy=http://localhost:3000
+          background: true
+      - run:
           name: Prepare database
           working_directory: ~/pix/api
           environment:
@@ -1073,6 +1079,7 @@ jobs:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200
             PIX_ORGA_URL: http://localhost:4201
+            PIX_CERTIF_URL: http://localhost:4203
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             AUTH_SECRET: 'secret'
             TEST_MODE: 'check'

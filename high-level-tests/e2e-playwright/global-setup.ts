@@ -4,6 +4,7 @@ import * as fs from 'fs/promises';
 import {
   Credentials,
   PIX_APP_USER_CREDENTIALS,
+  PIX_CERTIF_PRO_CREDENTIALS,
   PIX_ORGA_PRO_CREDENTIALS,
   PIX_ORGA_SCO_ISMANAGING_CREDENTIALS,
   PIX_ORGA_SUP_ISMANAGING_CREDENTIALS,
@@ -36,6 +37,18 @@ async function pixOrgaLogin(page: Page, creds: Credentials) {
   }
 }
 
+async function pixCertifLogin(page: Page, creds: Credentials) {
+  await page.goto(process.env.PIX_CERTIF_URL + '/connexion');
+  await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(creds.email);
+  await page.getByRole('textbox', { name: 'Mot de passe' }).fill(creds.rawPassword);
+  await page.getByRole('button', { name: 'Je me connecte' }).click();
+  await page.waitForURL(process.env.PIX_CERTIF_URL + '/sessions', { timeout: 5_000 });
+  const url = page.url();
+  if (url !== process.env.PIX_CERTIF_URL + '/sessions') {
+    throw new Error(`PixCertif login failed for user ${creds.id}: unexpected url "${url.toString()}"`);
+  }
+}
+
 async function loginAndSaveStorageState(browser: Browser, creds: Credentials, loginFn: LoginFunction) {
   const context = await browser.newContext();
   const page = await context.newPage();
@@ -63,6 +76,7 @@ export default async function globalSetup() {
     await loginAndSaveStorageState(browser, PIX_ORGA_PRO_CREDENTIALS, pixOrgaLogin);
     await loginAndSaveStorageState(browser, PIX_ORGA_SCO_ISMANAGING_CREDENTIALS, pixOrgaLogin);
     await loginAndSaveStorageState(browser, PIX_ORGA_SUP_ISMANAGING_CREDENTIALS, pixOrgaLogin);
+    await loginAndSaveStorageState(browser, PIX_CERTIF_PRO_CREDENTIALS, pixCertifLogin);
 
     await browser.close();
   } catch (error) {

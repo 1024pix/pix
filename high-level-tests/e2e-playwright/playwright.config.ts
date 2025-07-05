@@ -50,7 +50,7 @@ export default defineConfig({
     ? [
         {
           command: 'while true; do echo "Wait for App to start"; sleep 300; done',
-          url: process.env.PIX_APP_URL || process.env.PIX_ORGA_URL,
+          url: process.env.PIX_APP_URL || process.env.PIX_ORGA_URL || process.env.PIX_CERTIF_URL,
           reuseExistingServer: true,
         },
       ]
@@ -91,6 +91,17 @@ export default defineConfig({
           cwd: '../../orga',
           command: `npx ember serve --proxy http://localhost:${process.env.PIX_API_PORT}`,
           url: process.env.PIX_ORGA_URL,
+          reuseExistingServer: false,
+          stdout: 'ignore',
+          stderr: 'pipe',
+          env: {
+            DEFAULT_LOCALE: 'fr',
+          },
+        },
+        {
+          cwd: '../../certif',
+          command: `npx ember serve --proxy http://localhost:${process.env.PIX_API_PORT}`,
+          url: process.env.PIX_CERTIF_URL,
           reuseExistingServer: false,
           stdout: 'ignore',
           stderr: 'pipe',

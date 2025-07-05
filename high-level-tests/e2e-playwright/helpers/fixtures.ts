@@ -2,6 +2,7 @@ import { BrowserContext, test as base } from '@playwright/test';
 
 import {
   PIX_APP_USER_CREDENTIALS,
+  PIX_CERTIF_PRO_CREDENTIALS,
   PIX_ORGA_PRO_CREDENTIALS,
   PIX_ORGA_SCO_ISMANAGING_CREDENTIALS,
   PIX_ORGA_SUP_ISMANAGING_CREDENTIALS,
@@ -15,6 +16,7 @@ export const test = base.extend<{
   pixOrgaProContext: BrowserContext;
   pixOrgaScoIsManagingContext: BrowserContext;
   pixOrgaSupIsManagingContext: BrowserContext;
+  pixCertifProContext: BrowserContext;
 }>({
   forEachTest: [
     // eslint-disable-next-line no-empty-pattern
@@ -50,6 +52,13 @@ export const test = base.extend<{
   pixOrgaSupIsManagingContext: async ({ browser }, use) => {
     const context = await browser.newContext({
       storageState: `.auth/${PIX_ORGA_SUP_ISMANAGING_CREDENTIALS.appAndRole}.json`,
+    });
+    await use(context);
+    await context.close();
+  },
+  pixCertifProContext: async ({ browser }, use) => {
+    const context = await browser.newContext({
+      storageState: `.auth/${PIX_CERTIF_PRO_CREDENTIALS.appAndRole}.json`,
     });
     await use(context);
     await context.close();

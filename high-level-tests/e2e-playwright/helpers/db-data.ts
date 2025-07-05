@@ -59,4 +59,17 @@ export const PIX_ORGA_SUP_ISMANAGING_DATA = {
   },
 };
 
+export const PIX_CERTIF_PRO_DATA = {
+  id: iterDBId.next().value as number,
+  firstName: 'PixOrga',
+  lastName: 'SupIsManagingPrescripteur',
+  email: 'pix-certif_pro@example.net',
+  rawPassword: 'pix123',
+  certificationCenter: {
+    id: iterDBId.next().value as number,
+    type: 'PRO',
+    externalId: 'CERTIFPRO',
+  },
+};
+
 export const RANDOM_SEED = 0.123;

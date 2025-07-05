@@ -4,6 +4,7 @@ import Knex from 'knex';
 import { DatabaseBuilder } from '../../../api/db/database-builder/database-builder.js';
 import {
   PIX_APP_USER_DATA,
+  PIX_CERTIF_PRO_DATA,
   PIX_ORGA_PRO_DATA,
   PIX_ORGA_SCO_ISMANAGING_DATA,
   PIX_ORGA_SUP_ISMANAGING_DATA,
@@ -50,6 +51,17 @@ export async function buildAuthenticatedUsers({ withCguAccepted }: { withCguAcce
       });
     }
   }
+
+  // PIX-CERTIF
+  databaseBuilder.factory.buildCertificationCenter(PIX_CERTIF_PRO_DATA.certificationCenter);
+  databaseBuilder.factory.buildUser.withRawPassword({
+    ...PIX_CERTIF_PRO_DATA,
+    pixCertifTermsOfServiceAccepted: withCguAccepted,
+  });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    certificationCenterId: PIX_CERTIF_PRO_DATA.certificationCenter.id,
+    userId: PIX_CERTIF_PRO_DATA.id,
+  });
 
   await databaseBuilder.commit();
 }

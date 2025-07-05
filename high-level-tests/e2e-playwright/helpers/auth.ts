@@ -3,6 +3,7 @@ import ms from 'ms';
 
 import {
   PIX_APP_USER_DATA,
+  PIX_CERTIF_PRO_DATA,
   PIX_ORGA_PRO_DATA,
   PIX_ORGA_SCO_ISMANAGING_DATA,
   PIX_ORGA_SUP_ISMANAGING_DATA,
@@ -47,6 +48,14 @@ export const PIX_ORGA_SUP_ISMANAGING_CREDENTIALS: Credentials = {
   email: PIX_ORGA_SUP_ISMANAGING_DATA.email,
   rawPassword: PIX_ORGA_SUP_ISMANAGING_DATA.rawPassword,
   appAndRole: 'pix-orga_sup-is-managing',
+};
+export const PIX_CERTIF_PRO_CREDENTIALS: Credentials = {
+  id: PIX_CERTIF_PRO_DATA.id,
+  firstName: PIX_CERTIF_PRO_DATA.firstName,
+  lastName: PIX_CERTIF_PRO_DATA.lastName,
+  email: PIX_CERTIF_PRO_DATA.email,
+  rawPassword: PIX_CERTIF_PRO_DATA.rawPassword,
+  appAndRole: 'pix-certif_pro',
 };
 
 export function getGarTokenForNewUser(firstName: string, lastName: string, expiresIn: ms.StringValue = '1h') {
