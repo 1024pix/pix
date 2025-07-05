@@ -2,7 +2,7 @@ import Knex from 'knex';
 
 // @ts-expect-error Get database-builder from API project
 import { DatabaseBuilder } from '../../../api/db/database-builder/database-builder.js';
-import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA } from './db-data.js';
+import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA } from './db-data.js';
 
 const knex = Knex({ client: 'postgresql', connection: process.env.DATABASE_URL });
 
@@ -20,26 +20,31 @@ export async function cleanDB() {
 }
 
 export async function buildAuthenticatedUsers({ withCguAccepted }: { withCguAccepted: boolean }) {
+  // PIX-APP
   databaseBuilder.factory.buildUser.withRawPassword({
     ...PIX_APP_USER_DATA,
     cgu: withCguAccepted,
   });
 
-  databaseBuilder.factory.buildOrganization({
-    id: PIX_ORGA_PRO_DATA.organizationId,
-    type: PIX_ORGA_PRO_DATA.type,
-  });
-  databaseBuilder.factory.buildUser.withMembership(PIX_ORGA_PRO_DATA);
+  // PIX-ORGA
   const legalDocumentVersionId = databaseBuilder.factory.buildLegalDocumentVersion({
     type: 'TOS',
     service: 'pix-orga',
     versionAt: '2020-01-01',
   }).id;
-  if (withCguAccepted) {
-    databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
-      legalDocumentVersionId,
-      userId: PIX_ORGA_PRO_DATA.id,
+  for (const data of [PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA]) {
+    databaseBuilder.factory.buildOrganization(data.organization);
+    databaseBuilder.factory.buildUser.withMembership({
+      ...data,
+      organizationId: data.organization.id,
     });
+    if (withCguAccepted) {
+      databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
+        legalDocumentVersionId,
+        userId: data.id,
+      });
+    }
   }
+
   await databaseBuilder.commit();
 }

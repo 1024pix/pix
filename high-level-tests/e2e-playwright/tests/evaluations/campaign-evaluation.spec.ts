@@ -18,7 +18,7 @@ test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
   const targetProfileId = databaseBuilder.factory.buildTargetProfile({
     name: 'PC PLAYWRIGHT',
-    ownerOrganizationId: PIX_ORGA_PRO_DATA.organizationId,
+    ownerOrganizationId: PIX_ORGA_PRO_DATA.organization.id,
     isSimplifiedAccess: false,
     description: 'PC pour Playwright',
     comment: null,

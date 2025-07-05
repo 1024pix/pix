@@ -1,15 +1,73 @@
-import { expect } from '@playwright/test';
+import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
+import { PIX_ORGA_SCO_ISMANAGING_DATA } from '../../helpers/db-data.js';
+import { expect, test } from '../../helpers/fixtures.js';
 
-import { useLoggedUser } from '../helpers/auth.js';
-import { databaseBuilder } from '../helpers/db.js';
-import { test } from '../helpers/fixtures.js';
+let learnerPixAuth: {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+};
+let learnerNotLinked: {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+};
+let learnerGarAuth: {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+};
 
-const loggedUserId = useLoggedUser('pix-orga');
+test.beforeEach(async () => {
+  await buildAuthenticatedUsers({ withCguAccepted: true });
+  const organizationId = PIX_ORGA_SCO_ISMANAGING_DATA.organization.id;
+  // Learner with no user linked
+  learnerNotLinked = databaseBuilder.factory.buildOrganizationLearner({
+    organizationId,
+    lastName: 'NoUser',
+    userId: null,
+  });
 
-test('Students management for a sco organization', async ({ page }) => {
-  const { learnerPixAuth, learnerGarAuth, learnerNotLinked } = await _buildTestData();
+  // Learner linked to user with PIX authentication method
+  learnerPixAuth = databaseBuilder.factory.buildUser.withRawPassword({
+    lastName: 'PixUser',
+    email: 'pix@user.com',
+    username: 'pix.user',
+  });
+  databaseBuilder.factory.buildOrganizationLearner({
+    organizationId,
+    firstName: learnerPixAuth.firstName,
+    lastName: learnerPixAuth.lastName,
+    userId: learnerPixAuth.id,
+  });
 
-  await page.goto('/');
+  // Learner linked to user with GAR authentication method
+  learnerGarAuth = databaseBuilder.factory.buildUser({ lastName: 'GarUser', username: null, email: null });
+  databaseBuilder.factory.buildOrganizationLearner({
+    organizationId,
+    firstName: learnerGarAuth.firstName,
+    lastName: learnerGarAuth.lastName,
+    userId: learnerGarAuth.id,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+    firstName: learnerGarAuth.firstName,
+    lastName: learnerGarAuth.lastName,
+    userId: learnerGarAuth.id,
+  });
+
+  await databaseBuilder.commit();
+});
+
+test('Students management for a sco organization', async ({ pixOrgaScoIsManagingContext }) => {
+  const page = await pixOrgaScoIsManagingContext.newPage();
+
+  await page.goto(process.env.PIX_ORGA_URL as string);
   await page.getByRole('heading', { name: 'Campagnes' }).waitFor();
 
   await page.getByRole('link', { name: 'Élèves' }).click();
@@ -54,62 +112,3 @@ test('Students management for a sco organization', async ({ page }) => {
     await expect(row.getByRole('button', { name: 'Afficher les actions' })).not.toBeVisible();
   });
 });
-
-async function _buildTestData() {
-  // SCO organization
-  const organization = databaseBuilder.factory.buildOrganization({
-    type: 'SCO',
-    isManagingStudents: true,
-    identityProviderForCampaigns: 'GAR',
-  });
-
-  // Member of the organization
-  const member = databaseBuilder.factory.buildUser.withMembership({
-    id: loggedUserId,
-    organizationId: organization.id,
-    role: 'MEMBER',
-  });
-  const legalDocument = databaseBuilder.factory.buildLegalDocumentVersion({ type: 'TOS', service: 'pix-orga' });
-  databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
-    legalDocumentVersionId: legalDocument.id,
-    userId: member.id,
-  });
-
-  // Learner with no user linked
-  const learnerNotLinked = databaseBuilder.factory.buildOrganizationLearner({
-    organizationId: organization.id,
-    lastName: 'NoUser',
-    userId: null,
-  });
-
-  // Learner linked to user with PIX authentication method
-  const learnerPixAuth = databaseBuilder.factory.buildUser.withRawPassword({
-    lastName: 'PixUser',
-    email: 'pix@user.com',
-    username: 'pix.user',
-  });
-  databaseBuilder.factory.buildOrganizationLearner({
-    organizationId: organization.id,
-    firstName: learnerPixAuth.firstName,
-    lastName: learnerPixAuth.lastName,
-    userId: learnerPixAuth.id,
-  });
-
-  // Learner linked to user with GAR authentication method
-  const learnerGarAuth = databaseBuilder.factory.buildUser({ lastName: 'GarUser', username: null, email: null });
-  databaseBuilder.factory.buildOrganizationLearner({
-    organizationId: organization.id,
-    firstName: learnerGarAuth.firstName,
-    lastName: learnerGarAuth.lastName,
-    userId: learnerGarAuth.id,
-  });
-  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-    firstName: learnerGarAuth.firstName,
-    lastName: learnerGarAuth.lastName,
-    userId: learnerGarAuth.id,
-  });
-
-  await databaseBuilder.commit();
-
-  return { learnerPixAuth, learnerGarAuth, learnerNotLinked };
-}

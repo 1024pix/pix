@@ -1,8 +1,6 @@
-import { expect } from '@playwright/test';
-
 import { getGarTokenForNewUser } from '../../helpers/auth.js';
 import { databaseBuilder } from '../../helpers/db.js';
-import { test } from '../../helpers/fixtures.js';
+import { expect, test } from '../../helpers/fixtures.js';
 
 let campaignCode: string;
 

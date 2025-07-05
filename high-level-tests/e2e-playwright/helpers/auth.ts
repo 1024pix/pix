@@ -3,7 +3,7 @@ import path from 'node:path';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
-import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA } from './db-data.js';
+import { PIX_APP_USER_DATA, PIX_ORGA_PRO_DATA, PIX_ORGA_SCO_ISMANAGING_DATA } from './db-data.js';
 import { test } from './fixtures.ts';
 
 type PixAuthType = 'pix-app' | 'pix-app-gar' | 'pix-orga';
@@ -33,6 +33,14 @@ export const PIX_ORGA_PRO_CREDENTIALS: Credentials = {
   email: PIX_ORGA_PRO_DATA.email,
   rawPassword: PIX_ORGA_PRO_DATA.rawPassword,
   appAndRole: 'pix-orga_pro',
+};
+export const PIX_ORGA_SCO_ISMANAGING_CREDENTIALS: Credentials = {
+  id: PIX_ORGA_SCO_ISMANAGING_DATA.id,
+  firstName: PIX_ORGA_SCO_ISMANAGING_DATA.firstName,
+  lastName: PIX_ORGA_SCO_ISMANAGING_DATA.lastName,
+  email: PIX_ORGA_SCO_ISMANAGING_DATA.email,
+  rawPassword: PIX_ORGA_SCO_ISMANAGING_DATA.rawPassword,
+  appAndRole: 'pix-orga_sco-is-managing',
 };
 
 export function getAuthStatePath(type: PixAuthType) {
