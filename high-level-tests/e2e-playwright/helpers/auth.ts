@@ -62,7 +62,7 @@ export function getGarTokenForNewUser(firstName: string, lastName: string, expir
   );
 }
 
-export function getGarTokenForExistingUser(userId: string, expiresIn: ms.StringValue = '1h') {
+export function getGarTokenForExistingUser(userId: number, expiresIn: ms.StringValue = '1h') {
   return jwt.sign(
     { user_id: userId, source: 'external', aud: process.env.PIX_APP_URL },
     process.env.AUTH_SECRET || '',

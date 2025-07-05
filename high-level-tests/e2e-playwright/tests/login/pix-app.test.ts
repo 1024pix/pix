@@ -1,3 +1,4 @@
+import { getGarTokenForExistingUser } from '../../helpers/auth';
 import { buildAuthenticatedUsers } from '../../helpers/db';
 import { PIX_APP_USER_DATA } from '../../helpers/db-data';
 import { expect, test } from '../../helpers/fixtures';
@@ -21,19 +22,10 @@ test('authenticates user to pix app', async ({ page }) => {
 
   await expect(page).toHaveTitle('Accueil | Pix');
 });
-/*
+
 test('authenticates GAR user to pix app', async ({ page }) => {
-  const user = databaseBuilder.factory.buildUser.withRawPassword({ id: LOGGED_APP_USER_ID });
-  await databaseBuilder.commit();
+  const token = getGarTokenForExistingUser(PIX_APP_USER_DATA.id);
+  await page.goto(process.env.PIX_APP_URL + `/connexion/gar#${token}`);
 
-  // visit login page
-  const token = getGarTokenForExistingUser(user.id);
-  await page.goto(`/connexion/gar#${token}`);
-
-  // wait for connexion
   await expect(page).toHaveTitle('Accueil | Pix');
-
-  // save auth state
-  await page.context().storageState({ path: getAuthStatePath('pix-app-gar') });
 });
-*/
