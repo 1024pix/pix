@@ -19,7 +19,7 @@ test.beforeEach(async () => {
 });
 
 test('user assesses on preview challenge', async ({ page, testMode }) => {
-  test.setTimeout(100_000);
+  test.setTimeout(10_000);
   let results;
   const resultFilePath = './tests/evaluations/data/preview.json';
   if (testMode === 'record') {

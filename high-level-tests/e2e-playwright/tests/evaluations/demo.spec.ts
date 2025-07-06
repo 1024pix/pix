@@ -30,7 +30,7 @@ test.beforeEach(async () => {
 });
 
 test('user assesses on course demo', async ({ page, testMode }) => {
-  test.setTimeout(100_000);
+  test.setTimeout(60_000);
   let results;
   const resultFilePath = './tests/evaluations/data/demo.json';
   if (testMode === 'record') {

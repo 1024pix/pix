@@ -34,7 +34,7 @@ test.beforeEach(async () => {
 });
 
 test('user takes a certification test', async ({ pixAppUserContext, pixCertifProContext, testMode }) => {
-  test.setTimeout(300_000);
+  test.setTimeout(60_000);
   let results;
   const resultFilePath = './tests/evaluations/data/certification.json';
   if (testMode === 'record') {

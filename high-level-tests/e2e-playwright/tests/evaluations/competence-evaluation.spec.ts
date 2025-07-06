@@ -16,7 +16,7 @@ test.beforeEach(async () => {
 });
 
 test('user assessing on 5 Pix Competences', async ({ pixAppUserContext, testMode }) => {
-  test.setTimeout(140_000);
+  test.setTimeout(60_000);
   const page = await pixAppUserContext.newPage();
   let results;
   const resultFilePath = './tests/evaluations/data/competence-evaluation.json';
