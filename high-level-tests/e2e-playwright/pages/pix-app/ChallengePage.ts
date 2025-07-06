@@ -27,6 +27,20 @@ export class ChallengePage {
     if (hasLoader) {
       await this.page.waitForSelector('.app-loader', { state: 'detached' });
     }
-    // todo tester: await page.waitForLoadState('networkidle')
+  }
+
+  async hasUserLeveledUp() {
+    const notification = this.page.getByText('Niveau 1 gagné !');
+    try {
+      await notification.waitFor({ timeout: 200 });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async leave() {
+    await this.page.getByRole('button', { name: 'Quitter' }).click();
+    await this.page.getByRole('link', { name: "Quitter l'épreuve et retourner à la page d'accueil" }).click();
   }
 }
