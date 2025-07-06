@@ -1,32 +1,22 @@
 import * as fs from 'fs/promises';
 
 import { databaseBuilder } from '../../helpers/db';
-import { RANDOM_SEED } from '../../helpers/db-data';
 import { expect, test } from '../../helpers/fixtures';
 import { rightWrongAnswerCycle } from '../../helpers/utils';
 import { ChallengePage } from '../../pages/pix-app';
 
-const NB_CHALLENGES_IN_DEMO_COURSE = 30;
-const DEMO_COURSE_ID = 'coursePLAYWRIGHT';
+let NB_CHALLENGES_IN_DEMO_COURSE: number;
+let DEMO_COURSE_ID: string;
+const DEMO_COURSE_NAME = 'Panel Pix+ - Stage';
 
 test.beforeEach(async () => {
-  await databaseBuilder.knex.raw('SELECT setseed(?)', [RANDOM_SEED]);
-  const challengeIds = await databaseBuilder
-    .knex('learningcontent.challenges')
-    .pluck('id')
-    .where('status', '=', 'validé')
-    .whereRaw('? = ANY(locales)', ['fr'])
-    .orderByRaw('random()')
-    .limit(NB_CHALLENGES_IN_DEMO_COURSE);
-  databaseBuilder.factory.learningContent.buildCourse({
-    id: DEMO_COURSE_ID,
-    name: 'Test démo Playwright',
-    description: 'un test de démo pour Playwright',
-    isActive: true,
-    competences: [],
-    challenges: challengeIds,
-  });
-  await databaseBuilder.commit();
+  const courseDTO = await databaseBuilder
+    .knex('learningcontent.courses')
+    .select('*')
+    .where('name', DEMO_COURSE_NAME)
+    .first();
+  NB_CHALLENGES_IN_DEMO_COURSE = courseDTO.challenges.length;
+  DEMO_COURSE_ID = courseDTO.id;
 });
 
 test('user assesses on course demo', async ({ page, testMode }) => {
