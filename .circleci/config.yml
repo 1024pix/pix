@@ -206,18 +206,18 @@ workflows:
           requires:
             - orga_build
 
-      - certif_install:
+      - certif_build:
           context: Pix
           requires:
             - checkout
       - certif_lint:
           context: Pix
           requires:
-            - certif_install
+            - certif_build
       - certif_test:
           context: Pix
           requires:
-            - certif_install
+            - certif_build
 
       - admin_install:
           context: Pix
@@ -250,7 +250,7 @@ workflows:
           requires:
             - mon_pix_build
             - orga_build
-            - certif_install
+            - certif_build
 
 jobs:
   checkout:
@@ -706,9 +706,9 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results/junior
 
-  certif_install:
+  certif_build:
     executor:
-      name: node-docker
+      name: node-docker-medium
     working_directory: ~/pix/certif
     steps:
       - attach_workspace:
@@ -718,6 +718,13 @@ jobs:
           keys:
             - v7-certif-npm-{{ checksum "cachekey" }}
       - run: npm ci
+      - run:
+          name: Build Pix Certif
+          command: npm run build
+          environment:
+            BUILD_ENVIRONMENT: development
+            DEFAULT_LOCALE: fr
+            JOBS: 2
       - save_cache:
           key: v7-certif-npm-{{ checksum "cachekey" }}
           paths:
@@ -1027,6 +1034,7 @@ jobs:
             AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2115?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
+            V3_CERTIFICATION_PROBABILITY_TO_PICK_CHALLENGE: '100'
       - run:
           name: Start Pix Orga
           working_directory: ~/pix/orga
@@ -1052,7 +1060,6 @@ jobs:
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             PIX_AUDIT_LOGGER_ENABLED: 'false'
-            MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2115?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
@@ -1061,13 +1068,6 @@ jobs:
           name: Refresh cache
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
-            REDIS_URL: 'redis://localhost:6379'
-            START_JOB_IN_WEB_PROCESS: 'true'
-            PIX_AUDIT_LOGGER_ENABLED: 'false'
-            MAILING_ENABLED: 'false'
-            AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2115?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           working_directory: ~/pix/api

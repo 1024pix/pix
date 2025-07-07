@@ -159,6 +159,7 @@ const schema = Joi.object({
   TLD_FR: Joi.string().optional(),
   TLD_ORG: Joi.string().optional(),
   APIM_URL: Joi.string().optional(),
+  V3_CERTIFICATION_PROBABILITY_TO_PICK_CHALLENGE: Joi.number().optional(),
 }).options({ allowUnknown: true });
 
 const configuration = (function () {
@@ -460,7 +461,7 @@ const configuration = (function () {
     },
     v3Certification: {
       numberOfChallengesPerCourse: 32,
-      defaultProbabilityToPickChallenge: 51,
+      defaultProbabilityToPickChallenge: parseInt(process.env.V3_CERTIFICATION_PROBABILITY_TO_PICK_CHALLENGE, 10) || 51,
       defaultCandidateCapacity: -3,
       challengesBetweenSameCompetence: 2,
       scoring: {

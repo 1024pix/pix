@@ -46,7 +46,7 @@ export class SessionManagementPage {
     }
     await this.page.getByLabel('Nom de naissance').fill(lastName);
     await this.page.getByLabel('Prénom').fill(firstName);
-    await this.page.getByLabel('Date de naissance').pressSequentially(birthdate.replaceAll('/', ''));
+    await this.page.getByLabel('Date de naissance').pressSequentially(birthdate);
     await this.page.getByRole('button', { name: 'Pays de naissance *' }).click();
     await this.page.getByRole('option', { name: birthCountry }).click();
     await this.page.getByRole('radio', { name: 'Code postal' }).check();

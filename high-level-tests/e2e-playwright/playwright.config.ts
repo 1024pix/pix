@@ -74,6 +74,7 @@ export default defineConfig({
             LCMS_API_URL: process.env.LCMS_API_URL ?? '',
             LCMS_API_KEY: process.env.LCMS_API_KEY ?? '',
             LCMS_API_RELEASE_ID: process.env.LCMS_API_RELEASE_ID ?? '',
+            V3_CERTIFICATION_PROBABILITY_TO_PICK_CHALLENGE: '100',
           },
         },
         {
