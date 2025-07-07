@@ -55,10 +55,7 @@ export default class CurrentSessionService extends SessionService {
     }
 
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
-    // todo(auth)
-    const encodedRedirectUri = encodeURIComponent(`${window.location.origin}${routeAfterInvalidation}`);
-    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
-    super.handleInvalidation(authRoute);
+    super.handleInvalidation(routeAfterInvalidation);
   }
 
   async handleUserLanguageAndLocale(transition = null) {
@@ -80,14 +77,8 @@ export default class CurrentSessionService extends SessionService {
       this.attemptedTransition = transition;
       this.router.transitionTo('terms-of-service');
     }
-    // todo(auth)
-    const routeAfterInvalidation = this._getRouteAfterInvalidation();
-    const encodedRedirectUri = encodeURIComponent(`${window.location.origin}${routeAfterInvalidation}`);
-    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
-    const transitionRoute = authenticationRoute ? authenticationRoute : authRoute;
-    super.requireAuthentication(transition, () => {
-      window.location = transitionRoute;
-    });
+    const transitionRoute = authenticationRoute ? authenticationRoute : 'authentication.login';
+    super.requireAuthentication(transition, transitionRoute);
   }
 
   setAttemptedTransition(transition) {

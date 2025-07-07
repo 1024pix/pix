@@ -1,6 +1,3 @@
-import CookieStore from 'ember-simple-auth/session-stores/cookie';
+import AdaptiveStore from 'ember-simple-auth/session-stores/adaptive';
 
-export default class SessionStore extends CookieStore {
-  cookieExpirationTime = 1200;
-  cookieName = 'pix-certif';
-}
+export default class SessionStore extends AdaptiveStore {}
