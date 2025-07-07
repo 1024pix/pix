@@ -71,5 +71,3 @@ export const PIX_CERTIF_PRO_DATA = {
     externalId: 'CERTIFPRO',
   },
 };
-
-export const RANDOM_SEED = 0.123;

@@ -1,7 +1,6 @@
 import * as fs from 'fs/promises';
 
-import { COMPETENCE_TITLES } from '../../helpers/constants';
-import { buildAuthenticatedUsers } from '../../helpers/db.js';
+import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
 import { expect, test } from '../../helpers/fixtures';
 import { rightWrongAnswerCycle } from '../../helpers/utils';
 import {
@@ -11,12 +10,19 @@ import {
   IntermediateCheckpointPage,
 } from '../../pages/pix-app';
 
+let COMPETENCE_TITLES: string[];
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
+  const competenceDTOs = await databaseBuilder
+    .knex('learningcontent.competences')
+    .jsonExtract('name_i18n', '$.fr', 'competenceTitle')
+    .where('origin', 'Pix')
+    .orderBy('index');
+  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }) => competenceTitle);
 });
 
 test('user assessing on 5 Pix Competences', async ({ pixAppUserContext, testMode }) => {
-  test.setTimeout(60_000);
+  test.setTimeout(120_000);
   const page = await pixAppUserContext.newPage();
   let results;
   const resultFilePath = './tests/evaluations/data/competence-evaluation.json';

@@ -1,6 +1,5 @@
 import * as fs from 'fs/promises';
 
-import { COMPETENCE_TITLES } from '../../helpers/constants';
 import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
 import { PIX_ORGA_PRO_DATA } from '../../helpers/db-data';
 import { expect, test } from '../../helpers/fixtures';
@@ -14,8 +13,15 @@ import {
 } from '../../pages/pix-app';
 import { CreateCampaignPage } from '../../pages/pix-orga';
 
+let COMPETENCE_TITLES: string[];
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
+  const competenceDTOs = await databaseBuilder
+    .knex('learningcontent.competences')
+    .jsonExtract('name_i18n', '$.fr', 'competenceTitle')
+    .where('origin', 'Pix')
+    .orderBy('index');
+  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }) => competenceTitle);
   const targetProfileId = databaseBuilder.factory.buildTargetProfile({
     name: 'PC PLAYWRIGHT',
     ownerOrganizationId: PIX_ORGA_PRO_DATA.organization.id,
@@ -26,17 +32,33 @@ test.beforeEach(async () => {
     outdated: false,
     areKnowledgeElementsResettable: false,
   }).id;
-  const tubeIds = await databaseBuilder
+  const tubeDTOs: { competenceId: string; tubeId: string }[] = await databaseBuilder
     .knex('learningcontent.tubes')
-    .pluck('learningcontent.tubes.id')
+    .distinct()
+    .select({
+      competenceId: 'learningcontent.competences.id',
+      tubeId: 'learningcontent.tubes.id',
+    })
     .join('learningcontent.competences', 'learningcontent.tubes.competenceId', 'learningcontent.competences.id')
+    .join('learningcontent.skills', 'learningcontent.skills.tubeId', 'learningcontent.tubes.id')
+    .join('learningcontent.challenges', 'learningcontent.challenges.skillId', 'learningcontent.skills.id')
     .where('learningcontent.competences.origin', '=', 'Pix')
+    .where('learningcontent.skills.status', 'actif')
+    .where((queryBuilder) => {
+      queryBuilder.whereRaw('? = ANY(learningcontent.challenges.locales)', ['fr']);
+      queryBuilder.orWhereRaw('? = ANY(learningcontent.challenges.locales)', ['fr-fr']);
+    })
     .orderBy('learningcontent.tubes.id');
+  const tubesByCompetenceId = Object.groupBy(tubeDTOs, (tubeDTO: { competenceId: string }) => tubeDTO.competenceId);
+  const tubeIds = [];
+  for (const tubesForCompetence of Object.values(tubesByCompetenceId)) {
+    tubeIds.push(...tubesForCompetence.slice(0, 2).map((tubeDTO) => tubeDTO.tubeId));
+  }
   for (const tubeId of tubeIds) {
     databaseBuilder.factory.buildTargetProfileTube({
       targetProfileId,
       tubeId,
-      level: 2,
+      level: 3,
     });
   }
   await databaseBuilder.commit();

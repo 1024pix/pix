@@ -30,6 +30,7 @@
     "noFallthroughCasesInSwitch": true,
     /* Disable emitting file from a compilation */
     "noEmit": true,
+    "target": "es2024",
     /* Type declaration files to be included in compilation. */
     "types": ["node"]
   },

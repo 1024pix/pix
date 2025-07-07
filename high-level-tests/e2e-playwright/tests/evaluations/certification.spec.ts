@@ -1,14 +1,20 @@
 import * as fs from 'fs/promises';
 
-import { COMPETENCE_TITLES } from '../../helpers/constants';
 import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
 import { expect, test } from '../../helpers/fixtures';
 import { rightWrongAnswerCycle } from '../../helpers/utils';
 import { CertificationStartPage, ChallengePage, IntermediateCheckpointPage } from '../../pages/pix-app';
 import { SessionCreationPage, SessionManagementPage } from '../../pages/pix-certif';
 
+let COMPETENCE_TITLES: string[];
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
+  const competenceDTOs = await databaseBuilder
+    .knex('learningcontent.competences')
+    .jsonExtract('name_i18n', '$.fr', 'competenceTitle')
+    .where('origin', 'Pix')
+    .orderBy('index');
+  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }) => competenceTitle);
   databaseBuilder.factory.buildCertificationCpfCountry({
     commonName: 'FRANCE',
     originalName: 'FRANCE',

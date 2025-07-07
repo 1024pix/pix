@@ -6,17 +6,32 @@ import { rightWrongAnswerCycle } from '../../helpers/utils';
 import { ChallengePage } from '../../pages/pix-app';
 
 let NB_CHALLENGES_IN_DEMO_COURSE: number;
-let DEMO_COURSE_ID: string;
-const DEMO_COURSE_NAME = 'Panel Pix+ - Stage';
+let DEMO_COURSE_ID = null;
 
 test.beforeEach(async () => {
-  const courseDTO = await databaseBuilder
+  const courseDTOs = await databaseBuilder
     .knex('learningcontent.courses')
     .select('*')
-    .where('name', DEMO_COURSE_NAME)
-    .first();
-  NB_CHALLENGES_IN_DEMO_COURSE = courseDTO.challenges.length;
-  DEMO_COURSE_ID = courseDTO.id;
+    .where({ isActive: true })
+    .orderBy('id', 'asc');
+  for (const courseDTO of courseDTOs) {
+    const challengeDTOs = await databaseBuilder
+      .knex('learningcontent.challenges')
+      .select('*')
+      .whereIn('id', courseDTO.challenges)
+      .where((queryBuilder) => {
+        queryBuilder.whereRaw('? = ANY(learningcontent.challenges.locales)', ['fr']);
+        queryBuilder.orWhereRaw('? = ANY(learningcontent.challenges.locales)', ['fr-fr']);
+      });
+    if (challengeDTOs.length === courseDTO.challenges.length) {
+      DEMO_COURSE_ID = courseDTO.id;
+      NB_CHALLENGES_IN_DEMO_COURSE = courseDTO.challenges.length;
+      break;
+    }
+  }
+  if (!DEMO_COURSE_ID) {
+    throw new Error('No suitable DEMO course found for this test');
+  }
 });
 
 test('user assesses on course demo', async ({ page, testMode }) => {
