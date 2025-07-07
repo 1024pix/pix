@@ -1,5 +1,6 @@
 .env.e2e
 .auth/
+.har-record/
 # Playwright
 node_modules/
 /test-results/

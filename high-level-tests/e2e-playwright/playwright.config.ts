@@ -11,6 +11,7 @@ if (!isCI) dotenv.config({ path: path.resolve(import.meta.dirname, '.env.e2e') }
 // See https://playwright.dev/docs/test-configuration
 export default defineConfig({
   globalSetup: './global-setup',
+  globalTeardown: './global-teardown',
   outputDir: `${playwrightFolder}/output`,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,

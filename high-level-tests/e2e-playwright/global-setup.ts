@@ -14,9 +14,15 @@ import {
   PIX_ORGA_SUP_ISMANAGING_CREDENTIALS,
 } from './helpers/auth.ts';
 import { buildAuthenticatedUsers } from './helpers/db.ts';
+const shouldRecordHAR = process.env.RECORD_HAR === 'true';
+const HAR_DIR = path.resolve(import.meta.dirname, '../.har-record');
 
 export default async function globalSetup() {
   try {
+    if (shouldRecordHAR) {
+      await fs.mkdir(HAR_DIR, { recursive: true });
+    }
+    await fs.mkdir(AUTH_DIR, { recursive: true });
     await buildAuthenticatedUsers({ withCguAccepted: true });
 
     await saveStorageState(PIX_APP_USER_CREDENTIALS);
