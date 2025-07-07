@@ -30,6 +30,7 @@ Router.map(function () {
   // authentication
   this.route('login');
   this.route('logout');
+  this.route('auth-callback', { path: 'auth/callback/' });
 
   // private routes
   this.route('authenticated', { path: '' }, function () {

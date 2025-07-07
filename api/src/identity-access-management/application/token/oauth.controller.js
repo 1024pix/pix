@@ -5,7 +5,10 @@ import { PKCEUtils } from '../../infrastructure/utils/pkce.js';
 import { AuthorizationCodeStore } from './AuthorizationCode.js';
 
 // todo(auth): how to manage all environements ? pix.fr vs pix.org
-const authorizedClientIds = { 'pix-orga': { authorizationCallbackUri: 'http://localhost:4201/auth/callback' } };
+const authorizedClientIds = {
+  'pix-orga': { authorizationCallbackUri: 'http://localhost:4201/auth/callback' },
+  'pix-admin': { authorizationCallbackUri: 'http://localhost:4202/auth/callback' },
+};
 
 export const authorizationCodeStore = new AuthorizationCodeStore();
 

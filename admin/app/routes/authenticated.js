@@ -1,15 +1,16 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import Oauth2Code from "pix-admin/authenticators/oauth2-code";
 
 export default class AuthenticatedRoute extends Route {
   @service session;
 
-  beforeModel(transition) {
+  async beforeModel(transition) {
     // todo(auth)
-    const encodedRedirectUri = encodeURIComponent(`${window.location.href}`);
-    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
+    const encodedRedirectUri = encodeURIComponent(window.location.href);
+    const authorizationUri = await Oauth2Code.buildAuthorizationUri(encodedRedirectUri);
     this.session.requireAuthentication(transition, () => {
-      window.location = authRoute;
+      window.location.href = authorizationUri;
     });
   }
 }
