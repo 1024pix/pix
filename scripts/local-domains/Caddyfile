@@ -23,7 +23,12 @@ certif.dev.pix.org {
 	reverse_proxy host.docker.internal:4203
 }
 
-1d.dev.pix.fr,
-1d.dev.pix.org {
+junior.dev.pix.fr,
+junior.dev.pix.org {
 	reverse_proxy host.docker.internal:4205
+}
+
+auth.dev.pix.fr,
+auth.dev.pix.org {
+	reverse_proxy host.docker.internal:4206
 }
