@@ -59,8 +59,7 @@ async function validateUser(decodedAccessToken, { request, revokedUserAccessRepo
   }
 
   const audience = getForwardedOrigin(request.headers);
-  // todo(auth): added for the poc
-  if (decodedAccessToken.aud !== 'http://localhost:4206' && decodedAccessToken.aud !== audience) {
+  if (decodedAccessToken.aud !== audience) {
     monitoringTools.logWarnWithCorrelationIds({
       message: 'User AccessToken audience mismatch',
       audience,
