@@ -5,7 +5,9 @@ import pino from 'pino';
 import pretty from 'pino-pretty';
 
 import { config } from '../../config.js';
+/*
 import { getCorrelationContext } from '../monitoring-tools.js';
+*/
 
 const { logging } = config;
 
@@ -33,32 +35,42 @@ const loggerPino = pino(
 
 export const logger = {
   trace: (mergingObject, message) => {
-    const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.trace(mergingObject, message);
+    /*const childLogger = loggerPino.child(getCorrelationContext);*/
+    loggerPino.trace(mergingObject, message);
   },
   debug: (mergingObject, message) => {
-    const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.debug(mergingObject, message);
+    /*const childLogger = loggerPino.child(getCorrelationContext());*/
+    loggerPino.debug(mergingObject, message);
   },
   info: (mergingObject, message) => {
+    /*
     const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.info(mergingObject, message);
+*/
+    loggerPino.info(mergingObject, message);
   },
   warn: (mergingObject, message) => {
+    /*
     const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.warn(mergingObject, message);
+*/
+    loggerPino.warn(mergingObject, message);
   },
   error: (mergingObject, message) => {
+    /*
     const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.error(mergingObject, message);
+*/
+    loggerPino.error(mergingObject, message);
   },
   fatal: (mergingObject, message) => {
+    /*
     const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.fatal(mergingObject, message);
+*/
+    loggerPino.fatal(mergingObject, message);
   },
   silent: (mergingObject, message) => {
+    /*
     const childLogger = loggerPino.child(getCorrelationContext());
-    childLogger.silent(mergingObject, message);
+*/
+    loggerPino.silent(mergingObject, message);
   },
 };
 
