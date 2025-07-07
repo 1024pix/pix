@@ -1,6 +1,7 @@
 .scalingo/node
 admin
 api
+auth
 certif
 high-level-tests
 junior
