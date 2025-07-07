@@ -9,12 +9,13 @@ export default class CallbackRoute extends Route {
     state: { refreshModel: true },
     redirect_uri: { refreshModel: true },
     error: { refreshModel: true },
+    error_description: { refreshModel: true },
   };
 
   async model(params) {
-    const { code, state, redirect_uri, error } = params;
+    const { code, state, redirect_uri, error, error_description } = params;
 
-    if (error) return { error };
+    if (error) return { error, error_description };
 
     await this.session.authenticate('authenticator:oauth2-code', code, state);
 

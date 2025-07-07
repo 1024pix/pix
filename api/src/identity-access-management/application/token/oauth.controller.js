@@ -19,12 +19,18 @@ const authorize = async (req, h) => {
     throw new HttpErrors.BadRequestError('Client not authorized');
   }
 
+  const { authorizationCallbackUri } = authorizedClientIds[client_id];
+  const url = new URL(authorizationCallbackUri);
+
   if (response_type !== 'code') {
-    throw new HttpErrors.BadRequestError('Response type is not supported');
+    url.searchParams.set('error', 'unsupported_response_type');
+    return h.response({ redirect: url.toString() });
   }
 
   if (!PKCEUtils.validateCodeChallengeMethod(code_challenge_method)) {
-    throw new HttpErrors.BadRequestError('Code Challenge is not valid');
+    url.searchParams.set('error', 'invalid_request');
+    url.searchParams.set('error_description', 'Invalid code challenge');
+    return h.response({ redirect: url.toString() });
   }
 
   const params = new URLSearchParams({
