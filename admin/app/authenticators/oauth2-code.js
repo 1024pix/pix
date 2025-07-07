@@ -34,7 +34,6 @@ export default class Oauth2Code extends OAuth2PasswordGrant {
     const { redirect } = await response.json();
 
     if (!response.ok) {
-      // todo(auth): handle error response when not authorized
       console.error('Error during OAuth2 authorization:', response.statusText);
       throw new Error('Authorization failed');
     }

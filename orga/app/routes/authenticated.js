@@ -12,7 +12,6 @@ export default class AuthenticatedRoute extends Route {
   @service store;
 
   async beforeModel(transition) {
-    // todo(auth)
     const encodedRedirectUri = encodeURIComponent(window.location.href);
     const authorizationUri = await Oauth2Code.buildAuthorizationUri(encodedRedirectUri);
     this.session.requireAuthentication(transition, () => {

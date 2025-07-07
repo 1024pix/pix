@@ -30,7 +30,6 @@ export default class CurrentSessionService extends SessionService {
 
   async handleInvalidation() {
     this.store.clear();
-    // todo(auth)
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
     const encodedRedirectUri = encodeURIComponent(`${window.location.origin}${routeAfterInvalidation}`);
     const authorizationUri = await Oauth2Code.buildAuthorizationUri(encodedRedirectUri);

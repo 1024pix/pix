@@ -1,6 +1,8 @@
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 
+import Oauth2Code from '../authenticators/oauth2-code';
+
 export default class CurrentSessionService extends SessionService {
   @service currentUser;
   @service router;
@@ -14,11 +16,10 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleInvalidation() {
-    // todo(auth)
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
     const encodedRedirectUri = encodeURIComponent(`${window.location.origin}${routeAfterInvalidation}`);
-    const authRoute = `http://localhost:4206?redirect_uri=${encodedRedirectUri}`;
-    return super.handleInvalidation(authRoute);
+    const authorizationUri = await Oauth2Code.buildAuthorizationUri(encodedRedirectUri);
+    return super.handleInvalidation(authorizationUri);
   }
 
   _getRouteAfterInvalidation() {
