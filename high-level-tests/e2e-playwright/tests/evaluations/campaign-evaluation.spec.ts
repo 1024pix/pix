@@ -58,10 +58,13 @@ test.beforeEach(async () => {
       },
     )
     .orderBy('learningcontent.tubes.id');
-  const tubesByCompetenceId = Object.groupBy(tubeDTOs, (tubeDTO: { competenceId: string }) => tubeDTO.competenceId);
+  const tubesByCompetenceId: Record<string, { competenceId: string; tubeId: string }[]> = Object.groupBy(
+    tubeDTOs,
+    (tubeDTO: { competenceId: string }) => tubeDTO.competenceId,
+  ) as Record<string, { competenceId: string; tubeId: string }[]>;
   const tubeIds = [];
   for (const tubesForCompetence of Object.values(tubesByCompetenceId)) {
-    // @ts-ignore
+    if (!tubesForCompetence) continue;
     tubeIds.push(...tubesForCompetence.slice(0, 2).map((tubeDTO) => tubeDTO.tubeId));
   }
   for (const tubeId of tubeIds) {
