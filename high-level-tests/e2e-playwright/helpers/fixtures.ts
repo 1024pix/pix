@@ -1,6 +1,9 @@
+import path from 'node:path';
+
 import { BrowserContext, test as base } from '@playwright/test';
 
 import {
+  AUTH_DIR,
   PIX_APP_USER_CREDENTIALS,
   PIX_CERTIF_PRO_CREDENTIALS,
   PIX_ORGA_PRO_CREDENTIALS,
@@ -31,35 +34,32 @@ export const test = base.extend<{
     await use(process.env.TEST_MODE || 'check');
   },
   pixAppUserContext: async ({ browser }, use) => {
-    const context = await browser.newContext({ storageState: `.auth/${PIX_APP_USER_CREDENTIALS.appAndRole}.json` });
+    const authFilePath = path.join(AUTH_DIR, `${PIX_APP_USER_CREDENTIALS.label}.json`);
+    const context = await browser.newContext({ storageState: authFilePath });
     await use(context);
     await context.close();
   },
   pixOrgaProContext: async ({ browser }, use) => {
-    const context = await browser.newContext({
-      storageState: `.auth/${PIX_ORGA_PRO_CREDENTIALS.appAndRole}.json`,
-    });
+    const authFilePath = path.join(AUTH_DIR, `${PIX_ORGA_PRO_CREDENTIALS.label}.json`);
+    const context = await browser.newContext({ storageState: authFilePath });
     await use(context);
     await context.close();
   },
   pixOrgaScoIsManagingContext: async ({ browser }, use) => {
-    const context = await browser.newContext({
-      storageState: `.auth/${PIX_ORGA_SCO_ISMANAGING_CREDENTIALS.appAndRole}.json`,
-    });
+    const authFilePath = path.join(AUTH_DIR, `${PIX_ORGA_SCO_ISMANAGING_CREDENTIALS.label}.json`);
+    const context = await browser.newContext({ storageState: authFilePath });
     await use(context);
     await context.close();
   },
   pixOrgaSupIsManagingContext: async ({ browser }, use) => {
-    const context = await browser.newContext({
-      storageState: `.auth/${PIX_ORGA_SUP_ISMANAGING_CREDENTIALS.appAndRole}.json`,
-    });
+    const authFilePath = path.join(AUTH_DIR, `${PIX_ORGA_SUP_ISMANAGING_CREDENTIALS.label}.json`);
+    const context = await browser.newContext({ storageState: authFilePath });
     await use(context);
     await context.close();
   },
   pixCertifProContext: async ({ browser }, use) => {
-    const context = await browser.newContext({
-      storageState: `.auth/${PIX_CERTIF_PRO_CREDENTIALS.appAndRole}.json`,
-    });
+    const authFilePath = path.join(AUTH_DIR, `${PIX_CERTIF_PRO_CREDENTIALS.label}.json`);
+    const context = await browser.newContext({ storageState: authFilePath });
     await use(context);
     await context.close();
   },

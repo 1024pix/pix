@@ -3,7 +3,19 @@ import { Page } from '@playwright/test';
 export class SessionCreationPage {
   constructor(private readonly page: Page) {}
 
-  async createSession({ address, room, examiner, hour, minute }) {
+  async createSession({
+    address,
+    room,
+    examiner,
+    hour,
+    minute,
+  }: {
+    address: string;
+    room: string;
+    examiner: string;
+    hour: string;
+    minute: string;
+  }) {
     await this.page.getByLabel('Nom du site').fill(address);
     await this.page.getByLabel('Nom de la salle').fill(room);
     await this.page.locator('form div').filter({ hasText: 'Date de début *' }).getByRole('textbox').click();

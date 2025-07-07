@@ -1,11 +1,15 @@
+import path from 'node:path';
+
+import { BrowserContext } from '@playwright/test';
 import * as fs from 'fs/promises';
 
 import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
-import { expect, test } from '../../helpers/fixtures';
-import { rightWrongAnswerCycle } from '../../helpers/utils';
-import { CertificationStartPage, ChallengePage, IntermediateCheckpointPage } from '../../pages/pix-app';
-import { SessionCreationPage, SessionManagementPage } from '../../pages/pix-certif';
+import { expect, test } from '../../helpers/fixtures.ts';
+import { rightWrongAnswerCycle } from '../../helpers/utils.ts';
+import { CertificationStartPage, ChallengePage, IntermediateCheckpointPage } from '../../pages/pix-app/index.ts';
+import { SessionCreationPage, SessionManagementPage } from '../../pages/pix-certif/index.ts';
 
+const RESULT_DIR = path.resolve(import.meta.dirname, './data');
 let COMPETENCE_TITLES: string[];
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
@@ -14,7 +18,7 @@ test.beforeEach(async () => {
     .jsonExtract('name_i18n', '$.fr', 'competenceTitle')
     .where('origin', 'Pix')
     .orderBy('index');
-  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }) => competenceTitle);
+  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }: { competenceTitle: string }) => competenceTitle);
   databaseBuilder.factory.buildCertificationCpfCountry({
     commonName: 'FRANCE',
     originalName: 'FRANCE',
@@ -39,10 +43,18 @@ test.beforeEach(async () => {
   await databaseBuilder.commit();
 });
 
-test('user takes a certification test', async ({ pixAppUserContext, pixCertifProContext, testMode }) => {
+test('user takes a certification test', async ({
+  pixAppUserContext,
+  pixCertifProContext,
+  testMode,
+}: {
+  pixAppUserContext: BrowserContext;
+  pixCertifProContext: BrowserContext;
+  testMode: string;
+}) => {
   test.setTimeout(60_000);
   let results;
-  const resultFilePath = './tests/evaluations/data/certification.json';
+  const resultFilePath = path.join(RESULT_DIR, 'certification.json');
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
@@ -54,7 +66,7 @@ test('user takes a certification test', async ({ pixAppUserContext, pixCertifPro
 
   const pixCertifPage = await pixCertifProContext.newPage();
   await test.step('creates a certification session', async () => {
-    await pixCertifPage.goto(process.env.PIX_CERTIF_URL);
+    await pixCertifPage.goto(process.env.PIX_CERTIF_URL as string);
     await pixCertifPage.getByRole('link', { name: 'Créer une session' }).click();
     const sessionCreationPage = new SessionCreationPage(pixCertifPage);
     await sessionCreationPage.createSession({
@@ -82,7 +94,7 @@ test('user takes a certification test', async ({ pixAppUserContext, pixCertifPro
 
   const pixAppPage = await pixAppUserContext.newPage();
   await test.step('make candidate certifiable', async () => {
-    await pixAppPage.goto(process.env.PIX_APP_URL);
+    await pixAppPage.goto(process.env.PIX_APP_URL as string);
     for (const competenceTitle of [
       COMPETENCE_TITLES[14],
       COMPETENCE_TITLES[3],

@@ -14,7 +14,7 @@ test('creates an account from GAR', async ({ page }) => {
   await page.goto(process.env.PIX_APP_URL + `/campagnes/?externalUser=${garUserToken}`);
   await expect(page.getByRole('heading', { name: 'Saisissez votre code' })).toBeVisible();
 
-  await page.getByRole('textbox', { name: 'Saisir votre code pour' }).fill(campaignCode);
+  await page.getByLabel('Saisir votre code pour').fill(campaignCode);
   await page.getByRole('button', { name: 'Accéder au parcours' }).click();
   await expect(page.getByRole('heading', { name: 'Commencez votre parcours Pix' })).toBeVisible();
 });

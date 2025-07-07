@@ -1,7 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
+import { BrowserContext } from '@playwright/test';
 
-import { buildAuthenticatedUsers } from '../../helpers/db';
-import { expect, test } from '../../helpers/fixtures';
+import { buildAuthenticatedUsers } from '../../helpers/db.ts';
+import { expect, test } from '../../helpers/fixtures.ts';
 
 const routes = [
   // { path: '/accueil', title: 'Accueil | Pix' }, -> TODO FAILING
@@ -17,7 +18,7 @@ test.beforeEach(async () => {
 });
 
 routes.forEach(({ path, title }) => {
-  test(`check a11y for route ${path}`, async ({ pixAppUserContext }) => {
+  test(`check a11y for route ${path}`, async ({ pixAppUserContext }: { pixAppUserContext: BrowserContext }) => {
     const page = await pixAppUserContext.newPage();
     await page.goto(process.env.PIX_APP_URL + path);
     await expect(page).toHaveTitle(title);

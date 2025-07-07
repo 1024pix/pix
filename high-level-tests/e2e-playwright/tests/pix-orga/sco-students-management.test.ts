@@ -1,6 +1,6 @@
-import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
-import { PIX_ORGA_SCO_ISMANAGING_DATA } from '../../helpers/db-data.js';
-import { expect, test } from '../../helpers/fixtures.js';
+import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.ts';
+import { PIX_ORGA_SCO_ISMANAGING_DATA } from '../../helpers/db-data.ts';
+import { expect, test } from '../../helpers/fixtures.ts';
 
 let learnerPixAuth: {
   id: number;

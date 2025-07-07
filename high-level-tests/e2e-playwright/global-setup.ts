@@ -1,86 +1,67 @@
-import { Browser, chromium, Page } from '@playwright/test';
+import * as path from 'node:path';
+
 import * as fs from 'fs/promises';
+import ms from 'ms';
 
 import {
+  AUTH_DIR,
   Credentials,
+  getTokenForPixUser,
   PIX_APP_USER_CREDENTIALS,
   PIX_CERTIF_PRO_CREDENTIALS,
   PIX_ORGA_PRO_CREDENTIALS,
   PIX_ORGA_SCO_ISMANAGING_CREDENTIALS,
   PIX_ORGA_SUP_ISMANAGING_CREDENTIALS,
-} from './helpers/auth';
-import { buildAuthenticatedUsers } from './helpers/db';
-
-type LoginFunction = (page: Page, creds: Credentials) => Promise<void>;
-
-async function pixAppLogin(page: Page, creds: Credentials) {
-  await page.goto(process.env.PIX_APP_URL + '/connexion');
-  await page.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }).fill(creds.email);
-  await page.getByRole('textbox', { name: 'Mot de passe' }).fill(creds.rawPassword);
-  await page.getByRole('button', { name: 'Je me connecte' }).click();
-  await page.waitForFunction(() => document.title === 'Accueil | Pix', { timeout: 5_000 });
-  const title = await page.title();
-  if (title !== 'Accueil | Pix') {
-    throw new Error(`PixApp login failed for user ${creds.id}: unexpected title "${title}"`);
-  }
-}
-
-async function pixOrgaLogin(page: Page, creds: Credentials) {
-  await page.goto(process.env.PIX_ORGA_URL + '/connexion');
-  await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(creds.email);
-  await page.getByRole('textbox', { name: 'Mot de passe' }).fill(creds.rawPassword);
-  await page.getByRole('button', { name: 'Je me connecte' }).click();
-  await page.waitForURL((url) => url.toString().endsWith('campagnes/les-miennes'), { timeout: 5_000 });
-  const url = page.url();
-  if (!url.endsWith('campagnes/les-miennes')) {
-    throw new Error(`PixOrga login failed for user ${creds.id}: unexpected url "${url.toString()}"`);
-  }
-}
-
-async function pixCertifLogin(page: Page, creds: Credentials) {
-  await page.goto(process.env.PIX_CERTIF_URL + '/connexion');
-  await page.getByRole('textbox', { name: 'Adresse e-mail' }).fill(creds.email);
-  await page.getByRole('textbox', { name: 'Mot de passe' }).fill(creds.rawPassword);
-  await page.getByRole('button', { name: 'Je me connecte' }).click();
-  await page.waitForURL(process.env.PIX_CERTIF_URL + '/sessions', { timeout: 5_000 });
-  const url = page.url();
-  if (url !== process.env.PIX_CERTIF_URL + '/sessions') {
-    throw new Error(`PixCertif login failed for user ${creds.id}: unexpected url "${url.toString()}"`);
-  }
-}
-
-async function loginAndSaveStorageState(browser: Browser, creds: Credentials, loginFn: LoginFunction) {
-  const context = await browser.newContext();
-  const page = await context.newPage();
-  try {
-    await loginFn(page, creds);
-
-    await fs.mkdir('.auth', { recursive: true });
-    const filePath = `.auth/${creds.appAndRole}.json`;
-    await context.storageState({ path: filePath });
-
-    await context.close();
-    console.log(`✅ User auth state for ${creds.appAndRole} saved to ${filePath}`);
-  } catch (err) {
-    await page.screenshot({ path: 'global-setup-login-failure.png' });
-    throw err;
-  }
-}
+} from './helpers/auth.ts';
+import { buildAuthenticatedUsers } from './helpers/db.ts';
 
 export default async function globalSetup() {
   try {
-    const browser = await chromium.launch();
     await buildAuthenticatedUsers({ withCguAccepted: true });
 
-    await loginAndSaveStorageState(browser, PIX_APP_USER_CREDENTIALS, pixAppLogin);
-    await loginAndSaveStorageState(browser, PIX_ORGA_PRO_CREDENTIALS, pixOrgaLogin);
-    await loginAndSaveStorageState(browser, PIX_ORGA_SCO_ISMANAGING_CREDENTIALS, pixOrgaLogin);
-    await loginAndSaveStorageState(browser, PIX_ORGA_SUP_ISMANAGING_CREDENTIALS, pixOrgaLogin);
-    await loginAndSaveStorageState(browser, PIX_CERTIF_PRO_CREDENTIALS, pixCertifLogin);
-
-    await browser.close();
+    await saveStorageState(PIX_APP_USER_CREDENTIALS);
+    await saveStorageState(PIX_ORGA_PRO_CREDENTIALS);
+    await saveStorageState(PIX_ORGA_SCO_ISMANAGING_CREDENTIALS);
+    await saveStorageState(PIX_ORGA_SUP_ISMANAGING_CREDENTIALS);
+    await saveStorageState(PIX_CERTIF_PRO_CREDENTIALS);
   } catch (error) {
     console.error('❌ Global setup failed:', error);
     process.exit(1);
   }
+}
+
+async function saveStorageState(creds: Credentials) {
+  await fs.mkdir(AUTH_DIR, { recursive: true });
+  const filePath = path.join(AUTH_DIR, `${creds.label}.json`);
+  const storageState = generateStorageState(creds.id, creds.appUrl);
+  await fs.writeFile(filePath, JSON.stringify(storageState, null, 2));
+  console.log(`✅ User auth state for ${creds.label} saved to ${filePath}`);
+}
+
+function generateStorageState(userId: number, origin: string) {
+  const sessionObject = {
+    authenticated: {
+      authenticator: 'authenticator:oauth2',
+      token_type: 'bearer',
+      user_id: userId,
+      access_token: getTokenForPixUser(userId, origin, '1h'),
+      expires_in: ms('1h'),
+      expires_at: Date.now() + ms('1h'),
+    },
+  };
+
+  return {
+    cookies: [],
+    origins: [
+      {
+        origin: origin,
+        localStorage: [
+          {
+            name: 'ember_simple_auth-session',
+            value: JSON.stringify(sessionObject),
+          },
+        ],
+      },
+    ],
+  };
 }

@@ -1,9 +1,13 @@
+import path from 'node:path';
+
+import { Page } from '@playwright/test';
 import * as fs from 'fs/promises';
 
-import { databaseBuilder } from '../../helpers/db';
-import { expect, test } from '../../helpers/fixtures';
-import { ChallengePage } from '../../pages/pix-app';
+import { databaseBuilder } from '../../helpers/db.ts';
+import { expect, test } from '../../helpers/fixtures.ts';
+import { ChallengePage } from '../../pages/pix-app/index.ts';
 
+const RESULT_DIR = path.resolve(import.meta.dirname, './data');
 let PREVIEW_CHALLENGE_ID: string;
 test.beforeEach(async () => {
   const { id } = await databaseBuilder
@@ -14,10 +18,10 @@ test.beforeEach(async () => {
   PREVIEW_CHALLENGE_ID = id;
 });
 
-test('user assesses on preview challenge', async ({ page, testMode }) => {
+test('user assesses on preview challenge', async ({ page, testMode }: { page: Page; testMode: string }) => {
   test.setTimeout(10_000);
   let results;
-  const resultFilePath = './tests/evaluations/data/preview.json';
+  const resultFilePath = path.join(RESULT_DIR, 'preview.json');
   if (testMode === 'record') {
     results = {
       challengeImprints: [],

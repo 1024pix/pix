@@ -1,24 +1,22 @@
-import { getGarTokenForExistingUser } from '../../helpers/auth';
-import { buildAuthenticatedUsers } from '../../helpers/db';
-import { PIX_APP_USER_DATA } from '../../helpers/db-data';
-import { expect, test } from '../../helpers/fixtures';
+import { Page } from '@playwright/test';
+
+import { getGarTokenForExistingUser } from '../../helpers/auth.ts';
+import { buildAuthenticatedUsers } from '../../helpers/db.ts';
+import { PIX_APP_USER_DATA } from '../../helpers/db-data.ts';
+import { expect, test } from '../../helpers/fixtures.ts';
 
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: false });
 });
 
-test('authenticates user to pix app', async ({ page }) => {
-  await page.goto(process.env.PIX_APP_URL);
+test('authenticates user to pix app', async ({ page }: { page: Page }) => {
+  await page.goto(process.env.PIX_APP_URL as string);
   await expect(page).toHaveTitle('Connexion | Pix');
 
-  const loginInput = page.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' });
-  await loginInput.fill(PIX_APP_USER_DATA.email);
+  await page.getByLabel('Adresse e-mail ou identifiant').fill(PIX_APP_USER_DATA.email);
+  await page.getByLabel('Mot de passe').fill(PIX_APP_USER_DATA.rawPassword);
 
-  const passwordInput = page.getByRole('textbox', { name: 'Mot de passe' });
-  await passwordInput.fill(PIX_APP_USER_DATA.rawPassword);
-
-  const connectButton = page.getByRole('button', { name: 'Je me connecte' });
-  await connectButton.click();
+  await page.getByRole('button', { name: 'Je me connecte' }).click();
 
   await expect(page).toHaveTitle('Accueil | Pix');
 });

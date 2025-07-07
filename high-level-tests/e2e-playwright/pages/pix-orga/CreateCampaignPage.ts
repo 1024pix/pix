@@ -10,8 +10,7 @@ export class CreateCampaignPage {
     campaignName: string;
     targetProfileName: string;
   }) {
-    await this.page.getByRole('textbox', { name: 'Nom de la campagne *' }).click();
-    await this.page.getByRole('textbox', { name: 'Nom de la campagne *' }).fill(campaignName);
+    await this.page.getByLabel('Nom de la campagne *').fill(campaignName);
     await this.page.getByRole('radio', { name: 'Évaluer les participants' }).check();
     await this.page.getByRole('button', { name: 'Que souhaitez-vous tester ? *' }).click();
     await this.page.getByRole('option', { name: targetProfileName }).click();

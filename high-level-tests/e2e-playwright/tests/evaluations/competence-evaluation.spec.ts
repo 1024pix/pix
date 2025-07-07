@@ -1,15 +1,19 @@
+import path from 'node:path';
+
+import { BrowserContext } from '@playwright/test';
 import * as fs from 'fs/promises';
 
 import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
-import { expect, test } from '../../helpers/fixtures';
-import { rightWrongAnswerCycle } from '../../helpers/utils';
+import { expect, test } from '../../helpers/fixtures.ts';
+import { rightWrongAnswerCycle } from '../../helpers/utils.ts';
 import {
   ChallengePage,
   CompetenceResultPage,
   FinalCheckpointPage,
   IntermediateCheckpointPage,
-} from '../../pages/pix-app';
+} from '../../pages/pix-app/index.ts';
 
+const RESULT_DIR = path.resolve(import.meta.dirname, './data');
 let COMPETENCE_TITLES: string[];
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
@@ -18,14 +22,20 @@ test.beforeEach(async () => {
     .jsonExtract('name_i18n', '$.fr', 'competenceTitle')
     .where('origin', 'Pix')
     .orderBy('index');
-  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }) => competenceTitle);
+  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }: { competenceTitle: string }) => competenceTitle);
 });
 
-test('user assessing on 5 Pix Competences', async ({ pixAppUserContext, testMode }) => {
+test('user assessing on 5 Pix Competences', async ({
+  pixAppUserContext,
+  testMode,
+}: {
+  pixAppUserContext: BrowserContext;
+  testMode: string;
+}) => {
   test.setTimeout(120_000);
   const page = await pixAppUserContext.newPage();
   let results;
-  const resultFilePath = './tests/evaluations/data/competence-evaluation.json';
+  const resultFilePath = path.join(RESULT_DIR, 'competence-evaluation.json');
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
@@ -38,7 +48,7 @@ test('user assessing on 5 Pix Competences', async ({ pixAppUserContext, testMode
   }
 
   const rightWrongAnswerCycleIter = rightWrongAnswerCycle({ numRight: 1, numWrong: 2 });
-  await page.goto(process.env.PIX_APP_URL);
+  await page.goto(process.env.PIX_APP_URL as string);
   await page.getByRole('link', { name: 'Toutes les compétences' }).click();
   let globalChallengeIndex = 0;
   let competenceIndex = 0;

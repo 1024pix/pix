@@ -3,7 +3,21 @@ import { Page } from '@playwright/test';
 export class CertificationStartPage {
   constructor(private readonly page: Page) {}
 
-  async fillSessionInfoAndNavigateIntro({ sessionNumber, firstName, lastName, birthDay, birthMonth, birthYear }) {
+  async fillSessionInfoAndNavigateIntro({
+    sessionNumber,
+    firstName,
+    lastName,
+    birthDay,
+    birthMonth,
+    birthYear,
+  }: {
+    sessionNumber: string;
+    firstName: string;
+    lastName: string;
+    birthDay: string;
+    birthMonth: string;
+    birthYear: string;
+  }) {
     await this.page.getByLabel('Numéro de session').fill(sessionNumber);
     await this.page.getByLabel('Prénom').fill(firstName);
     await this.page.getByLabel('Nom de naissance').fill(lastName);

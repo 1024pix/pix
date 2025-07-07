@@ -1,18 +1,22 @@
+import path from 'node:path';
+
+import { BrowserContext } from '@playwright/test';
 import * as fs from 'fs/promises';
 
 import { buildAuthenticatedUsers, databaseBuilder } from '../../helpers/db.js';
-import { PIX_ORGA_PRO_DATA } from '../../helpers/db-data';
-import { expect, test } from '../../helpers/fixtures';
-import { rightWrongAnswerCycle } from '../../helpers/utils';
+import { PIX_ORGA_PRO_DATA } from '../../helpers/db-data.ts';
+import { expect, test } from '../../helpers/fixtures.ts';
+import { rightWrongAnswerCycle } from '../../helpers/utils.ts';
 import {
   CampaignResultsPage,
   ChallengePage,
   FinalCheckpointPage,
   IntermediateCheckpointPage,
   StartCampaignPage,
-} from '../../pages/pix-app';
-import { CreateCampaignPage } from '../../pages/pix-orga';
+} from '../../pages/pix-app/index.ts';
+import { CreateCampaignPage } from '../../pages/pix-orga/index.ts';
 
+const RESULT_DIR = path.resolve(import.meta.dirname, './data');
 let COMPETENCE_TITLES: string[];
 test.beforeEach(async () => {
   await buildAuthenticatedUsers({ withCguAccepted: true });
@@ -21,7 +25,7 @@ test.beforeEach(async () => {
     .jsonExtract('name_i18n', '$.fr', 'competenceTitle')
     .where('origin', 'Pix')
     .orderBy('index');
-  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }) => competenceTitle);
+  COMPETENCE_TITLES = competenceDTOs.map(({ competenceTitle }: { competenceTitle: string }) => competenceTitle);
   const targetProfileId = databaseBuilder.factory.buildTargetProfile({
     name: 'PC PLAYWRIGHT',
     ownerOrganizationId: PIX_ORGA_PRO_DATA.organization.id,
@@ -44,14 +48,20 @@ test.beforeEach(async () => {
     .join('learningcontent.challenges', 'learningcontent.challenges.skillId', 'learningcontent.skills.id')
     .where('learningcontent.competences.origin', '=', 'Pix')
     .where('learningcontent.skills.status', 'actif')
-    .where((queryBuilder) => {
-      queryBuilder.whereRaw('? = ANY(learningcontent.challenges.locales)', ['fr']);
-      queryBuilder.orWhereRaw('? = ANY(learningcontent.challenges.locales)', ['fr-fr']);
-    })
+    .where(
+      (queryBuilder: {
+        whereRaw: (arg0: string, arg1: string[]) => void;
+        orWhereRaw: (arg0: string, arg1: string[]) => void;
+      }) => {
+        queryBuilder.whereRaw('? = ANY(learningcontent.challenges.locales)', ['fr']);
+        queryBuilder.orWhereRaw('? = ANY(learningcontent.challenges.locales)', ['fr-fr']);
+      },
+    )
     .orderBy('learningcontent.tubes.id');
   const tubesByCompetenceId = Object.groupBy(tubeDTOs, (tubeDTO: { competenceId: string }) => tubeDTO.competenceId);
   const tubeIds = [];
   for (const tubesForCompetence of Object.values(tubesByCompetenceId)) {
+    // @ts-ignore
     tubeIds.push(...tubesForCompetence.slice(0, 2).map((tubeDTO) => tubeDTO.tubeId));
   }
   for (const tubeId of tubeIds) {
@@ -64,10 +74,18 @@ test.beforeEach(async () => {
   await databaseBuilder.commit();
 });
 
-test('user plays a campaign', async ({ pixAppUserContext, pixOrgaProContext, testMode }) => {
+test('user plays a campaign', async ({
+  pixAppUserContext,
+  pixOrgaProContext,
+  testMode,
+}: {
+  pixAppUserContext: BrowserContext;
+  pixOrgaProContext: BrowserContext;
+  testMode: string;
+}) => {
   test.setTimeout(180_000);
   let results;
-  const resultFilePath = './tests/evaluations/data/campaign-evaluation.json';
+  const resultFilePath = path.join(RESULT_DIR, 'campaign-evaluation.json');
   if (testMode === 'record') {
     results = {
       challengeImprints: [],
@@ -78,8 +96,8 @@ test('user plays a campaign', async ({ pixAppUserContext, pixOrgaProContext, tes
     results = JSON.parse(results);
   }
   const pixOrgaPage = await pixOrgaProContext.newPage();
-  await pixOrgaPage.goto(process.env.PIX_ORGA_URL);
-  let campaignCode: string;
+  await pixOrgaPage.goto(process.env.PIX_ORGA_URL as string);
+  let campaignCode: string | null;
   await test.step('creates the campaign', async () => {
     await pixOrgaPage.getByRole('link', { name: 'Créer une campagne' }).click();
     const createCampaignPage = new CreateCampaignPage(pixOrgaPage);
@@ -91,12 +109,12 @@ test('user plays a campaign', async ({ pixAppUserContext, pixOrgaProContext, tes
   });
 
   const pixAppPage = await pixAppUserContext.newPage();
-  await pixAppPage.goto(process.env.PIX_APP_URL);
+  await pixAppPage.goto(process.env.PIX_APP_URL as string);
   const rightWrongAnswerCycleIter = rightWrongAnswerCycle({ numRight: 1, numWrong: 1 });
   await test.step('plays the campaign', async () => {
     await pixAppPage.getByRole('link', { name: "J'ai un code" }).click();
     const startCampaignPage = new StartCampaignPage(pixAppPage);
-    await startCampaignPage.goToFirstChallenge(campaignCode);
+    await startCampaignPage.goToFirstChallenge(campaignCode as string);
     let challengeIndex = 0;
     await test.step(` answering right or wrong according to pattern`, async () => {
       while (!pixAppPage.url().endsWith('/checkpoint?finalCheckpoint=true')) {

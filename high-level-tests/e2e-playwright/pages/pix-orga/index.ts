@@ -1,1 +1,1 @@
-export * from './CreateCampaignPage';
+export * from './CreateCampaignPage.ts';

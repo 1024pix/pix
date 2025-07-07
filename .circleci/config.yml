@@ -245,7 +245,7 @@ workflows:
           requires:
             - junior_install
 
-      - next_challenge_e2e_playwright_test:
+      - e2e_playwright_test:
           context: Pix
           requires:
             - mon_pix_build
@@ -982,7 +982,7 @@ jobs:
       - store_test_results:
           path: /home/circleci/test-results
 
-  next_challenge_e2e_playwright_test:
+  e2e_playwright_test:
     executor:
       name: node-redis-postgres-s3-docker-medium
     working_directory: ~/pix/high-level-tests/e2e-playwright

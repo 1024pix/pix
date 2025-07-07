@@ -34,5 +34,5 @@
     /* Type declaration files to be included in compilation. */
     "types": ["node"]
   },
-  "include": ["pix-app/**/*", "pix-orga/**/*", "helpers/**/*", "playwright.config.ts", "package.json"]
+  "include": ["tests/**/*", "pages/**/*", "helpers/**/*", "playwright.config.ts", "global-setup.ts", "package.json"]
 }

@@ -36,7 +36,23 @@ export class SessionManagementPage {
     };
   }
 
-  async addCandidate({ sex, firstName, lastName, birthdate, birthCountry, birthCity, postalCode }) {
+  async addCandidate({
+    sex,
+    firstName,
+    lastName,
+    birthdate,
+    birthCountry,
+    birthCity,
+    postalCode,
+  }: {
+    sex: string;
+    firstName: string;
+    lastName: string;
+    birthdate: string;
+    birthCountry: string;
+    birthCity: string;
+    postalCode: string;
+  }) {
     await this.page.getByRole('link', { name: 'Candidats' }).click();
     await this.page.getByRole('button', { name: 'Inscrire un candidat' }).click();
     if (sex === 'F') {

@@ -1,2 +1,2 @@
-export * from './SessionCreationPage';
-export * from './SessionManagementPage';
+export * from './SessionCreationPage.ts';
+export * from './SessionManagementPage.ts';
