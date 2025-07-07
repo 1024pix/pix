@@ -113,13 +113,13 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
         deserialize: sinon.stub(),
       };
 
-      const monitoringToolsStub = {
-        logErrorWithCorrelationIds: sinon.stub(),
+      const loggerStub = {
+        error: sinon.stub(),
       };
 
       dependencies = {
         campaignParticipationSerializer: campaignParticipationSerializerStub,
-        monitoringTools: monitoringToolsStub,
+        logger: loggerStub,
       };
 
       request = {

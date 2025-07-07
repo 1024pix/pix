@@ -1,5 +1,5 @@
 import { config } from '../../../shared/config.js';
-import { monitoringTools } from '../../../shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 /**
  * @param {{
@@ -33,7 +33,7 @@ export const validateUserAccountEmail = async ({
     await userRepository.update(user.mapToDatabaseDto());
     await emailValidationDemandRepository.remove(token);
   } catch (error) {
-    monitoringTools.logErrorWithCorrelationIds({
+    logger.error({
       message: error.message,
       context: 'email-validation',
       data: { token },

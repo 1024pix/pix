@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const { performance } = perf_hooks;
 
-import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from './utils/logger.js';
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -27,7 +27,7 @@ const httpAgent = {
       }
       const httpResponse = await axios.post(url, payload, config);
       responseTime = performance.now() - startTime;
-      monitoringTools.logInfoWithCorrelationIds({
+      logger.info({
         metrics: { responseTime },
         message: `End POST request to ${url} success: ${httpResponse.status}`,
       });
@@ -52,7 +52,7 @@ const httpAgent = {
 
       const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
-      monitoringTools.logErrorWithCorrelationIds({
+      logger.error({
         metrics: { responseTime },
         message,
       });
@@ -77,7 +77,7 @@ const httpAgent = {
       }
       const httpResponse = await axios.get(url, config);
       responseTime = performance.now() - startTime;
-      monitoringTools.logInfoWithCorrelationIds({
+      logger.info({
         metrics: { responseTime },
         message: `End GET request to ${url} success: ${httpResponse.status}`,
       });
@@ -102,7 +102,7 @@ const httpAgent = {
         data = null;
       }
 
-      monitoringTools.logErrorWithCorrelationIds({
+      logger.error({
         metrics: { responseTime },
         message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
       });

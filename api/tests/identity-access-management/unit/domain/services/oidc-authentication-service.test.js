@@ -11,7 +11,7 @@ import {
   AuthenticationSessionContent,
   UserToCreate,
 } from '../../../../../src/shared/domain/models/index.js';
-import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 import { createOpenIdClientMock } from '../../../../tooling/openid-client/openid-client-mocks.js';
 
@@ -24,7 +24,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
   beforeEach(function () {
     openIdClient = createOpenIdClientMock(MOCK_OIDC_PROVIDER_CONFIG);
-    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+    sinon.stub(logger, 'error');
   });
 
   describe('constructor', function () {
@@ -272,7 +272,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to generate endSessionUrl');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.error).to.have.been.calledWithExactly({
           context: 'oidc',
           data: { organizationName: 'Oidc Example' },
           error: { name: errorThrown.name },
@@ -373,7 +373,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to get tokens');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.error).to.have.been.calledWithExactly({
           context: 'oidc',
           data: {
             code,
@@ -467,7 +467,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to generate authorization url');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.error).to.have.been.calledWithExactly({
           context: 'oidc',
           data: { organizationName: 'Oidc Example' },
           error: { name: errorThrown.name },
@@ -757,7 +757,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to get user info');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.error).to.have.been.calledWithExactly({
           message: errorThrown.message,
           context: 'oidc',
           data: { organizationName: 'Oidc Example' },
@@ -810,7 +810,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error).to.be.instanceOf(OidcMissingFieldsError);
         expect(error.message).to.be.equal(errorMessage);
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.missingFields.code);
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.error).to.have.been.calledWithExactly({
           context: 'oidc',
           data: {
             missingFields: 'family_name',

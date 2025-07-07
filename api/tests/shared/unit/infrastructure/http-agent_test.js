@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { httpAgent } from '../../../../src/shared/infrastructure/http-agent.js';
-import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 const { post, get } = httpAgent;
@@ -40,8 +40,8 @@ describe('Shared | Unit | Infrastructure | http-agent', function () {
     context('when an error occurs', function () {
       it('should log the response error data and response time', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        monitoringTools.logErrorWithCorrelationIds.resolves();
+        sinon.stub(logger, 'error');
+        logger.error.resolves();
 
         const url = 'someUrl';
         const payload = 'somePayload';
@@ -59,7 +59,7 @@ describe('Shared | Unit | Infrastructure | http-agent', function () {
 
         // then
         const expected = 'End POST request to someUrl error: 400 {"a":"1","b":"2"}';
-        const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        const { message, metrics } = logger.error.firstCall.args[0];
         expect(message).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
       });
@@ -147,8 +147,8 @@ describe('Shared | Unit | Infrastructure | http-agent', function () {
     context('when an error occurs', function () {
       it('should log the response error data and response time', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        monitoringTools.logErrorWithCorrelationIds.resolves();
+        sinon.stub(logger, 'error');
+        logger.error.resolves();
 
         const url = 'someUrl';
         const payload = 'somePayload';
@@ -166,7 +166,7 @@ describe('Shared | Unit | Infrastructure | http-agent', function () {
 
         // then
         const expected = 'End GET request to someUrl error: 400 {"a":"1","b":"2"}';
-        const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        const { message, metrics } = logger.error.firstCall.args[0];
         expect(message).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
       });

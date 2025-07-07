@@ -9,7 +9,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   let i18n;
   let userId;
 
-  let logErrorWithCorrelationIdsStub;
+  let loggerStub;
   let unlinkStub;
 
   beforeEach(function () {
@@ -19,7 +19,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     userId = Symbol('userId');
 
     sinon.stub(usecases, 'uploadCsvFile');
-    logErrorWithCorrelationIdsStub = sinon.stub();
+    loggerStub = { error: sinon.stub() };
     unlinkStub = sinon.stub();
   });
 
@@ -38,7 +38,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -60,7 +60,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -81,14 +81,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
       // then
       expect(response.statusCode).to.be.equal(204);
 
-      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
+      expect(loggerStub.error).to.have.been.calledWith(error);
     });
   });
 
@@ -107,7 +107,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -129,7 +129,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -150,14 +150,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
       // then
       expect(response.statusCode).to.be.equal(204);
 
-      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
+      expect(loggerStub.error).to.have.been.calledWith(error);
     });
   });
 

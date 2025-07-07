@@ -11,7 +11,6 @@ import * as obfuscationService from '../../../../shared/domain/services/obfuscat
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
-import { logErrorWithCorrelationIds } from '../../../../shared/infrastructure/monitoring-tools.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as libOrganizationLearnerRepository from '../../../../shared/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
@@ -55,7 +54,6 @@ const dependencies = {
   importStorage,
   importSupOrganizationLearnersJobRepository,
   libOrganizationLearnerRepository,
-  logErrorWithCorrelationIds,
   logger,
   membershipRepository,
   obfuscationService,

@@ -27,7 +27,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(usecases, 'uploadCsvFile');
 
       usecases.uploadSiecleFile.resolves();
-      dependencies = { logErrorWithCorrelationIds: sinon.stub(), logWarnWithCorrelationIds: sinon.stub() };
+      dependencies = { logger: { error: sinon.stub(), warn: sinon.stub() } };
     });
 
     it('should delete uploaded file', async function () {
@@ -56,7 +56,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(fs.unlink).to.have.been.calledWithExactly(request.payload.path);
-      expect(dependencies.logErrorWithCorrelationIds).to.have.been.calledWith(error);
+      expect(dependencies.logger.error).to.have.been.calledWith(error);
     });
 
     it('should call usecases to import organizationLearners xml', async function () {
@@ -98,7 +98,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       );
 
       // then
-      expect(dependencies.logWarnWithCorrelationIds).to.have.been.calledWithExactly(uploadedError);
+      expect(dependencies.logger.warn).to.have.been.calledWithExactly(uploadedError);
       expect(error).to.be.deep.equal(uploadedError);
     });
 

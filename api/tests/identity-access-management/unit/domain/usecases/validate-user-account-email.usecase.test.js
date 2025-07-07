@@ -1,6 +1,6 @@
 import { validateUserAccountEmail } from '../../../../../src/identity-access-management/domain/usecases/validate-user-account-email.usecase.js';
 import { config } from '../../../../../src/shared/config.js';
-import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | validate-user-account-email', function () {
@@ -25,7 +25,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
     clock = sinon.useFakeTimers({ now: new Date('2024-06-26'), toFake: ['Date'] });
     now = new Date(clock.now);
 
-    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+    sinon.stub(logger, 'error');
   });
 
   afterEach(function () {
@@ -135,7 +135,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
       });
 
       // then
-      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+      expect(logger.error).to.have.been.calledWith({
         message: 'error',
         context: 'email-validation',
         data: { token },

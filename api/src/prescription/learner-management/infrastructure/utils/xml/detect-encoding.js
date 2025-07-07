@@ -4,7 +4,7 @@ import * as fs from 'node:fs/promises';
 import xmlBufferTostring from 'xml-buffer-tostring';
 
 import { FileValidationError } from '../../../../../shared/domain/errors.js';
-import { logErrorWithCorrelationIds } from '../../../../../shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 
 const { xmlEncoding } = xmlBufferTostring;
 const { Buffer } = buffer;
@@ -28,7 +28,7 @@ async function readFirstLine(path) {
     await file.read(buffer, 0, 128, 0);
     file.close();
   } catch (err) {
-    logErrorWithCorrelationIds(err);
+    logger.error(err);
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
 

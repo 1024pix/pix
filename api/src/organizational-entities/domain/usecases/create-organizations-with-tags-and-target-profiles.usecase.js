@@ -12,7 +12,7 @@ import {
 import { Organization, OrganizationForAdmin, OrganizationTag } from '../../../shared/domain/models/index.js';
 import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/infrastructure/constants.js';
-import { monitoringTools } from '../../../shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 
 const SEPARATOR = '_';
@@ -303,5 +303,5 @@ function _monitorError(message, { data, error, event } = {}) {
     monitoringData.error = { name: error.constructor.name };
   }
 
-  monitoringTools.logErrorWithCorrelationIds(monitoringData);
+  logger.error(monitoringData);
 }

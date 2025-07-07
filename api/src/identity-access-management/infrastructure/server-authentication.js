@@ -6,7 +6,7 @@ import {
   jwtApplicationAuthenticationStrategyName,
   jwtUserAuthenticationStrategyName,
 } from '../../shared/infrastructure/authentication-strategy-names.js';
-import { monitoringTools } from '../../shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { revokedUserAccessRepository } from '../infrastructure/repositories/revoked-user-access.repository.js';
 import { getForwardedOrigin } from '../infrastructure/utils/network.js';
 
@@ -50,7 +50,7 @@ async function validateUser(decodedAccessToken, { request, revokedUserAccessRepo
 
   const revokedUserAccess = await revokedUserAccessRepository.findByUserId(userId);
   if (revokedUserAccess.isAccessTokenRevoked(decodedAccessToken)) {
-    monitoringTools.logWarnWithCorrelationIds({
+    logger.warn({
       message: 'Revoked user AccessToken usage',
       decodedAccessToken,
     });
@@ -60,7 +60,7 @@ async function validateUser(decodedAccessToken, { request, revokedUserAccessRepo
 
   const audience = getForwardedOrigin(request.headers);
   if (decodedAccessToken.aud !== audience) {
-    monitoringTools.logWarnWithCorrelationIds({
+    logger.warn({
       message: 'User AccessToken audience mismatch',
       audience,
       decodedAccessToken,

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 
-import { logErrorWithCorrelationIds } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
 import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 
@@ -9,7 +9,7 @@ const importSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    logErrorWithCorrelationIds,
+    logger,
     unlink: fs.unlink,
   },
 ) {
@@ -26,14 +26,14 @@ const importSupOrganizationLearners = async function (
       type: 'ADDITIONAL_STUDENT',
     });
   } catch (error) {
-    dependencies.logWarnWithCorrelationIds(error);
+    dependencies.logger.warn(error);
 
     throw error;
   } finally {
     try {
       dependencies.unlink(request.payload.path);
     } catch (err) {
-      dependencies.logErrorWithCorrelationIds(err);
+      dependencies.logger.error(err);
     }
   }
 
@@ -44,7 +44,7 @@ const replaceSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    logErrorWithCorrelationIds,
+    logger,
     unlink: fs.unlink,
   },
 ) {
@@ -61,7 +61,7 @@ const replaceSupOrganizationLearners = async function (
       type: 'REPLACE_STUDENT',
     });
   } catch (error) {
-    dependencies.logWarnWithCorrelationIds(error);
+    dependencies.logger.warn(error);
 
     throw error;
   } finally {
@@ -70,7 +70,7 @@ const replaceSupOrganizationLearners = async function (
     try {
       dependencies.unlink(request.payload.path);
     } catch (err) {
-      dependencies.logErrorWithCorrelationIds(err);
+      dependencies.logger.error(err);
     }
   }
 

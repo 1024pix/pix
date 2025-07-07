@@ -5,6 +5,7 @@ import pino from 'pino';
 import pretty from 'pino-pretty';
 
 import { config } from '../../config.js';
+import { getCorrelationContext } from '../monitoring-tools.js';
 
 const { logging } = config;
 
@@ -21,7 +22,7 @@ if (logging.logForHumans) {
   });
 }
 
-export const logger = pino(
+const loggerPino = pino(
   {
     level: logging.logLevel,
     redact: ['req.headers.authorization'],
@@ -29,6 +30,37 @@ export const logger = pino(
   },
   prettyPrint,
 );
+
+export const logger = {
+  trace: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.trace(mergingObject, message);
+  },
+  debug: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.debug(mergingObject, message);
+  },
+  info: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.info(mergingObject, message);
+  },
+  warn: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.warn(mergingObject, message);
+  },
+  error: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.error(mergingObject, message);
+  },
+  fatal: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.fatal(mergingObject, message);
+  },
+  silent: (mergingObject, message) => {
+    const childLogger = loggerPino.child(getCorrelationContext());
+    childLogger.silent(mergingObject, message);
+  },
+};
 
 /**
  * Creates a child logger for a section.
@@ -43,7 +75,7 @@ export function child(section, bindings, options) {
   if (micromatch.isMatch(section, logging.debugSections)) {
     optionsOverride.level = 'debug';
   }
-  return logger.child(bindings, { ...options, ...optionsOverride });
+  return loggerPino.child(bindings, { ...options, ...optionsOverride });
 }
 
 export const SCOPES = {
