@@ -3,9 +3,16 @@ import { tracked } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import {LinkTo} from "@ember/routing";
+
+// For example:
+// https://assets.pix.org/sso-logos/sso-logo-PIXADMIN-PROCONNECT.svg
+const SSO_LOGO_BASE_URL = 'https://assets.pix.org/sso-logos/';
+const SSO_LOGO_BASE_FILE_PREFIX = 'sso-logo-';
 
 export default class SignIn extends Component {
   @service authentication;
+  @service oidcIdentityProviders;
 
   @tracked email = 'superadmin@example.net';
   @tracked password = 'pix123';
@@ -39,6 +46,15 @@ export default class SignIn extends Component {
     }
   }
 
+  getSsoLogoUrl(ssoProvider) {
+    return `${SSO_LOGO_BASE_URL}${SSO_LOGO_BASE_FILE_PREFIX}${ssoProvider.code}.svg`;
+  }
+
+  get ssoProviders() {
+    return this.oidcIdentityProviders.list;
+  }
+
+
   get redirectUri() {
     return decodeURIComponent(this.args.model.redirectUri);
   }
@@ -54,10 +70,28 @@ export default class SignIn extends Component {
   }
 
   <template>
+
+
+  {{#each this.ssoProviders as |ssoProvider|}}
+    <LinkTo
+      @route="authentication.login-oidc"
+      @model="{{ssoProvider.slug}}"
+      class="login-form__oidc-connect-link"
+    >
+      <img src="{{this.getSsoLogoUrl ssoProvider}}" alt="" class="login-form__oidc-connect-link__logo" />
+      <span class="login-form__oidc-connect-link__label">coucou</span>
+    </LinkTo>
+  {{/each}}
+
+
     <h1>Connexion à
       {{@model.clientId}}
       et redirige vers
-      {{this.redirectUri}}</h1>
+      {{this.redirectUri}}
+    </h1>
+
+
+
     <form {{on "submit" this.handleSubmit}}>
       <label for="email">Email</label>
       <input
@@ -83,3 +117,4 @@ export default class SignIn extends Component {
     </form>
   </template>
 }
+

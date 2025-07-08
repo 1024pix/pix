@@ -3,6 +3,7 @@ import { HttpErrors } from '../../../shared/application/http-errors.js';
 const PIX_APP_APPLICATION_NAME = 'app';
 const PIX_ADMIN_APPLICATION_NAME = 'admin';
 const PIX_ORGA_APPLICATION_NAME = 'orga';
+const AUTH_APPLICATION_NAME = 'auth';
 const PIX_CERTIF_APPLICATION_NAME = 'certif';
 const PIX_JUNIOR_APPLICATION_NAME = 'junior';
 
@@ -37,6 +38,10 @@ class RequestedApplication {
    */
   constructor(applicationName) {
     this.applicationName = applicationName;
+  }
+
+  get isPixAuth() {
+    return this.applicationName == AUTH_APPLICATION_NAME;
   }
 
   get isPixApp() {

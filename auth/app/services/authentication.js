@@ -2,6 +2,23 @@ import Service from '@ember/service';
 import environment from 'auth/config/environment';
 
 export default class AuthenticationService extends Service {
+
+
+  async authenticateWithOidc({}) {
+    const response = await fetch(
+      `${environment.APP.API_HOST}/api/oauth/authorize`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({}),
+      },
+    );
+
+    const payload = await response.json();
+
+    window.location = payload.redirect;
+  }
+
   async authenticate({
     username,
     password,

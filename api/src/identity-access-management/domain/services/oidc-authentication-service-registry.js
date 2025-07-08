@@ -45,9 +45,10 @@ export class OidcAuthenticationServiceRegistry {
   }
 
   getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
-    const services = requestedApplication?.isPixAdmin
-      ? this.#readyOidcProviderServicesForPixAdmin
-      : this.#readyOidcProviderServices;
+    const services =
+      requestedApplication?.isPixAdmin || requestedApplication?.isPixAuth
+        ? this.#readyOidcProviderServicesForPixAdmin
+        : this.#readyOidcProviderServices;
     const oidcProviderService = services.find((service) => identityProviderCode === service.code);
 
     if (!oidcProviderService) {
