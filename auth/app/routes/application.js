@@ -1,6 +1,9 @@
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
+  @service oidcIdentityProviders;
+
   queryParams = {
     redirect_uri: {
       refreshModel: true,
@@ -23,6 +26,8 @@ export default class ApplicationRoute extends Route {
   };
 
   async model(params) {
+    await this.oidcIdentityProviders.loadReadyIdentityProviders();
+
     const redirectUri = params.redirect_uri;
     const scope = params.scope;
     const state = params.state;
