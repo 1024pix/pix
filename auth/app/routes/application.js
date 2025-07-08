@@ -3,7 +3,6 @@ import { service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
   @service oidcIdentityProviders;
-
   queryParams = {
     redirect_uri: {
       refreshModel: true,
@@ -34,6 +33,15 @@ export default class ApplicationRoute extends Route {
     const codeChallenge = params.code_challenge;
     const codeChallengeMethod = params.code_challenge_method;
     const clientId = params.client_id;
+
+    if (clientId) {
+      window.sessionStorage.setItem('redirectUri',redirectUri );
+      window.sessionStorage.setItem('scope', scope);
+      window.sessionStorage.setItem('state', state);
+      window.sessionStorage.setItem('codeChallenge', codeChallenge);
+      window.sessionStorage.setItem('codeChallengeMethod', codeChallengeMethod);
+      window.sessionStorage.setItem('clientId', clientId);
+    }
 
     return {
       redirectUri,

@@ -1,7 +1,8 @@
-import { HttpErrors } from '../../../shared/application/http-errors.js';
+import { BadRequestError, HttpErrors } from '../../../shared/application/http-errors.js';
 import { pixAuthenticationService } from '../../domain/services/pix-authentication-service.js';
+import { usecases } from '../../domain/usecases/index.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
-import { getForwardedOrigin } from '../../infrastructure/utils/network.js';
+import { getForwardedOrigin, RequestedApplication } from '../../infrastructure/utils/network.js';
 import { PKCEUtils } from '../../infrastructure/utils/pkce.js';
 import { AuthorizationCodeStore } from './AuthorizationCode.js';
 
@@ -70,18 +71,51 @@ const authorize = async (req, h) => {
 };
 
 const generateAuthorizationCode = async (req, h) => {
-  const { username, password, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method } =
-    req.payload;
+  const { client_id, redirect_uri, scope, state, code_challenge, code_challenge_method, credentials } = req.payload;
 
   if (!authorizedClientIds[client_id]) {
     throw new HttpErrors.BadRequestError('Client not authorized');
   }
 
-  const user = await pixAuthenticationService.getUserByUsernameAndPassword({
-    username,
-    password,
-    userRepository,
-  });
+  const origin = getForwardedOrigin(req.headers);
+  const originUrl = new URL(origin);
+  const tld = originUrl.hostname.split('.').at(-1);
+
+  const { authorizationCallbackUri } = authorizedClientIds[client_id];
+  const clientCallbackUri = new URL(authorizationCallbackUri[tld] || authorizationCallbackUri.localhost);
+
+  let user;
+
+  if (credentials.username && credentials.password) {
+    // Authenticate user with username and password
+    user = await pixAuthenticationService.getUserByUsernameAndPassword({
+      username: credentials.username,
+      password: credentials.password,
+      userRepository,
+    });
+  } else {
+    // Authenticate user with OIDC
+    const requestedApplication = RequestedApplication.fromOrigin(clientCallbackUri);
+
+    const sessionState = req.yar.get('state', true);
+    const nonce = req.yar.get('nonce', true);
+    await req.yar.commit(h);
+
+    if (sessionState === null) {
+      throw new BadRequestError('Required "state" is missing in session', 'MISSING_OIDC_STATE');
+    }
+
+    user = await usecases.authenticateOidcUserForPoc({
+      code: credentials.code,
+      state: credentials.state,
+      iss: credentials.iss,
+      identityProviderCode: credentials.identity_provider,
+      nonce,
+      sessionState,
+      audience: origin,
+      requestedApplication,
+    });
+  }
 
   const { code } = authorizationCodeStore.create({
     clientId: client_id,
@@ -93,13 +127,7 @@ const generateAuthorizationCode = async (req, h) => {
     codeChallengeMethod: code_challenge_method,
   });
 
-  const origin = getForwardedOrigin(req.headers);
-  const originUrl = new URL(origin);
-  const tld = originUrl.hostname.split('.').at(-1);
-
-  const { authorizationCallbackUri } = authorizedClientIds[client_id];
-
-  const url = new URL(authorizationCallbackUri[tld] || authorizationCallbackUri.localhost);
+  const url = new URL(clientCallbackUri);
   url.searchParams.set('code', code);
   url.searchParams.set('redirect_uri', redirect_uri);
   if (state) url.searchParams.set('state', state);

@@ -12,9 +12,7 @@ export const oauthRoutes = [
         query: Joi.object({
           response_type: Joi.string().required(),
           client_id: Joi.string().required(),
-          redirect_uri: Joi.string()
-            // .uri({ scheme: ['http', 'https'] })
-            .required(),
+          redirect_uri: Joi.string().required(),
           scope: Joi.string(),
           state: Joi.string().required(),
           code_challenge: Joi.string().required(),
@@ -33,20 +31,28 @@ export const oauthRoutes = [
       auth: false,
       validate: {
         payload: Joi.object({
-          username: Joi.string().required(),
-          password: Joi.string().required(),
           client_id: Joi.string().required(),
-          redirect_uri: Joi.string()
-            // .uri({ scheme: ['http', 'https'] })
-            .required(),
-          scope: Joi.string(),
+          redirect_uri: Joi.string().required(),
+          scope: Joi.string().optional(),
           state: Joi.string().required(),
           code_challenge: Joi.string().required(),
           code_challenge_method: Joi.string().required(),
+          credentials: Joi.alternatives().try(
+            Joi.object({
+              username: Joi.string().required(),
+              password: Joi.string().required(),
+            }),
+            Joi.object({
+              identity_provider: Joi.string().required(),
+              code: Joi.string().required(),
+              state: Joi.string().required(),
+              iss: Joi.string().optional(),
+            }),
+          ),
         }),
       },
-      notes: ["- **API génère un authorisation code l'utilisateur authentifié pour l'application cliente"],
       handler: oauthController.generateAuthorizationCode,
+      notes: ["- **API génère un authorisation code l'utilisateur authentifié pour l'application cliente"],
       tags: ['api', 'authorization-server'],
     },
   },

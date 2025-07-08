@@ -50,7 +50,6 @@ export class OidcAuthenticationServiceRegistry {
         ? this.#readyOidcProviderServicesForPixAdmin
         : this.#readyOidcProviderServices;
     const oidcProviderService = services.find((service) => identityProviderCode === service.code);
-
     if (!oidcProviderService) {
       throw new InvalidIdentityProviderError(identityProviderCode);
     }

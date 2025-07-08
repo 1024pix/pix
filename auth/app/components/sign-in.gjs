@@ -32,14 +32,16 @@ export default class SignIn extends Component {
 
     try {
       await this.authentication.authenticate({
-        username: this.email,
-        password: this.password,
-        scope,
-        state,
+        clientId,
+        redirectUri,
         codeChallenge,
         codeChallengeMethod,
-        redirectUri,
-        clientId,
+        scope,
+        state,
+        credentials: {
+          username: this.email,
+          password: this.password,
+        },
       });
     } catch (error) {
       console.error('Authentication failed:', error);
