@@ -28,6 +28,7 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@1024pix/pix-ui": "^55.23.1",
     "@babel/core": "^7.27.4",
     "@babel/eslint-parser": "^7.27.5",
     "@babel/plugin-proposal-decorators": "^7.27.1",
@@ -48,6 +49,7 @@
     "ember-cli-deprecation-workflow": "^3.3.0",
     "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
+    "ember-cli-sass": "^11.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-data": "~5.5.0",
@@ -71,6 +73,7 @@
     "prettier-plugin-ember-template-tag": "^2.0.6",
     "qunit": "^2.24.1",
     "qunit-dom": "^3.4.0",
+    "sass": "^1.89.2",
     "stylelint": "^16.20.0",
     "stylelint-config-standard": "^36.0.1",
     "tracked-built-ins": "^3.4.0",

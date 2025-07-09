@@ -4,6 +4,9 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
+    sassOptions: {
+      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'app/components'],
+    },
     emberData: {
       deprecations: {
         // New projects can safely leave this deprecation disabled.

@@ -4,9 +4,9 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import {LinkTo} from "@ember/routing";
+import PixInput from "@1024pix/pix-ui/components/pix-input";
+import PixButton from "@1024pix/pix-ui/components/pix-button";
 
-// For example:
-// https://assets.pix.org/sso-logos/sso-logo-PIXADMIN-PROCONNECT.svg
 const SSO_LOGO_BASE_URL = 'https://assets.pix.org/sso-logos/';
 const SSO_LOGO_BASE_FILE_PREFIX = 'sso-logo-';
 
@@ -72,51 +72,49 @@ export default class SignIn extends Component {
   }
 
   <template>
+    <div class="form-container">
+      <form {{on "submit" this.handleSubmit}} class="authentication-login-form">
+          <PixInput
+            @id="email"
+            name="email"
+            {{on "input" this.onChangeEmail}}
+            placeholder="email"
+            autocomplete="email"
+            aria-required="true"
+            @value={{this.email}}
+          >
+            <:label>Email</:label>
+          </PixInput>
 
+            <PixInput
+              @id="password"
+              name="password"
+              type="password"
+              {{on "input" this.onChangePassword}}
+              @value={{this.password}}
+              autocomplete="current-password"
+              aria-required="true"
+            >
+              <:label>Mot de passe</:label>
+            </PixInput>
 
-  {{#each this.ssoProviders as |ssoProvider|}}
-    <LinkTo
-      @route="authentication.login-oidc"
-      @model="{{ssoProvider.slug}}"
-      class="login-form__oidc-connect-link"
-    >
-      <img src="{{this.getSsoLogoUrl ssoProvider}}" alt="" class="login-form__oidc-connect-link__logo" />
-      <span class="login-form__oidc-connect-link__label">coucou</span>
-    </LinkTo>
-  {{/each}}
+        <PixButton @type="submit" @isLoading={{this.isLoading}}>
+          Sign in
+        </PixButton>
+      </form>
 
+    {{#each this.ssoProviders as |ssoProvider|}}
+      <LinkTo
+        @route="authentication.login-oidc"
+        @model="{{ssoProvider.slug}}"
+        class="login-form__oidc-connect-link"
+      >
+        <img src="{{this.getSsoLogoUrl ssoProvider}}" alt="" class="login-form__oidc-connect-link__logo" />
+        <span class="login-form__oidc-connect-link__label">Connexion google</span>
+      </LinkTo>
+    {{/each}}
+    </div>
 
-    <h1>Connexion à
-      {{@model.clientId}}
-      et redirige vers
-      {{this.redirectUri}}
-    </h1>
-
-
-
-    <form {{on "submit" this.handleSubmit}}>
-      <label for="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={{this.email}}
-        {{on "input" this.onChangeEmail}}
-      />
-
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={{this.password}}
-        {{on "input" this.onChangePassword}}
-      />
-
-      <button type="submit">Sign in</button>
-    </form>
   </template>
 }
 

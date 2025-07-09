@@ -1,0 +1,30 @@
+.authentication-login-form {
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form__oidc-connect-link {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 12px;
+  margin: auto;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 100px;
+}
+
+.login-form__oidc-connect-link__logo {
+  width: 32px;
+  margin-right: 8px;
+}
+.login-form__oidc-connect-link__label {
+  font-size:16px;
+}
