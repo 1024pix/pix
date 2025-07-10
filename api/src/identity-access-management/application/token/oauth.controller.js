@@ -1,4 +1,5 @@
 import { BadRequestError, HttpErrors } from '../../../shared/application/http-errors.js';
+import { config } from '../../../shared/config.js';
 import { pixAuthenticationService } from '../../domain/services/pix-authentication-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
@@ -8,23 +9,23 @@ import { AuthorizationCodeStore } from './AuthorizationCode.js';
 
 const authServer = {
   localhost: 'http://localhost:4206',
-  fr: 'https://auth.dev.pix.fr',
-  org: 'https://auth.dev.pix.org',
+  fr: `${config.domain.pixAuth}.fr`,
+  org: `${config.domain.pixAuth}.org`,
 };
 
 const authorizedClientIds = {
   'pix-orga': {
     authorizationCallbackUri: {
       localhost: 'http://localhost:4201/auth/callback',
-      fr: 'https://orga.dev.pix.fr/auth/callback',
-      org: 'https://orga.dev.pix.org/auth/callback',
+      fr: `${config.domain.pixOrga}.fr/auth/callback`,
+      org: `${config.domain.pixOrga}.org/auth/callback`,
     },
   },
   'pix-admin': {
     authorizationCallbackUri: {
       localhost: 'http://localhost:4202/auth/callback',
-      fr: 'https://admin.dev.pix.fr/auth/callback',
-      org: 'https://admin.dev.pix.org/auth/callback',
+      fr: `${config.domain.pixAdmin}.fr/auth/callback`,
+      org: `${config.domain.pixAdmin}.org/auth/callback`,
     },
   },
 };

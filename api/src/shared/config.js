@@ -274,6 +274,8 @@ const configuration = (function () {
       pixApp: process.env.DOMAIN_PIX_APP || 'https://app.pix',
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
       pixCertif: process.env.DOMAIN_PIX_CERTIF || 'https://certif.pix',
+      pixAdmin: process.env.DOMAIN_PIX_ADMIN || 'https://admin.pix',
+      pixAuth: process.env.DOMAIN_PIX_AUTH || 'https://auth.pix',
     },
     environment: process.env.NODE_ENV || 'development',
     features: {
