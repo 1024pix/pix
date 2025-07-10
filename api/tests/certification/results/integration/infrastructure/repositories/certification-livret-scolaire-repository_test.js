@@ -13,7 +13,7 @@ import {
   buildValidatedUnpublishedCertificationData,
 } from '../../../../../tooling/domain-builder/factory/build-certifications-results-for-livret-scolaire.js';
 
-describe('Integration | Repository | Certification-ls ', function () {
+describe('Integration | Repository | Certification-livret-scolaire ', function () {
   const pixScore = 400;
   const uai = '789567AA';
   const verificationCode = 'P-123498NN';
@@ -134,7 +134,6 @@ describe('Integration | Repository | Certification-ls ', function () {
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: user.id,
-        isCancelled: false,
       });
 
       const assessment = databaseBuilder.factory.buildAssessment({
@@ -207,7 +206,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       expect(certificationResults).to.deep.equal([expected]);
     });
 
-    it("should not return cancelled certification for a given uai by assessmentresults.status === 'cancelled'", async function () {
+    it('should not return cancelled certification for a given uai', async function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -225,31 +224,6 @@ describe('Integration | Repository | Certification-ls ', function () {
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         status: 'cancelled',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
-
-      // then
-      expect(certificationResults).to.deep.equal([]);
-    });
-
-    it('should not return cancelled certification for a given UAI by certificationCourses.isCancelled to true', async function () {
-      // given
-      const organizationId = buildOrganization(uai).id;
-      const user = buildUser();
-      const organizationLearner = buildOrganizationLearner({
-        userId: user.id,
-        organizationId,
-      });
-      buildCancelledCertificationData({
-        user,
-        organizationLearner,
-        verificationCode,
-        pixScore,
-        competenceMarks,
       });
 
       await databaseBuilder.commit();

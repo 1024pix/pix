@@ -1,5 +1,5 @@
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { Assessment } from '../../../../src/shared/domain/models/index.js';
 import { databaseBuilder } from '../../../test-helper.js';
 
 const assessmentCreatedDate = new Date('2020-04-19');
@@ -25,7 +25,6 @@ function _buildCertificationData({
   organizationLearner,
   certificationCreatedDate,
   isPublished,
-  isCancelled,
   verificationCode,
 }) {
   const { id: certificationCenterId, name: certificationCenter } = _createCertificationCenter();
@@ -54,7 +53,6 @@ function _buildCertificationData({
     isPublished,
     createdAt: certificationCreatedDate || new Date(),
     verificationCode,
-    isCancelled,
   });
 
   databaseBuilder.factory.buildCertificationCourse({
@@ -64,7 +62,6 @@ function _buildCertificationData({
     birthdate: organizationLearner.birthdate,
     sessionId: session.id,
     isPublished: false,
-    isCancelled,
   });
 
   const assessment = databaseBuilder.factory.buildAssessment({
@@ -112,23 +109,13 @@ function buildOrganization(uai) {
   return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
-function buildCancelledCertificationData({
-  user,
-  organizationLearner,
-  verificationCode,
-  pixScore,
-  competenceMarks,
-  certificationCreatedDate,
-}) {
-  return _buildValidatedCertificationData({
+function buildCancelledCertificationData({ user, organizationLearner, certificationCreatedDate }) {
+  return _buildCertificationResultsData({
     user,
     organizationLearner,
-    verificationCode,
-    pixScore,
     certificationCreatedDate,
-    competenceMarks,
     isPublished: false,
-    isCancelled: true,
+    assessmentResultStatus: status.CANCELLED,
   });
 }
 
@@ -140,7 +127,7 @@ function buildValidatedPublishedCertificationData({
   competenceMarks,
   certificationCreatedDate,
 }) {
-  return _buildValidatedCertificationData({
+  return _buildCertificationResultsData({
     user,
     organizationLearner,
     verificationCode,
@@ -159,7 +146,7 @@ function buildValidatedUnpublishedCertificationData({
   competenceMarks,
   certificationCreatedDate,
 }) {
-  return _buildValidatedCertificationData({
+  return _buildCertificationResultsData({
     user,
     organizationLearner,
     verificationCode,
@@ -170,7 +157,7 @@ function buildValidatedUnpublishedCertificationData({
   });
 }
 
-function _buildValidatedCertificationData({
+function _buildCertificationResultsData({
   user,
   organizationLearner,
   verificationCode,
@@ -178,9 +165,8 @@ function _buildValidatedCertificationData({
   competenceMarks,
   certificationCreatedDate,
   isPublished,
-  isCancelled = false,
+  assessmentResultStatus = status.VALIDATED,
 }) {
-  const certificationStatus = status.VALIDATED;
   const { session, certificationCourse, assessmentId } = _buildCertificationData({
     user,
     organizationLearner,
@@ -188,7 +174,6 @@ function _buildValidatedCertificationData({
     type,
     pixScore,
     isPublished,
-    isCancelled,
     certificationCreatedDate,
   });
 
@@ -196,7 +181,7 @@ function _buildValidatedCertificationData({
     assessmentId,
     certificationCourseId: certificationCourse.id,
     pixScore,
-    status: certificationStatus,
+    status: assessmentResultStatus,
     createdAt: assessmentCreatedDate,
     competenceMarks,
   });
@@ -210,14 +195,14 @@ function _buildValidatedCertificationData({
     assessmentId,
     certificationCourseId: certificationCourse.id,
     pixScore,
-    status: certificationStatus,
+    status: assessmentResultStatus,
     createdAt: assessmentBeforeCreatedDate,
   });
 
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore,
-    status: certificationStatus,
+    status: assessmentResultStatus,
     createdAt: assessmentBeforeBeforeCreatedDate,
   });
 

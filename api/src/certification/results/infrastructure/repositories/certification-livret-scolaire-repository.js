@@ -1,9 +1,8 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../shared/domain/models/index.js';
 import { Certificate } from '../../domain/read-models/livret-scolaire/Certificate.js';
 
 const getCertificatesByOrganizationUAI = async function (uai) {
-  // isCancelled will be removed
   const result = await knex
     .select({
       id: 'certification-courses.id',
@@ -51,14 +50,13 @@ const getCertificatesByOrganizationUAI = async function (uai) {
     .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .whereNotExists(
+      // Y inclure le status cancelled ici
       knex
         .select(1)
         .from({ 'last-certification-courses': 'certification-courses' })
         .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
-        .whereRaw('"last-certification-courses"."isCancelled"= false')
         .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"'),
     )
-    .where({ 'certification-courses.isCancelled': false })
     .where({ 'view-active-organization-learners.isDisabled': false })
     .whereRaw('"assessment-results"."status" <> ?', AssessmentResult.status.CANCELLED)
     .whereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai)
