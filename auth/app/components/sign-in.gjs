@@ -3,9 +3,9 @@ import { tracked } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import {LinkTo} from "@ember/routing";
-import PixInput from "@1024pix/pix-ui/components/pix-input";
-import PixButton from "@1024pix/pix-ui/components/pix-button";
+import { LinkTo } from '@ember/routing';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixButton from '@1024pix/pix-ui/components/pix-button';
 
 const SSO_LOGO_BASE_URL = 'https://assets.pix.org/sso-logos/';
 const SSO_LOGO_BASE_FILE_PREFIX = 'sso-logo-';
@@ -56,9 +56,15 @@ export default class SignIn extends Component {
     return this.oidcIdentityProviders.list;
   }
 
-
   get redirectUri() {
     return decodeURIComponent(this.args.model.redirectUri);
+  }
+
+  get shouldShowGoogleSSOLogin() {
+    return this.ssoProviders.some(
+      (ssoProvider) =>
+        ssoProvider.source === 'google' && this.args.variant === 'admin',
+    );
   }
 
   @action
@@ -74,47 +80,51 @@ export default class SignIn extends Component {
   <template>
     <div class="form-container">
       <form {{on "submit" this.handleSubmit}} class="authentication-login-form">
-          <PixInput
-            @id="email"
-            name="email"
-            {{on "input" this.onChangeEmail}}
-            placeholder="email"
-            autocomplete="email"
-            aria-required="true"
-            @value={{this.email}}
-          >
-            <:label>Email</:label>
-          </PixInput>
+        <PixInput
+          @id="email"
+          name="email"
+          {{on "input" this.onChangeEmail}}
+          placeholder="email"
+          autocomplete="email"
+          aria-required="true"
+          @value={{this.email}}
+        >
+          <:label>Email</:label>
+        </PixInput>
 
-            <PixInput
-              @id="password"
-              name="password"
-              type="password"
-              {{on "input" this.onChangePassword}}
-              @value={{this.password}}
-              autocomplete="current-password"
-              aria-required="true"
-            >
-              <:label>Mot de passe</:label>
-            </PixInput>
+        <PixInput
+          @id="password"
+          name="password"
+          type="password"
+          {{on "input" this.onChangePassword}}
+          @value={{this.password}}
+          autocomplete="current-password"
+          aria-required="true"
+        >
+          <:label>Mot de passe</:label>
+        </PixInput>
 
         <PixButton @type="submit" @isLoading={{this.isLoading}}>
           Sign in
         </PixButton>
       </form>
 
-    {{#each this.ssoProviders as |ssoProvider|}}
-      <LinkTo
-        @route="authentication.login-oidc"
-        @model="{{ssoProvider.slug}}"
-        class="login-form__oidc-connect-link"
-      >
-        <img src="{{this.getSsoLogoUrl ssoProvider}}" alt="" class="login-form__oidc-connect-link__logo" />
-        <span class="login-form__oidc-connect-link__label">Connexion google</span>
-      </LinkTo>
-    {{/each}}
+      {{#if this.shouldShowGoogleSSOLogin}}
+        {{#each this.ssoProviders as |ssoProvider|}}
+          <LinkTo
+            @route="authentication.login-oidc"
+            @model="{{ssoProvider.slug}}"
+            class="login-form__oidc-connect-link"
+          >
+            <img
+              src="{{this.getSsoLogoUrl ssoProvider}}"
+              alt=""
+              class="login-form__oidc-connect-link__logo"
+            />
+            <span class="login-form__oidc-connect-link__label">Connexion google</span>
+          </LinkTo>
+        {{/each}}
+      {{/if}}
     </div>
-
   </template>
 }
-
