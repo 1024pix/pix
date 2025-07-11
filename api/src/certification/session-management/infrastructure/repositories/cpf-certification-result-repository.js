@@ -108,7 +108,6 @@ function _selectCpfCertificationResults(qb = knex) {
 function _filterQuery(qb = knex, startDate, endDate) {
   return qb
     .where('certification-courses.isPublished', true)
-    .where('certification-courses.isCancelled', false) // isCancelled will be removed
     .whereNotNull('certification-courses.sex')
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('sessions.publishedAt', '>=', startDate)
