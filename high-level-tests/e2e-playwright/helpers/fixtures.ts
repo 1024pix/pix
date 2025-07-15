@@ -24,8 +24,7 @@ export const test = base.extend<{
   pixCertifProContext: BrowserContext;
   snapshotHandler: SnapshotHandler;
 }>({
-  // eslint-disable-next-line no-empty-pattern
-  globalTestId: async ({}, use, testInfo) => {
+  globalTestId: async (_, use, testInfo) => {
     const raw = `${testInfo.file}::${testInfo.title}`;
     const hash = crypto.createHash('sha1').update(raw).digest('hex');
     await use(hash);
@@ -111,8 +110,7 @@ export const test = base.extend<{
     await use(context);
     await context.close();
   },
-  // eslint-disable-next-line no-empty-pattern
-  snapshotHandler: async ({}, use) => {
+  snapshotHandler: async (_, use) => {
     await use(new SnapshotHandler({ shouldUpdateSnapshots: process.env.UPDATE_SNAPSHOTS === 'true' }));
   },
 });
