@@ -1,9 +1,10 @@
+import { ChallengeToPlay } from '../../domain/models/ChallengeToPlay.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
 
 const get = async function (request, h, dependencies = { challengeRepository, challengeSerializer }) {
   const challenge = await dependencies.challengeRepository.get(request.params.id);
-  return dependencies.challengeSerializer.serialize(challenge);
+  return dependencies.challengeSerializer.serialize(new ChallengeToPlay(challenge));
 };
 
 const challengeController = { get };

@@ -24,7 +24,7 @@ const getNextChallengeForCompetenceEvaluation = async function ({
     skills: possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
     locale: locale,
-  });
+  }).id;
 };
 
 export { getNextChallengeForCompetenceEvaluation };

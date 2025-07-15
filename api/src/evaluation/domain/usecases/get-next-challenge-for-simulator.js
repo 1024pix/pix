@@ -1,3 +1,4 @@
+import { ChallengeForSmartRandom } from '../models/ChallengeForSmartRandom.js';
 import { STEPS_NAMES } from '../models/SmartRandomStep.js';
 import { getSmartRandomLog, logStep } from '../services/smart-random-log-service.js';
 
@@ -10,7 +11,14 @@ import { getSmartRandomLog, logStep } from '../services/smart-random-log-service
 const getNextChallengeForSimulator = function ({ simulationParameters, pickChallengeService, smartRandomService }) {
   const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandomService.getPossibleSkillsForNextChallenge({
     knowledgeElements: simulationParameters.knowledgeElements,
-    challenges: simulationParameters.challenges,
+    challenges:
+      simulationParameters?.challenges?.map(
+        (challenge) =>
+          new ChallengeForSmartRandom({
+            ...challenge,
+            skillId: challenge.skill.id,
+          }),
+      ) ?? [],
     locale: simulationParameters.locale,
     targetSkills: simulationParameters.skills,
     allAnswers: simulationParameters.answers,
@@ -26,11 +34,13 @@ const getNextChallengeForSimulator = function ({ simulationParameters, pickChall
     };
   }
 
-  const challenge = pickChallengeService.pickChallenge({
+  const nextChallengeId = pickChallengeService.pickChallenge({
     skills: possibleSkillsForNextChallenge,
     randomSeed: simulationParameters.assessmentId,
     locale: simulationParameters.locale,
-  });
+  }).id;
+
+  const challenge = simulationParameters.challenges.find((challenge) => challenge.id === nextChallengeId);
 
   logStep(STEPS_NAMES.RANDOM_PICK, [challenge.skill]);
 

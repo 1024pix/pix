@@ -41,19 +41,35 @@ const learningContent = [
               {
                 id: skillWeb2Id,
                 nom: '@web2',
-                challenges: [{ id: firstChallengeId, alpha: 2.8, delta: 1.1, langues: ['Franco Français'] }],
+                challenges: [
+                  { id: firstChallengeId, skillId: skillWeb2Id, alpha: 2.8, delta: 1.1, langues: ['Franco Français'] },
+                ],
               },
               {
                 id: skillWeb3Id,
                 nom: '@web3',
-                challenges: [{ id: secondChallengeId, langues: ['Franco Français'], alpha: -1.2, delta: 3.3 }],
+                challenges: [
+                  {
+                    id: secondChallengeId,
+                    langues: ['Franco Français'],
+                    skillId: skillWeb3Id,
+                    alpha: -1.2,
+                    delta: 3.3,
+                  },
+                ],
               },
               {
                 id: skillWeb1Id,
                 nom: '@web1',
                 challenges: [
-                  { id: thirdChallengeId, alpha: -0.2, delta: 2.7, langues: ['Franco Français'] },
-                  { id: otherChallengeId, alpha: -0.2, delta: -0.4, langues: ['Franco Français'] },
+                  { id: thirdChallengeId, skillId: skillWeb1Id, alpha: -0.2, delta: 2.7, langues: ['Franco Français'] },
+                  {
+                    id: otherChallengeId,
+                    skillId: skillWeb1Id,
+                    alpha: -0.2,
+                    delta: -0.4,
+                    langues: ['Franco Français'],
+                  },
                 ],
               },
             ],

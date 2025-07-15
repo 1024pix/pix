@@ -3,7 +3,6 @@ import { AssessmentEndedError } from '../../../shared/domain/errors.js';
 const getNextChallengeForCampaignAssessment = async function ({
   assessment,
   locale,
-  challengeRepository,
   answerRepository,
   pickChallengeService,
   algorithmDataFetcherService,
@@ -11,6 +10,7 @@ const getNextChallengeForCampaignAssessment = async function ({
   campaignRepository,
   knowledgeElementRepository,
   campaignParticipationRepository,
+  challengesAPI,
   improvementService,
 }) {
   const { allAnswers, lastAnswer, targetSkills, challenges, knowledgeElements } =
@@ -19,9 +19,9 @@ const getNextChallengeForCampaignAssessment = async function ({
       locale,
       answerRepository,
       campaignRepository,
-      challengeRepository,
       knowledgeElementRepository,
       campaignParticipationRepository,
+      challengesAPI,
       improvementService,
     });
   const algoResult = smartRandomService.getPossibleSkillsForNextChallenge({
@@ -41,7 +41,7 @@ const getNextChallengeForCampaignAssessment = async function ({
     skills: algoResult.possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
     locale,
-  });
+  }).id;
 };
 
 export { getNextChallengeForCampaignAssessment };

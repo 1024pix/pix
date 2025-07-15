@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
+import { ChallengeForSmartRandom } from '../../../../../../src/evaluation/domain/models/ChallengeForSmartRandom.js';
 import * as SmartRandom from '../../../../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
-import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
@@ -93,25 +94,25 @@ describe('Integration | Domain | Algorithm-methods | SmartRandom', function () {
     cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2', difficulty: 2 });
 
     // Challenges
-    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skill: web1, locales: ['fr'] });
-    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skill: web2, locales: ['fr'] });
-    challengeWeb_2_v2 = domainBuilder.buildChallenge({ id: 'recweb2v2', skill: web2_v2, locales: ['fr'] });
-    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skill: web3, locales: ['fr'] });
-    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skill: web3, locales: ['fr'] });
-    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skill: web4, locales: ['fr'] });
-    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skill: web5, locales: ['fr'] });
-    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb6', skill: web6, locales: ['fr'] });
-    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'recweb7', skill: web7, locales: ['fr'] });
-    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skill: url2, locales: ['fr'] });
-    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skill: url3, locales: ['fr'] });
-    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skill: url4, locales: ['fr'] });
-    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skill: url5, locales: ['fr'] });
-    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skill: url6, locales: ['fr'] });
-    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skill: rechInfo5, locales: ['fr'] });
-    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skill: rechInfo7, locales: ['fr'] });
-    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skill: cnil1, locales: ['fr'] });
-    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skill: cnil2, locales: ['fr'] });
-    challengeInfo_2_frAndEn = domainBuilder.buildChallenge({ id: 'recinfo2', skill: info2, locales: ['fr', 'en'] });
+    challengeWeb_1 = new ChallengeForSmartRandom({ id: 'recweb1', skillId: web1.id, locales: ['fr'] });
+    challengeWeb_2 = new ChallengeForSmartRandom({ id: 'recweb2', skillId: web2.id, locales: ['fr'] });
+    challengeWeb_2_v2 = new ChallengeForSmartRandom({ id: 'recweb2v2', skillId: web2_v2.id, locales: ['fr'] });
+    challengeWeb_2_3 = new ChallengeForSmartRandom({ id: 'recweb23', skillId: web3.id, locales: ['fr'] });
+    challengeWeb_3 = new ChallengeForSmartRandom({ id: 'recweb3', skillId: web3.id, locales: ['fr'] });
+    challengeWeb_4 = new ChallengeForSmartRandom({ id: 'recweb4', skillId: web4.id, locales: ['fr'] });
+    challengeWeb_5 = new ChallengeForSmartRandom({ id: 'recweb5', skillId: web5.id, locales: ['fr'] });
+    challengeWeb_6 = new ChallengeForSmartRandom({ id: 'recweb6', skillId: web6.id, locales: ['fr'] });
+    challengeWeb_7 = new ChallengeForSmartRandom({ id: 'recweb7', skillId: web7.id, locales: ['fr'] });
+    challengeUrl_2 = new ChallengeForSmartRandom({ id: 'recurl2', skillId: url2.id, locales: ['fr'] });
+    challengeUrl_3 = new ChallengeForSmartRandom({ id: 'recurl3', skillId: url3.id, locales: ['fr'] });
+    challengeUrl_4 = new ChallengeForSmartRandom({ id: 'recurl4', skillId: url4.id, locales: ['fr'] });
+    challengeUrl_5 = new ChallengeForSmartRandom({ id: 'recurl5', skillId: url5.id, locales: ['fr'] });
+    challengeUrl_6 = new ChallengeForSmartRandom({ id: 'recurl6', skillId: url6.id, locales: ['fr'] });
+    challengeRechInfo_5 = new ChallengeForSmartRandom({ id: 'recinfo5', skillId: rechInfo5.id, locales: ['fr'] });
+    challengeRechInfo_7 = new ChallengeForSmartRandom({ id: 'recinfo7', skillId: rechInfo7.id, locales: ['fr'] });
+    challengeCnil_1 = new ChallengeForSmartRandom({ id: 'reccnil1', skillId: cnil1.id, locales: ['fr'] });
+    challengeCnil_2 = new ChallengeForSmartRandom({ id: 'reccnil2', skillId: cnil2.id, locales: ['fr'] });
+    challengeInfo_2_frAndEn = new ChallengeForSmartRandom({ id: 'recinfo2', skillId: info2.id, locales: ['fr', 'en'] });
   });
 
   describe('#getPossibleSkillsForNextChallenge', function () {

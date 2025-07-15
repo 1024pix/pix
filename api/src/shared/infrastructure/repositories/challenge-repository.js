@@ -19,11 +19,7 @@ const OPERATIVE_STATUSES = [VALIDATED_STATUS, ARCHIVED_STATUS];
 const ACCESSIBLE_STATUSES = [Accessibility.RAS, Accessibility.OK];
 
 export async function get(id, { forCorrection = false } = {}) {
-  const challengeDto = await getInstance().load(id);
-  if (!challengeDto) {
-    logger.warn({ challengeId: id }, 'Épreuve introuvable');
-    throw new NotFoundError('Épreuve introuvable');
-  }
+  const challengeDto = await get_dtoonly(id);
   if (forCorrection) {
     return {
       id: challengeDto.id,
@@ -43,6 +39,15 @@ export async function get(id, { forCorrection = false } = {}) {
   }
   const skill = await skillRepository.get(challengeDto.skillId);
   return toDomain({ challengeDto, skill, ...webComponentInfo });
+}
+
+export async function get_dtoonly(id) {
+  const challengeDto = await getInstance().load(id);
+  if (!challengeDto) {
+    logger.warn({ challengeId: id }, 'Épreuve introuvable');
+    throw new NotFoundError('Épreuve introuvable');
+  }
+  return challengeDto;
 }
 
 export async function getMany(ids, locale) {
@@ -90,16 +95,26 @@ export async function findOperative(locale) {
 }
 
 export async function findValidatedByCompetenceId(competenceId, locale) {
-  _assertLocaleIsDefined(locale);
-  const cacheKey = `findValidatedByCompetenceId(${competenceId}, ${locale})`;
-  const findValidatedByLocaleByCompetenceIdCallback = (knex) =>
-    knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ competenceId, status: VALIDATED_STATUS }).orderBy('id');
-  const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleByCompetenceIdCallback);
+  const challengeDtos = await findValidatedByCompetenceId_dtoonly(competenceId, locale);
   const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
   return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
 }
 
+export async function findValidatedByCompetenceId_dtoonly(competenceId, locale) {
+  _assertLocaleIsDefined(locale);
+  const cacheKey = `findValidatedByCompetenceId(${competenceId}, ${locale})`;
+  const findValidatedByLocaleByCompetenceIdCallback = (knex) =>
+    knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ competenceId, status: VALIDATED_STATUS }).orderBy('id');
+  return getInstance().find(cacheKey, findValidatedByLocaleByCompetenceIdCallback);
+}
+
 export async function findOperativeBySkills(skills, locale) {
+  const challengeDtos = await findOperativeBySkills_dtoonly(skills, locale);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
+  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
+
+export async function findOperativeBySkills_dtoonly(skills, locale) {
   _assertLocaleIsDefined(locale);
   const skillIds = skills.map((skill) => skill.id);
   const cacheKey = `findOperativeBySkillIds([${skillIds.sort()}], ${locale})`;
@@ -109,9 +124,7 @@ export async function findOperativeBySkills(skills, locale) {
       .whereIn('status', OPERATIVE_STATUSES)
       .whereIn('skillId', skillIds)
       .orderBy('id');
-  const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+  return getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
 }
 
 export async function findActiveFlashCompatible({

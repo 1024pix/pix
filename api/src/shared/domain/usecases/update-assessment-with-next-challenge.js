@@ -1,3 +1,5 @@
+import { ChallengeToPlay } from '../models/ChallengeToPlay.js';
+
 export async function updateAssessmentWithNextChallenge({
   assessment,
   userId,
@@ -6,6 +8,7 @@ export async function updateAssessmentWithNextChallenge({
   challengeRepository,
   evaluationUsecases,
   certificationEvaluationRepository,
+  challengesAPI,
 }) {
   if (!assessment.isStarted()) {
     assessment.nextChallenge = null;
@@ -27,7 +30,7 @@ export async function updateAssessmentWithNextChallenge({
   if (waitingForLatestChallengeAnswer) {
     nextChallenge = await challengeRepository.get(assessment.lastChallengeId);
     if (nextChallenge.isOperative) {
-      assessment.nextChallenge = nextChallenge;
+      assessment.nextChallenge = new ChallengeToPlay(nextChallenge);
       return assessment;
     } else {
       nextChallenge = null;
@@ -40,21 +43,34 @@ export async function updateAssessmentWithNextChallenge({
         assessmentId: assessment.id,
         locale,
       });
+      nextChallenge = new ChallengeToPlay(nextChallenge);
     }
 
     if (assessment.isPreview()) {
       nextChallenge = await evaluationUsecases.getNextChallengeForPreview({});
+      nextChallenge = new ChallengeToPlay(nextChallenge);
     }
 
     if (assessment.isDemo()) {
       nextChallenge = await evaluationUsecases.getNextChallengeForDemo({ assessment });
+      nextChallenge = new ChallengeToPlay(nextChallenge);
     }
 
     if (assessment.isForCampaign()) {
-      nextChallenge = await evaluationUsecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+      const nextChallengeId = await evaluationUsecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+      const challengeDto = await challengesAPI.get(nextChallengeId);
+      const webComponentInfoDto = await challengesAPI.getWebComponentInfoFor(challengeDto.id);
+      nextChallenge = ChallengeToPlay.fromLearningContentApiDtos(challengeDto, webComponentInfoDto);
     }
     if (assessment.isCompetenceEvaluation()) {
-      nextChallenge = await evaluationUsecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+      const nextChallengeId = await evaluationUsecases.getNextChallengeForCompetenceEvaluation({
+        assessment,
+        userId,
+        locale,
+      });
+      const challengeDto = await challengesAPI.get(nextChallengeId);
+      const webComponentInfoDto = await challengesAPI.getWebComponentInfoFor(challengeDto.id);
+      nextChallenge = ChallengeToPlay.fromLearningContentApiDtos(challengeDto, webComponentInfoDto);
     }
   } catch {
     nextChallenge = null;

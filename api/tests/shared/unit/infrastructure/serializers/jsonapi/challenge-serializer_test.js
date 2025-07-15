@@ -1,12 +1,12 @@
-import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
+import { ChallengeToPlay } from '../../../../../../src/shared/domain/models/ChallengeToPlay.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
   describe('#serialize()', function () {
-    it('should convert a Challenge model object into JSON API data', function () {
+    it('should convert a ChallengeToPlay model object into JSON API data', function () {
       // given
-      const challenge = new Challenge({
+      const challenge = new ChallengeToPlay({
         id: 'challenge_id',
         instruction: 'Que peut-on dire des œufs de catégorie A ?',
         proposals:
@@ -68,9 +68,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
     describe('field "competence"', function () {
       it('should be the the first associated to the challenge when it exists', function () {
         // given
-        const challenge = new Challenge();
-        challenge.id = 1;
-        challenge.competenceId = 'competence_id';
+        const challenge = new ChallengeToPlay({ id: 1, competenceId: 'competence_id' });
 
         // when
         const json = serializer.serialize(challenge);
@@ -89,8 +87,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
 
       it('should be null when no competence is associated to the challenge (ex: DEMO course)', function () {
         // given
-        const challenge = new Challenge();
-        challenge.id = 1;
+        const challenge = new ChallengeToPlay({ id: 1 });
 
         // when
         const json = serializer.serialize(challenge);

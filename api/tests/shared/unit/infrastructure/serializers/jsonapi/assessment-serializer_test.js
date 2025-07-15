@@ -1,4 +1,5 @@
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { ChallengeToPlay } from '../../../../../../src/shared/domain/models/ChallengeToPlay.js';
 import { Assessment, CampaignTypes } from '../../../../../../src/shared/domain/models/index.js';
 import { CampaignAssessment } from '../../../../../../src/shared/domain/read-models/CampaignAssessment.js';
 import { CertificationAssessment } from '../../../../../../src/shared/domain/read-models/CertificationAssessment.js';
@@ -21,7 +22,28 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
         certificationCourseId,
         answers,
       });
-      const challenge = domainBuilder.buildChallenge({ id: 'challenge0' });
+      const challenge = new ChallengeToPlay({
+        id: 'challenge0',
+        type: 'QCM',
+        instruction: 'Coucou ca va ?',
+        competenceId: 'recCompetenceId0',
+        proposals: '-prop1, -prop2',
+        timer: 180,
+        illustrationUrl: 'http://someUrl.com',
+        attachments: ['att1'],
+        embedUrl: 'http://www.someembed.url',
+        embedTitle: 'Title of my embed',
+        embedHeight: 700,
+        webComponentTagName: 'some webComponentTagName',
+        webComponentProps: 'some webComponentProps',
+        illustrationAlt: "ceci n'est pas une pipe",
+        format: 'mots',
+        autoReply: true,
+        alternativeInstruction: 'autre instruction',
+        focused: true,
+        shuffled: true,
+        locales: ['fr'],
+      });
 
       const certificationAssessment = new CertificationAssessment(assessment);
       certificationAssessment.nextChallenge = challenge;
@@ -84,24 +106,24 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             id: 'challenge0',
             type: 'challenges',
             attributes: {
-              'alternative-instruction': 'Des instructions alternatives',
-              attachments: ['URL pièce jointe'],
-              'auto-reply': false,
-              'embed-height': undefined,
-              'embed-title': undefined,
-              'embed-url': undefined,
-              focused: false,
-              format: 'petit',
-              'illustration-alt': "Le texte de l'illustration",
-              'illustration-url': "Une URL vers l'illustration",
-              instruction: 'Des instructions',
-              locales: ['fr'],
-              proposals: 'Une proposition',
-              shuffled: false,
-              timer: undefined,
               type: 'QCM',
-              'web-component-props': undefined,
-              'web-component-tag-name': undefined,
+              instruction: 'Coucou ca va ?',
+              proposals: '-prop1, -prop2',
+              timer: 180,
+              'illustration-url': 'http://someUrl.com',
+              attachments: ['att1'],
+              'embed-url': 'http://www.someembed.url',
+              'embed-title': 'Title of my embed',
+              'embed-height': 700,
+              'web-component-tag-name': 'some webComponentTagName',
+              'web-component-props': 'some webComponentProps',
+              'illustration-alt': "ceci n'est pas une pipe",
+              format: 'mots',
+              'auto-reply': true,
+              'alternative-instruction': 'autre instruction',
+              focused: true,
+              shuffled: true,
+              locales: ['fr'],
             },
           },
         ],
@@ -188,7 +210,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
     });
   });
 
-  describe('#deserialize()', function () {
+  describe('#deserialize', function () {
     let jsonAssessment;
 
     beforeEach(function () {

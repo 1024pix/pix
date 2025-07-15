@@ -12,7 +12,6 @@ const config = {
     'timer',
     'illustrationUrl',
     'attachments',
-    'competence',
     'embedUrl',
     'embedTitle',
     'embedHeight',

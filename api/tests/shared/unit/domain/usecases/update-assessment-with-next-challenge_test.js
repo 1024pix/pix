@@ -1,5 +1,6 @@
 import { AssessmentEndedError } from '../../../../../src/shared/domain/errors.js';
 import { Statuses } from '../../../../../src/shared/domain/models/Challenge.js';
+import { ChallengeToPlay } from '../../../../../src/shared/domain/models/ChallengeToPlay.js';
 import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import { updateAssessmentWithNextChallenge } from '../../../../../src/shared/domain/usecases/update-assessment-with-next-challenge.js';
 import { domainBuilder, expect, preventStubsToBeCalledUnexpectedly, sinon } from '../../../../test-helper.js';
@@ -10,6 +11,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
     let assessmentRepository_updateLastQuestionDateStub;
     let assessmentRepository_updateWhenNewChallengeIsAskedStub;
     let challengeRepository_getStub;
+    let challengesAPI_getStub;
+    let challengesAPI_getWebComponentInfoForStub;
     let evaluationUsecases_getNextChallengeForPreviewStub;
     let evaluationUsecases_getNextChallengeForDemoStub;
     let evaluationUsecases_getNextChallengeForCampaignAssessmentStub;
@@ -23,6 +26,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
       assessmentRepository_updateLastQuestionDateStub = sinon.stub().named('updateLastQuestionDate');
       assessmentRepository_updateWhenNewChallengeIsAskedStub = sinon.stub().named('updateWhenNewChallengeIsAsked');
       challengeRepository_getStub = sinon.stub().named('get');
+      challengesAPI_getStub = sinon.stub().named('get');
+      challengesAPI_getWebComponentInfoForStub = sinon.stub().named('getWebComponentInfoFor');
       evaluationUsecases_getNextChallengeForPreviewStub = sinon.stub().named('getNextChallengeForPreview');
       evaluationUsecases_getNextChallengeForDemoStub = sinon.stub().named('getNextChallengeForDemo');
       evaluationUsecases_getNextChallengeForCampaignAssessmentStub = sinon
@@ -38,6 +43,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         assessmentRepository_updateLastQuestionDateStub,
         assessmentRepository_updateWhenNewChallengeIsAskedStub,
         challengeRepository_getStub,
+        challengesAPI_getStub,
+        challengesAPI_getWebComponentInfoForStub,
         evaluationUsecases_getNextChallengeForPreviewStub,
         evaluationUsecases_getNextChallengeForDemoStub,
         evaluationUsecases_getNextChallengeForCampaignAssessmentStub,
@@ -52,6 +59,11 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
 
       const challengeRepository = {
         get: challengeRepository_getStub,
+      };
+
+      const challengesAPI = {
+        get: challengesAPI_getStub,
+        getWebComponentInfoFor: challengesAPI_getWebComponentInfoForStub,
       };
 
       const evaluationUsecases = {
@@ -72,6 +84,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         challengeRepository,
         evaluationUsecases,
         certificationEvaluationRepository,
+        challengesAPI,
       };
     });
 
@@ -120,17 +133,31 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         it('should compute next challenge', async function () {
           const assessment = domainBuilder.buildAssessment({
             state: Assessment.states.STARTED,
-            type: Assessment.types.PREVIEW,
+            type: Assessment.types.CAMPAIGN,
             lastChallengeId: null,
           });
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-          const challenge = domainBuilder.buildChallenge({ id: 'challengeForPreview' });
-          evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(challenge);
+          evaluationUsecases_getNextChallengeForCampaignAssessmentStub.withArgs({}).resolves('nextChallengeId');
+          challengesAPI_getStub
+            .withArgs('nextChallengeId')
+            .resolves({ id: 'nextChallengeId', instruction: 'some instruction' });
+          challengesAPI_getWebComponentInfoForStub.withArgs('nextChallengeId').resolves({
+            challengeId: 'nextChallengeId',
+            webComponentProps: 'some webComponentProps',
+            webComponentTagName: 'some webComponentTagName',
+          });
 
           const assessmentWithNextChallenge = await updateAssessmentWithNextChallenge({ assessment, ...dependencies });
 
-          expect(assessmentWithNextChallenge.nextChallenge).to.deepEqualInstance(challenge);
+          expect(assessmentWithNextChallenge.nextChallenge).to.deepEqualInstance(
+            new ChallengeToPlay({
+              id: 'nextChallengeId',
+              instruction: 'some instruction',
+              webComponentProps: 'some webComponentProps',
+              webComponentTagName: 'some webComponentTagName',
+            }),
+          );
         });
       });
 

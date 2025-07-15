@@ -6,6 +6,7 @@ import * as certificationChallengeLiveAlertRepository from '../../../certificati
 import * as certificationCompanionAlertRepository from '../../../certification/shared/infrastructure/repositories/certification-companion-alert-repository.js';
 import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 import * as badgeRepository from '../../../evaluation/infrastructure/repositories/badge-repository.js';
+import * as challengesAPI from '../../../learning-content/application/api/challenges-api.js';
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
@@ -30,6 +31,7 @@ const dependencies = {
   certificationChallengeLiveAlertRepository,
   badgeRepository,
   challengeRepository,
+  challengesAPI,
   evaluationUsecases,
   ...sharedInjectedRepositories,
 };

@@ -1,12 +1,13 @@
 import _ from 'lodash';
 
-import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { Assessment } from '../../../../shared/domain/models/index.js';
+import { ChallengeForSmartRandom } from '../../models/ChallengeForSmartRandom.js';
 
 async function fetchForCampaigns({
   assessment,
   answerRepository,
   campaignRepository,
-  challengeRepository,
+  challengesAPI,
   knowledgeElementRepository,
   campaignParticipationRepository,
   improvementService,
@@ -28,7 +29,7 @@ async function fetchForCampaigns({
       knowledgeElementRepository,
       improvementService,
     }),
-    _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }),
+    _fetchSkillsAndChallenges({ challengesAPI, campaignSkills, locale }),
   ]);
 
   return {
@@ -58,24 +59,25 @@ async function _fetchKnowledgeElements({
   return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment, isRetrying });
 }
 
-async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }) {
-  const challenges = await challengeRepository.findOperativeBySkills(campaignSkills, locale);
+async function _fetchSkillsAndChallenges({ challengesAPI, campaignSkills, locale }) {
+  const challengeDtos = await challengesAPI.findOperativeBySkills(campaignSkills, locale);
+  const challenges = challengeDtos.map(ChallengeForSmartRandom.fromLearningContentApiDto);
   return [campaignSkills, challenges];
 }
 
 async function fetchForCompetenceEvaluations({
   assessment,
   answerRepository,
-  challengeRepository,
+  challengesAPI,
   knowledgeElementRepository,
   skillRepository,
   improvementService,
   locale,
 }) {
-  const [allAnswers, targetSkills, challenges, knowledgeElements] = await Promise.all([
+  const [allAnswers, targetSkills, challengeDtos, knowledgeElements] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findActiveByCompetenceId(assessment.competenceId),
-    challengeRepository.findValidatedByCompetenceId(assessment.competenceId, locale),
+    challengesAPI.findValidatedByCompetenceId(assessment.competenceId, locale),
     _fetchKnowledgeElements({ assessment, knowledgeElementRepository, improvementService }),
   ]);
 
@@ -83,7 +85,7 @@ async function fetchForCompetenceEvaluations({
     allAnswers,
     lastAnswer: _.isEmpty(allAnswers) ? null : _.last(allAnswers),
     targetSkills,
-    challenges,
+    challenges: challengeDtos.map(ChallengeForSmartRandom.fromLearningContentApiDto),
     knowledgeElements,
   };
 }

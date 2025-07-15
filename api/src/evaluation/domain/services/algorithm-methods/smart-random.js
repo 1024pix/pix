@@ -3,9 +3,22 @@ import { logStep } from '../smart-random-log-service.js';
 import { computeTubesFromSkills } from '../tube-service.js';
 import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
-
+/**
+ * @typedef {import('../../models/ChallengeForSmartRandom.js').ChallengeForSmartRandom} ChallengeForSmartRandom
+ **/
 export { getPossibleSkillsForNextChallenge };
 
+/**
+ *
+ * @param {object} params
+ * @param {object[]} params.knowledgeElements
+ * @param {ChallengeForSmartRandom[]}params.challenges
+ * @param {object[]}params.targetSkills
+ * @param {object} params.lastAnswer
+ * @param {object[]}params.allAnswers
+ * @param {string} params.locale
+ * @returns {{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge, levelEstimated: number}|{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge, levelEstimated: number}}
+ */
 const getPossibleSkillsForNextChallenge = ({
   knowledgeElements,
   challenges,
@@ -48,7 +61,7 @@ const findTubes = (skills, challenges) => {
 
 const filterSkillsByChallenges = (skills, challenges) =>
   skills.filter((skill) => {
-    return challenges.find((challenge) => challenge.skill.name === skill.name);
+    return challenges.find((challenge) => challenge.skillId === skill.id);
   });
 
 const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) => {
@@ -84,7 +97,7 @@ const findFirstChallenge = ({ knowledgeElements, targetSkills, tubes }) => {
 const getSkillsWithAddedInformations = ({ targetSkills, filteredChallenges, locale }) =>
   targetSkills.map((skill) => {
     const challenges = filteredChallenges.filter(
-      (challenge) => challenge.skill.id === skill.id && challenge.locales.includes(locale),
+      (challenge) => challenge.skillId === skill.id && challenge.locales.includes(locale),
     );
     const [firstChallenge] = challenges;
 

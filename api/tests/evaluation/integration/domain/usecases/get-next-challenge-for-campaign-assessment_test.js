@@ -8,7 +8,7 @@ describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for
   const skillIds = ['acquisTube1Niveau1', 'acquisTube1Niveau2'];
 
   context('for a campaign of type assessment with method smart_random', function () {
-    it('should return the next challenge for the participant according to the user profile', async function () {
+    it('should return the next challenge id for the participant according to the user profile', async function () {
       // given
       const locale = 'fr';
       const userId = databaseBuilder.factory.buildUser().id;
@@ -67,18 +67,18 @@ describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for
 
       // when
       const assessment = domainBuilder.buildAssessment(assessmentDB);
-      const challenge = await evaluationUsecases.getNextChallengeForCampaignAssessment({
+      const challengeId = await evaluationUsecases.getNextChallengeForCampaignAssessment({
         assessment,
         locale,
       });
 
       // then
-      expect(challenge.id).to.equal(challengeData[1].id);
+      expect(challengeId).to.equal(challengeData[1].id);
     });
   });
 
   context('for a campaign of type exam with method smart_random', function () {
-    it('should return the next challenge for the participant according to the user snapshot for campaign', async function () {
+    it('should return the next challenge id for the participant according to the user snapshot for campaign', async function () {
       // given
       const locale = 'fr';
       const userId = databaseBuilder.factory.buildUser().id;
@@ -142,13 +142,13 @@ describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for
 
       // when
       const assessment = domainBuilder.buildAssessment(assessmentDB);
-      const challenge = await evaluationUsecases.getNextChallengeForCampaignAssessment({
+      const challengeId = await evaluationUsecases.getNextChallengeForCampaignAssessment({
         assessment,
         locale,
       });
 
       // then
-      expect(challenge.id).to.equal(challengeData[1].id);
+      expect(challengeId).to.equal(challengeData[1].id);
     });
   });
 });
