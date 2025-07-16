@@ -1078,7 +1078,7 @@
       "is-focused-challenge": {
         "info-alert": {
           "adjusted-course-title": "Responde a esta pregunta sin utilizar Internet ni ninguna aplicación.",
-          "subtitle": " ",
+          "subtitle": "Si cambia de página o de pestaña durante una prueba de certificación, su respuesta no será validada.",
           "title": "Responde a esta pregunta sin buscar en internet ni utilizar ningún programa informático."
         }
       },
