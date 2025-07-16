@@ -585,7 +585,7 @@
         "legal": "Al hacer clic en «Empiezo» te conectarás a la plataforma y se enviará la información sobre tu progreso en el test al organizador del mismo para que pueda ayudarte si es necesario. Al final del test, haciendo clic en el botón «Envío mis resultados», se enviarán tus resultados al organizador.",
         "legal-with-autoshare": "Al hacer clic en «Empiezo» te conectarás a la plataforma y se enviará la información sobre tu progreso en el test al organizador del mismo para que pueda ayudarte si es necesario. Al final del test, sus resultados se enviarán automáticamente al organizador.",
         "title": "Empieza tu test Pix",
-        "title-with-username": "<span>¿{userFirstName},</span><br>Listo para evaluar tus habilidades?"
+        "title-with-username": "'<span>'¿{userFirstName},'</span><br>'Listo para evaluar tus habilidades?"
       },
       "profiles-collection": {
         "action": "¡Empecemos!",
@@ -804,7 +804,7 @@
         "message": "Enhorabuena {fullName}, tu perfil Pix se puede certificar."
       },
       "error-messages": {
-        "candidate-not-eligible": "<strong>La cuenta con la que ha iniciado sesión actualmente no es elegible para esta sesión de certificación.</strong> <br>' La información introducida corresponde a un candidato registrado para la sesión en certificación complementaria únicamente. <br>' Compruebe que ha iniciado sesión con la cuenta elegible para realizar la certificación complementaria únicamente.",
+        "candidate-not-eligible": "'<strong>'La cuenta con la que ha iniciado sesión actualmente no es elegible para esta sesión de certificación.'</strong>' '<br>' La información introducida corresponde a un candidato registrado para la sesión en certificación complementaria únicamente. '<br>' Compruebe que ha iniciado sesión con la cuenta elegible para realizar la certificación complementaria únicamente.",
         "generic": {
           "check-personal-info": "Comprueba con el supervisor que tus datos personales coinciden con los de la hoja de inscripción.",
           "check-session-number": "Comprueba el número de sesión.",
@@ -1358,7 +1358,7 @@
       "title": "Descargar los resultados de la sesión"
     },
     "error": {
-      "content-text": "'<p>'Por favor, vuelve a cargar esta página o vuelve a la página de inicio.'</p><p>'También puedes ponerte en contacto con nosotros con '<a href=\"https://support.pix.fr/support/tickets/new\">'el formulario del centro de ayuda.'</a>'especificando el código de error que aparece a continuación en la descripción.'</p><p>Te pedimos disculpas por las molestias ocasionadas.'</p><p>'El equipo Pix.'</p>'",
+      "content-text": "'<p>'Por favor, vuelve a cargar esta página o vuelve a la página de inicio.'</p><p>'También puedes ponerte en contacto con nosotros con '<a href=\"https://support.pix.fr/support/tickets/new\">'el formulario del centro de ayuda.'</a>'especificando el código de error que aparece a continuación en la descripción.'</p><p>'Te pedimos disculpas por las molestias ocasionadas.'</p><p>'El equipo Pix.'</p>'",
       "first-title": "¡Uy, se ha producido un error!"
     },
     "evaluation-results": {
@@ -1820,7 +1820,7 @@
       "actions": {
         "continue": "Continúa tu experiencia Pix"
       },
-      "explanation": "Ya has enviado el siguiente perfil a la organización {organization}',<br>'lo hiciste el {date} a las {hour,time,hhmm}",
+      "explanation": "Ya has enviado el siguiente perfil a la organización {organization},'<br>'lo hiciste el {date} a las {hour,time,hhmm}",
       "first-title": "Ha habido un imprevisto",
       "retry": {
         "button": "Reenviar mi perfil",

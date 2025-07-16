@@ -585,7 +585,7 @@
         "legal": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Als je aan het einde van de cursus op de knop \"Stuur mijn resultaten\" klikt, worden je resultaten naar de organisator gestuurd.",
         "legal-with-auto-share": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Aan het einde van je test worden je resultaten automatisch gedeeld met je organisatie.",
         "title": "Begin je Pix-reis",
-        "title-with-username": "<span>{userFirstName},</span><br> ben je klaar om je vaardigheden te testen?"
+        "title-with-username": "'<span>'{userFirstName},'</span><br>' ben je klaar om je vaardigheden te testen?"
       },
       "profiles-collection": {
         "action": "Laten we gaan!",
@@ -807,7 +807,7 @@
         "message": "Gefeliciteerd {fullName}, je Pix-profiel is certificeerbaar."
       },
       "error-messages": {
-        "candidate-not-eligible": "<strong>Het account waarmee u op dit moment bent ingelogd komt niet in aanmerking voor deze certificeringssessie.</strong> '<br>' De ingevoerde informatie komt overeen met een kandidaat die alleen is geregistreerd voor de sessie aanvullende certificering. '<br>' Controleer of u bent ingelogd op het account dat in aanmerking komt om alleen de aanvullende certificering te volgen.",
+        "candidate-not-eligible": "'<strong>'Het account waarmee u op dit moment bent ingelogd komt niet in aanmerking voor deze certificeringssessie.'</strong>' '<br>' De ingevoerde informatie komt overeen met een kandidaat die alleen is geregistreerd voor de sessie aanvullende certificering. '<br>' Controleer of u bent ingelogd op het account dat in aanmerking komt om alleen de aanvullende certificering te volgen.",
         "generic": {
           "check-personal-info": "Controleer bij de supervisor of je persoonlijke gegevens overeenkomen met die op het inschrijfformulier.",
           "check-session-number": "Controleer het sessienummer.",
