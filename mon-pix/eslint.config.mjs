@@ -14,7 +14,7 @@ const compiledOutputFiles = ['dist/*', 'tmp/*'];
 const dependenciesFiles = ['bower_components/*', 'node_modules/*'];
 const miscFiles = ['coverage/*', '!**/.*', '**/.eslintcache'];
 const emberTryFiles = ['.node_modules.ember-try/*', 'bower.json.ember-try', 'package.json.ember-try'];
-const nonPhraseGeneratedFiles = ['translations/en.json', 'translations/fr.json'];
+const nonPhraseGeneratedFiles = ['translations/*.json'];
 
 const nodeFiles = [
   'eslint.config.cjs',
