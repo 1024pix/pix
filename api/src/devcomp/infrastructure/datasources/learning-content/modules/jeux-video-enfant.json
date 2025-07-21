@@ -262,7 +262,7 @@
                 "content": "<p>les jeux payants<br></p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
               },
               {
@@ -270,7 +270,7 @@
                 "content": "<p>les jeux gratuits</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
               },
               {
@@ -278,7 +278,7 @@
                 "content": "<p>les deux</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et oui ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                  "diagnosis": "<p>Et oui ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
               },
               {
@@ -286,7 +286,7 @@
                 "content": "<p>Je ne sais pas.</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                  "diagnosis": "<p>En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
               }
             ]
