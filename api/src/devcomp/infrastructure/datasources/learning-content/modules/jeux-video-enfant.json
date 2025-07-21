@@ -246,6 +246,55 @@
       ]
     },
     {
+      "id": "8e67cf94-6397-406d-915a-336b8527a729",
+      "type": "discovery",
+      "title": "Activité découverte - 2",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "b7989927-5257-4f02-82d7-23d92e666c4c",
+            "type": "qcu-declarative",
+            "instruction": "<p>A votre avis, quels jeux vidéo peuvent proposer d'acheter des bonus pendant le jeu ? </p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>les jeux payants<br></p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>les jeux gratuits</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>les deux</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>Et oui ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>Je ne sais pas.</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payant, peuvent proposer des achats en cours de jeu.</p>"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "b30b20c6-ba19-4992-8efb-20a6bf932c01",
       "type": "lesson",
       "title": "Leçon - 2",
@@ -275,7 +324,7 @@
     {
       "id": "fe9fa67b-ddfc-4932-8f5d-eba163a206b9",
       "type": "discovery",
-      "title": "Activité découverte - 2 ",
+      "title": "Activité découverte - 3",
       "components": [
         {
           "type": "element",
@@ -348,7 +397,7 @@
     {
       "id": "05e28282-c8aa-4664-8b33-234988efe390",
       "type": "discovery",
-      "title": "Activité découverte - 3",
+      "title": "Activité découverte - 4",
       "components": [
         {
           "type": "element",
