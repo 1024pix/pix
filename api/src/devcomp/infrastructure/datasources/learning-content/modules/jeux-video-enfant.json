@@ -182,7 +182,7 @@
                       "id": "2",
                       "content": "<p>Le jeu n’a aucune recommandation PEGI.</p>",
                       "feedback": {
-                        "state": "Mauvaise réponse.",
+                        "state": "",
                         "diagnosis": "<p>Et non ! Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p>"
                       }
                     },
@@ -190,7 +190,7 @@
                       "id": "3",
                       "content": "<p>Le jeu est déconseillé aux enfants de moins de 7 ans.</p>",
                       "feedback": {
-                        "state": "Mauvaise réponse.",
+                        "state": "",
                         "diagnosis": "<p>Pas tout à fait. Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p><p></p>"
                       }
                     }
