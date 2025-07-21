@@ -18,7 +18,7 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
   const tableHeaders = _.map(tableHeaderTargetPropertyMap, 'header');
   const sheetHeaderRow = _findHeaderRow(sheetDataRows, tableHeaders);
   if (!sheetHeaderRow) {
-    throw new UnprocessableEntityError('Table headers not found');
+    throw new UnprocessableEntityError('Table headers not found :)');
   }
   const sheetDataRowsBelowHeader = _extractRowsBelowHeader(sheetHeaderRow, sheetDataRows);
   const sheetHeaderPropertyMap = _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap);
