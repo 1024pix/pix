@@ -58,7 +58,7 @@
           "type": "element",
           "element": {
             "id": "3aeba304-6774-4d57-a19a-3309f2181368",
-            "type": "qcu-declarative",
+            "type": "qcu",
             "instruction": "<p>À votre avis, ce jeu est-il adapté à l’âge de Marilou ?</p>",
             "proposals": [
               {
@@ -77,7 +77,8 @@
                   "diagnosis": "<p>Bien joué ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
                 }
               }
-            ]
+            ],
+            "solution": "2"
           }
         }
       ]
@@ -254,7 +255,7 @@
           "type": "element",
           "element": {
             "id": "db51f147-b80d-4ca1-af7c-b4e052b8f6c8",
-            "type": "qcu-declarative",
+            "type": "qcu",
             "instruction": "<p>A votre avis, quels jeux vidéo peuvent proposer d'acheter des bonus pendant le jeu ? </p>",
             "proposals": [
               {
@@ -280,16 +281,9 @@
                   "state": "",
                   "diagnosis": "<p>Et oui ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
-              },
-              {
-                "id": "4",
-                "content": "<p>Je ne sais pas.</p>",
-                "feedback": {
-                  "state": "",
-                  "diagnosis": "<p>En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
-                }
               }
-            ]
+            ],
+            "solution": "3"
           }
         }
       ]
@@ -404,7 +398,7 @@
           "element": {
             "id": "213f2140-9378-4bdb-9b7f-91837f4a5c9b",
             "type": "text",
-            "content": "<p>Certains jeux proposent des achats intégrés particulièrement attirants &nbsp;:<strong> les loot boxes</strong>.</p><p>Répondez à la question ci-dessous.</p>"
+            "content": "<p>Certains jeux proposent des achats intégrés particulièrement attirants :<strong> les loot boxes</strong> (ou boîtes à butins en français).</p>\n<p>Répondez à la question ci-dessous.</p>"
           }
         },
         {
@@ -515,7 +509,7 @@
           "type": "element",
           "element": {
             "id": "59cff0b1-f82f-4f5a-a91f-fccf43d7b366",
-            "type": "qcu-declarative",
+            "type": "qcu",
             "instruction": "<p>À votre avis, quelle affirmation est vraie ? </p>",
             "proposals": [
               {
@@ -541,16 +535,9 @@
                   "state": "",
                   "diagnosis": "<p>Effectivement, quel que soit l'équipement (smartphone, tablette, console, ordinateur) de nombreux jeux vidéo permettent de discuter entre joueurs.</p>"
                 }
-              },
-              {
-                "id": "4",
-                "content": "<p>Je ne sais pas.</p>",
-                "feedback": {
-                  "state": "",
-                  "diagnosis": "<p>En réalité, quel que soit l'équipement (smartphone, tablette, console, ordinateur) de nombreux jeux vidéo permettent de discuter entre joueurs.</p>"
-                }
               }
-            ]
+            ],
+            "solution": "3"
           }
         }
       ]
