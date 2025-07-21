@@ -124,7 +124,7 @@
                 },
                 {
                   "id": "1255d0bf-0434-4add-9873-051c841af667",
-                  "type": "qcu-declarative",
+                  "type": "qcu",
                   "instruction": "<p>Que signifie l’indication «&nbsp;12 &nbsp;» sur ce jeu ?</p>",
                   "proposals": [
                     {
@@ -132,7 +132,7 @@
                       "content": "<p>Le jeu est trop difficile pour les enfants de moins de 12 ans.</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le pictogramme âge PEGI n’indique pas la difficulté d’un jeu. Par exemple un jeu avec le pictogramme PEGI 3 peut être trop compliqué pour un enfant de 4 ans.</p>"
+                        "diagnosis": "<p>Et non ! Le pictogramme âge PEGI n’indique pas la difficulté d’un jeu. Par exemple un jeu avec le pictogramme PEGI 3 peut être trop compliqué pour un enfant de 4 ans. Le pictogramme âge PEGI indique la présence de contenus inadaptés aux enfants en dessous de l’âge indiqué.</p>"
                       }
                     },
                     {
@@ -148,7 +148,7 @@
                       "content": "<p>Le jeu ne peut pas être vendu à un enfant de moins de 12 ans.</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le pictogramme âge PEGI est indicatif. Il donne une information mais n’empêche pas la vente en fonction de l’âge.</p>"
+                        "diagnosis": "<p>Et non ! Le pictogramme âge PEGI est indicatif, il 'n’empêche pas la vente en fonction de l’âge. Le pictogramme âge PEGI indique la présence de contenus inadaptés aux enfants en dessous de l’âge indiqué.</p>"
                       }
                     }
                   ]
@@ -166,7 +166,7 @@
                 },
                 {
                   "id": "10dfb9e3-02de-4f3f-b7d1-aae0d1991f9e",
-                  "type": "qcu-declarative",
+                  "type": "qcu",
                   "instruction": "<p>Que signifie le pictogramme «&nbsp;!&nbsp;» sur ce jeu ?</p>",
                   "proposals": [
                     {
@@ -182,7 +182,7 @@
                       "content": "<p>Le jeu n’a aucune recommandation PEGI.</p>",
                       "feedback": {
                         "state": "Mauvaise réponse.",
-                        "diagnosis": "<p>Et non ! Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.</p>"
+                        "diagnosis": "<p>Et non ! Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p>"
                       }
                     },
                     {
@@ -190,7 +190,7 @@
                       "content": "<p>Le jeu est déconseillé aux enfants de moins de 7 ans.</p>",
                       "feedback": {
                         "state": "Mauvaise réponse.",
-                        "diagnosis": "<p>Pas tout à fait. Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Attention, il peut y avoir des contenus pour tous les âges.</p>"
+                        "diagnosis": "<p>Pas tout à fait. Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p></p>"
                       }
                     }
                   ]
@@ -265,7 +265,7 @@
           "element": {
             "id": "8d643cd3-6b97-4817-a495-0cf23e06e375",
             "type": "text",
-            "content": "<p>👛 Dans un jeu vidéo (gratuit ou payant), des achats de quelques centimes ou euros peuvent être proposés tout au long de la partie pour obtenir, par exemple&nbsp;: </p>\n<ul>\n    <li>de la <strong>monnaie virtuelle</strong>&nbsp;</li>\n    <li>des <strong>bonus </strong>ou des <strong>vies </strong>supplémentaires</li>\n    <li>des améliorations pour les personnages&nbsp;</li>\n</ul>\n<p>Ces achats en jeu sont appelés des <strong>achats intégrés</strong>.</p>\n<p>⚠️ <strong>Attention</strong><br> Même si ce sont des petites sommes d’argent, la facture peut vite grimper ! Et si une carte bancaire est enregistrée sur l’appareil (smartphone, console, etc.), l’achat sera débité automatiquement sans que vous soyez averti.</p>"
+            "content": "<p>👛 Dans un jeu vidéo (gratuit ou payant), des achats de quelques centimes ou euros peuvent être proposés tout au long de la partie pour obtenir, par exemple&nbsp;: </p><ul>    <li>de la <strong>monnaie virtuelle</strong>&nbsp;</li>    <li>des <strong>bonus </strong>ou des <strong>vies </strong>supplémentaires</li>    <li>des améliorations pour les personnages&nbsp;</li></ul><p>Ces achats en jeu sont appelés des <strong>achats intégrés</strong>.</p><p>⚠️ <strong>Attention</strong><br> Même si ce sont des petites sommes d’argent, la facture peut vite grimper ! Et si une carte bancaire est enregistrée sur l’appareil (smartphone, console, etc.), l’achat sera débité automatiquement sans que vous soyez averti.</p>"
           }
         }
       ]
@@ -282,7 +282,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boitier_cake.png",
             "alt": "Dos de la boîte d’un jeu vidéo détaillée dans l’alternative textuelle",
-            "alternativeText": "<p>Dos de la boîte d’un jeu vidéo&nbsp;:&nbsp;</p>\n<ul>\n    <li>Présentation du jeu&nbsp;: <ul>\n            <li>Courez ! Sautez ! Explorez les mondes des gateaux et aidez Flora la pâtissière à traverser plus de 80 niveaux !</li>\n            <li>Nouveau&nbsp;:&nbsp;Saupoudrage scintillant</li>\n            <li>Nouveau&nbsp;:&nbsp;Dragée explosive</li>\n            <li>Nouveau&nbsp;:&nbsp;Coeur chocolat coulant</li>\n        </ul>\n    </li>\n    <li>Caractéristiques&nbsp;:<ul>\n            <li>Multijoueur local&nbsp;:&nbsp;jusqu’à 8 joueurs</li>\n            <li>Jeu en ligne&nbsp;:&nbsp;jusqu’à 12 joueurs</li>\n            <li>Online&nbsp;:&nbsp;Le jeu en ligne nécessite un abonnement payant au service Online.</li>\n            <li>Pictogramme Pegi 3</li>\n            <li>Pictogramme Achats intégrés</li>\n            <li>Compatible manette pro</li>\n            <li>Compatible volant</li>\n        </ul>\n    </li>\n    <li>Avertissements&nbsp;:&nbsp; <ul>\n            <li>Attention, chez certaines personnes, l’utilisation de ce jeu nécessite des précautions d’emploi particulières qui sont détaillées dans la notice jointe.</li>\n            <li>Ce logiciel peut comporter du placement de produit et de la publicité.</li>\n            <li>Ne jetez pas cette carte de jeu à la poubelle.</li>\n        </ul>\n    </li>\n</ul>",
+            "alternativeText": "<p>Dos de la boîte d’un jeu vidéo&nbsp;:&nbsp;</p><ul>    <li>Présentation du jeu&nbsp;: <ul>            <li>Courez ! Sautez ! Explorez les mondes des gateaux et aidez Flora la pâtissière à traverser plus de 80 niveaux !</li>            <li>Nouveau&nbsp;:&nbsp;Saupoudrage scintillant</li>            <li>Nouveau&nbsp;:&nbsp;Dragée explosive</li>            <li>Nouveau&nbsp;:&nbsp;Coeur chocolat coulant</li>        </ul>    </li>    <li>Caractéristiques&nbsp;:<ul>            <li>Multijoueur local&nbsp;:&nbsp;jusqu’à 8 joueurs</li>            <li>Jeu en ligne&nbsp;:&nbsp;jusqu’à 12 joueurs</li>            <li>Online&nbsp;:&nbsp;Le jeu en ligne nécessite un abonnement payant au service Online.</li>            <li>Pictogramme Pegi 3</li>            <li>Pictogramme Achats intégrés</li>            <li>Compatible manette pro</li>            <li>Compatible volant</li>        </ul>    </li>    <li>Avertissements&nbsp;:&nbsp; <ul>            <li>Attention, chez certaines personnes, l’utilisation de ce jeu nécessite des précautions d’emploi particulières qui sont détaillées dans la notice jointe.</li>            <li>Ce logiciel peut comporter du placement de produit et de la publicité.</li>            <li>Ne jetez pas cette carte de jeu à la poubelle.</li>        </ul>    </li></ul>",
             "legend": "",
             "licence": ""
           }
@@ -291,7 +291,7 @@
           "type": "element",
           "element": {
             "id": "05677303-3d47-40e0-ae61-f915014bcc07",
-            "type": "qcu-declarative",
+            "type": "qcu",
             "instruction": "<p>Observez la boîte du jeu ci-dessus, puis sélectionnez la bonne réponse.</p>",
             "proposals": [
               {
@@ -325,7 +325,7 @@
           "element": {
             "id": "4b68478d-45e1-411c-bf18-f384d0503cfa",
             "type": "text",
-            "content": "<p>Si un jeu contient des achats intégrés, le joueur doit obligatoirement être prévenu.</p>\n<p>🔎 Pour le savoir, regardez la boîte ou la fiche du jeu en ligne et cherchez le <strong>pictogramme PEGI </strong>ci-dessous ou les mentions «&nbsp;<strong>achats intégrés</strong>&nbsp;» ou «&nbsp;<strong>achats intra-jeu facultatifs</strong>&nbsp;».</p>"
+            "content": "<p>Si un jeu contient des achats intégrés, le joueur doit obligatoirement être prévenu.</p><p>🔎 Pour le savoir, regardez la boîte ou la fiche du jeu en ligne et cherchez le <strong>pictogramme PEGI </strong>ci-dessous ou les mentions «&nbsp;<strong>achats intégrés</strong>&nbsp;» ou «&nbsp;<strong>achats intra-jeu facultatifs</strong>&nbsp;».</p>"
           }
         },
         {
@@ -362,7 +362,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_lornitteclan.png",
             "alt": "capture d’écran de la page d’installation du jeu vidéo Lorttnite Clan détaillée dans l’alternative textuelle",
-            "alternativeText": "<p>Jeu Lorttnite Clan&nbsp;:\n\n    4,1 étoiles\n    Communauté compétitive\n    Commandes rapides à maîtriser\n    Lien «&nbsp;vue d’ensemble&nbsp;»\n    Contenus additionnels\n    FAQ\n    Pegi 12\n    Violence, achats dans le jeu (inclut des éléments aléatoires)\n    Jeu de base\n    Gratuit\n    Boutons&nbsp;: «&nbsp;obtenir&nbsp;», «&nbsp;ajouter au panier&nbsp;», «&nbsp;ajouter à la liste de souhaits&nbsp;»</p>",
+            "alternativeText": "<p>Jeu Lorttnite Clan&nbsp;:    4,1 étoiles    Communauté compétitive    Commandes rapides à maîtriser    Lien «&nbsp;vue d’ensemble&nbsp;»    Contenus additionnels    FAQ    Pegi 12    Violence, achats dans le jeu (inclut des éléments aléatoires)    Jeu de base    Gratuit    Boutons&nbsp;: «&nbsp;obtenir&nbsp;», «&nbsp;ajouter au panier&nbsp;», «&nbsp;ajouter à la liste de souhaits&nbsp;»</p>",
             "legend": "",
             "licence": ""
           }
@@ -371,7 +371,7 @@
           "type": "element",
           "element": {
             "id": "79eb2b10-ddc5-4921-9f2e-f85066c2858f",
-            "type": "qcu-declarative",
+            "type": "qcu",
             "instruction": "<p>Observez la fiche du jeu ci-dessus, puis sélectionnez la bonne réponse.</p>",
             "proposals": [
               {
@@ -425,7 +425,7 @@
           "element": {
             "id": "051ce5cd-3dcc-45a2-a1cd-a9ab74763588",
             "type": "text",
-            "content": "<p>📦 Une loot box (boîte à butins) est un <strong>objet virtuel </strong> (un coffre, une boîte, ... etc) qu’un joueur peut acheter dans le jeu.<br>Chaque loot box contient des objets, communs ou très rares, à utiliser dans le jeu.<br><strong>Ce contenu est aléatoire, comme pour une pochette-surprise ou des cartes à collectionner.</strong><br>Le joueur est souvent incité à acheter des loot boxes lors des parties, pour obtenir l’objet qu’il souhaite ou pour avancer plus efficacement dans le jeu.</p>\n<p><br>🤔 <strong>Bon à savoir</strong>&nbsp;<br>Depuis mai 2020, un jeu qui propose des loot boxes doit obligatoirement indiquer «&nbsp;<strong>Inclut des contenus aléatoires</strong>&nbsp;» sur la boîte ou la fiche du jeu.</p>"
+            "content": "<p>📦 Une loot box (boîte à butins) est un <strong>objet virtuel </strong> (un coffre, une boîte, ... etc) qu’un joueur peut acheter dans le jeu.<br>Chaque loot box contient des objets, communs ou très rares, à utiliser dans le jeu.<br><strong>Ce contenu est aléatoire, comme pour une pochette-surprise ou des cartes à collectionner.</strong><br>Le joueur est souvent incité à acheter des loot boxes lors des parties, pour obtenir l’objet qu’il souhaite ou pour avancer plus efficacement dans le jeu.</p><p><br>🤔 <strong>Bon à savoir</strong>&nbsp;<br>Depuis mai 2020, un jeu qui propose des loot boxes doit obligatoirement indiquer «&nbsp;<strong>Inclut des contenus aléatoires</strong>&nbsp;» sur la boîte ou la fiche du jeu.</p>"
           }
         }
       ]
@@ -455,7 +455,7 @@
           "element": {
             "id": "139b7a65-92b9-4d4c-ba16-1badbbe24bd1",
             "type": "text",
-            "content": "<p>De nombreux jeux vidéo en ligne se jouent en équipe. Les joueurs doivent donc discuter ensemble, par écrit ou en vocal, afin de collaborer et progresser dans le jeu.</p>\n<p><strong>Ces discussions en ligne comportent des risques</strong>. 🎧&nbsp;<br>Un enfant peut être exposé à des personnes avec de mauvaises intentions ou à du contenu choquant. 😱</p>"
+            "content": "<p>De nombreux jeux vidéo en ligne se jouent en équipe. Les joueurs doivent donc discuter ensemble, par écrit ou en vocal, afin de collaborer et progresser dans le jeu.</p><p><strong>Ces discussions en ligne comportent des risques</strong>. 🎧&nbsp;<br>Un enfant peut être exposé à des personnes avec de mauvaises intentions ou à du contenu choquant. 😱</p>"
           }
         },
         {
@@ -475,7 +475,7 @@
               },
               {
                 "id": "2",
-                "content": "<p>Seuls les jeux vidéo sur console permettent de discuter en ligne avec d'autres joueurs.</p>",
+                "content": "<p>Seuls les jeux vidéo sur console permettent de discuter en ligne avec d'autres joueurs</p>",
                 "feedback": {
                   "state": "",
                   "diagnosis": "<p>Et non, quel que soit l'équipement (smartphone, tablette, console, ordinateur) de nombreux jeux vidéo permettent de discuter entre joueurs.</p>"
@@ -483,7 +483,7 @@
               },
               {
                 "id": "3",
-                "content": "<p>Certains jeux vidéos permettent de discuter en ligne avec d'autres joueurs quel que soit l'équipement utilisé.</p>",
+                "content": "<p>Certains jeux vidéo permettent de discuter en ligne avec d'autres joueurs quel que soit l'équipement utilisé.</p>",
                 "feedback": {
                   "state": "",
                   "diagnosis": "<p>Effectivement, quel que soit l'équipement (smartphone, tablette, console, ordinateur) de nombreux jeux vidéo permettent de discuter entre joueurs.</p>"
