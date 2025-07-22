@@ -18,13 +18,14 @@ export default class ChallengeController extends Controller {
   @service currentUser;
   @service focusedCertificationChallengeWarningManager;
   @service pixMetrics;
+  @service storage;
 
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasUserConfirmedTimedChallengeWarning = false;
-  @tracked isTextToSpeechActivated = true;
+  @tracked isTextToSpeechActivated = this.storage.getTextToSpeech();
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -242,6 +243,7 @@ export default class ChallengeController extends Controller {
 
   @action toggleTextToSpeech() {
     this.isTextToSpeechActivated = !this.isTextToSpeechActivated;
+    this.storage.setTextToSpeech(this.isTextToSpeechActivated);
     if (!this.isTextToSpeechActivated) {
       speechSynthesis.cancel();
     }
