@@ -51,7 +51,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_dragonkingdom.png",
             "alt": "capture d’écran de la page d’installation du jeu vidéo Dragon’s kingdom détaillée dans l’alternative textuelle",
-            "alternativeText": "<p>Jeu Craft Dragon’s kingdom</p><ul><li>Epix</li><li>Étiquette «&nbsp;Consoles&nbsp;»</li><li>18,99€<br></li><li>Bouton «&nbsp;Obtenir&nbsp;»</li><li>PEGI 12, peur</li><li>Abonnement requis pour le jeu en ligne</li><li>Achats intra jeux facultatifs</li><li>Interaction entre les illustrateurs</li><li>Jeu en ligne facultatif</li></ul>"
+            "alternativeText": "<p>Jeu Craft Dragon’s kingdom</p><ul><li>Epix</li><li>Étiquette «&nbsp;Consoles&nbsp;»</li><li>18,99€<br></li><li>Bouton «&nbsp;Obtenir&nbsp;»</li><li>Pictogramme « PEGI 12 », « peur »</li><li>Abonnement requis pour le jeu en ligne</li><li>Achats intra jeux facultatifs</li><li>Interaction entre les utilisateurs</li><li>Jeu en ligne facultatif</li></ul>"
           }
         },
         {
@@ -66,7 +66,7 @@
                 "content": "<p>oui</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                  "diagnosis": "<p>Et non ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. </p>"
                 }
               },
               {
@@ -74,7 +74,7 @@
                 "content": "<p>non</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Bien joué ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. Voyons cela ensemble !</p>"
+                  "diagnosis": "<p>Bien joué ! Sur la boîte ou la fiche d’un jeu, plusieurs informations permettent de savoir si un jeu est adapté pour un enfant, en fonction de son âge notamment. </p>"
                 }
               }
             ],
@@ -121,7 +121,7 @@
                   "type": "image",
                   "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boitier_alva.png",
                   "alt": "Boîte du jeu vidéo Les chroniques d’Alva détaillée dans l’alternative textuelle",
-                  "alternativeText": "<p>Boîte du jeu vidéo Les chroniques d’Alva&nbsp;:&nbsp;<br></p><ul><li>Illustration d’une elfe, de dos, avec une lance à la main qui regarde un chateau au loin.</li><li>Titre Les chroniques d’Alva </li><li>Pictogramme «&nbsp;PEGI 12 &nbsp;»</li></ul>"
+                  "alternativeText": "<p>Boîte du jeu vidéo « Les chroniques d’Alva&nbsp;»&nbsp;:&nbsp;<br></p><ul><li>Illustration d’une elfe, de dos, avec une lance à la main qui regarde un chateau au loin.</li><li>Titre « Les chroniques d’Alva&nbsp;»</li><li>Pictogramme «&nbsp;PEGI 12 &nbsp;»</li></ul>"
                 },
                 {
                   "id": "1255d0bf-0434-4add-9873-051c841af667",
@@ -164,7 +164,7 @@
                   "type": "image",
                   "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_pixelworld.png",
                   "alt": "capture d’écran de la page d’installation du Pixel World détaillée dans l’alternative textuelle",
-                  "alternativeText": "<p>Fiche du jeu vidéo Pixel world&nbsp;:</p><ul><li>Pixel world</li><li>Pixel industry</li><li>Action et aventure, Famille et enfants</li><li>4,2 étoiles, 23,5k avis</li><li>Bouton «&nbsp;Obtenir&nbsp;»</li><li>Pictogramme «&nbsp;Pegi !&nbsp;»</li></ul>"
+                  "alternativeText": "<p>Fiche du jeu vidéo «Pixel world&nbsp;»&nbsp;:</p><ul><li>Titre « Pixel world&nbsp;»</li><li>Pixel industry</li><li>Action et aventure, Famille et enfants</li><li>4,2 étoiles, 23,5k avis</li><li>Bouton «&nbsp;Obtenir&nbsp;»</li><li>Pictogramme «&nbsp;Pegi !&nbsp;»</li></ul>"
                 },
                 {
                   "id": "10dfb9e3-02de-4f3f-b7d1-aae0d1991f9e",
@@ -173,7 +173,7 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "<p>Le jeu doit être utilisé avec l’accompagnement des parents</p>",
+                      "content": "<p>Le jeu doit être utilisé avec l’accompagnement des parents.</p>",
                       "feedback": {
                         "state": "",
                         "diagnosis": "<p> Effectivement, ce pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs. Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p>"
@@ -184,7 +184,7 @@
                       "content": "<p>Le jeu n’a aucune recommandation PEGI.</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p>"
+                        "diagnosis": "<p>Et non ! Le pictogramme «&nbsp;!&nbsp;» fait partie de la signalétique PEGI. Il signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs. Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient  d’accompagner les enfants dans leur utilisation.</p>"
                       }
                     },
                     {
@@ -192,7 +192,7 @@
                       "content": "<p>Le jeu est déconseillé aux enfants de moins de 7 ans.</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Pas tout à fait. Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient donc d’accompagner les enfants dans leur utilisation.</p><p></p>"
+                        "diagnosis": "<p>Pas tout à fait. Le pictogramme «&nbsp;!&nbsp;» signale des jeux ou applications qui contiennent une grande variété de contenus créés par les utilisateurs.&nbsp;Il peut donc y avoir des contenus non adaptés aux enfants ! Il convient d’accompagner les enfants dans leur utilisation.</p><p><br></p>"
                       }
                     }
                   ],
@@ -226,7 +226,7 @@
             "url": "https://assets.pix.org/modules/jeux-video-enfant/signaletique_pegi_ppn3.mp4",
             "poster": "https://assets.pix.org/modules/jeux-video-enfant/signaletique_pegi_ppn3.jpg",
             "subtitles": "https://assets.pix.org/modules/jeux-video-enfant/signaletique_pegi_ppn3.vtt",
-            "transcription": "<p>La signalétique PEGI<br><br> Franck regarde la fiche du jeu vidéo que sa fille aimerait avoir. <br>Ce jeu est-il adapté à son âge ?&nbsp; <br>Pour le savoir, Franck peut s’appuyer sur la signalétique PEGI. La signalétique PEGI est un ensemble de pictogrammes qui sont présents sur tous les jeux vendus en France et dans de nombreux pays, que ce soit sur les boîtes vendues en magasins ou sur les boutiques en ligne.&nbsp; <br>Ces pictogrammes donnent une indication aux parents mais ils n’interdisent pas la vente des jeux.&nbsp; La première série de pictogrammes marque le fait que le jeu n’est pas adapté aux enfants en dessous de l’âge indiqué. Ainsi, un jeu avec le pictogramme PEGI 7 sera déconseillé aux enfants de moins de 7 ans.&nbsp; Attention, ces pictogrammes n’indiquent pas la difficulté du jeu par rapport à l’âge de l’enfant. <br>Par exemple, un jeu avec le pictogramme PEGI 3 ne contient pas de contenus choquants pour un enfant de 3 ans, mais il peut être trop compliqué pour lui ! (ex échec) <br>A côté du pictogramme d’âge, il peut y avoir, en plus, des marqueurs thématiques qui donnent une information sur le contenu du jeu Sur certains jeux ou applications, il n’y a pas de pictogramme d’âge, mais un pictogramme “Accompagnement des parents recommandé”.&nbsp; <br>Ce pictogramme est présent sur des jeux et applications qui contiennent des contenus créés par les utilisateurs. Il peut donc y avoir des contenus adaptés pour les plus jeunes mais d’autres moins, il vaut donc mieux utiliser le jeu en étant accompagné par les parents. <br>Et si, comme Franck, vous voulez en savoir plus sur la signalétique PEGI, rendez-vous sur pédagojeux.fr. PédaGoJeux est un collectif qui informe et accompagne les familles autour des jeux vidéo.</p>"
+            "transcription": "<p>La signalétique PEGI<br><br> Franck regarde la fiche du jeu vidéo que sa fille aimerait avoir. <br>Ce jeu est-il adapté à son âge ?&nbsp; <br>Pour le savoir, Franck peut s’appuyer sur la signalétique PEGI. La signalétique PEGI est un ensemble de pictogrammes qui sont présents sur tous les jeux vendus en France et dans de nombreux pays, que ce soit sur les boîtes vendues en magasins ou sur les boutiques en ligne.&nbsp; <br>Ces pictogrammes donnent une indication aux parents mais ils n’interdisent pas la vente des jeux.&nbsp;La première série de pictogrammes marque le fait que le jeu n’est pas adapté aux enfants en dessous de l’âge indiqué. Ainsi, un jeu avec le pictogramme PEGI 7 sera déconseillé aux enfants de moins de 7 ans.&nbsp;Attention, ces pictogrammes n’indiquent pas la difficulté du jeu par rapport à l’âge de l’enfant. <br>Par exemple, un jeu avec le pictogramme PEGI 3 ne contient pas de contenus choquants pour un enfant de 3 ans, mais il peut être trop compliqué pour lui ! À côté du pictogramme d’âge, il peut y avoir, en plus, des marqueurs thématiques qui donnent une information sur le contenu du jeu. Sur certains jeux ou applications, il n’y a pas de pictogramme d’âge, mais un pictogramme « Accompagnement des parents recommandé ».&nbsp; <br>Ce pictogramme est présent sur des jeux et applications qui contiennent des contenus créés par les utilisateurs. Il peut donc y avoir des contenus adaptés pour les plus jeunes mais d’autres moins, il vaut donc mieux utiliser le jeu en étant accompagné par les parents. <br>Et si, comme Franck, vous voulez en savoir plus sur la signalétique PEGI, rendez-vous sur pédagojeux.fr. PédaGoJeux est un collectif qui informe et accompagne les familles autour des jeux vidéo.</p>"
           }
         }
       ]
@@ -256,14 +256,14 @@
           "element": {
             "id": "db51f147-b80d-4ca1-af7c-b4e052b8f6c8",
             "type": "qcu",
-            "instruction": "<p>A votre avis, quels jeux vidéo peuvent proposer d'acheter des bonus pendant le jeu ? </p>",
+            "instruction": "<p>À votre avis, quels jeux vidéo peuvent proposer d'acheter des bonus pendant le jeu ? </p>",
             "proposals": [
               {
                 "id": "1",
                 "content": "<p>les jeux payants<br></p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
+                  "diagnosis": "<p>Pas tout à fait ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
               },
               {
@@ -271,7 +271,7 @@
                 "content": "<p>les jeux gratuits</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
+                  "diagnosis": "<p>Pas tout à fait ! En&nbsp;fait, tous les jeux, qu'ils soient gratuits ou payants, peuvent proposer des achats en cours de jeu.</p>"
                 }
               },
               {
@@ -310,7 +310,7 @@
           "element": {
             "id": "8d643cd3-6b97-4817-a495-0cf23e06e375",
             "type": "text",
-            "content": "<p>👛 Dans un jeu vidéo (gratuit ou payant), des achats de quelques centimes ou euros peuvent être proposés tout au long de la partie pour obtenir, par exemple&nbsp;: </p><ul>    <li>de la <strong>monnaie virtuelle</strong>&nbsp;</li>    <li>des <strong>bonus </strong>ou des <strong>vies </strong>supplémentaires</li>    <li>des améliorations pour les personnages&nbsp;</li></ul><p>Ces achats en jeu sont appelés des <strong>achats intégrés</strong>.</p><p>⚠️ <strong>Attention</strong><br> Même si ce sont des petites sommes d’argent, la facture peut vite grimper ! Et si une carte bancaire est enregistrée sur l’appareil (smartphone, console, etc.), l’achat sera débité automatiquement sans que vous soyez averti.</p>"
+            "content": "<p>👛 Dans un jeu vidéo (gratuit ou payant), des achats de quelques centimes ou euros peuvent être proposés tout au long de la partie pour obtenir, par exemple&nbsp;: </p><ul>    <li>de la <strong>monnaie virtuelle</strong>&nbsp;</li>    <li>des <strong>bonus </strong>ou des <strong>vies </strong>supplémentaires</li>    <li>des améliorations pour les personnages&nbsp;</li></ul><p>Ces achats en jeu sont appelés des <strong>achats intégrés</strong>.</p><p>⚠️ <strong>Attention</strong><br> Même si ce sont de petites sommes d’argent, la facture peut vite grimper ! Et si une carte bancaire est enregistrée sur l’appareil (smartphone, console, etc.), l’achat sera débité automatiquement sans que vous soyez averti.</p>"
           }
         }
       ]
@@ -327,7 +327,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_boitier_cake.png",
             "alt": "Dos de la boîte d’un jeu vidéo détaillée dans l’alternative textuelle",
-            "alternativeText": "<p>Dos de la boîte d’un jeu vidéo&nbsp;:&nbsp;</p><ul>    <li>Présentation du jeu&nbsp;: <ul>            <li>Courez ! Sautez ! Explorez les mondes des gateaux et aidez Flora la pâtissière à traverser plus de 80 niveaux !</li>            <li>Nouveau&nbsp;:&nbsp;Saupoudrage scintillant</li>            <li>Nouveau&nbsp;:&nbsp;Dragée explosive</li>            <li>Nouveau&nbsp;:&nbsp;Coeur chocolat coulant</li>        </ul>    </li>    <li>Caractéristiques&nbsp;:<ul>            <li>Multijoueur local&nbsp;:&nbsp;jusqu’à 8 joueurs</li>            <li>Jeu en ligne&nbsp;:&nbsp;jusqu’à 12 joueurs</li>            <li>Online&nbsp;:&nbsp;Le jeu en ligne nécessite un abonnement payant au service Online.</li>            <li>Pictogramme Pegi 3</li>            <li>Pictogramme Achats intégrés</li>            <li>Compatible manette pro</li>            <li>Compatible volant</li>        </ul>    </li>    <li>Avertissements&nbsp;:&nbsp; <ul>            <li>Attention, chez certaines personnes, l’utilisation de ce jeu nécessite des précautions d’emploi particulières qui sont détaillées dans la notice jointe.</li>            <li>Ce logiciel peut comporter du placement de produit et de la publicité.</li>            <li>Ne jetez pas cette carte de jeu à la poubelle.</li>        </ul>    </li></ul>",
+            "alternativeText": "<p>Dos de la boîte d’un jeu vidéo&nbsp;:&nbsp;</p><ul>    <li>Présentation du jeu&nbsp;: <ul>            <li>Courez ! Sautez ! Explorez les mondes des gâteaux et aidez Flora la pâtissière à traverser plus de 80 niveaux !</li>            <li>Nouveau&nbsp;:&nbsp;Saupoudrage scintillant</li>            <li>Nouveau&nbsp;:&nbsp;Dragée explosive</li>            <li>Nouveau&nbsp;:&nbsp;Cœur  chocolat coulant</li>        </ul>    </li>    <li>Caractéristiques&nbsp;:<ul>            <li>Multijoueur local&nbsp;:&nbsp;jusqu’à 8 joueurs</li>            <li>Jeu en ligne&nbsp;:&nbsp;jusqu’à 12 joueurs</li>            <li>Online&nbsp;:&nbsp;Le jeu en ligne nécessite un abonnement payant au service Online.</li>            <li>Pictogramme « Pegi 3 »</li>            <li>Pictogramme « Achats intégrés »</li>            <li>Compatible manette pro</li>            <li>Compatible volant</li>        </ul>    </li>    <li>Avertissements&nbsp;:&nbsp; <ul>            <li>Attention, chez certaines personnes, l’utilisation de ce jeu nécessite des précautions d’emploi particulières qui sont détaillées dans la notice jointe.</li>            <li>Ce logiciel peut comporter du placement de produit et de la publicité.</li>            <li>Ne jetez pas cette carte de jeu à la poubelle.</li>        </ul>    </li></ul>",
             "legend": "",
             "licence": ""
           }
@@ -352,7 +352,7 @@
                 "content": "<p>Il y a des achats intégrés dans ce jeu.</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et oui ! Un pictogramme «&nbsp;Achats intégrés&nbsp;» à côté du pictogramme «&nbsp;PEGI 3&nbsp;» indique ce jeu contient des achats intégrés.</p>"
+                  "diagnosis": "<p>Et oui ! Un pictogramme «&nbsp;Achats intégrés&nbsp;» à côté du pictogramme «&nbsp;PEGI 3&nbsp;» indique que ce jeu contient des achats intégrés.</p>"
                 }
               }
             ],
@@ -381,7 +381,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_achats_integres_mentions.png",
             "alt": "Image du pictogramme PEGI décrite dans l’alternative textuelle",
-            "alternativeText": "<p>Images du Pictogramme PEGI Achats intégrés et des différentes mentions&nbsp;: «&nbsp;achats intra-jeu&nbsp;», «&nbsp;achats intra-jeu facultatifs&nbsp;», «&nbsp;inclut des achats intégrés&nbsp;», «&nbsp;achats intra-jeu (y compris divers articles&nbsp;», «&nbsp;achats numériques&nbsp;».</p>",
+            "alternativeText": "<p>Images du Pictogramme PEGI « Achats intégrés » et des différentes mentions&nbsp;: «&nbsp;achats intra-jeu&nbsp;», «&nbsp;achats intra-jeu facultatifs&nbsp;», «&nbsp;inclut des achats intégrés&nbsp;», «&nbsp;achats intra-jeu (y compris divers articles&nbsp;», «&nbsp;achats numériques&nbsp;».</p>",
             "legend": "",
             "licence": ""
           }
@@ -408,7 +408,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/jeux-video-enfant/ppn3_lornitteclan.png",
             "alt": "capture d’écran de la page d’installation du jeu vidéo Lorttnite Clan détaillée dans l’alternative textuelle",
-            "alternativeText": "<p>Jeu Lorttnite Clan&nbsp;:    4,1 étoiles    Communauté compétitive    Commandes rapides à maîtriser    Lien «&nbsp;vue d’ensemble&nbsp;»    Contenus additionnels    FAQ    Pegi 12    Violence, achats dans le jeu (inclut des éléments aléatoires)    Jeu de base    Gratuit    Boutons&nbsp;: «&nbsp;obtenir&nbsp;», «&nbsp;ajouter au panier&nbsp;», «&nbsp;ajouter à la liste de souhaits&nbsp;»</p>",
+            "alternativeText": "<p>Jeu Lorttnite Clan&nbsp;:</p><ul><li>   4,1 étoiles   </li><li>Communauté compétitive   </li><li>Commandes rapides à maîtriser   </li><li>Lien «&nbsp;vue d’ensemble&nbsp;»   </li><li>Contenus additionnels   </li><li>FAQ </li><li>Pictogramme « PEGI 12 »,   Violence, achats dans le jeu (inclut des éléments aléatoires)    </li><li>Jeu de base   </li><li>Gratuit   </li><li>Boutons&nbsp;: «&nbsp;obtenir&nbsp;», «&nbsp;ajouter au panier&nbsp;», «&nbsp;ajouter à la liste de souhaits&nbsp;»</li></ul>",
             "legend": "",
             "licence": ""
           }
@@ -472,7 +472,7 @@
           "element": {
             "id": "051ce5cd-3dcc-45a2-a1cd-a9ab74763588",
             "type": "text",
-            "content": "<p>📦 Une loot box (boîte à butins) est un <strong>objet virtuel </strong> (un coffre, une boîte, ... etc) qu’un joueur peut acheter dans le jeu.<br>Chaque loot box contient des objets, communs ou très rares, à utiliser dans le jeu.<br><strong>Ce contenu est aléatoire, comme pour une pochette-surprise ou des cartes à collectionner.</strong><br>Le joueur est souvent incité à acheter des loot boxes lors des parties, pour obtenir l’objet qu’il souhaite ou pour avancer plus efficacement dans le jeu.</p><p><br>🤔 <strong>Bon à savoir</strong>&nbsp;<br>Depuis mai 2020, un jeu qui propose des loot boxes doit obligatoirement indiquer «&nbsp;<strong>Inclut des contenus aléatoires</strong>&nbsp;» sur la boîte ou la fiche du jeu.</p>"
+            "content": "<p>📦 Une loot box (boîte à butins) est un <strong>objet virtuel </strong> (un coffre, une boîte, etc) qu’un joueur peut acheter dans le jeu.<br>Chaque loot box contient des objets, communs ou très rares, à utiliser dans le jeu.<br><strong>Ce contenu est aléatoire, comme pour une pochette-surprise ou des cartes à collectionner.</strong><br>Le joueur est souvent incité à acheter des loot boxes lors des parties, pour obtenir l’objet qu’il souhaite ou pour avancer plus efficacement dans le jeu.</p><p><br>🤔 <strong>Bon à savoir</strong>&nbsp;<br>Depuis mai 2020, un jeu qui propose des loot boxes doit obligatoirement indiquer «&nbsp;<strong>Inclut des contenus aléatoires</strong>&nbsp;» sur la boîte ou la fiche du jeu.</p>"
           }
         }
       ]
@@ -555,7 +555,7 @@
                 {
                   "id": "d85a05a1-0c9d-4ce7-ad25-9333eb3a75c3",
                   "type": "text",
-                  "content": "<h3>Quels sont les risques ?</h3><p>Il est impossible de savoir qui se trouve réellement de l’autre côté de l’écran. Les personnes avec de mauvaises intentions cherchent souvent à&nbsp;: </p><ul><li>manipuler les autres joueurs,</li><li>proposer des rencontres dans la vraie vie,</li><li>pousser à partager des photos ou des informations personnelles.</li></ul><p>⚠️ <strong>Attention</strong><br>Même avec un jeu qui ne permet pas de discuter avec d’autres joueurs, ce risque n’est pas écarté. En effet, certaines consoles permettent de discuter en ligne, tout comme les ordinateurs et les smartphones.</p>"
+                  "content": "<h3>Quels sont les risques des discussions en ligne ?</h3><p>Il est impossible de savoir qui se trouve réellement de l’autre côté de l’écran. Les personnes avec de mauvaises intentions cherchent souvent à&nbsp;: </p><ul><li>manipuler les autres joueurs</li><li>proposer des rencontres dans la vraie vie</li><li>pousser à partager des photos ou des informations personnelles</li></ul><p>⚠️ <strong>Attention</strong><br>Même avec un jeu qui ne permet pas de discuter avec d’autres joueurs, ce risque n’est pas écarté. En effet, certaines consoles permettent de discuter en ligne, tout comme les ordinateurs et les smartphones.</p>"
                 }
               ]
             },
