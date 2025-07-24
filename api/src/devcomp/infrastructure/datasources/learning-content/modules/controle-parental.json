@@ -382,7 +382,7 @@
           "element": {
             "id": "2b03d03b-39fd-433a-8895-1144aa69d766",
             "type": "text",
-            "content": "<p> Voici les 4 points à retenir sur le contrôle parental&nbsp;: </p><ul>    <li>Il est un <strong>outil numérique pour protéger les enfants et encadrer leurs usages numériques.</strong>&nbsp;🛡️</li>    <li>Il ne<strong> remplace pas les échanges parents-enfants</strong>, il les complète !&nbsp;🗣️</li>    <li>Il a de nombreuses fonctionnalités&nbsp;: <strong>gestion du temps en ligne, filtrage des contenus et suivi des activités</strong>.&nbsp;⏳</li><li>Il est possible d'activer du contrôle parental <strong>sur tous les appareils connectés</strong> vendus en France depuis 2024.&nbsp;🌐</li>    <li>Pour l’activer et le paramétrer, rendez-vous dans les <strong>paramètres</strong> de l'appareil ou du service en ligne.&nbsp;⚙️</li></ul>"
+            "content": "<p> Voici les principaux points à retenir sur le contrôle parental&nbsp;: </p><ul>    <li>Il est un <strong>outil numérique pour protéger les enfants et encadrer leurs usages numériques.</strong>&nbsp;🛡️</li>    <li>Il ne<strong> remplace pas les échanges parents-enfants</strong>, il les complète !&nbsp;🗣️</li>    <li>Il a de nombreuses fonctionnalités&nbsp;: <strong>gestion du temps en ligne, filtrage des contenus et suivi des activités</strong>.&nbsp;⏳</li><li>Il est possible d'activer du contrôle parental <strong>sur tous les appareils connectés</strong> vendus en France depuis 2024.&nbsp;🌐</li>    <li>Pour l’activer et le paramétrer, rendez-vous dans les <strong>paramètres</strong> de l'appareil ou du service en ligne.&nbsp;⚙️</li></ul>"
           }
         }
       ]
@@ -630,7 +630,7 @@
     },
     {
       "id": "8a517ecc-2145-4bb5-9d90-afb26fe71c2f",
-      "type": "discovery",
+      "type": "transition",
       "title": "Pour aller plus loin",
       "components": [
         {
