@@ -108,6 +108,8 @@
     "showdown": "^2.1.0",
     "sinon": "^21.0.0",
     "stylelint": "^16.21.1",
+    "survey-creator-core": "^2.2.6",
+    "survey-creator-js": "^2.2.6",
     "tracked-built-ins": "^4.0.0",
     "webpack": "^5.100.2",
     "xss": "^1.0.15"

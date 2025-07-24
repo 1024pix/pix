@@ -33,6 +33,8 @@ Router.map(function () {
 
   // private routes
   this.route('authenticated', { path: '' }, function () {
+    this.route('forms-creator');
+
     // all routes that require the session to be authenticated
     this.route('quest-creator');
     this.route('quest-new-or-edit-snippet');
