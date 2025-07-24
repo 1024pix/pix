@@ -388,14 +388,14 @@
       ]
     },
     {
-      "id": "9fc6d407-220f-4f0f-a68b-bbe62f83a814",
+      "id": "b6f2605d-2704-4597-aa90-0b4fd0a904b3",
       "type": "activity",
       "title": "Activité d'application - 1 : vrai-faux à créer",
       "components": [
         {
           "type": "element",
           "element": {
-            "id": "510822a9-aba9-43e0-8ef7-cd5f377ae78d",
+            "id": "06f7d661-40da-4b6d-adf3-40e98cc3f2dc",
             "type": "qab",
             "instruction": "<p>Voyons si vous avez retenu l'essentiel.<br>Répondez aux affirmations suivantes.</p>",
             "cards": [
