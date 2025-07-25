@@ -598,7 +598,7 @@
           "element": {
             "id": "4efaa439-2698-4ef9-b61e-a60f88e1a9fb",
             "type": "text",
-            "content": "<p>Grâce au contrôle parental, Nina va pouvoir accompagner Max dans ses usages numériques plus sereinement.<br>Pour terminer ce module, trouvez les options de contrôle parental de vos appareils connectés.&nbsp;🔎<br></p>"
+            "content": "<p>Grâce au contrôle parental, Nina va pouvoir accompagner Max dans ses usages numériques plus sereinement. 👏</p>"
           }
         }
       ]
@@ -613,22 +613,30 @@
           "element": {
             "id": "6ce0eec7-8b4e-4b28-8805-ed83a2b8db68",
             "type": "qcu-declarative",
-            "instruction": "<p>Avez-vous réussi à trouver les options de contrôle parental de vos appareils ?</p>",
+            "instruction": "<p>Avez-vous déjà utilisé un outil de contrôle parental sur vos appareils ou ceux utilisés par vos enfants ?</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>oui</p>",
+                "content": "<p>Oui, vous avez déjà utilisé un outil de contrôle parental.</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Bravo ! ✨ Vous pouvez aussi regarder sur les sites et plateformes en ligne s'ils proposent des options de contrôle parental.</p>"
+                  "diagnosis": "<p>Super ! ✨ C’est un bon moyen de compléter le dialogue avec vos enfants. N’hésitez pas à réévaluer régulièrement les réglages selon leurs âges et leurs usages. Ce module vous donne déjà des pistes, et il existe des ressources pour aller plus loin.</p>"
                 }
               },
               {
                 "id": "2",
-                "content": "<p>non</p>",
+                "content": "<p>Pas encore, mais vous y pensez.</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Avez-vous regardé dans les paramètres de vos appareils ? Il y a souvent un symbole de roue crantée.&nbsp;⚙️</p>"
+                  "diagnosis": "<p>Si vous avez envie de vous lancer, vous pouvez commencer simplement, par exemple en explorant les paramètres d’un seul appareil. Ce module vous donne déjà des pistes, et il existe des ressources pour aller plus loin.</p>"
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Non, vous n'en avez pas besoin pour l'instant.</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>L’important est de rester informé et prêt à agir si le besoin se présente. Ce module vous donne déjà des pistes, et il existe des ressources pour aller plus loin.</p>"
                 }
               }
             ]
