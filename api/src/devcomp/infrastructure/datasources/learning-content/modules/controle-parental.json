@@ -59,24 +59,32 @@
                 "id": "1",
                 "content": "<p>Il permet d’encadrer les pratiques numériques de son enfant.</p>",
                 "feedback": {
-                  "state": "Bonne réponse !&nbsp;🎉",
-                  "diagnosis": "<p>En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
+                  "state": "",
+                  "diagnosis": "<p>Bien joué ! En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
                 }
               },
               {
                 "id": "2",
                 "content": "<p>Il permet de surveiller la santé de son enfant.</p>",
                 "feedback": {
-                  "state": "Mauvaise réponse.",
-                  "diagnosis": "<p>Le contrôle parental ne concerne pas la surveillance de la santé.<br>Il permet d’encadrer les pratiques numériques de son enfant. En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
+                  "state": "",
+                  "diagnosis": "<p>Et non ! Le contrôle parental ne concerne pas la surveillance de la santé.<br>Il permet d’encadrer les pratiques numériques de son enfant. En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
                 }
               },
               {
                 "id": "3",
                 "content": "<p>Il permet de vérifier que son enfant a fait ses devoirs scolaires.</p>",
                 "feedback": {
-                  "state": "Mauvaise réponse.",
-                  "diagnosis": "<p>Le contrôle parental ne concerne pas le suivi de la scolarité.<br>Il permet d’encadrer les pratiques numériques de son enfant. En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
+                  "state": "",
+                  "diagnosis": "<p>Et non ! Le contrôle parental ne concerne pas le suivi de la scolarité.<br>Il permet d’encadrer les pratiques numériques de son enfant. En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
+                }
+              },
+              {
+                "id": "4",
+                "content": "<p>Je ne sais pas.</p>",
+                "feedback": {
+                  "state": "",
+                  "diagnosis": "<p>En fait, le contrôle parental permet d’encadrer les pratiques numériques de son enfant. En plus du contrôle parental, des temps de discussion entre parents et enfants sont indispensables pour accompagner les pratiques numériques des enfants.</p>"
                 }
               }
             ],
@@ -242,7 +250,7 @@
           "element": {
             "id": "fe57ddca-0827-45b1-ab8a-59a92ca48ce9",
             "type": "text",
-            "content": "<p>Découvrons plus en détails les principales fonctionnalités des outils de contrôle parental.</p>"
+            "content": "<p>Dans la vidéo suivante, apprenez-en plus sur les principales fonctionnalités des outils de contrôle parental.</p>"
           }
         },
         {
