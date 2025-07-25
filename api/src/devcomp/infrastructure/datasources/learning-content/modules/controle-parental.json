@@ -613,7 +613,7 @@
           "element": {
             "id": "6ce0eec7-8b4e-4b28-8805-ed83a2b8db68",
             "type": "qcu-declarative",
-            "instruction": "<p>Avez-vous déjà utilisé un outil de contrôle parental sur vos appareils ou ceux utilisés par vos enfants ?</p>",
+            "instruction": "<p>Avez-vous déjà utilisé un outil de contrôle parental sur vos appareils ou ceux de vos enfants ?</p>",
             "proposals": [
               {
                 "id": "1",
