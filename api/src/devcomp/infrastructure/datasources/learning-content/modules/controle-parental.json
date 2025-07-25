@@ -617,7 +617,7 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>Oui, vous avez déjà utilisé un outil de contrôle parental.</p>",
+                "content": "<p>Oui, j'ai déjà utilisé un outil de contrôle parental.</p>",
                 "feedback": {
                   "state": "",
                   "diagnosis": "<p>Super ! ✨ C’est un bon moyen de compléter le dialogue avec vos enfants. N’hésitez pas à réévaluer régulièrement les réglages selon leurs âges et leurs usages. Ce module vous donne déjà des pistes, et il existe des ressources pour aller plus loin.</p>"
@@ -625,7 +625,7 @@
               },
               {
                 "id": "2",
-                "content": "<p>Pas encore, mais vous y pensez.</p>",
+                "content": "<p>Pas encore, mais j'y pense.</p>",
                 "feedback": {
                   "state": "",
                   "diagnosis": "<p>Si vous avez envie de vous lancer, vous pouvez commencer simplement, par exemple en explorant les paramètres d’un seul appareil. Ce module vous donne déjà des pistes, et il existe des ressources pour aller plus loin.</p>"
@@ -633,7 +633,7 @@
               },
               {
                 "id": "3",
-                "content": "<p>Non, vous n'en avez pas besoin pour l'instant.</p>",
+                "content": "<p>Non, je n'en ai pas besoin pour l'instant.</p>",
                 "feedback": {
                   "state": "",
                   "diagnosis": "<p>L’important est de rester informé et prêt à agir si le besoin se présente. Ce module vous donne déjà des pistes, et il existe des ressources pour aller plus loin.</p>"
