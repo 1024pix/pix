@@ -4,7 +4,7 @@ const acceptOrganizationInvitation = async function ({
   organizationInvitationId,
   code,
   email,
-  localeFromCookie,
+  locale,
   organizationInvitationRepository,
   organizationInvitedUserRepository,
   userRepository,
@@ -20,9 +20,9 @@ const acceptOrganizationInvitation = async function ({
     throw error;
   }
 
-  if (localeFromCookie) {
+  if (locale) {
     const user = await userRepository.get(organizationInvitedUser.userId);
-    user.setLocaleIfNotAlreadySet(localeFromCookie);
+    user.setLocaleIfNotAlreadySet(locale);
     if (user.hasBeenModified) {
       await userRepository.update({ id: user.id, locale: user.locale });
     }

@@ -102,11 +102,15 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
           // given
           const email = 'user_with_a_locale@example.net';
           const password = 'some password';
-          const locale = 'fr-BE';
-          const userId = databaseBuilder.factory.buildUser.withRawPassword({ email, rawPassword: password, locale }).id;
+          const initialLocale = 'fr-BE';
+          const userId = databaseBuilder.factory.buildUser.withRawPassword({
+            email,
+            rawPassword: password,
+            locale: initialLocale,
+          }).id;
           await databaseBuilder.commit();
 
-          const localeFromCookie = 'nl-BE';
+          const locale = 'nl-BE';
           const audience = 'https://app.pix.fr';
           const requestedApplication = RequestedApplication.fromOrigin(audience);
 
@@ -114,14 +118,14 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
           await usecases.authenticateUser({
             username: email,
             password,
-            localeFromCookie,
+            locale,
             requestedApplication,
             audience,
           });
 
           // then
           const user = await knex('users').where({ id: userId }).first();
-          expect(user.locale).to.equal('fr-BE');
+          expect(user.locale).to.equal(initialLocale);
         });
       });
 
@@ -134,7 +138,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
             const userId = databaseBuilder.factory.buildUser.withRawPassword({ email, rawPassword: password }).id;
             await databaseBuilder.commit();
 
-            const localeFromCookie = 'nl-BE';
+            const locale = 'nl-BE';
             const audience = 'https://app.pix.fr';
             const requestedApplication = RequestedApplication.fromOrigin(audience);
 
@@ -142,7 +146,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
             await usecases.authenticateUser({
               username: email,
               password,
-              localeFromCookie,
+              locale,
               requestedApplication,
               audience,
             });

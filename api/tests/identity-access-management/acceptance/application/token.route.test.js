@@ -282,7 +282,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       context('when the user has no locale saved', function () {
         it('updates the user locale with the locale cookie', async function () {
           // given
-          const localeFromCookie = 'fr';
+          const locale = 'fr';
           const email = 'user-without-locale@example.net';
           const userWithoutLocale = databaseBuilder.factory.buildUser.withRawPassword({
             email,
@@ -295,7 +295,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
             url: '/api/token',
             dataToPost: { grant_type: 'password', username: userWithoutLocale.email, password: userPassword },
             applicationName: 'app',
-            localeFromCookie,
+            locale,
           });
 
           // when
@@ -304,14 +304,14 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
           // then
           expect(response.statusCode).to.equal(200);
           const user = await knex('users').where({ id: userWithoutLocale.id }).first();
-          expect(user.locale).to.equal(localeFromCookie);
+          expect(user.locale).to.equal(locale);
         });
       });
 
       context('when the user has already a locale saved', function () {
         it('does not update the user locale', async function () {
           // given
-          const localeFromCookie = 'fr-BE';
+          const locale = 'fr-BE';
           const userLocale = 'fr';
           const email = 'user-with-locale@example.net';
           const userWithLocale = databaseBuilder.factory.buildUser.withRawPassword({
@@ -329,7 +329,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
               password: userPassword,
             },
             applicationName: 'app',
-            localeFromCookie,
+            locale,
           });
 
           // when
@@ -338,7 +338,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
           // then
           expect(response.statusCode).to.equal(200);
           const user = await knex('users').where({ id: userWithLocale.id }).first();
-          expect(user.locale).to.not.equal(localeFromCookie);
+          expect(user.locale).to.not.equal(locale);
           expect(user.locale).to.equal(userLocale);
         });
       });
@@ -614,7 +614,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
   });
 });
 
-function _getPostFormOptions({ url, dataToPost, applicationName, localeFromCookie }) {
+function _getPostFormOptions({ url, dataToPost, applicationName, locale }) {
   return {
     method: 'POST',
     url,
@@ -622,7 +622,7 @@ function _getPostFormOptions({ url, dataToPost, applicationName, localeFromCooki
       'content-type': 'application/x-www-form-urlencoded',
       'x-forwarded-proto': 'https',
       'x-forwarded-host': `${applicationName}.pix.fr`,
-      ...(localeFromCookie && { cookie: `locale=${localeFromCookie}` }),
+      ...(locale && { cookie: `locale=${locale}` }),
     },
     payload: querystring.stringify(dataToPost),
   };

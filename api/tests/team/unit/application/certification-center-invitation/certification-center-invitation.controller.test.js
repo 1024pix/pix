@@ -32,7 +32,7 @@ describe('Unit | Team | Application | Controller | Certification-center-invitati
         certificationCenterInvitationId,
         code,
         email: notValidEmail.trim().toLowerCase(),
-        localeFromCookie: undefined,
+        locale: undefined,
       });
       expect(response.statusCode).to.equal(204);
     });

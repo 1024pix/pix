@@ -122,7 +122,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
     const result = await createOidcUser({
       identityProvider: 'SOME_IDP',
       authenticationKey: 'AUTHENTICATION_KEY',
-      localeFromCookie: 'nl-BE',
+      locale: 'nl-BE',
       language,
       audience,
       authenticationSessionService,

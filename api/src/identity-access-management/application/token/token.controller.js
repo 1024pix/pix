@@ -41,7 +41,7 @@ const createToken = async function (request, h, dependencies = { tokenService })
       username,
       password,
       source,
-      localeFromCookie,
+      locale: localeFromCookie,
       audience: origin,
       requestedApplication,
     });

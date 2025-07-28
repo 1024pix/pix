@@ -52,7 +52,7 @@ describe('Unit | Identity Access Management | Application | Controller | Token',
         // given
         const expirationDelaySeconds = 6666;
         const refreshToken = 'refresh.token';
-        const localeFromCookie = 'fr-FR';
+        const locale = 'fr-FR';
         const request = {
           headers: {
             'content-type': 'application/x-www-form-urlencoded',
@@ -65,13 +65,13 @@ describe('Unit | Identity Access Management | Application | Controller | Token',
             password,
           },
           state: {
-            locale: localeFromCookie,
+            locale,
           },
         };
 
         sinon
           .stub(usecases, 'authenticateUser')
-          .withArgs({ username, password, source, localeFromCookie, audience, requestedApplication })
+          .withArgs({ username, password, source, locale, audience, requestedApplication })
           .resolves({ accessToken, refreshToken, expirationDelaySeconds });
 
         const tokenServiceStub = { extractUserId: sinon.stub() };

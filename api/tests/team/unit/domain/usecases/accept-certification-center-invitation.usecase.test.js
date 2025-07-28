@@ -33,9 +33,9 @@ describe('Unit | Team | Domain | UseCase | accept-certification-center-invitatio
     expect(error).to.be.an.instanceof(AlreadyExistingMembershipError);
   });
 
-  it('sets the user locale if there is a localeFromCookie, updates the invitation status to accepted with date and creates a membership for the user', async function () {
+  it('sets the user locale if there is a locale, updates the invitation status to accepted with date and creates a membership for the user', async function () {
     // given
-    const localeFromCookie = 'fr-BE';
+    const locale = 'fr-BE';
     const {
       certificationCenterInvitedUserRepository,
       certificationCenterMembershipRepository,
@@ -52,7 +52,7 @@ describe('Unit | Team | Domain | UseCase | accept-certification-center-invitatio
       certificationCenterInvitationId: certificationCenterInvitation.id,
       code,
       email,
-      localeFromCookie,
+      locale,
       certificationCenterInvitedUserRepository,
       certificationCenterMembershipRepository,
       userRepository,
@@ -65,9 +65,9 @@ describe('Unit | Team | Domain | UseCase | accept-certification-center-invitatio
     expect(userRepository.update).to.have.been.calledWithExactly({ id: user.id, locale: 'fr-BE' });
   });
 
-  it('does not sets the user locale if there is not a localeFromCookie, updates the invitation status to accepted with date and creates a membership for the user', async function () {
+  it('does not sets the user locale if there is not a locale, updates the invitation status to accepted with date and creates a membership for the user', async function () {
     // given
-    const localeFromCookie = null;
+    const locale = null;
     const {
       certificationCenterInvitedUserRepository,
       certificationCenterMembershipRepository,
@@ -82,7 +82,7 @@ describe('Unit | Team | Domain | UseCase | accept-certification-center-invitatio
       certificationCenterInvitationId: certificationCenterInvitation.id,
       code,
       email,
-      localeFromCookie,
+      locale,
       certificationCenterInvitedUserRepository,
       certificationCenterMembershipRepository,
       userRepository,

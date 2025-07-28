@@ -64,7 +64,7 @@ async function createUser(request, h, dependencies = { requestResponseUtils }) {
   const { accessToken: access_token, logoutUrlUUID: logout_url_uuid } = await usecases.createOidcUser({
     authenticationKey,
     identityProvider,
-    localeFromCookie,
+    locale: localeFromCookie,
     language,
     audience: origin,
     requestedApplication,

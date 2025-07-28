@@ -103,7 +103,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     context('when a "locale" cookie is present', function () {
       it('creates a user with a locale in database', async function () {
         // given
-        const localeFromCookie = 'fr';
+        const locale = 'fr';
         const userAttributes = {
           'first-name': 'John',
           'last-name': 'DoDoe',
@@ -116,7 +116,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           method: 'POST',
           url: '/api/users',
           headers: {
-            cookie: `locale=${localeFromCookie}`,
+            cookie: `locale=${locale}`,
           },
           payload: {
             data: {
@@ -132,7 +132,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
         // then
         const createdUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userAttributes.email);
-        expect(createdUser.locale).to.equal(localeFromCookie);
+        expect(createdUser.locale).to.equal(locale);
         expect(response.statusCode).to.equal(201);
       });
     });

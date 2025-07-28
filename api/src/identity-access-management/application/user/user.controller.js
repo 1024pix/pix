@@ -146,7 +146,7 @@ const createUser = async function (request, h, dependencies = { userSerializer, 
     user,
     password,
     redirectionUrl,
-    localeFromHeader,
+    locale: localeFromHeader,
     i18n: request.i18n,
   });
 

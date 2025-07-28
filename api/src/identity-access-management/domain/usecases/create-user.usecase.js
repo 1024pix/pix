@@ -6,7 +6,7 @@ import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
 /**
  * @param {Object} params
  * @property {string} campaignCode
- * @property {string} localeFromHeader
+ * @property {string} locale
  * @property {string} password
  * @property {string} user
  * @property {import('../../infrastructure/repositories/authentication-method.repository.js').AuthenticationMethodRepository} authenticationMethodRepository
@@ -21,7 +21,7 @@ import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
  * @return {Promise<User|undefined>}
  */
 const createUser = withTransaction(async function ({
-  localeFromHeader,
+  locale,
   password,
   user,
   authenticationMethodRepository,
@@ -61,7 +61,7 @@ const createUser = withTransaction(async function ({
 
   await emailRepository.sendEmailAsync(
     createAccountCreationEmail({
-      locale: localeFromHeader,
+      locale,
       email: savedUser.email,
       firstName: savedUser.firstName,
       token,

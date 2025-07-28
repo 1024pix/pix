@@ -79,7 +79,7 @@ describe('Unit | Domain | UseCases | accept-organization-invitation', function (
           organizationInvitationId,
           code,
           email,
-          localeFromCookie: undefined,
+          locale: undefined,
           organizationInvitationRepository,
           organizationInvitedUserRepository,
           userRepository,
@@ -99,7 +99,7 @@ describe('Unit | Domain | UseCases | accept-organization-invitation', function (
       context('when the user already has a locale', function () {
         it('must not update the user’s locale', async function () {
           // given
-          const { organizationInvitationId, code, email, localeFromCookie } = createContext({
+          const { organizationInvitationId, code, email, locale } = createContext({
             organizationInvitedUserRepository,
             userRepository,
             userLocale: 'fr-FR',
@@ -110,7 +110,7 @@ describe('Unit | Domain | UseCases | accept-organization-invitation', function (
             organizationInvitationId,
             code,
             email,
-            localeFromCookie,
+            locale,
             organizationInvitationRepository,
             organizationInvitedUserRepository,
             userRepository,
@@ -124,7 +124,7 @@ describe('Unit | Domain | UseCases | accept-organization-invitation', function (
       context('when the user does not already have a locale', function () {
         it('updates the user’s locale', async function () {
           // given
-          const { organizationInvitationId, code, email, localeFromCookie, user } = createContext({
+          const { organizationInvitationId, code, email, locale, user } = createContext({
             organizationInvitedUserRepository,
             userRepository,
             userLocale: null,
@@ -135,7 +135,7 @@ describe('Unit | Domain | UseCases | accept-organization-invitation', function (
             organizationInvitationId,
             code,
             email,
-            localeFromCookie,
+            locale,
             organizationInvitationRepository,
             organizationInvitedUserRepository,
             userRepository,
@@ -152,7 +152,7 @@ describe('Unit | Domain | UseCases | accept-organization-invitation', function (
 function createContext({ organizationInvitedUserRepository, userRepository, userLocale }) {
   const code = '123AZE';
   const email = 'user@example.net';
-  const localeFromCookie = 'fr-BE';
+  const locale = 'fr-BE';
   const organization = domainBuilder.buildOrganization();
   const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
     organizationId: organization.id,
@@ -169,5 +169,5 @@ function createContext({ organizationInvitedUserRepository, userRepository, user
   sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
 
   userRepository.get.withArgs(user.id).resolves(user);
-  return { organizationInvitationId, organizationInvitedUser, organization, code, email, localeFromCookie, user };
+  return { organizationInvitationId, organizationInvitedUser, organization, code, email, locale, user };
 }

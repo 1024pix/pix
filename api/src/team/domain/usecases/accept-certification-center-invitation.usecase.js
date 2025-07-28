@@ -4,7 +4,7 @@ const acceptCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
   code,
   email,
-  localeFromCookie,
+  locale,
   certificationCenterInvitedUserRepository,
   certificationCenterMembershipRepository,
   userRepository,
@@ -35,9 +35,9 @@ const acceptCertificationCenterInvitation = async function ({
     );
   }
 
-  if (localeFromCookie) {
+  if (locale) {
     const user = await userRepository.get(userId);
-    user.setLocaleIfNotAlreadySet(localeFromCookie);
+    user.setLocaleIfNotAlreadySet(locale);
     if (user.hasBeenModified) {
       await userRepository.update({ id: user.id, locale: user.locale });
     }

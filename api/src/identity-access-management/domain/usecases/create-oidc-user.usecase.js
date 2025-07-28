@@ -6,7 +6,7 @@ import { UserToCreate } from '../models/UserToCreate.js';
  * @param {{
  *   identityProvider: string,
  *   authenticationKey: string,
- *   localeFromCookie: string,
+ *   locale: string,
  *   language: string,
  *   authenticationSessionService: AuthenticationSessionService,
  *   oidcAuthenticationServiceRegistry: OidcAuthenticationServiceRegistry,
@@ -21,7 +21,7 @@ import { UserToCreate } from '../models/UserToCreate.js';
 async function createOidcUser({
   identityProvider,
   authenticationKey,
-  localeFromCookie,
+  locale,
   language,
   audience,
   authenticationSessionService,
@@ -53,7 +53,7 @@ async function createOidcUser({
   const user = UserToCreate.createWithTermsOfServiceAccepted({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
-    locale: localeFromCookie,
+    locale: locale,
     lang: language,
   });
 

@@ -21,7 +21,7 @@ const acceptCertificationCenterInvitation = async function (request, h) {
     certificationCenterInvitationId,
     code,
     email,
-    localeFromCookie,
+    locale: localeFromCookie,
   });
   return h.response({}).code(204);
 };

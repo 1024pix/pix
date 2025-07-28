@@ -33,7 +33,7 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
         organizationInvitationId: organizationInvitation.id,
         code,
         email,
-        localeFromCookie: undefined,
+        locale: undefined,
       });
     });
 

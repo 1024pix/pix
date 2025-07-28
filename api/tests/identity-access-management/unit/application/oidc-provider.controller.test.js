@@ -142,7 +142,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
       expect(usecases.createOidcUser).to.have.been.calledWithExactly({
         identityProvider: 'OIDC',
         authenticationKey: 'abcde',
-        localeFromCookie: 'fr-FR',
+        locale: 'fr-FR',
         language: 'fr',
         audience: 'https://app.pix.fr',
         requestedApplication: new RequestedApplication('app'),

@@ -17,7 +17,7 @@ const acceptOrganizationInvitation = async function (request) {
     organizationInvitationId,
     code,
     email,
-    localeFromCookie,
+    locale: localeFromCookie,
   });
   await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
   return null;

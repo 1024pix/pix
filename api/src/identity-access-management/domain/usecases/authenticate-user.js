@@ -18,7 +18,7 @@ import { RefreshToken } from '../models/RefreshToken.js';
  * @param {string} params.scope
  * @param {string} params.source
  * @param {string} params.username
- * @param {string} params.localeFromCookie
+ * @param {string} params.locale
  * @param {RefreshTokenRepository} params.refreshTokenRepository
  * @param {PixAuthenticationService} params.pixAuthenticationService
  * @param {TokenService} params.tokenService
@@ -37,7 +37,7 @@ const authenticateUser = async function ({
   password,
   source,
   username,
-  localeFromCookie,
+  locale,
   refreshTokenRepository,
   pixAuthenticationService,
   tokenService,
@@ -77,7 +77,7 @@ const authenticateUser = async function ({
       audience,
     });
 
-    user.setLocaleIfNotAlreadySet(localeFromCookie);
+    user.setLocaleIfNotAlreadySet(locale);
     if (user.hasBeenModified) {
       await userRepository.update({ id: user.id, locale: user.locale });
     }

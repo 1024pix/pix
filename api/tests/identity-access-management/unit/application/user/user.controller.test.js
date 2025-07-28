@@ -200,7 +200,6 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
 
     const deserializedUser = new User();
     const savedUser = new User({ email });
-    const localeFromHeader = 'fr-fr';
     let dependencies;
 
     beforeEach(function () {
@@ -260,19 +259,20 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
       describe('when there is a locale cookie', function () {
         it('returns a serialized user with "locale" attribute and a 201 status code', async function () {
           // given
-          const localeFromCookie = 'fr-FR';
-          const expectedSerializedUser = { message: 'serialized user', locale: localeFromCookie };
-          const savedUser = new User({ email, locale: localeFromCookie });
+          const localeFromHeader = 'fr-fr';
+          const locale = 'fr-FR';
+          const expectedSerializedUser = { message: 'serialized user', locale };
+          const savedUser = new User({ email, locale });
 
           const useCaseParameters = {
-            user: { ...deserializedUser, locale: localeFromCookie },
+            user: { ...deserializedUser, locale },
             password,
-            localeFromHeader,
+            locale: localeFromHeader,
             redirectionUrl: null,
             i18n: undefined,
           };
 
-          dependencies.localeService.getCanonicalLocale.returns(localeFromCookie);
+          dependencies.localeService.getCanonicalLocale.returns(locale);
           dependencies.userSerializer.serialize.returns(expectedSerializedUser);
           usecases.createUser.resolves(savedUser);
 
@@ -291,7 +291,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
                 },
               },
               state: {
-                locale: localeFromCookie,
+                locale,
               },
             },
             hFake,
@@ -300,7 +300,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
 
           // then
           expect(usecases.createUser).to.have.been.calledWithExactly(useCaseParameters);
-          expect(dependencies.localeService.getCanonicalLocale).to.have.been.calledWithExactly(localeFromCookie);
+          expect(dependencies.localeService.getCanonicalLocale).to.have.been.calledWithExactly(locale);
           expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly(savedUser);
           expect(response.statusCode).to.equal(201);
         });
