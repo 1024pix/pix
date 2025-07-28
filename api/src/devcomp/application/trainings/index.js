@@ -2,11 +2,11 @@ import Joi from 'joi';
 
 import { BadRequestError, NotFoundError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { SUPPORTED_LOCALES } from '../../../shared/domain/constants.js';
+import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { trainingController as trainingsController } from './training-controller.js';
 
-const lowerCaseSupportedLocales = SUPPORTED_LOCALES.map((supportedLocale) => supportedLocale.toLowerCase());
+const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => supportedLocale.toLowerCase());
 
 const register = async function (server) {
   server.route([

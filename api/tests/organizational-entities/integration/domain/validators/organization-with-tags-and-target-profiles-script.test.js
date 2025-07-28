@@ -1,11 +1,11 @@
 import { validate } from '../../../../../src/organizational-entities/domain/validators/organization-with-tags-and-target-profiles.js';
-import { SUPPORTED_LOCALES } from '../../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { Organization } from '../../../../../src/shared/domain/models/index.js';
+import { getSupportedLocales } from '../../../../../src/shared/domain/services/locale-service.js';
 import { catchErrSync, expect } from '../../../../test-helper.js';
 
 const organizationTypes = [...Object.values(Organization.types)];
-const supportedLocales = SUPPORTED_LOCALES.map((supportedLocale) => supportedLocale.toLocaleLowerCase());
+const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => supportedLocale.toLocaleLowerCase());
 
 describe('Unit | Domain | Validators | organization-with-tags-and-target-profiles-script.js', function () {
   const DEFAULT_ORGANIZATION = {
@@ -20,7 +20,7 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
   };
 
   context('success', function () {
-    supportedLocales.forEach((locale) => {
+    lowerCaseSupportedLocales.forEach((locale) => {
       context(`when locale is ${locale}`, function () {
         it('returns true', function () {
           // given

@@ -2,8 +2,8 @@ import Joi from 'joi';
 
 import { BadRequestError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { SUPPORTED_LOCALES } from '../../../shared/domain/constants.js';
 import { AVAILABLE_LANGUAGES } from '../../../shared/domain/services/language-service.js';
+import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { QUERY_TYPES } from '../../domain/constants/user-query.js';
 import { userAdminController } from './user.admin.controller.js';
@@ -111,7 +111,7 @@ export const userAdminRoutes = [
               locale: Joi.string()
                 .allow(null)
                 .optional()
-                .valid(...SUPPORTED_LOCALES),
+                .valid(...getSupportedLocales()),
             },
           },
         }),

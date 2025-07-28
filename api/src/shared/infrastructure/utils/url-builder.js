@@ -1,5 +1,6 @@
 import { config } from '../../config.js';
-import { LOCALE, SUPPORTED_LOCALES } from '../../domain/constants.js';
+import { LOCALE } from '../../domain/constants.js';
+import { getSupportedLocales } from '../../domain/services/locale-service.js';
 
 const PIX_APP_DOMAIN_FR = `${config.domain.pixApp + config.domain.tldFr}`;
 const PIX_APP_DOMAIN_ORG = `${config.domain.pixApp + config.domain.tldOrg}`;
@@ -13,7 +14,7 @@ function getPixAppBaseUrl(locale) {
 
   if (locale?.toLocaleLowerCase() === LOCALE.FRENCH_FRANCE) return PIX_APP_DOMAIN_FR;
 
-  if (!SUPPORTED_LOCALES.includes(locale)) return PIX_APP_DOMAIN_FR;
+  if (!getSupportedLocales().includes(locale)) return PIX_APP_DOMAIN_FR;
 
   return PIX_APP_DOMAIN_ORG;
 }

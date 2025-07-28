@@ -1,11 +1,11 @@
 import Joi from 'joi';
 
-import { SUPPORTED_LOCALES } from '../../../shared/domain/constants.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
+import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { Organization } from '../models/Organization.js';
 
-const supportedLocales = SUPPORTED_LOCALES.map((supportedLocale) => supportedLocale.toLocaleLowerCase());
+const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => supportedLocale.toLocaleLowerCase());
 
 const schema = Joi.object({
   type: Joi.string()
@@ -23,11 +23,11 @@ const schema = Joi.object({
   }),
   tags: Joi.string().allow('').default(''),
   locale: Joi.string()
-    .valid(...supportedLocales)
+    .valid(...lowerCaseSupportedLocales)
     .default('fr-fr')
     .messages({
       'string.empty': "La locale n'est pas renseignée.",
-      'any.only': `La locale doit avoir l'une des valeurs suivantes : ${supportedLocales.join(', ')}`,
+      'any.only': `La locale doit avoir l'une des valeurs suivantes : ${lowerCaseSupportedLocales.join(', ')}`,
     }),
   identityProviderForCampaigns: Joi.string().allow(null),
   provinceCode: Joi.string().allow('', null),

@@ -1,5 +1,10 @@
-import { SUPPORTED_LOCALES } from '../constants.js';
 import { LocaleFormatError, LocaleNotSupportedError } from '../errors.js';
+
+const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE', 'nl'];
+
+function getSupportedLocales() {
+  return SUPPORTED_LOCALES;
+}
 
 const getCanonicalLocale = function (locale) {
   let canonicalLocale;
@@ -17,4 +22,4 @@ const getCanonicalLocale = function (locale) {
   return canonicalLocale;
 };
 
-export { getCanonicalLocale };
+export { getCanonicalLocale, getSupportedLocales };
