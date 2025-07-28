@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { I18n } from 'i18n';
 
-import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
+import { getDefaultLocale, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { logger } from '../utils/logger.js';
 
 const __dirname = import.meta.dirname;
@@ -10,12 +10,10 @@ const translationsFolder = path.resolve(path.join(__dirname, '../../../../transl
 
 const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => supportedLocale.toLowerCase());
 
-const DEFAULT_LOCALE = 'fr';
-
 export const options = {
   locales: ['en', 'fr', 'es', 'nl'],
   fallbacks: { 'en-*': 'en', 'fr-*': 'fr', 'es-*': 'es', 'nl-*': 'nl' },
-  defaultLocale: DEFAULT_LOCALE,
+  defaultLocale: getDefaultLocale(),
   directory: translationsFolder,
   queryParameter: 'lang',
   languageHeaderField: 'Accept-Language',
@@ -37,7 +35,7 @@ const i18nInstances = {};
  */
 export function getI18n(locale) {
   if (!locale || !lowerCaseSupportedLocales.includes(locale?.toLowerCase())) {
-    return getI18n(DEFAULT_LOCALE);
+    return getI18n(getDefaultLocale());
   }
 
   if (!i18nInstances[locale]) {

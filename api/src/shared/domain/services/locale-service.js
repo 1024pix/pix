@@ -2,8 +2,14 @@ import { LocaleFormatError, LocaleNotSupportedError } from '../errors.js';
 
 const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE', 'nl'];
 
+const DEFAULT_LOCALE = 'fr';
+
 function getSupportedLocales() {
   return SUPPORTED_LOCALES;
+}
+
+function getDefaultLocale() {
+  return DEFAULT_LOCALE;
 }
 
 const getCanonicalLocale = function (locale) {
@@ -22,4 +28,4 @@ const getCanonicalLocale = function (locale) {
   return canonicalLocale;
 };
 
-export { getCanonicalLocale, getSupportedLocales };
+export { getCanonicalLocale, getDefaultLocale, getSupportedLocales };
