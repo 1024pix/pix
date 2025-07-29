@@ -1,8 +1,23 @@
 import { LocaleFormatError, LocaleNotSupportedError } from '../errors.js';
 
+const ENGLISH_SPOKEN = 'en';
+const FRENCH_FRANCE = 'fr-fr';
+const FRENCH_SPOKEN = 'fr';
+const DUTCH_SPOKEN = 'nl';
+const SPANISH_SPOKEN = 'es';
+
+const CHALLENGE_LOCALES = ['en', 'fr', 'fr-fr', 'nl', 'es', 'it', 'de'];
+
 const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE', 'nl'];
 
 const DEFAULT_LOCALE = 'fr';
+
+/**
+ * Returns all locales available in challenges of the Pix platform
+ */
+function getChallengeLocales() {
+  return CHALLENGE_LOCALES;
+}
 
 function getSupportedLocales() {
   return SUPPORTED_LOCALES;
@@ -28,4 +43,14 @@ const getCanonicalLocale = function (locale) {
   return canonicalLocale;
 };
 
-export { getCanonicalLocale, getDefaultLocale, getSupportedLocales };
+export {
+  DUTCH_SPOKEN,
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+  getCanonicalLocale,
+  getChallengeLocales,
+  getDefaultLocale,
+  getSupportedLocales,
+  SPANISH_SPOKEN,
+};
