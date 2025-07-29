@@ -111,7 +111,7 @@
           "element": {
             "id": "45accc21-d421-4444-9547-5905afa54cf6",
             "type": "text",
-            "content": "<p>Grâce à l'ENT, Martin a accès à beaucoup d'informations, comme les devoirs d’Ava. Voyons cela ensemble !</p>"
+            "content": "<p>Grâce à l'ENT, Martin peut suivre en ligne la scolarité d'Ava. Voyons cela ensemble !<br></p>"
           }
         }
       ]
@@ -343,7 +343,7 @@
                       "content": "<p>1</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Il y a bien 1 publication à lire sur le blog, mais il y a 2 messages non lus dans la messagerie.</p>"
+                        "diagnosis": "<p>Et non ! Il y a 2 messages non lus dans la messagerie. La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                       }
                     },
                     {
@@ -359,7 +359,7 @@
                       "content": "<p>3</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Il y a bien 3 publications dans le fil de nouveautés mais il y a 2 messages non lus dans la messagerie.</p>"
+                        "diagnosis": "<p>Et non ! Il y a bien 3 publications dans le fil d'actualités mais il y a 2 messages non lus dans la messagerie.La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                       }
                     },
                     {
@@ -467,7 +467,7 @@
           "element": {
             "id": "0468f3c9-f946-4309-9768-4fda3f28a4b2",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\"> 📌 </span> Résumons avant de passer à la suite&nbsp;:</h3><ul>    <li>L’ENT est utilisé par les parents, les élèves, les professeurs et les personnels d’éducation.</li><li>En fonction de son rôle, chaque utilisateur a accès à des fonctionnalités différentes. Par exemple,  seul un élève peut déposer ses dévoirs sur l'ENT.</li><li>Chacun doit utiliser son compte personnel pour se connecter à l'ENT et éviter toute confusion.</li>    <li>Chaque utilisateur se connecte avec un identifiant et un mot de passe, fournis par l'établissement scolaire, depuis un ordinateur, une tablette, un smartphone.</li>    <li>Tous les établissements scolaires n'utilisent pas le même ENT. Les ENT proposent tous des fonctionnalités qui se ressemblent&nbsp;: messagerie, emploi du temps, cahier de textes, ...</li></ul>"
+            "content": "<ul><li>L’espace numérique de travail (ENT) est le <strong>service en ligne proposé par l’établissement scolaire</strong>.</li><li>Il est utilisé par<strong> les parents, les élèves, les professeurs et les personnels d’éducation</strong>.</li><li><strong>En fonction de son rôle</strong>, chaque utilisateur a accès à des <strong>fonctionnalités différentes</strong>. </li><li>L’ENT permet aux parents de<strong> suivre au quotidien la scolarité</strong> de leurs enfants.</li><li>Chaque utilisateur se connecte avec un<strong> identifiant</strong> et un <strong>mot de passe</strong>, fournis par l'établissement scolaire.</li></ul>"
           }
         }
       ]
