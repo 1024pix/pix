@@ -1,5 +1,3 @@
-import { LanguageNotSupportedError } from '../errors.js';
-
 const LANGUAGES_CODE = {
   ENGLISH: 'en',
   FRENCH: 'fr',
@@ -9,12 +7,4 @@ const LANGUAGES_CODE = {
 
 const AVAILABLE_LANGUAGES = Object.values(LANGUAGES_CODE);
 
-function assertLanguageAvailability(languageCode) {
-  if (!languageCode) return;
-
-  if (!AVAILABLE_LANGUAGES.includes(languageCode)) {
-    throw new LanguageNotSupportedError(languageCode);
-  }
-}
-
-export { assertLanguageAvailability, AVAILABLE_LANGUAGES, LANGUAGES_CODE };
+export { AVAILABLE_LANGUAGES, LANGUAGES_CODE };

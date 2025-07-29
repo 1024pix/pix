@@ -49,8 +49,6 @@ class User {
       locale = dependencies.localeService.getCanonicalLocale(locale);
     }
 
-    dependencies.languageService.assertLanguageAvailability(lang);
-
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -70,7 +68,7 @@ class User {
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
-    this.lang = lang ?? dependencies.languageService.LANGUAGES_CODE.FRENCH;
+    this.lang = dependencies.localeService.coerceLanguage(lang);
     this.locale = locale;
     this.isAnonymous = isAnonymous;
     this.pixScore = pixScore;

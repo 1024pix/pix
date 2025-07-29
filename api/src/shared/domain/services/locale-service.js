@@ -10,6 +10,8 @@ const CHALLENGE_LOCALES = ['en', 'fr', 'fr-fr', 'nl', 'es', 'it', 'de'];
 
 const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE', 'nl'];
 
+const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'nl'];
+
 const DEFAULT_LOCALE = 'fr';
 
 /**
@@ -24,6 +26,18 @@ function getSupportedLocales() {
 }
 
 function getDefaultLocale() {
+  return DEFAULT_LOCALE;
+}
+
+/**
+ * Returns the given language if the language is supported, otherwise returns the default locale.
+ * @deprecated will soon be removed
+ */
+function coerceLanguage(language) {
+  if (SUPPORTED_LANGUAGES.includes(language)) {
+    return language;
+  }
+
   return DEFAULT_LOCALE;
 }
 
@@ -44,6 +58,7 @@ const getCanonicalLocale = function (locale) {
 };
 
 export {
+  coerceLanguage,
   DUTCH_SPOKEN,
   ENGLISH_SPOKEN,
   FRENCH_FRANCE,

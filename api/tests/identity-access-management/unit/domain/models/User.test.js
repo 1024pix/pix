@@ -3,21 +3,17 @@ import { config } from '../../../../../src/shared/config.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | User', function () {
-  let languageService;
   let localeService;
   let dependencies;
 
   beforeEach(function () {
     sinon.stub(config.dataProtectionPolicy, 'updateDate').value('2020-01-01');
 
-    languageService = {
-      assertLanguageAvailability: sinon.stub(),
-      LANGUAGES_CODE: { FRENCH: 'fr' },
-    };
     localeService = {
       getCanonicalLocale: sinon.stub(),
+      coerceLanguage: sinon.stub().returns('fr'),
     };
-    dependencies = { localeService, languageService };
+    dependencies = { localeService };
   });
 
   describe('constructor', function () {
@@ -60,12 +56,12 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
 
     context('language', function () {
-      it('returns user given language', function () {
+      it('coerces the given language to the default locale', function () {
         // when
         const user = new User({ lang: 'nl' }, dependencies);
 
         // then
-        expect(user.lang).to.equal('nl');
+        expect(user.lang).to.equal('fr');
       });
 
       context('when there is no language given', function () {
