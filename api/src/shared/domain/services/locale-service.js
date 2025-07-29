@@ -8,6 +8,8 @@ const SPANISH_SPOKEN = 'es';
 
 const CHALLENGE_LOCALES = ['en', 'fr', 'fr-fr', 'nl', 'es', 'it', 'de'];
 
+const DEFAULT_CHALLENGE_LOCALE = 'fr-fr';
+
 const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE', 'nl'];
 
 const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'nl'];
@@ -19,6 +21,10 @@ const DEFAULT_LOCALE = 'fr';
  */
 function getChallengeLocales() {
   return CHALLENGE_LOCALES;
+}
+
+function getDefaultChallengeLocale() {
+  return DEFAULT_CHALLENGE_LOCALE;
 }
 
 function getSupportedLocales() {
@@ -65,6 +71,7 @@ export {
   FRENCH_SPOKEN,
   getCanonicalLocale,
   getChallengeLocales,
+  getDefaultChallengeLocale,
   getDefaultLocale,
   getSupportedLocales,
   SPANISH_SPOKEN,
