@@ -1,4 +1,3 @@
-import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { createCertifiableProfile } from '../../common/tooling/profile-tooling.js';
 import { CERTIFIABLE_SUCCESS_USER_ID } from './constants.js';
 
@@ -28,7 +27,7 @@ export class CommonCertifiableUser {
       lastName: 'Lagagne',
       email: 'certif-success@example.net',
       cgu: true,
-      lang: LANGUAGES_CODE.FRENCH,
+      lang: 'fr',
       lastTermsOfServiceValidatedAt: new Date(),
     });
 

@@ -3,7 +3,6 @@ import { OrganizationForAdmin } from '../../../../../src/organizational-entities
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import * as organizationCreationValidator from '../../../../../src/organizational-entities/domain/validators/organization-creation-validator.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
 import { acceptPixOrgaTermsOfService } from '../../common/tooling/legal-documents.js';
 import { SHARED_ORGANIZATION_USER_ID } from './constants.js';
@@ -92,7 +91,7 @@ export class CommonOrganizations {
         lastName: 'Pix Orga member',
         email: 'certif-prescriptor@example.net',
         cgu: true,
-        lang: LANGUAGES_CODE.FRENCH,
+        lang: 'fr',
         lastTermsOfServiceValidatedAt: new Date(),
         mustValidateTermsOfService: false,
         pixCertifTermsOfServiceAccepted: true,

@@ -11,7 +11,6 @@ import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/mo
 import { CertificationReport } from '../../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { pickAnswerStatusService } from '../../../../../src/certification/shared/domain/services/pick-answer-status-service.js';
 import { config } from '../../../../../src/shared/config.js';
-import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 
 /**
@@ -34,7 +33,7 @@ export default async function publishSessionWithValidatedCertification({
     sessionId,
     accessCode: session.accessCode,
     userId: candidate.userId,
-    locale: LANGUAGES_CODE.FRENCH,
+    locale: 'fr',
   });
 
   const assessment = certificationCourse._assessment;
