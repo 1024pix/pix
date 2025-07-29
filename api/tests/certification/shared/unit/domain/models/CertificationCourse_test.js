@@ -1,7 +1,6 @@
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import * as languageService from '../../../../../../src/shared/domain/services/language-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { generateChallengeList } from '../../../fixtures/challenges.js';
 
@@ -356,7 +355,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       });
 
       // when
-      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
+      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
 
       //then
       expect(isAvailable).to.be.true;
@@ -369,7 +368,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       });
 
       // when
-      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
+      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
 
       //then
       expect(isAvailable).to.be.false;

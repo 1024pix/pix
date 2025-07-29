@@ -34,12 +34,11 @@ export const verifyCandidateIdentity = async ({
   centerRepository,
   sessionRepository,
   userRepository,
-  languageService,
   normalizeStringFnc,
 }) => {
   const user = await userRepository.get({ id: userId });
 
-  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
+  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
   if (!isUserLanguageValid) {
     throw new LanguageNotSupportedError(user.lang);
   }

@@ -54,7 +54,6 @@ export const retrieveLastOrCreateCertificationCourse = async function ({
   certificationChallengesService,
   certificationBadgesService,
   verifyCertificateCodeService,
-  languageService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
 
@@ -99,15 +98,14 @@ export const retrieveLastOrCreateCertificationCourse = async function ({
     certificationCourseRepository,
     certificationCenterRepository,
     userRepository,
-    languageService,
     certificationChallengesService,
     verifyCertificateCodeService,
     certificationBadgesService,
   });
 };
 
-function _validateUserLanguage(languageService, userLanguage) {
-  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(languageService, userLanguage);
+function _validateUserLanguage(userLanguage) {
+  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(userLanguage);
 
   if (!isUserLanguageValid) {
     throw new LanguageNotSupportedError(userLanguage);
@@ -157,7 +155,6 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
  * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {UserRepository} params.userRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
- * @param {LanguageService} params.languageService
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {CertificationChallengesService} params.certificationChallengesService
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
@@ -172,12 +169,11 @@ async function _startNewCertification({
   certificationCenterRepository,
   userRepository,
   certificationChallengesService,
-  languageService,
   certificationBadgesService,
   verifyCertificateCodeService,
 }) {
   const user = await userRepository.get({ id: userId });
-  _validateUserLanguage(languageService, user.lang);
+  _validateUserLanguage(user.lang);
 
   const challengesForCertification = [];
 

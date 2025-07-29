@@ -13,7 +13,6 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 
 describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate-identity', function () {
   let candidateRepository, centerRepository, sessionRepository, userRepository;
-  let languageService;
   let normalizeStringFnc;
   let dependencies;
   const sessionId = 1;
@@ -34,9 +33,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     userRepository = {
       get: sinon.stub(),
     };
-    languageService = {
-      isLanguageAvailableForV3Certification: sinon.stub(),
-    };
     normalizeStringFnc = (str) => str;
     firstName = 'Charles';
     lastName = 'Neuf';
@@ -50,7 +46,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       candidateRepository,
       centerRepository,
       sessionRepository,
-      languageService,
       userRepository,
       normalizeStringFnc,
     };
@@ -94,8 +89,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       }),
     ]);
 
-    languageService.isLanguageAvailableForV3Certification.returns(true);
-
     // when
     const result = await verifyCandidateIdentity({
       ...dependencies,
@@ -120,7 +113,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           lang: 'Le blop blop martien du sud',
         }),
       );
-      languageService.isLanguageAvailableForV3Certification.returns(false);
 
       // when
       const error = await catchErr(verifyCandidateIdentity)({
@@ -142,7 +134,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           lang: LANGUAGES_CODE.FRENCH,
         }),
       );
-      languageService.isLanguageAvailableForV3Certification.returns(true);
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
         domainBuilder.certification.enrolment.buildSession({
           id: sessionId,
@@ -178,7 +169,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           lang: LANGUAGES_CODE.FRENCH,
         }),
       );
-      languageService.isLanguageAvailableForV3Certification.returns(true);
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
         domainBuilder.certification.enrolment.buildSession({
           id: sessionId,
@@ -217,7 +207,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     context('when matching candidate is already reconciled to another user', function () {
       it('should throw a UnexpectedUserAccountError', async function () {
         // given
-        languageService.isLanguageAvailableForV3Certification.returns(true);
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
             id: userId,
@@ -269,7 +258,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     context('when matching candidate is already reconciled to given user', function () {
       it('should return a succes indicating no reconciliation done', async function () {
         // given
-        languageService.isLanguageAvailableForV3Certification.returns(true);
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
             id: userId,
@@ -321,7 +309,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     context('when user is already reconciled to another matching candidate within the same session', function () {
       it('should throw a UserAlreadyLinkedToCandidateInSessionError', async function () {
         // given
-        languageService.isLanguageAvailableForV3Certification.returns(true);
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
             id: userId,
@@ -379,7 +366,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         context('when matching candidate is not related to a reconcilied learner', function () {
           it('should throw a MatchingReconciledStudentNotFoundError', async function () {
             // given
-            languageService.isLanguageAvailableForV3Certification.returns(true);
             const matchingOrganization = domainBuilder.certification.enrolment.buildMatchingOrganization({
               type: types.SCO,
               isManagingStudents: true,

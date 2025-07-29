@@ -19,6 +19,8 @@ export const ABORT_REASONS = {
   TECHNICAL: 'technical',
 };
 
+const V3_CERTIFICATION_AVAILABLE_LANGUAGES = ['fr', 'en'];
+
 class CertificationCourse {
   /**
    * @param {Object} props
@@ -336,8 +338,10 @@ class CertificationCourse {
     return AlgorithmEngineVersion.isV3(this._version);
   }
 
-  static isLanguageAvailableForV3Certification(languageService, candidateLanguage) {
-    return languageService.isLanguageAvailableForV3Certification(candidateLanguage);
+  static isLanguageAvailableForV3Certification(candidateLanguage) {
+    if (!candidateLanguage) return false;
+
+    return V3_CERTIFICATION_AVAILABLE_LANGUAGES.includes(candidateLanguage);
   }
 
   toDTO() {

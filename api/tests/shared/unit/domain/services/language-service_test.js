@@ -34,33 +34,4 @@ describe('Unit | Shared | Domain | Services | Language Service', function () {
       });
     });
   });
-
-  describe('#isLanguageAvailableForV3Certification', function () {
-    context('when language is not provided', function () {
-      it('returns nothing', function () {
-        // then
-        expect(languageService.isLanguageAvailableForV3Certification()).to.be.undefined;
-      });
-    });
-
-    context('when given language is available', function () {
-      it('returns true', function () {
-        // given
-        const lang = 'fr';
-
-        // when & then
-        expect(languageService.isLanguageAvailableForV3Certification(lang)).to.be.true;
-      });
-    });
-
-    context('when given language is not available', function () {
-      it('returns false', function () {
-        // given
-        const lang = 'nl';
-
-        // when & then
-        expect(languageService.isLanguageAvailableForV3Certification(lang)).to.be.false;
-      });
-    });
-  });
 });
