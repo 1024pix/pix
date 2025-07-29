@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { getChallengeLocales } from '../../../shared/domain/services/locale-service.js';
 import { ComplementaryCertificationKeys } from '../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
@@ -30,7 +30,7 @@ const register = async (server) => {
               capacity: Joi.number().min(-8).max(8).required(),
               accessibilityAdjustmentNeeded: Joi.boolean(),
               locale: Joi.string()
-                .valid(...Object.values(LOCALE))
+                .valid(...getChallengeLocales())
                 .lowercase()
                 .required(),
               complementaryCertificationKey: Joi.string().valid(...Object.values(ComplementaryCertificationKeys)),

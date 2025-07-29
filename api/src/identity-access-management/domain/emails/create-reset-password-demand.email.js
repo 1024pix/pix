@@ -1,4 +1,4 @@
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js';
 import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
 import { EmailFactory } from '../../../shared/mail/domain/models/EmailFactory.js';
 import { mailer } from '../../../shared/mail/infrastructure/services/mailer.js';
@@ -12,7 +12,7 @@ import { mailer } from '../../../shared/mail/infrastructure/services/mailer.js';
  * @param {string} params.locale - The locale for the email.
  * @returns {Email} - The email instance.
  */
-export function createResetPasswordDemandEmail({ email, temporaryKey, locale = LOCALE.FRENCH_FRANCE }) {
+export function createResetPasswordDemandEmail({ email, temporaryKey, locale = FRENCH_FRANCE }) {
   const factory = new EmailFactory({ app: 'pix-app', locale });
 
   const { i18n, defaultVariables } = factory;

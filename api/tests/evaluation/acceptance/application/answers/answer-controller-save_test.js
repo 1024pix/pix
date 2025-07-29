@@ -3,7 +3,7 @@ import {
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/Quest.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import {
   createServer,
@@ -13,8 +13,6 @@ import {
   knex,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-const { FRENCH_FRANCE, ENGLISH_SPOKEN } = LOCALE;
 
 describe('Acceptance | Controller | answer-controller-save', function () {
   let server;

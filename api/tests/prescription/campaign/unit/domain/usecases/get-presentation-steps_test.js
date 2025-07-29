@@ -3,10 +3,9 @@ import {
   DeletedCampaignError,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { getPresentationSteps } from '../../../../../../src/prescription/campaign/domain/usecases/get-presentation-steps.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { CampaignCodeError, UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Domain | Use Cases | get-presentation-steps', function () {
   let badgeRepository;

@@ -1,6 +1,6 @@
 import { createConsolidatedFramework } from '../../../../../../src/certification/configuration/domain/usecases/create-consolidated-framework.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | create-consolidated-framework', function () {
@@ -56,14 +56,14 @@ describe('Certification | Configuration | Unit | UseCase | create-consolidated-f
     });
 
     // then
-    expect(tubeRepository.findActiveByRecordIds).to.have.been.calledOnceWithExactly(tubeIds, LOCALE.FRENCH_SPOKEN);
+    expect(tubeRepository.findActiveByRecordIds).to.have.been.calledOnceWithExactly(tubeIds, FRENCH_SPOKEN);
     expect(skillRepository.findActiveByRecordIds).to.have.been.calledOnceWithExactly([
       ...tube1.skillIds,
       ...tube2.skillIds,
     ]);
     expect(challengeRepository.findOperativeBySkills).to.have.been.calledOnceWithExactly(
       [...tube1.skills, ...tube2.skills],
-      LOCALE.FRENCH_SPOKEN,
+      FRENCH_SPOKEN,
     );
     expect(consolidatedFrameworkRepository.create).to.have.been.calledOnceWithExactly({
       complementaryCertificationKey,

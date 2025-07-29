@@ -1,7 +1,7 @@
 import * as path from 'node:path';
 import * as url from 'node:url';
 
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as pdfWithFormSerializer from '../../infrastructure/serializers/pdf/pdf-with-form-serializer.js';
 
@@ -13,7 +13,7 @@ export const generateAttestations = async function ({
   organizationId,
   dependencies = { pdfWithFormSerializer },
 }) {
-  const locale = LOCALE.FRENCH_FRANCE;
+  const locale = FRENCH_FRANCE;
   const { data, templateName } = await usecases.getSharedAttestationsForOrganizationByUserIds({
     attestationKey,
     userIds,
@@ -27,7 +27,7 @@ export const generateAttestations = async function ({
 };
 
 export const getAttestationsUserDetail = async function ({ attestationKey, userIds, organizationId }) {
-  const locale = LOCALE.FRENCH_FRANCE;
+  const locale = FRENCH_FRANCE;
   const attestations = await usecases.getSharedAttestationsUserDetailForOrganizationByUserIds({
     attestationKey,
     userIds,

@@ -1,8 +1,8 @@
 import * as selectNextCertificationChallengeApi from '../../../../../../src/certification/evaluation/application/api/select-next-certification-challenge-api.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/index.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Certification | Evaluation | API', function () {
@@ -18,7 +18,7 @@ describe('Unit | Application | Certification | Evaluation | API', function () {
 
         const certificationCourse = domainBuilder.buildCertificationCourse({ version: 2 });
 
-        const locale = LOCALE.FRENCH_SPOKEN;
+        const locale = FRENCH_SPOKEN;
         const dependencies = {
           assessmentRepository: {
             get: sinon.stub(),
@@ -59,7 +59,7 @@ describe('Unit | Application | Certification | Evaluation | API', function () {
 
         const certificationCourse = domainBuilder.buildCertificationCourse({ version: 3 });
 
-        const locale = LOCALE.FRENCH_SPOKEN;
+        const locale = FRENCH_SPOKEN;
         const dependencies = {
           assessmentRepository: {
             get: sinon.stub(),

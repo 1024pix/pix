@@ -2,9 +2,13 @@ import * as translations from '../../../../translations/index.js';
 import { config } from '../../config.js';
 import { getEmailDefaultVariables } from '../../mail/domain/emails-default-variables.js';
 import { mailer } from '../../mail/infrastructure/services/mailer.js';
-import { LOCALE } from '../constants.js';
-
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
+import {
+  DUTCH_SPOKEN,
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+  SPANISH_SPOKEN,
+} from '../services/locale-service.js';
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';

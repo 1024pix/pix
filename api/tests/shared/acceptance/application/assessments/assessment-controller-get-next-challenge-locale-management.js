@@ -1,5 +1,5 @@
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import {
   createServer,
   databaseBuilder,
@@ -8,8 +8,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-const { FRENCH_FRANCE } = LOCALE;
 
 const competenceId = 'recCompetence';
 const frenchSpokenChallengeId = 'recFrenchSpokenChallengeId';

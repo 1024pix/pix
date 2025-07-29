@@ -12,7 +12,7 @@
  * @typedef {import ('../../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
  */
 
-import { LOCALE } from '../../../../shared/domain/constants.js';
+import { FRENCH_FRANCE } from '../../../../shared/domain/services/locale-service.js';
 import { CandidateCertifiableEvent } from '../models/timeline/CandidateCertifiableEvent.js';
 import { CandidateCreatedEvent } from '../models/timeline/CandidateCreatedEvent.js';
 import { CandidateEndScreenEvent } from '../models/timeline/CandidateEndScreenEvent.js';
@@ -162,7 +162,7 @@ const _getCertificabilityEvent = async ({ userId, atDate, placementProfileServic
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: userId,
     limitDate: atDate,
-    locale: LOCALE.FRENCH_FRANCE,
+    locale: FRENCH_FRANCE,
   });
 
   if (!placementProfile.isCertifiable()) {

@@ -1,10 +1,8 @@
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
+import { ENGLISH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import * as placementProfileService from '../../../../../src/shared/domain/services/placement-profile-service.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
-
-const { ENGLISH_SPOKEN } = LOCALE;
 
 describe('Shared | Integration | Domain | Services | Placement Profile Service', function () {
   let userId, assessmentId, campaignParticipation;

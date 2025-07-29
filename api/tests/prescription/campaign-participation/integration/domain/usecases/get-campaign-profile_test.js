@@ -1,7 +1,6 @@
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | UseCase | get-campaign-profile', function () {
   const locale = FRENCH_SPOKEN;

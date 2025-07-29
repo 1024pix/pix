@@ -1,5 +1,5 @@
 import { config } from '../../config.js';
-import { LOCALE } from '../../domain/constants.js';
+import { DUTCH_SPOKEN, ENGLISH_SPOKEN, FRENCH_SPOKEN, SPANISH_SPOKEN } from '../../domain/services/locale-service.js';
 
 // FRENCH_FRANCE
 const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
@@ -37,10 +37,10 @@ const PIX_HELPDESK_URL_INTERNATIONAL = {
 
 export function getEmailDefaultVariables(locale) {
   switch (locale) {
-    case LOCALE.FRENCH_SPOKEN:
-    case LOCALE.SPANISH_SPOKEN:
-    case LOCALE.ENGLISH_SPOKEN:
-    case LOCALE.DUTCH_SPOKEN:
+    case FRENCH_SPOKEN:
+    case SPANISH_SPOKEN:
+    case ENGLISH_SPOKEN:
+    case DUTCH_SPOKEN:
       return {
         homeName: `pix${config.domain.tldOrg}`,
         homeUrl: PIX_HOME_URL_INTERNATIONAL[locale] ?? PIX_HOME_URL_INTERNATIONAL.en,

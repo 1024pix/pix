@@ -3,13 +3,13 @@ import _ from 'lodash';
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { TargetProfileForAdmin } from '../../../../prescription/target-profile/domain/models/TargetProfileForAdmin.js';
-import { LOCALE } from '../../../../shared/domain/constants.js';
 import { constants } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../shared/domain/errors.js';
 import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../shared/domain/models/BadgeDetails.js';
 import { TargetProfile } from '../../../../shared/domain/models/index.js';
 import { StageCollection } from '../../../../shared/domain/models/target-profile-management/StageCollection.js';
+import { FRENCH_FRANCE } from '../../../../shared/domain/services/locale-service.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
@@ -17,7 +17,6 @@ import * as thematicRepository from '../../../../shared/infrastructure/repositor
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileSummaryForAdmin.js';
 
-const { FRENCH_FRANCE } = LOCALE;
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
 const get = async function ({ id, locale = FRENCH_FRANCE }) {

@@ -1,5 +1,5 @@
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/index.js';
+import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import {
   createServer,
   databaseBuilder,
@@ -8,8 +8,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Acceptance | API | assessment-controller-get', function () {
   let server;

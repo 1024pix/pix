@@ -1,4 +1,8 @@
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import {
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+} from '../../../../../src/shared/domain/services/locale-service.js';
 import {
   escapeFileName,
   extractLocaleFromRequest,
@@ -6,8 +10,6 @@ import {
   extractUserIdFromRequest,
 } from '../../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { expect, generateAuthenticatedUserRequestHeaders } from '../../../../test-helper.js';
-
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Utils | Request Utils', function () {
   describe('#extractUserIdFromRequest', function () {

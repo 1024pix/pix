@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { LOCALE } from '../../../shared/domain/constants.js';
 import { AnswerStatus, KnowledgeElement } from '../../../shared/domain/models/index.js';
+import { getChallengeLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { smartRandomSimulatorController } from './smart-random-simulator-controller.js';
 
@@ -71,20 +71,13 @@ const getNextChallengeRoute = {
                 timer: Joi.number().integer().allow(null),
                 focused: Joi.boolean().optional().allow(null),
                 locales: Joi.array()
-                  .items(
-                    Joi.string().valid(
-                      LOCALE.FRENCH_FRANCE,
-                      LOCALE.FRENCH_SPOKEN,
-                      LOCALE.ENGLISH_SPOKEN,
-                      LOCALE.DUTCH_SPOKEN,
-                    ),
-                  )
+                  .items(Joi.string().valid(...getChallengeLocales()))
                   .required(),
               })
               .min(1)
               .required(),
             locale: Joi.string()
-              .valid(LOCALE.FRENCH_FRANCE, LOCALE.FRENCH_SPOKEN, LOCALE.ENGLISH_SPOKEN, LOCALE.DUTCH_SPOKEN)
+              .valid(...getChallengeLocales())
               .required(),
             assessmentId: identifiersType.assessmentId,
           },
@@ -117,7 +110,7 @@ const getCampaignParametersRoute = {
       params: Joi.object({
         locale: Joi.string()
           .required()
-          .valid(...[LOCALE.ENGLISH_SPOKEN, LOCALE.FRENCH_FRANCE, LOCALE.FRENCH_SPOKEN, LOCALE.DUTCH_SPOKEN]),
+          .valid(...getChallengeLocales()),
         campaignId: Joi.string().required(),
       }),
     },

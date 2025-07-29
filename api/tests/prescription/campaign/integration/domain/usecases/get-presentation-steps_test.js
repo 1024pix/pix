@@ -1,8 +1,6 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
-
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | Campaign | UseCase | get-presentation-steps', function () {
   let user, campaign, badges;

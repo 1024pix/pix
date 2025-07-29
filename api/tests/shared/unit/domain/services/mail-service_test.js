@@ -1,5 +1,11 @@
 import { config } from '../../../../../src/shared/config.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import {
+  DUTCH_SPOKEN,
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+  SPANISH_SPOKEN,
+} from '../../../../../src/shared/domain/services/locale-service.js';
 import * as mailService from '../../../../../src/shared/domain/services/mail-service.js';
 import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { mailer } from '../../../../../src/shared/mail/infrastructure/services/mailer.js';
@@ -10,8 +16,6 @@ import nl from '../../../../../translations/nl.json' with { type: 'json' };
 import { expect, sinon } from '../../../../test-helper.js';
 
 const mainTranslationsMapping = { fr, en, nl, es };
-
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 
 const i18n = getI18n();
 

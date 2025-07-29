@@ -1,9 +1,8 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-const { FRENCH_SPOKEN } = LOCALE;
 const { computeCampaignAnalysis } = usecases;
 
 describe('Unit | UseCase | compute-campaign-analysis', function () {

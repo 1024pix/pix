@@ -1,12 +1,11 @@
 import { CampaignParticipationDeletedError } from '../../../../../../src/prescription/campaign-participation/domain/errors.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { computeCampaignParticipationAnalysis } = usecases;
-const { FRENCH_SPOKEN } = LOCALE;
 
 const { TO_SHARE } = CampaignParticipationStatuses;
 

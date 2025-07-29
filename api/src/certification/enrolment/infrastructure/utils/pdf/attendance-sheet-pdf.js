@@ -9,9 +9,7 @@ dayjs.extend(localizedFormat);
 
 import _ from 'lodash';
 
-import { LOCALE } from '../../../../../shared/domain/constants.js';
-
-const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../shared/domain/services/locale-service.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

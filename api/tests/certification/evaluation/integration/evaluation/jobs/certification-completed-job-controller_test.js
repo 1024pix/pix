@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 import { CertificationCompletedJobController } from '../../../../../../src/certification/evaluation/application/jobs/certification-completed-job-controller.js';
 import { CertificationCompletedJob } from '../../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/index.js';
+import { FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
 import {
   databaseBuilder,
   expect,
@@ -456,7 +456,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
             assessmentId: certificationAssessment.id,
             certificationCourseId: certificationCourse.id,
             userId: certifiableUserId,
-            locale: LOCALE.FRENCH_FRANCE,
+            locale: FRENCH_FRANCE,
           });
 
           // when
@@ -508,7 +508,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
             assessmentId: certificationAssessment.id,
             certificationCourseId: certificationCourse.id,
             userId: certifiableUserId,
-            locale: LOCALE.FRENCH_FRANCE,
+            locale: FRENCH_FRANCE,
           });
 
           // when
@@ -565,7 +565,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
               assessmentId: certificationAssessment.id,
               certificationCourseId: certificationCourse.id,
               userId: certifiableUserId,
-              locale: LOCALE.FRENCH_FRANCE,
+              locale: FRENCH_FRANCE,
             });
 
             // when

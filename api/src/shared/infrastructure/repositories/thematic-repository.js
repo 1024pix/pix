@@ -1,9 +1,8 @@
-import { LOCALE } from '../../domain/constants.js';
 import { Thematic } from '../../domain/models/Thematic.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { FRENCH_FRANCE } from '../../domain/services/locale-service.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
-const { FRENCH_FRANCE } = LOCALE;
 const TABLE_NAME = 'learningcontent.thematics';
 
 export async function list({ locale = FRENCH_FRANCE } = {}) {

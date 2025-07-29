@@ -1,12 +1,18 @@
 import { config } from '../../../../../src/shared/config.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import {
+  DUTCH_SPOKEN,
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+  SPANISH_SPOKEN,
+} from '../../../../../src/shared/domain/services/locale-service.js';
 import { getEmailDefaultVariables } from '../../../../../src/shared/mail/domain/emails-default-variables.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Email | Domain | email-default-variables', function () {
   describe('#getEmailDefaultVariables', function () {
     it('returns email default variables for France', function () {
-      const result = getEmailDefaultVariables(LOCALE.FRENCH_FRANCE);
+      const result = getEmailDefaultVariables(FRENCH_FRANCE);
 
       expect(result).to.deep.equal({
         homeName: 'pix.fr',
@@ -20,7 +26,7 @@ describe('Unit | Email | Domain | email-default-variables', function () {
     });
 
     it('returns email default variables for International french', function () {
-      const result = getEmailDefaultVariables(LOCALE.FRENCH_SPOKEN);
+      const result = getEmailDefaultVariables(FRENCH_SPOKEN);
 
       expect(result).to.deep.equal({
         homeName: 'pix.org',
@@ -34,7 +40,7 @@ describe('Unit | Email | Domain | email-default-variables', function () {
     });
 
     it('returns email default variables for International english', function () {
-      const result = getEmailDefaultVariables(LOCALE.ENGLISH_SPOKEN);
+      const result = getEmailDefaultVariables(ENGLISH_SPOKEN);
 
       expect(result).to.deep.equal({
         homeName: 'pix.org',
@@ -48,7 +54,7 @@ describe('Unit | Email | Domain | email-default-variables', function () {
     });
 
     it('returns email default variables for International spanish', function () {
-      const result = getEmailDefaultVariables(LOCALE.SPANISH_SPOKEN);
+      const result = getEmailDefaultVariables(SPANISH_SPOKEN);
 
       expect(result).to.deep.equal({
         homeName: 'pix.org',
@@ -62,7 +68,7 @@ describe('Unit | Email | Domain | email-default-variables', function () {
     });
 
     it('returns email default variables for International dutch', function () {
-      const result = getEmailDefaultVariables(LOCALE.DUTCH_SPOKEN);
+      const result = getEmailDefaultVariables(DUTCH_SPOKEN);
 
       expect(result).to.deep.equal({
         homeName: 'pix.org',

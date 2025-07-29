@@ -6,7 +6,7 @@
  * @typedef {import ('./index.js').ConsolidatedFrameworkRepository} ConsolidatedFrameworkRepository
  */
 
-import { LOCALE } from '../../../../shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
 
 /**
  * @param {Object} params
@@ -25,12 +25,12 @@ export const createConsolidatedFramework = async ({
   challengeRepository,
   consolidatedFrameworkRepository,
 }) => {
-  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, LOCALE.FRENCH_SPOKEN);
+  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, FRENCH_SPOKEN);
 
   const skillIds = tubes.flatMap((tube) => tube.skillIds);
   const skills = await skillRepository.findActiveByRecordIds(skillIds);
 
-  const challenges = await challengeRepository.findOperativeBySkills(skills, LOCALE.FRENCH_SPOKEN);
+  const challenges = await challengeRepository.findOperativeBySkills(skills, FRENCH_SPOKEN);
 
   return consolidatedFrameworkRepository.create({
     complementaryCertificationKey,

@@ -1,10 +1,12 @@
-import { pickChallengeService } from '../../../../../src/evaluation/domain/services/pick-challenge-service.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
-
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
-
 import _ from 'lodash';
+
+import { pickChallengeService } from '../../../../../src/evaluation/domain/services/pick-challenge-service.js';
+import {
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+} from '../../../../../src/shared/domain/services/locale-service.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Service | PickChallengeService', function () {
   describe('#pickChallenge', function () {

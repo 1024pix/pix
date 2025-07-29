@@ -1,9 +1,7 @@
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
-
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Application | Controller | Campaign detail', function () {
   describe('#getByCode', function () {

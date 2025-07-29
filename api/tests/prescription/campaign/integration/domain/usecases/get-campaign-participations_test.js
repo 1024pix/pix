@@ -4,14 +4,13 @@ import {
 } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipation.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
   KnowledgeElement,
 } from '../../../../../../src/shared/domain/models/index.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | UseCase | get-campaign-participations', function () {
   context('when campaign type is assessment', function () {

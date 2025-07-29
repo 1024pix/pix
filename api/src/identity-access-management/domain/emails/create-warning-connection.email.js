@@ -1,4 +1,4 @@
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js';
 import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
 import { EmailFactory } from '../../../shared/mail/domain/models/EmailFactory.js';
 import { mailer } from '../../../shared/mail/infrastructure/services/mailer.js';
@@ -14,11 +14,11 @@ import { mailer } from '../../../shared/mail/infrastructure/services/mailer.js';
  * @returns {Email} The email object.
  */
 export function createWarningConnectionEmail({ locale, email, firstName, validationToken }) {
-  locale = locale || LOCALE.FRENCH_FRANCE;
+  locale = locale || FRENCH_FRANCE;
   const lang = new Intl.Locale(locale).language;
   let localeSupport;
-  if (locale.toLowerCase() === LOCALE.FRENCH_FRANCE) {
-    localeSupport = LOCALE.FRENCH_FRANCE;
+  if (locale.toLowerCase() === FRENCH_FRANCE) {
+    localeSupport = FRENCH_FRANCE;
   } else {
     localeSupport = lang;
   }

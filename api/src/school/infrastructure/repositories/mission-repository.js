@@ -1,11 +1,10 @@
-import { LOCALE } from '../../../shared/domain/constants.js';
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
+import { FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { Mission, MissionContent, MissionStep } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
 
-const { FRENCH_SPOKEN } = LOCALE;
 const TABLE_NAME = 'learningcontent.missions';
 
 export async function get(id, locale = FRENCH_SPOKEN) {

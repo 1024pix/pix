@@ -4,9 +4,9 @@ import { CertificationCompletedJobController } from '../../../../../../src/certi
 import { CertificationCompletedJob } from '../../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import {
   catchErr,
   databaseBuilder,
@@ -465,7 +465,7 @@ describe('Certification | Evaluation | Integration | Application | Certification
             assessmentId: completedCertificationAssessmentId,
             userId: certifiableUserId,
             certificationCourseId,
-            locale: LOCALE.FRENCH_SPOKEN,
+            locale: FRENCH_SPOKEN,
           });
 
           // when
@@ -503,7 +503,7 @@ describe('Certification | Evaluation | Integration | Application | Certification
             assessmentId: completedCertificationAssessmentId,
             userId: certifiableUserId,
             certificationCourseId,
-            locale: LOCALE.FRENCH_SPOKEN,
+            locale: FRENCH_SPOKEN,
           });
 
           // when
@@ -612,7 +612,7 @@ describe('Certification | Evaluation | Integration | Application | Certification
             assessmentId: completedCertificationAssessmentId,
             userId: certifiableUserId,
             certificationCourseId,
-            locale: LOCALE.FRENCH_SPOKEN,
+            locale: FRENCH_SPOKEN,
           });
 
           // when
@@ -657,7 +657,7 @@ describe('Certification | Evaluation | Integration | Application | Certification
             assessmentId: completedCertificationAssessmentId,
             userId: certifiableUserId,
             certificationCourseId,
-            locale: LOCALE.FRENCH_SPOKEN,
+            locale: FRENCH_SPOKEN,
           });
 
           // when

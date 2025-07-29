@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { certificationResultsController } from './certification-results-controller.js';
@@ -80,7 +80,7 @@ const register = async function (server) {
         auth: false,
         validate: {
           query: Joi.object({
-            lang: Joi.string().optional().valid(LOCALE.FRENCH_SPOKEN, LOCALE.ENGLISH_SPOKEN),
+            lang: Joi.string().optional().valid(FRENCH_SPOKEN, ENGLISH_SPOKEN),
           }),
           payload: Joi.object({
             token: Joi.string().required(),
@@ -103,7 +103,7 @@ const register = async function (server) {
             sessionId: identifiersType.sessionId,
           }),
           query: Joi.object({
-            lang: Joi.string().optional().valid(LOCALE.FRENCH_SPOKEN, LOCALE.ENGLISH_SPOKEN),
+            lang: Joi.string().optional().valid(FRENCH_SPOKEN, ENGLISH_SPOKEN),
           }),
         },
         pre: [

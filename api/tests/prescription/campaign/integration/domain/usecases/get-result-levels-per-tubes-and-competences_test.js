@@ -4,8 +4,8 @@ import { TubeResultForKnowledgeElementSnapshots } from '../../../../../../src/pr
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/index.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | UseCase | get-result-levels-per-tubes-and-competences', function () {
@@ -88,7 +88,7 @@ describe('Integration | UseCase | get-result-levels-per-tubes-and-competences', 
   });
 
   it('should return a CampaignResultLevelsPerTubesAndCompetences', async function () {
-    const result = await usecases.getResultLevelsPerTubesAndCompetences({ campaignId, locale: LOCALE.FRENCH_SPOKEN });
+    const result = await usecases.getResultLevelsPerTubesAndCompetences({ campaignId, locale: FRENCH_SPOKEN });
 
     expect(result).instanceOf(CampaignResultLevelsPerTubesAndCompetences);
     expect(result.maxReachableLevel).to.equal(1);

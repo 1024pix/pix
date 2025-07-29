@@ -1,6 +1,6 @@
 import { CertificationCompletedJob } from '../../../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
 import { certificationCompletedJobRepository } from '../../../../../../../src/certification/evaluation/infrastructure/repositories/jobs/certification-completed-job-repository.js';
-import { LOCALE } from '../../../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../../../src/shared/domain/services/locale-service.js';
 import { JobPriority } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -12,7 +12,7 @@ describe('Integration | Repository | Jobs | CertificationCompletedJobRepository'
         assessmentId: 1,
         userId: 2,
         certificationCourseId: 3,
-        locale: LOCALE.FRENCH_SPOKEN,
+        locale: FRENCH_SPOKEN,
       });
 
       // when

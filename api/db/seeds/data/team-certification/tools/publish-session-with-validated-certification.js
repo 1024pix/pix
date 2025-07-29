@@ -11,8 +11,8 @@ import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/mo
 import { CertificationReport } from '../../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { pickAnswerStatusService } from '../../../../../src/certification/shared/domain/services/pick-answer-status-service.js';
 import { config } from '../../../../../src/shared/config.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
+import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 
 /**
  * @param {Object} params
@@ -51,7 +51,7 @@ export default async function publishSessionWithValidatedCertification({
 
   // stopAtChallenge helps to simulate less answer to trigger degradation, and a check reports at finalization
   const simulatedCertification = await flashUseCases.simulateFlashAssessmentScenario({
-    locale: LOCALE.FRENCH_SPOKEN,
+    locale: FRENCH_SPOKEN,
     initialCapacity: config.v3Certification.defaultCandidateCapacity,
     stopAtChallenge: config.v3Certification.numberOfChallengesPerCourse - 1,
     pickChallenge,

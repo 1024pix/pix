@@ -14,8 +14,8 @@ import {
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/Quest.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { Assessment, TrainingTrigger } from '../../../../../src/shared/domain/models/index.js';
+import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 import {
@@ -731,7 +731,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
               assessmentId: certificationAssessment.id,
               userId: certifiableUserId,
               certificationCourseId,
-              locale: LOCALE.FRENCH_FRANCE,
+              locale: FRENCH_FRANCE,
             });
           });
         });

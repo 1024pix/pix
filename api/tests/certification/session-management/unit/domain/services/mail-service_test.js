@@ -1,6 +1,6 @@
 import * as mailService from '../../../../../../src/certification/session-management/domain/services/mail-service.js';
 import { config as settings } from '../../../../../../src/shared/config.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { tokenService } from '../../../../../../src/shared/domain/services/token-service.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { mailer } from '../../../../../../src/shared/mail/infrastructure/services/mailer.js';
@@ -16,8 +16,6 @@ const mainTranslationsMapping = {
   nl,
   es,
 };
-
-const { ENGLISH_SPOKEN, FRENCH_FRANCE } = LOCALE;
 
 const i18n = getI18n();
 

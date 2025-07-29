@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
-import { LOCALE } from '../../../src/shared/domain/constants.js';
-
-const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
+import { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } from '../../../src/shared/domain/services/locale-service.js';
 
 const buildLearningContent = function (learningContent) {
   const allAreas = [];

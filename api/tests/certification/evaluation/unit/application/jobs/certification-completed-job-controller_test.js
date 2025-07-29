@@ -2,7 +2,7 @@ import { CertificationCompletedJobController } from '../../../../../../src/certi
 import { CertificationCompletedJob } from '../../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Application | jobs | CertificationCompletedJobController', function () {
@@ -66,7 +66,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           assessmentId,
           userId,
           certificationCourseId: 123,
-          locale: LOCALE.FRENCH_SPOKEN,
+          locale: FRENCH_SPOKEN,
         });
         certificationAssessment = {
           id: assessmentId,
@@ -92,7 +92,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
         // then
         expect(usecases.scoreCompletedV3Certification).to.have.been.calledWithExactly({
           certificationAssessment,
-          locale: LOCALE.FRENCH_SPOKEN,
+          locale: FRENCH_SPOKEN,
         });
         expect(usecases.scoreCompletedV2Certification).to.not.have.been.called;
       });

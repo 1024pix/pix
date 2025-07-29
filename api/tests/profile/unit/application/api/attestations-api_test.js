@@ -3,7 +3,7 @@ import {
   getAttestationsUserDetail,
 } from '../../../../../src/profile/application/api/attestations-api.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Profile | Unit | Application | Api | attestations', function () {
@@ -13,7 +13,7 @@ describe('Profile | Unit | Application | Api | attestations', function () {
       const userIds = Symbol('userIds');
       const organizationId = Symbol('organizationId');
       const data = Symbol('data');
-      const locale = LOCALE.FRENCH_FRANCE;
+      const locale = FRENCH_FRANCE;
       const expectedBuffer = Symbol('expectedBuffer');
 
       const dependencies = {
@@ -47,7 +47,7 @@ describe('Profile | Unit | Application | Api | attestations', function () {
       const userIds = Symbol('userIds');
       const organizationId = Symbol('organizationId');
       const data = Symbol('data');
-      const locale = LOCALE.FRENCH_FRANCE;
+      const locale = FRENCH_FRANCE;
 
       const dependencies = {
         pdfWithFormSerializer: {

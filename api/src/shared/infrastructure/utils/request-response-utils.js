@@ -1,10 +1,9 @@
 import accept from '@hapi/accept';
 
-import { LOCALE } from '../../../shared/domain/constants.js';
 import { LANGUAGES_CODE } from '../../../shared/domain/services/language-service.js';
+import { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 const { DUTCH, SPANISH } = LANGUAGES_CODE;
 const requestResponseUtils = {
   escapeFileName,

@@ -4,11 +4,9 @@ import * as url from 'node:url';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
 import { getInvigilatorKitPdfBuffer } from '../../../../../../../src/certification/session-management/infrastructure/utils/pdf/invigilator-kit-pdf.js';
-import { LOCALE } from '../../../../../../../src/shared/domain/constants.js';
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
-
-const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

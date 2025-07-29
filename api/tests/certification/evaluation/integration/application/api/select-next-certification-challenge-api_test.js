@@ -3,8 +3,8 @@ import { KnexTimeoutError } from 'knex/lib/util/timeout.js';
 import * as selectNextCertificationChallengeApi from '../../../../../../src/certification/evaluation/application/api/select-next-certification-challenge-api.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment, CertificationIssueReportCategory } from '../../../../../../src/shared/domain/models/index.js';
+import { FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Application | Certification | Evaluation | API', function () {
@@ -52,7 +52,7 @@ describe('Integration | Application | Certification | Evaluation | API', functio
       // when
       const timeoutError = await catchErr(selectNextCertificationChallengeApi.selectNextCertificationChallenge)({
         assessmentId: originalAssessment.id,
-        locale: LOCALE.FRENCH_FRANCE,
+        locale: FRENCH_FRANCE,
       });
 
       // then

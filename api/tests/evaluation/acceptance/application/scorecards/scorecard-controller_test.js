@@ -1,5 +1,5 @@
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import {
   createServer,
   databaseBuilder,
@@ -7,8 +7,6 @@ import {
   generateAuthenticatedUserRequestHeaders,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;

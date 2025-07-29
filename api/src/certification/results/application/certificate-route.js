@@ -1,11 +1,9 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { certificationVerificationCodeType, identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificateController } from './certificate-controller.js';
-
-const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {
   server.route([

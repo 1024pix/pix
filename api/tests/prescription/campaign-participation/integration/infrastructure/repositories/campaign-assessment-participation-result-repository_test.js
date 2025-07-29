@@ -1,12 +1,9 @@
 import * as campaignAssessmentParticipationResultRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
-
-const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
-
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Campaign Assessment Participation Result', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {

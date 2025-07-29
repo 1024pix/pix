@@ -1,10 +1,8 @@
 import * as CampaignProfileRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-profile-repository.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/domain/constants.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
-
-const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | Repository | CampaignProfileRepository', function () {
   const locale = FRENCH_SPOKEN;

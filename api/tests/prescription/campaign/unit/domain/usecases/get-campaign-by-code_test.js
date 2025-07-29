@@ -1,9 +1,7 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { expect, sinon } from '../../../../../test-helper.js';
-
-const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | UseCase | get-campaign-by-code', function () {
   let code,

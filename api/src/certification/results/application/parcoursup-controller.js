@@ -1,6 +1,5 @@
-import { LOCALE } from '../../../shared/domain/constants.js';
+import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js';
 import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
-const { FRENCH_FRANCE } = LOCALE;
 import { usecases } from '../domain/usecases/index.js';
 import * as parcoursupCertificationSerializer from '../infrastructure/serializers/parcoursup-certification-serializer.js';
 

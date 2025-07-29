@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { LOCALE } from '../../../../shared/domain/constants.js';
+import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
@@ -9,13 +9,13 @@ import * as thematicRepository from '../../../../shared/infrastructure/repositor
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 
 export async function getFrameworkReferential({ challengeIds }) {
-  const challenges = await challengeRepository.getMany(challengeIds, LOCALE.FRENCH_SPOKEN);
+  const challenges = await challengeRepository.getMany(challengeIds, FRENCH_SPOKEN);
 
   const skillIds = challenges.map((challenge) => challenge.skill.id);
   const skills = await skillRepository.findByRecordIds(skillIds);
 
   const tubeIds = skills.map((skill) => skill.tubeId);
-  const tubes = await tubeRepository.findByRecordIds(tubeIds, LOCALE.FRENCH_SPOKEN);
+  const tubes = await tubeRepository.findByRecordIds(tubeIds, FRENCH_SPOKEN);
   tubes.forEach((tube) => {
     tube.skills = skills.filter((skill) => {
       return skill.tubeId === tube.id;
@@ -23,7 +23,7 @@ export async function getFrameworkReferential({ challengeIds }) {
   });
 
   const thematicIds = tubes.map((tube) => tube.thematicId);
-  const thematics = await thematicRepository.findByRecordIds(thematicIds, LOCALE.FRENCH_SPOKEN);
+  const thematics = await thematicRepository.findByRecordIds(thematicIds, FRENCH_SPOKEN);
   thematics.forEach((thematic) => {
     thematic.tubes = tubes.filter((tube) => tube.thematicId === thematic.id);
   });
@@ -31,7 +31,7 @@ export async function getFrameworkReferential({ challengeIds }) {
   const competenceIds = tubes.map((tube) => tube.competenceId);
   const competences = await competenceRepository.findByRecordIds({
     competenceIds,
-    locale: LOCALE.FRENCH_SPOKEN,
+    locale: FRENCH_SPOKEN,
   });
   competences.forEach((competence) => {
     competence.tubes = tubes.filter((tube) => {
@@ -46,7 +46,7 @@ export async function getFrameworkReferential({ challengeIds }) {
   const uniqAreaIds = _.uniqBy(allAreaIds, 'id');
   const areas = await areaRepository.findByRecordIds({
     areaIds: uniqAreaIds,
-    locale: LOCALE.FRENCH_SPOKEN,
+    locale: FRENCH_SPOKEN,
   });
   areas.forEach((area) => {
     area.competences = competences.filter((competence) => {

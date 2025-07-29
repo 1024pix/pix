@@ -5,9 +5,9 @@ import * as prescriptionCampaignApi from '../../../../../../src/prescription/cam
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { usecases as prescriptionTargetProfilesUsecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { assertNotNullOrUndefined } from '../../../../../../src/shared/domain/models/asserts.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { sharedUsecases } from '../../../../../../src/shared/domain/usecases/index.js';
 import * as profileTooling from '../../../../data/common/tooling/profile-tooling.js';
 import { CLEA_V2_TARGET_PROFILE_ID } from '../../../common/complementary-certification-builder.js';
@@ -78,7 +78,7 @@ export default async function obtainCleaBadgeForUser({
 
   const assessment = await sharedUsecases.getAssessment({
     assessmentId: assessmentDb.id,
-    locale: LOCALE.FRENCH_FRANCE,
+    locale: FRENCH_FRANCE,
   });
 
   await evaluationUsecases.handleBadgeAcquisition({ assessment });

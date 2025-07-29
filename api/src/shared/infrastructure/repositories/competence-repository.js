@@ -1,11 +1,11 @@
-import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
+import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js';
+import { PIX_ORIGIN } from '../../domain/constants.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/index.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
-const { FRENCH_FRANCE } = LOCALE;
 const TABLE_NAME = 'learningcontent.competences';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
