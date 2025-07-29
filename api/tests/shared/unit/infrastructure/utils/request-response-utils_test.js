@@ -66,7 +66,7 @@ describe('Unit | Utils | Request Utils', function () {
       { header: 'fr-FR', expectedLocale: FRENCH_FRANCE },
       { header: 'fr', expectedLocale: FRENCH_SPOKEN },
       { header: 'en', expectedLocale: ENGLISH_SPOKEN },
-      { header: 'de', expectedLocale: FRENCH_FRANCE },
+      { header: 'tlh', expectedLocale: FRENCH_FRANCE }, // tlh: Klingon locale
       { header: 'fr-BE', expectedLocale: FRENCH_FRANCE },
     ].forEach(function (data) {
       it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function () {
