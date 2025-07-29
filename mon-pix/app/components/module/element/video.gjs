@@ -37,7 +37,7 @@ export default class ModulixVideoElement extends Component {
   @action
   launchPlyr() {
     new Plyr(document.getElementById(this.args.video.id), {
-      hideControls: false,
+      hideControls: true,
       disableContextMenu: false,
       i18n: player_fr,
       loadSprite: false,
