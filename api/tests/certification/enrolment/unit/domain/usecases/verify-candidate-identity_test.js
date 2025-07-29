@@ -8,7 +8,6 @@ import {
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../../../src/shared/domain/errors.js';
-import { LANGUAGES_CODE } from '../../../../../../src/shared/domain/services/language-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate-identity', function () {
@@ -68,7 +67,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     userRepository.get.withArgs({ id: userId }).resolves(
       domainBuilder.certification.enrolment.buildUser({
         id: userId,
-        lang: LANGUAGES_CODE.FRENCH,
+        lang: 'fr',
       }),
     );
     centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
@@ -131,7 +130,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       userRepository.get.withArgs({ id: userId }).resolves(
         domainBuilder.certification.enrolment.buildUser({
           id: userId,
-          lang: LANGUAGES_CODE.FRENCH,
+          lang: 'fr',
         }),
       );
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
@@ -166,7 +165,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       userRepository.get.withArgs({ id: userId }).resolves(
         domainBuilder.certification.enrolment.buildUser({
           id: userId,
-          lang: LANGUAGES_CODE.FRENCH,
+          lang: 'fr',
         }),
       );
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
@@ -210,7 +209,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
             id: userId,
-            lang: LANGUAGES_CODE.FRENCH,
+            lang: 'fr',
           }),
         );
         centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
@@ -261,7 +260,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
             id: userId,
-            lang: LANGUAGES_CODE.FRENCH,
+            lang: 'fr',
           }),
         );
         centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
@@ -312,7 +311,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
             id: userId,
-            lang: LANGUAGES_CODE.FRENCH,
+            lang: 'fr',
           }),
         );
         centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
@@ -379,7 +378,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             userRepository.get.withArgs({ id: userId }).resolves(
               domainBuilder.certification.enrolment.buildUser({
                 id: userId,
-                lang: LANGUAGES_CODE.FRENCH,
+                lang: 'fr',
                 organizationLearnerIds: [123],
               }),
             );

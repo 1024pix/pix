@@ -4,11 +4,8 @@ import { certificateController } from '../../../../../src/certification/results/
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { usecases as certificationSharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
-
-const { FRENCH } = LANGUAGES_CODE;
 
 describe('Certification | Results | Unit | Application | certificate-controller', function () {
   describe('#getCertificateByVerificationCode', function () {
@@ -262,7 +259,7 @@ describe('Certification | Results | Unit | Application | certificate-controller'
           i18n,
           auth: { credentials: { userId } },
           params: { certificationCourseId: 9 },
-          query: { lang: FRENCH },
+          query: { lang: 'fr' },
         };
 
         const certificationCourse = domainBuilder.buildCertificationCourse({
@@ -313,7 +310,7 @@ describe('Certification | Results | Unit | Application | certificate-controller'
           i18n,
           auth: { credentials: { userId } },
           params: { certificationCourseId: 9 },
-          query: { isFrenchDomainExtension: true, lang: FRENCH },
+          query: { isFrenchDomainExtension: true, lang: 'fr' },
         };
 
         const certificationCourse = domainBuilder.buildCertificationCourse({
@@ -499,7 +496,7 @@ describe('Certification | Results | Unit | Application | certificate-controller'
           i18n,
           auth: { credentials: { userId } },
           params: { organizationId },
-          query: { division, isFrenchDomainExtension: true, lang: FRENCH },
+          query: { division, isFrenchDomainExtension: true, lang: 'fr' },
         };
 
         sinon
@@ -543,7 +540,7 @@ describe('Certification | Results | Unit | Application | certificate-controller'
         const organizationId = domainBuilder.buildOrganization().id;
         const division = '3b';
         const userId = 1;
-        const lang = FRENCH;
+        const lang = 'fr';
         const i18n = getI18n();
 
         const request = {

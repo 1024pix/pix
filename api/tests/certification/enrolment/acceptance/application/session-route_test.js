@@ -1,7 +1,6 @@
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
-import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import {
   createServer,
   databaseBuilder,
@@ -359,7 +358,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
 
       beforeEach(async function () {
         userId = databaseBuilder.factory.buildUser({
-          lang: LANGUAGES_CODE.FRENCH,
+          lang: 'fr',
         }).id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           type: CERTIFICATION_CENTER_TYPES.SUP,
@@ -470,7 +469,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           }).id;
 
           const onlyComplementarySubscriptionUserId = databaseBuilder.factory.buildUser({
-            lang: LANGUAGES_CODE.FRENCH,
+            lang: 'fr',
           }).id;
 
           const sessionId2 = databaseBuilder.factory.buildSession({
@@ -529,7 +528,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
 
       beforeEach(function () {
         userId = databaseBuilder.factory.buildUser({
-          lang: LANGUAGES_CODE.FRENCH,
+          lang: 'fr',
         }).id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           type: CERTIFICATION_CENTER_TYPES.SCO,
