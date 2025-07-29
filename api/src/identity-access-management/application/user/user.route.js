@@ -4,7 +4,7 @@ import XRegExp from 'xregexp';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { config } from '../../../shared/config.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
-import { AVAILABLE_LANGUAGES } from '../../../shared/domain/services/language-service.js';
+import { getSupportedLanguages } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userController } from './user.controller.js';
 import { userVerification } from './user-existence-verification-pre-handler.js';
@@ -282,7 +282,7 @@ export const userRoutes = [
       validate: {
         params: Joi.object({
           id: identifiersType.userId,
-          lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
+          lang: Joi.string().valid(...getSupportedLanguages()),
         }),
       },
       pre: [

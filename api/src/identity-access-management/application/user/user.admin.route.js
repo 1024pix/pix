@@ -2,8 +2,7 @@ import Joi from 'joi';
 
 import { BadRequestError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { AVAILABLE_LANGUAGES } from '../../../shared/domain/services/language-service.js';
-import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
+import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { QUERY_TYPES } from '../../domain/constants/user-query.js';
 import { userAdminController } from './user.admin.controller.js';
@@ -107,7 +106,7 @@ export const userAdminRoutes = [
               'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               email: Joi.string().email().allow(null).optional(),
               username: Joi.string().allow(null).optional(),
-              lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
+              lang: Joi.string().valid(...getSupportedLanguages()),
               locale: Joi.string()
                 .allow(null)
                 .optional()

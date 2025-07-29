@@ -31,6 +31,13 @@ function getSupportedLocales() {
   return SUPPORTED_LOCALES;
 }
 
+/**
+ * @deprecated use getSupportedLocales or getChallengeLocales instead whenever possible.
+ */
+function getSupportedLanguages() {
+  return SUPPORTED_LANGUAGES;
+}
+
 function getDefaultLocale() {
   return DEFAULT_LOCALE;
 }
@@ -73,6 +80,7 @@ export {
   getChallengeLocales,
   getDefaultChallengeLocale,
   getDefaultLocale,
+  getSupportedLanguages,
   getSupportedLocales,
   SPANISH_SPOKEN,
 };
