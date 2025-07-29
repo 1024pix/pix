@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import lodash from 'lodash';
 
 import { config } from '../../../../src/shared/config.js';
-import * as languageService from '../../../shared/domain/services/language-service.js';
 import * as localeService from '../../../shared/domain/services/locale-service.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
@@ -43,7 +42,7 @@ class User {
       hasBeenAnonymised,
       hasBeenAnonymisedBy,
     } = {},
-    dependencies = { localeService, languageService },
+    dependencies = { localeService },
   ) {
     if (locale) {
       locale = dependencies.localeService.getCanonicalLocale(locale);

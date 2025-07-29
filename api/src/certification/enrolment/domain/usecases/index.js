@@ -3,7 +3,6 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as divisionRepository from '../../../../prescription/campaign/infrastructure/repositories/division-repository.js';
-import * as languageService from '../../../../shared/domain/services/language-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as organizationLearnerRepository from '../../../../shared/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
@@ -44,7 +43,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
- * @typedef {import('../../../../shared/domain/services/language-service.js')} languageService
  * @typedef {import('../../../../shared/infrastructure/repositories/organization-repository.js')} organizationRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-candidate-repository.js')} certificationCandidateRepository
  * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
@@ -97,7 +95,6 @@ const dependencies = {
   divisionRepository,
   certificationCandidatesOdsService,
   placementProfileService,
-  languageService,
   complementaryCertificationBadgesRepository,
   organizationRepository,
   organizationLearnerRepository,

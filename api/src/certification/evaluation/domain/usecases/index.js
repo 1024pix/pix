@@ -2,7 +2,6 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as scoringCertificationService from '../../../../certification/shared/domain/services/scoring-certification-service.js';
-import * as languageService from '../../../../shared/domain/services/language-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -71,7 +70,6 @@ const dependencies = {
   cpfExportRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
-  languageService,
   certificationBadgesService,
   pickChallengeService,
   placementProfileService,
