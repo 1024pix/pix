@@ -38,7 +38,7 @@
             "url": "https://assets.pix.org/modules/decouverte-ent/intro_conversation.mp4",
             "poster": "https://assets.pix.org/modules/decouverte-ent/intro_conversation.jpg",
             "subtitles": "https://assets.pix.org/modules/decouverte-ent/intro_conversation.vtt",
-            "transcription": "<p>Conversation entre Martin et sa fille Ava&nbsp;:&nbsp;</p>\n<p>Martin&nbsp;: Alors Ava ? Cette journée ?<br>Ava&nbsp;: Super, papa ! Mais je suis quand même contente d’être en week-end…<br>Martin&nbsp;: Tu as des devoirs pour la semaine prochaine ?<br>Ava&nbsp;: Oui, le prof a mis les devoirs en ligne !<br>Martin&nbsp;: En ligne ?</p>"
+            "transcription": "<p>Conversation entre Martin et sa fille Ava&nbsp;:&nbsp;</p><p>Martin&nbsp;: Alors Ava ? Cette journée ?<br>Ava&nbsp;: Super, papa ! Mais je suis quand même contente d’être en week-end…<br>Martin&nbsp;: Tu as des devoirs pour la semaine prochaine ?<br>Ava&nbsp;: Oui, le prof a mis les devoirs en ligne !<br>Martin&nbsp;: En ligne ?</p>"
           }
         }
       ]
@@ -211,7 +211,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_accueil.jpg",
             "alt": "Page d'accueil d'un ENT telle que décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Page d'accueil d'un ENT&nbsp;:</p>\n<ul>\n    <li>à gauche, un menu latéral avec les applications&nbsp;&nbsp;: <ul>\n            <li>Accueil, Messagerie, Cahier de texte, Emploi du temps, Documents, Actualités</li>\n        </ul>\n    </li>\n    <li>au centre, un accès rapide&nbsp;: <ul>\n            <li>à l'emploi du temps, au travail à faire et au suivi des notes</li>\n        </ul>\n    </li>\n    <li>en haut à droite, l'accès au compte personnel de Martin Pommard<br></li>\n</ul>",
+            "alternativeText": "<p>Page d'accueil d'un ENT&nbsp;:</p><ul>    <li>à gauche, un menu latéral avec les applications&nbsp;&nbsp;: <ul>            <li>Accueil, Messagerie, Cahier de texte, Emploi du temps, Documents, Actualités</li>        </ul>    </li>    <li>au centre, un accès rapide&nbsp;: <ul>            <li>à l'emploi du temps, au travail à faire et au suivi des notes</li>        </ul>    </li>    <li>en haut à droite, l'accès au compte personnel de Martin Pommard<br></li></ul>",
             "legend": "",
             "licence": ""
           }
@@ -221,7 +221,7 @@
           "element": {
             "id": "63803887-ac1c-4385-b9bc-65877d649134",
             "type": "text",
-            "content": "<h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants&nbsp;:</h3>\n<ul>\n    <li>voir l’emploi du temps,</li>\n    <li>communiquer avec l’établissement scolaire,</li>\n    <li>consulter le cahier de textes numérique.</li>\n</ul>\n<p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT&nbsp;: le lien vers l’ENT, un identifiant et un mot de passe. Il faut conserver ces informations tout au long de l'année. </p>\n<p>Souvent, le compte Educonnect permet de se connecter à l'ENT.</p>"
+            "content": "<h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants&nbsp;:</h3><ul>    <li>voir l’emploi du temps,</li>    <li>communiquer avec l’établissement scolaire,</li>    <li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT&nbsp;: le lien vers l’ENT, un identifiant et un mot de passe. Il faut conserver ces informations tout au long de l'année. </p><p>Souvent, le compte Educonnect permet de se connecter à l'ENT.</p>"
           }
         }
       ]
@@ -677,7 +677,7 @@
           "element": {
             "id": "5a4495bc-22f5-4a9a-aad5-531071bf33c9",
             "type": "text",
-            "content": "<p>Maintenant, testez votre mémoire. 🎯</p><p><strong>Pour chaque carte</strong>&nbsp;:&nbsp; </p><ol>    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li>    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol>"
+            "content": "<p>Maintenant, testez votre mémoire. 🎯</p>"
           }
         },
         {
@@ -685,7 +685,7 @@
           "element": {
             "id": "d0c79a9f-1c62-4b9b-9bf3-629746823287",
             "type": "flashcards",
-            "instruction": "",
+            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp; </p><ol>    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li>    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol>",
             "title": "L'espace numérique de travail",
             "introImage": {
               "url": "https://assets.pix.org/modules/didacticiel/intro-flashcards.png"
