@@ -1,5 +1,5 @@
 import { LocaleFormatError, LocaleNotSupportedError } from '../../../../../src/shared/domain/errors.js';
-import { getCanonicalLocale } from '../../../../../src/shared/domain/services/locale-service.js';
+import { getCanonicalLocale, getSupportedLanguages } from '../../../../../src/shared/domain/services/locale-service.js';
 import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Service | Locale', function () {
@@ -26,6 +26,16 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
 
       //then
       expect(locale).to.equal('fr-FR');
+    });
+  });
+
+  describe('getSupportedLanguages', function () {
+    it('returns languages computed from the supported locales', function () {
+      // when
+      const result = getSupportedLanguages();
+
+      // then
+      expect(result).to.deep.equal(['en', 'es', 'fr', 'nl']);
     });
   });
 });
