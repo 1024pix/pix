@@ -26,7 +26,7 @@
           "element": {
             "id": "d14837d6-8c5c-4071-931e-8cccc99aca2e",
             "type": "text",
-            "content": "<p>Ava vient de finir sa première semaine au collège.<span aria-hidden=\"true\">🎒</span></p><p>À la maison, Ava raconte sa journée à son père, Martin.</p><p>Lancez la vidéo pour voir leur discussion. ▶️ </p>"
+            "content": "<p>Ava vient de finir sa première semaine au collège.<span aria-hidden=\"true\">🎒</span></p><p>À la maison, elle raconte sa journée à son père, Martin.</p><p>Lancez la vidéo pour voir leur discussion. ▶️ </p>"
           }
         },
         {
@@ -38,7 +38,7 @@
             "url": "https://assets.pix.org/modules/decouverte-ent/intro_conversation.mp4",
             "poster": "https://assets.pix.org/modules/decouverte-ent/intro_conversation.jpg",
             "subtitles": "https://assets.pix.org/modules/decouverte-ent/intro_conversation.vtt",
-            "transcription": "<p>Conversation entre Martin et sa fille Ava&nbsp;:&nbsp;</p><p>Martin&nbsp;: Alors Ava ? Cette journée ?<br>Ava&nbsp;: Super, papa ! Mais je suis quand même contente d’être en week-end…<br>Martin&nbsp;: Tu as des devoirs pour la semaine prochaine ?<br>Ava&nbsp;: Oui, le prof a mis les devoirs en ligne !<br>Martin&nbsp;: En ligne ?</p>"
+            "transcription": "<p></p><h3>Des devoirs en ligne ?</h3><p></p><p>Conversation entre Martin et sa fille Ava&nbsp;:&nbsp;</p><p>Martin&nbsp;: Alors Ava, cette journée ?<br>Ava&nbsp;: Super, papa ! Mais je suis quand même contente d’être en week-end.<br>Martin&nbsp;: Tu as des devoirs pour la semaine prochaine ?<br>Ava&nbsp;: Oui, le prof a mis des devoirs en ligne.<br>Martin&nbsp;: En ligne ?</p>"
           }
         }
       ]
@@ -68,7 +68,7 @@
                 "content": "<p>sur l'espace numérique de travail</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Effectivement, l’espace numérique de travail ou ENT est l'outil numérique de suivi de la scolarité proposé par le collège. </p>"
+                  "diagnosis": "<p>Effectivement, l’espace numérique de travail (ou ENT) est l'outil numérique de suivi de la scolarité proposé par le collège. </p>"
                 }
               },
               {
@@ -76,7 +76,7 @@
                 "content": "<p>sur sa boîte mail</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non, le collège propose un outil numérique pour le suivi de la scolarité :&nbsp;l’espace numérique de travail ou ENT.</p>"
+                  "diagnosis": "<p>Et non, le collège propose un outil numérique pour le suivi de la scolarité&nbsp;:&nbsp;l’espace numérique de travail (ou ENT).</p>"
                 }
               },
               {
@@ -84,7 +84,7 @@
                 "content": "<p>sur le site internet de la mairie</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>Et non, le collège propose un outil numérique pour le suivi de la scolarité :&nbsp;l’espace numérique de travail ou ENT.</p>"
+                  "diagnosis": "<p>Et non, le collège propose un outil numérique pour le suivi de la scolarité&nbsp;:&nbsp;l’espace numérique de travail (ou ENT).</p>"
                 }
               },
               {
@@ -92,7 +92,7 @@
                 "content": "<p>Je ne sais pas.</p>",
                 "feedback": {
                   "state": "",
-                  "diagnosis": "<p>En fait, le collège propose un outil numérique pour le suivi de la scolarité :&nbsp;l’espace numérique de travail ou ENT.</p>"
+                  "diagnosis": "<p>Le collège propose un outil numérique pour le suivi de la scolarité&nbsp;:&nbsp;l’espace numérique de travail (ou ENT).</p>"
                 }
               }
             ],
@@ -128,7 +128,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_schema.png",
             "alt": "",
-            "alternativeText": "<p>Image avec&nbsp;: </p><ul><li>au centre, un ordinateur et un smartphone qui affichent l'écran d'accueil d'un ENT</li><li>autour de l'ordinateur et du smartphone, avec des flèches dans leur direction, un groupe de parents, un groupe d'élèves, un groupe de professeurs, un groupe de personnels d'éducation.</li></ul>"
+            "alternativeText": ""
           }
         },
         {
@@ -136,7 +136,7 @@
           "element": {
             "id": "d3f646e0-1c3d-42bf-a604-9e8e9c2a29a9",
             "type": "text",
-            "content": "<h3>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire.</h3><p><br>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal, ...).</p><p>Il est accessible sur ordinateur, smartphone et tablette.</p><p><span aria-hidden=\"true\">💡</span> L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
+            "content": "<h3>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire.</h3><p><br>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal...).</p><p>Il est accessible sur ordinateur, smartphone et tablette.</p><p><strong><span aria-hidden=\"true\">💡</span>&nbsp;Bon à savoir</strong> <br>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
           }
         },
         {
@@ -151,7 +151,7 @@
           "element": {
             "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
             "type": "text",
-            "content": "<h3>La plupart des collèges et des lycées et certaines écoles primaire ont un ENT mais ce n'est pas obligatoire.</h3><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse un élève utilise l’ENT Leia et en Occitanie un élève utilise MonENTOccitanie.</p>"
+            "content": "<h3>La plupart des collèges et des lycées et certaines écoles primaire ont un ENT mais ce n'est pas obligatoire.</h3><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse les élèves utilisent l’ENT Leia et, en Occitanie, les élèves utilisent MonENTOccitanie.</p>"
           }
         }
       ]
@@ -166,7 +166,7 @@
           "element": {
             "id": "2ce8ab36-9f17-4d01-8264-9d56bcdf2a11",
             "type": "qcm",
-            "instruction": "<p>À votre avis, que peut faire Martin grâce à l'ENT ?</p>",
+            "instruction": "<p>À votre avis, que peut faire Martin grâce à l'ENT ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -184,11 +184,11 @@
             "feedbacks": {
               "valid": {
                 "state": "",
-                "diagnosis": "<p>Effectivement, grâce à l'ENT, Martin peut consulter des informations qui concernent sa fille : ses notes, son emploi du temps, ses devoirs. Par contre, il ne peut pas modifier l'emploi du temps de la classe.&nbsp;<br></p>"
+                "diagnosis": "<p>Effectivement, grâce à l'ENT, Martin peut consulter des informations qui concernent sa fille&nbsp;: ses notes, son emploi du temps, ses devoirs. Par contre, il ne peut pas modifier l'emploi du temps de la classe.&nbsp;<br></p>"
               },
               "invalid": {
                 "state": "",
-                "diagnosis": "<p>Et non !&nbsp; Grâce à l'ENT, Martin peut consulter des informations qui concernent sa fille : ses notes, son emploi du temps, ses devoirs. Par contre, il ne peut pas modifier l'emploi du temps de la classe.</p>"
+                "diagnosis": "<p>Pas tout à fait ! Grâce à l'ENT, Martin peut consulter des informations qui concernent sa fille&nbsp;: ses notes, son emploi du temps, ses devoirs. Par contre, il ne peut pas modifier l'emploi du temps de la classe.</p>"
               }
             },
             "solutions": [
@@ -211,7 +211,7 @@
             "type": "image",
             "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_accueil.jpg",
             "alt": "Page d'accueil d'un ENT telle que décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Page d'accueil d'un ENT&nbsp;:</p><ul>    <li>à gauche, un menu latéral avec les applications&nbsp;&nbsp;: <ul>            <li>Accueil, Messagerie, Cahier de texte, Emploi du temps, Documents, Actualités</li>        </ul>    </li>    <li>au centre, un accès rapide&nbsp;: <ul>            <li>à l'emploi du temps, au travail à faire et au suivi des notes</li>        </ul>    </li>    <li>en haut à droite, l'accès au compte personnel de Martin Pommard<br></li></ul>",
+            "alternativeText": "<p>Page d'accueil d'un ENT&nbsp;:</p><ul>    <li>à gauche, un menu latéral avec les applications&nbsp;&nbsp;: <ul>            <li>Accueil, Messagerie, Cahier de textes, Emploi du temps, Documents, Actualités</li>        </ul>    </li>    <li>au centre, un accès rapide&nbsp;: <ul>            <li>à l'emploi du temps, au travail à faire et au suivi des notes</li>        </ul>    </li>    <li>en haut à droite, l'accès au compte personnel de Martin Pommard<br></li></ul>",
             "legend": "",
             "licence": ""
           }
@@ -221,7 +221,7 @@
           "element": {
             "id": "63803887-ac1c-4385-b9bc-65877d649134",
             "type": "text",
-            "content": "<h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants&nbsp;:</h3><ul>    <li>voir l’emploi du temps,</li>    <li>communiquer avec l’établissement scolaire,</li>    <li>consulter le cahier de textes numérique.</li></ul><p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT&nbsp;: le lien vers l’ENT, un identifiant et un mot de passe. Il faut conserver ces informations tout au long de l'année. </p><p>Souvent, le compte Educonnect permet de se connecter à l'ENT.</p>"
+            "content": "<h3>L’ENT permet aux parents de suivre au quotidien la scolarité de leurs enfants&nbsp;:</h3>\n<ul>\n    <li>voir l’emploi du temps</li>\n    <li>communiquer avec l’établissement scolaire</li>\n    <li>consulter le cahier de textes numérique</li>\n</ul>\n<p><span aria-hidden=\"true\">👉</span> En début d’année, l’établissement scolaire donne les informations pour se connecter à l’ENT&nbsp;: le lien vers l’ENT, un identifiant et un mot de passe. Il faut conserver ces informations tout au long de l'année.<br>Souvent, le compte Educonnect permet de se connecter à l'ENT.</p>"
           }
         }
       ]
@@ -244,14 +244,14 @@
     {
       "id": "6a8d4f2b-e60b-475a-98d8-3c4e3710a14a",
       "type": "discovery",
-      "title": "Activité de découverte - 3 : Les fonctionnalités",
+      "title": "Activité de découverte - 3 : Les fonctionnalités",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "1e8e1448-5373-4272-9240-4b378dffcffb",
             "type": "text",
-            "content": "<p>Martin est connecté à l’ENT du collège d’Ava.</p><p>Répondez à chacune des questions suivantes.</p>"
+            "content": "<p>Martin est connecté à l’ENT du collège d’Ava.</p><p>Répondez à chacune des questions ci-dessous.</p>"
           }
         },
         {
@@ -276,7 +276,7 @@
                       "content": "<p>la messagerie</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! La messagerie permet de contacter les professeurs.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                        "diagnosis": "<p>Et non ! La messagerie permet de contacter les professeurs.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                       }
                     },
                     {
@@ -284,7 +284,7 @@
                       "content": "<p>le cahier de textes</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                        "diagnosis": "<p>Et non ! Le cahier de textes numérique permet d’avoir un suivi régulier du travail effectué en classe.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                       }
                     },
                     {
@@ -292,7 +292,7 @@
                       "content": "<p>l'emploi du temps</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Bien joué ! L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                        "diagnosis": "<p>Bien joué ! L’emploi du temps permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                       }
                     },
                     {
@@ -300,7 +300,7 @@
                       "content": "<p>les documents</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! L’application Documents permet de consulter des documents partagés.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                        "diagnosis": "<p>Et non ! L’application «&nbsp;Documents&nbsp;» permet de consulter des documents partagés.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                       }
                     },
                     {
@@ -308,7 +308,7 @@
                       "content": "<p>le blog</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le blog permet de suivre la vie de la classe.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
+                        "diagnosis": "<p>Et non ! Le blog permet de suivre la vie de la classe.&nbsp;C'est l’emploi du temps qui permet de connaître les cours d’Ava heure par heure, jour par jour.</p>"
                       }
                     },
                     {
@@ -331,7 +331,7 @@
                   "type": "image",
                   "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_message.jpg",
                   "alt": "",
-                  "alternativeText": "<p>Page «&nbsp;Actualités&nbsp;» d'un ENT&nbsp;:</p><ul>    <li>à gauche, un menu latéral avec les applications&nbsp;&nbsp;:        <ul>            <li> Accueil, </li>            <li>Messagerie (2), </li>            <li>Cahier de texte, </li>            <li>Emploi du temps, </li>            <li>Documents, </li>            <li>Actualités            </li>        </ul>    </li>    <li>        au centre, un accès rapide à 3 actualités concernant le collège</li>    <li>        à droite, l'accès au compte personnel de Martin Pommard et un menu mes applis avec&nbsp;: <ul>            <li>Messagerie (2), </li>            <li>Cahier de textes, </li>            <li>Emploi du temps<br><br></li>        </ul>    </li></ul>"
+                  "alternativeText": "<p>Page «&nbsp;Actualités&nbsp;» d'un ENT&nbsp;:</p><ul>    <li>à gauche, un menu latéral avec les applications&nbsp;&nbsp;:        <ul>            <li> Accueil, </li>            <li>Messagerie (2) </li>            <li>Cahier de textes</li>            <li>Emploi du temps </li>            <li>Documents </li>            <li>Actualités            </li>        </ul>    </li>    <li>        au centre, un accès rapide à 3 actualités concernant le collège</li>    <li>        à droite, l'accès au compte personnel de Martin Pommard et un menu «&nbsp;Mes applis&nbsp;» avec&nbsp;: <ul>            <li>Messagerie (2) </li>            <li>Cahier de textes </li>            <li>Emploi du temps<br><br></li>        </ul>    </li></ul>"
                 },
                 {
                   "id": "d83eba7d-cfe9-4e7b-ada6-fbcbaa17be23",
@@ -343,7 +343,7 @@
                       "content": "<p>1</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Il y a 2 messages non lus dans la messagerie. La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                        "diagnosis": "<p>Et non ! Il y a 2 messages non lus dans la messagerie. La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                       }
                     },
                     {
@@ -351,7 +351,7 @@
                       "content": "<p>2</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Bien joué ! Il y a 2 messages non lus dans la messagerie. La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                        "diagnosis": "<p>Bien joué ! Il y a 2 messages non lus dans la messagerie. La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                       }
                     },
                     {
@@ -359,7 +359,7 @@
                       "content": "<p>3</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Il y a bien 3 publications dans le fil d'actualités mais il y a 2 messages non lus dans la messagerie.La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
+                        "diagnosis": "<p>Et non ! Il y a bien 3 publications dans le fil d'actualités mais il y a 2 messages non lus dans la messagerie. La messagerie de l’ENT est l’outil à privilégier pour contacter l’établissement scolaire.</p>"
                       }
                     },
                     {
@@ -382,7 +382,7 @@
                   "type": "image",
                   "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_devoirs.jpg",
                   "alt": "",
-                  "alternativeText": "<p>Page «&nbsp;Cahier de texte&nbsp;» d'un ENT&nbsp;:</p><ul>    <li>&nbsp;un menu latéral avec les applications&nbsp;&nbsp;:        <ul>            <li> Accueil, </li>            <li>Messagerie (2), </li>            <li>Cahier de texte, </li>            <li>Emploi du temps, </li>            <li>Documents, </li>            <li>Actualités            </li>        </ul>    </li>    <li>au centre, cahier de texte de l'élève avec les cours et devoirs à venir&nbsp;: <ul>            <li>Vendredi 6 septembre&nbsp;:&nbsp;<ul><li>Histoire-géographie - 6ème B - L'empire romain</li><li>Mathématiques - 6ème B - Les ensembles de nombres</li></ul></li><li>Lundi 9 septembre&nbsp;:&nbsp;<ul><li>Mathématiques - 6ème B - Exercice donné le 06/09/2024 - à faire</li><li>Français - 6ème B - Les compléments circonstanciels</li></ul></li><li>Mardi 10 septembre&nbsp;:&nbsp;<ul><li>Mathématiques - 6ème B - Les ensembles de nombres</li><li>Français - 6ème B - Devoir à la maison donné le 05/09/2024 - à faire</li></ul></li>        </ul>    </li>    <li>en haut à droite, l'accès au compte personnel de Martin Pommard<br></li></ul>"
+                  "alternativeText": "<p>Page «&nbsp;Cahier de texte&nbsp;» d'un ENT&nbsp;:</p><ul>    <li>&nbsp;un menu latéral avec les applications&nbsp;&nbsp;:        <ul>            <li> Accueil, </li>            <li>Messagerie (2) </li>            <li>Cahier de textes</li>            <li>Emploi du temps </li>            <li>Documents </li>            <li>Actualités</li>        </ul>    </li>    <li>au centre, cahier de texte de l'élève avec les cours et devoirs à venir&nbsp;: <ul>            <li>Vendredi 6 septembre&nbsp;:&nbsp;<ul><li>Histoire-géographie - 6ème B - L'empire romain</li><li>Mathématiques - 6ème B - Les ensembles de nombres</li></ul></li><li>Lundi 9 septembre&nbsp;:&nbsp;<ul><li>Mathématiques - 6ème B - Exercice donné le 06/09/2024 - à faire</li><li>Français - 6ème B - Les compléments circonstanciels</li></ul></li><li>Mardi 10 septembre&nbsp;:&nbsp;<ul><li>Mathématiques - 6ème B - Les ensembles de nombres</li><li>Français - 6ème B - Devoir à la maison donné le 05/09/2024 - à faire</li></ul></li>        </ul>    </li>    <li>en haut à droite, l'accès au compte personnel de Martin Pommard</li></ul>"
                 },
                 {
                   "id": "85ef8964-a248-4a9d-a087-091a4aefd30a",
@@ -394,7 +394,7 @@
                       "content": "<p>Histoire-géographie</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le professeur d’Histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours. Par contre, la professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                        "diagnosis": "<p>Et non ! Le professeur d’histoire-géographie n’a pas indiqué de devoirs à faire dans le cahier de textes, seulement les sujets du dernier cours. Par contre, la professeure de français a indiqué dans le cahier de textes qu’Ava avait un devoir à la maison à rendre mardi.</p>"
                       }
                     },
                     {
@@ -402,7 +402,7 @@
                       "content": "<p>Mathématiques</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Et non ! Le professeur de Mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi.&nbsp;Par contre, la professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                        "diagnosis": "<p>Et non ! Le professeur de mathématique a bien indiqué des devoirs à faire, mais ils ne sont pas à rendre mardi.&nbsp;Par contre, la professeure de français a indiqué dans le cahier de textes qu’Ava avait un devoir à la maison à rendre mardi.</p>"
                       }
                     },
                     {
@@ -410,7 +410,7 @@
                       "content": "<p>Français</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>Effectivement, la professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                        "diagnosis": "<p>Effectivement, la professeure de français a indiqué dans le cahier de textes qu’Ava avait un devoir à la maison à rendre mardi.</p>"
                       }
                     },
                     {
@@ -418,7 +418,7 @@
                       "content": "<p>Je ne sais pas.</p>",
                       "feedback": {
                         "state": "",
-                        "diagnosis": "<p>La professeure de Français a indiqué dans le cahier de textes qu’Ava a un devoir à la maison à rendre mardi.</p>"
+                        "diagnosis": "<p>La professeure de français a indiqué dans le cahier de textes qu’Ava avait un devoir à la maison à rendre mardi.</p>"
                       }
                     }
                   ],
@@ -433,7 +433,7 @@
     {
       "id": "6c2e4b2c-bc41-4fd3-a8e3-d904fcede740",
       "type": "lesson",
-      "title": "Leçon - 3 : Les différents types de comptes de l'ENT",
+      "title": "Leçon - 3 : Les différents types de comptes de l'ENT",
       "components": [
         {
           "type": "element",
@@ -452,7 +452,7 @@
             "url": "https://assets.pix.org/modules/decouverte-ent/differents-comptes.mp4",
             "poster": "https://assets.pix.org/modules/decouverte-ent/differents-comptes.jpg",
             "subtitles": "https://assets.pix.org/modules/decouverte-ent/differents-comptes.vtt",
-            "transcription": "<p>ENT, focus sur le compte parent. <br>Conversation entre Ava et son père, Martin&nbsp;: </p><p>Ava&nbsp;: Hey papa ! T'as vu le message sur l'ENT ? C'est le CPE Monsieur Rossi qui te l'a envoyé !<br>Martin&nbsp;: Le CPE ? Mais je savais pas que le CPE pouvait utiliser l'ENT.<br><br>Voix off&nbsp;: Et oui, le CPE aussi utilise l'ENT. Comme beaucoup d'autres personnes au collège d'ailleurs. Mais il n'a pas accès aux mêmes fonctionnalités que Martin,&nbsp;le père d'Ava.<br>Chaque personne qui utilise un ENT se connecte à son compte personnel, mais tout le monde n'a pas accès aux mêmes fonctionnalités selon son rôle. Il y a donc différents types de compte pour les parents, pour les élèves, pour les enseignants et pour les personnels d'éducation. Chaque personne a accès uniquement aux fonctionnalités qui la concernent. <br><br>Avec le compte parent, il est par exemple possible de voir l'emploi du temps de son enfant ou ses notes, mais pas de les modifier. Les modifications sont réservées aux enseignants et aux personnels d'éducation. Le compte parent permet aussi de suivre les devoirs donnés à son enfant, mais pas de les rendre à sa place. C'est à l'enfant de le faire avec son compte élève.<br><br>  Pour finir, avec le compte parent, il est aussi possible de contacter l'établissement scolaire grâce à la messagerie de l'ENT. Pour ça, le parent doit être connecté à son propre compte et non à celui de son enfant. De cette manière, l'enseignant qui recevra le message saura qui lui écrit. Il n'y aura pas de confusion. </p><p>Voici quelques conseils pratiques pour l'utilisation de la messagerie du compte Parent. Ce compte est à utiliser pour des sujets uniquement liés à la scolarité de ses enfants. Les messages envoyés doivent être courts en précisant l'objet de la demande. Évitez les messages tardifs ou le week end et attendre un délai raisonnable pour recevoir une réponse. La messagerie de l'ENT n'est pas toujours consultée immédiatement.&nbsp;En cas d'urgence, il vaut mieux contacter directement le secrétariat de l'établissement en suivant les procédures du règlement intérieur.<br><br>Que ce soit la messagerie, l'emploi du temps ou bien d'autres fonctionnalités, L'ENT est un outil précieux pour Martin et pour tous les parents.</p>"
+            "transcription": "<p>L'ENT, focus sur le compte parent. <br>Conversation entre Ava et son père, Martin&nbsp;: </p><p>Ava&nbsp;: Hey papa ! Tu as vu le message sur l'ENT ? C'est le CPE, Monsieur Rossi qui te l'a envoyé !<br>Martin&nbsp;: Le CPE ? Mais je savais pas que le CPE pouvait utiliser l'ENT.<br><br>Voix off&nbsp;: Et oui, le CPE aussi utilise l'ENT. Comme beaucoup d'autres personnes au collège d'ailleurs. Mais il n'a pas accès aux mêmes fonctionnalités que Martin,&nbsp;le père d'Ava.<br>Chaque personne qui utilise un ENT se connecte à son compte personnel, mais tout le monde n'a pas accès aux mêmes fonctionnalités selon son rôle. Il y a donc différents types de comptes pour les parents, pour les élèves, pour les enseignants et pour les personnels d'éducation. Chaque personne a accès uniquement aux fonctionnalités qui la concernent. <br><br>Avec le compte parent, il est par exemple possible de voir l'emploi du temps de son enfant ou ses notes, mais pas de les modifier. Les modifications sont réservées aux enseignants et aux personnels d'éducation. Le compte parent permet aussi de suivre les devoirs donnés à son enfant, mais pas de les rendre à sa place. C'est à l'enfant de le faire avec son compte élève.<br><br>  Pour finir, avec le compte parent, il est aussi possible de contacter l'établissement scolaire grâce à la messagerie de l'ENT. Pour ça, le parent doit être connecté à son propre compte et non à celui de son enfant. De cette manière, l'enseignant qui recevra le message saura qui lui écrit. Il n'y aura pas de confusion. </p><p>Voici quelques conseils pratiques pour l'utilisation de la messagerie du compte parent. Ce compte est à utiliser pour des sujets uniquement liés à la scolarité de ses enfants. Les messages envoyés doivent être courts en précisant l'objet de la demande. Éviter les messages tardifs ou le week end et attendre un délai raisonnable pour recevoir une réponse. La messagerie de l'ENT n'est pas toujours consultée immédiatement.&nbsp;En cas d'urgence, il vaut mieux contacter directement le secrétariat de l'établissement en suivant les procédures du règlement intérieur.<br><br>Que ce soit la messagerie, l'emploi du temps ou bien d'autres fonctionnalités, L'ENT est un outil précieux pour Martin et pour tous les parents.</p>"
           }
         }
       ]
@@ -490,7 +490,7 @@
     {
       "id": "bf331dcd-e6ba-4d25-80f0-f95dea9e619f",
       "type": "activity",
-      "title": "Activité d'application - 1 : vrai-faux",
+      "title": "Activité d'application - 1 : vrai-faux",
       "components": [
         {
           "type": "element",
@@ -566,14 +566,14 @@
     {
       "id": "b4154d31-a9ab-47ef-a132-3a280ed330cb",
       "type": "activity",
-      "title": "Activité d'application - 2 : compte parent ou non ",
+      "title": "Activité d'application - 2 : compte parent ou non ",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "d4ac45bf-ba4d-4720-aa14-e8bae452956f",
             "type": "text",
-            "content": "<p>Pour chaque situation concrète d’utilisation de l’ENT, choisissez si l’utilisation du compte parent est adaptée ou non.</p>"
+            "content": "<p>Pour chaque situation, choisissez si l’utilisation du compte parent sur l'ENT est adaptée ou non.</p>"
           }
         },
         {
@@ -640,7 +640,7 @@
                 {
                   "id": "259c03fd-bdf1-4055-8f9b-a719216a25b4",
                   "type": "qcu",
-                  "instruction": "<p>Je dois traduire mon CV pour une recherche d'emploi. Je souhaiterais que&nbsp; le professeur d'anglais de mon enfant traduise ce CV.<span aria-hidden=\"true\">💂</span>️</p>",
+                  "instruction": "<p>Je dois traduire mon CV pour une recherche d'emploi. Je souhaiterais que&nbsp;le professeur d'anglais de mon enfant traduise ce CV.<span aria-hidden=\"true\">💂</span>️</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -685,7 +685,7 @@
           "element": {
             "id": "d0c79a9f-1c62-4b9b-9bf3-629746823287",
             "type": "flashcards",
-            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp; </p><ol>    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li>    <li>Retourner la carte en cliquant sur Voir la réponse. <span aria-hidden=\"true\">↪️</span></li></ol>",
+            "instruction": "<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp; </p><ol>    <li>Lisez la question. <span aria-hidden=\"true\">👀</span></li>    <li>Essayez de trouver la réponse dans votre tête. <span aria-hidden=\"true\">🤔</span></li>    <li>Retournez la carte en cliquant sur «&nbsp;Voir la réponse&nbsp;». <span aria-hidden=\"true\">↪️</span></li></ol>",
             "title": "L'espace numérique de travail",
             "introImage": {
               "url": "https://assets.pix.org/modules/didacticiel/intro-flashcards.png"
