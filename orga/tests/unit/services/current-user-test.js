@@ -510,6 +510,56 @@ module('Unit | Service | current-user', function (hooks) {
         assert.false(currentUserService.canAccessStatisticsPage);
       });
     });
+
+    module('#canEditLearnerName', function () {
+      test('should return true if user is admin, organisation has no import feature and organization is not managing students', function (assert) {
+        currentUserService.isAdminInOrganization = true;
+        currentUserService.prescriber = {
+          hasOrganizationLearnerImport: false,
+        };
+        currentUserService.organization = {
+          isManagingStudents: false,
+        };
+
+        assert.true(currentUserService.canEditLearnerName);
+      });
+
+      test('should return false if user is not admin', function (assert) {
+        currentUserService.isAdminInOrganization = false;
+        currentUserService.prescriber = {
+          hasOrganizationLearnerImport: false,
+        };
+        currentUserService.organization = {
+          isManagingStudents: false,
+        };
+
+        assert.false(currentUserService.canEditLearnerName);
+      });
+
+      test('should return false if user has import feature', function (assert) {
+        currentUserService.isAdminInOrganization = true;
+        currentUserService.prescriber = {
+          hasOrganizationLearnerImport: true,
+        };
+        currentUserService.organization = {
+          isManagingStudents: false,
+        };
+
+        assert.false(currentUserService.canEditLearnerName);
+      });
+
+      test('should return false if organization is managing students', function (assert) {
+        currentUserService.isAdminInOrganization = true;
+        currentUserService.prescriber = {
+          hasOrganizationLearnerImport: false,
+        };
+        currentUserService.organization = {
+          isManagingStudents: true,
+        };
+
+        assert.false(currentUserService.canEditLearnerName);
+      });
+    });
   });
 
   module('user is not authenticated', function () {

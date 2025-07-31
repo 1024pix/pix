@@ -56,6 +56,10 @@ export default class CurrentUserService extends Service {
     return this.isAdminInOrganization && this.prescriber.hasCoverRateFeature;
   }
 
+  get canEditLearnerName() {
+    return this.isAdminInOrganization && !this.hasLearnerImportFeature && !this.organization.isManagingStudents;
+  }
+
   async load() {
     if (this.session.isAuthenticated) {
       try {
