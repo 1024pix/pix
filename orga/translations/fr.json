@@ -208,6 +208,7 @@
     "actions": {
       "back": "Retour",
       "cancel": "Annuler",
+      "save": "Enregistrer",
       "close": "Fermer",
       "confirm": "Confirmer",
       "global": "Actions",
@@ -393,6 +394,14 @@
       "deletion-modal": {
         "confirm-deletion": "Oui, je supprime",
         "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions"
+      },
+      "edit-participant-name-modal": {
+        "label": "Modifier le nom de l'utilisateur",
+        "error-message": "Le nom ou prénom de l'utilisateur ne peuvent pas être vide.",
+        "fields": {
+          "first-name": "Prénom",
+          "last-name": "Nom"
+        }
       }
     }
   },
