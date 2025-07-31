@@ -71,6 +71,7 @@ export default class AnonymizeGarImport extends Component {
   }
 
   <template>
+    :)
     <AdministrationBlockLayout
       @title={{t "components.administration.anonymize-gar-import.title"}}
       @description={{t "components.administration.anonymize-gar-import.description"}}
