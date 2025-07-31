@@ -110,6 +110,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {reconcileScoOrganizationLearnerAutomatically} reconcileScoOrganizationLearnerAutomatically
  * @property {replaceSupOrganizationLearners} replaceSupOrganizationLearners
  * @property {updateOrganizationLearnerImportFormats} updateOrganizationLearnerImportFormats
+ * @property {updateOrganizationLearnerName} updateOrganizationLearnerName
  * @property {updateStudentNumber} updateStudentNumber
  * @property {uploadCsvFile} uploadCsvFile
  * @property {uploadSiecleFile} uploadSiecleFile

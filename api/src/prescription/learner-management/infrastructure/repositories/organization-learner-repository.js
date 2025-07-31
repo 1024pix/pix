@@ -383,6 +383,23 @@ const findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId = async fu
   return knexConn('view-active-organization-learners').where({ organizationId }).whereNull('attributes').pluck('id');
 };
 
+const updateName = async function ({ organizationLearnerId, firstName, lastName }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const updatedRows = await knexConn('organization-learners')
+    .where({ id: organizationLearnerId })
+    .whereNull('deletedAt')
+    .update({
+      firstName,
+      lastName,
+      updatedAt: new Date(),
+    });
+
+  if (updatedRows === 0) {
+    throw new NotFoundError(`Organization Learner not found for ID ${organizationLearnerId}`);
+  }
+};
+
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   countByUserId,
@@ -403,4 +420,5 @@ export {
   saveCommonOrganizationLearners,
   update,
   updateCertificability,
+  updateName,
 };

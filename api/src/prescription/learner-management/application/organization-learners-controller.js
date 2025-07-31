@@ -63,12 +63,26 @@ const reconcileScoOrganizationLearnerAutomatically = async function (
   return h.response(dependencies.scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner));
 };
 
+const updateOrganizationLearnerName = async function (request, h) {
+  const organizationLearnerId = request.params.organizationLearnerId;
+  const { firstName, lastName } = request.payload;
+
+  await usecases.updateOrganizationLearnerName({
+    organizationLearnerId,
+    firstName,
+    lastName,
+  });
+
+  return h.response().code(204);
+};
+
 const organizationLearnersController = {
   reconcileCommonOrganizationLearner,
   deleteOrganizationLearners,
   importOrganizationLearnerFromFeature,
   dissociate,
   reconcileScoOrganizationLearnerAutomatically,
+  updateOrganizationLearnerName,
 };
 
 export { organizationLearnersController };

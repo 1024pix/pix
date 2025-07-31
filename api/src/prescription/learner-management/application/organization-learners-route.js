@@ -40,6 +40,38 @@ const register = async (server) => {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/organizations/{organizationId}/organization-learners/{organizationLearnerId}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+          {
+            method: securityPreHandlers.checkOrganizationDoesNotHaveFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT.key),
+            assign: 'organizationDoesNotHaveFeature',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+            organizationLearnerId: identifiersType.organizationLearnerId,
+          }),
+          payload: Joi.object({
+            firstName: Joi.string().required(),
+            lastName: Joi.string().required(),
+          }),
+        },
+        handler: organizationLearnersController.updateOrganizationLearnerName,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation**\n" +
+            "- Elle permet la mise à jour du prénom et nom d'un prescrit",
+        ],
+        tags: ['api', 'organization-learners'],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/organizations/{organizationId}/import-organization-learners',
       config: {

@@ -609,6 +609,81 @@ describe('Integration | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkOrganizationDoesNotHaveFeature', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      const moduleUnderTest = {
+        name: 'has-feature-test',
+        register: async function (server) {
+          server.route([
+            {
+              method: 'GET',
+              path: '/api/test/organizations/{organizationId}/features/{featureKey}',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                auth: false,
+                pre: [
+                  {
+                    method: securityPreHandlers.checkOrganizationDoesNotHaveFeature(
+                      ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
+                    ),
+                  },
+                ],
+              },
+            },
+          ]);
+        },
+      };
+      httpServerTest = new HttpTestServer();
+      await httpServerTest.register(moduleUnderTest);
+      httpServerTest.setupAuthentication();
+    });
+
+    it('should return 200 when organization does not have the feature', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const feature = databaseBuilder.factory.buildFeature({
+        key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/test/organizations/${organizationId}/features/${feature.key}`,
+      };
+
+      // when
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a 403 when organization does not have an organization feature', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const feature = databaseBuilder.factory.buildFeature({
+        key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
+      });
+      databaseBuilder.factory.buildOrganizationFeature({
+        featureId: feature.id,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/test/organizations/${organizationId}/features/fakeFeatureKey`,
+      };
+
+      // when
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('#checkSchoolSessionIsActive', function () {
     let httpServerTest;
 

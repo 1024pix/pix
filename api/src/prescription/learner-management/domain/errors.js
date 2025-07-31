@@ -12,6 +12,12 @@ class OrganizationDoesNotHaveFeatureEnabledError extends DomainError {
   }
 }
 
+class OrganizationDoesHaveFeatureEnabledError extends DomainError {
+  constructor(message = 'The organization should not have the feature enabled') {
+    super(message);
+  }
+}
+
 class SiecleXmlImportError extends DomainError {
   constructor(code, meta) {
     super('An error occurred during Siecle XML import');
@@ -63,6 +69,7 @@ export {
   AggregateImportError,
   ComputeOrganizationLearnerCertificabilityJobProvidedDateError,
   CouldNotDeleteLearnersError,
+  OrganizationDoesHaveFeatureEnabledError,
   OrganizationDoesNotHaveFeatureEnabledError,
   OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerImportFormatNotFoundError,

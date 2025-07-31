@@ -2007,6 +2007,139 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkOrganizationDoesNotHaveFeature', function () {
+    context('Successful case', function () {
+      let request;
+
+      beforeEach(function () {
+        request = {
+          params: { id: 1234 },
+        };
+      });
+
+      it('should authorize access to resource when the organization does NOT have feature enabled', async function () {
+        const featureKey = 'SOME_FEATURE';
+        const organizationId = 1234;
+
+        const checkOrganizationDoesNotHaveFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationDoesNotHaveFeatureUseCaseStub.execute.withArgs({ organizationId, featureKey }).resolves();
+
+        const checkOrganizationDoesNotHaveFeature = securityPreHandlers.checkOrganizationDoesNotHaveFeature(featureKey);
+        const response = await checkOrganizationDoesNotHaveFeature(request, hFake, {
+          checkOrganizationDoesNotHaveFeatureUseCase: checkOrganizationDoesNotHaveFeatureUseCaseStub,
+        });
+
+        expect(response.source).to.be.true;
+      });
+
+      it('should work with organizationId from params.organizationId', async function () {
+        const featureKey = 'SOME_FEATURE';
+        const organizationId = 5678;
+        const request = {
+          params: { organizationId },
+        };
+
+        const checkOrganizationDoesNotHaveFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationDoesNotHaveFeatureUseCaseStub.execute.withArgs({ organizationId, featureKey }).resolves();
+
+        const checkOrganizationDoesNotHaveFeature = securityPreHandlers.checkOrganizationDoesNotHaveFeature(featureKey);
+        const response = await checkOrganizationDoesNotHaveFeature(request, hFake, {
+          checkOrganizationDoesNotHaveFeatureUseCase: checkOrganizationDoesNotHaveFeatureUseCaseStub,
+        });
+
+        expect(response.source).to.be.true;
+        expect(checkOrganizationDoesNotHaveFeatureUseCaseStub.execute).to.have.been.calledOnceWithExactly({
+          organizationId,
+          featureKey,
+        });
+      });
+    });
+
+    context('Error cases', function () {
+      let request;
+
+      beforeEach(function () {
+        request = { params: { id: 1234 } };
+      });
+
+      it('should forbid resource access when organization DOES have feature enabled', async function () {
+        const featureKey = 'SOME_FEATURE';
+        const organizationId = 1234;
+
+        const checkOrganizationDoesNotHaveFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationDoesNotHaveFeatureUseCaseStub.execute
+          .withArgs({ organizationId, featureKey })
+          .rejects(new Error('Organization has feature enabled'));
+
+        const checkOrganizationDoesNotHaveFeature = securityPreHandlers.checkOrganizationDoesNotHaveFeature(featureKey);
+        const response = await checkOrganizationDoesNotHaveFeature(request, hFake, {
+          checkOrganizationDoesNotHaveFeatureUseCase: checkOrganizationDoesNotHaveFeatureUseCaseStub,
+        });
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when use case throws any error', async function () {
+        const featureKey = 'SOME_FEATURE';
+        const organizationId = 1234;
+
+        const checkOrganizationDoesNotHaveFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationDoesNotHaveFeatureUseCaseStub.execute
+          .withArgs({ organizationId, featureKey })
+          .rejects(new Error('Some unexpected error'));
+
+        const checkOrganizationDoesNotHaveFeature = securityPreHandlers.checkOrganizationDoesNotHaveFeature(featureKey);
+        const response = await checkOrganizationDoesNotHaveFeature(request, hFake, {
+          checkOrganizationDoesNotHaveFeatureUseCase: checkOrganizationDoesNotHaveFeatureUseCaseStub,
+        });
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should handle different organization id sources correctly', async function () {
+        const featureKey = 'SOME_FEATURE';
+        const organizationId = 9999;
+        const request = {
+          params: { organizationId },
+        };
+
+        const checkOrganizationDoesNotHaveFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationDoesNotHaveFeatureUseCaseStub.execute
+          .withArgs({ organizationId, featureKey })
+          .rejects(new Error('Feature is enabled'));
+
+        const checkOrganizationDoesNotHaveFeature = securityPreHandlers.checkOrganizationDoesNotHaveFeature(featureKey);
+        const response = await checkOrganizationDoesNotHaveFeature(request, hFake, {
+          checkOrganizationDoesNotHaveFeatureUseCase: checkOrganizationDoesNotHaveFeatureUseCaseStub,
+        });
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+        expect(checkOrganizationDoesNotHaveFeatureUseCaseStub.execute).to.have.been.calledOnceWithExactly({
+          organizationId,
+          featureKey,
+        });
+      });
+    });
+  });
+
   describe('#checkOrganizationAccess', function () {
     let request, checkOrganizationAccessUseCaseStub;
 

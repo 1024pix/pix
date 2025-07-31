@@ -555,4 +555,35 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
   });
+
+  describe('#makeCheckOrganizationDoesNotHaveFeature', function () {
+    it('should return a well formed JSON API error when organization has the enabled feature', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      const { id: featureId } = databaseBuilder.factory.buildFeature({
+        key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
+      });
+      databaseBuilder.factory.buildOrganizationFeature({
+        organizationId,
+        featureId,
+      });
+
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/place-statistics`,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError403);
+    });
+  });
 });
