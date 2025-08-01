@@ -128,6 +128,11 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
           <Item @onClick={{fn @openEditStudentNumberModal @student}}>
             {{t "pages.sup-organization-participants.actions.edit-student-number"}}
           </Item>
+          {{#if @canEditLearnerName}}
+            <Item @onClick={{fn @openEditNameModal @student}}>
+              {{t "components.ui.edit-participant-name-modal.label"}}
+            </Item>
+          {{/if}}
         </IconTrigger>
       {{/if}}</:cell>
   </PixTableColumn>

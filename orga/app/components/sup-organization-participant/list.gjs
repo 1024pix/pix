@@ -12,6 +12,7 @@ import ImportInformationBanner from '../import-information-banner';
 import InElement from '../in-element';
 import SelectableList from '../selectable-list';
 import DeletionModal from '../ui/deletion-modal';
+import EditParticipantNameModal from '../ui/edit-participant-name-modal';
 import EmptyState from '../ui/empty-state';
 import ActionBar from './action-bar';
 import EditStudentNumberModal from './modal/edit-student-number-modal';
@@ -24,6 +25,7 @@ export default class ListItems extends Component {
   @tracked selectedStudent = null;
   @tracked showDeletionModal = false;
   @tracked isShowingEditStudentNumberModal = false;
+  @tracked showEditNameModal = false;
   @tracked isLoadingGroups;
 
   constructor() {
@@ -92,6 +94,18 @@ export default class ListItems extends Component {
   }
 
   @action
+  openEditNameModal(student, event) {
+    event.stopPropagation();
+    this.selectedStudent = student;
+    this.showEditNameModal = true;
+  }
+
+  @action
+  closeEditNameModal() {
+    this.showEditNameModal = false;
+  }
+
+  @action
   async addResetOnFunction(wrappedFunction, resetParticipants, ...args) {
     await wrappedFunction(...args);
     resetParticipants();
@@ -126,6 +140,8 @@ export default class ListItems extends Component {
               @context={{context}}
               @isStudentSelected={{isStudentSelected student}}
               @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
+              @openEditNameModal={{this.openEditNameModal}}
+              @canEditLearnerName={{this.currentUser.canEditLearnerName}}
               @isAdminInOrganization={{this.currentUser.isAdminInOrganization}}
               @onToggleStudent={{fn this.addStopPropagationOnFunction (fn toggleStudent student)}}
               @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
@@ -196,6 +212,12 @@ export default class ListItems extends Component {
         @onSubmit={{this.onSaveStudentNumber}}
       />
     {{/let}}
+
+    <EditParticipantNameModal
+      @participant={{this.selectedStudent}}
+      @show={{this.showEditNameModal}}
+      @onClose={{this.closeEditNameModal}}
+    />
   </template>
 }
 

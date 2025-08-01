@@ -607,8 +607,10 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   });
 
   module('when user is admin of organisation', function (hooks) {
+    let store;
+
     hooks.beforeEach(function () {
-      const store = this.owner.lookup('service:store');
+      store = this.owner.lookup('service:store');
       const organization = store.createRecord('organization', { groups: [] });
 
       class CurrentUserStub extends Service {
@@ -1124,6 +1126,130 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
         //then
         assert.false(mainCheckbox.checked);
+      });
+    });
+
+    module('edit modal functionality', function (hooks) {
+      hooks.beforeEach(function () {
+        class CurrentUserStub extends Service {
+          canEditLearnerName = true;
+          isAdminInOrganization = true;
+          organization = store.createRecord('organization', {
+            isManagingStudents: false,
+            id: '1',
+          });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.set('divisions', []);
+        this.set('connectionTypes', []);
+        this.set('certificability', []);
+        this.set('groupsFilter', []);
+        this.set('search', null);
+      });
+
+      test('it should display dropdown actions when user can edit learner name', async function (assert) {
+        // given
+        const students = [
+          store.createRecord('sco-organization-participant', {
+            id: '1',
+            firstName: 'Jean',
+            lastName: 'Dupont',
+            username: 'jean.dupont0101',
+          }),
+        ];
+        this.set('students', students);
+
+        // when
+        const screen = await render(hbs`<SupOrganizationParticipant::List
+        @students={{this.students}}
+        @onFilter={{this.noop}}
+        @searchFilter={{this.search}}
+        @groupsFilter={{this.groupsFilter}}
+        @connectionTypeFilter={{this.connectionTypes}}
+        @certificabilityFilter={{this.certificability}}
+        @onClickLearner={{this.noop}}
+        @onResetFilter={{this.noop}}
+      />`);
+
+        // then
+        assert.ok(screen.getByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }));
+      });
+
+      test('it should open edit modal when clicking edit action', async function (assert) {
+        // given
+        const students = [
+          store.createRecord('sco-organization-participant', {
+            id: '1',
+            firstName: 'Jean',
+            lastName: 'Dupont',
+            username: 'jean.dupont0101',
+            isAuthenticatedFromGar: false,
+          }),
+        ];
+        this.set('students', students);
+
+        const screen = await render(hbs`<SupOrganizationParticipant::List
+        @students={{this.students}}
+        @onFilter={{this.noop}}
+        @searchFilter={{this.search}}
+        @groupsFilter={{this.groupsFilter}}
+        @connectionTypeFilter={{this.connectionTypes}}
+        @certificabilityFilter={{this.certificability}}
+        @onClickLearner={{this.noop}}
+        @onResetFilter={{this.noop}}
+        @refreshValues={{this.noop}}
+      />`);
+
+        // when
+        const dropdownButton = screen.getByRole('button', {
+          name: t('pages.sco-organization-participants.actions.show-actions'),
+        });
+        await click(dropdownButton);
+        const editButton = screen.getByRole('button', { name: t('components.ui.edit-participant-name-modal.label') });
+
+        // then
+        assert.ok(editButton);
+        assert.dom(editButton).isNotDisabled();
+      });
+
+      test('it should not display dropdown actions when user cannot edit learner name', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = {};
+          canEditLearnerName = false;
+          organization = store.createRecord('organization', {
+            id: '1',
+            divisions: [store.createRecord('division', { id: '3F', name: '3F' })],
+          });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        const students = [
+          store.createRecord('sco-organization-participant', {
+            id: '1',
+            firstName: 'Jean',
+            lastName: 'Dupont',
+            isAuthenticatedFromGar: false,
+          }),
+        ];
+        this.set('students', students);
+
+        // when
+        const screen = await render(hbs`<SupOrganizationParticipant::List
+        @students={{this.students}}
+        @onFilter={{this.noop}}
+        @searchFilter={{this.search}}
+        @groupsFilter={{this.groupsFilter}}
+        @connectionTypeFilter={{this.connectionTypes}}
+        @certificabilityFilter={{this.certificability}}
+        @onClickLearner={{this.noop}}
+        @onResetFilter={{this.noop}}
+      />`);
+
+        // then
+        assert.notOk(
+          screen.queryByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }),
+        );
       });
     });
   });
