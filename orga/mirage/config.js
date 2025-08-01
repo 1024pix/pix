@@ -629,4 +629,8 @@ function routes() {
     };
     return json;
   });
+
+  this.patch('/organizations/:organizationId/organization-learners/:learnerId', function () {
+    return new Response(204);
+  });
 }

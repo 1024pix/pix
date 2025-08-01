@@ -71,4 +71,26 @@ module('Unit | Adapters | organization-participant', function (hooks) {
       assert.ok(ajaxStub.calledWithExactly(url, 'DELETE'));
     });
   });
+
+  module('#updateParticipantName', () => {
+    test('should PATCH organization-learner name', async function (assert) {
+      // given
+      const organizationId = 1;
+      const learnerId = 2;
+      const firstName = 'John';
+      const lastName = 'Doe';
+
+      // when
+      adapter.updateParticipantName(organizationId, learnerId, firstName, lastName);
+
+      // then
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/organization-learners/${learnerId}`;
+      const expectedData = {
+        firstName: 'John',
+        lastName: 'Doe',
+      };
+
+      assert.ok(ajaxStub.calledWithExactly(url, 'PATCH', { data: expectedData }));
+    });
+  });
 });

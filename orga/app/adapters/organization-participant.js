@@ -22,4 +22,14 @@ export default class OrganizationParticipantAdapter extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners`;
     return this.ajax(url, 'DELETE', { data: { listLearners: ids } });
   }
+
+  updateParticipantName(organizationId, learnerId, firstName, lastName) {
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners/${learnerId}`;
+    return this.ajax(url, 'PATCH', {
+      data: {
+        firstName,
+        lastName,
+      },
+    });
+  }
 }

@@ -62,6 +62,7 @@ function _addUserToOrganization(user, { externalId, organizationType } = {}) {
   const memberships = server.create('membership', {
     organizationId: organization.id,
     userId: user.id,
+    organizationRole: 'ADMIN',
   });
 
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
