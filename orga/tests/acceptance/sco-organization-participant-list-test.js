@@ -403,5 +403,50 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         });
       });
     });
+
+    module('When organization is SCO and not managing students', function (hooks) {
+      hooks.beforeEach(async function () {
+        user = createUserWithMembershipAndTermsOfServiceAccepted();
+        createPrescriberByUser({ user });
+
+        await authenticateSession(user.id);
+
+        const organizationId = user.memberships.models[0].organizationId;
+        server.create('organization-participant', {
+          organizationId,
+          firstName: 'Jean',
+          lastName: 'Charles',
+        });
+
+        await authenticateSession(user.id);
+      });
+
+      test('it should successfully update participant name', async function (assert) {
+        // given
+
+        const screen = await visit('/participants');
+
+        // when
+        const dropdownButton = screen.getByRole('button', { name: /afficher les actions/i });
+
+        await click(dropdownButton);
+        const editButton = screen.getByText(/modifier le/i);
+        await click(editButton);
+
+        const firstNameLabel = t('components.ui.edit-participant-name-modal.fields.first-name') + ' *';
+        const lastNameLabel = t('components.ui.edit-participant-name-modal.fields.last-name') + ' *';
+
+        await fillByLabel(firstNameLabel, 'Pierre');
+        await fillByLabel(lastNameLabel, 'Martin');
+
+        await clickByName(t('common.actions.save'));
+
+        // then
+        assert.ok(await screen.findByText('Pierre'));
+        assert.ok(await screen.findByText('Martin'));
+        assert.notOk(screen.queryByText('Jean'));
+        assert.notOk(screen.queryByText('Charles'));
+      });
+    });
   });
 });

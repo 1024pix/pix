@@ -13,6 +13,7 @@ import { CONNECTION_TYPES } from '../../helpers/connection-types';
 import ImportInformationBanner from '../import-information-banner';
 import InElement from '../in-element';
 import SelectableList from '../selectable-list';
+import EditParticipantNameModal from '../ui/edit-participant-name-modal';
 import EmptyState from '../ui/empty-state';
 import GenerateUsernamePasswordModal from './generate-username-password-modal';
 import ListActionBar from './list-action-bar';
@@ -44,6 +45,8 @@ export default class ScoList extends Component {
   @tracked isShowingAuthenticationMethodModal = false;
   @tracked showResetPasswordModal = false;
   @tracked showGenerateUsernamePasswordModal = false;
+  @tracked showEditNameModal = false;
+  @tracked selectedStudentForNameModification = null;
   @tracked divisions;
 
   @tracked affectedStudents = [];
@@ -124,6 +127,18 @@ export default class ScoList extends Component {
   }
 
   @action
+  openEditNameModal(student, event) {
+    event.stopPropagation();
+    this.selectedStudentForNameModification = student;
+    this.showEditNameModal = true;
+  }
+
+  @action
+  closeEditNameModal() {
+    this.showEditNameModal = false;
+  }
+
+  @action
   async generateUsernamePasswordForStudents(affectedStudents, resetSelectedStudents) {
     const affectedStudentsIds = affectedStudents.map((affectedStudents) => affectedStudents.id);
     try {
@@ -180,12 +195,6 @@ export default class ScoList extends Component {
     }
   }
 
-  @action
-  addStopPropagationOnFunction(toggleStudent, event) {
-    event.stopPropagation();
-    toggleStudent();
-  }
-
   <template>
     <ImportInformationBanner @importDetail={{@importDetail}} />
 
@@ -222,6 +231,8 @@ export default class ScoList extends Component {
               @student={{student}}
               @isStudentSelected={{isStudentSelected student}}
               @openAuthenticationMethodModal={{this.openAuthenticationMethodModal}}
+              @openEditNameModal={{this.openEditNameModal}}
+              @canEditLearnerName={{this.currentUser.canEditLearnerName}}
               @onToggleStudent={{fn withFunction (fn toggleStudent student) stopPropagation}}
               @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
@@ -286,6 +297,12 @@ export default class ScoList extends Component {
         @student={{this.student}}
         @display={{this.isShowingAuthenticationMethodModal}}
         @onClose={{this.closeAuthenticationMethodModal}}
+      />
+
+      <EditParticipantNameModal
+        @participant={{this.selectedStudentForNameModification}}
+        @show={{this.showEditNameModal}}
+        @onClose={{this.closeEditNameModal}}
       />
     {{/let}}
   </template>

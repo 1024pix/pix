@@ -134,6 +134,11 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
           <Item @onClick={{fn @openAuthenticationMethodModal @student}}>
             {{t "pages.sco-organization-participants.actions.manage-account"}}
           </Item>
+          {{#if @canEditLearnerName}}
+            <Item @onClick={{fn @openEditNameModal @student}}>
+              {{t "components.ui.edit-participant-name-modal.label"}}
+            </Item>
+          {{/if}}
         </IconTrigger>
       {{/if}}</:cell>
   </PixTableColumn>
