@@ -122,37 +122,36 @@
       "title": "Leçon - 1 ",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "ec3e85be-af00-45e4-b5e4-f7453d617457",
-            "type": "image",
-            "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_schema.png",
-            "alt": "",
-            "alternativeText": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "d3f646e0-1c3d-42bf-a604-9e8e9c2a29a9",
-            "type": "text",
-            "content": "<h3>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire.</h3><p><br>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal...).</p><p>Il est accessible sur ordinateur, smartphone et tablette.</p><p><strong><span aria-hidden=\"true\">💡</span>&nbsp;Bon à savoir</strong> <br>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "2965cc20-891f-47dd-bcdd-34554000129f",
-            "type": "separator"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "abe95cb5-67f9-41ca-9051-c814d1163e42",
-            "type": "text",
-            "content": "<h3>La plupart des collèges et des lycées et certaines écoles primaire ont un ENT mais ce n'est pas obligatoire.</h3><p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p><p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse les élèves utilisent l’ENT Leia et, en Occitanie, les élèves utilisent MonENTOccitanie.</p>"
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "fbda3f57-d9cc-404f-9a09-0eb3ba9b3ac6",
+                  "type": "image",
+                  "url": "https://assets.pix.org/modules/decouverte-de-l-ent/ent_schema.png",
+                  "alt": "",
+                  "alternativeText": "",
+                  "legend": "",
+                  "licence": ""
+                },
+                {
+                  "id": "90c81b47-b175-4f42-b5aa-914ec83025b8",
+                  "type": "text",
+                  "content": "<h3>L’espace numérique de travail (ENT) est le service en ligne proposé par l’établissement scolaire.</h3>\n<p><br>L’ENT est utilisé par les élèves, les enseignants, les parents et les personnels d’éducation (CPE, principal...).</p>\n<p>Il est accessible sur ordinateur, smartphone et tablette.</p>\n<p><strong><span aria-hidden=\"true\">💡</span>&nbsp;Bon à savoir</strong> <br>L’ENT est sécurisé et il protège l’accès aux données personnelles des parents et des enfants.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "52089ff2-4c01-4047-a188-dbd5537caf18",
+                  "type": "text",
+                  "content": "<h3>La plupart des collèges et des lycées et certaines écoles primaire ont un ENT mais ce n'est pas obligatoire.</h3>\n<p>Les ENT peuvent être différents d’un département ou d’une région à l’autre.</p>\n<p><span aria-hidden=\"true\">✔️</span> Par exemple, en Corse les élèves utilisent l’ENT Leia et, en Occitanie, les élèves utilisent MonENTOccitanie.</p>"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -236,7 +235,7 @@
           "element": {
             "id": "caf7638d-71d4-47d5-955f-a628eb12d756",
             "type": "text",
-            "content": "<p>Découvrez 3 fonctionnalités accessibles depuis le compte parent de Martin sur l'ENT. Aidez-le à utiliser ces fonctionnalités.</p>"
+            "content": "<p>Aidez Martin à utiliser 3 fonctionnalités auxquelles il a accès depuis son compte parent sur l'ENT.</p>"
           }
         }
       ]
@@ -467,7 +466,7 @@
           "element": {
             "id": "0468f3c9-f946-4309-9768-4fda3f28a4b2",
             "type": "text",
-            "content": "<ul><li>L’espace numérique de travail (ENT) est le <strong>service en ligne proposé par l’établissement scolaire</strong>.</li><li>Il est utilisé par<strong> les parents, les élèves, les professeurs et les personnels d’éducation</strong>.</li><li><strong>En fonction de son rôle</strong>, chaque utilisateur a accès à des <strong>fonctionnalités différentes</strong>. </li><li>L’ENT permet aux parents de<strong> suivre au quotidien la scolarité</strong> de leurs enfants.</li><li>Chaque utilisateur se connecte avec un<strong> identifiant</strong> et un <strong>mot de passe</strong>, fournis par l'établissement scolaire.</li></ul>"
+            "content": "<ul><li>L’espace numérique de travail (ENT) est un&nbsp;<strong>service en ligne sécurisé  proposé par l’établissement scolaire</strong>.</li><li>Il est utilisé par<strong> les parents, les élèves, les professeurs et les personnels d’éducation</strong> pour accéder aux informations et outils<strong> liés à la vie scolaire</strong>.</li><li><strong>En fonction de son rôle</strong>, chaque utilisateur a accès à des <strong>fonctionnalités différentes</strong>. </li><li>L’ENT permet aux parents de<strong> suivre au quotidien la scolarité</strong> de leurs enfants.</li><li>Chaque utilisateur se connecte avec un<strong> identifiant</strong> et un <strong>mot de passe</strong>, fournis par l'établissement scolaire.</li></ul>"
           }
         }
       ]
@@ -496,54 +495,7 @@
           "type": "element",
           "element": {
             "id": "dd385872-c97f-4a5e-9e66-ca1c183b6b5a",
-            "type": "qab",
-            "instruction": "<p>Pour chaque affirmation, choisissez si elle est vraie ou fausse.</p>",
-            "cards": [
-              {
-                "id": "de929309-4806-4148-a1fc-c2038f596a24",
-                "text": "Martin peut accéder à l’ENT sur son smartphone.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "A"
-              },
-              {
-                "id": "eb64cb71-ac23-4d90-b1b7-878b426bed6f",
-                "text": "Tous les collèges utilisent le même ENT que le collège d’Ava.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "B"
-              },
-              {
-                "id": "9ba2a8b3-3b63-4c31-93ec-6ef7e5ca9c62",
-                "text": "Pour se connecter à l’ENT, Martin a besoin d’un identifiant et d’un mot de passe.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "A"
-              },
-              {
-                "id": "67bb7df9-3d29-49bd-9169-aac7fba4ad5c",
-                "text": "Ava a accès aux mêmes fonctionnalités que Martin.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "B"
-              }
-            ]
+            "type": "text"
           }
         }
       ]
