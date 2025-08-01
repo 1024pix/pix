@@ -1091,6 +1091,147 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
     });
   });
 
+  module('edit modal functionality', function (hooks) {
+    hooks.beforeEach(function () {
+      class CurrentUserStub extends Service {
+        canEditLearnerName = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      this.triggerFiltering = sinon.stub();
+      this.set('fullNameFilter', null);
+      this.set('certificabilityFilter', []);
+    });
+
+    test('it should display dropdown actions when user can edit learner name', async function (assert) {
+      // given
+      const participants = [
+        {
+          id: '1',
+          firstName: 'Jean',
+          lastName: 'Dupont',
+          extraColumns: {},
+        },
+      ];
+      this.set('participants', participants);
+
+      // when
+      const screen = await render(hbs`<OrganizationParticipant::List
+        @participants={{this.participants}}
+        @triggerFiltering={{this.triggerFiltering}}
+        @onClickLearner={{this.noop}}
+        @fullName={{this.fullNameFilter}}
+        @certificabilityFilter={{this.certificabilityFilter}}
+      />`);
+
+      // then
+      assert.ok(screen.getByRole('button', { name: t('pages.sup-organization-participants.actions.show-actions') }));
+    });
+
+    test('it should open edit modal when clicking edit action', async function (assert) {
+      // given
+      const participants = [
+        {
+          id: '1',
+          firstName: 'Jean',
+          lastName: 'Dupont',
+          extraColumns: {},
+        },
+      ];
+      this.set('participants', participants);
+
+      const screen = await render(hbs`<OrganizationParticipant::List
+        @participants={{this.participants}}
+        @triggerFiltering={{this.triggerFiltering}}
+        @onClickLearner={{this.noop}}
+        @fullName={{this.fullNameFilter}}
+        @certificabilityFilter={{this.certificabilityFilter}}
+      />`);
+
+      // when
+      const dropdownButton = screen.getByRole('button', {
+        name: t('pages.sup-organization-participants.actions.show-actions'),
+      });
+      await click(dropdownButton);
+
+      const editButton = screen.getByText(t('components.ui.edit-participant-name-modal.label'));
+      await click(editButton);
+
+      // then
+      assert.ok(screen.getByDisplayValue('Jean'));
+      assert.ok(screen.getByDisplayValue('Dupont'));
+    });
+
+    test('it should close edit modal when clicking close', async function (assert) {
+      // given
+      const participants = [
+        {
+          id: '1',
+          firstName: 'Jean',
+          lastName: 'Dupont',
+          extraColumns: {},
+        },
+      ];
+      this.set('participants', participants);
+
+      const screen = await render(hbs`<OrganizationParticipant::List
+        @participants={{this.participants}}
+        @triggerFiltering={{this.triggerFiltering}}
+        @onClickLearner={{this.noop}}
+        @fullName={{this.fullNameFilter}}
+        @certificabilityFilter={{this.certificabilityFilter}}
+      />`);
+
+      const dropdownButton = screen.getByRole('button', {
+        name: t('pages.sup-organization-participants.actions.show-actions'),
+      });
+      await click(dropdownButton);
+
+      const editButton = screen.getByText(t('components.ui.edit-participant-name-modal.label'));
+      await click(editButton);
+
+      // when
+      const closeButton = screen.getByRole('button', {
+        name: t('common.actions.close'),
+      });
+      await click(closeButton);
+
+      // thenm
+      assert.notOk(screen.queryByDisplayValue('Jean'));
+      assert.notOk(screen.queryByDisplayValue('Dupont'));
+    });
+
+    test('it should not display dropdown actions when user cannot edit learner name', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        canEditLearnerName = false;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const participants = [
+        {
+          id: '1',
+          firstName: 'Jean',
+          lastName: 'Dupont',
+          extraColumns: {},
+        },
+      ];
+      this.set('participants', participants);
+
+      // when
+      const screen = await render(hbs`<OrganizationParticipant::List
+        @participants={{this.participants}}
+        @triggerFiltering={{this.triggerFiltering}}
+        @onClickLearner={{this.noop}}
+        @fullName={{this.fullNameFilter}}
+        @certificabilityFilter={{this.certificabilityFilter}}
+      />`);
+
+      // then
+      assert.notOk(screen.queryByLabelText(t('pages.sup-organization-participants.actions.show-actions')));
+    });
+  });
+
   module('hide checkbox context', function () {
     test('when user is not admin of organisation', async function (assert) {
       //given

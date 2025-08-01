@@ -1,4 +1,4 @@
-import { clickByText, visit } from '@1024pix/ember-testing-library';
+import { clickByName, clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
@@ -40,7 +40,6 @@ module('Acceptance | Organization Participant List', function (hooks) {
         // when
         server.create('organization-participant', { organizationId, firstName: 'Xavier', lastName: 'Charles' });
 
-        await authenticateSession(user.id);
         const screen = await visit('/participants');
 
         // then
@@ -54,7 +53,6 @@ module('Acceptance | Organization Participant List', function (hooks) {
 
         server.create('organization-participant', { organizationId, firstName: 'Jean', lastName: 'Charles' });
 
-        await authenticateSession(user.id);
         const { getByLabelText } = await visit('/participants');
 
         // when
@@ -64,6 +62,41 @@ module('Acceptance | Organization Participant List', function (hooks) {
 
         // then
         assert.strictEqual(decodeURI(currentURL()), '/participants?certificability=["eligible"]');
+      });
+
+      test('it should successfully update participant name', async function (assert) {
+        // given
+        const organizationId = user.memberships.models[0].organizationId;
+        server.create('organization-participant', {
+          organizationId,
+          firstName: 'Jean',
+          lastName: 'Charles',
+        });
+        // Mock the API call
+
+        await authenticateSession(user.id);
+        const screen = await visit('/participants');
+
+        // when
+        const dropdownButton = screen.getByRole('button', { name: /afficher les actions/i });
+        await click(dropdownButton);
+
+        const editButton = screen.getByText(/modifier le/i);
+        await click(editButton);
+
+        const firstNameLabel = t('components.ui.edit-participant-name-modal.fields.first-name') + ' *';
+        const lastNameLabel = t('components.ui.edit-participant-name-modal.fields.last-name') + ' *';
+
+        await fillByLabel(firstNameLabel, 'Pierre');
+        await fillByLabel(lastNameLabel, 'Martin');
+
+        await clickByName(t('common.actions.save'));
+
+        // then
+        assert.ok(await screen.findByText('Pierre'));
+        assert.ok(await screen.findByText('Martin'));
+        assert.notOk(screen.queryByText('Jean'));
+        assert.notOk(screen.queryByText('Charles'));
       });
     });
   });

@@ -25,6 +25,7 @@ import InElement from '../in-element';
 import SelectableList from '../selectable-list';
 import UiActionBar from '../ui/action-bar';
 import UiDeletionModal from '../ui/deletion-modal';
+import EditParticipantNameModal from '../ui/edit-participant-name-modal';
 import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip';
 import LearnerFilters from './learner-filters';
 
@@ -39,6 +40,9 @@ function stopPropagation(event) {
 
 export default class List extends Component {
   @tracked showDeletionModal = false;
+  @tracked showEditNameModal = false;
+  @tracked selectedParticipantForNameModification = null;
+
   @service currentUser;
   @service intl;
   @service locale;
@@ -88,7 +92,7 @@ export default class List extends Component {
   }
 
   get hasActionColumn() {
-    return this.currentUser.canActivateOralizationLearner;
+    return Boolean(this.actionsForParticipant().length);
   }
 
   get extraColumnRowInfo() {
@@ -118,6 +122,18 @@ export default class List extends Component {
   }
 
   @action
+  openEditNameModal(participant, event) {
+    event.stopPropagation();
+    this.selectedParticipantForNameModification = participant;
+    this.showEditNameModal = true;
+  }
+
+  @action
+  closeEditNameModal() {
+    this.showEditNameModal = false;
+  }
+
+  @action
   async deleteParticipants(selectedParticipants, resetParticipants) {
     await this.args.deleteParticipants(selectedParticipants);
     this.closeDeletionModal();
@@ -131,30 +147,34 @@ export default class List extends Component {
   }
 
   @action
-  addStopPropagationOnFunction(toggleParticipant, event) {
-    event.stopPropagation();
-    toggleParticipant();
-  }
-
-  @action
   actionsForParticipant(participant) {
-    if (!this.currentUser.canActivateOralizationLearner) {
-      return [];
+    const actions = [];
+
+    if (this.currentUser.canActivateOralizationLearner) {
+      const oralizationActivated = participant.extraColumns['ORALIZATION'];
+      actions.push([
+        {
+          label: oralizationActivated
+            ? this.intl.t('pages.organization-participants.table.actions.disable-oralization')
+            : this.intl.t('pages.organization-participants.table.actions.enable-oralization'),
+          onClick: () =>
+            this.args.toggleOralizationFeatureForParticipant(
+              participant.id,
+              this.currentUser.organization.id,
+              !oralizationActivated,
+            ),
+        },
+      ]);
     }
-    const oralizationActivated = participant.extraColumns['ORALIZATION'];
-    return [
-      {
-        label: oralizationActivated
-          ? this.intl.t('pages.organization-participants.table.actions.disable-oralization')
-          : this.intl.t('pages.organization-participants.table.actions.enable-oralization'),
-        onClick: () =>
-          this.args.toggleOralizationFeatureForParticipant(
-            participant.id,
-            this.currentUser.organization.id,
-            !oralizationActivated,
-          ),
-      },
-    ];
+
+    if (this.currentUser.canEditLearnerName) {
+      actions.push({
+        label: this.intl.t('components.ui.edit-participant-name-modal.label'),
+        onClick: this.openEditNameModal,
+      });
+    }
+
+    return actions;
   }
 
   <template>
@@ -362,7 +382,7 @@ export default class List extends Component {
                   >
                     <:default as |closeMenu|>
                       {{#each (this.actionsForParticipant participant) as |actionForPartipant|}}
-                        <DropdownItem @onClick={{actionForPartipant.onClick}} @closeMenu={{closeMenu}}>
+                        <DropdownItem @onClick={{fn actionForPartipant.onClick participant}} @closeMenu={{closeMenu}}>
                           {{actionForPartipant.label}}
                         </DropdownItem>
                       {{/each}}
@@ -397,6 +417,14 @@ export default class List extends Component {
             @showDeletionModal={{this.showDeletionModal}}
             @onTriggerAction={{fn this.deleteParticipants selectedParticipants reset}}
             @onCloseDeletionModal={{this.closeDeletionModal}}
+          />
+        {{/if}}
+
+        {{#if this.showEditNameModal}}
+          <EditParticipantNameModal
+            @participant={{this.selectedParticipantForNameModification}}
+            @show={{this.showEditNameModal}}
+            @onClose={{this.closeEditNameModal}}
           />
         {{/if}}
         <PixPaginationControl
