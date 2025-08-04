@@ -181,7 +181,7 @@
                 "id": "1",
                 "content": "<p>On parle à un logiciel d'IA générative en langage informatique.</p>",
                 "feedback": {
-                  "state": "<p>Et non ! </p>",
+                  "state": "<p>Et non ! </p>",
                   "diagnosis": "<p>On parle à un logiciel d'IA générative comme on parle à une autre personne.</p>"
                 }
               },
@@ -189,15 +189,15 @@
                 "id": "2",
                 "content": "<p>On parle à un logiciel d'IA générative comme on parle avec une autre personne.</p>",
                 "feedback": {
-                  "state": "<p>Bravo !</p>",
-                  "diagnosis": "<p><br></p>"
+                  "state": "<p>Bravo !</p>",
+                  "diagnosis": ""
                 }
               },
               {
                 "id": "3",
                 "content": "<p>On parle à un logiciel d'IA générative avec des mots-clés uniquement.</p>",
                 "feedback": {
-                  "state": "<p>Et non&nbsp; !</p>",
+                  "state": "<p>Et non&nbsp; !</p>",
                   "diagnosis": "<p>On parle à un logiciel d'IA générative comme on parle à une autre personne.</p>"
                 }
               }
@@ -428,13 +428,159 @@
         {
           "type": "element",
           "element": {
-            "id": "63c7f73f-b9b1-4c9b-a983-29b5dc8030b9",
-            "type": "custom-draft",
-            "title": "Élément interactif",
-            "url": "https://1024pix.github.io/atelier-contenus/NAI/glisserdeposerlesbonsverbes.html",
-            "instruction": "<p>Glissez et déposez le verbe qui convient le plus pour compléter chaque prompt ci-dessous en fonction des réponses de l'IA générative.</p>",
-            "height": 500
+            "id": "3fe45d3e-1c1b-46f0-845d-0c2233d9e340",
+            "type": "text",
+            "content": "<p>Pour chaque prompt proposé, choisissez le verbe d'action le plus précis</p>"
           }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "93dad878-6819-4f32-9f15-9d2c39ac2e0e",
+                  "type": "qcu",
+                  "instruction": "<p>[...] comment changer une ampoule ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Parle de</p>",
+                      "feedback": {
+                        "state": "<p>Et non !</p>",
+                        "diagnosis": "<p>Ce verbe est  trop vague. Essayez d'en choisir un qui indique plus clairement l’action attendue.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Je ne sais pas</p>",
+                      "feedback": {
+                        "state": "<p>Et non !</p>",
+                        "diagnosis": "<p>Vous ne précisez pas l'action attendue dans ce cas. Vous devez choisir un verbe d'action qui guide le logiciel d'IA générative le plus clairement possible. <br></p>"
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Explique</p>",
+                      "feedback": {
+                        "state": "<p>Bravo !</p>",
+                        "diagnosis": "<p>Le verbe choisi est précis, il guide clairement le logiciel d'IA générative vers l’action attendue.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "3"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "7caa7305-6801-4c07-87de-1b47b0119431",
+                  "type": "qcu",
+                  "instruction": "<p>[...] le premier livre de Harry Potter en une ligne.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Résume</p>",
+                      "feedback": {
+                        "state": "<p>Bravo ! <br></p>",
+                        "diagnosis": "<p>Le verbe choisi est précis, il guide clairement le logiciel d'IA générative vers l’action attendue.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Raconte</p>",
+                      "feedback": {
+                        "state": "<p>Et non !<br></p>",
+                        "diagnosis": "<p>Ce verbe est  trop vague. Essayez d'en choisir un qui indique plus clairement l’action attendue.</p>"
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Je veux<br></p>",
+                      "feedback": {
+                        "state": "<p>Et non !&nbsp;</p>",
+                        "diagnosis": "<p>Vous ne précisez pas l'action attendue dans ce cas. Vous devez choisir un verbe d'action qui guide le logiciel d'IA générative le plus clairement possible.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "ba48365e-e12b-4ed4-9cba-9dd075afad0d",
+                  "type": "qcu",
+                  "instruction": "<p>[...] le mot \"melocoton\" en français.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>C'est quoi</p>",
+                      "feedback": {
+                        "state": "<p>Et non !</p>",
+                        "diagnosis": "<p>Vous ne précisez pas l'action attendue dans ce cas. Vous devez choisir un verbe d'action qui guide le logiciel d'IA générative le plus clairement possible.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Dis</p>",
+                      "feedback": {
+                        "state": "<p>Et non !&nbsp;</p>",
+                        "diagnosis": "<p>Ce verbe est  trop vague. Essayez d'en choisir un qui indique plus clairement l’action attendue.</p>"
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Traduis</p>",
+                      "feedback": {
+                        "state": "<p>Bravo !</p>",
+                        "diagnosis": "<p>Le verbe choisi est précis, il guide clairement le logiciel d'IA générative vers l’action attendue.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "3"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "734e2adb-2401-47bc-97ef-3cdfa4d9523e",
+                  "type": "qcu",
+                  "instruction": "<p>[...] les 5 plus grands mammifères de la planète.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Donne</p>",
+                      "feedback": {
+                        "state": "<p>Et non !</p>",
+                        "diagnosis": "<p>Ce verbe est  trop vague. Essayez d'en choisir un qui indique plus clairement l’action attendue.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Liste</p>",
+                      "feedback": {
+                        "state": "<p>Bravo !</p>",
+                        "diagnosis": "<p>Le verbe choisi est précis, il guide clairement le logiciel d'IA générative vers l’action attendue.</p>"
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>Tu connais</p>",
+                      "feedback": {
+                        "state": "<p>Et non !</p>",
+                        "diagnosis": "<p>Vous ne précisez pas l'action attendue dans ce cas. Vous devez choisir un verbe d'action qui guide le logiciel d'IA générative le plus clairement possible.</p>"
+                      }
+                    }
+                  ],
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
