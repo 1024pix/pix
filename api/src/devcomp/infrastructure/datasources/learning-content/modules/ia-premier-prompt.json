@@ -430,7 +430,7 @@
           "element": {
             "id": "3fe45d3e-1c1b-46f0-845d-0c2233d9e340",
             "type": "text",
-            "content": "<p>Pour chaque prompt proposé, choisissez le verbe d'action le plus précis</p>"
+            "content": "<p>Choisissez le verbe d'action le plus précis pour compléter les prompts suivants</p>"
           }
         },
         {
