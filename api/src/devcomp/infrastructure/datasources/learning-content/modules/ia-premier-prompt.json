@@ -269,18 +269,32 @@
           "element": {
             "id": "0a0f1cf5-3f03-448c-b551-93d51482ab33",
             "type": "text",
-            "content": "<p>Cette fois-ci, Gustave cherche une recette de gâteau pour 10 personnes.🍰Mais il est allergique au chocolat.🍫</p>"
+            "content": "<p>Cette fois-ci, Gustave cherche une recette de gâteau pour 10 personnes.🍰Mais il est allergique au chocolat.🍫</p><p>Glissez et déposez les prompts suivants dans le champ de saisie et observez les réponses du logiciel d'IA générative.</p>"
           }
         },
         {
           "type": "element",
           "element": {
             "id": "19a2c102-618f-497d-b68f-48a9bb72d1d7",
-            "type": "custom-draft",
-            "title": "Élément interactif",
-            "url": "https://1024pix.github.io/atelier-contenus/NAI/Promptgateaupistache.html",
-            "instruction": "<p>Glissez et déposez les prompts suivants dans le champ de saisie et observez les réponses du logiciel d'IA générative.</p>",
-            "height": 400
+            "type": "custom",
+            "tagName": "llm-prompt-select",
+            "props": {
+              "messages": [],
+              "prompts": [
+                {
+                  "prompt": "Écris une recette de gâteau.",
+                  "response": "Voici une recette de gâteau pour 6 personnes :  Préchauffe le four à 180°C.  Fais fondre 200 g de chocolat noir avec 100 g de beurre.  Ajoute 100 g de sucre, 3 œufs, puis 50 g de farine, en mélangeant bien.  Verse la pâte dans un moule beurré.  Enfourne 20 à 25 minutes, laisse tiédir avant de démouler."
+                },
+                {
+                  "prompt": "Écris une recette de gâteau pour 10 personnes.",
+                  "response": "Voici une recette de gâteau au chocolat pour 10 personnes :  Préchauffe le four à 180°C.  Fais fondre 300 g de chocolat noir avec 150 g de beurre.  Incorpore 150 g de sucre, 5 œufs, puis 100 g de farine.  Verse dans un grand moule beurré et fariné.  Enfourne 30 à 35 minutes, laisse refroidir avant de démouler."
+                },
+                {
+                  "prompt": "Écris une recette de gâteau pour 10 personnes sans chocolat.",
+                  "response": "Voici une recette de gâteau à la pistache pour 10 personnes :  Préchauffe le four à 180°C.  Mélange 5 œufs avec 150 g de sucre jusqu’à ce que le mélange blanchisse.  Ajoute 150 g de poudre d’amandes, 100 g de pâte de pistache et 100 g de beurre fondu.  Incorpore 100 g de farine et 1 sachet de levure.  Verse dans un moule beurré, enfourne 35 min, laisse refroidir."
+                }
+              ]
+            }
           }
         },
         {
