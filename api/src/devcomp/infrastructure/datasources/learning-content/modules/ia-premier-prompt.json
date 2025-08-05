@@ -163,11 +163,33 @@
           "type": "element",
           "element": {
             "id": "4f730efe-b5ff-4d66-ba0d-b0105d347dc4",
-            "type": "custom-draft",
-            "title": "Élément interactif",
-            "url": "https://1024pix.github.io/atelier-contenus/NAI/observationreponseia.html",
-            "instruction": "<p>Glissez et déposez chaque prompt dans la zone où l'on écrit les prompts.</p><p>Observez la réponse du logiciel d'IA générative.</p>",
-            "height": 500
+            "type": "text",
+            "content": "<p>Glissez et déposez chaque prompt dans la zone où l'on écrit les prompts. </p><p>Observez la réponse du logiciel d'IA générative.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "14db3b92-0b6a-4bf7-966a-17798f0bedd1",
+            "type": "custom",
+            "tagName": "llm-prompt-select",
+            "props": {
+              "messages": [],
+              "prompts": [
+                {
+                  "prompt": "Nom chien",
+                  "response": "Tu cherches un nom pour un chien ? Si oui, quel type de chien ou de personnalité a-t-il ? Cela peut m’aider à te proposer quelque chose de sympa !"
+                },
+                {
+                  "prompt": "Donne moi des idées de noms de chiens.",
+                  "response": "Avec plaisir ! 🐶 Voici une liste de noms de chien : 1. Tokyo 2. Nala 3. Milou 4. Sushi 5. Luna 6. Apéro 7. Simba 8. Paco 9. Bart 10. Cookie"
+                },
+                {
+                  "prompt": "Liste-moi 10 noms de chiens pour m'aider à choisir un nom pour mon beagle de 4 mois.",
+                  "response": "Avec plaisir ! 🎉 Voici 10 idées de noms qui iraient super bien pour un beagle de 4 mois, à la fois mignons, joueurs et un peu espiègles (comme le sont souvent les beagles)🐾 : 1.Scout — pour son côté explorateur et curieux 2.Happy — car il sera toujours joyeux 3.Charlie — un classique tendre et facile à appeler 4. Mojo — plein d’énergie et de bonne humeur 5.Oreo — pour un petit loulou tricolore 6.Flash — s’il court partout comme un fou 7. Biscuit — doux et gourmand 8. Lucky — parce qu’il a la chance d’être avec toi (et toi avec lui) 9. Marley — comme dans le film, fidèle et un peu canaille 10. Jazz — dynamique et musical, pour un chien plein de vie"
+                }
+              ]
+            }
           }
         },
         {
@@ -430,7 +452,7 @@
           "element": {
             "id": "3fe45d3e-1c1b-46f0-845d-0c2233d9e340",
             "type": "text",
-            "content": "<p>Choisissez le verbe d'action le plus précis pour compléter les prompts suivants</p>"
+            "content": "<p>Il manque un mot au début de chaque prompt ci dessous. Choisissez le verbe adapté pour compléter chaque prompt.</p>"
           }
         },
         {
@@ -441,7 +463,7 @@
                 {
                   "id": "93dad878-6819-4f32-9f15-9d2c39ac2e0e",
                   "type": "qcu",
-                  "instruction": "<p>[...] comment changer une ampoule .</p>",
+                  "instruction": "<p>... comment changer une ampoule.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -477,7 +499,7 @@
                 {
                   "id": "7caa7305-6801-4c07-87de-1b47b0119431",
                   "type": "qcu",
-                  "instruction": "<p>[...] le premier livre de Harry Potter en une ligne.</p>",
+                  "instruction": "<p>... le premier livre de Harry Potter en une ligne.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -513,7 +535,7 @@
                 {
                   "id": "ba48365e-e12b-4ed4-9cba-9dd075afad0d",
                   "type": "qcu",
-                  "instruction": "<p>[...] le mot \"melocoton\" en français.</p>",
+                  "instruction": "<p>... le mot \"melocoton\" en français.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -549,7 +571,7 @@
                 {
                   "id": "734e2adb-2401-47bc-97ef-3cdfa4d9523e",
                   "type": "qcu",
-                  "instruction": "<p>[...] les 5 plus grands mammifères de la planète.</p>",
+                  "instruction": "<p>... les 5 plus grands mammifères de la planète.</p>",
                   "proposals": [
                     {
                       "id": "1",
