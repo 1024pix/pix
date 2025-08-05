@@ -174,7 +174,6 @@
             "type": "custom",
             "tagName": "llm-prompt-select",
             "props": {
-              "messages": [],
               "prompts": [
                 {
                   "prompt": "Nom chien",
@@ -279,7 +278,6 @@
             "type": "custom",
             "tagName": "llm-prompt-select",
             "props": {
-              "messages": [],
               "prompts": [
                 {
                   "prompt": "Écris une recette de gâteau.",
