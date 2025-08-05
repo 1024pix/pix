@@ -441,7 +441,7 @@
                 {
                   "id": "93dad878-6819-4f32-9f15-9d2c39ac2e0e",
                   "type": "qcu",
-                  "instruction": "<p>[...] comment changer une ampoule ?</p>",
+                  "instruction": "<p>[...] comment changer une ampoule .</p>",
                   "proposals": [
                     {
                       "id": "1",
