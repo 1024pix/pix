@@ -156,7 +156,7 @@
                 {
                   "id": "93d127a7-e179-40cd-9273-ce7a23007a39",
                   "type": "text",
-                  "content": "<p>L’IA générative s’entraîne à masquer puis <strong>deviner</strong> des mots au hasard parmi tous ces textes. 🙈</p><p>Petit à petit elle s'améliore : elle apprend quels mots apparaissent <strong>souvent</strong> ensemble. 🐈 🐁</p>"
+                  "content": "<p>L’IA générative transforme ces textes en <strong>textes à trous</strong> et s'entraîne à <strong>deviner</strong> les mots cachés. 🙈</p><p>Au début, elle propose des mots au <strong>hasard</strong>, puis elle se corrige et <strong>recommence</strong>. Petit à petit elle s'améliore.</p>"
                 }
               ]
             },
@@ -165,7 +165,7 @@
                 {
                   "id": "3cdf627f-2ad0-42e8-a529-696936905830",
                   "type": "text",
-                  "content": "<p>Ainsi à partir d'un début de phrase, l'IA générative <strong>prédit le mot suivant</strong> 📝.</p><p>Puis elle recommence depuis le début de la phrase pour trouver le mot qui suit. </p><p>Et ... elle recommence encore et encore ! 🔁</p><p></p>"
+                  "content": "<p>En répétant cet exercice sur beaucoup de textes, elle enrichit son <strong>vocabulaire</strong> et apprend quels mots apparaissent souvent ensemble.  \uD83D\uDC08 \uD83D\uDC01</p>"
                 }
               ]
             },
@@ -174,7 +174,7 @@
                 {
                   "id": "94b60d31-b5dc-4621-a38f-de8eb5553813",
                   "type": "text",
-                  "content": "<p>À la fin de cette étape, l'IA générative est capable de <strong>prolonger</strong> ou compléter des débuts de texte. 😮</p>"
+                  "content": "<p>À la fin de cette étape, l'IA générative est capable de <strong>prolonger</strong> ou compléter des débuts de texte en prédisant les mots suivants. 😮</p>"
                 }
               ]
             }
