@@ -174,7 +174,12 @@
             "type": "custom",
             "tagName": "llm-prompt-select",
             "props": {
-              "messages": [],
+              "messages": [
+                {
+                  "direction": "inbound",
+                  "content": "<strong>Bonjour,</strong> je m’appelle ChatPix !<br>Comment puis-je vous aider aujourd’hui ?"
+                }
+              ],
               "prompts": [
                 {
                   "prompt": "Nom chien",
@@ -182,31 +187,11 @@
                 },
                 {
                   "prompt": "Donne moi des idées de noms de chiens.",
-                  "response": "Avec plaisir ! 🐶 Voici une liste de noms de chien : 
-1. Tokyo 
-2. Nala 
-3. Milou 
-4. Sushi 
-5. Luna 
-6. Apéro 
-7. Simba 
-8. Paco 
-9. Bart 
-10. Cookie"
+                  "response": "Avec plaisir ! 🐶 Voici une liste de noms de chien : 1. Tokyo 2. Nala 3. Milou 4. Sushi 5. Luna 6. Apéro 7. Simba 8. Paco 9. Bart 10. Cookie"
                 },
                 {
                   "prompt": "Liste-moi 10 noms de chiens pour m'aider à choisir un nom pour mon beagle de 4 mois.",
-                  "response": "Avec plaisir ! 🎉 Voici 10 idées de noms qui iraient super bien pour un beagle de 4 mois, à la fois mignons, joueurs et un peu espiègles (comme le sont souvent les beagles)🐾 : 
-1.Scout — pour son côté explorateur et curieux 
-2.Happy — car il sera toujours joyeux 
-3.Charlie — un classique tendre et facile à appeler 
-4. Mojo — plein d’énergie et de bonne humeur 
-5.Oreo — pour un petit loulou tricolore 
-6.Flash — s’il court partout comme un fou 
-7. Biscuit — doux et gourmand 
-8. Lucky — parce qu’il a la chance d’être avec toi (et toi avec lui) 
-9. Marley — comme dans le film, fidèle et un peu canaille 
-10. Jazz — dynamique et musical, pour un chien plein de vie"
+                  "response": "Avec plaisir ! 🎉 Voici 10 idées de noms qui iraient super bien pour un beagle de 4 mois, à la fois mignons, joueurs et un peu espiègles (comme le sont souvent les beagles)🐾 : 1.Scout — pour son côté explorateur et curieux 2.Happy — car il sera toujours joyeux 3.Charlie — un classique tendre et facile à appeler 4. Mojo — plein d’énergie et de bonne humeur 5.Oreo — pour un petit loulou tricolore 6.Flash — s’il court partout comme un fou 7. Biscuit — doux et gourmand 8. Lucky — parce qu’il a la chance d’être avec toi (et toi avec lui) 9. Marley — comme dans le film, fidèle et un peu canaille 10. Jazz — dynamique et musical, pour un chien plein de vie"
                 }
               ]
             }
@@ -289,7 +274,7 @@
           "element": {
             "id": "0a0f1cf5-3f03-448c-b551-93d51482ab33",
             "type": "text",
-            "content": "<p>Cette fois-ci, Gustave cherche une recette de gâteau pour 10 personnes.🍰Mais il est allergique au chocolat.🍫</p><p>Cliquez sur les prompts suivants dans le champ de saisie et observez les réponses du logiciel d'IA générative.</p>"
+            "content": "<p>Cette fois-ci, Gustave cherche une recette de gâteau pour 10 personnes.🍰Mais il est allergique au chocolat.🍫</p><p>Cliquez sur les prompts suivants et observez les réponses du logiciel d'IA générative.</p>"
           }
         },
         {
