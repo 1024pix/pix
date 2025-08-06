@@ -547,8 +547,46 @@
           "type": "element",
           "element": {
             "id": "733A8211-3F79-47F8-8944-ED971EA7C8B1",
-            "type": "text",
-            "content": "contenu supprimé -> à restaurer"
+            "type": "qab",
+            "instruction": "<p>Voyons si vous avez retenu l'essentiel.<br>Répondez aux affirmations suivantes.</p>",
+            "cards": [
+              {
+                "id": "b2f3e5af-94c0-49c9-a43b-b058941386a4",
+                "text": "Si l’IA générative produit des réponses flatteuses, c’est à cause de l'alignement avec les préférences des utilisateurs.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "A"
+              },
+              {
+                "id": "57495298-fd31-4f72-acb0-dfa89f995b7a",
+                "text": "L’IA générative apprend en lisant des milliards de textes et en devinant des mots manquants.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "A"
+              },
+              {
+                "id": "120adb48-1169-4520-a260-b9d8002db26b",
+                "text": "Pour lui apprendre à simuler des conversations, on a codé l'IA générative pour qu'elle respecte des règles spécifiques aux discussions.",
+                "image": {
+                  "url": "",
+                  "altText": ""
+                },
+                "proposalA": "vrai",
+                "proposalB": "faux",
+                "solution": "B"
+              }
+            ],
+            "feedback": {
+              "diagnosis": "<p>Les IA génératives de textes apprennent à écrire du texte en analysant de nombreux exemples de textes et apprennent à discuter en analysant des exemples de conversations. Elles s'améliorent à l'aide les préférences exprimées par les utilisateurs.</p>"
+            }
           }
         }
       ]
