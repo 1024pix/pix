@@ -284,7 +284,12 @@
             "type": "custom",
             "tagName": "llm-prompt-select",
             "props": {
-              "messages": [],
+             "messages": [
+                {
+                  "direction": "inbound",
+                  "content": "<strong>Bonjour,</strong> je m’appelle ChatPix !<br>Comment puis-je vous aider aujourd’hui ?"
+                }
+              ],
               "prompts": [
                 {
                   "prompt": "Écris une recette de gâteau.",
