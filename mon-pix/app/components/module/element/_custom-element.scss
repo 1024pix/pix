@@ -12,6 +12,11 @@ message-conversation::part(conversation) {
     border-radius: var(--pix-spacing-2x);
   }
 
+  &__container.element-custom__component {
+      max-height: 550px;
+      overflow: scroll;
+  }
+
   &__legend {
     @extend %pix-body-s;
 
