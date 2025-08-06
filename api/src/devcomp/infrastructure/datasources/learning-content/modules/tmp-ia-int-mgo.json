@@ -427,15 +427,18 @@
           "element": {
             "id": "d82abd07-8f51-442a-abfc-4ac939e7f27d",
             "type": "text",
-            "content": "<p><strong>Observez les trois réponses que pourrait donner un logiciel d'IA générative à la demande d'un utilisateur, puis répondez à la question suivante.</strong></p>"
+            "content": "<p>Observez les trois réponses que pourrait donner un logiciel d'IA générative à la demande d'un utilisateur, puis répondez à la question suivante.</p>"
           }
         },
         {
           "type": "element",
           "element": {
             "id": "227a574b-c8b4-4c52-b339-423a2e676ed8",
-            "type": "text",
-            "content": "<iframe title=\"Preferences utilisateurs\" src=\"https://1024pix.github.io/atelier-contenus/MGO/ia-dec-pref-users\" height=\"500\"></iframe>"
+            "type": "custom-draft",
+            "title": "Préférences des utilisateurs",
+            "url": "https://1024pix.github.io/atelier-contenus/MGO/ia-dec-pref-users",
+            "instruction": "<p>Examinez le prompt ci-dessous et les trois réponses proposées, puis répondez à la question.</p>",
+            "height": 550
           }
         },
         {
