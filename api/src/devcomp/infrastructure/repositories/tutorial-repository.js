@@ -102,7 +102,7 @@ export async function findPaginatedFilteredRecommendedByUserId({
       tutorialDtos.sort(byId);
       const tutorials = tutorialDtos.map(toDomain);
 
-      return toTutorialsForUserForRecommandation({
+      return toTutorialsForUserForRecommendation({
         tutorials,
         tutorialEvaluations,
         userSavedTutorials,
@@ -144,7 +144,7 @@ function toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials
   });
 }
 
-function toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userSavedTutorials, skillId }) {
+function toTutorialsForUserForRecommendation({ tutorials, tutorialEvaluations, userSavedTutorials, skillId }) {
   return tutorials.map((tutorial) => {
     const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
