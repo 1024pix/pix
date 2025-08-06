@@ -6,13 +6,13 @@ message-conversation::part(conversation) {
 }
 
 .element-custom {
-  fieldset {
+  &__container {
     padding: var(--pix-spacing-2x);
     border: 2px dashed var(--pix-primary-700);
     border-radius: var(--pix-spacing-2x);
   }
 
-  legend {
+  &__legend {
     @extend %pix-body-s;
 
     display: inline-flex;
