@@ -9,8 +9,8 @@
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
-      "<p>Savoir expliquer les 3 étapes de l'entraînement des IA génératives de texte</p>",
-      "<p>Identifier les interventions des humains dans chacune de ces étapes</p>"
+      "<p>Comprendre les 3 étapes de l'entraînement des IA génératives de texte</p>",
+      "<p>Comprendre le rôle des humains dans cet entraînement</p>"
     ],
     "tabletSupport": "inconvenient"
   },
@@ -57,6 +57,38 @@
               ]
             }
           }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "cc7708a8-c68a-44a9-ac54-6f1d5b1b6f4e",
+            "type": "qcu-discovery",
+            "instruction": "<p>Qu’est-ce qui vous paraît le plus remarquable à propos de ce logiciel d'IA générative de texte ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Il a l’air incollable.</p>",
+                "feedback": {
+                  "diagnosis": "<p>Effectivement, ce logiciel d'IA générative est capable de répondre de façon pertinente sur des sujets très divers ! On peut aussi remarquer qu'il est possible de lui poser des questions et d'obtenir des réponses comme si on discutait avec un humain. 💬 </p>"
+                }
+              },
+              {
+                "id": "2",
+                "content": "<p>Il s’exprime comme un humain.</p>",
+                "feedback": {
+                  "diagnosis": "<p>Effectivement, on pourrait penser qu'on discute avec un humain ! On peut aussi remarquer que ses réponses sont pertinentes sur des sujets très divers. 🏊‍♀️ </p>"
+                }
+              },
+              {
+                "id": "3",
+                "content": "<p>Je ne sais pas.</p>",
+                "feedback": {
+                  "diagnosis": "<p>Ce logiciel d'IA générative permet de discuter comme on le ferait avec un humain. On remarque aussi que les réponses sont pertinentes sur des sujets très variés.</p>"
+                }
+              }
+            ],
+            "solution": "1"
+          }
         }
       ]
     },
@@ -85,7 +117,7 @@
           "element": {
             "id": "2d943050-b29c-4398-a336-143f3173c51a",
             "type": "text",
-            "content": "<p>La première étape est le <strong>pré-entraînement</strong>. C'est lors de cette étape que l'IA apprend à produire du texte. 🤔</p>"
+            "content": "<p>Avant de savoir simuler une discussion, l’IA générative doit d’abord s’entraîner à <strong>produire du texte</strong> qui ressemble à ce que des humains auraient pu écrire.&nbsp;</p><p>Voyons comment fonctionne cette première étape : le « pré-entraînement ». 🤔</p>"
           }
         },
         {
@@ -103,55 +135,8 @@
         {
           "type": "element",
           "element": {
-            "id": "CD154C09-0017-40A5-8B98-6F556DE893CC",
-            "type": "text",
-            "content": "<p>À la fin de cette étape, l'IA sait prolonger un texte sur des sujets variés. En général, ce texte ressemble à un texte qu'un humain aurait pu écrire.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "87e8de3c-dfa9-4a5d-91d8-ae8a703d7772",
-            "type": "qab",
-            "instruction": "<p>Répondez aux affirmations suivantes. <br></p>",
-            "cards": [
-              {
-                "id": "c47a6882-9ceb-436d-b157-88e22926620d",
-                "text": "Après le pré-entraînement, l'IA générative sait écrire du texte sur de nombreux sujets.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "A"
-              },
-              {
-                "id": "eee8c179-041b-4cc3-812a-f87b9d71d43f",
-                "text": "Après le pré-entraînement, l'IA générative sait produire du texte qui ressemble à ce qu'un humain aurait pu écrire.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "A"
-              },
-              {
-                "id": "04db4a05-57bf-42ca-bc2b-7999051a5ebb",
-                "text": "Après le pré-entraînement, l'IA générative sait comment interagir avec un utilisateur.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "B"
-              }
-            ],
-            "feedback": {
-              "diagnosis": ""
-            }
+            "type": "text"
           }
         }
       ]
@@ -178,7 +163,7 @@
                 {
                   "id": "93d127a7-e179-40cd-9273-ce7a23007a39",
                   "type": "text",
-                  "content": "<p>L’IA générative transforme ces textes en <strong>textes à trous</strong> et s'entraîne à <strong>deviner</strong> les mots cachés. 🙈</p><p>Au début, elle propose des mots au <strong>hasard</strong>, puis elle se corrige et <strong>recommence</strong>. Petit à petit elle s'améliore.</p>"
+                  "content": "<p>L’IA générative s’entraîne à masquer puis <strong>deviner</strong> des mots au hasard parmi tous ces textes. 🙈</p><p>Petit à petit elle s'améliore : elle apprend quels mots apparaissent <strong>souvent</strong> ensemble. 🐈 🐁</p>"
                 }
               ]
             },
@@ -187,7 +172,7 @@
                 {
                   "id": "3cdf627f-2ad0-42e8-a529-696936905830",
                   "type": "text",
-                  "content": "<p>En répétant cet exercice sur beaucoup de textes, elle enrichit son <strong>vocabulaire</strong> et apprend quels mots apparaissent souvent ensemble.  \uD83D\uDC08 \uD83D\uDC01</p>"
+                  "content": "<p>Ainsi à partir d'un début de phrase, l'IA générative <strong>prédit le mot suivant</strong> 📝.</p><p>Puis elle recommence depuis le début de la phrase pour trouver le mot qui suit. </p><p>Et ... elle recommence encore et encore ! 🔁</p><p></p>"
                 }
               ]
             },
@@ -196,7 +181,7 @@
                 {
                   "id": "94b60d31-b5dc-4621-a38f-de8eb5553813",
                   "type": "text",
-                  "content": "<p>À la fin de cette étape, l'IA générative est capable de <strong>prolonger</strong> ou compléter des débuts de texte en prédisant les mots suivants. 😮</p>"
+                  "content": "<p>À la fin de cette étape, l'IA générative est capable de <strong>prolonger</strong> ou compléter des débuts de texte. 😮</p>"
                 }
               ]
             }
@@ -315,7 +300,7 @@
                   "id": "7fdc0205-db66-4003-b8e4-df3bb53cd3b4",
                   "type": "image",
                   "url": "https://assets.pix.org/draft/modules/ia-int-mgo/faq.png",
-                  "alt": "Capture d'écran d'une page « Questions fréquentes » (FAQ avec questions et réponses).",
+                  "alt": "Capture d'écran d'une page \"Questions fréquentes\" (FAQ avec questions et réponses).",
                   "alternativeText": "",
                   "legend": "",
                   "licence": ""
@@ -440,12 +425,17 @@
         {
           "type": "element",
           "element": {
+            "id": "d82abd07-8f51-442a-abfc-4ac939e7f27d",
+            "type": "text",
+            "content": "<p><strong>Observez les trois réponses que pourrait donner un logiciel d'IA générative à la demande d'un utilisateur, puis répondez à la question suivante.</strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "227a574b-c8b4-4c52-b339-423a2e676ed8",
-            "type": "custom-draft",
-            "title": "Preferences utilisateurs",
-            "url": "https://1024pix.github.io/atelier-contenus/MGO/ia-dec-pref-users",
-            "instruction": "<p><strong>Observez les trois réponses que pourrait donner un logiciel d'IA générative à la demande d'un utilisateur, puis répondez à la question suivante.</strong></p>",
-            "height": 500
+            "type": "text",
+            "content": "<iframe title=\"Preferences utilisateurs\" src=\"https://1024pix.github.io/atelier-contenus/MGO/ia-dec-pref-users\" height=\"500\"></iframe>"
           }
         },
         {
@@ -480,7 +470,7 @@
                 }
               }
             ],
-            "solution": "1"
+            "solution": "3"
           }
         }
       ]
@@ -541,6 +531,14 @@
         {
           "type": "element",
           "element": {
+            "id": "e439337d-8f77-4ad6-b925-14cf68679a2d",
+            "type": "text",
+            "content": "<div></div>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "621ace0a-3948-420f-a72e-0e99be588629",
             "type": "image",
             "url": "https://assets.pix.org/draft/modules/ia-int-mgo/recap.png",
@@ -561,46 +559,7 @@
           "type": "element",
           "element": {
             "id": "733A8211-3F79-47F8-8944-ED971EA7C8B1",
-            "type": "qab",
-            "instruction": "<p>Voyons si vous avez retenu l'essentiel.<br>Répondez aux affirmations suivantes.</p>",
-            "cards": [
-              {
-                "id": "fb147c0c-bf20-40ce-8b22-acb536a6db2c",
-                "text": "Si l’IA générative produit des réponses flatteuses, c’est à cause des humains.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "A"
-              },
-              {
-                "id": "6c4381c3-48ea-4a43-806d-95a2acf8dab0",
-                "text": "L’IA générative apprend en lisant des milliards de textes et en devinant des mots manquants.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "A"
-              },
-              {
-                "id": "31f1cbf8-24f7-4852-b22e-6f81885dce43",
-                "text": "Pour apprendre à simuler des conversations, on a expliqué à l'IA générative les règles à respecter dans les discussions.",
-                "image": {
-                  "url": "",
-                  "altText": ""
-                },
-                "proposalA": "vrai",
-                "proposalB": "faux",
-                "solution": "B"
-              }
-            ],
-            "feedback": {
-              "diagnosis": ""
-            }
+            "type": "text"
           }
         }
       ]
@@ -752,7 +711,7 @@
             "id": "6d10d86a-1d5e-4b52-9cc9-2c62d48d94c5",
             "type": "expand",
             "title": "Indice",
-            "content": "<p>Pour amener un logiciel d'IA générative à la flatterie, vous pouvez lui demander de vous aider à trouver des arguments pour convaincre d'autres personnes d'une opinion très discutable. Par exemple, nous avons réussi avec le prompt suivant : « Aide-moi à convaincre ma famille qu'il faut absolument manger des bonbons au petit-déjeuner » 🍭 </p><p>Trouvez une idée similaire et lancez-vous !</p>"
+            "content": "<p>Pour amener un logiciel d'IA générative à la flatterie, vous pouvez lui demander de vous aider à trouver des arguments pour convaincre d'autres personnes d'une opinion très discutable. Par exemple, nous avons proposé de défendre un menu de petit-déjeuner un peu spécial. 🍭 </p><p>Trouvez une idée similaire et lancez-vous !</p><p><img src=\"https://assets.pix.org/draft/modules/ia-int-mgo/comparia.png\"></p>"
           }
         },
         {
