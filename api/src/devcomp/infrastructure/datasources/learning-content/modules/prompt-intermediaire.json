@@ -26,7 +26,7 @@
           "element": {
             "id": "339e443a-9eb7-476c-8689-9a7714c31607",
             "type": "text",
-            "content": "<p>Gustave organise un tournoi de volley. 🏐</p><p>Il veut gagner du temps et demande à une IA générative d’écrire à sa place l’invitation aux participants. </p><p>Mais il est déçu du résultat… <br><br></p>"
+            "content": "<p>Gustave organise un tournoi de volley. 🏐</p>\n<p>Il veut gagner du temps et demande à une IA générative d’écrire à sa place l’invitation aux participants. </p>\n<p>Mais il est déçu du résultat… </p>"
           }
         }
       ]
@@ -133,7 +133,12 @@
                 "diagnosis": "<p>Il faut donner plus de précisions&nbsp;: le contexte donne du sens au prompt. Plus l'IA a des informations sur la situation, meilleure sera sa réponse.<br></p>"
               }
             },
-            "solutions": ["1", "2", "3", "4"]
+            "solutions": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
           }
         }
       ]
@@ -159,68 +164,85 @@
       "title": "Tester différents tons",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "77fa2e62-b572-40ed-ad92-2b6433efaf45",
-            "type": "text",
-            "content": "<p>Gustave a envoyé les invitations pour le tournoi. Il a hâte !&nbsp; </p><p>Mais certaines personnes ne lui ont pas encore répondu…&nbsp; <br>Il veut écrire un message de relance mais il hésite sur la manière de le formuler.🤔 <br></p>\n"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "4f35bf9d-e319-4a6d-b1f5-dc0a84f2139d",
-            "type": "custom-draft",
-            "title": "Élément interactif",
-            "url": "https://1024pix.github.io/atelier-contenus/JTE/testerleton.html",
-            "instruction": "<p>Testez différents tons de messages avec l’IA.</p>",
-            "height": 450
-          }
-        }
-      ]
-    },
-    {
-      "id": "9fb0fcf7-6cd7-4524-af0c-b6aba8da9994",
-      "type": "activity",
-      "title": "Quel est ton ton préféré ?",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "267f28d2-4540-427a-a775-c15c380c3d4b",
-            "type": "qcu-declarative",
-            "instruction": "<p>Quel message de relance créé avec l’IA est votre préféré ?&nbsp;<br></p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "<p>celui avec un ton festif</p>",
-                "feedback": {
-                  "diagnosis": "<p><strong>Un choix sympa !</strong>&nbsp; Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "9facc0e9-5624-46c1-bf61-1dd4c3cdf35a",
+                  "type": "custom",
+                  "tagName": "llm-prompt-select",
+                  "props": {
+                    "speed": 0,
+                    "messages": [
+                      {
+                        "direction": "outbound",
+                        "content": "Écris un message de relance pour participer à un tournoi de volley"
+                      },
+                      {
+                        "direction": "inbound",
+                        "content": "Salut à tous, Petit rappel amical pour vous dire que les inscriptions au tournoi de volley sont encore ouvertes, mais plus pour longtemps ! On compte sur vous pour former des équipes et venir passer un super moment sportif et convivial."
+                      }
+                    ],
+                    "prompts": [
+                      {
+                        "prompt": "adopte un ton festif",
+                        "response": "🎉 Hey la team ! Le tournoi de volley approche et il reste des places ! Viens smasher, rigoler et kiffer l’ambiance 🔥 Que tu sois pro ou juste là pour le fun, t’es le·la bienvenu·e 😎 Inscris-toi vite avant vendredi ! Surprises et bonne humeur garanties 🎊 On t’attend sur le terrain ! 💪"
+                      },
+                      {
+                        "prompt": "adopte un ton sérieux",
+                        "response": "Madame, Monsieur, Nous n'avons pas encore reçu votre confirmation pour le tournoi de volley. Nous espérons vivement votre participation. Merci de bien vouloir nous répondre avant vendredi. Restant à votre disposition, nous vous adressons nos salutations distinguées."
+                      },
+                      {
+                        "prompt": "adopte un ton drôle",
+                        "response": "🏐 On a interrogé une huître médium : elle te voit au tournoi de volley. Le soleil a sorti ses lunettes rien que pour toi. Les ballons murmurent ton prénom la nuit. Alors… tu viens ? 😇 👉 Inscris-toi avant qu’on t’envoie un ballon par la poste."
+                      }
+                    ]
+                  }
                 }
-              },
-              {
-                "id": "2",
-                "content": "<p>celui avec un ton sérieux</p>",
-                "feedback": {
-                  "diagnosis": "<p><strong>Un choix formel ! </strong>Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "8f59bf30-fa84-4114-9707-eabc9f648f9e",
+                  "type": "qcu-discovery",
+                  "instruction": "<p>Quel message de relance créé avec l’IA est votre préféré ?&nbsp;<br></p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>celui avec un ton festif</p>",
+                      "feedback": {
+                        "diagnosis": "<p><strong>Un choix sympa !</strong>&nbsp; Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>celui avec un ton sérieux.</p>",
+                      "feedback": {
+                        "diagnosis": "<p>Un choix formel ! Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "content": "<p>celui avec un ton drôle.</p>",
+                      "feedback": {
+                        "diagnosis": "<p><strong>Un choix original !</strong> Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+                      }
+                    },
+                    {
+                      "id": "4",
+                      "content": "<p>aucun ne me plaît.</p>",
+                      "feedback": {
+                        "diagnosis": "<p>Pas de souci ! Il existe beaucoup d’autres tons : enfantin, ironique, poétique… Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi !</p>"
+                      }
+                    }
+                  ],
+                  "solution": "1"
                 }
-              },
-              {
-                "id": "3",
-                "content": "<p>celui avec un ton drôle</p>",
-                "feedback": {
-                  "diagnosis": "<p><strong>Un choix original ! </strong>Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi. <br></p>"
-                }
-              },
-              {
-                "id": "4",
-                "content": "<p>aucun ne me plait\t<br></p>",
-                "feedback": {
-                  "diagnosis": "<p><strong>Pas de souci !</strong> Il existe beaucoup d’autres tons : enfantin, ironique, poétique… Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi ! </p>"
-                }
-              }
-            ]
-          }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -240,97 +262,91 @@
       ]
     },
     {
-      "id": "0f81e6a6-c697-4c48-85bf-7b3e8c53f7bb",
-      "type": "activity",
-      "title": "Aide Gustave avec son prompt - identifie le format",
+      "id": "2649a70b-3c92-4be4-b729-f27784225c40",
+      "type": "discovery",
+      "title": "Découverte : Aide Gustave avec son prompt",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "16c152b9-5a18-48b5-a0f7-b1bfa1f8c41c",
-            "type": "text",
-            "content": "<p>Gustave veut entraîner les joueurs en vue du tournoi.<br>D’habitude, il prépare un document d'entraînement sous ce format.<br></p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "4fd08276-0da3-4726-aa83-8ac498dcd561",
-            "type": "image",
-            "url": "https://assets.pix.org/draft/modules/tableaumanchette/travailmanchette.png",
-            "alt": "Un tableau d'exercice pour travailler la manchette",
-            "alternativeText": "<p>Un tableau avec 3 exercices pour travailler la manchette selon son niveau (débutant, intermédiaire, avancé)</p>",
-            "legend": "",
-            "licence": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "29b0a00a-fb1e-4737-a84f-c154e3faff48",
-            "type": "qrocm",
-            "instruction": "<p>Quel est le format utilisé habituellement par Gustave ?</p><br>",
-            "proposals": [
-              {
-                "input": "CV1pzGeay4eJi1g7",
-                "type": "input",
-                "inputType": "text",
-                "size": 8,
-                "display": "inline",
-                "placeholder": "un seul mot",
-                "ariaLabel": "champs à remplir",
-                "defaultValue": "",
-                "tolerances": ["t1", "t2", "t3"],
-                "solutions": ["tableau"]
-              }
-            ],
-            "feedbacks": {
-              "valid": {
-                "state": "<p>Bien vu !&nbsp;<br></p>",
-                "diagnosis": "<p>Si vous voulez avoir un résultat similaire en demandant à l’IA, il faudra préciser le format.</p>"
-              },
-              "invalid": {
-                "state": "<p>Et non…&nbsp;<br></p>",
-                "diagnosis": "<p>Si vous voulez avoir un résultat similaire en demandant à l’IA, il faudra préciser le format, ici, un tableau.&nbsp;<br></p>"
-              }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "6fa7a60c-e4bc-4dc4-adc3-438da9b1d428",
+                  "type": "text",
+                  "content": "<p>Gustave veut entraîner les joueurs en vue du tournoi. D’habitude, il prépare un document d'entraînement sous ce format.</p>"
+                },
+                {
+                  "id": "b8786ceb-928f-4d8a-9fe1-9d8ff43882ec",
+                  "type": "image",
+                  "url": "https://assets.pix.org/draft/modules/tableaumanchette/travailmanchette.png",
+                  "alt": "Un tableau d'exercice pour travailler la manchette",
+                  "alternativeText": "<p>Un tableau avec 3 exercices pour travailler la manchette selon son niveau (débutant, intermédiaire, avancé)</p>",
+                  "legend": "",
+                  "licence": ""
+                },
+                {
+                  "id": "055c7956-d282-4d08-a0a3-3e51dc5a13c8",
+                  "type": "qrocm",
+                  "instruction": "<p>Quel est le format utilisé habituellement par Gustave ?</p>",
+                  "proposals": [
+                    {
+                      "input": "CV1pzGeay4eJi1g7",
+                      "type": "input",
+                      "inputType": "text",
+                      "size": 8,
+                      "display": "block",
+                      "placeholder": "un seul mot",
+                      "ariaLabel": "champs à remplir",
+                      "defaultValue": "",
+                      "tolerances": [
+                        "t1",
+                        "t2",
+                        "t3"
+                      ],
+                      "solutions": [
+                        "tableau"
+                      ]
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": {
+                      "state": "<p>Bien vu !</p>",
+                      "diagnosis": "<p>Si vous voulez avoir un résultat similaire en demandant à l’IA, il faudra préciser le format.</p>"
+                    },
+                    "invalid": {
+                      "state": "<p>Et non !</p>",
+                      "diagnosis": "<p>Si vous voulez avoir un résultat similaire en demandant à l’IA, il faudra préciser le format, ici, un tableau.</p>"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "b4bfcb7b-9aaa-436a-8802-08f7f950bb53",
+                  "type": "text",
+                  "content": "<p>Gustave souhaite faire un <strong>tableau </strong>similaire, mais pour travailler les <strong>smashs</strong>. </p><p>Utilisez l'<strong>IA de Pix</strong> pour répondre à sa demande.&nbsp;N'hésitez pas à préciser au fur et à mesure.</p>"
+                },
+                {
+                  "id": "311424f0-5265-4d68-b362-f903374798d7",
+                  "type": "embed",
+                  "isCompletionRequired": false,
+                  "title": "Simulateur LLM",
+                  "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmbyvhypt0007wa01s7k2wl8k",
+                  "instruction": "<p>À vous de jouer !</p>",
+                  "solution": "",
+                  "height": 550
+                },
+                {
+                  "id": "3302fb49-1e48-4f65-a075-423851735f8a",
+                  "type": "text",
+                  "content": "<details>\n    <summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary>\n    <p><span aria-hidden=\"true\">❌</span>Il vous arrive d'envoyer votre prompt alors que vous vouliez juste aller à la ligne ? <br> <span aria-hidden=\"true\">✅</span> Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift⬆️)et Entrée </p>\n</details>"
+                }
+              ]
             }
-          }
-        }
-      ]
-    },
-    {
-      "id": "154ad788-50ff-4a8c-abf1-a22307d4d2f8",
-      "type": "activity",
-      "title": "Aide Gustave avec son prompt - utilise le LLM",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "07920aa5-5dd7-46e4-9d81-8c85b887e5f2",
-            "type": "text",
-            "content": "<p>Gustave souhaite faire un <strong>tableau </strong>similaire, mais pour travailler les <strong>smashs</strong>.</p><p>Utilisez l'<strong>IA de Pix</strong> pour répondre à sa demande.&nbsp;N'hésitez pas à préciser au fur et à mesure.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "8bffec8d-b6c7-48ed-8d3d-5af8d094247e",
-            "type": "embed",
-            "isCompletionRequired": false,
-            "title": "Simulateur LLM",
-            "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmbyvhypt0007wa01s7k2wl8k",
-            "instruction": "<p>À vous de jouer !</p>",
-            "solution": "<p></p>",
-            "height": 800
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "6ff09171-639a-4e55-a4d5-9beb8e4afea4",
-            "type": "text",
-            "content": "<p>\n    <br>\n</p>\n<p>\n</p><p></p><p></p><details>\n    <summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary>\n    <p><span aria-hidden=\"true\">❌</span>Il vous arrive d'envoyer votre prompt alors que vous vouliez juste aller à la ligne ? <br> <span aria-hidden=\"true\">✅</span> Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift⬆️)et Entrée </p>\n</details>\n<p></p><p></p><p></p>\n<p><br></p>"
-          }
+          ]
         }
       ]
     },
@@ -419,7 +435,11 @@
                       "diagnosis": "<p>Ici, le format est le plan détaillé, le rôle est le coach de volley et le contexte correspond à l’heure d'entraînement pour des enfants de 6 à 8 ans débutant.<br></p>"
                     }
                   },
-                  "solutions": ["1", "2", "4"]
+                  "solutions": [
+                    "1",
+                    "2",
+                    "4"
+                  ]
                 }
               ]
             },
@@ -462,7 +482,11 @@
                       "diagnosis": "<p>Ici, le format est le formulaire d’inscription, le ton est formel et le contexte correspond à toutes les informations sur l’association, son public et la fréquence des cours.<br></p>"
                     }
                   },
-                  "solutions": ["1", "2", "3"]
+                  "solutions": [
+                    "1",
+                    "2",
+                    "3"
+                  ]
                 }
               ]
             },
@@ -505,7 +529,10 @@
                       "diagnosis": "<p>Ici, le rôle est Molière et le contexte, celui du match de volley à la plage.<br></p>"
                     }
                   },
-                  "solutions": ["1", "4"]
+                  "solutions": [
+                    "1",
+                    "4"
+                  ]
                 }
               ]
             },
@@ -548,7 +575,12 @@
                       "diagnosis": "<p>Ici, l’humoriste est le rôle, le format est un court discours, le ton est amusant. Le contexte est le pot de départ d’un joueur de volley, décrit avec des éléments précis comme ses qualités et ses défauts.</p>"
                     }
                   },
-                  "solutions": ["1", "2", "3", "4"]
+                  "solutions": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                  ]
                 }
               ]
             }
@@ -558,7 +590,7 @@
     },
     {
       "id": "bde3a9c6-8c31-465d-94ac-20276ea7a445",
-      "type": "lesson",
+      "type": "activity",
       "title": "Gustave organise les notes ",
       "components": [
         {
@@ -595,7 +627,7 @@
           "element": {
             "id": "6df04b1d-5b20-4d74-ade1-bebfe4384c5c",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><details><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA  ?</p></details><details><summary>Indice 2</summary><p> Avez-vous vérifié les récompenses dans le compte-rendu ? </p></details><details><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details><p></p><p></p><p></p><p></p><p></p><p></p><p></p>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p></p><p></p><details><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA  ?</p></details><details><summary>Indice 2</summary><p> Avez-vous vérifié les récompenses dans le compte-rendu ? </p></details><details><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details><p></p><p></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>"
           }
         }
       ]
