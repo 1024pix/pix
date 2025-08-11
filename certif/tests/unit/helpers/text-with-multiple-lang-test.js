@@ -24,7 +24,7 @@ module('Unit | Helper | text with multiple lang', function (hooks) {
     },
   ].forEach((expected) => {
     test(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function (assert) {
-      textWithMultipleLangHelper.locale.currentLocale = expected.lang;
+      textWithMultipleLangHelper.locale.currentLanguage = expected.lang;
 
       assert.strictEqual(
         textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString(),

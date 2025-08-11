@@ -27,7 +27,7 @@ export default class Url extends UrlBaseService {
   }
 
   get joiningIssueSheetUrl() {
-    if (this.locale.currentLocale === 'fr') {
+    if (this.locale.currentLanguage === 'fr') {
       return 'https://cloud.pix.fr/s/b8BFXX94Ys2WGxM/download/Probl%C3%A8mes%20d%27acc%C3%A8s%20en%20session.pdf';
     }
 
@@ -35,7 +35,7 @@ export default class Url extends UrlBaseService {
   }
 
   get urlToDownloadSessionIssueReportSheet() {
-    if (this.locale.currentLocale === 'fr') {
+    if (this.locale.currentLanguage === 'fr') {
       return 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download';
     }
 

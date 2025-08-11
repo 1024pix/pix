@@ -2,13 +2,14 @@
 // If you need a change, modify the original file and
 // propagate the changes in the copies in all the fronts.
 
-import { setLocale } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import ENV from 'pix-certif/config/environment';
 import { PIX_WEBSITE_PATHS, PIX_WEBSITE_ROOT_URLS } from 'pix-certif/services/url-base';
 import setupIntl from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import { setCurrentLocale } from '../../helpers/setup-intl.js';
 
 const { SUPPORTED_LOCALES } = ENV.APP;
 
@@ -20,13 +21,12 @@ module('Unit | Service | url-base', function (hooks) {
     test('returns the application home url', function (assert) {
       // given
       const service = this.owner.lookup('service:url-base');
-      setLocale('en');
 
       // when
       const homeUrl = service.homeUrl;
 
       // then
-      assert.strictEqual(homeUrl, '/?lang=en');
+      assert.strictEqual(homeUrl, '/?lang=fr');
     });
   });
 
@@ -34,13 +34,12 @@ module('Unit | Service | url-base', function (hooks) {
     test('returns the Pix server status url', function (assert) {
       // given
       const service = this.owner.lookup('service:url-base');
-      setLocale('en');
 
       // when
       const homeUrl = service.serverStatusUrl;
 
       // then
-      assert.strictEqual(homeUrl, 'https://status.pix.org/?locale=en');
+      assert.strictEqual(homeUrl, 'https://status.pix.org/?locale=fr');
     });
   });
 
@@ -92,7 +91,7 @@ module('Unit | Service | url-base', function (hooks) {
       assert.strictEqual(homeUrl, 'https://app.pix.fr/mot-de-passe-oublie');
     });
 
-    test('returns the Pix app forgotten password url for a locale', function (assert) {
+    test('returns the Pix app forgotten password url for a locale', async function (assert) {
       // given
       const service = this.owner.lookup('service:url-base');
       sinon.stub(ENV, 'APP').value({ PIX_APP_URL_WITHOUT_EXTENSION: 'https://app.pix.' });
@@ -100,7 +99,7 @@ module('Unit | Service | url-base', function (hooks) {
       const domainService = this.owner.lookup('service:current-domain');
       sinon.stub(domainService, 'getExtension').returns('fr');
 
-      setLocale('en');
+      await setCurrentLocale('en');
 
       // when
       const homeUrl = service.pixAppForgottenPasswordUrl;
@@ -111,10 +110,10 @@ module('Unit | Service | url-base', function (hooks) {
   });
 
   module('getPixWebsiteUrl', function () {
-    test('returns the Pix website url for the current locale', function (assert) {
+    test('returns the Pix website url for the current locale', async function (assert) {
       // given
       const service = this.owner.lookup('service:url-base');
-      setLocale('en');
+      await setCurrentLocale('en');
 
       // when
       const homeUrl = service.getPixWebsiteUrl();
@@ -123,10 +122,10 @@ module('Unit | Service | url-base', function (hooks) {
       assert.strictEqual(homeUrl, 'https://pix.org/en');
     });
 
-    test('returns the Pix website url and path for the current locale', function (assert) {
+    test('returns the Pix website url and path for the current locale', async function (assert) {
       // given
       const service = this.owner.lookup('service:url-base');
-      setLocale('en');
+      await setCurrentLocale('en');
 
       // when
       const homeUrl = service.getPixWebsiteUrl('this-is-my-document');
@@ -137,10 +136,10 @@ module('Unit | Service | url-base', function (hooks) {
   });
 
   module('getPixWebsiteUrlFor', function () {
-    test('returns the Pix website url and path for the current locale', function (assert) {
+    test('returns the Pix website url and path for the current locale', async function (assert) {
       // given
       const service = this.owner.lookup('service:url-base');
-      setLocale('en');
+      await setCurrentLocale('en');
 
       // when
       const homeUrl = service.getPixWebsiteUrlFor('CGU');
@@ -150,12 +149,12 @@ module('Unit | Service | url-base', function (hooks) {
     });
 
     module('when the tld is fr', function () {
-      test('returns the Pix website url for the tld fr', function (assert) {
+      test('returns the Pix website url for the tld fr', async function (assert) {
         // given
         const service = this.owner.lookup('service:url-base');
         const domainService = this.owner.lookup('service:current-domain');
         sinon.stub(domainService, 'getExtension').returns('fr');
-        setLocale('en');
+        await setCurrentLocale('en');
 
         // when
         const homeUrl = service.getPixWebsiteUrlFor();
@@ -164,12 +163,12 @@ module('Unit | Service | url-base', function (hooks) {
         assert.strictEqual(homeUrl, 'https://pix.fr');
       });
 
-      test('returns the Pix website url and path for the tld fr', function (assert) {
+      test('returns the Pix website url and path for the tld fr', async function (assert) {
         // given
         const service = this.owner.lookup('service:url-base');
         const domainService = this.owner.lookup('service:current-domain');
         sinon.stub(domainService, 'getExtension').returns('fr');
-        setLocale('en');
+        await setCurrentLocale('en');
 
         // when
         const homeUrl = service.getPixWebsiteUrlFor('CGU');

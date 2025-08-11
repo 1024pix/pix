@@ -5,6 +5,7 @@ import SessionService from 'ember-simple-auth/services/session';
 export default class CurrentSessionService extends SessionService {
   @service currentUser;
   @service locale;
+  @service featureToggles;
 
   async handleAuthentication() {
     await this.loadCurrentUserAndSetLocale();
@@ -20,10 +21,13 @@ export default class CurrentSessionService extends SessionService {
   async loadCurrentUserAndSetLocale(transition) {
     await this.currentUser.load();
 
-    const language = transition?.to?.queryParams?.lang;
-    this.locale.detectBestLocale({ language, user: this.currentUser.certificationPointOfContact });
+    const queryParams = transition?.to?.queryParams;
+    this.locale.setBestLocale({ user: this.currentUser.certificationPointOfContact, queryParams });
 
-    this.data.localeNotSupported = !this.locale.isSupportedLocale(this.currentUser.certificationPointOfContact?.lang);
+    if (!this.featureToggles.featureToggles?.useLocale) {
+      // should not happen with new locale system because we dont rely on user lang anymore.
+      this.data.localeNotSupported = !this.locale.isSupportedLocale(this.currentUser.certificationPointOfContact?.lang);
+    }
   }
 
   handleInvalidation() {

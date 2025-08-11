@@ -17,7 +17,7 @@ module('Unit | Service | session', function (hooks) {
 
     service = this.owner.lookup('service:session');
     service.currentUser = { load: sinon.stub(), certificationPointOfContact: user };
-    service.locale = { detectBestLocale: sinon.stub(), isSupportedLocale: sinon.stub().returns(true) };
+    service.locale = { setBestLocale: sinon.stub(), isSupportedLocale: sinon.stub().returns(true) };
   });
 
   module('#handleAuthentication', function () {
@@ -27,7 +27,7 @@ module('Unit | Service | session', function (hooks) {
 
       // then
       sinon.assert.calledOnce(service.currentUser.load);
-      sinon.assert.calledWith(service.locale.detectBestLocale, { user, language: undefined });
+      sinon.assert.calledWith(service.locale.setBestLocale, { user, queryParams: undefined });
       assert.ok(true);
     });
   });
@@ -54,14 +54,14 @@ module('Unit | Service | session', function (hooks) {
     module('when locale is supported', function () {
       test('loads the current user, sets locale sets data.localeNotSupported to false', async function (assert) {
         // given
-        const transition = { to: { queryParams: { lang: 'es' } } };
+        const queryParams = { lang: 'fr' };
 
         // when
-        await service.loadCurrentUserAndSetLocale(transition);
+        await service.loadCurrentUserAndSetLocale({ to: { queryParams } });
 
         // then
         sinon.assert.calledOnce(service.currentUser.load);
-        sinon.assert.calledWith(service.locale.detectBestLocale, { language: 'es', user });
+        sinon.assert.calledWith(service.locale.setBestLocale, { user, queryParams });
         assert.false(service.data.localeNotSupported);
       });
     });
@@ -69,15 +69,16 @@ module('Unit | Service | session', function (hooks) {
     module('when locale is not supported', function () {
       test('loads the current user, sets locale sets data.localeNotSupported to true', async function (assert) {
         // given
-        const transition = { to: { queryParams: { lang: 'es' } } };
+        const queryParams = { lang: 'es' };
+
         service.locale.isSupportedLocale = sinon.stub().returns(false);
 
         // when
-        await service.loadCurrentUserAndSetLocale(transition);
+        await service.loadCurrentUserAndSetLocale({ to: { queryParams } });
 
         // then
         sinon.assert.calledOnce(service.currentUser.load);
-        sinon.assert.calledWith(service.locale.detectBestLocale, { language: 'es', user });
+        sinon.assert.calledWith(service.locale.setBestLocale, { user, queryParams });
         assert.true(service.data.localeNotSupported);
       });
     });

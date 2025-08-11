@@ -7,12 +7,8 @@ module('Unit | Route | application', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    class currentDomainStub extends Service {
-      get isFranceDomain() {
-        return true;
-      }
-    }
-    this.owner.register('service:currentDomain', currentDomainStub);
+    const domainService = this.owner.lookup('service:currentDomain');
+    sinon.stub(domainService, 'getExtension').returns('fr');
 
     class CurrentUserStub extends Service {
       load = sinon.stub();

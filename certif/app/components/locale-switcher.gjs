@@ -17,7 +17,7 @@ export default class LocaleSwitcher extends Component {
 
   constructor() {
     super(...arguments);
-    this.selectedLocale = this.args.defaultValue || this.locale.currentLocale;
+    this.selectedLocale = this.args.defaultValue || this.locale.currentLanguage;
   }
 
   @action

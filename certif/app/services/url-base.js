@@ -18,8 +18,7 @@ export default class UrlBaseService extends Service {
   }
 
   get serverStatusUrl() {
-    const currentLocale = this.locale.currentLocale;
-    return `https://status.pix.org/?locale=${currentLocale}`;
+    return `https://status.pix.org/?locale=${this.locale.currentLanguage}`;
   }
 
   get pixAppUrl() {

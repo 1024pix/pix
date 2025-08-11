@@ -2,35 +2,102 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-const FRANCE_TLD = 'fr';
-const INTERNATIONAL_TLD = 'org';
-
 module('Unit | Service | currentDomain', function (hooks) {
   setupTest(hooks);
 
-  module('#isFranceDomain', function () {
-    test('returns true when TLD is the France domain (.fr)', function (assert) {
-      // given
-      const service = this.owner.lookup('service:currentDomain');
-      service.getExtension = sinon.stub().returns(FRANCE_TLD);
+  module('#getExtension', function () {
+    module('when location is FR TLD', function () {
+      test(`returns fr`, function (assert) {
+        // given
+        const locationService = this.owner.lookup('service:location');
+        sinon.stub(locationService, 'href').value('https://pix.fr/foo?bar=baz');
 
-      // when
-      const isFranceDomain = service.isFranceDomain;
+        // when
+        const service = this.owner.lookup('service:currentDomain');
+        const extension = service.getExtension();
 
-      // then
-      assert.true(isFranceDomain);
+        // then
+        assert.strictEqual(extension, 'fr');
+      });
     });
 
-    test('returns false when TLD is the international domain (.org)', function (assert) {
-      // given
-      const service = this.owner.lookup('service:currentDomain');
-      service.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
+    module('when location is ORG TLD', function () {
+      test(`returns org`, function (assert) {
+        // given
+        const locationService = this.owner.lookup('service:location');
+        sinon.stub(locationService, 'href').value('https://pix.org/foo?bar=baz');
 
-      // when
-      const isFranceDomain = service.isFranceDomain;
+        // when
+        const service = this.owner.lookup('service:currentDomain');
+        const extension = service.getExtension();
 
-      // then
-      assert.false(isFranceDomain);
+        // then
+        assert.strictEqual(extension, 'org');
+      });
+    });
+  });
+
+  module('#isFranceDomain', function () {
+    module('when location is FR TLD', function () {
+      test('returns true', function (assert) {
+        // given
+        const locationService = this.owner.lookup('service:location');
+        sinon.stub(locationService, 'href').value('https://pix.fr/foo?bar=baz');
+
+        // when
+        const service = this.owner.lookup('service:currentDomain');
+        const isFranceDomain = service.isFranceDomain;
+
+        // then
+        assert.true(isFranceDomain);
+      });
+    });
+
+    module('when location is ORG TLD', function () {
+      test('returns false', function (assert) {
+        // given
+        const locationService = this.owner.lookup('service:location');
+        sinon.stub(locationService, 'href').value('https://pix.org/foo?bar=baz');
+
+        // when
+        const service = this.owner.lookup('service:currentDomain');
+        const isFranceDomain = service.isFranceDomain;
+
+        // then
+        assert.false(isFranceDomain);
+      });
+    });
+  });
+
+  module('#domain', function () {
+    module('when location is localhost', function () {
+      test('returns locahost as domain', function (assert) {
+        // given
+        const locationService = this.owner.lookup('service:location');
+        sinon.stub(locationService, 'href').value('http://localhost:4200/foo?bar=baz');
+
+        // when
+        const service = this.owner.lookup('service:currentDomain');
+        const domain = service.domain;
+
+        // then
+        assert.strictEqual(domain, 'localhost');
+      });
+    });
+
+    module('when location is not localhost', function () {
+      test('returns the last 2-parts segment', function (assert) {
+        // given
+        const locationService = this.owner.lookup('service:location');
+        sinon.stub(locationService, 'href').value('https://orga.pix.fr/foo?bar=baz');
+
+        // when
+        const service = this.owner.lookup('service:currentDomain');
+        const domain = service.domain;
+
+        // then
+        assert.strictEqual(domain, 'pix.fr');
+      });
     });
   });
 });

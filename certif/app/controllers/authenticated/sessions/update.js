@@ -25,7 +25,7 @@ export default class SessionsUpdateController extends Controller {
   }
 
   get currentLocale() {
-    return this.locale.currentLocale;
+    return this.locale.currentLanguage; // TODO: should be currentBaseLocale (ex: fr, en...)
   }
 
   @action

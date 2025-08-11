@@ -31,10 +31,6 @@ export default class SessionList extends Component {
     return this.intl.t(`pages.sessions.list.status.${CREATED}`);
   }
 
-  get currentLocale() {
-    return this.locale.currentLocale;
-  }
-
   @action
   openSessionDeletionConfirmModal(sessionId, enrolledCandidatesCount, event) {
     event.stopPropagation();
@@ -218,7 +214,7 @@ export default class SessionList extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.currentLocale}} />
+      <PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.locale.currentLanguage}} />
     {{else}}
       <div class='table__empty content-text'>
         {{t 'pages.sessions.list.table.empty'}}

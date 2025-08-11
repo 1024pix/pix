@@ -1,8 +1,8 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -81,17 +81,6 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   module('When domain is international tld (.org)', function () {
     test('does display the locale switcher', async function (assert) {
-      class CurrentDomainServiceStub extends Service {
-        get isFranceDomain() {
-          return false;
-        }
-
-        getExtension() {
-          return 'org';
-        }
-      }
-      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
-
       // when
       const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif' />`);
 
@@ -103,16 +92,8 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   module('When domain is french tld (.fr)', function () {
     test('does not display the locale switcher', async function (assert) {
       // given
-      class CurrentDomainServiceStub extends Service {
-        get isFranceDomain() {
-          return true;
-        }
-
-        getExtension() {
-          return 'fr';
-        }
-      }
-      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+      const domainService = this.owner.lookup('service:currentDomain');
+      sinon.stub(domainService, 'getExtension').returns('fr');
 
       // when
       const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif' />`);

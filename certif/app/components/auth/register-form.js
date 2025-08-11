@@ -81,7 +81,7 @@ export default class RegisterForm extends Component {
       lastName: this.lastName,
       firstName: this.firstName,
       email: this.email,
-      lang: this.locale.currentLocale,
+      lang: this.locale.currentLanguage,
       password: this.password,
       cgu: true,
     });

@@ -33,7 +33,7 @@ module.exports = function (environment) {
       API_HOST: process.env.API_HOST || '',
       APPLICATION_NAME: process.env.APP || 'pix-certif-local',
       DEFAULT_LOCALE: process.env.DEFAULT_LOCALE || 'en',
-      SUPPORTED_LOCALES: ['en', 'fr'],
+      SUPPORTED_LOCALES: ['en', 'fr', 'fr-FR', 'fr-BE'],
       BANNER: {
         CONTENT: process.env.BANNER_CONTENT || '',
         TYPE: process.env.BANNER_TYPE || '',
