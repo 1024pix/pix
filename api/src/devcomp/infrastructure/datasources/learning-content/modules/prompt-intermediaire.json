@@ -336,7 +336,7 @@
                   "title": "Simulateur LLM",
                   "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmbyvhypt0007wa01s7k2wl8k",
                   "instruction": "<p>À vous de jouer !</p>",
-                  "solution": "",
+                  "solution": "solution",
                   "height": 550
                 },
                 {
