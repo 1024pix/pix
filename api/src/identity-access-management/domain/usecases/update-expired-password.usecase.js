@@ -3,17 +3,21 @@ import lodash from 'lodash';
 const { get } = lodash;
 
 import { ForbiddenAccess, UserNotFoundError } from '../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const updateExpiredPassword = async function ({
   passwordResetToken,
   newPassword,
-  cryptoService,
-  tokenService,
-  authenticationMethodRepository,
-  userRepository,
-}) {
+  cryptoService = injectedCryptoService,
+  tokenService = injectedTokenService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   const userId = await tokenService.extractUserId(passwordResetToken);
 
   let foundUser;

@@ -14,7 +14,15 @@ import Debug from 'debug';
 
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge } from '../../../../shared/domain/models/CertificationChallenge.js';
+import { answerRepository as injectedAnswerRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import { certificationChallengeRepository as injectedSessionManagementCertificationChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import { challengeRepository as injectedSharedChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import { flashAlgorithmConfigurationRepository as injectedFlashAlgorithmConfigurationRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedCertificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
+import * as injectedFlashAlgorithmService from '../services/algorithm-methods/flash.js';
+import injectedPickChallengeService from '../services/pick-challenge-service.js';
 
 const debugGetNextChallengeForV3Certification = Debug('pix:certif:v3:get-next-challenge');
 
@@ -32,17 +40,17 @@ const debugGetNextChallengeForV3Certification = Debug('pix:certif:v3:get-next-ch
  */
 const getNextChallenge = async function ({
   assessment,
-  answerRepository,
-  sessionManagementCertificationChallengeRepository,
+  answerRepository = injectedAnswerRepository,
+  sessionManagementCertificationChallengeRepository = injectedSessionManagementCertificationChallengeRepository,
   certificationChallengeLiveAlertRepository,
-  certificationCourseRepository,
-  sharedChallengeRepository,
-  flashAlgorithmConfigurationRepository,
-  flashAlgorithmService,
+  certificationCourseRepository = injectedCertificationCourseRepository,
+  sharedChallengeRepository = injectedSharedChallengeRepository,
+  flashAlgorithmConfigurationRepository = injectedFlashAlgorithmConfigurationRepository,
+  flashAlgorithmService = injectedFlashAlgorithmService,
   locale,
-  pickChallengeService,
-  certificationCandidateRepository,
-}) {
+  pickChallengeService = injectedPickChallengeService,
+  certificationCandidateRepository = injectedCertificationCandidateRepository,
+} = {}) {
   const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
 
   const validatedLiveAlertChallengeIds = await _getValidatedLiveAlertChallengeIds({

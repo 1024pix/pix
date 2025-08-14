@@ -1,3 +1,7 @@
+import { importScoCsvOrganizationLearnersJobRepository as injectedImportScoCsvOrganizationLearnersJobRepository } from '../../infrastructure/repositories/jobs/import-sco-csv-organization-learners-job-repository.js';
+import { importSupOrganizationLearnersJobRepository as injectedImportSupOrganizationLearnersJobRepository } from '../../infrastructure/repositories/jobs/import-sup-organization-learners-job-repository.js';
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
+import { importStorage as injectedImportStorage } from '../../infrastructure/storage/import-storage.js';
 import { AggregateImportError } from '../errors.js';
 import { ImportScoCsvOrganizationLearnersJob } from '../models/ImportScoCsvOrganizationLearnersJob.js';
 import { ImportSupOrganizationLearnersJob } from '../models/ImportSupOrganizationLearnersJob.js';
@@ -7,11 +11,11 @@ const validateCsvFile = async function ({
   organizationImportId,
   i18n,
   type,
-  importSupOrganizationLearnersJobRepository,
-  importScoCsvOrganizationLearnersJobRepository,
-  organizationImportRepository,
-  importStorage,
-}) {
+  importSupOrganizationLearnersJobRepository = injectedImportSupOrganizationLearnersJobRepository,
+  importScoCsvOrganizationLearnersJobRepository = injectedImportScoCsvOrganizationLearnersJobRepository,
+  organizationImportRepository = injectedOrganizationImportRepository,
+  importStorage = injectedImportStorage,
+} = {}) {
   const organizationImport = await organizationImportRepository.get(organizationImportId);
   const errors = [];
   let warningsData;

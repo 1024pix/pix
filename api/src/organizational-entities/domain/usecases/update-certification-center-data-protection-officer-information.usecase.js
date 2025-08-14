@@ -1,7 +1,8 @@
+import * as injectedDataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
 const updateCertificationCenterDataProtectionOfficerInformation = async function ({
   dataProtectionOfficer,
-  dataProtectionOfficerRepository,
-}) {
+  dataProtectionOfficerRepository = injectedDataProtectionOfficerRepository,
+} = {}) {
   const { certificationCenterId } = dataProtectionOfficer;
   const dataProtectionOfficerToUpdate = await dataProtectionOfficerRepository.get({ certificationCenterId });
 

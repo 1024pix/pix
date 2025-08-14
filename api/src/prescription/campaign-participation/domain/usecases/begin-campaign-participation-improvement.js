@@ -1,12 +1,14 @@
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import * as injectedAssessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
 const beginCampaignParticipationImprovement = async function ({
   campaignParticipationId,
   userId,
-  assessmentRepository,
-  campaignParticipationRepository,
-}) {
+  assessmentRepository = injectedAssessmentRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+} = {}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntityError();

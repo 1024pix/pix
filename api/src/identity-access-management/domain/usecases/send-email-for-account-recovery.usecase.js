@@ -1,5 +1,11 @@
+import * as injectedOrganizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { mailService as injectedMailService } from '../../../shared/domain/services/mail-service.js';
+import * as injectedUserReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
+import { accountRecoveryDemandRepository as injectedAccountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { AccountRecoveryDemand } from '../models/AccountRecoveryDemand.js';
+import { scoAccountRecoveryService as injectedScoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 
 /**
  * @param {{
@@ -17,13 +23,13 @@ import { AccountRecoveryDemand } from '../models/AccountRecoveryDemand.js';
 export const sendEmailForAccountRecovery = async function ({
   studentInformation,
   temporaryKey,
-  organizationLearnerRepository,
-  userRepository,
-  accountRecoveryDemandRepository,
-  mailService,
-  scoAccountRecoveryService,
-  userReconciliationService,
-}) {
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  userRepository = injectedUserRepository,
+  accountRecoveryDemandRepository = injectedAccountRecoveryDemandRepository,
+  mailService = injectedMailService,
+  scoAccountRecoveryService = injectedScoAccountRecoveryService,
+  userReconciliationService = injectedUserReconciliationService,
+} = {}) {
   const { email: newEmail } = studentInformation;
   let encodedTemporaryKey;
   if (temporaryKey) {

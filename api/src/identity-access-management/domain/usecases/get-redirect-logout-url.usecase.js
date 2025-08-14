@@ -1,4 +1,4 @@
-/**
+import { oidcAuthenticationServiceRegistry as injectedOidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js'; /**
  * @typedef {function} getRedirectLogoutUrl
  * @param {Object} params
  * @param {string} params.identityProvider
@@ -7,7 +7,12 @@
  * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
  * @return {Promise<string>}
  */
-async function getRedirectLogoutUrl({ identityProvider, logoutUrlUUID, userId, oidcAuthenticationServiceRegistry }) {
+async function getRedirectLogoutUrl({
+  identityProvider,
+  logoutUrlUUID,
+  userId,
+  oidcAuthenticationServiceRegistry = injectedOidcAuthenticationServiceRegistry,
+} = {}) {
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 

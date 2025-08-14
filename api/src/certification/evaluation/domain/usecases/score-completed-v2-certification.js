@@ -8,7 +8,11 @@
  */
 
 import { AssessmentResultFactory } from '../../../scoring/domain/models/factories/AssessmentResultFactory.js';
+import { assessmentResultRepository as injectedAssessmentResultRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedComplementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import { CertificationComputeError } from '../errors.js';
+import { services as injectedServices } from '../services/index.js';
 
 /**
  * @param {Object} params
@@ -20,11 +24,11 @@ import { CertificationComputeError } from '../errors.js';
  */
 export const scoreCompletedV2Certification = async ({
   certificationAssessment,
-  assessmentResultRepository,
-  certificationCourseRepository,
-  complementaryCertificationScoringCriteriaRepository,
-  services,
-}) => {
+  assessmentResultRepository = injectedAssessmentResultRepository,
+  certificationCourseRepository = injectedCertificationCourseRepository,
+  complementaryCertificationScoringCriteriaRepository = injectedComplementaryCertificationScoringCriteriaRepository,
+  services = injectedServices,
+} = {}) => {
   if (certificationAssessment.isScoringBlockedDueToComplementaryOnlyChallenges) {
     return;
   }

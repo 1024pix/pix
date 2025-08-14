@@ -1,16 +1,22 @@
+import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedCampaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
+import * as injectedCompetenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import { Progression } from '../models/Progression.js';
+import * as injectedImprovementService from '../services/improvement-service.js';
 
 const getProgression = async function ({
   progressionId,
   userId,
-  assessmentRepository,
-  competenceEvaluationRepository,
-  campaignParticipationRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  competenceEvaluationRepository = injectedCompetenceEvaluationRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
   knowledgeElementRepository,
-  skillRepository,
-  campaignRepository,
-  improvementService,
-}) {
+  skillRepository = injectedSkillRepository,
+  campaignRepository = injectedCampaignRepository,
+  improvementService = injectedImprovementService,
+} = {}) {
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
 
   const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);

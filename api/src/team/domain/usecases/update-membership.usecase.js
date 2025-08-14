@@ -1,4 +1,5 @@
-const updateMembership = async function ({ membership, membershipRepository }) {
+import * as injectedMembershipRepository from '../../infrastructure/repositories/membership.repository.js';
+const updateMembership = async function ({ membership, membershipRepository = injectedMembershipRepository } = {}) {
   membership.validateRole();
   const existingMembership = await membershipRepository.get(membership.id);
 

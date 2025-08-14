@@ -3,9 +3,13 @@
  */
 
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
+import * as injectedSessionCodeService from '../services/session-code-service.js';
+import * as injectedSessionsImportValidationService from '../services/sessions-import-validation-service.js';
+import * as injectedTemporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
 
 /**
  * @param {Object} params
@@ -29,13 +33,13 @@ const validateSessions = async function ({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
-  certificationCourseRepository,
-  sessionCodeService,
+  certificationCourseRepository = injectedCertificationCourseRepository,
+  sessionCodeService = injectedSessionCodeService,
   sessionManagementRepository,
   i18n,
-  sessionsImportValidationService,
-  temporarySessionsStorageForMassImportService,
-}) {
+  sessionsImportValidationService = injectedSessionsImportValidationService,
+  temporarySessionsStorageForMassImportService = injectedTemporarySessionsStorageForMassImportService,
+} = {}) {
   const center = await centerRepository.getById({ id: certificationCenterId });
   const sessionsMassImportReport = new SessionMassImportReport();
   const translate = i18n.__;

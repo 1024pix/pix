@@ -1,4 +1,6 @@
+import * as injectedLlmApi from '../../../llm/application/api/llm-api.js';
 import { DomainError } from '../../../shared/domain/errors.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 
 export async function promptToLLMChat({
   userId,
@@ -6,9 +8,9 @@ export async function promptToLLMChat({
   chatId,
   prompt,
   attachmentName,
-  llmApi,
-  assessmentRepository,
-}) {
+  llmApi = injectedLlmApi,
+  assessmentRepository = injectedAssessmentRepository,
+} = {}) {
   await checkIfAssessmentBelongsToUser(assessmentId, userId, assessmentRepository);
   return llmApi.prompt({
     chatId,

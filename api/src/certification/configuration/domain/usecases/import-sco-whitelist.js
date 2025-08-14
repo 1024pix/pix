@@ -3,6 +3,7 @@
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js';
 import { InvalidScoWhitelistError } from '../errors.js';
 
 const INDEX_SHIFT_AND_CSV_HEADER = 2;
@@ -12,7 +13,7 @@ export const importScoWhitelist = withTransaction(
    * @param {Object} params
    * @param {CenterRepository} params.centerRepository
    */
-  async ({ externalIds = [], centerRepository }) => {
+  async ({ externalIds = [], centerRepository = injectedCenterRepository } = {}) => {
     await centerRepository.resetWhitelist();
     const updatedExternalIds = await centerRepository.addToWhitelistByExternalIds({ externalIds });
 

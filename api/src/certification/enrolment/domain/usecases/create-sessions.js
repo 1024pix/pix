@@ -6,6 +6,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
+import * as injectedTemporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
 
 /**
  * @param {Object} params
@@ -18,8 +19,8 @@ const createSessions = async function ({
   cachedValidatedSessionsKey,
   candidateRepository,
   sessionRepository,
-  temporarySessionsStorageForMassImportService,
-}) {
+  temporarySessionsStorageForMassImportService = injectedTemporarySessionsStorageForMassImportService,
+} = {}) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
     cachedValidatedSessionsKey,
     userId,

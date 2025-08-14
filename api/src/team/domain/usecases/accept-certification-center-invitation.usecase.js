@@ -1,14 +1,17 @@
+import * as injectedUserRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { AlreadyExistingMembershipError } from '../../../shared/domain/errors.js';
+import { certificationCenterInvitedUserRepository as injectedCertificationCenterInvitedUserRepository } from '../../infrastructure/repositories/certification-center-invited-user.repository.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 
 const acceptCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
   code,
   email,
   locale,
-  certificationCenterInvitedUserRepository,
-  certificationCenterMembershipRepository,
-  userRepository,
-}) {
+  certificationCenterInvitedUserRepository = injectedCertificationCenterInvitedUserRepository,
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   const certificationCenterInvitedUser = await certificationCenterInvitedUserRepository.get({
     certificationCenterInvitationId,
     email,

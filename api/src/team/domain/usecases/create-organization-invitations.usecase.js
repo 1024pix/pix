@@ -1,14 +1,17 @@
+import * as injectedOrganizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
+import { organizationInvitationRepository as injectedOrganizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
 import { OrganizationArchivedError } from '../errors.js';
+import { organizationInvitationService as injectedOrganizationInvitationService } from '../services/organization-invitation.service.js';
 
 const createOrganizationInvitations = async function ({
   organizationId,
   emails,
   locale,
-  organizationRepository,
-  organizationInvitationRepository,
-  organizationInvitationService,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  organizationInvitationRepository = injectedOrganizationInvitationRepository,
+  organizationInvitationService = injectedOrganizationInvitationService,
+} = {}) {
   const organization = await organizationRepository.get(organizationId);
 
   if (organization.archivedAt) {

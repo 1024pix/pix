@@ -1,7 +1,20 @@
+import * as injectedAuthenticationMethodRepository from '../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../../identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
+import { refreshTokenRepository as injectedRefreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
+import { resetPasswordDemandRepository as injectedResetPasswordDemandRepository } from '../../../identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
+import * as injectedUserRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as injectedUserAcceptanceRepository from '../../../legal-documents/infrastructure/repositories/user-acceptance.repository.js';
+import * as injectedOrganizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { EventLoggingJob } from '../../../shared/domain/models/jobs/EventLoggingJob.js';
+import { featureToggles as injectedFeatureTogglesService } from '../../../shared/infrastructure/feature-toggles/index.js';
+import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
+import * as injectedMembershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
+import * as injectedLearnersApiRepository from '../../infrastructure/repositories/learners-api.repository.js';
 
 /**
  * @param params
@@ -26,20 +39,20 @@ const anonymizeUser = withTransaction(async function ({
   anonymizedByUserId,
   anonymizedByUserRole,
   client,
-  userRepository,
-  authenticationMethodRepository,
-  membershipRepository,
-  certificationCenterMembershipRepository,
-  lastUserApplicationConnectionsRepository,
-  organizationLearnerRepository,
-  refreshTokenRepository,
-  resetPasswordDemandRepository,
-  userLoginRepository,
-  eventLoggingJobRepository,
-  userAcceptanceRepository,
-  learnersApiRepository,
-  featureTogglesService,
-}) {
+  userRepository = injectedUserRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  membershipRepository = injectedMembershipRepository,
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  refreshTokenRepository = injectedRefreshTokenRepository,
+  resetPasswordDemandRepository = injectedResetPasswordDemandRepository,
+  userLoginRepository = injectedUserLoginRepository,
+  eventLoggingJobRepository = injectedEventLoggingJobRepository,
+  userAcceptanceRepository = injectedUserAcceptanceRepository,
+  learnersApiRepository = injectedLearnersApiRepository,
+  featureTogglesService = injectedFeatureTogglesService,
+} = {}) {
   const user = await userRepository.get(userId);
 
   await userRepository.get(anonymizedByUserId);

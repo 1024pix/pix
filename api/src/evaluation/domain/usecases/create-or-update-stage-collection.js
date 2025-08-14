@@ -1,12 +1,14 @@
 import { StageCollectionUpdate } from '../../../evaluation/domain/models/target-profile-management/StageCollectionUpdate.js';
+import * as injectedTargetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import * as injectedStageCollectionForTargetProfileRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import { StageModificationForbiddenForLinkedTargetProfileError } from '../errors.js';
 
 const createOrUpdateStageCollection = async function ({
   targetProfileId,
   stagesFromPayload,
-  stageCollectionForTargetProfileRepository: stageCollectionRepository,
-  targetProfileAdministrationRepository,
-}) {
+  stageCollectionForTargetProfileRepository = injectedStageCollectionForTargetProfileRepository,
+  targetProfileAdministrationRepository = injectedTargetProfileAdministrationRepository,
+} = {}) {
   const targetProfileForAdmin = await targetProfileAdministrationRepository.get({ id: targetProfileId });
 
   if (
@@ -19,10 +21,10 @@ const createOrUpdateStageCollection = async function ({
     throw new StageModificationForbiddenForLinkedTargetProfileError(targetProfileId);
   }
 
-  const stageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
+  const stageCollection = await stageCollectionForTargetProfileRepository.getByTargetProfileId(targetProfileId);
   const stageCollectionUpdate = new StageCollectionUpdate({ stagesDTO: stagesFromPayload, stageCollection });
 
-  return stageCollectionRepository.update(stageCollectionUpdate);
+  return stageCollectionForTargetProfileRepository.update(stageCollectionUpdate);
 };
 
 function _areStagesFromPayloadUpdatable({ targetProfileStages, stagesFromPayload }) {

@@ -1,4 +1,4 @@
-/**
+import { oidcAuthenticationServiceRegistry as injectedOidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js'; /**
  * @typedef {function} getAuthorizationUrl
  * @param {Object} params
  * @param {string} params.identityProvider
@@ -6,7 +6,11 @@
  * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
  * @return {Promise<string>}
  */
-async function getAuthorizationUrl({ identityProvider, requestedApplication, oidcAuthenticationServiceRegistry }) {
+async function getAuthorizationUrl({
+  identityProvider,
+  requestedApplication,
+  oidcAuthenticationServiceRegistry = injectedOidcAuthenticationServiceRegistry,
+} = {}) {
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 

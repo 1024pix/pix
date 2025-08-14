@@ -1,5 +1,7 @@
 import lodash from 'lodash';
 
+import * as injectedCertificationLivretScolaireRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
+import * as injectedCompetenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import { CertificationsResults } from '../read-models/livret-scolaire/CertificationsResults.js';
 import { Competence } from '../read-models/livret-scolaire/Competence.js';
 
@@ -7,9 +9,9 @@ const { sortBy } = lodash;
 
 const getCertificationsResultsForLivretScolaire = async function ({
   uai,
-  certificationLivretScolaireRepository,
-  competenceTreeRepository,
-}) {
+  certificationLivretScolaireRepository = injectedCertificationLivretScolaireRepository,
+  competenceTreeRepository = injectedCompetenceTreeRepository,
+} = {}) {
   const [referential, certifications] = await Promise.all([
     competenceTreeRepository.get(),
     certificationLivretScolaireRepository.getCertificatesByOrganizationUAI(uai),

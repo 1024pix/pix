@@ -1,17 +1,22 @@
+import * as injectedCompetenceEvaluationRepository from '../../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
+import * as injectedAssessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedCampaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
+import { participationStartedJobRepository as injectedParticipationStartedJobRepository } from '../../infrastructure/repositories/jobs/participation-started-job-repository.js';
 import { ParticipationStartedJob } from '../models/ParticipationStartedJob.js';
 
 export async function startCampaignParticipation({
   campaignParticipation,
   userId,
-  campaignRepository,
-  assessmentRepository,
+  campaignRepository = injectedCampaignRepository,
+  assessmentRepository = injectedAssessmentRepository,
   knowledgeElementRepository,
   campaignParticipantRepository,
-  campaignParticipationRepository,
-  competenceEvaluationRepository,
-  participationStartedJobRepository,
-}) {
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  competenceEvaluationRepository = injectedCompetenceEvaluationRepository,
+  participationStartedJobRepository = injectedParticipationStartedJobRepository,
+} = {}) {
   const campaignParticipant = await campaignParticipantRepository.get({
     userId,
     campaignId: campaignParticipation.campaignId,

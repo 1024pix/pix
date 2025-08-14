@@ -1,12 +1,15 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as injectedOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as injectedOrganizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot-repository.js';
 import { DataOrganizationPlacesStatistics } from '../read-models/DataOrganizationPlacesStatistics.js';
 import { PlaceStatistics } from '../read-models/PlaceStatistics.js';
 
 const getDataOrganizationsPlacesStatistics = withTransaction(async function ({
-  organizationRepository,
-  organizationPlacesLotRepository,
-  organizationLearnerRepository,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  organizationPlacesLotRepository = injectedOrganizationPlacesLotRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+} = {}) {
   const organizationWithPlaces = await organizationRepository.getOrganizationsWithPlacesManagementFeatureEnabled();
 
   const organizationWithPlacesIds = organizationWithPlaces.map((organization) => organization.id);

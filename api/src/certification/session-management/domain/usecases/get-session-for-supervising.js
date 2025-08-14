@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
+import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 
 /**
  * @typedef {import('./index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
@@ -17,8 +18,8 @@ import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constan
 const getSessionForSupervising = async function ({
   sessionId,
   sessionForSupervisingRepository,
-  certificationBadgesService,
-}) {
+  certificationBadgesService = injectedCertificationBadgesService,
+} = {}) {
   const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });
 
   await PromiseUtils.map(

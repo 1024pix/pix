@@ -6,6 +6,8 @@
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import { services as injectedServices } from '../services/index.js';
 
 /**
  * @param {Object} params
@@ -15,7 +17,12 @@ import { withTransaction } from '../../../../shared/domain/DomainTransaction.js'
  * @param {Services} params.services
  */
 export const scoreCompletedV3Certification = withTransaction(
-  async ({ certificationAssessment, locale, certificationCourseRepository, services }) => {
+  async ({
+    certificationAssessment,
+    locale,
+    certificationCourseRepository = injectedCertificationCourseRepository,
+    services = injectedServices,
+  } = {}) => {
     if (certificationAssessment.isScoringBlockedDueToComplementaryOnlyChallenges) {
       return;
     }

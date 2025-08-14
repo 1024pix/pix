@@ -1,4 +1,4 @@
-/**
+import * as injectedResultsCertificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js'; /**
  * @typedef {import ('../../domain/usecases/index.js').ResultsCertificationCourseRepository} ResultsCertificationCourseRepository
  */
 
@@ -9,7 +9,7 @@
  */
 export const getCertificationCourseByVerificationCode = async function ({
   verificationCode,
-  resultsCertificationCourseRepository,
-}) {
+  resultsCertificationCourseRepository = injectedResultsCertificationCourseRepository,
+} = {}) {
   return resultsCertificationCourseRepository.getByVerificationCode({ verificationCode });
 };

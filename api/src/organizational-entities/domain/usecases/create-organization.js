@@ -1,13 +1,18 @@
+import * as injectedSchoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
+import * as injectedCodeGenerator from '../../../shared/domain/services/code-generator.js';
+import * as injectedDataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
+import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
 import { Organization } from '../models/Organization.js';
+import * as injectedOrganizationCreationValidator from '../validators/organization-creation-validator.js';
 
 const createOrganization = async function ({
   organization,
-  dataProtectionOfficerRepository,
-  organizationForAdminRepository,
-  organizationCreationValidator,
-  schoolRepository,
-  codeGenerator,
-}) {
+  dataProtectionOfficerRepository = injectedDataProtectionOfficerRepository,
+  organizationForAdminRepository = organizationalEntitiesRepositories.organizationForAdminRepository,
+  organizationCreationValidator = injectedOrganizationCreationValidator,
+  schoolRepository = injectedSchoolRepository,
+  codeGenerator = injectedCodeGenerator,
+} = {}) {
   organizationCreationValidator.validate(organization);
   const savedOrganization = await organizationForAdminRepository.save({ organization });
 

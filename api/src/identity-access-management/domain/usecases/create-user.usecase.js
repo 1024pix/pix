@@ -1,5 +1,14 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import * as injectedUserService from '../../../shared/domain/services/user-service.js';
+import * as injectedPasswordValidator from '../../../shared/domain/validators/password-validator.js';
+import * as injectedUserValidator from '../../../shared/domain/validators/user-validator.js';
+import * as injectedEmailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { emailValidationDemandRepository as injectedEmailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
+import { userToCreateRepository as injectedUserToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { createAccountCreationEmail } from '../emails/create-account-creation.email.js';
 import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
 
@@ -24,17 +33,17 @@ const createUser = withTransaction(async function ({
   locale,
   password,
   user,
-  authenticationMethodRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
   redirectionUrl,
-  emailRepository,
-  emailValidationDemandRepository,
-  userRepository,
-  userToCreateRepository,
-  cryptoService,
-  userService,
-  userValidator,
-  passwordValidator,
-}) {
+  emailRepository = injectedEmailRepository,
+  emailValidationDemandRepository = injectedEmailValidationDemandRepository,
+  userRepository = injectedUserRepository,
+  userToCreateRepository = injectedUserToCreateRepository,
+  cryptoService = injectedCryptoService,
+  userService = injectedUserService,
+  userValidator = injectedUserValidator,
+  passwordValidator = injectedPasswordValidator,
+} = {}) {
   await _assertValidData({
     password,
     user,

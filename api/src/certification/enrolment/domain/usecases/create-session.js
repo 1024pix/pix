@@ -5,7 +5,9 @@
  * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
  */
 
+import * as injectedSessionValidator from '../../../shared/domain/validators/session-validator.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
+import * as injectedSessionCodeService from '../services/session-code-service.js';
 
 /**
  * @param {Object} params
@@ -19,9 +21,9 @@ const createSession = async function ({
   session,
   centerRepository,
   sessionRepository,
-  sessionValidator,
-  sessionCodeService,
-}) {
+  sessionValidator = injectedSessionValidator,
+  sessionCodeService = injectedSessionCodeService,
+} = {}) {
   sessionValidator.validate(session);
 
   const certificationCenterId = session.certificationCenterId;

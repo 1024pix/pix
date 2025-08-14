@@ -1,9 +1,14 @@
 import { PayloadTooLargeError } from '../../../../shared/application/http-errors.js';
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
 import { OrganizationImportStatus } from '../models/OrganizationImportStatus.js';
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
 };
-const handlePayloadTooLargeError = async ({ organizationId, userId, organizationImportRepository }) => {
+const handlePayloadTooLargeError = async ({
+  organizationId,
+  userId,
+  organizationImportRepository = injectedOrganizationImportRepository,
+} = {}) => {
   const organizationImport = OrganizationImportStatus.create({ organizationId, createdBy: userId });
   const organizationImportError = new PayloadTooLargeError(
     'An error occurred, payload is too large',

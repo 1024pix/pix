@@ -3,6 +3,10 @@ const { isNil } = lodash;
 
 import { createAccountCreationEmail } from '../../../../identity-access-management/domain/emails/create-account-creation.email.js';
 import { User } from '../../../../identity-access-management/domain/models/User.js';
+import * as injectedAuthenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { emailValidationDemandRepository as injectedEmailValidationDemandRepository } from '../../../../identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
+import * as injectedUserRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import { userToCreateRepository as injectedUserToCreateRepository } from '../../../../identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { AlreadyRegisteredEmailError } from '../../../../shared/domain/errors.js';
@@ -10,6 +14,14 @@ import {
   AlreadyRegisteredUsernameError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../../shared/domain/services/crypto-service.js';
+import * as injectedObfuscationService from '../../../../shared/domain/services/obfuscation-service.js';
+import * as injectedUserReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
+import * as injectedUserService from '../../../../shared/domain/services/user-service.js';
+import * as injectedPasswordValidator from '../../../../shared/domain/validators/password-validator.js';
+import * as injectedUserValidator from '../../../../shared/domain/validators/user-validator.js';
+import * as injectedEmailRepository from '../../../../shared/mail/infrastructure/repositories/email.repository.js';
+import * as injectedLibOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 
 const createAndReconcileUserToOrganizationLearner = async function ({
   organizationId,
@@ -17,19 +29,19 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   locale,
   password,
   userAttributes,
-  authenticationMethodRepository,
-  emailRepository,
-  emailValidationDemandRepository,
-  libOrganizationLearnerRepository,
-  userRepository,
-  userToCreateRepository,
-  cryptoService,
-  obfuscationService,
-  userReconciliationService,
-  userService,
-  passwordValidator,
-  userValidator,
-}) {
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  emailRepository = injectedEmailRepository,
+  emailValidationDemandRepository = injectedEmailValidationDemandRepository,
+  libOrganizationLearnerRepository = injectedLibOrganizationLearnerRepository,
+  userRepository = injectedUserRepository,
+  userToCreateRepository = injectedUserToCreateRepository,
+  cryptoService = injectedCryptoService,
+  obfuscationService = injectedObfuscationService,
+  userReconciliationService = injectedUserReconciliationService,
+  userService = injectedUserService,
+  passwordValidator = injectedPasswordValidator,
+  userValidator = injectedUserValidator,
+} = {}) {
   const matchedOrganizationLearner =
     await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
       organizationId,

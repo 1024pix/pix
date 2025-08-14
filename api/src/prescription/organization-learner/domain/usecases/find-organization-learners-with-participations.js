@@ -1,16 +1,20 @@
 import Joi from 'joi';
 
+import { tagRepository as injectedTagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as injectedCampaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
+import * as injectedLibOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 
 const userIdsSchema = Joi.array().items(Joi.number());
 
 const findOrganizationLearnersWithParticipations = withTransaction(async function ({
   userIds,
-  campaignParticipationOverviewRepository,
-  organizationRepository,
-  libOrganizationLearnerRepository,
-  tagRepository,
-}) {
+  campaignParticipationOverviewRepository = injectedCampaignParticipationOverviewRepository,
+  organizationRepository = injectedOrganizationRepository,
+  libOrganizationLearnerRepository = injectedLibOrganizationLearnerRepository,
+  tagRepository = injectedTagRepository,
+} = {}) {
   const validationResult = userIdsSchema.validate(userIds);
 
   if (validationResult.error) {

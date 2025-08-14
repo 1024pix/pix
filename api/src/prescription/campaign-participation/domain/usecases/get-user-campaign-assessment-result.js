@@ -1,19 +1,26 @@
+import * as injectedCompareStagesAndAcquiredStages from '../../../../evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as injectedBadgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
+import * as injectedStageAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js';
+import * as injectedStageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
 import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../../shared/domain/errors.js';
+import * as injectedBadgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,
   campaignId,
   locale,
-  badgeRepository,
+  badgeRepository = injectedBadgeRepository,
   knowledgeElementRepository,
-  badgeForCalculationRepository,
-  participantResultRepository,
-  stageRepository,
-  stageAcquisitionRepository,
-  compareStagesAndAcquiredStages,
-  campaignParticipationRepository,
-}) {
+  badgeForCalculationRepository = injectedBadgeForCalculationRepository,
+  participantResultRepository = injectedParticipantResultRepository,
+  stageRepository = injectedStageRepository,
+  stageAcquisitionRepository = injectedStageAcquisitionRepository,
+  compareStagesAndAcquiredStages = injectedCompareStagesAndAcquiredStages,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+} = {}) {
   const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
   const campaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({
     campaignId,

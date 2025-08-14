@@ -1,4 +1,7 @@
+import * as injectedOrganizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+import * as injectedOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as injectedOrganizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot-repository.js';
 import { PlaceStatistics } from '../read-models/PlaceStatistics.js';
 
 /**
@@ -23,10 +26,10 @@ import { PlaceStatistics } from '../read-models/PlaceStatistics.js';
 
 const getOrganizationPlacesStatistics = async function ({
   organizationId,
-  organizationPlacesLotRepository,
-  organizationLearnerRepository,
-  organizationFeatureApi,
-}) {
+  organizationPlacesLotRepository = injectedOrganizationPlacesLotRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  organizationFeatureApi = injectedOrganizationFeatureApi,
+} = {}) {
   if (!organizationId) {
     throw new Error('You must provide at least one organizationId.');
   }

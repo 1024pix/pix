@@ -5,6 +5,9 @@ import {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../shared/domain/errors.js';
+import * as injectedOrganizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
+import { organizationInvitationRepository as injectedOrganizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
+import { organizationInvitationService as injectedOrganizationInvitationService } from '../services/organization-invitation.service.js';
 
 /**
  *
@@ -24,10 +27,10 @@ const sendScoInvitation = async function ({
   firstName,
   lastName,
   locale,
-  organizationInvitationRepository,
-  organizationInvitationService,
-  organizationRepository,
-}) {
+  organizationInvitationRepository = injectedOrganizationInvitationRepository,
+  organizationInvitationService = injectedOrganizationInvitationService,
+  organizationRepository = injectedOrganizationRepository,
+} = {}) {
   const organizationWithGivenUAI = await _getOrganizationWithGivenUAI({ uai, organizationRepository });
   _ensureOrganizationHasAnEmail({ email: organizationWithGivenUAI.email, uai });
 

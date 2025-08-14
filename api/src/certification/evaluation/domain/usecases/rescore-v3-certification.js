@@ -13,7 +13,10 @@ import { checkEventTypes } from '../../../../shared/domain/events/check-event-ty
 import { SessionAlreadyPublishedError } from '../../../session-management/domain/errors.js';
 import { CertificationCourseRejected } from '../../../session-management/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../session-management/domain/events/CertificationJuryDone.js';
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as injectedEvaluationSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import CertificationRescored from '../events/CertificationRescored.js';
+import { services as injectedServices } from '../services/index.js';
 
 const eventTypes = [
   CertificationJuryDone,
@@ -36,7 +39,12 @@ export const rescoreV3Certification = withTransaction(
    * @throws {NotFinalizedSessionError}
    * @throws {SessionAlreadyPublishedError}
    */
-  async ({ event, certificationAssessmentRepository, evaluationSessionRepository, services }) => {
+  async ({
+    event,
+    certificationAssessmentRepository = injectedCertificationAssessmentRepository,
+    evaluationSessionRepository = injectedEvaluationSessionRepository,
+    services = injectedServices,
+  } = {}) => {
     checkEventTypes(event, eventTypes);
 
     const certificationCourseId = event.certificationCourseId;

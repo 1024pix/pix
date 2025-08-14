@@ -1,4 +1,9 @@
-export async function copyTargetProfileStages({ originTargetProfileId, destinationTargetProfileId, stageRepository }) {
+import * as injectedStageRepository from '../../infrastructure/repositories/stage-repository.js';
+export async function copyTargetProfileStages({
+  originTargetProfileId,
+  destinationTargetProfileId,
+  stageRepository = injectedStageRepository,
+} = {}) {
   const stagesToCopy = await stageRepository.getByTargetProfileIds([originTargetProfileId]);
 
   if (stagesToCopy.length) {

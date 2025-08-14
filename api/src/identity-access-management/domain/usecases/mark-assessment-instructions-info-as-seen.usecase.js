@@ -1,4 +1,4 @@
-/**
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js'; /**
  * @typedef {import ('../../domain/usecases/index.js').UserRepository} UserRepository
  */
 
@@ -7,7 +7,7 @@
  * @param {number} params.userId
  * @param {UserRepository} params.userRepository
  */
-const markAssessmentInstructionsInfoAsSeen = function ({ userId, userRepository }) {
+const markAssessmentInstructionsInfoAsSeen = function ({ userId, userRepository = injectedUserRepository } = {}) {
   return userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
 };
 

@@ -1,4 +1,7 @@
+import * as injectedOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as injectedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import { StudentForEnrolment } from '../read-models/StudentForEnrolment.js';
 
 const findStudentsForEnrolment = async function ({
@@ -6,10 +9,10 @@ const findStudentsForEnrolment = async function ({
   sessionId,
   page,
   filter,
-  organizationRepository,
-  organizationLearnerRepository,
-  certificationCandidateRepository,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  certificationCandidateRepository = injectedCertificationCandidateRepository,
+} = {}) {
   try {
     const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
     const paginatedStudents = await organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision({

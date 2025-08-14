@@ -1,11 +1,15 @@
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
 } from '../errors.js';
+import { authenticationSessionService as injectedAuthenticationSessionService } from '../services/authentication-session.service.js';
+import { pixAuthenticationService as injectedPixAuthenticationService } from '../services/pix-authentication-service.js';
 
 /**
  * @typedef {function} findUserForOidcReconciliation
@@ -25,11 +29,11 @@ const findUserForOidcReconciliation = async function ({
   email,
   password,
   identityProvider,
-  authenticationSessionService,
-  pixAuthenticationService,
-  authenticationMethodRepository,
-  userRepository,
-}) {
+  authenticationSessionService = injectedAuthenticationSessionService,
+  pixAuthenticationService = injectedPixAuthenticationService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   try {
     const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
     if (!sessionContentAndUserInfo) {

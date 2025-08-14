@@ -2,6 +2,9 @@ import fs from 'node:fs/promises';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { validateOrganizationImportFileJobRepository as injectedValidateOrganizationImportFileJobRepository } from '../../infrastructure/repositories/jobs/validate-organization-learners-import-file-job-repository.js';
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
+import { importStorage as injectedImportStorage } from '../../infrastructure/storage/import-storage.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
 import { OrganizationImportStatus } from '../models/OrganizationImportStatus.js';
@@ -11,15 +14,15 @@ const uploadSiecleFile = async function ({
   userId,
   organizationId,
   payload,
-  importStorage,
-  organizationImportRepository,
-  validateOrganizationImportFileJobRepository,
+  importStorage = injectedImportStorage,
+  organizationImportRepository = injectedOrganizationImportRepository,
+  validateOrganizationImportFileJobRepository = injectedValidateOrganizationImportFileJobRepository,
   siecleService = {
     unzip: zip.unzip,
     detectEncoding,
   },
   dependencies = { logger },
-}) {
+} = {}) {
   await DomainTransaction.execute(async () => {
     let organizationImport = OrganizationImportStatus.create({ organizationId, createdBy: userId });
 

@@ -2,6 +2,8 @@
  * @typedef {import ('../../domain/usecases/index.js').TargetProfileHistoryRepository} TargetProfileHistoryRepository
  * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  */
+import * as injectedTargetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
+import * as injectedComplementaryCertificationForTargetProfileAttachmentRepository from '../../infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import { ComplementaryCertificationTargetProfileHistory } from '../models/ComplementaryCertificationTargetProfileHistory.js';
 
 /**
@@ -14,9 +16,9 @@ import { ComplementaryCertificationTargetProfileHistory } from '../models/Comple
  */
 const getComplementaryCertificationTargetProfileHistory = async function ({
   complementaryCertificationId,
-  targetProfileHistoryRepository,
-  complementaryCertificationForTargetProfileAttachmentRepository,
-}) {
+  targetProfileHistoryRepository = injectedTargetProfileHistoryRepository,
+  complementaryCertificationForTargetProfileAttachmentRepository = injectedComplementaryCertificationForTargetProfileAttachmentRepository,
+} = {}) {
   const currentsTargetProfileHistoryWithBadgesByComplementaryCertification =
     await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
       complementaryCertificationId,

@@ -1,4 +1,5 @@
-/**
+import * as injectedConsolidatedFrameworkRepository from '../../infrastructure/repositories/consolidated-framework-repository.js';
+import * as injectedLearningContentRepository from '../../infrastructure/repositories/learning-content-repository.js'; /**
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  * @typedef {import ('./index.js').ConsolidatedFrameworkRepository} ConsolidatedFrameworkRepository
  * @typedef {import ('./index.js').LearningContentRepository} LearningContentRepository
@@ -12,9 +13,9 @@
  */
 export const getCurrentConsolidatedFramework = async ({
   complementaryCertificationKey,
-  consolidatedFrameworkRepository,
-  learningContentRepository,
-}) => {
+  consolidatedFrameworkRepository = injectedConsolidatedFrameworkRepository,
+  learningContentRepository = injectedLearningContentRepository,
+} = {}) => {
   const currentConsolidatedFramework =
     await consolidatedFrameworkRepository.getCurrentFrameworkByComplementaryCertificationKey({
       complementaryCertificationKey,

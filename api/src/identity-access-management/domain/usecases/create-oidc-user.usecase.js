@@ -1,6 +1,12 @@
+import { oidcAuthenticationServiceRegistry as injectedOidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../shared/domain/errors.js';
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
+import { userToCreateRepository as injectedUserToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { AuthenticationKeyExpired } from '../errors.js';
 import { UserToCreate } from '../models/UserToCreate.js';
+import { authenticationSessionService as injectedAuthenticationSessionService } from '../services/authentication-session.service.js';
 
 /**
  * @param {{
@@ -24,14 +30,14 @@ async function createOidcUser({
   locale,
   language,
   audience,
-  authenticationSessionService,
-  oidcAuthenticationServiceRegistry,
-  authenticationMethodRepository,
-  userToCreateRepository,
-  userLoginRepository,
-  lastUserApplicationConnectionsRepository,
+  authenticationSessionService = injectedAuthenticationSessionService,
+  oidcAuthenticationServiceRegistry = injectedOidcAuthenticationServiceRegistry,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userToCreateRepository = injectedUserToCreateRepository,
+  userLoginRepository = injectedUserLoginRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
   requestedApplication,
-}) {
+} = {}) {
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();

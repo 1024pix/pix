@@ -1,4 +1,5 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import * as injectedLegalDocumentRepository from '../../infrastructure/repositories/legal-document.repository.js';
 import { LegalDocumentInvalidDateError } from '../errors.js';
 import { LegalDocumentService } from '../models/LegalDocumentService.js';
 import { LegalDocumentType } from '../models/LegalDocumentType.js';
@@ -12,17 +13,19 @@ import { LegalDocumentType } from '../models/LegalDocumentType.js';
  * @param {string} params.versionAt - Version date of the new legal document.
  * @returns {Promise<LegalDocument>} A promise that resolves the new legal document.
  */
-const createLegalDocument = withTransaction(async ({ service, type, versionAt, legalDocumentRepository }) => {
-  LegalDocumentService.assert(service);
-  LegalDocumentType.assert(type);
+const createLegalDocument = withTransaction(
+  async ({ service, type, versionAt, legalDocumentRepository = injectedLegalDocumentRepository } = {}) => {
+    LegalDocumentService.assert(service);
+    LegalDocumentType.assert(type);
 
-  const lastDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ service, type });
+    const lastDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ service, type });
 
-  if (lastDocument && lastDocument.versionAt >= versionAt) {
-    throw new LegalDocumentInvalidDateError();
-  }
+    if (lastDocument && lastDocument.versionAt >= versionAt) {
+      throw new LegalDocumentInvalidDateError();
+    }
 
-  return legalDocumentRepository.create({ service, type, versionAt });
-});
+    return legalDocumentRepository.create({ service, type, versionAt });
+  },
+);
 
 export { createLegalDocument };

@@ -5,6 +5,8 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
+import * as injectedCertificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import * as injectedCertificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 
 /**
  * @param {Object} params
@@ -20,9 +22,9 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCpfCityRepository,
   centerRepository,
   sessionRepository,
-  certificationCandidatesOdsService,
-  certificationCpfService,
-}) {
+  certificationCandidatesOdsService = injectedCertificationCandidatesOdsService,
+  certificationCpfService = injectedCertificationCpfService,
+} = {}) {
   const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
   const session = await sessionRepository.get({ id: sessionId });
 

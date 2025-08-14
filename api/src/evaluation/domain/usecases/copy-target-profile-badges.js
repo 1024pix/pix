@@ -1,9 +1,11 @@
+import * as injectedBadgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
+import * as injectedBadgeRepository from '../../infrastructure/repositories/badge-repository.js';
 export async function copyTargetProfileBadges({
   originTargetProfileId,
   destinationTargetProfileId,
-  badgeRepository,
-  badgeCriteriaRepository,
-}) {
+  badgeRepository = injectedBadgeRepository,
+  badgeCriteriaRepository = injectedBadgeCriteriaRepository,
+} = {}) {
   const targetProfileBadgesToCopy = await badgeRepository.findAllByTargetProfileId(originTargetProfileId);
 
   if (targetProfileBadgesToCopy.length) {

@@ -3,6 +3,7 @@
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedScoringConfigurationRepository from '../../../shared/infrastructure/repositories/scoring-configuration-repository.js';
 
 export const saveCompetenceForScoringConfiguration = withTransaction(
   /**
@@ -10,7 +11,7 @@ export const saveCompetenceForScoringConfiguration = withTransaction(
    * @param {Object} params.configuration
    * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
    */
-  async ({ configuration, scoringConfigurationRepository }) => {
+  async ({ configuration, scoringConfigurationRepository = injectedScoringConfigurationRepository } = {}) => {
     return scoringConfigurationRepository.saveCompetenceForScoringConfiguration({ configuration });
   },
 );

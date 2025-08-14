@@ -3,8 +3,10 @@
  * @typedef {import('../../infrastructure/repositories/certification-point-of-contact-repository.js').CertificationPointOfContactRepository} CertificationPointOfContactRepository
  * @typedef {import('../../../certification/enrolment/domain/models/Center.js').Center} Center
  */
+import * as injectedCenterRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/infrastructure/constants.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
+import * as injectedCertificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact.repository.js';
 
 /**
  * @param {Object} params
@@ -14,9 +16,9 @@ import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils
  */
 const getCertificationPointOfContact = async function ({
   userId,
-  centerRepository,
-  certificationPointOfContactRepository,
-}) {
+  centerRepository = injectedCenterRepository,
+  certificationPointOfContactRepository = injectedCertificationPointOfContactRepository,
+} = {}) {
   const { authorizedCenterIds, certificationPointOfContactDTO } =
     await certificationPointOfContactRepository.getAuthorizedCenterIds(userId);
 

@@ -7,6 +7,7 @@ import lodash from 'lodash';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../../shared/domain/errors.js';
+import * as injectedComplementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
 
@@ -25,8 +26,8 @@ const attachBadges = async function ({
   userId,
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
-  complementaryCertificationBadgesRepository,
-}) {
+  complementaryCertificationBadgesRepository = injectedComplementaryCertificationBadgesRepository,
+} = {}) {
   _verifyThatLevelsAreConsistent({
     complementaryCertificationBadgesToAttachDTO,
   });

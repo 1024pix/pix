@@ -3,6 +3,8 @@ import {
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
 } from '../../../shared/domain/errors.js';
+import * as injectedMailService from '../../../shared/domain/services/mail-service.js';
+import * as injectedCertificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
@@ -10,9 +12,9 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
   email,
   locale,
   role,
-  certificationCenterInvitationRepository,
-  mailService,
-}) {
+  certificationCenterInvitationRepository = injectedCertificationCenterInvitationRepository,
+  mailService = injectedMailService,
+} = {}) {
   let certificationCenterInvitation, isInvitationCreated;
 
   const alreadyExistingPendingInvitationForThisEmail =

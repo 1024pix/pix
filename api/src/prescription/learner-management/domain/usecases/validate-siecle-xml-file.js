@@ -5,7 +5,11 @@ import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 const { isEmpty } = lodash;
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import { importOrganizationLearnersJobRepository as injectedImportOrganizationLearnersJobRepository } from '../../infrastructure/repositories/jobs/import-organization-learners-job-repository.js';
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
+import { importStorage as injectedImportStorage } from '../../infrastructure/storage/import-storage.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
 import { ImportOrganizationLearnersJob } from '../models/ImportOrganizationLearnersJob.js';
 
@@ -16,11 +20,11 @@ const ERRORS = {
 
 const validateSiecleXmlFile = async function ({
   organizationImportId,
-  organizationRepository,
-  organizationImportRepository,
-  importStorage,
-  importOrganizationLearnersJobRepository,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  organizationImportRepository = injectedOrganizationImportRepository,
+  importStorage = injectedImportStorage,
+  importOrganizationLearnersJobRepository = injectedImportOrganizationLearnersJobRepository,
+} = {}) {
   await DomainTransaction.execute(async () => {
     const organizationImport = await organizationImportRepository.get(organizationImportId);
 

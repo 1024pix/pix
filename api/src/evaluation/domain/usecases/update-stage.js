@@ -1,3 +1,5 @@
+import * as injectedTargetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import * as injectedStageRepository from '../../infrastructure/repositories/stage-repository.js';
 import { StageWithLinkedCampaignError } from '../errors.js';
 
 /**
@@ -23,7 +25,11 @@ import { StageWithLinkedCampaignError } from '../errors.js';
  *
  * @returns Promise<Stage[]>
  */
-const updateStage = async function ({ payloadStage, stageRepository, targetProfileAdministrationRepository }) {
+const updateStage = async function ({
+  payloadStage,
+  stageRepository = injectedStageRepository,
+  targetProfileAdministrationRepository = injectedTargetProfileAdministrationRepository,
+} = {}) {
   const stage = await stageRepository.get(payloadStage.id);
 
   const targetProfile = await targetProfileAdministrationRepository.get({ id: payloadStage.targetProfileId });

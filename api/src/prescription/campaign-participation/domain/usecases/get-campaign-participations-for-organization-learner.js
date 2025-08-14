@@ -1,8 +1,9 @@
+import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 const getCampaignParticipationsForOrganizationLearner = async function ({
   campaignId,
   organizationLearnerId,
-  campaignParticipationRepository,
-}) {
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+} = {}) {
   const campaignParticipations = await campaignParticipationRepository.getCampaignParticipationsForOrganizationLearner({
     campaignId,
     organizationLearnerId,

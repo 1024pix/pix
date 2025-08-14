@@ -1,3 +1,4 @@
+import { logger as injectedLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
 export const getQuestResultsForCampaignParticipation = async ({
@@ -6,8 +7,8 @@ export const getQuestResultsForCampaignParticipation = async ({
   questRepository,
   eligibilityRepository,
   rewardRepository,
-  logger,
-}) => {
+  logger = injectedLogger,
+} = {}) => {
   try {
     const quests = await questRepository.findAllWithReward();
 

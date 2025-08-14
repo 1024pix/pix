@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
 import { EntityValidationError, FileValidationError } from '../../../../shared/domain/errors.js';
+import * as injectedOrganizationLearnerImportFormatRepository from '../../infrastructure/repositories/organization-learner-import-format-repository.js';
 import { OrganizationLearnerImportFormat } from '../models/OrganizationLearnerImportFormat.js';
 /**
  * @param {Object} params
@@ -10,9 +11,9 @@ import { OrganizationLearnerImportFormat } from '../models/OrganizationLearnerIm
  */
 const updateOrganizationLearnerImportFormats = async function ({
   payload,
-  organizationLearnerImportFormatRepository,
+  organizationLearnerImportFormatRepository = injectedOrganizationLearnerImportFormatRepository,
   dependencies = { readFile, jsonParse: JSON.parse },
-}) {
+} = {}) {
   const errors = [];
   let rawImportFormats;
   try {

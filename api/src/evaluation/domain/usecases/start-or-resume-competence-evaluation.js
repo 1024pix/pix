@@ -1,14 +1,17 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedCompetenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
+import * as injectedCompetenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 
 const startOrResumeCompetenceEvaluation = async function ({
   competenceId,
   userId,
-  competenceEvaluationRepository,
-  assessmentRepository,
-  competenceRepository,
-}) {
+  competenceEvaluationRepository = injectedCompetenceEvaluationRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  competenceRepository = injectedCompetenceRepository,
+} = {}) {
   await _checkCompetenceExists(competenceId, competenceRepository);
 
   try {

@@ -2,7 +2,9 @@
  * @typedef {import ('./index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  */
 
+import * as injectedPlacementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
 /**
@@ -12,11 +14,11 @@ import { CertificationEligibility, UserCertificationEligibility } from '../read-
 const getUserCertificationEligibility = async function ({
   userId,
   limitDate = new Date(),
-  placementProfileService,
-  certificationBadgesService,
+  placementProfileService = injectedPlacementProfileService,
+  certificationBadgesService = injectedCertificationBadgesService,
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
-}) {
+} = {}) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const isCertifiable = placementProfile.isCertifiable();
 

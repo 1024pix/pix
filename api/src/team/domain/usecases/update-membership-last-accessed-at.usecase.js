@@ -1,4 +1,5 @@
 import { ForbiddenError } from '../../../shared/application/http-errors.js';
+import * as injectedMembershipRepository from '../../infrastructure/repositories/membership.repository.js';
 
 /**
  * @param {Object} params
@@ -6,7 +7,11 @@ import { ForbiddenError } from '../../../shared/application/http-errors.js';
  * @param {string} params.membershipId
  * @param {MembershipRepository} params.membershipRepository
  */
-const updateMembershipLastAccessedAt = async function ({ userId, membershipId, membershipRepository }) {
+const updateMembershipLastAccessedAt = async function ({
+  userId,
+  membershipId,
+  membershipRepository = injectedMembershipRepository,
+} = {}) {
   const membership = await membershipRepository.get(membershipId);
   if (membership.user.id !== userId || membership.disabledAt) {
     throw new ForbiddenError();

@@ -1,13 +1,16 @@
 import { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } from '../../../shared/domain/errors.js';
+import * as injectedAlgorithmDataFetcherService from '../services/algorithm-methods/data-fetcher.js';
+import * as injectedSmartRandomService from '../services/algorithm-methods/smart-random.js';
+import { pickChallengeService as injectedPickChallengeService } from '../services/pick-challenge-service.js';
 
 const getNextChallengeForCompetenceEvaluation = async function ({
   assessment,
   userId,
   locale,
-  pickChallengeService,
-  smartRandomService,
-  algorithmDataFetcherService,
-}) {
+  pickChallengeService = injectedPickChallengeService,
+  smartRandomService = injectedSmartRandomService,
+  algorithmDataFetcherService = injectedAlgorithmDataFetcherService,
+} = {}) {
   _checkIfAssessmentBelongsToUser(assessment, userId);
   const inputValues = await algorithmDataFetcherService.fetchForCompetenceEvaluations(...arguments);
 

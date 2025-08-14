@@ -1,5 +1,10 @@
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { accountRecoveryDemandRepository as injectedAccountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { scoAccountRecoveryService as injectedScoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 
 /**
  * @param {{
@@ -16,12 +21,12 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 export const updateUserForAccountRecovery = async function ({
   password,
   temporaryKey,
-  userRepository,
-  authenticationMethodRepository,
-  accountRecoveryDemandRepository,
-  scoAccountRecoveryService,
-  cryptoService,
-}) {
+  userRepository = injectedUserRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  accountRecoveryDemandRepository = injectedAccountRecoveryDemandRepository,
+  scoAccountRecoveryService = injectedScoAccountRecoveryService,
+  cryptoService = injectedCryptoService,
+} = {}) {
   const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
     temporaryKey,
     accountRecoveryDemandRepository,

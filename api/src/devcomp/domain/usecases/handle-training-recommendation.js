@@ -1,11 +1,13 @@
+import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedKnowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 const handleTrainingRecommendation = async function ({
   locale,
   assessment,
-  campaignRepository,
-  knowledgeElementRepository,
+  campaignRepository = injectedCampaignRepository,
+  knowledgeElementRepository = injectedKnowledgeElementRepository,
   trainingRepository,
   userRecommendedTrainingRepository,
-}) {
+} = {}) {
   if (!assessment.isForCampaign()) {
     return;
   }

@@ -1,3 +1,5 @@
+import * as injectedTargetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import * as injectedTargetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import { constants } from '../../../shared/domain/constants.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
@@ -16,9 +18,9 @@ import {
 const saveAutonomousCourse = async ({
   autonomousCourse,
   autonomousCourseRepository,
-  targetProfileRepository,
-  targetProfileAdministrationRepository,
-}) => {
+  targetProfileRepository = injectedTargetProfileRepository,
+  targetProfileAdministrationRepository = injectedTargetProfileAdministrationRepository,
+} = {}) => {
   let targetProfile;
 
   try {

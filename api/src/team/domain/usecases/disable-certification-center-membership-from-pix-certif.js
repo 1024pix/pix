@@ -1,11 +1,12 @@
 import { ForbiddenError } from '../../../../src/shared/application/http-errors.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 
 const disableCertificationCenterMembershipFromPixCertif = async function ({
   certificationCenterMembershipId,
   updatedByUserId,
-  certificationCenterMembershipRepository,
-}) {
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+} = {}) {
   const membershipToDisable = await certificationCenterMembershipRepository.findById(certificationCenterMembershipId);
 
   if (!membershipToDisable) {

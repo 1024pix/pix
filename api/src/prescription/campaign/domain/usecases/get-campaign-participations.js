@@ -1,4 +1,8 @@
+import * as injectedCampaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import * as injectedLearningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import * as injectedCampaignRepository from '../../infrastructure/repositories/campaign-repository.js';
+import * as injectedKnowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignResultLevelsPerTubesAndCompetences } from '../models/CampaignResultLevelsPerTubesAndCompetences.js';
 import {
   AssessmentCampaignParticipation,
@@ -11,11 +15,11 @@ const getCampaignParticipations = async function ({
   locale,
   page,
   since,
-  campaignRepository,
-  campaignParticipationRepository,
-  knowledgeElementSnapshotRepository,
-  learningContentRepository,
-}) {
+  campaignRepository = injectedCampaignRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  knowledgeElementSnapshotRepository = injectedKnowledgeElementSnapshotRepository,
+  learningContentRepository = injectedLearningContentRepository,
+} = {}) {
   const campaign = await campaignRepository.get(campaignId);
   const { models: participations, meta } = await campaignParticipationRepository.findInfoByCampaignId({
     campaignId,

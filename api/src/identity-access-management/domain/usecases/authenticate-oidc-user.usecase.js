@@ -1,6 +1,13 @@
 import lodash from 'lodash';
 
+import { oidcAuthenticationServiceRegistry as injectedOidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+import { adminMemberRepository as injectedAdminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
+import { authenticationSessionService as injectedAuthenticationSessionService } from '../services/authentication-session.service.js';
 
 const { omit } = lodash;
 
@@ -33,14 +40,14 @@ async function authenticateOidcUser({
   sessionState,
   audience,
   requestedApplication,
-  authenticationSessionService,
-  oidcAuthenticationServiceRegistry,
-  adminMemberRepository,
-  authenticationMethodRepository,
-  userLoginRepository,
-  userRepository,
-  lastUserApplicationConnectionsRepository,
-}) {
+  authenticationSessionService = injectedAuthenticationSessionService,
+  oidcAuthenticationServiceRegistry = injectedOidcAuthenticationServiceRegistry,
+  adminMemberRepository = injectedAdminMemberRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userLoginRepository = injectedUserLoginRepository,
+  userRepository = injectedUserRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
+} = {}) {
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProviderCode);
 

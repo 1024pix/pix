@@ -1,4 +1,5 @@
 import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../shared/domain/errors.js';
+import * as injectedCertificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 
 /**
  * @param {Object} params
@@ -10,8 +11,8 @@ import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../
 const getCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
   certificationCenterInvitationCode,
-  certificationCenterInvitationRepository,
-}) {
+  certificationCenterInvitationRepository = injectedCertificationCenterInvitationRepository,
+} = {}) {
   const foundCertificationCenterInvitation = await certificationCenterInvitationRepository.getByIdAndCode({
     id: certificationCenterInvitationId,
     code: certificationCenterInvitationCode,

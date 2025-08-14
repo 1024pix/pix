@@ -7,6 +7,10 @@
  */
 
 import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
+import * as injectedChallengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as injectedSkillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
+import * as injectedTubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
+import * as injectedConsolidatedFrameworkRepository from '../../infrastructure/repositories/consolidated-framework-repository.js';
 
 /**
  * @param {Object} params
@@ -20,11 +24,11 @@ import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service
 export const createConsolidatedFramework = async ({
   complementaryCertificationKey,
   tubeIds,
-  tubeRepository,
-  skillRepository,
-  challengeRepository,
-  consolidatedFrameworkRepository,
-}) => {
+  tubeRepository = injectedTubeRepository,
+  skillRepository = injectedSkillRepository,
+  challengeRepository = injectedChallengeRepository,
+  consolidatedFrameworkRepository = injectedConsolidatedFrameworkRepository,
+} = {}) => {
   const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, FRENCH_SPOKEN);
 
   const skillIds = tubes.flatMap((tube) => tube.skillIds);

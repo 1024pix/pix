@@ -4,14 +4,17 @@ import {
   UserNotAuthorizedToUpdateEmailError,
 } from '../../../shared/domain/errors.js';
 import { EventLoggingJob } from '../../../shared/domain/models/jobs/EventLoggingJob.js';
+import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
+import { userEmailRepository as injectedUserEmailRepository } from '../../infrastructure/repositories/user-email.repository.js';
 
 const updateUserEmailWithValidation = async function ({
   code,
   userId,
-  userEmailRepository,
-  userRepository,
-  eventLoggingJobRepository,
-}) {
+  userEmailRepository = injectedUserEmailRepository,
+  userRepository = injectedUserRepository,
+  eventLoggingJobRepository = injectedEventLoggingJobRepository,
+} = {}) {
   const user = await userRepository.get(userId);
   if (!user.email) {
     throw new UserNotAuthorizedToUpdateEmailError();

@@ -1,4 +1,6 @@
-/**
+import { adminMemberRepository as injectedAdminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
+import * as injectedMembershipRepository from '../../infrastructure/repositories/membership.repository.js'; /**
  * Get the user's team information.
  *
  * @param {Object} params - The parameters.
@@ -10,10 +12,10 @@
  */
 export const getUserTeamsInfo = async function ({
   userId,
-  adminMemberRepository,
-  certificationCenterMembershipRepository,
-  membershipRepository,
-}) {
+  adminMemberRepository = injectedAdminMemberRepository,
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+  membershipRepository = injectedMembershipRepository,
+} = {}) {
   const pixAdminMembership = await adminMemberRepository.get({ userId });
   const organizationMembershipsCount = await membershipRepository.countByUserId(userId);
   const certificationCenterMembershipsCount = await certificationCenterMembershipRepository.countByUserId(userId);

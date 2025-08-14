@@ -1,5 +1,11 @@
+import * as injectedUserRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
+import * as injectedBadgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { EventLoggingJob } from '../../../../shared/domain/models/jobs/EventLoggingJob.js';
+import { featureToggles as injectedFeatureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
+import * as injectedAssessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
+import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
 const deleteCampaignParticipation = withTransaction(async function ({
   userId,
@@ -7,13 +13,13 @@ const deleteCampaignParticipation = withTransaction(async function ({
   campaignParticipationId,
   userRole,
   client,
-  featureToggles,
-  badgeAcquisitionRepository,
-  campaignParticipationRepository,
-  eventLoggingJobRepository,
-  assessmentRepository,
-  userRecommendedTrainingRepository,
-}) {
+  featureToggles = injectedFeatureToggles,
+  badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  eventLoggingJobRepository = injectedEventLoggingJobRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,
+} = {}) {
   const isAnonymizationWithDeletionEnabled = await featureToggles.get('isAnonymizationWithDeletionEnabled');
 
   const campaignParticipations =

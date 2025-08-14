@@ -1,9 +1,11 @@
+import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 const getCampaignParametersForSimulator = async function ({
   campaignId,
   locale,
-  campaignRepository,
-  challengeRepository,
-}) {
+  campaignRepository = injectedCampaignRepository,
+  challengeRepository = injectedChallengeRepository,
+} = {}) {
   const campaign = await campaignRepository.get(campaignId);
   const skills = await campaignRepository.findSkills({ campaignId: campaign.id });
   const challenges = await challengeRepository.findOperativeBySkills(skills, locale);

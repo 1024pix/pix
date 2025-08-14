@@ -1,7 +1,14 @@
 import { roles } from '../../../shared/domain/models/Membership.js';
+import * as injectedOrganizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
+import * as injectedMembershipRepository from '../../infrastructure/repositories/membership.repository.js';
 import { OrganizationArchivedError } from '../errors.js';
 
-const createMembership = async function ({ userId, organizationId, membershipRepository, organizationRepository }) {
+const createMembership = async function ({
+  userId,
+  organizationId,
+  membershipRepository = injectedMembershipRepository,
+  organizationRepository = injectedOrganizationRepository,
+} = {}) {
   const organization = await organizationRepository.get(organizationId);
 
   if (organization.archivedAt) {

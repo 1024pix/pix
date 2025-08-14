@@ -8,14 +8,16 @@ import {
   AlreadyRegisteredUsernameError,
 } from '../../../../src/shared/domain/errors.js';
 import { EventLoggingJob } from '../../../shared/domain/models/jobs/EventLoggingJob.js';
+import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 
 const updateUserDetailsByAdmin = async function ({
   userId,
   userDetailsToUpdate,
   updatedByAdminId,
-  userRepository,
-  eventLoggingJobRepository,
-}) {
+  userRepository = injectedUserRepository,
+  eventLoggingJobRepository = injectedEventLoggingJobRepository,
+} = {}) {
   const { email, username } = userDetailsToUpdate;
 
   await _checkEmailAndUsernameAreAvailable({ userId, email, username, userRepository });

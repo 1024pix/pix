@@ -1,5 +1,10 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { resetPasswordDemandRepository as injectedResetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
+import { resetPasswordService as injectedResetPasswordService } from '../services/reset-password.service.js';
 
 /**
  * @param {{
@@ -19,12 +24,12 @@ export const updateUserPassword = withTransaction(async function ({
   userId,
   password,
   temporaryKey,
-  cryptoService,
-  resetPasswordService,
-  authenticationMethodRepository,
-  userRepository,
-  resetPasswordDemandRepository,
-}) {
+  cryptoService = injectedCryptoService,
+  resetPasswordService = injectedResetPasswordService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userRepository = injectedUserRepository,
+  resetPasswordDemandRepository = injectedResetPasswordDemandRepository,
+} = {}) {
   const user = await userRepository.get(userId);
   if (!user.email) {
     throw new UserNotAuthorizedToUpdatePasswordError();

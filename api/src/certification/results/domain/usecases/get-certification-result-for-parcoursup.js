@@ -4,6 +4,7 @@
  * @typedef {import('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
 
+import * as injectedCertificationParcoursupRepository from '../../infrastructure/repositories/certification-parcoursup-repository.js';
 import { MoreThanOneMatchingCertificationError } from '../errors.js';
 
 /**
@@ -27,8 +28,8 @@ export const getCertificationResultForParcoursup = async ({
   firstName,
   birthdate,
   verificationCode,
-  certificationParcoursupRepository,
-}) => {
+  certificationParcoursupRepository = injectedCertificationParcoursupRepository,
+} = {}) => {
   let certifications = [];
 
   if (ine) {

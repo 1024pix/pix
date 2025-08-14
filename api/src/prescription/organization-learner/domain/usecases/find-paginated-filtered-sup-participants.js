@@ -1,10 +1,11 @@
+import * as injectedSupOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 const findPaginatedFilteredSupParticipants = function ({
   organizationId,
   filter,
   page,
   sort,
-  supOrganizationParticipantRepository,
-}) {
+  supOrganizationParticipantRepository = injectedSupOrganizationParticipantRepository,
+} = {}) {
   return supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
     organizationId,
     filter,

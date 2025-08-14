@@ -1,4 +1,4 @@
-/**
+import * as injectedAttendanceSheetPdfUtils from '../../infrastructure/utils/pdf/attendance-sheet-pdf.js'; /**
  * @typedef {import('./index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {import('./index.js').AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
  */
@@ -12,8 +12,8 @@ const getAttendanceSheet = async function ({
   sessionId,
   i18n,
   sessionForAttendanceSheetRepository,
-  attendanceSheetPdfUtils,
-}) {
+  attendanceSheetPdfUtils = injectedAttendanceSheetPdfUtils,
+} = {}) {
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({ id: sessionId });
 
   const { attendanceSheet, fileName } = await attendanceSheetPdfUtils.getAttendanceSheetPdfBuffer({

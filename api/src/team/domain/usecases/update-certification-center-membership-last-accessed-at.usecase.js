@@ -1,4 +1,5 @@
 import { ForbiddenError } from '../../../shared/application/http-errors.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 
 /**
  * @param {Object} params
@@ -9,8 +10,8 @@ import { ForbiddenError } from '../../../shared/application/http-errors.js';
 const updateCertificationCenterMembershipLastAccessedAt = async function ({
   userId,
   certificationCenterMembershipId,
-  certificationCenterMembershipRepository,
-}) {
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+} = {}) {
   const certificationCenterMembership = await certificationCenterMembershipRepository.findById(
     certificationCenterMembershipId,
   );

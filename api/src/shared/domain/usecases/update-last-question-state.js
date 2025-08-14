@@ -1,3 +1,5 @@
+import * as injectedAssessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
+import * as injectedChallengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import { logger } from '../../infrastructure/utils/logger.js';
 import { Assessment } from '../models/Assessment.js';
 
@@ -5,9 +7,9 @@ const updateLastQuestionState = async function ({
   assessmentId,
   lastQuestionState,
   challengeId,
-  assessmentRepository,
-  challengeRepository,
-}) {
+  assessmentRepository = injectedAssessmentRepository,
+  challengeRepository = injectedChallengeRepository,
+} = {}) {
   if (lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT && challengeId !== undefined) {
     const challenge = await challengeRepository.get(challengeId);
     if (!challenge.focused) {

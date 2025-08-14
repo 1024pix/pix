@@ -9,6 +9,8 @@ import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-pa
 import { QUEST_HEADER } from '../constants.js';
 import { Quest } from '../models/Quest.js';
 
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+
 export const createOrUpdateQuestsInBatch = withTransaction(
   /**
    * @param {Object} params - A parameter object.
@@ -16,7 +18,7 @@ export const createOrUpdateQuestsInBatch = withTransaction(
    * @param {QuestRepository} params.questRepository - questRepository to use.
    * @returns {Promise<void>}
    */
-  async ({ filePath, questRepository }) => {
+  async ({ filePath, questRepository = injectedRepositories.questRepository } = {}) => {
     const deleteQuestIds = [];
     const updatedOrNewQuest = [];
 

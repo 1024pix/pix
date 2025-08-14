@@ -1,6 +1,11 @@
+import * as injectedCampaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignUniqueCodeError, UnknownCampaignId } from './../errors.js';
 
-const updateCampaignCode = async function ({ campaignId, campaignCode, campaignAdministrationRepository }) {
+const updateCampaignCode = async function ({
+  campaignId,
+  campaignCode,
+  campaignAdministrationRepository = injectedCampaignAdministrationRepository,
+} = {}) {
   const campaign = await campaignAdministrationRepository.get(campaignId);
   if (!campaign) {
     throw new UnknownCampaignId();

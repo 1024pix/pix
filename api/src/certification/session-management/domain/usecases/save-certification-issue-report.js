@@ -1,10 +1,11 @@
 import { CertificationIssueReport } from '../../../shared/domain/models/CertificationIssueReport.js';
+import { certificationIssueReportRepository as injectedCertificationIssueReportRepository } from '../../infrastructure/repositories/index.js';
 
 const saveCertificationIssueReport = async function ({
   certificationIssueReportDTO,
-  certificationIssueReportRepository,
+  certificationIssueReportRepository = injectedCertificationIssueReportRepository,
   issueReportCategoryRepository,
-}) {
+} = {}) {
   const issueReportCategoryName = certificationIssueReportDTO.subcategory ?? certificationIssueReportDTO.category;
 
   const issueReportCategory = await issueReportCategoryRepository.get({ name: issueReportCategoryName });

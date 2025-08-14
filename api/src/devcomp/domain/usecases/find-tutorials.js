@@ -1,16 +1,19 @@
 import _ from 'lodash';
 
 import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
+import * as injectedKnowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as injectedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
+import * as injectedTubeRepository from '../../../shared/infrastructure/repositories/tube-repository.js';
 
 const findTutorials = async function ({
   userId,
   competenceId,
-  knowledgeElementRepository,
-  skillRepository,
-  tubeRepository,
+  knowledgeElementRepository = injectedKnowledgeElementRepository,
+  skillRepository = injectedSkillRepository,
+  tubeRepository = injectedTubeRepository,
   tutorialRepository,
   locale,
-}) {
+} = {}) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
     userId,
     competenceId,

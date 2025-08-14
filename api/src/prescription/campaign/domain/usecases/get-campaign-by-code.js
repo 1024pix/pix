@@ -1,8 +1,9 @@
+import * as injectedOrganizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 const getCampaignByCode = async function ({
   code,
   campaignToJoinRepository,
-  organizationLearnerImportFormatRepository,
-}) {
+  organizationLearnerImportFormatRepository = injectedOrganizationLearnerImportFormatRepository,
+} = {}) {
   const campaignToJoin = await campaignToJoinRepository.getByCode({ code });
 
   if (campaignToJoin.isRestricted) {

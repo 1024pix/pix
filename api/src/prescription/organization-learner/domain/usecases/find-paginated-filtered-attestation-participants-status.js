@@ -1,10 +1,12 @@
-export const findPaginatedFilteredAttestationParticipantsStatus = async ({
-  attestationKey,
-  organizationId,
-  filter,
-  page,
-  organizationLearnerRepository,
-}) => {
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';export const findPaginatedFilteredAttestationParticipantsStatus = async (
+  {
+    attestationKey,
+    organizationId,
+    filter,
+    page,
+    organizationLearnerRepository = injectedRepositories.organizationLearnerRepository,
+  } = {},
+) => {
   const { search: name, divisions, statuses } = filter;
   const { learners, pagination } = await organizationLearnerRepository.findPaginatedLearners({
     organizationId,

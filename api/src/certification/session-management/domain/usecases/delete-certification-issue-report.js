@@ -1,11 +1,12 @@
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { certificationIssueReportRepository as injectedCertificationIssueReportRepository } from '../../infrastructure/repositories/index.js';
 
 const deleteCertificationIssueReport = async function ({
   certificationIssueReportId,
   certificationCourseRepository,
-  certificationIssueReportRepository,
+  certificationIssueReportRepository = injectedCertificationIssueReportRepository,
   sessionRepository,
-}) {
+} = {}) {
   const certificationIssueReport = await certificationIssueReportRepository.get({ id: certificationIssueReportId });
   const sessionId = await certificationCourseRepository.getSessionId({
     id: certificationIssueReport.certificationCourseId,

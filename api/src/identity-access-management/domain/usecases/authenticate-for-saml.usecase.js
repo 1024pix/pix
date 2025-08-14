@@ -3,9 +3,16 @@ import {
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../../../shared/domain/errors.js';
+import * as injectedObfuscationService from '../../../shared/domain/services/obfuscation-service.js';
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { MissingOrInvalidCredentialsError, PasswordNotMatching, UserShouldChangePasswordError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { pixAuthenticationService as injectedPixAuthenticationService } from '../services/pix-authentication-service.js';
 
 /**
  * @param {Object} params
@@ -31,14 +38,14 @@ async function authenticateForSaml({
   audience,
   expectedUserId,
   requestedApplication,
-  tokenService,
-  pixAuthenticationService,
-  obfuscationService,
-  authenticationMethodRepository,
-  userRepository,
-  userLoginRepository,
-  lastUserApplicationConnectionsRepository,
-}) {
+  tokenService = injectedTokenService,
+  pixAuthenticationService = injectedPixAuthenticationService,
+  obfuscationService = injectedObfuscationService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userRepository = injectedUserRepository,
+  userLoginRepository = injectedUserLoginRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
+} = {}) {
   try {
     const userFromCredentials = await pixAuthenticationService.getUserByUsernameAndPassword({
       username,

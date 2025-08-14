@@ -1,13 +1,15 @@
 import _ from 'lodash';
 
+import * as injectedTargetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import * as injectedTargetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
 
 const attachTargetProfilesToTraining = async function ({
   trainingId,
   targetProfileIds,
-  targetProfileRepository,
-  targetProfileTrainingRepository,
-}) {
+  targetProfileRepository = injectedTargetProfileRepository,
+  targetProfileTrainingRepository = injectedTargetProfileTrainingRepository,
+} = {}) {
   const uniqTargetProfileIds = _.uniq(targetProfileIds);
   const foundTargetProfiles = await targetProfileRepository.findByIds(uniqTargetProfileIds);
   const foundTargetProfileIds = foundTargetProfiles.map((tp) => tp.id);

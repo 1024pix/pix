@@ -1,3 +1,4 @@
+import * as injectedToEventStream from '../../infrastructure/streaming/to-event-stream.js';
 import {
   ChatForbiddenError,
   ChatNotFoundError,
@@ -14,8 +15,8 @@ export async function promptChat({
   attachmentName,
   chatRepository,
   promptRepository,
-  toEventStream,
-}) {
+  toEventStream = injectedToEventStream,
+} = {}) {
   if (!chatId) {
     throw new ChatNotFoundError('null id provided');
   }

@@ -5,6 +5,7 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 
 /**
  * @param {Object} params
@@ -12,7 +13,10 @@ import { logger } from '../../../../shared/infrastructure/utils/logger.js';
  * @param {CandidateRepository} params.candidateRepository
  * @returns {Promise<void>}
  */
-export const catchingUpCandidateReconciliation = async ({ chunkSize = 100000, candidateRepository }) => {
+export const catchingUpCandidateReconciliation = async ({
+  chunkSize = 100000,
+  candidateRepository = injectedCandidateRepository,
+} = {}) => {
   logger.info(`Starting certification-candidates.reconciledAt updates by chunk of ${chunkSize}`);
   let migratedLines = 0;
   let hasNext = true;

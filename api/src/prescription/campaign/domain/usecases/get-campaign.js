@@ -1,10 +1,14 @@
+import * as injectedBadgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
+import * as injectedStageAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js';
+import * as injectedCampaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
+import * as injectedStageCollectionRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 const getCampaign = async function ({
   campaignId,
-  badgeRepository,
-  campaignReportRepository,
-  stageCollectionRepository,
-  stageAcquisitionRepository,
-}) {
+  badgeRepository = injectedBadgeRepository,
+  campaignReportRepository = injectedCampaignReportRepository,
+  stageCollectionRepository = injectedStageCollectionRepository,
+  stageAcquisitionRepository = injectedStageAcquisitionRepository,
+} = {}) {
   const campaignReport = await campaignReportRepository.get(campaignId);
 
   if (campaignReport.isAssessment || campaignReport.isExam) {

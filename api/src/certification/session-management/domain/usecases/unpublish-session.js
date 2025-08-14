@@ -1,10 +1,12 @@
+import * as injectedSharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
+import { certificationRepository as injectedCertificationRepository } from '../../infrastructure/repositories/index.js';
 const unpublishSession = async function ({
   sessionId,
-  certificationRepository,
+  certificationRepository = injectedCertificationRepository,
   sessionRepository,
   finalizedSessionRepository,
-  sharedSessionRepository,
-}) {
+  sharedSessionRepository = injectedSharedSessionRepository,
+} = {}) {
   const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
 
   await certificationRepository.unpublishCertificationCoursesBySessionId({ sessionId });

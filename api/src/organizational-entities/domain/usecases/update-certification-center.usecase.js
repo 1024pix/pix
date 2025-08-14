@@ -5,7 +5,11 @@
  * @typedef {import('./index.js').DataProtectionOfficerRepository} DataProtectionOfficerRepository
  */
 
+import * as injectedCenterRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import { ComplementaryCertificationHabilitation } from '../../../shared/domain/models/ComplementaryCertificationHabilitation.js';
+import * as injectedCertificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
+import * as injectedComplementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation.repository.js';
+import * as injectedDataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
 import { DataProtectionOfficer } from '../models/DataProtectionOfficer.js';
 import { CenterForAdminFactory } from '../models/factories/CenterForAdminFactory.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation.validator.js';
@@ -24,11 +28,11 @@ const updateCertificationCenter = async function ({
   certificationCenterId,
   certificationCenterInformation,
   complementaryCertificationIds,
-  centerRepository,
-  certificationCenterForAdminRepository,
-  complementaryCertificationHabilitationRepository,
-  dataProtectionOfficerRepository,
-}) {
+  centerRepository = injectedCenterRepository,
+  certificationCenterForAdminRepository = injectedCertificationCenterForAdminRepository,
+  complementaryCertificationHabilitationRepository = injectedComplementaryCertificationHabilitationRepository,
+  dataProtectionOfficerRepository = injectedDataProtectionOfficerRepository,
+} = {}) {
   certificationCenterCreationValidator.validate(certificationCenterInformation);
 
   await _updateCenter({

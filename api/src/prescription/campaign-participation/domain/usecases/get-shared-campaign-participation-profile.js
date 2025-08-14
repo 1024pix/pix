@@ -1,18 +1,23 @@
 import { constants } from '../../../../shared/domain/constants.js';
 import { NoCampaignParticipationForUserAndCampaign } from '../../../../shared/domain/errors.js';
 import { SharedProfileForCampaign } from '../../../../shared/domain/read-models/SharedProfileForCampaign.js';
+import * as injectedAreaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
+import * as injectedCompetenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
+import * as injectedCampaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
 const getSharedCampaignParticipationProfile = async function ({
   userId,
   campaignId,
-  campaignParticipationRepository,
-  campaignRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  campaignRepository = injectedCampaignRepository,
   knowledgeElementRepository,
-  competenceRepository,
-  areaRepository,
-  organizationLearnerRepository,
+  competenceRepository = injectedCompetenceRepository,
+  areaRepository = injectedAreaRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
   locale,
-}) {
+} = {}) {
   const campaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({
     campaignId,
     userId,

@@ -2,8 +2,13 @@
  * @typedef {import ('../../../../lib/domain/usecases/index.js').OidcAuthenticationService} OidcAuthenticationService
  */
 
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { authenticationSessionService as injectedAuthenticationSessionService } from '../services/authentication-session.service.js';
 
 /**
  * @param {Object} params
@@ -24,14 +29,14 @@ export const reconcileOidcUserForAdmin = async function ({
   email,
   identityProvider,
   oidcAuthenticationService,
-  authenticationSessionService,
-  authenticationMethodRepository,
-  userRepository,
-  userLoginRepository,
-  lastUserApplicationConnectionsRepository,
+  authenticationSessionService = injectedAuthenticationSessionService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userRepository = injectedUserRepository,
+  userLoginRepository = injectedUserLoginRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
   requestedApplication,
   audience,
-}) {
+} = {}) {
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();

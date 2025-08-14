@@ -1,4 +1,4 @@
-/**
+import * as injectedOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js'; /**
  * @typedef {import('./index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
  */
 
@@ -7,7 +7,10 @@
  * @param{OrganizationLearnerRepository} organizationLearnerRepository
  * @returns {Promise<number[]>}
  */
-const findOrganizationLearnersBeforeImportFeature = async function ({ organizationId, organizationLearnerRepository }) {
+const findOrganizationLearnersBeforeImportFeature = async function ({
+  organizationId,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+} = {}) {
   return organizationLearnerRepository.findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId({
     organizationId,
   });

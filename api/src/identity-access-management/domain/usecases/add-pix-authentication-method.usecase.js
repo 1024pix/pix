@@ -1,6 +1,10 @@
 import { AuthenticationMethodAlreadyExistsError } from '../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import * as injectedPasswordGeneratorService from '../services/password-generator.service.js';
 
 /**
  * Adds a PIX authentication method for a user.
@@ -14,11 +18,11 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 const addPixAuthenticationMethod = async function ({
   userId,
   email,
-  cryptoService,
-  passwordGeneratorService,
-  userRepository,
-  authenticationMethodRepository,
-}) {
+  cryptoService = injectedCryptoService,
+  passwordGeneratorService = injectedPasswordGeneratorService,
+  userRepository = injectedUserRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+} = {}) {
   await userRepository.checkIfEmailIsAvailable(email);
 
   const alreadyHasPixAuthenticationMethod = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });

@@ -1,10 +1,13 @@
+import * as injectedCertificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
+import * as injectedCertificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
+import * as injectedCertificationCenterInvitationService from '../services/certification-center-invitation-service.js';
 const resendCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
   locale,
-  certificationCenterRepository,
-  certificationCenterInvitationRepository,
-  certificationCenterInvitationService,
-}) {
+  certificationCenterRepository = injectedCertificationCenterRepository,
+  certificationCenterInvitationRepository = injectedCertificationCenterInvitationRepository,
+  certificationCenterInvitationService = injectedCertificationCenterInvitationService,
+} = {}) {
   const certificationCenterInvitation = await certificationCenterInvitationRepository.get(
     certificationCenterInvitationId,
   );

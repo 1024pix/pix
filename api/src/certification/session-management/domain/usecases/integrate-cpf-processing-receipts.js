@@ -6,13 +6,17 @@
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
+import { cpfReceiptsStorage as injectedCpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 
 /**
  * @param {Object} params
  * @param {CpfReceiptsStorage} params.cpfReceiptsStorage
  * @param {CpfCertificationResultRepository} params.cpfCertificationResultRepository
  */
-const integrateCpfProccessingReceipts = async function ({ cpfReceiptsStorage, cpfCertificationResultRepository }) {
+const integrateCpfProccessingReceipts = async function ({
+  cpfReceiptsStorage = injectedCpfReceiptsStorage,
+  cpfCertificationResultRepository,
+} = {}) {
   logger.info('Starting CPF receipts integration from external storage');
 
   const cpfReceipts = await cpfReceiptsStorage.findAll();

@@ -1,3 +1,5 @@
+import { certificationCenterApiRepository as injectedCertificationCenterApiRepository } from '../../infrastructure/repositories/certification-center-api.repository.js';
+import * as injectedCertificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
 import { ArchiveCertificationCentersInBatchError } from '../errors.js';
 
 /**
@@ -10,9 +12,9 @@ import { ArchiveCertificationCentersInBatchError } from '../errors.js';
 export const archiveCertificationCentersInBatch = async function ({
   certificationCenterIds,
   userId,
-  certificationCenterForAdminRepository,
-  certificationCenterApiRepository,
-}) {
+  certificationCenterForAdminRepository = injectedCertificationCenterForAdminRepository,
+  certificationCenterApiRepository = injectedCertificationCenterApiRepository,
+} = {}) {
   // we don't use a transaction here not to rollback lines 0 to N-1 in case of an error on line N
   const archiveDate = new Date();
 

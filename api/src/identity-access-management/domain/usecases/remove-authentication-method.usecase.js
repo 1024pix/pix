@@ -1,4 +1,6 @@
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../shared/domain/errors.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js';
 
@@ -14,9 +16,9 @@ import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js'
 export const removeAuthenticationMethod = async function ({
   userId,
   authenticationMethodType,
-  userRepository,
-  authenticationMethodRepository,
-}) {
+  userRepository = injectedUserRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+} = {}) {
   const user = await userRepository.get(userId);
   switch (authenticationMethodType) {
     case 'EMAIL':

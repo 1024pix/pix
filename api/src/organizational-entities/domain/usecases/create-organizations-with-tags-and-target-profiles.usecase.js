@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
+import * as injectedSchoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { InvalidInputDataError } from '../../../shared/domain/errors.js';
 import {
@@ -12,10 +13,17 @@ import {
 import { OrganizationTag } from '../../../shared/domain/models/OrganizationTag.js';
 import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/infrastructure/constants.js';
+import * as injectedOrganizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
+import * as injectedDataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
+import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
+import * as injectedOrganizationTagRepository from '../../infrastructure/repositories/organization-tag.repository.js';
+import { tagRepository as injectedTagRepository } from '../../infrastructure/repositories/tag.repository.js';
+import * as injectedTargetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 import { Organization } from '../models/Organization.js';
 import { OrganizationForAdmin } from '../models/OrganizationForAdmin.js';
+import * as injectedOrganizationValidator from '../validators/organization-with-tags-and-target-profiles.js';
 
 const SEPARATOR = '_';
 
@@ -26,15 +34,15 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   organizations,
 
   // dependencies
-  dataProtectionOfficerRepository,
-  organizationForAdminRepository,
-  organizationTagRepository,
-  organizationRepository,
-  schoolRepository,
-  tagRepository,
-  targetProfileShareRepository,
-  organizationValidator,
-}) {
+  dataProtectionOfficerRepository = injectedDataProtectionOfficerRepository,
+  organizationForAdminRepository = organizationalEntitiesRepositories.organizationForAdminRepository,
+  organizationTagRepository = injectedOrganizationTagRepository,
+  organizationRepository = injectedOrganizationRepository,
+  schoolRepository = injectedSchoolRepository,
+  tagRepository = injectedTagRepository,
+  targetProfileShareRepository = injectedTargetProfileShareRepository,
+  organizationValidator = injectedOrganizationValidator,
+} = {}) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
   }

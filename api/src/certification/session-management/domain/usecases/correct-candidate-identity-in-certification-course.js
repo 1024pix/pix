@@ -1,4 +1,5 @@
 import { CertificationCandidatesError } from '../../../../../src/shared/domain/errors.js';
+import * as injectedCertificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 /**
  * @typedef {import('../../domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../domain/usecases/index.js').CertificationCpfService} CertificationCpfService
@@ -27,10 +28,10 @@ const correctCandidateIdentityInCertificationCourse = async function ({
   },
 
   certificationCourseRepository,
-  certificationCpfService,
+  certificationCpfService = injectedCertificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-}) {
+} = {}) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.correctFirstName(firstName);
   certificationCourse.correctLastName(lastName);

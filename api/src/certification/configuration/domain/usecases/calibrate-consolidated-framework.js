@@ -9,6 +9,8 @@
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import * as injectedActiveCalibratedChallengeRepository from '../../infrastructure/repositories/active-calibrated-challenge-repository.js';
+import * as injectedConsolidatedFrameworkRepository from '../../infrastructure/repositories/consolidated-framework-repository.js';
 
 export const calibrateConsolidatedFramework = withTransaction(
   /**
@@ -24,9 +26,9 @@ export const calibrateConsolidatedFramework = withTransaction(
     version,
     calibrationId,
     complementaryCertificationKey,
-    consolidatedFrameworkRepository,
-    activeCalibratedChallengeRepository,
-  }) => {
+    consolidatedFrameworkRepository = injectedConsolidatedFrameworkRepository,
+    activeCalibratedChallengeRepository = injectedActiveCalibratedChallengeRepository,
+  } = {}) => {
     const consolidatedFramework = await consolidatedFrameworkRepository.getByVersionAndComplementaryKey({
       complementaryCertificationKey,
       version,

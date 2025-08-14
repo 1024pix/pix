@@ -1,3 +1,6 @@
+import { logger as injectedLogger } from '../../../shared/infrastructure/utils/logger.js';
+import * as injectedLegalDocumentRepository from '../../infrastructure/repositories/legal-document.repository.js';
+import * as injectedUserAcceptanceRepository from '../../infrastructure/repositories/user-acceptance.repository.js';
 import { LegalDocumentService } from '../models/LegalDocumentService.js';
 import { LegalDocumentStatus } from '../models/LegalDocumentStatus.js';
 import { LegalDocumentType } from '../models/LegalDocumentType.js';
@@ -16,10 +19,10 @@ const getLegalDocumentStatusByUserId = async ({
   userId,
   service,
   type,
-  legalDocumentRepository,
-  userAcceptanceRepository,
-  logger,
-}) => {
+  legalDocumentRepository = injectedLegalDocumentRepository,
+  userAcceptanceRepository = injectedUserAcceptanceRepository,
+  logger = injectedLogger,
+} = {}) => {
   LegalDocumentService.assert(service);
   LegalDocumentType.assert(type);
 

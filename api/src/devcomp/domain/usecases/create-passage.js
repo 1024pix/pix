@@ -1,3 +1,4 @@
+import * as injectedUserRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { ModuleDoesNotExistError } from '../errors.js';
@@ -7,8 +8,8 @@ const createPassage = withTransaction(async function ({
   userId,
   moduleRepository,
   passageRepository,
-  userRepository,
-}) {
+  userRepository = injectedUserRepository,
+} = {}) {
   const module = await _getModule({ id: moduleId, moduleRepository });
   if (userId !== null) {
     await userRepository.get(userId);

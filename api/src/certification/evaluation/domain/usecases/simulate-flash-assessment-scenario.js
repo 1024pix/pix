@@ -3,10 +3,13 @@
  * @typedef {import('./index.js').SharedChallengeRepository} SharedChallengeRepository
  */
 
+import { challengeRepository as injectedSharedChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
+import * as injectedSharedFlashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import { AssessmentSimulator } from '../models/AssessmentSimulator.js';
 import { AssessmentSimulatorSingleMeasureStrategy } from '../models/AssessmentSimulatorSingleMeasureStrategy.js';
 import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
+import * as injectedFlashAlgorithmService from '../services/algorithm-methods/flash.js';
 
 /**
  * @param {Object} params
@@ -20,14 +23,14 @@ export async function simulateFlashAssessmentScenario({
   pickAnswerStatus,
   initialCapacity,
   variationPercent,
-  flashAlgorithmService,
-  sharedFlashAlgorithmConfigurationRepository,
+  flashAlgorithmService = injectedFlashAlgorithmService,
+  sharedFlashAlgorithmConfigurationRepository = injectedSharedFlashAlgorithmConfigurationRepository,
   complementaryCertificationRepository,
-  sharedChallengeRepository,
+  sharedChallengeRepository = injectedSharedChallengeRepository,
   accessibilityAdjustmentNeeded,
   complementaryCertificationKey,
   stopAtChallenge,
-}) {
+} = {}) {
   if (complementaryCertificationKey) {
     return _simulateComplementaryCertificationScenario({
       complementaryCertificationKey,

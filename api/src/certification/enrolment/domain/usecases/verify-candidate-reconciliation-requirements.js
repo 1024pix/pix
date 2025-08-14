@@ -5,7 +5,9 @@
  */
 
 import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
+import * as injectedPlacementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
+import * as injectedCertificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 
 /**
  * @param {Object} params
@@ -20,9 +22,9 @@ import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 export async function verifyCandidateReconciliationRequirements({
   candidate,
   sessionId,
-  placementProfileService,
-  certificationCenterRepository,
-}) {
+  placementProfileService = injectedPlacementProfileService,
+  certificationCenterRepository = injectedCertificationCenterRepository,
+} = {}) {
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: candidate.userId,
     limitDate: candidate.reconciledAt,

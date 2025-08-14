@@ -1,16 +1,20 @@
 import _ from 'lodash';
 
 import { Scorecard } from '../../../evaluation/domain/models/Scorecard.js';
+import * as injectedCompetenceEvaluationRepository from '../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import { constants } from '../../../shared/domain/constants.js';
+import * as injectedAreaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
+import * as injectedCompetenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
+import * as injectedKnowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 
 const getUserProfile = async function ({
   userId,
-  competenceRepository,
-  areaRepository,
-  competenceEvaluationRepository,
-  knowledgeElementRepository,
+  competenceRepository = injectedCompetenceRepository,
+  areaRepository = injectedAreaRepository,
+  competenceEvaluationRepository = injectedCompetenceEvaluationRepository,
+  knowledgeElementRepository = injectedKnowledgeElementRepository,
   locale,
-}) {
+} = {}) {
   const [knowledgeElementsGroupedByCompetenceId, competences, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId }),
     competenceRepository.listPixCompetencesOnly({ locale }),

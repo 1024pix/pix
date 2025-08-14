@@ -1,4 +1,7 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { logger as injectedLogger } from '../../../shared/infrastructure/utils/logger.js';
+import * as injectedLegalDocumentRepository from '../../infrastructure/repositories/legal-document.repository.js';
+import * as injectedUserAcceptanceRepository from '../../infrastructure/repositories/user-acceptance.repository.js';
 import { LegalDocumentService } from '../models/LegalDocumentService.js';
 import { LegalDocumentType } from '../models/LegalDocumentType.js';
 
@@ -12,7 +15,14 @@ import { LegalDocumentType } from '../models/LegalDocumentType.js';
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */
 const acceptLegalDocumentByUserId = withTransaction(
-  async ({ userId, service, type, legalDocumentRepository, userAcceptanceRepository, logger }) => {
+  async ({
+    userId,
+    service,
+    type,
+    legalDocumentRepository = injectedLegalDocumentRepository,
+    userAcceptanceRepository = injectedUserAcceptanceRepository,
+    logger = injectedLogger,
+  } = {}) => {
     LegalDocumentType.assert(type);
     LegalDocumentService.assert(service);
 

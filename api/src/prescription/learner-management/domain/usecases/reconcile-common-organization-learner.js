@@ -1,3 +1,8 @@
+import * as injectedOrganizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
+import * as injectedUserReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
+import * as injectedCampaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedOrganizationLearnerImportFormatRepository from '../../infrastructure/repositories/organization-learner-import-format-repository.js';
+import * as injectedOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import { ReconcileCommonOrganizationLearnerError } from '../errors.js';
 
 /**
@@ -18,12 +23,12 @@ const reconcileCommonOrganizationLearner = async function ({
   campaignCode,
   userId,
   reconciliationInfos,
-  campaignRepository,
-  organizationFeatureApi,
-  organizationLearnerImportFormatRepository,
-  organizationLearnerRepository,
-  userReconciliationService,
-}) {
+  campaignRepository = injectedCampaignRepository,
+  organizationFeatureApi = injectedOrganizationFeatureApi,
+  organizationLearnerImportFormatRepository = injectedOrganizationLearnerImportFormatRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  userReconciliationService = injectedUserReconciliationService,
+} = {}) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
     throw new ReconcileCommonOrganizationLearnerError('CAMPAIGN_NOT_FOUND');

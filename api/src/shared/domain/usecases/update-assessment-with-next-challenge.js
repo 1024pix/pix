@@ -1,11 +1,13 @@
+import { evaluationUsecases as injectedEvaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
+import * as injectedAssessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 export async function updateAssessmentWithNextChallenge({
   assessment,
   userId,
   locale,
-  assessmentRepository,
-  evaluationUsecases,
+  assessmentRepository = injectedAssessmentRepository,
+  evaluationUsecases = injectedEvaluationUsecases,
   certificationEvaluationRepository,
-}) {
+} = {}) {
   if (!assessment.isStarted()) {
     assessment.nextChallenge = null;
     return assessment;

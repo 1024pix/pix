@@ -1,6 +1,14 @@
+import * as injectedBadgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
+import * as injectedBadgeRepository from '../../infrastructure/repositories/badge-repository.js';
 import { AcquiredBadgeForbiddenUpdateError } from '../errors.js';
 
-const updateBadgeCriterion = async ({ id, badgeId, attributesToUpdate, badgeCriteriaRepository, badgeRepository }) => {
+const updateBadgeCriterion = async ({
+  id,
+  badgeId,
+  attributesToUpdate,
+  badgeCriteriaRepository = injectedBadgeCriteriaRepository,
+  badgeRepository = injectedBadgeRepository,
+} = {}) => {
   const isBadgeAlreadyAcquired = await badgeRepository.isAssociated(badgeId);
 
   if (isBadgeAlreadyAcquired) {

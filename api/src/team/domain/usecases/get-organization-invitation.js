@@ -1,4 +1,6 @@
 import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../shared/domain/errors.js';
+import * as injectedOrganizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
+import { organizationInvitationRepository as injectedOrganizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
 
 /**
  * @param {Object} params
@@ -11,9 +13,9 @@ import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../
 const getOrganizationInvitation = async function ({
   organizationInvitationId,
   organizationInvitationCode,
-  organizationRepository,
-  organizationInvitationRepository,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  organizationInvitationRepository = injectedOrganizationInvitationRepository,
+} = {}) {
   const foundOrganizationInvitation = await organizationInvitationRepository.getByIdAndCode({
     id: organizationInvitationId,
     code: organizationInvitationCode,

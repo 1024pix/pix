@@ -1,3 +1,5 @@
+import * as injectedCampaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
+import * as injectedCampaignUpdateValidator from '../validators/campaign-update-validator.js';
 const updateCampaignDetails = async function ({
   campaignId,
   name,
@@ -9,9 +11,9 @@ const updateCampaignDetails = async function ({
   multipleSendings,
   isForAbsoluteNovice,
   isAuthorizedToUpdateIsForAbsoluteNovice,
-  campaignAdministrationRepository,
-  campaignUpdateValidator,
-}) {
+  campaignAdministrationRepository = injectedCampaignAdministrationRepository,
+  campaignUpdateValidator = injectedCampaignUpdateValidator,
+} = {}) {
   const campaign = await campaignAdministrationRepository.get(campaignId);
 
   campaign.updateFields(

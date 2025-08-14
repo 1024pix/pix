@@ -4,9 +4,11 @@
 
 import { createReadStream } from 'node:fs';
 
+import * as injectedLearnersApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import { getDataBuffer } from '../../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
+import * as injectedOrganizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
 import { ORGANIZATION_FEATURES_HEADER } from '../constants.js';
 import { FeatureParamsNotProcessable } from '../errors.js';
 import { OrganizationFeature } from '../models/OrganizationFeature.js';
@@ -20,7 +22,12 @@ export const addOrganizationFeatureInBatch = withTransaction(
    * @param {Object} params.dependencies
    * @returns {Promise<void>}
    */
-  async ({ userId, filePath, organizationFeatureRepository, learnersApi }) => {
+  async ({
+    userId,
+    filePath,
+    organizationFeatureRepository = injectedOrganizationFeatureRepository,
+    learnersApi = injectedLearnersApi,
+  } = {}) => {
     const stream = createReadStream(filePath);
     const buffer = await getDataBuffer(stream);
 

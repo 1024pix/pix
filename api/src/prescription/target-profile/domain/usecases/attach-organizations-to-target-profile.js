@@ -1,10 +1,11 @@
+import * as injectedOrganizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import { OrganizationsToAttachToTargetProfile } from '../models/OrganizationsToAttachToTargetProfile.js';
 
 const attachOrganizationsToTargetProfile = async function ({
   targetProfileId,
   organizationIds,
-  organizationsToAttachToTargetProfileRepository,
-}) {
+  organizationsToAttachToTargetProfileRepository = injectedOrganizationsToAttachToTargetProfileRepository,
+} = {}) {
   const targetProfileOrganizations = new OrganizationsToAttachToTargetProfile({ id: targetProfileId });
 
   targetProfileOrganizations.attach(organizationIds);

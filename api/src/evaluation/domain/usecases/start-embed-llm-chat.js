@@ -1,6 +1,14 @@
+import * as injectedLlmApi from '../../../llm/application/api/llm-api.js';
 import { DomainError } from '../../../shared/domain/errors.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 
-export async function startEmbedLlmChat({ configId, userId, assessmentId, llmApi, assessmentRepository }) {
+export async function startEmbedLlmChat({
+  configId,
+  userId,
+  assessmentId,
+  llmApi = injectedLlmApi,
+  assessmentRepository = injectedAssessmentRepository,
+} = {}) {
   await checkIfAssessmentBelongsToUser(assessmentId, userId, assessmentRepository);
   return await llmApi.startChat({ configId, userId, assessmentId });
 }

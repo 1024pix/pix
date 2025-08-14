@@ -4,6 +4,9 @@
  * @typedef {import('../../../shared/infrastructure/repositories/AdminMemberRepository.js').AdminMemberRepository} AdminMemberRepository
  */
 
+import { adminMemberRepository as injectedAdminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
+import * as injectedCertificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
+import * as injectedDataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
 import { CenterForAdminFactory } from '../models/factories/CenterForAdminFactory.js';
 
 /**
@@ -14,10 +17,10 @@ import { CenterForAdminFactory } from '../models/factories/CenterForAdminFactory
  */
 const getCenterForAdmin = async function ({
   id,
-  adminMemberRepository,
-  certificationCenterRepository,
-  dataProtectionOfficerRepository,
-}) {
+  adminMemberRepository = injectedAdminMemberRepository,
+  certificationCenterRepository = injectedCertificationCenterRepository,
+  dataProtectionOfficerRepository = injectedDataProtectionOfficerRepository,
+} = {}) {
   const center = await certificationCenterRepository.getById({ id });
   const dataProtectionOfficer = await dataProtectionOfficerRepository.get({
     certificationCenterId: id,

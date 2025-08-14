@@ -1,10 +1,14 @@
 import lodash from 'lodash';
 
+import * as injectedUserRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
 import {
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerNotFound,
 } from '../../../../shared/domain/errors.js';
+import * as injectedObfuscationService from '../../../../shared/domain/services/obfuscation-service.js';
+import * as injectedUserReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
+import * as injectedStudentRepository from '../../../learner-management/infrastructure/repositories/student-repository.js';
 
 const { find, get } = lodash;
 
@@ -12,11 +16,11 @@ const generateUsername = async function ({
   studentInformation,
   organizationId,
   organizationLearnerRepository,
-  userReconciliationService,
-  obfuscationService,
-  userRepository,
-  studentRepository,
-}) {
+  userReconciliationService = injectedUserReconciliationService,
+  obfuscationService = injectedObfuscationService,
+  userRepository = injectedUserRepository,
+  studentRepository = injectedStudentRepository,
+} = {}) {
   const matchedOrganizationLearner = await findMatchedOrganizationLearnerForGivenOrganizationIdAndStudentInfo({
     organizationId,
     studentInformation,

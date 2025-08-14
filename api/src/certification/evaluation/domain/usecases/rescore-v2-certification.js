@@ -15,10 +15,15 @@ import { AssessmentResultFactory } from '../../../scoring/domain/models/factorie
 import { SessionAlreadyPublishedError } from '../../../session-management/domain/errors.js';
 import { CertificationCourseRejected } from '../../../session-management/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../session-management/domain/events/CertificationJuryDone.js';
+import { assessmentResultRepository as injectedAssessmentResultRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as injectedComplementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
+import * as injectedEvaluationSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { CertificationComputeError } from '../errors.js';
 import CertificationRescored from '../events/CertificationRescored.js';
 import { ChallengeDeneutralized } from '../events/ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from '../events/ChallengeNeutralized.js';
+import { services as injectedServices } from '../services/index.js';
 
 const eventTypes = [
   ChallengeNeutralized,
@@ -46,12 +51,12 @@ const eventTypes = [
  */
 export const rescoreV2Certification = async ({
   event,
-  assessmentResultRepository,
-  certificationAssessmentRepository,
-  complementaryCertificationScoringCriteriaRepository,
-  evaluationSessionRepository,
-  services,
-}) => {
+  assessmentResultRepository = injectedAssessmentResultRepository,
+  certificationAssessmentRepository = injectedCertificationAssessmentRepository,
+  complementaryCertificationScoringCriteriaRepository = injectedComplementaryCertificationScoringCriteriaRepository,
+  evaluationSessionRepository = injectedEvaluationSessionRepository,
+  services = injectedServices,
+} = {}) => {
   checkEventTypes(event, eventTypes);
 
   const certificationCourseId = event.certificationCourseId;

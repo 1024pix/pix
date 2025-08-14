@@ -1,4 +1,4 @@
-/**
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js'; /**
  * @typedef {import('../../infrastructure/repositories/certification-center-membership.repository.js').certificationCenterMembershipRepository} CertificationCenterMembershipRepository
  */
 
@@ -14,8 +14,8 @@ const updateCertificationCenterMembership = async function ({
   certificationCenterMembershipId,
   role,
   updatedByUserId,
-  certificationCenterMembershipRepository,
-}) {
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+} = {}) {
   const certificationCenterMembershipToUpdate = await certificationCenterMembershipRepository.findById(
     certificationCenterMembershipId,
   );

@@ -1,3 +1,4 @@
+import * as injectedCertificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import { UncancellableCertificationCenterInvitationError } from '../errors.js';
 
 /**
@@ -12,8 +13,8 @@ import { UncancellableCertificationCenterInvitationError } from '../errors.js';
  */
 const cancelCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
-  certificationCenterInvitationRepository,
-}) {
+  certificationCenterInvitationRepository = injectedCertificationCenterInvitationRepository,
+} = {}) {
   const foundCertificationCenterInvitation = await certificationCenterInvitationRepository.get(
     certificationCenterInvitationId,
   );

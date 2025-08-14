@@ -1,4 +1,8 @@
-const findDivisionsByOrganization = async function ({ organizationId, divisionRepository }) {
+import * as injectedDivisionRepository from '../../../campaign/infrastructure/repositories/division-repository.js';
+const findDivisionsByOrganization = async function ({
+  organizationId,
+  divisionRepository = injectedDivisionRepository,
+} = {}) {
   const divisionsOrderedByPostgres = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
     organizationId,
   });

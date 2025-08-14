@@ -1,12 +1,15 @@
 import { OrganizationTag } from '../../../../src/shared/domain/models/OrganizationTag.js';
+import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
+import * as injectedOrganizationTagRepository from '../../infrastructure/repositories/organization-tag.repository.js';
+import { tagRepository as injectedTagRepository } from '../../infrastructure/repositories/tag.repository.js';
 import { OrganizationNotFound, TagNotFoundError } from '../errors.js';
 
 export async function addTagsToOrganizations({
   organizationTags,
-  organizationTagRepository,
-  tagRepository,
-  organizationForAdminRepository,
-}) {
+  organizationTagRepository = injectedOrganizationTagRepository,
+  tagRepository = injectedTagRepository,
+  organizationForAdminRepository = organizationalEntitiesRepositories.organizationForAdminRepository,
+} = {}) {
   const tagNames = organizationTags.map(({ tagName }) => {
     return tagName;
   });

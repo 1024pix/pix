@@ -1,6 +1,11 @@
+import * as injectedPoleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as poleEmploiService from '../services/pole-emploi-service.js';
 
-const getPoleEmploiSendings = async function ({ cursorData, poleEmploiSendingRepository, filters }) {
+const getPoleEmploiSendings = async function ({
+  cursorData,
+  poleEmploiSendingRepository = injectedPoleEmploiSendingRepository,
+  filters,
+} = {}) {
   const sendings = await poleEmploiSendingRepository.find(cursorData, filters);
   const link = _generateLink(sendings, filters);
   return { sendings, link };

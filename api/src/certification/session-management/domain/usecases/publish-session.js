@@ -1,4 +1,8 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedCertificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as injectedSharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
+import { certificationRepository as injectedCertificationRepository } from '../../infrastructure/repositories/index.js';
+import * as injectedSessionPublicationService from '../services/session-publication-service.js';
 
 /**
  * @typedef {import ('../../../../../src/certification/session-management/domain/usecases/index.js').CertificationRepository} CertificationRepository
@@ -17,13 +21,13 @@ const publishSession = async function ({
   i18n,
   sessionId,
   publishedAt = new Date(),
-  certificationRepository,
-  certificationCenterRepository,
+  certificationRepository = injectedCertificationRepository,
+  certificationCenterRepository = injectedCertificationCenterRepository,
   finalizedSessionRepository,
-  sharedSessionRepository,
+  sharedSessionRepository = injectedSharedSessionRepository,
   sessionRepository,
-  sessionPublicationService,
-}) {
+  sessionPublicationService = injectedSessionPublicationService,
+} = {}) {
   return DomainTransaction.execute(async function () {
     const session = await sessionPublicationService.publishSession({
       sessionId,

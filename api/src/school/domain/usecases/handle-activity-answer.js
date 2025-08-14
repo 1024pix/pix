@@ -1,4 +1,10 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as injectedActivityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
+import * as injectedActivityRepository from '../../infrastructure/repositories/activity-repository.js';
+import * as injectedMissionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
+import * as injectedMissionRepository from '../../infrastructure/repositories/mission-repository.js';
 import { correctAnswer } from '../services/correct-answer.js';
 import { initMissionActivity } from '../services/init-mission-activity.js';
 import { updateAssessment } from '../services/update-assessment.js';
@@ -8,13 +14,13 @@ const handleActivityAnswer = async function ({
   activityAnswer,
   assessmentId,
   examiner,
-  challengeRepository,
-  assessmentRepository,
-  activityAnswerRepository,
-  activityRepository,
-  missionAssessmentRepository,
-  missionRepository,
-}) {
+  challengeRepository = injectedChallengeRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  activityAnswerRepository = injectedActivityAnswerRepository,
+  activityRepository = injectedActivityRepository,
+  missionAssessmentRepository = injectedMissionAssessmentRepository,
+  missionRepository = injectedMissionRepository,
+} = {}) {
   return DomainTransaction.execute(async () => {
     const correctedAnswer = await correctAnswer({
       activityAnswer,

@@ -1,5 +1,8 @@
 import chunk from 'lodash/chunk.js';
 
+import * as injectedCampaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedLearningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import * as injectedKnowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignResultLevelsPerTubesAndCompetences } from '../models/CampaignResultLevelsPerTubesAndCompetences.js';
 
 const CHUNK_SIZE = 1000;
@@ -7,10 +10,10 @@ const CHUNK_SIZE = 1000;
 const getResultLevelsPerTubesAndCompetences = async ({
   campaignId,
   locale,
-  campaignParticipationRepository,
-  learningContentRepository,
-  knowledgeElementSnapshotRepository,
-}) => {
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  learningContentRepository = injectedLearningContentRepository,
+  knowledgeElementSnapshotRepository = injectedKnowledgeElementSnapshotRepository,
+} = {}) => {
   const campaignParticipationIds = await campaignParticipationRepository.getSharedParticipationIds(campaignId);
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
 

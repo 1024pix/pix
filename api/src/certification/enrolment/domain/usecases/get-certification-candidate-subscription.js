@@ -1,13 +1,15 @@
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
+import * as injectedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import { CertificationCandidateSubscription } from '../read-models/CertificationCandidateSubscription.js';
 
 const getCertificationCandidateSubscription = async function ({
   certificationCandidateId,
-  certificationBadgesService,
-  certificationCandidateRepository,
+  certificationBadgesService = injectedCertificationBadgesService,
+  certificationCandidateRepository = injectedCertificationCandidateRepository,
   centerRepository,
   sessionRepository,
-}) {
+} = {}) {
   const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification({
     id: certificationCandidateId,
   });

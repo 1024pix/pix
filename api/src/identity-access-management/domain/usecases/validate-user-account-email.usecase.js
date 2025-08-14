@@ -1,5 +1,7 @@
 import { getPixAppConnexionUrl } from '../../../shared/domain/services/url-service.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { emailValidationDemandRepository as injectedEmailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 
 /**
  * @param {{
@@ -13,9 +15,9 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 export const validateUserAccountEmail = async ({
   token,
   redirectUrl,
-  emailValidationDemandRepository,
-  userRepository,
-}) => {
+  emailValidationDemandRepository = injectedEmailValidationDemandRepository,
+  userRepository = injectedUserRepository,
+} = {}) => {
   try {
     if (!token) {
       return _getRedirectionUrl(redirectUrl);

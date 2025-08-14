@@ -1,6 +1,11 @@
 import { NoCertificateForDivisionError } from '../../../../shared/domain/errors.js';
+import * as injectedCertificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 
-const findCertificationAttestationsForDivision = async function ({ organizationId, division, certificateRepository }) {
+const findCertificationAttestationsForDivision = async function ({
+  organizationId,
+  division,
+  certificateRepository = injectedCertificateRepository,
+} = {}) {
   const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
     organizationId,
     division,

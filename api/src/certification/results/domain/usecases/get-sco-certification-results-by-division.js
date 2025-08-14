@@ -3,6 +3,8 @@
  * @typedef {import ('../../domain/usecases/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  */
 
+import * as injectedCertificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
+import * as injectedScoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import { NoCertificationResultForDivision } from '../errors.js';
 
 /**
@@ -13,9 +15,9 @@ import { NoCertificationResultForDivision } from '../errors.js';
 const getScoCertificationResultsByDivision = async function ({
   organizationId,
   division,
-  scoCertificationCandidateRepository,
-  certificationResultRepository,
-}) {
+  scoCertificationCandidateRepository = injectedScoCertificationCandidateRepository,
+  certificationResultRepository = injectedCertificationResultRepository,
+} = {}) {
   const candidateIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({
     organizationId,
     division,

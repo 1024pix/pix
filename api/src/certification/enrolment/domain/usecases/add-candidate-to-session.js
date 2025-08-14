@@ -16,6 +16,7 @@ import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import * as injectedCertificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 
 /**
  * @param {Object} params
@@ -31,13 +32,13 @@ export async function addCandidateToSession({
   candidate,
   sessionRepository,
   candidateRepository,
-  certificationCpfService,
+  certificationCpfService = injectedCertificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
-}) {
+} = {}) {
   candidate.sessionId = sessionId;
   const session = await sessionRepository.get({ id: sessionId });
 

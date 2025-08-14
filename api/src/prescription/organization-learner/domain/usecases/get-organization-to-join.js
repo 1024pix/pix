@@ -1,9 +1,11 @@
+import * as injectedCombinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-course-repository.js';
+import * as injectedCampaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 export const getOrganizationToJoin = async function ({
   code,
   organizationToJoinRepository,
-  campaignRepository,
-  combinedCourseRepository,
-}) {
+  campaignRepository = injectedCampaignRepository,
+  combinedCourseRepository = injectedCombinedCourseRepository,
+} = {}) {
   const campaign = await campaignRepository.getByCode(code);
 
   if (campaign) {

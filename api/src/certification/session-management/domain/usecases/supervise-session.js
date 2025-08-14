@@ -1,3 +1,4 @@
+import * as injectedCertificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import {
   CertificationCenterIsArchivedError,
   InvalidSessionSupervisingLoginError,
@@ -10,8 +11,8 @@ const superviseSession = async function ({
   userId,
   sessionRepository,
   supervisorAccessRepository,
-  certificationCenterRepository,
-}) {
+  certificationCenterRepository = injectedCertificationCenterRepository,
+} = {}) {
   // should use a specific get from sessionRepository instead
   const session = await sessionRepository.get({ id: sessionId });
 

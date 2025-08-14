@@ -1,4 +1,6 @@
 import { STEPS_NAMES } from '../models/SmartRandomStep.js';
+import * as injectedSmartRandomService from '../services/algorithm-methods/smart-random.js';
+import { pickChallengeService as injectedPickChallengeService } from '../services/pick-challenge-service.js';
 import { getSmartRandomLog, logStep } from '../services/smart-random-log-service.js';
 
 /**
@@ -7,7 +9,11 @@ import { getSmartRandomLog, logStep } from '../services/smart-random-log-service
  * @param smartRandomService
  * @returns {Promise<{challenge: Challenge | null, smartRandomLog: SmartRandomLog}}
  */
-const getNextChallengeForSimulator = function ({ simulationParameters, pickChallengeService, smartRandomService }) {
+const getNextChallengeForSimulator = function ({
+  simulationParameters,
+  pickChallengeService = injectedPickChallengeService,
+  smartRandomService = injectedSmartRandomService,
+} = {}) {
   const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandomService.getPossibleSkillsForNextChallenge({
     knowledgeElements: simulationParameters.knowledgeElements,
     challenges: simulationParameters.challenges,

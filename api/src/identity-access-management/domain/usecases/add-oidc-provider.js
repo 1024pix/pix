@@ -1,4 +1,6 @@
-/**
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { oidcProviderRepository as injectedOidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
+import { addOidcProviderValidator as injectedAddOidcProviderValidator } from '../validators/add-oidc-provider.validator.js'; /**
  * @typedef {import ('../usecases/index.js').OidcProviderRepository} OidcProviderRepository
  */
 
@@ -49,10 +51,10 @@ const addOidcProvider = async function ({
   slug,
   source,
   isVisible = true,
-  oidcProviderRepository,
-  cryptoService,
-  addOidcProviderValidator,
-}) {
+  oidcProviderRepository = injectedOidcProviderRepository,
+  cryptoService = injectedCryptoService,
+  addOidcProviderValidator = injectedAddOidcProviderValidator,
+} = {}) {
   addOidcProviderValidator.validate({
     accessTokenLifespan,
     additionalRequiredProperties,

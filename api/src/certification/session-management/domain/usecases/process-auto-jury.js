@@ -6,6 +6,8 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
+import { certificationIssueReportRepository as injectedCertificationIssueReportRepository } from '../../infrastructure/repositories/index.js';
+import { challengeRepository as injectedChallengeRepository } from '../../infrastructure/repositories/index.js';
 import { CertificationJuryDone } from '../events/CertificationJuryDone.js';
 import { CertificationAssessment } from '../models/CertificationAssessment.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
@@ -19,12 +21,12 @@ import { CertificationIssueReportResolutionStrategies } from '../models/Certific
  */
 export async function processAutoJury({
   sessionId,
-  certificationIssueReportRepository,
+  certificationIssueReportRepository = injectedCertificationIssueReportRepository,
   certificationAssessmentRepository,
   certificationCourseRepository,
-  challengeRepository,
+  challengeRepository = injectedChallengeRepository,
   certificationRescoringRepository,
-}) {
+} = {}) {
   const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
     sessionId,
   });

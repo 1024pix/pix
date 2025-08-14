@@ -1,3 +1,5 @@
+import { randomUUID as injectedRandomUUID } from 'node:crypto';
+
 import { Chat } from '../models/Chat.js';
 
 export async function startChat({
@@ -8,8 +10,8 @@ export async function startChat({
   passageId,
   chatRepository,
   configurationRepository,
-  randomUUID,
-}) {
+  randomUUID = injectedRandomUUID,
+} = {}) {
   if (!configuration) {
     configuration = await configurationRepository.get(configurationId);
   }

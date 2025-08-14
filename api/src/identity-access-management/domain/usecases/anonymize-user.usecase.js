@@ -1,5 +1,7 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
+import { adminMemberRepository as injectedAdminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
+import * as injectedPrivacyUsersApiRepository from '../../infrastructure/repositories/privacy-users-api.repository.js';
 
 /**
  * @param params
@@ -11,9 +13,9 @@ import { UserNotFoundError } from '../../../shared/domain/errors.js';
 const anonymizeUser = withTransaction(async function ({
   userId,
   updatedByUserId,
-  adminMemberRepository,
-  privacyUsersApiRepository,
-}) {
+  adminMemberRepository = injectedAdminMemberRepository,
+  privacyUsersApiRepository = injectedPrivacyUsersApiRepository,
+} = {}) {
   const anonymizedBy = await _getAdminUser({
     adminUserId: updatedByUserId,
     adminMemberRepository,

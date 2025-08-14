@@ -1,4 +1,5 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 
 /**
  * @param {{
@@ -7,6 +8,9 @@ import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
  * }} params
  * @return {Promise<User>}
  */
-export const acceptPixCertifTermsOfService = withTransaction(function ({ userId, userRepository }) {
+export const acceptPixCertifTermsOfService = withTransaction(function ({
+  userId,
+  userRepository = injectedUserRepository,
+} = {}) {
   return userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
 });

@@ -1,9 +1,10 @@
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 const findPaginatedFilteredOrganizationByTargetProfileId = function ({
   targetProfileId,
   filter,
   page,
-  organizationRepository,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+} = {}) {
   return organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
 };
 

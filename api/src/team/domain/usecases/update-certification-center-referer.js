@@ -1,9 +1,10 @@
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 const updateCertificationCenterReferer = async function ({
   userId,
   isReferer,
   certificationCenterId,
-  certificationCenterMembershipRepository,
-}) {
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+} = {}) {
   const actualReferer = await certificationCenterMembershipRepository.getRefererByCertificationCenterId({
     certificationCenterId,
   });

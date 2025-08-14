@@ -1,5 +1,7 @@
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
+import * as injectedMembershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
+import * as injectedOrganizationLearnerImportFormatRepository from '../../infrastructure/repositories/organization-learner-import-format-repository.js';
 import { SupOrganizationLearnerImportHeader } from '../../infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 
 const ERROR_MESSAGE = 'User is not allowed to download csv template.';
@@ -8,9 +10,9 @@ const getOrganizationLearnersCsvTemplate = async function ({
   userId,
   organizationId,
   i18n,
-  membershipRepository,
-  organizationLearnerImportFormatRepository,
-}) {
+  membershipRepository = injectedMembershipRepository,
+  organizationLearnerImportFormatRepository = injectedOrganizationLearnerImportFormatRepository,
+} = {}) {
   const [membership] = await membershipRepository.findByUserIdAndOrganizationId({
     userId,
     organizationId,

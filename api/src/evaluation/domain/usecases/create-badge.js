@@ -1,13 +1,16 @@
+import * as injectedTargetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingBadgeCriterionError } from '../../../shared/domain/errors.js';
+import * as injectedBadgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
+import * as injectedBadgeRepository from '../../infrastructure/repositories/badge-repository.js';
 
 const createBadge = withTransaction(async function ({
   targetProfileId,
   badgeCreation,
-  badgeRepository,
-  badgeCriteriaRepository,
-  targetProfileRepository,
-}) {
+  badgeRepository = injectedBadgeRepository,
+  badgeCriteriaRepository = injectedBadgeCriteriaRepository,
+  targetProfileRepository = injectedTargetProfileRepository,
+} = {}) {
   const { campaignThreshold, cappedTubesCriteria, ...badge } = badgeCreation;
   await targetProfileRepository.get(targetProfileId);
 

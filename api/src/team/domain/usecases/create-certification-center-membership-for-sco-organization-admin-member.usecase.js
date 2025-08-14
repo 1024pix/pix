@@ -1,11 +1,14 @@
+import * as injectedCertificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../shared/domain/models/CertificationCenterMembership.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
+import * as injectedMembershipRepository from '../../infrastructure/repositories/membership.repository.js';
 
 const createCertificationCenterMembershipForScoOrganizationAdminMember = async function ({
   membership,
-  membershipRepository,
-  certificationCenterRepository,
-  certificationCenterMembershipRepository,
-}) {
+  membershipRepository = injectedMembershipRepository,
+  certificationCenterRepository = injectedCertificationCenterRepository,
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+} = {}) {
   const existingOrganizationMembership = await membershipRepository.get(membership.id);
 
   if (!membership.isAdmin || !existingOrganizationMembership.organization.isScoAndHasExternalId) return;

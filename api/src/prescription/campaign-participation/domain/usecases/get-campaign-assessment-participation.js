@@ -1,15 +1,19 @@
+import * as injectedBadgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
+import * as injectedCampaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedStageCollectionRepository from '../../../campaign/infrastructure/repositories/stage-collection-repository.js';
+import * as injectedCampaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
 
 const getCampaignAssessmentParticipation = withTransaction(async function ({
   userId,
   campaignId,
   campaignParticipationId,
-  campaignRepository,
-  campaignAssessmentParticipationRepository,
-  badgeAcquisitionRepository,
-  stageCollectionRepository,
-}) {
+  campaignRepository = injectedCampaignRepository,
+  campaignAssessmentParticipationRepository = injectedCampaignAssessmentParticipationRepository,
+  badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
+  stageCollectionRepository = injectedStageCollectionRepository,
+} = {}) {
   // TODO : throw when campaignId not matching campaignParticipationId ? may be move this to pre handler
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');

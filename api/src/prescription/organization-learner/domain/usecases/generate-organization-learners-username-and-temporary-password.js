@@ -1,5 +1,12 @@
 import { OrganizationLearnerIdentities } from '../../../../identity-access-management/domain/models/OrganizationLearnerIdentities.js';
+import * as injectedPasswordGenerator from '../../../../identity-access-management/domain/services/password-generator.service.js';
+import * as injectedAuthenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { organizationLearnerIdentityRepository as injectedOrganizationLearnerIdentityRepository } from '../../../../identity-access-management/infrastructure/repositories/organization-learner-identity.repository.js';
+import * as injectedUserRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../../shared/domain/services/crypto-service.js';
+import * as injectedUserReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { OrganizationLearnerPasswordResetDTO } from '../models/OrganizationLearnerPasswordResetDTO.js';
 
 const ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE =
@@ -10,14 +17,14 @@ export const generateOrganizationLearnersUsernameAndTemporaryPassword = async fu
   organizationId,
   organizationLearnersId,
   userId,
-  cryptoService,
-  passwordGenerator,
-  userReconciliationService,
-  authenticationMethodRepository,
-  organizationRepository,
-  organizationLearnerIdentityRepository,
-  userRepository,
-}) {
+  cryptoService = injectedCryptoService,
+  passwordGenerator = injectedPasswordGenerator,
+  userReconciliationService = injectedUserReconciliationService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  organizationRepository = injectedOrganizationRepository,
+  organizationLearnerIdentityRepository = injectedOrganizationLearnerIdentityRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   const errorMessage = `User ${userId} cannot reset passwords of some students in organization ${organizationId}`;
   const organization = await organizationRepository.get(organizationId);
   const organizationLearnerIdentities = await _buildOrganizationLearnerIdentities({

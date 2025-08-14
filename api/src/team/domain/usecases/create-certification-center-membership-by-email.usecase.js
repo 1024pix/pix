@@ -1,11 +1,13 @@
+import * as injectedUserRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 
 const createCertificationCenterMembershipByEmail = async function ({
   certificationCenterId,
   email,
-  certificationCenterMembershipRepository,
-  userRepository,
-}) {
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   const { id: userId } = await userRepository.getByEmail(email);
 
   const isMembershipExisting = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({

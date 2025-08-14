@@ -6,6 +6,8 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
+import { assessmentResultRepository as injectedAssessmentResultRepository } from '../../infrastructure/repositories/index.js';
+import { sharedCompetenceMarkRepository as injectedSharedCompetenceMarkRepository } from '../../infrastructure/repositories/index.js';
 /**
  * @param {Object} params
  * @param {number} params.certificationCourseId
@@ -20,9 +22,9 @@ const updateJuryComment = async function ({
   assessmentResultCommentByJury,
   juryId,
   courseAssessmentResultRepository,
-  assessmentResultRepository,
-  sharedCompetenceMarkRepository,
-}) {
+  assessmentResultRepository = injectedAssessmentResultRepository,
+  sharedCompetenceMarkRepository = injectedSharedCompetenceMarkRepository,
+} = {}) {
   await DomainTransaction.execute(async () => {
     const latestAssessmentResult = await courseAssessmentResultRepository.getLatestAssessmentResult({
       certificationCourseId,

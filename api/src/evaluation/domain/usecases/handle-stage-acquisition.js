@@ -1,4 +1,11 @@
-/**
+import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
+import * as injectedCampaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
+import * as injectedStageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
+import * as injectedStageRepository from '../../infrastructure/repositories/stage-repository.js';
+import * as injectedGetMasteryPercentageService from '../services/get-mastery-percentage-service.js';
+import * as injectedConvertLevelStagesIntoThresholdsService from '../services/stages/convert-level-stages-into-thresholds-service.js';
+import * as injectedGetNewAcquiredStagesService from '../services/stages/get-new-acquired-stages-service.js'; /**
  * @param {Assessment} assessment
  * @param stageRepository
  * @param skillRepository
@@ -15,16 +22,16 @@
  */
 const handleStageAcquisition = async function ({
   assessment,
-  stageRepository,
-  skillRepository,
-  campaignRepository,
-  stageAcquisitionRepository,
+  stageRepository = injectedStageRepository,
+  skillRepository = injectedSkillRepository,
+  campaignRepository = injectedCampaignRepository,
+  stageAcquisitionRepository = injectedStageAcquisitionRepository,
   knowledgeElementRepository,
-  campaignParticipationRepository,
-  getNewAcquiredStagesService,
-  getMasteryPercentageService,
-  convertLevelStagesIntoThresholdsService,
-}) {
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  getNewAcquiredStagesService = injectedGetNewAcquiredStagesService,
+  getMasteryPercentageService = injectedGetMasteryPercentageService,
+  convertLevelStagesIntoThresholdsService = injectedConvertLevelStagesIntoThresholdsService,
+} = {}) {
   if (!assessment.isForCampaign()) return;
 
   const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);

@@ -1,12 +1,16 @@
+import * as injectedCompareStagesAndAcquiredStages from '../../../../evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as injectedStageAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js';
+import * as injectedStageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
+import * as injectedCampaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 const findUserCampaignParticipationOverviews = async function ({
   userId,
   states,
   page,
-  stageRepository,
-  stageAcquisitionRepository,
-  campaignParticipationOverviewRepository,
-  compareStagesAndAcquiredStages,
-}) {
+  stageRepository = injectedStageRepository,
+  stageAcquisitionRepository = injectedStageAcquisitionRepository,
+  campaignParticipationOverviewRepository = injectedCampaignParticipationOverviewRepository,
+  compareStagesAndAcquiredStages = injectedCompareStagesAndAcquiredStages,
+} = {}) {
   const concatenatedStates = states ? [].concat(states) : undefined;
 
   const { campaignParticipationOverviews, pagination } =

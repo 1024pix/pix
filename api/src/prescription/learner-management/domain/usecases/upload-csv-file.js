@@ -1,4 +1,7 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { validateCsvOrganizationImportFileJobRepository as injectedValidateCsvOrganizationImportFileJobRepository } from '../../infrastructure/repositories/jobs/validate-csv-organization-learners-import-file-job-repository.js';
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
+import { importStorage as injectedImportStorage } from '../../infrastructure/storage/import-storage.js';
 import { OrganizationImportStatus } from '../models/OrganizationImportStatus.js';
 import { ValidateCsvOrganizationImportFileJob } from '../models/ValidateCsvOrganizationImportFileJob.js';
 
@@ -8,11 +11,11 @@ const uploadCsvFile = withTransaction(async function ({
   organizationId,
   type,
   i18n,
-  organizationImportRepository,
-  validateCsvOrganizationImportFileJobRepository,
-  importStorage,
+  organizationImportRepository = injectedOrganizationImportRepository,
+  validateCsvOrganizationImportFileJobRepository = injectedValidateCsvOrganizationImportFileJobRepository,
+  importStorage = injectedImportStorage,
   Parser,
-}) {
+} = {}) {
   const organizationImportInstance = OrganizationImportStatus.create({ organizationId, createdBy: userId });
   await organizationImportRepository.save(organizationImportInstance);
 

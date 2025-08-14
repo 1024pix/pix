@@ -1,6 +1,8 @@
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
+import { mailService as injectedMailService } from '../../../shared/domain/services/mail-service.js';
+import * as injectedOrganizationRepository from '../../infrastructure/repositories/organization-repository.js';
 const EVENT_NAME = 'attach-target-profile-certif';
 
 export { sendTargetProfileNotifications };
@@ -8,9 +10,9 @@ export { sendTargetProfileNotifications };
 async function sendTargetProfileNotifications({
   targetProfileIdToDetach,
   complementaryCertification,
-  organizationRepository,
-  mailService,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  mailService = injectedMailService,
+} = {}) {
   const complementaryCertificationName = complementaryCertification.label;
   const emails =
     await organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId(targetProfileIdToDetach);

@@ -22,10 +22,17 @@ import {
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { SessionNotAccessible } from '../../../session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
+import { assessmentRepository as injectedAssessmentRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
+import * as injectedSharedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
+import * as injectedCertificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedUserRepository from '../../../shared/infrastructure/repositories/user-repository.js';
+import * as injectedVerifyCertificateCodeService from '../services/verify-certificate-code-service.js';
 
 const { features } = config;
 
@@ -45,15 +52,15 @@ export const retrieveLastOrCreateCertificationCourse = async function ({
   sessionId,
   userId,
   locale,
-  assessmentRepository,
-  sharedCertificationCandidateRepository,
-  certificationCourseRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  sharedCertificationCandidateRepository = injectedSharedCertificationCandidateRepository,
+  certificationCourseRepository = injectedCertificationCourseRepository,
   sessionRepository,
-  certificationCenterRepository,
-  userRepository,
-  certificationBadgesService,
-  verifyCertificateCodeService,
-}) {
+  certificationCenterRepository = injectedCertificationCenterRepository,
+  userRepository = injectedUserRepository,
+  certificationBadgesService = injectedCertificationBadgesService,
+  verifyCertificateCodeService = injectedVerifyCertificateCodeService,
+} = {}) {
   const session = await sessionRepository.get({ id: sessionId });
 
   _validateSessionAccess(session, accessCode);

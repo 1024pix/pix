@@ -3,7 +3,10 @@ import {
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidCredentialsError,
 } from '../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { clientApplicationRepository as injectedClientApplicationRepository } from '../../infrastructure/repositories/client-application.repository.js';
 
 const { authentication } = config;
 const logger = child('iam:applicationauth', { event: SCOPES.IAM });
@@ -12,10 +15,10 @@ export async function authenticateApplication({
   clientId,
   clientSecret,
   scope,
-  tokenService,
-  clientApplicationRepository,
-  cryptoService,
-}) {
+  tokenService = injectedTokenService,
+  clientApplicationRepository = injectedClientApplicationRepository,
+  cryptoService = injectedCryptoService,
+} = {}) {
   const application = await clientApplicationRepository.findByClientId(clientId);
   _checkApplication(application, clientId);
   await _checkClientSecret(application, clientSecret, cryptoService);

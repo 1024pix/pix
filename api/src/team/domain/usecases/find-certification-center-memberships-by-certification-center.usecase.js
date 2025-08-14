@@ -1,7 +1,8 @@
+import { certificationCenterMembershipRepository as injectedCertificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 const findCertificationCenterMembershipsByCertificationCenter = function ({
   certificationCenterId,
-  certificationCenterMembershipRepository,
-}) {
+  certificationCenterMembershipRepository = injectedCertificationCenterMembershipRepository,
+} = {}) {
   return certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole({
     certificationCenterId,
   });

@@ -1,21 +1,29 @@
+import * as injectedUserRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
+import * as injectedBadgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import { EventLoggingJob } from '../../../../shared/domain/models/jobs/EventLoggingJob.js';
+import { featureToggles as injectedFeatureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
+import { adminMemberRepository as injectedAdminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
+import * as injectedAssessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
 import { MembershipNotFound } from '../../../../team/application/api/errors/MembershipNotFound.js';
+import * as injectedCampaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedCampaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignsDestructor } from '../models/CampaignsDestructor.js';
 
 const deleteCampaigns = async ({
   userId,
   organizationId,
   campaignIds,
-  featureToggles,
-  adminMemberRepository,
-  assessmentRepository,
-  badgeAcquisitionRepository,
+  featureToggles = injectedFeatureToggles,
+  adminMemberRepository = injectedAdminMemberRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
   organizationMembershipRepository,
-  campaignAdministrationRepository,
-  campaignParticipationRepository,
-  userRecommendedTrainingRepository,
-  eventLoggingJobRepository,
-}) => {
+  campaignAdministrationRepository = injectedCampaignAdministrationRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,
+  eventLoggingJobRepository = injectedEventLoggingJobRepository,
+} = {}) => {
   let membership;
 
   try {

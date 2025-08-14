@@ -1,3 +1,4 @@
+import { logger as injectedLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
 export const rewardUser = async ({
@@ -6,8 +7,8 @@ export const rewardUser = async ({
   eligibilityRepository,
   successRepository,
   rewardRepository,
-  logger,
-}) => {
+  logger = injectedLogger,
+} = {}) => {
   try {
     if (!userId) {
       return;

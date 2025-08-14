@@ -4,18 +4,22 @@ import { cryptoService } from '../../../shared/domain/services/crypto-service.js
 import { CombinedCourseDetails } from '../models/CombinedCourse.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
-export async function getCombinedCourseByCode({
-  userId,
-  code,
-  hostURL,
-  combinedCourseParticipationRepository,
-  combinedCourseRepository,
-  campaignRepository,
-  questRepository,
-  moduleRepository,
-  eligibilityRepository,
-  recommendedModulesRepository,
-}) {
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+
+export async function getCombinedCourseByCode(
+  {
+    userId,
+    code,
+    hostURL,
+    combinedCourseParticipationRepository = injectedRepositories.combinedCourseParticipationRepository,
+    combinedCourseRepository = injectedRepositories.combinedCourseRepository,
+    campaignRepository = injectedRepositories.campaignRepository,
+    questRepository = injectedRepositories.questRepository,
+    moduleRepository = injectedRepositories.moduleRepository,
+    eligibilityRepository = injectedRepositories.eligibilityRepository,
+    recommendedModulesRepository = injectedRepositories.recommendedModulesRepository,
+  } = {},
+) {
   const quest = await questRepository.getByCode({ code });
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
 

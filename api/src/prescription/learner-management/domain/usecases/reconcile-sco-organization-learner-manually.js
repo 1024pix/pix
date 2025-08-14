@@ -1,10 +1,17 @@
 import lodash from 'lodash';
 
+import * as injectedUserRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
 import {
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../../../../shared/domain/errors.js';
+import * as injectedObfuscationService from '../../../../shared/domain/services/obfuscation-service.js';
+import * as injectedUserReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
+import * as injectedLibOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as injectedRegistrationOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
+import * as injectedOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
+import * as injectedStudentRepository from '../../infrastructure/repositories/student-repository.js';
 
 const { isEmpty } = lodash;
 
@@ -12,14 +19,14 @@ const reconcileScoOrganizationLearnerManually = async function ({
   organizationId,
   reconciliationInfo,
   withReconciliation,
-  libOrganizationLearnerRepository,
-  organizationLearnerRepository,
-  registrationOrganizationLearnerRepository,
-  studentRepository,
-  userRepository,
-  obfuscationService,
-  userReconciliationService,
-}) {
+  libOrganizationLearnerRepository = injectedLibOrganizationLearnerRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  registrationOrganizationLearnerRepository = injectedRegistrationOrganizationLearnerRepository,
+  studentRepository = injectedStudentRepository,
+  userRepository = injectedUserRepository,
+  obfuscationService = injectedObfuscationService,
+  userReconciliationService = injectedUserReconciliationService,
+} = {}) {
   const organizationLearnerOfUserAccessingCampaign =
     await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
       organizationId,

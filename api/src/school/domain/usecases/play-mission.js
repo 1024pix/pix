@@ -1,17 +1,21 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import { MissionAssessment } from '../../infrastructure/models/mission-assessment.js';
+import * as injectedActivityRepository from '../../infrastructure/repositories/activity-repository.js';
+import * as injectedMissionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
+import * as injectedMissionRepository from '../../infrastructure/repositories/mission-repository.js';
 import { Assessment } from '../models/Assessment.js';
 import { initMissionActivity } from '../services/init-mission-activity.js';
 
 export async function playMission({
   missionId,
   organizationLearnerId,
-  activityRepository,
-  assessmentRepository,
-  missionAssessmentRepository,
-  missionRepository,
+  activityRepository = injectedActivityRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  missionAssessmentRepository = injectedMissionAssessmentRepository,
+  missionRepository = injectedMissionRepository,
   organizationLearnerRepository,
-}) {
+} = {}) {
   const missionAssessment = await missionAssessmentRepository.getCurrent(missionId, organizationLearnerId);
 
   if (missionAssessment) {

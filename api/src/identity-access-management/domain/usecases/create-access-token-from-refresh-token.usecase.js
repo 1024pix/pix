@@ -1,11 +1,13 @@
 import { UnauthorizedError } from '../../../shared/application/http-errors.js';
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
+import { refreshTokenRepository as injectedRefreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 
 const createAccessTokenFromRefreshToken = async function ({
   refreshToken,
-  refreshTokenRepository,
-  tokenService,
+  refreshTokenRepository = injectedRefreshTokenRepository,
+  tokenService = injectedTokenService,
   audience,
-}) {
+} = {}) {
   const foundRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
 
   if (!foundRefreshToken) {

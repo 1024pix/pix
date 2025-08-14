@@ -2,6 +2,10 @@ import _ from 'lodash';
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../shared/infrastructure/constants.js';
+import * as injectedCampaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedLearningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import * as injectedCampaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
+import * as injectedKnowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignResultLevelsPerTubesAndCompetences } from '../models/CampaignResultLevelsPerTubesAndCompetences.js';
 
 const findPaginatedFilteredOrganizationCampaigns = withTransaction(async function ({
@@ -10,12 +14,12 @@ const findPaginatedFilteredOrganizationCampaigns = withTransaction(async functio
   organizationId,
   filter,
   page,
-  campaignReportRepository,
-  campaignParticipationRepository,
-  learningContentRepository,
-  knowledgeElementSnapshotRepository,
+  campaignReportRepository = injectedCampaignReportRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  learningContentRepository = injectedLearningContentRepository,
+  knowledgeElementSnapshotRepository = injectedKnowledgeElementSnapshotRepository,
   withCoverRate,
-}) {
+} = {}) {
   const campaignReports = await campaignReportRepository.findPaginatedFilteredByOrganizationId({
     organizationId,
     filter,

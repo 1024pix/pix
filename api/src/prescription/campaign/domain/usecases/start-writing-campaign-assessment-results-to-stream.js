@@ -4,7 +4,18 @@ import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+import * as injectedBadgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
+import * as injectedStageAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js';
+import * as injectedOrganizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { CampaignTypeError } from '../../../../shared/domain/errors.js';
+import * as injectedKnowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as injectedOrganizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
+import * as injectedLearningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import * as injectedCampaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
+import * as injectedCampaignRepository from '../../infrastructure/repositories/campaign-repository.js';
+import * as injectedKnowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as injectedStageCollectionRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/campaign-assessment-export.js';
 
 /**
@@ -44,19 +55,19 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,
   writableStream,
   i18n,
-  campaignRepository,
-  campaignParticipationInfoRepository,
-  organizationRepository,
-  knowledgeElementSnapshotRepository,
-  knowledgeElementRepository,
-  badgeAcquisitionRepository,
+  campaignRepository = injectedCampaignRepository,
+  campaignParticipationInfoRepository = injectedCampaignParticipationInfoRepository,
+  organizationRepository = injectedOrganizationRepository,
+  knowledgeElementSnapshotRepository = injectedKnowledgeElementSnapshotRepository,
+  knowledgeElementRepository = injectedKnowledgeElementRepository,
+  badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
   targetProfileRepository,
-  learningContentRepository,
-  stageCollectionRepository,
-  organizationFeatureApi,
-  organizationLearnerImportFormatRepository,
-  stageAcquisitionRepository,
-}) {
+  learningContentRepository = injectedLearningContentRepository,
+  stageCollectionRepository = injectedStageCollectionRepository,
+  organizationFeatureApi = injectedOrganizationFeatureApi,
+  organizationLearnerImportFormatRepository = injectedOrganizationLearnerImportFormatRepository,
+  stageAcquisitionRepository = injectedStageAcquisitionRepository,
+} = {}) {
   let additionalHeaders = [];
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;

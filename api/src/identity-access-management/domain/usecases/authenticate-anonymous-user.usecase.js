@@ -1,3 +1,6 @@
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
+import { anonymousUserTokenRepository as injectedAnonymousUserTokenRepository } from '../../infrastructure/repositories/anonymous-user-token.repository.js';
+import { userToCreateRepository as injectedUserToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { UserCantBeCreatedError } from '../errors.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
@@ -18,10 +21,10 @@ export const authenticateAnonymousUser = async function ({
   lang = 'fr',
   audience,
   campaignToJoinRepository,
-  userToCreateRepository,
-  anonymousUserTokenRepository,
-  tokenService,
-}) {
+  userToCreateRepository = injectedUserToCreateRepository,
+  anonymousUserTokenRepository = injectedAnonymousUserTokenRepository,
+  tokenService = injectedTokenService,
+} = {}) {
   const campaign = await campaignToJoinRepository.getByCode({ code: campaignCode });
   if (!campaign.isSimplifiedAccess) {
     throw new UserCantBeCreatedError();

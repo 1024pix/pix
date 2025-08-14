@@ -5,6 +5,12 @@ import {
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
 } from '../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { mailService as injectedMailService } from '../../../shared/domain/services/mail-service.js';
+import * as injectedCodeUtils from '../../../shared/infrastructure/utils/code-utils.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
+import { userEmailRepository as injectedUserEmailRepository } from '../../infrastructure/repositories/user-email.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
 
@@ -32,13 +38,13 @@ const sendVerificationCode = async function ({
   newEmail,
   password,
   userId,
-  authenticationMethodRepository,
-  userEmailRepository,
-  userRepository,
-  cryptoService,
-  mailService,
-  codeUtils,
-}) {
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  userEmailRepository = injectedUserEmailRepository,
+  userRepository = injectedUserRepository,
+  cryptoService = injectedCryptoService,
+  mailService = injectedMailService,
+  codeUtils = injectedCodeUtils,
+} = {}) {
   const user = await userRepository.get(userId);
   if (!user.email) {
     throw new UserNotAuthorizedToUpdateEmailError();

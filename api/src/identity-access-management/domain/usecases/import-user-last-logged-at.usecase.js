@@ -1,3 +1,5 @@
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { UserLogin } from '../models/UserLogin.js';
 
 /**
@@ -14,9 +16,9 @@ export const importUserLastLoggedAt = async function ({
   dryRun,
   userId,
   lastActivity,
-  userRepository,
-  userLoginRepository,
-}) {
+  userRepository = injectedUserRepository,
+  userLoginRepository = injectedUserLoginRepository,
+} = {}) {
   const user = await userRepository.findById(userId);
   if (!user || user.hasBeenAnonymised) {
     return false;

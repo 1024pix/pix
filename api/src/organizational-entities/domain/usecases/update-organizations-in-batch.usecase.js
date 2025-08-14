@@ -13,6 +13,8 @@ import {
   UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../errors.js';
 
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+
 const CSV_HEADER = {
   columns: [
     new CsvColumn({
@@ -66,7 +68,9 @@ const CSV_HEADER = {
  * @param {OrganizationForAdminRepository} params.organizationForAdminRepository
  * @return {Promise<void>}
  */
-export const updateOrganizationsInBatch = async function ({ filePath, organizationForAdminRepository }) {
+export const updateOrganizationsInBatch = async function(
+  { filePath, organizationForAdminRepository = injectedRepositories.organizationForAdminRepository } = {},
+) {
   const organizationBatchUpdateDtos = await _getCsvData(filePath);
 
   if (organizationBatchUpdateDtos.length === 0) return;

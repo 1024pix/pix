@@ -1,10 +1,11 @@
 import { OrganizationLearnerCannotBeDissociatedError } from '../../../../../src/shared/domain/errors.js';
+import * as injectedOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 
 const dissociateUserFromOrganizationLearner = async function ({
   organizationLearnerId,
-  organizationLearnerRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
   organizationFeatureRepository,
-}) {
+} = {}) {
   const organizationLearnerForAdmin =
     await organizationLearnerRepository.getOrganizationLearnerForAdmin(organizationLearnerId);
 

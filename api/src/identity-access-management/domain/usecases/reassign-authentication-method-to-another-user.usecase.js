@@ -1,4 +1,6 @@
 import { AuthenticationMethodAlreadyExistsError } from '../../../shared/domain/errors.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 
 /**
  * Reassigns an authentication method from one user to another.
@@ -14,9 +16,9 @@ const reassignAuthenticationMethodToAnotherUser = async function ({
   originUserId,
   targetUserId,
   authenticationMethodId,
-  userRepository,
-  authenticationMethodRepository,
-}) {
+  userRepository = injectedUserRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+} = {}) {
   const authenticationMethodToReassign = await authenticationMethodRepository.getByIdAndUserId({
     id: authenticationMethodId,
     userId: originUserId,

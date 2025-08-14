@@ -1,15 +1,21 @@
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as injectedActivityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
+import * as injectedActivityRepository from '../../infrastructure/repositories/activity-repository.js';
+import * as injectedMissionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
+import * as injectedMissionRepository from '../../infrastructure/repositories/mission-repository.js';
 import { Activity } from '../models/Activity.js';
 import { ActivityInfo } from '../models/ActivityInfo.js';
 
 export async function getNextChallenge({
   assessmentId,
-  assessmentRepository,
-  activityAnswerRepository,
-  challengeRepository,
-  activityRepository,
-  missionAssessmentRepository,
-  missionRepository,
-}) {
+  assessmentRepository = injectedAssessmentRepository,
+  activityAnswerRepository = injectedActivityAnswerRepository,
+  challengeRepository = injectedChallengeRepository,
+  activityRepository = injectedActivityRepository,
+  missionAssessmentRepository = injectedMissionAssessmentRepository,
+  missionRepository = injectedMissionRepository,
+} = {}) {
   const activity = await activityRepository.getLastActivity(assessmentId);
   if (activity.status !== Activity.status.STARTED) {
     return null;

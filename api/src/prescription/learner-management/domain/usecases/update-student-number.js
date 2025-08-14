@@ -1,11 +1,12 @@
 import { AlreadyExistingEntityError } from '../../../../shared/domain/errors.js';
+import * as injectedSupOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 
 const updateStudentNumber = async function ({
   organizationLearnerId,
   studentNumber,
   organizationId,
-  supOrganizationLearnerRepository,
-}) {
+  supOrganizationLearnerRepository = injectedSupOrganizationLearnerRepository,
+} = {}) {
   const supOrganizationLearner = await supOrganizationLearnerRepository.findOneByStudentNumber({
     organizationId,
     studentNumber,

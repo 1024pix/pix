@@ -1,4 +1,4 @@
-/**
+import * as injectedMembershipRepository from '../../infrastructure/repositories/membership.repository.js'; /**
  * @param {{
  *   organizationId: string,
  *   filter: number,
@@ -7,7 +7,12 @@
  * }} params
  * @returns {*}
  */
-const findPaginatedFilteredOrganizationMemberships = function ({ organizationId, filter, page, membershipRepository }) {
+const findPaginatedFilteredOrganizationMemberships = function ({
+  organizationId,
+  filter,
+  page,
+  membershipRepository = injectedMembershipRepository,
+} = {}) {
   return membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
 };
 

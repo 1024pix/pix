@@ -1,7 +1,11 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { VerifiedCode } from '../models/VerifiedCode.js';
 
-export const getVerifiedCode = async ({ code, campaignRepository, combinedCourseRepository }) => {
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+
+export const getVerifiedCode = async (
+  { code, campaignRepository = injectedRepositories.campaignRepository, combinedCourseRepository = injectedRepositories.combinedCourseRepository } = {},
+) => {
   try {
     const campaign = await campaignRepository.getByCode({ code });
     return new VerifiedCode({ code: campaign.code, type: 'campaign' });

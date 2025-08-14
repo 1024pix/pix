@@ -1,4 +1,4 @@
-/**
+import * as injectedOrganizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js'; /**
  * @typedef {import ('./index.js').OrganizationFeatureRepository} OrganizationFeatureRepository
  */
 /**
@@ -11,6 +11,9 @@
  * @param {OrganizationFeatureRepository} params.organizationFeatureRepository - organizationRepository to use.
  * @returns {Promise<OrganizationFeatureItem>}
  */
-export const findOrganizationFeatures = async function ({ organizationId, organizationFeatureRepository }) {
+export const findOrganizationFeatures = async function ({
+  organizationId,
+  organizationFeatureRepository = injectedOrganizationFeatureRepository,
+} = {}) {
   return organizationFeatureRepository.findAllOrganizationFeaturesFromOrganizationId({ organizationId });
 };

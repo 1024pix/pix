@@ -13,6 +13,10 @@
  */
 
 import { FRENCH_FRANCE } from '../../../../shared/domain/services/locale-service.js';
+import * as injectedPlacementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import { CandidateCertifiableEvent } from '../models/timeline/CandidateCertifiableEvent.js';
 import { CandidateCreatedEvent } from '../models/timeline/CandidateCreatedEvent.js';
 import { CandidateEndScreenEvent } from '../models/timeline/CandidateEndScreenEvent.js';
@@ -38,11 +42,11 @@ import { ComplementaryNotCertifiableEvent } from '../models/timeline/Complementa
 export const getCandidateTimeline = async ({
   certificationCandidateId,
   candidateRepository,
-  certificationCourseRepository,
-  certificationAssessmentRepository,
-  certificationBadgesService,
-  placementProfileService,
-}) => {
+  certificationCourseRepository = injectedCertificationCourseRepository,
+  certificationAssessmentRepository = injectedCertificationAssessmentRepository,
+  certificationBadgesService = injectedCertificationBadgesService,
+  placementProfileService = injectedPlacementProfileService,
+} = {}) => {
   const timeline = new CandidateTimeline({ certificationCandidateId });
 
   const candidate = await candidateRepository.get({ certificationCandidateId });

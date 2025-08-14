@@ -1,4 +1,7 @@
 import { ComplementaryCertificationHabilitation } from '../../../shared/domain/models/ComplementaryCertificationHabilitation.js';
+import * as injectedCertificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
+import * as injectedComplementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation.repository.js';
+import * as injectedDataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation.validator.js';
 
 /**
@@ -14,10 +17,10 @@ import * as certificationCenterCreationValidator from '../validators/certificati
 const createCertificationCenter = async function ({
   certificationCenter,
   complementaryCertificationIds,
-  complementaryCertificationHabilitationRepository,
-  certificationCenterForAdminRepository,
-  dataProtectionOfficerRepository,
-}) {
+  complementaryCertificationHabilitationRepository = injectedComplementaryCertificationHabilitationRepository,
+  certificationCenterForAdminRepository = injectedCertificationCenterForAdminRepository,
+  dataProtectionOfficerRepository = injectedDataProtectionOfficerRepository,
+} = {}) {
   certificationCenterCreationValidator.validate(certificationCenter);
   const createdCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
 

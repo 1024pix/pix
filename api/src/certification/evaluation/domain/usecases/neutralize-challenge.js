@@ -1,11 +1,12 @@
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import { ChallengeNeutralized } from '../events/ChallengeNeutralized.js';
 
 const neutralizeChallenge = async function ({
   certificationCourseId,
   challengeRecId,
   juryId,
-  certificationAssessmentRepository,
-}) {
+  certificationAssessmentRepository = injectedCertificationAssessmentRepository,
+} = {}) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
   });

@@ -1,4 +1,6 @@
-/**
+import * as injectedOrganizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
+import { organizationInvitationRepository as injectedOrganizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
+import { organizationInvitationService as injectedOrganizationInvitationService } from '../services/organization-invitation.service.js'; /**
  * @param {Object} params
  * @param {string} params.organizationId
  * @param {string} params.name
@@ -16,10 +18,10 @@ const createProOrganizationInvitation = async function ({
   email,
   role,
   locale,
-  organizationRepository,
-  organizationInvitationRepository,
-  organizationInvitationService,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  organizationInvitationRepository = injectedOrganizationInvitationRepository,
+  organizationInvitationService = injectedOrganizationInvitationService,
+} = {}) {
   await organizationInvitationService.createProOrganizationInvitation({
     organizationRepository,
     organizationInvitationRepository,

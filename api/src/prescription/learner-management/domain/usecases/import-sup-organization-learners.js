@@ -1,14 +1,17 @@
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
+import * as injectedSupOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { importStorage as injectedImportStorage } from '../../infrastructure/storage/import-storage.js';
 import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError } from '../errors.js';
 
 const importSupOrganizationLearners = async function ({
   organizationImportId,
   i18n,
-  supOrganizationLearnerRepository,
-  organizationImportRepository,
-  importStorage,
-}) {
+  supOrganizationLearnerRepository = injectedSupOrganizationLearnerRepository,
+  organizationImportRepository = injectedOrganizationImportRepository,
+  importStorage = injectedImportStorage,
+} = {}) {
   const organizationImport = await organizationImportRepository.get(organizationImportId);
   const errors = [];
 

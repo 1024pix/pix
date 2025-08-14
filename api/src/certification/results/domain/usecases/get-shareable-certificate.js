@@ -1,4 +1,4 @@
-/**
+import * as injectedCertificateRepository from '../../infrastructure/repositories/certificate-repository.js'; /**
  * @typedef {import ('../../domain/usecases/index.js').CertificateRepository} CertificateRepository
  */
 
@@ -9,7 +9,11 @@
  * @param {CertificateRepository} params.certificateRepository
  */
 
-const getShareableCertificate = async function ({ certificationCourseId, locale, certificateRepository }) {
+const getShareableCertificate = async function ({
+  certificationCourseId,
+  locale,
+  certificateRepository = injectedCertificateRepository,
+} = {}) {
   return certificateRepository.getShareableCertificate({
     certificationCourseId,
     locale,

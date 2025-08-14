@@ -9,6 +9,9 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ChallengeAlreadyAnsweredError } from '../../../evaluation/domain/errors.js';
 import { CertificationIssueReport } from '../../../shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../shared/domain/models/CertificationIssueReportCategory.js';
+import { assessmentRepository as injectedAssessmentRepository } from '../../infrastructure/repositories/index.js';
+import { certificationIssueReportRepository as injectedCertificationIssueReportRepository } from '../../infrastructure/repositories/index.js';
+import { answerRepository as injectedAnswerRepository } from '../../infrastructure/repositories/index.js';
 
 /**
  * @param {Object} params
@@ -22,11 +25,11 @@ export const validateLiveAlert = async ({
   sessionId,
   subcategory,
   certificationChallengeLiveAlertRepository,
-  assessmentRepository,
+  assessmentRepository = injectedAssessmentRepository,
   issueReportCategoryRepository,
-  certificationIssueReportRepository,
-  answerRepository,
-}) => {
+  certificationIssueReportRepository = injectedCertificationIssueReportRepository,
+  answerRepository = injectedAnswerRepository,
+} = {}) => {
   const certificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingBySessionIdAndUserId({
       sessionId,

@@ -1,6 +1,11 @@
+import * as injectedScoringConfigurationRepository from '../../../shared/infrastructure/repositories/scoring-configuration-repository.js';
 import { ScoringSimulator } from '../models/ScoringSimulator.js';
 
-export async function simulateScoreFromCapacity({ capacity, date, scoringConfigurationRepository }) {
+export async function simulateScoreFromCapacity({
+  capacity,
+  date,
+  scoringConfigurationRepository = injectedScoringConfigurationRepository,
+} = {}) {
   const v3CertificationScoring = await scoringConfigurationRepository.getLatestByDateAndLocale({
     locale: 'fr-fr',
     date,

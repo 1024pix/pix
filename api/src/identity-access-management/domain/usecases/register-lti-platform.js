@@ -1,7 +1,10 @@
 import Joi from 'joi';
 
 import { config } from '../../../shared/config.js';
+import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { httpAgent as injectedHttpAgent } from '../../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { ltiPlatformRegistrationRepository as injectedLtiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { InvalidLtiPlatformRegistrationError } from '../errors.js';
 
 const logger = child('iam:lti', { event: SCOPES.IAM });
@@ -80,10 +83,10 @@ function createPixToolConfiguration(baseUrl) {
 export async function registerLtiPlatform({
   platformConfigurationUrl,
   registrationToken,
-  httpAgent,
-  ltiPlatformRegistrationRepository,
-  cryptoService,
-}) {
+  httpAgent = injectedHttpAgent,
+  ltiPlatformRegistrationRepository = injectedLtiPlatformRegistrationRepository,
+  cryptoService = injectedCryptoService,
+} = {}) {
   const { data: platformConfiguration, ...getConfigurationResponse } = await httpAgent.get({
     url: platformConfigurationUrl,
     headers: { Accept: 'application/json' },

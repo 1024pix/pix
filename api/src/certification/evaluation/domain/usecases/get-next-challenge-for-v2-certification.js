@@ -1,4 +1,5 @@
-/**
+import { certificationChallengeRepository as injectedSessionManagementCertificationChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import { challengeRepository as injectedSharedChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js'; /**
  * @typedef {import('../../../session-management/domain/usecases/index.js').SessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').ChallengeRepository} ChallengeRepository
  */
@@ -11,9 +12,9 @@
  */
 const getNextChallengeForV2Certification = async function ({
   assessment,
-  sessionManagementCertificationChallengeRepository,
-  sharedChallengeRepository,
-}) {
+  sessionManagementCertificationChallengeRepository = injectedSessionManagementCertificationChallengeRepository,
+  sharedChallengeRepository = injectedSharedChallengeRepository,
+} = {}) {
   const certificationChallenge =
     await sessionManagementCertificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
       assessment.id,

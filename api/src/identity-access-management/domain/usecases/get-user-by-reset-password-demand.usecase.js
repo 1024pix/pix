@@ -1,4 +1,7 @@
-/**
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
+import { resetPasswordDemandRepository as injectedResetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
+import { resetPasswordService as injectedResetPasswordService } from '../services/reset-password.service.js'; /**
  * @typedef {function} getUserByResetPasswordDemandUseCase
  * @param {Object} params
  * @param {string} params.temporaryKey
@@ -10,11 +13,11 @@
  */
 export const getUserByResetPasswordDemand = async function ({
   temporaryKey,
-  resetPasswordService,
-  tokenService,
-  userRepository,
-  resetPasswordDemandRepository,
-}) {
+  resetPasswordService = injectedResetPasswordService,
+  tokenService = injectedTokenService,
+  userRepository = injectedUserRepository,
+  resetPasswordDemandRepository = injectedResetPasswordDemandRepository,
+} = {}) {
   await tokenService.decodeIfValid(temporaryKey);
   const { email } = await resetPasswordService.verifyDemand(temporaryKey, resetPasswordDemandRepository);
   return userRepository.getByEmail(email);

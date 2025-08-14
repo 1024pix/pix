@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import * as injectedSharedMembershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
+import { userOrgaSettingsRepository as injectedUserOrgaSettingsRepository } from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import { UserNotMemberOfOrganizationError } from '../errors.js';
 
 /**
@@ -15,9 +17,9 @@ import { UserNotMemberOfOrganizationError } from '../errors.js';
 export const getPrescriber = async function ({
   userId,
   prescriberRepository,
-  sharedMembershipRepository,
-  userOrgaSettingsRepository,
-}) {
+  sharedMembershipRepository = injectedSharedMembershipRepository,
+  userOrgaSettingsRepository = injectedUserOrgaSettingsRepository,
+} = {}) {
   const memberships = await sharedMembershipRepository.findByUserId({ userId });
   if (_.isEmpty(memberships)) {
     throw new UserNotMemberOfOrganizationError(`L’utilisateur ${userId} n’est membre d’aucune organisation.`);

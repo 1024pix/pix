@@ -1,4 +1,8 @@
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+import * as injectedCampaignParticipationsApiRepository from '../../infrastructure/repositories/campaign-participations-api.repository.js';
+import * as injectedCandidatesApiRepository from '../../infrastructure/repositories/candidates-api.repository.js';
+import * as injectedLearnersApiRepository from '../../infrastructure/repositories/learners-api.repository.js';
+import * as injectedUserTeamsApiRepository from '../../infrastructure/repositories/user-teams-api.repository.js';
 
 /**
  * Determines if a user can self-delete their account.
@@ -14,11 +18,11 @@ import { featureToggles } from '../../../shared/infrastructure/feature-toggles/i
  */
 const canSelfDeleteAccount = async ({
   userId,
-  candidatesApiRepository,
-  learnersApiRepository,
-  userTeamsApiRepository,
-  campaignParticipationsApiRepository,
-}) => {
+  candidatesApiRepository = injectedCandidatesApiRepository,
+  learnersApiRepository = injectedLearnersApiRepository,
+  userTeamsApiRepository = injectedUserTeamsApiRepository,
+  campaignParticipationsApiRepository = injectedCampaignParticipationsApiRepository,
+} = {}) => {
   const isSelfAccountDeletionEnabled = await featureToggles.get('isSelfAccountDeletionEnabled');
   if (!isSelfAccountDeletionEnabled) return false;
 

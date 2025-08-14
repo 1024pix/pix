@@ -1,4 +1,4 @@
-/**
+import * as injectedCertificateRepository from '../../infrastructure/repositories/certificate-repository.js'; /**
  * @typedef {import('./index.js').CertificateRepository} CertificateRepository
  */
 
@@ -10,7 +10,11 @@
  *
  * @returns {PrivateCertificate}
  **/
-const getPrivateCertificate = async function ({ certificationCourseId, locale, certificateRepository }) {
+const getPrivateCertificate = async function ({
+  certificationCourseId,
+  locale,
+  certificateRepository = injectedCertificateRepository,
+} = {}) {
   return certificateRepository.getPrivateCertificate(certificationCourseId, { locale });
 };
 

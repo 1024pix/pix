@@ -1,6 +1,15 @@
 import { PIX_ADMIN, PIX_ORGA } from '../../../authorization/domain/constants.js';
 import { config } from '../../../shared/config.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../../shared/domain/errors.js';
+import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
+import { adminMemberRepository as injectedAdminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedEmailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { emailValidationDemandRepository as injectedEmailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
+import { refreshTokenRepository as injectedRefreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { createWarningConnectionEmail } from '../emails/create-warning-connection.email.js';
 import {
@@ -10,6 +19,7 @@ import {
   UserShouldChangePasswordError,
 } from '../errors.js';
 import { RefreshToken } from '../models/RefreshToken.js';
+import { pixAuthenticationService as injectedPixAuthenticationService } from '../services/pix-authentication-service.js';
 
 /**
  * typedef { function } authenticateUser
@@ -38,19 +48,19 @@ const authenticateUser = async function ({
   source,
   username,
   locale,
-  refreshTokenRepository,
-  pixAuthenticationService,
-  tokenService,
-  userRepository,
-  userLoginRepository,
-  authenticationMethodRepository,
-  adminMemberRepository,
-  emailRepository,
-  emailValidationDemandRepository,
-  lastUserApplicationConnectionsRepository,
+  refreshTokenRepository = injectedRefreshTokenRepository,
+  pixAuthenticationService = injectedPixAuthenticationService,
+  tokenService = injectedTokenService,
+  userRepository = injectedUserRepository,
+  userLoginRepository = injectedUserLoginRepository,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  adminMemberRepository = injectedAdminMemberRepository,
+  emailRepository = injectedEmailRepository,
+  emailValidationDemandRepository = injectedEmailValidationDemandRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
   requestedApplication,
   audience,
-}) {
+} = {}) {
   if (!config.authentication.permitPixAdminLoginFromPassword && requestedApplication.isPixAdmin) {
     throw new PixAdminLoginFromPasswordDisabledError();
   }

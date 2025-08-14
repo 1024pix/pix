@@ -1,14 +1,17 @@
+import * as injectedUserRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { AlreadyExistingMembershipError } from '../../../shared/domain/errors.js';
+import { organizationInvitationRepository as injectedOrganizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
+import { organizationInvitedUserRepository as injectedOrganizationInvitedUserRepository } from '../../infrastructure/repositories/organization-invited-user.repository.js';
 
 const acceptOrganizationInvitation = async function ({
   organizationInvitationId,
   code,
   email,
   locale,
-  organizationInvitationRepository,
-  organizationInvitedUserRepository,
-  userRepository,
-}) {
+  organizationInvitationRepository = injectedOrganizationInvitationRepository,
+  organizationInvitedUserRepository = injectedOrganizationInvitedUserRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   const organizationInvitedUser = await organizationInvitedUserRepository.get({ organizationInvitationId, email });
 
   try {

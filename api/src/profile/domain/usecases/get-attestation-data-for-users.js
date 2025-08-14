@@ -1,3 +1,6 @@
+import * as injectedStringUtils from '../../../shared/infrastructure/utils/string-utils.js';
+import * as injectedAttestationRepository from '../../infrastructure/repositories/attestation-repository.js';
+import * as injectedProfileRewardRepository from '../../infrastructure/repositories/profile-reward-repository.js';
 import { AttestationNotFoundError } from '../errors.js';
 
 export async function getAttestationDataForUsers({
@@ -5,10 +8,10 @@ export async function getAttestationDataForUsers({
   userIds,
   locale,
   userRepository,
-  profileRewardRepository,
-  attestationRepository,
-  stringUtils,
-}) {
+  profileRewardRepository = injectedProfileRewardRepository,
+  attestationRepository = injectedAttestationRepository,
+  stringUtils = injectedStringUtils,
+} = {}) {
   const attestationData = await attestationRepository.getByKey({ attestationKey });
 
   if (!attestationData) {

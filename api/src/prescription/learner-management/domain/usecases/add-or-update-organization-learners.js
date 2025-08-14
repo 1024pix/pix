@@ -2,19 +2,23 @@ import lodash from 'lodash';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
+import { logger as injectedLogger } from '../../../../shared/infrastructure/utils/logger.js';
+import * as injectedOrganizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
+import * as injectedOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
+import { importStorage as injectedImportStorage } from '../../infrastructure/storage/import-storage.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
 
 const { chunk } = lodash;
 
 async function addOrUpdateOrganizationLearners({
   organizationImportId,
-  organizationLearnerRepository,
-  organizationImportRepository,
-  importStorage,
-  logger,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  organizationImportRepository = injectedOrganizationImportRepository,
+  importStorage = injectedImportStorage,
+  logger = injectedLogger,
   chunkSize = ORGANIZATION_LEARNER_CHUNK_SIZE,
-}) {
+} = {}) {
   const errors = [];
   const organizationImport = await organizationImportRepository.get(organizationImportId);
 

@@ -1,7 +1,8 @@
+import * as injectedCampaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 const findCampaignSkillIdsForCampaignParticipations = async function ({
   campaignParticipationIds,
-  campaignRepository,
-}) {
+  campaignRepository = injectedCampaignRepository,
+} = {}) {
   return campaignRepository.findSkillIdsByCampaignParticipationIds({ campaignParticipationIds });
 };
 

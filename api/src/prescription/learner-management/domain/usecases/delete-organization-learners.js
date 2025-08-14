@@ -1,5 +1,13 @@
+import * as injectedUserRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
+import * as injectedBadgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
+import * as injectedOrganizationsProfileRewardRepository from '../../../../profile/infrastructure/repositories/organizations-profile-reward-repository.js';
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { EventLoggingJob } from '../../../../shared/domain/models/jobs/EventLoggingJob.js';
+import { featureToggles as injectedFeatureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
+import * as injectedAssessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
+import * as injectedCampaignParticipationRepositoryfromBC from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearnerList } from '../models/OrganizationLearnerList.js';
 
 const deleteOrganizationLearners = withTransaction(async function ({
@@ -8,15 +16,15 @@ const deleteOrganizationLearners = withTransaction(async function ({
   organizationId,
   userRole,
   client,
-  organizationLearnerRepository,
-  featureToggles,
-  campaignParticipationRepositoryfromBC,
-  badgeAcquisitionRepository,
-  assessmentRepository,
-  eventLoggingJobRepository,
-  userRecommendedTrainingRepository,
-  organizationsProfileRewardRepository,
-}) {
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  featureToggles = injectedFeatureToggles,
+  campaignParticipationRepositoryfromBC = injectedCampaignParticipationRepositoryfromBC,
+  badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  eventLoggingJobRepository = injectedEventLoggingJobRepository,
+  userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,
+  organizationsProfileRewardRepository = injectedOrganizationsProfileRewardRepository,
+} = {}) {
   if (organizationLearnerIds.length === 0) {
     return;
   }

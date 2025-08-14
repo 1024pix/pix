@@ -1,4 +1,4 @@
-/**
+import { cpfExportsStorage as injectedCpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js'; /**
  * @typedef {import('./index.js').CpfExportsStorage} CpfExportsStorage
  */
 
@@ -6,7 +6,12 @@
  * @param {Object} params
  * @param {CpfExportsStorage} params.cpfExportsStorage
  */
-const uploadCpfFiles = async function ({ filename, readableStream, logger, cpfExportsStorage }) {
+const uploadCpfFiles = async function ({
+  filename,
+  readableStream,
+  logger,
+  cpfExportsStorage = injectedCpfExportsStorage,
+} = {}) {
   logger.trace('uploadCpfFiles: start upload');
   await cpfExportsStorage.sendFile({ filename, readableStream });
   logger.trace(`uploadCpfFiles: ${filename} upload done`);

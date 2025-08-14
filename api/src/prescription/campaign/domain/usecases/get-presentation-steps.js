@@ -1,15 +1,19 @@
+import * as injectedBadgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import { CampaignCodeError, UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
+import * as injectedCampaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedLearningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import * as injectedCampaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import { ArchivedCampaignError, DeletedCampaignError } from '../errors.js';
 
 const getPresentationSteps = async function ({
   userId,
   campaignCode,
   locale,
-  badgeRepository,
-  campaignRepository,
-  campaignParticipationRepository,
-  learningContentRepository,
-}) {
+  badgeRepository = injectedBadgeRepository,
+  campaignRepository = injectedCampaignRepository,
+  campaignParticipationRepository = injectedCampaignParticipationRepository,
+  learningContentRepository = injectedLearningContentRepository,
+} = {}) {
   const campaign = await campaignRepository.getByCode(campaignCode);
 
   if (!campaign) throw new CampaignCodeError();

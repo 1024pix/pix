@@ -1,4 +1,8 @@
+import * as injectedOrganizationFeaturesAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+import * as injectedOrganizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
+import * as injectedOrganizationLearnerFeatureRepository from '../../infrastructure/repositories/organization-learner-feature-repository.js';
+import * as injectedOrganizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
 
 const findPaginatedFilteredParticipants = async function ({
   organizationId,
@@ -6,11 +10,11 @@ const findPaginatedFilteredParticipants = async function ({
   extraFilters,
   page,
   sort,
-  organizationParticipantRepository,
-  organizationLearnerImportFormatRepository,
-  organizationFeaturesAPI,
-  organizationLearnerFeatureRepository,
-}) {
+  organizationParticipantRepository = injectedOrganizationParticipantRepository,
+  organizationLearnerImportFormatRepository = injectedOrganizationLearnerImportFormatRepository,
+  organizationFeaturesAPI = injectedOrganizationFeaturesAPI,
+  organizationLearnerFeatureRepository = injectedOrganizationLearnerFeatureRepository,
+} = {}) {
   const organizationFeatures = await organizationFeaturesAPI.getAllFeaturesFromOrganization(organizationId);
 
   if (organizationFeatures.hasLearnersImportFeature) {

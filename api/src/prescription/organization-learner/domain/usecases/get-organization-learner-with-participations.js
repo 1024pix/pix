@@ -1,11 +1,14 @@
+import { tagRepository as injectedTagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
+import * as injectedOrganizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as injectedCampaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
 export const getOrganizationLearnerWithParticipations = async function ({
   organizationId,
   userId,
   organizationLearnerRepository,
-  organizationRepository,
-  campaignParticipationOverviewRepository,
-  tagRepository,
-}) {
+  organizationRepository = injectedOrganizationRepository,
+  campaignParticipationOverviewRepository = injectedCampaignParticipationOverviewRepository,
+  tagRepository = injectedTagRepository,
+} = {}) {
   const organizationLearnerId = await organizationLearnerRepository.getIdByUserIdAndOrganizationId({
     organizationId,
     userId,

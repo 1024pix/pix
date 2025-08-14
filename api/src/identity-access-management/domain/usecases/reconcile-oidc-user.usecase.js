@@ -1,5 +1,10 @@
+import { oidcAuthenticationServiceRegistry as injectedOidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
+import * as injectedUserLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as injectedAuthenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { lastUserApplicationConnectionsRepository as injectedLastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
 import { AuthenticationKeyExpired, MissingUserAccountError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { authenticationSessionService as injectedAuthenticationSessionService } from '../services/authentication-session.service.js';
 
 /**
  * @typedef {function} reconcileOidcUserUseCase
@@ -19,14 +24,14 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 export const reconcileOidcUser = async function ({
   authenticationKey,
   identityProvider,
-  authenticationSessionService,
-  authenticationMethodRepository,
-  oidcAuthenticationServiceRegistry,
-  userLoginRepository,
-  lastUserApplicationConnectionsRepository,
+  authenticationSessionService = injectedAuthenticationSessionService,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  oidcAuthenticationServiceRegistry = injectedOidcAuthenticationServiceRegistry,
+  userLoginRepository = injectedUserLoginRepository,
+  lastUserApplicationConnectionsRepository = injectedLastUserApplicationConnectionsRepository,
   audience,
   requestedApplication,
-}) {
+} = {}) {
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 

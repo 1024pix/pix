@@ -1,6 +1,11 @@
 import lodash from 'lodash';
 
+import * as injectedPasswordGenerator from '../../../../identity-access-management/domain/services/password-generator.service.js';
+import * as injectedAuthenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import * as injectedUserRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../shared/domain/errors.js';
+import { cryptoService as injectedCryptoService } from '../../../../shared/domain/services/crypto-service.js';
+import * as injectedPrescriptionOrganizationLearnerRepository from '../../../learner-management/infrastructure/repositories/organization-learner-repository.js';
 
 const { isEmpty } = lodash;
 
@@ -8,12 +13,12 @@ const updateOrganizationLearnerDependentUserPassword = async function ({
   organizationId,
   organizationLearnerId,
   userId,
-  cryptoService,
-  passwordGenerator,
-  authenticationMethodRepository,
-  prescriptionOrganizationLearnerRepository,
-  userRepository,
-}) {
+  cryptoService = injectedCryptoService,
+  passwordGenerator = injectedPasswordGenerator,
+  authenticationMethodRepository = injectedAuthenticationMethodRepository,
+  prescriptionOrganizationLearnerRepository = injectedPrescriptionOrganizationLearnerRepository,
+  userRepository = injectedUserRepository,
+} = {}) {
   const userWithMemberships = await userRepository.getWithMemberships(userId);
   const organizationLearner = await prescriptionOrganizationLearnerRepository.getLearnerInfo(organizationLearnerId);
 

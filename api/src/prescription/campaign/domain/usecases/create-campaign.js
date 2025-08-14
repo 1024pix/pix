@@ -1,12 +1,16 @@
+import * as injectedUserRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as injectedCodeGenerator from '../../../../shared/domain/services/code-generator.js';
+import * as injectedCampaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
+import * as injectedCampaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../errors.js';
 
 const createCampaign = async function ({
   campaign,
-  userRepository,
-  campaignAdministrationRepository,
-  campaignCreatorRepository,
-  codeGenerator,
-}) {
+  userRepository = injectedUserRepository,
+  campaignAdministrationRepository = injectedCampaignAdministrationRepository,
+  campaignCreatorRepository = injectedCampaignCreatorRepository,
+  codeGenerator = injectedCodeGenerator,
+} = {}) {
   const userId = campaign.creatorId;
   const ownerId = campaign.ownerId;
   const organizationId = campaign.organizationId;

@@ -1,6 +1,11 @@
+import * as injectedCampaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import { SwapCampaignMismatchOrganizationError } from '../errors.js';
 
-const swapCampaignCodes = async function ({ firstCampaignId, secondCampaignId, campaignAdministrationRepository }) {
+const swapCampaignCodes = async function ({
+  firstCampaignId,
+  secondCampaignId,
+  campaignAdministrationRepository = injectedCampaignAdministrationRepository,
+} = {}) {
   const isFromSameOrganization = await campaignAdministrationRepository.isFromSameOrganization({
     firstCampaignId,
     secondCampaignId,

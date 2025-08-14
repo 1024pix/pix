@@ -1,4 +1,7 @@
 import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+import * as injectedEmailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
+import * as injectedPrivacyUsersApiRepository from '../../infrastructure/repositories/privacy-users-api.repository.js';
+import * as injectedUserRepository from '../../infrastructure/repositories/user.repository.js';
 import { createSelfDeleteUserAccountEmail } from '../emails/create-self-delete-user-account.email.js';
 
 /**
@@ -14,10 +17,10 @@ import { createSelfDeleteUserAccountEmail } from '../emails/create-self-delete-u
 export const selfDeleteUserAccount = async function ({
   userId,
   locale,
-  userRepository,
-  privacyUsersApiRepository,
-  emailRepository,
-}) {
+  userRepository = injectedUserRepository,
+  privacyUsersApiRepository = injectedPrivacyUsersApiRepository,
+  emailRepository = injectedEmailRepository,
+} = {}) {
   const canSelfDeleteAccount = await privacyUsersApiRepository.canSelfDeleteAccount({ userId });
 
   if (!canSelfDeleteAccount) {
