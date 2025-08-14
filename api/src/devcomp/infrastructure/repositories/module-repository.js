@@ -4,7 +4,9 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LearningContentResourceNotFound } from '../../../shared/domain/errors.js';
 import { ModuleFactory } from '../factories/module-factory.js';
 
-async function getAllByIds({ ids, moduleDatasource }) {
+import injectedModuleDatasource from '../datasources/learning-content/module-datasource.js';
+
+async function getAllByIds({ ids, moduleDatasource = injectedModuleDatasource } = {}) {
   try {
     const modules = await moduleDatasource.getAllByIds(ids);
 
@@ -17,15 +19,15 @@ async function getAllByIds({ ids, moduleDatasource }) {
   }
 }
 
-async function getById({ id, moduleDatasource }) {
+async function getById({ id, moduleDatasource = injectedModuleDatasource } = {}) {
   return await _getModule({ ref: 'id', moduleDatasource, query: id });
 }
 
-async function getBySlug({ slug, moduleDatasource }) {
+async function getBySlug({ slug, moduleDatasource = injectedModuleDatasource } = {}) {
   return await _getModule({ ref: 'slug', moduleDatasource, query: slug });
 }
 
-async function list({ moduleDatasource }) {
+async function list({ moduleDatasource = injectedModuleDatasource } = {}) {
   const modulesData = await moduleDatasource.list();
   return modulesData.map((moduleData) => ModuleFactory.build(moduleData));
 }

@@ -14,6 +14,8 @@ import { ParticipantRepartition } from '../../domain/models/ParticipantRepartiti
 import { AttestationParticipantStatus } from '../../domain/read-models/AttestationParticipantStatus.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
 
+import * as injectedAttestationsApi from '../../../../profile/application/api/attestations-api.js';
+
 function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
   queryBuilder
     .distinct('view-active-organization-learners.id')
@@ -140,12 +142,14 @@ async function findOrganizationLearnersByDivisions({ organizationId, divisions }
   return organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner));
 }
 
-async function getAttestationsForOrganizationLearnersAndKey({
-  attestationKey,
-  organizationLearners,
-  organizationId,
-  attestationsApi,
-}) {
+async function getAttestationsForOrganizationLearnersAndKey(
+  {
+    attestationKey,
+    organizationLearners,
+    organizationId,
+    attestationsApi = injectedAttestationsApi,
+  } = {},
+) {
   const userIds = organizationLearners.map((learner) => learner.userId);
   return attestationsApi.generateAttestations({
     attestationKey,
@@ -154,12 +158,14 @@ async function getAttestationsForOrganizationLearnersAndKey({
   });
 }
 
-async function getAttestationStatusForOrganizationLearnersAndKey({
-  attestationKey,
-  organizationLearners,
-  organizationId,
-  attestationsApi,
-}) {
+async function getAttestationStatusForOrganizationLearnersAndKey(
+  {
+    attestationKey,
+    organizationLearners,
+    organizationId,
+    attestationsApi = injectedAttestationsApi,
+  } = {},
+) {
   const isRealLearner = (learner) =>
     learner.firstName !== '' && learner.lastName !== '' && learner.firstName !== null && learner.lastName !== null;
   const realOrganizationLearners = organizationLearners.filter(isRealLearner);

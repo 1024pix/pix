@@ -1,4 +1,4 @@
-/**
+import * as injectedUserApi from '../../../identity-access-management/application/api/users-api.js';/**
  * @typedef {import ('./index.js').UserApi} UserApi
  */
 
@@ -8,7 +8,7 @@
  * @param {UserApi} params.userApi
  * @param {number} params.userId
  */
-const updateHasSeenNewDashboardInfo = async function ({ userId, userApi }) {
+const updateHasSeenNewDashboardInfo = async function({ userId, userApi = injectedUserApi } = {}) {
   return userApi.markNewDashboardInfoAsSeen({ userId });
 };
 
@@ -18,7 +18,7 @@ const updateHasSeenNewDashboardInfo = async function ({ userId, userApi }) {
  * @param {UserApi} params.userApi
  * @param {number} params.userId
  */
-const updateAssessmentInstructionsInfoAsSeen = async function ({ userId, userApi }) {
+const updateAssessmentInstructionsInfoAsSeen = async function({ userId, userApi = injectedUserApi } = {}) {
   return userApi.markAssessmentInstructionsInfoAsSeen({ userId });
 };
 

@@ -2,7 +2,9 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LearningContentResourceNotFound } from '../../../shared/domain/errors.js';
 import { ElementForVerificationFactory } from '../factories/element-for-verification-factory.js';
 
-async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasource }) {
+import injectedModuleDatasource from '../datasources/learning-content/module-datasource.js';
+
+async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasource = injectedModuleDatasource } = {}) {
   let moduleData;
   try {
     moduleData = await moduleDatasource.getById(moduleId);

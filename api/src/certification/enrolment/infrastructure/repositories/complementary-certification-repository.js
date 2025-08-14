@@ -4,6 +4,8 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
+import * as injectedComplementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
+
 /**
  * @function
  * @param {Object} params
@@ -13,7 +15,9 @@ import { ComplementaryCertification } from '../../domain/models/ComplementaryCer
  * @returns {ComplementaryCertification}
  * @throws {NotFoundError} Complementary certification does not exist
  */
-const getByLabel = async function ({ label, complementaryCertificationApi }) {
+const getByLabel = async function(
+  { label, complementaryCertificationApi = injectedComplementaryCertificationApi } = {},
+) {
   const complementaryCertification = await complementaryCertificationApi.getByLabel({
     label,
   });

@@ -3,7 +3,9 @@ import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
-const getByCode = async function ({ code, organizationFeatureAPI }) {
+import * as injectedOrganizationFeatureAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
+
+const getByCode = async function({ code, organizationFeatureAPI = injectedOrganizationFeatureAPI } = {}) {
   const result = await knex('campaigns')
     .select('campaigns.*')
     .select({

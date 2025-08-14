@@ -1,12 +1,14 @@
 import { constants } from '../../../shared/domain/constants.js';
 import { AutonomousCourse } from '../../domain/models/AutonomousCourse.js';
 
+import * as injectedCampaignApi from '../../../prescription/campaign/application/api/campaigns-api.js';
+
 /**
  * @param {AutonomousCourse} autonomousCourse
  * @param {CampaignApi} campaignApi
  * @returns {Promise<number>} returns the created campaign id
  */
-const save = async function ({ autonomousCourse, campaignApi }) {
+const save = async function({ autonomousCourse, campaignApi = injectedCampaignApi } = {}) {
   const { id } = await campaignApi.save({
     name: autonomousCourse.internalTitle,
     title: autonomousCourse.publicTitle,
@@ -19,7 +21,7 @@ const save = async function ({ autonomousCourse, campaignApi }) {
   return id;
 };
 
-const update = async function ({ autonomousCourse, campaignApi }) {
+const update = async function({ autonomousCourse, campaignApi = injectedCampaignApi } = {}) {
   return await campaignApi.update({
     campaignId: autonomousCourse.campaignId,
     name: autonomousCourse.internalTitle,
@@ -47,7 +49,7 @@ function _toDomain(AutonomousCourseDTO) {
   return new AutonomousCourse(AutonomousCourseDTO);
 }
 
-async function get({ autonomousCourseId, campaignApi }) {
+async function get({ autonomousCourseId, campaignApi = injectedCampaignApi } = {}) {
   const autonomousCourse = await campaignApi.get(autonomousCourseId);
 
   const autonomousCourseDTO = {
@@ -69,7 +71,7 @@ async function get({ autonomousCourseId, campaignApi }) {
  * @param {CampaignApi} campaignApi prescription campaign API
  * @returns {Promise<{autonomousCourses: Array<CampaignListItem>, meta: { page: number, pageSize: number, rowCount: number, pageCount: number} }>} returns a paginated list of autonomous courses
  */
-const findAllPaginated = async function ({ page, campaignApi }) {
+const findAllPaginated = async function({ page, campaignApi = injectedCampaignApi } = {}) {
   const { models: autonomousCourses, meta } = await campaignApi.findAllForOrganization({
     organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
     page,

@@ -2,13 +2,15 @@ import { constants } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AutonomousCourseTargetProfile } from '../../domain/models/AutonomousCourseTargetProfile.js';
 
+import * as injectedTargetProfileApi from '../../../prescription/target-profile/application/api/target-profile-api.js';
+
 function _toDomain(AutonomousCourseTargetProfileDTO) {
   return AutonomousCourseTargetProfileDTO.map(
     (autonomousCourseTargetProfile) => new AutonomousCourseTargetProfile(autonomousCourseTargetProfile),
   );
 }
 
-const get = async function ({ targetProfileApi }) {
+const get = async function({ targetProfileApi = injectedTargetProfileApi } = {}) {
   const targetProfiles = await targetProfileApi.getByOrganizationId(constants.AUTONOMOUS_COURSES_ORGANIZATION_ID);
 
   const autonomousCourseTargetProfileDTO = targetProfiles.filter((targetProfile) => targetProfile.isSimplifiedAccess);

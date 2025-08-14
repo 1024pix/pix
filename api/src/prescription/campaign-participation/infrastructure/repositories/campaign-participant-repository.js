@@ -16,6 +16,8 @@ import { CampaignToStartParticipation } from '../../domain/models/CampaignToStar
 import { PreviousCampaignParticipation } from '../../domain/models/PreviousCampaignParticipation.js';
 import { UserIdentity } from '../../domain/read-models/UserIdentity.js';
 
+import * as injectedOrganizationFeatureAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
+
 async function save({ campaignParticipant }) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
     campaignParticipant.organizationLearner,
@@ -30,7 +32,9 @@ async function save({ campaignParticipant }) {
   return campaignParticipationId;
 }
 
-async function get({ userId, campaignId, organizationFeatureAPI }) {
+async function get(
+  { userId, campaignId, organizationFeatureAPI = injectedOrganizationFeatureAPI } = {},
+) {
   const userIdentity = await _getUserIdentityForTrainee(userId);
 
   const campaignToStartParticipation = await _getCampaignToStart({

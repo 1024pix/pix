@@ -7,6 +7,8 @@ import * as challengeRepository from '../../../shared/infrastructure/repositorie
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { Answer } from '../../domain/models/Answer.js';
 
+import * as injectedTutorialRepository from '../../../devcomp/infrastructure/repositories/tutorial-repository.js';import { fromDatasourceObject as injectedFromDatasourceObject } from '../../../shared/infrastructure/adapters/solution-adapter.js';import { getCorrection as injectedGetCorrection } from '../../domain/services/solution/solution-service-qrocm-dep.js';
+
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
 export async function getByChallengeId({
@@ -14,9 +16,9 @@ export async function getByChallengeId({
   answerValue,
   userId,
   locale,
-  tutorialRepository,
-  fromDatasourceObject,
-  getCorrection,
+  tutorialRepository = injectedTutorialRepository,
+  fromDatasourceObject = injectedFromDatasourceObject,
+  getCorrection = injectedGetCorrection,
 } = {}) {
   const challengeForCorrection = await challengeRepository.get(challengeId, { forCorrection: true });
   const skill = await _getSkill(challengeForCorrection, locale);

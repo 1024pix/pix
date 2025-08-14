@@ -4,6 +4,8 @@ import { Division } from '../../domain/models/Division.js';
 import { School } from '../../domain/models/School.js';
 import { SchoolNotFoundError } from '../../domain/school-errors.js';
 
+import * as injectedOrganizationLearnerApi from '../../../prescription/organization-learner/application/api/organization-learners-api.js';
+
 const save = async function ({ organizationId, code }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('schools').insert({ organizationId, code }).returning('*');
@@ -36,7 +38,9 @@ const updateSessionExpirationDate = async function ({ organizationId, sessionExp
   await knex('schools').where({ organizationId }).update({ sessionExpirationDate });
 };
 
-const getDivisions = async function ({ organizationId, organizationLearnerApi }) {
+const getDivisions = async function(
+  { organizationId, organizationLearnerApi = injectedOrganizationLearnerApi } = {},
+) {
   const { organizationLearners } = await organizationLearnerApi.find({
     organizationId,
   });

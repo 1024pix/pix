@@ -3,7 +3,11 @@ import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 
-const getStudentsByOrganizationId = async function ({ organizationId, organizationLearnerApi }) {
+import * as injectedOrganizationLearnerApi from '../../../prescription/organization-learner/application/api/organization-learners-api.js';
+
+const getStudentsByOrganizationId = async function(
+  { organizationId, organizationLearnerApi = injectedOrganizationLearnerApi } = {},
+) {
   const { organizationLearners } = await organizationLearnerApi.find({
     organizationId,
   });
@@ -11,13 +15,17 @@ const getStudentsByOrganizationId = async function ({ organizationId, organizati
   return organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner));
 };
 
-const getById = async function ({ organizationLearnerId, organizationLearnerApi }) {
+const getById = async function(
+  { organizationLearnerId, organizationLearnerApi = injectedOrganizationLearnerApi } = {},
+) {
   const learner = await organizationLearnerApi.get(organizationLearnerId);
 
   return new OrganizationLearner(learner);
 };
 
-async function getDivisionsWhichStartedMission({ missionId, organizationId, organizationLearnerApi }) {
+async function getDivisionsWhichStartedMission(
+  { missionId, organizationId, organizationLearnerApi = injectedOrganizationLearnerApi } = {},
+) {
   const { organizationLearners } = await organizationLearnerApi.find({
     organizationId,
   });

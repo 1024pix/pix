@@ -5,6 +5,8 @@ import { KnowledgeElementCollection } from '../../../prescription/shared/domain/
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 
+import * as injectedCampaignsAPI from '../../../prescription/campaign/application/api/campaigns-api.js';import * as injectedKnowledgeElementSnapshotAPI from '../../../prescription/campaign/application/api/knowledge-element-snapshots-api.js';
+
 const tableName = 'knowledge-elements';
 
 function _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds = [] }) {
@@ -51,12 +53,14 @@ const batchSave = async function ({ knowledgeElements }) {
   return savedKnowledgeElements.map((ke) => new KnowledgeElement(ke));
 };
 
-const saveForCampaignParticipation = async function ({
-  knowledgeElements,
-  campaignParticipationId,
-  campaignsAPI,
-  knowledgeElementSnapshotAPI,
-}) {
+const saveForCampaignParticipation = async function(
+  {
+    knowledgeElements,
+    campaignParticipationId,
+    campaignsAPI = injectedCampaignsAPI,
+    knowledgeElementSnapshotAPI = injectedKnowledgeElementSnapshotAPI,
+  } = {},
+) {
   const knexConn = DomainTransaction.getConnection();
   const campaign = await campaignsAPI.getByCampaignParticipationId(campaignParticipationId);
   if (!campaign) {
@@ -134,13 +138,15 @@ const findInvalidatedAndDirectByUserId = async function ({ userId }) {
   );
 };
 
-const findUniqByUserIdForCampaignParticipation = async function ({
-  userId,
-  campaignParticipationId,
-  limitDate,
-  knowledgeElementSnapshotAPI,
-  campaignsAPI,
-}) {
+const findUniqByUserIdForCampaignParticipation = async function(
+  {
+    userId,
+    campaignParticipationId,
+    limitDate,
+    knowledgeElementSnapshotAPI = injectedKnowledgeElementSnapshotAPI,
+    campaignsAPI = injectedCampaignsAPI,
+  } = {},
+) {
   const campaign = await campaignsAPI.getByCampaignParticipationId(campaignParticipationId);
   if (!campaign) {
     return null;
