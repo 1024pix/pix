@@ -1,143 +1,3 @@
-import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
-import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-import * as flashAlgorithmService from '../../../evaluation/domain/services/algorithm-methods/flash.js';
-import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
-import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
-import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
-import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
-import {
-  answerRepository,
-  assessmentRepository,
-  assessmentResultRepository,
-  certificationChallengeRepository,
-  certificationIssueReportRepository,
-  certificationRepository,
-  challengeRepository,
-  competenceMarkRepository,
-  cpfExportRepository,
-  flashAlgorithmConfigurationRepository,
-  sessionRepositories,
-  sessionSummaryRepository,
-  sharedCompetenceMarkRepository,
-} from '../../infrastructure/repositories/index.js';
-import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
-import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
-import * as sessionPublicationService from '../services/session-publication-service.js';
-
-/**
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
- * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').JuryCertificationSummaryRepository} JuryCertificationSummaryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SupervisorAccessRepository} SupervisorAccessRepository
- * @typedef {import('../../../../shared/infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
- * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').JuryCertificationRepository} JuryCertificationRepository
- * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
- * @typedef {import('../../infrastructure/repositories/index.js').AssessmentRepository} AssessmentRepository
- * @typedef {import('../../infrastructure/repositories/index.js').AssessmentResultRepository} AssessmentResultRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
- * @typedef {import('../../infrastructure/repositories/index.js').ChallengeRepository} ChallengeRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationRepository} CertificationRepository
- * @typedef {import('../../infrastructure/repositories/index.js').AnswerRepository} AnswerRepository
- * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionJuryCommentRepository} SessionJuryCommentRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
- * @typedef {import('../../infrastructure/repositories/index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
- * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
- * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js').cpfReceiptsStorage} CpfReceiptsStorage
- * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js').cpfExportsStorage} CpfExportsStorage
- * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
- * @typedef {import('../services/session-publication-service.js')} SessionPublicationService
- * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
- * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCompanionAlertRepository} CertificationCompanionAlertRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationRescoringRepository} CertificationRescoringRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
- * @typedef {import('../../../../identity-access-management/infrastructure/repositories/user.respository.js').UserRepository} UserRepository
- **/
-
-/**
- * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
- *
- * @typedef {answerRepository} AnswerRepository
- * @typedef {assessmentRepository} AssessmentRepository
- * @typedef {assessmentResultRepository} AssessmentResultRepository
- * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
- * @typedef {certificationBadgesService} CertificationBadgesService
- * @typedef {certificationCenterRepository} CertificationCenterRepository
- * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
- * @typedef {competenceMarkRepository} CompetenceMarkRepository
- * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {certificationOfficerRepository} CertificationOfficerRepository
- * @typedef {certificationChallengeRepository} CertificationChallengeRepository
- * @typedef {challengeRepository} ChallengeRepository
- * @typedef {certificationRepository} CertificationRepository
- * @typedef {finalizedSessionRepository} FinalizedSessionRepository
- * @typedef {juryCertificationRepository} JuryCertificationRepository
- * @typedef {jurySessionRepository} JurySessionRepository
- * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
- * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
- * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
- * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
- * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
- * @typedef {sessionRepository} SessionRepository
- * @typedef {sessionSummaryRepository} SessionSummaryRepository
- * @typedef {certificationReportRepository} CertificationReportRepository
- * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
- * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
- * @typedef {cpfExportsStorage} CpfExportsStorage
- * @typedef {placementProfileService} PlacementProfileService
- * @typedef {certificationCpfService} CertificationCpfService
- * @typedef {mailService} MailService
- * @typedef {flashAlgorithmService} FlashAlgorithmService
- * @typedef {sessionPublicationService} SessionPublicationService
- * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
- * @typedef {cpfExportRepository} CpfExportRepository
- * @typedef {certificationCandidateRepository} CertificationCandidateRepository
- * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
- * @typedef {userRepository} UserRepository
- * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
- **/
-const dependencies = {
-  ...sessionRepositories,
-  sessionSummaryRepository,
-  assessmentRepository,
-  assessmentResultRepository,
-  answerRepository,
-  sharedCompetenceMarkRepository,
-  challengeRepository,
-  competenceMarkRepository,
-  cpfReceiptsStorage,
-  cpfExportsStorage,
-  cpfExportRepository,
-  certificationBadgesService,
-  placementProfileService,
-  certificationCpfService,
-  certificationCenterRepository,
-  certificationChallengeRepository,
-  certificationRepository,
-  certificationIssueReportRepository,
-  flashAlgorithmConfigurationRepository,
-  flashAlgorithmService,
-  sessionPublicationService,
-  sharedSessionRepository,
-  userRepository,
-};
-
 import { abortCertificationCourse } from './abort-certification-course.js';
 import { assignCertificationOfficerToJurySession } from './assign-certification-officer-to-jury-session.js';
 import { authorizeCertificationCandidateToResume } from './authorize-certification-candidate-to-resume.js';
@@ -181,7 +41,7 @@ import { updateJuryComment } from './update-jury-comment.js';
 import { uploadCpfFiles } from './upload-cpf-files.js';
 import { validateLiveAlert } from './validate-live-alert.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   abortCertificationCourse,
   assignCertificationOfficerToJurySession,
   authorizeCertificationCandidateToResume,
@@ -225,7 +85,5 @@ const usecasesWithoutInjectedDependencies = {
   uploadCpfFiles,
   validateLiveAlert,
 };
-
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };

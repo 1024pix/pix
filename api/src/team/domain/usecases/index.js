@@ -1,46 +1,3 @@
-import * as mailService from '../../../../src/shared/domain/services/mail-service.js';
-import * as sharedMembershipRepository from '../../../../src/shared/infrastructure/repositories/membership-repository.js';
-import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
-import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
-import { refreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
-import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
-import { certificationCenterInvitedUserRepository } from '../../infrastructure/repositories/certification-center-invited-user.repository.js';
-import { certificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
-import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
-import { organizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
-import { organizationInvitedUserRepository } from '../../infrastructure/repositories/organization-invited-user.repository.js';
-import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity.repository.js';
-import { userOrgaSettingsRepository } from '../../infrastructure/repositories/user-orga-settings-repository.js';
-import { userOrganizationsForAdminRepository } from '../../infrastructure/repositories/user-organizations-for-admin.repository.js';
-import * as certificationCenterInvitationService from '../services/certification-center-invitation-service.js';
-import { organizationInvitationService } from '../services/organization-invitation.service.js';
-
-const dependencies = {
-  adminMemberRepository,
-  certificationCenterMembershipRepository,
-  certificationCenterInvitedUserRepository,
-  certificationCenterRepository,
-  certificationCenterInvitationRepository,
-  prescriberRepository: repositories.prescriberRepository,
-  membershipRepository,
-  userOrgaSettingsRepository,
-  certificationCenterInvitationService,
-  mailService,
-  organizationInvitationService,
-  organizationInvitationRepository,
-  organizationInvitedUserRepository,
-  organizationMemberIdentityRepository,
-  organizationRepository,
-  refreshTokenRepository,
-  sharedMembershipRepository,
-  userOrganizationsForAdminRepository,
-  userRepository,
-};
-
 import { acceptCertificationCenterInvitation } from './accept-certification-center-invitation.usecase.js';
 import { acceptOrganizationInvitation } from './accept-organization-invitation.usecase.js';
 import { archiveCertificationCenterData } from './archive-certification-center-data.usecase.js';
@@ -85,7 +42,7 @@ import { updateCertificationCenterReferer } from './update-certification-center-
 import { updateMembership } from './update-membership.usecase.js';
 import { updateMembershipLastAccessedAt } from './update-membership-last-accessed-at.usecase.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   acceptCertificationCenterInvitation,
   acceptOrganizationInvitation,
   archiveCertificationCenterData,
@@ -130,7 +87,5 @@ const usecasesWithoutInjectedDependencies = {
   updateMembershipLastAccessedAt,
   updateMembership,
 };
-
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };

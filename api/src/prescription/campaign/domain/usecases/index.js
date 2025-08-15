@@ -1,89 +1,3 @@
-import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
-import * as userRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
-import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
-import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
-import * as stageAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/stage-acquisition-repository.js';
-import * as stageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
-import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
-import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
-import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
-import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
-import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
-import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
-import { eventLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/event-logging-job.repository.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
-import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
-import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
-import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
-import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
-import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
-import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
-import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
-import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
-import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
-// TODO : clean with campaign administration ( similar get with a lot difference)
-import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
-import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
-import * as campaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
-import * as campaignParticipationsStatsRepository from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
-import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
-import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
-import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
-import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
-import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
-import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
-import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import * as stageCollectionRepository from '../../infrastructure/repositories/stage-collection-repository.js';
-import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
-
-const dependencies = {
-  assessmentRepository,
-  adminMemberRepository,
-  badgeAcquisitionRepository,
-  badgeRepository,
-  campaignAdministrationRepository,
-  campaignAnalysisRepository,
-  campaignAssessmentParticipationResultListRepository,
-  campaignCollectiveResultRepository,
-  campaignCreatorRepository,
-  campaignManagementRepository,
-  campaignParticipantActivityRepository,
-  campaignParticipationInfoRepository,
-  campaignParticipationRepository,
-  campaignParticipationsStatsRepository,
-  campaignProfilesCollectionParticipationSummaryRepository,
-  campaignReportRepository,
-  campaignRepository,
-  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
-  campaignUpdateValidator,
-  codeGenerator,
-  competenceRepository,
-  divisionRepository,
-  eventLoggingJobRepository,
-  featureToggles,
-  groupRepository,
-  knowledgeElementRepository,
-  knowledgeElementSnapshotRepository,
-  learningContentRepository,
-  membershipRepository,
-  organizationFeatureApi,
-  organizationLearnerImportFormatRepository,
-  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
-  organizationRepository,
-  placementProfileService,
-  stageRepository,
-  stageCollectionRepository,
-  stageAcquisitionRepository,
-  targetProfileRepository: campaignRepositories.targetProfileRepository, // TODO
-  tutorialRepository,
-  userRepository,
-  userRecommendedTrainingRepository,
-};
-
 import { archiveCampaign } from './archive-campaign.js';
 import { archiveCampaigns } from './archive-campaigns.js';
 import { computeCampaignCollectiveResult } from './compute-campaign-collective-result.js';
@@ -121,7 +35,7 @@ import { updateCampaign } from './update-campaign.js';
 import { updateCampaignCode } from './update-campaign-code.js';
 import { updateCampaignDetails } from './update-campaign-details.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   archiveCampaign,
   archiveCampaigns,
   computeCampaignCollectiveResult,
@@ -159,7 +73,5 @@ const usecasesWithoutInjectedDependencies = {
   getCampaignParticipationsCountsByStatus,
   getParticipationsCountByMasteryRate,
 };
-
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };

@@ -1,21 +1,9 @@
-import { randomUUID } from 'node:crypto';
-
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import * as repositories from '../../infrastructure/repositories/index.js';
-import * as toEventStream from '../../infrastructure/streaming/to-event-stream.js';
-
-const dependencies = {
-  ...repositories,
-  toEventStream,
-  randomUUID,
-};
-
 import { promptChat } from './prompt-chat.js';
 import { startChat } from './start-chat.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   promptChat,
   startChat,
 };
 
-export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+export { usecases };

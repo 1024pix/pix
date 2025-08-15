@@ -1,4 +1,3 @@
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { createLearningContentRelease } from './create-learning-content-release.js';
 import { dependencies } from './dependencies.js';
 import { findSkillsByIds } from './find-skills-by-ids.js';
@@ -9,7 +8,7 @@ import { refreshLearningContentCache } from './refresh-learning-content-cache.js
 import { scheduleCreateLearningContentReleaseJob } from './schedule-create-learning-content-release-job.js';
 import { scheduleRefreshLearningContentCacheJob } from './schedule-refresh-learning-content-cache-job.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   createLearningContentRelease,
   findSkillsByIds,
   getFrameworkAreas,
@@ -20,4 +19,4 @@ const usecasesWithoutInjectedDependencies = {
   scheduleRefreshLearningContentCacheJob,
 };
 
-export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+export { usecases };

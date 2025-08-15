@@ -1,26 +1,15 @@
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { extractTransformAndLoadData } from './extract-transform-and-load-data.js';
+import { findCampaigns } from './find-campaigns.js';
+import { findOrganizationIdsByClientApplication } from './find-organization-ids-by-client-application.js';
+import { getCampaignOrganizationId } from './get-campaign-organization-id.js';
+import { getCampaignParticipations } from './get-campaign-participations.js';
 
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
-import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
-import * as clientApplicationRepository from '../../infrastructure/repositories/client-application-repository.js';
-import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
-
-const path = dirname(fileURLToPath(import.meta.url));
-
-const dependencies = {
-  clientApplicationRepository,
-  organizationRepository,
-  campaignRepository,
-  campaignParticipationRepository,
+const usecases = {
+  extractTransformAndLoadData,
+  findCampaigns,
+  findOrganizationIdsByClientApplication,
+  getCampaignOrganizationId,
+  getCampaignParticipations,
 };
-
-const usecasesWithoutInjectedDependencies = {
-  ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
-};
-
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };

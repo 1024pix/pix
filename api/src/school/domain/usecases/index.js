@@ -1,28 +1,3 @@
-import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
-import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
-import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
-import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
-import * as missionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
-import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
-
-const dependencies = {
-  activityAnswerRepository,
-  activityRepository,
-  areaRepository,
-  assessmentRepository,
-  competenceRepository,
-  missionAssessmentRepository,
-  missionRepository,
-  missionLearnerRepository: repositories.missionLearnerRepository,
-  organizationLearnerRepository: repositories.organizationLearnerRepository,
-  schoolRepository: repositories.schoolRepository,
-  challengeRepository,
-};
-
 import { activateSchoolSession } from './activate-school-session.js';
 import { correctPreviewAnswer } from './correct-preview-answer.js';
 import { createPreviewAssessment } from './create-preview-assessment.js';
@@ -43,7 +18,7 @@ import { getSchoolByCode } from './get-school-by-code.js';
 import { handleActivityAnswer } from './handle-activity-answer.js';
 import { playMission } from './play-mission.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   activateSchoolSession,
   correctPreviewAnswer,
   createPreviewAssessment,
@@ -62,7 +37,5 @@ const usecasesWithoutInjectedDependencies = {
   handleActivityAnswer,
   playMission,
 };
-
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };

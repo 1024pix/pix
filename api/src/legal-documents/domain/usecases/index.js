@@ -1,25 +1,11 @@
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import * as legalDocumentRepository from '../../infrastructure/repositories/legal-document.repository.js';
-import * as userAcceptanceRepository from '../../infrastructure/repositories/user-acceptance.repository.js';
-
-const repositories = {
-  legalDocumentRepository,
-  userAcceptanceRepository,
-};
-
-const dependencies = Object.assign({ logger }, repositories);
-
 import { acceptLegalDocumentByUserId } from './accept-legal-document-by-user-id.usecase.js';
 import { createLegalDocument } from './create-legal-document.usecase.js';
 import { getLegalDocumentStatusByUserId } from './get-legal-document-status-by-user-id.usecase.js';
 
-const usecasesWithoutInjectedDependencies = {
+const usecases = {
   acceptLegalDocumentByUserId,
   createLegalDocument,
   getLegalDocumentStatusByUserId,
 };
-
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };
