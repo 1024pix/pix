@@ -1,4 +1,5 @@
 import * as injectedCampaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as injectedUserRecommendedTrainingRepository from '../../infrastructure/repositories/user-recommended-training-repository.js';
 import { UserNotAuthorizedToFindTrainings } from '../errors.js';
 
 const findCampaignParticipationTrainings = async function ({
@@ -6,7 +7,7 @@ const findCampaignParticipationTrainings = async function ({
   locale,
   campaignParticipationId,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
-  userRecommendedTrainingRepository,
+  userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,
 } = {}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 

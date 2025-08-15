@@ -4,6 +4,7 @@ import * as injectedStageAcquisitionRepository from '../../../../evaluation/infr
 import * as injectedStageRepository from '../../../../evaluation/infrastructure/repositories/stage-repository.js';
 import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../../shared/domain/errors.js';
 import * as injectedBadgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
+import { repositories as injectedRepositories } from '../../../../shared/infrastructure/repositories/index.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as injectedParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
@@ -13,7 +14,7 @@ const getUserCampaignAssessmentResult = async function ({
   campaignId,
   locale,
   badgeRepository = injectedBadgeRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
   badgeForCalculationRepository = injectedBadgeForCalculationRepository,
   participantResultRepository = injectedParticipantResultRepository,
   stageRepository = injectedStageRepository,

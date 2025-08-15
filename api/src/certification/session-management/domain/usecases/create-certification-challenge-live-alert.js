@@ -1,12 +1,13 @@
 import { ChallengeAlreadyAnsweredError } from '../../../evaluation/domain/errors.js';
 import { CertificationChallengeLiveAlert } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
+import * as injectedCertificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import { answerRepository as injectedAnswerRepository } from '../../infrastructure/repositories/index.js';
 import { challengeRepository as injectedChallengeRepository } from '../../infrastructure/repositories/index.js';
 
 const createCertificationChallengeLiveAlert = async function ({
   assessmentId,
   challengeId,
-  certificationChallengeLiveAlertRepository,
+  certificationChallengeLiveAlertRepository = injectedCertificationChallengeLiveAlertRepository,
   answerRepository = injectedAnswerRepository,
   challengeRepository = injectedChallengeRepository,
 } = {}) {

@@ -1,3 +1,4 @@
+import * as injectedCertificationEvaluationRepository from '../../../certification/evaluation/infrastructure/repositories/certification-challenge-repository.js';
 import { evaluationUsecases as injectedEvaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 import * as injectedAssessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 export async function updateAssessmentWithNextChallenge({
@@ -6,7 +7,7 @@ export async function updateAssessmentWithNextChallenge({
   locale,
   assessmentRepository = injectedAssessmentRepository,
   evaluationUsecases = injectedEvaluationUsecases,
-  certificationEvaluationRepository,
+  certificationEvaluationRepository = injectedCertificationEvaluationRepository,
 } = {}) {
   if (!assessment.isStarted()) {
     assessment.nextChallenge = null;

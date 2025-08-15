@@ -1,8 +1,11 @@
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+import * as injectedMissionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
+
 export { filterByGlobalResult, filterByStatuses, findPaginatedMissionLearners };
 
 const findPaginatedMissionLearners = async function ({
-  missionLearnerRepository,
-  missionAssessmentRepository,
+  missionLearnerRepository = injectedRepositories.missionLearnerRepository,
+  missionAssessmentRepository = injectedMissionAssessmentRepository,
   organizationId,
   missionId,
   page,

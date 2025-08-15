@@ -6,6 +6,9 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedCertificationRescoringRepository from '../../infrastructure/repositories/certification-rescoring-repository.js';
 import { certificationIssueReportRepository as injectedCertificationIssueReportRepository } from '../../infrastructure/repositories/index.js';
 import { challengeRepository as injectedChallengeRepository } from '../../infrastructure/repositories/index.js';
 import { CertificationJuryDone } from '../events/CertificationJuryDone.js';
@@ -22,10 +25,10 @@ import { CertificationIssueReportResolutionStrategies } from '../models/Certific
 export async function processAutoJury({
   sessionId,
   certificationIssueReportRepository = injectedCertificationIssueReportRepository,
-  certificationAssessmentRepository,
-  certificationCourseRepository,
+  certificationAssessmentRepository = injectedCertificationAssessmentRepository,
+  certificationCourseRepository = injectedCertificationCourseRepository,
   challengeRepository = injectedChallengeRepository,
-  certificationRescoringRepository,
+  certificationRescoringRepository = injectedCertificationRescoringRepository,
 } = {}) {
   const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
     sessionId,

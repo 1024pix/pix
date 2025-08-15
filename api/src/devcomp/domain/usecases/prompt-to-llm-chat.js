@@ -1,5 +1,6 @@
 import * as injectedLlmApi from '../../../llm/application/api/llm-api.js';
 import { DomainError } from '../../../shared/domain/errors.js';
+import * as injectedPassageRepository from '../../infrastructure/repositories/passage-repository.js';
 
 export async function promptToLLMChat({
   userId,
@@ -8,7 +9,7 @@ export async function promptToLLMChat({
   prompt,
   attachmentName,
   llmApi = injectedLlmApi,
-  passageRepository,
+  passageRepository = injectedPassageRepository,
 } = {}) {
   await checkIfPassageBelongsToUser(passageId, userId, passageRepository);
   return llmApi.prompt({

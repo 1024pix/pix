@@ -1,6 +1,7 @@
 import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as injectedCampaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import { repositories as injectedRepositories } from '../../../shared/infrastructure/repositories/index.js';
 import * as injectedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as injectedCompetenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import { Progression } from '../models/Progression.js';
@@ -12,7 +13,7 @@ const getProgression = async function ({
   assessmentRepository = injectedAssessmentRepository,
   competenceEvaluationRepository = injectedCompetenceEvaluationRepository,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
   skillRepository = injectedSkillRepository,
   campaignRepository = injectedCampaignRepository,
   improvementService = injectedImprovementService,

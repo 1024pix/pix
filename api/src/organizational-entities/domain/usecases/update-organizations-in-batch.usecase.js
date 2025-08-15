@@ -5,6 +5,7 @@ import * as emailValidationService from '../../../shared/domain/services/email-v
 import { CsvColumn } from '../../../shared/infrastructure/serializers/csv/csv-column.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { getDataBuffer } from '../../../shared/infrastructure/utils/buffer.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { OrganizationBatchUpdateDTO } from '../dtos/OrganizationBatchUpdateDTO.js';
 import {
   DpoEmailInvalid,
@@ -12,8 +13,6 @@ import {
   OrganizationNotFound,
   UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../errors.js';
-
-import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 
 const CSV_HEADER = {
   columns: [
@@ -68,9 +67,10 @@ const CSV_HEADER = {
  * @param {OrganizationForAdminRepository} params.organizationForAdminRepository
  * @return {Promise<void>}
  */
-export const updateOrganizationsInBatch = async function(
-  { filePath, organizationForAdminRepository = injectedRepositories.organizationForAdminRepository } = {},
-) {
+export const updateOrganizationsInBatch = async function ({
+  filePath,
+  organizationForAdminRepository = injectedRepositories.organizationForAdminRepository,
+} = {}) {
   const organizationBatchUpdateDtos = await _getCsvData(filePath);
 
   if (organizationBatchUpdateDtos.length === 0) return;

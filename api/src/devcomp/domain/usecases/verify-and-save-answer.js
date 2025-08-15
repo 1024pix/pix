@@ -1,14 +1,17 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import * as injectedElementAnswerRepository from '../../infrastructure/repositories/element-answer-repository.js';
+import * as injectedElementRepository from '../../infrastructure/repositories/element-repository.js';
+import * as injectedPassageRepository from '../../infrastructure/repositories/passage-repository.js';
 import { PassageDoesNotExistError, PassageTerminatedError } from '../errors.js';
 
 async function verifyAndSaveAnswer({
   userResponse,
   elementId,
   passageId,
-  passageRepository,
-  elementRepository,
-  elementAnswerRepository,
-}) {
+  passageRepository = injectedPassageRepository,
+  elementRepository = injectedElementRepository,
+  elementAnswerRepository = injectedElementAnswerRepository,
+} = {}) {
   const passage = await _getPassage({ passageId, passageRepository });
   if (passage.terminatedAt) {
     throw new PassageTerminatedError();

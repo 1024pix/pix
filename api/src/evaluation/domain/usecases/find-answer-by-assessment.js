@@ -1,6 +1,9 @@
 import { EntityValidationError, UserNotAuthorizedToAccessEntityError } from '../../../shared/domain/errors.js';
 
-const findAnswerByAssessment = async function ({ assessmentId, userId, answerRepository, assessmentRepository } = {}) {
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as injectedAnswerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
+
+const findAnswerByAssessment = async function ({ assessmentId, userId, answerRepository = injectedAnswerRepository, assessmentRepository = injectedAssessmentRepository } = {}) {
   const integerAssessmentId = parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {
     throw new EntityValidationError({

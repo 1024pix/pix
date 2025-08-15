@@ -17,6 +17,11 @@ import * as mailCheckImplementation from '../../../../shared/mail/infrastructure
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import * as injectedCertificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
+import * as injectedCertificationCpfCityRepository from '../../infrastructure/repositories/certification-cpf-city-repository.js';
+import * as injectedCertificationCpfCountryRepository from '../../infrastructure/repositories/certification-cpf-country-repository.js';
+import * as injectedComplementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 
 /**
  * @param {Object} params
@@ -30,12 +35,12 @@ import * as injectedCertificationCpfService from '../../../shared/domain/service
 export async function addCandidateToSession({
   sessionId,
   candidate,
-  sessionRepository,
-  candidateRepository,
+  sessionRepository = injectedSessionRepository,
+  candidateRepository = injectedCandidateRepository,
   certificationCpfService = injectedCertificationCpfService,
-  certificationCpfCountryRepository,
-  certificationCpfCityRepository,
-  complementaryCertificationRepository,
+  certificationCpfCountryRepository = injectedCertificationCpfCountryRepository,
+  certificationCpfCityRepository = injectedCertificationCpfCityRepository,
+  complementaryCertificationRepository = injectedComplementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
 } = {}) {

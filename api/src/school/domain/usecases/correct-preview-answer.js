@@ -1,6 +1,8 @@
 import { Examiner } from '../../../shared/domain/models/Examiner.js';
 
-const correctPreviewAnswer = async function ({ activityAnswer, challengeRepository, examiner: injectedExaminer } = {}) {
+import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+
+const correctPreviewAnswer = async function ({ activityAnswer, challengeRepository = injectedChallengeRepository, examiner: injectedExaminer } = {}) {
   const challenge = await challengeRepository.get(activityAnswer.challengeId);
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
   const correctedAnswer = examiner.evaluate({

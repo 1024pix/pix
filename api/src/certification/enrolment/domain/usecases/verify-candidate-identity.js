@@ -15,6 +15,10 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
+import * as injectedUserRepository from '../../../shared/infrastructure/repositories/user-repository.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 
 /**
  * @param {Object} params
@@ -30,12 +34,12 @@ export const verifyCandidateIdentity = async ({
   firstName,
   lastName,
   birthdate,
-  candidateRepository,
-  centerRepository,
-  sessionRepository,
-  userRepository,
+  candidateRepository = injectedCandidateRepository,
+  centerRepository = injectedCenterRepository,
+  sessionRepository = injectedSessionRepository,
+  userRepository = injectedUserRepository,
   normalizeStringFnc,
-}) => {
+} = {}) => {
   const user = await userRepository.get({ id: userId });
 
   const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);

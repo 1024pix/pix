@@ -2,13 +2,17 @@ import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ChallengeAlreadyAnsweredError, ChallengeNotAskedError } from '../../../shared/domain/errors.js';
 import { EmptyAnswerError } from '../errors.js';
 
+import * as injectedCorrectionService from '../services/correction-service.js';
+import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as injectedAnswerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
+
 const saveAndCorrectAnswerForDemoAndPreview = withTransaction(async function ({
   answer,
   assessment,
   forceOKAnswer = false,
-  answerRepository,
-  challengeRepository,
-  correctionService,
+  answerRepository = injectedAnswerRepository,
+  challengeRepository = injectedChallengeRepository,
+  correctionService = injectedCorrectionService,
 } = {}) {
   if (assessment.answers.some((existingAnswer) => existingAnswer.challengeId === answer.challengeId)) {
     throw new ChallengeAlreadyAnsweredError();

@@ -1,6 +1,13 @@
+import * as injectedTutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
 import { Tutorial } from '../models/Tutorial.js';
 
-const findPaginatedFilteredTutorials = async function ({ userId, filters, page, locale, tutorialRepository }) {
+const findPaginatedFilteredTutorials = async function ({
+  userId,
+  filters,
+  page,
+  locale,
+  tutorialRepository = injectedTutorialRepository,
+} = {}) {
   if (filters?.type === Tutorial.TYPES.RECOMMENDED) {
     const { results: tutorials, pagination } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({
       userId,

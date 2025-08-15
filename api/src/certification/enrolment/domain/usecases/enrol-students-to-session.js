@@ -8,7 +8,12 @@
  */
 import _ from 'lodash';
 
+import * as injectedOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js';
+import * as injectedCountryRepository from '../../infrastructure/repositories/country-repository.js';
+import * as injectedScoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { UnknownCountryForStudentEnrolmentError } from '../errors.js';
 import { SCOCertificationCandidate } from '../models/SCOCertificationCandidate.js';
 import { Subscription } from '../models/Subscription.js';
@@ -25,11 +30,11 @@ const INSEE_PREFIX_CODE = '99';
 const enrolStudentsToSession = async function ({
   sessionId,
   studentIds,
-  scoCertificationCandidateRepository,
-  organizationLearnerRepository,
-  centerRepository,
-  countryRepository,
-  sessionRepository,
+  scoCertificationCandidateRepository = injectedScoCertificationCandidateRepository,
+  organizationLearnerRepository = injectedOrganizationLearnerRepository,
+  centerRepository = injectedCenterRepository,
+  countryRepository = injectedCountryRepository,
+  sessionRepository = injectedSessionRepository,
 } = {}) {
   const session = await sessionRepository.get({ id: sessionId });
   const center = await centerRepository.getById({ id: session.certificationCenterId });

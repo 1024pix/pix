@@ -6,10 +6,9 @@ import { createReadStream } from 'node:fs';
 import { getDataBuffer } from '../../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { QUEST_HEADER } from '../constants.js';
 import { Quest } from '../models/Quest.js';
-
-import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 
 export const createOrUpdateQuestsInBatch = withTransaction(
   /**

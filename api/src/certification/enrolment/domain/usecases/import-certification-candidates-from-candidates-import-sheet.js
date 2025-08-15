@@ -6,6 +6,11 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
 import * as injectedCertificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js';
+import * as injectedCertificationCpfCityRepository from '../../infrastructure/repositories/certification-cpf-city-repository.js';
+import * as injectedCertificationCpfCountryRepository from '../../infrastructure/repositories/certification-cpf-country-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import * as injectedCertificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 
 /**
@@ -17,11 +22,11 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   sessionId,
   odsBuffer,
   i18n,
-  candidateRepository,
-  certificationCpfCountryRepository,
-  certificationCpfCityRepository,
-  centerRepository,
-  sessionRepository,
+  candidateRepository = injectedCandidateRepository,
+  certificationCpfCountryRepository = injectedCertificationCpfCountryRepository,
+  certificationCpfCityRepository = injectedCertificationCpfCityRepository,
+  centerRepository = injectedCenterRepository,
+  sessionRepository = injectedSessionRepository,
   certificationCandidatesOdsService = injectedCertificationCandidatesOdsService,
   certificationCpfService = injectedCertificationCpfService,
 } = {}) {

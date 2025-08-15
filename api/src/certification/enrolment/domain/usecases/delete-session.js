@@ -1,3 +1,5 @@
+import * as injectedSessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { SessionStartedDeletionError } from '../errors.js';
 
 /**
@@ -10,7 +12,11 @@ import { SessionStartedDeletionError } from '../errors.js';
  * @param {SessionRepository} params.sessionRepository
  * @param {SessionManagementRepository} params.sessionManagementRepository
  */
-const deleteSession = async function ({ sessionId, sessionRepository, sessionManagementRepository }) {
+const deleteSession = async function ({
+  sessionId,
+  sessionRepository = injectedSessionRepository,
+  sessionManagementRepository = injectedSessionManagementRepository,
+} = {}) {
   if (!(await sessionManagementRepository.hasNoStartedCertification({ id: sessionId }))) {
     throw new SessionStartedDeletionError();
   }

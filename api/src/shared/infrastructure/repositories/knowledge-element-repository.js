@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
+import * as injectedCampaignsAPI from '../../../prescription/campaign/application/api/campaigns-api.js';
+import * as injectedKnowledgeElementSnapshotAPI from '../../../prescription/campaign/application/api/knowledge-element-snapshots-api.js';
 import { KnowledgeElementCollection } from '../../../prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
-
-import * as injectedCampaignsAPI from '../../../prescription/campaign/application/api/campaigns-api.js';import * as injectedKnowledgeElementSnapshotAPI from '../../../prescription/campaign/application/api/knowledge-element-snapshots-api.js';
 
 const tableName = 'knowledge-elements';
 
@@ -53,14 +53,12 @@ const batchSave = async function ({ knowledgeElements }) {
   return savedKnowledgeElements.map((ke) => new KnowledgeElement(ke));
 };
 
-const saveForCampaignParticipation = async function(
-  {
-    knowledgeElements,
-    campaignParticipationId,
-    campaignsAPI = injectedCampaignsAPI,
-    knowledgeElementSnapshotAPI = injectedKnowledgeElementSnapshotAPI,
-  } = {},
-) {
+const saveForCampaignParticipation = async function ({
+  knowledgeElements,
+  campaignParticipationId,
+  campaignsAPI = injectedCampaignsAPI,
+  knowledgeElementSnapshotAPI = injectedKnowledgeElementSnapshotAPI,
+} = {}) {
   const knexConn = DomainTransaction.getConnection();
   const campaign = await campaignsAPI.getByCampaignParticipationId(campaignParticipationId);
   if (!campaign) {
@@ -138,15 +136,13 @@ const findInvalidatedAndDirectByUserId = async function ({ userId }) {
   );
 };
 
-const findUniqByUserIdForCampaignParticipation = async function(
-  {
-    userId,
-    campaignParticipationId,
-    limitDate,
-    knowledgeElementSnapshotAPI = injectedKnowledgeElementSnapshotAPI,
-    campaignsAPI = injectedCampaignsAPI,
-  } = {},
-) {
+const findUniqByUserIdForCampaignParticipation = async function ({
+  userId,
+  campaignParticipationId,
+  limitDate,
+  knowledgeElementSnapshotAPI = injectedKnowledgeElementSnapshotAPI,
+  campaignsAPI = injectedCampaignsAPI,
+} = {}) {
   const campaign = await campaignsAPI.getByCampaignParticipationId(campaignParticipationId);
   if (!campaign) {
     return null;

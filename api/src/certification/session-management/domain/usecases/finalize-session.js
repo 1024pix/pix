@@ -6,6 +6,9 @@
  * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationReportRepository} CertificationReportRepository
  */
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedCertificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import {
   SessionAlreadyFinalizedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
@@ -26,12 +29,12 @@ const finalizeSession = withTransaction(
     sessionId,
     examinerGlobalComment,
     certificationReports,
-    sessionRepository,
-    certificationCourseRepository,
-    certificationReportRepository,
+    sessionRepository = injectedSessionRepository,
+    certificationCourseRepository = injectedCertificationCourseRepository,
+    certificationReportRepository = injectedCertificationReportRepository,
     hasIncident,
     hasJoiningIssue,
-  }) {
+  } = {}) {
     const isSessionAlreadyFinalized = await sessionRepository.isFinalized({ id: sessionId });
 
     const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification({ id: sessionId });

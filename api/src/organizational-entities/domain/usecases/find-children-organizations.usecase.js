@@ -1,10 +1,10 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-
 import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 
-async function findChildrenOrganizations(
-  { parentOrganizationId, organizationForAdminRepository = injectedRepositories.organizationForAdminRepository } = {},
-) {
+async function findChildrenOrganizations({
+  parentOrganizationId,
+  organizationForAdminRepository = injectedRepositories.organizationForAdminRepository,
+} = {}) {
   const parentOrganizationExist = await organizationForAdminRepository.exist({ organizationId: parentOrganizationId });
 
   if (!parentOrganizationExist) {

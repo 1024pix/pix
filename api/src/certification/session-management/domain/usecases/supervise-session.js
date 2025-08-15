@@ -4,13 +4,15 @@ import {
   InvalidSessionSupervisingLoginError,
   SessionNotAccessible,
 } from '../../domain/errors.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
+import * as injectedSupervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 
 const superviseSession = async function ({
   sessionId,
   invigilatorPassword,
   userId,
-  sessionRepository,
-  supervisorAccessRepository,
+  sessionRepository = injectedSessionRepository,
+  supervisorAccessRepository = injectedSupervisorAccessRepository,
   certificationCenterRepository = injectedCertificationCenterRepository,
 } = {}) {
   // should use a specific get from sessionRepository instead

@@ -3,7 +3,9 @@ import { randomUUID } from 'node:crypto';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import * as injectedCertificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as injectedSharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
+import * as injectedFinalizedSessionRepository from '../../infrastructure/repositories/finalized-session-repository.js';
 import { certificationRepository as injectedCertificationRepository } from '../../infrastructure/repositories/index.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { SessionPublicationBatchResult } from '../models/SessionPublicationBatchResult.js';
 import * as injectedSessionPublicationService from '../services/session-publication-service.js';
 
@@ -14,8 +16,8 @@ const publishSessionsInBatch = async function ({
   batchId = randomUUID(),
   certificationCenterRepository = injectedCertificationCenterRepository,
   certificationRepository = injectedCertificationRepository,
-  finalizedSessionRepository,
-  sessionRepository,
+  finalizedSessionRepository = injectedFinalizedSessionRepository,
+  sessionRepository = injectedSessionRepository,
   sharedSessionRepository = injectedSharedSessionRepository,
   sessionPublicationService = injectedSessionPublicationService,
 } = {}) {

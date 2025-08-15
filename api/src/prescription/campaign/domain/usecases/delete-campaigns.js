@@ -8,6 +8,7 @@ import { eventLoggingJobRepository as injectedEventLoggingJobRepository } from '
 import { MembershipNotFound } from '../../../../team/application/api/errors/MembershipNotFound.js';
 import * as injectedCampaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as injectedCampaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { CampaignsDestructor } from '../models/CampaignsDestructor.js';
 
 const deleteCampaigns = async ({
@@ -18,7 +19,7 @@ const deleteCampaigns = async ({
   adminMemberRepository = injectedAdminMemberRepository,
   assessmentRepository = injectedAssessmentRepository,
   badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
-  organizationMembershipRepository,
+  organizationMembershipRepository = injectedRepositories.organizationMembershipRepository,
   campaignAdministrationRepository = injectedCampaignAdministrationRepository,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
   userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,

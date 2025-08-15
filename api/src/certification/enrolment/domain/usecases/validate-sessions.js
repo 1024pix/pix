@@ -3,7 +3,13 @@
  */
 
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
+import * as injectedSessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
 import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js';
+import * as injectedCertificationCpfCityRepository from '../../infrastructure/repositories/certification-cpf-city-repository.js';
+import * as injectedCertificationCpfCountryRepository from '../../infrastructure/repositories/certification-cpf-country-repository.js';
+import * as injectedComplementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
@@ -28,14 +34,14 @@ const validateSessions = async function ({
   sessionsData,
   userId,
   certificationCenterId,
-  centerRepository,
-  sessionRepository,
-  certificationCpfCountryRepository,
-  certificationCpfCityRepository,
-  complementaryCertificationRepository,
+  centerRepository = injectedCenterRepository,
+  sessionRepository = injectedSessionRepository,
+  certificationCpfCountryRepository = injectedCertificationCpfCountryRepository,
+  certificationCpfCityRepository = injectedCertificationCpfCityRepository,
+  complementaryCertificationRepository = injectedComplementaryCertificationRepository,
   certificationCourseRepository = injectedCertificationCourseRepository,
   sessionCodeService = injectedSessionCodeService,
-  sessionManagementRepository,
+  sessionManagementRepository = injectedSessionManagementRepository,
   i18n,
   sessionsImportValidationService = injectedSessionsImportValidationService,
   temporarySessionsStorageForMassImportService = injectedTemporarySessionsStorageForMassImportService,

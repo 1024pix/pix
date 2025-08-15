@@ -23,6 +23,7 @@ import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { SessionNotAccessible } from '../../../session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { assessmentRepository as injectedAssessmentRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import * as injectedSessionRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
@@ -55,7 +56,7 @@ export const retrieveLastOrCreateCertificationCourse = async function ({
   assessmentRepository = injectedAssessmentRepository,
   sharedCertificationCandidateRepository = injectedSharedCertificationCandidateRepository,
   certificationCourseRepository = injectedCertificationCourseRepository,
-  sessionRepository,
+  sessionRepository = injectedSessionRepository,
   certificationCenterRepository = injectedCertificationCenterRepository,
   userRepository = injectedUserRepository,
   certificationBadgesService = injectedCertificationBadgesService,

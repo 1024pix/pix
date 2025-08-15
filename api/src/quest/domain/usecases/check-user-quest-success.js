@@ -1,17 +1,14 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
-import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
-
-export const checkUserQuest = async (
-  {
-    userId,
-    questRepository = injectedRepositories.questRepository,
-    eligibilityRepository = injectedRepositories.eligibilityRepository,
-    successRepository = injectedRepositories.successRepository,
-    questId,
-  } = {},
-) => {
+export const checkUserQuest = async ({
+  userId,
+  questRepository = injectedRepositories.questRepository,
+  eligibilityRepository = injectedRepositories.eligibilityRepository,
+  successRepository = injectedRepositories.successRepository,
+  questId,
+} = {}) => {
   if (!userId) {
     return;
   }

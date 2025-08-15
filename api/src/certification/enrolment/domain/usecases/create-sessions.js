@@ -4,6 +4,8 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import * as injectedTemporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
@@ -17,8 +19,8 @@ import * as injectedTemporarySessionsStorageForMassImportService from '../servic
 const createSessions = async function ({
   userId,
   cachedValidatedSessionsKey,
-  candidateRepository,
-  sessionRepository,
+  candidateRepository = injectedCandidateRepository,
+  sessionRepository = injectedSessionRepository,
   temporarySessionsStorageForMassImportService = injectedTemporarySessionsStorageForMassImportService,
 } = {}) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({

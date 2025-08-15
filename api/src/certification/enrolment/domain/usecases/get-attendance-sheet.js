@@ -1,3 +1,4 @@
+import * as injectedSessionForAttendanceSheetRepository from '../../infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as injectedAttendanceSheetPdfUtils from '../../infrastructure/utils/pdf/attendance-sheet-pdf.js'; /**
  * @typedef {import('./index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {import('./index.js').AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
@@ -11,7 +12,7 @@ import * as injectedAttendanceSheetPdfUtils from '../../infrastructure/utils/pdf
 const getAttendanceSheet = async function ({
   sessionId,
   i18n,
-  sessionForAttendanceSheetRepository,
+  sessionForAttendanceSheetRepository = injectedSessionForAttendanceSheetRepository,
   attendanceSheetPdfUtils = injectedAttendanceSheetPdfUtils,
 } = {}) {
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({ id: sessionId });

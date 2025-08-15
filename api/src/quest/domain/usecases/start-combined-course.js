@@ -1,13 +1,13 @@
-import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';export async function startCombinedCourse(
-  {
-    userId,
-    code,
-    combinedCourseParticipantRepository = injectedRepositories.combinedCourseParticipantRepository,
-    combinedCourseRepository = injectedRepositories.combinedCourseRepository,
-    combinedCourseParticipationRepository = injectedRepositories.combinedCourseParticipationRepository,
-    userRepository = injectedRepositories.userRepository,
-  } = {},
-) {
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+
+export async function startCombinedCourse({
+  userId,
+  code,
+  combinedCourseParticipantRepository = injectedRepositories.combinedCourseParticipantRepository,
+  combinedCourseRepository = injectedRepositories.combinedCourseRepository,
+  combinedCourseParticipationRepository = injectedRepositories.combinedCourseParticipationRepository,
+  userRepository = injectedRepositories.userRepository,
+} = {}) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const user = await userRepository.findById({ userId });
 

@@ -4,6 +4,7 @@ import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement
 import * as injectedKnowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 import * as injectedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as injectedTubeRepository from '../../../shared/infrastructure/repositories/tube-repository.js';
+import * as injectedTutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
 
 const findTutorials = async function ({
   userId,
@@ -11,7 +12,7 @@ const findTutorials = async function ({
   knowledgeElementRepository = injectedKnowledgeElementRepository,
   skillRepository = injectedSkillRepository,
   tubeRepository = injectedTubeRepository,
-  tutorialRepository,
+  tutorialRepository = injectedTutorialRepository,
   locale,
 } = {}) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({

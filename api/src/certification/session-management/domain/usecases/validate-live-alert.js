@@ -9,6 +9,8 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ChallengeAlreadyAnsweredError } from '../../../evaluation/domain/errors.js';
 import { CertificationIssueReport } from '../../../shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../shared/domain/models/CertificationIssueReportCategory.js';
+import * as injectedCertificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as injectedIssueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import { assessmentRepository as injectedAssessmentRepository } from '../../infrastructure/repositories/index.js';
 import { certificationIssueReportRepository as injectedCertificationIssueReportRepository } from '../../infrastructure/repositories/index.js';
 import { answerRepository as injectedAnswerRepository } from '../../infrastructure/repositories/index.js';
@@ -24,9 +26,9 @@ export const validateLiveAlert = async ({
   userId,
   sessionId,
   subcategory,
-  certificationChallengeLiveAlertRepository,
+  certificationChallengeLiveAlertRepository = injectedCertificationChallengeLiveAlertRepository,
   assessmentRepository = injectedAssessmentRepository,
-  issueReportCategoryRepository,
+  issueReportCategoryRepository = injectedIssueReportCategoryRepository,
   certificationIssueReportRepository = injectedCertificationIssueReportRepository,
   answerRepository = injectedAnswerRepository,
 } = {}) => {

@@ -1,12 +1,13 @@
 import { logger as injectedLogger } from '../../../shared/infrastructure/utils/logger.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
 export const getQuestResultsForCampaignParticipation = async ({
   userId,
   campaignParticipationId,
-  questRepository,
-  eligibilityRepository,
-  rewardRepository,
+  questRepository = injectedRepositories.questRepository,
+  eligibilityRepository = injectedRepositories.eligibilityRepository,
+  rewardRepository = injectedRepositories.rewardRepository,
   logger = injectedLogger,
 } = {}) => {
   try {

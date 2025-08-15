@@ -6,6 +6,7 @@ import {
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../../../shared/domain/errors.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 
 /**
  * @param {AutonomousCourse} autonomousCourse
@@ -17,7 +18,7 @@ import {
  */
 const saveAutonomousCourse = async ({
   autonomousCourse,
-  autonomousCourseRepository,
+  autonomousCourseRepository = injectedRepositories.autonomousCourseRepository,
   targetProfileRepository = injectedTargetProfileRepository,
   targetProfileAdministrationRepository = injectedTargetProfileAdministrationRepository,
 } = {}) => {

@@ -3,6 +3,7 @@ import * as injectedCampaignParticipationRepository from '../../../prescription/
 import { AssessmentEndedError } from '../../../shared/domain/errors.js';
 import * as injectedAnswerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import { repositories as injectedRepositories } from '../../../shared/infrastructure/repositories/index.js';
 import * as injectedAlgorithmDataFetcherService from '../services/algorithm-methods/data-fetcher.js';
 import * as injectedSmartRandomService from '../services/algorithm-methods/smart-random.js';
 import * as injectedImprovementService from '../services/improvement-service.js';
@@ -17,7 +18,7 @@ const getNextChallengeForCampaignAssessment = async function ({
   algorithmDataFetcherService = injectedAlgorithmDataFetcherService,
   smartRandomService = injectedSmartRandomService,
   campaignRepository = injectedCampaignRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
   improvementService = injectedImprovementService,
 } = {}) {

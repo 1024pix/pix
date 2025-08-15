@@ -5,6 +5,8 @@
 import * as injectedPlacementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
+import * as injectedComplementaryCertificationBadgeWithOffsetVersionRepository from '../../infrastructure/repositories/complementary-certification-badge-with-offset-version-repository.js';
+import * as injectedComplementaryCertificationCourseRepository from '../../infrastructure/repositories/complementary-certification-course-repository.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
 /**
@@ -16,8 +18,8 @@ const getUserCertificationEligibility = async function ({
   limitDate = new Date(),
   placementProfileService = injectedPlacementProfileService,
   certificationBadgesService = injectedCertificationBadgesService,
-  complementaryCertificationCourseRepository,
-  complementaryCertificationBadgeWithOffsetVersionRepository,
+  complementaryCertificationCourseRepository = injectedComplementaryCertificationCourseRepository,
+  complementaryCertificationBadgeWithOffsetVersionRepository = injectedComplementaryCertificationBadgeWithOffsetVersionRepository,
 } = {}) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const isCertifiable = placementProfile.isCertifiable();

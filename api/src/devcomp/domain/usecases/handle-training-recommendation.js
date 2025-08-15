@@ -1,12 +1,14 @@
 import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as injectedKnowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as injectedTrainingRepository from '../../infrastructure/repositories/training-repository.js';
+import * as injectedUserRecommendedTrainingRepository from '../../infrastructure/repositories/user-recommended-training-repository.js';
 const handleTrainingRecommendation = async function ({
   locale,
   assessment,
   campaignRepository = injectedCampaignRepository,
   knowledgeElementRepository = injectedKnowledgeElementRepository,
-  trainingRepository,
-  userRecommendedTrainingRepository,
+  trainingRepository = injectedTrainingRepository,
+  userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,
 } = {}) {
   if (!assessment.isForCampaign()) {
     return;

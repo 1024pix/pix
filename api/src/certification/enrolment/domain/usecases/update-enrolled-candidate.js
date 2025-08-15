@@ -6,13 +6,17 @@ import {
   CandidateAlreadyLinkedToUserError,
   CertificationCandidateNotFoundError,
 } from '../../../../shared/domain/errors.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 
 /**
  * @param {Object} params
  * @param {EditedCandidate} params.editedCandidate
  * @param {CandidateRepository} params.candidateRepository
  */
-const updateEnrolledCandidate = async function ({ editedCandidate, candidateRepository }) {
+const updateEnrolledCandidate = async function ({
+  editedCandidate,
+  candidateRepository = injectedCandidateRepository,
+} = {}) {
   const foundCandidate = await candidateRepository.get({ certificationCandidateId: editedCandidate.id });
 
   if (!foundCandidate) {

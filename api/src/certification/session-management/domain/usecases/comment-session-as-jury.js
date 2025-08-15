@@ -1,4 +1,4 @@
-/**
+import * as injectedSessionJuryCommentRepository from '../../infrastructure/repositories/session-jury-comment-repository.js'; /**
  * @typedef {import('../../domain/usecases/index.js').SessionJuryCommentRepository} SessionJuryCommentRepository
  */
 
@@ -13,8 +13,8 @@ const commentSessionAsJury = async function ({
   sessionId,
   juryComment,
   juryCommentAuthorId,
-  sessionJuryCommentRepository,
-}) {
+  sessionJuryCommentRepository = injectedSessionJuryCommentRepository,
+} = {}) {
   const sessionJuryComment = await sessionJuryCommentRepository.get({ id: sessionId });
 
   sessionJuryComment.update({

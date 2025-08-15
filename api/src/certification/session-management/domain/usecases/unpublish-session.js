@@ -1,10 +1,12 @@
 import * as injectedSharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
+import * as injectedFinalizedSessionRepository from '../../infrastructure/repositories/finalized-session-repository.js';
 import { certificationRepository as injectedCertificationRepository } from '../../infrastructure/repositories/index.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 const unpublishSession = async function ({
   sessionId,
   certificationRepository = injectedCertificationRepository,
-  sessionRepository,
-  finalizedSessionRepository,
+  sessionRepository = injectedSessionRepository,
+  finalizedSessionRepository = injectedFinalizedSessionRepository,
   sharedSessionRepository = injectedSharedSessionRepository,
 } = {}) {
   const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });

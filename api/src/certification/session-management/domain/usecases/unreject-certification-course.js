@@ -1,12 +1,14 @@
 import { CertificationCourseUnrejected } from '../../../../shared/domain/events/CertificationCourseUnrejected.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedCertificationRescoringRepository from '../../infrastructure/repositories/certification-rescoring-repository.js';
 
 export const unrejectCertificationCourse = async ({
   certificationCourseId,
   juryId,
-  certificationCourseRepository,
-  certificationRescoringRepository,
-}) => {
+  certificationCourseRepository = injectedCertificationCourseRepository,
+  certificationRescoringRepository = injectedCertificationRescoringRepository,
+} = {}) => {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.unrejectForFraud();
   await certificationCourseRepository.update({ certificationCourse });

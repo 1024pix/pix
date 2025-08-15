@@ -1,21 +1,18 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { CombinedCourseDetails } from '../models/CombinedCourse.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
-import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
-
-export async function updateCombinedCourse(
-  {
-    userId,
-    code,
-    combinedCourseRepository = injectedRepositories.combinedCourseRepository,
-    combinedCourseParticipationRepository = injectedRepositories.combinedCourseParticipationRepository,
-    questRepository = injectedRepositories.questRepository,
-    eligibilityRepository = injectedRepositories.eligibilityRepository,
-    campaignRepository = injectedRepositories.campaignRepository,
-    recommendedModulesRepository = injectedRepositories.recommendedModulesRepository,
-  } = {},
-) {
+export async function updateCombinedCourse({
+  userId,
+  code,
+  combinedCourseRepository = injectedRepositories.combinedCourseRepository,
+  combinedCourseParticipationRepository = injectedRepositories.combinedCourseParticipationRepository,
+  questRepository = injectedRepositories.questRepository,
+  eligibilityRepository = injectedRepositories.eligibilityRepository,
+  campaignRepository = injectedRepositories.campaignRepository,
+  recommendedModulesRepository = injectedRepositories.recommendedModulesRepository,
+} = {}) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const quest = await questRepository.getByCode({ code });
 

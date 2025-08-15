@@ -1,13 +1,14 @@
 import _ from 'lodash';
 
 import * as injectedBadgeForCalculationRepository from '../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
+import { repositories as injectedRepositories } from '../../../shared/infrastructure/repositories/index.js';
 import * as injectedBadgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 
 const handleBadgeAcquisition = async function ({
   assessment,
   badgeForCalculationRepository = injectedBadgeForCalculationRepository,
   badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
 } = {}) {
   if (assessment.isForCampaign()) {
     const campaignParticipationId = assessment.campaignParticipationId;

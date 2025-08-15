@@ -1,6 +1,7 @@
+import * as injectedPassageRepository from '../../infrastructure/repositories/passage-repository.js';
 import { UserModuleStatus } from '../models/module/UserModuleStatus.js';
 
-async function getUserModuleStatuses({ userId, moduleIds, passageRepository }) {
+async function getUserModuleStatuses({ userId, moduleIds, passageRepository = injectedPassageRepository } = {}) {
   const passages = await passageRepository.findAllByUserIdAndModuleIds({ userId, moduleIds });
   const passagesModuleId = _groupPassagesByModuleId({ passages, moduleIds });
 

@@ -1,11 +1,15 @@
 import { InvalidJuryLevelError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
-const saveJuryComplementaryCertificationCourseResult = async function ({
-  complementaryCertificationCourseId,
-  juryLevel,
-  complementaryCertificationCourseResultRepository,
-}) {
+import * as injectedComplementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
+
+const saveJuryComplementaryCertificationCourseResult = async function(
+  {
+    complementaryCertificationCourseId,
+    juryLevel,
+    complementaryCertificationCourseResultRepository = injectedComplementaryCertificationCourseResultRepository,
+  } = {},
+) {
   const pixSourceComplementaryCertificationCourseResult =
     await complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId({
       complementaryCertificationCourseId,

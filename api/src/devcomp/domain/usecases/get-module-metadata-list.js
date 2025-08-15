@@ -1,6 +1,7 @@
+import * as injectedModuleRepository from '../../infrastructure/repositories/module-repository.js';
 import { ModuleMetadata } from '../models/module/ModuleMetadata.js';
 
-async function getModuleMetadataList({ ids, moduleRepository }) {
+async function getModuleMetadataList({ ids, moduleRepository = injectedModuleRepository } = {}) {
   const modules = await moduleRepository.getAllByIds({ ids });
 
   return modules.map(

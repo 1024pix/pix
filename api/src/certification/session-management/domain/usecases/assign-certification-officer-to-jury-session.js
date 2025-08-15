@@ -1,4 +1,6 @@
-/**
+import * as injectedCertificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';
+import * as injectedFinalizedSessionRepository from '../../infrastructure/repositories/finalized-session-repository.js';
+import * as injectedJurySessionRepository from '../../infrastructure/repositories/jury-session-repository.js'; /**
  * @typedef {import('../../domain/usecases/index.js').JurySessionRepository} JurySessionRepository
  * @typedef {import('../../domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import('../../domain/usecases/index.js').CertificationOfficerRepository} CertificationOfficerRepository
@@ -13,9 +15,9 @@
 const assignCertificationOfficerToJurySession = async function ({
   sessionId,
   certificationOfficerId,
-  jurySessionRepository,
-  finalizedSessionRepository,
-  certificationOfficerRepository,
+  jurySessionRepository = injectedJurySessionRepository,
+  finalizedSessionRepository = injectedFinalizedSessionRepository,
+  certificationOfficerRepository = injectedCertificationOfficerRepository,
 } = {}) {
   const certificationOfficer = await certificationOfficerRepository.get({ userId: certificationOfficerId });
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });

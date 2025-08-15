@@ -1,9 +1,12 @@
+import * as injectedAnswerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+
 const findAnswerByChallengeAndAssessment = async function ({
   challengeId,
   assessmentId,
   userId,
-  answerRepository,
-  assessmentRepository,
+  answerRepository = injectedAnswerRepository,
+  assessmentRepository = injectedAssessmentRepository,
 } = {}) {
   const integerAssessmentId = parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {

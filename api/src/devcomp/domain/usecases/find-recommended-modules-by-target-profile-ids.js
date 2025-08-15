@@ -1,10 +1,12 @@
+import * as injectedModuleRepository from '../../infrastructure/repositories/module-repository.js';
+import * as injectedTrainingRepository from '../../infrastructure/repositories/training-repository.js';
 import { RecommendedModule } from '../read-models/RecommendedModule.js';
 
 const findRecommendedModulesByTargetProfileIds = async function ({
   targetProfileIds,
-  trainingRepository,
-  moduleRepository,
-}) {
+  trainingRepository = injectedTrainingRepository,
+  moduleRepository = injectedModuleRepository,
+} = {}) {
   const recommendedTrainings = await trainingRepository.findModulesByTargetProfileIds({ targetProfileIds });
 
   const recommendedModules = await Promise.all(

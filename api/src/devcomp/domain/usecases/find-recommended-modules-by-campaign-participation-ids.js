@@ -1,10 +1,12 @@
+import * as injectedModuleRepository from '../../infrastructure/repositories/module-repository.js';
+import * as injectedUserRecommendedTrainingRepository from '../../infrastructure/repositories/user-recommended-training-repository.js';
 import { UserRecommendedModule } from '../read-models/UserRecommendedModule.js';
 
 export const findRecommendedModulesByCampaignParticipationIds = async function ({
   campaignParticipationIds,
-  moduleRepository,
-  userRecommendedTrainingRepository,
-}) {
+  moduleRepository = injectedModuleRepository,
+  userRecommendedTrainingRepository = injectedUserRecommendedTrainingRepository,
+} = {}) {
   const userRecommendedTrainings = await userRecommendedTrainingRepository.findModulesByCampaignParticipationIds({
     campaignParticipationIds,
   });

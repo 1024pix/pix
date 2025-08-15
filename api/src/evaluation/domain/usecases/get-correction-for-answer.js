@@ -4,10 +4,14 @@ import {
   NotFoundError,
 } from '../../../shared/domain/errors.js';
 
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+import * as injectedAnswerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
+import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+
 const getCorrectionForAnswer = async function ({
-  assessmentRepository,
-  answerRepository,
-  correctionRepository,
+  assessmentRepository = injectedAssessmentRepository,
+  answerRepository = injectedAnswerRepository,
+  correctionRepository = injectedRepositories.correctionRepository,
   answerId,
   userId,
   locale,

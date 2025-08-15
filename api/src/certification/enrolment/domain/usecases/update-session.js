@@ -1,4 +1,5 @@
-import * as injectedSessionValidator from '../../../shared/domain/validators/session-validator.js'; /**
+import * as injectedSessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js'; /**
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  *
  * @typedef {import('./index.js').SessionValidator} SessionValidator
@@ -11,7 +12,7 @@ import * as injectedSessionValidator from '../../../shared/domain/validators/ses
  */
 const updateSession = async function ({
   session,
-  sessionRepository,
+  sessionRepository = injectedSessionRepository,
   sessionValidator = injectedSessionValidator,
 } = {}) {
   sessionValidator.validate(session);

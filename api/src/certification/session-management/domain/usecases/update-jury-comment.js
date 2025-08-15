@@ -6,6 +6,7 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
+import * as injectedCourseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import { assessmentResultRepository as injectedAssessmentResultRepository } from '../../infrastructure/repositories/index.js';
 import { sharedCompetenceMarkRepository as injectedSharedCompetenceMarkRepository } from '../../infrastructure/repositories/index.js';
 /**
@@ -21,7 +22,7 @@ const updateJuryComment = async function ({
   certificationCourseId,
   assessmentResultCommentByJury,
   juryId,
-  courseAssessmentResultRepository,
+  courseAssessmentResultRepository = injectedCourseAssessmentResultRepository,
   assessmentResultRepository = injectedAssessmentResultRepository,
   sharedCompetenceMarkRepository = injectedSharedCompetenceMarkRepository,
 } = {}) {

@@ -2,6 +2,7 @@
  * @typedef {import ('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  */
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import { CertificationCandidateNotFoundError } from '../errors.js';
 
 /**
@@ -10,7 +11,10 @@ import { CertificationCandidateNotFoundError } from '../errors.js';
  * @param {CandidateRepository} params.candidateRepository
  * @returns {Candidate}
  */
-const candidateHasSeenCertificationInstructions = async function ({ certificationCandidateId, candidateRepository }) {
+const candidateHasSeenCertificationInstructions = async function ({
+  certificationCandidateId,
+  candidateRepository = injectedCandidateRepository,
+} = {}) {
   const candidate = await candidateRepository.get({ certificationCandidateId });
 
   if (!candidate) {

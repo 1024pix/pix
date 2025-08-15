@@ -1,4 +1,8 @@
-const endAssessmentBySupervisor = async function ({ certificationCandidateId, certificationAssessmentRepository }) {
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
+
+const endAssessmentBySupervisor = async function(
+  { certificationCandidateId, certificationAssessmentRepository = injectedCertificationAssessmentRepository } = {},
+) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCandidateId({
     certificationCandidateId,
   });

@@ -4,6 +4,7 @@ import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
 import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
+import * as injectedSessionForSupervisingRepository from '../../infrastructure/repositories/session-for-supervising-repository.js';
 
 /**
  * @typedef {import('./index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
@@ -17,7 +18,7 @@ import * as injectedCertificationBadgesService from '../../../shared/domain/serv
  */
 const getSessionForSupervising = async function ({
   sessionId,
-  sessionForSupervisingRepository,
+  sessionForSupervisingRepository = injectedSessionForSupervisingRepository,
   certificationBadgesService = injectedCertificationBadgesService,
 } = {}) {
   const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });

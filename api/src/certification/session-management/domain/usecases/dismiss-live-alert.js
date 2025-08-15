@@ -4,11 +4,15 @@
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 
+import * as injectedCertificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+
 /**
  * @param {Object} params
  * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
  */
-export const dismissLiveAlert = async ({ userId, sessionId, certificationChallengeLiveAlertRepository }) => {
+export const dismissLiveAlert = async (
+  { userId, sessionId, certificationChallengeLiveAlertRepository = injectedCertificationChallengeLiveAlertRepository } = {},
+) => {
   const certificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingBySessionIdAndUserId({
       sessionId,

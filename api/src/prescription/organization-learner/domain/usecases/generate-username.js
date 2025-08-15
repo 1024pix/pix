@@ -9,13 +9,14 @@ import {
 import * as injectedObfuscationService from '../../../../shared/domain/services/obfuscation-service.js';
 import * as injectedUserReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 import * as injectedStudentRepository from '../../../learner-management/infrastructure/repositories/student-repository.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 
 const { find, get } = lodash;
 
 const generateUsername = async function ({
   studentInformation,
   organizationId,
-  organizationLearnerRepository,
+  organizationLearnerRepository = injectedRepositories.organizationLearnerRepository,
   userReconciliationService = injectedUserReconciliationService,
   obfuscationService = injectedObfuscationService,
   userRepository = injectedUserRepository,

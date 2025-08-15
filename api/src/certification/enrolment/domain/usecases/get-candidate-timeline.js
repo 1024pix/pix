@@ -17,6 +17,7 @@ import * as injectedPlacementProfileService from '../../../../shared/domain/serv
 import * as injectedCertificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import { CandidateCertifiableEvent } from '../models/timeline/CandidateCertifiableEvent.js';
 import { CandidateCreatedEvent } from '../models/timeline/CandidateCreatedEvent.js';
 import { CandidateEndScreenEvent } from '../models/timeline/CandidateEndScreenEvent.js';
@@ -41,7 +42,7 @@ import { ComplementaryNotCertifiableEvent } from '../models/timeline/Complementa
  */
 export const getCandidateTimeline = async ({
   certificationCandidateId,
-  candidateRepository,
+  candidateRepository = injectedCandidateRepository,
   certificationCourseRepository = injectedCertificationCourseRepository,
   certificationAssessmentRepository = injectedCertificationAssessmentRepository,
   certificationBadgesService = injectedCertificationBadgesService,

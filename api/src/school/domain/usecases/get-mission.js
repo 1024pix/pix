@@ -1,5 +1,6 @@
 import * as injectedAreaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as injectedCompetenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import * as injectedMissionRepository from '../../infrastructure/repositories/mission-repository.js';
 import { injectComplementDataTo } from '../services/inject-complement-data-to-mission.js';
 
@@ -9,7 +10,7 @@ const getMission = async function ({
   missionRepository = injectedMissionRepository,
   areaRepository = injectedAreaRepository,
   competenceRepository = injectedCompetenceRepository,
-  organizationLearnerRepository,
+  organizationLearnerRepository = injectedRepositories.organizationLearnerRepository,
 } = {}) {
   const mission = await missionRepository.get(missionId);
   return await injectComplementDataTo({

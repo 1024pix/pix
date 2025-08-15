@@ -1,3 +1,4 @@
+import { repositories as injectedRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
 import { tokenService as injectedTokenService } from '../../../shared/domain/services/token-service.js';
 import { anonymousUserTokenRepository as injectedAnonymousUserTokenRepository } from '../../infrastructure/repositories/anonymous-user-token.repository.js';
 import { userToCreateRepository as injectedUserToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
@@ -20,7 +21,7 @@ export const authenticateAnonymousUser = async function ({
   campaignCode,
   lang = 'fr',
   audience,
-  campaignToJoinRepository,
+  campaignToJoinRepository = injectedRepositories.campaignToJoinRepository,
   userToCreateRepository = injectedUserToCreateRepository,
   anonymousUserTokenRepository = injectedAnonymousUserTokenRepository,
   tokenService = injectedTokenService,

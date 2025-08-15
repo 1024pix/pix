@@ -1,4 +1,4 @@
-/**
+import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js'; /**
  * @typedef {import ('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  */
@@ -11,7 +11,11 @@
  *
  * @returns {Promise<Candidate>}
  */
-export async function reconcileCandidate({ userId, candidate, candidateRepository }) {
+export async function reconcileCandidate({
+  userId,
+  candidate,
+  candidateRepository = injectedCandidateRepository,
+} = {}) {
   candidate.reconcile(userId);
   await candidateRepository.update(candidate);
   return candidate;

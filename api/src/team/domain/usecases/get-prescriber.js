@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import * as injectedSharedMembershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { userOrgaSettingsRepository as injectedUserOrgaSettingsRepository } from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import { UserNotMemberOfOrganizationError } from '../errors.js';
 
@@ -16,7 +17,7 @@ import { UserNotMemberOfOrganizationError } from '../errors.js';
  */
 export const getPrescriber = async function ({
   userId,
-  prescriberRepository,
+  prescriberRepository = injectedRepositories.prescriberRepository,
   sharedMembershipRepository = injectedSharedMembershipRepository,
   userOrgaSettingsRepository = injectedUserOrgaSettingsRepository,
 } = {}) {

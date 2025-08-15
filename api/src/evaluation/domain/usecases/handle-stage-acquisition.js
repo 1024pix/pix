@@ -1,5 +1,6 @@
 import * as injectedCampaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as injectedCampaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import { repositories as injectedRepositories } from '../../../shared/infrastructure/repositories/index.js';
 import * as injectedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as injectedStageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as injectedStageRepository from '../../infrastructure/repositories/stage-repository.js';
@@ -26,7 +27,7 @@ const handleStageAcquisition = async function ({
   skillRepository = injectedSkillRepository,
   campaignRepository = injectedCampaignRepository,
   stageAcquisitionRepository = injectedStageAcquisitionRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
   getNewAcquiredStagesService = injectedGetNewAcquiredStagesService,
   getMasteryPercentageService = injectedGetMasteryPercentageService,

@@ -1,6 +1,9 @@
+import * as injectedTutorialEvaluationRepository from '../../infrastructure/repositories/tutorial-evaluation-repository.js';
+import * as injectedTutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
+
 const addTutorialEvaluation = async function ({
-  tutorialRepository,
-  tutorialEvaluationRepository,
+  tutorialRepository = injectedTutorialRepository,
+  tutorialEvaluationRepository = injectedTutorialEvaluationRepository,
   userId,
   tutorialId,
   status,

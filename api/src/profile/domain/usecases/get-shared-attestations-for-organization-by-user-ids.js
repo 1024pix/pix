@@ -1,5 +1,6 @@
 import * as injectedStringUtils from '../../../shared/infrastructure/utils/string-utils.js';
 import * as injectedAttestationRepository from '../../infrastructure/repositories/attestation-repository.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import * as injectedOrganizationProfileRewardRepository from '../../infrastructure/repositories/organizations-profile-reward-repository.js';
 import * as injectedProfileRewardRepository from '../../infrastructure/repositories/profile-reward-repository.js';
 import { AttestationNotFoundError, NoProfileRewardsFoundError } from '../errors.js';
@@ -9,7 +10,7 @@ export async function getSharedAttestationsForOrganizationByUserIds({
   userIds,
   organizationId,
   locale,
-  userRepository,
+  userRepository = injectedRepositories.userRepository,
   profileRewardRepository = injectedProfileRewardRepository,
   attestationRepository = injectedAttestationRepository,
   organizationProfileRewardRepository = injectedOrganizationProfileRewardRepository,

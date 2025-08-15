@@ -5,6 +5,8 @@
  * @typedef {import('./index.js').PlacementProfileService} PlacementProfileService
  */
 import * as injectedPlacementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import * as injectedCertificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as injectedCertificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import { competenceMarkRepository as injectedCompetenceMarkRepository } from '../../infrastructure/repositories/index.js';
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
@@ -19,8 +21,8 @@ import { CertificationDetails } from '../read-models/CertificationDetails.js';
 const getCertificationDetails = async function ({
   certificationCourseId,
   competenceMarkRepository = injectedCompetenceMarkRepository,
-  certificationAssessmentRepository,
-  certificationCandidateRepository,
+  certificationAssessmentRepository = injectedCertificationAssessmentRepository,
+  certificationCandidateRepository = injectedCertificationCandidateRepository,
   placementProfileService = injectedPlacementProfileService,
 } = {}) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({

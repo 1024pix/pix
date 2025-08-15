@@ -14,6 +14,7 @@ import * as injectedOrganizationLearnerImportFormatRepository from '../../../lea
 import * as injectedLearningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as injectedCampaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
 import * as injectedCampaignRepository from '../../infrastructure/repositories/campaign-repository.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import * as injectedKnowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as injectedStageCollectionRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/campaign-assessment-export.js';
@@ -61,7 +62,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   knowledgeElementSnapshotRepository = injectedKnowledgeElementSnapshotRepository,
   knowledgeElementRepository = injectedKnowledgeElementRepository,
   badgeAcquisitionRepository = injectedBadgeAcquisitionRepository,
-  targetProfileRepository,
+  targetProfileRepository = injectedRepositories.targetProfileRepository,
   learningContentRepository = injectedLearningContentRepository,
   stageCollectionRepository = injectedStageCollectionRepository,
   organizationFeatureApi = injectedOrganizationFeatureApi,

@@ -1,4 +1,4 @@
-/**
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js'; /**
  * @typedef {import("./index.js").CenterRepository} CenterRepository
  * @typedef {import("./index.js").ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import("../models/Center.js").Center} Center
@@ -13,7 +13,7 @@
  * @returns {Center} related certification center
  * @throws {NotFoundError} a candidate is linked to an unexisting certification center
  */
-const getMassImportTemplateInformation = async ({ centerId, centerRepository }) => {
+const getMassImportTemplateInformation = async ({ centerId, centerRepository = injectedCenterRepository } = {}) => {
   const center = await centerRepository.getById({ id: centerId });
   return {
     habilitationLabels: center.habilitations.map((habilitation) => habilitation.label),

@@ -6,6 +6,8 @@
  */
 
 import * as injectedSessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as injectedCenterRepository from '../../infrastructure/repositories/center-repository.js';
+import * as injectedSessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import * as injectedSessionCodeService from '../services/session-code-service.js';
 
@@ -19,8 +21,8 @@ import * as injectedSessionCodeService from '../services/session-code-service.js
 const createSession = async function ({
   userId,
   session,
-  centerRepository,
-  sessionRepository,
+  centerRepository = injectedCenterRepository,
+  sessionRepository = injectedSessionRepository,
   sessionValidator = injectedSessionValidator,
   sessionCodeService = injectedSessionCodeService,
 } = {}) {

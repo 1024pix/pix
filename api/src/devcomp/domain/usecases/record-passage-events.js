@@ -1,8 +1,15 @@
 import { DomainError } from '../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
+import * as injectedPassageEventRepository from '../../infrastructure/repositories/passage-event-repository.js';
+import * as injectedPassageRepository from '../../infrastructure/repositories/passage-repository.js';
 import { PassageEventFactory } from '../factories/passage-event-factory.js';
 
-const recordPassageEvents = async function ({ events, userId, passageRepository, passageEventRepository }) {
+const recordPassageEvents = async function ({
+  events,
+  userId,
+  passageRepository = injectedPassageRepository,
+  passageEventRepository = injectedPassageEventRepository,
+} = {}) {
   await PromiseUtils.mapSeries(events, async (event) => {
     const passageEvent = PassageEventFactory.build(event);
     await _validatePassage({ event, userId, passageRepository, passageEventRepository });

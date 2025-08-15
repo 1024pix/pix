@@ -5,6 +5,7 @@ import * as injectedCampaignParticipationRepository from '../../../prescription/
 import * as injectedAreaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as injectedAssessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as injectedCompetenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
+import { repositories as injectedRepositories } from '../../../shared/infrastructure/repositories/index.js';
 import * as injectedCompetenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import { CompetenceResetError } from '../errors.js';
 import { Scorecard } from '../models/Scorecard.js';
@@ -17,7 +18,7 @@ const resetScorecard = async function ({
   competenceRepository = injectedCompetenceRepository,
   areaRepository = injectedAreaRepository,
   competenceEvaluationRepository = injectedCompetenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
   assessmentRepository = injectedAssessmentRepository,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
   campaignRepository = injectedCampaignRepository,

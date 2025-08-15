@@ -1,12 +1,13 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../errors.js';
 
-import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
-
 const attachChildOrganizationToOrganization = withTransaction(
-  async (
-    { childOrganizationIds, parentOrganizationId, organizationForAdminRepository = injectedRepositories.organizationForAdminRepository } = {},
-  ) => {
+  async ({
+    childOrganizationIds,
+    parentOrganizationId,
+    organizationForAdminRepository = injectedRepositories.organizationForAdminRepository,
+  } = {}) => {
     const childOrganizationIdsArray = childOrganizationIds.split(',').map(Number);
 
     for (const childOrganizationId of childOrganizationIdsArray) {

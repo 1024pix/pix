@@ -8,16 +8,22 @@ import {
 import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';
 import { EmptyAnswerError } from '../errors.js';
 
+import * as injectedCorrectionService from '../services/correction-service.js';
+import * as injectedCertificationEvaluationCandidateRepository from '../../../certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
+import * as injectedCertificationChallengeLiveAlertRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as injectedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as injectedAnswerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
+
 const saveAndCorrectAnswerForCertification = withTransaction(async function ({
   answer,
   userId,
   assessment,
   forceOKAnswer = false,
-  answerRepository,
-  challengeRepository,
-  certificationChallengeLiveAlertRepository,
-  certificationEvaluationCandidateRepository,
-  correctionService,
+  answerRepository = injectedAnswerRepository,
+  challengeRepository = injectedChallengeRepository,
+  certificationChallengeLiveAlertRepository = injectedCertificationChallengeLiveAlertRepository,
+  certificationEvaluationCandidateRepository = injectedCertificationEvaluationCandidateRepository,
+  correctionService = injectedCorrectionService,
 } = {}) {
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');

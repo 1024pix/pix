@@ -1,5 +1,8 @@
 import { CertificationCandidatesError } from '../../../../../src/shared/domain/errors.js';
+import * as injectedCertificationCpfCityRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as injectedCertificationCpfCountryRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as injectedCertificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 /**
  * @typedef {import('../../domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../domain/usecases/index.js').CertificationCpfService} CertificationCpfService
@@ -27,10 +30,10 @@ const correctCandidateIdentityInCertificationCourse = async function ({
     birthINSEECode,
   },
 
-  certificationCourseRepository,
+  certificationCourseRepository = injectedCertificationCourseRepository,
   certificationCpfService = injectedCertificationCpfService,
-  certificationCpfCountryRepository,
-  certificationCpfCityRepository,
+  certificationCpfCountryRepository = injectedCertificationCpfCountryRepository,
+  certificationCpfCityRepository = injectedCertificationCpfCityRepository,
 } = {}) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.correctFirstName(firstName);

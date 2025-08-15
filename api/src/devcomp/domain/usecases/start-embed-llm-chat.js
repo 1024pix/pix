@@ -1,12 +1,13 @@
 import * as injectedLlmApi from '../../../llm/application/api/llm-api.js';
 import { DomainError } from '../../../shared/domain/errors.js';
+import * as injectedPassageRepository from '../../infrastructure/repositories/passage-repository.js';
 
 export async function startEmbedLlmChat({
   configId,
   userId,
   passageId,
   llmApi = injectedLlmApi,
-  passageRepository,
+  passageRepository = injectedPassageRepository,
 } = {}) {
   await checkIfPassageBelongsToUser(passageId, userId, passageRepository);
   return await llmApi.startChat({ configId, userId, passageId });

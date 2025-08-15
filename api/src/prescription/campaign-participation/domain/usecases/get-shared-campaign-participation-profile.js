@@ -3,6 +3,7 @@ import { NoCampaignParticipationForUserAndCampaign } from '../../../../shared/do
 import { SharedProfileForCampaign } from '../../../../shared/domain/read-models/SharedProfileForCampaign.js';
 import * as injectedAreaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as injectedCompetenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
+import { repositories as injectedRepositories } from '../../../../shared/infrastructure/repositories/index.js';
 import * as injectedCampaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 import * as injectedOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as injectedCampaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
@@ -12,7 +13,7 @@ const getSharedCampaignParticipationProfile = async function ({
   campaignId,
   campaignParticipationRepository = injectedCampaignParticipationRepository,
   campaignRepository = injectedCampaignRepository,
-  knowledgeElementRepository,
+  knowledgeElementRepository = injectedRepositories.knowledgeElementRepository,
   competenceRepository = injectedCompetenceRepository,
   areaRepository = injectedAreaRepository,
   organizationLearnerRepository = injectedOrganizationLearnerRepository,

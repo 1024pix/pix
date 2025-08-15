@@ -1,8 +1,12 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import * as injectedPassageRepository from '../../infrastructure/repositories/passage-repository.js';
 import { PassageDoesNotExistError, PassageTerminatedError } from '../errors.js';
 
-const terminatePassage = withTransaction(async function ({ passageId, passageRepository }) {
+const terminatePassage = withTransaction(async function ({
+  passageId,
+  passageRepository = injectedPassageRepository,
+} = {}) {
   const passage = await _getPassage({ passageId, passageRepository });
   if (passage.terminatedAt) {
     throw new PassageTerminatedError();

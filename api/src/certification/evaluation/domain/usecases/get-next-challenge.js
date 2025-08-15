@@ -18,6 +18,7 @@ import { answerRepository as injectedAnswerRepository } from '../../../session-m
 import { certificationChallengeRepository as injectedSessionManagementCertificationChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { challengeRepository as injectedSharedChallengeRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { flashAlgorithmConfigurationRepository as injectedFlashAlgorithmConfigurationRepository } from '../../../session-management/infrastructure/repositories/index.js';
+import * as injectedCertificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as injectedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as injectedCertificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
@@ -42,7 +43,7 @@ const getNextChallenge = async function ({
   assessment,
   answerRepository = injectedAnswerRepository,
   sessionManagementCertificationChallengeRepository = injectedSessionManagementCertificationChallengeRepository,
-  certificationChallengeLiveAlertRepository,
+  certificationChallengeLiveAlertRepository = injectedCertificationChallengeLiveAlertRepository,
   certificationCourseRepository = injectedCertificationCourseRepository,
   sharedChallengeRepository = injectedSharedChallengeRepository,
   flashAlgorithmConfigurationRepository = injectedFlashAlgorithmConfigurationRepository,

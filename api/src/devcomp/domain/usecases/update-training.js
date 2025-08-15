@@ -1,4 +1,6 @@
-const updateTraining = async function ({ training, trainingRepository }) {
+import * as injectedTrainingRepository from '../../infrastructure/repositories/training-repository.js';
+
+const updateTraining = async function ({ training, trainingRepository = injectedTrainingRepository } = {}) {
   const trainingId = training.id;
   await trainingRepository.get({ trainingId });
 
