@@ -1,5 +1,4 @@
 import { createLearningContentRelease } from './create-learning-content-release.js';
-import { dependencies } from './dependencies.js';
 import { findSkillsByIds } from './find-skills-by-ids.js';
 import { getFrameworkAreas } from './get-framework-areas.js';
 import { getFrameworks } from './get-frameworks.js';
