@@ -730,11 +730,11 @@ export { complexUsecase };
       expect(result).toContain('import { repositories as injectedRepositories } from');
       // Should import regular repository separately
       expect(result).toContain('import * as injectedRegularRepository from');
-      
+
       // Should use member expressions for dependencies from repositories index
       expect(result).toContain('organizationForAdminRepository = injectedRepositories.organizationForAdminRepository');
       expect(result).toContain('userForAdminRepository = injectedRepositories.userForAdminRepository');
-      
+
       // Should use regular identifier for direct dependency
       expect(result).toContain('regularRepository = injectedRegularRepository');
     });
@@ -803,9 +803,12 @@ export { createSession };
       // Should transform the direct dependency
       expect(result).toContain('import * as injectedSessionValidator from');
       expect(result).toContain('sessionValidator = injectedSessionValidator');
-      
+
       // Now spread elements should be handled, so candidateRepository should be transformed
-      expect(result).toContain('import * as injectedCandidateRepository from');
+      // Check that the import path is correct (relative to the usecase file, not the repositories index)
+      expect(result).toContain(
+        "import * as injectedCandidateRepository from '../../infrastructure/repositories/candidate-repository.js';",
+      );
       expect(result).toContain('candidateRepository = injectedCandidateRepository');
     });
 
@@ -837,6 +840,238 @@ export async function processWithDefaults({
 
       expect(result).toContain('import * as injectedBadgeRepository from');
       expect(result).toContain('badgeRepository = injectedBadgeRepository');
+    });
+  });
+
+  describe('Duplicate import prevention', () => {
+    it('should not add duplicate imports when import already exists', () => {
+      mockIndexContent = `
+import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+
+const dependencies = {
+  badgeRepository,
+};
+      `;
+
+      const source = `
+import * as injectedBadgeRepository from '../../infrastructure/repositories/badge-repository.js';
+
+export const processWithExistingImport = ({ 
+  badgeId,
+  badgeRepository
+}) => {
+  return badgeRepository.process(badgeId);
+};
+      `.trim();
+
+      const result = transform(
+        source,
+        { jscodeshift },
+        {
+          path: '/test/api/src/shared/domain/usecases/process-with-existing-import.js',
+        },
+      );
+
+      // Should not add another import
+      const importMatches = result.match(/import \* as injectedBadgeRepository/g);
+      expect(importMatches).toHaveLength(1); // Only one import should exist
+
+      // Should still add the default value
+      expect(result).toContain('badgeRepository = injectedBadgeRepository');
+    });
+
+    it('should handle multiple dependencies without creating duplicates', () => {
+      mockIndexContent = `
+import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+import * as userRepository from '../../infrastructure/repositories/user-repository.js';
+
+const dependencies = {
+  badgeRepository,
+  userRepository,
+};
+      `;
+
+      const source = `
+import * as injectedBadgeRepository from '../../infrastructure/repositories/badge-repository.js';
+
+export const processWithPartialImports = ({ 
+  badgeId,
+  userId,
+  badgeRepository,
+  userRepository
+}) => {
+  return badgeRepository.process(badgeId, userRepository.get(userId));
+};
+      `.trim();
+
+      const result = transform(
+        source,
+        { jscodeshift },
+        {
+          path: '/test/api/src/shared/domain/usecases/process-with-partial-imports.js',
+        },
+      );
+
+      // Should not duplicate badgeRepository import but should add userRepository import
+      const badgeImportMatches = result.match(/import \* as injectedBadgeRepository/g);
+      expect(badgeImportMatches).toHaveLength(1); // Only one badge import
+
+      const userImportMatches = result.match(/import \* as injectedUserRepository/g);
+      expect(userImportMatches).toHaveLength(1); // One user import added
+
+      // Should add default values for both
+      expect(result).toContain('badgeRepository = injectedBadgeRepository');
+      expect(result).toContain('userRepository = injectedUserRepository');
+    });
+
+    it('should not duplicate imports when same repository appears with different names', () => {
+      mockIndexContent = `
+import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
+
+const repositories = {
+  organizationForAdminRepository: organizationalEntitiesRepositories.organizationForAdminRepository,
+};
+
+const dependencies = Object.assign({}, repositories);
+      `;
+
+      const source = `
+import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
+
+export const archiveOrganizationsInBatch = async function({ 
+  organizationIds, 
+  userId, 
+  organizationForAdminRepository 
+}) {
+  await organizationForAdminRepository.archive({ id: organizationIds[0], archivedBy: userId });
+};
+      `.trim();
+
+      const result = transform(
+        source,
+        { jscodeshift },
+        {
+          path: '/test/api/src/organizational-entities/domain/usecases/archive-organizations-in-batch.usecase.js',
+        },
+      );
+
+      // Should not add duplicate import
+      const importMatches = result.match(
+        /import \{ repositories as [\w\s]+ \} from '\.\.\/\.\.\/infrastructure\/repositories\/index\.js'/g,
+      );
+      expect(importMatches).toHaveLength(1); // Only one import should exist
+
+      // Should still add the default value
+      expect(result).toContain(
+        'organizationForAdminRepository = organizationalEntitiesRepositories.organizationForAdminRepository',
+      );
+    });
+
+    it('should not create duplicate destructured imports with different aliases', () => {
+      mockIndexContent = `
+import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
+
+const repositories = {
+  organizationForAdminRepository: organizationalEntitiesRepositories.organizationForAdminRepository,
+};
+
+const dependencies = Object.assign({}, repositories);
+      `;
+
+      const source = `
+import { repositories as injectedRepositories } from '../../infrastructure/repositories/index.js';
+
+export const processWithAliasedImport = ({ 
+  organizationForAdminRepository 
+}) => {
+  return organizationForAdminRepository.process();
+};
+      `.trim();
+
+      const result = transform(
+        source,
+        { jscodeshift },
+        {
+          path: '/test/api/src/organizational-entities/domain/usecases/process-with-aliased-import.js',
+        },
+      );
+
+      // Should not add another import from the same path
+      const importMatches = result.match(
+        /import \{ repositories as [\w\s]+ \} from '\.\.\/\.\.\/infrastructure\/repositories\/index\.js'/g,
+      );
+      expect(importMatches).toHaveLength(1); // Only one import should exist
+
+      // Should still add the default value using the existing imported name
+      expect(result).toContain('organizationForAdminRepository = injectedRepositories.organizationForAdminRepository');
+    });
+  });
+
+  describe('Import formatting', () => {
+    it('should format imports with proper newlines and spacing', () => {
+      mockIndexContent = `
+import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+import * as userRepository from '../../infrastructure/repositories/user-repository.js';
+
+const dependencies = {
+  badgeRepository,
+  userRepository,
+};
+      `;
+
+      const source = `
+const processMultipleDeps = async function ({ 
+  badgeId,
+  userId,
+  badgeRepository,
+  userRepository
+}) {
+  return badgeRepository.process(badgeId, userRepository.get(userId));
+};
+
+export { processMultipleDeps };
+      `.trim();
+
+      const result = transform(
+        source,
+        { jscodeshift },
+        {
+          path: '/test/api/src/shared/domain/usecases/process-multiple-deps.js',
+        },
+      );
+
+      // Check that imports are properly separated with newlines
+      expect(result).toMatch(/import \* as injectedBadgeRepository[^;]*;\nimport \* as injectedUserRepository/);
+
+      // Check that there's proper spacing between imports and function
+      expect(result).toMatch(/;\n\nconst processMultipleDeps/);
+
+      // Check that there's proper spacing before export
+      expect(result).toMatch(/;\n\nexport/);
+    });
+
+    it('should handle single import with proper formatting', () => {
+      const source = `
+const deleteUnassociatedBadge = async function ({ badgeId, badgeRepository }) {
+  return badgeRepository.delete(badgeId);
+};
+
+export { deleteUnassociatedBadge };
+      `.trim();
+
+      const result = transform(
+        source,
+        { jscodeshift },
+        {
+          path: '/test/api/src/shared/domain/usecases/delete-unassociated-badge.js',
+        },
+      );
+
+      // Check that import is followed by proper spacing
+      expect(result).toMatch(/import \* as injectedBadgeRepository[^;]*;\n\nconst deleteUnassociatedBadge/);
+
+      // Check that there's proper spacing before export
+      expect(result).toMatch(/;\n\nexport/);
     });
   });
 });

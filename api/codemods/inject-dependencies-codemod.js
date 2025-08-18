@@ -115,7 +115,7 @@ function extractDependenciesFromFile(filePath, visited = new Set()) {
             // Member expression: { organizationForAdminRepository: organizationalEntitiesRepositories.organizationForAdminRepository }
             const objectName = prop.value.object.name;
             const propertyName = prop.value.property.name;
-            
+
             // Look for the import of the object (e.g., organizationalEntitiesRepositories)
             if (dependencies[objectName]) {
               // Create a new dependency entry for this member access
@@ -132,19 +132,31 @@ function extractDependenciesFromFile(filePath, visited = new Set()) {
         } else if (prop.type === 'SpreadElement' && prop.argument.type === 'Identifier') {
           // Spread element: { ...enrolmentRepositories }
           const spreadObjectName = prop.argument.name;
-          
+
           if (dependencies[spreadObjectName]) {
             // Resolve the spread element by reading the target file
             const baseDependency = dependencies[spreadObjectName];
             const targetFilePath = path.resolve(path.dirname(currentFilePath), baseDependency.path);
-            
+
             // Recursively extract dependencies from the target file
             const spreadDependencies = extractDependenciesFromFile(targetFilePath, visited);
-            
+
             // Add all spread dependencies to our main dependencies object
             Object.keys(spreadDependencies).forEach((key) => {
-              if (!dependencies[key]) { // Don't overwrite existing dependencies
-                dependencies[key] = spreadDependencies[key];
+              if (!dependencies[key]) {
+                // Don't overwrite existing dependencies
+                // Adjust the path to be relative to the current file, not the spread target file
+                const adjustedDependency = { ...spreadDependencies[key] };
+
+                // Calculate the relative path from current file to the spread dependency
+                const spreadDependencyPath = path.resolve(path.dirname(targetFilePath), adjustedDependency.path);
+                const adjustedPath = path.relative(path.dirname(currentFilePath), spreadDependencyPath);
+
+                // Ensure we use forward slashes and add .js extension if missing
+                const normalizedPath = adjustedPath.replace(/\\/g, '/');
+                adjustedDependency.path = normalizedPath.endsWith('.js') ? normalizedPath : normalizedPath + '.js';
+
+                dependencies[key] = adjustedDependency;
               }
             });
           }
@@ -177,39 +189,37 @@ function extractDependenciesFromFile(filePath, visited = new Set()) {
 
     // Look for objects created with injectDependencies() and extract from their source objects
     // Pattern: const finalObject = injectDependencies(sourceObject, deps);
-    fileAst
-      .find(jscodeshift.VariableDeclarator)
-      .forEach((declaratorPath) => {
-        const node = declaratorPath.node;
-        if (
-          node.init &&
-          node.init.type === 'CallExpression' &&
-          node.init.callee &&
-          node.init.callee.name === 'injectDependencies' &&
-          node.init.arguments.length >= 1
-        ) {
-          // Get the first argument (the source object)
-          const sourceArg = node.init.arguments[0];
-          
-          if (sourceArg.type === 'Identifier') {
-            // The source is a variable reference, find its declaration
-            const sourceName = sourceArg.name;
-            
-            fileAst
-              .find(jscodeshift.VariableDeclarator, {
-                id: { name: sourceName },
-              })
-              .forEach((sourceDeclaratorPath) => {
-                const sourceProperties = sourceDeclaratorPath.node.init?.properties || [];
-                processObjectProperties(sourceProperties, dependencies, filePath, visited);
-              });
-          } else if (sourceArg.type === 'ObjectExpression') {
-            // The source is an inline object
-            const sourceProperties = sourceArg.properties || [];
-            processObjectProperties(sourceProperties, dependencies, filePath, visited);
-          }
+    fileAst.find(jscodeshift.VariableDeclarator).forEach((declaratorPath) => {
+      const node = declaratorPath.node;
+      if (
+        node.init &&
+        node.init.type === 'CallExpression' &&
+        node.init.callee &&
+        node.init.callee.name === 'injectDependencies' &&
+        node.init.arguments.length >= 1
+      ) {
+        // Get the first argument (the source object)
+        const sourceArg = node.init.arguments[0];
+
+        if (sourceArg.type === 'Identifier') {
+          // The source is a variable reference, find its declaration
+          const sourceName = sourceArg.name;
+
+          fileAst
+            .find(jscodeshift.VariableDeclarator, {
+              id: { name: sourceName },
+            })
+            .forEach((sourceDeclaratorPath) => {
+              const sourceProperties = sourceDeclaratorPath.node.init?.properties || [];
+              processObjectProperties(sourceProperties, dependencies, filePath, visited);
+            });
+        } else if (sourceArg.type === 'ObjectExpression') {
+          // The source is an inline object
+          const sourceProperties = sourceArg.properties || [];
+          processObjectProperties(sourceProperties, dependencies, filePath, visited);
         }
-      });
+      }
+    });
 
     return dependencies;
   } catch (error) {
@@ -225,7 +235,7 @@ function extractDependenciesFromIndexFile(usecaseFilePath) {
   try {
     const usecaseDir = path.dirname(usecaseFilePath);
     const indexFilePath = path.join(usecaseDir, 'index.js');
-    
+
     return extractDependenciesFromFile(indexFilePath);
   } catch (error) {
     console.warn(`Error reading index file for ${usecaseFilePath}:`, error.message);
@@ -255,7 +265,6 @@ function transform(source, api, options) {
     console.warn(`No dependencies found for ${filePath}`);
     return source;
   }
-
 
   const importsToAdd = new Set();
   const usedDependencies = new Set();
@@ -354,12 +363,12 @@ function transform(source, api, options) {
       if (!func.params || func.params.length === 0) return;
 
       let firstParam = func.params[0];
-      
+
       // Handle AssignmentPattern (e.g., { params } = {})
       if (firstParam.type === 'AssignmentPattern') {
         firstParam = firstParam.left;
       }
-      
+
       if (firstParam.type !== 'ObjectPattern') return;
 
       // Analyze destructuring properties to find dependency parameters
@@ -378,12 +387,12 @@ function transform(source, api, options) {
             // Generate import statement and default value based on original import type
             let importStatement;
             let injectedName;
-            
+
             if (depInfo.memberProperty) {
               // Handle member expressions: use the original object name for the import
               // organizationalEntitiesRepositories.organizationForAdminRepository
               injectedName = `injected${capitalize(depInfo.originalName)}`;
-              
+
               if (depInfo.importType === 'destructured') {
                 importStatement = `import { ${depInfo.originalName} as ${injectedName} } from '${relativePath}';`;
               } else {
@@ -393,7 +402,7 @@ function transform(source, api, options) {
             } else {
               // Handle regular imports
               injectedName = `injected${capitalize(paramName)}`;
-              
+
               if (depInfo.importType === 'namespace') {
                 importStatement = `import * as ${injectedName} from '${relativePath}';`;
               } else if (depInfo.importType === 'destructured') {
@@ -403,7 +412,56 @@ function transform(source, api, options) {
               }
             }
 
-            importsToAdd.add(importStatement);
+            // Check if this import already exists in the file
+            let importAlreadyExists = false;
+            let existingImportName = null;
+
+            root.find(jscodeshift.ImportDeclaration).forEach((importPath) => {
+              const importNode = importPath.node;
+              if (importNode.source.value === relativePath) {
+                // Check if we have a matching specifier
+                importNode.specifiers.forEach((spec) => {
+                  if (depInfo.memberProperty) {
+                    // For member expressions, we need the same import type and original name
+                    if (depInfo.importType === 'destructured' && spec.type === 'ImportSpecifier') {
+                      if (spec.imported && spec.imported.name === depInfo.originalName) {
+                        importAlreadyExists = true;
+                        existingImportName = spec.local.name;
+                      }
+                    } else if (depInfo.importType === 'namespace' && spec.type === 'ImportNamespaceSpecifier') {
+                      importAlreadyExists = true;
+                      existingImportName = spec.local.name;
+                    }
+                  } else {
+                    // For regular imports, check if the injected name matches
+                    if (depInfo.importType === 'namespace' && spec.type === 'ImportNamespaceSpecifier') {
+                      if (spec.local.name === injectedName) {
+                        importAlreadyExists = true;
+                        existingImportName = spec.local.name;
+                      }
+                    } else if (depInfo.importType === 'destructured' && spec.type === 'ImportSpecifier') {
+                      if (spec.local.name === injectedName) {
+                        importAlreadyExists = true;
+                        existingImportName = spec.local.name;
+                      }
+                    } else if (depInfo.importType === 'default' && spec.type === 'ImportDefaultSpecifier') {
+                      if (spec.local.name === injectedName) {
+                        importAlreadyExists = true;
+                        existingImportName = spec.local.name;
+                      }
+                    }
+                  }
+                });
+              }
+            });
+
+            if (!importAlreadyExists) {
+              importsToAdd.add(importStatement);
+            } else if (depInfo.memberProperty && existingImportName) {
+              // Update injectedName to use existing import
+              injectedName = existingImportName;
+            }
+
             usedDependencies.add(paramName);
             hasUsedDependencies = true;
 
@@ -413,8 +471,8 @@ function transform(source, api, options) {
               if (depInfo.memberProperty) {
                 // Create a member expression for the default value
                 prop.value = j.assignmentPattern(
-                  j.identifier(paramName), 
-                  j.memberExpression(j.identifier(injectedName), j.identifier(depInfo.memberProperty))
+                  j.identifier(paramName),
+                  j.memberExpression(j.identifier(injectedName), j.identifier(depInfo.memberProperty)),
                 );
               } else {
                 prop.value = j.assignmentPattern(j.identifier(paramName), j.identifier(injectedName));
@@ -424,8 +482,8 @@ function transform(source, api, options) {
               if (depInfo.memberProperty) {
                 // Create a member expression for the default value
                 prop.value = j.assignmentPattern(
-                  j.identifier(paramName), 
-                  j.memberExpression(j.identifier(injectedName), j.identifier(depInfo.memberProperty))
+                  j.identifier(paramName),
+                  j.memberExpression(j.identifier(injectedName), j.identifier(depInfo.memberProperty)),
                 );
               } else {
                 prop.value = j.assignmentPattern(j.identifier(paramName), j.identifier(injectedName));
@@ -447,25 +505,57 @@ function transform(source, api, options) {
   // Add imports at the beginning of the file
   if (importsToAdd.size > 0) {
     const existingImports = root.find(jscodeshift.ImportDeclaration);
-    const importStatements = Array.from(importsToAdd).map((importStr) => {
-      const importAst = j(importStr);
-      return importAst.find(jscodeshift.ImportDeclaration).at(0).get().node;
-    });
+    const importStatements = Array.from(importsToAdd)
+      .map((importStr) => {
+        try {
+          const importAst = j(importStr);
+          return importAst.find(jscodeshift.ImportDeclaration).at(0).get().node;
+        } catch (error) {
+          console.warn(`Error parsing import statement: ${importStr}`, error.message);
+          return null;
+        }
+      })
+      .filter(Boolean);
 
     if (existingImports.length > 0) {
-      // Add after existing imports
-      existingImports.at(-1).insertAfter(importStatements);
+      // Add after the last existing import
+      const lastImport = existingImports.at(-1);
+      importStatements.forEach((importNode) => {
+        lastImport.insertAfter(importNode);
+      });
     } else {
       // Add at the beginning of the file
       const program = root.find(j.Program);
       if (program.length > 0) {
         const body = program.get('body');
-        body.unshift(...importStatements);
+        // Find the first non-import statement to insert before it
+        const firstNonImport = body.value.find((node) => node.type !== 'ImportDeclaration');
+        if (firstNonImport) {
+          const insertIndex = body.value.indexOf(firstNonImport);
+          // Insert imports in reverse order to maintain correct order
+          importStatements.reverse().forEach((importNode) => {
+            body.value.splice(insertIndex, 0, importNode);
+          });
+        } else {
+          // File has only imports, add at the end
+          importStatements.forEach((importNode) => {
+            body.value.push(importNode);
+          });
+        }
       }
     }
   }
 
-  return root.toSource({ quote: 'single', trailingComma: true });
+  const sourceCode = root.toSource({
+    quote: 'single',
+    trailingComma: true,
+  });
+
+  // Fix formatting issues with imports appearing on the same line
+  return sourceCode
+    .replace(/;(import\s)/g, ';\n$1')
+    .replace(/;(const\s)/g, ';\n\n$1')
+    .replace(/;(export\s)/g, ';\n\n$1');
 }
 
 module.exports = transform;
