@@ -3,6 +3,7 @@
  * @typedef {import('./index.js').SharedChallengeRepository} SharedChallengeRepository
  */
 
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { AssessmentSimulator } from '../models/AssessmentSimulator.js';
 import { AssessmentSimulatorSingleMeasureStrategy } from '../models/AssessmentSimulatorSingleMeasureStrategy.js';
@@ -74,10 +75,14 @@ async function _simulateComplementaryCertificationScenario({
   sharedFlashAlgorithmConfigurationRepository,
   stopAtChallenge,
 }) {
+  const isCertificationWithComplementaryReferentialSimulation =
+    complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA;
+
   const challenges = await _getChallenges({
     locale,
     challengeRepository,
     complementaryCertificationKey,
+    isCertificationWithComplementaryReferentialSimulation,
   });
 
   const mostRecentAlgorithmConfiguration = await sharedFlashAlgorithmConfigurationRepository.getMostRecent();
@@ -134,11 +139,18 @@ async function _simulateCoreCertificationScenario({
  * @param {Object} params
  * @param {SharedChallengeRepository} params.challengeRepository
  */
-function _getChallenges({ challengeRepository, locale, accessibilityAdjustmentNeeded, complementaryCertificationKey }) {
+function _getChallenges({
+  challengeRepository,
+  locale,
+  accessibilityAdjustmentNeeded,
+  complementaryCertificationKey,
+  isCertificationWithComplementaryReferentialSimulation,
+}) {
   return challengeRepository.findActiveFlashCompatible({
     locale,
     accessibilityAdjustmentNeeded,
     complementaryCertificationKey,
+    isCertificationWithComplementaryReferentialSimulation,
   });
 }
 

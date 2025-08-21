@@ -1,6 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { httpAgent } from '../../../../src/shared/infrastructure/http-agent.js';
 import { getVersionNumber } from '../../../certification/configuration/domain/services/get-version-number.js';
+import { ComplementaryCertificationKeys } from '../../../certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { config } from '../../config.js';
 import { NotFoundError } from '../../domain/errors.js';
@@ -111,12 +112,13 @@ export async function findActiveFlashCompatible({
   accessibilityAdjustmentNeeded = false,
   complementaryCertificationKey,
   hasComplementaryReferential,
+  isCertificationWithComplementaryReferentialSimulation,
 } = {}) {
   _assertLocaleIsDefined(locale);
   const cacheKey = `findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded} })`;
   let challengeDtos;
 
-  if (hasComplementaryReferential) {
+  if (hasComplementaryReferential || isCertificationWithComplementaryReferentialSimulation) {
     const version = getVersionNumber(date);
 
     challengeDtos = await _findChallengesForComplementaryCertification({
@@ -131,6 +133,10 @@ export async function findActiveFlashCompatible({
   return challengesDtosWithSkills.map(([challengeDto, skill]) =>
     toDomain({ challengeDto, skill, successProbabilityThreshold }),
   );
+}
+
+function _isNotDoubleCertificationSimulation(complementaryCertificationKey) {
+  return complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA;
 }
 
 async function _findChallengesForComplementaryCertification({ complementaryCertificationKey, cacheKey, version }) {
