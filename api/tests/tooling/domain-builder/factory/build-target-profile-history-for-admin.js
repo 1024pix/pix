@@ -1,4 +1,4 @@
-import { TargetProfileHistoryForAdmin } from '../../../../src/shared/domain/models/TargetProfileHistoryForAdmin.js';
+import { TargetProfileHistoryForAdmin } from '../../../../src/certification/complementary-certification/domain/models/TargetProfileHistoryForAdmin.js';
 
 const buildTargetProfileHistoryForAdmin = function ({
   id = 999,

@@ -1,5 +1,5 @@
-import { TargetProfileHistoryForAdmin } from '../../../../../../src/certification/complementary-certification/domain/models/TargetProfileHistoryForAdmin.js';
 import * as targetProfileHistoryRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
+import { TargetProfileHistoryForAdmin } from '../../../../../../src/certificaxtion/complementary-certification/domain/models/TargetProfileHistoryForAdmin.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../../../../../src/shared/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
