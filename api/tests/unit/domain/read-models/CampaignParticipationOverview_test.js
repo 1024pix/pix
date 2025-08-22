@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-import { CampaignParticipationOverview } from '../../../../src/shared/domain/read-models/CampaignParticipationOverview.js';
+import { CampaignParticipationOverview } from '../../../../src/prescription/shared/domain/read-models/CampaignParticipationOverview.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

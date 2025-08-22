@@ -4,7 +4,7 @@ import * as campaignParticipationOverviewRepository from '../../../../../../src/
 import { OrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { findOrganizationLearnersWithParticipations } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-organization-learners-with-participations.js';
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { CampaignParticipationOverview } from '../../../../../../src/shared/domain/read-models/CampaignParticipationOverview.js';
+import { CampaignParticipationOverview } from '../../../../../../src/prescription/shared/domain/read-models/CampaignParticipationOverview.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 

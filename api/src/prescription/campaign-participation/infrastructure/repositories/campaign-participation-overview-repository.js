@@ -1,9 +1,9 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { constants } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CampaignParticipationOverview } from '../../../../shared/domain/read-models/CampaignParticipationOverview.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignParticipationOverview } from '../../../shared/domain/read-models/CampaignParticipationOverview.js';
 
 const findByUserIdWithFilters = async function ({ userId, states, page }) {
   const queryBuilder = _getQueryBuilder((qb) => {

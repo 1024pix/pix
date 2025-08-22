@@ -3,7 +3,7 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { CampaignParticipationOverview } from '../../../../../../../src/shared/domain/read-models/CampaignParticipationOverview.js';
+import { CampaignParticipationOverview } from '../../../../../../../src/prescription/shared/domain/read-models/CampaignParticipationOverview.js';
 import { expect } from '../../../../../../test-helper.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

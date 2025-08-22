@@ -1,6 +1,6 @@
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { CampaignParticipationOverview } from '../../../../../../src/shared/domain/read-models/CampaignParticipationOverview.js';
+import { CampaignParticipationOverview } from '../../../../../../src/prescription/shared/domain/read-models/CampaignParticipationOverview.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | UseCases | get-organization-learner-with-participations', function () {
