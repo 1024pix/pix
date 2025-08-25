@@ -1,6 +1,7 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { UserAccessToken } from '../models/UserAccessToken.js';
+import { UserReconciliationToken } from '../models/UserReconciliationToken.js';
 
 const getSamlAuthenticationRedirectionUrl = async function ({
   userAttributes,
@@ -8,7 +9,6 @@ const getSamlAuthenticationRedirectionUrl = async function ({
   userLoginRepository,
   authenticationMethodRepository,
   lastUserApplicationConnectionsRepository,
-  tokenService,
   config,
   audience,
   requestedApplication,
@@ -40,7 +40,8 @@ const getSamlAuthenticationRedirectionUrl = async function ({
     return `/connexion/gar#${encodeURIComponent(accessToken)}`;
   }
 
-  return _getUrlForReconciliationPage({ tokenService, externalUser });
+  const userReconciliationToken = UserReconciliationToken.generate(externalUser);
+  return `/campagnes?externalUser=${encodeURIComponent(userReconciliationToken)}`;
 };
 
 export { getSamlAuthenticationRedirectionUrl };
@@ -53,11 +54,6 @@ function _externalUserFirstAndLastNameMatchesAuthenticationMethodFirstAndLastNam
     externalUser.firstName === authenticationMethod.authenticationComplement?.firstName &&
     externalUser.lastName === authenticationMethod.authenticationComplement?.lastName
   );
-}
-
-function _getUrlForReconciliationPage({ tokenService, externalUser }) {
-  const externalUserToken = tokenService.createIdTokenForUserReconciliation(externalUser);
-  return `/campagnes?externalUser=${encodeURIComponent(externalUserToken)}`;
 }
 
 async function _saveUserFirstAndLastName({ authenticationMethodRepository, user, externalUser }) {

@@ -2,6 +2,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../identity-access-managem
 import { AuthenticationMethod } from '../../../../identity-access-management/domain/models/AuthenticationMethod.js';
 import { User } from '../../../../identity-access-management/domain/models/User.js';
 import { UserAccessToken } from '../../../../identity-access-management/domain/models/UserAccessToken.js';
+import { UserReconciliationToken } from '../../../../identity-access-management/domain/models/UserReconciliationToken.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ObjectValidationError } from '../../../../shared/domain/errors.js';
@@ -16,7 +17,6 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   organizationId,
   token,
   obfuscationService,
-  tokenService,
   audience,
   requestedApplication,
   userReconciliationService,
@@ -30,10 +30,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   lastUserApplicationConnectionsRepository,
   studentRepository,
 }) {
-  const externalUser = await tokenService.extractExternalUserFromIdToken(token);
-  const firstName = externalUser.firstName;
-  const lastName = externalUser.lastName;
-  const samlId = externalUser.samlId;
+  const { firstName, lastName, samlId } = UserReconciliationToken.decode(token);
 
   if (!firstName || !lastName || !samlId) {
     throw new ObjectValidationError('Missing claim(s) in IdToken');
@@ -64,7 +61,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
       studentRepository,
     );
 
-    userWithSamlId = await userRepository.getBySamlId(externalUser.samlId);
+    userWithSamlId = await userRepository.getBySamlId(samlId);
     if (!userWithSamlId) {
       const domainUser = new User({
         firstName,

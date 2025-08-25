@@ -2,8 +2,9 @@ import _ from 'lodash';
 import samlify from 'samlify';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { UserReconciliationToken } from '../../../../src/identity-access-management/domain/models/UserReconciliationToken.js';
 import { config as settings } from '../../../../src/shared/config.js';
-import { decodeIfValid, tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { decodeIfValid } from '../../../../src/shared/domain/services/token-service.js';
 import { createServer, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
@@ -261,18 +262,17 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
       it('returns a 200 with accessToken', async function () {
         // given
         const password = 'Pix123';
-        const userAttributes = {
-          firstName: 'saml',
-          lastName: 'jackson',
-          samlId: 'SAMLJACKSONID',
-        };
         const user = databaseBuilder.factory.buildUser.withRawPassword({
           username: 'saml.jackson1234',
           rawPassword: password,
         });
         await databaseBuilder.commit();
 
-        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+        const expectedExternalToken = UserReconciliationToken.generate({
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        });
 
         const options = {
           method: 'POST',
@@ -310,18 +310,17 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
       it('adds a GAR authentication method', async function () {
         // given
         const password = 'Pix123';
-        const userAttributes = {
-          firstName: 'saml',
-          lastName: 'jackson',
-          samlId: 'SAMLJACKSONID',
-        };
         const user = databaseBuilder.factory.buildUser.withRawPassword({
           username: 'saml.jackson1234',
           rawPassword: password,
         });
         await databaseBuilder.commit();
 
-        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+        const expectedExternalToken = UserReconciliationToken.generate({
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        });
 
         const options = {
           method: 'POST',
@@ -427,11 +426,6 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
             // given
             const email = 'i.am.blocked@example.net';
             const password = 'pix123';
-            const userAttributes = {
-              firstName: 'I_am',
-              lastName: 'Blocked',
-              samlId: 'someSamlId',
-            };
             const user = databaseBuilder.factory.buildUser.withRawPassword({
               email,
               rawPassword: password,
@@ -439,7 +433,11 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
             databaseBuilder.factory.buildUserLogin({ userId: user.id, failureCount: 50, blockedAt: new Date() });
             await databaseBuilder.commit();
 
-            const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+            const expectedExternalToken = UserReconciliationToken.generate({
+              firstName: 'I_am',
+              lastName: 'Blocked',
+              samlId: 'someSamlId',
+            });
 
             const options = {
               method: 'POST',
@@ -470,11 +468,6 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
             // given
             const username = 'i_am_blocked';
             const password = 'pix123';
-            const userAttributes = {
-              firstName: 'I_am',
-              lastName: 'Blocked',
-              samlId: 'someSamlId',
-            };
             const user = databaseBuilder.factory.buildUser.withRawPassword({
               username,
               rawPassword: password,
@@ -482,7 +475,11 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
             databaseBuilder.factory.buildUserLogin({ userId: user.id, failureCount: 50, blockedAt: new Date() });
             await databaseBuilder.commit();
 
-            const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+            const expectedExternalToken = UserReconciliationToken.generate({
+              firstName: 'I_am',
+              lastName: 'Blocked',
+              samlId: 'someSamlId',
+            });
 
             const options = {
               method: 'POST',

@@ -8,6 +8,7 @@ import { MissingOrInvalidCredentialsError, PasswordNotMatching, UserShouldChange
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { PasswordExpirationToken } from '../models/PasswordExpirationToken.js';
 import { UserAccessToken } from '../models/UserAccessToken.js';
+import { UserReconciliationToken } from '../models/UserReconciliationToken.js';
 
 /**
  * @param {Object} params
@@ -93,11 +94,10 @@ async function authenticateForSaml({
 async function _addGarAuthenticationMethod({
   userId,
   externalUserToken,
-  tokenService,
   authenticationMethodRepository,
   userRepository,
 }) {
-  const { samlId, firstName, lastName } = await tokenService.extractExternalUserFromIdToken(externalUserToken);
+  const { samlId, firstName, lastName } = UserReconciliationToken.decode(externalUserToken);
   await _checkIfSamlIdIsNotReconciledWithAnotherUser({ samlId, userId, userRepository });
 
   const garAuthenticationMethod = new AuthenticationMethod({

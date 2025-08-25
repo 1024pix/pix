@@ -1,4 +1,5 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { UserReconciliationToken } from '../../../../../../src/identity-access-management/domain/models/UserReconciliationToken.js';
 import { RequestedApplication } from '../../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import {
@@ -28,11 +29,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     context('When the firstName is empty', function () {
       it('should throw an ObjectValidationError', async function () {
         // given
-        const externalUser = {
+        const token = UserReconciliationToken.generate({
           lastName: 'Jackson',
           samlId: 'samlId',
-        };
-        const token = tokenService.createIdTokenForUserReconciliation(externalUser);
+        });
 
         // when
         const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
@@ -50,11 +50,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     context('When the lastName is empty', function () {
       it('should throw an ObjectValidationError', async function () {
         // given
-        const externalUser = {
+        const token = UserReconciliationToken.generate({
           firstName: 'Saml',
           samlId: 'samlId',
-        };
-        const token = tokenService.createIdTokenForUserReconciliation(externalUser);
+        });
 
         // when
         const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
@@ -72,11 +71,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     context('When the samlId is empty', function () {
       it('should throw an ObjectValidationError', async function () {
         // given
-        const externalUser = {
+        const token = UserReconciliationToken.generate({
           firstName: 'Saml',
           lastName: 'Jackson',
-        };
-        const token = tokenService.createIdTokenForUserReconciliation(externalUser);
+        });
 
         // when
         const error = await catchErr(usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser)({
@@ -98,12 +96,11 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
-      const externalUser = {
+      token = UserReconciliationToken.generate({
         firstName: 'Saml',
         lastName: 'Jackson',
         samlId: 'samlId',
-      };
-      token = tokenService.createIdTokenForUserReconciliation(externalUser);
+      });
     });
 
     it('should throw a Not Found error', async function () {
@@ -132,11 +129,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     let token;
 
     beforeEach(async function () {
+      token = UserReconciliationToken.generate({ firstName, lastName, samlId });
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
-
-      const externalUser = { firstName, lastName, samlId };
-      token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
     it('creates the external user, reconciles it and creates GAR authentication method', async function () {

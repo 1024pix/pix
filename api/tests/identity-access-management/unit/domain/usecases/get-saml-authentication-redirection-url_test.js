@@ -2,6 +2,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
+import { UserReconciliationToken } from '../../../../../src/identity-access-management/domain/models/UserReconciliationToken.js';
 import { getSamlAuthenticationRedirectionUrl } from '../../../../../src/identity-access-management/domain/usecases/get-saml-authentication-redirection-url.js';
 import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
@@ -11,7 +12,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
   let userLoginRepository;
   let authenticationMethodRepository;
   let lastUserApplicationConnectionsRepository;
-  let tokenService;
   let samlSettings;
   const audience = 'https://app.pix.fr';
   const requestedApplication = new RequestedApplication('app');
@@ -29,10 +29,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       findOneByUserIdAndIdentityProvider: sinon.stub(),
       updateLastLoggedAtByIdentityProvider: sinon.stub(),
       update: sinon.stub(),
-    };
-
-    tokenService = {
-      createIdTokenForUserReconciliation: sinon.stub(),
     };
 
     samlSettings = {
@@ -58,9 +54,8 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         NOM: 'Lopez',
         PRE: 'Adèle',
       };
-
-      tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
       userRepository.getBySamlId.resolves(null);
+      sinon.stub(UserReconciliationToken, 'generate').returns('external-user-token');
 
       // when
       const result = await getSamlAuthenticationRedirectionUrl({
@@ -68,7 +63,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userRepository,
         userLoginRepository,
         lastUserApplicationConnectionsRepository,
-        tokenService,
         config: samlSettings,
       });
 
@@ -121,7 +115,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userLoginRepository,
         authenticationMethodRepository,
         lastUserApplicationConnectionsRepository,
-        tokenService,
         config: samlSettings,
         requestedApplication,
       });
@@ -144,7 +137,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
         domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider(),
       );
-      tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
+      sinon.stub(UserReconciliationToken, 'generate').returns('external-user-token');
 
       // when
       await getSamlAuthenticationRedirectionUrl({
@@ -153,7 +146,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userLoginRepository,
         authenticationMethodRepository,
         lastUserApplicationConnectionsRepository,
-        tokenService,
         config: samlSettings,
         requestedApplication,
       });
@@ -197,7 +189,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
-          tokenService,
           config: samlSettings,
           requestedApplication,
         });
@@ -236,7 +227,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
-          tokenService,
           config: samlSettings,
           requestedApplication,
         });
@@ -274,7 +264,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
-          tokenService,
           config: samlSettings,
           requestedApplication,
         });
@@ -312,7 +301,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
-          tokenService,
           config: samlSettings,
           requestedApplication,
         });

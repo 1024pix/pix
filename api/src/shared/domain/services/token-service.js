@@ -2,7 +2,6 @@ import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../../src/shared/config.js';
 import {
-  InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
@@ -19,18 +18,6 @@ const CERTIFICATION_RESULTS_BY_RECIPIENT_EMAIL_LINK_SCOPE = 'certificationResult
  */
 function encodeToken(payload, secret, options) {
   return jsonwebtoken.sign(payload, secret, options);
-}
-
-function createIdTokenForUserReconciliation(externalUser) {
-  return jsonwebtoken.sign(
-    {
-      first_name: externalUser.firstName,
-      last_name: externalUser.lastName,
-      saml_id: externalUser.samlId,
-    },
-    config.authentication.secret,
-    { expiresIn: config.authentication.tokenForStudentReconciliationLifespan },
-  );
 }
 
 function createCertificationResultsByRecipientEmailLinkToken({
@@ -90,11 +77,6 @@ function getDecodedToken(token, secret = config.authentication.secret) {
   }
 }
 
-function extractSamlId(token) {
-  const decoded = getDecodedToken(token);
-  return decoded.saml_id || null;
-}
-
 function extractCertificationResultsByRecipientEmailLink(token) {
   const decoded = getDecodedToken(token);
   if (!decoded.session_id || !decoded.result_recipient_email) {
@@ -131,31 +113,13 @@ function extractUserId(token) {
   return decoded.user_id || null;
 }
 
-async function extractExternalUserFromIdToken(token) {
-  const externalUser = getDecodedToken(token);
-
-  if (!externalUser) {
-    throw new InvalidExternalUserTokenError(
-      'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.',
-    );
-  }
-
-  return {
-    firstName: externalUser['first_name'],
-    lastName: externalUser['last_name'],
-    samlId: externalUser['saml_id'],
-  };
-}
 const tokenService = {
-  createIdTokenForUserReconciliation,
   createCertificationResultsByRecipientEmailLinkToken,
   createCertificationResultsLinkToken,
   decodeIfValid,
   getDecodedToken,
   encodeToken,
-  extractExternalUserFromIdToken,
   extractCertificationResultsByRecipientEmailLink,
-  extractSamlId,
   extractCertificationResultsLink,
   extractTokenFromAuthChain,
   extractUserId,
@@ -168,12 +132,9 @@ const tokenService = {
 export {
   createCertificationResultsByRecipientEmailLinkToken,
   createCertificationResultsLinkToken,
-  createIdTokenForUserReconciliation,
   decodeIfValid,
   extractCertificationResultsByRecipientEmailLink,
   extractCertificationResultsLink,
-  extractExternalUserFromIdToken,
-  extractSamlId,
   extractTokenFromAuthChain,
   extractUserId,
   getDecodedToken,

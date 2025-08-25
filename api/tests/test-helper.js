@@ -27,10 +27,10 @@ import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 import * as tutorialRepository from '../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import { ApplicationAccessToken } from '../src/identity-access-management/domain/models/ApplicationAccessToken.js';
 import { UserAccessToken } from '../src/identity-access-management/domain/models/UserAccessToken.js';
+import { UserReconciliationToken } from '../src/identity-access-management/domain/models/UserReconciliationToken.js';
 import * as missionRepository from '../src/school/infrastructure/repositories/mission-repository.js';
 import { ORGANIZATION_FEATURE } from '../src/shared/domain/constants.js';
 import { Membership } from '../src/shared/domain/models/Membership.js';
-import * as tokenService from '../src/shared/domain/services/token-service.js';
 import { featureToggles } from '../src/shared/infrastructure/feature-toggles/index.js';
 import * as areaRepository from '../src/shared/infrastructure/repositories/area-repository.js';
 import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
@@ -143,7 +143,7 @@ function generateValidRequestAuthorizationHeaderForApplication(clientId = 'clien
 }
 
 function generateIdTokenForExternalUser(externalUser) {
-  return tokenService.createIdTokenForUserReconciliation(externalUser);
+  return UserReconciliationToken.generate(externalUser);
 }
 
 async function insertUserWithRoleSuperAdmin() {

@@ -7,6 +7,7 @@ import {
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { PasswordExpirationToken } from '../../../../../src/identity-access-management/domain/models/PasswordExpirationToken.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
+import { UserReconciliationToken } from '../../../../../src/identity-access-management/domain/models/UserReconciliationToken.js';
 import { authenticateForSaml } from '../../../../../src/identity-access-management/domain/usecases/authenticate-for-saml.usecase.js';
 import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import {
@@ -18,7 +19,6 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.
 
 describe('Unit | Identity Access Management | Domain | UseCase | authenticate-for-saml', function () {
   let lastUserApplicationConnectionsRepository;
-  let tokenService;
   let pixAuthenticationService;
   let obfuscationService;
   let authenticationMethodRepository;
@@ -28,9 +28,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
   const requestedApplication = new RequestedApplication('app');
 
   beforeEach(function () {
-    tokenService = {
-      extractExternalUserFromIdToken: sinon.stub(),
-    };
     pixAuthenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
     };
@@ -67,7 +64,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
       _stubToEnableAddGarAuthenticationMethod({
         user,
         externalUserToken,
-        tokenService,
         userRepository,
         authenticationMethodRepository,
       });
@@ -86,7 +82,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         externalUserToken,
         expectedUserId: user.id,
         audience,
-        tokenService,
         pixAuthenticationService,
         obfuscationService,
         authenticationMethodRepository,
@@ -117,7 +112,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
       _stubToEnableAddGarAuthenticationMethod({
         user,
         externalUserToken,
-        tokenService,
         userRepository,
         authenticationMethodRepository,
       });
@@ -136,7 +130,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         externalUserToken,
         expectedUserId: user.id,
         audience,
-        tokenService,
         pixAuthenticationService,
         obfuscationService,
         authenticationMethodRepository,
@@ -186,7 +179,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         password,
         externalUserToken: 'an external user token',
         expectedUserId,
-        tokenService,
         pixAuthenticationService,
         obfuscationService,
         authenticationMethodRepository,
@@ -215,7 +207,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
         const samlId = 'samlId';
-        tokenService.extractExternalUserFromIdToken.withArgs(externalUserToken).returns({ samlId });
+        sinon.stub(UserReconciliationToken, 'decode').withArgs(externalUserToken).returns({ samlId });
 
         const userFromExternalUserToken = domainBuilder.buildUser({ id: userFromCredentials.id + 1 });
         userRepository.getBySamlId.withArgs(samlId).resolves(userFromExternalUserToken);
@@ -226,7 +218,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           password,
           externalUserToken: externalUserToken,
           expectedUserId: userFromCredentials.id,
-          tokenService,
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
@@ -256,7 +247,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           samlId,
           firstName: 'Hervé',
           lastName: 'Le Terrier',
-          tokenService,
           userRepository,
           authenticationMethodRepository,
         });
@@ -267,7 +257,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           password,
           externalUserToken,
           expectedUserId: user.id,
-          tokenService,
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
@@ -310,7 +299,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           samlId: externalIdentifier,
           firstName: 'Monique',
           lastName: 'Samoëns',
-          tokenService,
           userRepository,
           authenticationMethodRepository,
         });
@@ -321,7 +309,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           password: oneTimePassword,
           externalUserToken,
           expectedUserId: user.id,
-          tokenService,
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
@@ -362,7 +349,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           user,
           externalUserToken,
           samlId: externalIdentifier,
-          tokenService,
           userRepository,
           authenticationMethodRepository,
         });
@@ -373,7 +359,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           password: oneTimePassword,
           externalUserToken,
           expectedUserId: user.id,
-          tokenService,
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
@@ -407,7 +392,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
       const error = await catchErr(authenticateForSaml)({
         username: unknownUserEmail,
         password,
-        tokenService,
         pixAuthenticationService,
         userRepository,
         userLoginRepository,
@@ -434,7 +418,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
       const error = await catchErr(authenticateForSaml)({
         username: email,
         password: invalidPassword,
-        tokenService,
         pixAuthenticationService,
         userRepository,
         userLoginRepository,
@@ -499,13 +482,12 @@ function _stubToEnableAddGarAuthenticationMethod({
   user,
   externalUserToken,
   samlId = 'samlId',
-  tokenService,
   userRepository,
   authenticationMethodRepository,
   firstName = 'Hervé',
   lastName = 'Le Terrier',
 }) {
-  tokenService.extractExternalUserFromIdToken.withArgs(externalUserToken).returns({ samlId, firstName, lastName });
+  sinon.stub(UserReconciliationToken, 'decode').withArgs(externalUserToken).returns({ samlId, firstName, lastName });
   userRepository.getBySamlId.withArgs(samlId).resolves(user);
   authenticationMethodRepository.create.resolves();
 }

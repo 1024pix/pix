@@ -1,5 +1,6 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { UserAccessToken } from '../../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
+import { UserReconciliationToken } from '../../../../../../src/identity-access-management/domain/models/UserReconciliationToken.js';
 import { RequestedApplication } from '../../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from '../../../../../../src/prescription/organization-learner/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -7,7 +8,6 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
   const organizationId = 1;
   let obfuscationService;
-  let tokenService;
   let userReconciliationService;
   let userService;
   let authenticationMethodRepository;
@@ -20,9 +20,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   const requestedApplication = new RequestedApplication('app');
 
   beforeEach(function () {
-    tokenService = {
-      extractExternalUserFromIdToken: sinon.stub(),
-    };
     userReconciliationService = {
       findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo: sinon.stub(),
       assertStudentHasAnAlreadyReconciledAccount: sinon.stub(),
@@ -53,7 +50,8 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
 
-      tokenService.extractExternalUserFromIdToken.resolves(externalUser);
+      sinon.stub(UserReconciliationToken, 'decode').returns(externalUser);
+
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
@@ -65,7 +63,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         organizationId,
         token: 'a token',
         obfuscationService,
-        tokenService,
         userReconciliationService,
         userService,
         authenticationMethodRepository,
@@ -97,7 +94,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
       const token = Symbol('token');
 
-      tokenService.extractExternalUserFromIdToken.resolves(externalUser);
+      sinon.stub(UserReconciliationToken, 'decode').returns(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
@@ -114,7 +111,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         organizationId,
         token: 'a token',
         obfuscationService,
-        tokenService,
         audience,
         userReconciliationService,
         userService,
@@ -139,7 +135,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
 
-      tokenService.extractExternalUserFromIdToken.resolves(externalUser);
+      sinon.stub(UserReconciliationToken, 'decode').returns(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
@@ -152,7 +148,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         organizationId,
         token: 'a token',
         obfuscationService,
-        tokenService,
         userReconciliationService,
         userService,
         authenticationMethodRepository,
@@ -175,7 +170,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
       const token = Symbol('token');
 
-      tokenService.extractExternalUserFromIdToken.resolves(externalUser);
+      sinon.stub(UserReconciliationToken, 'decode').returns(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
@@ -193,7 +188,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         organizationId,
         token: 'a token',
         obfuscationService,
-        tokenService,
         audience,
         userReconciliationService,
         userService,
