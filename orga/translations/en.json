@@ -182,10 +182,6 @@
         "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} in progress"
       },
       "labels-legend": {
-        "completed-assessment": "Pending results ({count})",
-        "completed-assessment-tooltip": "Pending results: These participants have finished their customised test but haven’t submitted their results yet.",
-        "completed-profile": "Pending profiles ({count})",
-        "completed-profile-tooltip": "Pending profiles: These participants haven’t submitted their profiles yet.",
         "shared": "Submitted results ({count})",
         "shared-profile": "Submitted profiles ({count})",
         "shared-profile-tooltip": "Submitted profiles: These participants have submitted their profiles.",
@@ -194,8 +190,6 @@
         "started-tooltip": "In progress: These participants haven’t finished their customised test yet."
       },
       "labels-tooltip": {
-        "completed-assessment": "Pending results: {percentage, number, ::percent .0}",
-        "completed-profile": "Pending profiles: {percentage, number, ::percent .0}",
         "shared": "Submitted results: {percentage, number, ::percent .0}",
         "shared-profile": "Submitted profiles: {percentage, number, ::percent .0}",
         "started": "In progress: {percentage, number, ::percent .0}"
