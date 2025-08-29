@@ -118,14 +118,6 @@ const LABELS_ASSESSMENT = {
     color: '#ffcb33',
     shape: 'diamond-box',
   },
-  completed: {
-    tooltip: 'charts.participants-by-status.labels-tooltip.completed-assessment',
-    legend: 'charts.participants-by-status.labels-legend.completed-assessment',
-    legendTooltip: 'charts.participants-by-status.labels-legend.completed-assessment-tooltip',
-    a11y: 'charts.participants-by-status.labels-a11y.completed',
-    color: '#3D68FF',
-    shape: 'zigzag',
-  },
   shared: {
     tooltip: 'charts.participants-by-status.labels-tooltip.shared',
     legend: 'charts.participants-by-status.labels-legend.shared',
@@ -144,14 +136,6 @@ const LABELS_PROFILE_COLLECTIONS = {
     a11y: 'charts.participants-by-status.labels-a11y.started',
     color: '#ffcb33',
     shape: 'diamond-box',
-  },
-  completed: {
-    tooltip: 'charts.participants-by-status.labels-tooltip.completed-profile',
-    legend: 'charts.participants-by-status.labels-legend.completed-profile',
-    legendTooltip: 'charts.participants-by-status.labels-legend.completed-profile-tooltip',
-    a11y: 'charts.participants-by-status.labels-a11y.completed',
-    color: '#613fdd',
-    shape: 'zigzag',
   },
   shared: {
     tooltip: 'charts.participants-by-status.labels-tooltip.shared-profile',

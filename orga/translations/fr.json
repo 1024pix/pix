@@ -176,16 +176,11 @@
     "participants-by-status": {
       "a11y-title": "Détail par statut",
       "labels-a11y": {
-        "completed": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en attente d'envoi",
         "shared": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs résultats",
         "shared-profile": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs profils",
         "started": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en cours de test"
       },
       "labels-legend": {
-        "completed-assessment": "En attente d'envoi ({count})",
-        "completed-assessment-tooltip": "En attente d’envoi : Ces participants ont terminé leur parcours mais n’ont pas encore envoyé leurs résultats.",
-        "completed-profile": "En attente d'envoi ({count})",
-        "completed-profile-tooltip": "En attente d’envoi : Ces participants n’ont pas encore envoyé leurs profils.",
         "shared": "Résultats reçus ({count})",
         "shared-profile": "Profils reçus ({count})",
         "shared-profile-tooltip": "Profils reçus : Ces participants ont envoyé leurs profils.",
@@ -194,8 +189,6 @@
         "started-tooltip": "En cours : Ces participants n’ont pas encore terminé leur parcours."
       },
       "labels-tooltip": {
-        "completed-assessment": "En attente d'envoi : {percentage, number, ::percent .0}",
-        "completed-profile": "En attente d'envoi : {percentage, number, ::percent .0}",
         "shared": "Résultats reçus : {percentage, number, ::percent .0}",
         "shared-profile": "Profils reçus : {percentage, number, ::percent .0}",
         "started": "En cours : {percentage, number, ::percent .0}"

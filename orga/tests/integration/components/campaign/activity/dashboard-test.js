@@ -18,7 +18,6 @@ module('Integration | Component | Campaign::Activity::Dashboard', (hooks) => {
           data: {
             attributes: {
               started: 1,
-              completed: 2,
               shared: 3,
             },
           },
@@ -41,6 +40,6 @@ module('Integration | Component | Campaign::Activity::Dashboard', (hooks) => {
 
     const screen = await render(hbs`<Campaign::Activity::Dashboard @campaign={{this.campaign}} />`);
 
-    assert.ok(screen.getByText('6'));
+    assert.ok(screen.getByText('4'));
   });
 });
