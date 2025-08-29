@@ -321,7 +321,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
           campaignType,
         );
 
-        expect(result).to.deep.equal({ started: 0, completed: 0, shared: 0 });
+        expect(result).to.deep.equal({ started: 0, shared: 0 });
       });
 
       it("should not count any participation regardless of it's status when participation is deleted ", async function () {
@@ -335,7 +335,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
           campaignType,
         );
 
-        expect(result).to.deep.equal({ started: 0, completed: 0, shared: 0 });
+        expect(result).to.deep.equal({ started: 0, shared: 0 });
       });
 
       describe('Count shared Participation', function () {
@@ -348,7 +348,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ started: 0, completed: 0, shared: 1 });
+          expect(result).to.deep.equal({ started: 0, shared: 1 });
         });
 
         it('counts the last participation shared by user', async function () {
@@ -361,16 +361,20 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ started: 0, completed: 0, shared: 1 });
+          expect(result).to.deep.equal({ started: 0, shared: 1 });
         });
       });
 
-      describe('Count completed Participation', function () {
-        it('counts participations completed', async function () {
+      describe('Count toShare and started Participation', function () {
+        it('counts toShare and started participations', async function () {
           databaseBuilder.factory.buildCampaignParticipation({ status: TO_SHARE });
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             status: TO_SHARE,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            status: STARTED,
           });
 
           await databaseBuilder.commit();
@@ -380,7 +384,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ started: 0, completed: 1, shared: 0 });
+          expect(result).to.deep.equal({ started: 2, shared: 0 });
         });
 
         it('counts the last participations completed by user', async function () {
@@ -391,25 +395,6 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
           });
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
-            status: TO_SHARE,
-          });
-
-          await databaseBuilder.commit();
-
-          const result = await campaignParticipationsStatsRepository.countParticipationsByStatus(
-            campaignId,
-            campaignType,
-          );
-
-          expect(result).to.deep.equal({ started: 0, completed: 1, shared: 0 });
-        });
-      });
-
-      describe('Count started Participation', function () {
-        it('counts participations started', async function () {
-          databaseBuilder.factory.buildCampaignParticipation({ status: STARTED });
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId,
             status: STARTED,
           });
 
@@ -420,28 +405,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ started: 1, completed: 0, shared: 0 });
-        });
-
-        it('counts the last participation started by user', async function () {
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId,
-            status: STARTED,
-            isImproved: true,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId,
-            status: STARTED,
-          });
-
-          await databaseBuilder.commit();
-
-          const result = await campaignParticipationsStatsRepository.countParticipationsByStatus(
-            campaignId,
-            campaignType,
-          );
-
-          expect(result).to.deep.equal({ started: 1, completed: 0, shared: 0 });
+          expect(result).to.deep.equal({ started: 1, shared: 0 });
         });
       });
     });
@@ -465,7 +429,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
           campaignType,
         );
 
-        expect(result).to.deep.equal({ completed: 0, shared: 0 });
+        expect(result).to.deep.equal({ started: 0, shared: 0 });
       });
 
       it("should not count any participation regardless of it's status when participation is deleted ", async function () {
@@ -478,7 +442,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
           campaignType,
         );
 
-        expect(result).to.deep.equal({ completed: 0, shared: 0 });
+        expect(result).to.deep.equal({ started: 0, shared: 0 });
       });
 
       describe('Count shared Participation', function () {
@@ -491,7 +455,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ completed: 0, shared: 1 });
+          expect(result).to.deep.equal({ started: 0, shared: 1 });
         });
 
         it('counts the last participation shared by user', async function () {
@@ -504,7 +468,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ completed: 0, shared: 1 });
+          expect(result).to.deep.equal({ started: 0, shared: 1 });
         });
       });
 
@@ -519,7 +483,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ completed: 1, shared: 0 });
+          expect(result).to.deep.equal({ started: 1, shared: 0 });
         });
 
         it('counts the last participation completed by user', async function () {
@@ -532,7 +496,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
             campaignType,
           );
 
-          expect(result).to.deep.equal({ completed: 1, shared: 0 });
+          expect(result).to.deep.equal({ started: 1, shared: 0 });
         });
       });
     });
