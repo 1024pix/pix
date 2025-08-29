@@ -6,6 +6,7 @@ class ChallengeRepository extends LearningContentRepository {
     super({
       tableName: 'learningcontent.challenges',
       chunkSize: 500,
+      rawFields: [ "tStatus" ],
     });
   }
 
@@ -17,9 +18,6 @@ class ChallengeRepository extends LearningContentRepository {
     type,
     solution,
     solutionToDisplay,
-    t1Status,
-    t2Status,
-    t3Status,
     status,
     genealogy,
     accessibility1,
@@ -49,8 +47,9 @@ class ChallengeRepository extends LearningContentRepository {
     skillId,
     hasEmbedInternalValidation,
     noValidationNeeded,
+    ...restObj
   }) {
-    return {
+    const resDto = {
       id,
       instruction,
       alternativeInstruction,
@@ -58,9 +57,6 @@ class ChallengeRepository extends LearningContentRepository {
       type,
       solution,
       solutionToDisplay,
-      t1Status,
-      t2Status,
-      t3Status,
       status,
       genealogy,
       accessibility1,
@@ -91,6 +87,17 @@ class ChallengeRepository extends LearningContentRepository {
       hasEmbedInternalValidation,
       noValidationNeeded,
     };
+
+    let tStatus = 0b0;
+
+    for(let i=0; i<32;i++) {
+      const tName = `t${i+1}Status`;
+      if (tName in restObj && restObj[tName]) {
+        tStatus = tStatus | (0b1 << i)
+      }
+    }
+
+    return {...resDto, tStatus: `B'${tStatus.toString(2).padStart(32,'0')}'`,};
   }
 
   clearCache(id) {

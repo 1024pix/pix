@@ -22,9 +22,7 @@ describe('Integration | Repository | correction-repository', function () {
       type: 'QCM',
       solution: '1, 5',
       solutionToDisplay: '1',
-      t1Status: true,
-      t2Status: false,
-      t3Status: true,
+      tStatus: 0b101,
       status: 'validé',
       skillId: 'recIdSkill003',
       timer: 1234,
@@ -232,9 +230,7 @@ describe('Integration | Repository | correction-repository', function () {
               solution: challengeBaseData.solution,
               solutionToDisplay: challengeBaseData.solutionToDisplay,
               proposals: challengeBaseData.proposals,
-              t1Status: challengeBaseData.t1Status,
-              t2Status: challengeBaseData.t2Status,
-              t3Status: challengeBaseData.t3Status,
+              tStatus: challengeBaseData.tStatus.toString(2).padStart(32,'0'),
             })
             .returns(solution);
           const getCorrectionStub = sinon.stub();

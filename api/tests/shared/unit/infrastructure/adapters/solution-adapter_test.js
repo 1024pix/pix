@@ -8,9 +8,7 @@ describe('Unit | Adapter | Solution', function () {
       // given
       const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',
-        isT1Enabled: true,
-        isT2Enabled: false,
-        isT3Enabled: true,
+        tEnabled: 0b101,
         scoring: '1: outilsTexte2\n2: outilsTexte4',
         type: 'QCM',
         value: '1, 5',
@@ -30,9 +28,7 @@ describe('Unit | Adapter | Solution', function () {
       // given
       const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',
-        isT1Enabled: true,
-        isT2Enabled: false,
-        isT3Enabled: true,
+        tEnabled: 0b101,
         scoring: 'rep1: aaaa\nrep2: bbbb\nrep3: cccc\nrep4: dddd',
         type: 'QROCM-dep',
         value: '1, 5, 9, 7',
@@ -40,9 +36,7 @@ describe('Unit | Adapter | Solution', function () {
       });
       const challengeLearningContentDataObject = domainBuilder.buildChallengeLearningContentDataObject({
         id: 'recwWzTquPlvIl4So',
-        t1Status: true,
-        t2Status: false,
-        t3: true,
+        tStatus: 0b101,
         scoring: 'rep1: aaaa\nrep2: bbbb\nrep3: cccc\nrep4: dddd',
         proposals: 'Je fait ${rep1#test§test} et ${rep2 options=["a","b"]}, ${rep3§test options=["a","b"]}, ${rep4}',
         type: 'QROCM-dep',

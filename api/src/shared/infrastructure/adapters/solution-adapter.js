@@ -39,9 +39,7 @@ const fromDatasourceObject = function (datasourceObject) {
   const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);
   return new Solution({
     id: datasourceObject.id,
-    isT1Enabled: statusToBoolean(datasourceObject.t1Status),
-    isT2Enabled: statusToBoolean(datasourceObject.t2Status),
-    isT3Enabled: statusToBoolean(datasourceObject.t3Status),
+    tEnabled: datasourceObject.tStatus,
     type: datasourceObject.type,
     value: datasourceObject.solution,
     scoring,

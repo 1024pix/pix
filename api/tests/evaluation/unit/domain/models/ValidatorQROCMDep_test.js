@@ -24,9 +24,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
       solution = domainBuilder.buildSolution({
         type: 'QROCM-dep',
         value: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
-        isT1Enabled: true,
-        isT2Enabled: true,
-        isT3Enabled: true,
+        t1Enabled: 0b111,
       });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();

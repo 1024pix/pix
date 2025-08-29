@@ -27,9 +27,7 @@ export async function get(id, { forCorrection = false } = {}) {
       solution: challengeDto.solution,
       solutionToDisplay: challengeDto.solutionToDisplay,
       proposals: challengeDto.proposals,
-      t1Status: challengeDto.t1Status,
-      t2Status: challengeDto.t2Status,
-      t3Status: challengeDto.t3Status,
+      tStatus: challengeDto.tStatus,
     };
   }
   let webComponentInfo;

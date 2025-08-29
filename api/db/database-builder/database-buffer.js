@@ -19,4 +19,14 @@ const databaseBuffer = {
   },
 };
 
-export { databaseBuffer };
+class RawBufferValue {
+  constructor(rawValue) {
+    this.rawValue = rawValue;
+  }
+
+  getRawValue(rawFunction) {
+    return rawFunction(this.rawValue);
+  }
+}
+
+export { databaseBuffer, RawBufferValue };

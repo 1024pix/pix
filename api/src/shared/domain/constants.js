@@ -108,7 +108,41 @@ const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
-const ALL_TREATMENTS = ['t1', 't2', 't3'];
+const ALL_TREATMENTS = [
+  't1',
+  't2',
+  't3',
+  't4',
+  't5',
+  't6',
+  't7',
+  't8',
+  't9',
+  't10',
+  't11',
+  't12',
+  't13',
+  't14',
+  't15',
+  't16',
+  't17',
+  't18',
+  't19',
+  't20',
+  't21',
+  't22',
+  't23',
+  't24',
+  't25',
+  't26',
+  't27',
+  't28',
+  't29',
+  't30',
+  't31',
+  't32',
+];
+
 const PIX_ORIGIN = 'Pix';
 
 const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId || 0;

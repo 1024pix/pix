@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../../database-buffer.js';
+import { databaseBuffer, RawBufferValue } from '../../database-buffer.js';
 
 export function buildChallenge({
   id = 'challengeIdA',
@@ -8,9 +8,7 @@ export function buildChallenge({
   type = 'QCU',
   solution = 'solution Epreuve A',
   solutionToDisplay = 'solutionToDisplay Epreuve A',
-  t1Status = true,
-  t2Status = true,
-  t3Status = true,
+  tStatus = 0b111,
   status = 'archivé',
   genealogy = 'genealogy Epreuve A',
   accessibility1 = 'accessibility1 Epreuve A',
@@ -49,9 +47,7 @@ export function buildChallenge({
     type,
     solution,
     solutionToDisplay,
-    t1Status,
-    t2Status,
-    t3Status,
+    tStatus,
     status,
     genealogy,
     accessibility1,
@@ -92,9 +88,7 @@ export function buildChallengeWithNoDefaultValues({
   type,
   solution,
   solutionToDisplay,
-  t1Status,
-  t2Status,
-  t3Status,
+  tStatus,
   status,
   genealogy,
   accessibility1,
@@ -133,9 +127,7 @@ export function buildChallengeWithNoDefaultValues({
     type,
     solution,
     solutionToDisplay,
-    t1Status,
-    t2Status,
-    t3Status,
+    tStatus,
     status,
     genealogy,
     accessibility1,
@@ -168,6 +160,14 @@ export function buildChallengeWithNoDefaultValues({
   });
 }
 
+function buildTStatus(num) {
+  let numStr = "00000000000000000000000000000000"
+  if (typeof num != 'undefined') {
+    numStr = num.toString(2).padStart(32,'0');
+  }
+  return new RawBufferValue(`B'${numStr}'`);
+}
+
 function buildChallengeInDB({
   id,
   instruction,
@@ -176,9 +176,7 @@ function buildChallengeInDB({
   type,
   solution,
   solutionToDisplay,
-  t1Status,
-  t2Status,
-  t3Status,
+  tStatus,
   status,
   genealogy,
   accessibility1,
@@ -217,9 +215,7 @@ function buildChallengeInDB({
     type,
     solution,
     solutionToDisplay,
-    t1Status,
-    t2Status,
-    t3Status,
+    tStatus: buildTStatus(tStatus),
     status,
     genealogy,
     accessibility1,

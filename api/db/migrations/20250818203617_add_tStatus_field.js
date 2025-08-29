@@ -16,12 +16,8 @@ const TABLE_NAME = 'challenges';
 const COLUMN_NAME = 'tStatus';
 const SCHEMA_NAME = 'learningcontent';
 
-const T1_STATUS = 0b001;
-const T2_STATUS = 0b010;
-const T3_STATUS = 0b100;
-
 function toMask(num) {
-  return num.toString(2).padStart(32,'0');
+  return num.toString(2).padStart(32, '0');
 }
 
 /**
@@ -31,15 +27,26 @@ function toMask(num) {
 const up = async function (knex) {
   await knex.schema.withSchema(SCHEMA_NAME).table(TABLE_NAME, function (table) {
     table
-      .specificType(COLUMN_NAME, "BIT(32)")
+      .specificType(COLUMN_NAME, 'BIT(32)')
       .defaultTo(knex.raw("B'00000000000000000000000000000000'"))
-      .comment("tStatus bitmask");
+      .comment('tStatus bitmask');
   });
 
-  for (const challenge of await knex(TABLE_NAME).withSchema(SCHEMA_NAME).select('id', 't1Status', 't2Status', 't3Status')) {
-    await knex(TABLE_NAME).withSchema(SCHEMA_NAME).update({
-      tStatus : knex.raw(`B'${toMask((challenge.t1Status && T1_STATUS) | (challenge.t2Status && T2_STATUS) | (challenge.t3Status && T3_STATUS))}'`)
-    }).where({id: challenge.id})
+  for (const challenge of await knex(TABLE_NAME).withSchema(SCHEMA_NAME).select('*')) {
+    let tStatus = 0b0;
+    for (let i = 0; i < 32; i++) {
+      const fieldName = `t${i}Status`;
+      if (fieldName in challenge && challenge[fieldName]) {
+        tStatus |= 0b1 << i;
+      }
+    }
+    await knex(TABLE_NAME)
+      .withSchema(SCHEMA_NAME)
+      .update({
+        // eslint-disable-next-line knex/avoid-injections
+        tStatus: knex.raw(`B'${toMask(tStatus)}'`),
+      })
+      .where({ id: challenge.id });
   }
 };
 

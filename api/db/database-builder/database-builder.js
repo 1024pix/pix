@@ -1,8 +1,7 @@
 /* eslint-disable knex/avoid-injections */
 import _ from 'lodash';
 
-import { DatabaseConnection } from '../database-connection.js';
-import { databaseBuffer as defaultDatabaseBuffer } from './database-buffer.js';
+import { databaseBuffer as defaultDatabaseBuffer, RawBufferValue } from './database-buffer.js';
 import * as databaseHelpers from './database-helpers.js';
 import { factory } from './factory/index.js';
 
@@ -71,7 +70,15 @@ export class DatabaseBuilder {
       await this.knex.transaction(async (trx) => {
         for (const [tableName, objectsToInsert] of orderedObjectsToInsert) {
           for (const chunk of _.chunk(objectsToInsert, CHUNK_SIZE)) {
-            await trx.insert(chunk).into(tableName);
+            await trx
+              .insert(
+                _.map(chunk, (objToInsert) =>
+                  _.mapValues(objToInsert, (objValue) =>
+                    objValue instanceof RawBufferValue ? objValue.getRawValue((val) => trx.raw(val)) : objValue,
+                  ),
+                ),
+              )
+              .into(tableName);
           }
           this.#dirtyTables.add(tableName);
         }
