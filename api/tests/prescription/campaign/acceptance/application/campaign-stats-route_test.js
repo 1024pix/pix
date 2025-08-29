@@ -119,7 +119,7 @@ describe('Acceptance | API | Campaign Stats Route', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(campaign.id.toString());
-      expect(response.result.data.attributes).to.deep.equal({ started: 0, completed: 0, shared: 0 });
+      expect(response.result.data.attributes).to.deep.equal({ started: 0, shared: 0 });
     });
 
     it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function () {
