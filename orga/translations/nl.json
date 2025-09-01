@@ -182,10 +182,6 @@
         "started": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} bezig met test"
       },
       "labels-legend": {
-        "completed-assessment": "In afwachting van verzending ({count})",
-        "completed-assessment-tooltip": "In afwachting van verzending: Deze deelnemers hebben hun test afgerond maar hun resultaten nog niet ingestuurd.",
-        "completed-profile": "In afwachting van verzending ({count})",
-        "completed-profile-tooltip": "In afwachting van verzending: Deze deelnemers hebben hun profiel nog niet ingestuurd.",
         "shared": "Ontvangen resultaten ({count})",
         "shared-profile": "Ontvangen profielen ({count})",
         "shared-profile-tooltip": "Ontvangen profielen: Deze deelnemers hebben hun profiel ingestuurd.",
@@ -194,8 +190,6 @@
         "started-tooltip": "Bezig: Deze deelnemers hebben hun test nog niet voltooid."
       },
       "labels-tooltip": {
-        "completed-assessment": "In afwachting van verzending: {percentage, number, ::percent .0}",
-        "completed-profile": "In afwachting van verzending: {percentage, number, ::percent .0}",
         "shared": "Ontvangen resultaten: {percentage, number, ::percent .0}",
         "shared-profile": "Ontvangen profielen: {percentage, number, ::percent .0}",
         "started": "Bezig: {percentage, number, ::procent .0}"

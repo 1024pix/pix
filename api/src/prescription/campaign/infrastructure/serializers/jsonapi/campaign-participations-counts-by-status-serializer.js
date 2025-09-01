@@ -5,7 +5,7 @@ const { Serializer } = jsonapiSerializer;
 const serialize = function (model) {
   return new Serializer('campaign-participations-counts-by-status', {
     id: 'campaignId',
-    attributes: ['started', 'completed', 'shared'],
+    attributes: ['started', 'shared'],
   }).serialize(model);
 };
 

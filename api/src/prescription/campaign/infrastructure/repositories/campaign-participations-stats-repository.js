@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { getLatestParticipationSharedForOneLearner } from './helpers/get-latest-participation-shared-for-one-learner.js';
 
 const { TO_SHARE, SHARED, STARTED } = CampaignParticipationStatuses;
@@ -55,30 +55,21 @@ const getAllParticipationsByCampaignId = (campaignId) =>
     .where('campaign-participations.deletedAt', 'is', null)
     .where('campaign-participations.status', 'SHARED');
 
-const countParticipationsByStatus = async function (campaignId, campaignType) {
+const countParticipationsByStatus = async (campaignId) => {
   const row = await knex('campaign-participations')
     .select([
       knex.raw(`sum(case when status = ? then 1 else 0 end) as shared`, SHARED),
-      knex.raw(`sum(case when status = ? then 1 else 0 end) as completed`, TO_SHARE),
-      knex.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
+      knex.raw(`sum(case when status in (?, ?) then 1 else 0 end) as started`, [TO_SHARE, STARTED]),
     ])
     .where({ campaignId, isImproved: false, deletedAt: null })
     .groupBy('campaignId')
     .first();
 
-  return _mapToParticipationByStatus(row, campaignType);
-};
-
-function _mapToParticipationByStatus(row = {}, campaignType) {
-  const participationByStatus = {
-    shared: row.shared || 0,
-    completed: row.completed || 0,
+  return {
+    started: row?.started || 0,
+    shared: row?.shared || 0,
   };
-  if (campaignType === CampaignTypes.ASSESSMENT) {
-    participationByStatus.started = row.started || 0;
-  }
-  return participationByStatus;
-}
+};
 
 export {
   countParticipationsByMasteryRate,

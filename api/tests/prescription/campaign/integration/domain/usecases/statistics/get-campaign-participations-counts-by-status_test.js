@@ -45,6 +45,6 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
     const result = await usecases.getCampaignParticipationsCountsByStatus({ userId, campaignId });
 
     // then
-    expect(result).to.deep.equal({ started: 1, completed: 1, shared: 1 });
+    expect(result).to.deep.equal({ started: 2, shared: 1 });
   });
 });

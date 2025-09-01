@@ -7,7 +7,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participations-counts-by-status
       const json = serializer.serialize({
         campaignId: 1,
         started: 1,
-        completed: 1,
         shared: 1,
       });
 
@@ -17,7 +16,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participations-counts-by-status
           id: '1',
           attributes: {
             started: 1,
-            completed: 1,
             shared: 1,
           },
         },
