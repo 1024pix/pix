@@ -41,10 +41,6 @@ export default class Activity extends Component {
                     "pages.organization-learner.activity.cards.started"
                     count=this.assessmentStatistics.started
                   }}</li>
-                <li>{{t
-                    "pages.organization-learner.activity.cards.to-share"
-                    count=this.assessmentStatistics.to_share
-                  }}</li>
                 <li>{{t "pages.organization-learner.activity.cards.shared" count=this.assessmentStatistics.shared}}</li>
               </ul>
             </:sub>
@@ -60,14 +56,18 @@ export default class Activity extends Component {
             <:default>{{this.profileCollectionsStatistics.total}}</:default>
             <:sub>
               <ul class="cards__stats">
-                <li>{{t
-                    "pages.organization-learner.activity.cards.to-share"
-                    count=this.profileCollectionsStatistics.to_share
-                  }}</li>
-                <li>{{t
+                <li>
+                  {{t
+                    "pages.organization-learner.activity.cards.started"
+                    count=this.profileCollectionsStatistics.started
+                  }}
+                </li>
+                <li>
+                  {{t
                     "pages.organization-learner.activity.cards.shared"
                     count=this.profileCollectionsStatistics.shared
-                  }}</li>
+                  }}
+                </li>
               </ul>
             </:sub>
           </PixIndicatorCard>
