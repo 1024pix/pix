@@ -43,7 +43,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -52,7 +52,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -61,7 +61,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -78,7 +78,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -95,7 +95,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -106,7 +106,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -120,7 +120,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 22.17.1
+        default: 22.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
