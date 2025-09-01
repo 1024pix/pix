@@ -120,7 +120,6 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             type: 'organizationLearnerStatistics',
             attributes: {
               shared: 0,
-              'to-share': 0,
               total: 1,
               started: 1,
             },
@@ -130,7 +129,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             type: 'organizationLearnerStatistics',
             attributes: {
               shared: 1,
-              'to-share': 0,
+              started: 0,
               total: 1,
             },
           },
