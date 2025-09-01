@@ -1,7 +1,7 @@
 import { OrganizationLearnerParticipation } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../test-helper.js';
-const { SHARED } = CampaignParticipationStatuses;
+const { SHARED, STARTED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearnerParticipation', function () {
   describe('constructor', function () {
@@ -13,7 +13,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearne
         campaignName: 'Hulk',
         createdAt: new Date('2000-01-03'),
         sharedAt: new Date('2000-12-12'),
-        status: SHARED,
+        status: TO_SHARE,
         campaignId: 404,
         participationCount: 1,
         lastCampaignParticipationId: 202,
@@ -25,7 +25,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearne
         campaignName: 'Hulk',
         createdAt: new Date('2000-01-03'),
         sharedAt: new Date('2000-12-12'),
-        status: 'SHARED',
+        status: STARTED,
         campaignId: 404,
         participationCount: 1,
         lastCampaignParticipationId: 202,
