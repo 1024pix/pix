@@ -7,7 +7,12 @@ export default class CertificationCentersGetRoute extends Route {
   @service store;
 
   async model(params) {
-    const certificationCenter = await this.store.findRecord('certification-center', params.certification_center_id);
+    let certificationCenter;
+    try {
+      certificationCenter = await this.store.findRecord('certification-center', params.certification_center_id);
+    } catch {
+      this.router.replaceWith('authenticated.certification-centers.list');
+    }
     const habilitations = await this.store.findAll('complementary-certification');
 
     return RSVP.hash({

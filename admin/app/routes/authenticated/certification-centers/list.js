@@ -13,19 +13,25 @@ export default class ListRoute extends Route {
     externalId: { refreshModel: true },
   };
 
-  model(params) {
-    return this.store.query('certification-center', {
-      filter: {
-        id: params.id ? params.id.trim() : '',
-        name: params.name ? params.name.trim() : '',
-        type: params.type ? params.type.trim() : '',
-        externalId: params.externalId ? params.externalId.trim() : '',
-      },
-      page: {
-        number: params.pageNumber,
-        size: params.pageSize,
-      },
-    });
+  async model(params) {
+    let model;
+    try {
+      model = await this.store.query('certification-center', {
+        filter: {
+          id: params.id ? params.id.trim() : '',
+          name: params.name ? params.name.trim() : '',
+          type: params.type ? params.type.trim() : '',
+          externalId: params.externalId ? params.externalId.trim() : '',
+        },
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
+      });
+    } catch {
+      model = [];
+    }
+    return model;
   }
 
   resetController(controller, isExiting) {
