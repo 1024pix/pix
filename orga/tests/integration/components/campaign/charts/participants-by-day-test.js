@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     dataFetcher = sinon.stub(adapter, 'getParticipationsByDay');
   });
 
-  test('it should display status for assessment campaign', async function (assert) {
+  test('it should display statuses', async function (assert) {
     // given
     dataFetcher.withArgs(campaignId).resolves({
       data: {
@@ -36,30 +36,9 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
       hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @shouldDisplayAssessmentLabels={{true}} />`,
     );
 
-    assert.strictEqual(screen.getAllByText('Date').length, 2);
-    assert.ok(screen.getByText('Total des participants'));
-    assert.ok(screen.getByText('Total des participants ayant envoyé leurs résultats'));
-  });
-
-  test('it should display status for profile collection campaign', async function (assert) {
-    // given
-    dataFetcher.withArgs(campaignId).resolves({
-      data: {
-        attributes: {
-          'started-participations': [],
-          'shared-participations': [],
-        },
-      },
-    });
-
-    // when
-    const screen = await render(
-      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @shouldDisplayAssessmentLabels={{false}} />`,
-    );
-
-    assert.strictEqual(screen.getAllByText('Date').length, 2);
-    assert.ok(screen.getByText('Total des participants'));
-    assert.ok(screen.getByText('Total des participants ayant envoyé leurs profils'));
+    assert.strictEqual(screen.getAllByText(t('charts.participants-by-day.labels-a11y.date')).length, 2);
+    assert.ok(screen.getByText(t('charts.participants-by-day.labels-a11y.started')));
+    assert.ok(screen.getByText(t('charts.participants-by-day.labels-a11y.shared')));
   });
 
   test('it should display participants by day', async function (assert) {

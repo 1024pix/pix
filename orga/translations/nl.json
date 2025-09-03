@@ -138,19 +138,16 @@
   "charts": {
     "participants-by-day": {
       "captions": {
-        "shared": "Totaal aantal deelnemers per dag die hun resultaten instuurden",
-        "shared-profile": "Totaal aantal deelnemers dat per dag hun profiel instuurde",
+        "shared": "Voltooide deelnames per dag",
         "started": "Totaal aantal deelnemers per dag"
       },
       "labels-a11y": {
         "date": "Datum",
-        "shared": "Totaal aantal deelnemers die hun resultaten hebben ingestuurd",
-        "shared-profile": "Totaal aantal deelnemers die hun profiel hebben ingestuurd",
+        "shared": "Voltooide deelnames",
         "started": "Totaal aantal deelnemers"
       },
       "labels-legend": {
-        "shared": "Ontvangen resultaten",
-        "shared-profile": "Ontvangen profielen",
+        "shared": "Voltooide deelnames",
         "started": "Totaal aantal deelnemers"
       },
       "loader": "Deelnemersactiviteit laden",
