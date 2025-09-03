@@ -1,3 +1,5 @@
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+
 class CampaignParticipantActivity {
   constructor({
     campaignParticipationId,
@@ -16,7 +18,8 @@ class CampaignParticipantActivity {
     this.lastName = lastName;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
-    this.status = status;
+    // TODO Remove TO_SHARE status once it's no longer used
+    this.status = status === CampaignParticipationStatuses.TO_SHARE ? CampaignParticipationStatuses.STARTED : status;
     this.lastCampaignParticipationId = lastCampaignParticipationId || campaignParticipationId;
     this.participationCount = participationCount || 0;
   }

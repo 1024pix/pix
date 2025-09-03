@@ -14,7 +14,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         userId: 123,
         participantExternalId: 'Alba67',
         sharedAt,
-        status: CampaignParticipationStatuses.SHARED,
+        status: CampaignParticipationStatuses.TO_SHARE,
         lastCampaignParticipationId: null,
         participationCount: null,
       });
@@ -26,7 +26,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         userId: 123,
         participantExternalId: 'Alba67',
         sharedAt,
-        status: CampaignParticipationStatuses.SHARED,
+        status: CampaignParticipationStatuses.STARTED,
         lastCampaignParticipationId: 45,
         participationCount: 0,
       });

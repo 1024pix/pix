@@ -94,7 +94,7 @@ function _filterByDivisions(queryBuilder, filters) {
 
 function _filterByStatus(queryBuilder, filters) {
   if (filters.status) {
-    queryBuilder.where('campaign-participations.status', filters.status);
+    queryBuilder.whereIn('campaign-participations.status', filters.status);
   }
 }
 

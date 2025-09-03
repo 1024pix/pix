@@ -437,7 +437,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           sharedAt: new Date('2024-01-02'),
           status: CampaignParticipationStatuses.SHARED,
         });
-
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,

@@ -2,6 +2,7 @@ import stream from 'node:stream';
 
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
+import { CampaignParticipationStatuses } from '../../shared/domain/constants.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignDetailsManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
@@ -9,6 +10,7 @@ import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi
 import * as campaignToJoinSerializer from '../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import * as targetProfileSerializer from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 
+const { TO_SHARE, STARTED, SHARED } = CampaignParticipationStatuses;
 const { PassThrough } = stream;
 
 const getByCode = async function (
@@ -130,6 +132,10 @@ const findParticipantsActivity = async function (
   }
   if (filters.groups && !Array.isArray(filters.groups)) {
     filters.groups = [filters.groups];
+  }
+  // TODO Remove TO_SHARE status once it's no longer used
+  if (filters.status) {
+    filters.status = filters.status === STARTED ? [STARTED, TO_SHARE] : [SHARED];
   }
 
   const { userId } = request.auth.credentials;
