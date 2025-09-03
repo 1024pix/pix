@@ -33,14 +33,13 @@ describe('Unit | Domain | Read-Models | OrganizationLearnerActivity', function (
     const expectedStatistics = [
       {
         campaignType: CampaignTypes.ASSESSMENT,
-        started: 1,
-        to_share: 1,
+        started: 2,
         shared: 1,
         total: 3,
       },
       {
         campaignType: CampaignTypes.PROFILES_COLLECTION,
-        to_share: 1,
+        started: 1,
         shared: 1,
         total: 2,
       },
@@ -71,13 +70,12 @@ describe('Unit | Domain | Read-Models | OrganizationLearnerActivity', function (
       {
         campaignType: CampaignTypes.ASSESSMENT,
         started: 3,
-        to_share: 0,
         shared: 0,
         total: 3,
       },
       {
         campaignType: CampaignTypes.PROFILES_COLLECTION,
-        to_share: 0,
+        started: 0,
         shared: 0,
         total: 0,
       },

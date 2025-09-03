@@ -18,20 +18,13 @@ class OrganizationLearnerActivity {
 
     const { SHARED = 0, TO_SHARE = 0, STARTED = 0 } = countBy(participationsForCampaignType, 'status');
 
-    const statisticForCampaignType = {
+    return {
       campaignType,
       shared: SHARED,
-      to_share: TO_SHARE,
+      // TODO Remove TO_SHARE status once not used anymore
+      started: TO_SHARE + STARTED,
       total: participationsForCampaignType.length,
     };
-
-    if (campaignType === CampaignTypes.ASSESSMENT) {
-      return {
-        ...statisticForCampaignType,
-        started: STARTED,
-      };
-    }
-    return statisticForCampaignType;
   }
 
   #statistics(participations) {
