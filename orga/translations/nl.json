@@ -174,23 +174,16 @@
     "participants-by-status": {
       "a11y-title": "Detail per status",
       "labels-a11y": {
-        "completed": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} in afwachting van insturen",
         "shared": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} die hun resultaten hebben ingestuurd",
-        "shared-profile": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} die hun profiel hebben ingestuurd",
         "started": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} bezig met test"
       },
       "labels-legend": {
-        "shared": "Ontvangen resultaten ({count})",
-        "shared-profile": "Ontvangen profielen ({count})",
-        "shared-profile-tooltip": "Ontvangen profielen: Deze deelnemers hebben hun profiel ingestuurd.",
-        "shared-tooltip": "Resultaten ontvangen: Deze deelnemers hebben hun test afgerond en hun resultaten ingestuurd.",
-        "started": "Bezig ({count})",
-        "started-tooltip": "Bezig: Deze deelnemers hebben hun test nog niet voltooid."
+        "shared": "Deelnames voltooid ({count})",
+        "started": "Bezig ({count})"
       },
       "labels-tooltip": {
-        "shared": "Ontvangen resultaten: {percentage, number, ::percent .0}",
-        "shared-profile": "Ontvangen profielen: {percentage, number, ::percent .0}",
-        "started": "Bezig: {percentage, number, ::procent .0}"
+        "shared": "Deelnames voltooid: {percentage, number, ::percent .0}",
+        "started": "Bezig: {percentage, number, ::percent .0}"
       },
       "loader": "Laden verhoudingen per status",
       "title": "Statussen"

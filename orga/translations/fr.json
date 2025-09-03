@@ -175,20 +175,14 @@
       "a11y-title": "Détail par statut",
       "labels-a11y": {
         "shared": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs résultats",
-        "shared-profile": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs profils",
         "started": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en cours de test"
       },
       "labels-legend": {
-        "shared": "Résultats reçus ({count})",
-        "shared-profile": "Profils reçus ({count})",
-        "shared-profile-tooltip": "Profils reçus : Ces participants ont envoyé leurs profils.",
-        "shared-tooltip": "Résultats reçus : Ces participants ont terminé leur parcours et envoyé leurs résultats.",
-        "started": "En cours ({count})",
-        "started-tooltip": "En cours : Ces participants n’ont pas encore terminé leur parcours."
+        "shared": "Participations terminées ({count})",
+        "started": "En cours ({count})"
       },
       "labels-tooltip": {
-        "shared": "Résultats reçus : {percentage, number, ::percent .0}",
-        "shared-profile": "Profils reçus : {percentage, number, ::percent .0}",
+        "shared": "Participations terminées : {percentage, number, ::percent .0}",
         "started": "En cours : {percentage, number, ::percent .0}"
       },
       "loader": "Chargement des proportions par statut",

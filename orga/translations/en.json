@@ -174,22 +174,15 @@
     "participants-by-status": {
       "a11y-title": "Detail by participation status",
       "labels-a11y": {
-        "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with pending results",
         "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted results",
-        "shared-profile": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted profiles",
         "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} in progress"
       },
       "labels-legend": {
-        "shared": "Submitted results ({count})",
-        "shared-profile": "Submitted profiles ({count})",
-        "shared-profile-tooltip": "Submitted profiles: These participants have submitted their profiles.",
-        "shared-tooltip": "Submitted results: These participants have finished their customised test and submitted their results.",
-        "started": "In progress ({count})",
-        "started-tooltip": "In progress: These participants haven’t finished their customised test yet."
+        "shared": "Completed participations ({count})",
+        "started": "In progress ({count})"
       },
       "labels-tooltip": {
-        "shared": "Submitted results: {percentage, number, ::percent .0}",
-        "shared-profile": "Submitted profiles: {percentage, number, ::percent .0}",
+        "shared": "Completed participations: {percentage, number, ::percent .0}",
         "started": "In progress: {percentage, number, ::percent .0}"
       },
       "loader": "Loading statuses distribution",
