@@ -49,7 +49,6 @@ export default class Dashboard extends Component {
         <ParticipantsByStatus
           @loading={{this.participantsByStatusLoading}}
           @participantCountByStatus={{this.participantCountByStatus}}
-          @shouldDisplayAssessmentLabels={{or @campaign.isTypeAssessment @campaign.isTypeExam}}
           class="activity-dashboard__participations-by-status"
         />
       </div>

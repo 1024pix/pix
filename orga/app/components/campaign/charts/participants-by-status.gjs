@@ -57,15 +57,15 @@ export default class ParticipantsByStatus extends Component {
         legend: false,
         tooltip: {
           ...TOOLTIP_CONFIG,
-          callbacks: { label: (data) => data.label },
+          callbacks: { label: () => '' },
         },
       },
       borderWidth: 0,
     };
   }
 
-  getDatasetLabels(key, count, shouldDisplayAssessmentLabels) {
-    const datasetLabels = shouldDisplayAssessmentLabels ? LABELS_ASSESSMENT[key] : LABELS_PROFILE_COLLECTIONS[key];
+  getDatasetLabels(key, count) {
+    const datasetLabels = LABELS_ASSESSMENT[key];
     const percentage = this.total !== 0 ? count / this.total : 0;
     const canvas = pattern.draw(datasetLabels.shape, datasetLabels.color);
 
@@ -123,25 +123,6 @@ const LABELS_ASSESSMENT = {
     legend: 'charts.participants-by-status.labels-legend.shared',
     legendTooltip: 'charts.participants-by-status.labels-legend.shared-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared',
-    color: '#1c825d',
-    shape: 'weave',
-  },
-};
-
-const LABELS_PROFILE_COLLECTIONS = {
-  started: {
-    tooltip: 'charts.participants-by-status.labels-tooltip.started',
-    legend: 'charts.participants-by-status.labels-legend.started',
-    legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
-    a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#ffcb33',
-    shape: 'diamond-box',
-  },
-  shared: {
-    tooltip: 'charts.participants-by-status.labels-tooltip.shared-profile',
-    legend: 'charts.participants-by-status.labels-legend.shared-profile',
-    legendTooltip: 'charts.participants-by-status.labels-legend.shared-profile-tooltip',
-    a11y: 'charts.participants-by-status.labels-a11y.shared-profile',
     color: '#1c825d',
     shape: 'weave',
   },
