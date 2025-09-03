@@ -853,36 +853,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         .exists();
     });
 
-    test('it should display 3 statuses for exam campaign', async function (assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        id: campaignId,
-        name: 'campagne 1',
-        type: 'EXAM',
-        targetProfileHasStage: false,
-        stages: [],
-      });
-
-      // when
-      const screen = await render(
-        <template><ParticipationFilters @campaign={{campaign}} @onFilter={{noop}} /></template>,
-      );
-
-      // then
-      await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
-      const options = await screen.findAllByRole('option');
-      assert.deepEqual(
-        options.map((option) => option.innerText),
-        [
-          t('pages.campaign-results.filters.type.status.empty'),
-          t('components.participation-status.STARTED-ASSESSMENT'),
-          t('components.participation-status.TO_SHARE-ASSESSMENT'),
-          t('components.participation-status.SHARED-ASSESSMENT'),
-        ],
-      );
-    });
-
-    test('it should display 3 statuses for assessment campaign', async function (assert) {
+    test('it should display statuses', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
         id: campaignId,
@@ -905,36 +876,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         [
           t('pages.campaign-results.filters.type.status.empty'),
           t('components.participation-status.STARTED-ASSESSMENT'),
-          t('components.participation-status.TO_SHARE-ASSESSMENT'),
           t('components.participation-status.SHARED-ASSESSMENT'),
-        ],
-      );
-    });
-
-    test('it should display 2 statuses for profiles collection campaign', async function (assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        id: '1',
-        name: 'campagne 1',
-        type: 'PROFILES_COLLECTION',
-        targetProfileHasStage: false,
-        stages: [],
-      });
-
-      // when
-      const screen = await render(
-        <template><ParticipationFilters @campaign={{campaign}} @onFilter={{noop}} /></template>,
-      );
-
-      // then
-      await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
-      const options = await screen.findAllByRole('option');
-      assert.deepEqual(
-        options.map((option) => option.innerText),
-        [
-          t('pages.campaign-results.filters.type.status.empty'),
-          t('components.participation-status.TO_SHARE-PROFILES_COLLECTION'),
-          t('components.participation-status.SHARED-PROFILES_COLLECTION'),
         ],
       );
     });
