@@ -131,10 +131,8 @@
       }
     },
     "submitted-count": {
-      "information": "Hier vind je de resultaten die door je deelnemers zijn verzonden. Dit aantal omvat alle deelnemers die klaar zijn en op de knop \"Ik verstuur mijn resultaten\" of \"Ik verstuur mijn profiel\" hebben geklikt.",
       "loader": "Ontvangen resultaten of profielen laden",
-      "title": "Ontvangen resultaten",
-      "title-profiles": "Ontvangen profielen"
+      "title": "Patcipaties voltooid"
     }
   },
   "charts": {
