@@ -131,10 +131,8 @@
       }
     },
     "submitted-count": {
-      "information": "Find here the results submitted by your participants. This includes all the participants who have finished and clicked on the button \"Submit my results\" or \"Submit my profile\".",
       "loader": "Loading submitted results or profiles",
-      "title": "Submitted results",
-      "title-profiles": "Submitted profiles"
+      "title": "Completed participations"
     }
   },
   "charts": {

@@ -37,11 +37,7 @@ export default class Dashboard extends Component {
           @isLoading={{this.participantsByStatusLoading}}
           class="activity-dashboard__total-participants-card"
         />
-        <SharedCount
-          @value={{this.shared}}
-          @isLoading={{this.participantsByStatusLoading}}
-          @shouldDisplayAssessmentLabels={{or @campaign.isTypeAssessment @campaign.isTypeExam}}
-        />
+        <SharedCount @value={{this.shared}} @isLoading={{this.participantsByStatusLoading}} />
       </div>
       <div class="activity-dashboard__row">
         <ParticipantsByDay

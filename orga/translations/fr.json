@@ -131,10 +131,8 @@
       }
     },
     "submitted-count": {
-      "information": "Retrouvez ici les résultats envoyés par vos participants. Ce nombre comprend l’ensemble des participants ayant terminé et cliqué sur le bouton \"J'envoie mes résultats\" ou \"J'envoie mon profil\".",
       "loader": "Chargement des résultats ou profils reçus",
-      "title": "Résultats reçus",
-      "title-profiles": "Profils reçus"
+      "title": "Paticipations terminées"
     }
   },
   "charts": {
