@@ -138,19 +138,16 @@
   "charts": {
     "participants-by-day": {
       "captions": {
-        "shared": "Submitted results by day",
-        "shared-profile": "Submitted profiles by day",
+        "shared": "Completed participations by day",
         "started": "Total participants by day"
       },
       "labels-a11y": {
         "date": "Date",
-        "shared": "Submitted results",
-        "shared-profile": "Submitted profiles",
+        "shared": "Completed participations",
         "started": "Total participants"
       },
       "labels-legend": {
-        "shared": "Submitted results",
-        "shared-profile": "Submitted profiles",
+        "shared": "Completed participations",
         "started": "Total participants"
       },
       "loader": "Loading participant's activity",

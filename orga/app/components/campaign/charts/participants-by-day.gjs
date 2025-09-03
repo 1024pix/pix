@@ -57,15 +57,11 @@ export default class ParticipantsByDay extends Component {
     return { startedDatasets, sharedDatasets };
   }
 
-  get labels() {
-    return this.args.shouldDisplayAssessmentLabels ? LABELS_ASSESSMENT : LABELS_PROFILE_COLLECTIONS;
-  }
-
   get data() {
     return {
       datasets: [
         {
-          label: this.intl.t(this.labels.started.legend),
+          label: this.intl.t(LABELS.started.legend),
           data: this.startedDatasets,
           borderColor: '#613fdd',
           backgroundColor: '#613fdd',
@@ -74,7 +70,7 @@ export default class ParticipantsByDay extends Component {
           order: 2,
         },
         {
-          label: this.intl.t(this.labels.shared.legend),
+          label: this.intl.t(LABELS.shared.legend),
           data: this.sharedDatasets,
           borderColor: '#038a25',
           backgroundColor: '#038a25',
@@ -139,17 +135,10 @@ export default class ParticipantsByDay extends Component {
     let startedCaption = '';
     let sharedCaption = '';
 
-    if (this.args.shouldDisplayAssessmentLabels) {
-      startedCaption = LABELS_ASSESSMENT.started.caption;
-      startedLabel = LABELS_ASSESSMENT.started.a11y;
-      sharedCaption = LABELS_ASSESSMENT.shared.caption;
-      sharedLabel = LABELS_ASSESSMENT.shared.a11y;
-    } else {
-      startedCaption = LABELS_PROFILE_COLLECTIONS.started.caption;
-      startedLabel = LABELS_PROFILE_COLLECTIONS.started.a11y;
-      sharedCaption = LABELS_PROFILE_COLLECTIONS.shared.caption;
-      sharedLabel = LABELS_PROFILE_COLLECTIONS.shared.a11y;
-    }
+    startedCaption = LABELS.started.caption;
+    startedLabel = LABELS.started.a11y;
+    sharedCaption = LABELS.shared.caption;
+    sharedLabel = LABELS.shared.a11y;
 
     return [
       { caption: startedCaption, entries: this.startedDatasets, countLabel: startedLabel },
@@ -194,7 +183,7 @@ export default class ParticipantsByDay extends Component {
   </template>
 }
 
-const LABELS_ASSESSMENT = {
+const LABELS = {
   started: {
     caption: 'charts.participants-by-day.captions.started',
     legend: 'charts.participants-by-day.labels-legend.started',
@@ -204,19 +193,6 @@ const LABELS_ASSESSMENT = {
     caption: 'charts.participants-by-day.captions.shared',
     legend: 'charts.participants-by-day.labels-legend.shared',
     a11y: 'charts.participants-by-day.labels-a11y.shared',
-  },
-};
-
-const LABELS_PROFILE_COLLECTIONS = {
-  started: {
-    caption: 'charts.participants-by-day.captions.started',
-    legend: 'charts.participants-by-day.labels-legend.started',
-    a11y: 'charts.participants-by-day.labels-a11y.started',
-  },
-  shared: {
-    caption: 'charts.participants-by-day.captions.shared-profile',
-    legend: 'charts.participants-by-day.labels-legend.shared-profile',
-    a11y: 'charts.participants-by-day.labels-a11y.shared-profile',
   },
 };
 

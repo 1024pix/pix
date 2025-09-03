@@ -138,19 +138,16 @@
   "charts": {
     "participants-by-day": {
       "captions": {
-        "shared": "Total de participants par jour ayant envoyé leurs résultats par jour",
-        "shared-profile": "Total de participants ayant envoyé leurs profils par jour",
+        "shared": "Participations terminées par jour",
         "started": "Total de participants par jour"
       },
       "labels-a11y": {
         "date": "Date",
-        "shared": "Total des participants ayant envoyé leurs résultats",
-        "shared-profile": "Total des participants ayant envoyé leurs profils",
+        "shared": "Participations terminées",
         "started": "Total des participants"
       },
       "labels-legend": {
-        "shared": "Résultats reçus",
-        "shared-profile": "Profils reçus",
+        "shared": "Participations terminées",
         "started": "Total des participants"
       },
       "loader": "Chargement de l'activité des participants",
