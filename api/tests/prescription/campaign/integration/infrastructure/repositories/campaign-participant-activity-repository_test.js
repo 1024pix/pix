@@ -196,7 +196,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       });
 
       context('when the participation is not shared', function () {
-        it('should return status to share', async function () {
+        it('should return status started', async function () {
           // given
           campaign = databaseBuilder.factory.buildCampaign();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: TO_SHARE });
@@ -207,7 +207,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
             await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
           // then
-          expect(campaignParticipantsActivities[0].status).to.equal(TO_SHARE);
+          expect(campaignParticipantsActivities[0].status).to.equal(STARTED);
         });
       });
 
@@ -324,7 +324,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const { campaignParticipantsActivities, pagination } =
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({
             campaignId: campaign.id,
-            filters: { status: STARTED },
+            filters: { status: [STARTED] },
           });
 
         const participantExternalIds = campaignParticipantsActivities.map((result) => result.participantExternalId);
