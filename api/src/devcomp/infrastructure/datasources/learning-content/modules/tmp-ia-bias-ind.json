@@ -287,7 +287,7 @@
               "element": {
                 "id": "99ea3082-9f59-435a-9da5-9cca98021669",
                 "type": "text",
-                "content": "<p>Pour comprendre comment l’IA utilise ses données d’entraînement, <strong>mettez-vous à sa place</strong>. Aujourd’hui on va étudier le taboulé, à partir des données de tout le web en français.</p>"
+                "content": "<p>Pour comprendre comment l’IA générative utilise ses données d’entraînement pour répondre aux utilisateurs, <strong>vous allez incarner l’IA</strong>.&nbsp;<br>Aujourd’hui <strong>vous allez vous entraîner</strong> sur l’exemple de la recette du taboulé.</p><p><br></p><p>Ci-dessous, sont représentés 18 types de taboulés.</p>"
               }
             },
             {
@@ -296,9 +296,9 @@
                 "id": "a261de69-d395-4657-a4a3-759bceee4297",
                 "type": "embed",
                 "isCompletionRequired": false,
-                "title": "POI ressources biais",
-                "url": "https://1024pix.github.io/atelier-contenus/PCH/POI_module_biais_taboule_2.html",
-                "instruction": "<p>Découvrez avec quels exemples l’IA générative est entraînée. <br>Répondez ensuite à la question ci-dessous.</p>",
+                "title": "POI ressources biais part-1",
+                "url": "https://1024pix.github.io/atelier-contenus/PCH/POI-taboule_scenario_4_part_1.html",
+                "instruction": "<p>En tant qu’IA générative, découvrez ceux qui sont présents sur le web et avec lesquels vous allez vous entraîner. <br></p>",
                 "solution": "",
                 "height": 500
               }
@@ -306,26 +306,55 @@
             {
               "type": "element",
               "element": {
+                "id": "1404bab0-5b29-4578-a8a7-bfdcb19dec46",
+                "type": "text",
+                "content": "<p>Vous êtes toujours une IA générative. Vous avez consulté vos données d’entraînement. Répondez à la question ci-dessous.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "e99f798d-393d-4c1c-a07f-c0138b0746d6",
                 "type": "qcu-discovery",
-                "instruction": "<p>D’après vos observations sur les données précédentes, l'ingrédient principal de la recette du taboulé est&nbsp;:</p>",
+                "instruction": "<p>Que répondez-vous à l’utilisateur qui vous demande « Quel est l'ingrédient principal de la recette du taboulé » ?</p>",
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>la semoule</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>C’est normal que vous ayez fait cette hypothèse.</strong><br> Les données observées ici ont un biais dans leur nombre&nbsp;: il y a bien plus de taboulés à la semoule dans le web français.<br></p><p>En réalité, le taboulé à la semoule est plus présent dans les pays européens ou maghrébins. Le taboulé au persil est simplement moins connu en Europe. 🥗 En s'entraînant avec des données internationales, la proportion de taboulé à la semoule aurait été différente.</p>"
+                      "diagnosis": "<p><strong>C’est normal que vous ayez fait cette hypothèse.</strong><br> Car, en tant qu’IA générative, vous n’aviez accès qu’aux recettes présentes sur le web. Les données observées ici ont un biais : les taboulés à la semoule sont sur-représentés sur le web.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>le persil</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Vous avez cru à un piège ?</strong><br>Les données observées ici ont un biais dans leur nombre&nbsp;: il y a bien plus de taboulés à la semoule dans le web français.<br></p><p>En réalité, le taboulé à la semoule est plus présent dans les pays européens ou maghrébins. Le taboulé au persil est simplement moins connu en Europe. 🥗 En s'entraînant avec des données internationales, la proportion de taboulé à la semoule aurait été différente.</p>"
+                      "diagnosis": "<p><strong>Et bien non.<br></strong>Car, en tant qu’IA générative, vous n’aviez accès qu’aux recettes présentes sur le web. Les données observées ici ont un biais : les taboulés à la semoule sont sur-représentés sur le web.<br></p>"
                     }
                   }
                 ],
                 "solution": "1"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "073a5da6-5717-4d49-8d6e-dd68174f8077",
+                "type": "embed",
+                "isCompletionRequired": false,
+                "title": "POI ressource biais part-2",
+                "url": "https://1024pix.github.io/atelier-contenus/PCH/POI-taboule_scenario_4_part_2_8_premieres_controlees.html",
+                "instruction": "<p>Maintenant, découvrez les recettes disponibles ailleurs dans le monde mais qui ne sont pas publiées sur internet.</p>",
+                "solution": "",
+                "height": 500
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "836236f1-e236-423f-ac8a-752b850209aa",
+                "type": "text",
+                "content": "<p>Si l’IA générative avait été entraînée sur l’ensemble des recettes du monde, et pas seulement celle du web, elle aurait certainement apporté un résultat différent.</p>"
               }
             }
           ]
