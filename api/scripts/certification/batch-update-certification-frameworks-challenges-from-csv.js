@@ -45,13 +45,6 @@ export class BatchUpdateCertificationFrameworksChallengesFromCsv extends Script 
       return { processed: 0, updated: 0 };
     }
 
-    // Extract data for PostgreSQL unnest approach - we need to handle the composite key
-    const challengeIds = csvData.map((row) => row.challengeId);
-    const complementaryCertificationKeys = csvData.map((row) => row.complementaryCertificationKey);
-    const discriminantValues = csvData.map((row) => row.alpha);
-    const difficultyValues = csvData.map((row) => row.delta);
-    const calibrationIds = csvData.map((row) => row.calibrationId);
-
     const trx = await knex.transaction();
 
     try {
@@ -78,36 +71,24 @@ export class BatchUpdateCertificationFrameworksChallengesFromCsv extends Script 
         throw new Error('Some challenges are missing');
       }
 
-      // Perform batch update using PostgreSQL unnest for efficient bulk operations
-      // We update based on both complementaryCertificationKey and challengeId
-      // eslint-disable-next-line knex/avoid-injections
-      const updateResult = await trx.raw(
-        `
-        UPDATE "certification-frameworks-challenges"
-        SET discriminant = data.discriminant,
-            difficulty = data.difficulty,
-            "calibrationId" = data."calibrationId"
-        FROM (
-          SELECT
-        unnest(ARRAY[${challengeIds.map(() => '?').join(',')}]::text[]) as "challengeId",
-        unnest(ARRAY[${complementaryCertificationKeys.map(() => '?').join(',')}]::text[]) as "complementaryCertificationKey",
-        unnest(ARRAY[${discriminantValues.map(() => '?').join(',')}]::numeric[]) as discriminant,
-        unnest(ARRAY[${difficultyValues.map(() => '?').join(',')}]::numeric[]) as difficulty,
-        unnest(ARRAY[${calibrationIds.map(() => '?').join(',')}]::integer[]) as "calibrationId"
-        ) as data
-        WHERE "certification-frameworks-challenges"."challengeId" = data."challengeId"
-        AND "certification-frameworks-challenges"."complementaryCertificationKey" = data."complementaryCertificationKey"
-      `,
-        [
-          ...challengeIds,
-          ...complementaryCertificationKeys,
-          ...discriminantValues,
-          ...difficultyValues,
-          ...calibrationIds,
-        ],
-      );
+      // Perform batch update using individual update queries in transaction
+      // This is more readable and maintainable than complex unnest operations
+      let updatedCount = 0;
 
-      const updatedCount = updateResult.rowCount || 0;
+      for (const row of csvData) {
+        const updateResult = await trx('certification-frameworks-challenges')
+          .where({
+            challengeId: row.challengeId,
+            complementaryCertificationKey: row.complementaryCertificationKey,
+          })
+          .update({
+            discriminant: row.alpha,
+            difficulty: row.delta,
+            calibrationId: row.calibrationId,
+          });
+
+        updatedCount += updateResult;
+      }
 
       if (dryRun) {
         await trx.rollback();
