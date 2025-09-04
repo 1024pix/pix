@@ -287,45 +287,79 @@
               "element": {
                 "id": "99ea3082-9f59-435a-9da5-9cca98021669",
                 "type": "text",
-                "content": "<p>Pour comprendre comment l’IA utilise ses données d’entraînement, <strong>mettez-vous à sa place</strong>. Aujourd’hui on va étudier le taboulé, à partir des données de tout le web en français.</p>"
+                "content": "<p>Pour comprendre comment l’IA générative utilise ses données d’entraînement pour générer des réponses et des images, <strong>vous allez vous mettre à sa place</strong>.&nbsp;</p><p>Aujourd’hui vous allez vous entraîner à partir des données de tout le web. Vous vous entraînez sur l’exemple d'images de personnes à la salle de sport.</p><ol><li>Découvrez vos données d’entraînement.</li><li>Générez une image pour un utilisateur.</li></ol><p><br></p><p>Voici les données d'entraînement disponibles sur le web pour \"personne à la salle de sport\". <br><strong>Vous êtes maintenant l'IA générative, étudiez vos données d'entraînement puis&nbsp;répondrez à la question de l'utilisateur.</strong></p>"
               }
             },
             {
               "type": "element",
               "element": {
                 "id": "a261de69-d395-4657-a4a3-759bceee4297",
-                "type": "embed",
-                "isCompletionRequired": false,
-                "title": "POI ressources biais",
-                "url": "https://1024pix.github.io/atelier-contenus/PCH/POI_module_biais_taboule_2.html",
-                "instruction": "<p>Découvrez avec quels exemples l’IA générative est entraînée. <br>Répondez ensuite à la question ci-dessous.</p>",
-                "solution": "",
-                "height": 500
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-surleweb.jpg",
+                "alt": "",
+                "alternativeText": "",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "5e12d3cc-ae52-49b4-98f8-e4d9a23f1a45",
+                "type": "text",
+                "content": "<p><strong>Vous êtes toujours l'IA générative. En étant entraînée avec les données précédentes, que répondez-vous au prompt suivant « Une photographie d'une femme en salle de sport » ?</strong></p>"
               }
             },
             {
               "type": "element",
               "element": {
                 "id": "e99f798d-393d-4c1c-a07f-c0138b0746d6",
-                "type": "qcu-discovery",
-                "instruction": "<p>D’après vos observations sur les données précédentes, l'ingrédient principal de la recette du taboulé est&nbsp;:</p>",
-                "proposals": [
-                  {
-                    "id": "1",
-                    "content": "<p>la semoule</p>",
-                    "feedback": {
-                      "diagnosis": "<p><strong>C’est normal que vous ayez fait cette hypothèse.</strong><br> Les données observées ici ont un biais dans leur nombre&nbsp;: il y a bien plus de taboulés à la semoule dans le web français.<br></p><p>En réalité, le taboulé à la semoule est plus présent dans les pays européens ou maghrébins. Le taboulé au persil est simplement moins connu en Europe. 🥗 En s'entraînant avec des données internationales, la proportion de taboulé à la semoule aurait été différente.</p>"
+                "type": "custom",
+                "tagName": "image-quiz",
+                "props": {
+                  "name": "reponse-ia-image",
+                  "multiple": false,
+                  "maxChoicesPerLine": 2,
+                  "hideChoicesName": false,
+                  "orderChoices": false,
+                  "imageChoicesSize": "large",
+                  "choices": [
+                    {
+                      "name": "Image 1",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-exo2.jpg"
+                      },
+                      "response": "Et non ! Les images sur lesquelles vous étiez entraînées se limitaient aux images publiées volontairement sur le web. Les gens ou les marques qui les ont publiées l’ont généralement fait dans le but de se mettre en valeur. Vous avez donc répondu avec l’image qui s’en rapprochait le plus. 🏋️ En réalité, dans la vie, quelqu’un qui fait du sport en salle de sport a plus de probabilité de ressembler à l’image 1 qu’à l’image 2. 🥵"
+                    },
+                    {
+                      "name": "Image 2",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-exo1.jpg"
+                      },
+                      "response": "Effectivement ! Les images sur lesquelles vous étiez entraînées se limitaient aux images publiées volontairement sur le web. Les gens ou les marques qui les ont publiées l’ont généralement fait dans le but de se mettre en valeur. Vous avez donc répondu avec l’image qui s’en rapprochait le plus. 🏋️ En réalité, dans la vie, quelqu’un qui fait du sport en salle de sport a plus de probabilité de ressembler à l’image 1 qu’à l’image 2. 🥵"
                     }
-                  },
-                  {
-                    "id": "2",
-                    "content": "<p>le persil</p>",
-                    "feedback": {
-                      "diagnosis": "<p><strong>Vous avez cru à un piège ?</strong><br>Les données observées ici ont un biais dans leur nombre&nbsp;: il y a bien plus de taboulés à la semoule dans le web français.<br></p><p>En réalité, le taboulé à la semoule est plus présent dans les pays européens ou maghrébins. Le taboulé au persil est simplement moins connu en Europe. 🥗 En s'entraînant avec des données internationales, la proportion de taboulé à la semoule aurait été différente.</p>"
-                    }
-                  }
-                ],
-                "solution": "1"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "310ea0d6-fe0f-4761-b4c7-b4531f0a3220",
+                "type": "text",
+                "content": "<p><strong>Effectivement</strong><br>Les images sur lesquelles vous étiez entraînées se limitaient aux images publiées volontairement sur le web. Les gens ou les marques qui les ont publiées l’ont généralement fait dans le but de se mettre en valeur. Vous avez donc répondu avec l’image qui s’en rapprochait le plus. 🏋️<br>En réalité, dans la vie, quelqu’un qui fait du sport en salle de sport a plus de probabilité de ressembler à l’image 1 qu’à l’image 2. 🥵</p><p><br></p><p><strong>Eh non !</strong><br>Les images d’entraînement de l’IA sont des images publiées sur le web. Les gens ou les marques qui les ont publiées l’ont généralement fait dans le but de se mettre en valeur. 🏋️&nbsp;Ils n’ont pas publié les photos les plus désavantageuses. 🥵&nbsp;C’est pourquoi, sans entraînement sur des photographies plus diverses, l’IA ne peut pas générer une image de ce type.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "ac25923f-0ea1-4678-9d8f-b7c172da78dd",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-danslemonde.jpg",
+                "alt": "",
+                "alternativeText": "",
+                "legend": "",
+                "licence": ""
               }
             }
           ]
@@ -343,7 +377,7 @@
                     {
                       "id": "4ec1233f-0134-4e3e-82b0-2e0529be6182",
                       "type": "text",
-                      "content": "<p>L’IA générative construit ses réponses en <strong>s’appuyant sur les mots ou les images les plus fréquents </strong>dans ses données d’entraînement. Comme ici avec le taboulé à la semoule.<br><br>La plupart du temps, cette méthode produit des résultats pertinents. 👍</p>"
+                      "content": "<p>L’IA générative construit ses réponses en <strong>s’appuyant sur les mots ou les images les plus fréquents </strong>dans ses données d’entraînement. Comme ici avec les photos à la salle de sport.<br><br>La plupart du temps, cette méthode produit des résultats pertinents. 👍</p>"
                     }
                   ]
                 },
