@@ -5,11 +5,11 @@
   "isBeta": true,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Quand vous échangez avec l’IA, vous ne voyez que l'écran de discussion. </p><p>Pourtant, d'immenses ordinateurs appelés supercalculateurs, des réseaux, ou encore des bâtiments, situés partout dans le monde, sont utilisés pour répondre à vos demandes.</p><p>Dans ce module, vous allez découvrir les ressources que consomme l’utilisation des intelligences artificielles génératives.<br></p>",
+    "description": "<p>Quand vous échangez avec un logiciel d'IA générative, vous ne voyez que l'écran de discussion. </p><p>Pourtant, d'immenses ordinateurs appelés supercalculateurs, des réseaux, ou encore des bâtiments, situés partout dans le monde, sont utilisés pour répondre à vos demandes.</p><p>Dans ce module, vous allez découvrir les ressources que consomme l’utilisation des intelligences artificielles génératives.<br></p>",
     "duration": 10,
     "level": "Débutant",
     "objectives": [
-      "<p><br></p>",
+      "<p>Identifier le matériel utilisé par les IA génératives</p>",
       "<p>Expliquer l'énergie consommée par les IA génératives</p>"
     ],
     "tabletSupport": "inconvenient"
@@ -884,7 +884,7 @@
             {
               "type": "element",
               "element": {
-                "id": "65f0620b-6632-480d-ad77-f4a2e7e59289",
+                "id": "65f0620b-6632-480d-ad77-f4a2e7e69289",
                 "type": "text",
                 "content": "<p><strong>🌱Agir pour réduire la consommation d’énergie</strong></p><p> Pour réduire les coûts énergétiques des supercalculateurs, on peut essayer collectivement d’utiliser les IA génératives à un juste besoin.&nbsp;</p><ul><li>éviter les requêtes inutiles ou répétées</li><li>privilégier des solutions plus efficaces quand elles existent</li><li>éviter les demandes d'images ou de vidéos</li></ul><p><strong>🤔Bon à savoir</strong>&nbsp; </p><p>Les concepteurs des IA génératives peuvent aussi faire des efforts  comme améliorer les logiciels, améliorer les machines ou choisir des énergies renouvelables.&nbsp;</p>"
               }
