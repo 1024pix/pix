@@ -5,12 +5,12 @@
   "isBeta": true,
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Quand vous échangez avec un logiciel d'IA générative, vous ne voyez que l'écran de discussion. </p><p>Pourtant, d'immenses ordinateurs appelés supercalculateurs, des réseaux, ou encore des bâtiments, situés partout dans le monde, sont utilisés pour répondre à vos demandes.</p><p>Dans ce module, vous allez découvrir les ressources que consomme l’utilisation des intelligences artificielles génératives.<br></p>",
+    "description": "<p>Quand vous échangez avec un logiciel d‘IA générative, vous ne voyez que l‘écran de discussion. </p><p>Pourtant, d‘immenses ordinateurs appelés supercalculateurs, des réseaux, ou encore des bâtiments, situés partout dans le monde, sont utilisés pour répondre à vos demandes.</p><p>Dans ce module, vous allez découvrir les ressources que consomme l’utilisation des intelligences artificielles génératives.<br></p>",
     "duration": 10,
     "level": "Débutant",
     "objectives": [
       "<p>Identifier le matériel utilisé par les IA génératives</p>",
-      "<p>Expliquer l'énergie consommée par les IA génératives</p>"
+      "<p>Expliquer l‘énergie consommée par les IA génératives</p>"
     ],
     "tabletSupport": "inconvenient"
   },
@@ -29,7 +29,7 @@
               "element": {
                 "id": "35a9be34-9b63-4cf5-b984-432010aff74e",
                 "type": "text",
-                "content": "<p>Enzo a produit sur son ordinateur un texte à l’aide d’un logiciel d'intelligence artificielle générative. </p><p>Il ne pensait pas que son ordinateur était si puissant. <br></p>"
+                "content": "<p>Enzo a produit sur son ordinateur un texte à l’aide d’un logiciel d‘intelligence artificielle générative. </p><p>Il ne pensait pas que son ordinateur était si puissant. <br></p>"
               }
             }
           ]
@@ -61,12 +61,12 @@
                     {
                       "userName": "Enzo",
                       "direction": "incoming",
-                      "content": "Oui mais grâce à l'IA, maintenant, il arrive à répondre à toutes mes demandes !"
+                      "content": "Oui mais grâce à l‘IA, maintenant, il arrive à répondre à toutes mes demandes !"
                     },
                     {
                       "userName": "Alice",
                       "direction": "outgoing",
-                      "content": "C'est incroyable ! "
+                      "content": "C‘est incroyable ! "
                     }
                   ]
                 }
@@ -83,7 +83,7 @@
         {
           "id": "bcfc5017-0b98-4603-9ed3-31506ec52d15",
           "type": "transition",
-          "title": "L'IA ne booste pas",
+          "title": "L‘IA ne booste pas",
           "components": [
             {
               "type": "element",
@@ -105,7 +105,7 @@
               "element": {
                 "id": "926790dc-f2f3-43bf-a6d4-d20f3b39c5cb",
                 "type": "text",
-                "content": "<p>Que se passe-t-il quand on fait une demande à un logiciel d’IA générative ? </p><p> Découvrez <strong>le trajet d'une demande</strong> à un logiciel d'IA générative.</p>"
+                "content": "<p>Que se passe-t-il quand on fait une demande à un logiciel d’IA générative ? </p><p> Découvrez <strong>le trajet d‘une demande</strong> à un logiciel d‘IA générative.</p>"
               }
             },
             {
@@ -118,12 +118,12 @@
                   "type": "image",
                   "slides": [
                     {
-                      "title": "Enzo rédige et envoie sa demande au logiciel d'IA générative",
+                      "title": "Enzo rédige et envoie sa demande au logiciel d‘IA générative.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape1.svg",
-                        "alt": "Enzo rédige et envoie sa demande au logiciel d'IA générative"
+                        "alt": "Enzo rédige et envoie sa demande au logiciel d‘IA générative."
                       },
                       "license": {
                         "name": "",
@@ -132,12 +132,12 @@
                       }
                     },
                     {
-                      "title": "La demande est envoyée sur le réseau WIFi jusqu'à sa box",
+                      "title": "La demande est envoyée sur le réseau WiFi jusqu‘à sa box.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape2.svg",
-                        "alt": "La demande est envoyée sur le réseau WIFi jusqu'à sa box"
+                        "alt": "La demande est envoyée sur le réseau WiFi jusqu‘à sa box."
                       },
                       "license": {
                         "name": "",
@@ -146,12 +146,12 @@
                       }
                     },
                     {
-                      "title": "La demande d'Enzo voyage sur le réseau internet mondial",
+                      "title": "La demande d‘Enzo voyage sur le réseau internet mondial.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape3.svg",
-                        "alt": "La demande d'Enzo voyage sur le réseau internet mondial"
+                        "alt": "La demande d‘Enzo voyage sur le réseau internet mondial."
                       },
                       "license": {
                         "name": "",
@@ -160,12 +160,12 @@
                       }
                     },
                     {
-                      "title": "La demande d'Enzo parvient à un supercalculateur",
+                      "title": "La demande d‘Enzo parvient à un supercalculateur.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape4.svg",
-                        "alt": "La demande d'Enzo parvient à un supercalculateur"
+                        "alt": "La demande d‘Enzo parvient à un supercalculateur."
                       },
                       "license": {
                         "name": "",
@@ -174,12 +174,12 @@
                       }
                     },
                     {
-                      "title": "Le supercalculateur calcule la réponse à apporter",
+                      "title": "Le supercalculateur calcule la réponse à apporter.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape5.svg",
-                        "alt": "Le supercalculateur calcule la réponse à apporter"
+                        "alt": "Le supercalculateur calcule la réponse à apporter."
                       },
                       "license": {
                         "name": "",
@@ -188,12 +188,12 @@
                       }
                     },
                     {
-                      "title": "La réponse est prête à être envoyée",
+                      "title": "La réponse est prête à être envoyée.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape6.svg",
-                        "alt": "La réponse est prête à être envoyée"
+                        "alt": "La réponse est prête à être envoyée."
                       },
                       "license": {
                         "name": "",
@@ -202,12 +202,12 @@
                       }
                     },
                     {
-                      "title": "La réponse fait le trajet retour sur internet",
+                      "title": "La réponse fait le trajet retour sur internet.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape7.svg",
-                        "alt": "La réponse fait le trajet retour sur internet"
+                        "alt": "La réponse fait le trajet retour sur internet."
                       },
                       "license": {
                         "name": "",
@@ -216,12 +216,12 @@
                       }
                     },
                     {
-                      "title": "La réponse est envoyée par WiFi à l'ordinateur",
+                      "title": "La réponse est envoyée par WiFi à l‘ordinateur.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape8.svg",
-                        "alt": "La réponse est envoyée par WiFi à l'ordinateur"
+                        "alt": "La réponse est envoyée par WiFi à l‘ordinateur."
                       },
                       "license": {
                         "name": "",
@@ -230,12 +230,12 @@
                       }
                     },
                     {
-                      "title": "La réponse est affichée sur l'écran d'Enzo",
+                      "title": "La réponse est affichée sur l‘écran d‘Enzo.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-voyage-requete/carrousel_voyage_requete_etape9.svg",
-                        "alt": "La réponse est affichée sur l'écran d'Enzo"
+                        "alt": "La réponse est affichée sur l‘écran d‘Enzo."
                       },
                       "license": {
                         "name": "",
@@ -356,7 +356,7 @@
               "element": {
                 "id": "8ceec6c1-0391-4644-8bee-edf0be8c7038",
                 "type": "text",
-                "content": "<p>Découvrez <strong>comment le supercalculateur répond </strong>à la demande d’Enzo</p>"
+                "content": "<p>Découvrez <strong>comment le supercalculateur répond </strong>à la demande d’Enzo.</p>"
               }
             },
             {
@@ -383,12 +383,12 @@
                       }
                     },
                     {
-                      "title": "Elle est transmise à des serveurs (gros ordinateurs) spécialisés pour l'IA.",
+                      "title": "Elle est transmise à des serveurs (gros ordinateurs) spécialisés pour l‘IA.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-traitement-requete/carrousel_traitement_requete_etape2.svg",
-                        "alt": "Elle est transmise à des serveurs (gros ordinateurs) spécialisés pour l'IA."
+                        "alt": "Elle est transmise à des serveurs (gros ordinateurs) spécialisés pour l‘IA."
                       },
                       "license": {
                         "name": "",
@@ -397,12 +397,12 @@
                       }
                     },
                     {
-                      "title": "Les serveurs calculent la réponse. Ils consomment de l'énergie.",
+                      "title": "Les serveurs calculent la réponse. Ils consomment de l‘énergie.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-traitement-requete/carrousel_traitement_requete_etape3.svg",
-                        "alt": "Les serveurs calculent la réponse. Ils consomment de l'énergie."
+                        "alt": "Les serveurs calculent la réponse. Ils consomment de l‘énergie."
                       },
                       "license": {
                         "name": "",
@@ -425,12 +425,12 @@
                       }
                     },
                     {
-                      "title": "Un système de refroidissement est nécessaire. Il consomme de l'énergie supplémentaire et de l'eau.",
+                      "title": "Un système de refroidissement est nécessaire. Il consomme de l‘énergie supplémentaire et de l‘eau.",
                       "description": "",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/modules/les-ia-consomment/carrousel-traitement-requete/carrousel_traitement_requete_etape5.svg",
-                        "alt": "Un système de refroidissement est nécessaire. Il consomme de l'énergie supplémentaire et de l'eau."
+                        "alt": "Un système de refroidissement est nécessaire. Il consomme de l‘énergie supplémentaire et de l‘eau."
                       },
                       "license": {
                         "name": "",
@@ -501,7 +501,7 @@
               "element": {
                 "id": "40de84e9-fc48-40c3-9d3f-499f6454d46a",
                 "type": "text",
-                "content": "<p><strong>⚡L’IA, ça calcule, ça chauffe, ça consomme.</strong></p><p>Le traitement d’une requête demande de <strong>nombreux calculs</strong>. Pour effectuer ces calculs, il faut du <strong>matériel très complexe</strong>, qui <strong>consomme de l’électricité</strong> et qui a <strong>besoin d’être refroidi</strong> en permanence avec <strong>de l'eau</strong>.</p>"
+                "content": "<p><strong>⚡L’IA, ça calcule, ça chauffe, ça consomme.</strong></p><p>Le traitement d’une requête demande de <strong>nombreux calculs</strong>. Pour effectuer ces calculs, il faut du <strong>matériel très complexe</strong>, qui <strong>consomme de l’électricité</strong> et qui a <strong>besoin d’être refroidi</strong> en permanence avec <strong>de l‘eau</strong>.</p>"
               }
             }
           ]
@@ -551,7 +551,7 @@
               "element": {
                 "id": "8286afa8-20b5-4e86-99bc-7daf29f91363",
                 "type": "text",
-                "content": "<p>Imaginons que <strong>plusieurs personnes demandent la même chose en même temps</strong> à un logiciel d’IA générative. </p>\n<p>En <strong>choisissant la demande</strong> envoyée <strong>et le</strong> <strong>nombre d'utilisateurs</strong>, testez la <strong>capacité de calcul</strong> d’un supercalculateur pour répondre aux questions ci-dessous.</p>"
+                "content": "<p>Imaginons que <strong>plusieurs personnes demandent la même chose en même temps</strong> à un logiciel d’IA générative. </p>\n<p>En <strong>choisissant la demande</strong> envoyée <strong>et le</strong> <strong>nombre d‘utilisateurs</strong>, testez la <strong>capacité de calcul</strong> d’un supercalculateur pour répondre aux questions ci-dessous.</p>"
               }
             },
             {
@@ -559,7 +559,7 @@
               "element": {
                 "id": "a44b87c8-ecf4-45dd-9cf7-1dc90492ef91",
                 "type": "custom-draft",
-                "title": "Test de la capacité de calcul d'un superclculateur",
+                "title": "Test de la capacité de calcul d‘un superclculateur",
                 "url": "https://1024pix.github.io/atelier-contenus/FRI/IAEnvironnementInferenceSpinner02.html",
                 "instruction": "",
                 "height": 450
@@ -587,8 +587,8 @@
                           "id": "2",
                           "content": "<p>Non</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Sélectionnez la demande de création d'une vidéo et ajustez la quantité à  800 pour visualiser le résultat.</p>"
+                            "state": "<p>Et si !</p>",
+                            "diagnosis": "<p>Sélectionnez la demande de création d‘une vidéo et ajustez la quantité à  800 pour visualiser le résultat.</p>"
                           }
                         }
                       ],
@@ -607,16 +607,16 @@
                           "id": "1",
                           "content": "<p>Oui</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Sélectionnez la demande de création d'un dessin et ajustez la quantité à  25 000 pour visualiser le résultat.</p>"
+                            "state": "<p>C‘était non !</p>",
+                            "diagnosis": "<p>Sélectionnez la demande de création d‘un dessin et ajustez la quantité à  25 000 pour visualiser le résultat.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Non</p>",
                           "feedback": {
-                            "state": "<p>En effet</p>",
-                            "diagnosis": "<p>La création d'images demande plus de puissance de calcul que la création de texte. Le supercalculateur ne peut pas en traiter autant en même temps.</p>"
+                            "state": "<p>En effet.</p>",
+                            "diagnosis": "<p>La création d‘images demande plus de puissance de calcul que la création de texte. Le supercalculateur ne peut pas en traiter autant en même temps.</p>"
                           }
                         }
                       ],
@@ -635,7 +635,7 @@
                           "id": "1",
                           "content": "<p>Oui</p>",
                           "feedback": {
-                            "state": "<p>En effet</p>",
+                            "state": "<p>En effet.</p>",
                             "diagnosis": "<p>Le supercalculateur a une capacité de calcul suffisante pour traiter des dizaines de milliers de création de texte en même temps.</p>"
                           }
                         },
@@ -644,7 +644,7 @@
                           "content": "<p>Non</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Sélectionnez la demande de création d'un poème et ajustez la quantité à  90 000 pour visualiser le résultat.</p>"
+                            "diagnosis": "<p>Sélectionnez la demande de création d‘un poème et ajustez la quantité à  90 000 pour visualiser le résultat.</p>"
                           }
                         }
                       ],
@@ -661,15 +661,15 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>génération de texte</p>",
+                          "content": "<p>la création de texte</p>",
                           "feedback": {
-                            "state": "<p>Pas vraiment</p>",
+                            "state": "<p>Pas vraiment.</p>",
                             "diagnosis": "<p>Testez les trois requêtes avec un nombre de 15 000 utilisateurs.</p>"
                           }
                         },
                         {
                           "id": "1",
-                          "content": "<p>génération d'image</p>",
+                          "content": "<p>la création d‘image</p>",
                           "feedback": {
                             "state": "<p>Pas vraiment</p>",
                             "diagnosis": "<p>Testez les trois requêtes avec un nombre de 15 000 utilisateurs.</p>"
@@ -677,9 +677,9 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>génération de vidéo</p>",
+                          "content": "<p>la création&nbsp;de vidéo</p>",
                           "feedback": {
-                            "state": "<p>Exactement</p>",
+                            "state": "<p>Exactement.</p>",
                             "diagnosis": "<p>Ce sont bien <strong>les vidéos qui demandent la plus grande puissance de calculs</strong>.</p>"
                           }
                         }
@@ -702,7 +702,7 @@
               "element": {
                 "id": "74be751a-51ef-4ed3-a8d4-a2e7e7b464a8",
                 "type": "text",
-                "content": "<p>💻 <strong>⚡ Beaucoup d’utilisateurs, beaucoup d’énergie !</strong> </p><p>Un supercalculateur reçoit <strong>des milliers de requêtes en même temps</strong>.&nbsp;Pour la fabrication d’images haute définition ou de vidéos, les calculs sont beaucoup plus importants que pour produire du texte.&nbsp; </p><p>Le supercalculateur effectue en parallèle l’ensemble des calculs pour répondre aux demandes qu’il reçoit. Cela consomme <strong>une énorme quantité d’énergie. </strong></p><br>"
+                "content": "<p>💻 <strong>⚡ Beaucoup d’utilisateurs, beaucoup d’énergie !</strong> </p><p>Un supercalculateur reçoit <strong>des milliers de requêtes en même temps</strong>.&nbsp;Pour la fabrication d’images haute définition ou de vidéos, les calculs sont beaucoup plus importants que pour produire du texte.&nbsp; </p><p>Le supercalculateur fait l’ensemble des calculs en même temps pour répondre aux demandes qu’il reçoit. Cela consomme <strong>une énorme quantité d’énergie. </strong></p><br>"
               }
             }
           ]
@@ -724,7 +724,7 @@
                     {
                       "userName": "Enzo",
                       "direction": "incoming",
-                      "content": "L’IA c’est génial, mais j’ai pas envie d'épuiser la planète"
+                      "content": "L’IA c’est génial, mais j’ai pas envie d‘épuiser la planète."
                     },
                     {
                       "userName": "Alice",
@@ -734,7 +734,7 @@
                     {
                       "userName": "Enzo",
                       "direction": "incoming",
-                      "content": "L'IA, c’est quand même utile parfois."
+                      "content": "L‘IA, c’est quand même utile parfois."
                     },
                     {
                       "userName": "Alice",
@@ -760,9 +760,9 @@
             {
               "type": "element",
               "element": {
-                "id": "65f0620b-6632-480d-ad77-f4a2e7e59289",
+                "id": "65f0620b-6632-480d-ad77-f4a2e7e59288",
                 "type": "text",
-                "content": "<p>Pour limiter la consommation des logiciels d’IA générative, on peut agir à notre niveau en adaptant nos usages. </p><p> À votre avis, <strong>l'IA est-elle utile</strong> pour répondre aux demandes suivantes  ?</p>"
+                "content": "<p>Pour limiter la consommation des logiciels d’IA générative, on peut agir à notre niveau en adaptant nos usages. </p><p> À votre avis, <strong>l‘IA est-elle utile</strong> pour répondre aux demandes suivantes  ?</p>"
               }
             },
             {
@@ -831,14 +831,14 @@
                           "id": "1",
                           "content": "<p>utile</p>",
                           "feedback": {
-                            "diagnosis": "<p>Ça se défend.</p><p>L'IA peut être une bonne <strong>source d’inspiration</strong> pour commencer ce projet, mais vous pouvez aussi faire marcher votre imagination.</p>"
+                            "diagnosis": "<p>Ça se défend.</p><p>L‘IA peut être une bonne <strong>source d’inspiration</strong> pour commencer ce projet, mais vous pouvez aussi faire marcher votre imagination.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>pas utile</p>",
                           "feedback": {
-                            "diagnosis": "<p>Ça se discute.</p><p>L'IA peut être une bonne <strong>source d’inspiration</strong> pour commencer ce projet, mais vous pouvez aussi faire marcher votre imagination.</p>"
+                            "diagnosis": "<p>Ça se discute.</p><p>L‘IA peut être une bonne <strong>source d’inspiration</strong> pour commencer ce projet, mais vous pouvez aussi faire marcher votre imagination.</p>"
                           }
                         }
                       ],
@@ -879,14 +879,14 @@
         {
           "id": "a17d541a-c8dd-427a-a685-4842f7e8f164",
           "type": "lesson",
-          "title": "Leçon - Agir pour réduire l'impact",
+          "title": "Leçon - Agir pour réduire l‘impact",
           "components": [
             {
               "type": "element",
               "element": {
-                "id": "65f0620b-6632-480d-ad77-f4a2e7e69289",
+                "id": "65f0620b-6632-480d-ad77-f4a2e7e59289",
                 "type": "text",
-                "content": "<p><strong>🌱Agir pour réduire la consommation d’énergie</strong></p><p> Pour réduire les coûts énergétiques des supercalculateurs, on peut essayer collectivement d’utiliser les IA génératives à un juste besoin.&nbsp;</p><ul><li>éviter les requêtes inutiles ou répétées</li><li>privilégier des solutions plus efficaces quand elles existent</li><li>éviter les demandes d'images ou de vidéos</li></ul><p><strong>🤔Bon à savoir</strong>&nbsp; </p><p>Les concepteurs des IA génératives peuvent aussi faire des efforts  comme améliorer les logiciels, améliorer les machines ou choisir des énergies renouvelables.&nbsp;</p>"
+                "content": "<p><strong>🌱Agir pour réduire la consommation d’énergie</strong></p><p> Pour réduire les coûts énergétiques des supercalculateurs, on peut essayer collectivement d’utiliser les IA génératives à un juste besoin :</p><ul><li>éviter les requêtes inutiles ou répétées</li><li>privilégier des solutions plus efficaces quand elles existent</li><li>éviter les demandes d‘images ou de vidéos</li></ul><p><strong>🤔Bon à savoir</strong>&nbsp; </p><p>Les concepteurs des IA génératives peuvent aussi faire des efforts  comme améliorer les logiciels, améliorer les machines ou choisir des énergies renouvelables.&nbsp;</p>"
               }
             }
           ]
@@ -907,7 +907,7 @@
               "element": {
                 "id": "d705c485-ea6d-4109-a7c7-b236684b8330",
                 "type": "text",
-                "content": "<ul>\n    <li>Pour répondre à nos <strong>millions de demandes</strong>, les logiciels d’IA génératives doivent faire de <strong>nombreux calculs</strong>.</li>\n    <li>C’est le rôle des <strong>supercalculateurs</strong>, parfois situés à l’autre bout du monde.</li>\n    <li>Pour <strong>faire ces calculs</strong>, et <strong>refroidir</strong> les supercalculateurs, il faut <strong>beaucoup d’énergie et beaucoup d'eau</strong>.</li>\n    <li><strong>Certaines requêtes</strong>, comme la fabrication d’images en haute définition (HD) ou de vidéos, demandent plus de calculs, et <strong>nécessitent plus d’énergie.</strong></li>\n</ul>"
+                "content": "<ul>\n    <li>Pour répondre à nos <strong>millions de demandes</strong>, les logiciels d’IA générative doivent faire de <strong>nombreux calculs</strong>.</li>\n    <li>C’est le rôle des <strong>supercalculateurs</strong>, parfois situés à l’autre bout du monde.</li>\n    <li>Pour <strong>faire ces calculs</strong>, et <strong>refroidir</strong> les supercalculateurs, il faut <strong>beaucoup d’énergie et beaucoup d‘eau</strong>.</li>\n    <li><strong>Certaines requêtes</strong>, comme la fabrication d’images en haute définition (HD) ou de vidéos, demandent plus de calculs, et <strong>nécessitent plus d’énergie.</strong></li>\n</ul>"
               }
             }
           ]
@@ -943,7 +943,7 @@
               "element": {
                 "id": "1854f199-bd3e-4b9a-a329-d402b2f0ada8",
                 "type": "qab",
-                "instruction": "<p>Pour chaque affirmation ci-dessous, dites si elle est vraie ou fausse&nbsp;:</p>",
+                "instruction": "<p>Pour chaque affirmation suivante, dites si elle est vraie ou fausse.</p>",
                 "cards": [
                   {
                     "id": "ab9a5aac-3d1b-4a9e-a827-12c0bd978b61",
@@ -952,8 +952,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai",
-                    "proposalB": "Faux",
+                    "proposalA": "vrai",
+                    "proposalB": "faux",
                     "solution": "B"
                   },
                   {
@@ -963,8 +963,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai",
-                    "proposalB": "Faux",
+                    "proposalA": "vrai",
+                    "proposalB": "faux",
                     "solution": "A"
                   },
                   {
@@ -974,8 +974,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai",
-                    "proposalB": "Faux",
+                    "proposalA": "vrai",
+                    "proposalB": "faux",
                     "solution": "A"
                   },
                   {
@@ -985,8 +985,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai",
-                    "proposalB": "Faux",
+                    "proposalA": "vrai",
+                    "proposalB": "faux",
                     "solution": "B"
                   }
                 ],
@@ -1014,7 +1014,7 @@
                     "content": "<p>la connexion internet et le chauffage du bâtiment</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>N'hésitez pas à consulter le récapitulatif ou les parties précédentes du module pour vous aider.☝️</p>"
+                      "diagnosis": "<p>N‘hésitez pas à consulter le récapitulatif ou les parties précédentes du module pour vous aider. ☝️</p>"
                     }
                   },
                   {
@@ -1030,7 +1030,7 @@
                     "content": "<p>l’éclairage et la vidéo-surveillance</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>N'hésitez pas à consulter le récapitulatif ou les parties précédentes du module pour vous aider.☝️</p>"
+                      "diagnosis": "<p>N‘hésitez pas à consulter le récapitulatif ou les parties précédentes du module pour vous aider. ☝️</p>"
                     }
                   }
                 ],
@@ -1049,14 +1049,14 @@
               "element": {
                 "id": "b7b1b0e7-ae82-415b-9241-11cdff8bbdfd",
                 "type": "qcu",
-                "instruction": "<p>Quelle requête à un logiciel d'IA générative consomme le plus d’énergie ?</p>",
+                "instruction": "<p>Quelle requête à un logiciel d‘IA générative consomme le plus d’énergie ?</p>",
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Rédiger un rapport de stage de <strong>70 pages</strong>.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Même si ce rapport de stage fait 70 pages, ce n’est pas ce qui consommera le plus d'énergie.</p>"
+                      "diagnosis": "<p>Même si ce rapport de stage fait 70 pages, ce n’est pas ce qui consommera le plus d‘énergie.</p>"
                     }
                   },
                   {
@@ -1072,7 +1072,7 @@
                     "content": "<p>Créer&nbsp;<strong>un</strong> <strong>poster</strong> publicitaire.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Les images demandent souvent plus de calcul aux logiciels d'IA générative. Mais ce n’est pas la requête qui consomme le plus d'énergie dans la liste ci-dessus.</p>"
+                      "diagnosis": "<p>Les images demandent souvent plus de calcul aux logiciels d‘IA générative. Mais ce n’est pas la requête qui consomme le plus d‘énergie dans la liste ci-dessus.</p>"
                     }
                   },
                   {
@@ -1080,7 +1080,7 @@
                     "content": "<p>Écrire <strong>un mail</strong> de réclamation.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Un texte court ne demande pas beaucoup d'énegie par rapport aux autres exemples ci-dessus.</p>"
+                      "diagnosis": "<p>Un texte court ne demande pas beaucoup d‘énegie par rapport aux autres exemples ci-dessus.</p>"
                     }
                   }
                 ],
@@ -1105,7 +1105,7 @@
               "element": {
                 "id": "98bf1662-2985-452d-ba51-1d625f43bebb",
                 "type": "custom-draft",
-                "title": "Calculatrice d'impact environnemental des usages de l'IA générative",
+                "title": "Calculatrice d‘impact environnemental des usages de l‘IA générative",
                 "url": "https://1024pix.github.io/atelier-contenus/FRI/IAEnvironnementTransfert04.html",
                 "instruction": "<p>Maintenant, essayons de voir à quoi correspond la consommation d’énergie de <strong>votre utilisation de l’IA.</strong></p>",
                 "height": 550
