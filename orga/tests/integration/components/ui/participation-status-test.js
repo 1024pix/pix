@@ -11,7 +11,6 @@ module('Integration | Component | Ui | ParticipationStatus', function (hooks) {
   module('label', function () {
     test('it should display formatted label', async function (assert) {
       this.set('status', 'SHARED');
-      this.set('campaignType', 'ASSESSMENT');
 
       // when
       const screen = await render(
@@ -19,7 +18,7 @@ module('Integration | Component | Ui | ParticipationStatus', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText(t('components.participation-status.SHARED-ASSESSMENT')));
+      assert.ok(screen.getByText(t('components.participation-status.SHARED')));
     });
   });
 });

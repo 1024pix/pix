@@ -121,7 +121,7 @@ export default class ParticipantsList extends Component {
             {{t "pages.campaign-activity.table.column.status"}}
           </:header>
           <:cell>
-            <ParticipationStatus @status={{participation.status}} @campaignType={{@campaign.type}} />
+            <ParticipationStatus @status={{participation.status}} />
           </:cell>
         </PixTableColumn>
 

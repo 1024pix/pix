@@ -58,7 +58,7 @@ export default class ParticipationRow extends Component {
         {{t "pages.organization-learner.activity.participation-list.table.column.status"}}
       </:header>
       <:cell>
-        <ParticipationStatus @status={{@participation.status}} @campaignType={{@participation.campaignType}} />
+        <ParticipationStatus @status={{@participation.status}} />
       </:cell>
     </PixTableColumn>
 
