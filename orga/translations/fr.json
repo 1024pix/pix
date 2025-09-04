@@ -408,12 +408,8 @@
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
     },
     "participation-status": {
-      "SHARED-ASSESSMENT": "Résultats reçus",
-      "SHARED-PROFILES_COLLECTION": "Profil reçu",
-      "STARTED-ASSESSMENT": "En cours",
-      "STARTED-PROFILES_COLLECTION": "En attente d'envoi",
-      "TO_SHARE-ASSESSMENT": "En attente d'envoi",
-      "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi"
+      "SHARED": "Terminé",
+      "STARTED": "En cours"
     },
     "terms-of-service": {
       "actions": {

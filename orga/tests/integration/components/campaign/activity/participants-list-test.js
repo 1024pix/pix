@@ -30,7 +30,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       {
         firstName: 'Joe',
         lastName: 'La frite',
-        status: 'TO_SHARE',
+        status: 'STARTED',
         participantExternalId: 'patate',
       },
     ]);
@@ -47,7 +47,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     assert.ok(screen.getByText('Joe'));
     assert.ok(screen.getByText('La frite'));
     assert.ok(screen.getByText('patate'));
-    assert.ok(screen.getAllByText("En attente d'envoi"));
+    assert.ok(screen.getAllByText(t('components.participation-status.STARTED')));
   });
 
   test('it should display pagination in correct language', async function (assert) {

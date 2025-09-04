@@ -11,10 +11,8 @@ export default class ParticipationStatus extends Component {
   }
 
   get label() {
-    const { status, campaignType } = this.args;
-    return this.intl.t(
-      `components.participation-status.${status}-${campaignType === 'EXAM' ? 'ASSESSMENT' : campaignType}`,
-    );
+    const { status } = this.args;
+    return this.intl.t(`components.participation-status.${status}`);
   }
 
   <template>
@@ -26,6 +24,5 @@ export default class ParticipationStatus extends Component {
 
 const COLORS = {
   STARTED: 'yellow-light',
-  TO_SHARE: 'purple-light',
   SHARED: 'green-light',
 };

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -29,7 +30,7 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
     assert.ok(screen.getByText('Évaluation'));
     assert.ok(screen.getByText('12/12/2022'));
     assert.ok(screen.getByText('25/12/2022'));
-    assert.ok(screen.getByText('Résultats reçus'));
+    assert.ok(screen.getByText(t('components.participation-status.SHARED')));
     assert.ok(screen.getByText('2'));
   });
 
@@ -53,7 +54,7 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
     assert.ok(screen.getByText('Collecte de profil'));
     assert.ok(screen.getByText('12/12/2022'));
     assert.ok(screen.getByText('25/12/2022'));
-    assert.ok(screen.getByText('Profil reçu'));
+    assert.ok(screen.getByText(t('components.participation-status.SHARED')));
     assert.ok(screen.getByText('1'));
   });
 

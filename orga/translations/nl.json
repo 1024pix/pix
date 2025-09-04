@@ -408,12 +408,8 @@
       "title": "{count, plural, =0 {Deelnemer} =1 {Deelnemer ({count})} other {Deelnemers ({count})}}"
     },
     "participation-status": {
-      "SHARED-ASSESSMENT": "Ontvangen resultaten",
-      "SHARED-PROFILES_COLLECTION": "Profiel ontvangen",
-      "STARTED-ASSESSMENT": "Bezig",
-      "STARTED-PROFILES_COLLECTION": "In afwachting van verzending",
-      "TO_SHARE-ASSESSMENT": "In afwachting van verzending",
-      "TO_SHARE-PROFILES_COLLECTION": "In afwachting van verzending"
+      "SHARED": "Voltooid",
+      "STARTED": "Bezig"
     },
     "terms-of-service": {
       "actions": {
