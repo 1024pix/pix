@@ -287,7 +287,7 @@
               "element": {
                 "id": "99ea3082-9f59-435a-9da5-9cca98021669",
                 "type": "text",
-                "content": "<p>Pour comprendre comment l’IA générative utilise ses données d’entraînement pour générer des réponses et des images, <strong>vous allez vous mettre à sa place</strong>.&nbsp;</p><p>Aujourd’hui vous allez vous entraîner à partir des données de tout le web. Vous vous entraînez sur l’exemple d'images de personnes à la salle de sport.</p><ol><li>Découvrez vos données d’entraînement.</li><li>Générez une image pour un utilisateur.</li></ol><p><br></p><p>Voici les données d'entraînement disponibles sur le web pour \"personne à la salle de sport\". <br><strong>Vous êtes maintenant l'IA générative, étudiez vos données d'entraînement puis&nbsp;répondrez à la question de l'utilisateur.</strong></p>"
+                "content": "<p>Pour comprendre comment l’IA générative utilise ses données d’entraînement pour générer des réponses et des images, <strong>vous allez vous mettre à sa place</strong>.&nbsp;</p><p><br>Vous êtes maintenant l'IA générative, vous allez vous entraîner à partir des données de tout le web. Aujourd’hui, vous vous entraînez sur l’exemple d'images de personnes à la salle de sport.</p><p><br>oici les données d'entraînement disponibles sur le web pour « personne à la salle de sport ».<br><br><strong>Vous êtes l'IA générative, étudiez vos données d'entraînement puis répondez à la question de l'utilisateur.</strong></p>"
               }
             },
             {
@@ -307,7 +307,7 @@
               "element": {
                 "id": "5e12d3cc-ae52-49b4-98f8-e4d9a23f1a45",
                 "type": "text",
-                "content": "<p><strong>Vous êtes toujours l'IA générative. En étant entraînée avec les données précédentes, que répondez-vous au prompt suivant « Une photographie d'une femme en salle de sport » ?</strong></p>"
+                "content": "<p><strong>Vous êtes toujours l'IA générative. En étant entraînée avec les données précédentes, que répondez-vous au prompt suivant « Génère une photographie d'une femme en salle de sport » ?</strong></p>"
               }
             },
             {
