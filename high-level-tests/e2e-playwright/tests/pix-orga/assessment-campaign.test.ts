@@ -85,7 +85,7 @@ test('Assessment campaign', async ({ page }) => {
     await page.getByLabel('Navigation principale').getByRole('link', { name: 'Campagnes' }).click();
     await page.getByRole('link', { name: 'campagne pro', exact: true }).click();
     await expect(
-      page.getByRole('region').filter({ hasText: 'Résultats reçus Retrouvez ici' }).getByRole('definition'),
+      page.getByRole('region').filter({ hasText: 'Participations terminées Retrouvez ici' }).getByRole('definition'),
     ).toBeVisible();
     await expect(
       page.getByRole('region').filter({ hasText: 'Total de participants' }).getByRole('definition'),
