@@ -48,7 +48,6 @@ export class BatchUpdateCertificationFrameworksChallengesFromCsv extends Script 
     const trx = await knex.transaction();
 
     try {
-      // First, verify that the complementaryCertificationKey + challengeId combinations exist
       const existingRecords = await trx('certification-frameworks-challenges')
         .select('challengeId', 'complementaryCertificationKey')
         .whereIn(
@@ -62,7 +61,7 @@ export class BatchUpdateCertificationFrameworksChallengesFromCsv extends Script 
 
       if (missingKeys.length > 0) {
         logger.warn(
-          `Warning: ${missingKeys.length} complementaryCertificationKey-challengeId combinations not found in database:`,
+          `Warning: ${missingKeys.length} complementaryCertificationKey-challengeId combinations not found in database`,
         );
         missingKeys.forEach((key) => {
           const [certKey, challengeId] = key.split(':');
@@ -71,8 +70,6 @@ export class BatchUpdateCertificationFrameworksChallengesFromCsv extends Script 
         throw new Error('Some challenges are missing');
       }
 
-      // Perform batch update using individual update queries in transaction
-      // This is more readable and maintainable than complex unnest operations
       let updatedCount = 0;
 
       for (const row of csvData) {
