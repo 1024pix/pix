@@ -327,7 +327,7 @@
                     {
                       "name": "Image 1",
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-exo2.jpg"
+                        "src": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-exo2bis.jpg"
                       },
                       "response": "Et non ! Les images sur lesquelles vous étiez entraînées se limitaient aux images publiées volontairement sur le web. Les gens ou les marques qui les ont publiées l’ont généralement fait dans le but de se mettre en valeur. Vous avez donc répondu avec l’image qui s’en rapprochait le plus. 🏋️ En réalité, dans la vie, quelqu’un qui fait du sport en salle de sport a plus de probabilité de ressembler à l’image 1 qu’à l’image 2. 🥵"
                     },
@@ -355,7 +355,7 @@
               "element": {
                 "id": "ac25923f-0ea1-4678-9d8f-b7c172da78dd",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-danslemonde.jpg",
+                "url": "https://assets.pix.org/draft/modules/ia-biais-independant/sport-dans-le-monde.jpg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "",
