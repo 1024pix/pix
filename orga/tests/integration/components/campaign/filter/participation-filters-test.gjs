@@ -816,7 +816,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
       await click(
         await screen.findByRole('option', {
-          name: t('components.participation-status.STARTED-ASSESSMENT'),
+          name: t('components.participation-status.STARTED'),
         }),
       );
 
@@ -846,7 +846,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       assert
         .dom(
           await screen.findByRole('option', {
-            name: t('components.participation-status.STARTED-ASSESSMENT'),
+            name: t('components.participation-status.STARTED'),
             selected: true,
           }),
         )
@@ -875,8 +875,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         options.map((option) => option.innerText),
         [
           t('pages.campaign-results.filters.type.status.empty'),
-          t('components.participation-status.STARTED-ASSESSMENT'),
-          t('components.participation-status.SHARED-ASSESSMENT'),
+          t('components.participation-status.STARTED'),
+          t('components.participation-status.SHARED'),
         ],
       );
     });

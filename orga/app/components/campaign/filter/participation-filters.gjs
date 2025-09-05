@@ -123,12 +123,9 @@ export default class ParticipationFilters extends Component {
   }
 
   get statusOptions() {
-    const { type } = this.args.campaign;
-
     const statuses = ['STARTED', 'SHARED'];
-    const finalType = type === 'EXAM' ? 'ASSESSMENT' : type;
     return statuses.map((status) => {
-      const label = this.intl.t(`components.participation-status.${status}-${finalType}`);
+      const label = this.intl.t(`components.participation-status.${status}`);
       return { value: status, label };
     });
   }
