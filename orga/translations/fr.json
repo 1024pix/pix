@@ -1226,8 +1226,7 @@
           "title": {
             "assessment": "Évaluations",
             "profiles-collection": "Collectes de profil"
-          },
-          "to-share": "En attente : {count}"
+          }
         },
         "empty-state": "Aucune activité pour l’instant ! Envoyez une campagne à {organizationLearnerFirstName} {organizationLearnerLastName} et commencez à suivre sa progression.",
         "participation-list": {

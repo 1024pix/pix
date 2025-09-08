@@ -1226,8 +1226,7 @@
           "title": {
             "assessment": "Beoordelingen",
             "profiles-collection": "Verzamelingen van profielen"
-          },
-          "to-share": "In afwachting van: {count}"
+          }
         },
         "empty-state": "Momenteel geen activiteit! Stuur een campagne naar {organizationLearnerFirstName} {organizationLearnerLastName} en begin met het bijhouden van de voortgang.",
         "participation-list": {
