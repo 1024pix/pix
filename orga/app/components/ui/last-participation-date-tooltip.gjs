@@ -15,6 +15,11 @@ export default class LastParticipationDateTooltip extends Component {
   }
 
   get participationStatusLabel() {
+    if (this.args.participationStatus === 'TO_SHARE') {
+      return this.intl.t(
+        `pages.participants-list.latest-participation-information-tooltip.participation-STARTED-status`,
+      );
+    }
     return this.intl.t(
       `pages.participants-list.latest-participation-information-tooltip.participation-${this.args.participationStatus}-status`,
     );

@@ -125,7 +125,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     );
     assert.ok(
       screen.getByText(
-        t('pages.participants-list.latest-participation-information-tooltip.participation-TO_SHARE-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.participation-STARTED-status'),
       ),
     );
   });

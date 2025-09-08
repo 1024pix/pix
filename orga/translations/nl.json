@@ -1395,9 +1395,7 @@
         "campaign-status": "Status:",
         "campaign-type": "Type:",
         "participation-SHARED-status": "Ontvangen",
-        "participation-STARTED-status": "Bezig",
-        "participation-TO_SHARE-status": "In afwachting van verzending"
-      }
+        "participation-STARTED-status": "Bezig"      }
     },
     "places": {
       "before-date": "op",
