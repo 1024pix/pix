@@ -626,12 +626,10 @@
         "warning": {
           "assessment-campaign-participation": {
             "shared-participation": "De deelnemer heeft geen toegang meer tot de resultaten van deze test.",
-            "started-participation": "De deelnemer kan deze test niet voltooien.",
-            "to-share-participation": "The Participant will not be able to send in their results."
+            "started-participation": "De deelnemer kan deze test niet voltooien."
           },
           "profiles-collection-campaign-participation": {
-            "shared-participation": "De deelnemer zal niet langer kunnen deelnemen aan deze profielverzameling.",
-            "to-share-participation": "Deelnemers kunnen hun profiel niet verzenden."
+            "shared-participation": "De deelnemer zal niet langer kunnen deelnemen aan deze profielverzameling."
           }
         }
       },

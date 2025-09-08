@@ -626,12 +626,10 @@
         "warning": {
           "assessment-campaign-participation": {
             "shared-participation": "Le participant ne pourra plus accéder aux résultats de cette campagne.",
-            "started-participation": "Le participant ne pourra plus reprendre cette participation.",
-            "to-share-participation": "Le participant ne pourra pas envoyer ses résultats."
+            "started-participation": "Le participant ne pourra plus reprendre cette participation."
           },
           "profiles-collection-campaign-participation": {
-            "shared-participation": "Le participant ne pourra plus participer à cette collecte de profil.",
-            "to-share-participation": "Le participant ne pourra pas envoyer son profil."
+            "shared-participation": "Le participant ne pourra plus participer à cette collecte de profil."
           }
         }
       },

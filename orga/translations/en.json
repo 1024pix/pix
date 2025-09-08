@@ -626,12 +626,10 @@
         "warning": {
           "assessment-campaign-participation": {
             "shared-participation": "The participant will no longer be able to access the results of this test.",
-            "started-participation": "The participant will not be able to complete this test.",
-            "to-share-participation": "The Participant will not be able to send in their results."
+            "started-participation": "The participant will not be able to complete this test."
           },
           "profiles-collection-campaign-participation": {
-            "shared-participation": "The participant will no longer be able to submit their profile through this campaign.",
-            "to-share-participation": "The participant will no longer be able to submit their profile through this campaign."
+            "shared-participation": "The participant will no longer be able to submit their profile through this campaign."
           }
         }
       },

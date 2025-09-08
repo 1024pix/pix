@@ -105,27 +105,6 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
           );
         });
 
-        test('it is a participation to share for an assessment campaign', async function (assert) {
-          this.set('campaign.type', 'ASSESSMENT');
-          this.set('participation.status', 'TO_SHARE');
-
-          const screen = await render(hbs`<Campaign::Activity::DeleteParticipationModal
-  @campaign={{this.campaign}}
-  @participation={{this.participation}}
-  @isModalOpen={{this.isModalOpen}}
-  @closeModal={{this.closeModal}}
-  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
-/>`);
-
-          assert.ok(
-            screen.getByText(
-              t(
-                'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.to-share-participation',
-              ),
-            ),
-          );
-        });
-
         test('it is a shared participation for an assessment campaign', async function (assert) {
           this.set('campaign.type', 'ASSESSMENT');
           this.set('participation.status', 'SHARED');
@@ -142,27 +121,6 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
             screen.getByText(
               t(
                 'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.shared-participation',
-              ),
-            ),
-          );
-        });
-
-        test('it is a participation to share for a profiles collection campaign', async function (assert) {
-          this.set('campaign.type', 'PROFILES_COLLECTION');
-          this.set('participation.status', 'TO_SHARE');
-
-          const screen = await render(hbs`<Campaign::Activity::DeleteParticipationModal
-  @campaign={{this.campaign}}
-  @participation={{this.participation}}
-  @isModalOpen={{this.isModalOpen}}
-  @closeModal={{this.closeModal}}
-  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
-/>`);
-
-          assert.ok(
-            screen.getByText(
-              t(
-                'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.to-share-participation',
               ),
             ),
           );
