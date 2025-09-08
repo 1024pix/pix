@@ -4,7 +4,7 @@ import { createTempFile, databaseBuilder, expect, sinon } from '../../../test-he
 
 describe('Integration | Scripts | Certification | batch-update-certification-frameworks-challenges-from-csv', function () {
   let complementaryCertificationKey1, complementaryCertificationKey2;
-  let challenge1, challenge2, challenge3;
+  let challenge1, challenge2, challenge3, challenge4;
 
   beforeEach(async function () {
     complementaryCertificationKey1 = databaseBuilder.factory.buildComplementaryCertification({
@@ -17,6 +17,7 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
     challenge1 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'rec123ABC' });
     challenge2 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'rec456DEF' });
     challenge3 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'rec789GHI' });
+    challenge4 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'rec012JKL' });
 
     databaseBuilder.factory.buildCertificationFrameworksChallenge({
       challengeId: challenge1.id,
@@ -24,6 +25,7 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
       discriminant: null,
       difficulty: null,
       calibrationId: null,
+      createdAt: new Date('2021-01-01'),
     });
 
     databaseBuilder.factory.buildCertificationFrameworksChallenge({
@@ -31,15 +33,25 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
       complementaryCertificationKey: complementaryCertificationKey1,
       discriminant: null,
       difficulty: null,
-      calibrationId: null,
+      createdAt: new Date('2021-01-01'),
     });
 
     databaseBuilder.factory.buildCertificationFrameworksChallenge({
       challengeId: challenge3.id,
+      complementaryCertificationKey: complementaryCertificationKey1,
+      discriminant: 0.5,
+      difficulty: 1.89,
+      calibrationId: 1000,
+      createdAt: new Date('2020-01-01'),
+    });
+
+    databaseBuilder.factory.buildCertificationFrameworksChallenge({
+      challengeId: challenge4.id,
       complementaryCertificationKey: complementaryCertificationKey2,
-      discriminant: null,
-      difficulty: null,
-      calibrationId: null,
+      discriminant: 1.25,
+      difficulty: 3.91,
+      calibrationId: 1000,
+      createdAt: new Date('2021-01-01'),
     });
 
     await databaseBuilder.commit();
@@ -55,7 +67,7 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
         'challengeId,complementaryCertificationKey,alpha,delta,calibrationId',
         `${challenge1.id},${complementaryCertificationKey1},0.85,1.25,1001`,
         `${challenge2.id},${complementaryCertificationKey1},1.12,-0.75,1001`,
-        `${challenge3.id},${complementaryCertificationKey2},0.95,0.50,1002`,
+        `${challenge3.id},${complementaryCertificationKey1},0.95,0.50,1002`,
       ].join('\n');
 
       const csvFilePath = await createTempFile(file, csvData);
@@ -81,7 +93,7 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
         },
         {
           challengeId: challenge3.id,
-          complementaryCertificationKey: complementaryCertificationKey2,
+          complementaryCertificationKey: complementaryCertificationKey1,
           alpha: 0.95,
           delta: 0.5,
           calibrationId: 1002,
@@ -119,6 +131,53 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
       expect(logger.info).to.have.been.calledWith('No records to process');
     });
 
+    it('throws an error if there are multiple complementary certifications keys', async function () {
+      // given
+      const script = new BatchUpdateCertificationFrameworksChallengesFromCsv();
+      const logger = { info: sinon.spy(), debug: sinon.spy(), error: sinon.spy(), warn: sinon.spy() };
+      const file = [
+        {
+          challengeId: 'recSOMETHING_1',
+          complementaryCertificationKey: complementaryCertificationKey1,
+          alpha: 0.85,
+          delta: 1.25,
+          calibrationId: 1001,
+        },
+        {
+          challengeId: 'recSOMETHING_2',
+          complementaryCertificationKey: complementaryCertificationKey2,
+          alpha: 0.58,
+          delta: 2.15,
+          calibrationId: 1001,
+        },
+      ];
+
+      // when // then
+      await expect(script.handle({ logger, options: { file, dryRun: false } })).to.be.rejectedWith(
+        'The CSV file must contain only one complementary certification calibration',
+      );
+    });
+
+    it('throws an error if there are no found challenges in the database', async function () {
+      // given
+      const script = new BatchUpdateCertificationFrameworksChallengesFromCsv();
+      const logger = { info: sinon.spy(), debug: sinon.spy(), error: sinon.spy(), warn: sinon.spy() };
+      const file = [
+        {
+          challengeId: 'recSOMETHING_1',
+          complementaryCertificationKey: complementaryCertificationKey2,
+          alpha: 0.85,
+          delta: 1.25,
+          calibrationId: 1001,
+        },
+      ];
+
+      // when // then
+      await expect(script.handle({ logger, options: { file, dryRun: false } })).to.be.rejectedWith(
+        `No challenges to calibrate were found for the complementary certification key: ${complementaryCertificationKey2}`,
+      );
+    });
+
     it('runs in dry-run mode without making changes', async function () {
       // given
       const script = new BatchUpdateCertificationFrameworksChallengesFromCsv();
@@ -131,27 +190,33 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
           delta: 1.25,
           calibrationId: 1001,
         },
+        {
+          challengeId: challenge2.id,
+          complementaryCertificationKey: complementaryCertificationKey1,
+          alpha: 1.58,
+          delta: 2.15,
+          calibrationId: 1001,
+        },
       ];
 
       // when
       const result = await script.handle({ logger, options: { file, dryRun: true } });
 
       // then
-      expect(result.processed).to.equal(1);
+      expect(result.processed).to.equal(2);
       expect(result.updated).to.equal(0);
-      expect(result.found).to.equal(1);
+      expect(result.found).to.equal(2);
 
-      const unchangedRecord = await knex('certification-frameworks-challenges')
-        .where('challengeId', challenge1.id)
+      const unchangedRecords = await knex('certification-frameworks-challenges')
         .where('complementaryCertificationKey', complementaryCertificationKey1)
-        .first();
+        .andWhere('difficulty', null)
+        .andWhere('discriminant', null)
+        .andWhere('calibrationId', null);
 
-      expect(unchangedRecord.discriminant).to.be.null;
-      expect(unchangedRecord.difficulty).to.be.null;
-      expect(unchangedRecord.calibrationId).to.be.null;
+      expect(unchangedRecords).to.have.length(2);
     });
 
-    it('throws an error when trying to update non-existent challenge combinations', async function () {
+    it('throws an error when trying to update challenges not found in the database', async function () {
       // given
       const script = new BatchUpdateCertificationFrameworksChallengesFromCsv();
       const logger = { info: sinon.spy(), debug: sinon.spy(), error: sinon.spy(), warn: sinon.spy() };
@@ -171,13 +236,11 @@ describe('Integration | Scripts | Certification | batch-update-certification-fra
       );
 
       // then
-      expect(logger.warn).to.have.been.calledWith(
-        'Warning: 1 complementaryCertificationKey-challengeId combinations not found in database',
-      );
-      expect(logger.warn).to.have.been.calledWith(`  - ${complementaryCertificationKey1} : recNONEXISTENT`);
+      expect(logger.warn).to.have.been.calledWith('Warning: 1 challenge(s) not found in database');
+      expect(logger.warn).to.have.been.calledWith(`recNONEXISTENT`);
     });
 
-    it('updates certification-frameworks-challenges with new discriminant, difficulty and calibrationId values', async function () {
+    it('updates the latest version of certification-frameworks-challenges with new discriminant, difficulty and calibrationId values', async function () {
       // given
       const script = new BatchUpdateCertificationFrameworksChallengesFromCsv();
       const logger = { info: sinon.spy(), debug: sinon.spy(), error: sinon.spy(), warn: sinon.spy() };
