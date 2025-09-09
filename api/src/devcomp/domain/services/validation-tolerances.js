@@ -45,10 +45,15 @@ function applyTolerances(string, enabledTolerances) {
   return result;
 }
 
+function registerTolerance(tCode, tFunc) {
+  tolerances[tCode] = tFunc;
+}
+
 export {
   applyPreTreatmentForTolerance,
   applyTolerances,
   normalizeAndRemoveAccents,
+  registerTolerance,
   removeSpecialCharacters,
   tolerances,
 };

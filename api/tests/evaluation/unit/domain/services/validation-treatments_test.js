@@ -2,7 +2,9 @@ import {
   applyPreTreatments,
   applyTreatments,
   normalizeAndRemoveAccents,
+  registerTreatment,
   removeSpecialCharacters,
+  treatments,
 } from '../../../../../src/evaluation/domain/services/validation-treatments.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -100,6 +102,57 @@ describe('Unit | Service | Validation Treatments', function () {
 
     it('should return a string with "t2" applied if it is set as enabled treatment', function () {
       expect(applyTreatments(input, ['t2'])).to.equal(' Shi FooBar ');
+    });
+  });
+
+  describe('#registerTreatment', function () {
+    afterEach(function () {
+      delete treatments.t4;
+      delete treatments.testTreatment;
+    });
+
+    it('should register a new treatment function', function () {
+      const customTreatment = (value) => value.toString().replace(/[0-9]/g, '');
+      
+      registerTreatment('t4', customTreatment);
+      
+      expect(treatments.t4).to.equal(customTreatment);
+    });
+
+    it('should allow the registered treatment to be used in applyTreatments', function () {
+      const removeNumbers = (value) => value.toString().replace(/[0-9]/g, '');
+      const input = 'test123string456';
+      
+      registerTreatment('testTreatment', removeNumbers);
+      
+      const result = applyTreatments(input, ['testTreatment']);
+      expect(result).to.equal('teststring');
+    });
+
+    it('should override existing treatment when registering with same code', function () {
+      const originalT1 = treatments.t1;
+      const newT1Function = (value) => value.toString().toUpperCase();
+      
+      registerTreatment('t1', newT1Function);
+      
+      expect(treatments.t1).to.equal(newT1Function);
+      expect(treatments.t1).to.not.equal(originalT1);
+      
+      treatments.t1 = originalT1;
+    });
+
+    it('should work with multiple registered treatments in applyTreatments', function () {
+      const removeNumbers = (value) => value.toString().replace(/[0-9]/g, '');
+      const removeVowels = (value) => value.toString().replace(/[aeiouAEIOU]/g, '');
+      const input = 'test123string456';
+      
+      registerTreatment('t4', removeNumbers);
+      registerTreatment('t5', removeVowels);
+      
+      const result = applyTreatments(input, ['t4', 't5']);
+      expect(result).to.equal('tststrng');
+      
+      delete treatments.t5;
     });
   });
 });

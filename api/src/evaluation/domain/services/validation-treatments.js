@@ -45,4 +45,15 @@ function applyTreatments(string, enabledTreatments) {
   return result;
 }
 
-export { applyPreTreatments, applyTreatments, normalizeAndRemoveAccents, removeSpecialCharacters, treatments };
+function registerTreatment(tCode, tFunc) {
+  treatments[tCode] = tFunc;
+}
+
+export {
+  applyPreTreatments,
+  applyTreatments,
+  normalizeAndRemoveAccents,
+  registerTreatment,
+  removeSpecialCharacters,
+  treatments,
+};
