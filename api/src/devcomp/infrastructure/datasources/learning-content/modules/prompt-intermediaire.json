@@ -114,7 +114,7 @@
               "element": {
                 "id": "e0c90c2f-086e-42b7-855e-a66a0a4773c6",
                 "type": "qcm",
-                "instruction": "<p>Selon vous, que faut-il ajouter au prompt de Gustave ?</p>",
+                "instruction": "<p>Selon vous, que faut-il ajouter au prompt de Gustave pour le rendre plus efficace ?</p>",
                 "proposals": [
                   {
                     "id": "1",
@@ -122,7 +122,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>la date&nbsp;: «&nbsp;samedi prochain&nbsp;»</p>"
+                    "content": "<p>la date du prochain tournoi : «&nbsp;samedi prochain&nbsp;»</p>"
                   },
                   {
                     "id": "3",
@@ -163,7 +163,7 @@
               "element": {
                 "id": "504fb0c6-f40a-403c-9471-e4fb0512e9cd",
                 "type": "text",
-                "content": "<p>➡️Un prompt bien formulé donne toujours à l’IA un contexte, c’est-à-dire des précisions sur la situation&nbsp;: le lieu, le moment, l’objectif, etc.&nbsp; Sans contexte, l'IA risque de répondre de façon vague ou hors sujet.</p>"
+                "content": "<p>➡️ Un prompt bien formulé donne toujours à l’IA un contexte, c’est-à-dire des précisions sur la situation&nbsp;: le lieu, le moment, l’objectif, etc.&nbsp;Sans contexte, l'IA risque de répondre de façon vague ou hors sujet.</p>"
               }
             }
           ]
@@ -223,28 +223,28 @@
                           "id": "1",
                           "content": "<p>celui avec un ton festif</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Un choix sympa !</strong>&nbsp; Au final, Gustave choisira le ton approprié car c'est lui qui connaît le mieux les participants du tournoi.</p>"
+                            "diagnosis": "<p><strong>Un choix sympa !&nbsp;</strong>Au final, Gustave choisira le ton qui lui semble approprié car c'est lui qui connaît le mieux les participants du tournoi. &nbsp; </p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>celui avec un ton sérieux.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Un choix formel ! Au final, Gustave choisira le ton approprié car c'est lui qui connaît le mieux les participants du tournoi.</p>"
+                            "diagnosis": "<p><strong>Un choix formel ! </strong>Au final, Gustave choisira le ton qui lui semble approprié car c'est lui qui connaît le mieux les participants du tournoi. </p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>celui avec un ton drôle.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Un choix original !</strong> Au final, Gustave choisira le ton approprié car c'est lui qui connaît le mieux les participants du tournoi.</p>"
+                            "diagnosis": "<p><strong>Un choix original !</strong> Au final, Gustave choisira le ton qui lui semble approprié car c'est lui qui connaît le mieux les participants du tournoi. </p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>aucun ne me plaît.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas de souci ! Il existe beaucoup d'autres tons&nbsp;: enfantin, ironique, poétique… Gustave choisira le ton approprié car c'est lui qui connaît le mieux les participants du tournoi !</p>"
+                            "diagnosis": "<p><strong>Pas de souci !</strong> Il existe beaucoup d'autres tons&nbsp;: enfantin, ironique, poétique… Gustave choisira le ton qui lui semble approprié car c'est lui qui connaît le mieux les participants du tournoi. </p>"
                           }
                         }
                       ],
@@ -301,20 +301,36 @@
                 "proposals": [
                   {
                     "input": "df1b0582-20d7-4401-b70a-f121881e7772",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 8,
+                    "type": "select",
                     "display": "inline",
-                    "placeholder": "un seul mot",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "champs à remplir",
                     "defaultValue": "",
                     "tolerances": [
-                      "t1",
+                      "t2",
                       "t2",
                       "t3"
                     ],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "Une liste"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Un tableau"
+                      },
+                      {
+                        "id": "3",
+                        "content": "Un résumé"
+                      },
+                      {
+                        "id": "4",
+                        "content": "Un graphique"
+                      }
+                    ],
                     "solutions": [
-                      "tableau"
+                      "2"
                     ]
                   }
                 ],
