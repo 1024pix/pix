@@ -7,7 +7,7 @@
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
     "description": "<p>Depuis quelques années, on entend beaucoup parler de l'IA, dans la presse, à la télévision et même dans les discours politiques. Mais c'est quoi au juste l'IA ?<br>C'est ce que vous allez découvrir dans ce module.</p>",
     "duration": 10,
-    "level": "novice",
+    "level": "Débutant",
     "objectives": [
       "<p>Connaître une définition simple de l'intelligence artificielle</p>",
       "<p>Identifier des types de tâches que font les logiciels d’IA</p>",
@@ -30,7 +30,7 @@
               "element": {
                 "id": "e0a5a488-113c-4c30-89e0-354e874aa534",
                 "type": "text",
-                "content": "<p>Peut-être avez vous vu ces dernières années de nombreux titres de presse parlant d'<strong>IA</strong> ?</p>"
+                "content": "<p>Peut-être avez-vous vu ces dernières années de nombreux titres de presse parlant d'<strong>IA</strong> ?</p>"
               }
             },
             {
@@ -141,7 +141,7 @@
               "element": {
                 "id": "3c870d58-e8dd-4129-9348-159975b1fc69",
                 "type": "text",
-                "content": "<p>À cause de la récente popularité de chatGPT et d'autres logiciels d'IA générative, on a l’impression que l’IA, c’est nouveau. Mais pas du tout !&nbsp; L’IA, ça date ! 🦣&nbsp;</p>"
+                "content": "<p>En raison de la récente popularité de chatGPT et d'autres logiciels d'IA générative, on a l’impression que l’IA, c’est nouveau. Mais pas du tout !&nbsp; L’IA, ça date ! 🦣&nbsp;</p>"
               }
             }
           ]
@@ -295,7 +295,9 @@
                     "ariaLabel": "nombre d'utilisation de l'IA",
                     "defaultValue": "",
                     "tolerances": [],
-                    "solutions": [6]
+                    "solutions": [
+                      6
+                    ]
                   }
                 ],
                 "feedbacks": {
@@ -322,7 +324,7 @@
               "element": {
                 "id": "bfe6d7e1-8282-4a34-a659-c189ea396feb",
                 "type": "text",
-                "content": "<p>De nombreux <strong>appareils et services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle.</p><p><br>Certains logiciels sont <strong>spécialisés </strong>dans <strong>un type de tâche</strong>&nbsp;: reconnaître des images, reconnaître des sons, recommander des contenus adaptés à des besoins, prédire des tendances dans des données, etc.&nbsp;🔮</p><p><br>Les logiciels à base d’<strong>IA générative</strong>, comme Le chat, Gemini ou chatGPT, sont capables de réaliser des tâches diverses&nbsp;: traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de mathématiques, etc.&nbsp;📝<br></p>"
+                "content": "<p>De nombreux <strong>appareils et services numériques du quotidien</strong> utilisent des logiciels d’intelligence artificielle.</p><p><br>Certains logiciels sont <strong>spécialisés </strong>dans <strong>un type de tâche</strong>&nbsp;: reconnaître des images, reconnaître des sons, recommander des contenus adaptés à des besoins, prédire des tendances dans des données, etc.&nbsp;🔮</p><p><br>Les logiciels à base d’<strong>IA générative</strong>, comme Le Chat, Gemini ou chatGPT, sont capables de réaliser des tâches diverses&nbsp;: traduire des textes, tenir une conversation, résumer des articles, créer une image, programmer, résoudre des problèmes de mathématiques, etc.&nbsp;📝<br></p>"
               }
             }
           ]
@@ -591,7 +593,7 @@
                           "content": "<p>la reconnaissance d’image</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse ! 🎉</p>",
-                            "diagnosis": "<p>Les IA spécialisées dans la reconnaissance d’image sont notamment très utilisées dans le commerce en ligne pour taguer automatiquement des produits.</p>"
+                            "diagnosis": "<p>Les IA spécialisées dans la reconnaissance d’image sont notamment très utilisées dans le commerce en ligne pour identifier automatiquement des produits.</p>"
                           }
                         },
                         {
