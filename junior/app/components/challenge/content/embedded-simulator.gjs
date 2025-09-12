@@ -1,22 +1,20 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
-import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
 import didRender from '../../../modifiers/did-render';
 
 export default class EmbeddedSimulator extends Component {
-  get embedDocumentHeightStyle() {
-    const { isGDevelop, height: configuredHeight } = this.args;
-    const height = configuredHeight ?? '600';
-    const cssProperties = isGDevelop ? `max-height: ${height}px; aspect-ratio: 860/680` : `height: ${height}px`;
-    return htmlSafe(cssProperties);
-  }
-
   @action
   setIframeHtmlElement(htmlElement) {
     this.iframe = htmlElement;
+
+    this.iframe.style.height = this.args.computedEmbedHeight;
+
+    if (this.args.isGDevelop) {
+      this.iframe.style.aspectRatio = '860/680';
+    }
   }
 
   @action
@@ -46,13 +44,14 @@ export default class EmbeddedSimulator extends Component {
       {{#if @hideSimulator}}
         <div class="challenge-embed-simulator__overlay"></div>
       {{/if}}
-
       <iframe
         tabindex={{if @hideSimulator "-1"}}
         class="challenge-embed-simulator__iframe"
         src="{{@url}}"
         title="{{@title}}"
-        style="{{this.embedDocumentHeightStyle}}"
+        allowfullscreen="true"
+        webkitallowfullscreen="true"
+        mozallowfullscreen="true"
         {{didRender this.setIframeHtmlElement}}
       >
       </iframe>
