@@ -8,7 +8,6 @@ function buildComplementaryCertification({
   createdAt = new Date('2020-01-01'),
   minimumReproducibilityRate = 70.0,
   minimumReproducibilityRateLowerLevel = 60.0,
-  hasComplementaryReferential = true,
   hasExternalJury = false,
   certificationExtraTime = 45,
 } = {}) {
@@ -19,7 +18,6 @@ function buildComplementaryCertification({
     createdAt,
     minimumReproducibilityRate,
     minimumReproducibilityRateLowerLevel,
-    hasComplementaryReferential,
     hasExternalJury,
     certificationExtraTime,
   };
@@ -33,7 +31,6 @@ buildComplementaryCertification.clea = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 50.0,
   minimumReproducibilityRateLowerLevel = 50.0,
-  hasComplementaryReferential = false,
   hasExternalJury = false,
   certificationExtraTime = 0,
 }) {
@@ -44,7 +41,6 @@ buildComplementaryCertification.clea = function ({
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     minimumReproducibilityRateLowerLevel,
-    hasComplementaryReferential,
     hasExternalJury,
     certificationExtraTime,
   });
@@ -54,7 +50,6 @@ buildComplementaryCertification.droit = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 75,
   minimumReproducibilityRateLowerLevel = 60,
-  hasComplementaryReferential = true,
   hasExternalJury = false,
   certificationExtraTime = 45,
 }) {
@@ -65,7 +60,6 @@ buildComplementaryCertification.droit = function ({
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     minimumReproducibilityRateLowerLevel,
-    hasComplementaryReferential,
     hasExternalJury,
     certificationExtraTime,
   });
@@ -75,7 +69,6 @@ buildComplementaryCertification.pixEdu1erDegre = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 70,
   minimumReproducibilityRateLowerLevel = 60,
-  hasComplementaryReferential = true,
   hasExternalJury = true,
   certificationExtraTime = 45,
 }) {
@@ -86,7 +79,6 @@ buildComplementaryCertification.pixEdu1erDegre = function ({
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     minimumReproducibilityRateLowerLevel,
-    hasComplementaryReferential,
     hasExternalJury,
     certificationExtraTime,
   });
@@ -96,7 +88,6 @@ buildComplementaryCertification.pixEdu2ndDegre = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 70,
   minimumReproducibilityRateLowerLevel = 60,
-  hasComplementaryReferential = true,
   hasExternalJury = true,
   certificationExtraTime = 45,
 }) {
@@ -107,7 +98,6 @@ buildComplementaryCertification.pixEdu2ndDegre = function ({
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     minimumReproducibilityRateLowerLevel,
-    hasComplementaryReferential,
     hasExternalJury,
     certificationExtraTime,
   });

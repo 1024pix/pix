@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { scoreDoubleCertificationV3 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/score-double-certification-v3.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../../../../src/certification/evaluation/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../../../../../src/certification/session-management/infrastructure/repositories/complementary-certification-course-result-repository.js';
+import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationAssessmentRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as assessmentResultRepository from '../../../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
@@ -24,7 +25,7 @@ describe('Certification | Evaluation | Integration | Domain | Services | Scoring
           complementaryCertificationBadgeId: 501,
           minimumReproducibilityRate: 80,
           minimumEarnedPix: 500,
-          hasComplementaryReferential: false,
+          key: ComplementaryCertificationKeys.CLEA,
         });
         _buildComplementaryCertificationCourse({
           certificationCourseId: 900,
@@ -71,7 +72,7 @@ describe('Certification | Evaluation | Integration | Domain | Services | Scoring
             complementaryCertificationBadgeId: 501,
             minimumReproducibilityRate: 80,
             minimumEarnedPix: 500,
-            hasComplementaryReferential: false,
+            key: ComplementaryCertificationKeys.CLEA,
           });
           _buildComplementaryCertificationCourse({
             certificationCourseId: 900,
@@ -154,17 +155,17 @@ function _buildComplementaryCertificationBadge({
   complementaryCertificationId,
   minimumReproducibilityRate,
   minimumEarnedPix,
-  hasComplementaryReferential,
   targetProfileId,
   level,
+  key,
 }) {
   databaseBuilder.factory.buildComplementaryCertification({
     id: complementaryCertificationId,
     minimumReproducibilityRate,
-    hasComplementaryReferential,
+    key,
   });
   const { id: badgeId } = databaseBuilder.factory.buildBadge({
-    key: 'badge_key',
+    key,
     isCertifiable: true,
     targetProfileId,
   });

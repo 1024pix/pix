@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { ComplementaryCertificationScoringCriteria } from '../../domain/models/ComplementaryCertificationScoringCriteria.js';
 
 export const findByCertificationCourseId = async function ({ certificationCourseId }) {
@@ -10,7 +11,7 @@ export const findByCertificationCourseId = async function ({ certificationCourse
       minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
       minimumReproducibilityRateLowerLevel: 'complementary-certifications.minimumReproducibilityRateLowerLevel',
       complementaryCertificationBadgeKey: 'badges.key',
-      hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
+      complementaryCertificationKey: 'complementary-certifications.key',
       minimumEarnedPix: 'complementary-certification-badges.minimumEarnedPix',
     })
     .join(
@@ -33,10 +34,12 @@ export const findByCertificationCourseId = async function ({ certificationCourse
       complementaryCertificationBadgeKey,
       minimumReproducibilityRate,
       minimumReproducibilityRateLowerLevel,
-      hasComplementaryReferential,
+      complementaryCertificationKey,
       minimumEarnedPix,
-    }) =>
-      new ComplementaryCertificationScoringCriteria({
+    }) => {
+      const hasComplementaryReferential = complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA;
+
+      return new ComplementaryCertificationScoringCriteria({
         complementaryCertificationCourseId,
         complementaryCertificationBadgeId,
         complementaryCertificationBadgeKey,
@@ -44,6 +47,7 @@ export const findByCertificationCourseId = async function ({ certificationCourse
         minimumReproducibilityRateLowerLevel: Number(minimumReproducibilityRateLowerLevel),
         hasComplementaryReferential,
         minimumEarnedPix,
-      }),
+      });
+    },
   );
 };

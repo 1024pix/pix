@@ -26,7 +26,6 @@ describe('Integration | Certification | Evaluation | Repository | Complementary-
         // then
         expect(result).to.be.instanceOf(ComplementaryCertificationCourse);
         expect(result.complementaryCertificationKey).to.equal(complementaryCertification.key);
-        expect(result.hasComplementaryReferential).to.equal(complementaryCertification.hasComplementaryReferential);
       });
     });
 

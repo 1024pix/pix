@@ -426,19 +426,16 @@ describe('Integration | Identity Access Management |  Repository | Certification
           id: 1,
           label: 'Certif comp 1',
           key: 'COMP_1',
-          hasComplementaryReferential: false,
         };
         const secondComplementaryCertification = {
           id: 2,
           label: 'Certif comp 2',
           key: 'COMP_2',
-          hasComplementaryReferential: true,
         };
         const thirdComplementaryCertification = {
           id: 3,
           label: 'Certif comp 3',
           key: 'COMP_3',
-          hasComplementaryReferential: false,
         };
         databaseBuilder.factory.buildComplementaryCertification(firstComplementaryCertification);
         databaseBuilder.factory.buildComplementaryCertification(secondComplementaryCertification);
@@ -545,13 +542,11 @@ describe('Integration | Identity Access Management |  Repository | Certification
             id: 1,
             label: 'Certif comp 1',
             key: 'COMP_1',
-            hasComplementaryReferential: false,
           };
           const secondComplementaryCertification = {
             id: 2,
             label: 'Certif comp 2',
             key: 'COMP_2',
-            hasComplementaryReferential: true,
           };
           databaseBuilder.factory.buildComplementaryCertification(firstComplementaryCertification);
           databaseBuilder.factory.buildComplementaryCertification(secondComplementaryCertification);

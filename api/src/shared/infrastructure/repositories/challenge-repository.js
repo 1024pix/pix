@@ -1,5 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { getVersionNumber } from '../../../certification/configuration/domain/services/get-version-number.js';
+import { ComplementaryCertificationKeys } from '../../../certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { config } from '../../config.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Accessibility } from '../../domain/models/Challenge.js';
@@ -125,13 +126,12 @@ export async function findActiveFlashCompatible({
   successProbabilityThreshold = config.features.successProbabilityThreshold,
   accessibilityAdjustmentNeeded = false,
   complementaryCertificationKey,
-  hasComplementaryReferential,
 } = {}) {
   _assertLocaleIsDefined(locale);
   const cacheKey = `findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded} })`;
   let challengeDtos;
 
-  if (hasComplementaryReferential) {
+  if (complementaryCertificationKey && complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA) {
     const version = getVersionNumber(date);
 
     challengeDtos = await _findChallengesForComplementaryCertification({

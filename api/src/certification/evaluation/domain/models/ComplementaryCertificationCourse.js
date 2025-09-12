@@ -1,7 +1,9 @@
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+
 class ComplementaryCertificationCourse {
-  constructor({ complementaryCertificationKey, hasComplementaryReferential } = {}) {
+  constructor({ complementaryCertificationKey } = {}) {
     this.complementaryCertificationKey = complementaryCertificationKey;
-    this.hasComplementaryReferential = hasComplementaryReferential;
+    this.hasComplementaryReferential = complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA;
   }
 }
 

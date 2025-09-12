@@ -28,8 +28,7 @@ const getAllowedCenterAccesses = async function (centerList) {
         `array_agg(json_build_object(
           'id', "complementary-certifications".id,
           'label', "complementary-certifications".label,
-          'key', "complementary-certifications".key,
-          'hasComplementaryReferential', "complementary-certifications"."hasComplementaryReferential"
+          'key', "complementary-certifications".key
         ) order by "complementary-certifications".id)`,
       ),
     })

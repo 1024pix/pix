@@ -1,4 +1,5 @@
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | complementary certification scoring criteria', function () {
@@ -14,14 +15,12 @@ describe('Integration | Repository | complementary certification scoring criteri
       const complementaryCertification1 = databaseBuilder.factory.buildComplementaryCertification({
         minimumReproducibilityRate: 70,
         minimumReproducibilityRateLowerLevel: 60,
-        hasComplementaryReferential: true,
-        key: 'REF',
+        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
       });
       const complementaryCertification2 = databaseBuilder.factory.buildComplementaryCertification({
         minimumReproducibilityRate: 75,
         minimumReproducibilityRateLowerLevel: 60,
-        hasComplementaryReferential: false,
-        key: 'NO_REF',
+        key: ComplementaryCertificationKeys.CLEA,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -49,6 +48,7 @@ describe('Integration | Repository | complementary certification scoring criteri
       });
 
       databaseBuilder.factory.buildComplementaryCertificationCourse({
+        complementaryCertificationId: complementaryCertification2.id,
         certificationCourseId: 12,
         complementaryCertificationBadgeId: 768,
       });
@@ -68,7 +68,7 @@ describe('Integration | Repository | complementary certification scoring criteri
           minimumReproducibilityRate: complementaryCertification1.minimumReproducibilityRate,
           minimumReproducibilityRateLowerLevel: complementaryCertification1.minimumReproducibilityRateLowerLevel,
           complementaryCertificationBadgeKey: badge1.key,
-          hasComplementaryReferential: complementaryCertification1.hasComplementaryReferential,
+          hasComplementaryReferential: true,
         }),
         domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: complementaryCertificationCourse2.id,
@@ -76,7 +76,7 @@ describe('Integration | Repository | complementary certification scoring criteri
           minimumReproducibilityRate: complementaryCertification2.minimumReproducibilityRate,
           minimumReproducibilityRateLowerLevel: complementaryCertification2.minimumReproducibilityRateLowerLevel,
           complementaryCertificationBadgeKey: badge2.key,
-          hasComplementaryReferential: complementaryCertification2.hasComplementaryReferential,
+          hasComplementaryReferential: false,
           minimumEarnedPix: complementaryCertificationBadge2.minimumEarnedPix,
         }),
       ]);

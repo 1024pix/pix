@@ -1765,7 +1765,6 @@ describe('Integration | Repository | challenge-repository', function () {
           date: candidateReconciliationDate,
           locale: 'fr',
           complementaryCertificationKey: complementaryCertification.key,
-          hasComplementaryReferential: complementaryCertification.hasComplementaryReferential,
         });
 
         // then

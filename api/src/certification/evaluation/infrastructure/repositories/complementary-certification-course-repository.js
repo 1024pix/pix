@@ -7,7 +7,6 @@ export const findByCertificationCourseId = async function ({ certificationCourse
   const result = await knexConn('complementary-certification-courses')
     .select({
       complementaryCertificationKey: 'complementary-certifications.key',
-      hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
     })
     .where({ certificationCourseId })
     .leftJoin(

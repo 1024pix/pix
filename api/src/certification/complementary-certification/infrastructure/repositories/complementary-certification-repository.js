@@ -5,19 +5,19 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
 function _toDomain(row) {
+  const hasComplementaryReferential = row.key !== ComplementaryCertificationKeys.CLEA;
   return new ComplementaryCertification({
     ...row,
+    hasComplementaryReferential,
   });
 }
 
 const findAll = async function () {
-  const result = await knex
-    .from('complementary-certifications')
-    .select('id', 'label', 'key', 'hasComplementaryReferential')
-    .orderBy('id', 'asc');
+  const result = await knex.from('complementary-certifications').select('id', 'label', 'key').orderBy('id', 'asc');
 
   return result.map(_toDomain);
 };
