@@ -14,12 +14,17 @@ import Qrocm from './content/qrocm';
 
 export default class ChallengeContent extends Component {
   @tracked isRebootable = false;
+  @tracked heightFromPostMessage = 0;
 
   constructor() {
     super(...arguments);
     window.addEventListener('message', ({ data }) => {
       if (data?.from === 'pix' && data?.type === 'init') {
         this.isRebootable = !!data.rebootable;
+      }
+
+      if (data?.from === 'pix' && data?.type === 'height') {
+        this.heightFromPostMessage = data.height;
       }
     });
   }
@@ -70,7 +75,8 @@ export default class ChallengeContent extends Component {
           <EmbeddedSimulator
             @url={{@challenge.embedUrl}}
             @title={{@challenge.embedTitle}}
-            @height={{@challenge.embedHeight}}
+            @heightFromChallenge={{@challenge.embedHeight}}
+            @heightFromPostMessage={{this.heightFromPostMessage}}
             @isGDevelop={{@challenge.isEmbedGDevelop}}
             @hideSimulator={{@isDisabled}}
             @isMediaWithForm={{this.isMediaWithForm}}
