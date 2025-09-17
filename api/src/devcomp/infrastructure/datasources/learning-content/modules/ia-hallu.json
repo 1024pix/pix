@@ -418,11 +418,11 @@
                 "props": {
                   "messages": [
                     {
-                      "direction": "inbound",
+                      "direction": "outbound",
                       "content": "De quand datent les 2 victoires à Roland-Garros de Carlos Alcaraz ?"
                     },
                     {
-                      "direction": "outbound",
+                      "direction": "inbound",
                       "content": "<p>Carlos Alcaraz n’a remporté <strong>qu'un</strong> titre à Roland-Garros à ce jour :</p> <ul>     <li><strong> 9 juin 2024</strong> : il gagne sa <strong>première </strong>victoire à Roland-Garros en battant Alexander Zverev en finale (6-3, 2-6, 5-7, 6-1, 6-2). </li> </ul> <p>Il totalise donc <strong>un </strong>titre à Paris (2024), et <strong>non deux</strong> pour le moment. Si tu pensais à un deuxième, peut-être mélanges-tu avec ses victoires à Wimbledon (2023) ou l’US Open 2022 ! Souhaites-tu que je t’en donne plus ?</p>"
                     }
                   ]
@@ -876,11 +876,11 @@
                       "props": {
                         "messages": [
                           {
-                            "direction": "inbound",
+                            "direction": "outbound",
                             "content": "Comment va le tennisman Djokovic ?"
                           },
                           {
-                            "direction": "outbound",
+                            "direction": "inbound",
                             "content": "Novak Djokovic va bien, il continue de performer à un niveau très élevé sur le circuit ATP. Ses récents résultats montrent qu'il reste l'un des meilleurs joueurs du monde. Il a eu quelques problèmes de santé et des blessures par le passé, mais il semble s'être bien rétabli."
                           }
                         ]
@@ -934,19 +934,19 @@
                       "props": {
                         "messages": [
                           {
-                            "direction": "inbound",
+                            "direction": "outbound",
                             "content": "Peux-tu me montrer l'émoji hippocampe ?"
                           },
                           {
-                            "direction": "outbound",
+                            "direction": "inbound",
                             "content": "🦞"
                           },
                           {
-                            "direction": "inbound",
+                            "direction": "outbound",
                             "content": "Tu es sûr ?"
                           },
                           {
-                            "direction": "outbound",
+                            "direction": "inbound",
                             "content": "Oups c'est un homard. Voici l'émoji hippocampe 🦑"
                           }
                         ]
@@ -1000,11 +1000,11 @@
                       "props": {
                         "messages": [
                           {
-                            "direction": "inbound",
+                            "direction": "outbound",
                             "content": "Donne-moi un article en français sur le traitement des eaux pluviales, d’une revue scientifique."
                           },
                           {
-                            "direction": "outbound",
+                            "direction": "inbound",
                             "content": "<p>Voici un article traitant du traitement des eaux pluviales :<br><strong>Barra, M., Houeix, K., Hemminki, J., &amp; Grandin, G.</strong>&nbsp;(2019).&nbsp;<em>Gestion des eaux pluviales et biodiversité urbaine&nbsp;: état de la contamination et préconisations</em><em>.</em>&nbsp;<strong>Annales de la Floristique Régionale Île‑de‑France</strong>, 10–33.</p>"
                           }
                         ]
