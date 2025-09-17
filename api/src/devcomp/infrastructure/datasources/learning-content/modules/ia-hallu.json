@@ -104,7 +104,7 @@
               "element": {
                 "id": "3147aedb-8fc2-4510-aad8-fa7f35e77dd7",
                 "type": "text",
-                "content": "<p>Observez, ci-dessous, chaque réponse donnée par un logiciel d'IA générative.<br></p><p><strong>Utilisez la jauge pour indiquer à quel point vous lui faites confiance.</strong> <br>💡 Pas besoin de savoir si la réponse est vraie ou fausse.</p>\n"
+                "content": "<p>Observez, ci-dessous, chaque réponse donnée par un logiciel d'IA générative.<br></p><p><strong>Utilisez la jauge pour indiquer à quel point vous lui faites confiance.</strong> <br>💡 Pas besoin de savoir si la réponse est vraie ou fausse.</p>"
               }
             },
             {
@@ -376,7 +376,7 @@
               "element": {
                 "id": "3221be57-21ba-45f9-a2c3-9457446f10cb",
                 "type": "text",
-                "content": "<p>L'IA générative peut faire des erreurs. Elle peut <strong>générer des affirmations fausses et les présenter comme des faits</strong>, de vraies informations.</p>\n<p><br>L’IA générative peut, par exemple, donner une mauvaise date, inventer des événements, faire une erreur mathématique ou indiquer une fausse information scientifique.</p>\n<p><br>Les réponses des <strong>IA génératives</strong> sont souvent bien écrites et vraisemblables, présentées avec assurance&nbsp;: elles<strong> inspirent confiance</strong>.&nbsp;C’est pourquoi il n'est<strong> pas facile de repérer leurs erreurs</strong>. 🔎</p>"
+                "content": "<p>L'IA générative peut faire des erreurs. Elle peut <strong>générer des affirmations fausses et les présenter comme des faits</strong>, de vraies informations.</p><p><br>L’IA générative peut, par exemple, donner une mauvaise date, inventer des événements, faire une erreur mathématique ou indiquer une fausse information scientifique.</p><p><br>Les réponses des <strong>IA génératives</strong> sont souvent bien écrites et vraisemblables, présentées avec assurance&nbsp;: elles<strong> inspirent confiance</strong>.&nbsp;C’est pourquoi il n'est<strong> pas facile de repérer leurs erreurs</strong>. 🔎</p>"
               }
             }
           ]
@@ -481,7 +481,7 @@
               "element": {
                 "id": "35919435-ce60-4e65-847e-c0315d42a3c3",
                 "type": "text",
-                "content": "<p>Une IA générative est conçue pour <strong>répondre aux demandes des utilisateurs</strong>, pas pour dire la vérité !<br></p>\n<p>Leurs erreurs peuvent venir de plusieurs causes&nbsp;: </p>\n<ul>\n    <li><strong>Les </strong><strong>données d’entraînement</strong>&nbsp;: elles peuvent contenir des erreurs ou ne plus être d'actualité. </li>\n    <li><strong>Le</strong><strong>s p</strong><strong>rédictions </strong>: l’IA générative répond souvent  «&nbsp;sans savoir&nbsp;» et&nbsp;par prédiction&nbsp;: elle génère la réponse qui lui paraît la plus probable.<br>On appelle ces erreurs&nbsp;<strong>des </strong><strong>hallucinations</strong>.&nbsp;Par exemple&nbsp;: elle peut attribuer une citation au mauvais auteur. 🤷 </li>\n    <li><strong>Les questions des utilisateurs</strong>&nbsp;: si elles contiennent des erreurs ou sont farfelues, l’IA peut inventer une information pour y répondre. </li>\n</ul>\n<p><br>🤔<strong> Bon à savoir</strong> <br>Les IA génératives sont aussi capables d’inventer des choses, à la demande des utilisateurs (écrire un poème, dessiner une vache rose). Dans ce cas, ce ne sont pas des erreurs !</p>"
+                "content": "<p>Une IA générative est conçue pour <strong>répondre aux demandes des utilisateurs</strong>, pas pour dire la vérité !<br></p><p>Leurs erreurs peuvent venir de plusieurs causes&nbsp;: </p><ul>    <li><strong>Les </strong><strong>données d’entraînement</strong>&nbsp;: elles peuvent contenir des erreurs ou ne plus être d'actualité. </li>    <li><strong>Le</strong><strong>s p</strong><strong>rédictions </strong>: l’IA générative répond souvent  «&nbsp;sans savoir&nbsp;» et&nbsp;par prédiction&nbsp;: elle génère la réponse qui lui paraît la plus probable.<br>On appelle ces erreurs&nbsp;<strong>des </strong><strong>hallucinations</strong>.&nbsp;Par exemple&nbsp;: elle peut attribuer une citation au mauvais auteur. 🤷 </li>    <li><strong>Les questions des utilisateurs</strong>&nbsp;: si elles contiennent des erreurs ou sont farfelues, l’IA peut inventer une information pour y répondre. </li></ul><p><br>🤔<strong> Bon à savoir</strong> <br>Les IA génératives sont aussi capables d’inventer des choses, à la demande des utilisateurs (écrire un poème, dessiner une vache rose). Dans ce cas, ce ne sont pas des erreurs !</p>"
               }
             }
           ]
@@ -593,7 +593,7 @@
               "element": {
                 "id": "cb97a8ff-93bf-4fb7-afae-58716ed3b4f7",
                 "type": "text",
-                "content": "<p>Grâce à des<strong> mises à jour régulières</strong>, les développeurs améliorent en continu les IA génératives. Elles progressent d’années en années !</p>\n\n<p><br>Mais certaines erreurs restent inévitables&nbsp;: une réponse fausse peut avoir exactement la même apparence qu’une réponse correcte. Pour l’instant, il n’existe<strong> pas de méthode fiable pour toutes les éviter</strong>.</p>"
+                "content": "<p>Grâce à des<strong> mises à jour régulières</strong>, les développeurs améliorent en continu les IA génératives. Elles progressent d’années en années !</p><p><br>Mais certaines erreurs restent inévitables&nbsp;: une réponse fausse peut avoir exactement la même apparence qu’une réponse correcte. Pour l’instant, il n’existe<strong> pas de méthode fiable pour toutes les éviter</strong>.</p>"
               }
             }
           ]
@@ -755,7 +755,7 @@
               "element": {
                 "id": "3dd1bded-9854-42b0-9c40-3d306aa940fc",
                 "type": "text",
-                "content": "<p>Une IA générative peut faire une erreur ou halluciner dans ses réponses. Vous pouvez apprendre à repérer ces erreurs… à condition d’adopter <strong>les bons réflexes</strong>&nbsp;: </p>\n<p><br>🔍 Avoir un&nbsp;<strong>regard critique&nbsp;</strong>et se poser des questions sur ce qu'on lit.</p>\n<p>📖 Prendre le temps de&nbsp;<strong>lire les réponses en entier</strong>. Parfois, l’erreur ne saute pas aux yeux. </p>\n<p>🧭&nbsp;<strong>Vérifier les informations</strong>&nbsp;en les comparant avec d’autres sources.</p>\n<p>💬&nbsp;<strong>Poursuivre la discussion</strong>. Si vous détectez une erreur, vous pouvez la signaler à l'IA générative et lui demander de se corriger.</p>"
+                "content": "<p>Une IA générative peut faire une erreur ou halluciner dans ses réponses. Vous pouvez apprendre à repérer ces erreurs… à condition d’adopter <strong>les bons réflexes</strong>&nbsp;: </p><p><br>🔍 Avoir un&nbsp;<strong>regard critique&nbsp;</strong>et se poser des questions sur ce qu'on lit.</p><p>📖 Prendre le temps de&nbsp;<strong>lire les réponses en entier</strong>. Parfois, l’erreur ne saute pas aux yeux. </p><p>🧭&nbsp;<strong>Vérifier les informations</strong>&nbsp;en les comparant avec d’autres sources.</p><p>💬&nbsp;<strong>Poursuivre la discussion</strong>. Si vous détectez une erreur, vous pouvez la signaler à l'IA générative et lui demander de se corriger.</p>"
               }
             }
           ]
