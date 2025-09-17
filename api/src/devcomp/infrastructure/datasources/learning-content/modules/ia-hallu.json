@@ -412,13 +412,21 @@
             {
               "type": "element",
               "element": {
-                "id": "f4df02e1-bebf-4557-9226-18e38cfbb6b2",
-                "type": "image",
-                "url": "https://assets.pix.org/draft/modules/hallucinations/capturetennis.png",
-                "alt": "Capture d'écran d'une conversation avec un logiciel d'IA générative décrit dans l'alternative textuelle",
-                "alternativeText": "",
-                "legend": "",
-                "licence": ""
+                "id": "99a8eb7c-6642-40e8-b6b5-c38af3bd5283",
+                "type": "custom",
+                "tagName": "llm-messages",
+                "props": {
+                  "messages": [
+                    {
+                      "direction": "inbound",
+                      "content": "De quand datent les 2 victoires à Roland-Garros de Carlos Alcaraz ?"
+                    },
+                    {
+                      "direction": "outbound",
+                      "content": "<p>Carlos Alcaraz n’a remporté <strong>qu'un</strong> titre à Roland-Garros à ce jour :</p> <ul>     <li><strong> 9 juin 2024</strong> : il gagne sa <strong>première </strong>victoire à Roland-Garros en battant Alexander Zverev en finale (6-3, 2-6, 5-7, 6-1, 6-2). </li> </ul> <p>Il totalise donc <strong>un </strong>titre à Paris (2024), et <strong>non deux</strong> pour le moment. Si tu pensais à un deuxième, peut-être mélanges-tu avec ses victoires à Wimbledon (2023) ou l’US Open 2022 ! Souhaites-tu que je t’en donne plus ?</p>"
+                    }
+                  ]
+                }
               }
             },
             {
@@ -862,13 +870,21 @@
                 {
                   "elements": [
                     {
-                      "id": "95d84a4d-2ee5-4e6a-96b6-de148a586781",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/hallucinations/erreursia5-Djoko.jpg",
-                      "alt": "Extrait d'un échange sur un logiciel d'IA générative, contenu détaillé dans l'alternative textuelle.",
-                      "alternativeText": "<p>Question utilisateur&nbsp;: Comment va le tennisman Djokovic ?</p><p>Réponse du logiciel d'IA générative&nbsp;: Novak Djokovic va bien, il continue de performer à un niveau très élevé sur le circuit ATP. Ses récents résultats montrent qu'il reste l'un des meilleurs joueurs du monde. Il a eu quelques problèmes de santé et des blessures par le passé, mais il semble s'être bien rétabli.</p>",
-                      "legend": "",
-                      "licence": ""
+                      "id": "66180f4b-6038-4ae6-b743-defdf3649d1f",
+                      "type": "custom",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "inbound",
+                            "content": "Comment va le tennisman Djokovic ?"
+                          },
+                          {
+                            "direction": "outbound",
+                            "content": "Novak Djokovic va bien, il continue de performer à un niveau très élevé sur le circuit ATP. Ses récents résultats montrent qu'il reste l'un des meilleurs joueurs du monde. Il a eu quelques problèmes de santé et des blessures par le passé, mais il semble s'être bien rétabli."
+                          }
+                        ]
+                      }
                     },
                     {
                       "id": "4973d664-0caf-4e10-9ea9-7fae95bf0164",
@@ -912,13 +928,29 @@
                 {
                   "elements": [
                     {
-                      "id": "29f0994f-8dfb-41c8-b4a4-45fa0e289814",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/hallucinations/erreursia6-emoji.jpg",
-                      "alt": "Extrait d'un échange sur un logiciel d'IA générative, contenu détaillé dans l'alternative textuelle.",
-                      "alternativeText": "<p>Question utilisateur&nbsp;:&nbsp;Peux-tu me montrer l'émoji hippocampe ?</p><p>Réponse de l'IA&nbsp;: 🦞</p><p>Deuxième question utilisateur&nbsp;:&nbsp;Tu es sûr ?</p><p>Réponse de l'IA&nbsp;:&nbsp;Oups c'est un homard. Voici l'émoji hippocampe 🦑</p>",
-                      "legend": "",
-                      "licence": ""
+                      "id": "0935e0be-6a22-432b-82df-973b685d1f94",
+                      "type": "custom",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "inbound",
+                            "content": "Peux-tu me montrer l'émoji hippocampe ?"
+                          },
+                          {
+                            "direction": "outbound",
+                            "content": "🦞"
+                          },
+                          {
+                            "direction": "inbound",
+                            "content": "Tu es sûr ?"
+                          },
+                          {
+                            "direction": "outbound",
+                            "content": "Oups c'est un homard. Voici l'émoji hippocampe 🦑"
+                          }
+                        ]
+                      }
                     },
                     {
                       "id": "9c2ddfdc-0dc9-435c-b3be-1ea4bf999895",
@@ -962,13 +994,21 @@
                 {
                   "elements": [
                     {
-                      "id": "5944e2ca-cb95-4cdc-9d7c-74741421dd43",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/hallucinations/erreursia7-source.jpg",
-                      "alt": "Extrait d'un échange sur un logiciel d'IA générative, contenu détaillé dans l'alternative textuelle.",
-                      "alternativeText": "<p>Question utilisateur&nbsp;: Donne-moi un article en français sur le traitement des eaux pluviales, d’une revue scientifique, rédigée au format APA 7e édition.</p><p>Réponse de l'IA&nbsp;:&nbsp;Voici un article traitant du traitement des eaux pluviales, formaté selon APA 7e.<br><strong>Barra, M., Houeix, K., Hemminki, J., &amp; Grandin, G. </strong>(2019).&nbsp;<em>Gestion des eaux pluviales et biodiversité urbaine&nbsp;: état de la contamination et préconisations</em>.&nbsp;<strong>Annales de la Floristique Régionale Île‑de‑France</strong>, 10–33.</p>",
-                      "legend": "",
-                      "licence": ""
+                      "id": "dc534328-51cc-4686-9d59-13809c4015d8",
+                      "type": "custom",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "inbound",
+                            "content": "Donne-moi un article en français sur le traitement des eaux pluviales, d’une revue scientifique."
+                          },
+                          {
+                            "direction": "outbound",
+                            "content": "<p>Voici un article traitant du traitement des eaux pluviales :<br><strong>Barra, M., Houeix, K., Hemminki, J., &amp; Grandin, G.</strong>&nbsp;(2019).&nbsp;<em>Gestion des eaux pluviales et biodiversité urbaine&nbsp;: état de la contamination et préconisations</em><em>.</em>&nbsp;<strong>Annales de la Floristique Régionale Île‑de‑France</strong>, 10–33.</p>"
+                          }
+                        ]
+                      }
                     },
                     {
                       "id": "53332773-3d53-4d86-8ab3-7af01a291d1d",
