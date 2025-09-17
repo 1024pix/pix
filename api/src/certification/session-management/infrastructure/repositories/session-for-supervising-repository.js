@@ -43,7 +43,8 @@ const get = async function ({ id }) {
           'complementaryCertification', json_build_object(
             'key', "complementary-certifications"."key",
             'label', "complementary-certifications"."label",
-            'certificationExtraTime', "complementary-certifications"."certificationExtraTime"
+            'certificationExtraTime', "complementary-certifications"."certificationExtraTime",
+            'duration', "complementary-certifications"."duration"
           )
         ) order by "certification-companion-live-alerts".status, "certification-challenge-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
     `),

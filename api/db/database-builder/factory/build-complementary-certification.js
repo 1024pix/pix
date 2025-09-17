@@ -10,6 +10,7 @@ function buildComplementaryCertification({
   minimumReproducibilityRateLowerLevel = 60.0,
   hasExternalJury = false,
   certificationExtraTime = 45,
+  duration = 105,
 } = {}) {
   const values = {
     id,
@@ -20,6 +21,7 @@ function buildComplementaryCertification({
     minimumReproducibilityRateLowerLevel,
     hasExternalJury,
     certificationExtraTime,
+    duration,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certifications',
@@ -33,6 +35,7 @@ buildComplementaryCertification.clea = function ({
   minimumReproducibilityRateLowerLevel = 50.0,
   hasExternalJury = false,
   certificationExtraTime = 0,
+  duration = 105,
 }) {
   return buildComplementaryCertification({
     id,
@@ -43,6 +46,7 @@ buildComplementaryCertification.clea = function ({
     minimumReproducibilityRateLowerLevel,
     hasExternalJury,
     certificationExtraTime,
+    duration,
   });
 };
 
@@ -52,6 +56,7 @@ buildComplementaryCertification.droit = function ({
   minimumReproducibilityRateLowerLevel = 60,
   hasExternalJury = false,
   certificationExtraTime = 45,
+  duration = 45,
 }) {
   return buildComplementaryCertification({
     id,
@@ -62,6 +67,7 @@ buildComplementaryCertification.droit = function ({
     minimumReproducibilityRateLowerLevel,
     hasExternalJury,
     certificationExtraTime,
+    duration,
   });
 };
 
@@ -71,6 +77,7 @@ buildComplementaryCertification.pixEdu1erDegre = function ({
   minimumReproducibilityRateLowerLevel = 60,
   hasExternalJury = true,
   certificationExtraTime = 45,
+  duration = 90,
 }) {
   return buildComplementaryCertification({
     id,
@@ -81,6 +88,7 @@ buildComplementaryCertification.pixEdu1erDegre = function ({
     minimumReproducibilityRateLowerLevel,
     hasExternalJury,
     certificationExtraTime,
+    duration,
   });
 };
 
@@ -90,6 +98,7 @@ buildComplementaryCertification.pixEdu2ndDegre = function ({
   minimumReproducibilityRateLowerLevel = 60,
   hasExternalJury = true,
   certificationExtraTime = 45,
+  duration = 90,
 }) {
   return buildComplementaryCertification({
     id,
@@ -100,6 +109,7 @@ buildComplementaryCertification.pixEdu2ndDegre = function ({
     minimumReproducibilityRateLowerLevel,
     hasExternalJury,
     certificationExtraTime,
+    duration,
   });
 };
 

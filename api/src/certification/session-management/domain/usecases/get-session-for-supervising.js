@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
@@ -28,7 +26,7 @@ const getSessionForSupervising = async function ({
   );
 
   sessionForSupervising.certificationCandidates.forEach((certificationCandidate) => {
-    _computeTheoricalEndDateTime(certificationCandidate);
+    _computeDuration(certificationCandidate);
   });
 
   return sessionForSupervising;
@@ -49,18 +47,10 @@ function _computeDoubleCertificationEligibility(certificationBadgesService) {
   };
 }
 
-function _computeTheoricalEndDateTime(candidate) {
-  const startDateTime = dayjs(candidate.startDateTime || null);
-  if (!startDateTime.isValid()) {
-    return;
+function _computeDuration(candidate) {
+  if (candidate.enrolledComplementaryCertification) {
+    candidate.duration = candidate.enrolledComplementaryCertification.duration;
+  } else {
+    candidate.duration = DEFAULT_SESSION_DURATION_MINUTES;
   }
-
-  let theoricalEndDateTime = startDateTime.add(DEFAULT_SESSION_DURATION_MINUTES, 'minute');
-
-  if (candidate.isStillEligibleToDoubleCertification) {
-    const extraMinutes = candidate.enrolledDoubleCertification.certificationExtraTime ?? 0;
-    theoricalEndDateTime = theoricalEndDateTime.add(extraMinutes, 'minute');
-  }
-
-  candidate.theoricalEndDateTime = theoricalEndDateTime.toDate();
 }

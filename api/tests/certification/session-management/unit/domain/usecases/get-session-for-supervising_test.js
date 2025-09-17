@@ -1,26 +1,15 @@
-import dayjs from 'dayjs';
-
 import { getSessionForSupervising } from '../../../../../../src/certification/session-management/domain/usecases/get-session-for-supervising.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
-const COMPLEMENTARY_EXTRATIME_STUB = 45;
 const sessionForSupervisingRepository = { get: sinon.stub() };
-
-const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
-  let computedEndDateTime = dayjs(startDateTime);
-  extraMinutes.forEach((plusMinutes) => {
-    computedEndDateTime = computedEndDateTime.add(plusMinutes, 'minute');
-  });
-  return computedEndDateTime.toDate();
-};
 
 describe('Unit | UseCase | get-session-for-supervising', function () {
   context('when the session exists', function () {
     context('when there are candidates', function () {
       context('when the session has not started yet', function () {
-        it('should not compute a theorical end datetime', async function () {
+        it('should not compute duration for candidates without startDateTime', async function () {
           // given
           const certificationCandidateNotStarted = domainBuilder.buildCertificationCandidateForSupervising();
           delete certificationCandidateNotStarted.startDateTime;
@@ -39,13 +28,12 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
           // then
           expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
           expect(sessionForSupervising.certificationCandidates[0].startDateTime).to.be.undefined;
-          expect(sessionForSupervising.certificationCandidates[0].theoricalEndDateTime).to.be.undefined;
         });
       });
 
       context('when the session has started', function () {
         context('when candidates are registered to a core certification', function () {
-          it('should get certification candidates with theorical end datetime', async function () {
+          it('should get certification candidates with duration', async function () {
             // given
             const sessionId = 1;
             const certificationCandidateId = 51;
@@ -60,11 +48,6 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
             });
             sessionForSupervisingRepository.get.resolves(session);
-            const expectedTheoricalEndDateTime = dayjs(
-              certificationCandidateWithNoComplementaryCertification.startDateTime,
-            )
-              .add(DEFAULT_SESSION_DURATION_MINUTES, 'minute')
-              .toDate();
 
             // when
             const { certificationCandidates } = await getSessionForSupervising({
@@ -77,12 +60,12 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               'startDateTime',
               certificationCandidateWithNoComplementaryCertification.startDateTime,
             );
-            expect(certificationCandidate).to.have.deep.property('theoricalEndDateTime', expectedTheoricalEndDateTime);
+            expect(certificationCandidate).to.have.deep.property('duration', DEFAULT_SESSION_DURATION_MINUTES);
           });
         });
 
         context('when candidates are registered to a complementary certification', function () {
-          it('should get certification candidates with theorical end datetime', async function () {
+          it('should get certification candidates with duration', async function () {
             // given
             const sessionId = 1;
             const certificationCandidateId = 51;
@@ -98,11 +81,6 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               certificationCandidates: [certificationCandidateWithComplementaryCertification],
             });
             sessionForSupervisingRepository.get.resolves(session);
-            const expectedTheoricalEndDateTime = dayjs(
-              certificationCandidateWithComplementaryCertification.startDateTime,
-            )
-              .add(DEFAULT_SESSION_DURATION_MINUTES, 'minute')
-              .toDate();
 
             // when
             const { certificationCandidates } = await getSessionForSupervising({
@@ -115,7 +93,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               'startDateTime',
               certificationCandidateWithComplementaryCertification.startDateTime,
             );
-            expect(certificationCandidate).to.have.deep.property('theoricalEndDateTime', expectedTheoricalEndDateTime);
+            expect(certificationCandidate).to.have.deep.property('duration', complementaryCertification.duration);
           });
         });
 
@@ -131,7 +109,6 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
                 key: 'aKey',
                 label: 'une certif complémentaire',
-                certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
               });
 
               const retrievedSessionForSupervising = domainBuilder.buildSessionForSupervising({
@@ -169,10 +146,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     domainBuilder.buildCertificationCandidateForSupervising({
                       userId: 1234,
                       startDateTime: START_DATETIME_STUB,
-                      theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                        DEFAULT_SESSION_DURATION_MINUTES,
-                        COMPLEMENTARY_EXTRATIME_STUB,
-                      ]),
+                      duration: DEFAULT_SESSION_DURATION_MINUTES,
                       enrolledDoubleCertification: complementaryCertification,
                       enrolledComplementaryCertification: null,
                       stillValidBadgeAcquisitions: [stillValidBadgeAcquisition],
@@ -182,14 +156,13 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               );
             });
 
-            it('gets a theorical end datetime with extra time', async function () {
+            it('gets duration', async function () {
               const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
                 complementaryCertificationKey: 'aKey',
               });
 
               const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
                 key: 'aKey',
-                certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
               });
 
               const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
@@ -221,11 +194,9 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               // then
               expect(actualSession.certificationCandidates).to.have.lengthOf(1);
               expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
-              expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
-                expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                  DEFAULT_SESSION_DURATION_MINUTES,
-                  COMPLEMENTARY_EXTRATIME_STUB,
-                ]),
+              expect(actualSession.certificationCandidates[0]).to.have.deep.property(
+                'duration',
+                DEFAULT_SESSION_DURATION_MINUTES,
               );
             });
           });
@@ -267,9 +238,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     domainBuilder.buildCertificationCandidateForSupervising({
                       userId: 1234,
                       startDateTime: START_DATETIME_STUB,
-                      theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                        DEFAULT_SESSION_DURATION_MINUTES,
-                      ]),
+                      duration: DEFAULT_SESSION_DURATION_MINUTES,
                       enrolledComplementaryCertification: null,
                       enrolledDoubleCertification: complementaryCertification,
                       stillValidBadgeAcquisitions: [],
@@ -279,12 +248,11 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               );
             });
 
-            it('does not get a theorical end datetime with extra time', async function () {
+            it('gets duration without extra time', async function () {
               // given
               const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
                 key: 'aKey',
                 label: 'une certif complémentaire',
-                certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
               });
 
               sessionForSupervisingRepository.get.resolves(
@@ -313,9 +281,6 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               // then
               expect(actualSession.certificationCandidates).to.have.lengthOf(1);
               expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
-              expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
-                expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [DEFAULT_SESSION_DURATION_MINUTES]),
-              );
             });
           });
         });

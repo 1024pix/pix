@@ -12,7 +12,7 @@ class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
-    theoricalEndDateTime,
+    duration,
     enrolledComplementaryCertification,
     enrolledDoubleCertification,
     stillValidBadgeAcquisitions = [],
@@ -29,7 +29,7 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
-    this.theoricalEndDateTime = theoricalEndDateTime;
+    this.duration = duration;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
     this.enrolledDoubleCertification = enrolledDoubleCertification;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;

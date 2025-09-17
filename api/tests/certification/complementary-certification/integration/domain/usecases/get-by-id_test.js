@@ -24,26 +24,23 @@ describe('Integration | Certification | Complementary | UseCase | get-by-id', fu
   context('when there is a complementary certification', function () {
     it('should return the complementary certification', async function () {
       // given
-      const complementaryCertificationId = 999999;
-      databaseBuilder.factory.buildComplementaryCertification({
-        id: complementaryCertificationId,
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 99999,
       });
       await databaseBuilder.commit();
 
       // when
-      const complementaryCertification = await getById({
-        id: complementaryCertificationId,
+      const result = await getById({
+        id: complementaryCertification.id,
         complementaryCertificationRepository,
       });
 
       // then
       const expectedComplementaryCertification =
         domainBuilder.certification.complementaryCertification.buildComplementaryCertification({
-          id: complementaryCertificationId,
-          label: 'UneSuperCertifComplémentaire',
-          key: 'DROIT',
+          ...complementaryCertification,
         });
-      expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
+      expect(result).to.deep.equal(expectedComplementaryCertification);
     });
   });
 });

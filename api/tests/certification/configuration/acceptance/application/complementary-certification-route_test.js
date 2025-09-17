@@ -29,16 +29,11 @@ describe('Certification | Configuration | Acceptance | API | complementary-certi
         url: '/api/admin/complementary-certifications',
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
-      databaseBuilder.factory.buildComplementaryCertification({
+      const edu1Complementary = databaseBuilder.factory.buildComplementaryCertification.pixEdu1erDegre({
         id: 1,
-        label: 'Pix+ Edu 1er degré',
-        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
       });
-      databaseBuilder.factory.buildComplementaryCertification({
+      const cleaComplementary = databaseBuilder.factory.buildComplementaryCertification.clea({
         id: 2,
-        label: 'Cléa Numérique',
-        key: ComplementaryCertificationKeys.CLEA,
-        hasComplementaryReferential: false,
       });
       await databaseBuilder.commit();
 
@@ -53,18 +48,20 @@ describe('Certification | Configuration | Acceptance | API | complementary-certi
             type: 'complementary-certifications',
             id: '1',
             attributes: {
-              label: 'Pix+ Edu 1er degré',
+              label: edu1Complementary.label,
               key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
               'has-complementary-referential': true,
+              duration: 90,
             },
           },
           {
             type: 'complementary-certifications',
             id: '2',
             attributes: {
-              label: 'Cléa Numérique',
+              label: cleaComplementary.label,
               key: ComplementaryCertificationKeys.CLEA,
               'has-complementary-referential': false,
+              duration: 105,
             },
           },
         ],

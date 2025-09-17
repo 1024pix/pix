@@ -12,6 +12,7 @@
  * @property {string} key
  * @property {string} label
  * @property {number} certificationExtraTime
+ * @property {number} duration
  */
 
 /**

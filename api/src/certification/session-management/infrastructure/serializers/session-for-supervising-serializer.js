@@ -31,7 +31,7 @@ const serialize = function (sessions) {
         'authorizedToStart',
         'assessmentStatus',
         'startDateTime',
-        'theoricalEndDateTime',
+        'duration',
         'enrolledComplementaryCertificationLabel',
         'enrolledDoubleCertificationLabel',
         'isStillEligibleToDoubleCertification',

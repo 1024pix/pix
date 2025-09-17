@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (complementaryCertifications) {
   return new Serializer('complementary-certification', {
-    attributes: ['label', 'key', 'hasComplementaryReferential'],
+    attributes: ['label', 'key', 'hasComplementaryReferential', 'duration'],
   }).serialize(complementaryCertifications);
 };
 
