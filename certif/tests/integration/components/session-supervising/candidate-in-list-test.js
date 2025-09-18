@@ -106,7 +106,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         firstName: 'Star',
         lastName: 'Lord',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
-        theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+        duration: 45,
         extraTimePercentage: 12,
         authorizedToStart: true,
         assessmentStatus: null,
@@ -193,7 +193,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           firstName: 'Toto',
           lastName: 'Tutu',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 12,
           authorizedToStart: false,
           assessmentStatus: null,
@@ -314,7 +314,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
-        theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+        duration: 45,
         extraTimePercentage: 0.12,
         authorizedToStart: false,
         assessmentStatus: 'started',
@@ -338,7 +338,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',
@@ -361,7 +361,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',
@@ -393,7 +393,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
-        theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+        duration: 45,
         extraTimePercentage: 0.12,
         authorizedToStart: true,
         assessmentStatus: 'started',
@@ -418,7 +418,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
-        theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+        duration: 45,
         extraTimePercentage: 12,
         authorizedToStart: false,
         assessmentStatus: 'completed',
@@ -444,7 +444,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',
@@ -476,7 +476,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',
@@ -515,7 +515,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',
@@ -544,7 +544,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           lastName: 'Cendy',
           id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          duration: 45,
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',

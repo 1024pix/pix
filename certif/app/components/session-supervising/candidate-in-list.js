@@ -45,21 +45,11 @@ export default class CandidateInList extends Component {
     return this._isReconciliated() && this._isNotEligibleToEnrolledDoubleCertification();
   }
 
-  _isNotEligibleToEnrolledDoubleCertification() {
-    return (
-      !this.args.candidate.isStillEligibleToDoubleCertification && this.args.candidate.enrolledDoubleCertificationLabel
-    );
-  }
-
   get enrolledCertificationLabel() {
     return (
       this.args.candidate.enrolledComplementaryCertificationLabel ??
       this.args.candidate.enrolledDoubleCertificationLabel
     );
-  }
-
-  _isReconciliated() {
-    return this.args.candidate.userId;
   }
 
   get authorizationButtonLabel() {
@@ -89,6 +79,51 @@ export default class CandidateInList extends Component {
 
   get authorizationButtonBackgroundColor() {
     return this.args.candidate.authorizedToStart ? 'transparent-dark' : 'primary';
+  }
+
+  get isConfirmationModalDisplayed() {
+    return this.displayedModal === Modals.Confirmation;
+  }
+
+  get isHandleLiveAlertModalDisplayed() {
+    return this.displayedModal === Modals.HandleLiveAlert;
+  }
+
+  get isHandleCompanionLiveAlertModalDisplayed() {
+    return this.displayedModal === Modals.HandleCompanionLiveAlert;
+  }
+
+  get isLiveAlertHandledModalDisplayed() {
+    return this.displayedModal === Modals.HandledLiveAlertSuccess;
+  }
+
+  get actionMethod() {
+    return this.actionOnConfirmation;
+  }
+
+  get candidateStartTime() {
+    const startTime = dayjs(this.args.candidate.startDateTime).format('HH:mm');
+    return startTime;
+  }
+
+  get candidateTheoricalEndDateTime() {
+    return dayjs(this.args.candidate.startDateTime).add(this.args.candidate.duration, 'minute').format('HH:mm');
+  }
+
+  get currentLiveAlertLabel() {
+    const alertType = this.args.candidate.currentLiveAlert?.type;
+
+    return this.intl.t(`common.forms.certification-labels.candidate-status.live-alerts.${alertType}.ongoing`);
+  }
+
+  _isNotEligibleToEnrolledDoubleCertification() {
+    return (
+      !this.args.candidate.isStillEligibleToDoubleCertification && this.args.candidate.enrolledDoubleCertificationLabel
+    );
+  }
+
+  _isReconciliated() {
+    return this.args.candidate.userId;
   }
 
   @action
@@ -283,41 +318,5 @@ export default class CandidateInList extends Component {
 
   @action closeHandleLiveAlertModal() {
     this.displayedModal = null;
-  }
-
-  get isConfirmationModalDisplayed() {
-    return this.displayedModal === Modals.Confirmation;
-  }
-
-  get isHandleLiveAlertModalDisplayed() {
-    return this.displayedModal === Modals.HandleLiveAlert;
-  }
-
-  get isHandleCompanionLiveAlertModalDisplayed() {
-    return this.displayedModal === Modals.HandleCompanionLiveAlert;
-  }
-
-  get isLiveAlertHandledModalDisplayed() {
-    return this.displayedModal === Modals.HandledLiveAlertSuccess;
-  }
-
-  get actionMethod() {
-    return this.actionOnConfirmation;
-  }
-
-  get candidateStartTime() {
-    const startTime = dayjs(this.args.candidate.startDateTime).format('HH:mm');
-    return startTime;
-  }
-
-  get candidateTheoricalEndDateTime() {
-    const theoricalEndDateTime = dayjs(this.args.candidate.theoricalEndDateTime).format('HH:mm');
-    return theoricalEndDateTime;
-  }
-
-  get currentLiveAlertLabel() {
-    const alertType = this.args.candidate.currentLiveAlert?.type;
-
-    return this.intl.t(`common.forms.certification-labels.candidate-status.live-alerts.${alertType}.ongoing`);
   }
 }

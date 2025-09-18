@@ -16,7 +16,7 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('boolean') authorizedToStart;
   @attr('string') assessmentStatus;
   @attr('date') startDateTime;
-  @attr('date') theoricalEndDateTime;
+  @attr('number') duration;
   @attr('string') enrolledComplementaryCertificationLabel;
   @attr('string') enrolledDoubleCertificationLabel;
   @attr('string') userId;
