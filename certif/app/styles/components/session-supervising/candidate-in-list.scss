@@ -12,9 +12,24 @@
   &__candidate-data {
     width: calc(100% - var(--pix-spacing-8x));
     padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
-    display: flex;
-    flex-direction: column;
-    gap: var(--pix-spacing-2x);
+
+    @include breakpoints.device-is('tablet') {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: var(--pix-spacing-4x);
+    }
+  }
+
+  &__infos {
+    flex-grow: 1;
+  }
+
+  &__status {
+    flex-shrink: 0;
+
+    @include breakpoints.device-is('mobile') {
+      margin-bottom: var(--pix-spacing-2x);
+    }
   }
 
   &__full-name {
@@ -97,9 +112,9 @@
 .session-supervising-candidate-in-list-details-time {
   display: flex;
   align-items: center;
-  margin-top: var(--pix-spacing-2x);
   gap: var(--pix-spacing-2x);
   width: fit-content;
+  margin-top: var(--pix-spacing-1x);
 
   @include breakpoints.device-is('mobile') {
     flex-direction: column;
@@ -111,8 +126,8 @@
   }
 
   &__text {
-    padding: 6px var(--pix-spacing-2x);
-    background-color: var(--pix-neutral-500);
+    padding: 4px var(--pix-spacing-2x);
+    background-color: rgba(255,255,255,0.1);
     border-radius: 8px;
     color: var(--pix-neutral-0);
     flex-grow: 1;
@@ -120,19 +135,27 @@
     align-items: center;
     gap: var(--pix-spacing-1x);
 
-    &__end-date-time::before {
-      content: '|';
-      display: inline-block;
-      color: transparent;
-      width: 1px;
-      background-color: var(--pix-neutral-0);
-      border-radius: 25px;
+    &__end-date-time {
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 1em;
+        margin-inline: var(--pix-spacing-1x) var(--pix-spacing-2x);
+        background-color: var(--pix-neutral-0);
+      }
+    }
+
+    time {
+      font-weight: 500;
     }
   }
 
   &__clock {
     width: 1rem;
-    height: 1rem;
     fill: var(--pix-neutral-0);
   }
 }

@@ -1,100 +1,101 @@
 <li class="session-supervising-candidate-in-list">
   <div class="session-supervising-candidate-in-list__candidate-data">
-
-    <div class="session-supervising-candidate-in-list__top-information">
-      <div class="session-supervising-candidate-in-list__full-name">
-        {{@candidate.lastName}}
-        {{@candidate.firstName}}
-      </div>
-      <div>
-        {{#if @candidate.hasStarted}}
-          {{#if @candidate.currentLiveAlert}}
-            <PixTag @color="error">
-              {{this.currentLiveAlertLabel}}
-            </PixTag>
-            <PixTag @color="yellow">
-              {{t "common.forms.certification-labels.candidate-status.on-hold"}}
-            </PixTag>
-          {{else}}
-            <PixTag @color="green">
-              {{t "common.forms.certification-labels.candidate-status.ongoing"}}
-            </PixTag>
-          {{/if}}
+    <div class="session-supervising-candidate-in-list__status">
+      {{#if @candidate.hasStarted}}
+        {{#if @candidate.currentLiveAlert}}
+          <PixTag @color="error">
+            {{this.currentLiveAlertLabel}}
+          </PixTag>
+          <PixTag @color="yellow">
+            {{t "common.forms.certification-labels.candidate-status.on-hold"}}
+          </PixTag>
+        {{else}}
+          <PixTag @color="green">
+            {{t "common.forms.certification-labels.candidate-status.ongoing"}}
+          </PixTag>
         {{/if}}
-        {{#if @candidate.hasCompleted}}
-          <PixTag @color="blue">{{t "common.forms.certification-labels.candidate-status.finished"}}</PixTag>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="session-supervising-candidate-in-list__middle-information">
-      <p>{{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}</p>
-      {{#if this.shouldDisplayEnrolledComplementaryCertification}}
-        <p class="session-supervising-candidate-in-list-details__enrolment">
-          <PixIcon
-            @name="awards"
-            @ariaHidden={{true}}
-            class="session-supervising-candidate-in-list-details-enrolment__icon"
-          />
-          {{t
-            "pages.session-supervising.candidate-in-list.complementary-certification-enrolment"
-            complementaryCertification=this.enrolledCertificationLabel
-          }}
-        </p>
       {{/if}}
-      {{#if this.shouldDisplayNonEligibilityWarning}}
-        <PixNotificationAlert @type="warning" @withIcon={{true}}>
-          {{t "pages.session-supervising.candidate-in-list.double-certification-non-eligibility-warning"}}
-        </PixNotificationAlert>
+      {{#if @candidate.hasCompleted}}
+        <PixTag @color="blue">{{t "common.forms.certification-labels.candidate-status.finished"}}</PixTag>
       {{/if}}
     </div>
+    <div class="session-supervising-candidate-in-list__infos">
+      <div class="session-supervising-candidate-in-list__top-information">
+        <div class="session-supervising-candidate-in-list__full-name">
+          {{@candidate.lastName}}
+          {{@candidate.firstName}}
+        </div>
+      </div>
 
-    {{#if @candidate.hasStarted}}
-      <div class="session-supervising-candidate-in-list__bottom-information">
-        <div class="session-supervising-candidate-in-list-details-time">
-          <div class="session-supervising-candidate-in-list-details-time__text">
+      <div class="session-supervising-candidate-in-list__middle-information">
+        <p>{{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}</p>
+        {{#if this.shouldDisplayEnrolledComplementaryCertification}}
+          <p class="session-supervising-candidate-in-list-details__enrolment">
             <PixIcon
-              @name="time"
-              @plainIcon={{true}}
-              class="session-supervising-candidate-in-list-details-time__clock"
+              @name="awards"
+              @ariaHidden={{true}}
+              class="session-supervising-candidate-in-list-details-enrolment__icon"
             />
-            <span>
-              {{t "pages.session-supervising.candidate-in-list.start-date-time"}}
-              <time>{{this.candidateStartTime}}</time>
-            </span>
-            <span class="session-supervising-candidate-in-list-details-time__text__end-date-time">
-              {{t "pages.session-supervising.candidate-in-list.end-date-time"}}
-              <time>{{this.candidateTheoricalEndDateTime}}</time>
-            </span>
+            {{t
+              "pages.session-supervising.candidate-in-list.complementary-certification-enrolment"
+              complementaryCertification=this.enrolledCertificationLabel
+            }}
+          </p>
+        {{/if}}
+        {{#if this.shouldDisplayNonEligibilityWarning}}
+          <PixNotificationAlert @type="warning" @withIcon={{true}}>
+            {{t "pages.session-supervising.candidate-in-list.double-certification-non-eligibility-warning"}}
+          </PixNotificationAlert>
+        {{/if}}
+      </div>
+
+      {{#if @candidate.hasStarted}}
+        <div class="session-supervising-candidate-in-list__bottom-information">
+          <div class="session-supervising-candidate-in-list-details-time">
+            <div class="session-supervising-candidate-in-list-details-time__text">
+              <PixIcon
+                @name="time"
+                @plainIcon={{true}}
+                class="session-supervising-candidate-in-list-details-time__clock"
+              />
+              <span>
+                {{t "pages.session-supervising.candidate-in-list.start-date-time"}}
+                <time>{{this.candidateStartTime}}</time>
+              </span>
+              <span class="session-supervising-candidate-in-list-details-time__text__end-date-time">
+                {{t "pages.session-supervising.candidate-in-list.end-date-time"}}
+                <time>{{this.candidateTheoricalEndDateTime}}</time>
+              </span>
+            </div>
+            {{#if @candidate.extraTimePercentage}}
+              <PixTag @color="grey">
+                {{t
+                  "pages.session-supervising.candidate-in-list.extratime"
+                  extraTimePercentage=(format-percentage @candidate.extraTimePercentage)
+                }}
+              </PixTag>
+            {{/if}}
           </div>
-          {{#if @candidate.extraTimePercentage}}
-            <PixTag @color="grey">
-              {{t
-                "pages.session-supervising.candidate-in-list.extratime"
-                extraTimePercentage=(format-percentage @candidate.extraTimePercentage)
-              }}
-            </PixTag>
+
+          {{#if @candidate.hasOngoingChallengeLiveAlert}}
+            <PixButton @triggerAction={{this.askUserToHandleLiveAlert}} @variant="error">
+              {{t "pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-challenge"}}
+            </PixButton>
           {{/if}}
         </div>
-
-        {{#if @candidate.hasOngoingChallengeLiveAlert}}
-          <PixButton @triggerAction={{this.askUserToHandleLiveAlert}} @variant="error">
-            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-challenge"}}
-          </PixButton>
-        {{/if}}
-      </div>
-    {{/if}}
-    {{#if this.isConfirmButtonToBeDisplayed}}
-      <PixButton
-        aria-label={{this.authorizationButtonAriaLabel}}
-        @triggerAction={{fn this.toggleCandidate @candidate}}
-        @variant={{this.authorizationButtonBackgroundColor}}
-        @isBorderVisible={{@candidate.authorizedToStart}}
-        class="session-supervising-candidate-in-list__confirm-button"
-      >
-        {{this.authorizationButtonLabel}}
-      </PixButton>
-    {{/if}}
+      {{/if}}
+      {{#if this.isConfirmButtonToBeDisplayed}}
+        <PixButton
+          aria-label={{this.authorizationButtonAriaLabel}}
+          @triggerAction={{fn this.toggleCandidate @candidate}}
+          @variant={{this.authorizationButtonBackgroundColor}}
+          @isBorderVisible={{@candidate.authorizedToStart}}
+          class="session-supervising-candidate-in-list__confirm-button"
+        >
+          {{this.authorizationButtonLabel}}
+        </PixButton>
+      {{/if}}
+    </div>
   </div>
 
   {{#if this.optionsMenuShouldBeDisplayed}}

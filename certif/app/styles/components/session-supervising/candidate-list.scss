@@ -14,21 +14,13 @@
       max-width: 800px;
     }
 
-    &__description {
-      display: flex;
-      justify-content: flex-start;
+    &__title {
+      @extend %pix-title-s;
       color: var(--pix-neutral-0);
-      font-size: 0.875rem;
-      font-weight: normal;
-      min-height: 14px;
-      letter-spacing: 0;
-      margin: 0 0 24px;
     }
 
-    &__title {
-      @extend %pix-title-xs;
-      font-weight: 600;
-      margin: 0 0 8px;
+    &__description {
+      @extend %pix-body-s;
       color: var(--pix-neutral-0);
     }
 
@@ -64,6 +56,7 @@
       display: flex;
       flex-direction: row;
       height: 44px;
+      margin: var(--pix-spacing-4x) 0;
       padding: 0 var(--pix-spacing-4x);
       width: 100%;
     }
@@ -76,7 +69,7 @@
       font-weight: normal;
       height: 14px;
       letter-spacing: 0;
-      margin: 16px 0 24px;
+      margin: var(--pix-spacing-4x) 0 var(--pix-spacing-6x);
     }
 
     .search-icon {
