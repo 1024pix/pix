@@ -39,7 +39,7 @@
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@testing-library/cypress": "^10.0.1",
     "axe-core": "^4.4.3",
-    "cypress": "^13.0.0",
+    "cypress": "^15.0.0",
     "cypress-axe": "^1.4.0",
     "cypress-on-fix": "^1.1.0",
     "cypress-split": "^1.24.14",
