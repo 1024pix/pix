@@ -24,6 +24,8 @@ export async function save(chat) {
     value: chat.toDTO(),
     expirationDelaySeconds: config.llm.temporaryStorage.expirationDelaySeconds,
   });
+  //TODO: remove me
+  return true;
 }
 
 /**
