@@ -7,6 +7,7 @@ const ERRORS = {
 import { PayloadTooLargeError, sendJsonApiError } from '../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { MAX_FILE_SIZE_UPLOAD } from '../../shared/domain/constants.js';
+import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { combinedCourseController } from './combined-course-controller.js';
 
 const register = async function (server) {
@@ -32,6 +33,28 @@ const register = async function (server) {
         },
         notes: ['- Récupération du parcours combiné dont le code est spécifié dans les filtres de la requête'],
         tags: ['api', 'quest'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/combined-courses/{questId}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserCanManageCombinedCourse,
+          },
+        ],
+        handler: combinedCourseController.getById,
+        validate: {
+          params: Joi.object({
+            questId: identifiersType.questId,
+          }),
+        },
+        notes: [
+          "- Récupération du parcours combiné dont l'id de la quête est passé en paramètre," +
+            " Nécessite que l'utilisateur soit membre de l'organisation propriétaire du parcours combiné",
+        ],
+        tags: ['api', 'combined-course', 'orga'],
       },
     },
     {

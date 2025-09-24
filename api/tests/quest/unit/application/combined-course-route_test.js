@@ -21,6 +21,23 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
     });
   });
 
+  describe('GET /api/combined-courses/{questId}', function () {
+    it('should call prehandler', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
+      sinon.stub(combinedCourseController, 'getById').callsFake((request, h) => h.response());
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(combinedCourseRoute);
+
+      // when
+      await httpTestServer.request('GET', '/api/combined-courses/123');
+
+      // then
+      expect(securityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
+    });
+  });
+
   describe('PUT /api/combined-course/{code}/start', function () {
     it('should call prehandler', async function () {
       // given
