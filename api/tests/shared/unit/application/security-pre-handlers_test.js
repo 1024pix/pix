@@ -2475,4 +2475,76 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
       });
     });
   });
+
+  describe('#checkAuthorizationToAccessCombinedCourseFromQuestId', function () {
+    let request;
+
+    beforeEach(function () {
+      request = {
+        auth: {
+          credentials: {
+            userId: 1234,
+          },
+        },
+        params: {
+          questId: 'questId123',
+        },
+      };
+    });
+
+    context('Successful case', function () {
+      it('should authorize access when user is authorized to access combined course', async function () {
+        // given
+        const checkUserCanManageCombinedCourseUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
+
+        // when
+        const response = await securityPreHandlers.checkUserCanManageCombinedCourse(request, hFake, {
+          checkUserCanManageCombinedCourseUsecase: checkUserCanManageCombinedCourseUsecaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+        expect(checkUserCanManageCombinedCourseUsecaseStub.execute).to.have.been.calledOnceWithExactly({
+          userId: 1234,
+          questId: 'questId123',
+        });
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid access when user is not authorized', async function () {
+        // given
+        const checkUserCanManageCombinedCourseUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
+
+        // when
+        const response = await securityPreHandlers.checkUserCanManageCombinedCourse(request, hFake, {
+          checkUserCanManageCombinedCourseUsecaseStub,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should return resource not found when use case throws an error', async function () {
+        // given
+        const checkUserCanManageCombinedCourseUsecaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
+
+        // when
+        const response = await securityPreHandlers.checkUserCanManageCombinedCourse(request, hFake, {
+          checkUserCanManageCombinedCourseUsecaseStub,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
 });

@@ -8,6 +8,7 @@ import { Organization } from '../../organizational-entities/domain/models/Organi
 import * as checkCampaignBelongsToCombinedCourseUsecase from '../../prescription/campaign/application/usecases/checkCampaignBelongsToCombinedCourse.js';
 import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import * as checkAuthorizationToAccessCombinedCourseUsecase from '../../quest/application/usecases/check-authorization-to-access-combined-course.js';
+import * as checkUserCanManageCombinedCourseUsecase from '../../quest/application/usecases/check-user-can-manage-combined-course.js';
 import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
@@ -686,6 +687,28 @@ async function checkAuthorizationToAccessCombinedCourse(
   return _replyForbiddenError(h);
 }
 
+async function checkUserCanManageCombinedCourse(
+  request,
+  h,
+  dependencies = { checkUserCanManageCombinedCourseUsecase },
+) {
+  const userId = request.auth.credentials.userId;
+  const questId = request.params.questId;
+
+  try {
+    const canManageCombinedCourse = await dependencies.checkUserCanManageCombinedCourseUsecase.execute({
+      userId,
+      questId,
+    });
+    if (canManageCombinedCourse) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch {
+    return _replyNotFoundError(h);
+  }
+}
+
 function hasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await PromiseUtils.map(securityChecks, (securityCheck) => securityCheck(request, h));
@@ -902,6 +925,7 @@ const securityPreHandlers = {
   checkAuthorizationToManageCampaign,
   checkAuthorizationToAccessCampaign,
   checkAuthorizationToAccessCombinedCourse,
+  checkUserCanManageCombinedCourse,
   checkCampaignBelongsToCombinedCourse,
   checkCertificationCenterIsNotScoManagingStudents,
   checkIfUserIsBlocked,
