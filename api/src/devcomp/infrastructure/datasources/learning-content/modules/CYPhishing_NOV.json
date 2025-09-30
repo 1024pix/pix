@@ -89,7 +89,7 @@
                     }
                   }
                 ],
-                "solution": ""
+                "solution": "2"
               }
             }
           ]
@@ -276,20 +276,12 @@
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Mais du coup, comment je fais pour reconnaître un message d’arnaque ?",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "Mais du coup, comment je fais pour reconnaître un message d’arnaque ?"
                     },
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Là par exemple, le message est très alarmiste pour te pousser à répondre.",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "Là par exemple, le message est très alarmiste pour te pousser à répondre."
                     }
                   ]
                 }
