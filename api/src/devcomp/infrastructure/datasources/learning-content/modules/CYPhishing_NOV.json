@@ -43,7 +43,7 @@
                       "userName": "Xavier",
                       "direction": "outgoing",
                       "content": "Ah, toi aussi tu l’as reçu ?  "
-                                        },
+                    },
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
