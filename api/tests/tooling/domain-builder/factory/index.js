@@ -188,7 +188,6 @@ import {
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
 import { buildEvaluationCandidate } from './certification/evaluation/build-candidate.js';
-import { buildComplementaryCertificationCourse } from './certification/evaluation/build-complementary-certification-course.js';
 import { buildComplementaryCertificationScoringCriteria } from './certification/evaluation/build-complementary-certification-scoring-criteria.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './certification/evaluation/build-complementary-certification-scoring-without-complementary-referential.js';
 import { buildDoubleCertificationScoring } from './certification/evaluation/build-double-certification-scoring.js';
@@ -270,7 +269,6 @@ const certification = {
   evaluation: {
     buildCandidate: buildEvaluationCandidate,
     buildResultsSession,
-    buildComplementaryCertificationCourse,
     buildComplementaryCertificationScoringCriteria,
     buildComplementaryCertificationScoringWithoutComplementaryReferential,
     buildComplementaryCertificationScoringWithComplementaryReferential,

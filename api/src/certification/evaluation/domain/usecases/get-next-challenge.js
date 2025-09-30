@@ -4,7 +4,7 @@
  * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').ChallengeRepository} ChallengeRepository
- * @typedef {import('../../../evaluation/domain/usecases/index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
+ * @typedef {import('../../../evaluation/domain/usecases/index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').SessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').FlashAlgorithmService} FlashAlgorithmService
@@ -26,7 +26,7 @@ const debugGetNextChallenge = Debug('pix:certif:get-next-challenge');
  * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {ChallengeRepository} params.sharedChallengeRepository
- * @param {ComplementaryCertificationCourseRepository} params.complementaryCertificationCourseRepository
+ * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
  * @param {FlashAlgorithmConfigurationRepository} params.flashAlgorithmConfigurationRepository
  * @param {SessionManagementCertificationChallengeRepository} params.sessionManagementCertificationChallengeRepository
  * @param {FlashAlgorithmService} params.flashAlgorithmService
@@ -39,7 +39,7 @@ const getNextChallenge = async function ({
   certificationCandidateRepository,
   certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
-  complementaryCertificationCourseRepository,
+  complementaryCertificationScoringCriteriaRepository,
   flashAlgorithmConfigurationRepository,
   sessionManagementCertificationChallengeRepository,
   sharedChallengeRepository,
@@ -74,15 +74,16 @@ const getNextChallenge = async function ({
 
   const candidate = await certificationCandidateRepository.findByAssessmentId({ assessmentId: assessment.id });
 
-  const complementaryCertificationCourse = await complementaryCertificationCourseRepository.findByCertificationCourseId(
-    { certificationCourseId: certificationCourse.getId() },
-  );
+  const complementaryCertificationScoringCriteria =
+    await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
+      certificationCourseId: certificationCourse.getId(),
+    });
 
   const activeFlashCompatibleChallenges = await sharedChallengeRepository.findActiveFlashCompatible({
     locale,
     date: candidate.reconciledAt,
-    complementaryCertificationKey: complementaryCertificationCourse?.complementaryCertificationKey,
-    hasComplementaryReferential: complementaryCertificationCourse?.hasComplementaryReferential,
+    complementaryCertificationKey: complementaryCertificationScoringCriteria[0]?.complementaryCertificationBadgeKey,
+    hasComplementaryReferential: complementaryCertificationScoringCriteria[0]?.hasComplementaryReferential,
   });
 
   const alreadyAnsweredChallenges = await sharedChallengeRepository.getMany(alreadyAnsweredChallengeIds);
