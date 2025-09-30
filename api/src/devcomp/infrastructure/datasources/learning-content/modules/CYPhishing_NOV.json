@@ -58,7 +58,7 @@
               "element": {
                 "id": "7d16e4bd-1515-450f-962f-359f3c309c85",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, le message que Y a reçu est :</p>",
+                "instruction": "<p>À votre avis, le message que Yvette a reçu est :</p>",
                 "proposals": [
                   {
                     "id": "1",
@@ -903,7 +903,7 @@
               "type": "element",
               "element": {
                 "id": "def10793-84be-42cf-acc2-85c7ed3aa629",
-                "type": "qcu-declarative",
+                "type": "qcu-discovery",
                 "instruction": "<p>Suite à la lecture de ce module, que faites-vous ?</p>",
                 "proposals": [
                   {
@@ -934,7 +934,8 @@
                       "diagnosis": "<p>Mais ça va pas ?&nbsp;</p>"
                     }
                   }
-                ]
+                ],
+                "solution": "3"
               }
             }
           ]
