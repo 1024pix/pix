@@ -1,0 +1,100 @@
+{
+  "id": "d86262d1-bf99-41d3-abc5-ef39c7d05288",
+  "slug": "cyber-message-arnaque",
+  "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques",
+  "isBeta": true,
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>Chaque jour, nous recevons des messages par SMS ou messagerie instantanée. Certains de ces messages cachent des arnaques.&nbsp; Dans ce module, découvrez les réflexes à avoir pour éviter les arnaques par message. 🛡️<br></p>",
+    "duration": 10,
+    "level": "novice",
+    "objectives": [
+      "<p>Reconnaître une tentative d’arnaque par message (SMS, messagerie instantanée)</p>",
+      "<p>Adopter un comportement de prudence à la réception d’un nouveau message</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "4de12428-12fb-4405-af02-4eac0a34baae",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "6f99957c-1cdf-44cd-8a83-74ac6e4b0d72",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "44f796aa-8050-4c12-94b6-b90ae4006cc9",
+                "type": "custom",
+                "instruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "title": "Conversation d’introduction",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "content": "J’ai reçu un message bizarre… Il dit que mon compte bancaire va être bloqué si je ne clique pas tout de suite sur un lien. Qu’est ce que je fais ? 😰"
+                    },
+                    {
+                      "userName": "Xavier",
+                      "direction": "outgoing",
+                      "content": "Ah, toi aussi tu l’as reçu ?  "
+                    },
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "content": "Moi, je l’ai reçu la semaine dernière. Ma sœur aussi, alors qu’elle n’a même pas de compte bancaire !"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "7d16e4bd-1515-450f-962f-359f3c309c85",
+                "type": "qcu-discovery",
+                "instruction": "<p>À votre avis, le message que Yvette a reçu est&nbsp;:</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>une erreur de destinataire</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non. Attention, de nombreux messages cachent une tentative d’arnaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>une tentative d’arnaque</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Effectivement, de nombreux messages cachent une tentative d’arnaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>une information importante</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non. Attention, de nombreux messages cachent une tentative d’arnaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je ne sais pas.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>De nombreux messages cachent une tentative d’arnaque.</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
