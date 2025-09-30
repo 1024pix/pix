@@ -37,29 +37,17 @@
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "J’ai reçu un message bizarre… Il dit que mon compte bancaire va être bloqué si je ne clique pas tout de suite sur un lien. Qu’est ce que je fais ? 😰",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "J’ai reçu un message bizarre… Il dit que mon compte bancaire va être bloqué si je ne clique pas tout de suite sur un lien. Qu’est ce que je fais ? 😰"
                     },
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Ah, toi aussi tu l’as reçu ?  ",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
-                    },
+                      "content": "Ah, toi aussi tu l’as reçu ?  "
+                                        },
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Moi, je l’ai reçu la semaine dernière. Ma sœur aussi, alors qu'elle n'a même pas de compte bancaire !",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "Moi, je l’ai reçu la semaine dernière. Ma sœur aussi, alors qu'elle n'a même pas de compte bancaire !"
                     }
                   ]
                 }
@@ -211,29 +199,17 @@
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Attention à ce message ! Si tu leur donnes ce qu’ils demandent, tu risques de perdre de l’argent.",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "Attention à ce message ! Si tu leur donnes ce qu’ils demandent, tu risques de perdre de l’argent."
                     },
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Mais pourtant moi j’ai bien un compte dans cette banque, c'est bizarre.",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "Mais pourtant moi j’ai bien un compte dans cette banque, c'est bizarre."
                     },
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Oui les escrocs sont forts, ils se font même passer pour une banque ! 🤯 ",
-                      "image": {
-                        "src": "",
-                        "alt": ""
-                      }
+                      "content": "Oui les escrocs sont forts, ils se font même passer pour une banque ! 🤯 "
                     }
                   ]
                 }
@@ -772,7 +748,7 @@
                       "licence": ""
                     },
                     {
-                      "id": "106df76e-98cd-4eb3-8a24-8cb36c37836c",
+                      "id": "1259e533-f2c4-4b81-acc3-fa8275117f44",
                       "type": "qcu",
                       "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
@@ -809,7 +785,7 @@
                       "licence": ""
                     },
                     {
-                      "id": "106df76e-98cd-4eb3-8a24-8cb36c37836c",
+                      "id": "6de21a07-b581-4b3d-90d7-24fa9239e6f2",
                       "type": "qcu",
                       "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
@@ -846,7 +822,7 @@
                       "licence": ""
                     },
                     {
-                      "id": "106df76e-98cd-4eb3-8a24-8cb36c37836c",
+                      "id": "0e4ebcaf-d778-49a2-8ced-215ef06c8e46",
                       "type": "qcu",
                       "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
@@ -883,7 +859,7 @@
                       "licence": ""
                     },
                     {
-                      "id": "106df76e-98cd-4eb3-8a24-8cb36c37836c",
+                      "id": "275022f3-854e-4911-8b45-8ce132adbe04",
                       "type": "qcu",
                       "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
