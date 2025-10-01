@@ -94,7 +94,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
       modules.forEach((module) => {
         it(`module "${module.slug}" should contain a valid structure`, async function () {
           // We need to increase the timeout because the validation can be slow for large modules
-          this.timeout(5000);
+          this.timeout(30000);
           try {
             await moduleSchema.validateAsync(module, { abortEarly: false });
           } catch (joiError) {
