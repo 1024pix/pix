@@ -528,6 +528,37 @@
           ]
         },
         {
+          "id": "09d276a4-2e15-4b95-a787-ca88d87126e5",
+          "type": "lesson",
+          "title": "Transition #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "5ddd8478-25ef-4d49-9671-e841d2c0692d",
+                "type": "custom",
+                "instruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "title": "Conversation transition 3",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "content": "Mais, je fais quoi du coup avec le message ? 😟",
+                    },
+                    {
+                      "userName": "Xavier",
+                      "direction": "outgoing",
+                      "content": "Déjà, tu as eu un bon réflexe en m’en parlant !",
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
           "id": "f7cc9d89-1437-4068-b704-29c32bd3b1e7",
           "type": "discovery",
           "title": "Activité de découverte #4",
@@ -711,7 +742,7 @@
                           "id": "1",
                           "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse ! 🎉</p>",
                             "diagnosis": "<p>Ce message est bien une tentative d’arnaque . Il joue sur le sentiment d’urgence, pour vous inciter à communiquer avec un numéro inconnu.</p>"
                           }
                         },
@@ -756,7 +787,7 @@
                           "id": "2",
                           "content": "<p>un message sûr</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse</p>",
+                            "state": "<p>Bonne réponse ! 🎉</p>",
                             "diagnosis": "<p>C’est bien un message sûr car il n’y a pas d’incitation à agir. Le message transmet juste une information publicitaire.</p>"
                           }
                         }
@@ -785,7 +816,7 @@
                           "id": "1",
                           "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse ! 🎉</p>",
                             "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur l’appât du gain et le sentiment d’urgence, pour vous inciter à cliquer sur un lien inconnu.</p>"
                           }
                         },
@@ -822,7 +853,7 @@
                           "id": "1",
                           "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse ! 🎉</p>",
                             "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur le sentiment d’urgence et de peur, pour vous inciter à cliquer sur un lien inconnu.</p>"
                           }
                         },
@@ -867,7 +898,7 @@
                           "id": "2",
                           "content": "<p>un message sûr</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse</p>",
+                            "state": "<p>Bonne réponse ! 🎉</p>",
                             "diagnosis": "<p>Ce message est sûr, il n’y a pas d’incitation à agir. Le message transmet juste une information liée à un compte bancaire.</p>"
                           }
                         }
@@ -910,28 +941,28 @@
                     "id": "1",
                     "content": "<p>Je clique directement, car c’est mon artiste préféré.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Ce n'est pas très prudent ! Quelqu'un peut avoir usurpé l'identité de l'artiste pour piéger ses fans.&nbsp;</p>"
+                      "diagnosis": "<p>Ce n’est pas très prudent ! Quelqu’un peut avoir usurpé l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Je prends le temps de vérifier si le concours est annoncé sur son compte officiel.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bonne idée !  Quelqu'un peut avoir usurpé l'identité de l'artiste pour piéger ses fans.&nbsp;</p>"
+                      "diagnosis": "<p>Bonne idée !  Quelqu’un peut avoir usurpé l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Je me méfie, car les escrocs se font souvent passer pour des célébrités.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien joué ! Certains escrocs créent des faux profils de célébrités et envoient des messages à toutes les personnes qui les suivent pour les piéger.</p>"
+                      "diagnosis": "<p>Bien joué ! Certains escrocs créent des faux profils de célébrités et envoient des messages à toutes les personnes qui les suivent pour les piéger.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je partage le lien à mes contacts pour qu’ils aient une chance de gagner.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Ce n'est pas très prudent ! Quelqu'un peut avoir usurpé l'identité de l'artiste pour piéger ses fans.&nbsp;</p>"
+                      "diagnosis": "<p>Ce n’est pas très prudent ! Quelqu’un peut avoir usurpé l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   }
                 ],
