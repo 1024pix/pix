@@ -545,12 +545,12 @@
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Mais, je fais quoi du coup avec le message ? 😟",
+                      "content": "Mais, je fais quoi du coup avec le message ? 😟"
                     },
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Déjà, tu as eu un bon réflexe en m’en parlant !",
+                      "content": "Déjà, tu as eu un bon réflexe en m’en parlant !"
                     }
                   ]
                 }
