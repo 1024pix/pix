@@ -1,11 +1,11 @@
 {
   "id": "d86262d1-bf99-41d3-abc5-ef39c7d05288",
   "slug": "cyber-message-arnaque",
-  "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques",
+  "title": "« Vous avez un nouveau message ✉️ » : attention aux arnaques",
   "isBeta": true,
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Chaque jour, nous recevons des messages par SMS ou messagerie instantanée. Certains de ces messages cachent des arnaques.&nbsp; Dans ce module, découvrez les réflexes à avoir pour éviter les arnaques par message. 🛡️<br></p>",
+    "description": "<p>Chaque jour, nous recevons des messages par SMS ou messagerie instantanée. Certains de ces messages cachent des arnaques.&nbsp; Dans ce module, découvrez les réflexes à avoir pour éviter les arnaques par message. 🛡️<br></p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -32,22 +32,22 @@
                 "instruction": "",
                 "tagName": "message-conversation",
                 "props": {
-                  "title": "Conversation d'introduction",
+                  "title": "Conversation d’introduction",
                   "messages": [
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "J’ai reçu un message bizarre… Il dit que mon compte bancaire va être bloqué si je ne clique pas tout de suite sur un lien. Qu’est ce que je fais ? 😰"
+                      "content": "J’ai reçu un message bizarre… Il dit que mon compte bancaire va être bloqué si je ne clique pas tout de suite sur un lien. Qu’est ce que je fais ? 😰"
                     },
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Ah, toi aussi tu l’as reçu ?  "
+                      "content": "Ah, toi aussi tu l’as reçu ?  "
                     },
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Moi, je l’ai reçu la semaine dernière. Ma sœur aussi, alors qu'elle n'a même pas de compte bancaire !"
+                      "content": "Moi, je l’ai reçu la semaine dernière. Ma sœur aussi, alors qu’elle n’a même pas de compte bancaire !"
                     }
                   ]
                 }
@@ -58,7 +58,7 @@
               "element": {
                 "id": "7d16e4bd-1515-450f-962f-359f3c309c85",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, le message que Yvette a reçu est :</p>",
+                "instruction": "<p>À votre avis, le message que Yvette a reçu est&nbsp;:</p>",
                 "proposals": [
                   {
                     "id": "1",
@@ -69,7 +69,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>une tentative d'arnaque</p>",
+                    "content": "<p>une tentative d’arnaque</p>",
                     "feedback": {
                       "diagnosis": "<p>Effectivement, de nombreux messages cachent une tentative d’arnaque.</p>"
                     }
@@ -120,7 +120,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/cyphinov1.png",
                 "alt": "",
-                "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit :\n« Nous avons essayé de livrer votre colis 00073679039. Confirmez votre adresse de livraison et payez les frais en ligne (2,99€) : http://bit.do/fHXym ».</p>",
+                "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit&nbsp;:«&nbsp;Nous avons essayé de livrer votre colis 00073679039. Confirmez votre adresse de livraison et payez les frais en ligne (2,99€)&nbsp;: http://bit.do/fHXym&nbsp;».</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -130,7 +130,7 @@
               "element": {
                 "id": "79c01e3d-53c4-4dc1-9991-a0972ba7cb21",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, quel est l’objectif de la personne qui a écrit ce message ?</p>",
+                "instruction": "<p>À votre avis, quel est l’objectif de la personne qui a écrit ce message ?</p>",
                 "proposals": [
                   {
                     "id": "1",
@@ -143,14 +143,14 @@
                     "id": "2",
                     "content": "<p>Recevoir le paiement des frais de livraison.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;En demandant de fournir son adresse et de payer en ligne, l’escroc veut récupérer des données personnelles. Il les utilisera ensuite à son avantage.</p>"
+                      "diagnosis": "<p>Eh non !&nbsp;En demandant de fournir son adresse et de payer en ligne, l’escroc veut récupérer des données personnelles. Il les utilisera ensuite à son avantage.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Signaler un problème.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;En demandant de fournir son adresse et de payer en ligne, l’escroc veut récupérer des données personnelles. Il les utilisera ensuite à son avantage.</p>"
+                      "diagnosis": "<p>Eh non !&nbsp;En demandant de fournir son adresse et de payer en ligne, l’escroc veut récupérer des données personnelles. Il les utilisera ensuite à son avantage.</p>"
                     }
                   },
                   {
@@ -176,7 +176,7 @@
               "element": {
                 "id": "4c853dca-4711-4bb0-8bca-1480ee237245",
                 "type": "text",
-                "content": "<p>Les tentatives d’arnaque par message sont des <strong>messages trompeurs</strong> envoyés à <strong>un très grand nombre de personnes</strong> par des escrocs.&nbsp;</p>\n<p>📝 Leur but est que la victime donne des<strong> informations personnelles </strong>(un mot de passe, un numéro de carte bancaire, une adresse mail ou une adresse personnelle par exemple).</p>\n<p><strong>🤔 Bon à savoir</strong><br>On appelle cela du hameçonnage (ou phishing en anglais).</p>"
+                "content": "<p>Les tentatives d’arnaque par message sont des <strong>messages trompeurs</strong> envoyés à <strong>un très grand nombre de personnes</strong> par des escrocs.&nbsp;</p><p>📝 Leur but est que la victime donne des<strong> informations personnelles </strong>(un mot de passe, un numéro de carte bancaire, une adresse mail ou une adresse personnelle par exemple).</p><p><strong>🤔 Bon à savoir</strong><br>On appelle cela du hameçonnage (ou phishing en anglais).</p>"
               }
             }
           ]
@@ -199,17 +199,17 @@
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Attention à ce message ! Si tu leur donnes ce qu’ils demandent, tu risques de perdre de l’argent."
+                      "content": "Attention à ce message ! Si tu leur donnes ce qu’ils demandent, tu risques de perdre de l’argent."
                     },
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Mais pourtant moi j’ai bien un compte dans cette banque, c'est bizarre."
+                      "content": "Mais pourtant moi j’ai bien un compte dans cette banque, c’est bizarre."
                     },
                     {
                       "userName": "Xavier",
                       "direction": "outgoing",
-                      "content": "Oui les escrocs sont forts, ils se font même passer pour une banque ! 🤯 "
+                      "content": "Oui les escrocs sont forts, ils se font même passer pour une banque ! 🤯 "
                     }
                   ]
                 }
@@ -276,7 +276,7 @@
                     {
                       "userName": "Yvette",
                       "direction": "incoming",
-                      "content": "Mais du coup, comment je fais pour reconnaître un message d’arnaque ?"
+                      "content": "Mais du coup, comment je fais pour reconnaître un message d’arnaque ?"
                     },
                     {
                       "userName": "Xavier",
@@ -302,7 +302,7 @@
                     {
                       "id": "d3bc02bb-5ad9-47c2-9af4-e598b58a5cd8",
                       "type": "text",
-                      "content": "<p>Ouvrez et lisez chacun des <strong>messages d'arnaque </strong>ci-dessous puis répondez à la question.</p>"
+                      "content": "<p>Ouvrez et lisez chacun des <strong>messages d’arnaque </strong>ci-dessous puis répondez à la question.</p>"
                     },
                     {
                       "id": "c0c8222d-2081-405f-94cb-47802c983eba",
@@ -315,7 +315,7 @@
                     {
                       "id": "d24cd05f-d826-4a48-9ca5-534c81a4c09d",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Qu’avez-vous ressenti en lisant ce message ?</p>",
+                      "instruction": "<p>Qu’avez-vous ressenti en lisant ce message ?</p>",
                       "proposals": [
                         {
                           "id": "1",
@@ -326,23 +326,23 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>un sentiment d'urgence</p>",
+                          "content": "<p>un sentiment d’urgence</p>",
                           "feedback": {
                             "diagnosis": "<p>Effectivement, avec ce message, l’escroc veut que le lecteur ressente de la peur et un sentiment d’urgence.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>un sentiment d'espoir</p>",
+                          "content": "<p>un sentiment d’espoir</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Avec ce message, l’escroc veut que le lecteur ressente de la peur et un sentiment d’urgence.</p>"
+                            "diagnosis": "<p>Eh non ! Avec ce message, l’escroc veut que le lecteur ressente de la peur et un sentiment d’urgence.</p>"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "<p>un sentiment d'empathie</p>",
+                          "content": "<p>un sentiment de colère</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !&nbsp;Avec ce message, l’escroc veut que le lecteur ressente de la peur et un sentiment d’urgence.</p>"
+                            "diagnosis": "<p>Eh non !&nbsp;Avec ce message, l’escroc veut que le lecteur ressente de la peur et un sentiment d’urgence.</p>"
                           }
                         },
                         {
@@ -377,48 +377,48 @@
                     {
                       "id": "28f9ee95-d68c-48f9-843b-c0d5d28a3dc2",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Qu’avez-vous ressenti en lisant ce message ?</p>",
+                      "instruction": "<p>Qu’avez-vous ressenti en lisant ce message ?</p>",
                       "proposals": [
                         {
                           "id": "1",
                           "content": "<p>un sentiment de peur</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !&nbsp;Avec ce message, l’escroc veut que le lecteur ressente de l’espoir : recevoir une somme d’argent inattendue.</p>"
+                            "diagnosis": "<p>Eh non !&nbsp;Avec ce message, l’escroc veut que le lecteur ressente de l’espoir&nbsp;: recevoir une somme d’argent inattendue.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>un sentiment d'urgence</p>",
+                          "content": "<p>un sentiment d’urgence</p>",
                           "feedback": {
-                            "diagnosis": "<p>Avec ce message, l’escroc veut que le lecteur ressente de l’espoir : recevoir une somme d’argent inattendue.</p>"
+                            "diagnosis": "<p>Avec ce message, l’escroc veut que le lecteur ressente de l’espoir&nbsp;: recevoir une somme d’argent inattendue.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>un sentiment d'espoir</p>",
+                          "content": "<p>un sentiment d’espoir</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement, avec ce message, l’escroc veut que le lecteur ressente de l’espoir : recevoir une somme d’argent inattendue.</p>"
+                            "diagnosis": "<p>Effectivement, avec ce message, l’escroc veut que le lecteur ressente de l’espoir&nbsp;: recevoir une somme d’argent inattendue.</p>"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "<p>un sentiment d'empathie</p>",
+                          "content": "<p>un sentiment de colère</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !&nbsp;Avec ce message, l’escroc veut que le lecteur ressente de l’espoir : recevoir une somme d’argent inattendue.</p>"
+                            "diagnosis": "<p>Eh non !&nbsp;Avec ce message, l’escroc veut que le lecteur ressente de l’espoir&nbsp;: recevoir une somme d’argent inattendue.</p>"
                           }
                         },
                         {
                           "id": "5",
                           "content": "<p>Aucun de ces sentiments</p>",
                           "feedback": {
-                            "diagnosis": "<p>Avec ce message, l’escroc veut que le lecteur ressente de l’espoir : recevoir une somme d’argent inattendue.</p>"
+                            "diagnosis": "<p>Avec ce message, l’escroc veut que le lecteur ressente de l’espoir&nbsp;: recevoir une somme d’argent inattendue.</p>"
                           }
                         },
                         {
                           "id": "6",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Avec ce message, l’escroc veut que le lecteur ressente de l’espoir : recevoir une somme d’argent inattendue.</p>"
+                            "diagnosis": "<p>Avec ce message, l’escroc veut que le lecteur ressente de l’espoir&nbsp;: recevoir une somme d’argent inattendue.</p>"
                           }
                         }
                       ],
@@ -433,13 +433,13 @@
                       "type": "custom-draft",
                       "title": "Message cousine",
                       "url": "https://1024pix.github.io/atelier-contenus/LSI/cyphishingnov/notifmessageproche.html",
-                      "instruction": "<p><br></p>",
+                      "instruction": "",
                       "height": 550
                     },
                     {
                       "id": "d8f0ec7a-67d7-4ab4-aa7b-2819fe640250",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Qu’avez-vous ressenti en lisant ce message ?</p>",
+                      "instruction": "<p>Qu’avez-vous ressenti en lisant ce message ?</p>",
                       "proposals": [
                         {
                           "id": "1",
@@ -450,21 +450,21 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>un sentiment d'urgence</p>",
+                          "content": "<p>un sentiment d’urgence</p>",
                           "feedback": {
                             "diagnosis": "<p>Effectivement, avec ce message, l’escroc veut que le lecteur ressente un sentiment d’urgence et de l’empathie pour cette cousine bloquée à l’étranger.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>un sentiment d'espoir</p>",
+                          "content": "<p>un sentiment d’espoir</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non, avec ce message, l’escroc veut que le lecteur ressente un sentiment d’urgence et de l’empathie pour cette cousine bloquée à l’étranger.</p>"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "<p>un sentiment d'empathie</p>",
+                          "content": "<p>un sentiment de colère</p>",
                           "feedback": {
                             "diagnosis": "<p>Effectivment, avec ce message, l’escroc veut que le lecteur ressente un sentiment d’urgence et de l’empathie pour cette cousine bloquée à l’étranger.</p>"
                           }
@@ -502,7 +502,7 @@
               "element": {
                 "id": "37456903-7211-469f-86a6-e6c3b10287b4",
                 "type": "text",
-                "content": "<p>Les messages d’arnaque vous invitent toujours à agir rapidement :</p>"
+                "content": "<p>Les messages d’arnaque vous invitent toujours à agir rapidement&nbsp;:</p>"
               }
             },
             {
@@ -511,8 +511,8 @@
                 "id": "2d35527e-e647-49ff-9879-f77294e8b7e4",
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/lecon3.png",
-                "alt": "image décrite en détail dans l'alternative textuelle",
-                "alternativeText": "<ul><li>cliquer sur un lien</li><li>appeler un numéro de téléphone</li><li>répondre au message au plus vite</li><br></ul><br>",
+                "alt": "image décrite en détail dans l’alternative textuelle",
+                "alternativeText": "<ul><li>cliquer sur un lien</li><li>appeler un numéro de téléphone</li><li>répondre au message au plus vite</li></ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -522,7 +522,7 @@
               "element": {
                 "id": "7f274cae-833c-4918-ae3f-910b552ceafb",
                 "type": "text",
-                "content": "<p>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent : </p><ul><li>à vous faire <strong>peur</strong>, 😱</li><li>à vous faire espérer un <strong>gain</strong>, 💵</li><li>à vous faire croire à une <strong>urgence </strong>🚨</li></ul>"
+                "content": "<p>Pour vous poussez à répondre ou à cliquer, les escrocs cherchent&nbsp;: </p><ul><li>à vous faire <strong>peur</strong>, 😱</li><li>à vous faire espérer un <strong>gain</strong>, 💵</li><li>à vous faire croire à une <strong>urgence </strong>🚨</li></ul>"
               }
             }
           ]
@@ -539,7 +539,7 @@
                 "type": "custom-draft",
                 "title": "Sélection du bon message",
                 "url": "https://1024pix.github.io/atelier-contenus/LSI/cyphishingnov/message-conversation-select.html",
-                "instruction": "<p><br></p>",
+                "instruction": "",
                 "height": 550
               }
             }
@@ -555,7 +555,7 @@
               "element": {
                 "id": "2ef6189b-0332-4104-b9c2-aba957e30e59",
                 "type": "text",
-                "content": "<p>Pour éviter de tomber dans le piège d’un message d’arnaque :&nbsp; </p><ul><li><strong>Prendre le temps de réfléchir</strong> avant d'agir.&nbsp;⌛</li><li><strong>Ne pas communiquer</strong> d’informations personnelles.&nbsp;ℹ️</li><li><strong> Ne pas cliquer</strong> sur le lien, ne pas répondre.&nbsp;🙉</li></ul><p>🕵️ Dans le doute<strong> vérifiez l’information</strong> en contactant la personne ou le service qui aurait écrit le message par un autre moyen. Par exemple, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire.</p><p><strong>🤔 Bon à savoir</strong><br>Ces messages d’arnaques sont très courants par SMS, sur les messageries instantanées mais aussi par mail et sur les réseaux sociaux.</p>"
+                "content": "<p>Pour éviter de tomber dans le piège d’un message d’arnaque&nbsp;:&nbsp; </p><ul><li><strong>Prendre le temps de réfléchir</strong> avant d’agir.&nbsp;⌛</li><li><strong>Ne pas communiquer</strong> d’informations personnelles.&nbsp;ℹ️</li><li><strong> Ne pas cliquer</strong> sur le lien, ne pas répondre.&nbsp;🙉</li></ul><p>🕵️ Dans le doute<strong> vérifiez l’information</strong> en contactant la personne ou le service qui aurait écrit le message par un autre moyen. Par exemple, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire.</p><p><strong>🤔 Bon à savoir</strong><br>Ces messages d’arnaques sont très courants par SMS, sur les messageries instantanées mais aussi par mail et sur les réseaux sociaux.</p>"
               }
             }
           ]
@@ -576,7 +576,7 @@
               "element": {
                 "id": "4ea0043a-48ca-4421-870a-ff0d3d7ba54e",
                 "type": "text",
-                "content": "<p>Les tentatives d’<strong>arnaque par message</strong> sont des <strong>messages trompeurs</strong> envoyés dans le but de <strong>récolter des informations personnelles</strong>. 📝</p>"
+                "content": "<p>Les tentatives d’<strong>arnaque par message</strong> sont des <strong>messages trompeurs</strong> envoyés dans le but de <strong>récolter des informations personnelles</strong>. 📝</p>"
               }
             },
             {
@@ -585,8 +585,8 @@
                 "id": "32ed31f7-6d00-4c70-a4e7-da26e59617fe",
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/recap.png",
-                "alt": "Infographie décrite en détail dans l'alternative textuelle",
-                "alternativeText": "<p>Un dessin représentant une personne tenant un smartphone. Sur l’écran du téléphone, un message est affiché avec un lien en surbrillance.<br>Trois encadrés de texte, reliés par des flèches violettes au téléphone, expliquent :\n</p><ul><li>\n\n« Ils cherchent à gagner votre confiance, en utilisant l’identité d’un proche, ou d’un service public connu. »\n</li><li>\n\n« Ils invitent à agir, souvent en cliquant sur un lien. »\n</li><li>\n\n« Ils utilisent vos émotions pour vous faire réagir rapidement. »</li></ul>",
+                "alt": "Infographie décrite en détail dans l’alternative textuelle",
+                "alternativeText": "<p>Un dessin représentant une personne tenant un smartphone. Sur l’écran du téléphone, un message est affiché avec un lien en surbrillance.<br>Trois encadrés de texte, reliés par des flèches violettes au téléphone, expliquent&nbsp;:</p><ul><li>«&nbsp;Ils cherchent à gagner votre confiance, en utilisant l’identité d’un proche, ou d’un service public connu.&nbsp;»</li><li>«&nbsp;Ils invitent à agir, souvent en cliquant sur un lien.&nbsp;»</li><li>«&nbsp;Ils utilisent vos émotions pour vous faire réagir rapidement.&nbsp;»</li></ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -602,14 +602,14 @@
         {
           "id": "5730ee9a-2d08-4f40-b13d-df544af67949",
           "type": "transition",
-          "title": "Transition s'exercer",
+          "title": "Transition s’exercer",
           "components": [
             {
               "type": "element",
               "element": {
                 "id": "778b6439-3779-4f82-ab08-0f670c3fd281",
                 "type": "text",
-                "content": "<p>Voyons si vous avez retenu l'essentiel.</p>"
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
               }
             }
           ]
@@ -617,7 +617,7 @@
         {
           "id": "f6f4c8e7-9d6f-45f7-a6fb-5c32a59bfeda",
           "type": "activity",
-          "title": "Activité d'entrainement #1",
+          "title": "Activité d’entrainement #1",
           "components": [
             {
               "type": "element",
@@ -661,7 +661,7 @@
                   },
                   {
                     "id": "e6ed3443-2e93-4d37-8d7b-ab8807556193",
-                    "text": "Répondre au message permet de vérifier si c’est une arnaque. ",
+                    "text": "Répondre au message permet de vérifier si c’est une arnaque.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -681,7 +681,7 @@
         {
           "id": "d5370cad-0bd7-4af5-ab7f-c9a3ba8d8ea1",
           "type": "activity",
-          "title": "Activité d'entrainement #2",
+          "title": "Activité d’entrainement #2",
           "components": [
             {
               "type": "stepper",
@@ -692,21 +692,21 @@
                       "id": "e8520281-878e-4b94-97fa-2a807ddf9316",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/papamaman.png",
-                      "alt": "Image décrite dans l'alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit : <br>« Bonjour maman/papa, c’est moi, mon téléphone est cassé, c’est mon nouveau numéro : +33774889453. Vous pouvez enregistrer ceci. Envoyez-moi un message sur WhatsApp le plus rapidement possible. »</p>",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit&nbsp;: <br>«&nbsp;Bonjour maman/papa, c’est moi, mon téléphone est cassé, c’est mon nouveau numéro&nbsp;: +33774889453. Vous pouvez enregistrer ceci. Envoyez-moi un message sur WhatsApp le plus rapidement possible.&nbsp;»</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "106df76e-98cd-4eb3-8a24-8cb36c37836c",
                       "type": "qcu",
-                      "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>une tentative d'arnaque</p>",
+                          "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Ce message est bien une tentative d’arnaque . Il joue sur le sentiment d’urgence, pour vous inciter à communiquer avec un numéro inconnu.</p>"
                           }
                         },
@@ -734,19 +734,19 @@
                       "id": "890b12b7-49df-4d90-806f-a63a3c66d9c7",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/venteprivee.png",
-                      "alt": "Image décrite dans l'alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit :<br>\n« VENTE PRIVÉE ce jeudi dans votre magasin Mode chic, -20% sur toute la nouvelle collection pour fêter les 10 ans du magasin ! À très vite. STOP au 36184 ».</p>",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit&nbsp;:<br>«&nbsp;VENTE PRIVÉE ce jeudi dans votre magasin Mode chic, -20% sur toute la nouvelle collection pour fêter les 10 ans du magasin ! À très vite. STOP au 36184&nbsp;».</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "1259e533-f2c4-4b81-acc3-fa8275117f44",
                       "type": "qcu",
-                      "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>une tentative d'arnaque</p>",
+                          "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Ce message est sûr, il n’y a pas d’incitation à agir. Le message transmet juste une information publicitaire.</p>"
@@ -757,7 +757,7 @@
                           "content": "<p>un message sûr</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse</p>",
-                            "diagnosis": "<p>C'est bien un message sûr car il n’y a pas d’incitation à agir. Le message transmet juste une information publicitaire.</p>"
+                            "diagnosis": "<p>C’est bien un message sûr car il n’y a pas d’incitation à agir. Le message transmet juste une information publicitaire.</p>"
                           }
                         }
                       ],
@@ -771,21 +771,21 @@
                       "id": "1d8f4d81-84d1-441f-b4df-5473d4b80966",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/engie.png",
-                      "alt": "Image décrite dans l'alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit :\n« ENGIE INFO : Vous avez un crédit de 350€ disponible. Cliquez pour le récupérer : engie-refund.site/350 Vérifiez maintenant pour éviter l’annulation automatique. (Ref : 7F4A). »</p>",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit&nbsp;:«&nbsp;ENGIE INFO&nbsp;: Vous avez un crédit de 350€ disponible. Cliquez pour le récupérer&nbsp;: engie-refund.site/350 Vérifiez maintenant pour éviter l’annulation automatique. (Ref&nbsp;: 7F4A).&nbsp;»</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "6de21a07-b581-4b3d-90d7-24fa9239e6f2",
                       "type": "qcu",
-                      "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>une tentative d'arnaque</p>",
+                          "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur l’appât du gain et le sentiment d’urgence, pour vous inciter à cliquer sur un lien inconnu.</p>"
                           }
                         },
@@ -808,21 +808,21 @@
                       "id": "56978014-7efc-433a-9d6c-622522e52b67",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/ameli.png",
-                      "alt": "Image décrite dans l'alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit :<br>\n« Dernière relance avant suspension de vos droits de la sécurité sociale AMELI. L’actualisation de votre dossier est disponible dès à présent sur votre espace client via ce lien : https://mesdroitsenligne.info.ca »</p>",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit&nbsp;:<br>«&nbsp;Dernière relance avant suspension de vos droits de la sécurité sociale AMELI. L’actualisation de votre dossier est disponible dès à présent sur votre espace client via ce lien&nbsp;: https://mesdroitsenligne.info.ca&nbsp;»</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "0e4ebcaf-d778-49a2-8ced-215ef06c8e46",
                       "type": "qcu",
-                      "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>une tentative d'arnaque</p>",
+                          "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur le sentiment d’urgence et de peur, pour vous inciter à cliquer sur un lien inconnu.</p>"
                           }
                         },
@@ -845,19 +845,19 @@
                       "id": "19b81b9b-646d-4658-8d39-97c646e9d9fc",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/banquepostale.png",
-                      "alt": "Image décrite dans l'alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit :<br>« Relevé La Banque Postale Le 01/09/2025 à 01h35 CCP 0637***8023 Solde +982.36€ -54.99€ -625.00€ -54.99€ -12.99€ Aucun crédit ».</p>",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affichant un SMS. Le message dit&nbsp;:<br>«&nbsp;Relevé La Banque Postale Le 01/09/2025 à 01h35 CCP 0637***8023 Solde +982.36€ -54.99€ -625.00€ -54.99€ -12.99€ Aucun crédit&nbsp;».</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "275022f3-854e-4911-8b45-8ce132adbe04",
                       "type": "qcu",
-                      "instruction": "<p>Ce message est-il une tentative d'arnaque ou un message sûr ?&nbsp;</p>",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>une tentative d'arnaque</p>",
+                          "content": "<p>une tentative d’arnaque</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Ce message est sûr, il n’y a pas d’incitation à agir. Le message transmet juste une information liée à un compte bancaire.</p>"
@@ -896,7 +896,7 @@
               "element": {
                 "id": "d99fa99d-4e91-44e0-b9c2-f73fe71c0eff",
                 "type": "text",
-                "content": "<p>Un artiste que vous suivez sur Instagram vous envoie un lien pour ✨un super concours✨.</p>"
+                "content": "<p>Sur Instagram, un artiste que vous suivez vous envoie un lien pour ✨un super concours✨.</p>"
               }
             },
             {
@@ -904,34 +904,34 @@
               "element": {
                 "id": "def10793-84be-42cf-acc2-85c7ed3aa629",
                 "type": "qcu-discovery",
-                "instruction": "<p>Suite à la lecture de ce module, que faites-vous ?</p>",
+                "instruction": "<p>Suite à la lecture de ce module, que faites-vous ?</p>",
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Je clique directement, car c’est mon artiste préféré.</p>",
                     "feedback": {
-                      "diagnosis": "<p>No way !&nbsp;</p>"
+                      "diagnosis": "<p>Ce n'est pas très prudent ! Quelqu'un peut avoir usurpé l'identité de l'artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Je prends le temps de vérifier si le concours est annoncé sur son compte officiel.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas mal.</p>"
+                      "diagnosis": "<p>Bonne idée !  Quelqu'un peut avoir usurpé l'identité de l'artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Je me méfie, car les escrocs se font souvent passer pour des célébrités.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Good game !&nbsp;</p>"
+                      "diagnosis": "<p>Bien joué ! Certains escrocs créent des faux profils de célébrités et envoient des messages à toutes les personnes qui les suivent pour les piéger.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je partage le lien à mes contacts pour qu’ils aient une chance de gagner.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Mais ça va pas ?&nbsp;</p>"
+                      "diagnosis": "<p>Ce n'est pas très prudent ! Quelqu'un peut avoir usurpé l'identité de l'artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   }
                 ],
