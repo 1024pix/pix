@@ -176,7 +176,7 @@
               "element": {
                 "id": "4c853dca-4711-4bb0-8bca-1480ee237245",
                 "type": "text",
-                "content": "<p>Les tentatives d’arnaque par message sont des <strong>messages trompeurs</strong> envoyés à <strong>un très grand nombre de personnes</strong> par des escrocs.&nbsp;</p><p>📝 Leur but est que la victime donne des<strong> informations personnelles </strong>(un mot de passe, un numéro de carte bancaire, une adresse mail ou une adresse personnelle par exemple).</p><p><strong>🤔 Bon à savoir</strong><br>On appelle cela du hameçonnage (ou phishing en anglais).</p>"
+                "content": "<p>Les tentatives d’arnaque par message sont des <strong>messages trompeurs</strong> envoyés à <strong>un très grand nombre de personnes</strong> par des escrocs.&nbsp;</p><p>📝 Leur but est que la victime donne des<strong> informations personnelles </strong>(un mot de passe, un numéro de carte bancaire, une adresse mail ou une adresse personnelle par exemple).</p><p><br><strong>🤔 Bon à savoir</strong><br>On appelle cela du hameçonnage (ou phishing en anglais).</p>"
               }
             }
           ]
@@ -253,7 +253,7 @@
               "element": {
                 "id": "732eb744-d3f5-42b5-9d80-786b22f0e661",
                 "type": "text",
-                "content": "<p>🥸 Souvent, les messages d’arnaque se font passer pour un <strong>proche</strong>, une célébrité, une entreprise ou un <strong>service public connu</strong> (Les impôts, la CAF ou Ameli par exemple) <strong>pour gagner votre confiance</strong>.</p><p><strong>📌 À retenir</strong> <br>Un service public ou une entreprise commerciale sérieuse <strong>ne vous demandera pas vos données</strong> bancaires ou vos mots de passe par message ou par téléphone.</p>"
+                "content": "<p>🥸 Souvent, les messages d’arnaque se font passer pour un <strong>proche</strong>, une célébrité, une entreprise ou un <strong>service public connu</strong> (Les impôts, la CAF ou Ameli par exemple) <strong>pour gagner votre confiance</strong>.</p><p><br><strong>📌 À retenir</strong> <br>Un service public ou une entreprise commerciale sérieuse <strong>ne vous demandera pas vos données</strong> bancaires ou vos mots de passe par message ou par téléphone.</p>"
               }
             }
           ]
@@ -555,7 +555,7 @@
               "element": {
                 "id": "2ef6189b-0332-4104-b9c2-aba957e30e59",
                 "type": "text",
-                "content": "<p>Pour éviter de tomber dans le piège d’un message d’arnaque&nbsp;:&nbsp; </p><ul><li><strong>Prendre le temps de réfléchir</strong> avant d’agir.&nbsp;⌛</li><li><strong>Ne pas communiquer</strong> d’informations personnelles.&nbsp;ℹ️</li><li><strong> Ne pas cliquer</strong> sur le lien, ne pas répondre.&nbsp;🙉</li></ul><p>🕵️ Dans le doute<strong> vérifiez l’information</strong> en contactant la personne ou le service qui aurait écrit le message par un autre moyen. Par exemple, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire.</p><p><strong>🤔 Bon à savoir</strong><br>Ces messages d’arnaques sont très courants par SMS, sur les messageries instantanées mais aussi par mail et sur les réseaux sociaux.</p>"
+                "content": "<p>Pour éviter de tomber dans le piège d’un message d’arnaque&nbsp;:&nbsp; </p><ul><li><strong>Prendre le temps de réfléchir</strong> avant d’agir.&nbsp;⌛</li><li><strong>Ne pas communiquer</strong> d’informations personnelles.&nbsp;ℹ️</li><li><strong> Ne pas cliquer</strong> sur le lien, ne pas répondre.&nbsp;🙉</li></ul><p><br>🕵️ Dans le doute<strong> vérifiez l’information</strong> en contactant la personne ou le service qui aurait écrit le message par un autre moyen. Par exemple, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire.</p><p><br><strong>🤔 Bon à savoir</strong><br>Ces messages d’arnaques sont très courants par SMS, sur les messageries instantanées mais aussi par mail et sur les réseaux sociaux.</p>"
               }
             }
           ]
@@ -689,6 +689,11 @@
                 {
                   "elements": [
                     {
+                      "id": "97e21eda-86fd-46ce-82fb-0b5f321acf38",
+                      "type": "text",
+                      "content": "<p>Pour chacun des messages ci-dessous, indiquez s’il s’agit d’une tentative d’arnaque ou d’un message sûr.</p>"
+                    },
+                    {
                       "id": "e8520281-878e-4b94-97fa-2a807ddf9316",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/cy_Phishing_nov/papamaman.png",
@@ -725,11 +730,6 @@
                 },
                 {
                   "elements": [
-                    {
-                      "id": "97e21eda-86fd-46ce-82fb-0b5f321acf38",
-                      "type": "text",
-                      "content": "<p>Pour chacun des messages ci-dessous, indiquez s’il s’agit d’une tentative d’arnaque ou d’un message sûr.</p>"
-                    },
                     {
                       "id": "890b12b7-49df-4d90-806f-a63a3c66d9c7",
                       "type": "image",
