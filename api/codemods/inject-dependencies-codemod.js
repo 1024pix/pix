@@ -1,6 +1,6 @@
 const jscodeshift = require('jscodeshift');
 const fs = require('node:fs');
-const path = require('node:path');
+const path = require('node:path').posix;
 
 /**
  * This codemod transforms usecase files to use direct dependency injection instead of
@@ -549,6 +549,7 @@ function transform(source, api, options) {
   const sourceCode = root.toSource({
     quote: 'single',
     trailingComma: true,
+    lineTerminator: '\n',
   });
 
   // Fix formatting issues with imports appearing on the same line

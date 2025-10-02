@@ -166,7 +166,7 @@ function transform(source, api, options) {
   }
 
   // 9. Clean up the generated source to remove dependency-related comments
-  let transformedSource = root.toSource({ quote: 'single', trailingComma: true });
+  let transformedSource = root.toSource({ quote: 'single', trailingComma: true, lineTerminator: '\n' });
 
   // Remove all JSDoc comments - we're cleaning up the index files completely
   transformedSource = transformedSource.replace(/\/\*\*[\s\S]*?\*\/\s*\n?/g, '');
