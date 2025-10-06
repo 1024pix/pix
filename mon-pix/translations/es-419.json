@@ -179,7 +179,7 @@
         "placeholder": "Seleccione una organización",
         "searchLabel": "Búsqueda por palabras clave"
       },
-      "other-authentication-providers": {
+      "identity-providers-authentication": {
         "login": {
           "heading": "Otros medios de conexión",
           "login-with-featured-identity-provider-link": "Conectar con {featuredIdentityProvider}"

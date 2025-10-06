@@ -46,7 +46,7 @@ module('Acceptance | authentication | Signup', function (hooks) {
     const loginButton = screen.queryByRole('link', { name: t('pages.signup.actions.login') });
     assert.dom(loginButton).exists();
     const otherAuthenticationProvidersTitle = screen.queryByText(
-      t('components.authentication.other-authentication-providers.signup.heading'),
+      t('components.authentication.identity-providers-authentication.signup.heading'),
     );
     assert.dom(otherAuthenticationProvidersTitle).exists();
 
@@ -101,7 +101,7 @@ module('Acceptance | authentication | Signup', function (hooks) {
       const loginButton = screen.queryByRole('link', { name: t('pages.signup.actions.login') });
       assert.dom(loginButton).doesNotExist();
       const otherAuthenticationProvidersTitle = screen.queryByText(
-        t('components.authentication.other-authentication-providers.signup.heading'),
+        t('components.authentication.identity-providers-authentication.signup.heading'),
       );
       assert.dom(otherAuthenticationProvidersTitle).doesNotExist();
     });

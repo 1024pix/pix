@@ -5,7 +5,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-export default class OtherAuthenticationProviders extends Component {
+export default class IdentityProvidersAuthentication extends Component {
   @service oidcIdentityProviders;
   @service router;
 
@@ -33,12 +33,12 @@ export default class OtherAuthenticationProviders extends Component {
 
   <template>
     {{#if this.oidcIdentityProviders.hasIdentityProviders}}
-      <section class="authentication-other-authentication-providers-section">
-        <h2 class="authentication-other-authentication-providers-section__heading">
+      <section class="identity-providers-authentication-authentication-section">
+        <h2 class="identity-providers-authentication-authentication-section__heading">
           {{#if @isForSignup}}
-            {{t "components.authentication.other-authentication-providers.signup.heading"}}
+            {{t "components.authentication.identity-providers-authentication.signup.heading"}}
           {{else}}
-            {{t "components.authentication.other-authentication-providers.login.heading"}}
+            {{t "components.authentication.identity-providers-authentication.login.heading"}}
           {{/if}}
         </h2>
 
@@ -48,21 +48,21 @@ export default class OtherAuthenticationProviders extends Component {
             @isLoading={{this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress}}
             @variant="secondary"
             @loadingColor="grey"
-            class="authentication-other-authentication-providers-section__button"
+            class="identity-providers-authentication-authentication-section__button"
           >
             <img
               src="/images/logo/identity-providers/{{this.oidcIdentityProviders.featuredIdentityProvider.slug}}.svg"
               alt=""
-              class="authentication-other-authentication-providers-section__featured-identity-provider-logo"
+              class="identity-providers-authentication-authentication-section__featured-identity-provider-logo"
             />
             {{#if @isForSignup}}
               {{t
-                "components.authentication.other-authentication-providers.signup.signup-with-featured-identity-provider-link"
+                "components.authentication.identity-providers-authentication.signup.signup-with-featured-identity-provider-link"
                 featuredIdentityProvider=this.oidcIdentityProviders.featuredIdentityProvider.organizationName
               }}
             {{else}}
               {{t
-                "components.authentication.other-authentication-providers.login.login-with-featured-identity-provider-link"
+                "components.authentication.identity-providers-authentication.login.login-with-featured-identity-provider-link"
                 featuredIdentityProvider=this.oidcIdentityProviders.featuredIdentityProvider.organizationName
               }}
             {{/if}}
@@ -74,11 +74,11 @@ export default class OtherAuthenticationProviders extends Component {
             @route={{this.ssoSelectionRoute}}
             @isDisabled={{this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress}}
             @variant="secondary"
-            class="authentication-other-authentication-providers-section__button-link"
+            class="identity-providers-authentication-authentication-section__button-link"
           >
-            {{t "components.authentication.other-authentication-providers.select-another-organization-link"}}
+            {{t "components.authentication.identity-providers-authentication.select-another-organization-link"}}
 
-            <span class="authentication-other-authentication-providers-section__chevron-right"></span>
+            <span class="identity-providers-authentication-authentication-section__chevron-right"></span>
           </PixButtonLink>
         {{/if}}
       </section>

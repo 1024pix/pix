@@ -1,14 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import OtherAuthenticationProviders from 'mon-pix/components/authentication/other-authentication-providers';
+import IdentityProvidersAuthentication from 'mon-pix/components/authentication/identity-providers-authentication';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { stubOidcIdentityProvidersService } from '../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Authentication | other-authentication-providers', function (hooks) {
+module('Integration | Component | Authentication | identity-providers-authentication', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when there are identity providers', function (hooks) {
@@ -29,13 +29,13 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for login', function () {
       test('it displays a login heading', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
         // then
         assert
           .dom(
             screen.getByRole('heading', {
-              name: t('components.authentication.other-authentication-providers.login.heading'),
+              name: t('components.authentication.identity-providers-authentication.login.heading'),
             }),
           )
           .exists();
@@ -45,13 +45,13 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for signup', function () {
       test('it displays a signup heading', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders @isForSignup="true" /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication @isForSignup="true" /></template>);
 
         // then
         assert
           .dom(
             screen.getByRole('heading', {
-              name: t('components.authentication.other-authentication-providers.signup.heading'),
+              name: t('components.authentication.identity-providers-authentication.signup.heading'),
             }),
           )
           .exists();
@@ -67,11 +67,11 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for login', function () {
       test('it doesn’t display a login heading', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
         // then
         assert
-          .dom(screen.queryByText(t('components.authentication.other-authentication-providers.login.heading')))
+          .dom(screen.queryByText(t('components.authentication.identity-providers-authentication.login.heading')))
           .doesNotExist();
       });
     });
@@ -79,11 +79,11 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for signup', function () {
       test('it doesn’t display a signup heading', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders @isForSignup="true" /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication @isForSignup="true" /></template>);
 
         // then
         assert
-          .dom(screen.queryByText(t('components.authentication.other-authentication-providers.signup.heading')))
+          .dom(screen.queryByText(t('components.authentication.identity-providers-authentication.signup.heading')))
           .doesNotExist();
       });
     });
@@ -110,12 +110,12 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for login', function () {
       test('it displays a login featured identity provider button, disabled when clicked', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
         // then
         const button = await screen.findByRole('button', {
           name: t(
-            'components.authentication.other-authentication-providers.login.login-with-featured-identity-provider-link',
+            'components.authentication.identity-providers-authentication.login.login-with-featured-identity-provider-link',
             {
               featuredIdentityProvider: 'Some Identity Provider',
             },
@@ -134,12 +134,12 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for signup', function () {
       test('it displays a signup featured identity provider button', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders @isForSignup="true" /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication @isForSignup="true" /></template>);
 
         // then
         const button = await screen.findByRole('button', {
           name: t(
-            'components.authentication.other-authentication-providers.signup.signup-with-featured-identity-provider-link',
+            'components.authentication.identity-providers-authentication.signup.signup-with-featured-identity-provider-link',
             {
               featuredIdentityProvider: 'Some Identity Provider',
             },
@@ -157,14 +157,14 @@ module('Integration | Component | Authentication | other-authentication-provider
 
     test('it doesn’t display a continue featured identity provider link', async function (assert) {
       // when
-      const screen = await render(<template><OtherAuthenticationProviders /></template>);
+      const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
       // then
       assert
         .dom(
           screen.queryByText(
             t(
-              'components.authentication.other-authentication-providers.login.login-with-featured-identity-provider-link',
+              'components.authentication.identity-providers-authentication.login.login-with-featured-identity-provider-link',
               {
                 featuredIdentityProvider: 'Some Identity Provider',
               },
@@ -176,7 +176,7 @@ module('Integration | Component | Authentication | other-authentication-provider
         .dom(
           screen.queryByText(
             t(
-              'components.authentication.other-authentication-providers.signup.signup-with-featured-identity-provider-link',
+              'components.authentication.identity-providers-authentication.signup.signup-with-featured-identity-provider-link',
               {
                 featuredIdentityProvider: 'Some Identity Provider',
               },
@@ -206,11 +206,11 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for login', function () {
       test('it displays a select another organization link', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
         // then
         const link = await screen.findByRole('link', {
-          name: t('components.authentication.other-authentication-providers.select-another-organization-link'),
+          name: t('components.authentication.identity-providers-authentication.select-another-organization-link'),
         });
         assert.dom(link).exists();
         assert.strictEqual(link.getAttribute('href'), '/connexion/sso-selection');
@@ -220,11 +220,11 @@ module('Integration | Component | Authentication | other-authentication-provider
     module('when it’s for signup', function () {
       test('it displays a select another organization link', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders @isForSignup={{true}} /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication @isForSignup={{true}} /></template>);
 
         // then
         const link = await screen.findByRole('link', {
-          name: t('components.authentication.other-authentication-providers.select-another-organization-link'),
+          name: t('components.authentication.identity-providers-authentication.select-another-organization-link'),
         });
         assert.dom(link).exists();
         assert.strictEqual(link.getAttribute('href'), '/inscription/sso-selection');
@@ -239,12 +239,12 @@ module('Integration | Component | Authentication | other-authentication-provider
 
       test('it disables the other identity providers button link', async function (assert) {
         // when
-        const screen = await render(<template><OtherAuthenticationProviders /></template>);
+        const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
         // then
         const button = await screen.findByRole('button', {
           name: t(
-            'components.authentication.other-authentication-providers.login.login-with-featured-identity-provider-link',
+            'components.authentication.identity-providers-authentication.login.login-with-featured-identity-provider-link',
             {
               featuredIdentityProvider: 'Some Identity Provider',
             },
@@ -253,7 +253,7 @@ module('Integration | Component | Authentication | other-authentication-provider
         assert.dom(button).exists();
 
         const link = await screen.findByRole('link', {
-          name: t('components.authentication.other-authentication-providers.select-another-organization-link'),
+          name: t('components.authentication.identity-providers-authentication.select-another-organization-link'),
         });
         assert.dom(link).exists();
 
@@ -283,13 +283,13 @@ module('Integration | Component | Authentication | other-authentication-provider
 
     test('it doesn’t display a select another organization link', async function (assert) {
       // when
-      const screen = await render(<template><OtherAuthenticationProviders /></template>);
+      const screen = await render(<template><IdentityProvidersAuthentication /></template>);
 
       // then
       assert
         .dom(
           screen.queryByText(
-            t('components.authentication.other-authentication-providers.select-another-organization-link'),
+            t('components.authentication.identity-providers-authentication.select-another-organization-link'),
           ),
         )
         .doesNotExist();

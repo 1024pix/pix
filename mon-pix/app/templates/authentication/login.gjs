@@ -1,8 +1,8 @@
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
+import IdentityProvidersAuthentication from 'mon-pix/components/authentication/identity-providers-authentication';
 import LoginForm from 'mon-pix/components/authentication/login-form';
-import OtherAuthenticationProviders from 'mon-pix/components/authentication/other-authentication-providers';
 import AuthenticationLayout from 'mon-pix/components/authentication-layout/index';
 
 <template>
@@ -18,7 +18,7 @@ import AuthenticationLayout from 'mon-pix/components/authentication-layout/index
     <:content>
       <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
       <LoginForm />
-      <OtherAuthenticationProviders />
+      <IdentityProvidersAuthentication />
     </:content>
   </AuthenticationLayout>
 </template>

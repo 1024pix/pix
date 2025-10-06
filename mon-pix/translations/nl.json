@@ -179,7 +179,7 @@
         "placeholder": "Selecteer een organisatie",
         "searchLabel": "Zoeken op trefwoorden"
       },
-      "other-authentication-providers": {
+      "identity-providers-authentication": {
         "login": {
           "heading": "Andere inlogmethodes",
           "login-with-featured-identity-provider-link": "Inloggen via de {featuredIdentityProvider}"

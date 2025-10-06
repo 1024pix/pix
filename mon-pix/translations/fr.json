@@ -159,6 +159,17 @@
       }
     },
     "authentication": {
+      "identity-providers-authentication": {
+        "login": {
+          "heading": "Autres moyens de connexion",
+          "login-with-featured-identity-provider-link": "Se connecter avec {featuredIdentityProvider}"
+        },
+        "select-another-organization-link": "Choisir une autre organisation",
+        "signup": {
+          "heading": "Autres moyens d’inscription",
+          "signup-with-featured-identity-provider-link": "S'inscrire avec {featuredIdentityProvider}"
+        }
+      },
       "login-form": {
         "fields": {
           "login": {
@@ -178,17 +189,6 @@
         "label": "Rechercher une organisation",
         "placeholder": "Sélectionner une organisation",
         "searchLabel": "Recherche par mots-clés"
-      },
-      "other-authentication-providers": {
-        "login": {
-          "heading": "Autres moyens de connexion",
-          "login-with-featured-identity-provider-link": "Se connecter avec {featuredIdentityProvider}"
-        },
-        "select-another-organization-link": "Choisir une autre organisation",
-        "signup": {
-          "heading": "Autres moyens d’inscription",
-          "signup-with-featured-identity-provider-link": "S'inscrire avec {featuredIdentityProvider}"
-        }
       },
       "password-reset-demand-form": {
         "actions": {

@@ -159,6 +159,17 @@
       }
     },
     "authentication": {
+      "identity-providers-authentication": {
+        "login": {
+          "heading": "Other ways to log in",
+          "login-with-featured-identity-provider-link": "Login with {featuredIdentityProvider}"
+        },
+        "select-another-organization-link": "Choose another organisation",
+        "signup": {
+          "heading": "Other ways to sign up",
+          "signup-with-featured-identity-provider-link": "Register with {featuredIdentityProvider}"
+        }
+      },
       "login-form": {
         "fields": {
           "login": {
@@ -178,17 +189,6 @@
         "label": "Search for an organization",
         "placeholder": "Select an organization",
         "searchLabel": "Keyword search"
-      },
-      "other-authentication-providers": {
-        "login": {
-          "heading": "Other ways to log in",
-          "login-with-featured-identity-provider-link": "Login with {featuredIdentityProvider}"
-        },
-        "select-another-organization-link": "Choose another organisation",
-        "signup": {
-          "heading": "Other ways to sign up",
-          "signup-with-featured-identity-provider-link": "Register with {featuredIdentityProvider}"
-        }
       },
       "password-reset-demand-form": {
         "actions": {
