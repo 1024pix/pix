@@ -66,7 +66,7 @@ module('Acceptance | authentication | SSO selection', function (hooks) {
         await clickByName(t('components.authentication.oidc-provider-selector.label'));
 
         // then
-        const heading = await screen.findByRole('heading', { name: t('pages.sign-up.first-title') });
+        const heading = await screen.findByRole('heading', { name: t('pages.signup.first-title') });
         assert.dom(heading).exists();
 
         const signUpLink = await screen.queryByRole('link', {

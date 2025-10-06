@@ -1971,7 +1971,7 @@
       "forgotten-password": "Forgot your password?",
       "title": "Log in"
     },
-    "sign-up": {
+    "signup": {
       "actions": {
         "login": "Log in",
         "sign-up-on-pix": "Sign up for Pix",

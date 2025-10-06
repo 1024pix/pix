@@ -1961,7 +1961,7 @@
       "forgotten-password": "Wachtwoord vergeten?",
       "title": "Verbinding"
     },
-    "sign-up": {
+    "signup": {
       "actions": {
         "login": "Inloggen",
         "submit": "Registreren",

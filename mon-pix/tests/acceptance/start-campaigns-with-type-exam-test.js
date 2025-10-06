@@ -390,6 +390,6 @@ module('Acceptance | Campaigns | Start Campaigns with type Exam', function (hook
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), prescritUser.email);
     await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
     await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
-    await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
+    await click(screen.getByRole('button', { name: t('pages.signup.actions.submit') }));
   }
 });

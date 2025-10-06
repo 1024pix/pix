@@ -312,8 +312,8 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
 
           // then
           assert.ok(screen.getByRole('button', { name: t('pages.skill-review.actions.send') }));
-          assert.notOk(screen.queryByText(t('pages.sign-up.save-progress-message')));
-          assert.notOk(screen.queryByText(t('pages.sign-up.actions.sign-up-on-pix')));
+          assert.notOk(screen.queryByText(t('pages.signup.save-progress-message')));
+          assert.notOk(screen.queryByText(t('pages.signup.actions.sign-up-on-pix')));
         });
       });
 
@@ -622,8 +622,8 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
             </template>,
           );
           // then
-          assert.ok(screen.queryByText(t('pages.sign-up.save-progress-message')));
-          assert.ok(screen.queryByText(t('pages.sign-up.actions.sign-up-on-pix')));
+          assert.ok(screen.queryByText(t('pages.signup.save-progress-message')));
+          assert.ok(screen.queryByText(t('pages.signup.actions.sign-up-on-pix')));
         });
       });
     });
@@ -651,8 +651,8 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
           );
 
           // then
-          assert.dom(screen.queryByText(t('pages.sign-up.save-progress-message'))).exists();
-          assert.dom(screen.getByRole('link', { name: t('pages.sign-up.actions.sign-up-on-pix') })).exists();
+          assert.dom(screen.queryByText(t('pages.signup.save-progress-message'))).exists();
+          assert.dom(screen.getByRole('link', { name: t('pages.signup.actions.sign-up-on-pix') })).exists();
           assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
           assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
           assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
@@ -683,8 +683,8 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
           assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
           assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
           assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
-          assert.dom(screen.queryByText(t('pages.sign-up.save-progress-message'))).doesNotExist();
-          assert.dom(screen.queryByRole('link', { name: t('pages.sign-up.actions.sign-up-on-pix') })).doesNotExist();
+          assert.dom(screen.queryByText(t('pages.signup.save-progress-message'))).doesNotExist();
+          assert.dom(screen.queryByRole('link', { name: t('pages.signup.actions.sign-up-on-pix') })).doesNotExist();
         });
       });
     });

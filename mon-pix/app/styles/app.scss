@@ -177,7 +177,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'pages/fill-in-campaign-code' as *;
 @use 'pages/fill-in-certificate-verification-code' as *;
 @use 'pages/fill-in-participant-external-id' as *;
-@use 'pages/inscription' as *;
+@use 'pages/signup' as *;
 @use 'pages/join-restricted-campaign' as *;
 @use 'pages/module' as *;
 @use '../components/module/module-preview' as *;

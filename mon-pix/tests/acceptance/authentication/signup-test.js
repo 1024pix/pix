@@ -41,9 +41,9 @@ module('Acceptance | authentication | Signup', function (hooks) {
     const screen = await visit('/inscription');
 
     //then
-    const signupHeading = screen.getByRole('heading', { name: t('pages.sign-up.first-title') });
+    const signupHeading = screen.getByRole('heading', { name: t('pages.signup.first-title') });
     assert.dom(signupHeading).exists();
-    const loginButton = screen.queryByRole('link', { name: t('pages.sign-up.actions.login') });
+    const loginButton = screen.queryByRole('link', { name: t('pages.signup.actions.login') });
     assert.dom(loginButton).exists();
     const otherAuthenticationProvidersTitle = screen.queryByText(
       t('components.authentication.other-authentication-providers.signup.heading'),
@@ -96,9 +96,9 @@ module('Acceptance | authentication | Signup', function (hooks) {
       screen = await visit('/inscription');
 
       // then
-      const signupHeading = screen.getByRole('heading', { name: t('pages.sign-up.first-title') });
+      const signupHeading = screen.getByRole('heading', { name: t('pages.signup.first-title') });
       assert.dom(signupHeading).exists();
-      const loginButton = screen.queryByRole('link', { name: t('pages.sign-up.actions.login') });
+      const loginButton = screen.queryByRole('link', { name: t('pages.signup.actions.login') });
       assert.dom(loginButton).doesNotExist();
       const otherAuthenticationProvidersTitle = screen.queryByText(
         t('components.authentication.other-authentication-providers.signup.heading'),

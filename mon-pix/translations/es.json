@@ -1957,7 +1957,7 @@
       "forgotten-password": "¿Olvidaste tu contraseña?",
       "title": "Conexión"
     },
-    "sign-up": {
+    "signup": {
       "actions": {
         "login": "Iniciar sesión",
         "submit": "Crear cuenta",

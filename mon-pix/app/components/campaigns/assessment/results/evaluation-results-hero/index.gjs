@@ -246,9 +246,9 @@ export default class EvaluationResultsHero extends Component {
           {{#if @isSharableCampaign}}
             {{#if @campaignParticipationResult.isShared}}
               {{#if this.isUserAnonymous}}
-                <p>{{t "pages.sign-up.save-progress-message"}}</p>
+                <p>{{t "pages.signup.save-progress-message"}}</p>
                 <PixButtonLink @route="inscription" @size="large" onclick={{this.handleSignUpClick}}>
-                  {{t "pages.sign-up.actions.sign-up-on-pix"}}
+                  {{t "pages.signup.actions.sign-up-on-pix"}}
                 </PixButtonLink>
               {{/if}}
               {{#if @hasTrainings}}
@@ -291,9 +291,9 @@ export default class EvaluationResultsHero extends Component {
           {{else}}
             {{#unless @campaign.hasCustomResultPageButton}}
               {{#if this.isUserAnonymous}}
-                <p>{{t "pages.sign-up.save-progress-message"}}</p>
+                <p>{{t "pages.signup.save-progress-message"}}</p>
                 <PixButtonLink @route="inscription" @size="large" onclick={{this.handleSignUpClick}}>
-                  {{t "pages.sign-up.actions.sign-up-on-pix"}}
+                  {{t "pages.signup.actions.sign-up-on-pix"}}
                 </PixButtonLink>
               {{else}}
                 {{this.handleBackToHomepageDisplay}}

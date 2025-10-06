@@ -80,7 +80,7 @@ export default class FillInParticipantExternalId extends Component {
 
   get idPixInputSubLabel() {
     if (this.args.campaign.externaIdType === 'EMAIL') {
-      return this.intl.t('pages.sign-up.fields.email.help');
+      return this.intl.t('pages.signup.fields.email.help');
     } else if (this.args.campaign.externaIdType === 'STRING') {
       return '';
     }

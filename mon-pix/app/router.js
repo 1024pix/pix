@@ -115,7 +115,7 @@ Router.map(function () {
   this.route('terms-of-service', { path: '/cgu' });
 
   this.route('inscription', function () {
-    this.route('inscription', { path: '' });
+    this.route('signup', { path: '' });
     this.route('sso-selection');
   });
 

@@ -9,7 +9,7 @@ import AuthenticationLayout from 'mon-pix/components/authentication-layout/index
   <AuthenticationLayout class="signup-page-layout">
     <:header>
       <PixButtonLink @variant="secondary" @route="authentication.login">
-        {{t "pages.sign-up.actions.login"}}
+        {{t "pages.signup.actions.login"}}
       </PixButtonLink>
     </:header>
     <:content>

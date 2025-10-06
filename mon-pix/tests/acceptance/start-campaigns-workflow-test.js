@@ -124,7 +124,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
               // when
-              await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
+              await click(screen.getByRole('button', { name: t('pages.signup.actions.submit') }));
 
               // then
               const router = this.owner.lookup('service:router');

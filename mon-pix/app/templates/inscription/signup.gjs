@@ -6,20 +6,20 @@ import SignupForm from 'mon-pix/components/authentication/signup-form/index';
 import AuthenticationLayout from 'mon-pix/components/authentication-layout/index';
 
 <template>
-  {{pageTitle (t "pages.sign-up.title")}}
+  {{pageTitle (t "pages.signup.title")}}
 
   <AuthenticationLayout class="signup-page-layout">
 
     <:header>
       {{#unless @model.isAnonymous}}
         <PixButtonLink @variant="secondary" @route="authentication.login">
-          {{t "pages.sign-up.actions.login"}}
+          {{t "pages.signup.actions.login"}}
         </PixButtonLink>
       {{/unless}}
     </:header>
 
     <:content>
-      <h1 class="pix-title-m">{{t "pages.sign-up.first-title"}}</h1>
+      <h1 class="pix-title-m">{{t "pages.signup.first-title"}}</h1>
       <SignupForm @user={{@model}} />
       {{#unless @model.isAnonymous}}
         <OtherAuthenticationProviders @isForSignup={{true}} />

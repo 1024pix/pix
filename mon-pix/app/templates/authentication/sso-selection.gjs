@@ -8,7 +8,7 @@ import AuthenticationLayout from 'mon-pix/components/authentication-layout/index
   {{#if @controller.isSigninRoute}}
     {{pageTitle (t "pages.sign-in.title")}}
   {{else}}
-    {{pageTitle (t "pages.sign-up.title")}}
+    {{pageTitle (t "pages.signup.title")}}
   {{/if}}
 
   <AuthenticationLayout class="sso-selection-page">
@@ -23,7 +23,7 @@ import AuthenticationLayout from 'mon-pix/components/authentication-layout/index
         <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
         <SsoSelectionForm />
       {{else}}
-        <h1 class="pix-title-m">{{t "pages.sign-up.first-title"}}</h1>
+        <h1 class="pix-title-m">{{t "pages.signup.first-title"}}</h1>
         <SsoSelectionForm @isForSignup={{true}} />
       {{/if}}
 

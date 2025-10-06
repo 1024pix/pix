@@ -220,7 +220,7 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
   @onCancel={{this.onCancelStub}}
 />`,
         );
-        const input = screen.getByLabelText(t('pages.sign-up.fields.email.help'), { exact: false });
+        const input = screen.getByLabelText(t('pages.signup.fields.email.help'), { exact: false });
         assert.ok(input);
       });
       test(`not return email example for string externaIdType`, async function (assert) {
@@ -238,7 +238,7 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
   @onCancel={{this.onCancelStub}}
 />`,
         );
-        const input = screen.queryByLabelText(t('pages.sign-up.fields.email.help'), { exact: false });
+        const input = screen.queryByLabelText(t('pages.signup.fields.email.help'), { exact: false });
         assert.notOk(input);
       });
     });
