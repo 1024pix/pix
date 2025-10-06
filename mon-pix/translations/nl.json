@@ -1567,7 +1567,7 @@
       },
       "title": "Maak je Pix-account aan"
     },
-    "login-or-register": {
+    "sco-signup-or-login": {
       "invitation": "{ organizationName } nodigt je uit om je aan te sluiten bij Pix",
       "login-form": {
         "button": "Inloggen",

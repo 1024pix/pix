@@ -73,7 +73,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       await click(screen.getByText('Mon adresse e-mail'));
 
@@ -81,7 +81,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // then
       sinon.assert.calledWith(sessionService.authenticate, 'authenticator:oauth2', {
@@ -96,11 +96,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // then
       sinon.assert.calledWith(sessionService.authenticate, 'authenticator:oauth2', {
@@ -116,11 +116,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await fillInputReconciliationForm({ screen, t });
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // then
-      assert.ok(screen.getByText(t('pages.login-or-register.register-form.rgpd-legal-notice')));
-      assert.ok(screen.getByRole('link', { name: t('pages.login-or-register.register-form.rgpd-legal-notice-link') }));
+      assert.ok(screen.getByText(t('pages.sco-signup-or-login.register-form.rgpd-legal-notice')));
+      assert.ok(
+        screen.getByRole('link', { name: t('pages.sco-signup-or-login.register-form.rgpd-legal-notice-link') }),
+      );
     });
   });
 
@@ -210,7 +212,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           const screen = await render(hbs`<Routes::RegisterForm />`);
 
           await fillInputReconciliationForm({ screen, t });
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // when
           await click(screen.getByText('Mon adresse e-mail'));
@@ -234,7 +236,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           const screen = await render(hbs`<Routes::RegisterForm />`);
 
           await fillInputReconciliationForm({ screen, t });
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // when
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), stringFilledIn);
@@ -252,7 +254,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           const correctPassword = '12345678Ab!';
 
           await fillInputReconciliationForm({ screen, t });
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // when
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), correctPassword);
@@ -269,13 +271,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // when
       await click(screen.getByText('Mon adresse e-mail'));
       await fillIn(screen.getByLabelText(EMAIL_INPUT_LABEL, { exact: false }), 'shi.fu');
       await triggerEvent(screen.getByLabelText(EMAIL_INPUT_LABEL, { exact: false }), 'focusout');
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // then
       assert.dom(screen.getByText(EMPTY_EMAIL_ERROR_MESSAGE)).exists();
@@ -292,10 +294,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
         const screen = await render(hbs`<Routes::RegisterForm />`);
 
         await fillInputReconciliationForm({ screen, t });
-        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
-        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
@@ -321,10 +323,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
         const screen = await render(hbs`<Routes::RegisterForm />`);
 
         await fillInputReconciliationForm({ screen, t });
-        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
-        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(t('api-error-messages.register-error.s50'))).exists();
@@ -336,12 +338,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // when
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'toto');
       await triggerEvent(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'focusout');
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
       // then
       assert.dom(screen.getByText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE)).exists();
@@ -366,7 +368,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
         await fillInputReconciliationForm({ screen, t });
 
         // when
-        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(errorMessage)).exists();
@@ -392,7 +394,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -420,7 +422,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -449,7 +451,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -477,7 +479,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -505,7 +507,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -533,7 +535,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -561,7 +563,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -592,7 +594,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -620,7 +622,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -649,7 +651,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -674,7 +676,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -699,7 +701,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -724,7 +726,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -749,7 +751,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -768,19 +770,19 @@ async function fillInputReconciliationForm({ screen, t }) {
   await fillIn(screen.getByLabelText(/Nom/, { exact: false }), 'Vertefeuille');
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: t('pages.login-or-register.register-form.fields.birthdate.day.label'),
+      name: t('pages.sco-signup-or-login.register-form.fields.birthdate.day.label'),
     }),
     '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: t('pages.login-or-register.register-form.fields.birthdate.month.label'),
+      name: t('pages.sco-signup-or-login.register-form.fields.birthdate.month.label'),
     }),
     '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: t('pages.login-or-register.register-form.fields.birthdate.year.label'),
+      name: t('pages.sco-signup-or-login.register-form.fields.birthdate.year.label'),
     }),
     '2010',
   );

@@ -18,13 +18,13 @@ import { getRegisterErrorsMessageByShortCode } from '../../utils/errors-messages
 import isPasswordValid from '../../utils/password-validator';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'pages.login-or-register.register-form.fields.firstname.error',
-  lastName: 'pages.login-or-register.register-form.fields.lastname.error',
-  dayOfBirth: 'pages.login-or-register.register-form.fields.birthdate.day.error',
-  monthOfBirth: 'pages.login-or-register.register-form.fields.birthdate.month.error',
-  yearOfBirth: 'pages.login-or-register.register-form.fields.birthdate.year.error',
-  email: 'pages.login-or-register.register-form.fields.email.error',
-  password: 'pages.login-or-register.register-form.fields.password.error',
+  firstName: 'pages.sco-signup-or-login.register-form.fields.firstname.error',
+  lastName: 'pages.sco-signup-or-login.register-form.fields.lastname.error',
+  dayOfBirth: 'pages.sco-signup-or-login.register-form.fields.birthdate.day.error',
+  monthOfBirth: 'pages.sco-signup-or-login.register-form.fields.birthdate.month.error',
+  yearOfBirth: 'pages.sco-signup-or-login.register-form.fields.birthdate.year.error',
+  email: 'pages.sco-signup-or-login.register-form.fields.email.error',
+  password: 'pages.sco-signup-or-login.register-form.fields.password.error',
 };
 
 const isDayValid = (value) => value > 0 && value <= 31;
@@ -95,7 +95,7 @@ export default class RegisterForm extends Component {
         autocomplete="given-name"
         type="text"
       >
-        <:label>{{t "pages.login-or-register.register-form.fields.firstname.label"}}</:label>
+        <:label>{{t "pages.sco-signup-or-login.register-form.fields.firstname.label"}}</:label>
       </PixInput>
 
       <PixInput
@@ -110,11 +110,11 @@ export default class RegisterForm extends Component {
         autocomplete="family-name"
         type="text"
       >
-        <:label>{{t "pages.login-or-register.register-form.fields.lastname.label"}}</:label>
+        <:label>{{t "pages.sco-signup-or-login.register-form.fields.lastname.label"}}</:label>
       </PixInput>
 
       <FormTextfieldDate
-        @label={{t "pages.login-or-register.register-form.fields.birthdate.label"}}
+        @label={{t "pages.sco-signup-or-login.register-form.fields.birthdate.label"}}
         @dayTextfieldName="dayOfBirth"
         @monthTextfieldName="monthOfBirth"
         @yearTextfieldName="yearOfBirth"
@@ -145,7 +145,7 @@ export default class RegisterForm extends Component {
       {{#unless this.matchingStudentFound}}
         <div class="register-button-container">
           <PixButton id="submit-search" @type="submit" @isLoading={{this.isLoading}}>
-            {{t "pages.login-or-register.register-form.button-form"}}
+            {{t "pages.sco-signup-or-login.register-form.button-form"}}
           </PixButton>
         </div>
       {{/unless}}
@@ -155,11 +155,11 @@ export default class RegisterForm extends Component {
     {{#if this.matchingStudentFound}}
       <hr />
 
-      <label class="register-form__login-options">{{t "pages.login-or-register.register-form.options.text"}}</label>
+      <label class="register-form__login-options">{{t "pages.sco-signup-or-login.register-form.options.text"}}</label>
       <div id="login-mode-container" class="register-form__login-mode-container">
         <PixToggleDeprecated
-          @valueFirstLabel={{t "pages.login-or-register.register-form.options.username"}}
-          @valueSecondLabel={{t "pages.login-or-register.register-form.options.email"}}
+          @valueFirstLabel={{t "pages.sco-signup-or-login.register-form.options.username"}}
+          @valueSecondLabel={{t "pages.sco-signup-or-login.register-form.options.email"}}
           @onToggle={{this.onToggle}}
         />
       </div>
@@ -168,7 +168,7 @@ export default class RegisterForm extends Component {
         {{#if this.loginWithUsername}}
           <div class="register-form-username-container">
             <PixInput @id="username" @value={{this.username}} @requiredLabel={{true}} disabled={{true}} type="text">
-              <:label>{{t "pages.login-or-register.register-form.fields.username.label"}}</:label>
+              <:label>{{t "pages.sco-signup-or-login.register-form.fields.username.label"}}</:label>
             </PixInput>
           </div>
         {{else}}
@@ -181,24 +181,24 @@ export default class RegisterForm extends Component {
             @validationStatus={{this.validation.email.status}}
             @errorMessage={{this.validation.email.message}}
             @disabled={{this.matchingStudentFound}}
-            @subLabel={{t "pages.login-or-register.register-form.fields.email.help"}}
+            @subLabel={{t "pages.sco-signup-or-login.register-form.fields.email.help"}}
             autocomplete="email"
             type="email"
           >
-            <:label>{{t "pages.login-or-register.register-form.fields.email.label"}}</:label>
+            <:label>{{t "pages.sco-signup-or-login.register-form.fields.email.label"}}</:label>
           </PixInput>
         {{/if}}
         <PixInputPassword
           @id="password"
           @value={{this.password}}
-          @subLabel={{t "pages.login-or-register.register-form.fields.password.help"}}
+          @subLabel={{t "pages.sco-signup-or-login.register-form.fields.password.help"}}
           {{on "focusout" (fn this.triggerInputPasswordValidation "password" this.password)}}
           {{on "input" this.handlePasswordInput}}
           @validationStatus={{this.validation.password.status}}
           @errorMessage={{this.validation.password.message}}
           @requiredLabel={{true}}
         >
-          <:label>{{t "pages.login-or-register.register-form.fields.password.label"}}</:label>
+          <:label>{{t "pages.sco-signup-or-login.register-form.fields.password.label"}}</:label>
         </PixInputPassword>
 
         {{#if this.displayRegisterErrorMessage}}
@@ -209,21 +209,21 @@ export default class RegisterForm extends Component {
 
         <div class="register-form__action-form-buttons">
           <PixButton id="submit-registration" @type="submit" @isLoading={{this.isLoading}}>
-            {{t "pages.login-or-register.register-form.button-form"}}
+            {{t "pages.sco-signup-or-login.register-form.button-form"}}
           </PixButton>
           <PixButton @triggerAction={{this.resetForm}} @variant="secondary" @iconBefore="arrowLeft">
-            {{t "pages.login-or-register.register-form.not-me"}}
+            {{t "pages.sco-signup-or-login.register-form.not-me"}}
           </PixButton>
         </div>
         <p class="legal-notice">
-          {{t "pages.login-or-register.register-form.rgpd-legal-notice"}}
+          {{t "pages.sco-signup-or-login.register-form.rgpd-legal-notice"}}
           <a
-            href="{{t 'pages.login-or-register.register-form.rgpd-legal-notice-url'}}"
+            href="{{t 'pages.sco-signup-or-login.register-form.rgpd-legal-notice-url'}}"
             target="_blank"
             rel="noopener noreferrer"
             class="link--underline"
           >
-            {{t "pages.login-or-register.register-form.rgpd-legal-notice-link"}}
+            {{t "pages.sco-signup-or-login.register-form.rgpd-legal-notice-link"}}
           </a>
         </p>
 

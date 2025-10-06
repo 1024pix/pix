@@ -1,7 +1,7 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
-.login-or-register {
+.sco-signup-or-login {
   margin: 20px 0;
   vertical-align: top;
 
@@ -31,7 +31,7 @@
   }
 }
 
-.login-or-register-panel {
+.sco-signup-or-login-panel {
   &__logo {
     display: flex;
     width: 159px;
@@ -80,7 +80,7 @@
   }
 }
 
-.login-or-register-panel-form {
+.sco-signup-or-login-panel-form {
   &__expandable {
     display: flex;
     flex-direction: column;

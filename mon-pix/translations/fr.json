@@ -1549,86 +1549,6 @@
       "iframe-title": "ChatPix",
       "title": "Prévisualisation ChatPix"
     },
-    "login-or-register": {
-      "invitation": "{ organizationName } vous invite à rejoindre Pix",
-      "login-form": {
-        "button": "Se connecter",
-        "fields": {
-          "login": {
-            "label": "Adresse e-mail ou identifiant"
-          },
-          "password": {
-            "label": "Mot de passe"
-          }
-        },
-        "forgotten-password": {
-          "email": "Une Adresse e-mail :",
-          "instruction": "Mot de passe oublié ? Vous avez un compte Pix avec :",
-          "other-identity": "Un identifiant : Contactez votre enseignant pour le réinitialiser",
-          "reset-link": "Cliquez ici pour le réinitialiser"
-        },
-        "title": "J’ai déjà un compte Pix",
-        "unexpected-user-account-error": "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : "
-      },
-      "register-form": {
-        "button": "S'inscrire",
-        "button-form": "Je m'inscris",
-        "fields": {
-          "birthdate": {
-            "day": {
-              "error": "Votre jour de naissance n’est pas valide.",
-              "label": "Jour de naissance",
-              "placeholder": "JJ"
-            },
-            "label": "Date de naissance (JJ/MM/AAAA)",
-            "month": {
-              "error": "Votre mois de naissance n’est pas valide.",
-              "label": "Mois de naissance",
-              "placeholder": "MM"
-            },
-            "year": {
-              "error": "Votre année de naissance n’est pas valide.",
-              "label": "Année de naissance",
-              "placeholder": "AAAA"
-            }
-          },
-          "cgu": "J’accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'conditions d’utilisation de Pix'</a>'",
-          "email": {
-            "error": "Votre email n’est pas valide.",
-            "help": "(ex: nom@exemple.fr)",
-            "label": "Adresse e-mail"
-          },
-          "firstname": {
-            "error": "Votre prénom n’est pas renseigné.",
-            "label": "Prénom"
-          },
-          "lastname": {
-            "error": "Votre nom n’est pas renseigné.",
-            "label": "Nom"
-          },
-          "password": {
-            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
-            "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
-            "label": "Mot de passe",
-            "show-button": "rendre le mot de passe lisible"
-          },
-          "username": {
-            "label": "Mon identifiant"
-          }
-        },
-        "not-me": "Ce n'est pas moi",
-        "options": {
-          "email": "Mon adresse e-mail",
-          "text": "Je m'inscris avec :",
-          "username": "Mon identifiant"
-        },
-        "rgpd-legal-notice": "Pour savoir comment tes données sont traitées et quels sont tes droits, tu peux lire les",
-        "rgpd-legal-notice-link": "Mentions d'information.",
-        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
-        "title": "Je m’inscris sur Pix"
-      },
-      "title": "Se connecter à Pix"
-    },
     "login-or-register-oidc": {
       "error": {
         "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
@@ -1941,6 +1861,86 @@
       "ko": "Réponse incorrecte",
       "ok": "Réponse correcte",
       "timedout": "Temps dépassé"
+    },
+    "sco-signup-or-login": {
+      "invitation": "{ organizationName } vous invite à rejoindre Pix",
+      "login-form": {
+        "button": "Se connecter",
+        "fields": {
+          "login": {
+            "label": "Adresse e-mail ou identifiant"
+          },
+          "password": {
+            "label": "Mot de passe"
+          }
+        },
+        "forgotten-password": {
+          "email": "Une Adresse e-mail :",
+          "instruction": "Mot de passe oublié ? Vous avez un compte Pix avec :",
+          "other-identity": "Un identifiant : Contactez votre enseignant pour le réinitialiser",
+          "reset-link": "Cliquez ici pour le réinitialiser"
+        },
+        "title": "J’ai déjà un compte Pix",
+        "unexpected-user-account-error": "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : "
+      },
+      "register-form": {
+        "button": "S'inscrire",
+        "button-form": "Je m'inscris",
+        "fields": {
+          "birthdate": {
+            "day": {
+              "error": "Votre jour de naissance n’est pas valide.",
+              "label": "Jour de naissance",
+              "placeholder": "JJ"
+            },
+            "label": "Date de naissance (JJ/MM/AAAA)",
+            "month": {
+              "error": "Votre mois de naissance n’est pas valide.",
+              "label": "Mois de naissance",
+              "placeholder": "MM"
+            },
+            "year": {
+              "error": "Votre année de naissance n’est pas valide.",
+              "label": "Année de naissance",
+              "placeholder": "AAAA"
+            }
+          },
+          "cgu": "J’accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'conditions d’utilisation de Pix'</a>'",
+          "email": {
+            "error": "Votre email n’est pas valide.",
+            "help": "(ex: nom@exemple.fr)",
+            "label": "Adresse e-mail"
+          },
+          "firstname": {
+            "error": "Votre prénom n’est pas renseigné.",
+            "label": "Prénom"
+          },
+          "lastname": {
+            "error": "Votre nom n’est pas renseigné.",
+            "label": "Nom"
+          },
+          "password": {
+            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
+            "label": "Mot de passe",
+            "show-button": "rendre le mot de passe lisible"
+          },
+          "username": {
+            "label": "Mon identifiant"
+          }
+        },
+        "not-me": "Ce n'est pas moi",
+        "options": {
+          "email": "Mon adresse e-mail",
+          "text": "Je m'inscris avec :",
+          "username": "Mon identifiant"
+        },
+        "rgpd-legal-notice": "Pour savoir comment tes données sont traitées et quels sont tes droits, tu peux lire les",
+        "rgpd-legal-notice-link": "Mentions d'information.",
+        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
+        "title": "Je m’inscris sur Pix"
+      },
+      "title": "Se connecter à Pix"
     },
     "send-profile": {
       "disabled-share": "Ce parcours a été désactivé par l'organisateur. L'envoi des résultats n'est plus possible.",

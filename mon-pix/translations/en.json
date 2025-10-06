@@ -1541,86 +1541,6 @@
       "iframe-title": "ChatPix",
       "title": "ChatPix preview"
     },
-    "login-or-register": {
-      "invitation": "{ organizationName }",
-      "login-form": {
-        "button": "Log in",
-        "fields": {
-          "login": {
-            "label": "Email address or username"
-          },
-          "password": {
-            "label": "Password"
-          }
-        },
-        "forgotten-password": {
-          "email": "An email address:",
-          "instruction": "Forgotten your password? You have a Pix account with:",
-          "other-identity": "Username: Contact your teacher to reset it",
-          "reset-link": "Click here to reset it."
-        },
-        "title": "I already have a Pix account.",
-        "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
-      },
-      "register-form": {
-        "button": "Sign up",
-        "button-form": "Sign up",
-        "fields": {
-          "birthdate": {
-            "day": {
-              "error": "Your birth day is in an invalid format.",
-              "label": "Day",
-              "placeholder": "DD"
-            },
-            "label": "Date of birth (DD/MM/YYYY)",
-            "month": {
-              "error": "Your birth month is in an invalid format.",
-              "label": "Month",
-              "placeholder": "MM"
-            },
-            "year": {
-              "error": "Your birth year is in an invalid format.",
-              "label": "Year",
-              "placeholder": "YYYY"
-            }
-          },
-          "cgu": "I agree to the '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
-          "email": {
-            "error": "Your email address is invalid.",
-            "help": "(e.g. name@example.org)",
-            "label": "Email address"
-          },
-          "firstname": {
-            "error": "You haven't entered your first name.",
-            "label": "First name"
-          },
-          "lastname": {
-            "error": "You haven't entered your last name.",
-            "label": "Last name"
-          },
-          "password": {
-            "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
-            "help": "(At least 8 characters, including one uppercase letter, one lowercase letter and one number)",
-            "label": "Password",
-            "show-button": "Show password"
-          },
-          "username": {
-            "label": "My username"
-          }
-        },
-        "not-me": "That's not me",
-        "options": {
-          "email": "My email address",
-          "text": "Sign up with:",
-          "username": "My username"
-        },
-        "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
-        "rgpd-legal-notice-link": "Mentions d'information.",
-        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
-        "title": "Sign up"
-      },
-      "title": "Log in or register"
-    },
     "login-or-register-oidc": {
       "error": {
         "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
@@ -1933,6 +1853,86 @@
       "ko": "Incorrect answer",
       "ok": "Correct answer",
       "timedout": "Out of time"
+    },
+    "sco-signup-or-login": {
+      "invitation": "{ organizationName }",
+      "login-form": {
+        "button": "Log in",
+        "fields": {
+          "login": {
+            "label": "Email address or username"
+          },
+          "password": {
+            "label": "Password"
+          }
+        },
+        "forgotten-password": {
+          "email": "An email address:",
+          "instruction": "Forgotten your password? You have a Pix account with:",
+          "other-identity": "Username: Contact your teacher to reset it",
+          "reset-link": "Click here to reset it."
+        },
+        "title": "I already have a Pix account.",
+        "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
+      },
+      "register-form": {
+        "button": "Sign up",
+        "button-form": "Sign up",
+        "fields": {
+          "birthdate": {
+            "day": {
+              "error": "Your birth day is in an invalid format.",
+              "label": "Day",
+              "placeholder": "DD"
+            },
+            "label": "Date of birth (DD/MM/YYYY)",
+            "month": {
+              "error": "Your birth month is in an invalid format.",
+              "label": "Month",
+              "placeholder": "MM"
+            },
+            "year": {
+              "error": "Your birth year is in an invalid format.",
+              "label": "Year",
+              "placeholder": "YYYY"
+            }
+          },
+          "cgu": "I agree to the '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
+          "email": {
+            "error": "Your email address is invalid.",
+            "help": "(e.g. name@example.org)",
+            "label": "Email address"
+          },
+          "firstname": {
+            "error": "You haven't entered your first name.",
+            "label": "First name"
+          },
+          "lastname": {
+            "error": "You haven't entered your last name.",
+            "label": "Last name"
+          },
+          "password": {
+            "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+            "help": "(At least 8 characters, including one uppercase letter, one lowercase letter and one number)",
+            "label": "Password",
+            "show-button": "Show password"
+          },
+          "username": {
+            "label": "My username"
+          }
+        },
+        "not-me": "That's not me",
+        "options": {
+          "email": "My email address",
+          "text": "Sign up with:",
+          "username": "My username"
+        },
+        "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
+        "rgpd-legal-notice-link": "Mentions d'information.",
+        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
+        "title": "Sign up"
+      },
+      "title": "Log in or register"
     },
     "send-profile": {
       "disabled-share": "This customised test has been deactivated by the organiser. It is no longer possible to submit results.",

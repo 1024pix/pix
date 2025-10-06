@@ -230,7 +230,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          test('should redirect to login-or-register page when landing page has been seen', async function (assert) {
+          test('should redirect to sco-signup-or-login page when landing page has been seen', async function (assert) {
             // given
             const screen = await visit(`/campagnes/${campaign.code}`);
 

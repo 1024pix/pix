@@ -38,7 +38,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
     await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
 
     //  when
-    await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+    await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
     // then
     assert.dom(screen.getByText(t('common.api-error-messages.login-unauthorized-error'))).exists();
@@ -67,7 +67,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       const screen = await render(hbs`<Routes::LoginForm />`);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
       // then
       sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:oauth2', {
@@ -88,7 +88,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       const screen = await render(hbs`<Routes::LoginForm />`);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
       // then
       sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:oauth2', {
@@ -128,7 +128,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       const screen = await render(hbs`<Routes::LoginForm />`);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
       // then
       sinon.assert.calledWith(routerObserver.replaceWith, 'update-expired-password');
@@ -180,7 +180,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
       // then
       assert.dom(screen.getByText(expectedErrorMessage)).exists();
@@ -200,7 +200,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
       // then
       assert.dom(screen.getByText(/Impossible de se connecter\. Veuillez réessayer dans quelques instants/)).exists();
@@ -234,7 +234,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
 
       // then
       assert.dom(screen.getByText(expectedErrorMessage)).exists();

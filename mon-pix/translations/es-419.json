@@ -1560,7 +1560,7 @@
       },
       "title": "Crea una cuenta Pix"
     },
-    "login-or-register": {
+    "sco-signup-or-login": {
       "invitation": "{ organizationName } te invita a unirte a Pix",
       "login-form": {
         "button": "Conectarse",

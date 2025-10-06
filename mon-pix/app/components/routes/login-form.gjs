@@ -21,7 +21,7 @@ export default class LoginForm extends Component {
         type="text"
         autocomplete="username"
       >
-        <:label>{{t "pages.login-or-register.login-form.fields.login.label"}}</:label>
+        <:label>{{t "pages.sco-signup-or-login.login-form.fields.login.label"}}</:label>
       </PixInput>
 
       <PixInputPassword
@@ -31,11 +31,11 @@ export default class LoginForm extends Component {
         autocomplete="current-password"
         @requiredLabel={{true}}
       >
-        <:label>{{t "pages.login-or-register.login-form.fields.password.label"}}</:label>
+        <:label>{{t "pages.sco-signup-or-login.login-form.fields.password.label"}}</:label>
       </PixInputPassword>
 
       <PixButton id="submit-connexion" @type="submit" @isLoading={{this.isLoading}}>
-        {{t "pages.login-or-register.login-form.button"}}
+        {{t "pages.sco-signup-or-login.login-form.button"}}
       </PixButton>
 
       {{#if this.errorMessage}}
@@ -44,9 +44,9 @@ export default class LoginForm extends Component {
     </form>
 
     <div class="login-form__forgotten-password">
-      <span>{{t "pages.login-or-register.login-form.forgotten-password.instruction"}}</span>
+      <span>{{t "pages.sco-signup-or-login.login-form.forgotten-password.instruction"}}</span>
       <ul>
-        <li>{{t "pages.login-or-register.login-form.forgotten-password.email"}}
+        <li>{{t "pages.sco-signup-or-login.login-form.forgotten-password.email"}}
           <LinkTo
             id="link_password-reset-demand"
             @route="password-reset-demand"
@@ -54,11 +54,11 @@ export default class LoginForm extends Component {
             rel="noopener noreferrer"
             class="link"
           >
-            {{t "pages.login-or-register.login-form.forgotten-password.reset-link"}}
+            {{t "pages.sco-signup-or-login.login-form.forgotten-password.reset-link"}}
           </LinkTo>
         </li>
         <li>
-          {{t "pages.login-or-register.login-form.forgotten-password.other-identity"}}
+          {{t "pages.sco-signup-or-login.login-form.forgotten-password.other-identity"}}
         </li>
       </ul>
     </div>
@@ -150,7 +150,7 @@ export default class LoginForm extends Component {
 
     if (errorCode === 'UNEXPECTED_USER_ACCOUNT') {
       const unexpectedUserAccountErrorMessage = this.intl.t(
-        'pages.login-or-register.login-form.unexpected-user-account-error',
+        'pages.sco-signup-or-login.login-form.unexpected-user-account-error',
       );
       this.errorMessage = unexpectedUserAccountErrorMessage + get(error, 'errors[0].meta.value');
     } else {
