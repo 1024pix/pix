@@ -933,6 +933,26 @@ describe('Integration | Repository | training-repository', function () {
       expect(results).to.be.lengthOf(0);
     });
   });
+
+  describe('#getByTargetProfileId', function () {
+    it('should return trainings for a given target profile id', async function () {
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const training1Id = databaseBuilder.factory.buildTraining({ type: 'modulix' }).id;
+      const training2Id = databaseBuilder.factory.buildTraining({ type: 'webinaire' }).id;
+      databaseBuilder.factory.buildTraining({ type: 'modulix' }).id;
+
+      databaseBuilder.factory.buildTargetProfileTraining({ trainingId: training1Id, targetProfileId });
+      databaseBuilder.factory.buildTargetProfileTraining({ trainingId: training2Id, targetProfileId });
+
+      await databaseBuilder.commit();
+      const results = await trainingRepository.getByTargetProfileId({ targetProfileId });
+
+      expect(results).to.be.length(1);
+      expect(results[0]).to.be.instanceOf(Training);
+      expect(results[0].type).to.deep.equal('modulix');
+      expect(results[0].id).to.deep.equal(training1Id);
+    });
+  });
 });
 
 function createDatabaseRepresentationForTrainingSummary({ trainingSummary, databaseBuilder }) {

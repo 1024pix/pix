@@ -225,6 +225,7 @@ export {
   findPaginatedSummariesByTargetProfileId,
   findWithTriggersByCampaignParticipationIdAndLocale,
   get,
+  getByTargetProfileId,
   getWithTriggersForAdmin,
   update,
 };
@@ -265,4 +266,20 @@ function _applyFilters(qb, filter) {
     qb.where({ id });
   }
   return qb;
+}
+
+async function getByTargetProfileId({ targetProfileId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn(TABLE_NAME)
+    .select('trainings.*')
+    .where({ targetProfileId, type: 'modulix' })
+    .join('target-profile-trainings', 'trainings.id', 'target-profile-trainings.trainingId');
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').whereIn(
+    'trainingId',
+    results.map(({ id }) => id),
+  );
+  return results.map((training) => {
+    return _toDomain(training, targetProfileTrainings);
+  });
 }
