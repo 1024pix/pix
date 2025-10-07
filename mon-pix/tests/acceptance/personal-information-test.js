@@ -29,6 +29,7 @@ module('Acceptance | personal-information', function (hooks) {
       const userNames = screen.getAllByText(user.firstName).length;
       assert.strictEqual(userNames, 2);
       assert.ok(screen.getByText(user.lastName));
+      assert.ok(screen.getByText('JDO'));
     });
   });
 });

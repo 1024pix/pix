@@ -36,4 +36,8 @@ export default class User extends Model {
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
+
+  get trigram() {
+    return this.firstName?.charAt(0).toUpperCase() + this.lastName?.slice(0, 2).toUpperCase();
+  }
 }
