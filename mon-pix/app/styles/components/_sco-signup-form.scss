@@ -1,7 +1,7 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/fonts';
 
-.register-form {
+.sco-signup-form {
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-4x);
@@ -32,7 +32,7 @@
     font-family: fonts.$font-roboto;
   }
 
-  .register-button-container {
+  .signup-button-container {
     display: flex;
 
     button {

@@ -46,8 +46,8 @@ export default class FormTextfieldDate extends Component {
           @validationStatus={{@dayValidationStatus}}
           required={{@require}}
           disabled={{@disabled}}
-          aria-label={{t "pages.sco-signup-or-login.register-form.fields.birthdate.day.label"}}
-          placeholder={{t "pages.sco-signup-or-login.register-form.fields.birthdate.day.placeholder"}}
+          aria-label={{t "pages.sco-signup-or-login.signup-form.fields.birthdate.day.label"}}
+          placeholder={{t "pages.sco-signup-or-login.signup-form.fields.birthdate.day.placeholder"}}
         />
 
         <PixInput
@@ -63,8 +63,8 @@ export default class FormTextfieldDate extends Component {
           @validationStatus={{@monthValidationStatus}}
           required={{@require}}
           disabled={{@disabled}}
-          aria-label={{t "pages.sco-signup-or-login.register-form.fields.birthdate.month.label"}}
-          placeholder={{t "pages.sco-signup-or-login.register-form.fields.birthdate.month.placeholder"}}
+          aria-label={{t "pages.sco-signup-or-login.signup-form.fields.birthdate.month.label"}}
+          placeholder={{t "pages.sco-signup-or-login.signup-form.fields.birthdate.month.placeholder"}}
         />
 
         <PixInput
@@ -79,8 +79,8 @@ export default class FormTextfieldDate extends Component {
           aria-describedby={{@aria-describedby}}
           required={{@require}}
           disabled={{@disabled}}
-          aria-label={{t "pages.sco-signup-or-login.register-form.fields.birthdate.year.label"}}
-          placeholder={{t "pages.sco-signup-or-login.register-form.fields.birthdate.year.placeholder"}}
+          aria-label={{t "pages.sco-signup-or-login.signup-form.fields.birthdate.year.label"}}
+          placeholder={{t "pages.sco-signup-or-login.signup-form.fields.birthdate.year.placeholder"}}
         />
       </div>
 

@@ -25,12 +25,12 @@ export default class OidcSignupOrLoginComponent extends Component {
     <h1 class="oidc-signup-or-login-form__title">{{t "pages.oidc-signup-or-login.title"}}</h1>
     <div class="oidc-signup-or-login-form__container">
       <div class="oidc-signup-or-login-form__register-container">
-        <h2 class="oidc-signup-or-login-form__subtitle">{{t "pages.oidc-signup-or-login.register-form.title"}}</h2>
+        <h2 class="oidc-signup-or-login-form__subtitle">{{t "pages.oidc-signup-or-login.signup-form.title"}}</h2>
         {{#if this.userClaimsToDisplay.length}}
           <div>
             <p class="oidc-signup-or-login-form__description">
               {{! template-lint-disable "no-bare-strings" }}
-              {{t "pages.oidc-signup-or-login.register-form.description"}}
+              {{t "pages.oidc-signup-or-login.signup-form.description"}}
               <em>{{this.identityProviderOrganizationName}}</em>&nbsp;:
             </p>
             <div class="oidc-signup-or-login-form__information">
@@ -59,7 +59,7 @@ export default class OidcSignupOrLoginComponent extends Component {
           {{/if}}
 
           <PixButton @type="submit" @triggerAction={{this.register}} @isLoading={{this.isRegisterLoading}}>
-            {{t "pages.oidc-signup-or-login.register-form.button"}}
+            {{t "pages.oidc-signup-or-login.signup-form.button"}}
           </PixButton>
         {{else}}
           <PixNotificationAlert @type="error" class="oidc-signup-or-login-form__cgu-error">
@@ -155,7 +155,7 @@ export default class OidcSignupOrLoginComponent extends Component {
     const { userClaims } = this.args;
 
     if (!userClaims) {
-      return this.intl.t(`pages.oidc-signup-or-login.register-form.error`);
+      return this.intl.t(`pages.oidc-signup-or-login.signup-form.error`);
     } else {
       return null;
     }
@@ -168,11 +168,11 @@ export default class OidcSignupOrLoginComponent extends Component {
 
     if (userClaims) {
       const { firstName, lastName, ...rest } = userClaims;
-      result.push(this.intl.t('pages.oidc-signup-or-login.register-form.first-name-label-and-value', { firstName }));
-      result.push(this.intl.t('pages.oidc-signup-or-login.register-form.last-name-label-and-value', { lastName }));
+      result.push(this.intl.t('pages.oidc-signup-or-login.signup-form.first-name-label-and-value', { firstName }));
+      result.push(this.intl.t('pages.oidc-signup-or-login.signup-form.last-name-label-and-value', { lastName }));
 
       Object.entries(rest).map(([key, _value]) => {
-        let label = `${this.intl.t(`pages.oidc-signup-or-login.register-form.claims.${key}`)}`;
+        let label = `${this.intl.t(`pages.oidc-signup-or-login.signup-form.claims.${key}`)}`;
 
         if (label.includes('Missing translation')) {
           label = key;

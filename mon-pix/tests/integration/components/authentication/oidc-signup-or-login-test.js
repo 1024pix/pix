@@ -64,20 +64,20 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: t('pages.oidc-signup-or-login.register-form.title'),
+            name: t('pages.oidc-signup-or-login.signup-form.title'),
             level: 2,
           }),
         );
-        assert.ok(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.register-form.button') }));
+        assert.ok(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
         assert.ok(screen.getByText('Partenaire OIDC'));
         assert.ok(
           screen.getByText(
-            t('pages.oidc-signup-or-login.register-form.first-name-label-and-value', { firstName: 'Mélusine' }),
+            t('pages.oidc-signup-or-login.signup-form.first-name-label-and-value', { firstName: 'Mélusine' }),
           ),
         );
         assert.ok(
           screen.getByText(
-            t('pages.oidc-signup-or-login.register-form.last-name-label-and-value', { lastName: 'TITEGOUTTE' }),
+            t('pages.oidc-signup-or-login.signup-form.last-name-label-and-value', { lastName: 'TITEGOUTTE' }),
           ),
         );
         assert.ok(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
@@ -96,20 +96,20 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: t('pages.oidc-signup-or-login.register-form.title'),
+            name: t('pages.oidc-signup-or-login.signup-form.title'),
             level: 2,
           }),
         );
-        assert.ok(screen.getByText(t('pages.oidc-signup-or-login.register-form.error')));
-        assert.notOk(screen.queryByRole('button', { name: t('pages.oidc-signup-or-login.register-form.button') }));
+        assert.ok(screen.getByText(t('pages.oidc-signup-or-login.signup-form.error')));
+        assert.notOk(screen.queryByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
         assert.notOk(screen.queryByText('Partenaire OIDC'));
         assert.notOk(
-          screen.queryByText(t('pages.oidc-signup-or-login.register-form.first-name-label-and-value'), {
+          screen.queryByText(t('pages.oidc-signup-or-login.signup-form.first-name-label-and-value'), {
             firstName: 'Mélusine',
           }),
         );
         assert.notOk(
-          screen.queryByText(t('pages.oidc-signup-or-login.register-form.last-name-label-and-value'), {
+          screen.queryByText(t('pages.oidc-signup-or-login.signup-form.last-name-label-and-value'), {
             lastName: 'TITEGOUTTE',
           }),
         );

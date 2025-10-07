@@ -1557,7 +1557,7 @@
         "password": "Wachtwoord",
         "title": "Ik heb al een Pix-account"
       },
-      "register-form": {
+      "signup-form": {
         "button": "Ik maak mijn account aan",
         "description": "Er wordt een account aangemaakt met de informatie die door de organisatie is verstrekt",
         "error": "We were unable to retrieve your identity information from the service used. We invite you to contact this organisation's IT support.",
@@ -1588,7 +1588,7 @@
         "title": "Ik heb al een Pix-account",
         "unexpected-user-account-error": "Het e-mailadres of de gebruikersnaam is onjuist. Om verder te gaan, moet u inloggen op uw account, die in de vorm :"
       },
-      "register-form": {
+      "signup-form": {
         "button": "Meld je nu aan",
         "button-form": "Registreren",
         "fields": {

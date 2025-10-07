@@ -5,7 +5,7 @@ import ScoSignupOrLogin from 'mon-pix/components/routes/sco-signup-or-login';
       @organizationName={{@model.organizationToJoin.name}}
       @redirectionUrl={{@model.redirectionUrl}}
       @organizationId={{@model.organizationToJoin.id}}
-      @displayRegisterForm={{@controller.displayRegisterForm}}
+      @displayScoSignupForm={{@controller.displayScoSignupForm}}
       @toggleFormsVisibility={{@controller.toggleFormsVisibility}}
       @addGarAuthenticationMethodToUser={{@controller.addGarAuthenticationMethodToUser}}
     />

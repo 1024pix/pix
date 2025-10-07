@@ -37,7 +37,7 @@ module('Acceptance | Login or register oidc', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: t('pages.oidc-signup-or-login.register-form.title'),
+              name: t('pages.oidc-signup-or-login.signup-form.title'),
               level: 2,
             }),
           )

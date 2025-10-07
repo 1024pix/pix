@@ -1763,7 +1763,7 @@
         "password": "Password",
         "title": "I already have a Pix account"
       },
-      "register-form": {
+      "signup-form": {
         "button": "Create my account",
         "claims": {
           "FrEduFonctAdm": "Administrative function",
@@ -1875,7 +1875,7 @@
         "title": "I already have a Pix account.",
         "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
       },
-      "register-form": {
+      "signup-form": {
         "button": "Sign up",
         "button-form": "Sign up",
         "fields": {

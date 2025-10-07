@@ -1550,7 +1550,7 @@
         "password": "Contraseña",
         "title": "Ya tengo una cuenta Pix"
       },
-      "register-form": {
+      "signup-form": {
         "button": "Creo una cuenta",
         "description": "Se va a crear una cuenta utilizando la información facilitada por la organización",
         "error": "We were unable to retrieve your identity information from the service used. We invite you to contact this organisation's IT support.",
@@ -1581,7 +1581,7 @@
         "title": "Ya tengo una cuenta Pix",
         "unexpected-user-account-error": "La dirección de correo electrónico o el nombre de usuario es incorrecto. Para continuar, debes conectarte a tu cuenta, que tiene la forma: "
       },
-      "register-form": {
+      "signup-form": {
         "button": "Inscribirse",
         "button-form": "Crear cuenta",
         "fields": {

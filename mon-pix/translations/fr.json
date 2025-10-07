@@ -1771,7 +1771,7 @@
         "password": "Mot de passe",
         "title": "J’ai déjà un compte Pix"
       },
-      "register-form": {
+      "signup-form": {
         "button": "Je crée mon compte",
         "claims": {
           "FrEduFonctAdm": "Fonction Administrative",
@@ -1883,7 +1883,7 @@
         "title": "J’ai déjà un compte Pix",
         "unexpected-user-account-error": "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : "
       },
-      "register-form": {
+      "signup-form": {
         "button": "S'inscrire",
         "button-form": "Je m'inscris",
         "fields": {

@@ -20,6 +20,6 @@ export default class StudentScoRoute extends Route {
   }
 
   setupController(controller, model) {
-    controller.displayRegisterForm = !this.accessStorage.hasUserSeenJoinPage(model.organizationToJoin.id);
+    controller.displayScoSignupForm = !this.accessStorage.hasUserSeenJoinPage(model.organizationToJoin.id);
   }
 }

@@ -8,7 +8,7 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import { stubSessionService } from '../../helpers/service-stubs.js';
 import setupIntl from '../../helpers/setup-intl';
 
-module('Unit | Component | register-form', function (hooks) {
+module('Unit | Component | sco-signup-form', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -18,7 +18,7 @@ module('Unit | Component | register-form', function (hooks) {
         // given
         const eventStub = { preventDefault: sinon.stub() };
         const campaignCode = 'SCO789';
-        const component = createGlimmerComponent('routes/register-form', { campaignCode });
+        const component = createGlimmerComponent('routes/sco-signup-form', { campaignCode });
 
         component.firstName = 'Lili';
         component.lastName = 'Coptère';
@@ -72,7 +72,7 @@ module('Unit | Component | register-form', function (hooks) {
         const eventStub = { preventDefault: sinon.stub() };
         const campaignCode = 'SCO789';
         const unloadRecordStub = sinon.stub();
-        const component = createGlimmerComponent('routes/register-form', { campaignCode });
+        const component = createGlimmerComponent('routes/sco-signup-form', { campaignCode });
         component.firstName = 'Lili';
         component.lastName = 'Coptère';
         component.monthOfBirth = '05';
@@ -111,7 +111,7 @@ module('Unit | Component | register-form', function (hooks) {
         const campaignCode = 'SCO789';
         const eventStub = { preventDefault: sinon.stub() };
 
-        const component = createGlimmerComponent('routes/register-form', { campaignCode });
+        const component = createGlimmerComponent('routes/sco-signup-form', { campaignCode });
         component.firstName = 'Lili';
         component.lastName = 'Coptère';
         component.monthOfBirth = '05';
@@ -152,7 +152,7 @@ module('Unit | Component | register-form', function (hooks) {
           save: sinon.stub(),
         });
 
-        const component = createGlimmerComponent('routes/register-form');
+        const component = createGlimmerComponent('routes/sco-signup-form');
 
         component.dependentUser = createdDependentUser;
         component.password = 'Password12345!';
@@ -188,7 +188,7 @@ module('Unit | Component | register-form', function (hooks) {
           }),
         });
 
-        const component = createGlimmerComponent('routes/register-form');
+        const component = createGlimmerComponent('routes/sco-signup-form');
 
         component.dependentUser = createdDependentUser;
         component.password = 'Password12345!';
@@ -217,7 +217,7 @@ module('Unit | Component | register-form', function (hooks) {
           save: sinon.stub(),
         });
 
-        const component = createGlimmerComponent('routes/register-form');
+        const component = createGlimmerComponent('routes/sco-signup-form');
 
         component.dependentUser = createdDependentUser;
         component.password = 'Password12345!';
@@ -247,7 +247,7 @@ module('Unit | Component | register-form', function (hooks) {
         store.createRecord('sco-organization-learner', { unloadRecord: unloadRecordStub });
         store.createRecord('dependent-user', { unloadRecord: unloadRecordStub });
 
-        const component = createGlimmerComponent('routes/register-form');
+        const component = createGlimmerComponent('routes/sco-signup-form');
         component.firstName = 'Lili';
         component.lastName = 'Coptère';
         component.monthOfBirth = '05';

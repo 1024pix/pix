@@ -9,11 +9,11 @@ export default class StudentScoController extends Controller {
   @service session;
   @service store;
 
-  @tracked displayRegisterForm = true;
+  @tracked displayScoSignupForm = true;
 
   @action
   toggleFormsVisibility() {
-    this.displayRegisterForm = !this.displayRegisterForm;
+    this.displayScoSignupForm = !this.displayScoSignupForm;
   }
 
   @action

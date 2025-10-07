@@ -33,7 +33,7 @@ const ENT_ERROR_MESSAGE = 'Vous possédez déjà un compte Pix via l’ENT dans 
 const USERNAME_ERROR_MESSAGE =
   'Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:j***.h***2';
 
-module('Integration | Component | routes/register-form', function (hooks) {
+module('Integration | Component | routes/sco-signup-form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let sessionService;
@@ -70,10 +70,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
   module('successful cases', function () {
     test('should call authentication service by email with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       await click(screen.getByText('Mon adresse e-mail'));
 
@@ -81,7 +81,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // then
       sinon.assert.calledWith(sessionService.authenticate, 'authenticator:oauth2', {
@@ -93,14 +93,14 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
     test('should call authentication service by username with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // then
       sinon.assert.calledWith(sessionService.authenticate, 'authenticator:oauth2', {
@@ -112,17 +112,15 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
     test('should display RGPD legal notice', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::ScoSignupForm />`);
       await fillInputReconciliationForm({ screen, t });
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // then
-      assert.ok(screen.getByText(t('pages.sco-signup-or-login.register-form.rgpd-legal-notice')));
-      assert.ok(
-        screen.getByRole('link', { name: t('pages.sco-signup-or-login.register-form.rgpd-legal-notice-link') }),
-      );
+      assert.ok(screen.getByText(t('pages.sco-signup-or-login.signup-form.rgpd-legal-notice')));
+      assert.ok(screen.getByRole('link', { name: t('pages.sco-signup-or-login.signup-form.rgpd-legal-notice-link') }));
     });
   });
 
@@ -131,7 +129,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
         test(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           // when
           await fillIn(screen.getByLabelText(/Prénom/, { exact: false }), stringFilledIn);
@@ -145,7 +143,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
         test(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           // when
           await fillIn(screen.getByLabelText(/Nom/, { exact: false }), stringFilledIn);
@@ -161,7 +159,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       }) {
         test(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           // when
           await fillIn(screen.getByRole('spinbutton', { name: 'Jour de naissance' }), stringFilledIn);
@@ -177,7 +175,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       }) {
         test(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           // when
           await fillIn(screen.getByRole('spinbutton', { name: 'Mois de naissance' }), stringFilledIn);
@@ -193,7 +191,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       }) {
         test(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           // when
           await fillIn(screen.getByRole('spinbutton', { name: 'Année de naissance' }), stringFilledIn);
@@ -209,10 +207,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
       }) {
         test(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           await fillInputReconciliationForm({ screen, t });
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // when
           await click(screen.getByText('Mon adresse e-mail'));
@@ -233,10 +231,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
       ].forEach(function ({ stringFilledIn }) {
         test(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
           await fillInputReconciliationForm({ screen, t });
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // when
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), stringFilledIn);
@@ -250,11 +248,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
       module('when the password is correctly filled', function () {
         test('should not display an error message on password field', async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           const correctPassword = '12345678Ab!';
 
           await fillInputReconciliationForm({ screen, t });
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // when
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), correctPassword);
@@ -268,16 +266,16 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
     test('should not call api when email is invalid', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // when
       await click(screen.getByText('Mon adresse e-mail'));
       await fillIn(screen.getByLabelText(EMAIL_INPUT_LABEL, { exact: false }), 'shi.fu');
       await triggerEvent(screen.getByLabelText(EMAIL_INPUT_LABEL, { exact: false }), 'focusout');
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // then
       assert.dom(screen.getByText(EMPTY_EMAIL_ERROR_MESSAGE)).exists();
@@ -291,13 +289,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
         saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
 
         // when
-        const screen = await render(hbs`<Routes::RegisterForm />`);
+        const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
         await fillInputReconciliationForm({ screen, t });
-        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
-        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
@@ -320,13 +318,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
         });
 
         // when
-        const screen = await render(hbs`<Routes::RegisterForm />`);
+        const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
         await fillInputReconciliationForm({ screen, t });
-        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'Mypassword1');
-        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(t('api-error-messages.register-error.s50'))).exists();
@@ -335,15 +333,15 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
     test('should not call api when password is invalid', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::ScoSignupForm />`);
 
       await fillInputReconciliationForm({ screen, t });
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // when
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'toto');
       await triggerEvent(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false }), 'focusout');
-      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
       // then
       assert.dom(screen.getByText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE)).exists();
@@ -364,11 +362,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
     ].forEach(({ status, errorMessage }) => {
       test(`should display an error message if user saves with an error response status ${status}`, async function (assert) {
         saveUserAssociationStub.rejects({ errors: [{ status }] });
-        const screen = await render(hbs`<Routes::RegisterForm />`);
+        const screen = await render(hbs`<Routes::ScoSignupForm />`);
         await fillInputReconciliationForm({ screen, t });
 
         // when
-        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+        await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(errorMessage)).exists();
@@ -390,11 +388,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -418,11 +416,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -447,11 +445,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -475,11 +473,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -503,11 +501,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -531,11 +529,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -559,11 +557,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -590,11 +588,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -618,11 +616,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -647,11 +645,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -672,11 +670,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -697,11 +695,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -722,11 +720,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -747,11 +745,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          const screen = await render(hbs`<Routes::RegisterForm />`);
+          const screen = await render(hbs`<Routes::ScoSignupForm />`);
           await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.register-form.button-form') }));
+          await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -770,19 +768,19 @@ async function fillInputReconciliationForm({ screen, t }) {
   await fillIn(screen.getByLabelText(/Nom/, { exact: false }), 'Vertefeuille');
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: t('pages.sco-signup-or-login.register-form.fields.birthdate.day.label'),
+      name: t('pages.sco-signup-or-login.signup-form.fields.birthdate.day.label'),
     }),
     '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: t('pages.sco-signup-or-login.register-form.fields.birthdate.month.label'),
+      name: t('pages.sco-signup-or-login.signup-form.fields.birthdate.month.label'),
     }),
     '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: t('pages.sco-signup-or-login.register-form.fields.birthdate.year.label'),
+      name: t('pages.sco-signup-or-login.signup-form.fields.birthdate.year.label'),
     }),
     '2010',
   );

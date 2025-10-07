@@ -25,25 +25,25 @@ module('Integration | Routes | routes/sco-signup-or-login', function (hooks) {
   test('should contain an open register form and closed login form', async function (assert) {
     // when
     await render(
-      hbs`<Routes::ScoSignupOrLogin @displayRegisterForm={{true}} @toggleFormsVisibility='toggleFormsVisibility' />`,
+      hbs`<Routes::ScoSignupOrLogin @displayScoSignupForm={{true}} @toggleFormsVisibility='toggleFormsVisibility' />`,
     );
 
     // then
-    assert.dom('.register-form').exists();
+    assert.dom('.sco-signup-form').exists();
     assert.dom('.login-form').doesNotExist();
   });
 
   test('should open the login panel and close the register panel when clicking on login button', async function (assert) {
     // given
     await render(
-      hbs`<Routes::ScoSignupOrLogin @displayRegisterForm={{false}} @toggleFormsVisibility='toggleFormsVisibility' />`,
+      hbs`<Routes::ScoSignupOrLogin @displayScoSignupForm={{false}} @toggleFormsVisibility='toggleFormsVisibility' />`,
     );
 
     // when
     await clickByLabel(t('pages.sco-signup-or-login.login-form.button'));
 
     // then
-    assert.dom('.register-form').doesNotExist();
+    assert.dom('.sco-signup-form').doesNotExist();
     assert.dom('.login-form').exists();
   });
 });
