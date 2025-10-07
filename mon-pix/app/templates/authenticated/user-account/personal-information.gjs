@@ -14,5 +14,12 @@ import t from 'ember-intl/helpers/t';
       </p>
       <p class="personal-information-item__value" data-test-lastName>{{@model.lastName}}</p>
     </div>
+
+    <div class="personal-information-item">
+      <p class="form-textfield__label personal-information-item__label">
+        {{t "pages.user-account.personal-information.trigram"}}
+      </p>
+      <p class="personal-information-item__value" data-test-lastName>{{@model.lastName}}</p>
+    </div>
   </div>
 </template>
