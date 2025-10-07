@@ -26,6 +26,7 @@ const { ROLES } = PIX_ADMIN;
  * @property {string} lastName
  * @property {string} email
  * @property {string} username
+ * @property {string} avatarUrl
  * @property {boolean} cgu
  * @property {string} lang
  * @property {string} locale
@@ -123,6 +124,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
   emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
+  avatarUrl = 'https://assets.pix.org/draft/flamingo.jpg',
 } = {}) {
   email = _generateEmailIfUndefined(email, id, lastName, firstName);
 
@@ -143,6 +145,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     createdAt,
     updatedAt,
     emailConfirmedAt,
+    avatarUrl,
   };
 
   const user = databaseBuffer.pushInsertable({

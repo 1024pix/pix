@@ -78,6 +78,16 @@ function _buildUsers(databaseBuilder) {
     emailConfirmedAt: null,
   });
   databaseBuilder.factory.buildUserLogin({ userId: userWithoutLastLoggedAt.id, lastLoggedAt: null });
+
+  //user with a avatar url
+  const userWithAvatarUrl = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'User',
+    lastName: 'Withavatar',
+    email: 'user.withavatar@example.net',
+    emailConfirmedAt: null,
+    avatarUrl: 'https://www.cnil.fr/sites/cnil/files/thumbnails/image/b_marteau.png',
+  });
+  databaseBuilder.factory.buildUserLogin({ userId: userWithAvatarUrl.id, lastLoggedAt: null });
 }
 
 export function buildUsers(databaseBuilder) {
