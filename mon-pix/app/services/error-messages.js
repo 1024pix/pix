@@ -7,17 +7,17 @@ const DEFAULT_MESSAGE = { i18nKey: 'common.error' };
 const HTTP_STATUS_MAPPING = {
   400: { i18nKey: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY },
   401: { i18nKey: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY },
-  409: { i18nKey: 'pages.login-or-register-oidc.error.account-conflict' },
+  409: { i18nKey: 'pages.oidc-signup-or-login.error.account-conflict' },
   422: { i18nKey: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY },
   504: { i18nKey: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY },
 };
 
 const AUTHENTICATION_ERROR_CODES_MAPPING = {
   EXPIRED_AUTHENTICATION_KEY: {
-    i18nKey: 'pages.login-or-register-oidc.error.expired-authentication-key',
+    i18nKey: 'pages.oidc-signup-or-login.error.expired-authentication-key',
   },
   PASSWORD_RESET_TOKEN_INVALID_OR_EXPIRED: {
-    i18nKey: 'pages.login-or-register-oidc.error.password-reset-token-invalid-or-expired',
+    i18nKey: 'pages.oidc-signup-or-login.error.password-reset-token-invalid-or-expired',
   },
   USER_IS_TEMPORARY_BLOCKED: {
     getI18nKey: (error) => {

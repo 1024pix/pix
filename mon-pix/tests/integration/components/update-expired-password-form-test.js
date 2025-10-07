@@ -78,7 +78,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
 
         // then
         assert
-          .dom(screen.getByText(t('pages.login-or-register-oidc.error.password-reset-token-invalid-or-expired')))
+          .dom(screen.getByText(t('pages.oidc-signup-or-login.error.password-reset-token-invalid-or-expired')))
           .exists();
       });
 

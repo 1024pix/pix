@@ -1540,7 +1540,7 @@
       "iframe-title": "ChatPix",
       "title": "ChatPix voorbeeld"
     },
-    "login-or-register-oidc": {
+    "oidc-signup-or-login": {
       "error": {
         "account-conflict": "Dit account is al gekoppeld aan deze organisatie. Log in met een ander account of neem contact op met support.",
         "data-sharing-refused": "We informeren u dat de overdracht van uw gegevens, zoals gespecificeerd op de vorige pagina, essentieel is om toegang te krijgen tot de service en deze te gebruiken.",

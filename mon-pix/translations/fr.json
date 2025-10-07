@@ -1549,42 +1549,6 @@
       "iframe-title": "ChatPix",
       "title": "Prévisualisation ChatPix"
     },
-    "login-or-register-oidc": {
-      "error": {
-        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
-        "data-sharing-refused": "Nous vous informons que la transmission de vos données, précisées à la page précédente, est indispensable pour pouvoir accéder au service et l'utiliser.",
-        "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
-        "expired-authentication-key": "Votre demande d'authentification a expiré.",
-        "invalid-email": "Votre adresse e-mail n’est pas valide.",
-        "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
-        "password-reset-token-invalid-or-expired": "Il s'est écoulé trop de temps pour valider votre nouveau mot de passe. Revenez à la page de connexion pour saisir à nouveau votre identifiant et votre mot de passe temporaire."
-      },
-      "login-form": {
-        "button": "Je me connecte",
-        "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées.",
-        "email": "Adresse e-mail",
-        "password": "Mot de passe",
-        "title": "J’ai déjà un compte Pix"
-      },
-      "register-form": {
-        "button": "Je crée mon compte",
-        "claims": {
-          "FrEduFonctAdm": "Fonction Administrative",
-          "FrEduNumenHash": "Identifiant technique",
-          "discipline": "Discipline",
-          "employeeNumber": "Numéro d'employé",
-          "population": "Population",
-          "rne": "Etablissement d’affectation",
-          "title": "Fonction"
-        },
-        "description": "Un compte va être créé à partir des éléments transmis par l'organisme",
-        "error": "Nous n’avons pas pu récupérer vos informations d’identité auprès du service utilisé. Nous vous invitons à contacter le support informatique de cette organisation.",
-        "first-name-label-and-value": "Prénom : {firstName}",
-        "last-name-label-and-value": "Nom : {lastName}",
-        "title": "Je n’ai pas de compte Pix"
-      },
-      "title": "Créez votre compte Pix"
-    },
     "modulix": {
       "beta-banner": "Ce module est en version bêta. Des évolutions pourront être apportées au fil du temps.",
       "buttons": {
@@ -1789,6 +1753,42 @@
       "switch-account": "Changer de compte",
       "title": "Attention !",
       "username": "Identifiant"
+    },
+    "oidc-signup-or-login": {
+      "error": {
+        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
+        "data-sharing-refused": "Nous vous informons que la transmission de vos données, précisées à la page précédente, est indispensable pour pouvoir accéder au service et l'utiliser.",
+        "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
+        "expired-authentication-key": "Votre demande d'authentification a expiré.",
+        "invalid-email": "Votre adresse e-mail n’est pas valide.",
+        "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+        "password-reset-token-invalid-or-expired": "Il s'est écoulé trop de temps pour valider votre nouveau mot de passe. Revenez à la page de connexion pour saisir à nouveau votre identifiant et votre mot de passe temporaire."
+      },
+      "login-form": {
+        "button": "Je me connecte",
+        "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées.",
+        "email": "Adresse e-mail",
+        "password": "Mot de passe",
+        "title": "J’ai déjà un compte Pix"
+      },
+      "register-form": {
+        "button": "Je crée mon compte",
+        "claims": {
+          "FrEduFonctAdm": "Fonction Administrative",
+          "FrEduNumenHash": "Identifiant technique",
+          "discipline": "Discipline",
+          "employeeNumber": "Numéro d'employé",
+          "population": "Population",
+          "rne": "Etablissement d’affectation",
+          "title": "Fonction"
+        },
+        "description": "Un compte va être créé à partir des éléments transmis par l'organisme",
+        "error": "Nous n’avons pas pu récupérer vos informations d’identité auprès du service utilisé. Nous vous invitons à contacter le support informatique de cette organisation.",
+        "first-name-label-and-value": "Prénom : {firstName}",
+        "last-name-label-and-value": "Nom : {lastName}",
+        "title": "Je n’ai pas de compte Pix"
+      },
+      "title": "Créez votre compte Pix"
     },
     "password-reset-demand": {
       "title": "Mot de passe oublié"

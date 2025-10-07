@@ -57,7 +57,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
     });
 
     module('when the wanted OIDC Provider is enabled and ready', function () {
-      test('it redirects the user to the login-or-register-oidc page', async function (assert) {
+      test('it redirects the user to the oidc-signup-or-login page', async function (assert) {
         // when
         await unabortedVisit('/connexion/oidc-partner?code=code&state=state');
 
@@ -79,10 +79,10 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
 
           // when
           await fillIn(
-            screen.getByRole('textbox', { name: t('pages.login-or-register-oidc.login-form.email') }),
+            screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
             'lloyd.ce@example.net',
           );
-          await fillIn(screen.getByLabelText(t('pages.login-or-register-oidc.login-form.password')), 'pix123');
+          await fillIn(screen.getByLabelText(t('pages.oidc-signup-or-login.login-form.password')), 'pix123');
           await click(screen.getByRole('button', { name: 'Je me connecte' }));
           // eslint-disable-next-line ember/no-settled-after-test-helper
           await settled();

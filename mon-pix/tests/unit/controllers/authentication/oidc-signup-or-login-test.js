@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import setupIntl from '../../../helpers/setup-intl';
 
-module('Unit | Controller | authentication | login-or-register-oidc', function (hooks) {
+module('Unit | Controller | authentication | oidc-signup-or-login', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -28,7 +28,7 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
       const password = 'pix123';
       const identityProvider = 'OIDC_PARTNER';
       const authenticationKey = '1234567azerty';
-      const controller = this.owner.lookup('controller:authentication/login-or-register-oidc');
+      const controller = this.owner.lookup('controller:authentication/oidc-signup-or-login');
       const login = sinon.stub().resolves({
         email,
         username: 'glace.alo345',
@@ -79,7 +79,7 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
       const email = 'glace.alo@example.net';
       const password = 'pix123';
       const authenticationKey = '1234567azerty';
-      const controller = this.owner.lookup('controller:authentication/login-or-register-oidc');
+      const controller = this.owner.lookup('controller:authentication/oidc-signup-or-login');
       const login = sinon.stub().resolves({
         email,
         username: 'glace.alo345',

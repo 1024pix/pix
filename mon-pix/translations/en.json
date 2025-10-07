@@ -1541,42 +1541,6 @@
       "iframe-title": "ChatPix",
       "title": "ChatPix preview"
     },
-    "login-or-register-oidc": {
-      "error": {
-        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
-        "data-sharing-refused": "We inform you that the transmission of your data, specified on the previous page, is essential to access and use the service.",
-        "error-message": "Please agree to the terms and conditions of use.",
-        "expired-authentication-key": "Your authentication demand has expired.",
-        "invalid-email": "Your email address is invalid.",
-        "login-unauthorized-error": "There was an error in the email address or password entered.",
-        "password-reset-token-invalid-or-expired":  "Too much time has elapsed to validate your new password. Return to the login page to re-enter your username and temporary password."
-      },
-      "login-form": {
-        "button": "Log in",
-        "description": "Log in to link your existing account and retrieve the skills that you have already assessed.",
-        "email": "Email address",
-        "password": "Password",
-        "title": "I already have a Pix account"
-      },
-      "register-form": {
-        "button": "Create my account",
-        "claims": {
-          "FrEduFonctAdm": "Administrative function",
-          "FrEduNumenHash": "Technical identifier",
-          "discipline": "School subject",
-          "employeeNumber": "Employee number",
-          "population": "Population",
-          "rne": "Establishment of assignment",
-          "title": "Title"
-        },
-        "description": "An account will be created based on the information sent by the organisation",
-        "error": "We were unable to retrieve your identity information from the service used. We invite you to contact this organisation's IT support.",
-        "first-name-label-and-value": "First name: {firstName}",
-        "last-name-label-and-value": "Last name: {lastName}",
-        "title": "Sign up"
-      },
-      "title": "Create your Account"
-    },
     "modulix": {
       "beta-banner": "This module is in beta version. Changes may be made over time.",
       "buttons": {
@@ -1781,6 +1745,42 @@
       "switch-account": "Change account",
       "title": "Warning",
       "username": "Username"
+    },
+    "oidc-signup-or-login": {
+      "error": {
+        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
+        "data-sharing-refused": "We inform you that the transmission of your data, specified on the previous page, is essential to access and use the service.",
+        "error-message": "Please agree to the terms and conditions of use.",
+        "expired-authentication-key": "Your authentication demand has expired.",
+        "invalid-email": "Your email address is invalid.",
+        "login-unauthorized-error": "There was an error in the email address or password entered.",
+        "password-reset-token-invalid-or-expired": "Too much time has elapsed to validate your new password. Return to the login page to re-enter your username and temporary password."
+      },
+      "login-form": {
+        "button": "Log in",
+        "description": "Log in to link your existing account and retrieve the skills that you have already assessed.",
+        "email": "Email address",
+        "password": "Password",
+        "title": "I already have a Pix account"
+      },
+      "register-form": {
+        "button": "Create my account",
+        "claims": {
+          "FrEduFonctAdm": "Administrative function",
+          "FrEduNumenHash": "Technical identifier",
+          "discipline": "School subject",
+          "employeeNumber": "Employee number",
+          "population": "Population",
+          "rne": "Establishment of assignment",
+          "title": "Title"
+        },
+        "description": "An account will be created based on the information sent by the organisation",
+        "error": "We were unable to retrieve your identity information from the service used. We invite you to contact this organisation's IT support.",
+        "first-name-label-and-value": "First name: {firstName}",
+        "last-name-label-and-value": "Last name: {lastName}",
+        "title": "Sign up"
+      },
+      "title": "Create your Account"
     },
     "password-reset-demand": {
       "title": "Forgotten password"

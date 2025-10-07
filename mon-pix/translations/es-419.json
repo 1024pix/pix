@@ -1533,7 +1533,7 @@
       "iframe-title": "ChatPix",
       "title": "Previsualización ChatPix"
     },
-    "login-or-register-oidc": {
+    "oidc-signup-or-login": {
       "error": {
         "account-conflict": "Esta cuenta ya está asociada a esta organización. Conéctate con otra cuenta o ponte en contacto con el servicio de asistencia.",
         "data-sharing-refused": "Te informamos de que la transmisión de tus datos, especificados en la página anterior, es imprescindible para poder acceder y utilizar el servicio.",

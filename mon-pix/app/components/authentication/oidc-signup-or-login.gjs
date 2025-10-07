@@ -16,24 +16,24 @@ import isEmpty from 'lodash/isEmpty';
 import isEmailValid from '../../utils/email-validator';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  termsOfServiceNotSelected: 'pages.login-or-register-oidc.error.error-message',
-  invalidEmail: 'pages.login-or-register-oidc.error.invalid-email',
+  termsOfServiceNotSelected: 'pages.oidc-signup-or-login.error.error-message',
+  invalidEmail: 'pages.oidc-signup-or-login.error.invalid-email',
 };
 
-export default class LoginOrRegisterOidcComponent extends Component {
+export default class OidcSignupOrLoginComponent extends Component {
   <template>
-    <h1 class="login-or-register-oidc-form__title">{{t "pages.login-or-register-oidc.title"}}</h1>
-    <div class="login-or-register-oidc-form__container">
-      <div class="login-or-register-oidc-form__register-container">
-        <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.register-form.title"}}</h2>
+    <h1 class="oidc-signup-or-login-form__title">{{t "pages.oidc-signup-or-login.title"}}</h1>
+    <div class="oidc-signup-or-login-form__container">
+      <div class="oidc-signup-or-login-form__register-container">
+        <h2 class="oidc-signup-or-login-form__subtitle">{{t "pages.oidc-signup-or-login.register-form.title"}}</h2>
         {{#if this.userClaimsToDisplay.length}}
           <div>
-            <p class="login-or-register-oidc-form__description">
+            <p class="oidc-signup-or-login-form__description">
               {{! template-lint-disable "no-bare-strings" }}
-              {{t "pages.login-or-register-oidc.register-form.description"}}
+              {{t "pages.oidc-signup-or-login.register-form.description"}}
               <em>{{this.identityProviderOrganizationName}}</em>&nbsp;:
             </p>
-            <div class="login-or-register-oidc-form__information">
+            <div class="oidc-signup-or-login-form__information">
               <ul>
                 {{#each this.userClaimsToDisplay as |userClaimToDisplay|}}
                   <li>{{userClaimToDisplay}}</li>
@@ -41,7 +41,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
               </ul>
             </div>
           </div>
-          <div class="login-or-register-oidc-form__cgu-container">
+          <div class="oidc-signup-or-login-form__cgu-container">
             <PixCheckbox {{on "change" this.onChange}}>
               <:label>{{t
                   "common.cgu.message"
@@ -53,32 +53,32 @@ export default class LoginOrRegisterOidcComponent extends Component {
           </div>
 
           {{#if this.registerErrorMessage}}
-            <PixNotificationAlert @type="error" class="login-or-register-oidc-form__cgu-error">
+            <PixNotificationAlert @type="error" class="oidc-signup-or-login-form__cgu-error">
               {{this.registerErrorMessage}}
             </PixNotificationAlert>
           {{/if}}
 
           <PixButton @type="submit" @triggerAction={{this.register}} @isLoading={{this.isRegisterLoading}}>
-            {{t "pages.login-or-register-oidc.register-form.button"}}
+            {{t "pages.oidc-signup-or-login.register-form.button"}}
           </PixButton>
         {{else}}
-          <PixNotificationAlert @type="error" class="login-or-register-oidc-form__cgu-error">
+          <PixNotificationAlert @type="error" class="oidc-signup-or-login-form__cgu-error">
             {{this.userClaimsErrorMessage}}
           </PixNotificationAlert>
         {{/if}}
       </div>
 
-      <div class="login-or-register-oidc-form__divider"></div>
+      <div class="oidc-signup-or-login-form__divider"></div>
 
-      <div class="login-or-register-oidc-form__login-container">
-        <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.login-form.title"}}</h2>
-        <p class="login-or-register-oidc-form__description">
-          {{t "pages.login-or-register-oidc.login-form.description"}}
+      <div class="oidc-signup-or-login-form__login-container">
+        <h2 class="oidc-signup-or-login-form__subtitle">{{t "pages.oidc-signup-or-login.login-form.title"}}</h2>
+        <p class="oidc-signup-or-login-form__description">
+          {{t "pages.oidc-signup-or-login.login-form.description"}}
         </p>
         <form {{on "submit" this.login}}>
-          <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
+          <p class="oidc-signup-or-login-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
 
-          <div class="login-or-register-oidc-form__input-container">
+          <div class="oidc-signup-or-login-form__input-container">
             <PixInput
               @id="email"
               name="email"
@@ -88,13 +88,11 @@ export default class LoginOrRegisterOidcComponent extends Component {
               autocomplete="off"
               required
             >
-              <:label>{{t "pages.login-or-register-oidc.login-form.email"}}</:label>
+              <:label>{{t "pages.oidc-signup-or-login.login-form.email"}}</:label>
             </PixInput>
           </div>
 
-          <div
-            class="login-or-register-oidc-form__input-container login-or-register-oidc-form__input-container--password"
-          >
+          <div class="oidc-signup-or-login-form__input-container oidc-signup-or-login-form__input-container--password">
             <PixInputPassword
               @id="password"
               @value={{this.password}}
@@ -102,25 +100,21 @@ export default class LoginOrRegisterOidcComponent extends Component {
               required
               {{on "change" this.setPassword}}
             >
-              <:label>{{t "pages.login-or-register-oidc.login-form.password"}}</:label>
+              <:label>{{t "pages.oidc-signup-or-login.login-form.password"}}</:label>
             </PixInputPassword>
-            <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
+            <LinkTo @route="password-reset-demand" class="oidc-signup-or-login-form__forgotten-password-link">
               {{t "pages.sign-in.forgotten-password"}}
             </LinkTo>
           </div>
 
           {{#if this.loginErrorMessage}}
-            <PixNotificationAlert @type="error" class="login-or-register-oidc-form__cgu-error">
+            <PixNotificationAlert @type="error" class="oidc-signup-or-login-form__cgu-error">
               {{this.loginErrorMessage}}
             </PixNotificationAlert>
           {{/if}}
 
-          <PixButton
-            @type="submit"
-            @isLoading={{this.isLoginLoading}}
-            class="login-or-register-oidc-form__submit-button"
-          >
-            {{t "pages.login-or-register-oidc.login-form.button"}}
+          <PixButton @type="submit" @isLoading={{this.isLoginLoading}} class="oidc-signup-or-login-form__submit-button">
+            {{t "pages.oidc-signup-or-login.login-form.button"}}
           </PixButton>
         </form>
       </div>
@@ -161,7 +155,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
     const { userClaims } = this.args;
 
     if (!userClaims) {
-      return this.intl.t(`pages.login-or-register-oidc.register-form.error`);
+      return this.intl.t(`pages.oidc-signup-or-login.register-form.error`);
     } else {
       return null;
     }
@@ -174,11 +168,11 @@ export default class LoginOrRegisterOidcComponent extends Component {
 
     if (userClaims) {
       const { firstName, lastName, ...rest } = userClaims;
-      result.push(this.intl.t('pages.login-or-register-oidc.register-form.first-name-label-and-value', { firstName }));
-      result.push(this.intl.t('pages.login-or-register-oidc.register-form.last-name-label-and-value', { lastName }));
+      result.push(this.intl.t('pages.oidc-signup-or-login.register-form.first-name-label-and-value', { firstName }));
+      result.push(this.intl.t('pages.oidc-signup-or-login.register-form.last-name-label-and-value', { lastName }));
 
       Object.entries(rest).map(([key, _value]) => {
-        let label = `${this.intl.t(`pages.login-or-register-oidc.register-form.claims.${key}`)}`;
+        let label = `${this.intl.t(`pages.oidc-signup-or-login.register-form.claims.${key}`)}`;
 
         if (label.includes('Missing translation')) {
           label = key;

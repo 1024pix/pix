@@ -1,7 +1,7 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
-.login-or-register-oidc-form {
+.oidc-signup-or-login-form {
   display: flex;
   flex-direction: column;
   max-width: 1250px;

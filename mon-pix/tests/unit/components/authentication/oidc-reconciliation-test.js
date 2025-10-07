@@ -181,7 +181,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
           // then
           assert.strictEqual(
             component.reconcileErrorMessage,
-            t('pages.login-or-register-oidc.error.expired-authentication-key'),
+            t('pages.oidc-signup-or-login.error.expired-authentication-key'),
           );
           assert.false(component.isLoading);
         });

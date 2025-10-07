@@ -25,7 +25,7 @@ module('Unit | Errors | Factories | create-application-error', function (hooks) 
       });
 
       // Then
-      sinon.assert.calledWith(intlService.t, 'pages.login-or-register-oidc.error.data-sharing-refused');
+      sinon.assert.calledWith(intlService.t, 'pages.oidc-signup-or-login.error.data-sharing-refused');
       assert.strictEqual(error.message, 'My translated error message');
     });
   });

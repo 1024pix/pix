@@ -13,7 +13,7 @@ module('Acceptance | Login or register oidc', function (hooks) {
   setupIntl(hooks);
 
   module('when on international domain (.org)', function () {
-    module('when accessing "login-or-register-oidc" page', function () {
+    module('when accessing "oidc-signup-or-login" page', function () {
       test('displays the page with "Français" as selected language', async function (assert) {
         // when
         const screen = await visit('/connexion/oidc?identityProviderSlug=oidc-partner');
@@ -37,7 +37,7 @@ module('Acceptance | Login or register oidc', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: t('pages.login-or-register-oidc.register-form.title'),
+              name: t('pages.oidc-signup-or-login.register-form.title'),
               level: 2,
             }),
           )

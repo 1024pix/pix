@@ -8,7 +8,7 @@ import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import { stubSessionService } from '../../../helpers/service-stubs.js';
 import setupIntl from '../../../helpers/setup-intl';
 
-module('Unit | Component | authentication | login-or-register-oidc', function (hooks) {
+module('Unit | Component | authentication | oidc-signup-or-login', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -16,7 +16,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('completes successfully', function () {
       test('creates session', async function (assert) {
         // given
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
 
         component.args.identityProviderSlug = 'super-idp';
@@ -40,7 +40,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when authentication key has expired', function () {
         test('displays error', async function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
 
           const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
           sessionService.authenticate.rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
@@ -55,7 +55,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.registerErrorMessage,
-            t('pages.login-or-register-oidc.error.expired-authentication-key'),
+            t('pages.oidc-signup-or-login.error.expired-authentication-key'),
           );
         });
       });
@@ -63,20 +63,20 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when terms of service are not selected', function () {
         test('displays error', function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
           component.isTermsOfServiceValidated = false;
 
           // when
           component.register();
 
           // then
-          assert.strictEqual(component.registerErrorMessage, t('pages.login-or-register-oidc.error.error-message'));
+          assert.strictEqual(component.registerErrorMessage, t('pages.oidc-signup-or-login.error.error-message'));
         });
       });
 
       test('displays an error message but not with the details', async function (assert) {
         // given
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
         sessionService.authenticate.rejects({ errors: [{ status: '500', detail: 'some detail' }] });
 
@@ -99,7 +99,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
       test('displays a default error message', async function (assert) {
         // given
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
         sessionService.authenticate.rejects({ errors: [{ status: '500' }] });
 
@@ -126,7 +126,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       test('isRegisterLoading is true', async function (assert) {
         // given
         let inflightLoading;
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
         sessionService.authenticate = function () {
           inflightLoading = component.isRegisterLoading;
@@ -150,7 +150,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     test('trims on email validation', function (assert) {
       // given
       const emailWithSpaces = '   glace@aleau.net   ';
-      const component = createGlimmerComponent('authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/oidc-signup-or-login');
 
       // when
       component.validateEmail({ target: { value: emailWithSpaces } });
@@ -163,13 +163,13 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       test('displays error', function (assert) {
         // given
         const invalidEmail = 'glace@aleau';
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
 
         // when
         component.validateEmail({ target: { value: invalidEmail } });
 
         // then
-        assert.strictEqual(component.emailValidationMessage, t('pages.login-or-register-oidc.error.invalid-email'));
+        assert.strictEqual(component.emailValidationMessage, t('pages.oidc-signup-or-login.error.invalid-email'));
       });
     });
   });
@@ -197,7 +197,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         // given
         const email = 'glace.alo@example.net';
         const password = 'pix123';
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         component.email = email;
         component.password = password;
         component.args.onLogin = sinon.stub();
@@ -219,7 +219,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when form is invalid', function () {
         test('does not request api for reconciliation', async function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
           component.email = '';
           const eventStub = { preventDefault: sinon.stub() };
           component.args.onLogin = sinon.stub();
@@ -236,7 +236,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when authentication key has expired', function () {
         test('should display error', async function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
           component.args.onLogin = sinon
             .stub()
             .rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
@@ -250,7 +250,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            t('pages.login-or-register-oidc.error.expired-authentication-key'),
+            t('pages.oidc-signup-or-login.error.expired-authentication-key'),
           );
         });
       });
@@ -258,7 +258,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when there is an account conflict', function () {
         test('should display error', async function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
           component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
           component.email = 'glace.alo@example.net';
           component.password = 'pix123';
@@ -268,14 +268,14 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           await component.login(eventStub);
 
           // then
-          assert.strictEqual(component.loginErrorMessage, t('pages.login-or-register-oidc.error.account-conflict'));
+          assert.strictEqual(component.loginErrorMessage, t('pages.oidc-signup-or-login.error.account-conflict'));
         });
       });
 
       module('when user account is temporarily blocked', function () {
         test('displays error', async function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
 
           const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
           sessionService.authenticate.rejects({
@@ -304,7 +304,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when user account is blocked', function () {
         test('displays error', async function (assert) {
           // given
-          const component = createGlimmerComponent('authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/oidc-signup-or-login');
 
           const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
           sessionService.authenticate.rejects({ errors: [{ status: '403', code: 'USER_IS_BLOCKED' }] });
@@ -329,7 +329,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
       test('displays default error message', async function (assert) {
         // given
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
         component.email = 'glace.alo@example.net';
         component.password = 'pix123';
@@ -355,7 +355,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         // given
         let inflightLoading;
         const eventStub = { preventDefault: sinon.stub() };
-        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/oidc-signup-or-login');
         component.args.onLogin = function () {
           inflightLoading = component.isLoginLoading;
           return Promise.resolve();

@@ -7,7 +7,7 @@ import { SessionStorageEntry } from '../../utils/session-storage-entry';
 
 const oidcUserAuthenticationStorage = new SessionStorageEntry('oidcUserAuthentication');
 
-export default class LoginOrRegisterOidcController extends Controller {
+export default class OidcSignupOrLoginController extends Controller {
   queryParams = ['identityProviderSlug'];
 
   @service url;

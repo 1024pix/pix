@@ -62,7 +62,7 @@ module('Unit | Service | errorMessages', function (hooks) {
         const message = errorMessages.getAuthenticationErrorMessage(error);
 
         // then
-        assert.deepEqual(message, t('pages.login-or-register-oidc.error.expired-authentication-key'));
+        assert.deepEqual(message, t('pages.oidc-signup-or-login.error.expired-authentication-key'));
       });
 
       module('USER_IS_TEMPORARY_BLOCKED', function () {
@@ -227,7 +227,7 @@ module('Unit | Service | errorMessages', function (hooks) {
           const message = errorMessages.getAuthenticationErrorMessage(simpleErrorOrJsonApiError);
 
           // then
-          assert.deepEqual(message, t('pages.login-or-register-oidc.error.expired-authentication-key'));
+          assert.deepEqual(message, t('pages.oidc-signup-or-login.error.expired-authentication-key'));
         });
       });
     });

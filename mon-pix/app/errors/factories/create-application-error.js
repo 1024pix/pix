@@ -1,7 +1,7 @@
 import { ApplicationError } from 'mon-pix/errors/application-error';
 
 const ERROR_CODES_MAP_TO_I18N_KEY = {
-  access_denied: 'pages.login-or-register-oidc.error.data-sharing-refused',
+  access_denied: 'pages.oidc-signup-or-login.error.data-sharing-refused',
 };
 
 function withCodeAndDescription({ code, description, intl: intlService }) {

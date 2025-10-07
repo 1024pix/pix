@@ -73,7 +73,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         // then
         assert.strictEqual(currentURL(), `/connexion/oidc?identityProviderSlug=oidc-partner`);
-        assert.ok(screen.getByRole('heading', { name: t('pages.login-or-register-oidc.title') }));
+        assert.ok(screen.getByRole('heading', { name: t('pages.oidc-signup-or-login.title') }));
       });
 
       test('should begin campaign participation once user has accepted terms of service', async function (assert) {

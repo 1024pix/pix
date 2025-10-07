@@ -357,7 +357,7 @@ module('Unit | Route | login-oidc', function (hooks) {
         await route.redirect(model);
 
         // then
-        (sinon.assert.calledWith(route.router.transitionTo, 'authentication.login-or-register-oidc', {
+        (sinon.assert.calledWith(route.router.transitionTo, 'authentication.oidc-signup-or-login', {
           queryParams: {
             identityProviderSlug,
           },

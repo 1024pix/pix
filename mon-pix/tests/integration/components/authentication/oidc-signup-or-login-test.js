@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | authentication | login-or-register-oidc', function (hooks) {
+module('Integration | Component | authentication | oidc-signup-or-login', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -37,14 +37,14 @@ module('Integration | Component | authentication | login-or-register-oidc', func
   test('should display heading', async function (assert) {
     // given & when
     const screen = await render(
-      hbs`<Authentication::LoginOrRegisterOidc
+      hbs`<Authentication::OidcSignupOrLogin
   @identityProviderSlug={{this.identityProviderSlug}}
   @userClaims={{this.userClaims}}
 />`,
     ); // then
     assert.ok(
       screen.getByRole('heading', {
-        name: t('pages.login-or-register-oidc.title'),
+        name: t('pages.oidc-signup-or-login.title'),
         level: 1,
       }),
     );
@@ -55,7 +55,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       test('should display elements for OIDC identity provider', async function (assert) {
         // given & when
         const screen = await render(
-          hbs`<Authentication::LoginOrRegisterOidc
+          hbs`<Authentication::OidcSignupOrLogin
   @identityProviderSlug={{this.identityProviderSlug}}
   @userClaims={{this.userClaims}}
 />`,
@@ -64,20 +64,20 @@ module('Integration | Component | authentication | login-or-register-oidc', func
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: t('pages.login-or-register-oidc.register-form.title'),
+            name: t('pages.oidc-signup-or-login.register-form.title'),
             level: 2,
           }),
         );
-        assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.register-form.button') }));
+        assert.ok(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.register-form.button') }));
         assert.ok(screen.getByText('Partenaire OIDC'));
         assert.ok(
           screen.getByText(
-            t('pages.login-or-register-oidc.register-form.first-name-label-and-value', { firstName: 'Mélusine' }),
+            t('pages.oidc-signup-or-login.register-form.first-name-label-and-value', { firstName: 'Mélusine' }),
           ),
         );
         assert.ok(
           screen.getByText(
-            t('pages.login-or-register-oidc.register-form.last-name-label-and-value', { lastName: 'TITEGOUTTE' }),
+            t('pages.oidc-signup-or-login.register-form.last-name-label-and-value', { lastName: 'TITEGOUTTE' }),
           ),
         );
         assert.ok(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
@@ -90,26 +90,26 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       test('diplays an error and no register form', async function (assert) {
         // given & when
         const screen = await render(
-          hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+          hbs`<Authentication::OidcSignupOrLogin @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
         );
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: t('pages.login-or-register-oidc.register-form.title'),
+            name: t('pages.oidc-signup-or-login.register-form.title'),
             level: 2,
           }),
         );
-        assert.ok(screen.getByText(t('pages.login-or-register-oidc.register-form.error')));
-        assert.notOk(screen.queryByRole('button', { name: t('pages.login-or-register-oidc.register-form.button') }));
+        assert.ok(screen.getByText(t('pages.oidc-signup-or-login.register-form.error')));
+        assert.notOk(screen.queryByRole('button', { name: t('pages.oidc-signup-or-login.register-form.button') }));
         assert.notOk(screen.queryByText('Partenaire OIDC'));
         assert.notOk(
-          screen.queryByText(t('pages.login-or-register-oidc.register-form.first-name-label-and-value'), {
+          screen.queryByText(t('pages.oidc-signup-or-login.register-form.first-name-label-and-value'), {
             firstName: 'Mélusine',
           }),
         );
         assert.notOk(
-          screen.queryByText(t('pages.login-or-register-oidc.register-form.last-name-label-and-value'), {
+          screen.queryByText(t('pages.oidc-signup-or-login.register-form.last-name-label-and-value'), {
             lastName: 'TITEGOUTTE',
           }),
         );
@@ -124,17 +124,17 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     test('displays some form elements', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+        hbs`<Authentication::OidcSignupOrLogin @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
       ); // then
       assert.ok(
         screen.getByRole('heading', {
-          name: t('pages.login-or-register-oidc.login-form.title'),
+          name: t('pages.oidc-signup-or-login.login-form.title'),
           level: 2,
         }),
       );
-      assert.ok(screen.getByRole('textbox', { name: t('pages.login-or-register-oidc.login-form.email') }));
+      assert.ok(screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }));
       assert.ok(screen.getByRole('link', { name: t('pages.sign-in.forgotten-password') }));
-      assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.login-form.button') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
     });
   });
 });
