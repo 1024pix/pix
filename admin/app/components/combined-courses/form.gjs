@@ -1,8 +1,10 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -28,6 +30,26 @@ export default class CombineCourseForm extends Component {
     }
   }
 
+  @action
+  deleteItem(itemToDelete) {
+    console.log(itemToDelete.requirement_type);
+    console.log(itemToDelete.data.targetProfileId);
+    if (itemToDelete.requirement_type === 'campaignParticipations') {
+      const index = this.combinedCourseItems.findIndex(
+        (item) => item.data.targetProfileId.data === itemToDelete.data.targetProfileId.data,
+      );
+      // We need to keep this into two operations so re-render is triggered correctly
+      this.combinedCourseItems.splice(index, 1);
+      this.combinedCourseItems = [...this.combinedCourseItems];
+    } else {
+      const index = this.combinedCourseItems.findIndex(
+        (item) => item.data.moduleId.data === itemToDelete.data.moduleId.data,
+      );
+      this.combinedCourseItems.splice(index, 1);
+      this.combinedCourseItems = [...this.combinedCourseItems];
+    }
+  }
+
   addCampaign() {
     this.combinedCourseItems = [
       ...this.combinedCourseItems,
@@ -43,6 +65,7 @@ export default class CombineCourseForm extends Component {
       },
     ];
     this.itemId = null;
+    console.log(this.combinedCourseItems);
   }
 
   addModule() {
@@ -97,6 +120,10 @@ export default class CombineCourseForm extends Component {
     this.itemType = e.target.value;
   };
 
+  getCombinedCourseItems() {
+    return this.combinedCourseItems;
+  }
+
   <template>
     <PixBlock @variant="admin" class="combined-course-page">
       <h1 class="combined-course-page__title">Combined course creator</h1>
@@ -111,7 +138,7 @@ export default class CombineCourseForm extends Component {
               checked={{if (eq this.itemType "campaign") "checked"}}
               {{on "change" this.setItemType}}
             >
-              <:label>Campagne</:label>
+              <:label>Profil cible</:label>
             </PixRadioButton>
             <PixRadioButton
               name="itemType"
@@ -151,6 +178,11 @@ export default class CombineCourseForm extends Component {
                 -
                 {{this.getItemValue item}}
               </PixTag>
+              <PixIconButton
+                @ariaLabel="Supprimer l'élément du parcours combiné"
+                @iconName="delete"
+                @triggerAction={{fn this.deleteItem item}}
+              />
             </li>
           {{/each}}
         </ul>
