@@ -2290,7 +2290,8 @@
       "personal-information": {
         "first-name": "Nombre",
         "last-name": "Apellidos",
-        "menu-link-title": "Mis datos personales"
+        "menu-link-title": "Mis datos personales",
+        "trigram": "Trigrama"
       },
       "title": "Mi cuenta"
     },

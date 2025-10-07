@@ -2311,7 +2311,8 @@
       "personal-information": {
         "first-name": "Prénom",
         "last-name": "Nom",
-        "menu-link-title": "Mes informations personnelles"
+        "menu-link-title": "Mes informations personnelles",
+        "trigram": "Mon trigramme"
       },
       "title": "Mon compte"
     },
