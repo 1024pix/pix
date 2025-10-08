@@ -4,7 +4,7 @@ import Service from '@ember/service';
 import { click, find } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ModulixStepper from 'mon-pix/components/module/component/stepper';
-import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/element/qcu';
+import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/component/element';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -18,6 +18,8 @@ import SeparatorElement from 'mon-pix/components/module/element/separator';
 import TextElement from 'mon-pix/components/module/element/text';
 import VideoElement from 'mon-pix/components/module/element/video';
 
+export const VERIFY_RESPONSE_DELAY = 500;
+
 export default class ModulixElement extends Component {
   @action
   getLastCorrectionForElement() {

@@ -3,7 +3,8 @@ import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import ModulixQcm, { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/element/qcm';
+import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/component/element';
+import ModulixQcm from 'mon-pix/components/module/element/qcm';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

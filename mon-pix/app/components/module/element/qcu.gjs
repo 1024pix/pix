@@ -10,9 +10,8 @@ import { t } from 'ember-intl';
 import ModulixFeedback from 'mon-pix/components/module/feedback';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
+import { VERIFY_RESPONSE_DELAY } from '../component/element';
 import ModuleElement from './module-element';
-
-export const VERIFY_RESPONSE_DELAY = 500;
 
 export default class ModuleQcu extends ModuleElement {
   @tracked selectedAnswerId = null;
