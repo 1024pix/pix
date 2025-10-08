@@ -28,6 +28,7 @@ async function simulateFlashAssessmentScenario(
     locale,
     complementaryCertificationKey,
     stopAtChallenge,
+    versionId,
   } = request.payload;
 
   const pickAnswerStatus = dependencies.pickAnswerStatusService.pickAnswerStatusForCapacity(capacity);
@@ -48,6 +49,7 @@ async function simulateFlashAssessmentScenario(
           accessibilityAdjustmentNeeded,
           complementaryCertificationKey,
           stopAtChallenge,
+          versionId,
         },
         _.isUndefined,
       );

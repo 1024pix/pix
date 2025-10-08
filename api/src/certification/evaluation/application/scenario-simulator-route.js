@@ -34,6 +34,7 @@ const register = async (server) => {
                 .lowercase()
                 .required(),
               complementaryCertificationKey: Joi.string().valid(...Object.values(ComplementaryCertificationKeys)),
+              versionId: Joi.number().integer().min(0),
               stopAtChallenge: Joi.number().min(1).max(32).description('Limit the number of question in an iteration.'),
             })
             .required(),

@@ -28,32 +28,63 @@ describe('Unit | Domain | Usecases | simulate-flash-assessment-scenario', functi
             locale,
             accessibilityAdjustmentNeeded: undefined,
             hasComplementaryReferential: false,
+            versionId: undefined,
           });
         });
       });
 
       describe('when the certification has a complementary referential', function () {
-        it('should fetch the complementary framework challenges', async function () {
-          // given
-          const locale = FRENCH_FRANCE;
-          const accessibilityAdjustmentNeeded = false;
-          const complementaryCertificationKey = ComplementaryCertificationKeys.PIX_PLUS_DROIT;
-          const challengeRepositoryStub = { findActiveFlashCompatible: sinon.stub() };
+        describe('when given a complementary certification key', function () {
+          it('should fetch the complementary framework challenges', async function () {
+            // given
+            const locale = FRENCH_FRANCE;
+            const accessibilityAdjustmentNeeded = false;
+            const complementaryCertificationKey = ComplementaryCertificationKeys.PIX_PLUS_DROIT;
+            const challengeRepositoryStub = { findActiveFlashCompatible: sinon.stub() };
 
-          // when
-          await catchErr(simulateFlashAssessmentScenario)({
-            locale,
-            accessibilityAdjustmentNeeded,
-            complementaryCertificationKey,
-            sharedChallengeRepository: challengeRepositoryStub,
+            // when
+            await catchErr(simulateFlashAssessmentScenario)({
+              locale,
+              accessibilityAdjustmentNeeded,
+              complementaryCertificationKey,
+              sharedChallengeRepository: challengeRepositoryStub,
+            });
+
+            // then
+            expect(challengeRepositoryStub.findActiveFlashCompatible).to.have.been.calledOnceWithExactly({
+              complementaryCertificationKey,
+              locale,
+              accessibilityAdjustmentNeeded: undefined,
+              hasComplementaryReferential: true,
+              versionId: undefined,
+            });
           });
+        });
 
-          // then
-          expect(challengeRepositoryStub.findActiveFlashCompatible).to.have.been.calledOnceWithExactly({
-            complementaryCertificationKey,
-            locale,
-            accessibilityAdjustmentNeeded: undefined,
-            hasComplementaryReferential: true,
+        describe('when given a versionId', function () {
+          it('should fetch the complementary framework challenges', async function () {
+            // given
+            const locale = FRENCH_FRANCE;
+            const accessibilityAdjustmentNeeded = false;
+            const versionId = 1;
+            const challengeRepositoryStub = { findActiveFlashCompatible: sinon.stub() };
+
+            // when
+            await catchErr(simulateFlashAssessmentScenario)({
+              locale,
+              accessibilityAdjustmentNeeded,
+              versionId,
+              sharedChallengeRepository: challengeRepositoryStub,
+            });
+
+            // then
+            expect(challengeRepositoryStub.findActiveFlashCompatible).to.have.been.calledOnceWithExactly({
+              complementaryCertificationKey: undefined,
+              locale,
+              accessibilityAdjustmentNeeded: undefined,
+              hasComplementaryReferential: true,
+              versionId,
+            });
           });
         });
       });
@@ -80,6 +111,7 @@ describe('Unit | Domain | Usecases | simulate-flash-assessment-scenario', functi
           accessibilityAdjustmentNeeded,
           complementaryCertificationKey: undefined,
           hasComplementaryReferential: undefined,
+          versionId: undefined,
         });
       });
     });

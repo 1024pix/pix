@@ -2083,6 +2083,60 @@ describe('Integration | Repository | challenge-repository', function () {
         });
       });
     });
+
+    context('when version id is given', function () {
+      it('returns only valid calibrated flash compatible challenges that link to this version', async function () {
+        // given
+        const candidateReconciliationDate = new Date('2025-01-01');
+
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification.droit({});
+
+        challengesLC.push(
+          domainBuilder.buildChallenge({ id: 'challengeForComplementaryCertification', status: 'validé' }),
+        );
+        challengesLC.push(
+          domainBuilder.buildChallenge({
+            id: 'otherChallengeForComplementaryCertification',
+            status: 'validé',
+          }),
+        );
+
+        databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
+
+        const firstVersionId = 1;
+        const secondVersionId = 2;
+
+        const certificationFrameworksChallenge = databaseBuilder.factory.buildCertificationFrameworksChallenge({
+          complementaryCertificationKey: complementaryCertification.key,
+          challengeId: challengesLC[3].id,
+          version: dayjs(candidateReconciliationDate).subtract(1, 'day').format('YYYYMMDDHHmmss'),
+          versionId: firstVersionId,
+        });
+
+        databaseBuilder.factory.buildCertificationFrameworksChallenge({
+          complementaryCertificationKey: complementaryCertification.key,
+          challengeId: challengesLC[0].id,
+          version: dayjs(candidateReconciliationDate).subtract(1, 'day').format('YYYYMMDDHHmmss'),
+          versionId: secondVersionId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const flashCompatibleChallenges = await challengeRepository.findActiveFlashCompatible({
+          date: candidateReconciliationDate,
+          locale: 'fr',
+          versionId: firstVersionId,
+          complementaryCertificationKey: complementaryCertification.key,
+        });
+
+        // then
+        expect(flashCompatibleChallenges).to.have.lengthOf(1);
+        expect(flashCompatibleChallenges[0].id).to.equal(challengesLC[3].id);
+        expect(flashCompatibleChallenges[0].difficulty).to.equal(certificationFrameworksChallenge.difficulty);
+        expect(flashCompatibleChallenges[0].discriminant).to.equal(certificationFrameworksChallenge.discriminant);
+      });
+    });
   });
 
   describe('#findValidatedBySkillId', function () {

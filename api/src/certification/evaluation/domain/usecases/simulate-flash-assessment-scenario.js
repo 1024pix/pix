@@ -28,12 +28,14 @@ export async function simulateFlashAssessmentScenario({
   complementaryCertificationRepository,
   sharedChallengeRepository,
   accessibilityAdjustmentNeeded,
+  versionId,
   complementaryCertificationKey,
   stopAtChallenge,
 }) {
   if (complementaryCertificationKey) {
     return _simulateComplementaryCertificationScenario({
       complementaryCertificationKey,
+      versionId,
       challengeRepository: sharedChallengeRepository,
       complementaryCertificationRepository,
       flashAlgorithmService,
@@ -68,6 +70,7 @@ export async function simulateFlashAssessmentScenario({
 async function _simulateComplementaryCertificationScenario({
   locale,
   complementaryCertificationKey,
+  versionId,
   pickChallenge,
   pickAnswerStatus,
   initialCapacity,
@@ -83,6 +86,7 @@ async function _simulateComplementaryCertificationScenario({
     locale,
     challengeRepository,
     complementaryCertificationKey,
+    versionId,
     hasComplementaryReferential,
   });
 
@@ -146,12 +150,14 @@ function _getChallenges({
   locale,
   accessibilityAdjustmentNeeded,
   complementaryCertificationKey,
+  versionId,
   hasComplementaryReferential,
 }) {
   return challengeRepository.findActiveFlashCompatible({
     locale,
     accessibilityAdjustmentNeeded,
     complementaryCertificationKey,
+    versionId,
     hasComplementaryReferential,
   });
 }

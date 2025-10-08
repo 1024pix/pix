@@ -126,9 +126,10 @@ export async function findActiveFlashCompatible({
   successProbabilityThreshold = config.features.successProbabilityThreshold,
   accessibilityAdjustmentNeeded = false,
   complementaryCertificationKey,
+  versionId,
 } = {}) {
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded} })`;
+  const cacheKey = `findActiveFlashCompatible({ locale: ${locale}, accessibilityAdjustmentNeeded: ${accessibilityAdjustmentNeeded}, searchParameter: ${versionId ?? complementaryCertificationKey})`;
   let challengeDtos;
 
   if (complementaryCertificationKey && complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA) {
@@ -138,6 +139,7 @@ export async function findActiveFlashCompatible({
       complementaryCertificationKey,
       cacheKey,
       version,
+      versionId,
     });
   } else {
     challengeDtos = await _findChallengesForCoreCertification({ locale, accessibilityAdjustmentNeeded, cacheKey });
@@ -148,16 +150,23 @@ export async function findActiveFlashCompatible({
   );
 }
 
-async function _findValidChallengesForComplementaryCertification({ complementaryCertificationKey, cacheKey, version }) {
+async function _findValidChallengesForComplementaryCertification({
+  complementaryCertificationKey,
+  cacheKey,
+  version,
+  versionId,
+}) {
+  const whereClause = versionId ? { versionId } : { complementaryCertificationKey };
+
   const { closestVersion } = await knex('certification-frameworks-challenges')
-    .where({ complementaryCertificationKey })
+    .where(whereClause)
     .andWhere('version', '<=', version)
     .max('version as closestVersion')
     .first();
 
   const complementaryCertificationChallenges = await knex
     .from('certification-frameworks-challenges')
-    .where({ complementaryCertificationKey })
+    .where(whereClause)
     .whereNotNull('discriminant')
     .whereNotNull('difficulty')
     .andWhere('version', '=', closestVersion);
