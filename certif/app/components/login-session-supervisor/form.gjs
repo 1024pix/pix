@@ -7,7 +7,6 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
 import { t } from 'ember-intl';
 
 export default class LoginSessionSupervisor extends Component {
@@ -45,15 +44,6 @@ export default class LoginSessionSupervisor extends Component {
       switch (errors[0].code) {
         case 'CERTIFICATION_CENTER_IS_ARCHIVED':
           this.formError = this.intl.t('pages.session-supervising.login.form.errors.certification-center-archived');
-          break;
-        case 'SESSION_NOT_ACCESSIBLE':
-          if (errors[0].meta) {
-            this.formError = this.intl.t('restricted-access', {
-              date: dayjs(errors[0].meta.blockedAccessDate).format('DD/MM/YYYY'),
-            });
-            break;
-          }
-          this.formError = this.intl.t('pages.session-supervising.login.form.errors.incorrect-data');
           break;
         default:
           this.formError = this.intl.t('pages.session-supervising.login.form.errors.incorrect-data');

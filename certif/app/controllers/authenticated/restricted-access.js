@@ -25,10 +25,4 @@ export default class RestrictedAccessController extends Controller {
 
     return null;
   }
-
-  get accessBlockedLabel() {
-    return this.intl.t('restricted-access', {
-      date: dayjs.utc(this.model.pixCertifBlockedAccessUntilDate).format('L'),
-    });
-  }
 }
