@@ -32,12 +32,10 @@ const serialize = function (certificationPointOfContact) {
         'isAccessBlockedLycee',
         'isAccessBlockedAEFE',
         'isAccessBlockedAgri',
-        'isAccessBlockedUntilDate',
         'relatedOrganizationTags',
         'habilitations',
         'pixCertifScoBlockedAccessDateLycee',
         'pixCertifScoBlockedAccessDateCollege',
-        'pixCertifBlockedAccessUntilDate',
       ],
     },
     certificationCenterMemberships: {
@@ -71,10 +69,8 @@ const serialize = function (certificationPointOfContact) {
             isAccessBlockedLycee: access.isAccessBlockedLycee(),
             isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
             isAccessBlockedAgri: access.isAccessBlockedAgri(),
-            isAccessBlockedUntilDate: access.isAccessBlockedUntilDate(),
             pixCertifScoBlockedAccessDateCollege: access.pixCertifScoBlockedAccessDateCollege,
             pixCertifScoBlockedAccessDateLycee: access.pixCertifScoBlockedAccessDateLycee,
-            pixCertifBlockedAccessUntilDate: access.pixCertifBlockedAccessUntilDate,
           };
         },
       );

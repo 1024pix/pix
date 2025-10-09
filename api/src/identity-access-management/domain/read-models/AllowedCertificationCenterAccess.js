@@ -38,10 +38,6 @@ class AllowedCertificationCenterAccess {
     return this.isAgri() && !this.isInWhitelist() && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
   }
 
-  isAccessBlockedUntilDate() {
-    return !this.isInAccessBlockingWhitelist() && new Date() < new Date(features.pixCertifBlockedAccessUntilDate);
-  }
-
   hasTag(tagName) {
     return this.relatedOrganizationTags.includes(tagName);
   }
@@ -70,24 +66,12 @@ class AllowedCertificationCenterAccess {
     return this.#isInWhitelist;
   }
 
-  isInAccessBlockingWhitelist() {
-    if (!features.pixCertifBlockedAccessWhitelist) {
-      return false;
-    }
-    const whitelistedIds = features.pixCertifBlockedAccessWhitelist.split(',').map((id) => parseInt(id));
-    return whitelistedIds.includes(this.id);
-  }
-
   get pixCertifScoBlockedAccessDateLycee() {
     return features.pixCertifScoBlockedAccessDateLycee ?? null;
   }
 
   get pixCertifScoBlockedAccessDateCollege() {
     return features.pixCertifScoBlockedAccessDateCollege ?? null;
-  }
-
-  get pixCertifBlockedAccessUntilDate() {
-    return features.pixCertifBlockedAccessUntilDate ?? null;
   }
 }
 

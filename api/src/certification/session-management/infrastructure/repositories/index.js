@@ -1,6 +1,5 @@
 import * as certificationIssueReportRepository from '../../../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as issueReportCategoryRepository from '../../../../certification/shared/infrastructure/repositories/issue-report-category-repository.js';
-import * as certificationCenterAccessApi from '../../../../identity-access-management/application/api/certification-center-access-api.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
@@ -20,7 +19,6 @@ import * as complementaryCertificationCourseResultRepository from '../../../shar
 import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
-import * as certificationCenterAccessRepository from './certification-center-access-repository.js';
 import * as certificationCompanionAlertRepository from './certification-companion-alert-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as certificationRepository from './certification-repository.js';
@@ -80,7 +78,6 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {typeof certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  * @typedef {certificationRescoringRepository} CertificationRescoringRepository
- * @typedef {certificationCenterAccessRepository} CertificationCenterAccessRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -116,17 +113,14 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCandidateRepository,
   certificationCompanionAlertRepository,
   certificationRescoringRepository,
-  certificationCenterAccessRepository,
 };
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  * @typedef {certificationEvaluationApi} CertificationEvaluationApi
- * @typedef {certificationCenterAccessApi} CertificationCenterAccessApi
  */
 const dependencies = {
   certificationEvaluationApi,
-  certificationCenterAccessApi,
 };
 
 const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies);
