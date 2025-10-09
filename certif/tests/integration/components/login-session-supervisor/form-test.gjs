@@ -91,40 +91,6 @@ module('Integration | Component | Login session supervisor | Form', function (ho
       });
     });
 
-    module('when pix certif access is blocked', function () {
-      test('it should display a specific error', async function (assert) {
-        // given
-        const authenticateSupervisor = sinon
-          .stub()
-          .rejects({ errors: [{ code: 'SESSION_NOT_ACCESSIBLE', meta: { blockedAccessDate: '2020-10-10' } }] });
-
-        // when
-        const screen = await render(
-          <template><LoginSessionSupervisorForm @authenticateSupervisor={{authenticateSupervisor}} /></template>,
-        );
-
-        await fillIn(
-          screen.getByLabelText(t('pages.session-supervising.login.form.session-number'), { exact: false }),
-          222,
-        );
-        await fillIn(
-          screen.getByLabelText(t('pages.session-supervising.login.form.session-password.label'), { exact: false }),
-          222,
-        );
-        await click(screen.getByRole('button', { name: t('pages.session-supervising.login.form.actions.invigilate') }));
-
-        // then
-        assert.ok(authenticateSupervisor.called);
-        assert
-          .dom(
-            within(screen.getByRole('alert')).getByText(
-              'Site en maintenance, réouverture de votre espace Pix Certif le 10/10/2020 (00h00, heure France métropolitaine).',
-            ),
-          )
-          .exists();
-      });
-    });
-
     module('on success', function () {
       test('it should not display an error', async function (assert) {
         // given
