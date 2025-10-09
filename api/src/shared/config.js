@@ -284,8 +284,6 @@ const configuration = (function () {
       successProbabilityThreshold: parseFloat(process.env.SUCCESS_PROBABILITY_THRESHOLD ?? '0.95'),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
-      pixCertifBlockedAccessUntilDate: process.env.PIX_CERTIF_BLOCKED_ACCESS_UNTIL_DATE,
-      pixCertifBlockedAccessWhitelist: process.env.PIX_CERTIF_BLOCKED_ACCESS_WHITELIST,
       scheduleComputeOrganizationLearnersCertificability: {
         cron: process.env.SCHEDULE_COMPUTE_LEARNERS_CERTIFICABILITY_JOB_CRON || '0 21 * * *',
         chunkSize: process.env.SCHEDULE_COMPUTE_LEARNERS_CERTIFICABILITY_CHUNK_SIZE || 1000,
@@ -534,8 +532,6 @@ const configuration = (function () {
     config.features.maxReachableLevel = 5;
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
-    config.features.pixCertifBlockedAccessUntilDate = null;
-    config.features.pixCertifBlockedAccessWhitelist = null;
 
     config.featureToggles.deprecatePoleEmploiPushNotification = false;
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
