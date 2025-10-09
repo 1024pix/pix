@@ -1792,5 +1792,103 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         });
       });
     });
+
+    module('A Stepper with 3 steps', function () {
+      module('On the second step', function () {
+        module('when user clicks on the Next button', function () {
+          test('should not display a next button on the previous step', async function (assert) {
+            const steps = [
+              {
+                elements: [
+                  {
+                    id: 'd0690f26-978c-41c3-9a21-da931855555c',
+                    instruction: 'Instruction',
+                    proposals: [
+                      { id: '1', content: 'radio1' },
+                      { id: '2', content: 'radio2' },
+                    ],
+                    isAnswerable: true,
+                    type: 'qcu',
+                  },
+                ],
+              },
+              {
+                elements: [
+                  {
+                    id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                    instruction: 'Instruction',
+                    proposals: [
+                      { id: '1', content: 'radio3' },
+                      { id: '2', content: 'radio4' },
+                    ],
+                    isAnswerable: true,
+                    type: 'qcu',
+                  },
+                ],
+              },
+              {
+                elements: [
+                  {
+                    id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                    instruction: 'Instruction',
+                    proposals: [
+                      { id: '1', content: 'radio5' },
+                      { id: '2', content: 'radio6' },
+                    ],
+                    isAnswerable: true,
+                    type: 'qcu',
+                  },
+                ],
+              },
+            ];
+
+            function stepperIsFinished() {}
+
+            function onStepperNextStepStub() {}
+
+            function getLastCorrectionForElementStub() {
+              return Symbol('Correction');
+            }
+            const onElementAnswerStub = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const passage = store.createRecord('passage');
+            const passageEventService = this.owner.lookup('service:passage-events');
+            sinon.stub(passageEventService, 'record');
+
+            // when
+            const screen = await render(
+              <template>
+                <ModulixStepper
+                  @direction="horizontal"
+                  @passage={{passage}}
+                  @steps={{steps}}
+                  @stepperIsFinished={{stepperIsFinished}}
+                  @onStepperNextStep={{onStepperNextStepStub}}
+                  @onElementAnswer={{onElementAnswerStub}}
+                  @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
+                />
+              </template>,
+            );
+
+            // when
+            await clickByName('radio2');
+            await click(screen.getByRole('button', { name: t('pages.modulix.buttons.activity.verify') }));
+            passage.getLastCorrectionForElement = getLastCorrectionForElementStub;
+            await clock.tickAsync(NEXT_STEP_BUTTON_DELAY + 100);
+            await click(screen.getByRole('button', { name: t('pages.modulix.buttons.stepper.next.ariaLabel') }));
+
+            await clickByName('radio3');
+            await click(screen.getByRole('button', { name: t('pages.modulix.buttons.activity.verify') }));
+            await clock.tickAsync(NEXT_STEP_BUTTON_DELAY + 100);
+
+            // then
+            assert.strictEqual(
+              screen.getAllByRole('button', { name: t('pages.modulix.buttons.stepper.next.ariaLabel') }).length,
+              1,
+            );
+          });
+        });
+      });
+    });
   });
 });

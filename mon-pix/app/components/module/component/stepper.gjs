@@ -239,6 +239,7 @@ export default class ModulixStepper extends Component {
               <Step
                 @step={{step}}
                 @currentStep={{inc index}}
+                @lastDisplayedStepIndex={{this.lastDisplayedStepIndex}}
                 @totalSteps={{this.totalSteps}}
                 @onElementAnswer={{this.onElementAnswer}}
                 @onElementRetry={{@onElementRetry}}

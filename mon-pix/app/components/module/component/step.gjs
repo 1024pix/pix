@@ -27,6 +27,10 @@ export default class ModulixStep extends Component {
     return this.args.isActive && this.args.shouldAppearToRight;
   }
 
+  get shouldDisplayNextButton() {
+    return this.args.shouldDisplayNextButton && this.args.currentStep === this.args.lastDisplayedStepIndex + 1;
+  }
+
   @action
   focusAndScroll(htmlElement) {
     if (!this.args.isActive || this.args.preventScrollAndFocus) {
@@ -65,7 +69,7 @@ export default class ModulixStep extends Component {
             />
           </div>
         {{/each}}
-        {{#if @shouldDisplayNextButton}}
+        {{#if this.shouldDisplayNextButton}}
           <PixButton
             aria-label="{{t 'pages.modulix.buttons.stepper.next.ariaLabel'}}"
             @variant="primary"
