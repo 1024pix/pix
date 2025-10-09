@@ -17,13 +17,9 @@ export const getCertificationCenterAccess = async ({
   certificationCenterId,
   dependencies = { certificationPointOfContactRepository },
 }) => {
-  const allowedCertificationCenterAccess =
-    await dependencies.certificationPointOfContactRepository.getCertificationCenterAccess({
-      certificationCenterId,
-    });
-
-  return new AllowedCertificationCenterAccessDTO({
-    isAccessBlockedUntilDate: allowedCertificationCenterAccess.isAccessBlockedUntilDate(),
-    pixCertifBlockedAccessUntilDate: allowedCertificationCenterAccess.pixCertifBlockedAccessUntilDate,
+  await dependencies.certificationPointOfContactRepository.getCertificationCenterAccess({
+    certificationCenterId,
   });
+
+  return new AllowedCertificationCenterAccessDTO();
 };
