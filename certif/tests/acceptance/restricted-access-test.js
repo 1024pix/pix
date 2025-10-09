@@ -63,9 +63,7 @@ module('Acceptance | Restricted access', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-          isAccessBlockedUntilDate: false,
           pixCertifScoBlockedAccessDateLycee: undefined,
-          pixCertifBlockedAccessUntilDate: undefined,
           pixCertifScoBlockedAccessDateCollege: '2022-11-12',
         });
         certificationPointOfContact.update({
