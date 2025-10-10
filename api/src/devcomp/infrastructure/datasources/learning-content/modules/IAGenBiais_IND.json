@@ -164,21 +164,21 @@
                           "id": "1",
                           "content": "<p>oui</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bien vu !</strong> <br>Les contributeurs de l’encyclopédie en ligne Wikipédia sont majoritairement des hommes occidentaux, ce qui peut introduire certains biais culturels. <br>C’est le cas ici avec l’expression « Tiers Monde », utilisée dans le passé par les pays occidentaux plus développés. Cette expression est problématique car elle traduit une vision hiérarchisée et centrée sur les pays riches occidentaux, et ne correspond pas à la manière dont les pays concernés souhaitent être décrits. <br>Si l’IA utilise cette source pour son entraînement, elle pourrait réemployer le terme « Tiers Monde » et ainsi véhiculer un biais culturel datant d’une autre époque.</p>"
+                            "diagnosis": "<p><strong>Bien vu !<br></strong> Sur Wikipédia, beaucoup d’auteurs viennent de pays occidentaux, ce qui peut créer des biais culturels.<br>\nL’expression « Tiers Monde », issue d’une vision ancienne où les pays occidentaux se considéraient comme supérieurs aux autres.<br>\nSi une intelligence artificielle apprend à partir de ces textes, elle peut réutiliser ce terme et reproduire ce biais.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>non</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Et pourtant, si !</strong> <br>Les contributeurs de l’encyclopédie en ligne Wikipédia sont majoritairement des hommes occidentaux. Certains biais culturels y sont donc présents. C’est le cas ici avec l’expression «&nbsp;Tiers Monde&nbsp;», utilisée dans le passé par les pays occidentaux plus développés.<br>Si l’IA utilise cette source pour son entraînement, elle pourrait réutiliser l’expression Tiers monde et ainsi véhiculer un biais culturel, datant d’une autre époque.</p>"
+                            "diagnosis": "<p><strong>Et pourtant, si !</strong> <br>Sur Wikipédia, beaucoup d’auteurs viennent de pays occidentaux, ce qui peut créer des biais culturels.<br>\nL’expression « Tiers Monde », issue d’une vision ancienne où les pays occidentaux se considéraient comme supérieurs aux autres pays.<br>\nSi une intelligence artificielle apprend à partir de ces textes, elle peut réutiliser ce terme et reproduire ce biais.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>C'était oui.<br></strong>Les contributeurs de l’encyclopédie en ligne Wikipédia sont majoritairement des hommes occidentaux. Certains biais culturels y sont donc présents. C’est le cas ici avec l’expression «&nbsp;Tiers Monde&nbsp;», utilisée dans le passé par les pays occidentaux plus développés.<br>Si l’IA utilise cette source pour son entraînement, elle pourrait réutiliser l’expression Tiers monde et ainsi véhiculer un biais culturel, datant d’une autre époque.</p>"
+                            "diagnosis": "<p><strong>C'était oui.<br></strong>Sur Wikipédia, beaucoup d’auteurs viennent de pays occidentaux, ce qui peut créer des biais culturels.<br>\nL’expression « Tiers Monde », issue d’une vision ancienne où les pays occidentaux se considéraient comme supérieurs aux autres pays.<br>\nSi une intelligence artificielle apprend à partir de ces textes, elle peut réutiliser ce terme et reproduire ce biais.</p>"
                           }
                         }
                       ],
@@ -364,6 +364,11 @@
                 {
                   "elements": [
                     {
+                      "id": "b71e0ef9-6dfa-4a5c-8c5b-44fabeec523a",
+                      "type": "text",
+                      "content": "<p>Captain America est un fan des États-Unis et il a une demande pour l’IA.</p>"
+                    },
+                    {
                       "id": "0acc6d61-54b6-4a88-a5bb-c86ee663745f",
                       "type": "image",
                       "url": "https://assets.pix.org/modules/IAGenBiais_IND/pix-modulix-ia-biais-conversation-ia-gen-v2-img1.png",
@@ -419,6 +424,11 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "675e14bf-cd18-42d2-b63b-27ae5b34ba93",
+                      "type": "text",
+                      "content": "<p>Satô se demande à quoi ressemble la mode française, car il n’est jamais allé en France. Il demande à l’IA de générer une image d’un couple.</p>"
+                    },
                     {
                       "id": "274394d5-c33a-4e93-9889-c770f5e039d9",
                       "type": "image",
