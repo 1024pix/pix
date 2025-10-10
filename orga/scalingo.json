@@ -16,7 +16,7 @@
       "size": "S"
     }
   },
-  "stack": "scalingo-22",
+  "stack": "scalingo-24",
   "addons": [
     {
       "plan": "postgresql:postgresql-sandbox"
