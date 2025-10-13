@@ -381,14 +381,14 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>Parce qu’elles doivent respecter la confidentialité et protéger leurs données sensibles.</p>",
+                    "content": "<p>Elles doivent respecter la confidentialité et protéger leurs données sensibles.</p>",
                     "feedback": {
                       "diagnosis": "<p>Exact!<br>Les entreprises qui gèrent des <strong>informations confidentielles</strong> (clients, finances, contrats…) doivent garantir que les données ne seront<strong> pas réutilisées</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Parce qu’elles considèrent qu’Anthropic doit rémunérer ceux qui aident à perfectionner l’IA.</p>",
+                    "content": "<p>Elles considèrent qu’Anthropic doit rémunérer ceux qui aident à perfectionner l’IA.</p>",
                     "feedback": {
                       "diagnosis": "<p>Non. <br>Les entreprises qui gèrent des <strong>informations confidentielles</strong> (clients, finances, contrats…) doivent garantir que les données ne seront<strong> pas réutilisées</strong>. </p>"
                     }
