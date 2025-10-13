@@ -721,7 +721,7 @@ jobs:
           command: npm run test
           environment:
             PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci
       - store_test_results:
           path: ./test-results
       - store_artifacts:
