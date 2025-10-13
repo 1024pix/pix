@@ -681,7 +681,7 @@
                 "isCompletionRequired": true,
                 "title": "Corrige le prompt",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmg7tpodh00001t01ygol69a8",
-                "instruction": "<p>Corrigez le jusqu'à obtenir une version qui respecte la règle d'or de ce module.<br> </p>",
+                "instruction": "<p>Corrigez le jusqu'à obtenir une version qui décrit une situation générale, sans inclure de données personnelles, sensibles ou confidentielles.</p>",
                 "solution": "pix-llm-success",
                 "height": 600
               }
