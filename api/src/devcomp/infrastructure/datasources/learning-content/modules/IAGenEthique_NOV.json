@@ -487,9 +487,9 @@
                   },
                   {
                     "id": "4",
-                    "content": "<p>Parce que ces conversations servent à réparer les ordinateurs quand ils ont des bugs.</p>",
+                    "content": "<p>Parce qu’elles utilisent ces conversations pour former les nouveaux employés</p>",
                     "feedback": {
-                      "state": "<p>Parce qu’elles utilisent ces conversations pour former les nouveaux employés</p>",
+                      "state": "<p>Pas vraiment...</p>",
                       "diagnosis": "<p>En réalité, les entreprises d’IA utilisent les données pour apprendre à leurs programmes à mieux fonctionner.</p>"
                     }
                   }
