@@ -624,14 +624,6 @@
                     }
                   },
                   {
-                    "id": "3",
-                    "content": "<p>Le code informatique généré contient parfois des bugs</p>",
-                    "feedback": {
-                      "state": "<p>Incorrect<br></p>",
-                      "diagnosis": "<p>Comme tout outil automatisé, Copilot peut générer du code imparfait. Cependant, l’exemple mentionné ne parle pas de bugs, mais de fuites de mots de passe. Le risque principal évoqué concerne la sécurité, pas la qualité du code.</p>"
-                    }
-                  },
-                  {
                     "id": "4",
                     "content": "<p>On peut perdre toutes nos données par erreur.</p>",
                     "feedback": {
