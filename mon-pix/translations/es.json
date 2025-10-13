@@ -2288,6 +2288,7 @@
         "update-successful": "El idioma ha sido cambiado."
       },
       "personal-information": {
+        "avatar": "Avatar",
         "first-name": "Nombre",
         "last-name": "Apellidos",
         "menu-link-title": "Mis datos personales",

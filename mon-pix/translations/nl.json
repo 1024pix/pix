@@ -2292,6 +2292,7 @@
         "update-successful": "Je taal is veranderd!"
       },
       "personal-information": {
+        "avatar": "Avatar",
         "first-name": "Voornaam",
         "last-name": "Achternaam",
         "menu-link-title": "Mijn persoonlijke gegevens",

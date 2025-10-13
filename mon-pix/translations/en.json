@@ -2301,6 +2301,7 @@
         "update-successful": "Your language has been updated!"
       },
       "personal-information": {
+        "avatar": "Avatar",
         "first-name": "First name",
         "last-name": "Last name",
         "menu-link-title": "Personal information",

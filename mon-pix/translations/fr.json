@@ -2309,6 +2309,7 @@
         "update-successful": "Votre langue a été changée !"
       },
       "personal-information": {
+        "avatar": "Avatar",
         "first-name": "Prénom",
         "last-name": "Nom",
         "menu-link-title": "Mes informations personnelles",
