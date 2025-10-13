@@ -78,6 +78,7 @@ export const userRoutes = [
               'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
               'should-see-data-protection-policy-information-banner': Joi.boolean().allow(null),
               'pix-orga-terms-of-service-status': Joi.boolean().allow(null), // sent by Pix Orga when creating a user upon invitation
+              'avatar-url': Joi.string().uri().allow(null),
             }).required(),
             relationships: Joi.object(),
           }).required(),
