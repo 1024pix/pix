@@ -611,7 +611,7 @@
                     "id": "1",
                     "content": "<p>Elles dévoilent parfois des données sensibles.</p>",
                     "feedback": {
-                      "state": "<p>Bonne réponse</p>",
+                      "state": "<p>Bonne réponse !</p>",
                       "diagnosis": "<p>C’est exactement ce que montre l’exemple de GitHub Copilot : en générant du code, l’IA a parfois reproduit des éléments confidentiels comme des mots de passe. Cela illustre le risque de fuite de données sensibles avec les outils d’IA grand public.</p>"
                     }
                   },
@@ -619,7 +619,7 @@
                     "id": "2",
                     "content": "<p>Elles ne sont jamais capables de générer du code utile.</p>",
                     "feedback": {
-                      "state": "<p>Incorrect</p>",
+                      "state": "<p>Mauvaise réponse.</p>",
                       "diagnosis": "<p>Au contraire, GitHub Copilot est très performant pour aider les développeurs à produire du code rapidement. Le problème ne vient pas de son utilité, mais des risques liés à la confidentialité des données qu’il peut réutiliser sans discernement.</p>"
                     }
                   },
@@ -627,7 +627,7 @@
                     "id": "4",
                     "content": "<p>On peut perdre toutes nos données par erreur.</p>",
                     "feedback": {
-                      "state": "<p>Incorrect</p>",
+                      "state": "<p>Mauvaise réponse.</p>",
                       "diagnosis": "<p>L’exemple de GitHub Copilot ne mentionne pas de perte de données, mais plutôt une divulgation involontaire de données confidentielles. La perte totale de données serait un autre type de problème, non évoqué ici.</p>"
                     }
                   }
