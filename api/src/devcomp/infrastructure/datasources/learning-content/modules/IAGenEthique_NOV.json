@@ -487,9 +487,9 @@
                   },
                   {
                     "id": "4",
-                    "content": "<p>Parce qu’elles utilisent ces conversations pour former les nouveaux employés</p>",
+                    "content": "<p>Parce que ces conversations servent à réparer les ordinateurs quand ils ont des bugs.</p>",
                     "feedback": {
-                      "state": "<p>Pas vraiment...</p>",
+                      "state": "<p>Parce qu’elles utilisent ces conversations pour former les nouveaux employés</p>",
                       "diagnosis": "<p>En réalité, les entreprises d’IA utilisent les données pour apprendre à leurs programmes à mieux fonctionner.</p>"
                     }
                   }
@@ -624,14 +624,6 @@
                     }
                   },
                   {
-                    "id": "3",
-                    "content": "<p>Le code informatique généré contient parfois des bugs</p>",
-                    "feedback": {
-                      "state": "<p>Incorrect<br></p>",
-                      "diagnosis": "<p>Comme tout outil automatisé, Copilot peut générer du code imparfait. Cependant, l’exemple mentionné ne parle pas de bugs, mais de fuites de mots de passe. Le risque principal évoqué concerne la sécurité, pas la qualité du code.</p>"
-                    }
-                  },
-                  {
                     "id": "4",
                     "content": "<p>On peut perdre toutes nos données par erreur.</p>",
                     "feedback": {
@@ -669,7 +661,7 @@
               "element": {
                 "id": "bae27e2d-8f78-4836-bb1f-7f2a19c91b5f",
                 "type": "custom",
-                "instruction": " ",
+                "instruction": "<p><br></p>",
                 "tagName": "llm-messages",
                 "props": {
                   "messages": [
