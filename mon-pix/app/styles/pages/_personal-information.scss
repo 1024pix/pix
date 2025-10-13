@@ -15,6 +15,11 @@
     border-bottom: none;
   }
 
+  &__avatar {
+    width: 90px;
+    height: 90px;
+  }
+
   &__label {
     display: flex;
     align-items: center;

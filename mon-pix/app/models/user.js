@@ -23,6 +23,7 @@ export default class User extends Model {
   @attr('boolean') shouldSeeDataProtectionPolicyInformationBanner;
   @attr('boolean') emailConfirmed;
   @attr() lastDataProtectionPolicySeenAt;
+  @attr('string') avatarUrl;
 
   // includes
   @belongsTo('is-certifiable', { async: true, inverse: null }) isCertifiable;
