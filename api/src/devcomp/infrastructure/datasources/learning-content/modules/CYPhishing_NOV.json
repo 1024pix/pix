@@ -510,7 +510,7 @@
               "element": {
                 "id": "37456903-7211-469f-86a6-e6c3b10287b4",
                 "type": "text",
-                "content": "<p>Les messages d’arnaque vous invitent toujours à agir rapidement&nbsp;:</p>"
+                "content": "<p>Les messages d’arnaque vous invitent toujours à <strong>agir rapidement</strong>&nbsp;:</p>"
               }
             },
             {
@@ -978,7 +978,7 @@
               "type": "element",
               "element": {
                 "id": "def10793-84be-42cf-acc2-85c7ed3aa629",
-                "type": "qcu-discovery",
+                "type": "qcu-declarative",
                 "instruction": "<p>Suite à la lecture de ce module, que faites-vous ?</p>",
                 "proposals": [
                   {
@@ -1009,8 +1009,7 @@
                       "diagnosis": "<p>Ce n’est pas très prudent ! Quelqu’un peut avoir usurpé l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
                     }
                   }
-                ],
-                "solution": "3"
+                ]
               }
             }
           ]
