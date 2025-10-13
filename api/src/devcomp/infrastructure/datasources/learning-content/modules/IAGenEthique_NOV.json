@@ -661,7 +661,7 @@
               "element": {
                 "id": "bae27e2d-8f78-4836-bb1f-7f2a19c91b5f",
                 "type": "custom",
-                "instruction": "<p><br></p>",
+                "instruction": " ",
                 "tagName": "llm-messages",
                 "props": {
                   "messages": [
