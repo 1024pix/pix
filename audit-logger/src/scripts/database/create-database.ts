@@ -1,10 +1,6 @@
-import * as dotenv from 'dotenv';
-
 import { PGSQL_DUPLICATE_DATABASE_ERROR } from '../../lib/domain/errors.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import PgClient from '../../lib/infrastructure/pg-client.js';
-
-dotenv.config({ quiet: true });
 
 async function main(): Promise<void> {
   const dbUrl = (process.env.NODE_ENV === 'test' ? process.env.TEST_DATABASE_URL : process.env.DATABASE_URL) as string;

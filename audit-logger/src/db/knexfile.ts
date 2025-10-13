@@ -1,14 +1,8 @@
 import 'ts-node/register';
-
-import * as dotenv from 'dotenv';
 import { type Knex } from 'knex';
-import path from 'path';
-import url from 'url';
+import { loadEnvFileIfExists } from '../shared/load-env-file-if-exists.js';
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const envFilePath = path.join(__dirname, '..', '..', '.env');
-
-dotenv.config({ path: envFilePath });
+loadEnvFileIfExists();
 
 type BooleanType = 'true' | 'false';
 type KnexConfig = {

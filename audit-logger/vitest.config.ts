@@ -7,5 +7,8 @@ export default defineConfig({
     watch: false,
     pool: 'threads',
     poolOptions: { threads: { singleThread: true } },
+    setupFiles: [
+      './tests/setup-tests.ts',
+    ],
   },
 });
