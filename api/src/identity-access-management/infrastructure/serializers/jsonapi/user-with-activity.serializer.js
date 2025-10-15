@@ -29,6 +29,7 @@ const serialize = function (users, meta) {
       'codeForLastProfileToShare',
       'trainings',
       'shouldSeeDataProtectionPolicyInformationBanner',
+      'personalPageUrl',
     ],
     profile: {
       ref: 'id',
