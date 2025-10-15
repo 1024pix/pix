@@ -29,6 +29,7 @@ const { ROLES } = PIX_ADMIN;
  * @property {boolean} cgu
  * @property {string} lang
  * @property {string} locale
+ * @property {string} personalPageUrl
  * @property {Date} lastTermsOfServiceValidatedAt
  * @property {Date} lastPixCertifTermsOfServiceValidatedAt
  * @property {boolean} mustValidateTermsOfService
@@ -54,6 +55,7 @@ const buildUser = function buildUser({
   cgu = true,
   lang = 'fr',
   locale = null,
+  personalPageUrl = null,
   lastTermsOfServiceValidatedAt = null,
   lastPixCertifTermsOfServiceValidatedAt = null,
   mustValidateTermsOfService = false,
@@ -81,6 +83,7 @@ const buildUser = function buildUser({
     cgu,
     lang,
     locale,
+    personalPageUrl,
     lastTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt,
     mustValidateTermsOfService,
@@ -113,6 +116,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   cgu = true,
   lang = 'fr',
   locale,
+  personalPageUrl,
   lastTermsOfServiceValidatedAt = new Date('2019-04-28T02:42:00Z'),
   lastPixCertifTermsOfServiceValidatedAt = null,
   mustValidateTermsOfService = false,
@@ -135,6 +139,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     cgu,
     lang,
     locale,
+    personalPageUrl,
     lastTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt,
     mustValidateTermsOfService,
