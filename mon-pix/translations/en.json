@@ -2303,7 +2303,8 @@
       "personal-information": {
         "first-name": "First name",
         "last-name": "Last name",
-        "menu-link-title": "Personal information"
+        "menu-link-title": "Personal information",
+        "personal-page-url": "Personal page URL"
       },
       "title": "My account"
     },

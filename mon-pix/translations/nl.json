@@ -2294,7 +2294,8 @@
       "personal-information": {
         "first-name": "Voornaam",
         "last-name": "Achternaam",
-        "menu-link-title": "Mijn persoonlijke gegevens"
+        "menu-link-title": "Mijn persoonlijke gegevens",
+        "personal-page-url": "persoonlijke pagina-url"
       },
       "title": "Mijn account"
     },
