@@ -295,7 +295,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
         expect(result.completedAt).to.be.null;
       });
 
-      it('should update completedAt / updatedAt / status from organization_learner_participations when participation is completed', async function () {
+      it('should update completedAt / updatedAt / status and attributes from organization_learner_participations when participation is completed', async function () {
         //given
         const { id: combinedCourseId, questId } = databaseBuilder.factory.buildCombinedCourse();
         const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner();

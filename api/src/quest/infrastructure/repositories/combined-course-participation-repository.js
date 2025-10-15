@@ -91,15 +91,16 @@ export const findUserIdsById = async function ({ combinedCourseId, page }) {
 
 export const update = async function ({ combinedCourseParticipation }) {
   const knexConnection = DomainTransaction.getConnection();
-  const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromCombinedCourseParticipation({
-    id: combinedCourseParticipation.organizationLearnerParticipationId,
-    organizationLearnerId: combinedCourseParticipation.organizationLearnerId,
-    questId: combinedCourseParticipation.questId,
-    status: combinedCourseParticipation.status,
-    createdAt: combinedCourseParticipation.createdAt,
-    updatedAt: combinedCourseParticipation.updatedAt,
-  });
   if (combinedCourseParticipation.organizationLearnerParticipationId) {
+    const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromCombinedCourseParticipation({
+      id: combinedCourseParticipation.organizationLearnerParticipationId,
+      organizationLearnerId: combinedCourseParticipation.organizationLearnerId,
+      questId: combinedCourseParticipation.questId,
+      status: combinedCourseParticipation.status,
+      createdAt: combinedCourseParticipation.createdAt,
+      updatedAt: combinedCourseParticipation.updatedAt,
+      combinedCourseId: combinedCourseParticipation.combinedCourseId,
+    });
     await knexConnection('organization_learner_participations')
       .where({ id: combinedCourseParticipation.organizationLearnerParticipationId })
       .update({
