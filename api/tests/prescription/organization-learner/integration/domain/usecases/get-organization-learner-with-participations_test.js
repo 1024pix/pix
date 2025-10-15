@@ -1,6 +1,10 @@
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
+import { tagRepository } from '../../../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import { CampaignParticipationOverview } from '../../../../../../src/prescription/campaign-participation/domain/read-models/CampaignParticipationOverview.js';
-import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
+import * as campaignParticipationOverviewRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
+import { getOrganizationLearnerWithParticipations } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-organization-learner-with-participations.js';
+import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | UseCases | get-organization-learner-with-participations', function () {
@@ -39,7 +43,14 @@ describe('Integration | UseCases | get-organization-learner-with-participations'
     await databaseBuilder.commit();
 
     // when
-    const result = await usecases.getOrganizationLearnerWithParticipations({ userId, organizationId: organization.id });
+    const result = await getOrganizationLearnerWithParticipations({
+      userId,
+      organizationId: organization.id,
+      organizationLearnerRepository,
+      organizationRepository,
+      campaignParticipationOverviewRepository,
+      tagRepository,
+    });
 
     // then
     expect(result.organizationLearner.id).to.equal(organizationLearnerId);

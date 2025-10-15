@@ -1,4 +1,10 @@
-import { usecases } from '../../domain/usecases/index.js';
+import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
+import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as campaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
+import * as libOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as organizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import { findOrganizationLearnersWithParticipations } from '../../domain/usecases/find-organization-learners-with-participations.js';
+import { getOrganizationLearnerWithParticipations } from '../../domain/usecases/get-organization-learner-with-participations.js';
 import { OrganizationLearnerWithParticipations } from './read-models/OrganizationLearnerWithParticipations.js';
 
 /**
@@ -52,8 +58,12 @@ import { OrganizationLearnerWithParticipations } from './read-models/Organizatio
  * @returns {Promise<Array<OrganizationLearnerWithParticipations>>}
  */
 export async function find({ userIds }) {
-  const organizationLearnersWithParticipations = await usecases.findOrganizationLearnersWithParticipations({
+  const organizationLearnersWithParticipations = await findOrganizationLearnersWithParticipations({
     userIds,
+    campaignParticipationOverviewRepository,
+    tagRepository,
+    libOrganizationLearnerRepository,
+    organizationRepository,
   });
 
   return organizationLearnersWithParticipations.map(
@@ -69,9 +79,13 @@ export async function find({ userIds }) {
 }
 
 export async function getByUserIdAndOrganizationId({ userId, organizationId }) {
-  const organizationLearnerWithParticipation = await usecases.getOrganizationLearnerWithParticipations({
+  const organizationLearnerWithParticipation = await getOrganizationLearnerWithParticipations({
     userId,
     organizationId,
+    organizationLearnerRepository,
+    organizationRepository,
+    tagRepository,
+    campaignParticipationOverviewRepository,
   });
   return new OrganizationLearnerWithParticipations(organizationLearnerWithParticipation);
 }

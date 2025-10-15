@@ -1,18 +1,56 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import * as modulesApi from '../../devcomp/application/api/modules-api.js';
+import * as recommendedModulesApi from '../../devcomp/application/api/recommended-modules-api.js';
+import * as campaignsApi from '../../prescription/campaign/application/api/campaigns-api.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../../quest/domain/models/CombinedCourseItem.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationTypes,
 } from '../../quest/domain/models/OrganizationLearnerParticipation.js';
-import combinedCourseDetailsService from '../../quest/domain/services/combined-course-details-service.js';
+import CombinedCourseDetailsService from '../../quest/domain/services/combined-course-details-service.js';
+import * as campaignRepository from '../../quest/infrastructure/repositories/campaign-repository.js';
+import * as combinedCourseParticipationRepository from '../../quest/infrastructure/repositories/combined-course-participation-repository.js';
+import * as combinedCourseRepository from '../../quest/infrastructure/repositories/combined-course-repository.js';
+import * as eligibilityRepository from '../../quest/infrastructure/repositories/eligibility-repository.js';
+import * as moduleRepository from '../../quest/infrastructure/repositories/module-repository.js';
+import * as questRepository from '../../quest/infrastructure/repositories/quest-repository.js';
+import * as recommendedModulesRepository from '../../quest/infrastructure/repositories/recommended-module-repository.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { injectDependencies } from '../../shared/infrastructure/utils/dependency-injection.js';
+import * as organizationLearnerWithParticipationApi from '../organization-learner/application/api/organization-learners-with-participations-api.js';
+
+/*
+WARNING CircularDependencies
+Add injectDependencies in order to avoid `cannot access repositories before initialization`
+*/
+const { eligibilityRepository: injectedEligibilityRepository } = injectDependencies(
+  { eligibilityRepository },
+  { organizationLearnerWithParticipationApi, modulesApi },
+);
+const { recommendedModulesRepository: injectedRecommendedModulesRepository } = injectDependencies(
+  { recommendedModulesRepository },
+  { recommendedModulesApi },
+);
+const { moduleRepository: injectedModuleRepository } = injectDependencies({ moduleRepository }, { modulesApi });
+const { campaignRepository: injectedCampaignRepository } = injectDependencies({ campaignRepository }, { campaignsApi });
+const { CombinedCourseDetailsService: combinedCourseDetailsService } = injectDependencies(
+  { CombinedCourseDetailsService },
+  {
+    combinedCourseParticipationRepository,
+    combinedCourseRepository,
+    eligibilityRepository: injectedEligibilityRepository,
+    moduleRepository: injectedModuleRepository,
+    questRepository,
+    recommendedModulesRepository: injectedRecommendedModulesRepository,
+    campaignRepository: injectedCampaignRepository,
+  },
+);
 
 class CreateOrUpdateOrganizationLearnerParticipationsForPassages extends Script {
   constructor() {
     super({
-      description: 'Script to add campaignParticipationId unicity constraint on knowledge-element-snapshots',
+      description: 'Script to add create organization learner participation of type PASSAGES',
       permanent: false,
       options: {
         dryRun: {

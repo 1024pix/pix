@@ -1,20 +1,19 @@
 import { config } from '../../../shared/config.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
 import { CombinedCourseDetails } from '../models/CombinedCourse.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
 async function getCombinedCourseDetails({
   userId,
   combinedCourseId,
-  combinedCourseParticipationRepository = repositories.combinedCourseParticipationRepository,
-  combinedCourseRepository = repositories.combinedCourseRepository,
-  campaignRepository = repositories.campaignRepository,
-  questRepository = repositories.questRepository,
-  moduleRepository = repositories.moduleRepository,
-  eligibilityRepository = repositories.eligibilityRepository,
-  recommendedModulesRepository = repositories.recommendedModulesRepository,
+  combinedCourseParticipationRepository,
+  combinedCourseRepository,
+  campaignRepository,
+  questRepository,
+  moduleRepository,
+  eligibilityRepository,
+  recommendedModulesRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getById({ id: combinedCourseId });
   const quest = await questRepository.findById({ questId: combinedCourse.questId });

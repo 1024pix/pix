@@ -28,8 +28,6 @@ const firstTrainingfrFRId = QUEST_OFFSET + 1;
 const secondTrainingfrFRId = QUEST_OFFSET + 2;
 const firstTrainingFRId = QUEST_OFFSET + 3;
 const secondTrainingFRId = QUEST_OFFSET + 4;
-const firstProTrainingfrFRId = QUEST_OFFSET + 5;
-const firstProTrainingFRId = QUEST_OFFSET + 6;
 
 function buildCombinedCourseQuest(databaseBuilder, organizationId) {
   const targetProfile = buildTargetProfile(databaseBuilder, { id: organizationId }, 0, TARGET_PROFILE_TUBES[0]);
@@ -225,7 +223,7 @@ function buildProCombinedCourseQuest(databaseBuilder, organizationId) {
         comparison: 'all',
         data: {
           moduleId: {
-            data: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a',
+            data: '65b761ab-3ebd-44a9-84b7-8b5e151aee76',
             comparison: 'equal',
           },
           isTerminated: {
@@ -239,7 +237,7 @@ function buildProCombinedCourseQuest(databaseBuilder, organizationId) {
         comparison: 'all',
         data: {
           moduleId: {
-            data: 'f32a2238-4f65-4698-b486-15d51935d335',
+            data: 'd4c4a2b2-0046-471d-ad9c-15f9cfc8f1f6',
             comparison: 'equal',
           },
           isTerminated: {
@@ -321,38 +319,6 @@ function buildProCombinedCourseQuest(databaseBuilder, organizationId) {
     campaignId: campaign.id,
     organizationLearnerId: jacquelineLearner.id,
   });
-
-  databaseBuilder.factory.buildTraining({
-    id: firstProTrainingfrFRId,
-    type: 'modulix',
-    title: 'Demo combinix 1',
-    link: '/modules/demo-combinix-1',
-    locale: 'fr-fr',
-  });
-  databaseBuilder.factory.buildTraining({
-    id: firstProTrainingFRId,
-    type: 'modulix',
-    title: 'Demo combinix 1',
-    link: '/modules/demo-combinix-1',
-    locale: 'FR',
-  });
-  const trainingTriggerIds = [
-    databaseBuilder.factory.buildTrainingTrigger({
-      trainingId: firstProTrainingfrFRId,
-      threshold: 0,
-      type: 'prerequisite',
-    }).id,
-    databaseBuilder.factory.buildTrainingTrigger({
-      trainingId: firstProTrainingFRId,
-      threshold: 0,
-      type: 'prerequisite',
-    }).id,
-  ];
-  trainingTriggerIds.forEach((trainingTriggerId) =>
-    TARGET_PROFILE_TUBES[0].map((tube) =>
-      databaseBuilder.factory.buildTrainingTriggerTube({ trainingTriggerId, tubeId: tube.id, level: tube.level }),
-    ),
-  );
 }
 
 function buildParenthoodQuest(databaseBuilder) {

@@ -4,6 +4,19 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import combinedCourseDetailsService from '../services/combined-course-details-service.js';
 
+const { combinedCourseDetailsService: injectedCombinedCourseDetailsService } = injectDependencies(
+  { combinedCourseDetailsService },
+  {
+    combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
+    combinedCourseRepository: repositories.combinedCourseRepository,
+    campaignRepository: repositories.campaignRepository,
+    questRepository: repositories.questRepository,
+    moduleRepository: repositories.moduleRepository,
+    eligibilityRepository: repositories.eligibilityRepository,
+    recommendedModulesRepository: repositories.recommendedModulesRepository,
+  },
+);
+
 const dependencies = {
   accessCodeRepository: repositories.accessCodeRepository,
   eligibilityRepository: repositories.eligibilityRepository,
@@ -19,7 +32,7 @@ const dependencies = {
   userRepository: repositories.userRepository,
   targetProfileRepository: repositories.targetProfileRepository,
   organizationLearnerPassageParticipationRepository: repositories.organizationLearnerPassageParticipationRepository,
-  combinedCourseDetailsService,
+  combinedCourseDetailsService: injectedCombinedCourseDetailsService,
   codeGenerator,
   logger,
 };

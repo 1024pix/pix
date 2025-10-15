@@ -4,10 +4,25 @@ import {
   COMBINED_COURSE_ITEM_TYPES,
   CombinedCourseItem,
 } from '../../../../../src/quest/domain/models/CombinedCourseItem.js';
-import CombinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
+import combinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
+import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
+import { injectDependencies } from '../../../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { catchErr, databaseBuilder, expect, nock, sinon } from '../../../../test-helper.js';
+
+const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDependencies(
+  { combinedCourseDetailsService },
+  {
+    combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
+    combinedCourseRepository: repositories.combinedCourseRepository,
+    campaignRepository: repositories.campaignRepository,
+    questRepository: repositories.questRepository,
+    moduleRepository: repositories.moduleRepository,
+    eligibilityRepository: repositories.eligibilityRepository,
+    recommendedModulesRepository: repositories.recommendedModulesRepository,
+  },
+);
 
 describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService', function () {
   let code, combinedCourseUrl;

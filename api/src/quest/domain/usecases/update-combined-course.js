@@ -1,5 +1,4 @@
 import { COMBINED_COURSE_ITEM_TYPES } from '../models/CombinedCourseItem.js';
-import combinedCourseDetailsService from '../services/combined-course-details-service.js';
 
 export async function updateCombinedCourse({
   userId,
@@ -7,6 +6,7 @@ export async function updateCombinedCourse({
   combinedCourseRepository,
   combinedCourseParticipationRepository,
   organizationLearnerPassageParticipationRepository,
+  combinedCourseDetailsService,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const combinedCourseDetails = await combinedCourseDetailsService.getCombinedCourseDetails({
