@@ -78,6 +78,16 @@ function _buildUsers(databaseBuilder) {
     emailConfirmedAt: null,
   });
   databaseBuilder.factory.buildUserLogin({ userId: userWithoutLastLoggedAt.id, lastLoggedAt: null });
+
+  // user with a personal page URL
+  const userWithPersonalPageUrl = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Quentin',
+    lastName: 'Libouk',
+    email: 'quentin@example.net',
+    personalPageUrl: 'https://github.com/Libouk',
+    emailConfirmedAt: null,
+  });
+  databaseBuilder.factory.buildUserLogin({ userId: userWithPersonalPageUrl.id, lastLoggedAt: null });
 }
 
 export function buildUsers(databaseBuilder) {
