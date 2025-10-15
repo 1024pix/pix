@@ -40,6 +40,7 @@ class User {
       authenticationMethods = [],
       hasBeenAnonymised,
       hasBeenAnonymisedBy,
+      personalPageUrl,
     } = {},
     dependencies = { localeService },
   ) {
@@ -73,6 +74,7 @@ class User {
     this.authenticationMethods = authenticationMethods;
     this.hasBeenAnonymised = hasBeenAnonymised;
     this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
+    this.personalPageUrl = personalPageUrl;
   }
 
   get isActive() {
