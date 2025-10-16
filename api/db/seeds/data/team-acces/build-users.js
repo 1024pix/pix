@@ -78,6 +78,16 @@ function _buildUsers(databaseBuilder) {
     emailConfirmedAt: null,
   });
   databaseBuilder.factory.buildUserLogin({ userId: userWithoutLastLoggedAt.id, lastLoggedAt: null });
+// user with avatar
+
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Paul',
+    lastName: 'Emploi',
+    email: 'paul-emploi@example.net',
+    avatarUrl: 'https://thypix.com/fr/photos-de-profil-de-bob-leponge/'
+  });
+
+
 }
 
 export function buildUsers(databaseBuilder) {
