@@ -249,7 +249,7 @@
         },
         {
           "id": "c7f714dd-ee48-4b0e-9160-ec76dc5b0a1d",
-          "type": "transition",
+          "type": "lesson",
           "title": "#2bis ",
           "components": [
             {
@@ -257,29 +257,14 @@
               "element": {
                 "id": "ca4d2a71-d3f6-4727-81c8-746b2145c703",
                 "type": "text",
-                "content": "<p><strong>🤔 Mais ces données sont-elles toujours neutres ?</strong> <br>    <br></p>"
-              }
-            }
-          ]
-        },
-        {
-          "id": "86bac256-424f-4157-8bd3-53b937d34935",
-          "type": "transition",
-          "title": "#2ter",
-          "components": [
-            {
-              "type": "element",
-              "element": {
-                "id": "496abf7d-5db6-4057-a98c-5561e76137b3",
-                "type": "text",
-                "content": "<p>💡 Pas vraiment&nbsp;: elles reflètent souvent la culture ou les opinions des personnes qui les ont produites.</p>"
+                "content": "<p><strong>🤔 Mais ces données sont-elles toujours neutres ?</strong> <br><br></p><p>\uD83D\uDCA1 Pas vraiment&nbsp;: elles reflètent souvent la culture ou les opinions des personnes qui les ont produites.</p>"
               }
             }
           ]
         },
         {
           "id": "d5f632a9-e1dc-42b0-9c4a-a334e05ca74c",
-          "type": "transition",
+          "type": "lesson",
           "title": "#2d",
           "components": [
             {
