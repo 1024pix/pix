@@ -234,7 +234,7 @@
         },
         {
           "id": "3a24ab4a-8868-4ebe-91b6-77dd9da41366",
-          "type": "lesson",
+          "type": "transition",
           "title": "Des biais sont présents dans les données du Web",
           "components": [
             {
@@ -242,7 +242,52 @@
               "element": {
                 "id": "c2493723-53c2-48f2-b2ba-41c3985726cc",
                 "type": "text",
-                "content": "<p>Les <strong>IA génératives s’entraînent sur une immense variété de données venues d’internet</strong>&nbsp;: articles Wikipédia, forums, images, etc. 🌐 </p><p>Mais ces données <strong>ne sont pas neutres</strong>&nbsp;: </p><ul><li>elles peuvent refléter des discriminations existantes,</li><li>transmettre les opinions ou expériences des contributeurs,</li><li>ou manquer de diversité culturelle.</li></ul>"
+                "content": "<p>Vous l’avez vu&nbsp;: les IA génératives apprennent à partir des données trouvées sur internet.&nbsp;</p><br>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c7f714dd-ee48-4b0e-9160-ec76dc5b0a1d",
+          "type": "transition",
+          "title": "#2bis ",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "ca4d2a71-d3f6-4727-81c8-746b2145c703",
+                "type": "text",
+                "content": "<p><strong>🤔 Mais ces données sont-elles toujours neutres ?</strong> <br>    <br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "86bac256-424f-4157-8bd3-53b937d34935",
+          "type": "transition",
+          "title": "#2ter",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "496abf7d-5db6-4057-a98c-5561e76137b3",
+                "type": "text",
+                "content": "<p>💡 Pas vraiment&nbsp;: elles reflètent souvent la culture ou les opinions des personnes qui les ont produites.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "d5f632a9-e1dc-42b0-9c4a-a334e05ca74c",
+          "type": "transition",
+          "title": "#2d",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "13798c24-abbb-4b8f-a007-e10eb6b71ed7",
+                "type": "text",
+                "content": "<p><strong>⚠️ Résultat ?</strong></p><p>Les réponses de l’IA peuvent reproduire ces biais sans s’en rendre compte. Mais alors comment ces données influencent-elles les réponses des IA génératives ?</p>"
               }
             }
           ]
@@ -317,7 +362,7 @@
         },
         {
           "id": "8fbcf927-c430-41ae-b9e9-27f5d2a78cb0",
-          "type": "lesson",
+          "type": "transition",
           "title": "L’IA reproduit les biais qu’elle trouve dans les contenus",
           "components": [
             {
@@ -325,7 +370,7 @@
               "element": {
                 "id": "13f368a7-b7ef-47a5-8d02-8f764dddd44d",
                 "type": "text",
-                "content": "<p>Une IA générative apprend à partir de ce qu’elle rencontre le plus souvent dans ses données.</p><p><strong>Mais pas seulement</strong>&nbsp;: les choix des développeurs orientent aussi les réponses des IA (par exemple, privilégier des textes en anglais ou exclure certaines données). </p><p><strong>Résultat</strong>&nbsp;: certaines visions se retrouvent surreprésentées et l’IA peut renforcer des <strong>stéréotypes ou des biais culturels</strong>.<br></p>"
+                "content": "<p>Sur internet, certains sujets ou points de vue sont beaucoup plus visibles que d’autres. 🌐 </p><p><strong>🤔 Que se passe-t-il alors quand une IA apprend surtout à partir de ces contenus ?</strong> </p><p>Elle risque de répéter plus souvent ces mêmes idées dans ses réponses.</p><p><br> Mais ce déséquilibre ne vient pas seulement d’internet&nbsp;: <strong>les développeurs font aussi des choix.</strong></p><p><strong><br></strong> </p><p>⚠️ En sélectionnant certaines langues ou sources, ils peuvent renforcer des biais ou des stéréotypes culturels.<br><br></p>"
               }
             }
           ]
@@ -535,7 +580,7 @@
         },
         {
           "id": "5698bfa3-1026-489c-9c5a-bd450e463137",
-          "type": "lesson",
+          "type": "transition",
           "title": "Le biais de confirmation",
           "components": [
             {
@@ -543,7 +588,7 @@
               "element": {
                 "id": "e5bfe505-6f79-4a42-8e36-f9824b4ecd19",
                 "type": "text",
-                "content": "<p>Un biais dans une réponse d’IA peut être évident… ou passer complètement inaperçu. 👀 </p><p><strong>Savez-vous pourquoi nous pouvons nous laisser piéger ?</strong> </p><p>Parce que nous avons tendance à croire ce qui confirme nos idées et à ignorer ce qui les contredit. 👉 C’est ce qu’on appelle le <strong>biais de confirmation</strong>.</p><p> Et souvent, l’IA joue dans ce sens&nbsp;: elle cherche à plaire. Donc si votre prompt exprime une opinion, elle a tendance à la renforcer. </p><p><strong>Mais alors… que faire ? 🤔</strong> </p><p>Il faut rester vigilant, garder un esprit critique et ne pas réutiliser les réponses de l’IA sans recul. 🕵️</p>"
+                "content": "<p>Un biais dans une réponse d’IA peut être évident… ou passer complètement inaperçu. 👀 </p><p><strong>Savez-vous pourquoi nous pouvons nous laisser piéger ?</strong> </p><p>Parce que nous avons tendance à croire ce qui confirme nos idées et à ignorer ce qui les contredit. </p><p>👉 C’est ce qu’on appelle le <strong>biais de confirmation</strong>.</p><p> L’IA fait souvent la même chose&nbsp;: si votre question montre une opinion, elle la renforce au lieu de la corriger. </p><p><strong>Mais alors… que faire ? 🤔</strong> </p><p>Il faut rester vigilant, garder un esprit critique et <strong>vérifier</strong> toujours les <strong>réponses de l’IA</strong>.</p>"
               }
             }
           ]
@@ -577,14 +622,6 @@
                 "alternativeText": "<p>Schéma en plusieurs étapes&nbsp;:</p><ul><li>Étape 1&nbsp;: Il y a davantage de sources qui disent que le chat boit du lait dans les données d’entraînement de l’IA générative.</li><li>Étape 2&nbsp;: L’IA répond que le chat boit du lait.</li><li>Étape 3&nbsp;: <ul><li>Soit le propriétaire du chat a un doute. Il cherche des sources vétérinaires et ne donne pas de lait au chat.</li><li>Soit l’IA a confirmé ce que pensait le propriétaire. Ce dernier a donné du lait au chat. Maintenant le chat est malade.</li></ul></li></ul>",
                 "legend": "",
                 "licence": ""
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "a6934497-ff89-4765-8229-01413c99bba5",
-                "type": "text",
-                "content": "<p><strong>💡Quelques astuces pour détecter des biais&nbsp;:</strong> </p><p>Posez-vous ces questions (si la réponse est «&nbsp;oui&nbsp;», attention 👀)&nbsp;: </p><ul><li>  Y a-t-il des clichés ou stéréotypes ? 😕</li><li>Est-ce qu’un seul point de vue est présenté ? 🙈</li><li>Est-ce surtout des opinions plutôt que des faits ? 💭</li><li>Les exemples sont-ils trop semblables ? 🌍</li></ul>"
               }
             }
           ]
