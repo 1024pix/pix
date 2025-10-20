@@ -10,6 +10,9 @@ import ModuleGrain from './grain/grain';
 import BetaBanner from './layout/beta-banner';
 import ModuleNavbar from './layout/navbar';
 import ModuleSectionTitle from './section-title';
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { snapdom } from '@zumer/snapdom';
 
 export default class ModulePassage extends Component {
   @service router;
@@ -19,6 +22,8 @@ export default class ModulePassage extends Component {
   @service passageEvents;
   @service featureToggles;
   @service modulixNavigationProgress;
+  @tracked isModalOpen = false;
+  @tracked imgData = null;
 
   get enrichedSections() {
     return this.args.module.sections.map((section, index) => {
@@ -244,6 +249,33 @@ export default class ModulePassage extends Component {
     });
   }
 
+  @action async report() {
+    /*const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    console.log('canvas', canvas);
+
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this.imgData = canvas.toDataURL('image/png');
+    console.log('imgData', this.imgData);*/
+
+    // const el = document.querySelector('#grain_533c69b8-a836-41be-8ffc-8d4636e31224');
+    const el = document.querySelector('main');
+    const result = await snapdom(el, {embedFonts: true, outerTransforms: false, outerShadows: true});
+    console.log('result', result);
+    this.imgData = result.url;
+    console.log('imgData', this.imgData);
+    this.isModalOpen = true;
+  }
+
+  @action
+  onModalClose() {
+    this.isModalOpen = false;
+  }
+
   <template>
     {{pageTitle @module.title}}
     {{#unless this.featureToggles.featureToggles.isModulixNavEnabled}}
@@ -295,5 +327,28 @@ export default class ModulePassage extends Component {
         {{/each}}
       </div>
     </main>
+    <div class="report-button">
+      <PixButton @variant="secondary" @triggerAction={{this.report}}>
+        Signaler
+      </PixButton>
+    </div>
+      <PixModal
+        @title="Signaler un module"
+        @showModal={{this.isModalOpen}}
+        @onCloseButtonClick={{this.onModalClose}}
+      >
+        <:content>
+          <img src={{this.imgData}}/>
+        </:content>
+        <:footer>
+          <PixButton
+            class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
+            @variant="secondary"
+            @triggerAction={{this.onModalClose}}
+          >
+            Quitter
+          </PixButton>
+        </:footer>
+      </PixModal>
   </template>
 }

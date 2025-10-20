@@ -34,3 +34,13 @@
   margin-top: var(--pix-spacing-4x);
 }
 }
+
+
+.report-button {
+  position: sticky;
+  bottom: 2rem;
+  z-index: var(--modulix-z-index-above-all);
+  padding-right: var(--pix-spacing-8x);
+  display: flex;
+  justify-content: flex-end;
+}
