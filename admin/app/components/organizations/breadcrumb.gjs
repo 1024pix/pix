@@ -1,7 +1,13 @@
 import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
 import Component from '@glimmer/component';
+import { arg, forbidExtraArgs } from 'ember-arg-types';
+import { string } from 'prop-types';
 
+@forbidExtraArgs
 export default class Breadcrumb extends Component {
+  @arg(string.isRequired)
+  currentPageLabel;
+
   get links() {
     return [
       {
@@ -9,7 +15,7 @@ export default class Breadcrumb extends Component {
         label: 'Toutes les organisations',
       },
       {
-        label: this.args.currentPageLabel,
+        label: this.currentPageLabel,
       },
     ];
   }
