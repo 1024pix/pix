@@ -19,9 +19,16 @@ import { teamPrescriptionDataBuilder } from './data/team-prescription/data-build
 export async function seed(knex) {
   logger.info('START Seeding');
 
+  const dbSeedBuilder = seedSchema(knex);
+  await dbSeedBuilder.commit();
+  await dbSeedBuilder.fixSequences();
+  logger.info('END Seeding');
+}
+
+export async function seedSchema (knex, seedRoute = false) {
+  // Learning content
   const databaseBuilder = new DatabaseBuilder({ knex });
 
-  // Learning content
   logger.info('Seeding: Learning content');
   await learningContentBuilder({ databaseBuilder });
 
@@ -38,43 +45,41 @@ export async function seed(knex) {
   await organizationBuilder({ databaseBuilder });
 
   // SCOPE
-  if (config.seeds.context.prescription) {
+  if (seedRoute || config.seeds.context.prescription) {
     logger.info('Seeding : Prescription');
     await teamPrescriptionDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.devcomp) {
+  if (seedRoute || config.seeds.context.devcomp) {
     logger.info('Seeding : Devcomp');
     await teamDevcompDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.acces) {
+  if (seedRoute || config.seeds.context.acces) {
     logger.info('Seeding : Acces');
     await teamAccesDataBuilder(databaseBuilder);
   }
 
-  if (config.seeds.context.junior) {
+  if (seedRoute || config.seeds.context.junior) {
     logger.info('Seeding : Junior');
     await team1dDataBuilder(databaseBuilder);
   }
 
-  if (config.seeds.context.contenu) {
+  if (seedRoute || config.seeds.context.contenu) {
     logger.info('Seeding : Contenu');
     await teamContenuDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.certification) {
+  if (seedRoute || config.seeds.context.certification) {
     logger.info('Seeding : Certification');
     await complementaryCertificationBuilder({ databaseBuilder });
     await teamCertificationDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.evaluation) {
+  if (seedRoute || config.seeds.context.evaluation) {
     logger.info('Seeding : Evaluation');
     await teamEvaluationDataBuilder({ databaseBuilder });
   }
 
-  await databaseBuilder.commit();
-  await databaseBuilder.fixSequences();
-  logger.info('END Seeding');
+  return databaseBuilder;
 }

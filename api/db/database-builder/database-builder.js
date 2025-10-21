@@ -38,6 +38,9 @@ export class DatabaseBuilder {
 
     this.#addListeners();
   }
+  get getContent () {
+    return this.#databaseBuffer.objectsToInsert;
+  }
 
   static async create({ knex, emptyFirst = true, beforeEmptyDatabase }) {
     const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst, beforeEmptyDatabase });
