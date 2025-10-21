@@ -120,5 +120,8 @@
     "ember-dayjs": {
       "ember-source": "$ember-source"
     }
+  },
+  "dependencies": {
+    "ember-arg-types": "^1.1.0"
   }
 }
