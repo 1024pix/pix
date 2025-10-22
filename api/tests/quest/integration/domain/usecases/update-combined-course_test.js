@@ -172,16 +172,10 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course', fun
     await usecases.updateCombinedCourse({ userId, code });
 
     // then
-    const result = await knex('organization_learner_participations')
-      .join(
-        'organization_learner_passage_participations',
-        'organization_learner_participations.id',
-        'organization_learner_passage_participations.organizationLearnerParticipationId',
-      )
-      .where({ organizationLearnerId });
+    const result = await knex('organization_learner_participations').where({ organizationLearnerId });
 
     expect(result).to.be.lengthOf(2);
-    expect(result[0].moduleId).equal(moduleId);
+    expect(result[0].referenceId).equal(moduleId);
   });
   it('should not update combined course if it not completed', async function () {
     const code = 'SOMETHING';

@@ -247,6 +247,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
 
       const updatedParticipation = await combinedCourseParticipationRepository.update({
         combinedCourseParticipation,
+        combinedCourseId,
       });
 
       //then
@@ -323,6 +324,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
         // when
         await combinedCourseParticipationRepository.update({
           combinedCourseParticipation: expectedCombinedCourseParticipation,
+          combinedCourseId,
         });
 
         //then
@@ -333,7 +335,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
         expect(result.completedAt).deep.equal(now);
         expect(result.updatedAt).deep.equal(now);
         expect(result.status).equal(OrganizationLearnerParticipationStatuses.COMPLETED);
-        expect(result.attributes).to.deep.equal({ id: combinedCourseId });
+        expect(result.referenceId).to.deep.equal(combinedCourseId.toString());
       });
 
       it('should update organization_learner_participations given id', async function () {
@@ -372,6 +374,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
             updatedAt: new Date('2025-10-20'),
             status: OrganizationLearnerParticipationStatuses.COMPLETED,
           },
+          combinedCourseId,
         });
 
         //then

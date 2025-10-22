@@ -89,7 +89,7 @@ export const findUserIdsById = async function ({ combinedCourseId, page }) {
   };
 };
 
-export const update = async function ({ combinedCourseParticipation }) {
+export const update = async function ({ combinedCourseParticipation, combinedCourseId }) {
   const knexConnection = DomainTransaction.getConnection();
   if (combinedCourseParticipation.organizationLearnerParticipationId) {
     const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromCombinedCourseParticipation({
@@ -99,7 +99,7 @@ export const update = async function ({ combinedCourseParticipation }) {
       status: combinedCourseParticipation.status,
       createdAt: combinedCourseParticipation.createdAt,
       updatedAt: combinedCourseParticipation.updatedAt,
-      combinedCourseId: combinedCourseParticipation.combinedCourseId,
+      combinedCourseId,
     });
     await knexConnection('organization_learner_participations')
       .where({ id: combinedCourseParticipation.organizationLearnerParticipationId })
