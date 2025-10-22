@@ -19,6 +19,7 @@ const buildOrganizationLearnerParticipation = function ({
   moduleId,
   combinedCourseId,
   questId,
+  attributes,
   addAttributes = true,
 } = {}) {
   organizationLearnerId = _.isUndefined(organizationLearnerId) ? buildOrganizationLearner().id : organizationLearnerId;
@@ -33,7 +34,8 @@ const buildOrganizationLearnerParticipation = function ({
     deletedBy,
     organizationLearnerId,
     status,
-    attributes: addAttributes ? JSON.stringify({ id: moduleId ?? combinedCourseId }) : null,
+    attributes,
+    referenceId: addAttributes ? (moduleId ?? combinedCourseId?.toString()) : null,
   };
 
   const organizationLearnerParticipation = databaseBuffer.pushInsertable({
