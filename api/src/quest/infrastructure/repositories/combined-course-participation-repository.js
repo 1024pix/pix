@@ -34,34 +34,34 @@ export const save = async function ({ organizationLearnerId, questId, combinedCo
   });
 };
 
-export const getByUserId = async function ({ userId, questId }) {
+export const getByUserId = async function ({ userId, combinedCourseId }) {
   const knexConnection = DomainTransaction.getConnection();
 
-  const questParticipations = await knexConnection('combined_course_participations')
+  const questParticipations = await knexConnection('organization_learner_participations')
     .select(
-      'combined_course_participations.id',
-      'questId',
+      'organization_learner_participations.id',
       'organizationLearnerId',
       'firstName',
       'lastName',
-      'combined_course_participations.status',
-      'combined_course_participations.createdAt',
-      'combined_course_participations.updatedAt',
-      'combined_course_participations.organizationLearnerParticipationId',
+      'organization_learner_participations.status',
+      'organization_learner_participations.createdAt',
+      'organization_learner_participations.updatedAt',
+      'organization_learner_participations.organizationLearnerParticipationId',
     )
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
       '=',
-      'combined_course_participations.organizationLearnerId',
+      'organization_learner_participations.organizationLearnerId',
     )
     .where({
       'view-active-organization-learners.userId': userId,
-      questId,
+      'organization_learner_participations.referenceId': combinedCourseId.toString(),
+      'organization_learner_participations.type': OrganizationLearnerParticipationTypes.COMBINED_COURSE,
     });
   if (questParticipations.length === 0) {
     throw new NotFoundError(
-      `CombinedCourseParticipation introuvable pour l'utilisateur d'id ${userId} et la quête d'id ${questId}`,
+      `CombinedCourseParticipation introuvable pour l'utilisateur d'id ${userId} et au parcours d'id ${combinedCourseId}`,
     );
   }
   return new CombinedCourseParticipation(questParticipations[0]);

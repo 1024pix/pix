@@ -19,7 +19,7 @@ async function getCombinedCourseDetails({
   const quest = await questRepository.findById({ questId: combinedCourse.questId });
   let participation = null;
   try {
-    participation = await combinedCourseParticipationRepository.getByUserId({ questId: quest.id, userId });
+    participation = await combinedCourseParticipationRepository.getByUserId({ combinedCourseId, userId });
   } catch (err) {
     if (!(err instanceof NotFoundError)) {
       throw err;

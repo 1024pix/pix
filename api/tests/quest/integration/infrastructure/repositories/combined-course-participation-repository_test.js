@@ -119,7 +119,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
       await databaseBuilder.commit();
 
       // when
-      const result = await combinedCourseParticipationRepository.getByUserId({ userId, questId });
+      const result = await combinedCourseParticipationRepository.getByUserId({ userId, combinedCourseId });
 
       // then
       expect(result.id).to.be.finite;
@@ -145,7 +145,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
       await databaseBuilder.commit();
 
       // when
-      const result = await combinedCourseParticipationRepository.getByUserId({ userId, questId });
+      const result = await combinedCourseParticipationRepository.getByUserId({ userId, combinedCourseId });
 
       // then
       expect(result.organizationLearnerParticipationId).equal(organizationLearnerParticipationId);
@@ -154,15 +154,15 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
     it('should throw NotFound error when quest participation does not exist for given user and quest', async function () {
       // given
       const userId = 1;
-      const questId = 2;
+      const combinedCourseId = 2;
 
       // when
-      const error = await catchErr(combinedCourseParticipationRepository.getByUserId)({ userId, questId });
+      const error = await catchErr(combinedCourseParticipationRepository.getByUserId)({ userId, combinedCourseId });
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
       expect(error.message).to.equal(
-        `CombinedCourseParticipation introuvable pour l'utilisateur d'id ${userId} et la quête d'id ${questId}`,
+        `CombinedCourseParticipation introuvable pour l'utilisateur d'id ${userId} et la quête d'id ${combinedCourseId}`,
       );
     });
   });
