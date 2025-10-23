@@ -54,13 +54,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       });
 
       // then
-      const result = await knex('organization_learner_participations')
-        .join(
-          'organization_learner_passage_participations',
-          'organization_learner_participations.id',
-          'organization_learner_passage_participations.organizationLearnerParticipationId',
-        )
-        .where({ organizationLearnerId: organizationLearner.id });
+      const result = await knex('organization_learner_participations').where({
+        organizationLearnerId: organizationLearner.id,
+      });
 
       expect(result).lengthOf(1);
       expect(result[0].updatedAt).deep.equal(now);
@@ -104,11 +100,13 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
       // then
       const result = await knex('organization_learner_participations')
-        .select('organization_learner_participations.id', 'updatedAt', 'createdAt', 'completedAt', 'status')
-        .join(
-          'organization_learner_passage_participations',
+        .select(
           'organization_learner_participations.id',
-          'organization_learner_passage_participations.organizationLearnerParticipationId',
+          'updatedAt',
+          'createdAt',
+          'completedAt',
+          'status',
+          'referenceId',
         )
         .where({ organizationLearnerId: organizationLearner.id });
 
@@ -116,6 +114,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       expect(result[0].id).equal(learnerParticipationId);
       expect(result[0].status).deep.equal(OrganizationLearnerParticipationStatuses.COMPLETED);
       expect(result[0].updatedAt).deep.equal(now);
+      expect(result[0].referenceId).deep.equal('1234-abcdef');
       expect(result[0].createdAt).deep.equal(dayjs().subtract('30', 'days').toDate());
       expect(result[0].completedAt).deep.equal(now);
     });
@@ -124,14 +123,14 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       //given
       const moduleApiResponse = [
         {
-          id: 1234,
+          id: '1234',
           status: StatusesEnumValues.COMPLETED,
           createdAt: dayjs().subtract('30', 'days').toDate(),
           updatedAt: now,
           terminatedAt: null,
         },
         {
-          id: 4567,
+          id: '4567',
           status: StatusesEnumValues.IN_PROGRESS,
           createdAt: dayjs().subtract('50', 'days').toDate(),
           updatedAt: dayjs().subtract('10', 'days').toDate(),
@@ -139,24 +138,20 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
         },
       ];
       modulesApi.getUserModuleStatuses
-        .withArgs({ userId: organizationLearner.userId, moduleIds: [1234, 4567] })
+        .withArgs({ userId: organizationLearner.userId, moduleIds: ['1234', '4567'] })
         .resolves(moduleApiResponse);
 
       // when
       await repositories.organizationLearnerPassageParticipationRepository.synchronize({
         organizationLearnerId: organizationLearner.id,
-        moduleIds: [1234, 4567],
+        moduleIds: ['1234', '4567'],
         modulesApi,
       });
 
       // then
-      const result = await knex('organization_learner_participations')
-        .join(
-          'organization_learner_passage_participations',
-          'organization_learner_participations.id',
-          'organization_learner_passage_participations.organizationLearnerParticipationId',
-        )
-        .where({ organizationLearnerId: organizationLearner.id });
+      const result = await knex('organization_learner_participations').where({
+        organizationLearnerId: organizationLearner.id,
+      });
 
       expect(result).lengthOf(2);
     });
