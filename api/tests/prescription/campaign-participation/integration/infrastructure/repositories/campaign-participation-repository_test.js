@@ -10,6 +10,10 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
+import {
+  OrganizationLearnerParticipationStatuses,
+  OrganizationLearnerParticipationTypes,
+} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { constants } from '../../../../../../src/shared/domain/constants.js';
 import { DomainTransaction, withTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
@@ -1491,10 +1495,11 @@ describe('Integration | Repository | Campaign Participation', function () {
           },
         ],
       });
-      databaseBuilder.factory.buildCombinedCourseParticipation({
+      databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId,
-        questId: combinedCourse.questId,
         combinedCourseId: combinedCourse.id,
+        type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
       });
 
       await databaseBuilder.commit();
