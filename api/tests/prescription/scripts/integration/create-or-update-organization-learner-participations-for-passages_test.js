@@ -93,25 +93,22 @@ describe('Integration | Prescription | Script | Prod | create-or-update-organiza
     const moduleId1 = '6282925d-4775-4bca-b513-4c3009ec5886';
     const moduleId2 = '654c44dc-0560-4acc-9860-4a67c923577f';
     const moduleId3 = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
-    let organizationLearnerId1, organizationLearnerId2;
+    let organizationLearner1, organizationLearnerId2;
     beforeEach(async function () {
       // First learner with combined course participations
-      const {
-        id: organizationLearner1Id,
-        organizationId: organization1Id,
-        userId: user1Id,
-      } = databaseBuilder.factory.buildOrganizationLearner();
-      organizationLearnerId1 = organizationLearner1Id;
-      const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ organizationId: organization1Id });
+      organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner();
+      const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({
+        organizationId: organizationLearner1.organizationId,
+      });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign1Id,
-        userId: user1Id,
-        organizationLearnerId: organizationLearner1Id,
+        userId: organizationLearner1.userId,
+        organizationLearnerId: organizationLearner1.id,
         status: 'SHARED',
       });
       const { questId: ques1tId } = databaseBuilder.factory.buildCombinedCourse({
         code: 'COMBINED_COURSE_1',
-        organizationId: organization1Id,
+        organizationId: organizationLearner1.organizationId,
         successRequirements: [
           {
             requirement_type: 'campaignParticipations',
@@ -160,19 +157,19 @@ describe('Integration | Prescription | Script | Prod | create-or-update-organiza
       databaseBuilder.factory.buildCombinedCourseParticipation({
         combinedCourseId: null,
         questId: ques1tId,
-        organizationLearnerId: organizationLearner1Id,
+        organizationLearnerId: organizationLearner1.id,
       });
 
       databaseBuilder.factory.buildPassage({
         moduleId: moduleId2,
-        userId: user1Id,
+        userId: organizationLearner1.userId,
         createdAt: new Date('2024-01-01'),
         terminatedAt: null,
       });
 
       databaseBuilder.factory.buildPassage({
         moduleId: moduleId1,
-        userId: user1Id,
+        userId: organizationLearner1.userId,
         createdAt: new Date('2024-02-01'),
         terminatedAt: new Date('2024-01-02'),
       });
@@ -269,7 +266,7 @@ describe('Integration | Prescription | Script | Prod | create-or-update-organiza
 
       // Then
       const resultLearner1 = await knex('organization_learner_participations')
-        .where({ type: OrganizationLearnerParticipationTypes.PASSAGE, organizationLearnerId: organizationLearnerId1 })
+        .where({ type: OrganizationLearnerParticipationTypes.PASSAGE, organizationLearnerId: organizationLearner1.id })
         .orderBy('createdAt', 'DESC');
 
       const resultLearner2 = await knex('organization_learner_participations')
@@ -286,7 +283,7 @@ describe('Integration | Prescription | Script | Prod | create-or-update-organiza
 
       // Then
       const resultLearner1 = await knex('organization_learner_participations')
-        .where({ type: OrganizationLearnerParticipationTypes.PASSAGE, organizationLearnerId: organizationLearnerId1 })
+        .where({ type: OrganizationLearnerParticipationTypes.PASSAGE, organizationLearnerId: organizationLearner1.id })
         .orderBy('createdAt', 'DESC');
 
       const resultLearner2 = await knex('organization_learner_participations')
@@ -305,7 +302,6 @@ describe('Integration | Prescription | Script | Prod | create-or-update-organiza
     it('should do not modify learner with already referenceId filled', async function () {
       // learner with participations with referenceId
       const { id: organizationLearnerId, organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
-      organizationLearnerId1 = organizationLearnerId;
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
@@ -415,6 +411,83 @@ describe('Integration | Prescription | Script | Prod | create-or-update-organiza
 
       expect(resultLearner).deep.members([passageModuleId1, passageModuleId2]);
       expect(learnerPassageParticipations).lengthOf(0);
+    });
+
+    it('should not insert duplicates when learner has two participations of type passage on the same organization', async function () {
+      // other combinedCourse
+      const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({
+        organizationId: organizationLearner1.organizationId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign1Id,
+        userId: organizationLearner1.userId,
+        organizationLearnerId: organizationLearner1.id,
+        status: 'SHARED',
+      });
+      const { questId: ques1tId } = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COMBINED_COURSE_4',
+        organizationId: organizationLearner1.organizationId,
+        successRequirements: [
+          {
+            requirement_type: 'campaignParticipations',
+            comparison: 'all',
+            data: {
+              campaignId: {
+                data: campaign1Id,
+                comparison: 'equal',
+              },
+              status: {
+                data: 'SHARED',
+                comparison: 'equal',
+              },
+            },
+          },
+          {
+            requirement_type: 'passages',
+            comparison: 'all',
+            data: {
+              moduleId: {
+                data: moduleId1,
+                comparison: 'equal',
+              },
+              isTerminated: {
+                data: true,
+                comparison: 'equal',
+              },
+            },
+          },
+          {
+            requirement_type: 'passages',
+            comparison: 'all',
+            data: {
+              moduleId: {
+                data: moduleId3,
+                comparison: 'equal',
+              },
+              isTerminated: {
+                data: true,
+                comparison: 'equal',
+              },
+            },
+          },
+        ],
+      });
+      databaseBuilder.factory.buildCombinedCourseParticipation({
+        combinedCourseId: null,
+        questId: ques1tId,
+        organizationLearnerId: organizationLearner1.id,
+      });
+      await databaseBuilder.commit();
+
+      await script.handle({ options: { dryRun: false }, logger: loggerStub });
+
+      // Then
+      const resultLearner = await knex('organization_learner_participations')
+        .select('id')
+        .where({ type: OrganizationLearnerParticipationTypes.PASSAGE, organizationLearnerId: organizationLearner1.id })
+        .orderBy('createdAt', 'DESC');
+
+      expect(resultLearner).lengthOf(2);
     });
   });
 });

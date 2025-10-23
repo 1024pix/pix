@@ -88,9 +88,9 @@ class CreateOrUpdateOrganizationLearnerParticipationsForPassages extends Script 
       // Create organization learner participation passsage with correct value
       const organizationLearnerWithoutPassagesOnCombinedCourse = await trx('combined_course_participations')
         .select(
-          'combined_course_participations.organizationLearnerId',
           'view-active-organization-learners.userId',
           'combined_courses.id as combinedCourseId',
+          'combined_course_participations.organizationLearnerId',
         )
         .join('combined_courses', 'combined_courses.questId', 'combined_course_participations.questId')
         .join(
@@ -129,18 +129,24 @@ class CreateOrUpdateOrganizationLearnerParticipationsForPassages extends Script 
         });
 
         for (const modulePassage of modulePassages) {
-          organizationLearnerParticipationToInsert.push(
-            OrganizationLearnerParticipation.buildFromPassage({
-              id: undefined,
-              organizationLearnerId: organizationLearnerWithoutPassageOnCombinedCourse.organizationLearnerId,
-              type: OrganizationLearnerParticipationTypes.PASSAGE,
-              createdAt: modulePassage.createdAt,
-              status: modulePassage.status,
-              updatedAt: modulePassage.updatedAt,
-              terminatedAt: modulePassage.terminatedAt,
-              moduleId: modulePassage.id,
-            }),
+          const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromPassage({
+            id: undefined,
+            organizationLearnerId: organizationLearnerWithoutPassageOnCombinedCourse.organizationLearnerId,
+            type: OrganizationLearnerParticipationTypes.PASSAGE,
+            createdAt: modulePassage.createdAt,
+            status: modulePassage.status,
+            updatedAt: modulePassage.updatedAt,
+            terminatedAt: modulePassage.terminatedAt,
+            moduleId: modulePassage.id,
+          });
+          const learnerHasOtherPassageWithSameModules = organizationLearnerParticipationToInsert.find(
+            (participation) =>
+              participation.organizationLearnerId === organizationLearnerParticipation.organizationLearnerId &&
+              participation.referenceId === organizationLearnerParticipation.referenceId,
           );
+          if (!learnerHasOtherPassageWithSameModules) {
+            organizationLearnerParticipationToInsert.push(organizationLearnerParticipation);
+          }
         }
       }
       logger.info(
