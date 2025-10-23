@@ -5,6 +5,10 @@ import {
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import {
+  OrganizationLearnerParticipationStatuses,
+  OrganizationLearnerParticipationTypes,
+} from '../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
@@ -274,12 +278,11 @@ function buildProCombinedCourseQuest(databaseBuilder, organizationId) {
     userId: bernardUser.id,
     organizationId,
   });
-  databaseBuilder.factory.buildCombinedCourseParticipation({
+  databaseBuilder.factory.buildOrganizationLearnerParticipation({
     combinedCourseId: combinix2.id,
-    questId: combinix2.questId,
-    organizationId,
+    type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
     organizationLearnerId: bernardLearner.id,
-    status: CombinedCourseParticipationStatuses.STARTED,
+    status: OrganizationLearnerParticipationStatuses.STARTED,
   });
   const participationBernard = databaseBuilder.factory.buildCampaignParticipation({
     campaignId: campaign.id,
@@ -308,12 +311,11 @@ function buildProCombinedCourseQuest(databaseBuilder, organizationId) {
     userId: jacquelineUser.id,
     organizationId,
   });
-  databaseBuilder.factory.buildCombinedCourseParticipation({
+  databaseBuilder.factory.buildOrganizationLearnerParticipation({
     combinedCourseId: combinix2.id,
-    questId: combinix2.questId,
-    organizationId,
     organizationLearnerId: jacquelineLearner.id,
-    status: CombinedCourseParticipationStatuses.STARTED,
+    status: OrganizationLearnerParticipationStatuses.STARTED,
+    type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
   });
   databaseBuilder.factory.buildCampaignParticipation({
     campaignId: campaign.id,
