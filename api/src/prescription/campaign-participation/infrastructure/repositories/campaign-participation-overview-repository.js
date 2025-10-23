@@ -1,5 +1,8 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CombinedCourseParticipationStatuses } from '../../../../prescription/shared/domain/constants.js';
+import {
+  OrganizationLearnerParticipationStatuses,
+  OrganizationLearnerParticipationTypes,
+} from '../../../../quest/domain/models/OrganizationLearnerParticipation.js';
 import { constants } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
@@ -89,20 +92,26 @@ function _getCombinedCoursesParticipations({ userId }) {
   return knexConn
     .with('combined_course_participation_overviews', (qb) => {
       qb.select({
-        id: 'combined_course_participations.id',
-        campaignCode: 'quests.code',
-        campaignTitle: 'quests.name',
+        id: 'organization_learner_participations.id',
+        campaignCode: 'combined_courses.code',
+        campaignTitle: 'combined_courses.name',
         organizationName: 'organizations.name',
-        status: 'combined_course_participations.status',
-        createdAt: 'combined_course_participations.createdAt',
+        status: 'organization_learner_participations.status',
+        createdAt: 'organization_learner_participations.createdAt',
         participationState: _computeCombinedCourseParticipationState(),
-        updatedAt: 'combined_course_participations.updatedAt',
-        campaignType: knexConn.raw(`'COMBINED_COURSE'`),
+        updatedAt: 'organization_learner_participations.updatedAt',
+        campaignType: knexConn.raw('?', OrganizationLearnerParticipationTypes.COMBINED_COURSE),
       })
-        .from('combined_course_participations')
-        .join('quests', 'combined_course_participations.questId', 'quests.id')
-        .join('organizations', 'quests.organizationId', 'organizations.id')
-        .whereIn('combined_course_participations.organizationLearnerId', function () {
+        .from('organization_learner_participations')
+        .join('combined_courses', function () {
+          this.on(
+            knex.raw('CAST(organization_learner_participations."referenceId" AS INTEGER)'),
+            'combined_courses.id',
+          );
+        })
+        .join('organizations', 'combined_courses.organizationId', 'organizations.id')
+        .where('organization_learner_participations.type', OrganizationLearnerParticipationTypes.COMBINED_COURSE)
+        .whereIn('organization_learner_participations.organizationLearnerId', function () {
           this.select('id').from('organization-learners').where('userId', userId);
         });
     })
@@ -128,10 +137,10 @@ function _computeCombinedCourseParticipationState() {
   return knex.raw(
     `
   CASE
-    WHEN combined_course_participations.status = ? THEN 'ONGOING'
-    WHEN combined_course_participations.status = ?  THEN 'ENDED'
+    WHEN organization_learner_participations.status = ? THEN 'ONGOING'
+    WHEN organization_learner_participations.status = ?  THEN 'ENDED'
   END`,
-    [CombinedCourseParticipationStatuses.STARTED, CombinedCourseParticipationStatuses.COMPLETED],
+    [OrganizationLearnerParticipationStatuses.STARTED, OrganizationLearnerParticipationStatuses.COMPLETED],
   );
 }
 

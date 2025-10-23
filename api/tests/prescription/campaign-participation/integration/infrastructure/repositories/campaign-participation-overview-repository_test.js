@@ -6,6 +6,10 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  OrganizationLearnerParticipationStatuses,
+  OrganizationLearnerParticipationTypes,
+} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { constants } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import {
@@ -1253,20 +1257,18 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           code: 'EFGH',
           organizationId,
         });
-        const expectedFirstParticipation = databaseBuilder.factory.buildCombinedCourseParticipation({
-          questId: combinedCourse.questId,
+        const expectedFirstParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
           organizationLearnerId,
-          userId,
           updatedAt: new Date('2022-01-01'),
-          status: CombinedCourseParticipationStatuses.STARTED,
+          status: OrganizationLearnerParticipationStatuses.STARTED,
+          type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
           combinedCourseId: combinedCourse.id,
         });
-        const expectedSecondParticipation = databaseBuilder.factory.buildCombinedCourseParticipation({
-          questId: secondCombinedCourse.questId,
+        const expectedSecondParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
           organizationLearnerId,
-          userId,
           updatedAt: new Date('2022-02-02'),
-          status: CombinedCourseParticipationStatuses.COMPLETED,
+          status: OrganizationLearnerParticipationStatuses.COMPLETED,
+          type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
           combinedCourseId: secondCombinedCourse.id,
         });
 
