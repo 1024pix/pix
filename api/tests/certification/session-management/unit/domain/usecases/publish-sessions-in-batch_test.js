@@ -8,7 +8,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     finalizedSessionRepository,
     sessionRepository,
     certificationCenterRepository,
-    sharedSessionRepository;
+    sharedSessionRepository,
+    pixPlusCertificationRepository;
 
   beforeEach(function () {
     certificationRepository = Symbol('certificationRepository');
@@ -20,6 +21,10 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     sessionPublicationService = {
       publishSession: sinon.stub(),
       manageEmails: sinon.stub(),
+    };
+
+    pixPlusCertificationRepository = {
+      getBySessionId: sinon.stub(),
     };
 
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
@@ -39,6 +44,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     sessionPublicationService.publishSession
       .onCall(1)
       .resolves({ session: session2, startedCertificationCoursesUserIds: startedCertificationCoursesUserIds2 });
+    pixPlusCertificationRepository.getBySessionId.onCall(0).resolves([]);
+    pixPlusCertificationRepository.getBySessionId.onCall(1).resolves([]);
 
     // when
     await publishSessionsInBatch({
@@ -51,6 +58,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       sessionRepository,
       sharedSessionRepository,
       sessionPublicationService,
+      pixPlusCertificationRepository,
     });
 
     // then
@@ -61,6 +69,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       finalizedSessionRepository,
       sessionRepository,
       sharedSessionRepository,
+      pixPlusCertificationRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
       session: session1,
@@ -77,6 +86,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       finalizedSessionRepository,
       sharedSessionRepository,
       sessionRepository,
+      pixPlusCertificationRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
       session: session2,
@@ -95,6 +105,9 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       const publishedAt = Symbol('a publication date');
       const startedCertificationCoursesUserIds2 = [201, 202];
 
+      pixPlusCertificationRepository.getBySessionId.onCall(0).resolves([]);
+      pixPlusCertificationRepository.getBySessionId.onCall(1).resolves([]);
+
       sessionPublicationService.publishSession
         .withArgs({
           sessionId: session1.id,
@@ -103,6 +116,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           finalizedSessionRepository,
           sessionRepository,
           sharedSessionRepository,
+          pixPlusCertificationRepository,
         })
         .rejects(new Error('an error'));
       sessionPublicationService.publishSession
@@ -120,6 +134,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         sessionRepository,
         sharedSessionRepository,
         sessionPublicationService,
+        pixPlusCertificationRepository,
       });
 
       expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
@@ -129,6 +144,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         finalizedSessionRepository,
         sessionRepository,
         sharedSessionRepository,
+        pixPlusCertificationRepository,
       });
       expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
         session: session2,
@@ -145,6 +161,9 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       const sessionId2 = Symbol('second session id');
       const publishedAt = Symbol('a publication date');
 
+      pixPlusCertificationRepository.getBySessionId.onCall(0).resolves([]);
+      pixPlusCertificationRepository.getBySessionId.onCall(1).resolves([]);
+
       const error1 = new Error('an error');
       const error2 = new Error('another error');
       sessionPublicationService.publishSession
@@ -155,6 +174,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           finalizedSessionRepository,
           sessionRepository,
           sharedSessionRepository,
+          pixPlusCertificationRepository,
         })
         .rejects(error1);
       sessionPublicationService.publishSession
@@ -165,6 +185,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           finalizedSessionRepository,
           sessionRepository,
           sharedSessionRepository,
+          pixPlusCertificationRepository,
         })
         .rejects(error2);
 
@@ -179,6 +200,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         sessionRepository,
         sharedSessionRepository,
         sessionPublicationService,
+        pixPlusCertificationRepository,
       });
 
       // then

@@ -19,6 +19,7 @@ import {
   competenceMarkRepository,
   cpfExportRepository,
   flashAlgorithmConfigurationRepository,
+  pixPlusCertificationRepository,
   repositories,
   sessionSummaryRepository,
   sharedCompetenceMarkRepository,
@@ -67,6 +68,7 @@ import * as sessionPublicationService from '../services/session-publication-serv
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationRescoringRepository} CertificationRescoringRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterAccessRepository} CertificationCenterAccessRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').PixPlusCertificationRepository} PixPlusCertificationRepository
  * @typedef {import('../../../../identity-access-management/infrastructure/repositories/user.respository.js').UserRepository} UserRepository
  **/
 
@@ -112,12 +114,14 @@ import * as sessionPublicationService from '../services/session-publication-serv
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  * @typedef {userRepository} UserRepository
+ * @typedef {pixPlusCertificationRepository} PixPlusCertificationRepository
  * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  **/
 const dependencies = {
   ...repositories,
   sessionSummaryRepository,
   assessmentRepository,
+  pixPlusCertificationRepository,
   assessmentResultRepository,
   answerRepository,
   sharedCompetenceMarkRepository,

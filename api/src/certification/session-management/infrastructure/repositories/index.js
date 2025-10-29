@@ -32,6 +32,7 @@ import * as finalizedSessionRepository from './finalized-session-repository.js';
 import * as juryCertificationRepository from './jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from './jury-certification-summary-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
+import * as pixPlusCertificationRepository from './pix-plus-certification-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
 import * as sessionForSupervisingRepository from './session-for-supervising-repository.js';
 import * as sessionJuryCommentRepository from './session-jury-comment-repository.js';
@@ -81,6 +82,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {typeof certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  * @typedef {certificationRescoringRepository} CertificationRescoringRepository
  * @typedef {certificationCenterAccessRepository} CertificationCenterAccessRepository
+ * @typedef {pixPlusCertificationRepository} PixPlusCertificationRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -117,6 +119,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCompanionAlertRepository,
   certificationRescoringRepository,
   certificationCenterAccessRepository,
+  pixPlusCertificationRepository,
 };
 
 /**
@@ -141,6 +144,7 @@ export {
   competenceMarkRepository,
   cpfExportRepository,
   flashAlgorithmConfigurationRepository,
+  pixPlusCertificationRepository,
   repositories,
   sessionSummaryRepository,
   sharedCompetenceMarkRepository,

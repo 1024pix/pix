@@ -13,6 +13,7 @@ const publishSessionsInBatch = async function ({
   sessionRepository,
   sharedSessionRepository,
   sessionPublicationService,
+  pixPlusCertificationRepository,
 }) {
   const result = new SessionPublicationBatchResult(batchId);
   for (const sessionId of sessionIds) {
@@ -25,6 +26,7 @@ const publishSessionsInBatch = async function ({
           finalizedSessionRepository,
           sharedSessionRepository,
           sessionRepository,
+          pixPlusCertificationRepository,
         });
 
         await sessionPublicationService.manageEmails({

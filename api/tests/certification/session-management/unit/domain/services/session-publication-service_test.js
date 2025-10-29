@@ -1,4 +1,7 @@
-import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
+import {
+  SessionAlreadyPublishedError,
+  SessionWithPixPlusNotPublishableError,
+} from '../../../../../../src/certification/session-management/domain/errors.js';
 import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
@@ -20,6 +23,7 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
     sharedSessionRepository,
     finalizedSessionRepository,
     certificationCenterRepository,
+    pixPlusCertificationRepository,
     mailService;
   let now;
   const sessionDate = '2020-05-08';
@@ -88,6 +92,9 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
         finalizedSessionRepository = {
           get: sinon.stub(),
           save: sinon.stub(),
+        };
+        pixPlusCertificationRepository = {
+          getBySessionId: sinon.stub(),
         };
         sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(originalSession);
       });
@@ -205,6 +212,43 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
 
           // then
           expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
+        });
+      });
+
+      context('when at least one certification is a V3 complementary certification', function () {
+        it('should throw a CertificationCourseNotPublishableError', async function () {
+          // given
+          const pixPlusCertificationCourses = [
+            domainBuilder.certification.sessionManagement.buildPixPlusCertificationCourse({
+              id: 1,
+              createdAt: new Date(),
+            }),
+          ];
+          const session = domainBuilder.certification.sessionManagement.buildSession({
+            id: 'sessionId',
+            publishedAt: null,
+            certificationCandidates: [
+              domainBuilder.buildCertificationCandidate({
+                complementaryCertification: domainBuilder.certification.shared.buildComplementaryCertification(),
+              }),
+            ],
+          });
+          const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
+          sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: session.id }).resolves(session);
+          pixPlusCertificationRepository.getBySessionId.withArgs(session.id).resolves(pixPlusCertificationCourses);
+
+          // when
+          const error = await catchErr(publishSession)({
+            sessionId: session.id,
+            publishedAt: now,
+            finalizedSessionRepository: undefined,
+            sessionRepository,
+            sharedSessionRepository,
+            pixPlusCertificationRepository,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(SessionWithPixPlusNotPublishableError);
         });
       });
     });

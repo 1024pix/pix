@@ -11,6 +11,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {SharedSessionRepository} params.sharedSessionRepository
+ * @param {PixPlusCertificationRepository} params.pixPlusCertificationRepository
  * @param {SessionPublicationService} params.sessionPublicationService
  */
 const publishSession = async function ({
@@ -22,6 +23,7 @@ const publishSession = async function ({
   sharedSessionRepository,
   sessionRepository,
   sessionPublicationService,
+  pixPlusCertificationRepository,
 }) {
   return DomainTransaction.execute(async function () {
     const { session, startedCertificationCoursesUserIds } = await sessionPublicationService.publishSession({
@@ -31,6 +33,7 @@ const publishSession = async function ({
       finalizedSessionRepository,
       sessionRepository,
       sharedSessionRepository,
+      pixPlusCertificationRepository,
     });
 
     await sessionPublicationService.manageEmails({

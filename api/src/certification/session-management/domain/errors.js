@@ -47,6 +47,16 @@ class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainEr
   }
 }
 
+class SessionWithPixPlusNotPublishableError extends DomainError {
+  constructor(
+    sessionId,
+    message = `Publication de la session ${sessionId} impossible. Cette session contient au moins une certification Pix+ V3`,
+  ) {
+    super(message);
+    this.code = 'SESSION_WITH_PIX_PLUS_NOT_PUBLISHABLE';
+  }
+}
+
 class SessionWithMissingAbortReasonError extends DomainError {
   constructor(
     message = "Une ou plusieurs certifications non terminées n'ont pas de “Raison de l’abandon” renseignées. La session ne peut donc pas être finalisée.",
@@ -126,4 +136,5 @@ export {
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
+  SessionWithPixPlusNotPublishableError,
 };

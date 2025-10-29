@@ -208,6 +208,7 @@ import { buildCertificationCandidate as buildSessionManagementCandidate } from '
 import { buildCertificationDetails } from './certification/session-management/build-certification-details.js';
 import { buildCertificationSessionComplementaryCertification } from './certification/session-management/build-certification-session-complementary-certification.js';
 import { buildJurySessionCounters } from './certification/session-management/build-jury-session-counters.js';
+import { buildPixPlusCertificationCourse } from './certification/session-management/build-pix-plus-certification-course.js';
 import { buildSessionManagement } from './certification/session-management/build-session.js';
 import { buildCompetenceForScoring } from './certification/shared/build-competence-for-scoring.js';
 import { buildComplementaryCertification as buildSharedComplementaryCertification } from './certification/shared/build-complementary-certification.js';
@@ -284,6 +285,7 @@ const certification = {
     buildSession: buildSessionManagement,
     buildCertificationCandidate: buildSessionManagementCandidate,
     buildJurySessionCounters,
+    buildPixPlusCertificationCourse,
   },
   shared: {
     buildCertificationCompanionLiveAlert,

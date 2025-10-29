@@ -9,6 +9,7 @@ import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
+  SessionWithPixPlusNotPublishableError,
 } from '../errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
 
@@ -23,6 +24,7 @@ import { logger } from '../../../../shared/infrastructure/utils/logger.js';
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {SharedSessionRepository} params.sharedSessionRepository
+ * @param {PixPlusCertificationRepository} params.pixPlusCertificationRepository
  */
 async function publishSession({
   publishedAt = new Date(),
@@ -31,10 +33,20 @@ async function publishSession({
   finalizedSessionRepository,
   sessionRepository,
   sharedSessionRepository,
+  pixPlusCertificationRepository,
 }) {
   const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
+
   if (session.isPublished()) {
     throw new SessionAlreadyPublishedError();
+  }
+
+  if (_hasComplementaryCertification(session)) {
+    const pixPlusCertificationCourses = await pixPlusCertificationRepository.getBySessionId(session.id);
+
+    if (pixPlusCertificationCourses.length > 0) {
+      throw new SessionWithPixPlusNotPublishableError(sessionId);
+    }
   }
 
   const certificationStatuses = await certificationRepository.getStatusesBySessionId(sessionId);
@@ -207,6 +219,10 @@ function _hasCertificationInError(certificationStatus) {
 
 function _hasCertificationWithNoScoring(certificationStatuses) {
   return certificationStatuses.some(({ pixCertificationStatus }) => pixCertificationStatus === null);
+}
+
+function _hasComplementaryCertification(session) {
+  return session.certificationCandidates.some((candidate) => Boolean(candidate.complementaryCertification));
 }
 
 export { manageEmails, publishSession };

@@ -22,7 +22,11 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | Publi
       publishSession: sinon.stub(),
       manageEmails: sinon.stub(),
     };
+    const pixPlusCertificationRepository = {
+      getBySessionId: sinon.stub(),
+    };
     sessionPublicationService.publishSession.resolves({ session, startedCertificationCoursesUserIds: [123] });
+    pixPlusCertificationRepository.getBySessionId.resolves([]);
 
     // when
     const result = await publishSession({
@@ -32,6 +36,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | Publi
       finalizedSessionRepository,
       sessionRepository,
       sharedSessionRepository,
+      pixPlusCertificationRepository,
       sessionPublicationService,
       publishedAt,
     });
@@ -44,6 +49,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | Publi
       finalizedSessionRepository,
       sessionRepository,
       sharedSessionRepository,
+      pixPlusCertificationRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
       session,
