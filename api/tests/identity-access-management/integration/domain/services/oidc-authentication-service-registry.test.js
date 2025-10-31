@@ -41,6 +41,8 @@ describe('Integration | Identity Access Management | Domain | Service | oidc-aut
     await databaseBuilder.factory.buildOidcProvider(genericDisabledOidcProviderProperties);
 
     const genericOidcProviderFoxPixAdminProperties = {
+      application: 'admin',
+      applicationTld: '.fr',
       enabledForPixAdmin: true,
       accessTokenLifespan: '7d',
       clientId: 'client',
@@ -49,7 +51,7 @@ describe('Integration | Identity Access Management | Domain | Service | oidc-aut
       identityProvider: 'OIDC_EXAMPLE_FOR_PIX_ADMIN',
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'OIDC Example',
-      redirectUri: 'https://app.dev.pix.org/connexion/oidc-example-net',
+      redirectUri: 'https://admin.dev.pix.fr/connexion/oidc-example-net',
       scope: 'openid profile',
       slug: 'oidc-example-net',
       source: 'oidcexamplenet',
@@ -167,7 +169,7 @@ describe('Integration | Identity Access Management | Domain | Service | oidc-aut
     describe('when the requestedApplication is admin', function () {
       it('returns a ready OIDC provider for Pix Admin', async function () {
         // given
-        const requestedApplication = new RequestedApplication('admin');
+        const requestedApplication = new RequestedApplication({ applicationName: 'admin', applicationTld: '.fr' });
         await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
 
         // when

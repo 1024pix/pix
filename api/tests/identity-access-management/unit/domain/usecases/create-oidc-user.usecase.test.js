@@ -104,7 +104,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
     const idToken = 'idToken';
     const language = 'nl';
     const audience = 'htttps://app.pix.fr';
-    const requestedApplication = new RequestedApplication('app');
+    const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
       sessionContent: { idToken, accessToken: 'accessToken' },
       userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'externalId' },

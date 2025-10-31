@@ -88,15 +88,17 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
 
   describe('RequestedApplication', function () {
     describe('constructor', function () {
-      it('initializes an applicationName property', function () {
+      it('creates an instance with properties', function () {
         // given
         const applicationName = 'orga';
+        const applicationTld = '.fr';
 
         // when
-        const requestedApplication = new RequestedApplication(applicationName);
+        const requestedApplication = new RequestedApplication({ applicationName, applicationTld });
 
         // then
         expect(requestedApplication.applicationName).to.equal('orga');
+        expect(requestedApplication.applicationTld).to.equal('.fr');
       });
     });
 
@@ -111,6 +113,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
         // then
         expect(requestedApplication).to.be.instanceOf(RequestedApplication);
         expect(requestedApplication.applicationName).to.equal('app');
+        expect(requestedApplication.applicationTld).to.equal('.org');
         expect(requestedApplication.isPixApp).to.be.true;
         expect(requestedApplication.isPixAdmin).to.be.false;
         expect(requestedApplication.isPixOrga).to.be.false;
@@ -129,6 +132,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
           // then
           expect(requestedApplication).to.be.instanceOf(RequestedApplication);
           expect(requestedApplication.applicationName).to.equal('app');
+          expect(requestedApplication.applicationTld).to.equal('.org');
           expect(requestedApplication.isPixApp).to.be.true;
           expect(requestedApplication.isPixAdmin).to.be.false;
           expect(requestedApplication.isPixOrga).to.be.false;
@@ -149,6 +153,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
             // then
             expect(requestedApplication).to.be.instanceOf(RequestedApplication);
             expect(requestedApplication.applicationName).to.equal('app');
+            expect(requestedApplication.applicationTld).to.be.undefined;
             expect(requestedApplication.isPixApp).to.be.true;
             expect(requestedApplication.isPixAdmin).to.be.false;
             expect(requestedApplication.isPixOrga).to.be.false;
@@ -168,6 +173,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
             // then
             expect(requestedApplication).to.be.instanceOf(RequestedApplication);
             expect(requestedApplication.applicationName).to.equal('orga');
+            expect(requestedApplication.applicationTld).to.be.undefined;
             expect(requestedApplication.isPixApp).to.be.false;
             expect(requestedApplication.isPixAdmin).to.be.false;
             expect(requestedApplication.isPixOrga).to.be.true;
@@ -187,6 +193,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
             // then
             expect(requestedApplication).to.be.instanceOf(RequestedApplication);
             expect(requestedApplication.applicationName).to.equal('admin');
+            expect(requestedApplication.applicationTld).to.be.undefined;
             expect(requestedApplication.isPixApp).to.be.false;
             expect(requestedApplication.isPixAdmin).to.be.true;
             expect(requestedApplication.isPixOrga).to.be.false;
@@ -206,6 +213,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
             // then
             expect(requestedApplication).to.be.instanceOf(RequestedApplication);
             expect(requestedApplication.applicationName).to.equal('certif');
+            expect(requestedApplication.applicationTld).to.be.undefined;
             expect(requestedApplication.isPixApp).to.be.false;
             expect(requestedApplication.isPixAdmin).to.be.false;
             expect(requestedApplication.isPixOrga).to.be.false;
@@ -225,6 +233,7 @@ describe('Unit | Identity Access Management | Infrastructure | Utils | network',
             // then
             expect(requestedApplication).to.be.instanceOf(RequestedApplication);
             expect(requestedApplication.applicationName).to.equal('junior');
+            expect(requestedApplication.applicationTld).to.be.undefined;
             expect(requestedApplication.isPixApp).to.be.false;
             expect(requestedApplication.isPixAdmin).to.be.false;
             expect(requestedApplication.isPixOrga).to.be.false;

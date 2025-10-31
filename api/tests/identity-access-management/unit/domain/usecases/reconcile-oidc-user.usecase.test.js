@@ -10,7 +10,7 @@ import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-user', function () {
   const audience = 'https://app.pix.fr';
-  const requestedApplication = new RequestedApplication('app');
+  const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
   context('when identityProvider is generic', function () {
     let authenticationMethodRepository,

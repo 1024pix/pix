@@ -15,7 +15,7 @@ describe('Unit | Identity Access Management | Application | Controller | Authent
       const externalUserToken = 'SamlJacksonToken';
       const expectedUserId = 1;
       const audience = 'https://app.pix.fr';
-      const requestedApplication = new RequestedApplication('app');
+      const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
       const request = {
         headers: {

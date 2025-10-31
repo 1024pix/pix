@@ -16,7 +16,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
     oidcAuthenticationService;
   const identityProvider = 'genericOidcProviderCode';
   const audience = 'https://admin.pix.fr';
-  const requestedApplication = new RequestedApplication('admin');
+  const requestedApplication = new RequestedApplication({ applicationName: 'admin', applicationTld: '.fr' });
 
   beforeEach(function () {
     authenticationMethodRepository = {

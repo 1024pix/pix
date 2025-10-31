@@ -17,7 +17,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   let studentRepository;
   let lastUserApplicationConnectionsRepository;
   const audience = 'https://app.pix.fr';
-  const requestedApplication = new RequestedApplication('app');
+  const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
   beforeEach(function () {
     userReconciliationService = {

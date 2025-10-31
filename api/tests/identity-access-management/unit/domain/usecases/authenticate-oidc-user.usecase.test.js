@@ -55,7 +55,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
 
     context('check access by requestedApplication', function () {
       context('when requestedApplication is Pix Admin', function () {
-        const requestedApplication = new RequestedApplication('admin');
+        const requestedApplication = new RequestedApplication({ applicationName: 'admin', applicationTld: '.fr' });
 
         context('when user has no role and is therefore not an admin member', function () {
           it('throws an error', async function () {
@@ -278,7 +278,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
           // when
-          const requestedApplication = new RequestedApplication('app');
+          const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
           await authenticateOidcUser({
             requestedApplication,
             stateReceived: 'state',
@@ -316,7 +316,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       context('when the provider has an authentication complement', function () {
         it('updates the authentication method', async function () {
           // given
-          const requestedApplication = new RequestedApplication('app');
+          const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
           _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
           const user = domainBuilder.buildUser({ id: 10 });
           userRepository.findByExternalIdentifier.resolves(user);
@@ -373,7 +373,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     let lastUserApplicationConnectionsRepository;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
     const audience = 'https://app.pix.fr';
-    const requestedApplication = new RequestedApplication('app');
+    const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
     beforeEach(function () {
       oidcAuthenticationService = {
@@ -411,7 +411,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     context('when user has an account', function () {
       it('updates the authentication method', async function () {
         // given
-        const requestedApplication = new RequestedApplication('app');
+        const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
         const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         const user = domainBuilder.buildUser({ id: 1 });
         userRepository.findByExternalIdentifier.resolves(user);
@@ -502,7 +502,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     context('when user is logged with their pix account but also has a separate oidc account', function () {
       it('updates the oidc authentication method', async function () {
         // given
-        const requestedApplication = new RequestedApplication('app');
+        const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
         const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         const user = domainBuilder.buildUser({ id: 10 });
         userRepository.findByExternalIdentifier
@@ -606,7 +606,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         expiredDate: new Date(),
       });
       oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-      const requestedApplication = new RequestedApplication('app');
+      const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
       // when
       await authenticateOidcUser({

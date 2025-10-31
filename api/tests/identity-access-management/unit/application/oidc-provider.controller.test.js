@@ -15,7 +15,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
     const identityProvider = 'OIDC_EXAMPLE_NET';
     const pixAccessToken = 'pixAccessToken';
     const audience = 'https://app.pix.fr';
-    const requestedApplication = new RequestedApplication('app');
+    const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
     const locale = 'fr-FR';
 
     let request;
@@ -147,7 +147,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
         locale: 'fr-FR',
         language: 'fr',
         audience: 'https://app.pix.fr',
-        requestedApplication: new RequestedApplication('app'),
+        requestedApplication: new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' }),
       });
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal({
@@ -229,7 +229,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
       //then
       expect(usecases.getAuthorizationUrl).to.have.been.calledWithExactly({
         identityProvider: 'OIDC',
-        requestedApplication: new RequestedApplication('app'),
+        requestedApplication: new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' }),
       });
       expect(request.yar.set).to.have.been.calledTwice;
       expect(request.yar.set.getCall(0)).to.have.been.calledWithExactly(
@@ -287,7 +287,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
           authenticationKey: '123abc',
         },
       };
-      const requestedApplication = new RequestedApplication('app');
+      const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
       sinon.stub(usecases, 'reconcileOidcUser').resolves({
         accessToken: 'accessToken',

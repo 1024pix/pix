@@ -15,7 +15,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
   beforeEach(async function () {
     audience = 'https://app.pix.fr';
-    requestedApplication = new RequestedApplication('app');
+    requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
   });
 
   context('When the token is invalid', function () {

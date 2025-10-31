@@ -46,7 +46,7 @@ describe('Unit | Identity Access Management | Application | Controller | Token',
     const password = 'user_password';
     const source = 'pix';
     const audience = 'https://app.pix.fr';
-    const requestedApplication = new RequestedApplication('app');
+    const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
     /**
      * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
