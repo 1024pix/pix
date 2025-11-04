@@ -1,6 +1,10 @@
 import Service from '@ember/service';
 
 export default class FeatureTogglesService extends Service {
+  allo() {
+    console.log('ALLO')
+  }
+
   get featureToggles() {
     return this._featureToggles;
   }

@@ -5,7 +5,7 @@ import ENV from 'mon-pix/config/environment';
 
 export default class ApplicationRoute extends Route {
   @service authentication;
-  @service frontendContext;
+  @service('context') acontext;
   @service featureToggles;
   @service intl;
   @service oidcIdentityProviders;
@@ -38,13 +38,19 @@ export default class ApplicationRoute extends Route {
     this.locale.setBestLocale({ queryParams });
     await this.session.setup();
 
-    // await this.frontendContext.load().catch();
-    const context = await this.frontendContext.fetch().catch();
-    console.log('FEC:', context);
-    console.log('FEC1:', context.featureToggles);
-    console.log('FEC2:', context.identityProviders);
-    await this.featureToggles.set(context.featureToggles);
-    await this.oidcIdentityProviders.set(context.identityProviders);
+
+    console.log('featureToggles:', typeof this.featureToggles, this.featureToggles)
+    this.featureToggles.allo();
+
+    // await this.context.load().catch();
+    console.log('acontext:', typeof this.acontext, this.acontext)
+    this.acontext.allo();
+    // const context = await this.context.fetch().catch();
+    // console.log('FEC:', context);
+    // console.log('FEC1:', context.featureToggles);
+    // console.log('FEC2:', context.identityProviders);
+    // await this.featureToggles.set(context.featureToggles);
+    // await this.oidcIdentityProviders.set(context.identityProviders);
 
     await this.authentication.handleAnonymousAuthentication(transition);
     await this.currentUser.load();
