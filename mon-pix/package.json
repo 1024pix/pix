@@ -154,6 +154,7 @@
     "./*": "./app/*"
   },
   "dependencies": {
-    "@zumer/snapdom": "^1.9.14"
+    "@zumer/snapdom": "^1.9.14",
+    "html2canvas-pro": "^1.5.12"
   }
 }

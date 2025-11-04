@@ -12,7 +12,7 @@ import ModuleNavbar from './layout/navbar';
 import ModuleSectionTitle from './section-title';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import { snapdom } from '@zumer/snapdom';
+import html2canvas from 'html2canvas-pro';
 
 export default class ModulePassage extends Component {
   @service router;
@@ -263,12 +263,29 @@ export default class ModulePassage extends Component {
     console.log('imgData', this.imgData);*/
 
     // const el = document.querySelector('#grain_533c69b8-a836-41be-8ffc-8d4636e31224');
-    const el = document.querySelector('main');
-    const result = await snapdom(el, {embedFonts: true, outerTransforms: false, outerShadows: true});
-    console.log('result', result);
-    this.imgData = result.url;
-    console.log('imgData', this.imgData);
-    this.isModalOpen = true;
+    const el = document.querySelector("main");
+
+    setTimeout(async () => {
+      const result = await html2canvas(el,
+        {
+          useCORS: true,
+          windowWidth: el.scrollWidth,
+          windowHeight: el.scrollHeight,
+          backgroundColor: null,
+        })
+      console.log('result', result);
+      this.imgData = result.toDataURL('image/png');
+      console.log('imgData', this.imgData);
+      this.isModalOpen = true;
+    }, 5000)
+    //
+    //   const el = document.querySelector('main');
+    //   const result = await snapdom(el, {embedFonts: true, outerTransforms: false, outerShadows: true});
+    //   console.log('result', result);
+    //   this.imgData = result.url;
+    //   console.log('imgData', this.imgData);
+    //   this.isModalOpen = true;
+    // }
   }
 
   @action
