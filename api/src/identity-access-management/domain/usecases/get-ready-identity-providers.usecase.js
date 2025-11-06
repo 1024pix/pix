@@ -12,7 +12,7 @@ const getReadyIdentityProviders = async function ({ requestedApplication, oidcAu
     return oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
   }
 
-  return oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
+  return oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesByRequestedApplication(requestedApplication);
 };
 
 export { getReadyIdentityProviders };

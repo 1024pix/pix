@@ -6,12 +6,9 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 
 export class OidcAuthenticationServiceRegistry {
-  /** @type {OidcAuthenticationService[]|null} */
   #allOidcProviderServices = null;
-  /** @type {OidcAuthenticationService[]|null} */
-  #readyOidcProviderServices = null;
-  /** @type {OidcAuthenticationService[]|null} */
   #readyOidcProviderServicesForPixAdmin = null;
+  #readyOidcProviderServicesByRequestedApplications = {};
 
   constructor(dependencies = {}) {
     this.oidcProviderRepository = dependencies.oidcProviderRepository;
@@ -36,19 +33,20 @@ export class OidcAuthenticationServiceRegistry {
     return this.#allOidcProviderServices;
   }
 
-  getReadyOidcProviderServices() {
-    return this.#readyOidcProviderServices;
-  }
-
   getReadyOidcProviderServicesForPixAdmin() {
     return this.#readyOidcProviderServicesForPixAdmin;
   }
 
+  getReadyOidcProviderServicesByRequestedApplication(requestedApplication) {
+    return this.#readyOidcProviderServicesByRequestedApplications[
+      generateGroupByKey(requestedApplication.applicationName, requestedApplication.applicationTld)
+    ];
+  }
+
   getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
-    const services = requestedApplication?.isPixAdmin
-      ? this.#readyOidcProviderServicesForPixAdmin
-      : this.#readyOidcProviderServices;
-    const oidcProviderService = services.find((service) => identityProviderCode === service.code);
+    const oidcProviderService = this.#readyOidcProviderServicesByRequestedApplications[
+      generateGroupByKey(requestedApplication.applicationName, requestedApplication.applicationTld)
+    ].find((service) => identityProviderCode === service.code);
 
     if (!oidcProviderService) {
       throw new InvalidIdentityProviderError(identityProviderCode);
@@ -80,18 +78,28 @@ export class OidcAuthenticationServiceRegistry {
     }
 
     this.#allOidcProviderServices = oidcProviderServices;
-    this.#readyOidcProviderServices = this.#allOidcProviderServices.filter(
-      (oidcProviderService) => oidcProviderService.isReady,
-    );
+
     this.#readyOidcProviderServicesForPixAdmin = this.#allOidcProviderServices.filter(
       (oidcProviderService) => oidcProviderService.isReadyForPixAdmin,
     );
+
+    this.#readyOidcProviderServicesByRequestedApplications = Object.groupBy(
+      this.#allOidcProviderServices.filter(
+        (oidcProviderService) => oidcProviderService.isReady || oidcProviderService.isReadyForPixAdmin,
+      ),
+      (oidcProviderService) => generateGroupByKey(oidcProviderService.application, oidcProviderService.applicationTld),
+    );
+
     return true;
   }
 
   testOnly_reset() {
     this.#allOidcProviderServices = null;
-    this.#readyOidcProviderServices = null;
     this.#readyOidcProviderServicesForPixAdmin = null;
+    this.#readyOidcProviderServicesByRequestedApplications = {};
   }
+}
+
+function generateGroupByKey(application, applicationTld) {
+  return application + applicationTld;
 }

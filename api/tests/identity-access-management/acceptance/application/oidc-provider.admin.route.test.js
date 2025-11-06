@@ -16,7 +16,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   let server;
 
   beforeEach(async function () {
-    await createMockedTestOidcProvider();
+    await createMockedTestOidcProvider({ application: 'admin', applicationTld: '.fr' });
     server = await createServer();
   });
 

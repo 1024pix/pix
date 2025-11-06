@@ -62,6 +62,7 @@ async function createOidcUser({
 
   const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
+    requestedApplication,
   });
 
   const userId = await oidcAuthenticationService.createUserAccount({

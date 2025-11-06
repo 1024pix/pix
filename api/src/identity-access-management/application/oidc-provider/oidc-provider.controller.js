@@ -146,10 +146,14 @@ async function getRedirectLogoutUrl(request, h) {
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
 
+  const origin = getForwardedOrigin(request.headers);
+  const requestedApplication = RequestedApplication.fromOrigin(origin);
+
   const redirectLogoutUrl = await usecases.getRedirectLogoutUrl({
     identityProvider,
     logoutUrlUUID,
     userId,
+    requestedApplication,
   });
 
   return h.response({ redirectLogoutUrl }).code(200);

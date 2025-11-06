@@ -7,12 +7,19 @@
  * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
  * @return {Promise<string>}
  */
-async function getRedirectLogoutUrl({ identityProvider, logoutUrlUUID, userId, oidcAuthenticationServiceRegistry }) {
+async function getRedirectLogoutUrl({
+  identityProvider,
+  logoutUrlUUID,
+  userId,
+  requestedApplication,
+  oidcAuthenticationServiceRegistry,
+}) {
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
+    requestedApplication,
   });
 
   return oidcAuthenticationService.getRedirectLogoutUrl({
