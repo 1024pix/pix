@@ -34,8 +34,6 @@ function sendOrganizationInvitationEmail({
   const i18n = getI18n(locale);
 
   return mailer.sendEmail({
-    from: 'ne-pas-repondre+poc-prescription@pix.fr',
-    fromName: i18n.__('email-sender-name.pix-orga'),
     to: email,
     subject: i18n.__('organization-invitation-email.subject'),
     template: mailer.organizationInvitationTemplateId,

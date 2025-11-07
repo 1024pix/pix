@@ -17,7 +17,7 @@ export class SmtpMailer {
     if (!config.mailing.enabled) {
       return;
     }
-
+    const from = fromName ? `"${fromName}" ${from}` : null;
     const transporterOptions = {
       from: `"${fromName}" ${from}`,
       to,
@@ -25,6 +25,9 @@ export class SmtpMailer {
       text,
       html,
     };
+    if (transporterOptions.from === null) {
+      delete transporterOptions.from;
+    }
     await this.#transporter.sendMail(transporterOptions);
   }
 }

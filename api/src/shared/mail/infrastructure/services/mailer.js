@@ -42,6 +42,8 @@ class Mailer {
     }
 
     try {
+      if (!options.sender.from) delete options.sender;
+
       await this._provider.sendEmail(options);
     } catch (err) {
       logger.warn({ err }, `Could not send email to '${options.to}'`);
