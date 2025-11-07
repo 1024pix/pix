@@ -384,6 +384,7 @@ const configuration = (function () {
           certificationResultTemplateId: process.env.BREVO_CERTIFICATION_RESULT_TEMPLATE_ID,
           cpfEmailTemplateId: process.env.BREVO_CPF_TEMPLATE_ID,
           emailVerificationCodeTemplateId: process.env.BREVO_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
+          //update on environment variable template invitation
           organizationInvitationTemplateId: process.env.BREVO_ORGANIZATION_INVITATION_TEMPLATE_ID,
           organizationInvitationScoTemplateId: process.env.BREVO_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
           passwordResetTemplateId: process.env.BREVO_PASSWORD_RESET_TEMPLATE_ID,
