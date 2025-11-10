@@ -503,8 +503,13 @@ describe('Acceptance | Route | llm-preview', function () {
       // then
       expect(response.statusCode).to.equal(201);
       expect(promptLlmScope.isDone()).to.be.true;
+      const attachmentMessage = 'event: attachment-success\ndata: \n\n';
+      const llmMessage = "data: coucou c'est super\n\n";
+      const promptsLeft = 'event: user-prompts-left\ndata: 998\n\n';
+      const debugInputTokens = 'event: debug-input-tokens\ndata: 3000\n\n';
+      const debugOutputTokens = 'event: debug-output-tokens\ndata: 5000\n\n';
       expect(response.result).to.deep.equal(
-        "event: attachment-success\ndata: \n\ndata: coucou c'est super\n\nevent: debug-input-tokens\ndata: 3000\n\nevent: debug-output-tokens\ndata: 5000\n\n",
+        attachmentMessage + llmMessage + promptsLeft + debugInputTokens + debugOutputTokens,
       );
     });
   });

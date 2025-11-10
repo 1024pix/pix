@@ -8,6 +8,25 @@ import {
   TooLargeMessageInputError,
 } from '../errors.js';
 
+/**
+ * @typedef {import ('../../infrastructure/repositories/index.js').chatRepository} ChatRepository
+ * @typedef {import ('../../infrastructure/repositories/index.js').promptRepository} PromptRepository
+ * @typedef {import ('../../infrastructure/streaming/to-event-stream.js')} toEventStream
+ * @typedef {import ('../../infrastructure/streaming/to-event-stream.js').StreamCapture} StreamCapture
+ * @typedef {import ('../../../shared/infrastructure/mutex/RedisMutex.js').redisMutex} RedisMutex
+ */
+
+/**
+ * @param {Object} params
+ * @param {string|undefined} params.chatId
+ * @param {number|undefined} params.userId
+ * @param {string|undefined} params.message
+ * @param {string|undefined} params.attachmentName
+ * @param {ChatRepository} params.chatRepository
+ * @param {PromptRepository} params.promptRepository
+ * @param {toEventStream} params.toEventStream
+ * @param {RedisMutex} params.redisMutex
+ */
 export async function promptChat({
   chatId,
   userId,
@@ -79,12 +98,19 @@ export async function promptChat({
       }
     }
 
+    if (message) {
+      chat.addUserMessage(message, true, true, false, false);
+    }
+
+    const userPromptsLeft = configuration.inputMaxPrompts - chat.currentPromptsCount;
+
     return toEventStream.fromLLMResponse({
       llmResponse: readableStream,
       onStreamDone: finalize(chat, message, shouldSendMessageToLLM, chatRepository, redisMutex),
       attachmentMessageType,
       shouldSendDebugData: chat.isPreview,
       prompt: message,
+      userPromptsLeft,
     });
   } catch (error) {
     await redisMutex.release(chatId);
@@ -96,7 +122,7 @@ export async function promptChat({
  * @function
  * @name finalize
  *
- * @param {Chat} chat
+ * @param {import ('../models/Chat.js').Chat} chat
  * @param {string} message
  * @param {boolean} hasJustBeenSentToLLM
  * @param {Object} chatRepository
@@ -107,16 +133,15 @@ function finalize(chat, message, hasJustBeenSentToLLM, chatRepository, redisMute
   return async (streamCapture, hasStreamSucceeded) => {
     if (hasStreamSucceeded) {
       const hasErrorOccurredDuringStream = !!streamCapture.errorOccurredDuringStream;
-      const shouldBeCountedAsAPrompt = hasJustBeenSentToLLM && !hasErrorOccurredDuringStream;
-      const shouldBeForwardedToLLM =
-        hasJustBeenSentToLLM && !streamCapture.wasModerated && !hasErrorOccurredDuringStream;
-      chat.addUserMessage(
-        message,
-        shouldBeCountedAsAPrompt,
-        shouldBeForwardedToLLM,
-        streamCapture.haveVictoryConditionsBeenFulfilled,
-        streamCapture.wasModerated,
-      );
+      if (message) {
+        const shouldBeCountedAsAPrompt = hasJustBeenSentToLLM && !hasErrorOccurredDuringStream;
+        const shouldBeForwardedToLLM = shouldBeCountedAsAPrompt && !streamCapture.wasModerated;
+        const lastUserMessage = chat.countedMessages.at(-1);
+        lastUserMessage.shouldBeCountedAsAPrompt = shouldBeCountedAsAPrompt;
+        lastUserMessage.shouldBeForwardedToLLM = shouldBeForwardedToLLM;
+        lastUserMessage.haveVictoryConditionsBeenFulfilled = streamCapture.haveVictoryConditionsBeenFulfilled;
+        lastUserMessage.wasModerated = streamCapture.wasModerated;
+      }
       chat.addLLMMessage(
         streamCapture.LLMMessageParts.join(''),
         !hasErrorOccurredDuringStream,

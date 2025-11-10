@@ -45,8 +45,33 @@ export class Chat {
     this.totalOutputTokens = totalOutputTokens;
   }
 
+  get countedMessages() {
+    const countedMessages = [];
+    let hasExpectedAttachmentAlreadyBeenAdded = false;
+    for (const message of this.messages) {
+      if (!message.isFromUser) continue;
+
+      const isFirstValidAttachment =
+        message.isAttachment &&
+        this.isAttachmentValid(message.attachmentName) &&
+        !hasExpectedAttachmentAlreadyBeenAdded;
+      if (isFirstValidAttachment) {
+        hasExpectedAttachmentAlreadyBeenAdded = true;
+        if (message.shouldBeCountedAsAPrompt) {
+          countedMessages.push(message);
+        }
+        continue;
+      }
+
+      if (!message.shouldBeCountedAsAPrompt) continue;
+      if (message.isAttachment && hasExpectedAttachmentAlreadyBeenAdded) continue;
+      countedMessages.push(message);
+    }
+    return countedMessages;
+  }
+
   get currentPromptsCount() {
-    return this.messages.filter((message) => message.isFromUser && message.shouldBeCountedAsAPrompt).length;
+    return this.countedMessages.length;
   }
 
   get messagesToForwardToLLM() {

@@ -4,7 +4,7 @@ import * as events from './events.js';
 
 /**
  * @param {StreamCapture} streamCapture Structure that will hold state, such as the accumulated LLM response
- * @returns {module:stream.internal.Transform}
+ * @returns {Transform}
  */
 export function getTransform(streamCapture) {
   return new Transform({

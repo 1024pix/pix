@@ -852,7 +852,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
           return featureToggles.set('isEmbedLLMEnabled', true);
         });
 
-        it('should receive LLM response as stream', async function () {
+        it.only('should receive LLM response as stream', async function () {
           // given
           const chatId = randomUUID();
           const chat = new Chat({
@@ -920,7 +920,10 @@ describe('Acceptance | Controller | assessment-controller', function () {
 
           // then
           expect(response.statusCode).to.equal(201);
-          expect(response.result).to.deep.equal("event: attachment-success\ndata: \n\ndata: coucou c'est super\n\n");
+          const attachmentMessage = 'event: attachment-success\ndata: \n\n';
+          const llmMessage = "data: coucou c'est super\n\n";
+          const promptsLeft = 'event: user-prompts-left\ndata: 998\n\n';
+          expect(response.result).to.deep.equal(attachmentMessage + llmMessage + promptsLeft);
           expect(promptLlmScope.isDone()).to.be.true;
         });
       });

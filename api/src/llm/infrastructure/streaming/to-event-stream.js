@@ -5,6 +5,7 @@ import * as events from './transforms/events.js';
 import * as lengthPrefixedJsonDecoderTransform from './transforms/length-prefixed-json-decoder-transform.js';
 import * as responseObjectToEventStreamTransform from './transforms/response-object-to-event-stream-transform.js';
 import * as sendDebugDataTransform from './transforms/send-debug-data-transform.js';
+import * as sendUserPromptsLeftTransform from './transforms/send-user-prompts-left-transform.js';
 
 const logger = child('llm:api', { event: SCOPES.LLM });
 
@@ -41,6 +42,7 @@ export const ATTACHMENT_MESSAGE_TYPES = {
  * @param {string} params.attachmentMessageType
  * @param {boolean} params.shouldSendDebugData
  * @param {string} params.prompt
+ * @param {number} params.userPromptsLeft
  * @returns {Promise<module:stream.internal.PassThrough>}
  */
 export async function fromLLMResponse({
@@ -49,6 +51,7 @@ export async function fromLLMResponse({
   attachmentMessageType,
   shouldSendDebugData,
   prompt,
+  userPromptsLeft,
 }) {
   const writableStream = new PassThrough();
   writableStream.on('error', (err) => {
@@ -71,6 +74,7 @@ export async function fromLLMResponse({
     readableStream,
     lengthPrefixedJsonDecoderTransform.getTransform(),
     responseObjectToEventStreamTransform.getTransform(streamCapture),
+    sendUserPromptsLeftTransform.getTransform(streamCapture, userPromptsLeft),
     sendDebugDataTransform.getTransform(streamCapture, shouldSendDebugData),
     writableStream,
     async (err) => {

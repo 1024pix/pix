@@ -14,7 +14,7 @@ export class Configuration {
   }
 
   get inputMaxPrompts() {
-    return this.hasAttachment ? this.#dto.challenge.inputMaxPrompts - 1 : this.#dto.challenge.inputMaxPrompts;
+    return this.#dto.challenge.inputMaxPrompts;
   }
 
   get hasAttachment() {

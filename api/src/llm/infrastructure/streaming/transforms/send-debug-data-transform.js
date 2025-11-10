@@ -3,7 +3,7 @@ import { Transform } from 'node:stream';
 /**
  * @param {StreamCapture} streamCapture Structure that will hold state, such as the accumulated LLM response
  * @param {boolean} shouldSendDebugData
- * @returns {module:stream.internal.Transform}
+ * @returns {Transform}
  */
 export function getTransform(streamCapture, shouldSendDebugData) {
   return new Transform({
