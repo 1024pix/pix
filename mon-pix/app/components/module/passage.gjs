@@ -1,18 +1,20 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { snapdom } from '@zumer/snapdom';
 import { pageTitle } from 'ember-page-title';
+import html2canvas from 'html2canvas-pro';
 
 import { inc } from '../../helpers/inc';
 import didInsert from '../../modifiers/modifier-did-insert';
 import ModuleGrain from './grain/grain';
 import BetaBanner from './layout/beta-banner';
 import ModuleNavbar from './layout/navbar';
+import { testPlugin } from './plugins/test-plugin';
 import ModuleSectionTitle from './section-title';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import html2canvas from 'html2canvas-pro';
 
 export default class ModulePassage extends Component {
   @service router;
@@ -263,9 +265,9 @@ export default class ModulePassage extends Component {
     console.log('imgData', this.imgData);*/
 
     // const el = document.querySelector('#grain_533c69b8-a836-41be-8ffc-8d4636e31224');
-    const el = document.querySelector("main");
+    const el = document.querySelector('main');
 
-    setTimeout(async () => {
+    /*setTimeout(async () => {
       const result = await html2canvas(el,
         {
           useCORS: true,
@@ -277,15 +279,15 @@ export default class ModulePassage extends Component {
       this.imgData = result.toDataURL('image/png');
       console.log('imgData', this.imgData);
       this.isModalOpen = true;
-    }, 5000)
-    //
-    //   const el = document.querySelector('main');
-    //   const result = await snapdom(el, {embedFonts: true, outerTransforms: false, outerShadows: true});
-    //   console.log('result', result);
-    //   this.imgData = result.url;
-    //   console.log('imgData', this.imgData);
-    //   this.isModalOpen = true;
-    // }
+    }, 5000)*/
+    const result = await snapdom(el, {
+      embedFonts: true,
+      outerTransforms: false,
+      outerShadows: true,
+      plugins: [testPlugin],
+    });
+    this.imgData = result.url;
+    this.isModalOpen = true;
   }
 
   @action
@@ -349,23 +351,19 @@ export default class ModulePassage extends Component {
         Signaler
       </PixButton>
     </div>
-      <PixModal
-        @title="Signaler un module"
-        @showModal={{this.isModalOpen}}
-        @onCloseButtonClick={{this.onModalClose}}
-      >
-        <:content>
-          <img src={{this.imgData}}/>
-        </:content>
-        <:footer>
-          <PixButton
-            class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
-            @variant="secondary"
-            @triggerAction={{this.onModalClose}}
-          >
-            Quitter
-          </PixButton>
-        </:footer>
-      </PixModal>
+    <PixModal @title="Signaler un module" @showModal={{this.isModalOpen}} @onCloseButtonClick={{this.onModalClose}}>
+      <:content>
+        <img src={{this.imgData}} />
+      </:content>
+      <:footer>
+        <PixButton
+          class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
+          @variant="secondary"
+          @triggerAction={{this.onModalClose}}
+        >
+          Quitter
+        </PixButton>
+      </:footer>
+    </PixModal>
   </template>
 }
