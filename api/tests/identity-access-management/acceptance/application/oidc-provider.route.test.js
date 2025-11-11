@@ -149,9 +149,6 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           refresh_token: 'refresh_token',
         });
 
-        const headers = generateAuthenticatedUserRequestHeaders();
-        headers.cookie = cookies[0];
-
         // when
         const response = await server.inject({
           method: 'POST',
@@ -267,9 +264,6 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
             expires_in: 60,
             refresh_token: 'refresh_token',
           });
-
-          const headers = generateAuthenticatedUserRequestHeaders();
-          headers.cookie = cookies[0];
 
           // when
           const response = await server.inject({
