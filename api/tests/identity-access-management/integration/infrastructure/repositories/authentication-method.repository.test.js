@@ -452,6 +452,44 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
   });
 
+  describe('#hasAuthenticationMethodForAnyOfTheseIdentityProviders', function () {
+    it('returns true if there is at least one AuthenticationMethod for the given external id and these identity providers', async function () {
+      // given
+      const externalIdentifier = 'sub_456';
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+        id: 123,
+        identityProvider: 'firstProvider',
+        externalIdentifier,
+        userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.hasAuthenticationMethodForAnyOfTheseIdentityProviders({
+        externalIdentifier,
+        identityProviders: ['firstProvider', 'secondProvider'],
+      });
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('returns null if there is no AuthenticationMethods for the given external identifier and identity provider', async function () {
+      // given & when
+      const authenticationMethodsByTypeAndValue =
+        await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
+          externalIdentifier: 'samlId',
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        });
+
+      // then
+      expect(authenticationMethodsByTypeAndValue).to.be.null;
+    });
+  });
+
   describe('#updateExternalIdentifierByUserIdAndIdentityProvider', function () {
     context('When authentication method exists', function () {
       let clock;
@@ -1037,6 +1075,45 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       expect(authenticationMethodUpdated[0].userId).to.equal(targetUserId);
       expect(authenticationMethodUpdated[0].updatedAt).to.deep.equal(now);
       expect(authenticationMethodUpdated[0].lastLoggedAt).to.deep.equal(null);
+    });
+  });
+
+  describe('#updateIdentityProviderByUserIdAndIdentityProvider', function () {
+    let clock;
+    const now = new Date('2022-02-16');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    it('updates identityProvider if necessary', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const currentIdentityProvider = 'currentNameForIdentityProvider';
+      const newIdentityProvider = 'newNameForIdentityProvider';
+      databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+        userId: user.id,
+        identityProvider: currentIdentityProvider,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.updateIdentityProviderByUserIdAndIdentityProvider({
+        userId: user.id,
+        currentIdentityProvider,
+        newIdentityProvider,
+      });
+
+      // then
+      const authenticationMethodUpdated = await knex('authentication-methods').select();
+      expect(authenticationMethodUpdated[0].userId).to.equal(user.id);
+      expect(authenticationMethodUpdated[0].identityProvider).to.equal(newIdentityProvider);
+      expect(authenticationMethodUpdated[0].updatedAt).to.deep.equal(now);
     });
   });
 

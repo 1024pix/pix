@@ -93,6 +93,22 @@ const findOneByExternalIdentifierAndIdentityProvider = async function ({ externa
   return authenticationMethodDTO ? _toDomain(authenticationMethodDTO) : null;
 };
 
+const hasAuthenticationMethodForAnyOfTheseIdentityProviders = async function ({
+  externalIdentifier,
+  identityProviders,
+}) {
+  if (!identityProviders || identityProviders.length === 0) {
+    return false;
+  }
+  const result = await knex(AUTHENTICATION_METHODS_TABLE)
+    .where({ externalIdentifier })
+    .whereIn('identityProvider', identityProviders)
+    .count('* as count')
+    .first();
+
+  return result.count > 0;
+};
+
 const findByUserId = async function ({ userId }) {
   const authenticationMethodDTOs = await knex
     .select(COLUMNS)
@@ -196,6 +212,20 @@ const updateExternalIdentifierByUserIdAndIdentityProvider = async function ({
   return _toDomain(authenticationMethodDTO);
 };
 
+const updateIdentityProviderByUserIdAndIdentityProvider = async function ({
+  userId,
+  currentIdentityProvider,
+  newIdentityProvider,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn(AUTHENTICATION_METHODS_TABLE)
+    .where({
+      userId,
+      identityProvider: currentIdentityProvider,
+    })
+    .update({ identityProvider: newIdentityProvider, updatedAt: new Date() });
+};
+
 const updateAuthenticationComplementByUserIdAndIdentityProvider = async function ({
   authenticationComplement,
   userId,
@@ -269,9 +299,11 @@ const anonymizeByUserIds = async function ({ userIds }) {
  * @property {function} getByIdAndUserId
  * @property {function} hasIdentityProviderPIX
  * @property {function} hasIdentityProviderGar
+ * @property {function} hasAuthenticationMethodForAnyOfTheseIdentityProviders
  * @property {function} removeAllAuthenticationMethodsByUserId
  * @property {function} removeByUserIdAndIdentityProvider
  * @property {function} update
+ * @property {function} updateIdentityProviderByUserIdAndIdentityProvider
  * @property {function} updateAuthenticationComplementByUserIdAndIdentityProvider
  * @property {function} updateAuthenticationMethodUserId
  * @property {function} updatePassword
@@ -286,6 +318,7 @@ export {
   findOneByExternalIdentifierAndIdentityProvider,
   findOneByUserIdAndIdentityProvider,
   getByIdAndUserId,
+  hasAuthenticationMethodForAnyOfTheseIdentityProviders,
   hasIdentityProviderGar,
   hasIdentityProviderPIX,
   removeAllAuthenticationMethodsByUserId,
@@ -294,6 +327,7 @@ export {
   updateAuthenticationComplementByUserIdAndIdentityProvider,
   updateAuthenticationMethodUserId,
   updateExternalIdentifierByUserIdAndIdentityProvider,
+  updateIdentityProviderByUserIdAndIdentityProvider,
   updateLastLoggedAtByIdentityProvider,
   updatePassword,
 };
