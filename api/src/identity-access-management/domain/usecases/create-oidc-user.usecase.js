@@ -39,12 +39,26 @@ async function createOidcUser({
 
   const { userInfo, sessionContent } = sessionContentAndUserInfo;
 
-  const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
-    externalIdentifier: userInfo.externalIdentityId,
-    identityProvider,
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
+  const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+    requestedApplication,
   });
 
-  if (authenticationMethod) {
+  const identityProviders = [
+    oidcAuthenticationService.connectionMethodCode,
+    oidcAuthenticationService.identityProvider,
+  ].filter(Boolean);
+
+  const hasAlreadyAuthenticationMethod =
+    await authenticationMethodRepository.hasAuthenticationMethodForAnyOfTheseIdentityProviders({
+      externalIdentifier: userInfo.externalIdentityId,
+      identityProviders,
+    });
+
+  if (hasAlreadyAuthenticationMethod) {
     throw new UserAlreadyExistsWithAuthenticationMethodError(
       'Authentication method already exists for this external identifier.',
     );
@@ -57,13 +71,10 @@ async function createOidcUser({
     lang: language,
   });
 
-  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
-  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
-
-  const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
-    identityProviderCode: identityProvider,
-    requestedApplication,
-  });
+  const hasConnectionMethodCode = !!oidcAuthenticationService.connectionMethodCode;
+  const preferredIdentityProviderName = hasConnectionMethodCode
+    ? oidcAuthenticationService.connectionMethodCode
+    : oidcAuthenticationService.identityProvider;
 
   const userId = await oidcAuthenticationService.createUserAccount({
     user,
@@ -76,8 +87,8 @@ async function createOidcUser({
 
   await _updateUserLastConnection({
     userId,
+    preferredIdentityProviderName,
     requestedApplication,
-    oidcAuthenticationService,
     authenticationMethodRepository,
     lastUserApplicationConnectionsRepository,
     userLoginRepository,
@@ -97,8 +108,8 @@ export { createOidcUser };
 
 async function _updateUserLastConnection({
   userId,
+  preferredIdentityProviderName,
   requestedApplication,
-  oidcAuthenticationService,
   authenticationMethodRepository,
   lastUserApplicationConnectionsRepository,
   userLoginRepository,
@@ -111,6 +122,6 @@ async function _updateUserLastConnection({
   });
   await authenticationMethodRepository.updateLastLoggedAtByIdentityProvider({
     userId,
-    identityProvider: oidcAuthenticationService.identityProvider,
+    identityProvider: preferredIdentityProviderName,
   });
 }
