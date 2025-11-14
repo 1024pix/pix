@@ -901,7 +901,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const userId = 1;
       userToCreateRepository.create.withArgs({ user }).resolves({ id: userId });
 
-      const identityProvider = 'genericOidcProviderCode';
+      const identityProvider = 'someIdp';
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider,
         externalIdentifier: externalIdentityId,
@@ -914,6 +914,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         externalIdentityId,
         user,
         userInfo,
+        identityProvider,
         authenticationMethodRepository,
         userToCreateRepository,
       });
@@ -923,6 +924,48 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         authenticationMethod: expectedAuthenticationMethod,
       });
       expect(result).to.equal(userId);
+    });
+
+    context('when oidc authentication service has a connectionMethodCode', function () {
+      it('creates authentication method with connectionMethodCode as an alias for identityProvider', async function () {
+        // given
+        const externalIdentityId = '1233BBBC';
+
+        const user = new UserToCreate({
+          firstName: 'Adam',
+          lastName: 'Troisjours',
+        });
+        const userInfo = {};
+        const userId = 1;
+        userToCreateRepository.create.withArgs({ user }).resolves({ id: userId });
+
+        const identityProvider = 'genericOidcProviderCode';
+        const connectionMethodCode = 'aliasForGenericOidcProviderCode';
+
+        const oidcAuthenticationService = new OidcAuthenticationService(
+          { identityProvider, connectionMethodCode },
+          { openIdClient },
+        );
+        const expectedAuthenticationMethod = new AuthenticationMethod({
+          identityProvider: connectionMethodCode,
+          externalIdentifier: externalIdentityId,
+          userId,
+        });
+
+        // when
+        await oidcAuthenticationService.createUserAccount({
+          externalIdentityId,
+          user,
+          userInfo,
+          authenticationMethodRepository,
+          userToCreateRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
+          authenticationMethod: expectedAuthenticationMethod,
+        });
+      });
     });
 
     context('when claimsToStore is empty', function () {
