@@ -85,18 +85,32 @@ async function authenticateOidcUser({
 
   await _assertUserHasAccessToApplication({ requestedApplication, user, adminMemberRepository });
 
+  const hasConnectionMethodCode = !!oidcAuthenticationService.connectionMethodCode;
+  const preferredIdentityProviderName = hasConnectionMethodCode
+    ? oidcAuthenticationService.connectionMethodCode
+    : oidcAuthenticationService.identityProvider;
+
+  if (hasConnectionMethodCode) {
+    await _updateIdentityProviderWithConnectionMethodCodeIfNeeded({
+      userId: user.id,
+      oidcAuthenticationService,
+      authenticationMethodRepository,
+    });
+  }
+
   await _updateAuthenticationMethodWithComplement({
     userInfo,
     userId: user.id,
     sessionContent,
     oidcAuthenticationService,
+    preferredIdentityProviderName,
     authenticationMethodRepository,
   });
 
   await _updateUserLastConnection({
     user,
+    preferredIdentityProviderName,
     requestedApplication,
-    oidcAuthenticationService,
     authenticationMethodRepository,
     lastUserApplicationConnectionsRepository,
     userLoginRepository,
@@ -138,9 +152,23 @@ async function _assertUserHasAccessToApplication({ requestedApplication, user, a
   }
 }
 
+async function _updateIdentityProviderWithConnectionMethodCodeIfNeeded({
+  userId,
+  oidcAuthenticationService,
+  authenticationMethodRepository,
+}) {
+  const { identityProvider, connectionMethodCode } = oidcAuthenticationService;
+  await authenticationMethodRepository.updateIdentityProviderByUserIdAndIdentityProvider({
+    userId,
+    currentIdentityProvider: identityProvider,
+    newIdentityProvider: connectionMethodCode,
+  });
+}
+
 async function _updateAuthenticationMethodWithComplement({
   userInfo,
   userId,
+  preferredIdentityProviderName,
   sessionContent,
   oidcAuthenticationService,
   authenticationMethodRepository,
@@ -153,14 +181,14 @@ async function _updateAuthenticationMethodWithComplement({
   await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
     authenticationComplement,
     userId,
-    identityProvider: oidcAuthenticationService.identityProvider,
+    identityProvider: preferredIdentityProviderName,
   });
 }
 
 async function _updateUserLastConnection({
   user,
+  preferredIdentityProviderName,
   requestedApplication,
-  oidcAuthenticationService,
   authenticationMethodRepository,
   lastUserApplicationConnectionsRepository,
   userLoginRepository,
@@ -173,6 +201,6 @@ async function _updateUserLastConnection({
   });
   await authenticationMethodRepository.updateLastLoggedAtByIdentityProvider({
     userId: user.id,
-    identityProvider: oidcAuthenticationService.identityProvider,
+    identityProvider: preferredIdentityProviderName,
   });
 }

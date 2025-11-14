@@ -35,8 +35,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
       };
       authenticationMethodRepository = {
+        findOneByUserIdAndIdentityProvider: sinon.stub(),
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
         updateLastLoggedAtByIdentityProvider: sinon.stub(),
+        updateIdentityProviderByUserIdAndIdentityProvider: sinon.stub(),
       };
       authenticationSessionService = {
         save: sinon.stub(),
@@ -360,9 +362,113 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           });
         });
       });
+
+      context('when the provider has no connection method code', function () {
+        it('does not update the identity provider and uses correct identity provider value as parameter', async function () {
+          // given
+          const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
+          _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+          const user = domainBuilder.buildUser({ id: 10 });
+          userRepository.findByExternalIdentifier.resolves(user);
+          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+            family_name: 'TITEGOUTTE',
+            given_name: 'Mélusine',
+          });
+          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
+
+          // when
+          await authenticateOidcUser({
+            requestedApplication,
+            stateReceived: 'state',
+            stateSent: 'state',
+            locale: 'fr-FR',
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
+            oidcAuthenticationServiceRegistry,
+            authenticationSessionService,
+            authenticationMethodRepository,
+            userRepository,
+            userLoginRepository,
+            lastUserApplicationConnectionsRepository,
+          });
+
+          // then
+          expect(authenticationMethodRepository.updateIdentityProviderByUserIdAndIdentityProvider).to.not.have.been
+            .called;
+          expect(
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
+          ).to.have.been.calledWithExactly({
+            authenticationComplement,
+            userId: 10,
+            identityProvider: oidcAuthenticationService.identityProvider,
+          });
+          expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.have.been.calledWithExactly({
+            userId: 10,
+            identityProvider: oidcAuthenticationService.identityProvider,
+          });
+        });
+      });
+
+      context('when the provider has a connection method code', function () {
+        context(
+          "when the connection method code is different from the authentication method's identity provider",
+          function () {
+            it('updates the authentication method and uses updated identity provider as parameter', async function () {
+              // given
+              const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
+              _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+              const user = domainBuilder.buildUser({ id: 10 });
+              userRepository.findByExternalIdentifier.resolves(user);
+              const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+                family_name: 'TITEGOUTTE',
+                given_name: 'Mélusine',
+              });
+              oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
+              authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves({});
+
+              oidcAuthenticationService.connectionMethodCode = 'ALIAS_OIDC_EXAMPLE';
+
+              // when
+              await authenticateOidcUser({
+                requestedApplication,
+                stateReceived: 'state',
+                stateSent: 'state',
+                locale: 'fr-FR',
+                identityProviderCode: 'OIDC_EXAMPLE_NET',
+                oidcAuthenticationServiceRegistry,
+                authenticationSessionService,
+                authenticationMethodRepository,
+                userRepository,
+                userLoginRepository,
+                lastUserApplicationConnectionsRepository,
+              });
+
+              // then
+              expect(
+                authenticationMethodRepository.updateLastLoggedAtByIdentityProvider,
+              ).to.have.been.calledWithExactly({
+                userId: user.id,
+                identityProvider: oidcAuthenticationService.connectionMethodCode,
+              });
+              expect(
+                authenticationMethodRepository.updateIdentityProviderByUserIdAndIdentityProvider,
+              ).to.have.been.calledWithExactly({
+                userId: user.id,
+                currentIdentityProvider: oidcAuthenticationService.identityProvider,
+                newIdentityProvider: oidcAuthenticationService.connectionMethodCode,
+              });
+              expect(
+                authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
+              ).to.have.been.calledWithExactly({
+                authenticationComplement,
+                userId: 10,
+                identityProvider: oidcAuthenticationService.connectionMethodCode,
+              });
+            });
+          },
+        );
+      });
     });
   });
-
   context('when identityProvider is POLE_EMPLOI', function () {
     let oidcAuthenticationService;
     let authenticationSessionService;
