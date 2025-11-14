@@ -115,87 +115,176 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         expect(error.message).to.be.equal('Les informations de compte requises sont manquantes');
       });
     });
+    context('when there is no connectionMethodCode', function () {
+      it('creates authentication method with complement', async function () {
+        // given
+        const sessionContent = { idToken: 'idToken' };
+        const externalIdentifier = 'external_id';
+        const userId = 1;
+        const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
+        authenticationSessionService.getByKey.resolves({
+          sessionContent,
+          userInfo,
+        });
 
-    it('creates authentication method with complement', async function () {
-      // given
-      const sessionContent = { idToken: 'idToken' };
-      const externalIdentifier = 'external_id';
-      const userId = 1;
-      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
-      authenticationSessionService.getByKey.resolves({
-        sessionContent,
-        userInfo,
+        oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
+          new AuthenticationMethod.OidcAuthenticationComplement({
+            accessToken: 'accessToken',
+            expiredDate: new Date(),
+          }),
+        );
+
+        // when
+        await reconcileOidcUser({
+          authenticationKey: 'authenticationKey',
+          identityProvider,
+          audience,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
+          userLoginRepository,
+          requestedApplication,
+          lastUserApplicationConnectionsRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.be.calledOnce;
+        const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
+        expect(authenticationMethod).to.deep.contain({ identityProvider, externalIdentifier, userId });
+        expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
+          AuthenticationMethod.OidcAuthenticationComplement,
+        );
       });
+      it('saves the last user connection', async function () {
+        // given
+        const sessionContent = { idToken: 'idToken' };
+        const externalIdentifier = 'external_id';
+        const userId = 1;
+        const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
+        authenticationSessionService.getByKey.resolves({
+          sessionContent,
+          userInfo,
+        });
+        oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
+          new AuthenticationMethod.OidcAuthenticationComplement({
+            accessToken: 'accessToken',
+            expiredDate: new Date(),
+          }),
+        );
 
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
-      );
+        // when
+        await reconcileOidcUser({
+          authenticationKey: 'authenticationKey',
+          identityProvider,
+          audience,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
+          userLoginRepository,
+          requestedApplication,
+          lastUserApplicationConnectionsRepository,
+        });
 
-      // when
-      await reconcileOidcUser({
-        authenticationKey: 'authenticationKey',
-        identityProvider,
-        audience,
-        authenticationSessionService,
-        authenticationMethodRepository,
-        oidcAuthenticationServiceRegistry,
-        userLoginRepository,
-        requestedApplication,
-        lastUserApplicationConnectionsRepository,
+        // then
+        expect(lastUserApplicationConnectionsRepository.upsert).to.be.calledWithExactly({
+          userId,
+          application: 'app',
+          lastLoggedAt: sinon.match.instanceOf(Date),
+        });
+
+        expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.be.calledWithExactly({
+          userId,
+          identityProvider,
+        });
       });
-
-      // then
-      expect(authenticationMethodRepository.create).to.be.calledOnce;
-      const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
-      expect(authenticationMethod).to.deep.contain({ identityProvider, externalIdentifier, userId });
-      expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
-        AuthenticationMethod.OidcAuthenticationComplement,
-      );
     });
+    context('when there is a connectionMethodCode', function () {
+      it('creates authentication method with complement and connectionMethodCode as identityProvider', async function () {
+        // given
+        oidcAuthenticationService.connectionMethodCode = 'aliasForGenericIdentityProvider';
+        const sessionContent = { idToken: 'idToken' };
+        const externalIdentifier = 'external_id';
+        const userId = 1;
+        const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
+        authenticationSessionService.getByKey.resolves({
+          sessionContent,
+          userInfo,
+        });
 
-    it('saves the last user connection', async function () {
-      // given
-      const sessionContent = { idToken: 'idToken' };
-      const externalIdentifier = 'external_id';
-      const userId = 1;
-      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
-      authenticationSessionService.getByKey.resolves({
-        sessionContent,
-        userInfo,
+        oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
+          new AuthenticationMethod.OidcAuthenticationComplement({
+            accessToken: 'accessToken',
+            expiredDate: new Date(),
+          }),
+        );
+
+        // when
+        await reconcileOidcUser({
+          authenticationKey: 'authenticationKey',
+          identityProvider,
+          audience,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
+          userLoginRepository,
+          requestedApplication,
+          lastUserApplicationConnectionsRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.be.calledOnce;
+        const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
+        expect(authenticationMethod).to.deep.contain({
+          identityProvider: 'aliasForGenericIdentityProvider',
+          externalIdentifier,
+          userId,
+        });
+        expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
+          AuthenticationMethod.OidcAuthenticationComplement,
+        );
       });
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
-      );
+      it('saves the last user connection', async function () {
+        // given
+        oidcAuthenticationService.connectionMethodCode = 'aliasForGenericIdentityProvider';
+        const sessionContent = { idToken: 'idToken' };
+        const externalIdentifier = 'external_id';
+        const userId = 1;
+        const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
+        authenticationSessionService.getByKey.resolves({
+          sessionContent,
+          userInfo,
+        });
+        oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
+          new AuthenticationMethod.OidcAuthenticationComplement({
+            accessToken: 'accessToken',
+            expiredDate: new Date(),
+          }),
+        );
 
-      // when
-      await reconcileOidcUser({
-        authenticationKey: 'authenticationKey',
-        identityProvider,
-        audience,
-        authenticationSessionService,
-        authenticationMethodRepository,
-        oidcAuthenticationServiceRegistry,
-        userLoginRepository,
-        requestedApplication,
-        lastUserApplicationConnectionsRepository,
-      });
+        // when
+        await reconcileOidcUser({
+          authenticationKey: 'authenticationKey',
+          identityProvider,
+          audience,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
+          userLoginRepository,
+          requestedApplication,
+          lastUserApplicationConnectionsRepository,
+        });
 
-      // then
-      expect(lastUserApplicationConnectionsRepository.upsert).to.be.calledWithExactly({
-        userId,
-        application: 'app',
-        lastLoggedAt: sinon.match.instanceOf(Date),
-      });
+        // then
+        expect(lastUserApplicationConnectionsRepository.upsert).to.be.calledWithExactly({
+          userId,
+          application: 'app',
+          lastLoggedAt: sinon.match.instanceOf(Date),
+        });
 
-      expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.be.calledWithExactly({
-        userId,
-        identityProvider,
+        expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.be.calledWithExactly({
+          userId,
+          identityProvider: oidcAuthenticationService.connectionMethodCode,
+        });
       });
     });
   });

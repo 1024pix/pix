@@ -47,13 +47,18 @@ export const reconcileOidcUser = async function ({
 
   const { userId, externalIdentityId } = userInfo;
 
+  const hasConnectionMethodCode = !!oidcAuthenticationService.connectionMethodCode;
+  const preferredIdentityProviderName = hasConnectionMethodCode
+    ? oidcAuthenticationService.connectionMethodCode
+    : oidcAuthenticationService.identityProvider;
+
   const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({
     userInfo,
     sessionContent,
   });
   await authenticationMethodRepository.create({
     authenticationMethod: new AuthenticationMethod({
-      identityProvider: oidcAuthenticationService.identityProvider,
+      identityProvider: preferredIdentityProviderName,
       userId,
       externalIdentifier: externalIdentityId,
       authenticationComplement,
@@ -63,7 +68,7 @@ export const reconcileOidcUser = async function ({
   await _updateUserLastConnection({
     userId,
     requestedApplication,
-    oidcAuthenticationService,
+    preferredIdentityProviderName,
     authenticationMethodRepository,
     lastUserApplicationConnectionsRepository,
     userLoginRepository,
@@ -85,7 +90,7 @@ export const reconcileOidcUser = async function ({
 async function _updateUserLastConnection({
   userId,
   requestedApplication,
-  oidcAuthenticationService,
+  preferredIdentityProviderName,
   authenticationMethodRepository,
   lastUserApplicationConnectionsRepository,
   userLoginRepository,
@@ -98,6 +103,6 @@ async function _updateUserLastConnection({
   });
   await authenticationMethodRepository.updateLastLoggedAtByIdentityProvider({
     userId,
-    identityProvider: oidcAuthenticationService.identityProvider,
+    identityProvider: preferredIdentityProviderName,
   });
 }
