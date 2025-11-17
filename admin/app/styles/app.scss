@@ -104,10 +104,10 @@
 @use 'display/footer-modal' as *;
 
 /* App/Components */
-@use 'ui/deletion-modal' as *;
-@use 'certifications/certification/details-v3' as *;
-@use 'certification-centers/certification-center-form' as *;
-@use 'certification-centers/information' as *;
-@use 'certification-centers/member-item' as *;
-@use 'certification-centers/membership-item' as *;
-@use 'certification-centers/invitations-action' as *;
+@use '../components/ui/deletion-modal' as *;
+@use '../components/certifications/certification/details-v3' as *;
+@use '../components/certification-centers/certification-center-form' as *;
+@use '../components/certification-centers/information' as *;
+@use '../components/certification-centers/member-item' as *;
+@use '../components/certification-centers/membership-item' as *;
+@use '../components/certification-centers/invitations-action' as *;
