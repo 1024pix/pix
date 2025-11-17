@@ -1,6 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
@@ -11,11 +10,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import CopyButton from 'ember-cli-clipboard/components/copy-button';
-import isClipboardSupported from 'ember-cli-clipboard/helpers/is-clipboard-supported';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
-import { and, not } from 'ember-truth-helpers';
+import { not } from 'ember-truth-helpers';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 import ENV from 'pix-admin/config/environment';
 
@@ -309,21 +306,9 @@ export default class UserOverview extends Component {
 
             <DescriptionList.Item @label="Adresse e-mail" @valueClass="user-overview-section__copy-item">
               {{@user.email}}
-              <CopyItemButton
-                @id="copy-email"
-                @value={{@user.email}}
-                @tooltip={{this.tooltipTextEmail}}
-                @buttonLabel={{t "components.users.user-detail-personal-information.actions.copy-email"}}
-              />
             </DescriptionList.Item>
             <DescriptionList.Item @label="Identifiant" @valueClass="user-overview-section__copy-item">
               {{@user.username}}
-              <CopyItemButton
-                @id="copy-username"
-                @value={{@user.username}}
-                @tooltip={{this.tooltipTextUsername}}
-                @buttonLabel={{t "components.users.user-detail-personal-information.actions.copy-username"}}
-              />
             </DescriptionList.Item>
             <DescriptionList.Item @label={{t "components.users.user-overview.sso"}}>
               {{#if this.hasSsoAuthentication}}{{t "common.words.yes"}}{{else}}{{t "common.words.no"}}{{/if}}
@@ -400,16 +385,3 @@ export default class UserOverview extends Component {
     />
   </template>
 }
-
-const CopyItemButton = <template>
-  {{#if (and @value (isClipboardSupported))}}
-    <PixTooltip @id={{@id}} @position="top" @isInline={{true}}>
-      <:triggerElement>
-        <CopyButton @text={{@value}} aria-describedby={{@id}} aria-label={{@buttonLabel}}>
-          <PixIcon @name="copy" @ariaHidden={{true}} />
-        </CopyButton>
-      </:triggerElement>
-      <:tooltip>{{@tooltip}}</:tooltip>
-    </PixTooltip>
-  {{/if}}
-</template>;
