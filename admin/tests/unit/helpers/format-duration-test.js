@@ -1,4 +1,5 @@
 import { setupTest } from 'ember-qunit';
+import FormatDuration from 'pix-admin/helpers/format-duration.js';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | format-duration', function (hooks) {
@@ -7,7 +8,7 @@ module('Unit | Helper | format-duration', function (hooks) {
   let formatDuration;
 
   hooks.beforeEach(function () {
-    formatDuration = this.owner.factoryFor('helper:format-duration').create();
+    formatDuration = new FormatDuration();
   });
 
   module('formatDuration', function () {

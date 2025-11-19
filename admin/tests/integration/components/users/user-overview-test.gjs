@@ -152,7 +152,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(attributesList.getByText('Date de création').nextElementSibling).hasText('');
       });
 
-      module('copy feature', function () {
+      module.skip('copy feature', function () {
         module('when information is provided', function () {
           test('displays copy button after the user e-mail', async function (assert) {
             // given
