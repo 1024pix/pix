@@ -1,5 +1,6 @@
-import { fireEvent, render } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { fireEvent } from '@testing-library/dom';
 import CertificationInformationGlobalActions from 'pix-admin/components/certifications/certification/informations/global-actions';
 import { assessmentResultStatus } from 'pix-admin/models/certification';
 import { module, test } from 'qunit';

@@ -1,5 +1,6 @@
-import { getByText, getByTextWithHtml, queryByText, render } from '@1024pix/ember-testing-library';
+import { getByTextWithHtml, render } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
+import { getByText, queryByText } from '@testing-library/dom';
 import List from 'pix-admin/components/complementary-certifications/attach-badges/badges/list';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';

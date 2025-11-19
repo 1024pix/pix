@@ -1,6 +1,7 @@
-import { fireEvent, render } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
+import { fireEvent } from '@testing-library/dom';
 import { t } from 'ember-intl/test-support';
 import CertificationsHeader from 'pix-admin/components/sessions/certifications/header';
 import { FINALIZED, PROCESSED } from 'pix-admin/models/session';

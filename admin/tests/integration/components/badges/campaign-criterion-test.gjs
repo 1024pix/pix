@@ -1,13 +1,7 @@
-import {
-  clickByName,
-  fillByLabel,
-  fireEvent,
-  render,
-  waitForElementToBeRemoved,
-  within,
-} from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/dom';
 import CampaignCriterion from 'pix-admin/components/badges/campaign-criterion';
 import { module, test } from 'qunit';
 import sinon from 'sinon';

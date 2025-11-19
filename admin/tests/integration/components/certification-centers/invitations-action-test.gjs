@@ -1,5 +1,6 @@
-import { render, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { setupRenderingTest } from 'ember-qunit';
 import InvitationsAction from 'pix-admin/components/certification-centers/invitations-action';
 import { module, test } from 'qunit';

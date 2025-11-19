@@ -1,5 +1,6 @@
-import { clickByName, fillByLabel, fireEvent, render, within } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { fireEvent } from '@testing-library/dom';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import CertificationInformationCandidate from 'pix-admin/components/certifications/certification/informations/candidate';
