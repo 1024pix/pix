@@ -1,0 +1,5 @@
+<template>
+  <section>
+    <p class="certification-search">Choisissez un identifiant de certification</p>
+  </section>
+</template>

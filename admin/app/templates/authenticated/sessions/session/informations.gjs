@@ -1,0 +1,21 @@
+import SessionInformations from 'pix-admin/components/sessions/session-informations';
+<template>
+  <SessionInformations
+    @sessionModel={{@controller.sessionModel}}
+    @accessControl={{@controller.accessControl}}
+    @isCurrentUserAssignedToSession={{@controller.isCurrentUserAssignedToSession}}
+    @checkForAssignment={{@controller.checkForAssignment}}
+    @onUnfinalizeSessionButtonClick={{@controller.onUnfinalizeSessionButtonClick}}
+    @isCopyButtonClicked={{@controller.isCopyButtonClicked}}
+    @copyButtonText={{@controller.copyButtonText}}
+    @copyResultsDownloadLink={{@controller.copyResultsDownloadLink}}
+    @downloadPDFAttestations={{@controller.downloadPDFAttestations}}
+    @modalTitle={{@controller.modalTitle}}
+    @modalMessage={{@controller.modalMessage}}
+    @modalConfirmAction={{@controller.modalConfirmAction}}
+    @cancelModal={{@controller.cancelModal}}
+    @isShowingModal={{@controller.isShowingModal}}
+    @saveComment={{@controller.saveComment}}
+    @deleteComment={{@controller.deleteComment}}
+  />
+</template>

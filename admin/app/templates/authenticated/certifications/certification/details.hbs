@@ -1,6 +1,0 @@
-{{page-title this.pageTitle replace=true}}
-{{#if (eq @model.version 3)}}
-  <Certifications::Certification::DetailsV3 @details={{@model}} />
-{{else}}
-  <Certifications::Certification::DetailsV2 @details={{@model}} />
-{{/if}}

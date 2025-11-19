@@ -1,0 +1,20 @@
+import Informations from 'pix-admin/components/certifications/certification/informations';
+<template>
+  <Informations
+    @certification={{@controller.certification}}
+    @certificationIssueReports={{@controller.model.certificationIssueReports}}
+    @session={{@controller.model.session}}
+    @displayJuryLevelSelect={{@controller.displayJuryLevelSelect}}
+    @juryLevelOptions={{@controller.juryLevelOptions}}
+    @selectedJuryLevel={{@controller.selectedJuryLevel}}
+    @selectJuryLevel={{@controller.selectJuryLevel}}
+    @onCancelJuryLevelEditButtonClick={{@controller.onCancelJuryLevelEditButtonClick}}
+    @onEditJuryLevelSave={{@controller.onEditJuryLevelSave}}
+    @shouldDisplayJuryLevelEditButton={{@controller.shouldDisplayJuryLevelEditButton}}
+    @editJury={{@controller.editJury}}
+    @onJuryCommentSave={{@controller.onJuryCommentSave}}
+    @shouldDisplayPixScore={{@controller.shouldDisplayPixScore}}
+    @onUpdateScore={{@controller.onUpdateScore}}
+    @onUpdateLevel={{@controller.onUpdateLevel}}
+  />
+</template>
