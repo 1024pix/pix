@@ -37,7 +37,7 @@
     "dev": "vite",
     "start": "npm run dev",
     "test": "ember test",
-    "test:ci": "npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
+    "test:ci": "vite build --mode test && ember exam --path dist --config-file ./testem.cjs --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
     "test:lint": "npm test && npm run lint",
     "test:watch": "ember exam --serve --reporter dot",
     "test:ember": "vite build --mode development && ember test --path dist"
