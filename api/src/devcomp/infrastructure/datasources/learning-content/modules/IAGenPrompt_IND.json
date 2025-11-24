@@ -64,7 +64,7 @@
                     {
                       "userName": "Gustave",
                       "direction": "incoming",
-                      "content": "Je voulais inviter les joueurs du tournoi. Mon prompt, c’était : « Écris une invitation au tournoi. »"
+                      "content": "Je voulais inviter les joueurs du tournoi. Mon prompt, c’était : « Aide-moi à organiser le tournoi. »"
                     },
                     {
                       "userName": "Emma",
@@ -108,7 +108,7 @@
               "element": {
                 "id": "3f36edd3-42cd-4cf3-9063-1ad75166871c",
                 "type": "text",
-                "content": "<p>Le prompt de Gustave était&nbsp;: «&nbsp;Écris une invitation au tournoi.&nbsp;»</p>"
+                "content": "<p>Le prompt de Gustave était&nbsp;: « Aide-moi à organiser le tournoi. »</p>"
               }
             },
             {
@@ -120,19 +120,19 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>l’objet&nbsp;: «&nbsp;le tournoi de volley&nbsp;»</p>"
+                    "content": "<p>le type de sport : « un tournoi de volley-ball »</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>la date&nbsp;: «&nbsp;samedi prochain&nbsp;»</p>"
+                    "content": "<p>le public : « pour les membres du club »</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>le lieu&nbsp;: «&nbsp;le gymnase des 3 sapins&nbsp;»</p>"
+                    "content": "<p>le contexte : « un tournoi saisonnier organisé par des bénévoles »</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>les destinataires&nbsp;: «&nbsp;les membres du club&nbsp;»</p>"
+                    "content": "<p>l’objectif&nbsp;: «&nbsp;l'organisation logistique&nbsp;»</p>"
                   }
                 ],
                 "feedbacks": {
