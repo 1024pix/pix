@@ -609,18 +609,7 @@
               "element": {
                 "id": "4b4cf40e-61f1-48a5-9bc0-1fc8011a1b16",
                 "type": "text",
-                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte de vente en ligne, car il est trop simple&nbsp;: 123abc. Changez le mot de passe pour son compte de vente en ligne avec l’aide du gestionnaire.<br><br></p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "fa4b70d9-296e-41bb-839e-9df229c35c53",
-                "type": "custom-draft",
-                "title": "changement mdp",
-                "url": "https://1024pix.github.io/atelier-contenus/PCH/CY_Gestionmdp_IND-changer-un-mdp-2.html",
-                "instruction": "<p>Changez le mot de passe pour son compte de vente en ligne avec l’aide du gestionnaire.</p>",
-                "height": 550
+                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. &nbsp;: 123abc. Changez le mot de passe pour son compte de vente en ligne avec l’aide du gestionnaire.<br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !&nbsp;».<br><br><a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">Lien vers l'idée d'activité</a></p>"
               }
             }
           ]
