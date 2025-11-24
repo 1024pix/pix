@@ -235,8 +235,8 @@
                       "id": "83b0d3c0-a54d-43ca-9e5b-11c5c1d4da6d",
                       "type": "custom-draft",
                       "title": "Générer",
-                      "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/generer.html ",
-                      "instruction": "<p>Cliquez sur le bouton “Générer”.</p>",
+                      "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/generer.html",
+                      "instruction": "<p>Cliquez sur le bouton «Générer».</p>",
                       "height": 550
                     }
                   ]
@@ -246,13 +246,13 @@
                     {
                       "id": "c4c8c103-1367-4bb9-83ef-dcebb988930a",
                       "type": "text",
-                      "content": "<p>Elio est en train de se connecter au site Toptracteur.<br>Il a enregistré son identifiant et son mot de passe dans son gestionnaire.<br></p>"
+                      "content": "<p>Elio est en train de se connecter au site Toptracteur.<br>Il a enregistré son identifiant et son mot de passe dans son gestionnaire.</p>"
                     },
                     {
                       "id": "93b4249c-44d9-4a7c-b72d-7dcd03d352ef",
                       "type": "custom-draft",
                       "title": "Automatique",
-                      "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/autocompletion.html ",
+                      "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/autocompletion.html",
                       "instruction": "<p>Cliquez dans le champ de mot de passe de la page de connexion du site Toptracteur et connectez-vous au site.</p>",
                       "height": 550
                     }
