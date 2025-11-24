@@ -139,7 +139,7 @@
               "element": {
                 "id": "c4bfb89e-0c6f-4e6e-9a33-29e4854def77",
                 "type": "text",
-                "content": "<p><span aria-hidden=\"\\&quot;true\\&quot;\">🗝️</span> Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p><details>    <summary>Indice 1</summary>    <p>Pour trouver le mot de passe qu’Elio utilise pour le site des impôts, connectez-vous à son gestionnaire de mots de passe.</p></details><details>    <summary>Indice 2</summary>    <p> Pour vous connecter au gestionnaire de mots de passe d’Elio, vous avez besoin de son mot de passe maître. Cherchez-le.</p></details><details>    <summary>Indice 3</summary>    <p>Avez-vous regardé dans le bloc note ? </p></details></p>"
+                "content": "<p><span aria-hidden=\"\\&quot;true\\&quot;\">🗝️</span> Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p></p><p><details>    <summary>Indice 1</summary>    <p>Pour trouver le mot de passe qu’Elio utilise pour le site des impôts, connectez-vous à son gestionnaire de mots de passe.</p></details><details>    <summary>Indice 2</summary>    <p> Pour vous connecter au gestionnaire de mots de passe d’Elio, vous avez besoin de son mot de passe maître. Cherchez-le.</p></details><details>    <summary>Indice 3</summary>    <p>Avez-vous regardé dans le bloc note ? </p></details></p><p></p>"
               }
             },
             {
@@ -609,7 +609,18 @@
               "element": {
                 "id": "4b4cf40e-61f1-48a5-9bc0-1fc8011a1b16",
                 "type": "text",
-                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. &nbsp;: 123abc. Changez le mot de passe pour son compte de vente en ligne avec l’aide du gestionnaire.<br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !&nbsp;».<br><br><a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">Lien vers l'idée d'activité</a></p>"
+                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. <br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n'est pas normal, les chaussettes vont par paire !&nbsp;».<br>(<a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">lien vers idée d'activité</a>)</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "fa4b70d9-296e-41bb-839e-9df229c35c53",
+                "type": "custom-draft",
+                "title": "changement mdp",
+                "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/defimdp.html",
+                "instruction": "<p>Changez le mot de passe pour son compte Papotix avec l’aide du gestionnaire.</p>",
+                "height": 550
               }
             }
           ]
