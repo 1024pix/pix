@@ -157,7 +157,7 @@
                     "display": "inline",
                     "placeholder": "mot de passe",
                     "ariaLabel": "mot de passe",
-                    "defaultValue": "mot de passe",
+                    "defaultValue": "",
                     "tolerances": [],
                     "solutions": [
                       "sE-Tym!28aZ31"
@@ -572,7 +572,7 @@
                     "display": "inline",
                     "placeholder": "nom du gestionnaire",
                     "ariaLabel": "nom du gestionnaire",
-                    "defaultValue": "nom du gestionnaire",
+                    "defaultValue": "",
                     "tolerances": [],
                     "solutions": [
                       "Youshallpass"
