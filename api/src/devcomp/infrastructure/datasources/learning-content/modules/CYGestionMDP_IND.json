@@ -45,28 +45,28 @@
                     "id": "1",
                     "content": "<p>J’utilise le même mot de passe partout, comme ça pas de problème de mémoire. 1️⃣</p>",
                     "feedback": {
-                      "diagnosis": "<p>Beaucoup de personnes font comme vous ! Mais si un de vos comptes est piraté, tous les autres deviennent vulnérables.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> pour vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Beaucoup de personnes font comme vous ! Mais si un de vos comptes est piraté, tous les autres deviennent vulnérables.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Pas besoin de les retenir, mon navigateur internet s’en occupe à ma place. 🌐</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est pratique, mais pas très sûr&nbsp;: quelqu’un qui a accès à votre ordinateur pourra lui aussi accéder à vos comptes.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> pour vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>C’est pratique, mais pas très sûr&nbsp;: quelqu’un qui a accès à votre ordinateur pourra lui aussi accéder à vos comptes.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Ma solution&nbsp;: la bonne vieille technique du stylo et du carnet. 📝</p>",
                     "feedback": {
-                      "diagnosis": "<p>Méthode “à l’ancienne”, efficace pour la mémoire… mais risquée si le carnet tombe entre de mauvaises mains.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> pour vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Méthode “à l’ancienne”, efficace pour la mémoire… mais risquée si le carnet tombe entre de mauvaises mains.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>J’utilise un gestionnaire de mots de passe. 🔐</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bravo ! Un <strong>gestionnaire de mots de passe</strong>, c’est un<strong> coffre-fort numérique </strong>pour vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Bravo ! Un <strong>gestionnaire de mots de passe</strong>, c’est un<strong> coffre-fort numérique </strong>qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
@@ -99,7 +99,7 @@
               "element": {
                 "id": "4aba009d-7823-4b8c-9500-3ba4c7062015",
                 "type": "text",
-                "content": "<p>Si le gestionnaire de mot de passe est un coffre fort, il lui faut une clé ! 🗝️ <br>Découvrons cela ensemble.</p>"
+                "content": "<p>Si le gestionnaire de mot de passe est un coffre fort, il vous faut une clé pour l’ouvrir ! 🗝️ <br>Découvrons cela ensemble.</p>"
               }
             }
           ]
@@ -130,7 +130,7 @@
                 "type": "custom-draft",
                 "title": "Trouver le mot de passe",
                 "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/mdpmaitre.html",
-                "instruction": "<p>Explorez le bureau pour trouver comment vous connecter au gestionnaire de Elio, et trouvez son mot de passe pour le site des impôts.</p>",
+                "instruction": "<p>Explorez le bureau pour trouver comment vous connecter au gestionnaire de Elio, et trouvez combien de comptes Elio a enregistré dans son gestionnaire de mots de passe.</p>",
                 "height": 550
               }
             },
@@ -139,7 +139,34 @@
               "element": {
                 "id": "c4bfb89e-0c6f-4e6e-9a33-29e4854def77",
                 "type": "text",
-                "content": "<p><span aria-hidden=\"\\&quot;true\\&quot;\">🗝️</span> Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p></p><p><details>    <summary>Indice 1</summary>    <p>Pour trouver le mot de passe qu’Elio utilise pour le site des impôts, connectez-vous à son gestionnaire de mots de passe.</p></details><details>    <summary>Indice 2</summary>    <p> Pour vous connecter au gestionnaire de mots de passe d’Elio, vous avez besoin de son mot de passe maître. Cherchez-le.</p></details><details>    <summary>Indice 3</summary>    <p>Avez-vous regardé dans le bloc note ? </p></details></p><p></p>"
+                "content": "<p>Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "803b296c-fe71-4f77-a142-a59da70e3ae7",
+                "type": "expand",
+                "title": "🗝️ Indice 1",
+                "content": "<p>Pour trouver le nombre de comptes enregistrés, connectez-vous à son gestionnaire de mots de passe.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "8b83c432-41ff-44ac-b3d7-e4d1e72fcbb2",
+                "type": "expand",
+                "title": "🗝️ Indice 2",
+                "content": "<p>Pour vous connecter au gestionnaire de mots de passe d’Elio, vous avez besoin de son mot de passe maître. Cherchez-le.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "8963ab69-775d-4608-b839-68ab711038cc",
+                "type": "expand",
+                "title": "🗝️ Indice 3",
+                "content": "<p>Avez-vous regardé dans le bloc note ?</p>"
               }
             },
             {
@@ -147,30 +174,30 @@
               "element": {
                 "id": "02e9626e-9beb-41d5-9c18-dcd3657e1f72",
                 "type": "qrocm",
-                "instruction": "<p>Quel est le mot de passe d’ Elio pour le site des impôts ?</p>",
+                "instruction": "<p>Combien de comptes Elio a enregistré dans son gestionnaire de mots de passe ?</p>",
                 "proposals": [
                   {
-                    "input": "mdp",
+                    "input": "nbdecomptes",
                     "type": "input",
-                    "inputType": "text",
-                    "size": 15,
+                    "inputType": "number",
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "mot de passe",
-                    "ariaLabel": "mot de passe",
+                    "placeholder": "nombre de comptes",
+                    "ariaLabel": "nombre de comptes",
                     "defaultValue": "",
                     "tolerances": [],
                     "solutions": [
-                      "sE-Tym!28aZ31"
+                      3
                     ]
                   }
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Mot de passe trouvé !&nbsp;</p>",
+                    "state": "<p>C’est exact !</p>",
                     "diagnosis": "<p>Elio a noté le mot de passe maître de son gestionnaire dans son bloc note, c’est risqué !&nbsp;</p><p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
                   },
                   "invalid": {
-                    "state": "<p>Ce n’est pas le bon mot de passe.</p>",
+                    "state": "<p>Ce n’est pas le bon nombre.</p>",
                     "diagnosis": "<p>Elio a noté le mot de passe maître de son gestionnaire dans son bloc note, c’est risqué !&nbsp;</p><p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
                   }
                 }
@@ -229,14 +256,14 @@
                     {
                       "id": "9e8f5cc7-66f4-4006-87d6-409dc2583c0b",
                       "type": "text",
-                      "content": "<p>Elio est en train de créer une nouvelle entrée dans son gestionnaire de mot de passe.<br>Il a déjà renseigné le nom du service et son identifiant.&nbsp;Il lui reste à indiquer un mot de passe.<br><strong>Cliquez sur le bouton “Générer”.</strong></p>"
+                      "content": "<p>Elio est connecté à son gestionnaire de mot de passe. Il est en train d’y créer une nouvelle entrée.<br>Il a déjà renseigné le nom du site ou de l’application et son nom d’utilisateur/email.&nbsp;<br>Il lui reste à choisir un mot de passe.<br></p>"
                     },
                     {
                       "id": "83b0d3c0-a54d-43ca-9e5b-11c5c1d4da6d",
                       "type": "custom-draft",
                       "title": "Générer",
                       "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/generer.html",
-                      "instruction": "<p>Cliquez sur le bouton «Générer».</p>",
+                      "instruction": "<p>Générez un mot de passe et créez l’entrée pour Elio.</p>",
                       "height": 550
                     }
                   ]
@@ -246,7 +273,7 @@
                     {
                       "id": "c4c8c103-1367-4bb9-83ef-dcebb988930a",
                       "type": "text",
-                      "content": "<p>Elio est en train de se connecter au site Toptracteur.<br>Il a enregistré son identifiant et son mot de passe dans son gestionnaire.</p>"
+                      "content": "<p>Elio est en train de se connecter au site Toptracteur.<br>Il n’a pas besoin de connaître son mot de passe. Son gestionnaire connaît son identifiant et son mot de passe.</p>"
                     },
                     {
                       "id": "93b4249c-44d9-4a7c-b72d-7dcd03d352ef",
@@ -272,7 +299,7 @@
               "element": {
                 "id": "710476f2-0e7c-4367-8b23-6075b313d91b",
                 "type": "text",
-                "content": "<p><strong>🤔 Bon à savoir</strong><br>Pour garder vos informations en sécurité, le gestionnaire de mots de passe les sauvegarde dans un format codé (chiffré). Ainsi, même en cas de piratage, vos mots de passe restent illisibles pour les attaquants.<br></p>"
+                "content": "<p><strong>🤔 Bon à savoir</strong><br>Pour garder vos informations en sécurité, le gestionnaire de mots de passe les sauvegarde dans un <strong>format codé </strong>(chiffré). Ainsi, même si des pirates entrent dans votre gestionnaire sans le mot de passe maître, vos mots de passe sont <strong>illisibles </strong>pour les attaquants.<br></p>"
               }
             },
             {
@@ -448,7 +475,7 @@
               "element": {
                 "id": "cf0d145f-6e6c-423e-8eae-8d464531699e",
                 "type": "text",
-                "content": "<p><strong>💡 Le bon choix dépend de votre usage </strong>: mobilité ou confidentialité !<br>Il existe de très nombreux gestionnaires de mots de passe comme Keypass, Lockself, PassBolt, Bitwarden, Dashlane, 1Password…</p><p><br><strong>⚠️ Attention <br></strong>Les <strong>navigateurs internet </strong>proposent souvent d’enregistrer vos mots de passe pour aller plus vite… mais cette solution <strong>n’est pas suffisamment sécurisée</strong>. Les navigateurs sont une <strong>cible privilégiée des cyberattaquants</strong> et ne chiffrent pas toujours les données de façon fiable.</p>"
+                "content": "<p><strong>💡 Le choix d’un gestionnaire local ou en ligne dépend de votre usage.</strong><br>Il existe de très nombreux gestionnaires de mots de passe comme Keypass, Lockself, PassBolt, Bitwarden, Dashlane, 1Password…</p><p><br><strong>⚠️ Attention <br></strong>Les <strong>navigateurs internet </strong>proposent souvent d’enregistrer vos mots de passe pour aller plus vite… mais cette solution <strong>n’est pas suffisamment sécurisée</strong>. Les navigateurs sont une <strong>cible privilégiée des cyberattaquants</strong> et ne chiffrent pas toujours les données de façon fiable.</p>"
               }
             }
           ]
@@ -554,7 +581,7 @@
               "element": {
                 "id": "b5073ffe-0060-4e85-8a56-7fa97c16e278",
                 "type": "text",
-                "content": "<p>Alice utilise uniquement un ordinateur de bureau pour son travail. Elle veut installer un gestionnaire de mot de passe. Elle hésite entre 2 gestionnaires.<br>Pour l’aider à choisir le gestionnaire le plus adapté, consultez le comparatif suivant&nbsp;:</p><table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Gestionnaire</th>            <th scope=\"\\&quot;col\\&quot;\">Gardemots</th>            <th scope=\"\\&quot;col\\&quot;\">Youshallpass</th>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Stockage des données </th>            <td>En ligne sur un cloud</td>            <td>Sur votre ordinateur</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Outil de remplissage automatique </th>            <td>Oui</td>            <td>Oui</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Générateur de mots de passe forts</th>            <td>Oui</td>            <td>Oui</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Limite de mots de passe</th>            <td>Non</td>            <td>Non</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Prix</th>            <td>Abonnement</td>            <td>Gratuit (Opensource)</td>        </tr>    </tbody></table>"
+                "content": "<p>Alice utilise uniquement un ordinateur de bureau pour son travail. Elle veut installer un gestionnaire de mot de passe. Elle hésite entre 2 gestionnaires.<br>Pour l’aider à choisir le gestionnaire le plus adapté, consultez le comparatif suivant&nbsp;:</p><table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Gestionnaire</th>            <th scope=\"\\&quot;col\\&quot;\">Gardemots</th>            <th scope=\"\\&quot;col\\&quot;\">Youshallpass</th>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Stockage des données </th>            <td>En ligne sur un cloud</td>            <td>Sur votre ordinateur</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Outil de remplissage automatique </th>            <td>Oui</td>            <td>Oui</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Générateur de mots de passe forts</th>            <td>Oui</td>            <td>Oui</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Limite de mots de passe</th>            <td>Non</td>            <td>Non</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Prix</th>            <td>Gratuit</td>            <td>Gratuit (avec options payantes)</td>        </tr>    </tbody></table>"
               }
             },
             {
@@ -609,7 +636,7 @@
               "element": {
                 "id": "4b4cf40e-61f1-48a5-9bc0-1fc8011a1b16",
                 "type": "text",
-                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. <br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n'est pas normal, les chaussettes vont par paire !&nbsp;».<br>(<a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">lien vers idée d'activité</a>)</p>"
+                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. <br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !&nbsp;».<br>(<a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">lien vers idée d’activité</a>)</p>"
               }
             },
             {
@@ -621,6 +648,41 @@
                 "url": "https://1024pix.github.io/atelier-contenus/LSI/CY_gestionMDP_IND/defimdp.html",
                 "instruction": "<p>Changez le mot de passe pour son compte Papotix avec l’aide du gestionnaire.</p>",
                 "height": 550
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "360b44b4-e37b-4022-b600-a9bc7a2f2d73",
+                "type": "text",
+                "content": "<p>Si vous avez besoin d’aide,&nbsp;vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2f8eac33-b2c0-4696-90b5-b63c3ce21997",
+                "type": "expand",
+                "title": "🗝️ Indice 1",
+                "content": "<p>Écrire un nouveau mot de passe ne suffit pas. Utilisez le gestionnaire de mots de passe pour générer un mot de passe fort.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "49c32cbf-4c13-4f1f-a846-4e46dfe81f64",
+                "type": "expand",
+                "title": "🗝️ Indice 2",
+                "content": "<p>Le mot de passe maître du gestionnaire de Caroline est&nbsp;: «&nbsp;Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !&nbsp;».</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "07bef02d-a33f-4519-ab7c-04e23156b47d",
+                "type": "expand",
+                "title": "🗝️ Indice 3",
+                "content": "<p>Un gestionnaire ne copie pas tout seul le nouveau mot de passe généré. C’est à vous de le copier dans Papotix.</p>"
               }
             }
           ]
