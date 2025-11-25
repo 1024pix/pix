@@ -17,7 +17,9 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('login', { path: 'connexion' });
+  this.route('login', { path: 'connexion' }, function () {
+    this.route('login-oidc', { path: '/:identity_provider_slug' });
+  });
 
   this.route('join', { path: 'rejoindre' }, function () {
     this.route('index', { path: '' });
