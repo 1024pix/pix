@@ -77,7 +77,7 @@ class CertificateVerificationCodeGenerationTooManyTrials extends DomainError {
   }
 }
 
-class CertificationEndedBySupervisorError extends DomainError {
+class CertificationEndedByInvigilatorError extends DomainError {
   constructor(message = 'Le surveillant a mis fin à votre test de certification.') {
     super(message);
   }
@@ -1055,7 +1055,7 @@ export {
   CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
   CertificationEndedByFinalizationError,
-  CertificationEndedBySupervisorError,
+  CertificationEndedByInvigilatorError,
   CertificationRejectNotAllowedError,
   CertificationRescoringNotAllowedError,
   ChallengeAlreadyAnsweredError,

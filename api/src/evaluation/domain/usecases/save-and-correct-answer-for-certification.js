@@ -1,7 +1,7 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   CertificationEndedByFinalizationError,
-  CertificationEndedBySupervisorError,
+  CertificationEndedByInvigilatorError,
   ChallengeAlreadyAnsweredError,
   ForbiddenAccess,
 } from '../../../shared/domain/errors.js';
@@ -22,8 +22,8 @@ const saveAndCorrectAnswerForCertification = withTransaction(async function ({
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
   }
-  if (assessment.isEndedBySupervisor()) {
-    throw new CertificationEndedBySupervisorError();
+  if (assessment.isEndedByInvigilator()) {
+    throw new CertificationEndedByInvigilatorError();
   }
   if (assessment.hasBeenEndedDueToFinalization()) {
     throw new CertificationEndedByFinalizationError();
