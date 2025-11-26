@@ -180,7 +180,7 @@
                     "input": "nbdecomptes",
                     "type": "input",
                     "inputType": "number",
-                    "size": 10,
+                    "size": 5,
                     "display": "inline",
                     "placeholder": "nombre de comptes",
                     "ariaLabel": "nombre de comptes",
