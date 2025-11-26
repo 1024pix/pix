@@ -73,14 +73,14 @@
                     "id": "5",
                     "content": "<p>Je n’arrive pas à les retenir. 😩</p>",
                     "feedback": {
-                      "diagnosis": "<p>Vous n’êtes pas seul !&nbsp; Une solution existe&nbsp;: le&nbsp;<strong>gestionnaire de mots de passe</strong>. C’est un<strong> coffre-fort numérique</strong> pour vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Vous n’êtes pas seul !&nbsp; Une solution existe&nbsp;: le&nbsp;<strong>gestionnaire de mots de passe</strong>. C’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
                     "id": "6",
                     "content": "<p>Aucune de ces propositions 🤷🏻‍♂️</p>",
                     "feedback": {
-                      "diagnosis": "<p>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> pour vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   }
                 ],
