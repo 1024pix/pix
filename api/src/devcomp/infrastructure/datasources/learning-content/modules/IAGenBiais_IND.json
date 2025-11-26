@@ -646,29 +646,58 @@
       "type": "retain-the-essentials",
       "grains": [
         {
-          "id": "82edf18e-0f2e-4eb1-8b5a-6726f60a91ce",
+          "id": "de7366f9-ecb4-4310-b488-f6b68fa04115",
           "type": "summary",
-          "title": "Récap’",
+          "title": "Récap'",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "32fa1627-38dc-4699-9a71-c14e8e6412df",
-                "type": "text",
-                "content": "<ul><li>Les <strong>données d’entraînement</strong> d’une IA générative peuvent contenir des opinions, des stéréotypes, des <strong>biais</strong>. Certaines préférences linguistiques ou culturelles y sont parfois <strong>sur-représentées</strong>. 📊</li><li>Comme l’IA produit ses réponses à partir de ce qui revient le plus souvent dans ses données, sans esprit critique, elle peut reproduire ces <strong>biais</strong>. 🔄</li><li>Les réponses de l’IA générative peuvent renforcer des idées toutes faites, des <strong>stéréotypes </strong>ou des <strong>situations discriminantes.</strong> ⚠️</li><li>Il faut aussi garder à l’esprit que nos propres <strong>biais de confirmation</strong> nous poussent à croire ce que nous pensons déjà. 🧠</li></ul>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "ea91bf36-4238-4866-b97a-097f7c158608",
-                "type": "image",
-                "url": "https://assets.pix.org/modules/IAGenBiais_IND/pix-modulix-ia-biais-infographie-recapitulative-illu-capture-v3.png",
-                "alt": "",
-                "alternativeText": "<p>Schéma en plusieurs étapes&nbsp;:</p><ul><li>Étape 1&nbsp;: Il y a davantage de sources qui disent que le chat boit du lait dans les données d’entraînement de l’IA générative.</li><li>Étape 2&nbsp;: L’IA répond que le chat boit du lait.</li><li>Étape 3&nbsp;: <ul><li>Soit le propriétaire du chat a un doute. Il cherche des sources vétérinaires et ne donne pas de lait au chat.</li><li>Soit l’IA a confirmé ce que pensait le propriétaire. Ce dernier a donné du lait au chat. Maintenant le chat est malade.</li></ul></li></ul><br>",
-                "legend": "",
-                "licence": ""
-              }
+              "type": "stepper",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "5413bea1-27ba-4a9b-9bf6-9937d6c1a725",
+                      "type": "text",
+                      "content": "<ul><li>Les <strong>données d’entraînement d’une</strong> IA générative peuvent contenir des opinions, des stéréotypes, des <strong>biais</strong>. Certaines préférences linguistiques ou culturelles y sont parfois sur-<strong>représentées</strong>. 📊</li><li>Comme l’IA produit ses réponses à partir de ce qui revient le plus souvent dans ses données, sans esprit critique, elle peut reproduire ces <strong>biais</strong>. 🔄</li><li>Les réponses de l’IA générative peuvent renforcer des idées toutes faites, des stéréotypes ou des <strong>situations discriminantes.</strong> ⚠️</li><li>Il faut aussi garder à l’esprit que nos propres <strong>biais de confirmation</strong> nous poussent à croire ce que nous pensons déjà. 🧠</li></ul>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "d33f9f6e-ff7e-4753-a8fa-34bbb13d4d57",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/IAGenBiais_IND/pix-modulix-ia-biais-infographie-recapitulative-illu-v6-img1.png",
+                      "alt": "",
+                      "alternativeText": "<p>Infographie : Étape 1/3 : Il y a davantage de sources qui disent que le chat boit du lait dans les données d’entraînement de l’IA générative.</p>",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "597a2f4e-f74b-4d7f-90a9-60a907e3719e",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/IAGenBiais_IND/pix-modulix-ia-biais-infographie-recapitulative-illu-v6-img2.png",
+                      "alt": "",
+                      "alternativeText": "<p>Infographie : Étape 2/3 : L’IA répond que le chat boit du lait.</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "279a8a97-4408-47c5-9b5a-cc81ddd73ddf",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/IAGenBiais_IND/pix-modulix-ia-biais-infographie-recapitulative-illu-v6-img3.png",
+                      "alt": "",
+                      "alternativeText": "<p>Inforgraphie :&nbsp;</p><p>Étape 3 /3 :</p><ul><li> Soit le propriétaire du chat a un doute. Il cherche des sources vétérinaires et ne donne pas de lait au chat.</li><li>Soit l’IA a confirmé ce que pensait le propriétaire. Ce dernier a donné du lait au chat. Maintenant le chat est malade.</li></ul>",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
