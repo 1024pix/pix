@@ -103,7 +103,7 @@ class Assessment {
     return this.state === Assessment.states.STARTED;
   }
 
-  isEndedBySupervisor() {
+  isEndedByInvigilator() {
     return this.state === Assessment.states.ENDED_BY_SUPERVISOR;
   }
 
