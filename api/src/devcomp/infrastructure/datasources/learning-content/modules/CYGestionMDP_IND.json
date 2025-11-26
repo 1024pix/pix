@@ -194,11 +194,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>C’est exact !</p>",
-                    "diagnosis": "<p>Elio a noté le mot de passe maître de son gestionnaire dans son bloc note, c’est risqué !&nbsp;</p><p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
+                    "diagnosis": "<p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>, uniquement si vous en protégez l’accès.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
                   },
                   "invalid": {
                     "state": "<p>Ce n’est pas le bon nombre.</p>",
-                    "diagnosis": "<p>Elio a noté le mot de passe maître de son gestionnaire dans son bloc note, c’est risqué !&nbsp;</p><p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
+                    "diagnosis": "<p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>, uniquement si vous en protégez l’accès.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
                   }
                 }
               }
@@ -273,7 +273,7 @@
                     {
                       "id": "c4c8c103-1367-4bb9-83ef-dcebb988930a",
                       "type": "text",
-                      "content": "<p>Elio est en train de se connecter au site Toptracteur.<br>Il n’a pas besoin de connaître son mot de passe. Son gestionnaire connaît son identifiant et son mot de passe.</p>"
+                      "content": "<p>Maintenant, Elio veut se connecter au site Toptracteur.<br>Il ne se souvient plus de son mot de passe, mais pas de problème ! Grâce à son gestionnaire de mot de passe, il n’a pas besoin de le connaître par cœur.</p>"
                     },
                     {
                       "id": "93b4249c-44d9-4a7c-b72d-7dcd03d352ef",
@@ -636,7 +636,7 @@
               "element": {
                 "id": "4b4cf40e-61f1-48a5-9bc0-1fc8011a1b16",
                 "type": "text",
-                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. <br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !&nbsp;».<br>(<a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">lien vers idée d’activité</a>)</p>"
+                "content": "<p>Caroline a besoin de changer son mot de passe pour son compte Papotix, car il est trop simple. <br>Le mot de passe maître de son gestionnaire est&nbsp;: «&nbsp;Avoir 5 chaussettes n'est pas normal, les chaussettes vont par paire !&nbsp;».<br>(<a href=\"https://docs.google.com/presentation/d/1xOat3bkwo2hx6-StoUeCdjCMcZCke1mTVs24D-8gdNU/edit?usp=sharing\" target=\"_blank\">lien vers idée d’activité</a>)</p>"
               }
             },
             {
