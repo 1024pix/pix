@@ -69,31 +69,6 @@ export async function update(candidate) {
   if (!updatedCertificationCandidate) {
     throw new CertificationCandidateNotFoundError();
   }
-
-  await knexConn('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
-
-  for (const subscription of candidate.subscriptions) {
-    if (subscription.type === SUBSCRIPTION_TYPES.CORE) {
-      await knexConn('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: null,
-      });
-    } else {
-      const { id: complementaryCertificationId } = await knexConn('complementary-certifications')
-        .select('id')
-        .where({
-          key: subscription.complementaryCertificationKey,
-        })
-        .first();
-
-      await knexConn('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: complementaryCertificationId,
-      });
-    }
-  }
 }
 
 /**
