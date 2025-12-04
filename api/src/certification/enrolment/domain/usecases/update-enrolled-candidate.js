@@ -2,6 +2,7 @@
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  */
 
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
   CandidateAlreadyLinkedToUserError,
   CertificationCandidateNotFoundError,
@@ -12,7 +13,7 @@ import {
  * @param {EditedCandidate} params.editedCandidate
  * @param {CandidateRepository} params.candidateRepository
  */
-const updateEnrolledCandidate = async function ({ editedCandidate, candidateRepository }) {
+export const updateEnrolledCandidate = withTransaction(async function ({ editedCandidate, candidateRepository }) {
   const foundCandidate = await candidateRepository.get({ certificationCandidateId: editedCandidate.id });
 
   if (!foundCandidate) {
@@ -26,6 +27,4 @@ const updateEnrolledCandidate = async function ({ editedCandidate, candidateRepo
   foundCandidate.updateAccessibilityAdjustmentNeededStatus(editedCandidate.accessibilityAdjustmentNeeded);
 
   return candidateRepository.update(foundCandidate);
-};
-
-export { updateEnrolledCandidate };
+});

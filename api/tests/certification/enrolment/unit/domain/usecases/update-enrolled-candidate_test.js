@@ -1,4 +1,5 @@
 import { updateEnrolledCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/update-enrolled-candidate.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import {
   CandidateAlreadyLinkedToUserError,
   CertificationCandidateNotFoundError,
@@ -19,6 +20,10 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
     editedCandidate = domainBuilder.certification.enrolment.buildEditedCandidate({
       id: 123,
       accessibilityAdjustmentNeeded: true,
+    });
+    sinon.stub(DomainTransaction, 'execute');
+    DomainTransaction.execute.callsFake((fn) => {
+      return fn({});
     });
   });
 
