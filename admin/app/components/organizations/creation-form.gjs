@@ -6,11 +6,15 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import Joi from 'joi';
 
 import Card from '../card';
 
 export default class OrganizationCreationForm extends Component {
   @service store;
+  @service intl;
+  @service formValidator;
+  @service pixToast;
 
   organizationTypes = [
     { value: 'PRO', label: 'Organisation professionnelle' },
@@ -18,6 +22,22 @@ export default class OrganizationCreationForm extends Component {
     { value: 'SUP', label: 'Établissement supérieur' },
     { value: 'SCO-1D', label: 'Établissement scolaire du premier degré' },
   ];
+
+  validationSchema = Joi.object({
+    name: Joi.string()
+      .messages({
+        'string.empty': 'Le nom est requis',
+        'any.required': 'Le nom est requis',
+      })
+      .required(),
+    administrationTeamId: Joi.string().required().messages({ 'any.required': "L'équipe en charge est requise" }),
+    type: Joi.string()
+      .messages({
+        'any.required': 'Le type est requis',
+      })
+      .required(),
+    countryCode: Joi.string().required().messages({ 'any.required': 'Le code pays est requis' }),
+  });
 
   get administrationTeamsOptions() {
     const options = this.args.administrationTeams.map((administrationTeam) => ({
@@ -44,21 +64,44 @@ export default class OrganizationCreationForm extends Component {
 
   @action
   handleOrganizationTypeSelectionChange(value) {
+    this.formValidator.validateField({
+      fieldSchema: this.validationSchema.extract('type'),
+      field: 'type',
+      value,
+    });
+
     this.args.organization.type = value;
   }
 
   @action
   handleOrganizationNameChange(event) {
+    this.formValidator.validateField({
+      fieldSchema: this.validationSchema.extract('name'),
+      field: 'name',
+      value: event.target.value,
+    });
     this.args.organization.name = event.target.value;
   }
 
   @action
   handleAdministrationTeamSelectionChange(value) {
+    this.formValidator.validateField({
+      fieldSchema: this.validationSchema.extract('administrationTeamId'),
+      field: 'administrationTeamId',
+      value,
+    });
+
     this.args.organization.administrationTeamId = value;
   }
 
   @action
   handleCountrySelectionChange(value) {
+    this.formValidator.validateField({
+      fieldSchema: this.validationSchema.extract('countryCode'),
+      field: 'countryCode',
+      value,
+    });
+
     this.args.organization.countryCode = value;
   }
 
@@ -87,8 +130,24 @@ export default class OrganizationCreationForm extends Component {
     this.args.organization.dataProtectionOfficerEmail = event.target.value;
   }
 
+  @action
+  async handleSubmit(event) {
+    event.preventDefault();
+    this.formValidator.validateForm({
+      schema: this.validationSchema,
+      form: this.args.organization.getProperties('name', 'type', 'administrationTeamId', 'countryCode'),
+    });
+
+    if (Object.keys(this.formValidator.errors).length) {
+      return this.pixToast.sendErrorNotification({
+        message: this.intl.t('components.organizations.creation.required-fields-error'),
+      });
+    }
+    await this.args.onSubmit();
+  }
+
   <template>
-    <form class="admin-form" {{on "submit" @onSubmit}}>
+    <form class="admin-form" {{on "submit" this.handleSubmit}}>
       <section class="admin-form__content admin-form__content--with-counters">
         <Card class="admin-form__card" @title="Information générique">
           {{#if @parentOrganizationName}}
@@ -100,11 +159,13 @@ export default class OrganizationCreationForm extends Component {
             </h2>
           {{/if}}
           <PixInput
+            {{on "input" this.handleOrganizationNameChange}}
             @id="organizationName"
-            onchange={{this.handleOrganizationNameChange}}
             required={{true}}
             aria-required={{true}}
             @requiredLabel={{t "common.fields.required-field"}}
+            @errorMessage={{this.formValidator.errors.name}}
+            @validationStatus={{if this.formValidator.errors.name "error"}}
           >
             <:label>Nom</:label>
           </PixInput>
@@ -118,6 +179,7 @@ export default class OrganizationCreationForm extends Component {
             required
             aria-required={{true}}
             @requiredLabel={{t "common.fields.required-field"}}
+            @errorMessage={{this.formValidator.errors.type}}
           >
             <:label>Sélectionner un type d'organisation</:label>
             <:default as |organizationType|>{{organizationType.label}}</:default>
@@ -132,6 +194,7 @@ export default class OrganizationCreationForm extends Component {
             required
             aria-required={{true}}
             @requiredLabel={{t "common.fields.required-field"}}
+            @errorMessage={{this.formValidator.errors.administrationTeamId}}
           >
             <:label>{{t "components.organizations.creation.administration-team.selector.label"}}</:label>
           </PixSelect>
@@ -146,6 +209,7 @@ export default class OrganizationCreationForm extends Component {
             @aria-required={{true}}
             @requiredLabel={{t "common.fields.required-field"}}
             @isSearchable={{true}}
+            @errorMessage={{this.formValidator.errors.countryCode}}
           >
             <:label>{{t "components.organizations.creation.country.selector.label"}}</:label>
           </PixSelect>

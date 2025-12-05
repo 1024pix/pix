@@ -20,17 +20,7 @@ export default class NewController extends Controller {
   }
 
   @action
-  async addOrganization(event) {
-    event.preventDefault();
-    const { name, type, administrationTeamId, countryCode } = this.model.organization;
-
-    if (!name || !type || !administrationTeamId || !countryCode) {
-      this.pixToast.sendErrorNotification({
-        message: this.intl.t('components.organizations.creation.required-fields-error'),
-      });
-      return;
-    }
-
+  async addOrganization() {
     if (this.parentOrganizationId) {
       this.model.organization.setProperties({
         parentOrganizationId: this.parentOrganizationId,
