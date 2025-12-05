@@ -76,7 +76,7 @@
     "ember-qunit": "^9.0.4",
     "ember-resolver": "^13.1.1",
     "ember-simple-auth": "^8.0.1",
-    "ember-source": "~6.8.1",
+    "ember-source": "~6.9.0",
     "ember-template-imports": "^4.3.0",
     "ember-template-lint": "^7.9.3",
     "ember-template-lint-plugin-prettier": "^5.0.0",
