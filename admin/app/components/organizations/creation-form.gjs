@@ -7,6 +7,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import Joi from 'joi';
+import { joiValidatorProvider } from 'pix-admin/validators/joi-validator-provider';
 
 import Card from '../card';
 
@@ -68,6 +69,7 @@ export default class OrganizationCreationForm extends Component {
       fieldSchema: this.validationSchema.extract('type'),
       field: 'type',
       value,
+      validatorProvider: joiValidatorProvider,
     });
 
     this.args.organization.type = value;
@@ -79,6 +81,7 @@ export default class OrganizationCreationForm extends Component {
       fieldSchema: this.validationSchema.extract('name'),
       field: 'name',
       value: event.target.value,
+      validatorProvider: joiValidatorProvider,
     });
     this.args.organization.name = event.target.value;
   }
@@ -89,6 +92,7 @@ export default class OrganizationCreationForm extends Component {
       fieldSchema: this.validationSchema.extract('administrationTeamId'),
       field: 'administrationTeamId',
       value,
+      validatorProvider: joiValidatorProvider,
     });
 
     this.args.organization.administrationTeamId = value;
@@ -100,6 +104,7 @@ export default class OrganizationCreationForm extends Component {
       fieldSchema: this.validationSchema.extract('countryCode'),
       field: 'countryCode',
       value,
+      validatorProvider: joiValidatorProvider,
     });
 
     this.args.organization.countryCode = value;
@@ -136,6 +141,7 @@ export default class OrganizationCreationForm extends Component {
     this.formValidator.validateForm({
       schema: this.validationSchema,
       form: this.args.organization.getProperties('name', 'type', 'administrationTeamId', 'countryCode'),
+      validatorProvider: joiValidatorProvider,
     });
 
     if (Object.keys(this.formValidator.errors).length) {

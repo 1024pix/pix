@@ -2,20 +2,6 @@ import Model, { attr } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  name: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: 'Le nom ne peut pas être vide',
-      }),
-      validator('length', {
-        min: 1,
-        max: 255,
-        message: 'La longueur du nom ne doit pas excéder 255 caractères',
-      }),
-    ],
-  },
   externalId: {
     validators: [
       validator('length', {
@@ -165,10 +151,6 @@ export default class OrganizationForm extends Model.extend(Validations) {
 
   get externalIdError() {
     return this.#getErrorAttribute('externalId');
-  }
-
-  get nameError() {
-    return this.#getErrorAttribute('name');
   }
 
   get provinceCodeError() {
