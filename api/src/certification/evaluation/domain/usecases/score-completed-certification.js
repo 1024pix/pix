@@ -37,7 +37,7 @@ export const scoreCompletedCertification = withTransaction(
         certificationAssessment,
         locale,
         dependencies: {
-          findByCertificationCourseIdAndAssessmentId: services.findByCertificationCourseIdAndAssessmentId,
+          findByCertificationCourseAndVersion: services.findByCertificationCourseAndVersion,
         },
       });
 

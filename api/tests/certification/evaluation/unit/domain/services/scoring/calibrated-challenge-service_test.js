@@ -7,7 +7,7 @@ import { generateChallengeList } from '../../../../../shared/fixtures/challenges
 const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 
 describe('Certification | Evaluation | Unit | Domain | Services | calibrated challenge service', function () {
-  context('#findByCertificationCourseIdAndAssessmentId', function () {
+  context('#findByCertificationCourseAndVersion', function () {
     let challengeCalibrationRepository,
       calibratedChallengeRepository,
       certificationChallengeLiveAlertRepository,
@@ -72,7 +72,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | calibrated cha
           allChallenges,
           askedChallengesWithoutLiveAlerts: askedChallenges,
           challengeCalibrationsWithoutLiveAlerts: challengeCalibrations,
-        } = await calibratedChallengeService.findByCertificationCourseIdAndAssessmentId({
+        } = await calibratedChallengeService.findByCertificationCourseAndVersion({
           certificationCourse,
           version,
           assessmentId,
@@ -126,7 +126,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | calibrated cha
 
         // when
         const { allChallenges, askedChallengesWithoutLiveAlerts, challengeCalibrationsWithoutLiveAlerts } =
-          await calibratedChallengeService.findByCertificationCourseIdAndAssessmentId({
+          await calibratedChallengeService.findByCertificationCourseAndVersion({
             certificationCourse,
             version,
             assessmentId,

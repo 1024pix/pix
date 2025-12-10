@@ -12,14 +12,14 @@
  * @typedef {import('../../models/CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
  */
 /**
- * @typedef {Object} FindByCertificationCourseIdAndAssessmentIdResult
+ * @typedef {Object} FindByCertificationCourseAndVersionResult
  * @property {Array<CalibratedChallenge>} allChallenges - All calibrated challenges for the version no matter the locale
  * @property {Array<CalibratedChallenge>} askedChallengesWithoutLiveAlerts - Calibrated challenges presented to the candidate, excluding those with validated live alerts.
  * @property {Array<ChallengeCalibration>} challengeCalibrationsWithoutLiveAlerts - Calibrations of challenges presented to the candidate, excluding those with validated live alerts.
  */
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 
-export const findByCertificationCourseIdAndAssessmentId = withTransaction(
+export const findByCertificationCourseAndVersion = withTransaction(
   /**
    * @param {Object} params
    * @param {CertificationCourse} params.certificationCourse
@@ -27,7 +27,7 @@ export const findByCertificationCourseIdAndAssessmentId = withTransaction(
    * @param {ChallengeCalibrationRepository} params.challengeCalibrationRepository
    * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
    * @param {CalibratedChallengeRepository} params.calibratedChallengeRepository
-   * @returns {Promise<FindByCertificationCourseIdAndAssessmentIdResult>}
+   * @returns {Promise<FindByCertificationCourseAndVersionResult>}
    */
   async ({
     certificationCourse,

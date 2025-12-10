@@ -73,7 +73,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
       };
 
       dependencies = {
-        findByCertificationCourseIdAndAssessmentId: sinon.stub(),
+        findByCertificationCourseAndVersion: sinon.stub(),
       };
 
       version = domainBuilder.certification.evaluation.buildVersion({
@@ -225,7 +225,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
             },
           ]);
 
-        dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+        dependencies.findByCertificationCourseAndVersion.resolves({
           allChallenges: challenges,
           askedChallengesWithoutLiveAlerts: challenges,
           challengeCalibrationsWithoutLiveAlerts,
@@ -362,7 +362,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               },
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: answeredChallenges,
               askedChallengesWithoutLiveAlerts: answeredChallenges,
               challengeCalibrationsWithoutLiveAlerts,
@@ -488,7 +488,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               });
               const candidate = domainBuilder.buildCertificationCandidate({ reconciledAt: new Date('2021-01-01') });
 
-              dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+              dependencies.findByCertificationCourseAndVersion.resolves({
                 allChallenges: answeredChallenges,
                 askedChallengesWithoutLiveAlerts: answeredChallenges,
                 challengeCalibrationsWithoutLiveAlerts,
@@ -616,7 +616,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               });
               const candidate = domainBuilder.buildCertificationCandidate({ reconciledAt: new Date('2021-01-01') });
 
-              dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+              dependencies.findByCertificationCourseAndVersion.resolves({
                 allChallenges,
                 askedChallengesWithoutLiveAlerts: allChallenges,
                 challengeCalibrationsWithoutLiveAlerts,
@@ -777,7 +777,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: answeredChallenges,
               askedChallengesWithoutLiveAlerts: answeredChallenges,
               challengeCalibrationsWithoutLiveAlerts,
@@ -901,7 +901,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: answeredChallenges,
               askedChallengesWithoutLiveAlerts: answeredChallenges,
               challengeCalibrationsWithoutLiveAlerts,
@@ -1036,7 +1036,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: answeredChallenges,
               askedChallengesWithoutLiveAlerts: answeredChallenges,
               challengeCalibrationsWithoutLiveAlerts,
@@ -1169,7 +1169,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
 
             const challengesAfterCalibration = answeredChallenges.slice(1);
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: [challengeExcludedFromCalibration, ...challengesAfterCalibration],
               askedChallengesWithoutLiveAlerts: [challengeExcludedFromCalibration, ...challengesAfterCalibration],
               challengeCalibrationsWithoutLiveAlerts,
@@ -1293,7 +1293,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: answeredChallenges,
               askedChallengesWithoutLiveAlerts: answeredChallenges,
               challengeCalibrationsWithoutLiveAlerts,
@@ -1421,7 +1421,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: answeredChallenges,
               askedChallengesWithoutLiveAlerts: answeredChallenges,
               challengeCalibrationsWithoutLiveAlerts,
@@ -1547,7 +1547,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            dependencies.findByCertificationCourseIdAndAssessmentId.resolves({
+            dependencies.findByCertificationCourseAndVersion.resolves({
               allChallenges: allChallenges,
               askedChallengesWithoutLiveAlerts: allChallenges,
               challengeCalibrationsWithoutLiveAlerts,

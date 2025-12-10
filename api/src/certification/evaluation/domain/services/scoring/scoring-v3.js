@@ -1,10 +1,10 @@
 /**
- * @typedef {import('./calibrated-challenge-service.js').findByCertificationCourseIdAndAssessmentId} FindByCertificationCourseIdAndAssessmentId
+ * @typedef {import('./calibrated-challenge-service.js').findByCertificationCourseAndVersion} FindByCertificationCourseAndVersion
  */
 
 /**
  * @typedef {Object} ScoringV3Dependencies
- * @property {FindByCertificationCourseIdAndAssessmentId} findByCertificationCourseIdAndAssessmentId
+ * @property {FindByCertificationCourseAndVersion} findByCertificationCourseAndVersion
  */
 
 /**
@@ -84,10 +84,7 @@ export const handleV3CertificationScoring = withTransaction(
     });
 
     const { allChallenges, askedChallengesWithoutLiveAlerts, challengeCalibrationsWithoutLiveAlerts } =
-      await dependencies.findByCertificationCourseIdAndAssessmentId({
-        certificationCourse,
-        version,
-      });
+      await dependencies.findByCertificationCourseAndVersion({ certificationCourse, version });
 
     const algorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
