@@ -23,6 +23,7 @@
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
 import { config } from '../../../../../shared/config.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
+import { CertificationCandidateNotFoundError } from '../../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithm } from '../../../../evaluation/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentHistory } from '../../../../scoring/domain/models/CertificationAssessmentHistory.js';
 import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
@@ -72,6 +73,11 @@ export const handleV3CertificationScoring = withTransaction(
       sessionId: certificationCourse.getSessionId(),
       userId: certificationCourse.getUserId(),
     });
+
+    if (!certificationCandidate) {
+      throw new CertificationCandidateNotFoundError();
+    }
+
     const version = await sharedVersionRepository.getByScopeAndReconciliationDate({
       scope,
       reconciliationDate: certificationCandidate.reconciledAt,
@@ -107,7 +113,7 @@ export const handleV3CertificationScoring = withTransaction(
       scoringDegradationService,
     });
 
-    const assessmentResult = await _createV3AssessmentResult({
+    const assessmentResult = _createV3AssessmentResult({
       toBeCancelled,
       allAnswers: candidateAnswers,
       certificationAssessment,

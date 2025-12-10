@@ -4,6 +4,13 @@ import { Subscription } from '../../../enrolment/domain/models/Subscription.js';
 import { CertificationCandidate } from '../../../shared/domain/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
+/**
+ * @param {Object} params
+ * @param {number} params.sessionId
+ * @param {number} params.userId
+ * @returns {Promise<CertificationCandidate | undefined>}
+ */
+
 const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
   const candidateData = await _candidateBaseQuery().where({ sessionId, userId }).first();
   const subscriptionData = candidateData ? await _getSubscriptions(candidateData.id) : undefined;

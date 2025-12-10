@@ -8,8 +8,9 @@ import { Frameworks } from '../../../../../../../src/certification/shared/domain
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
+import { CertificationCandidateNotFoundError } from '../../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 
 const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
@@ -280,6 +281,57 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', f
             score: 0,
           }),
         );
+      });
+
+      describe('when there is no found candidate', function () {
+        it('throws a CertificationCandidateNotFoundError', async function () {
+          // given
+          const answeredChallenges = allChallenges;
+          const { answers, challengeCalibrationsWithoutLiveAlerts } =
+            _buildDataFromAnsweredChallenges(answeredChallenges);
+
+          dependencies.findByCertificationCourseAndVersion.resolves({
+            allChallenges: answeredChallenges,
+            askedChallengesWithoutLiveAlerts: answeredChallenges,
+            challengeCalibrationsWithoutLiveAlerts,
+          });
+
+          answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+          certificationCourseRepository.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
+
+          assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult({ id: assessmentResultId }));
+
+          sharedCertificationCandidateRepository.getBySessionIdAndUserId
+            .withArgs({
+              sessionId: certificationCourse.getSessionId(),
+              userId: certificationCourse.getUserId(),
+            })
+            .resolves(undefined);
+
+          certificationCourseRepository.getCertificationScope
+            .withArgs({ courseId: certificationCourse.getId() })
+            .resolves(Frameworks.CORE);
+
+          // when
+          const error = await catchErr(handleV3CertificationScoring)({
+            event,
+            certificationAssessment,
+            locale: 'fr',
+            answerRepository,
+            assessmentResultRepository,
+            certificationAssessmentHistoryRepository,
+            certificationCourseRepository,
+            competenceMarkRepository,
+            flashAlgorithmService,
+            scoringConfigurationRepository,
+            sharedCertificationCandidateRepository,
+            sharedVersionRepository,
+            dependencies,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
+        });
       });
 
       describe('when at least the minimum number of answers required by the config has been answered', function () {
