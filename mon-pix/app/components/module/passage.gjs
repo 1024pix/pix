@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
+import PixModal from '@1024pix/pix-ui/components/pix-modal';
 
 import { inc } from '../../helpers/inc';
 import didInsert from '../../modifiers/modifier-did-insert';
@@ -19,6 +20,7 @@ export default class ModulePassage extends Component {
   @service passageEvents;
   @service featureToggles;
   @service modulixNavigationProgress;
+  @service modulixIssueReportModal;
 
   get enrichedSections() {
     return this.args.module.sections.map((section, index) => {
@@ -30,6 +32,10 @@ export default class ModulePassage extends Component {
         sectionType: section.type,
       };
     });
+  }
+
+  get issueReportModalDisplayed() {
+    return this.modulixIssueReportModal.issueReportModalDisplayed;
   }
 
   get isNewPattern() {
@@ -302,6 +308,13 @@ export default class ModulePassage extends Component {
           />
         {{/each}}
       </div>
+      <PixModal
+          @title="test"
+          @showModal={{this.issueReportModalDisplayed}}>
+        <:content>
+          <p>PO OUF</p>
+        </:content>
+      </PixModal>
     </main>
   </template>
 }
