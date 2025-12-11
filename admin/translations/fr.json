@@ -33,6 +33,7 @@
       "name": "Nom",
       "required-field": "Champ obligatoire",
       "status": "Statut",
+      "actions": "Actions",
       "target-profile": {
         "category": {
           "name": "Catégorie",

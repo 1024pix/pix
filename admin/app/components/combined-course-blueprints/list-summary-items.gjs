@@ -4,6 +4,11 @@ import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
 
 import RequirementTag from '../common/combined-courses/requirement-tag';
+import AddOrganization from './add-organization';
+
+const selectOrganizationHandler = (organizations) => {
+  console.log('on select orgnization', organizations);
+};
 
 <template>
   {{#if @summaries}}
@@ -42,6 +47,14 @@ import RequirementTag from '../common/combined-courses/requirement-tag';
           </:header>
           <:cell>
             {{formatDate blueprint.createdAt}}
+          </:cell>
+        </PixTableColumn>
+        <PixTableColumn @context={{context}} class="combinedCourseBlueprint__column--compact">
+          <:header>
+            {{t "common.fields.actions"}}
+          </:header>
+          <:cell>
+            <AddOrganization onSelectOrganization={{selectOrganizationHandler}} />
           </:cell>
         </PixTableColumn>
       </:columns>
