@@ -1,0 +1,15 @@
+name: Check node version availability on Scalingo
+
+on: [push]
+
+jobs:
+  check-node-compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - uses: 1024pix/pix-actions/check-node-version-availability-on-scalingo@v0
+        with:
+          directory: 'api'
+
