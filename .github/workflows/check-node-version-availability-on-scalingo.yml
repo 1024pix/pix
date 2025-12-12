@@ -1,15 +1,15 @@
 name: Check node version availability on Scalingo
 
-on: [push]
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   check-node-compatibility:
+    if: github.head_ref == 'renovate/node' || (startsWith(github.head_ref, 'renovate/major-') && endsWith(github.head_ref, '-node'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - uses: 1024pix/pix-actions/check-node-version-availability-on-scalingo@v0
-        with:
-          directory: 'api'
-
