@@ -451,32 +451,25 @@
         "title": "Tous les schémas de parcours combinés"
       },
       "create": {
-        "title": "Créer un schéma de parcours"
-      }
-    },
-    "combined-courses": {
-      "create-form": {
+        "title": "Créer un schéma de parcours",
         "addItemButton": "Ajouter",
         "contentFeedback": "Votre parcours n'a aucun élément ajouté.",
         "courseContent": "Contenu du parcours",
         "downloadButton": "Télécharger le CSV",
         "fieldsetElement": "Choisissez le type d'élément à ajouter :",
         "labels": {
-          "creatorId": "Identifiant du créateur",
           "description": " Description",
           "illustration": "Illustration",
           "itemId": "Identifiant",
           "module": "Module",
           "name": "Nom",
-          "organizationsList": "liste des organisations",
-          "organizationsListSubLabel": "(ids séparés par des virgules)",
-          "target-profile": "Profil cible"
+          "target-profile": "Profil cible",
+          "internal-name": "Nom interne"
         },
         "notifications": {
           "error": "Oups. Une erreur est survenue lors du téléchargement du CSV.",
           "success": "Téléchargement du CSV réussi ! En route pour la création des parcours."
-        },
-        "title": "Créateur de parcours"
+        }
       }
     },
     "complementary-certifications": {

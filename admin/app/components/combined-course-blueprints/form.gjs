@@ -2,7 +2,6 @@ import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
@@ -14,18 +13,19 @@ import { t } from 'ember-intl';
 import { eq, gt } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
+import RequirementTag from '../common/combined-courses/requirement-tag';
+
 export default class CombineCourseBluePrintForm extends Component {
   @service pixToast;
-
-  @tracked combinedCourseItems = [];
-  @tracked itemId = null;
+  @service store;
   @tracked itemType = 'targetProfile';
-  @tracked name = '';
-  @tracked illustration = '';
-  @tracked description = '';
-  @tracked organizationIds = null;
-  @tracked creatorId = null;
+  @tracked itemValue = '';
+  @tracked blueprint;
 
+  constructor() {
+    super(...arguments);
+    this.blueprint = this.store.createRecord('combined-course-blueprint');
+  }
   @action
   addItem(event) {
     event.preventDefault();
@@ -39,25 +39,32 @@ export default class CombineCourseBluePrintForm extends Component {
   }
 
   addTargetProfile() {
-    this.combinedCourseItems = [
-      ...this.combinedCourseItems,
+    this.blueprint.content = [
+      ...this.blueprint.content,
       {
-        type: 'campaignParticipations',
-        value: Number(this.itemId),
+        type: 'evaluation',
+        value: Number(this.itemValue),
       },
     ];
-    this.itemId = null;
+
+    this.itemValue = null;
   }
 
   addModule() {
-    this.combinedCourseItems = [
-      ...this.combinedCourseItems,
+    this.blueprint.content = [
+      ...this.blueprint.content,
       {
-        type: 'passages',
-        value: this.itemId,
+        type: 'module',
+        value: this.itemValue,
       },
     ];
-    this.itemId = null;
+
+    this.itemValue = null;
+  }
+
+  @action
+  async save() {
+    this.blueprint.save();
   }
 
   @action
@@ -84,36 +91,34 @@ export default class CombineCourseBluePrintForm extends Component {
       exportLink.click();
 
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t('components.combined-courses.create-form.notifications.success'),
+        message: this.intl.t('components.combined-course-blueprints.create.notifications.success'),
       });
     } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t('components.combined-courses.create-form.notifications.error'),
+        message: this.intl.t('components.combined-course-blueprints.create.notifications.error'),
       });
     }
   }
 
-  getItemType(item) {
-    return item.type === 'campaignParticipations' ? 'targetProfile' : 'module';
-  }
-
-  getItemValue(item) {
-    return item.value;
-  }
-
-  getItemColor(item) {
-    return item.type === 'campaignParticipations' ? 'purple' : 'blue';
+  @action
+  setData(key, e) {
+    this.blueprint[key] = e.target.value;
   }
 
   @action
-  setData(key, e) {
-    this[key] = e.target.value;
+  setItemType(e) {
+    this.itemType = e.target.value;
+  }
+
+  @action
+  setItemValue(e) {
+    this.itemValue = e.target.value;
   }
 
   @action
   handleKeyPress(event) {
     if (event.key === 'Enter') {
-      this.setData('itemId', event);
+      this.setItemValue(event);
       this.addItem(event);
     }
   }
@@ -122,11 +127,11 @@ export default class CombineCourseBluePrintForm extends Component {
     <PixBlock @variant="admin" class="combined-course-page">
 
       <form class="combined-course-page__form">
-        <h1 class="combined-course-page__title"> {{t "components.combined-courses.create-form.title"}}</h1>
+        <h1 class="combined-course-page__title"> {{t "components.combined-course-blueprints.create.title"}}</h1>
 
         <PixFieldset>
           <:title>
-            {{t "components.combined-courses.create-form.fieldsetElement"}}
+            {{t "components.combined-course-blueprints.create.fieldsetElement"}}
           </:title>
           <:content>
             <div class="combined-course-page__fieldset">
@@ -134,17 +139,17 @@ export default class CombineCourseBluePrintForm extends Component {
                 name="itemType"
                 @value="targetProfile"
                 checked={{if (eq this.itemType "targetProfile") "checked"}}
-                {{on "change" (fn this.setData "itemType")}}
+                {{on "change" this.setItemType}}
               >
-                <:label>{{t "components.combined-courses.create-form.labels.target-profile"}}</:label>
+                <:label>{{t "components.combined-course-blueprints.create.labels.target-profile"}}</:label>
               </PixRadioButton>
               <PixRadioButton
                 name="itemType"
                 checked={{if (eq this.itemType "module") "checked"}}
                 @value="module"
-                {{on "change" (fn this.setData "itemType")}}
+                {{on "change" this.setItemType}}
               >
-                <:label>{{t "components.combined-courses.create-form.labels.module"}}</:label>
+                <:label>{{t "components.combined-course-blueprints.create.labels.module"}}</:label>
               </PixRadioButton>
             </div>
           </:content>
@@ -153,19 +158,19 @@ export default class CombineCourseBluePrintForm extends Component {
         <div class="combined-course-page__form-addItem">
           <PixInput
             @id="itemId"
-            @value={{this.itemId}}
+            @value={{this.itemValue}}
             @requiredLabel="Champ obligatoire"
-            {{on "change" (fn this.setData "itemId")}}
+            {{on "change" this.setItemValue}}
             {{on "keyup" this.handleKeyPress}}
             class="combined-course-page__input"
           >
             <:label>
-              {{t "components.combined-courses.create-form.labels.itemId"}}
+              {{t "components.combined-course-blueprints.create.labels.itemId"}}
             </:label>
           </PixInput>
 
           <PixButton @triggerAction={{this.addItem}} class="combined-course-page__button">{{t
-              "components.combined-courses.create-form.addItemButton"
+              "components.combined-course-blueprints.create.addItemButton"
             }}</PixButton>
         </div>
         <hr class="combined-course-page__separator" />
@@ -177,7 +182,19 @@ export default class CombineCourseBluePrintForm extends Component {
           class="combined-course-page__input"
         >
           <:label>
-            {{t "components.combined-courses.create-form.labels.name"}}
+            {{t "components.combined-course-blueprints.create.labels.name"}}
+          </:label>
+        </PixInput>
+
+        <PixInput
+          @id="internalName"
+          @value={{this.internalName}}
+          @requiredLabel="Champ obligatoire"
+          {{on "change" (fn this.setData "internalName")}}
+          class="combined-course-page__input"
+        >
+          <:label>
+            {{t "components.combined-course-blueprints.create.labels.internal-name"}}
           </:label>
         </PixInput>
 
@@ -189,7 +206,7 @@ export default class CombineCourseBluePrintForm extends Component {
           class="combined-course-page__input"
         >
           <:label>
-            {{t "components.combined-courses.create-form.labels.illustration"}}
+            {{t "components.combined-course-blueprints.create.labels.illustration"}}
 
           </:label>
         </PixInput>
@@ -203,63 +220,30 @@ export default class CombineCourseBluePrintForm extends Component {
           rows="10"
         >
           <:label>
-            {{t "components.combined-courses.create-form.labels.description"}}
+            {{t "components.combined-course-blueprints.create.labels.description"}}
 
           </:label>
         </PixTextarea>
-
-        <hr class="combined-course-page__separator" />
-
-        <PixInput
-          @id="organizationIds"
-          @value={{this.organizationIds}}
-          @requiredLabel="Champ obligatoire"
-          {{on "change" (fn this.setData "organizationIds")}}
-          class="combined-course-page__input"
-        >
-          <:label>
-            {{t "components.combined-courses.create-form.labels.organizationsList"}}
-          </:label>
-          <:subLabel>
-            {{t "components.combined-courses.create-form.labels.organizationsListSubLabel"}}
-          </:subLabel>
-        </PixInput>
-
-        <PixInput
-          @id="creatorId"
-          @value={{this.creatorId}}
-          @requiredLabel="Champ obligatoire"
-          {{on "change" (fn this.setData "creatorId")}}
-          class="combined-course-page__input"
-        >
-          <:label>
-            {{t "components.combined-courses.create-form.labels.creatorId"}}
-          </:label>
-        </PixInput>
 
       </form>
 
       <div class="combined-course-page__items">
         <h2 class="combined-course-page__title">
-          {{t "components.combined-courses.create-form.courseContent"}}</h2>
+          {{t "components.combined-course-blueprints.create.courseContent"}}</h2>
 
-        {{#if (gt this.combinedCourseItems.length 0)}}
+        {{#if (gt this.blueprint.content.length 0)}}
           <ul class="combined-course-page__list">
-            {{#each this.combinedCourseItems as |item|}}
-              <li class="combined-course-page__list-item"><PixTag @color={{this.getItemColor item}}>
-                  {{this.getItemType item}}
-                  -
-                  {{this.getItemValue item}}
-                </PixTag>
+            {{#each this.blueprint.content as |item|}}
+              <li><RequirementTag @type={{item.type}} @value={{item.value}} />
               </li>
             {{/each}}
           </ul>
         {{else}}
-          <p> {{t "components.combined-courses.create-form.contentFeedback"}}</p>
+          <p> {{t "components.combined-course-blueprints.create.contentFeedback"}}</p>
         {{/if}}
 
-        <PixButton class="combined-course-page__button" @triggerAction={{this.downloadCSV}} @variant="success">{{t
-            "components.combined-courses.create-form.downloadButton"
+        <PixButton class="combined-course-page__button" @triggerAction={{this.save}} @variant="success">{{t
+            "components.combined-course-blueprints.create.downloadButton"
           }}</PixButton>
       </div>
     </PixBlock>

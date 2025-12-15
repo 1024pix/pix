@@ -444,39 +444,32 @@
         "targetProfile": "Target profile"
       },
       "list": {
-        "content": "Contenu",
+        "content": "Content",
         "table": {
           "caption": "List of combined course blueprints"
         },
         "title": "All learner courses"
       },
       "create": {
-        "title": "Create a combined course blueprint"
-      }
-    },
-    "combined-courses": {
-      "create-form": {
+        "title": "Create a combined course blueprint",
         "addItemButton": "Add",
         "contentFeedback": "Your course does not have any items yet.",
         "courseContent": "Course content",
         "downloadButton": "Download CSV",
         "fieldsetElement": "Choose the element type you want to add :",
         "labels": {
-          "creatorId": "Creator id",
           "description": " Description",
           "illustration": "Illustration",
           "itemId": "Id",
           "module": "Module",
           "name": "Name",
-          "organizationsList": "Organisations list",
-          "organizationsListSubLabel": "(ids separated by commas)",
-          "target-profile": "Target profile"
+          "target-profile": "Target profile",
+          "internal-name": "Internal name"
         },
         "notifications": {
           "error": "Oups. Something went wrong. Please try again.",
           "success": "CSV downloaded ! Go to create your combined course"
-        },
-        "title": "Course creator"
+        }
       }
     },
     "complementary-certifications": {
