@@ -6,7 +6,7 @@
   "isBeta": true,
   "details": {
     "image": "https://assets.pix.org/modules/CYPhishingNov/cy-phishing-nov-picto.svg",
-    "description": "<p>Chaque jour, nous recevons des messages par SMS ou messagerie instantanée. Certains d’entre eux cachent des arnaques.<br> Dans ce module, découvrez les réflexes à avoir pour éviter de tomber dans le piège. 🛡️</p>",
+    "description": "<p>Chaque jour, nous recevons des messages par SMS ou messagerie instantanée. Certains d’entre eux cachent des arnaques.<br> Dans ce module, découvrez les réflexes à avoir pour éviter de tomber dans le piège. 🛡️</p><p><br>Module produit en partenariat avec cybermalveillance.gouv.fr.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
