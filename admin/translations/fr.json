@@ -449,6 +449,9 @@
           "caption": "Liste des schémas de parcours combinés"
         },
         "title": "Tous les schémas de parcours combinés"
+      },
+      "create": {
+        "title": "Créer un schéma de parcours"
       }
     },
     "combined-courses": {

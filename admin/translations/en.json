@@ -449,6 +449,9 @@
           "caption": "List of combined course blueprints"
         },
         "title": "All learner courses"
+      },
+      "create": {
+        "title": "Create a combined course blueprint"
       }
     },
     "combined-courses": {

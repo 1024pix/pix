@@ -14,7 +14,7 @@ import { t } from 'ember-intl';
 import { eq, gt } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
-export default class CombineCourseForm extends Component {
+export default class CombineCourseBluePrintForm extends Component {
   @service pixToast;
 
   @tracked combinedCourseItems = [];
