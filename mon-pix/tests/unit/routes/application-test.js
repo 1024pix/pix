@@ -26,21 +26,12 @@ module('Unit | Route | application', function (hooks) {
   });
 
   module('#beforeModel', function (hooks) {
-    let configServiceStub,
-      localeServiceStub,
-      currentUserServiceStub,
-      featureTogglesServiceStub,
-      sessionServiceStub,
-      oidcIdentityProvidersStub;
+    let configServiceStub, localeServiceStub, currentUserServiceStub, sessionServiceStub, oidcIdentityProvidersStub;
 
     hooks.beforeEach(function () {
       const catchStub = sinon.stub();
 
       configServiceStub = Service.create({
-        load: sinon.stub().resolves(catchStub),
-      });
-
-      featureTogglesServiceStub = Service.create({
         load: sinon.stub().resolves(catchStub),
       });
 
@@ -67,7 +58,6 @@ module('Unit | Route | application', function (hooks) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('config', configServiceStub);
-      route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
       route.set('locale', localeServiceStub);
@@ -85,7 +75,6 @@ module('Unit | Route | application', function (hooks) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('config', configServiceStub);
-      route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
       route.set('locale', localeServiceStub);
@@ -104,7 +93,6 @@ module('Unit | Route | application', function (hooks) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('config', configServiceStub);
-      route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
       route.set('locale', localeServiceStub);
@@ -118,29 +106,10 @@ module('Unit | Route | application', function (hooks) {
       assert.ok(true);
     });
 
-    test('gets feature toggles', async function (assert) {
-      // given
-      const route = this.owner.lookup('route:application');
-      route.set('config', configServiceStub);
-      route.set('featureToggles', featureTogglesServiceStub);
-      route.set('session', sessionServiceStub);
-      route.set('currentUser', currentUserServiceStub);
-      route.set('locale', localeServiceStub);
-      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
-
-      // when
-      await route.beforeModel();
-
-      // then
-      sinon.assert.calledOnce(featureTogglesServiceStub.load);
-      assert.ok(true);
-    });
-
     test('gets current user', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('config', configServiceStub);
-      route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
       route.set('locale', localeServiceStub);
