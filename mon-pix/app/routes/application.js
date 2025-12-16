@@ -39,7 +39,6 @@ export default class ApplicationRoute extends Route {
     await this.session.setup();
 
     await this.config.load().catch();
-    await this.featureToggles.load().catch();
     await this.oidcIdentityProviders.load().catch();
 
     await this.authentication.handleAnonymousAuthentication(transition);
