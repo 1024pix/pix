@@ -5,6 +5,7 @@ import ENV from 'mon-pix/config/environment';
 
 export default class ApplicationRoute extends Route {
   @service authentication;
+  @service config;
   @service featureToggles;
   @service intl;
   @service oidcIdentityProviders;
@@ -36,8 +37,11 @@ export default class ApplicationRoute extends Route {
     const queryParams = transition?.to?.queryParams;
     this.locale.setBestLocale({ queryParams });
     await this.session.setup();
+
+    await this.config.load().catch();
     await this.featureToggles.load().catch();
     await this.oidcIdentityProviders.load().catch();
+
     await this.authentication.handleAnonymousAuthentication(transition);
     await this.currentUser.load();
   }

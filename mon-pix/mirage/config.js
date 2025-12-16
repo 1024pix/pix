@@ -24,6 +24,7 @@ import getFeatureToggles from './routes/get-feature-toggles';
 import getInformationBanners from './routes/get-information-banners';
 import getOrganizationsToJoin from './routes/get-organizations-to-join';
 import getProgression from './routes/get-progression';
+import getPublicContext from './routes/get-public-context';
 import getQuestResults from './routes/get-quest-results';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
@@ -112,6 +113,7 @@ function routes() {
   this.del('/users/tutorials/:tutorialId', deleteUserSavedTutorial);
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
+  this.get('/public-context', getPublicContext);
   this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);
