@@ -1,4 +1,3 @@
-import { types } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { CampaignToJoin } from '../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 
@@ -17,15 +16,8 @@ export function buildCampaignToJoin({
   isForAbsoluteNovice = false,
   isMobileCompliant = true,
   isTabletCompliant = true,
-  organizationId = 2,
-  organizationName = 'NomOrga',
-  organizationType = types.PRO,
-  organizationLogoUrl = 'baseCodeOrgaLogoImage',
-  organizationIsManagingStudents = false,
   hasLearnersImportFeature = false,
   identityProvider = null,
-  organizationShowNPS = true,
-  organizationFormNPSUrl = 'https://pix.fr/nps-pix-emploi/',
   targetProfileName = 'Le profil cible',
   targetProfileImageUrl = 'targetProfileImageUrl',
   multipleSendings = false,
@@ -46,15 +38,8 @@ export function buildCampaignToJoin({
     isForAbsoluteNovice,
     isMobileCompliant,
     isTabletCompliant,
-    organizationId,
-    organizationName,
-    organizationType,
-    organizationLogoUrl,
-    organizationIsManagingStudents,
     hasLearnersImportFeature,
     identityProvider,
-    organizationShowNPS,
-    organizationFormNPSUrl,
     targetProfileName,
     targetProfileImageUrl,
     multipleSendings,

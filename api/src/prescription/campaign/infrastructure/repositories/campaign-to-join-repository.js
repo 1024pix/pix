@@ -7,13 +7,6 @@ const getByCode = async function ({ code, organizationFeatureAPI }) {
   const result = await knex('campaigns')
     .select('campaigns.*')
     .select({
-      organizationId: 'organizations.id',
-      organizationName: 'organizations.name',
-      organizationType: 'organizations.type',
-      organizationLogoUrl: 'organizations.logoUrl',
-      organizationIsManagingStudents: 'organizations.isManagingStudents',
-      organizationShowNPS: 'organizations.showNPS',
-      organizationFormNPSUrl: 'organizations.formNPSUrl',
       targetProfileName: 'target-profiles.name',
       targetProfileImageUrl: 'target-profiles.imageUrl',
       targetProfileIsSimplifiedAccess: 'target-profiles.isSimplifiedAccess',
