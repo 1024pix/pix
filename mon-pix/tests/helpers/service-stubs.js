@@ -3,6 +3,29 @@ import { tracked } from '@glimmer/tracking';
 import omit from 'lodash/omit';
 import sinon from 'sinon';
 
+export function stubConfigService(
+  owner,
+  { featureToggles, permitPixAdminLoginFromPassword, autonomousCoursesOrganizationId } = {},
+) {
+  class ConfigServiceStub extends Service {
+    constructor() {
+      super();
+
+      this.featureToggles = featureToggles ?? {};
+      this.permitPixAdminLoginFromPassword = permitPixAdminLoginFromPassword ?? false;
+      this.autonomousCoursesOrganizationId = autonomousCoursesOrganizationId ?? 999;
+    }
+
+    load() {
+      return Promise.resolve();
+    }
+  }
+
+  owner.unregister('service:config');
+  owner.register('service:config', ConfigServiceStub);
+  return owner.lookup('service:config');
+}
+
 /**
  * Stub the session service.
  *

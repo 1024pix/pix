@@ -26,7 +26,8 @@ module('Unit | Route | application', function (hooks) {
   });
 
   module('#beforeModel', function (hooks) {
-    let localeServiceStub,
+    let configServiceStub,
+      localeServiceStub,
       currentUserServiceStub,
       featureTogglesServiceStub,
       sessionServiceStub,
@@ -35,9 +36,14 @@ module('Unit | Route | application', function (hooks) {
     hooks.beforeEach(function () {
       const catchStub = sinon.stub();
 
+      configServiceStub = Service.create({
+        load: sinon.stub().resolves(catchStub),
+      });
+
       featureTogglesServiceStub = Service.create({
         load: sinon.stub().resolves(catchStub),
       });
+
       sessionServiceStub = Service.create({
         setup: sinon.stub().resolves(),
       });
@@ -57,9 +63,28 @@ module('Unit | Route | application', function (hooks) {
       this.intl = this.owner.lookup('service:intl');
     });
 
+    test('fetches the config', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:application');
+      route.set('config', configServiceStub);
+      route.set('featureToggles', featureTogglesServiceStub);
+      route.set('session', sessionServiceStub);
+      route.set('currentUser', currentUserServiceStub);
+      route.set('locale', localeServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
+
+      // when
+      await route.beforeModel();
+
+      // then
+      sinon.assert.calledOnce(configServiceStub.load);
+      assert.ok(true);
+    });
+
     test('sets best locale', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
+      route.set('config', configServiceStub);
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
@@ -78,6 +103,7 @@ module('Unit | Route | application', function (hooks) {
     test('sets up the session', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
+      route.set('config', configServiceStub);
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
@@ -95,6 +121,7 @@ module('Unit | Route | application', function (hooks) {
     test('gets feature toggles', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
+      route.set('config', configServiceStub);
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);
@@ -112,6 +139,7 @@ module('Unit | Route | application', function (hooks) {
     test('gets current user', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
+      route.set('config', configServiceStub);
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
       route.set('currentUser', currentUserServiceStub);

@@ -20,6 +20,7 @@ import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCombinedCourses from './routes/get-combined-courses';
 import getCompetenceEvaluationsByAssessment from './routes/get-competence-evaluations-by-assessment';
+import getConfig from './routes/get-config';
 import getFeatureToggles from './routes/get-feature-toggles';
 import getInformationBanners from './routes/get-information-banners';
 import getOrganizationsToJoin from './routes/get-organizations-to-join';
@@ -112,6 +113,7 @@ function routes() {
   this.del('/users/tutorials/:tutorialId', deleteUserSavedTutorial);
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
+  this.get('/config', getConfig);
   this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);

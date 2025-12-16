@@ -5,6 +5,7 @@ import ENV from 'mon-pix/config/environment';
 import { formats } from 'mon-pix/ember-intl';
 
 export default class ApplicationRoute extends Route {
+  @service config;
   @service authentication;
   @service featureToggles;
   @service intl;
@@ -34,6 +35,8 @@ export default class ApplicationRoute extends Route {
   }
 
   async beforeModel(transition) {
+    await this.config.load();
+
     const queryParams = transition?.to?.queryParams;
     this.intl.setFormats(formats);
     this.locale.setBestLocale({ queryParams });
