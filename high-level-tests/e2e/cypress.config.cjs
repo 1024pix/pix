@@ -1,12 +1,11 @@
 const { defineConfig } = require("cypress");
 const preprocessor = require("@badeball/cypress-cucumber-preprocessor");
-const browserify = require("@cypress/browserify-preprocessor");
+const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const {
-  preprendTransformerToOptions,
-} = require("@badeball/cypress-cucumber-preprocessor/browserify");
+  createEsbuildPlugin,
+} = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 const { configureVisualRegression } = require("cypress-visual-regression");
 const cypressSplit = require("cypress-split");
-
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
 async function setupNodeEvents(cypressOn, config) {
@@ -21,7 +20,7 @@ async function setupNodeEvents(cypressOn, config) {
   await preprocessor.addCucumberPreprocessorPlugin(on, config);
   on(
     "file:preprocessor",
-    browserify(preprendTransformerToOptions(config, browserify.defaultOptions)),
+    createBundler({ plugins: [createEsbuildPlugin(config)] }),
   );
 
   on("task", {
