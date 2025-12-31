@@ -548,88 +548,71 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
       expect(flashCompatibleChallenges[0].discriminant).to.equal(certificationFrameworksChallenge.discriminant);
     });
 
-    context('when locale is not defined', function () {
-      it('should throw an Error', async function () {
+    context('when no active flash compatible challenges found', function () {
+      it('should return an empty array', async function () {
         // given
         databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
+        const version = databaseBuilder.factory.buildCertificationVersion();
         await databaseBuilder.commit();
 
         // when
-        const err = await catchErr(calibratedChallengeRepository.findActiveFlashCompatible)();
+        const challenges = await calibratedChallengeRepository.findActiveFlashCompatible({
+          locale: 'fr',
+          version,
+        });
 
         // then
-        expect(err.message).to.equal('Locale shall be defined');
+        expect(challenges).to.deep.equal([]);
       });
     });
 
-    context('when locale is defined', function () {
-      context('when no active flash compatible challenges found', function () {
-        it('should return an empty array', async function () {
-          // given
-          databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
-          const version = databaseBuilder.factory.buildCertificationVersion();
-          await databaseBuilder.commit();
+    context('when active flash compatible challenges found', function () {
+      it('should return the challenges', async function () {
+        // given
+        challengesLC.push(challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson);
+        challengesLC.push(challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson);
+        challengesLC.push(challengeData03_skill00_qcm_valide_flashCompatible_nl_noEmbedJson);
+        challengesLC.push(challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson);
+        challengesLC.push(challengeData09_skill03_qcu_archive_flashCompatible_fr_noEmbedJson);
+        databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
+        const version = databaseBuilder.factory.buildCertificationVersion();
 
-          // when
-          const challenges = await calibratedChallengeRepository.findActiveFlashCompatible({
-            locale: 'fr',
-            version,
-          });
-
-          // then
-          expect(challenges).to.deep.equal([]);
+        databaseBuilder.factory.buildCertificationFrameworksChallenge({
+          challengeId: challengesLC[3].id,
+          versionId: version.id,
         });
-      });
 
-      context('when active flash compatible challenges found', function () {
-        it('should return the challenges', async function () {
-          // given
-          challengesLC.push(challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson);
-          challengesLC.push(challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson);
-          challengesLC.push(challengeData03_skill00_qcm_valide_flashCompatible_nl_noEmbedJson);
-          challengesLC.push(challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson);
-          challengesLC.push(challengeData09_skill03_qcu_archive_flashCompatible_fr_noEmbedJson);
-          databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
-          const version = databaseBuilder.factory.buildCertificationVersion();
+        const certificationFrameworkChallenge = databaseBuilder.factory.buildCertificationFrameworksChallenge({
+          challengeId: challengesLC[4].id,
+          versionId: version.id,
+        });
 
-          databaseBuilder.factory.buildCertificationFrameworksChallenge({
-            challengeId: challengesLC[3].id,
-            versionId: version.id,
-          });
+        await databaseBuilder.commit();
 
-          const certificationFrameworkChallenge = databaseBuilder.factory.buildCertificationFrameworksChallenge({
-            challengeId: challengesLC[4].id,
-            versionId: version.id,
-          });
+        // when
+        const challenges = await calibratedChallengeRepository.findActiveFlashCompatible({
+          locale: 'nl',
+          version,
+        });
 
-          await databaseBuilder.commit();
-
-          // when
-          const challenges = await calibratedChallengeRepository.findActiveFlashCompatible({
-            locale: 'nl',
-            version,
-          });
-
-          // then
-          expect(challenges).to.deep.equal([
-            domainBuilder.certification.evaluation.buildCalibratedChallenge({
-              id: challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.id,
-              blindnessCompatibility:
-                challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.accessibility2,
-              discriminant: certificationFrameworkChallenge.discriminant,
-              difficulty: certificationFrameworkChallenge.difficulty,
-              competenceId: challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.competenceId,
-              skill: domainBuilder.certification.evaluation.buildCalibratedChallengeSkill({
-                id: 'skillId00',
-                name: 'name skillId00',
-                competenceId: 'competenceId00',
-                tubeId: 'tubeId00',
-              }),
+        // then
+        expect(challenges).to.deep.equal([
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
+            id: challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.id,
+            blindnessCompatibility: challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.accessibility1,
+            colorBlindnessCompatibility:
+              challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.accessibility2,
+            discriminant: certificationFrameworkChallenge.discriminant,
+            difficulty: certificationFrameworkChallenge.difficulty,
+            competenceId: challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson.competenceId,
+            skill: domainBuilder.certification.evaluation.buildCalibratedChallengeSkill({
+              id: 'skillId00',
+              name: 'name skillId00',
+              competenceId: 'competenceId00',
+              tubeId: 'tubeId00',
             }),
-          ]);
-        });
+          }),
+        ]);
       });
     });
   });
