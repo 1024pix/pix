@@ -1,5 +1,5 @@
 import { Frameworks } from '../../../../../src/certification/configuration/domain/models/Frameworks.js';
-import { Scopes } from '../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import {
   createServer,
   databaseBuilder,
@@ -30,7 +30,7 @@ describe('Acceptance | Application | Certification | ComplementaryCertification 
       const coreStartDate = new Date('2025-01-15');
 
       databaseBuilder.factory.buildCertificationVersion({
-        scope: Scopes.CORE,
+        scope: SCOPES.CORE,
         startDate: coreStartDate,
         expirationDate: null,
       });

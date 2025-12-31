@@ -2,7 +2,7 @@ import range from 'lodash/range.js';
 
 import { scoreComplementaryCertificationV2 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/score-complementary-certification-v2.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { Scopes } from '../../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { status as assessmentResultStatuses } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 
@@ -97,13 +97,13 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
         .withArgs({ assessmentId: assessmentResult.assessmentId })
         .resolves(
           domainBuilder.certification.evaluation.buildCandidate({
-            subscriptionScope: Scopes.PIX_PLUS_DROIT,
+            subscriptionScope: SCOPES.PIX_PLUS_DROIT,
           }),
         );
 
       complementaryCertificationRepository.get
         .withArgs({ id: complementaryCertificationId })
-        .resolves({ key: Scopes.PIX_PLUS_DROIT });
+        .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
       complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
@@ -399,7 +399,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
             });
 
             const evaluationCandidate = domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionScope: Scopes.PIX_PLUS_DROIT,
+              subscriptionScope: SCOPES.PIX_PLUS_DROIT,
             });
 
             certificationCandidateRepository.findByAssessmentId
@@ -426,7 +426,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
             complementaryCertificationRepository.get
               .withArgs({ id: complementaryCertificationId })
-              .resolves({ key: Scopes.PIX_PLUS_DROIT });
+              .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
             // when
             await scoreComplementaryCertificationV2({
@@ -485,7 +485,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
             .withArgs({ assessmentId: assessmentResult.assessmentId })
             .resolves(
               domainBuilder.certification.evaluation.buildCandidate({
-                subscriptionScope: Scopes.PIX_PLUS_DROIT,
+                subscriptionScope: SCOPES.PIX_PLUS_DROIT,
               }),
             );
 
@@ -505,7 +505,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
           complementaryCertificationRepository.get
             .withArgs({ id: complementaryCertificationId })
-            .resolves({ key: Scopes.PIX_PLUS_DROIT });
+            .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
           complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
             domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
@@ -582,7 +582,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
             complementaryCertificationRepository.get
               .withArgs({ id: complementaryCertificationId })
-              .resolves({ key: Scopes.PIX_PLUS_DROIT });
+              .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
             const complementaryCertificationScoringCriteria =
               domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria({
@@ -610,7 +610,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
               .withArgs({ assessmentId: assessmentResult.assessmentId })
               .resolves(
                 domainBuilder.certification.evaluation.buildCandidate({
-                  subscriptionScope: Scopes.PIX_PLUS_DROIT,
+                  subscriptionScope: SCOPES.PIX_PLUS_DROIT,
                 }),
               );
 
@@ -688,7 +688,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
             complementaryCertificationRepository.get
               .withArgs({ id: complementaryCertificationId })
-              .resolves({ key: Scopes.PIX_PLUS_DROIT });
+              .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
             certificationAssessmentRepository.getByCertificationCourseId
               .withArgs({ certificationCourseId })
@@ -703,7 +703,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
               .withArgs({ assessmentId: assessmentResult.assessmentId })
               .resolves(
                 domainBuilder.certification.evaluation.buildCandidate({
-                  subscriptionScope: Scopes.PIX_PLUS_DROIT,
+                  subscriptionScope: SCOPES.PIX_PLUS_DROIT,
                 }),
               );
 
@@ -792,7 +792,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
                 complementaryCertificationRepository.get
                   .withArgs({ id: complementaryCertificationId })
-                  .resolves({ key: Scopes.PIX_PLUS_DROIT });
+                  .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
                 complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
                   domainBuilder.certification.complementaryCertification.buildComplementaryCertificationBadge({
@@ -819,7 +819,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
                   .withArgs({ assessmentId: assessmentResult.assessmentId })
                   .resolves(
                     domainBuilder.certification.evaluation.buildCandidate({
-                      subscriptionScope: Scopes.PIX_PLUS_DROIT,
+                      subscriptionScope: SCOPES.PIX_PLUS_DROIT,
                     }),
                   );
 
@@ -901,7 +901,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
                 complementaryCertificationRepository.get
                   .withArgs({ id: complementaryCertificationId })
-                  .resolves({ key: Scopes.PIX_PLUS_DROIT });
+                  .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
                 complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
                   domainBuilder.certification.complementaryCertification.buildComplementaryCertificationBadge({
@@ -923,7 +923,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
                   .withArgs({ assessmentId: assessmentResult.assessmentId })
                   .resolves(
                     domainBuilder.certification.evaluation.buildCandidate({
-                      subscriptionScope: Scopes.PIX_PLUS_DROIT,
+                      subscriptionScope: SCOPES.PIX_PLUS_DROIT,
                     }),
                   );
 
@@ -996,7 +996,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
         .withArgs({ assessmentId: assessmentResult.assessmentId })
         .resolves(
           domainBuilder.certification.evaluation.buildCandidate({
-            subscriptionScope: Scopes.CORE,
+            subscriptionScope: SCOPES.CORE,
           }),
         );
 
@@ -1016,7 +1016,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
       complementaryCertificationRepository.get
         .withArgs({ id: complementaryCertificationId })
-        .resolves({ key: Scopes.PIX_PLUS_DROIT });
+        .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
       // when
       await scoreComplementaryCertificationV2({
@@ -1069,7 +1069,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ assessmentId: assessmentResult.assessmentId })
           .resolves(
             domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
 
@@ -1103,7 +1103,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
         complementaryCertificationRepository.get
           .withArgs({ id: complementaryCertificationId })
-          .resolves({ key: Scopes.PIX_PLUS_DROIT });
+          .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
         // when
         await scoreComplementaryCertificationV2({
@@ -1173,7 +1173,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ assessmentId: assessmentResult.assessmentId })
           .resolves(
             domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
 
@@ -1193,7 +1193,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
         complementaryCertificationRepository.get
           .withArgs({ id: complementaryCertificationId })
-          .resolves({ key: Scopes.PIX_PLUS_DROIT });
+          .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
         // when
         await scoreComplementaryCertificationV2({
@@ -1263,7 +1263,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ assessmentId: assessmentResult.assessmentId })
           .resolves(
             domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
 
@@ -1283,7 +1283,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
         complementaryCertificationRepository.get
           .withArgs({ id: complementaryCertificationId })
-          .resolves({ key: Scopes.PIX_PLUS_DROIT });
+          .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
         // when
         await scoreComplementaryCertificationV2({
@@ -1353,7 +1353,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ assessmentId: assessmentResult.assessmentId })
           .resolves(
             domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
 
@@ -1373,7 +1373,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
 
         complementaryCertificationRepository.get
           .withArgs({ id: complementaryCertificationId })
-          .resolves({ key: Scopes.PIX_PLUS_DROIT });
+          .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
         // when
         await scoreComplementaryCertificationV2({
@@ -1443,7 +1443,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ assessmentId: assessmentResult.assessmentId })
           .resolves(
             domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
 
@@ -1462,7 +1462,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
         );
         complementaryCertificationRepository.get
           .withArgs({ id: complementaryCertificationId })
-          .resolves({ key: Scopes.PIX_PLUS_DROIT });
+          .resolves({ key: SCOPES.PIX_PLUS_DROIT });
 
         // when
         await scoreComplementaryCertificationV2({

@@ -3,11 +3,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
 import { Candidate } from '../../../evaluation/domain/models/Candidate.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-import { Scopes } from '../../../shared/domain/models/Scopes.js';
-
-/**
- * @typedef {import ('../../../shared/domain/models/Scopes.js').SCOPES} SCOPES
- */
+import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 
 /**
  * @typedef {object} RawCertificationCandidateResult
@@ -78,5 +74,5 @@ const _determineScope = (complementaryCertificationKey) => {
   if (complementaryCertificationKey && complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA) {
     return complementaryCertificationKey;
   }
-  return Scopes.CORE;
+  return SCOPES.CORE;
 };

@@ -1,6 +1,6 @@
 import { knex } from '../../../../../../db/knex-database-connection.js';
 import * as calibratedChallengeRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/calibrated-challenge-repository.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -499,9 +499,9 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
 
     it('returns only valid calibrated flash compatible challenges', async function () {
       // given
-      const version = databaseBuilder.factory.buildCertificationVersion({ scope: Scopes.CORE });
+      const version = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.CORE });
       const otherVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: Scopes.CORE,
+        scope: SCOPES.CORE,
       });
 
       challengesLC.push({
@@ -622,7 +622,7 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
       it('should throw a NotFound error', async function () {
         // given
         const versionWithoutChallenges = databaseBuilder.factory.buildCertificationVersion({
-          scope: Scopes.CORE,
+          scope: SCOPES.CORE,
         });
         await databaseBuilder.commit();
 
@@ -642,7 +642,7 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
       it('should throw a NotFound error', async function () {
         // given
         const version = databaseBuilder.factory.buildCertificationVersion({
-          scope: Scopes.CORE,
+          scope: SCOPES.CORE,
         });
         const challengeCalibrationNotInLCMS = databaseBuilder.factory.buildCertificationFrameworksChallenge({
           challengeId: 'challengeIdPipeauPipette',
@@ -680,9 +680,9 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
       });
 
       it('should return only the challenges for given locale', async function () {
-        const versionActive = databaseBuilder.factory.buildCertificationVersion({ scope: Scopes.CORE });
+        const versionActive = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.CORE });
         const otherVersion = databaseBuilder.factory.buildCertificationVersion({
-          scope: Scopes.CORE,
+          scope: SCOPES.CORE,
         });
 
         challengesLC.push({

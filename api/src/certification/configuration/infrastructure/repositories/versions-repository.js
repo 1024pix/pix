@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * @typedef {import('../../../shared/domain/models/Scopes.js').Scopes} Scopes
+ * @typedef {import('../../../shared/domain/models/Scopes.js').SCOPES} SCOPES
  * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  */
 import { knex } from '../../../../../db/knex-database-connection.js';
@@ -41,7 +41,7 @@ export async function getById({ id }) {
 
 /**
  * @param {object} params
- * @param {Scopes} params.scope
+ * @param {SCOPES} params.scope
  * @returns {Promise<Version|null>}
  */
 export async function findActiveByScope({ scope }) {
@@ -125,7 +125,7 @@ export async function update({ version }) {
 
 /**
  * @param {object} params
- * @param {Scopes} params.scope
+ * @param {SCOPES} params.scope
  * @returns {Promise<Array<number>>}
  */
 export async function getFrameworkHistory({ scope }) {

@@ -20,15 +20,10 @@ export const SCOPES = Object.freeze({
  * @returns {string} The scope value.
  * @throws {NotFoundError} If the scope is not found.
  */
-function getByName(name) {
+export function getScopeByName(name) {
   const scope = Object.values(SCOPES).find((value) => value === name);
   if (!scope) {
     throw new NotFoundError(`Scope with name "${name}" not found.`);
   }
   return scope;
 }
-
-export const Scopes = {
-  ...SCOPES,
-  getByName,
-};

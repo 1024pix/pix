@@ -1,6 +1,6 @@
 import { certificationVersionController } from '../../../../../src/certification/configuration/application/certification-version-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/configuration/application/certification-version-route.js';
-import { Scopes } from '../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
@@ -52,7 +52,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             id: '123',
             type: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,
@@ -109,7 +109,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             id: '123',
             type: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': -10,
@@ -133,7 +133,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             id: '123',
             type: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,
@@ -155,7 +155,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
           data: {
             type: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,
@@ -179,7 +179,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             id: '456',
             type: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,
@@ -203,7 +203,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             id: '123',
             type: 'invalid-type',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,
@@ -226,7 +226,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
           data: {
             id: '123',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,
@@ -249,7 +249,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
           data: {
             id: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': null,
               'assessment-duration': 120,

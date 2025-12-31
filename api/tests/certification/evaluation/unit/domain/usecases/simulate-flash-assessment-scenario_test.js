@@ -1,5 +1,5 @@
 import * as simulateFlashAssessmentScenarioModule from '../../../../../../src/certification/evaluation/domain/usecases/simulate-flash-assessment-scenario.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -15,7 +15,7 @@ describe('Unit | Domain | Usecases | simulate-flash-assessment-scenario', functi
       const challengesConfiguration = { minimumEstimatedSuccessRateRanges: [], defaultCandidateCapacity: -1 };
       const version = domainBuilder.certification.shared.buildVersion({
         id: versionId,
-        scope: Scopes.PIX_PLUS_DROIT,
+        scope: SCOPES.PIX_PLUS_DROIT,
         challengesConfiguration,
       });
 

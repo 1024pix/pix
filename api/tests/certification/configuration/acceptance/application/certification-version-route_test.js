@@ -1,5 +1,5 @@
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../src/certification/shared/domain/constants.js';
-import { Scopes } from '../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import {
   createServer,
   databaseBuilder,
@@ -28,7 +28,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       });
 
       const existingVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: Scopes.CORE,
+        scope: SCOPES.CORE,
         startDate: new Date('2024-01-01'),
         expirationDate: null,
         assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
@@ -43,7 +43,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/${Scopes.CORE}/active`,
+        url: `/api/admin/certification-versions/${SCOPES.CORE}/active`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 
@@ -51,7 +51,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(String(existingVersion.id));
-      expect(response.result.data.attributes.scope).to.equal(Scopes.CORE);
+      expect(response.result.data.attributes.scope).to.equal(SCOPES.CORE);
       expect(response.result.data.attributes['assessment-duration']).to.equal(DEFAULT_SESSION_DURATION_MINUTES);
       expect(response.result.data.attributes['challenges-configuration']).to.deep.equal(challengesConfiguration);
     });
@@ -63,7 +63,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/${Scopes.CORE}/active`,
+        url: `/api/admin/certification-versions/${SCOPES.CORE}/active`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 
@@ -85,7 +85,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       });
 
       const existingVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: Scopes.PIX_PLUS_DROIT,
+        scope: SCOPES.PIX_PLUS_DROIT,
         startDate: new Date('2024-01-01'),
         expirationDate: null,
         assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
@@ -115,7 +115,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
             id: String(existingVersion.id),
             type: 'certification-versions',
             attributes: {
-              scope: Scopes.PIX_PLUS_DROIT,
+              scope: SCOPES.PIX_PLUS_DROIT,
               'start-date': '2024-01-01T00:00:00.000Z',
               'expiration-date': newExpirationDate,
               'assessment-duration': DEFAULT_SESSION_DURATION_MINUTES,

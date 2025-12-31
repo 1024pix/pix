@@ -1,19 +1,15 @@
-/**
- * @typedef {import('../../../shared/domain/models/Scopes.js').Scopes} Scopes
- */
-
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { Scopes } from '../../../shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 
 export class Version {
   static #schema = Joi.object({
     id: Joi.number().optional(),
     scope: Joi.string()
       .required()
-      .valid(...Object.values(Scopes)),
+      .valid(...Object.values(SCOPES)),
     startDate: Joi.date().required(),
     expirationDate: Joi.date().allow(null).optional(),
     assessmentDuration: Joi.number().required(),

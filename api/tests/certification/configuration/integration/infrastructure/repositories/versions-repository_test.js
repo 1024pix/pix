@@ -1,7 +1,7 @@
 import { Version } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import * as versionsRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/versions-repository.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
@@ -15,7 +15,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
         defaultCandidateCapacity: -8,
       };
       const version = domainBuilder.certification.configuration.buildVersion({
-        scope: Scopes.PIX_PLUS_DROIT,
+        scope: SCOPES.PIX_PLUS_DROIT,
         startDate: new Date('2025-06-01'),
         expirationDate: new Date('2025-12-31'),
         assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
@@ -88,7 +88,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
         limitToOneQuestionPerTube: false,
       });
       const existingVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: Scopes.PIX_PLUS_DROIT,
+        scope: SCOPES.PIX_PLUS_DROIT,
         startDate: new Date('2024-01-01'),
         expirationDate: null,
         assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
@@ -128,7 +128,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
   describe('#findActiveByScope', function () {
     it('should return the current version for the given scope', async function () {
       // given
-      const scope = Scopes.PIX_PLUS_DROIT;
+      const scope = SCOPES.PIX_PLUS_DROIT;
 
       const oldConfig = {
         maximumAssessmentLength: 32,
@@ -196,7 +196,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
         defaultCandidateCapacity: -8,
         defaultProbabilityToPickChallenge: 40,
       };
-      const aScopeWeAreNotInterestedIn = Scopes.CORE;
+      const aScopeWeAreNotInterestedIn = SCOPES.CORE;
       databaseBuilder.factory.buildCertificationVersion({
         scope: aScopeWeAreNotInterestedIn,
         startDate: new Date('2025-10-01'),
@@ -227,10 +227,10 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
     context('when no version exists for the scope', function () {
       it('should return null', async function () {
         // given
-        const scope = Scopes.PIX_PLUS_EDU_CPE;
+        const scope = SCOPES.PIX_PLUS_EDU_CPE;
 
         databaseBuilder.factory.buildCertificationVersion({
-          scope: Scopes.CORE,
+          scope: SCOPES.CORE,
           startDate: new Date('2025-01-01'),
           expirationDate: null,
           assessmentDuration: 90,
@@ -253,7 +253,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
   describe('#getById', function () {
     it('should return the version with the given id', async function () {
       // given
-      const scope = Scopes.PIX_PLUS_DROIT;
+      const scope = SCOPES.PIX_PLUS_DROIT;
       const expectedConfig = {
         maximumAssessmentLength: 30,
         challengesBetweenSameCompetence: 2,
@@ -307,7 +307,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
   describe('#getFrameworkHistory', function () {
     it('should return an empty array when there is no framework history', async function () {
       // given
-      const scope = Scopes.PIX_PLUS_DROIT;
+      const scope = SCOPES.PIX_PLUS_DROIT;
 
       // when
       const frameworkHistory = await versionsRepository.getFrameworkHistory({ scope });
@@ -318,8 +318,8 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
 
     it('should return the framework history ordered by start date descending', async function () {
       // given
-      const scope = Scopes.PIX_PLUS_DROIT;
-      const otherScope = Scopes.CLEA;
+      const scope = SCOPES.PIX_PLUS_DROIT;
+      const otherScope = SCOPES.CLEA;
 
       const version1 = databaseBuilder.factory.buildCertificationVersion({
         scope,

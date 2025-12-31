@@ -1,5 +1,5 @@
 import { knex } from '../../db/knex-database-connection.js';
-import { Scopes } from '../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../src/certification/shared/domain/models/Scopes.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 
@@ -25,10 +25,10 @@ export class DeleteComplementaryCertificationFrameworksChallenges extends Script
     const trx = await knex.transaction();
     try {
       const allChallenges = await trx('certification-frameworks-challenges');
-      const challengesToBeDeleted = await trx('certification-frameworks-challenges').where('scope', '!=', Scopes.CORE);
+      const challengesToBeDeleted = await trx('certification-frameworks-challenges').where('scope', '!=', SCOPES.CORE);
       logger.info(`Number of challenges to be deleted: ${challengesToBeDeleted.length}`);
 
-      await trx('certification-frameworks-challenges').where('scope', '!=', Scopes.CORE).delete();
+      await trx('certification-frameworks-challenges').where('scope', '!=', SCOPES.CORE).delete();
 
       if (dryRun) {
         await trx.rollback();

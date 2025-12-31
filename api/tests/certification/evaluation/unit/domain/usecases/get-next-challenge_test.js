@@ -4,7 +4,7 @@ import {
 } from '../../../../../../src/certification/evaluation/domain/usecases/get-next-challenge.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -870,16 +870,16 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         sharedChallengeRepository.get.resolves();
 
         const candidate = domainBuilder.certification.evaluation.buildCandidate({
-          subscriptionScope: Scopes.PIX_PLUS_EDU_CPE,
+          subscriptionScope: SCOPES.PIX_PLUS_EDU_CPE,
         });
         certificationCandidateRepository.findByAssessmentId
           .withArgs({ assessmentId: assessment.id })
           .resolves(candidate);
 
-        version = domainBuilder.certification.shared.buildVersion({ scope: Scopes.PIX_PLUS_EDU_CPE });
+        version = domainBuilder.certification.shared.buildVersion({ scope: SCOPES.PIX_PLUS_EDU_CPE });
         versionRepository.getByScopeAndReconciliationDate
           .withArgs({
-            scope: Scopes.PIX_PLUS_EDU_CPE,
+            scope: SCOPES.PIX_PLUS_EDU_CPE,
             reconciliationDate: candidate.reconciledAt,
           })
           .resolves(version);
@@ -940,7 +940,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         sharedChallengeRepository.get.resolves();
 
         const candidate = domainBuilder.certification.evaluation.buildCandidate({
-          subscriptionScope: Scopes.CORE,
+          subscriptionScope: SCOPES.CORE,
         });
         certificationCandidateRepository.findByAssessmentId
           .withArgs({ assessmentId: assessment.id })

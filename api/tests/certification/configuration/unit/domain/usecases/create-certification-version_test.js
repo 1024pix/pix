@@ -2,7 +2,7 @@ import { Version } from '../../../../../../src/certification/configuration/domai
 import { createCertificationVersion } from '../../../../../../src/certification/configuration/domain/usecases/create-certification-version.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { FRENCH_FRANCE, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -35,7 +35,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
     it('should create a new certification version that takes place as the latest one', async function () {
       // given
       const clock = sinon.useFakeTimers({ now: new Date('2025-10-21T10:00:00Z'), toFake: ['Date'] });
-      const scope = Scopes.PIX_PLUS_PRO_SANTE;
+      const scope = SCOPES.PIX_PLUS_PRO_SANTE;
 
       const currentVersion = domainBuilder.certification.configuration.buildVersion({
         id: 123,
@@ -120,7 +120,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
     it('should create a brand new certification version', async function () {
       // given
       const clock = sinon.useFakeTimers({ now: new Date('2025-10-20T10:00:00Z'), toFake: ['Date'] });
-      const scope = Scopes.PIX_PLUS_DROIT;
+      const scope = SCOPES.PIX_PLUS_DROIT;
 
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',

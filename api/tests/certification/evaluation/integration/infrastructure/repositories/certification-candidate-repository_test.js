@@ -1,6 +1,6 @@
 import * as certificationCandidateRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { CertificationCandidateNotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
@@ -45,7 +45,7 @@ describe('Integration | Repository | certification candidate', function () {
           expect(result).to.deep.equal(
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
         });
@@ -97,7 +97,7 @@ describe('Integration | Repository | certification candidate', function () {
           expect(result).to.deep.equal(
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
-              subscriptionScope: Scopes.PIX_PLUS_DROIT,
+              subscriptionScope: SCOPES.PIX_PLUS_DROIT,
             }),
           );
         });
@@ -153,7 +153,7 @@ describe('Integration | Repository | certification candidate', function () {
           expect(result).to.deep.equal(
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
         });
@@ -251,7 +251,7 @@ describe('Integration | Repository | certification candidate', function () {
           expect(result).to.deep.equal(
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
-              subscriptionScope: Scopes.CORE,
+              subscriptionScope: SCOPES.CORE,
             }),
           );
         });

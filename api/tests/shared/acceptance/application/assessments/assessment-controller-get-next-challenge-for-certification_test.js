@@ -1,7 +1,7 @@
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
-import { Scopes } from '../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
@@ -105,7 +105,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           reconciledAt: new Date('2020-01-15'),
         });
         const version = databaseBuilder.factory.buildCertificationVersion({
-          scope: Scopes.CORE,
+          scope: SCOPES.CORE,
           startDate: new Date('2020-01-10'),
         });
 
@@ -271,7 +271,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         const version = databaseBuilder.factory.buildCertificationVersion({
-          scope: Scopes.CORE,
+          scope: SCOPES.CORE,
           startDate: new Date('2019-01-01'),
         });
 

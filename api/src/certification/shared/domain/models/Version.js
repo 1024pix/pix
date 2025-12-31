@@ -1,18 +1,14 @@
-/**
- * @typedef {import('./Scopes.js').Scopes} Scopes
- */
-
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { Scopes } from './Scopes.js';
+import { SCOPES } from './Scopes.js';
 
 export class Version {
   static #schema = Joi.object({
     id: Joi.number().required(),
     scope: Joi.string()
       .required()
-      .valid(...Object.values(Scopes)),
+      .valid(...Object.values(SCOPES)),
     challengesConfiguration: Joi.object()
       .keys({
         maximumAssessmentLength: Joi.number().integer().min(0).required(),
@@ -27,7 +23,7 @@ export class Version {
   /**
    * @param {object} params
    * @param {number} params.id - version identifier
-   * @param {Scopes} params.scope - Certification scope (CORE, DROIT, etc.)
+   * @param {SCOPES} params.scope - Certification scope (CORE, DROIT, etc.)
    * @param {object} params.challengesConfiguration - Challenges configuration
    * @param {number} params.challengesConfiguration.maximumAssessmentLength - limit for assessment length
    * @param {number} params.challengesConfiguration.challengesBetweenSameCompetence - define a number of questions before getting another one on the same competence

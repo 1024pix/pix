@@ -1,5 +1,5 @@
 import { getActiveVersionByScope } from '../../../../../../src/certification/configuration/domain/usecases/get-active-version-by-scope.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -13,10 +13,10 @@ describe('Certification | Configuration | Unit | UseCase | get-active-version-by
   });
 
   it('should call the repository findActiveByScope method with the scope', async function () {
-    const scope = Scopes.CORE;
+    const scope = SCOPES.CORE;
     const expectedVersion = domainBuilder.certification.configuration.buildVersion({
       id: 123,
-      scope: Scopes.CORE,
+      scope: SCOPES.CORE,
       startDate: new Date('2024-01-01'),
       expirationDate: null,
       assessmentDuration: 120,
@@ -35,7 +35,7 @@ describe('Certification | Configuration | Unit | UseCase | get-active-version-by
   });
 
   it('should throw NotFoundError when no active version exists for the scope', async function () {
-    const scope = Scopes.CORE;
+    const scope = SCOPES.CORE;
 
     versionsRepository.findActiveByScope.resolves(null);
 

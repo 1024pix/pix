@@ -1,14 +1,14 @@
 /**
  * @typedef {import('../../domain/models/Version.js').Version} Version
  * @typedef {import ('./index.js').VersionsRepository} VersionsRepository
- * @typedef {import('../../../shared/domain/models/Scopes.js').Scopes} Scopes
+ * @typedef {import('../../../shared/domain/models/Scopes.js').SCOPES} SCOPES
  */
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {object} params
- * @param {Scopes} params.scope
+ * @param {SCOPES} params.scope
  * @param {VersionsRepository} params.versionsRepository
  * @returns {Promise<Version>}
  */

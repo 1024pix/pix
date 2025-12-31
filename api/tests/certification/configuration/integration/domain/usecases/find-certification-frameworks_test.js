@@ -1,6 +1,6 @@
 import { Frameworks } from '../../../../../../src/certification/configuration/domain/models/Frameworks.js';
 import { usecases } from '../../../../../../src/certification/configuration/domain/usecases/index.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Integration | Domain | UseCase | find-certification-frameworks', function () {
@@ -11,24 +11,24 @@ describe('Certification | Configuration | Integration | Domain | UseCase | find-
     const edu1erDegreStartDate = new Date('2025-03-01');
 
     databaseBuilder.factory.buildCertificationVersion({
-      scope: Scopes.CORE,
+      scope: SCOPES.CORE,
       startDate: coreStartDate,
       expirationDate: null,
     });
 
     databaseBuilder.factory.buildCertificationVersion({
-      scope: Scopes.PIX_PLUS_DROIT,
+      scope: SCOPES.PIX_PLUS_DROIT,
       startDate: droitStartDate,
       expirationDate: null,
     });
 
     databaseBuilder.factory.buildCertificationVersion({
-      scope: Scopes.PIX_PLUS_EDU_1ER_DEGRE,
+      scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
       startDate: new Date(2020, 12, 12),
       expirationDate: new Date(2020, 12, 14),
     });
     databaseBuilder.factory.buildCertificationVersion({
-      scope: Scopes.PIX_PLUS_EDU_1ER_DEGRE,
+      scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
       startDate: edu1erDegreStartDate,
       expirationDate: null,
     });

@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/certification-version-serializer.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Configuration | Serializer | certification-version-serializer', function () {
@@ -7,7 +7,7 @@ describe('Unit | Certification | Configuration | Serializer | certification-vers
     it('should convert a Version entity into JSON API format', function () {
       const certificationVersion = {
         id: 123,
-        scope: Scopes.CORE,
+        scope: SCOPES.CORE,
         startDate: new Date('2024-01-01T00:00:00Z'),
         expirationDate: new Date('2025-12-31T23:59:59Z'),
         assessmentDuration: 120,
@@ -30,7 +30,7 @@ describe('Unit | Certification | Configuration | Serializer | certification-vers
           id: '123',
           type: 'certification-versions',
           attributes: {
-            scope: Scopes.CORE,
+            scope: SCOPES.CORE,
             'start-date': new Date('2024-01-01T00:00:00Z'),
             'expiration-date': new Date('2025-12-31T23:59:59Z'),
             'assessment-duration': 120,
@@ -57,7 +57,7 @@ describe('Unit | Certification | Configuration | Serializer | certification-vers
           id: '123',
           type: 'certification-versions',
           attributes: {
-            scope: Scopes.PIX_PLUS_DROIT,
+            scope: SCOPES.PIX_PLUS_DROIT,
             'start-date': '2024-01-01T00:00:00Z',
             'expiration-date': '2025-12-31T23:59:59Z',
             'assessment-duration': 120,
@@ -79,7 +79,7 @@ describe('Unit | Certification | Configuration | Serializer | certification-vers
       const result = serializer.deserialize(json);
 
       expect(result.id).to.equal('123');
-      expect(result.scope).to.equal(Scopes.PIX_PLUS_DROIT);
+      expect(result.scope).to.equal(SCOPES.PIX_PLUS_DROIT);
       expect(result.startDate).to.deep.equal(new Date('2024-01-01T00:00:00Z'));
       expect(result.expirationDate).to.deep.equal(new Date('2025-12-31T23:59:59Z'));
       expect(result.assessmentDuration).to.equal(120);

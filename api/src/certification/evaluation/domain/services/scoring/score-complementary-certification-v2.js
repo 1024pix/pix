@@ -10,7 +10,7 @@ import { AnswerCollectionForScoring } from '../../../../shared/domain/models/Ans
 import { ComplementaryCertificationCourseResult } from '../../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationKeys } from '../../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { ReproducibilityRate } from '../../../../shared/domain/models/ReproducibilityRate.js';
-import { Scopes } from '../../../../shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../shared/domain/models/Scopes.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../models/ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 
@@ -49,7 +49,7 @@ export async function scoreComplementaryCertificationV2({
   });
 
   const complementaryCertificationKey =
-    candidate.subscriptionScope !== Scopes.CORE ? candidate.subscriptionScope : undefined;
+    candidate.subscriptionScope !== SCOPES.CORE ? candidate.subscriptionScope : undefined;
 
   const complementaryCertificationScoring = await _buildComplementaryCertificationScoring({
     certificationAssessmentRepository,

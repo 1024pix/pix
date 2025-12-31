@@ -1,5 +1,5 @@
 import { updateCertificationVersion } from '../../../../../../src/certification/configuration/domain/usecases/update-certification-version.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | update-certification-version', function () {
@@ -14,7 +14,7 @@ describe('Certification | Configuration | Unit | UseCase | update-certification-
   it('should call the repository update method with the updated version', async function () {
     const updatedVersion = domainBuilder.certification.configuration.buildVersion({
       id: 123,
-      scope: Scopes.PIX_PLUS_DROIT,
+      scope: SCOPES.PIX_PLUS_DROIT,
       startDate: new Date('2024-01-01'),
       expirationDate: new Date('2025-10-21T10:00:00Z'),
       assessmentDuration: 120,

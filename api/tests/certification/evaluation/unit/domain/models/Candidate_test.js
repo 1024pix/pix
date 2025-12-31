@@ -1,5 +1,5 @@
 import { Candidate } from '../../../../../../src/certification/evaluation/domain/models/Candidate.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
 
@@ -10,14 +10,14 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate', func
     const candidate = new Candidate({
       accessibilityAdjustmentNeeded: true,
       reconciledAt: new Date('2024-10-18'),
-      subscriptionScope: Scopes.CORE,
+      subscriptionScope: SCOPES.CORE,
     });
 
     // then
     expect(candidate).to.deep.equal({
       accessibilityAdjustmentNeeded: true,
       reconciledAt: new Date('2024-10-18'),
-      subscriptionScope: Scopes.CORE,
+      subscriptionScope: SCOPES.CORE,
     });
   });
 

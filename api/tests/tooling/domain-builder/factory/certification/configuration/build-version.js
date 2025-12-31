@@ -1,10 +1,10 @@
 import { Version } from '../../../../../../src/certification/configuration/domain/models/Version.js';
-import { Scopes } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { buildFlashAlgorithmConfiguration } from '../../build-flash-algorithm-configuration.js';
 
 export const buildVersion = ({
   id = 1,
-  scope = Scopes.CORE,
+  scope = SCOPES.CORE,
   startDate = new Date(),
   expirationDate,
   assessmentDuration = 105,

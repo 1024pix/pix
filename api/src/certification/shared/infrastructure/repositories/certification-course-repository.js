@@ -8,7 +8,7 @@ import { ComplementaryCertificationCourse } from '../../../session-management/do
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { ComplementaryCertificationKeys } from '../../domain/models/ComplementaryCertificationKeys.js';
-import { Scopes } from '../../domain/models/Scopes.js';
+import { getScopeByName, SCOPES } from '../../domain/models/Scopes.js';
 
 async function save({ certificationCourse }) {
   const knexConn = DomainTransaction.getConnection();
@@ -208,7 +208,7 @@ async function findCertificationCoursesBySessionId({ sessionId }) {
 /**
  * @param {object} params
  * @param {number} params.courseId
- * @returns {Promise<Scopes>}
+ * @returns {Promise<SCOPES>}
  */
 async function getCertificationScope({ courseId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -224,10 +224,10 @@ async function getCertificationScope({ courseId }) {
     .first();
 
   if (result?.key && result.key !== ComplementaryCertificationKeys.CLEA) {
-    return Scopes.getByName(result.key);
+    return getScopeByName(result.key);
   }
 
-  return Scopes.CORE;
+  return SCOPES.CORE;
 }
 
 export {

@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../shared/domain/models/Scopes.js').Scopes} Scopes
+ * @typedef {import('../../../shared/domain/models/Scopes.js').SCOPES} SCOPES
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -28,7 +28,7 @@ export const getById = async (versionId) => {
 
 /**
  * @param {object} params
- * @param {Scopes} params.scope
+ * @param {SCOPES} params.scope
  * @param {Date} params.reconciliationDate
  * @returns {Promise<Version>}
  */
