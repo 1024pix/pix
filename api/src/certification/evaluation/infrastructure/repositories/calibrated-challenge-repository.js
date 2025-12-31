@@ -53,7 +53,6 @@ export async function findActiveFlashCompatible({
   },
 }) {
   const knexConn = DomainTransaction.getConnection();
-  _assertLocaleIsDefined(locale);
   const cacheKey = `findActiveFlashCompatible({ versionId: ${version?.id}, locale: ${locale} })`;
 
   const certificationChallenges = await knexConn
