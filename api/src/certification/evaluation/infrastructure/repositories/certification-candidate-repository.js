@@ -1,9 +1,28 @@
+// @ts-check
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
 import { Candidate } from '../../../evaluation/domain/models/Candidate.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { Scopes } from '../../../shared/domain/models/Scopes.js';
 
+/**
+ * @typedef {import ('../../../shared/domain/models/Scopes.js').SCOPES} SCOPES
+ */
+
+/**
+ * @typedef {object} RawCertificationCandidateResult
+ * @property {boolean} accessibilityAdjustmentNeeded
+ * @property {Date} reconciledAt
+ * @property {ComplementaryCertificationKeys | null} complementaryCertificationKey
+ */
+
+/**
+ * @function
+ * @param {object} params
+ * @param {number} params.assessmentId
+ * @returns {Promise<Candidate>}
+ * @throws {CertificationCandidateNotFoundError}
+ */
 export const findByAssessmentId = async function ({ assessmentId }) {
   const result = await knex('certification-candidates')
     .select('certification-candidates.accessibilityAdjustmentNeeded', 'certification-candidates.reconciledAt', {
@@ -37,14 +56,24 @@ export const findByAssessmentId = async function ({ assessmentId }) {
   return _toDomain(result);
 };
 
+/**
+ * @function
+ * @param {RawCertificationCandidateResult} params
+ * @returns {Candidate}
+ */
 const _toDomain = ({ accessibilityAdjustmentNeeded, reconciledAt, complementaryCertificationKey }) => {
   return new Candidate({
     accessibilityAdjustmentNeeded,
-    reconciledAt,
+    reconciledAt: new Date(reconciledAt),
     subscriptionScope: _determineScope(complementaryCertificationKey),
   });
 };
 
+/**
+ * @function
+ * @param {ComplementaryCertificationKeys | null} complementaryCertificationKey
+ * @returns {SCOPES}
+ */
 const _determineScope = (complementaryCertificationKey) => {
   if (complementaryCertificationKey && complementaryCertificationKey !== ComplementaryCertificationKeys.CLEA) {
     return complementaryCertificationKey;

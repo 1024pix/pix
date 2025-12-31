@@ -5,7 +5,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @readonly
  * @enum {string}
  */
-const SCOPES = Object.freeze({
+export const SCOPES = Object.freeze({
   CORE: 'CORE',
   PIX_PLUS_DROIT: 'DROIT',
   PIX_PLUS_EDU_1ER_DEGRE: 'EDU_1ER_DEGRE',

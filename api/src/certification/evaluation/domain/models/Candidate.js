@@ -1,14 +1,14 @@
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { Scopes } from '../../../shared/domain/models/Scopes.js';
+import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 
 export class Candidate {
   static #schema = Joi.object({
     accessibilityAdjustmentNeeded: Joi.boolean().optional(),
     reconciledAt: Joi.date().required(),
     subscriptionScope: Joi.string()
-      .valid(...Object.values(Scopes))
+      .valid(...Object.values(SCOPES))
       .required(),
   });
 
@@ -16,7 +16,7 @@ export class Candidate {
    * @param {object} params
    * @param {Date} params.reconciledAt
    * @param {boolean} [params.accessibilityAdjustmentNeeded]
-   * @param {Scopes} params.subscriptionScope
+   * @param {SCOPES} params.subscriptionScope
    */
   constructor({ accessibilityAdjustmentNeeded, reconciledAt, subscriptionScope } = {}) {
     this.accessibilityAdjustmentNeeded = !!accessibilityAdjustmentNeeded;
