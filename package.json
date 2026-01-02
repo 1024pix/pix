@@ -96,6 +96,7 @@
     "@1024pix/eslint-plugin": "^2.1.17",
     "@babel/eslint-parser": "^7.27.0",
     "@eslint/compat": "^2.0.0",
+    "baseline-browser-mapping": "^2.9.17",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-chai-expect": "^3.1.0",
