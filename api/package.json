@@ -85,7 +85,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@1024pix/epreuves-components": "^2.4.6",
+    "@1024pix/epreuves-components": "^2.4.7",
     "@1024pix/eslint-plugin": "^2.1.15",
     "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-syntax-import-attributes": "^7.24.1",
