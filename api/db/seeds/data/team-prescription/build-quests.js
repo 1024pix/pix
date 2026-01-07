@@ -9,6 +9,7 @@ import {
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
+import { knex } from '../../../knex-database-connection.js';
 import {
   ADMINISTRATION_TEAM_SOLO_ID,
   AEFE_TAG,
@@ -23,16 +24,28 @@ import { TARGET_PROFILE_BADGES_STAGES_ID, TARGET_PROFILE_NO_BADGES_NO_STAGES_ID 
 
 const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');
 
-function buildParenthoodQuest(databaseBuilder) {
+async function buildParenthoodQuest(databaseBuilder) {
   const { id: rewardId } = databaseBuilder.factory.buildAttestation({
     templateName: 'parenthood-attestation-template',
     key: ATTESTATIONS.PARENTHOOD,
   });
 
+  const cappedTubes = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', TARGET_PROFILE_NO_BADGES_NO_STAGES_ID);
+
   databaseBuilder.factory.buildQuest({
     rewardType: REWARD_TYPES.ATTESTATION,
     rewardId,
-    successRequirements: [],
+    successRequirements: [
+      {
+        requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+        data: {
+          cappedTubes,
+          threshold: 50,
+        },
+      },
+    ],
     eligibilityRequirements: [
       {
         requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
@@ -183,7 +196,7 @@ const buildCampaignParticipations = (databaseBuilder, users) =>
     });
   });
 
-const buildSixthGradeQuests = (
+const buildSixthGradeQuests = async (
   databaseBuilder,
   rewardId,
   [firstTargetProfile, secondTargetProfile, thirdTargetProfile],
@@ -257,13 +270,36 @@ const buildSixthGradeQuests = (
     },
   ];
 
+  const capptedTubesFirstTargetProfile = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', firstTargetProfile.id);
+  const capptedTubesSecondTargetProfile = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', secondTargetProfile.id);
+  const capptedTubesThirdTargetProfile = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', thirdTargetProfile.id);
+
   const questSuccessRequirements = [
     {
-      requirement_type: REQUIREMENT_TYPES.SKILL_PROFILE,
-      data: {
-        skillIds: [CAMPAIGN_SKILLS[1], CAMPAIGN_SKILLS[2]].flat(),
-        threshold: 50,
-      },
+      requirement_type: REQUIREMENT_TYPES.COMPOSE,
+      data: [
+        {
+          requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+          data: {
+            cappedTubes: capptedTubesFirstTargetProfile,
+            threshold: 50,
+          },
+        },
+        {
+          requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+          data: {
+            cappedTubes: [capptedTubesSecondTargetProfile, capptedTubesThirdTargetProfile].flat(),
+            threshold: 50,
+          },
+        },
+      ],
+      comparison: REQUIREMENT_COMPARISONS.ONE_OF,
     },
   ];
 
@@ -372,6 +408,7 @@ export const buildQuests = async (databaseBuilder) => {
   // Create target profile
   const targetProfiles = buildTargetProfiles(databaseBuilder, organization);
 
+  await databaseBuilder.commit();
   // Create campaigns
   const campaigns = buildCampaigns(databaseBuilder, organization, targetProfiles);
 
@@ -427,8 +464,8 @@ export const buildQuests = async (databaseBuilder) => {
   });
 
   // Create quests
-  buildSixthGradeQuests(databaseBuilder, rewardId, targetProfiles);
-  const parenthoodAttestationId = buildParenthoodQuest(databaseBuilder);
+  await buildSixthGradeQuests(databaseBuilder, rewardId, targetProfiles);
+  const parenthoodAttestationId = await buildParenthoodQuest(databaseBuilder);
 
   // Create reward for success user
   databaseBuilder.factory.buildProfileReward({
