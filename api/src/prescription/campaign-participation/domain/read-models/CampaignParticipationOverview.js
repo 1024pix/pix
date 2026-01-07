@@ -28,6 +28,7 @@ class CampaignParticipationOverview {
     isOrganizationLearnerDisabled,
     campaignType,
     updatedAt,
+    modifystatus = true,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -35,7 +36,9 @@ class CampaignParticipationOverview {
     this.isShared = status === SHARED;
     this.sharedAt = sharedAt;
     this.organizationName = organizationName;
-    this.status = status === TO_SHARE ? STARTED : status; // TODO: remove this mapping once the status is migrated
+    if (modifystatus)
+      this.status = status === TO_SHARE ? STARTED : status; // TODO: remove this mapping once the status is migrated
+    else this.status = status;
     this.campaignId = campaignId;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;

@@ -37,7 +37,7 @@ const findByOrganizationLearnerId = async ({ organizationLearnerId }) => {
   const results = await _getQueryBuilder((qb) => {
     qb.where('campaign-participations.organizationLearnerId', organizationLearnerId);
   });
-  return results.map((result) => new CampaignParticipationOverview(result));
+  return results.map((result) => new CampaignParticipationOverview({ ...result, modifystatus: false }));
 };
 
 export { findByOrganizationLearnerId, findByUserIdWithFilters };
