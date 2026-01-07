@@ -1,5 +1,4 @@
 .pix1d-button {
-  padding: 12px 32px;
   font-weight: 700;
   font-size: 1rem;
   border: 1px solid var(--pix-primary-500);
@@ -14,7 +13,10 @@
     color: var(--pix-primary-500);
     background-color: var(--pix-neutral-0);
 
-    &:hover, &:focus, &:active, &:focus-visible {
+    &:hover,
+    &:focus,
+    &:active,
+    &:focus-visible {
       color: var(--pix-neutral-0);
     }
 

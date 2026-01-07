@@ -14,17 +14,17 @@
 
   &__grid-multiple-element {
     grid-template-areas:
-    "left right"
-    "left actions";
+      'left right'
+      'left actions';
     grid-template-rows: min-content min-content;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
 
     &--40-60 {
-      grid-template-columns: 2fr 3fr;
+      grid-template-columns: minmax(200px, 2fr) minmax(300px, 3fr);
     }
 
     &--60-40 {
-      grid-template-columns: 3fr 2fr;
+      grid-template-columns: minmax(300px, 3fr) minmax(200px, 2fr);
     }
 
     div:nth-child(1) {
@@ -50,4 +50,3 @@
     display: none;
   }
 }
-

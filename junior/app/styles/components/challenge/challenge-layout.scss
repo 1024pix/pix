@@ -11,12 +11,12 @@
 
   &--error {
     background-color: rgb(var(--pix-error-500-inline), 10%);
-    border: 2px solid var(--pix-error-500);
+    outline: 2px solid var(--pix-error-500);
   }
 
   &--success {
     background-color: rgb(var(--pix-success-500-inline), 10%);
-    border: 2px solid var(--pix-success-500);
+    outline: 2px solid var(--pix-success-500);
   }
 
   &--feedback {
@@ -25,7 +25,7 @@
 
   &--feedback--success {
     background-color: rgb(var(--pix-secondary-500-inline), 10%);
-    background-image: url("/images/background-stars-success.svg");
+    background-image: url('/images/background-stars-success.svg');
   }
 
   &--result {
@@ -34,6 +34,6 @@
 
   &--result--success {
     background-color: rgb(var(--pix-secondary-500-inline), 10%);
-    background-image: url("/images/background-success-result-page.svg");
+    background-image: url('/images/background-success-result-page.svg');
   }
 }
