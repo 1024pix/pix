@@ -5,7 +5,7 @@ import { parse } from 'neoqs';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { databaseConnections } from './db/database-connections.js';
 import { knex } from './db/knex-database-connection.js';
-import { bannerRoutes } from './src/banner/routes.js';
+import { bannerRoutes } from './src/banner/routes.ts';
 import {
   attachTargetProfileRoutes,
   certificationConfigurationRoutes,
