@@ -1,4 +1,4 @@
-import * as informationBannerRepository from '../../../../../src/banner/infrastructure/repositories/information-banner-repository.js';
+import { InformationBannerRepository } from '../../../../../src/banner/infrastructure/repositories/information-banner-repository.ts';
 import { informationBannersStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
@@ -13,7 +13,7 @@ describe('Integration | Infrastructure | Repository | Banner | information-banne
         const id = 'pix-target';
         const emptyBanner = domainBuilder.banner.buildEmptyInformationBanner({ id });
 
-        const bannerInformation = await informationBannerRepository.get({ id });
+        const bannerInformation = await InformationBannerRepository.get(id);
 
         expect(bannerInformation).to.deep.equal(emptyBanner);
       });
@@ -24,14 +24,14 @@ describe('Integration | Infrastructure | Repository | Banner | information-banne
         const id = 'pix-other-target';
         const storedBanner = { message: '[fr]Texte de la bannière[/fr][en]Banner text[/en]', severity: 'info' };
 
-        await informationBannersStorage.save({ key: id, value: [storedBanner] });
+        await informationBannersStorage.save({ key: id, value: [storedBanner], expirationDelaySeconds: 5 });
 
         const expectedInformationBanner = domainBuilder.banner.buildInformationBanner({
           id,
           banners: [{ ...storedBanner, id: 'pix-other-target:1' }],
         });
 
-        const bannerInformation = await informationBannerRepository.get({ id });
+        const bannerInformation = await InformationBannerRepository.get(id);
 
         expect(bannerInformation).to.deep.equal(expectedInformationBanner);
       });

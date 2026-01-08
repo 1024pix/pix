@@ -1,4 +1,4 @@
-import { InformationBanner } from '../../../../../src/banner/domain/models/information-banner.js';
+import { InformationBanner } from '../../../../../src/banner/domain/models/information-banner.ts';
 
 const buildEmptyInformationBanner = function ({ id }) {
   return InformationBanner.empty({ id });

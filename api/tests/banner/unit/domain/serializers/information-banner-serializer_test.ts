@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../src/banner/infrastructure/serializers/jsonapi/information-banner-serializer.js';
+import { InformationBannerSerializer } from '../../../../../src/banner/infrastructure/serializers/jsonapi/information-banner-serializer.ts';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | information-banner-serializer', function () {
@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | information-banner-serializer', function
         ],
       });
 
-      const serializedBannerInformation = await serializer.serialize(bannerInformation);
+      const serializedBannerInformation = await InformationBannerSerializer.serialize(bannerInformation);
 
       expect(serializedBannerInformation).to.deep.equal({
         data: {
