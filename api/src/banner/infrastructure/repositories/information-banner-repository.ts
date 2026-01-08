@@ -1,13 +1,20 @@
-import { informationBannersStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
 import { InformationBanner } from '../../domain/models/information-banner.ts';
 
-const get = async function (id: string) {
-  const banners = await informationBannersStorage.get(id);
-  if (!banners) {
-    return InformationBanner.empty({ id });
+type Dependencies = Deps<'informationBannersStorage'>
+
+export default class InformationBannerRepository {
+  informationBannersStorage: Dependencies['informationBannersStorage']
+
+  constructor(deps: Dependencies) {
+    this.informationBannersStorage = deps.informationBannersStorage
   }
 
-  return new InformationBanner({ id, banners });
-};
+  async get(id: string) {
+    const banners = await this.informationBannersStorage.get(id);
+    if (!banners) {
+      return InformationBanner.empty({ id });
+    }
 
-export const InformationBannerRepository = { get };
+    return new InformationBanner({ id, banners });
+  };
+}

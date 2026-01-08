@@ -1,11 +1,10 @@
-import { RepositoriesRegistry } from "../../infrastructure/repositories/registry.ts";
+type Dependencies = Deps<'informationBannerRepository'>;
 
-const Repositories = RepositoriesRegistry.pick('InformationBannerRepository')
-
-export const makeUsecase = (repositories: typeof Repositories) => async ({ id }: { id: string }) => {
-  const { InformationBannerRepository } = repositories;
-
-  return InformationBannerRepository.get(id);
+const makeGetInformationBanner = (deps: Dependencies) => {
+  return async ({ id }: { id: string }) => {
+    const { informationBannerRepository } = deps;
+    return informationBannerRepository.get(id);
+  };
 };
 
-export const getInformationBanner = makeUsecase(Repositories);
+export default makeGetInformationBanner;

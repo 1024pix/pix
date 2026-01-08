@@ -1,5 +1,6 @@
 import type { Server } from '@hapi/hapi';
-import { InformationBannerController } from './banner-controller.ts';
+import { container } from '../di.ts';
+import type { Request } from '@hapi/hapi';
 
 const register = async function (server: Server) {
   server.route([
@@ -9,7 +10,9 @@ const register = async function (server: Server) {
       options: {
         auth: false,
         cache: false,
-        handler: InformationBannerController.get,
+        handler: (request: Request) => {
+          return container.resolve('bannerController').get(request)
+        },
       },
     },
   ]);

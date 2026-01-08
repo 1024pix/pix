@@ -1,13 +1,20 @@
 import type { Request } from '@hapi/hapi';
-import { InformationBannerSerializer } from '../infrastructure/serializers/jsonapi/information-banner-serializer.ts';
-import { getInformationBanner } from '../domain/usecases/get-information-banner.ts';
 
-export const get = async function (request: Request) {
-  const { target: id } = request.params;
+type Dependencies = Deps<'getInformationBanner' | 'informationBannerSerializer'>
 
-  const informationBanner = await getInformationBanner({ id });
+export default class BannerController {
+  getInformationBanner: Dependencies['getInformationBanner']
+  informationBannerSerializer: Dependencies['informationBannerSerializer']
 
-  return InformationBannerSerializer.serialize(informationBanner);
-};
+  constructor(deps: Dependencies) {
+    this.getInformationBanner = deps.getInformationBanner;
+    this.informationBannerSerializer = deps.informationBannerSerializer;
+  }
 
-export const InformationBannerController = { get }
+  async get(request: Request) {
+    const { target: id } = request.params;
+    const informationBanner = await this.getInformationBanner({ id });
+
+    return this.informationBannerSerializer.serialize(informationBanner);
+  }
+}

@@ -1,9 +1,11 @@
-import { InformationBannerRepository } from '../../../../../src/banner/infrastructure/repositories/information-banner-repository.ts';
+import InformationBannerRepository from '../../../../../src/banner/infrastructure/repositories/information-banner-repository.ts';
 import { informationBannersStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Banner | information-banner-repository', function () {
   context('#get', function () {
+    const repository = new InformationBannerRepository({ informationBannersStorage });
+
     beforeEach(async function () {
       informationBannersStorage.flushAll();
     });
@@ -13,7 +15,7 @@ describe('Integration | Infrastructure | Repository | Banner | information-banne
         const id = 'pix-target';
         const emptyBanner = domainBuilder.banner.buildEmptyInformationBanner({ id });
 
-        const bannerInformation = await InformationBannerRepository.get(id);
+        const bannerInformation = await repository.get(id);
 
         expect(bannerInformation).to.deep.equal(emptyBanner);
       });
@@ -31,7 +33,7 @@ describe('Integration | Infrastructure | Repository | Banner | information-banne
           banners: [{ ...storedBanner, id: 'pix-other-target:1' }],
         });
 
-        const bannerInformation = await InformationBannerRepository.get(id);
+        const bannerInformation = await repository.get(id);
 
         expect(bannerInformation).to.deep.equal(expectedInformationBanner);
       });

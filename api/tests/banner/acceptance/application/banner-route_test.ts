@@ -1,12 +1,14 @@
 import type { Server } from '@hapi/hapi';
 import { informationBannersStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { createServer, expect } from '../../../test-helper.js';
+import { container } from '../../../../src/banner/di.ts';
 
 let server: Server;
 
 describe('Acceptance | Router | banner-route', function () {
   beforeEach(async function () {
     server = await createServer();
+    informationBannersStorage.flushAll();
   });
 
   describe('GET /api/information-banners/{target}', function () {
