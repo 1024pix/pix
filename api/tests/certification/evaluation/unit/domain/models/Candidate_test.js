@@ -1,7 +1,7 @@
 import { Candidate } from '../../../../../../src/certification/evaluation/domain/models/Candidate.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync, expect, domainBuilder } from '../../../../../test-helper.js';
+import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | Candidate', function () {
   context('#constructor', function () {
@@ -47,8 +47,8 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate', func
     });
   });
 
-  context('#get isOnlyCoreSubscription', function () {
-    it('should return true when candidate has solely subscribed to CORE certifcation', function () {
+  context('#get hasOnlyCoreSubscription', function () {
+    it('should return true when candidate has solely subscribed to CORE certification', function () {
       const candidate = domainBuilder.certification.evaluation.buildCandidate({
         subscriptionScope: SCOPES.CORE,
         hasCleaSubscription: false,
@@ -73,6 +73,35 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate', func
       });
 
       expect(candidate.hasOnlyCoreSubscription).to.be.false;
+    });
+  });
+
+  context('#get hasPixPlusSubscription', function () {
+    it('should return false when candidate has solely subscribed to CORE certification', function () {
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        subscriptionScope: SCOPES.CORE,
+        hasCleaSubscription: false,
+      });
+
+      expect(candidate.hasPixPlusSubscription).to.be.false;
+    });
+
+    it('should return false when candidate has a double subscription CORE and CLEA', function () {
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        subscriptionScope: SCOPES.CORE,
+        hasCleaSubscription: true,
+      });
+
+      expect(candidate.hasPixPlusSubscription).to.be.false;
+    });
+
+    it('should return true when candidate has a pix plus subscription', function () {
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        subscriptionScope: SCOPES.PIX_PLUS_DROIT,
+        hasCleaSubscription: false,
+      });
+
+      expect(candidate.hasPixPlusSubscription).to.be.true;
     });
   });
 });
