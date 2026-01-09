@@ -192,6 +192,7 @@ import {
 } from './certification/enrolment/build-subscription.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
+import { buildAssessmentSheet } from './certification/evaluation/build-assessment-sheet.js';
 import { buildCalibratedChallenge } from './certification/evaluation/build-calibrated-challenge.js';
 import { buildCalibratedChallengeSkill } from './certification/evaluation/build-calibrated-challenge-skill.js';
 import { buildEvaluationCandidate } from './certification/evaluation/build-candidate.js';
@@ -200,7 +201,6 @@ import { buildComplementaryCertificationScoringWithoutComplementaryReferential }
 import { buildDoubleCertificationScoring } from './certification/evaluation/build-double-certification-scoring.js';
 import { buildFlashAssessmentAlgorithm } from './certification/evaluation/build-flash-assessment-algorithm.js';
 import { buildPixPlusCertificationCourse } from './certification/evaluation/build-pix-plus-certification-course.js';
-import { buildAssessmentSheet } from './certification/evaluation/build-assessment-sheet.js';
 import { buildComplementaryCertificationScoringWithComplementaryReferential } from './certification/evaluation/build-pix-plus-certification-scoring.js';
 import { buildResultsSession } from './certification/evaluation/build-session.js';
 import { buildGlobalCertificationLevel } from './certification/results/build-global-mesh-level.js';

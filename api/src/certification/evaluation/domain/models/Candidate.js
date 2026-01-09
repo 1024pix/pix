@@ -20,7 +20,7 @@ export class Candidate {
    * @param {SCOPES} params.subscriptionScope
    * @param {boolean} params.hasCleaSubscription
    */
-  constructor({ accessibilityAdjustmentNeeded, reconciledAt, subscriptionScope, hasCleaSubscription } = {}) {
+  constructor({ accessibilityAdjustmentNeeded, reconciledAt, subscriptionScope, hasCleaSubscription }) {
     this.accessibilityAdjustmentNeeded = !!accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
     this.subscriptionScope = subscriptionScope;
@@ -32,7 +32,7 @@ export class Candidate {
   get hasOnlyCoreSubscription() {
     return this.subscriptionScope === SCOPES.CORE && !this.hasCleaSubscription;
   }
-
+  // todo s'entendre sur si on dit encore pix plus ou pas ??!!
   get hasPixPlusSubscription() {
     return this.subscriptionScope !== SCOPES.CORE && !this.hasCleaSubscription;
   }
