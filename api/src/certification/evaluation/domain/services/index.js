@@ -79,7 +79,7 @@ import { findByCertificationCourseAndVersion } from './scoring/calibrated-challe
 import { scoreComplementaryCertificationV2 } from './scoring/score-complementary-certification-v2.js';
 import { scoreDoubleCertificationV3 } from './scoring/score-double-certification-v3.js';
 import { calculateCertificationAssessmentScore, handleV2CertificationScoring } from './scoring/scoring-v2.js';
-import { handleV3CertificationScoring } from './scoring/scoring-v3.js';
+import { handleV3CertificationScoring } from './scoring/scoring-v3-old.js';
 
 const usecasesWithoutInjectedDependencies = {
   findByCertificationCourseAndVersion,

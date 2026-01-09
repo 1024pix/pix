@@ -5,9 +5,9 @@
  * @typedef {import('./index.js').Services} Services
  * @typedef {import('../../../shared/domain/events/CertificationRescored.js').CertificationRescored} CertificationRescoredEvent
  * @typedef {import('../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
- * @typedef {import('../services/scoring/scoring-v3.js').HandleV3CertificationScoringService} HandleV3CertificationScoringService
+ * @typedef {import('../services/scoring/scoring-v3-old.js').HandleV3CertificationScoringService} HandleV3CertificationScoringService
  * @typedef {import('../services/scoring/calibrated-challenge-service.js').FindByCertificationCourseAndVersionService} FindByCertificationCourseAndVersionService
- * @typedef {import('../services/scoring/scoring-v3.js').ScoreDoubleCertificationV3Service} ScoreDoubleCertificationV3Service
+ * @typedef {import('../services/scoring/scoring-v3-old.js').ScoreDoubleCertificationV3Service} ScoreDoubleCertificationV3Service
  */
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';

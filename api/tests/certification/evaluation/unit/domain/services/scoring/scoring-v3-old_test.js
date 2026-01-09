@@ -1,5 +1,5 @@
 import { CertificationCompletedJob } from '../../../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
-import { handleV3CertificationScoring } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v3.js';
+import { handleV3CertificationScoring } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v3-old.js';
 import { CertificationCourseRejected } from '../../../../../../../src/certification/session-management/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../../../../../src/certification/session-management/domain/events/CertificationJuryDone.js';
 import { AlgorithmEngineVersion } from '../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
@@ -17,7 +17,7 @@ const { minimumAnswersRequiredToValidateACertification } = config.v3Certificatio
 
 const maximumAssessmentLength = 32;
 
-describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3', function () {
+describe('Certification | Evaluation | Unit | Domain | Services | Scoring V3 OLD', function () {
   context('#handleV3CertificationScoring', function () {
     let answerRepository,
       assessmentResultRepository,
