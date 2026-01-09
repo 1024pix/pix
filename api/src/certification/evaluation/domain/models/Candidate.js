@@ -29,11 +29,14 @@ export class Candidate {
     this.#validate();
   }
 
+  get hasOnlyCoreSubscription() {
+    return this.subscriptionScope === SCOPES.CORE && !this.hasCleaSubscription;
+  }
+
   #validate() {
     const { error } = Candidate.#schema.validate(this, { allowUnknown: false });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
   }
-
 }
