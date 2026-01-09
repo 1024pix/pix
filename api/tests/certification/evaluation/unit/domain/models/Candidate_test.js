@@ -11,6 +11,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate', func
       accessibilityAdjustmentNeeded: true,
       reconciledAt: new Date('2024-10-18'),
       subscriptionScope: SCOPES.CORE,
+      hasCleaSubscription: false,
     });
 
     // then
@@ -18,6 +19,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate', func
       accessibilityAdjustmentNeeded: true,
       reconciledAt: new Date('2024-10-18'),
       subscriptionScope: SCOPES.CORE,
+      hasCleaSubscription: false,
     });
   });
 
@@ -28,7 +30,8 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate', func
 
       // when
       const error = catchErrSync(
-        (reconciledAt) => new Candidate({ accessibilityAdjustmentNeeded: false, reconciledAt }),
+        (reconciledAt) => new Candidate({ accessibilityAdjustmentNeeded: false, reconciledAt,
+          hasCleaSubscription: false, }),
       )(reconciledAt);
 
       // then

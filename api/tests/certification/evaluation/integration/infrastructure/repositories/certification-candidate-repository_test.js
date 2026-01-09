@@ -46,6 +46,7 @@ describe('Integration | Repository | certification candidate', function () {
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
               subscriptionScope: SCOPES.CORE,
+              hasCleaSubscription: false,
             }),
           );
         });
@@ -98,6 +99,7 @@ describe('Integration | Repository | certification candidate', function () {
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
               subscriptionScope: SCOPES.PIX_PLUS_DROIT,
+              hasCleaSubscription: false,
             }),
           );
         });
@@ -154,6 +156,7 @@ describe('Integration | Repository | certification candidate', function () {
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
               subscriptionScope: SCOPES.CORE,
+              hasCleaSubscription: true,
             }),
           );
         });
@@ -252,6 +255,7 @@ describe('Integration | Repository | certification candidate', function () {
             domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
               subscriptionScope: SCOPES.CORE,
+              hasCleaSubscription: false,
             }),
           );
         });

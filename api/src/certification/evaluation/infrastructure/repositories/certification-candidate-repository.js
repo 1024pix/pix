@@ -62,6 +62,7 @@ const _toDomain = ({ accessibilityAdjustmentNeeded, reconciledAt, complementaryC
     accessibilityAdjustmentNeeded,
     reconciledAt,
     subscriptionScope: _determineScope(complementaryCertificationKey),
+    hasCleaSubscription: complementaryCertificationKey === ComplementaryCertificationKeys.CLEA,
   });
 };
 

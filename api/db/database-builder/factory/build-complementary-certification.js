@@ -33,7 +33,7 @@ buildComplementaryCertification.clea = function ({
   minimumReproducibilityRateLowerLevel = 50.0,
   hasExternalJury = false,
   certificationExtraTime = 0,
-}) {
+} = {}) {
   return buildComplementaryCertification({
     id,
     label: 'CléA Numérique',
