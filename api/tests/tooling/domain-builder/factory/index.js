@@ -200,6 +200,7 @@ import { buildComplementaryCertificationScoringWithoutComplementaryReferential }
 import { buildDoubleCertificationScoring } from './certification/evaluation/build-double-certification-scoring.js';
 import { buildFlashAssessmentAlgorithm } from './certification/evaluation/build-flash-assessment-algorithm.js';
 import { buildPixPlusCertificationCourse } from './certification/evaluation/build-pix-plus-certification-course.js';
+import { buildAssessmentSheet } from './certification/evaluation/build-assessment-sheet.js';
 import { buildComplementaryCertificationScoringWithComplementaryReferential } from './certification/evaluation/build-pix-plus-certification-scoring.js';
 import { buildResultsSession } from './certification/evaluation/build-session.js';
 import { buildGlobalCertificationLevel } from './certification/results/build-global-mesh-level.js';
@@ -290,6 +291,7 @@ const certification = {
     buildComplementaryCertificationScoringWithComplementaryReferential,
     buildDoubleCertificationScoring,
     buildPixPlusCertificationCourse,
+    buildAssessmentSheet,
   },
   sessionManagement: {
     buildAllowedCertificationCenterAccess: buildSessionManagementAllowedCertificationCenterAccess,
