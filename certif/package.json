@@ -89,7 +89,6 @@
     "ember-eslint-parser": "^0.5.7",
     "ember-exam": "10.0.1",
     "ember-file-upload": "^9.3.0",
-    "ember-inputmask5": "^4.0.2",
     "ember-intl": "^8.0.0",
     "ember-keyboard": "^9.0.1",
     "ember-lifeline": "^7.0.0",

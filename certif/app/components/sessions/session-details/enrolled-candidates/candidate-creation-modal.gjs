@@ -12,7 +12,7 @@ import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import inputmask from 'ember-inputmask5/modifiers/inputmask';
+import dayjs from 'dayjs';
 import { t } from 'ember-intl';
 
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from '../../../../models/subscription';
@@ -126,12 +126,8 @@ export default class CandidateCreationModal extends Component {
     }
   };
 
-  saveApi = ({ inputmask }) => {
-    this.inputmask = inputmask;
-  };
-
-  updateBirthdate = () => {
-    const birthdate = this.inputmask.unmaskedvalue();
+  updateBirthdate = (event) => {
+    const birthdate = dayjs(event.target.value).format('YYYY-MM-DD');
     this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthdate', birthdate);
   };
 
@@ -272,25 +268,21 @@ export default class CandidateCreationModal extends Component {
           </div>
 
           <div class='new-candidate-modal-form__field'>
-            <PixInput
-              @id='birth-name'
-              placeholder={{t 'common.labels.candidate.birth-date-example'}}
-              class='ember-text-field ember-view input'
-              {{on 'change' this.updateBirthdate}}
-              {{inputmask
-                alias='datetime'
-                inputFormat='dd/mm/yyyy'
-                outputFormat='yyyy-mm-dd'
-                placeholder='_'
-                registerAPI=this.saveApi
-              }}
-              required
-              aria-required={{true}}
-              autocomplete='off'
-              @requiredLabel={{t 'common.forms.required'}}
-            >
-              <:label>{{t 'common.labels.candidate.birth-date'}}</:label>
-            </PixInput>
+            <div>
+              <PixLabel @requiredLabel={{t 'common.forms.required'}} for='birth-date'>
+                {{t 'common.labels.candidate.birth-date'}}
+              </PixLabel>
+              <input
+                id='birth-date'
+                type='date'
+                placeholder={{t 'common.labels.candidate.birth-date-example'}}
+                name='birth-date'
+                class='input input--small'
+                {{on 'change' this.updateBirthdate}}
+                required
+                autocomplete='off'
+              />
+            </div>
           </div>
 
           <div class='new-candidate-modal-form__field'>

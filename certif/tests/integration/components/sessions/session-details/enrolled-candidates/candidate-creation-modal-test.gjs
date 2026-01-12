@@ -70,7 +70,7 @@ module(
       assert.dom(screen.getByRole('textbox', { name: 'Prénom *' })).exists();
       assert.dom(screen.getByRole('radio', { name: 'Homme' })).exists();
       assert.dom(screen.getByRole('radio', { name: 'Femme' })).exists();
-      assert.dom(screen.getByRole('textbox', { name: 'Date de naissance *' })).exists();
+      assert.dom(screen.getByLabelText('Date de naissance *')).exists();
       assert.dom(screen.getByRole('button', { name: 'Pays de naissance *' })).exists();
       assert.dom(screen.getByRole('radio', { name: 'Code INSEE' })).exists();
       assert.dom(screen.getByRole('radio', { name: 'Code postal' })).exists();
@@ -120,7 +120,7 @@ module(
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Nom de naissance *' })).hasAttribute('required');
       assert.dom(screen.getByRole('textbox', { name: 'Prénom *' })).hasAttribute('required');
-      assert.dom(screen.getByRole('textbox', { name: 'Date de naissance *' })).hasAttribute('required');
+      assert.dom(screen.getByLabelText('Date de naissance *')).hasAttribute('required');
       assert.dom(screen.getByRole('radio', { name: 'Femme' })).hasAttribute('required');
       assert.dom(screen.getByRole('textbox', { name: 'Code INSEE de naissance *' })).hasAttribute('required');
     });
@@ -175,8 +175,8 @@ module(
 
         await fillIn(screen.getByLabelText('Prénom *'), candidateData.firstName);
         await fillIn(screen.getByLabelText('Nom de naissance *'), candidateData.lastName);
-        await fillIn(screen.getByLabelText('Date de naissance *'), '23/08/1985');
         await click(screen.getByRole('radio', { name: 'Femme' }));
+        await fillIn(screen.getByLabelText('Date de naissance *'), '1985-08-23');
         await click(screen.getByLabelText('Pays de naissance *'));
         await click(
           await screen.findByRole('option', {
