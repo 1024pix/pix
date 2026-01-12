@@ -848,19 +848,101 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
     });
 
     context('when scoring a CLEA scoped certification', function () {
+      let event, assessmentResult;
+      const assessmentResultId = 99;
+      const assessmentId = 1214;
+      const certificationCourseId = 1234;
+      const userId = 4567;
+      const certificationCourseStartDate = new Date('2022-02-01');
+      let scoringConfiguration;
+      const scoreForCapacity = 438;
+
       beforeEach(function () {
         candidate = domainBuilder.certification.evaluation.buildCandidate({
           subscriptionScope: SCOPES.CORE,
-          hasCleaSubscription: true,
+          hasCleaSubscription: false,
+          reconciledAt: new Date('2021-01-01'),
         });
+        assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          assessmentId,
+          certificationCourseId,
+        });
+
+        event = new CertificationCompletedJob({
+          assessmentId,
+          userId,
+          certificationCourseId,
+        });
+
+        scoringConfiguration = domainBuilder.buildV3CertificationScoring({
+          competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
+        });
+
+        scoringConfigurationRepository.getLatestByVersionAndLocale
+          .withArgs({ locale: 'fr', version })
+          .resolves(scoringConfiguration);
+
+        assessmentResult = domainBuilder.buildAssessmentResult({
+          id: assessmentResultId,
+          pixScore: scoreForCapacity,
+          reproducibilityRate: 100,
+          status: AssessmentResult.status.VALIDATED,
+          competenceMarks: [],
+          assessmentId,
+          juryId: 1,
+        });
+
+        assessmentResultRepository.save.resolves(assessmentResult);
+        competenceMarkRepository.save.resolves();
       });
 
-      it('should return true because scoring happened', async function () {
-        const hasScored = await handleV3CertificationScoring({
-          candidate,
-        });
+      context('when scoring a CLEA scoped certification', function () {
+        it('should call double certification scoring v3', async function () {
+          const expectedCapacity = 2;
+          flashAlgorithmService.getCapacityAndErrorRate.returns({
+            capacity: expectedCapacity,
+          });
 
-        expect(hasScored).to.be.true;
+          flashAlgorithmService.getCapacityAndErrorRateHistory.returns([
+            {
+              capacity: expectedCapacity,
+            },
+          ]);
+
+          candidate = domainBuilder.certification.evaluation.buildCandidate({
+            subscriptionScope: SCOPES.CORE,
+            hasCleaSubscription: true,
+          });
+          const challenges = generateChallengeList({ length: maximumAssessmentLength });
+          const challengeCalibrationsWithoutLiveAlerts = challenges.map(_generateCertificationChallengeForChallenge);
+          assessmentSheet.answers = generateAnswersForChallenges({ challenges });
+
+          const scoreDoubleCertificationV3 = sinon.stub();
+
+          sharedVersionRepository.getByScopeAndReconciliationDate.resolves(version);
+
+          const hasScored = await handleV3CertificationScoring({
+            event,
+            assessmentSheet,
+            candidate,
+            allChallenges: challenges,
+            askedChallengesWithoutLiveAlerts: challenges,
+            challengeCalibrationsWithoutLiveAlerts,
+            locale: 'fr',
+            assessmentResultRepository,
+            certificationAssessmentHistoryRepository,
+            competenceMarkRepository,
+            flashAlgorithmService,
+            scoreDoubleCertificationV3,
+            scoringConfigurationRepository,
+            sharedCertificationCandidateRepository,
+            sharedVersionRepository,
+          });
+
+          expect(scoreDoubleCertificationV3).to.have.been.calledWithExactly({
+            certificationCourseId: assessmentSheet.certificationCourseId,
+          });
+        });
       });
     });
 
