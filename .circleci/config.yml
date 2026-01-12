@@ -1039,7 +1039,7 @@ jobs:
             PIX_AUDIT_LOGGER_ENABLED: 'false'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2115?forCI'
+            LCMS_API_RELEASE_ID: '2360?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
       - run:
           name: Start Pix Orga
@@ -1067,14 +1067,14 @@ jobs:
             START_JOB_IN_WEB_PROCESS: 'true'
             PIX_AUDIT_LOGGER_ENABLED: 'false'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2115?forCI'
+            LCMS_API_RELEASE_ID: '2360?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           command: npm run db:prepare
       - run:
           name: Refresh cache
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            LCMS_API_RELEASE_ID: '2115?forCI'
+            LCMS_API_RELEASE_ID: '2360?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           working_directory: ~/pix/api
           command: npm run cache:refresh

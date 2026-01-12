@@ -55,7 +55,7 @@ test(
         sex: 'F',
         firstName: 'Buffy',
         lastName: 'Summers',
-        birthdate: '19/01/1981',
+        birthdate: '1981-01-19',
         birthCountry: 'FRANCE',
         birthCity: 'Perpignan',
         postalCode: '66000',
