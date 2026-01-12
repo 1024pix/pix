@@ -110,7 +110,7 @@ test('[@snapshot] this is a snapshot test', async ({ snapshotHandler }, testInfo
 Ainsi, le test est exécuté dans un mode ou l'autre en fonction d'une variable d'env :
 ```shell
 # enregistrement de snapshot
-UPDATE_SNAPSHOTS=true npx playwright test --grep @snapshot
+npm run test:snapshot
 
 # vérification du snapshot
 npx playwright test --grep @snapshot
