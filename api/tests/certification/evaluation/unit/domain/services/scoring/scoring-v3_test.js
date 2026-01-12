@@ -76,7 +76,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
       const assessmentId = 1214;
       const certificationCourseId = 1234;
       const userId = 4567;
-      const certificationCourseStartDate = new Date('2022-02-01');
       let scoringConfiguration;
       const scoreForCapacity = 438;
 
@@ -121,7 +120,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
 
       it('should save the score', async function () {
         // given
-        const certificationCourseStartDate = new Date('2022-01-01');
         const version = domainBuilder.certification.shared.buildVersion({
           challengesConfiguration: {
             maximumAssessmentLength: 1,
@@ -182,7 +180,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         });
 
         // when
-        const expectedCertificationCourse = await handleV3CertificationScoring({
+        await handleV3CertificationScoring({
           event,
           assessmentSheet,
           candidate,
@@ -341,7 +339,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
 
           context('when certification has a zero pix score', function () {
             it('should save the score with rejected status due to zero pix score', async function () {
-              const certificationCourseStartDate = new Date('2022-01-01');
               const answeredChallenges = allChallenges.slice(0, -1);
               const { answers, challengeCalibrationsWithoutLiveAlerts } =
                 _buildDataFromAnsweredChallenges(answeredChallenges);
@@ -921,7 +918,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
 
           sharedVersionRepository.getByScopeAndReconciliationDate.resolves(version);
 
-          const hasScored = await handleV3CertificationScoring({
+          await handleV3CertificationScoring({
             event,
             assessmentSheet,
             candidate,

@@ -10,16 +10,18 @@
  * @typedef {import('../index.js').ScoreDoubleCertificationV3} ScoreDoubleCertificationV3
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../index.js').CertificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
+ * @typedef {import('../index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
+ * @typedef {import('../index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
-import { config } from '../../../../../shared/config.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { FlashAssessmentAlgorithm } from '../../../../evaluation/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentHistory } from '../../../../scoring/domain/models/CertificationAssessmentHistory.js';
 import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
-import { AssessmentResultFactory } from '../../../../scoring/domain/models/factories/AssessmentResultFactory.js';
 import { CompetenceMark } from '../../../../shared/domain/models/CompetenceMark.js';
+import { ComplementaryCertificationCourseResult } from '../../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { DoubleCertificationScoring } from '../../models/DoubleCertificationScoring.js';
 import { createV3AssessmentResult } from './create-v3-assessment-result.js';
 
 export const handleV3CertificationScoring = withTransaction(
@@ -40,6 +42,8 @@ export const handleV3CertificationScoring = withTransaction(
    * @param {CompetenceMarkRepository} params.competenceMarkRepository
    * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
    * @param {SharedVersionRepository} params.sharedVersionRepository
+   * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
+   * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
    *
    * @return {boolean}
    */
@@ -59,6 +63,8 @@ export const handleV3CertificationScoring = withTransaction(
     scoringConfigurationRepository,
     assessmentResultRepository,
     competenceMarkRepository,
+    complementaryCertificationScoringCriteriaRepository,
+    complementaryCertificationCourseResultRepository,
   }) => {
     if (candidate.hasPixPlusSubscription) {
       return false;
@@ -85,7 +91,7 @@ export const handleV3CertificationScoring = withTransaction(
     }
 
     if (candidate.hasCleaSubscription) {
-      await _tmpCoreScoring({
+      const assessmentResult = await _tmpCoreScoring({
         event,
         locale,
         candidate,
@@ -102,7 +108,12 @@ export const handleV3CertificationScoring = withTransaction(
         competenceMarkRepository,
       });
 
-      scoreDoubleCertificationV3({ certificationCourseId: assessmentSheet.certificationCourseId });
+      scoreDoubleCertificationV3({
+        assessmentSheet,
+        assessmentResult,
+        complementaryCertificationScoringCriteriaRepository,
+        complementaryCertificationCourseResultRepository,
+      });
       return true;
     }
   },
@@ -157,11 +168,6 @@ async function _tmpCoreScoring({
     scope: candidate.subscriptionScope,
     reconciliationDate: candidate.reconciledAt,
   });
-  // todo refacto calibrated-challenge-service to take assessmentSheet
-  const certificationCourse = {
-    getId: () => assessmentSheet.certificationCourseId,
-    getAssessment: () => ({ id: assessmentSheet.assessmentId }),
-  };
 
   const algorithm = new FlashAssessmentAlgorithm({
     flashAlgorithmImplementation: flashAlgorithmService,
@@ -215,4 +221,53 @@ async function _tmpCoreScoring({
     assessmentResultRepository,
     competenceMarkRepository,
   });
+  return assessmentResult;
 }
+
+export const scoreDoubleCertificationV3 = withTransaction(
+  /**
+   * @param {object} params
+   * @param {AssessmentSheet} params.assessmentSheet
+   * @param {CertificationCourseRepository} params.certificationCourseRepository
+   * @param {AssessmentResultRepository} params.assessmentResultRepository
+   * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
+   * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
+   */
+  async ({
+    assessmentSheet,
+    assessmentResult,
+    complementaryCertificationScoringCriteriaRepository,
+    complementaryCertificationCourseResultRepository,
+  }) => {
+    const scoringCriterias = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
+      certificationCourseId: assessmentSheet.certificationCourseId,
+    });
+
+    const {
+      minimumReproducibilityRate,
+      complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
+      minimumEarnedPix,
+    } = scoringCriterias[0];
+
+    const doubleCertificationScoring = new DoubleCertificationScoring({
+      complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
+      reproducibilityRate: assessmentResult.reproducibilityRate,
+      pixScore: assessmentResult.pixScore,
+      minimumEarnedPix,
+      hasAcquiredPixCertification: assessmentResult.isValidated(),
+      minimumReproducibilityRate,
+      isRejectedForFraud: assessmentSheet.isRejectedForFraud,
+    });
+
+    await complementaryCertificationCourseResultRepository.save(
+      ComplementaryCertificationCourseResult.from({
+        complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
+        complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
+        source: doubleCertificationScoring.source,
+        acquired: doubleCertificationScoring.isAcquired(),
+      }),
+    );
+  },
+);
