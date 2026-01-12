@@ -14,7 +14,7 @@ const testRef = 'PRO_CORE_100success';
 test(
   `user takes a certification test for a PRO certification center, only CORE subscription. 100% success. REF : ${testRef}`,
   {
-    tag: ['@snapshot', '@recette-certif'],
+    tag: ['@snapshot'],
     annotation: [
       {
         type: 'tag',
@@ -22,10 +22,6 @@ test(
          Reasons why a snapshot can be re-generated :
          - Reference Release has changed
          - Next challenge algorithm for certification V3 has changed`,
-      },
-      {
-        type: 'tag',
-        description: `@recette-certif - this test belongs to the recette-certif tests suite. It should not be run in the CI/CD workflow.`,
       },
     ],
   },

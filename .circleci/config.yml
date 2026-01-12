@@ -1083,15 +1083,15 @@ jobs:
           command: |
             if [ "$CIRCLE_NODE_TOTAL" -eq 1 ]; then
               echo "Only one shard: run both parallel and serial tests"
-              npx playwright test --grep-invert @runSerially @recette-certif
-              npx playwright test --grep @runSerially --grep-invert @recette-certif --workers=1
+              npx playwright test --grep-invert @runSerially
+              npx playwright test --grep @runSerially --workers=1
             elif [ "$CIRCLE_NODE_INDEX" -eq 0 ]; then
               echo "Shard 0: run serial tests"
-              npx playwright test --grep @runSerially --grep-invert @recette-certif --workers=1
+              npx playwright test --grep @runSerially --workers=1
             else
               SHARD="$((${CIRCLE_NODE_INDEX}+1))"
               echo "Shard $SHARD of $CIRCLE_NODE_TOTAL: run parallel tests"
-              npx playwright test --grep-invert @runSerially @recette-certif --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+              npx playwright test --grep-invert @runSerially --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
             fi
           environment:
             PIX_API_PORT: 3000
