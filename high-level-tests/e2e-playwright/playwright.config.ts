@@ -50,6 +50,18 @@ export default defineConfig({
       testDir: 'tests/combined-courses',
       testMatch: '**/*.ts',
     },
+    // todo
+    {
+      name: 'recette certif - création utilisateur certifiable',
+      testDir: 'tests/recette-certif',
+      testMatch: '**/create-certifiable-user.ts',
+    },
+    {
+      name: 'recette certif - passage de certif simple 100% réussite PRO coeur',
+      testDir: 'tests/recette-certif',
+      testMatch: '**/pro/**/*.ts',
+      dependencies: ['recette certif - création utilisateur certifiable'],
+    },
   ],
   webServer: isCI
     ? [

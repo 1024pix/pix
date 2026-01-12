@@ -20,6 +20,7 @@ export class ChallengePage {
     const validateAnswerButton = this.page.getByRole('button', {
       name: 'Je valide et je vais à la prochaine question',
     });
+    // Forces to wait until next challenge is loaded
     const selector = `p:has-text("ninaimprint ${challengeNumber}")`;
     await Promise.all([validateAnswerButton.click(), this.page.waitForSelector(selector, { state: 'detached' })]);
     const hasLoader = await this.page.locator('.app-loader').isVisible();

@@ -52,8 +52,6 @@ export class SessionManagementPage {
     birthCity: string;
     postalCode: string;
   }) {
-    await this.page.getByRole('link', { name: 'Candidats' }).click();
-    await this.page.getByRole('button', { name: 'Inscrire un candidat' }).click();
     if (sex === 'F') {
       await this.page.getByRole('radio', { name: 'Femme' }).check();
     } else {
@@ -61,6 +59,7 @@ export class SessionManagementPage {
     }
     await this.page.getByLabel('Nom de naissance').fill(lastName);
     await this.page.getByLabel('Prénom').fill(firstName);
+    console.log(birthdate);
     await this.page.getByLabel('Date de naissance').fill(new Date(birthdate).toISOString().split('T')[0]);
     await this.page.getByRole('button', { name: 'Pays de naissance *' }).click();
     await this.page.getByRole('option', { name: birthCountry }).click();
@@ -69,6 +68,11 @@ export class SessionManagementPage {
     await this.page.getByLabel('Commune de naissance').fill(birthCity);
     await this.page.getByRole('button', { name: 'Tarification part Pix *' }).click();
     await this.page.getByRole('option', { name: 'Gratuite' }).click();
+    const radio = this.page.getByRole('radio', { name: 'Certification Pix' });
+
+    if (await radio.isVisible()) {
+      await radio.check();
+    }
     await this.page.getByRole('button', { name: 'Inscrire le candidat' }).click();
   }
 }

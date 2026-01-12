@@ -1,0 +1,16 @@
+{
+  "certifiableUser": {
+    "firstName": "Buffy",
+    "lastName": "Summers",
+    "email": "buffy.summers.recette-certif@example.net",
+    "rawPassword": "Coucoulesdevs66",
+    "sex": "F",
+    "birthdate": "1981-01-19",
+    "birthDay": "19",
+    "birthMonth": "01",
+    "birthYear": "1981",
+    "birthCountry": "FRANCE",
+    "birthCity": "Perpignan",
+    "postalCode": "66000"
+  }
+}
