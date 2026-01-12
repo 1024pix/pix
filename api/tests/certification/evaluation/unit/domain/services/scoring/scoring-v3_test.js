@@ -23,8 +23,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
       scoringDegradationService,
       scoringConfigurationRepository,
       sharedCertificationCandidateRepository,
-      sharedVersionRepository,
-      scoringV3Deps;
+      sharedVersionRepository;
     let clock, version;
     const now = new Date('2019-01-01T05:06:07Z');
     let allChallenges;
@@ -57,10 +56,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
       };
       sharedVersionRepository = {
         getByScopeAndReconciliationDate: sinon.stub(),
-      };
-
-      scoringV3Deps = {
-        findByCertificationCourseAndVersion: sinon.stub(),
       };
 
       version = domainBuilder.certification.shared.buildVersion({
@@ -182,12 +177,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
             },
           ]);
 
-        scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-          allChallenges: challenges,
-          askedChallengesWithoutLiveAlerts: challenges,
-          challengeCalibrationsWithoutLiveAlerts,
-        });
-
         const event = new CertificationJuryDone({
           certificationCourseId,
         });
@@ -197,6 +186,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
           event,
           assessmentSheet,
           candidate,
+          allChallenges: challenges,
+          askedChallengesWithoutLiveAlerts: challenges,
+          challengeCalibrationsWithoutLiveAlerts,
           locale: 'fr',
           assessmentResultRepository,
           certificationAssessmentHistoryRepository,
@@ -205,7 +197,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
           scoringConfigurationRepository,
           sharedCertificationCandidateRepository,
           sharedVersionRepository,
-          scoringV3Deps,
         });
 
         // then
@@ -266,12 +257,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               },
             });
 
-            scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-              allChallenges: answeredChallenges,
-              askedChallengesWithoutLiveAlerts: answeredChallenges,
-              challengeCalibrationsWithoutLiveAlerts,
-            });
-
             assessmentSheet.answers = answers;
             flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
@@ -310,6 +295,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               event,
               assessmentSheet,
               candidate,
+              allChallenges: answeredChallenges,
+              askedChallengesWithoutLiveAlerts: answeredChallenges,
+              challengeCalibrationsWithoutLiveAlerts,
               locale: 'fr',
               assessmentResultRepository,
               certificationAssessmentHistoryRepository,
@@ -318,7 +306,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               scoringConfigurationRepository,
               sharedCertificationCandidateRepository,
               sharedVersionRepository,
-              scoringV3Deps,
             });
 
             // then
@@ -370,11 +357,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
                 capacityHistory,
               });
 
-              scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-                allChallenges: answeredChallenges,
-                askedChallengesWithoutLiveAlerts: answeredChallenges,
-                challengeCalibrationsWithoutLiveAlerts,
-              });
               assessmentSheet.answers = answers;
 
               sharedVersionRepository.getByScopeAndReconciliationDate
@@ -417,6 +399,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
                 event,
                 assessmentSheet,
                 candidate,
+                allChallenges: answeredChallenges,
+                askedChallengesWithoutLiveAlerts: answeredChallenges,
+                challengeCalibrationsWithoutLiveAlerts,
                 locale: 'fr',
                 assessmentResultRepository,
                 certificationAssessmentHistoryRepository,
@@ -425,7 +410,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
                 scoringConfigurationRepository,
                 sharedCertificationCandidateRepository,
                 sharedVersionRepository,
-                scoringV3Deps,
               });
 
               // then
@@ -483,11 +467,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
                 capacityHistory,
               });
 
-              scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-                allChallenges,
-                askedChallengesWithoutLiveAlerts: allChallenges,
-                challengeCalibrationsWithoutLiveAlerts,
-              });
               assessmentSheet.answers = answers;
 
               sharedVersionRepository.getByScopeAndReconciliationDate
@@ -525,6 +504,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
                 event,
                 assessmentSheet,
                 candidate,
+                allChallenges,
+                askedChallengesWithoutLiveAlerts: allChallenges,
+                challengeCalibrationsWithoutLiveAlerts,
                 locale: 'fr',
                 assessmentResultRepository,
                 certificationAssessmentHistoryRepository,
@@ -533,7 +515,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
                 scoringConfigurationRepository,
                 sharedCertificationCandidateRepository,
                 sharedVersionRepository,
-                scoringV3Deps,
               });
 
               // then
@@ -583,12 +564,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-              allChallenges: answeredChallenges,
-              askedChallengesWithoutLiveAlerts: answeredChallenges,
-              challengeCalibrationsWithoutLiveAlerts,
-            });
-
             assessmentSheet.answers = answers;
 
             sharedVersionRepository.getByScopeAndReconciliationDate
@@ -631,6 +606,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               event,
               assessmentSheet,
               candidate,
+              allChallenges: answeredChallenges,
+              askedChallengesWithoutLiveAlerts: answeredChallenges,
+              challengeCalibrationsWithoutLiveAlerts,
               locale: 'fr',
               assessmentResultRepository,
               certificationAssessmentHistoryRepository,
@@ -639,7 +617,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               scoringConfigurationRepository,
               sharedCertificationCandidateRepository,
               sharedVersionRepository,
-              scoringV3Deps,
             });
 
             // then
@@ -687,12 +664,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-              allChallenges: answeredChallenges,
-              askedChallengesWithoutLiveAlerts: answeredChallenges,
-              challengeCalibrationsWithoutLiveAlerts,
-            });
-
             assessmentSheet.answers = answers;
 
             sharedVersionRepository.getByScopeAndReconciliationDate
@@ -731,6 +702,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               event,
               assessmentSheet,
               candidate,
+              allChallenges: answeredChallenges,
+              askedChallengesWithoutLiveAlerts: answeredChallenges,
+              challengeCalibrationsWithoutLiveAlerts,
               locale: 'fr',
               assessmentResultRepository,
               certificationAssessmentHistoryRepository,
@@ -739,7 +713,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               scoringConfigurationRepository,
               sharedCertificationCandidateRepository,
               sharedVersionRepository,
-              scoringV3Deps,
             });
 
             // then
@@ -797,12 +770,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               capacityHistory,
             });
 
-            scoringV3Deps.findByCertificationCourseAndVersion.resolves({
-              allChallenges: answeredChallenges,
-              askedChallengesWithoutLiveAlerts: answeredChallenges,
-              challengeCalibrationsWithoutLiveAlerts,
-            });
-
             assessmentSheet.answers = answers;
 
             sharedVersionRepository.getByScopeAndReconciliationDate
@@ -841,6 +808,9 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               event,
               assessmentSheet,
               candidate,
+              allChallenges: answeredChallenges,
+              askedChallengesWithoutLiveAlerts: answeredChallenges,
+              challengeCalibrationsWithoutLiveAlerts,
               locale: 'fr',
               assessmentResultRepository,
               certificationAssessmentHistoryRepository,
@@ -849,7 +819,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
               scoringConfigurationRepository,
               sharedCertificationCandidateRepository,
               sharedVersionRepository,
-              scoringV3Deps,
             });
 
             // then

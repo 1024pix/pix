@@ -1,6 +1,7 @@
 /**
- * @typedef {import('../../../models/Candidate.js')} Candidate
- * @typedef {import('../../../models/AssessmentSheet.js')} AssessmentSheet
+ * @typedef {import('../../models/Candidate.js')} Candidate
+ * @typedef {import('../../models/CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
+ * @typedef {import('../../models/AssessmentSheet.js')} AssessmentSheet
  * @typedef {import('../index.js').SharedVersionRepository} SharedVersionRepository
  * @typedef {import('../index.js').ScoringConfigurationRepository} ScoringConfigurationRepository
  * @typedef {import('../index.js').AssessmentResultRepository} AssessmentResultRepository
@@ -8,10 +9,6 @@
  * @typedef {import('../index.js').FlashAlgorithmService} FlashAlgorithmService
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../index.js').CertificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
- */
-/**
- * @typedef {object} ScoringV3Dependencies
- * @property {FindByCertificationCourseAndVersion} findByCertificationCourseAndVersion
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
@@ -22,6 +19,7 @@ import { CertificationAssessmentHistory } from '../../../../scoring/domain/model
 import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../../scoring/domain/models/factories/AssessmentResultFactory.js';
 import { CompetenceMark } from '../../../../shared/domain/models/CompetenceMark.js';
+import { createV3AssessmentResult } from './create-v3-assessment-result.js';
 
 export const handleV3CertificationScoring = withTransaction(
   /**
@@ -30,6 +28,9 @@ export const handleV3CertificationScoring = withTransaction(
    * @param {string} params.locale
    * @param {Candidate} params.candidate
    * @param {AssessmentSheet} params.assessmentSheet
+   * @param {Array<CalibratedChallenge>} params.allChallenges
+   * @param {Array<CalibratedChallenge>} params.askedChallengesWithoutLiveAlerts
+   * @param {Array<CalibratedChallenge>} params.challengeCalibrationsWithoutLiveAlerts
    * @param {FlashAlgorithmService} params.flashAlgorithmService
    * @param {ScoringDegradationService} params.scoringDegradationService
    * @param {CertificationAssessmentHistoryRepository} params.certificationAssessmentHistoryRepository
@@ -37,7 +38,6 @@ export const handleV3CertificationScoring = withTransaction(
    * @param {CompetenceMarkRepository} params.competenceMarkRepository
    * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
    * @param {SharedVersionRepository} params.sharedVersionRepository
-   * @param {ScoringV3Dependencies} params.scoringV3Deps
    *
    * @return {boolean}
    */
@@ -46,6 +46,9 @@ export const handleV3CertificationScoring = withTransaction(
     locale,
     candidate,
     assessmentSheet,
+    allChallenges,
+    askedChallengesWithoutLiveAlerts,
+    challengeCalibrationsWithoutLiveAlerts,
     flashAlgorithmService,
     scoringDegradationService,
     sharedVersionRepository,
@@ -53,7 +56,6 @@ export const handleV3CertificationScoring = withTransaction(
     scoringConfigurationRepository,
     assessmentResultRepository,
     competenceMarkRepository,
-    scoringV3Deps,
   }) => {
     if (candidate.hasPixPlusSubscription) {
       return false;
@@ -69,8 +71,6 @@ export const handleV3CertificationScoring = withTransaction(
         getId: () => assessmentSheet.certificationCourseId,
         getAssessment: () => ({ id: assessmentSheet.assessmentId }),
       };
-      const { allChallenges, askedChallengesWithoutLiveAlerts, challengeCalibrationsWithoutLiveAlerts } =
-        await scoringV3Deps.findByCertificationCourseAndVersion({ certificationCourse, version });
 
       const algorithm = new FlashAssessmentAlgorithm({
         flashAlgorithmImplementation: flashAlgorithmService,
@@ -96,7 +96,7 @@ export const handleV3CertificationScoring = withTransaction(
       });
 
       const toBeCancelled = event instanceof CertificationCancelled;
-      const assessmentResult = _createV3AssessmentResult({
+      const assessmentResult = createV3AssessmentResult({
         toBeCancelled,
         allAnswers: assessmentSheet.answers,
         assessmentId: assessmentSheet.assessmentId,
