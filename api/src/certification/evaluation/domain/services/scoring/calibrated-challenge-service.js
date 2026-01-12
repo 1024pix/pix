@@ -22,7 +22,8 @@ import { withTransaction } from '../../../../../shared/domain/DomainTransaction.
 export const findByCertificationCourseAndVersion = withTransaction(
   /**
    * @param {object} params
-   * @param {CertificationCourse} params.certificationCourse
+   * @param {number} params.certificationCourseId
+   * @param {number} params.assessmentId
    * @param {Version} params.version
    * @param {ChallengeCalibrationRepository} params.challengeCalibrationRepository
    * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
@@ -30,7 +31,8 @@ export const findByCertificationCourseAndVersion = withTransaction(
    * @returns {Promise<FindByCertificationCourseAndVersionResult>}
    */
   async ({
-    certificationCourse,
+    certificationCourseId,
+    assessmentId,
     version,
     challengeCalibrationRepository,
     certificationChallengeLiveAlertRepository,
@@ -40,11 +42,10 @@ export const findByCertificationCourseAndVersion = withTransaction(
 
     const { allChallenges, askedChallenges, challengesCalibrations } = await _findByCertificationCourseId({
       compatibleChallenges: calibratedChallenges,
-      certificationCourseId: certificationCourse.getId(),
+      certificationCourseId,
       challengeCalibrationRepository,
     });
 
-    const assessmentId = certificationCourse.getAssessment().id;
     const { challengeCalibrationsWithoutLiveAlerts, askedChallengesWithoutLiveAlerts } =
       await _removeChallengesWithValidatedLiveAlerts(
         challengesCalibrations,
