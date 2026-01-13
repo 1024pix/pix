@@ -33,6 +33,7 @@ export default class Challenge extends Model {
   @attr('boolean') hasEmbedInternalValidation;
   @attr('boolean') noValidationNeeded;
 
+  // ici
   @hasMany('activity-answer', { async: true, inverse: 'challenge' }) activityAnswers;
   //wowo2223333
   @computed('embedHeight', 'embedTitle', 'embedUrl', 'hasWebComponent')
