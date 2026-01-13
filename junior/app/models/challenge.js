@@ -34,7 +34,7 @@ export default class Challenge extends Model {
   @attr('boolean') noValidationNeeded;
 
   @hasMany('activity-answer', { async: true, inverse: 'challenge' }) activityAnswers;
-
+  //wowo2223333
   @computed('embedHeight', 'embedTitle', 'embedUrl', 'hasWebComponent')
   get hasEmbed() {
     const embedUrl = this.embedUrl;
