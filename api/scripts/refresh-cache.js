@@ -19,6 +19,10 @@ export class RefreshCache extends Script {
       logger.error('Error while reloading cache');
     }
   }
+
+  async onFinished() {
+    process.exit(process.exitCode || 0); // eslint-disable-line n/no-process-exit
+  }
 }
 
 await ScriptRunner.execute(import.meta.url, RefreshCache);
