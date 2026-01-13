@@ -3,7 +3,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import ENV from 'mon-pix/config/environment';
 
 import EvaluationResultsHero from '../../../campaigns/assessment/results/evaluation-results-hero';
 import EvaluationResultsTabs from '../../../campaigns/assessment/results/evaluation-results-tabs';
@@ -12,6 +11,8 @@ import QuitResults from '../../../campaigns/assessment/results/quit-results';
 
 export default class EvaluationResults extends Component {
   @service tabManager;
+  @service config;
+
   // eslint-disable-next-line ember/no-tracked-properties-from-args
   @tracked showEvaluationResultsModal = this.args.model.showTrainings;
 
@@ -24,7 +25,7 @@ export default class EvaluationResults extends Component {
   }
 
   get isSharableCampaign() {
-    const isAutonomousCourse = this.args.model.campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
+    const isAutonomousCourse = this.args.model.campaign.organizationId === this.config.autonomousCoursesOrganizationId;
     return !isAutonomousCourse && !this.args.model.campaign.isForAbsoluteNovice;
   }
 

@@ -5,7 +5,7 @@ import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import { stubCurrentUserService } from '../../../../../helpers/service-stubs.js';
+import { stubConfigService, stubCurrentUserService } from '../../../../../helpers/service-stubs.js';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { waitForDialog, waitForDialogClose } from '../../../../../helpers/wait-for';
 
@@ -16,6 +16,8 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
   hooks.beforeEach(async function () {
     // given
+    stubConfigService(this.owner);
+
     const store = this.owner.lookup('service:store');
 
     const campaign = store.createRecord('campaign', {

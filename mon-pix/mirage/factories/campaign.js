@@ -1,5 +1,4 @@
 import { Factory, trait } from 'miragejs';
-import ENV from 'mon-pix/config/environment';
 
 export default Factory.extend({
   title() {
@@ -93,7 +92,7 @@ export default Factory.extend({
       const verifiedCode = server.schema.verifiedCodes.find(campaign.code);
       campaign.update({
         code: 'AUTOCOUR1',
-        organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        organizationId: 999, // must be same value as in get-config
         title: 'Dummy title',
         customLandingPageText: 'Dummy landing page text',
       });
