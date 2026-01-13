@@ -6,6 +6,7 @@
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithm } from '../../../evaluation/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentHistory } from '../../../scoring/domain/models/CertificationAssessmentHistory.js';
 import { SessionAlreadyPublishedError } from '../../../session-management/domain/errors.js';
@@ -28,7 +29,7 @@ export const scoreV3Certification = withTransaction(
    * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
    * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
    */
-  async (
+  async ({
     certificationCourseId,
     locale,
     services,
@@ -41,7 +42,7 @@ export const scoreV3Certification = withTransaction(
     certificationCourseRepository,
     complementaryCertificationCourseResultRepository,
     scoringConfigurationRepository,
-  ) => {
+  }) => {
     const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
 
     const candidate = await certificationCandidateRepository.findByAssessmentId({
@@ -71,9 +72,9 @@ export const scoreV3Certification = withTransaction(
       version,
     });
 
-    //add condition on calling scoring : the certification cannot be in a published session, it must be either in a finalized session or completed (candidate answered all the questions and saw the end screen)
+    // add condition on calling scoring : the certification cannot be in a published session, it must be either in a finalized session or completed (candidate answered all the questions and saw the end screen)
 
-    //coreScoring could be a model like doubleCertificationScoring
+    // coreScoring could be a model like doubleCertificationScoring
     const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
       locale,
       candidate,
