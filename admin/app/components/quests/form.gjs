@@ -2,8 +2,8 @@ import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import PixToggleButton from '@1024pix/pix-ui/components/pix-toggle-button';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -203,11 +203,11 @@ export default class QuestForm extends Component {
       </PixBlock>
 
       <PixBlock @variant="admin" class="quest-button-edition quest-button-edition--column">
-        <PixToggleButton @toggled={{this.switchRequirements}} @onChange={{this.onChangeRequirements}}>
+        <PixSegmentedControl @toggled={{this.switchRequirements}} @onChange={{this.onChangeRequirements}}>
           <:label>Mes requirements :</:label>
           <:viewA>Éligibilités</:viewA>
           <:viewB>Succès</:viewB>
-        </PixToggleButton>
+        </PixSegmentedControl>
 
         <PixTextarea value={{this.requirementsStr}} {{on "change" this.updateRequirementsStr}} rows="15">
           <:label>Mes requirements ({{this.requirementState}})</:label>

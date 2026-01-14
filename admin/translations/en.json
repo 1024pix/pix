@@ -578,10 +578,8 @@
       "sidebar": {
         "administration": "Administration",
         "autonomous-courses": "Autonomous courses",
-        "certification-centers": "Certif centers",
-        "certification-centers-label": "Certifications centers",
-        "certification-frameworks": "Certif frameworks",
-        "certification-frameworks-label": "Certification frameworks",
+        "certification-centers": "Certification centers",
+        "certification-frameworks": "Certification frameworks",
         "certifications": "Certifications",
         "combined-course-blueprints": "Courses blueprints",
         "labels": {
@@ -591,8 +589,7 @@
         },
         "logout": "Log out",
         "organizations": "Organizations",
-        "sessions": "Certif sessions",
-        "sessions-label": "Certifications sessions",
+        "sessions": "Certification sessions",
         "target-profiles": "Target profiles",
         "team": "Team",
         "tools": "Tools",

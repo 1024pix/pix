@@ -3,10 +3,10 @@ import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
+import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixToggleButton from '@1024pix/pix-ui/components/pix-toggle-button';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
@@ -113,11 +113,11 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
       <PixInput value={{@externalId}} oninput={{fn @triggerFiltering "externalId"}}>
         <:label>Identifiant externe</:label>
       </PixInput>
-      <PixToggleButton @onChange={{this.filterHideArchived}} @toggled={{@hideArchived}}>
+      <PixSegmentedControl @onChange={{this.filterHideArchived}} @toggled={{@hideArchived}}>
         <:label>Masquer les organisations archivées</:label>
         <:viewA>Oui</:viewA>
         <:viewB>Non</:viewB>
-      </PixToggleButton>
+      </PixSegmentedControl>
     </PixFilterBanner>
 
     {{#if @organizations}}

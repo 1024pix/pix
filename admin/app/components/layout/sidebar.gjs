@@ -1,4 +1,3 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
 import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-button';
 import { LinkTo } from '@ember/routing';
@@ -22,6 +21,7 @@ export default class Sidebar extends Component {
       @navigationAriaLabel={{t "components.layout.sidebar.labels.main"}}
       @openLabel={{t "components.layout.sidebar.labels.open"}}
       @closeLabel={{t "components.layout.sidebar.labels.close"}}
+      @shrinkNavigation={{true}}
     >
       <:brand>
         <LinkTo @route="authenticated.index">
@@ -42,24 +42,14 @@ export default class Sidebar extends Component {
         <PixNavigationButton class="sidebar__link" @route="authenticated.users" @icon="infoUser">
           {{t "components.layout.sidebar.users"}}
         </PixNavigationButton>
-        <PixNavigationButton
-          class="sidebar__link"
-          @route="authenticated.certification-centers"
-          @icon="mapPin"
-          aria-label={{t "components.layout.sidebar.certification-centers-label"}}
-        >
+        <PixNavigationButton class="sidebar__link" @route="authenticated.certification-centers" @icon="mapPin">
           {{t "components.layout.sidebar.certification-centers"}}
         </PixNavigationButton>
         <PixNavigationButton class="sidebar__link" @route="authenticated.sessions" @icon="session">
           {{t "components.layout.sidebar.sessions"}}
         </PixNavigationButton>
 
-        <PixNavigationButton
-          class="sidebar__link"
-          @route="authenticated.certification-frameworks"
-          @icon="extension"
-          aria-label={{t "components.layout.sidebar.certification-frameworks-label"}}
-        >
+        <PixNavigationButton class="sidebar__link" @route="authenticated.certification-frameworks" @icon="extension">
           {{t "components.layout.sidebar.certification-frameworks"}}
         </PixNavigationButton>
         {{#if this.accessControl.hasAccessToTargetProfilesActionsScope}}
@@ -120,7 +110,9 @@ export default class Sidebar extends Component {
       </:navElements>
       <:footer>
         <p class="sidebar-footer__full-name">{{this.userFullName}}</p>
-        <PixButtonLink @variant="tertiary" @route="logout">{{t "components.layout.sidebar.logout"}}</PixButtonLink>
+        <PixNavigationButton @route="logout" @icon="power" class="sidebar-footer__logout-button">
+          {{t "components.layout.sidebar.logout"}}
+        </PixNavigationButton>
       </:footer>
     </PixNavigation>
   </template>

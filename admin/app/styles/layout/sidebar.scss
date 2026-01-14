@@ -6,4 +6,10 @@
 
     font-weight: var(--pix-font-bold);
   }
+
+  &__logout-button {
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
+  }
 }

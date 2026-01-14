@@ -580,10 +580,8 @@
       "sidebar": {
         "administration": "Administration",
         "autonomous-courses": "Parcours autonomes",
-        "certification-centers": "Centres de certif",
-        "certification-centers-label": "Centres de certifications",
-        "certification-frameworks": "Référentiels de certif",
-        "certification-frameworks-label": "Référentiels de certification",
+        "certification-centers": "Centres de certification",
+        "certification-frameworks": "Référentiels de certification",
         "certifications": "Certifications",
         "combined-course-blueprints": "Schémas de parcours",
         "labels": {
@@ -593,8 +591,7 @@
         },
         "logout": "Se déconnecter",
         "organizations": "Organisations",
-        "sessions": "Sessions de certif",
-        "sessions-label": "Sessions de certifications",
+        "sessions": "Sessions de certification",
         "target-profiles": "Profils cibles",
         "team": "Équipe",
         "tools": "Outils",

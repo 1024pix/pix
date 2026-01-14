@@ -44,7 +44,7 @@
   "devDependencies": {
     "@1024pix/ember-testing-library": "^3.0.25",
     "@1024pix/eslint-plugin": "^2.1.15",
-    "@1024pix/pix-ui": "^56.1.0",
+    "@1024pix/pix-ui": "github:1024pix/pix-ui#PIX-16992-allow-to-collapse-admin-navigation",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.28.5",
     "@ember-intl/v1-compat": "^1.0.0",
