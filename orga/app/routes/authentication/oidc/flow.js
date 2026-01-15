@@ -13,6 +13,7 @@ export default class LoginOidcRoute extends Route {
   @service oidcIdentityProviders;
   @service router;
   @service session;
+  @service joinInvitation;
 
   async beforeModel(transition) {
     const queryParams = transition.to.queryParams;
@@ -55,9 +56,10 @@ export default class LoginOidcRoute extends Route {
     const { identityProviderSlug, shouldCreateUserAccount } = model;
 
     if (shouldCreateUserAccount) {
-      //if (!this.joinInvitation.invitation) {
-      // this.router.transitionTo('authentication.login', { queryParams: { error: 'PIX_ORGA_ACCESS_NOT_ALLOWED' } });
-      //}
+      if (!this.joinInvitation.invitation) {
+        return this.router.transitionTo('authentication.error');
+      }
+
       this.router.transitionTo('authentication.oidc.signup', identityProviderSlug);
     }
   }
@@ -115,9 +117,6 @@ export default class LoginOidcRoute extends Route {
 
       if (apiError.code == 'MISSING_OIDC_STATE') {
         this.router.transitionTo('authentication.login');
-        return;
-      } else if (apiError.code == 'PIX_ORGA_ACCESS_NOT_ALLOWED') {
-        this.router.transitionTo('authentication.login', { queryParams: { error: apiError.code } });
         return;
       }
 
