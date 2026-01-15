@@ -1,4 +1,4 @@
-/**
+/** incomplete
  * @typedef {import('./index.js').Services} Services
  * @typedef {import('./index.js').AssessmentSheetRepository} AssessmentSheetRepository
  * @typedef {import('./index.js').SharedVersionRepository} SharedVersionRepository
@@ -28,6 +28,7 @@ export const scoreV3Certification = withTransaction(
    * @param {CertificationCourseRepository} params.certificationCourseRepository
    * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
    * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
+   * @param {EvaluationSessionRepository} params.evaluationSessionRepository
    */
   async ({
     certificationCourseId,
@@ -42,6 +43,7 @@ export const scoreV3Certification = withTransaction(
     certificationCourseRepository,
     complementaryCertificationCourseResultRepository,
     scoringConfigurationRepository,
+    evaluationSessionRepository,
   }) => {
     const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
 
@@ -72,45 +74,53 @@ export const scoreV3Certification = withTransaction(
       version,
     });
 
-    // add condition on calling scoring : the certification cannot be in a published session, it must be either in a finalized session or completed (candidate answered all the questions and saw the end screen)
+    if (
+      _verifyCertificationIsScorable(
+        assessmentSheet.certificationCourseId,
+        assessmentSheet.answers,
+        version.challengesConfiguration.maximumAssessmentLength,
+        evaluationSessionRepository,
+      )
+    ) {
+      // coreScoring could be a model like doubleCertificationScoring
+      const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
+        locale,
+        candidate,
+        assessmentSheet,
+        allChallenges,
+        askedChallengesWithoutLiveAlerts,
+        algorithm,
+        v3CertificationScoring,
+      });
 
-    // coreScoring could be a model like doubleCertificationScoring
-    const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
-      locale,
-      candidate,
-      assessmentSheet,
-      allChallenges,
-      askedChallengesWithoutLiveAlerts,
-      algorithm,
-      v3CertificationScoring,
-    });
+      const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
+        algorithm,
+        challenges: challengeCalibrationsWithoutLiveAlerts,
+        allAnswers: assessmentSheet.answers,
+      });
+      await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
 
-    const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
-      algorithm,
-      challenges: challengeCalibrationsWithoutLiveAlerts,
-      allAnswers: assessmentSheet.answers,
-    });
-    await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
+      await _saveV3Result({
+        assessmentResult: coreScoring.assessmentResult,
+        certificationCourseId: assessmentSheet.certificationCourseId,
+        certificationAssessmentScore: coreScoring.certificationAssessmentScore,
+        assessmentResultRepository,
+        competenceMarkRepository,
+        certificationCourseRepository,
+      });
 
-    await _saveV3Result({
-      assessmentResult: coreScoring.assessmentResult,
-      certificationCourseId: assessmentSheet.certificationCourseId,
-      certificationAssessmentScore: coreScoring.certificationAssessmentScore,
-      assessmentResultRepository,
-      competenceMarkRepository,
-      certificationCourseRepository,
-    });
-
-    if (doubleCertificationScoring) {
-      await complementaryCertificationCourseResultRepository.save(
-        ComplementaryCertificationCourseResult.from({
-          complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
-          complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
-          source: doubleCertificationScoring.source,
-          acquired: doubleCertificationScoring.isAcquired(),
-        }),
-      );
+      if (doubleCertificationScoring) {
+        await complementaryCertificationCourseResultRepository.save(
+          ComplementaryCertificationCourseResult.from({
+            complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
+            complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
+            source: doubleCertificationScoring.source,
+            acquired: doubleCertificationScoring.isAcquired(),
+          }),
+        );
+      }
     }
+    //else ?
   },
 );
 
@@ -159,15 +169,22 @@ async function _saveV3Result({
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
-const _verifyCertificationIsScorable = async ({ certificationCourseId, evaluationSessionRepository }) => {
+const _verifyCertificationIsScorable = async ({
+  certificationCourseId,
+  answers,
+  maximumAssessmentLength,
+  evaluationSessionRepository,
+}) => {
   const session = await evaluationSessionRepository.getByCertificationCourseId({ certificationCourseId });
 
   if (session.isPublished) {
     throw new SessionAlreadyPublishedError();
   }
 
-  //add chack on if the certification have been finished or not
-  if (!session.isFinalized) {
+  const hasCandidateSeenEndScreen = answers.length == maximumAssessmentLength - 1;
+
+  if (!session.isFinalized && !hasCandidateSeenEndScreen) {
     throw new NotFinalizedSessionError();
   }
+  return true;
 };
