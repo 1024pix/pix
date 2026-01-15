@@ -32,7 +32,7 @@ class UncancellableOrganizationInvitationError extends DomainError {
 
 class UserNotMemberOfOrganizationError extends DomainError {
   constructor(message = "L'utilisateur n'est pas membre de l'organisation.") {
-    super(message);
+    super(message, 'USER_NOT_MEMBER_OF_ORGANIZATION');
   }
 }
 

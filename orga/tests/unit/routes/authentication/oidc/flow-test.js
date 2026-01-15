@@ -79,6 +79,66 @@ module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
       });
     });
 
+    module('when there is a PIX_ORGA_ACCESS_NOT_ALLOWED error', function () {
+      test('it redirects to authentication.login page with an error code in query params', async function (assert) {
+        // given
+        const authenticateStub = sinon.stub().rejects({
+          errors: [
+            {
+              code: 'PIX_ORGA_ACCESS_NOT_ALLOWED',
+            },
+          ],
+        });
+        const sessionStub = Service.create({
+          authenticate: authenticateStub,
+          data: {},
+        });
+        const route = this.owner.lookup('route:authentication/oidc.flow');
+        route.set('session', sessionStub);
+        route.router = { transitionTo: sinon.stub() };
+
+        // when
+        await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
+
+        // then
+        sinon.assert.calledOnce(authenticateStub);
+        sinon.assert.calledWith(route.router.transitionTo, 'authentication.login', {
+          queryParams: { error: 'PIX_ORGA_ACCESS_NOT_ALLOWED' },
+        });
+        assert.ok(true);
+      });
+    });
+
+    module('when there is a SHOULD_VALIDATE_CGU error', function () {
+      test('it redirects to authentication.login page with an error code in query params', async function (assert) {
+        // given
+        const authenticateStub = sinon.stub().rejects({
+          errors: [
+            {
+              code: 'SHOULD_VALIDATE_CGU',
+            },
+          ],
+        });
+        const sessionStub = Service.create({
+          authenticate: authenticateStub,
+          data: {},
+        });
+        const route = this.owner.lookup('route:authentication/oidc.flow');
+        route.set('session', sessionStub);
+        route.router = { transitionTo: sinon.stub() };
+
+        // when
+        await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
+
+        // then
+        sinon.assert.calledOnce(authenticateStub);
+        sinon.assert.calledWith(route.router.transitionTo, 'authentication.login', {
+          queryParams: { error: 'SHOULD_VALIDATE_CGU' },
+        });
+        assert.ok(true);
+      });
+    });
+
     module('when CGU are already validated but authenticate fails', function () {
       test('it throws an error', async function (assert) {
         // given

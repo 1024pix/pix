@@ -106,6 +106,38 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           });
         });
       });
+
+      context('when requestedApplication is Pix Orga', function () {
+        const requestedApplication = new RequestedApplication({ applicationName: 'orga', applicationTld: '.fr' });
+
+        context('when user is not linked to any organization', function () {
+          it('throws PIX_ORGA_ACCESS_NOT_ALLOWED and ForbiddenAccess when user is not linked', async function () {
+            // given
+            _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+
+            const user = domainBuilder.buildUser({ id: 202, memberships: [] });
+            sinon.stub(user, 'isLinkedToOrganizations').returns(false);
+
+            userRepository.findByExternalIdentifier.resolves(user);
+
+            oidcAuthenticationService.createAuthenticationComplement.returns(
+              new AuthenticationMethod.OidcAuthenticationComplement({ given_name: 'No', family_name: 'Org' }),
+            );
+
+            // when
+            const error = await catchErr(authenticateOidcUser)({
+              requestedApplication,
+              oidcAuthenticationServiceRegistry,
+              userRepository,
+              adminMemberRepository,
+            });
+
+            // then
+            expect(error).to.be.an.instanceOf(ForbiddenAccess);
+            expect(error.code).to.equal('PIX_ORGA_ACCESS_NOT_ALLOWED');
+          });
+        });
+      });
     });
 
     context('when user does not have an account', function () {

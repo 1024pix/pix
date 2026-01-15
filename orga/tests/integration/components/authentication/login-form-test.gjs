@@ -51,4 +51,19 @@ module('Integration | Component | LoginForm', function (hooks) {
       assert.dom(screen.getByText('This is an error')).exists();
     });
   });
+
+  module('when there is an organization access error during an OIDC authentication', function () {
+    test('it displays an error message', async function (assert) {
+      // given & when
+      const onSubmitStub = sinon.stub();
+      const screen = await render(
+        <template>
+          <LoginForm @onSubmit={{onSubmitStub}} @errorMessage={{t "pages.login-form.errors.access-not-allowed"}} />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText(t('pages.login-form.errors.access-not-allowed'))).exists();
+    });
+  });
 });

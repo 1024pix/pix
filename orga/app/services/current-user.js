@@ -1,9 +1,12 @@
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
   @service session;
   @service store;
+  @service router;
+  @service pixToast;
 
   @tracked prescriber;
   @tracked memberships;
@@ -104,7 +107,15 @@ export default class CurrentUserService extends Service {
         await membership.save({
           adapterOptions: { updateLastAccessedAt: true },
         });
-      } catch {
+      } catch (error) {
+        // Handling error for those different cases: EmberSimpleAuth, JSON:API response, non-JSON:API response
+        const extractedError = get(error, error.responseJSON ? 'responseJSON.errors[0]' : 'errors[0]') ?? error;
+        if (extractedError.code == 'USER_NOT_MEMBER_OF_ORGANIZATION') {
+          this.session.alternativeRootURL = 'error';
+          // await this.session.invalidate();
+          //this.router.transitionTo('authentication.login', { queryParams: { error: error.code } });
+        }
+
         this.prescriber = null;
         this.memberships = null;
         return this.session.invalidate();

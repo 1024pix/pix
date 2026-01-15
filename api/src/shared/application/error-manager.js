@@ -411,7 +411,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof UserNotMemberOfOrganizationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
   if (error instanceof SharedDomainErrors.TargetProfileInvalidError) {
     return new HttpErrors.PreconditionFailedError(error.message);

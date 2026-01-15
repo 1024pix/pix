@@ -679,6 +679,13 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
             const externalIdentifier = 'sub';
 
             const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            databaseBuilder.factory.buildMembership({
+              userId,
+              organizationId,
+              organizationRole: 'MEMBER',
+            });
+
             databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
               identityProvider: 'OIDC_EXAMPLE_NET',
               externalIdentifier,

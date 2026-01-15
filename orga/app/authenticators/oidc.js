@@ -75,7 +75,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
    */
   async invalidate(data) {
     const { access_token, shouldCloseSession, identityProviderCode, logoutUrlUuid } = data || {};
-    if (!shouldCloseSession) {
+    if (!shouldCloseSession || this.session.alternativeRootURL) {
       return;
     }
 
