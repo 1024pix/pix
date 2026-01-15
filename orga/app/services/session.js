@@ -8,14 +8,14 @@ export default class CurrentSessionService extends SessionService {
 
   routeAfterAuthentication = 'authenticated';
 
-  async handleAuthentication() {
-    if (this.skipAuthentication) {
-      return;
-    }
-    await this.currentUser.load();
+  // async handleAuthentication() {
+  //   // if (this.skipAuthentication) {
+  //   //   return;
+  //   // }
+  //   await this.currentUser.load();
 
-    super.handleAuthentication(this.routeAfterAuthentication);
-  }
+  //   super.handleAuthentication(this.routeAfterAuthentication);
+  // }
 
   handleInvalidation() {
     this.store.clear();

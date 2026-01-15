@@ -45,6 +45,7 @@ export default class JoinInvitationService extends Service {
 
   /** Accepts an invitation from either an email or a userId. */
   async #acceptInvitation({ email, userId }) {
+    console.log({ userId });
     if (!this.invitation) return;
 
     let record;
@@ -57,6 +58,7 @@ export default class JoinInvitationService extends Service {
       record = this.store.createRecord('organization-invitation-response', { id, code, email, userId });
       await record.save({ adapterOptions: { organizationInvitationId: invitationId } });
     } catch (responseError) {
+      console.log('ERROR', { responseError });
       record?.deleteRecord();
       const error = responseError?.errors[0];
       const isUserAlreadyOrganizationMember = error?.status === '412';

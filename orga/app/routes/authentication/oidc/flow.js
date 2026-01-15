@@ -56,10 +56,11 @@ export default class LoginOidcRoute extends Route {
     const { identityProviderSlug, shouldCreateUserAccount } = model;
 
     if (shouldCreateUserAccount) {
+      // TODO: doit être déplacé dans le beforeModel de la route 'authentication.oidc.signup'
       if (!this.joinInvitation.invitation) {
         return this.router.transitionTo('authentication.error');
       }
-
+      // FIN TODO
       this.router.transitionTo('authentication.oidc.signup', identityProviderSlug);
     }
   }

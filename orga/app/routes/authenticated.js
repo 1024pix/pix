@@ -6,9 +6,17 @@ export default class AuthenticatedRoute extends Route {
   @service router;
   @service session;
   @service store;
+  @service joinInvitation;
 
-  beforeModel(transition) {
+  async beforeModel(transition) {
     this.session.requireAuthentication(transition, 'authentication.login');
+
+    if (this.joinInvitation.invitation) {
+      const userId = this.session.data.authenticated.user_id;
+      await this.joinInvitation.acceptInvitationByUserId(userId);
+    }
+
+    await this.currentUser.load();
 
     if (transition.isAborted) {
       return;
