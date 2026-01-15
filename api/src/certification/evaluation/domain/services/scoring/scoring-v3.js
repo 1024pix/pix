@@ -5,10 +5,8 @@
  * @typedef {import('../../models/CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
  * @typedef {import('../../models/AssessmentSheet.js')} AssessmentSheet
  * @typedef {import('../index.js').ScoringConfigurationRepository} ScoringConfigurationRepository
- * @typedef {import('../index.js').ScoreDoubleCertificationV3} ScoreDoubleCertificationV3
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
- * @typedef {import('../index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
@@ -28,9 +26,7 @@ export const handleV3CertificationScoring = withTransaction(
    * @param {Array<CalibratedChallenge>} params.allChallenges
    * @param {Array<CalibratedChallenge>} params.askedChallengesWithoutLiveAlerts
    * @param {ScoringDegradationService} params.scoringDegradationService
-   * @param {ScoreDoubleCertificationV3} params.scoreDoubleCertificationV3
    * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
-   * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
    *
    * @return {boolean} //TODO update
    */
@@ -43,9 +39,7 @@ export const handleV3CertificationScoring = withTransaction(
     algorithm,
     v3CertificationScoring,
     scoringDegradationService,
-    scoreDoubleCertificationV3,
     complementaryCertificationScoringCriteriaRepository,
-    complementaryCertificationCourseResultRepository,
   }) => {
     if (candidate.hasPixPlusSubscription) {
       return false;
@@ -79,7 +73,6 @@ export const handleV3CertificationScoring = withTransaction(
         assessmentSheet,
         assessmentResult: coreScoring.assessmentResult,
         complementaryCertificationScoringCriteriaRepository,
-        complementaryCertificationCourseResultRepository,
       });
       return { coreScoring, doubleCertificationScoring };
     }
