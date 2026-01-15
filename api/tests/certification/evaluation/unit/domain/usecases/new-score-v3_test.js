@@ -1,10 +1,11 @@
 import { scoreV3Certification } from '../../../../../../src/certification/evaluation/domain/usecases/new-score-v3.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Evaluation | Integration | Domain | UseCase | New Score V3', function () {
+describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', function () {
   context('#scoreV3Certification', function () {
-    context('CLEA certificaiton', function () {
-      it('should create and persist an AssessmentResult', async function () {
+    //add tests on scorability conditions
+    context('CORE only certification', function () {
+      it('should create and persist an AssessmentResult and a CertificationAssessmentHistory', async function () {
         const assessmentSheetRepository = stubAssessmentSheetRepository();
         const certificationCandidateRepository = stubCertificationCandidateRepository();
         const sharedVersionRepository = stubSharedVersionRepository();
@@ -28,6 +29,36 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | New Scor
         });
 
         expect(assessmentResultRepository.save).to.have.been.called;
+        expect(certificationAssessmentHistoryRepository.save).to.have.been.called;
+      });
+    });
+    context('CLEA certification', function () {
+      it('should create and persist an AssessmentResult, a CertificationAssessmentHistory and a ComplementaryCertificationCourseResult', async function () {
+        const assessmentSheetRepository = stubAssessmentSheetRepository();
+        const certificationCandidateRepository = stubCertificationCandidateRepository();
+        const sharedVersionRepository = stubSharedVersionRepository();
+        const services = stubServices(true);
+        const scoringConfigurationRepository = stubScoringConfigurationRepository();
+        const certificationAssessmentHistoryRepository = stubCertificationAssessmentHistoryRepository();
+        const assessmentResultRepository = stubAssessmentResultRepository();
+        const certificationCourseRepository = stubCertificationCourseRepository();
+        const complementaryCertificationCourseResultRepository = stubComplementaryCertificationCourseResultRepository();
+
+        await scoreV3Certification({
+          assessmentSheetRepository,
+          certificationCandidateRepository,
+          sharedVersionRepository,
+          services,
+          scoringConfigurationRepository,
+          certificationAssessmentHistoryRepository,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          complementaryCertificationCourseResultRepository,
+        });
+
+        expect(assessmentResultRepository.save).to.have.been.called;
+        expect(complementaryCertificationCourseResultRepository.save).to.have.been.called;
+        expect(certificationAssessmentHistoryRepository.save).to.have.been.called;
       });
     });
   });
@@ -63,7 +94,7 @@ function stubSharedVersionRepository() {
   return sharedVersionRepository;
 }
 
-function stubServices() {
+function stubServices(hasCleaSubscription = false) {
   const services = {
     findByCertificationCourseAndVersion: sinon.stub(),
     handleV3CertificationScoring: sinon.stub(),
@@ -81,7 +112,9 @@ function stubServices() {
       certificationAssessmentScore: domainBuilder.buildCertificationAssessmentScore(),
       assessmentResult: domainBuilder.buildAssessmentResult(),
     },
-    doubleCertificationScoring: domainBuilder.certification.evaluation.buildDoubleCertificationScoring(),
+    doubleCertificationScoring: hasCleaSubscription
+      ? domainBuilder.certification.evaluation.buildDoubleCertificationScoring()
+      : null,
   };
   services.findByCertificationCourseAndVersion.resolves(object);
   services.handleV3CertificationScoring.returns(scoringObject);
