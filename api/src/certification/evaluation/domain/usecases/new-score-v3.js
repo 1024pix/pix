@@ -3,6 +3,7 @@
  * @typedef {import('./index.js').AssessmentSheetRepository} AssessmentSheetRepository
  * @typedef {import('./index.js').SharedVersionRepository} SharedVersionRepository
  * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('./index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -29,6 +30,7 @@ export const scoreV3Certification = withTransaction(
    * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
    * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
    * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+   * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
    */
   async ({
     certificationCourseId,
@@ -44,6 +46,7 @@ export const scoreV3Certification = withTransaction(
     complementaryCertificationCourseResultRepository,
     scoringConfigurationRepository,
     evaluationSessionRepository,
+    complementaryCertificationScoringCriteriaRepository,
   }) => {
     const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
 
@@ -74,6 +77,10 @@ export const scoreV3Certification = withTransaction(
       version,
     });
 
+    const scoringCriteria = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
+      certificationCourseId: assessmentSheet.certificationCourseId,
+    })[0];
+
     if (
       _verifyCertificationIsScorable(
         assessmentSheet.certificationCourseId,
@@ -91,6 +98,7 @@ export const scoreV3Certification = withTransaction(
         askedChallengesWithoutLiveAlerts,
         algorithm,
         v3CertificationScoring,
+        scoringCriteria,
       });
 
       const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({

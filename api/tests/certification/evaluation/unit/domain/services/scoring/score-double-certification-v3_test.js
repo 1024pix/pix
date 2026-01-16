@@ -1,4 +1,4 @@
-import { scoreDoubleCertificationV3 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v3.js';
+import { _scoreDoubleCertification } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v3.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
@@ -45,7 +45,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Double
       .resolves([complementaryCertificationScoringCriteria]);
 
     // when
-    await scoreDoubleCertificationV3({
+    await _scoreDoubleCertification({
       ...dependencies,
       assessmentResult,
       assessmentSheet,
@@ -90,7 +90,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Double
       .resolves([complementaryCertificationScoringCriteria]);
 
     // when
-    await scoreDoubleCertificationV3({
+    await _scoreDoubleCertification({
       ...dependencies,
       assessmentResult,
       assessmentSheet,
@@ -135,7 +135,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Double
       .resolves([complementaryCertificationScoringCriteria]);
 
     // when
-    await scoreDoubleCertificationV3({
+    await _scoreDoubleCertification({
       ...dependencies,
       assessmentResult,
       assessmentSheet,
@@ -180,7 +180,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Double
       .resolves([complementaryCertificationScoringCriteria]);
 
     // when
-    await scoreDoubleCertificationV3({
+    await _scoreDoubleCertification({
       ...dependencies,
       assessmentResult,
       assessmentSheet,
@@ -226,7 +226,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Double
       .resolves([complementaryCertificationScoringCriteria]);
 
     // when
-    await scoreDoubleCertificationV3({
+    await _scoreDoubleCertification({
       ...dependencies,
       assessmentResult,
       assessmentSheet,

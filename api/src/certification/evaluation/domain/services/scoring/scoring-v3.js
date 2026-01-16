@@ -4,14 +4,13 @@
  * @typedef {import('../../../../shared/domain/models/V3CertificationScoring.js')} V3CertificationScoring
  * @typedef {import('../../models/CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
  * @typedef {import('../../models/AssessmentSheet.js')} AssessmentSheet
- * @typedef {import('../index.js').ScoringConfigurationRepository} ScoringConfigurationRepository
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
- * @typedef {import('../index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
+import { CoreScoring } from '../../models/CoreScoring.js';
 import { DoubleCertificationScoring } from '../../models/DoubleCertificationScoring.js';
 import { createV3AssessmentResult } from './create-v3-assessment-result.js';
 
@@ -25,10 +24,10 @@ export const handleV3CertificationScoring = withTransaction(
    * @param {V3CertificationScoring} params.v3CertificationScoring
    * @param {Array<CalibratedChallenge>} params.allChallenges
    * @param {Array<CalibratedChallenge>} params.askedChallengesWithoutLiveAlerts
+   * @param {ComplementaryCertificationScoringCriteria} params.scoringCriteria
    * @param {ScoringDegradationService} params.scoringDegradationService
-   * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
    *
-   * @return {boolean} //TODO update
+   * @return {undefined | CoreScoring | Object<CoreScoring, DoubleCertificationScoring>}
    */
   async ({
     event,
@@ -38,15 +37,15 @@ export const handleV3CertificationScoring = withTransaction(
     askedChallengesWithoutLiveAlerts,
     algorithm,
     v3CertificationScoring,
+    scoringCriteria,
     scoringDegradationService,
-    complementaryCertificationScoringCriteriaRepository,
   }) => {
     if (candidate.hasPixPlusSubscription) {
-      return false;
+      return;
     }
 
     if (candidate.hasOnlyCoreSubscription) {
-      const coreScoring = await _tmpCoreScoring({
+      const coreScoring = await _scoreCoreCertification({
         event,
         assessmentSheet,
         algorithm,
@@ -59,7 +58,7 @@ export const handleV3CertificationScoring = withTransaction(
     }
 
     if (candidate.hasCleaSubscription) {
-      const coreScoring = await _tmpCoreScoring({
+      const coreScoring = await _scoreCoreCertification({
         event,
         assessmentSheet,
         algorithm,
@@ -69,19 +68,29 @@ export const handleV3CertificationScoring = withTransaction(
         scoringDegradationService,
       });
 
-      const doubleCertificationScoring = scoreDoubleCertificationV3({
+      const doubleCertificationScoring = _scoreDoubleCertification({
         assessmentSheet,
         assessmentResult: coreScoring.assessmentResult,
-        complementaryCertificationScoringCriteriaRepository,
+        scoringCriteria,
       });
       return { coreScoring, doubleCertificationScoring };
     }
   },
 );
 
-//add jsdoc and rename
-
-async function _tmpCoreScoring({
+/**
+ * @param {object} params
+ * @param {object} params.event
+ * @param {AssessmentSheet} params.assessmentSheet
+ * @param {FlashAssessmentAlgorithm} params.algorithm
+ * @param {V3CertificationScoring} params.v3CertificationScoring
+ * @param {Array<CalibratedChallenge>} params.allChallenges
+ * @param {Array<CalibratedChallenge>} params.askedChallengesWithoutLiveAlerts
+ * @param {ScoringDegradationService} params.scoringDegradationService
+ *
+ * @returns {CoreScoring}
+ */
+async function _scoreCoreCertification({
   event,
   assessmentSheet,
   algorithm,
@@ -90,7 +99,6 @@ async function _tmpCoreScoring({
   askedChallengesWithoutLiveAlerts,
   scoringDegradationService,
 }) {
-  // TODO return this CertificationAssessmentScore
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     abortReason: assessmentSheet.abortReason,
     algorithm,
@@ -104,7 +112,6 @@ async function _tmpCoreScoring({
     scoringDegradationService,
   });
 
-  // TODO extract to caller usecase
   const toBeCancelled = event instanceof CertificationCancelled;
   const assessmentResult = createV3AssessmentResult({
     toBeCancelled,
@@ -116,38 +123,26 @@ async function _tmpCoreScoring({
     juryId: event?.juryId,
   });
 
-  return { certificationAssessmentScore, assessmentResult };
+  return new CoreScoring(certificationAssessmentScore, assessmentResult);
 }
 
-export const scoreDoubleCertificationV3 = withTransaction(
-  /**
-   * @param {object} params
-   * @param {AssessmentSheet} params.assessmentSheet
-   * @param {AssessmentResult} params.assessmentResult
-   * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
-   */
-  async ({ assessmentSheet, assessmentResult, complementaryCertificationScoringCriteriaRepository }) => {
-    //might be a parameter
-    const scoringCriterias = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
-      certificationCourseId: assessmentSheet.certificationCourseId,
-    });
-
-    const {
-      minimumReproducibilityRate,
-      complementaryCertificationCourseId,
-      complementaryCertificationBadgeId,
-      minimumEarnedPix,
-    } = scoringCriterias[0];
-
-    return new DoubleCertificationScoring({
-      complementaryCertificationCourseId,
-      complementaryCertificationBadgeId,
-      reproducibilityRate: assessmentResult.reproducibilityRate,
-      pixScore: assessmentResult.pixScore,
-      minimumEarnedPix,
-      hasAcquiredPixCertification: assessmentResult.isValidated(),
-      minimumReproducibilityRate,
-      isRejectedForFraud: assessmentSheet.isRejectedForFraud,
-    });
-  },
-);
+/**
+ * @param {object} params
+ * @param {AssessmentSheet} params.assessmentSheet
+ * @param {AssessmentResult} params.assessmentResult
+ * @param {ComplementaryCertificationScoringCriteria} params.scoringCriteria
+ *
+ * @returns {DoubleCertificationScoring}
+ */
+export function _scoreDoubleCertification({ assessmentSheet, assessmentResult, scoringCriteria }) {
+  return new DoubleCertificationScoring({
+    complementaryCertificationCourseId: scoringCriteria.complementaryCertificationCourseId,
+    complementaryCertificationBadgeId: scoringCriteria.complementaryCertificationBadgeId,
+    reproducibilityRate: assessmentResult.reproducibilityRate,
+    pixScore: assessmentResult.pixScore,
+    minimumEarnedPix: scoringCriteria.complementaryCertificationBadgeId,
+    hasAcquiredPixCertification: assessmentResult.isValidated(),
+    minimumReproducibilityRate: scoringCriteria.complementaryCertificationBadgeId,
+    isRejectedForFraud: assessmentSheet.isRejectedForFraud,
+  });
+}
