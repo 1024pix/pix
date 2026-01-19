@@ -42,7 +42,7 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
-    "@1024pix/ember-testing-library": "^3.0.25",
+    "@1024pix/ember-testing-library": "^3.0.27",
     "@1024pix/eslint-plugin": "^2.1.17",
     "@1024pix/pix-ui": "^56.1.0",
     "@1024pix/stylelint-config": "^5.1.37",
