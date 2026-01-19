@@ -82,14 +82,13 @@ export const scoreV3Certification = withTransaction(
     })[0];
 
     if (
-      _verifyCertificationIsScorable(
-        assessmentSheet.certificationCourseId,
-        assessmentSheet.answers,
-        version.challengesConfiguration.maximumAssessmentLength,
+      await _verifyCertificationIsScorable({
+        certificationCourseId: assessmentSheet.certificationCourseId,
+        answers: assessmentSheet.answers,
+        maximumAssessmentLength: version.challengesConfiguration.maximumAssessmentLength,
         evaluationSessionRepository,
-      )
+      })
     ) {
-      // coreScoring could be a model like doubleCertificationScoring
       const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
         locale,
         candidate,
@@ -163,7 +162,6 @@ async function _saveV3Result({
 
   //Getting the certificationCourse just to add a completedAt date (that is possibly already set)
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
-  //Only if certificationCourse.completedAt (private) is null
   certificationCourse.complete({ now: new Date() });
   await certificationCourseRepository.update({ certificationCourse });
 }
@@ -189,7 +187,7 @@ const _verifyCertificationIsScorable = async ({
     throw new SessionAlreadyPublishedError();
   }
 
-  const hasCandidateSeenEndScreen = answers.length == maximumAssessmentLength - 1;
+  const hasCandidateSeenEndScreen = answers.length == maximumAssessmentLength;
 
   if (!session.isFinalized && !hasCandidateSeenEndScreen) {
     throw new NotFinalizedSessionError();

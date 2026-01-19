@@ -1,74 +1,135 @@
 import { scoreV3Certification } from '../../../../../../src/certification/evaluation/domain/usecases/new-score-v3.js';
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
+import { NotFinalizedSessionError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
+import { generateAnswersForChallenges, generateChallengeList } from '../../../../shared/fixtures/challenges.js';
 
 describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', function () {
-  context('#scoreV3Certification', function () {
-    //add tests on scorability conditions
-    context('CORE only certification', function () {
-      it('should create and persist an AssessmentResult and a CertificationAssessmentHistory', async function () {
-        const assessmentSheetRepository = stubAssessmentSheetRepository();
-        const certificationCandidateRepository = stubCertificationCandidateRepository();
-        const sharedVersionRepository = stubSharedVersionRepository();
-        const services = stubServices();
-        const scoringConfigurationRepository = stubScoringConfigurationRepository();
-        const certificationAssessmentHistoryRepository = stubCertificationAssessmentHistoryRepository();
-        const assessmentResultRepository = stubAssessmentResultRepository();
-        const certificationCourseRepository = stubCertificationCourseRepository();
-        const complementaryCertificationCourseResultRepository = stubComplementaryCertificationCourseResultRepository();
+  beforeEach(function () {
+    sinon.stub(knex, 'transaction').callsFake(async (callback) => {
+      return callback(knex);
+    });
+  });
 
-        await scoreV3Certification({
-          assessmentSheetRepository,
-          certificationCandidateRepository,
-          sharedVersionRepository,
-          services,
-          scoringConfigurationRepository,
-          certificationAssessmentHistoryRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          complementaryCertificationCourseResultRepository,
+  afterEach(function () {
+    sinon.restore();
+  });
+
+  context('#_verifyCertificationIsScorable', function () {
+    context('when session is already published', function () {
+      it('should throw a SessionAlreadyPublishedError', async function () {
+        const dependencies = createDependencies({
+          evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: true }),
         });
 
-        expect(assessmentResultRepository.save).to.have.been.called;
-        expect(certificationAssessmentHistoryRepository.save).to.have.been.called;
+        const error = await catchErr(scoreV3Certification)(dependencies);
+        expect(error).to.deepEqualInstance(new SessionAlreadyPublishedError());
       });
     });
-    context('CLEA certification', function () {
-      it('should create and persist an AssessmentResult, a CertificationAssessmentHistory and a ComplementaryCertificationCourseResult', async function () {
-        const assessmentSheetRepository = stubAssessmentSheetRepository();
-        const certificationCandidateRepository = stubCertificationCandidateRepository();
-        const sharedVersionRepository = stubSharedVersionRepository();
-        const services = stubServices(true);
-        const scoringConfigurationRepository = stubScoringConfigurationRepository();
-        const certificationAssessmentHistoryRepository = stubCertificationAssessmentHistoryRepository();
-        const assessmentResultRepository = stubAssessmentResultRepository();
-        const certificationCourseRepository = stubCertificationCourseRepository();
-        const complementaryCertificationCourseResultRepository = stubComplementaryCertificationCourseResultRepository();
-
-        await scoreV3Certification({
-          assessmentSheetRepository,
-          certificationCandidateRepository,
-          sharedVersionRepository,
-          services,
-          scoringConfigurationRepository,
-          certificationAssessmentHistoryRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          complementaryCertificationCourseResultRepository,
+    context('when session is only finalized', function () {
+      it('should score', async function () {
+        const dependencies = createDependencies({
+          evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),
         });
 
-        expect(assessmentResultRepository.save).to.have.been.called;
-        expect(complementaryCertificationCourseResultRepository.save).to.have.been.called;
-        expect(certificationAssessmentHistoryRepository.save).to.have.been.called;
+        await scoreV3Certification(dependencies);
+        expect(dependencies.assessmentResultRepository.save).to.have.been.called;
+      });
+    });
+    context('when session is not finalized ', function () {
+      context('when candidate has seen the test end screen', function () {
+        it('should score', async function () {
+          const dependencies = createDependencies({
+            evaluationSessionRepository: stubEvaluationSessionRepository({
+              isFinalized: false,
+              isPublished: false,
+            }),
+            assessmentSheetRepository: stubAssessmentSheetRepository({ hasCandidateFinishedTest: true }),
+          });
+
+          await scoreV3Certification(dependencies);
+          expect(dependencies.assessmentResultRepository.save).to.have.been.called;
+        });
+      });
+      context('when candidate has not seen the test end screen', function () {
+        it('should throw a NotFinalizedSessionError', async function () {
+          const dependencies = createDependencies({
+            evaluationSessionRepository: stubEvaluationSessionRepository({
+              isFinalized: false,
+              isPublished: false,
+            }),
+            assessmentSheetRepository: stubAssessmentSheetRepository({ hasCandidateFinishedTest: false }),
+          });
+
+          const error = await catchErr(scoreV3Certification)(dependencies);
+          expect(error).to.deepEqualInstance(new NotFinalizedSessionError());
+        });
+      });
+    });
+  });
+  context('#scoreV3Certification', function () {
+    context('when scoring a CORE only certification', function () {
+      it('should persist scoring information', async function () {
+        const dependencies = createDependencies();
+
+        await scoreV3Certification(dependencies);
+
+        expect(dependencies.assessmentResultRepository.save).to.have.been.called;
+        expect(dependencies.competenceMarkRepository.save).to.have.been.called;
+        expect(dependencies.certificationCourseRepository.update).to.have.been.called;
+        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
+      });
+    });
+    context('when scoring a CLEA certification', function () {
+      it('should persist scoring information', async function () {
+        const dependencies = createDependencies({
+          services: stubServices(true),
+        });
+
+        await scoreV3Certification(dependencies);
+
+        expect(dependencies.assessmentResultRepository.save).to.have.been.called;
+        expect(dependencies.competenceMarkRepository.save).to.have.been.called;
+        expect(dependencies.certificationCourseRepository.update).to.have.been.called;
+        expect(dependencies.complementaryCertificationCourseResultRepository.save).to.have.been.called;
+        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
       });
     });
   });
 });
 
-function stubAssessmentSheetRepository() {
+function _generateCertificationChallengeForChallenge({ discriminant, difficulty, id }) {
+  return domainBuilder.certification.scoring.buildChallengeCalibration({
+    id,
+    discriminant,
+    difficulty,
+    certificationChallengeId: `certification-challenge-id-for-${id}`,
+  });
+}
+
+function _buildDataFromAnsweredChallenges(answeredChallenges) {
+  const challengeCalibrationsWithoutLiveAlerts = answeredChallenges.map(_generateCertificationChallengeForChallenge);
+  const answers = generateAnswersForChallenges({ challenges: answeredChallenges });
+
+  return { answers, challengeCalibrationsWithoutLiveAlerts };
+}
+
+function _buildAnswerList(hasCandidateFinishedTest) {
+  const NUMBER_OF_QUESTIONS_IN_FINISHED_TEST = 32;
+  const NUMBER_OF_QUESTIONS_IN_UNFINISHED_TEST = 25;
+  const challenges = generateChallengeList({
+    length: hasCandidateFinishedTest ? NUMBER_OF_QUESTIONS_IN_FINISHED_TEST : NUMBER_OF_QUESTIONS_IN_UNFINISHED_TEST,
+  });
+  const { answers } = _buildDataFromAnsweredChallenges(challenges);
+  return answers;
+}
+
+function stubAssessmentSheetRepository({ hasCandidateFinishedTest = true } = {}) {
   const assessmentSheetRepository = {
-    findByCertificationCourseId: sinon.stub().rejects(new Error('Args mismatch')),
+    findByCertificationCourseId: sinon.stub(),
   };
-  const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet();
+  const answers = _buildAnswerList(hasCandidateFinishedTest);
+  const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({ answers });
   assessmentSheetRepository.findByCertificationCourseId.resolves(assessmentSheet);
 
   return assessmentSheetRepository;
@@ -76,7 +137,7 @@ function stubAssessmentSheetRepository() {
 
 function stubCertificationCandidateRepository() {
   const certificationCandidateRepository = {
-    findByAssessmentId: sinon.stub().rejects(new Error('Args mismatch')),
+    findByAssessmentId: sinon.stub(),
   };
   const candidate = domainBuilder.certification.evaluation.buildCandidate();
   certificationCandidateRepository.findByAssessmentId.resolves(candidate);
@@ -86,7 +147,7 @@ function stubCertificationCandidateRepository() {
 
 function stubSharedVersionRepository() {
   const sharedVersionRepository = {
-    getByScopeAndReconciliationDate: sinon.stub().rejects(new Error('Args mismatch')),
+    getByScopeAndReconciliationDate: sinon.stub(),
   };
   const version = domainBuilder.certification.shared.buildVersion();
   sharedVersionRepository.getByScopeAndReconciliationDate.resolves(version);
@@ -107,10 +168,14 @@ function stubServices(hasCleaSubscription = false) {
     askedChallengesWithoutLiveAlerts: [],
     challengeCalibrationsWithoutLiveAlerts: [],
   };
+  const assessmentResultId = 123;
+
   const scoringObject = {
     coreScoring: {
-      certificationAssessmentScore: domainBuilder.buildCertificationAssessmentScore(),
-      assessmentResult: domainBuilder.buildAssessmentResult(),
+      certificationAssessmentScore: domainBuilder.buildCertificationAssessmentScore({
+        competenceMarks: [domainBuilder.buildCompetenceMark(assessmentResultId)],
+      }),
+      assessmentResult: domainBuilder.buildAssessmentResult({ id: assessmentResultId }),
     },
     doubleCertificationScoring: hasCleaSubscription
       ? domainBuilder.certification.evaluation.buildDoubleCertificationScoring()
@@ -125,7 +190,7 @@ function stubServices(hasCleaSubscription = false) {
 
 function stubScoringConfigurationRepository() {
   const scoringConfigurationRepository = {
-    getLatestByVersionAndLocale: sinon.stub().rejects(new Error('Args mismatch')),
+    getLatestByVersionAndLocale: sinon.stub(),
   };
   const v3CertificationScoring = domainBuilder.buildV3CertificationScoring();
   scoringConfigurationRepository.getLatestByVersionAndLocale.resolves(v3CertificationScoring);
@@ -146,6 +211,7 @@ function stubAssessmentResultRepository() {
     save: sinon.stub(),
   };
 
+  assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
   return assessmentResultRepository;
 }
 
@@ -160,9 +226,54 @@ function stubCertificationCourseRepository() {
   return certificationCourseRepository;
 }
 
+function stubCompetenceMarkRepository() {
+  const competenceMarkRepository = {
+    save: sinon.stub(),
+  };
+  return competenceMarkRepository;
+}
+
 function stubComplementaryCertificationCourseResultRepository() {
   const complementaryCertificationCourseResultRepository = {
     save: sinon.stub(),
   };
   return complementaryCertificationCourseResultRepository;
+}
+
+function stubComplementaryCertificationScoringCriteriaRepository() {
+  const complementaryCertificationScoringCriteriaRepository = {
+    findByCertificationCourseId: sinon.stub(),
+  };
+  const scoringCriteria = domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria();
+  complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId.resolves([scoringCriteria]);
+
+  return complementaryCertificationScoringCriteriaRepository;
+}
+
+function stubEvaluationSessionRepository({ isFinalized = false, isPublished = false }) {
+  const evaluationSessionRepository = {
+    getByCertificationCourseId: sinon.stub(),
+  };
+  const session = domainBuilder.certification.evaluation.buildResultsSession({ isFinalized, isPublished });
+  evaluationSessionRepository.getByCertificationCourseId.resolves(session);
+
+  return evaluationSessionRepository;
+}
+
+function createDependencies(overrides = {}) {
+  return {
+    assessmentSheetRepository: stubAssessmentSheetRepository(),
+    certificationCandidateRepository: stubCertificationCandidateRepository(),
+    sharedVersionRepository: stubSharedVersionRepository(),
+    services: stubServices(),
+    scoringConfigurationRepository: stubScoringConfigurationRepository(),
+    certificationAssessmentHistoryRepository: stubCertificationAssessmentHistoryRepository(),
+    assessmentResultRepository: stubAssessmentResultRepository(),
+    certificationCourseRepository: stubCertificationCourseRepository(),
+    competenceMarkRepository: stubCompetenceMarkRepository(),
+    complementaryCertificationCourseResultRepository: stubComplementaryCertificationCourseResultRepository(),
+    complementaryCertificationScoringCriteriaRepository: stubComplementaryCertificationScoringCriteriaRepository(),
+    evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),
+    ...overrides,
+  };
 }
