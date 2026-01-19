@@ -155,7 +155,9 @@ export class CertificationCourse {
   }
 
   complete({ now }) {
-    this._completedAt = now;
+    if (!this._completedAt) {
+      this._completedAt = now;
+    }
   }
 
   rejectForFraud() {

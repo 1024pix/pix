@@ -246,6 +246,18 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       // then
       expect(certificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
     });
+    it('should not modify existing completedAt date', function () {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        completedAt: new Date('1999-12-31'),
+      });
+
+      // when
+      certificationCourse.complete({ now: new Date('2000-01-01') });
+
+      // then
+      expect(certificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
+    });
   });
 
   describe('#getNumberOfChallenges', function () {
