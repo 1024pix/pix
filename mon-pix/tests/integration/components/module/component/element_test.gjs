@@ -182,6 +182,24 @@ module('Integration | Component | Module | Element', function (hooks) {
     assert.dom(screen.getByRole('button', { name: 'Afficher la transcription' })).exists();
   });
 
+  test('should display an element with an audio element', async function (assert) {
+    // given
+    const element = {
+      id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+      type: 'audio',
+      title: 'Musique',
+      url: 'https://assets.pix.org/modules/placeholder-audio.mp3',
+      transcription: '<p>transcription</p>',
+    };
+
+    // when
+    const screen = await render(<template><ModulixElement @element={{element}} /></template>);
+
+    // then
+    assert.strictEqual(findAll('.element-audio').length, 1);
+    assert.dom(screen.getByRole('button', { name: 'Afficher la transcription' })).exists();
+  });
+
   test('should display an element with an download element', async function (assert) {
     // given
     const element = {

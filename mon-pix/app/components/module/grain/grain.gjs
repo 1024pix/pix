@@ -25,6 +25,7 @@ export default class ModuleGrain extends Component {
   };
 
   static AVAILABLE_ELEMENT_TYPES = [
+    'audio',
     'custom',
     'custom-draft',
     'download',

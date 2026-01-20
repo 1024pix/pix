@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
+import AudioElement from 'mon-pix/components/module/element/audio';
 import CustomDraftElement from 'mon-pix/components/module/element/custom-draft';
 import CustomElement from 'mon-pix/components/module/element/custom-element';
 import DownloadElement from 'mon-pix/components/module/element/download';
@@ -38,6 +39,8 @@ export default class ModulixElement extends Component {
       <VideoElement @video={{@element}} @onTranscriptionOpen={{@onVideoTranscriptionOpen}} />
     {{else if (eq @element.type "short-video")}}
       <ShortVideoElement @element={{@element}} />
+    {{else if (eq @element.type "audio")}}
+      <AudioElement @audio={{@element}} />
     {{else if (eq @element.type "download")}}
       <DownloadElement @download={{@element}} @onDownload={{@onFileDownload}} />
     {{else if (eq @element.type "embed")}}
