@@ -70,8 +70,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
 
         assessmentSheet.answers = answers;
 
-        const scoringCriteria = domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria();
-
         // when
         const score = await handleV3CertificationScoring({
           event,
@@ -81,7 +79,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
           askedChallengesWithoutLiveAlerts: challenges,
           algorithm,
           v3CertificationScoring,
-          scoringCriteria,
+          cleaScoringCriteria: null,
           scoringDegradationService,
         });
 
@@ -118,7 +116,8 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         });
 
         const challenges = generateChallengeList({ length: maximumAssessmentLength });
-        const scoringCriteria = domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria();
+        const cleaScoringCriteria =
+          domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria();
 
         const score = await handleV3CertificationScoring({
           event,
@@ -128,7 +127,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
           askedChallengesWithoutLiveAlerts: challenges,
           algorithm,
           v3CertificationScoring,
-          scoringCriteria,
+          cleaScoringCriteria,
           scoringDegradationService,
         });
 
@@ -138,7 +137,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
     });
 
     context('when scoring a not CORE scoped certification', function () {
-      it('should return false because no scoring occurred', async function () {
+      it('should return undefined because no scoring occurred', async function () {
         const candidate = domainBuilder.certification.evaluation.buildCandidate({
           subscriptionScope: SCOPES.PIX_PLUS_DROIT,
           hasCleaSubscription: false,

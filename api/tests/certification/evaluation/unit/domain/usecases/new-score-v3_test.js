@@ -4,7 +4,7 @@ import { NotFinalizedSessionError } from '../../../../../../src/shared/domain/er
 import { catchErr, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../shared/fixtures/challenges.js';
 
-describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', function () {
+describe('Unit | Certification | Evaluation | Domain | UseCase | New Score V3', function () {
   beforeEach(function () {
     sinon.stub(knex, 'transaction').callsFake(async (callback) => {
       return callback(knex);
@@ -15,7 +15,7 @@ describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', 
     sinon.restore();
   });
 
-  context('#_verifyCertificationIsScorable', function () {
+  context('when candidate is not scorable', function () {
     context('when session is already published', function () {
       it('should throw a SessionAlreadyPublishedError', async function () {
         const dependencies = createDependencies({
@@ -26,31 +26,8 @@ describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', 
         expect(error).to.deepEqualInstance(new SessionAlreadyPublishedError());
       });
     });
-    context('when session is only finalized', function () {
-      it('should score', async function () {
-        const dependencies = createDependencies({
-          evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),
-        });
 
-        await scoreV3Certification(dependencies);
-        expect(dependencies.assessmentResultRepository.save).to.have.been.called;
-      });
-    });
     context('when session is not finalized ', function () {
-      context('when candidate has seen the test end screen', function () {
-        it('should score', async function () {
-          const dependencies = createDependencies({
-            evaluationSessionRepository: stubEvaluationSessionRepository({
-              isFinalized: false,
-              isPublished: false,
-            }),
-            assessmentSheetRepository: stubAssessmentSheetRepository({ hasCandidateFinishedTest: true }),
-          });
-
-          await scoreV3Certification(dependencies);
-          expect(dependencies.assessmentResultRepository.save).to.have.been.called;
-        });
-      });
       context('when candidate has not seen the test end screen', function () {
         it('should throw a NotFinalizedSessionError', async function () {
           const dependencies = createDependencies({
@@ -67,7 +44,36 @@ describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', 
       });
     });
   });
-  context('#scoreV3Certification', function () {
+
+  context('when candidate is scorable', function () {
+    context('when session is only finalized', function () {
+      it('should score the certification', async function () {
+        const dependencies = createDependencies({
+          evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),
+        });
+
+        await scoreV3Certification(dependencies);
+        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
+      });
+    });
+
+    context('when session is not finalized ', function () {
+      context('when candidate has seen the test end screen', function () {
+        it('should score the certification', async function () {
+          const dependencies = createDependencies({
+            evaluationSessionRepository: stubEvaluationSessionRepository({
+              isFinalized: false,
+              isPublished: false,
+            }),
+            assessmentSheetRepository: stubAssessmentSheetRepository({ hasCandidateFinishedTest: true }),
+          });
+
+          await scoreV3Certification(dependencies);
+          expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
+        });
+      });
+    });
+
     context('when scoring a CORE only certification', function () {
       it('should persist scoring information', async function () {
         const dependencies = createDependencies();
@@ -78,12 +84,15 @@ describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', 
         expect(dependencies.competenceMarkRepository.save).to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).to.have.been.called;
         expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
+
+        expect(dependencies.complementaryCertificationCourseResultRepository.save).not.to.have.been.called;
       });
     });
+
     context('when scoring a CLEA certification', function () {
       it('should persist scoring information', async function () {
         const dependencies = createDependencies({
-          services: stubServices(true),
+          services: stubServices({ hasCleaSubscription: true }),
         });
 
         await scoreV3Certification(dependencies);
@@ -93,6 +102,23 @@ describe('Certification | Evaluation | Unit | Domain | UseCase | New Score V3', 
         expect(dependencies.certificationCourseRepository.update).to.have.been.called;
         expect(dependencies.complementaryCertificationCourseResultRepository.save).to.have.been.called;
         expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
+      });
+    });
+
+    context('when scoring a Pix+ certification', function () {
+      it('should only persist certification assessment history', async function () {
+        const dependencies = createDependencies({
+          services: stubServices({ hasPixPlusSubscription: true }),
+        });
+
+        await scoreV3Certification(dependencies);
+
+        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
+
+        expect(dependencies.assessmentResultRepository.save).not.to.have.been.called;
+        expect(dependencies.competenceMarkRepository.save).not.to.have.been.called;
+        expect(dependencies.certificationCourseRepository.update).not.to.have.been.called;
+        expect(dependencies.complementaryCertificationCourseResultRepository.save).not.to.have.been.called;
       });
     });
   });
@@ -155,7 +181,7 @@ function stubSharedVersionRepository() {
   return sharedVersionRepository;
 }
 
-function stubServices(hasCleaSubscription = false) {
+function stubServices({ hasCleaSubscription = false, hasPixPlusSubscription = false } = {}) {
   const services = {
     findByCertificationCourseAndVersion: sinon.stub(),
     handleV3CertificationScoring: sinon.stub(),
@@ -171,15 +197,18 @@ function stubServices(hasCleaSubscription = false) {
   const assessmentResultId = 123;
 
   const scoringObject = {
-    coreScoring: {
-      certificationAssessmentScore: domainBuilder.buildCertificationAssessmentScore({
-        competenceMarks: [domainBuilder.buildCompetenceMark(assessmentResultId)],
-      }),
-      assessmentResult: domainBuilder.buildAssessmentResult({ id: assessmentResultId }),
-    },
-    doubleCertificationScoring: hasCleaSubscription
-      ? domainBuilder.certification.evaluation.buildDoubleCertificationScoring()
-      : null,
+    coreScoring: !hasPixPlusSubscription
+      ? {
+          certificationAssessmentScore: domainBuilder.buildCertificationAssessmentScore({
+            competenceMarks: [domainBuilder.buildCompetenceMark(assessmentResultId)],
+          }),
+          assessmentResult: domainBuilder.buildAssessmentResult({ id: assessmentResultId }),
+        }
+      : undefined,
+    doubleCertificationScoring:
+      hasCleaSubscription && !hasPixPlusSubscription
+        ? domainBuilder.certification.evaluation.buildDoubleCertificationScoring()
+        : null,
   };
   services.findByCertificationCourseAndVersion.resolves(object);
   services.handleV3CertificationScoring.returns(scoringObject);

@@ -1,23 +1,30 @@
-/** incomplete
+/**
  * @typedef {import('./index.js').Services} Services
  * @typedef {import('./index.js').AssessmentSheetRepository} AssessmentSheetRepository
- * @typedef {import('./index.js').SharedVersionRepository} SharedVersionRepository
  * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('./index.js').SharedVersionRepository} SharedVersionRepository
+ * @typedef {import('./index.js').AssessmentResultRepository} AssessmentResultRepository
+ * @typedef {import('./index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import('./index.js').CertificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
+ * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('./index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
+ * @typedef {import('./index.js').ScoringConfigurationRepository} ScoringConfigurationRepository
+ * @typedef {import('./index.js').EvaluationSessionRepository} EvaluationSessionRepository
  * @typedef {import('./index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
-import { FlashAssessmentAlgorithm } from '../../../evaluation/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentHistory } from '../../../scoring/domain/models/CertificationAssessmentHistory.js';
 import { SessionAlreadyPublishedError } from '../../../session-management/domain/errors.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
 
 export const scoreV3Certification = withTransaction(
   /**
    * @param {object} params
-   * @param {number} param.certificationCourseId
+   * @param {number} params.certificationCourseId
    * @param {string} params.locale
    * @param {Services} params.services
    * @param {AssessmentSheetRepository} params.assessmentSheetRepository
@@ -54,7 +61,6 @@ export const scoreV3Certification = withTransaction(
       assessmentId: assessmentSheet.assessmentId,
     });
 
-    // version, allChallenges, askedChallengesWithoutLiveAlerts, algorithm and v3CertificationScoring could be its own "exam conditions" model
     const version = await sharedVersionRepository.getByScopeAndReconciliationDate({
       scope: candidate.subscriptionScope,
       reconciliationDate: candidate.reconciledAt,
@@ -77,7 +83,7 @@ export const scoreV3Certification = withTransaction(
       version,
     });
 
-    const scoringCriteria = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
+    const cleaScoringCriteria = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
       certificationCourseId: assessmentSheet.certificationCourseId,
     })[0];
 
@@ -97,7 +103,7 @@ export const scoreV3Certification = withTransaction(
         askedChallengesWithoutLiveAlerts,
         algorithm,
         v3CertificationScoring,
-        scoringCriteria,
+        cleaScoringCriteria,
       });
 
       const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
@@ -107,29 +113,59 @@ export const scoreV3Certification = withTransaction(
       });
       await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
 
-      await _saveV3Result({
-        assessmentResult: coreScoring.assessmentResult,
-        certificationCourseId: assessmentSheet.certificationCourseId,
-        certificationAssessmentScore: coreScoring.certificationAssessmentScore,
-        assessmentResultRepository,
-        competenceMarkRepository,
-        certificationCourseRepository,
-      });
+      if (coreScoring) {
+        await _saveV3Result({
+          assessmentResult: coreScoring.assessmentResult,
+          certificationCourseId: assessmentSheet.certificationCourseId,
+          certificationAssessmentScore: coreScoring.certificationAssessmentScore,
+          assessmentResultRepository,
+          competenceMarkRepository,
+          certificationCourseRepository,
+        });
 
-      if (doubleCertificationScoring) {
-        await complementaryCertificationCourseResultRepository.save(
-          ComplementaryCertificationCourseResult.from({
-            complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
-            complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
-            source: doubleCertificationScoring.source,
-            acquired: doubleCertificationScoring.isAcquired(),
-          }),
-        );
+        if (doubleCertificationScoring) {
+          await complementaryCertificationCourseResultRepository.save(
+            ComplementaryCertificationCourseResult.from({
+              complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
+              complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
+              source: doubleCertificationScoring.source,
+              acquired: doubleCertificationScoring.isAcquired(),
+            }),
+          );
+        }
       }
     }
-    //else ?
   },
 );
+
+/**
+ * @param {object} params
+ * @param {number} params.certificationCourseId
+ * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+ *
+ * @returns {Promise<void>}
+ * @throws {NotFinalizedSessionError}
+ * @throws {SessionAlreadyPublishedError}
+ */
+const _verifyCertificationIsScorable = async ({
+  certificationCourseId,
+  answers,
+  maximumAssessmentLength,
+  evaluationSessionRepository,
+}) => {
+  const session = await evaluationSessionRepository.getByCertificationCourseId({ certificationCourseId });
+
+  if (session.isPublished) {
+    throw new SessionAlreadyPublishedError();
+  }
+
+  const hasCandidateSeenEndScreen = answers.length == maximumAssessmentLength;
+
+  if (!session.isFinalized && !hasCandidateSeenEndScreen) {
+    throw new NotFinalizedSessionError();
+  }
+  return true;
+};
 
 /**
  * @param {object} params
@@ -160,37 +196,7 @@ async function _saveV3Result({
     await competenceMarkRepository.save(competenceMarkDomain);
   }
 
-  //Getting the certificationCourse just to add a completedAt date (that is possibly already set)
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.complete({ now: new Date() });
   await certificationCourseRepository.update({ certificationCourse });
 }
-
-/**
- * @param {object} params
- * @param {number} params.certificationCourseId
- * @param {EvaluationSessionRepository} params.evaluationSessionRepository
- *
- * @returns {Promise<void>}
- * @throws {NotFinalizedSessionError}
- * @throws {SessionAlreadyPublishedError}
- */
-const _verifyCertificationIsScorable = async ({
-  certificationCourseId,
-  answers,
-  maximumAssessmentLength,
-  evaluationSessionRepository,
-}) => {
-  const session = await evaluationSessionRepository.getByCertificationCourseId({ certificationCourseId });
-
-  if (session.isPublished) {
-    throw new SessionAlreadyPublishedError();
-  }
-
-  const hasCandidateSeenEndScreen = answers.length == maximumAssessmentLength;
-
-  if (!session.isFinalized && !hasCandidateSeenEndScreen) {
-    throw new NotFinalizedSessionError();
-  }
-  return true;
-};

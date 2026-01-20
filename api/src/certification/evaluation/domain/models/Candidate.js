@@ -32,7 +32,7 @@ export class Candidate {
   get hasOnlyCoreSubscription() {
     return this.subscriptionScope === SCOPES.CORE && !this.hasCleaSubscription;
   }
-  // todo s'entendre sur si on dit encore pix plus ou pas ??!!
+
   get hasPixPlusSubscription() {
     return this.subscriptionScope !== SCOPES.CORE && !this.hasCleaSubscription;
   }
