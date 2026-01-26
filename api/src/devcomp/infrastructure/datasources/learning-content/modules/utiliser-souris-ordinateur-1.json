@@ -32,7 +32,7 @@
               "element": {
                 "id": "91ba6701-243c-4f07-bd0d-9019a1c85b4d",
                 "type": "text",
-                "content": "<p>Dans ce module vous allez prendre en main une souris pour interagir avec l’ordinateur.</p>"
+                "content": "<p>Dans ce module, vous allez prendre en main une souris pour interagir avec un ordinateur.</p>"
               }
             }
           ]
@@ -47,7 +47,7 @@
               "element": {
                 "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
                 "type": "text",
-                "content": "<p>La souris fait partie de l’équipement de base d’un ordinateur, avec le clavier.</p><p>Les souris peuvent avoir différentes formes, tailles ou couleurs. </p><p>Il y a deux types de souris&nbsp;: </p><ul><li>les souris avec un fil</li><li>les souris sans fil</li></ul><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
+                "content": "<p>La souris fait partie de l’équipement de base d’un ordinateur, avec le clavier.</p><p>Les souris peuvent avoir différentes formes, tailles ou couleurs. </p><p>Il y a deux types de souris&nbsp;: </p><ul><li>les souris avec un fil,</li><li>les souris sans fil.</li></ul><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
               }
             },
             {
@@ -57,7 +57,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/1eMarche-souris1/illu-differentes-souris.png",
                 "alt": "-",
-                "alternativeText": "<ul><li>Les souris avec un fil&nbsp;: photographies de 4 souris avec fil de taille, forme et couleur différentes.</li><li>Les souris sans fil&nbsp;: photographies de 4&nbsp;souris sans fil différentes reliées par des connecteurs USB Bluetooth. L’une d’elle est une souris ergonomique.</li></ul>"
+                "alternativeText": "<ul><li>Les souris avec un fil&nbsp;: photographies de 4 souris avec fil, de tailles, formes et couleurs différentes.</li><li>Les souris sans fil&nbsp;: photographies de 4&nbsp;souris sans fil différentes, reliées par des connecteurs USB Bluetooth. L’une d’elles est une souris ergonomique.</li></ul>"
               }
             },
             {
@@ -107,7 +107,7 @@
                 "url": "https://assets.pix.org/modules/1eMarche-souris1/video-prise-en-main.mp4",
                 "poster": "https://assets.pix.org/modules/1eMarche-souris1/video-prise-en-main-vignette.jpg",
                 "subtitles": "https://assets.pix.org/modules/1eMarche-souris1/video-prise-en-main-subtitles.vtt",
-                "transcription": "<strong>Prendre en main une souris d’ordinateur</strong><br>Je place ma main entière sur la souris, comme pour la recouvrir. Je pose mon avant-bras et mon poignet à plat sur la table. Je baisse et je détends mes épaules. <br>Je place mon pouce sur le côté gauche de la souris. Je pose mon index sur le bouton gauche et mon majeur sur le bouton droit, sans appuyer. En fonction de la taille de ma main et de celle de la souris, les deux derniers doigts peuvent être sur la souris ou sur le côté de la souris. <br>L’important est d’être à l’aise et détendu au niveau du poignet et des doigts. Maintenant, ma main est correctement posée sur la souris.Je fais glisser la souris doucement sur la table en bougeant ma main. Seul mon poignet bouge. Mon avant-bras reste en contact avec la table. Je guide la souris sans appuyer dessus ni la serrer. Je fais de petits mouvements. Encore une fois, j’essaie d’être le plus relâché possible."
+                "transcription": "<strong>Prendre en main une souris d’ordinateur</strong><br><br>Étape 1 : Placer la main.<br>Je place ma main entière sur la souris, comme pour la recouvrir. Je pose mon avant-bras et mon poignet à plat sur la table. Je baisse et je détends mes épaules. <br><br>Étape 2 : Positionner les doigts.<br>Je place mon pouce sur le côté gauche de la souris. Je pose mon index sur le bouton gauche et mon majeur sur le bouton droit, sans appuyer. En fonction de la taille de ma main et de celle de la souris, les deux derniers doigts peuvent être sur la souris ou sur le côté de la souris. <br>L’important est d’être à l’aise et détendu au niveau du poignet et des doigts. Maintenant, ma main est correctement posée sur la souris. <br><br>Étape 3 : Déplacer la souris.<br>Je fais glisser la souris doucement sur la table en bougeant ma main. Seul mon poignet bouge. Mon avant-bras reste en contact avec la table. Je guide la souris sans appuyer dessus ni la serrer. Je fais de petits mouvements. Encore une fois, j’essaie d’être le plus relâché possible."
               }
             }
           ]
@@ -137,7 +137,7 @@
               "element": {
                 "id": "6b6eeef4-bb9b-4769-906d-47e72db93543",
                 "type": "text",
-                "content": "<p>Pour l’instant, regardez votre souris. Ne regardez pas ce qu’il se passe à l’écran.<br></p><h4><span aria-hidden=\"true\">👉</span> Déplacez votre souris, en suivant ces étapes&nbsp;:</h4><ul><li>Étape 1&nbsp;: Posez votre main confortablement sur la souris.</li><li>Étape 2&nbsp;: Faites glissez la souris doucement sur la table.</li></ul>"
+                "content": "<p>Pour l’instant, regardez votre souris. Ne regardez pas ce qu’il se passe à l’écran.<br></p><h4><span aria-hidden=\"true\">👉</span> Déplacez votre souris, en suivant ces étapes&nbsp;:</h4><ul><li>Étape 1&nbsp;: Posez votre main confortablement sur la souris.</li><li>Étape 2&nbsp;: Faites glisser la souris doucement sur la table.</li></ul>"
               }
             },
             {
@@ -224,7 +224,7 @@
               "element": {
                 "id": "0dc90047-776b-48cd-944e-72ca51c69cfc",
                 "type": "text",
-                "content": "<h4><span aria-hidden=\"true\">👉</span> Dans la zone ci-dessous, déplacez le pointeur de votre souris.</h4><p>Pour découvrir l’image cachée, passez le pointeur de votre souris dans toute la zone.</p>"
+                "content": "<h4><span aria-hidden=\"true\">👉</span> Dans la zone ci-dessous, déplacez le pointeur de votre souris.</h4>"
               }
             },
             {
@@ -422,7 +422,7 @@
               "element": {
                 "id": "4f9d39e4-5687-43fa-881d-8904d63023c8",
                 "type": "text",
-                "content": "<p><strong>Étape 1&nbsp;:</strong> On déplace le pointeur à l’écran.</p><p><strong>Étape 2&nbsp;: </strong>On appuie sur le bouton gauche de la souris</p><p>💡Pour réussir un clic&nbsp;: </p><ul><li>Il faut appuyer avec l’index sans faire bouger la souris.</li><li>On doit entendre le son «&nbsp;clic&nbsp;».</li><li>Relâcher immédiatement après l’appui. C’est comme pour un bouton de télécommande !</li></ul>"
+                "content": "<p><strong>Étape 1&nbsp;:</strong> On déplace le pointeur à l’écran.</p><p><strong>Étape 2&nbsp;: </strong>On appuie sur le bouton gauche de la souris</p><p>💡Pour réussir un clic&nbsp;: </p><ul><li>Il faut appuyer avec l’index sans faire bouger la souris.</li><li>On doit entendre le son «&nbsp;clic&nbsp;».</li><li>Il faut relâcher immédiatement après l’appui. C’est comme pour un bouton de télécommande !</li></ul>"
               }
             }
           ]
@@ -454,7 +454,7 @@
                 "type": "custom-draft",
                 "title": "Élément interactif",
                 "url": "https://1024pix.github.io/atelier-contenus/PCH/1emarche/1emarche-souris1-clicsouris/index.html",
-                "instruction": "<p><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu’il apparait.</strong></p>",
+                "instruction": "<p><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu’il apparaît.</strong></p>",
                 "height": 432
               }
             },
@@ -485,7 +485,7 @@
               "element": {
                 "id": "0ef82c6c-4526-4ecf-9f2e-02a42fc382ac",
                 "type": "text",
-                "content": "<p>Il arrive que le pointeur de la souris change de forme. C’est tout à fait normal.&nbsp;</p><p>Découvrez les différentes formes de pointeur.<br><br></p>"
+                "content": "<p>Il arrive que le pointeur de la souris change de forme. C’est tout à fait normal.&nbsp;</p><p>Découvrez les différentes formes de pointeurs.<br><br></p>"
               }
             }
           ]
@@ -500,7 +500,7 @@
               "element": {
                 "id": "af44ed34-f3a3-46f1-813d-c801a6e0b073",
                 "type": "text",
-                "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. Cela signifie qu’une action est possible.</p><p>Découvrez les trois formes de pointeur les plus courantes et leur utilité.</p>"
+                "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. Cela signifie qu’une action est possible.</p><p>Découvrez les trois formes de pointeurs les plus courantes et leur utilité.</p>"
               }
             },
             {
@@ -510,7 +510,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/1eMarche-souris1/curseurs-avec-noms.png",
                 "alt": "",
-                "alternativeText": "<p>image des 4 formes de pointeur les plus courantes&nbsp;: la flèche, la main, la barre verticale, et la roue ou le sablier.</p>"
+                "alternativeText": "<p>image des 4 formes de pointeurs les plus courantes&nbsp;: la flèche, la main, la barre verticale, et la roue ou le sablier.</p>"
               }
             },
             {
@@ -583,7 +583,7 @@
               "element": {
                 "id": "cf2d139c-39dc-4e7b-b24c-960e3e52e6cf",
                 "type": "text",
-                "content": "Dans le quiz ci-dessous, cliquez sur une réponse puis cliquez sur «&nbsp;Vérifier ma réponse»."
+                "content": "Pour répondre à la question ci-dessous, cliquez sur une réponse puis cliquez sur «&nbsp;Vérifier ma réponse&nbsp;»."
               }
             },
             {
@@ -606,7 +606,7 @@
                     "content": "Vous verrez, c’est plié !",
                     "feedback": {
                       "state": "Mauvaise réponse.",
-                      "diagnosis": "Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;»."
+                      "diagnosis": "Vous avez bien cliqué sur «&nbsp;Vérifier ma réponse&nbsp;». Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;»."
                     }
                   },
                   {
@@ -614,7 +614,7 @@
                     "content": "Vous pensiez que c’était simple ?",
                     "feedback": {
                       "state": "Mauvaise réponse.",
-                      "diagnosis": "Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;»."
+                      "diagnosis": "Vous avez bien cliqué sur «&nbsp;Vérifier ma réponse&nbsp;» Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;»."
                     }
                   }
                 ],
