@@ -647,6 +647,7 @@ const configuration = (function () {
     config.infra.engineeringUserId = 800;
 
     config.pgBoss.databaseUrl = process.env.TEST_DATABASE_URL;
+    console.log(config.pgBoss.databaseUrl);
 
     config.v3Certification.latestCalibrationDate = '2020-01-01';
   }

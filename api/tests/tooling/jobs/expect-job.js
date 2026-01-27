@@ -11,7 +11,8 @@ export const jobChai = (pgBoss) => (_chai, utils) => {
 
   Assertion.addMethod('withJobsCount', async function (expectedCount) {
     const jobName = this._obj;
-    const jobs = await pgBoss.fetch(jobName, expectedCount + 1, { includeMetadata: true });
+    const jobs = await pgBoss.fetch(jobName, { batchSize: expectedCount + 1, includeMetadata: true });
+    console.log(`fetching job named ${jobName}`);
     const actualCount = jobs?.length ?? 0;
 
     assert.strictEqual(

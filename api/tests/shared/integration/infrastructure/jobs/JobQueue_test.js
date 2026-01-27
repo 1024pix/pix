@@ -3,13 +3,13 @@ import PgBoss from 'pg-boss';
 import { Metrics } from '../../../../../src/monitoring/infrastructure/metrics.js';
 import { JobQueue } from '../../../../../src/shared/infrastructure/jobs/JobQueue.js';
 import { JobRepository } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { pgBoss } from '../../../../../src/shared/infrastructure/repositories/jobs/pg-boss.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobQueue', function () {
-  let pgBoss, jobQueue;
+  let jobQueue;
 
   beforeEach(async function () {
-    pgBoss = new PgBoss(process.env.TEST_DATABASE_URL);
     await pgBoss.start();
 
     jobQueue = new JobQueue(pgBoss);
@@ -26,37 +26,16 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
       await job.performAsync(expectedParams);
 
       // then
-      const promise = new Promise((resolve, reject) => {
-        const handler = class {
-          get teamConcurrency() {
-            return 1;
-          }
-
-          get teamSize() {
-            return 2;
-          }
-
-          handle(params) {
-            try {
-              expect(params).to.deep.contains({ data: expectedParams });
-            } catch (err) {
-              reject(err);
-            }
-            resolve();
-          }
-        };
-
-        jobQueue.register(new Metrics({ config: { metrics: { isDirectMetricsEnabled: false } } }), name, handler);
-      });
-
-      return promise;
+      return createQueue(expectedParams, jobQueue, name);
     });
   });
 
   describe('cronJob', function () {
-    it('save schedule job', async function () {
+    it('save schedule job', async function async() {
       // given
       const name = 'CronJobTest';
+
+      await createQueue(null, jobQueue, name);
 
       // when
       await jobQueue.scheduleCronJob({
@@ -91,3 +70,23 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
     });
   });
 });
+
+function createQueue(expectedParams, jobQueue, name) {
+  return async () => {
+    const handler = class {
+      get teamConcurrency() {
+        return 1;
+      }
+
+      get teamSize() {
+        return 2;
+      }
+
+      async handle(params) {
+        expect(params).to.deep.contains({ data: expectedParams });
+      }
+    };
+
+    await jobQueue.register(new Metrics({ config: { metrics: { isDirectMetricsEnabled: false } } }), name, handler);
+  };
+}

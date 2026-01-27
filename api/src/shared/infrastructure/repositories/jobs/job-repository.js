@@ -53,7 +53,6 @@ export class JobRepository {
         retryDelay: this.retry.retryDelay,
         retryBackoff: this.retry.retryBackoff,
         expireInSeconds: this.expireIn,
-        onComplete: true,
         priority: this.priority,
       },
     };
@@ -71,7 +70,8 @@ export class JobRepository {
       };
 
       for (const job of jobs) {
-        await pgBoss.send(job.name, job.data, { ...job.options, db });
+        const jobId = await pgBoss.send(job.name, job.data, { ...job.options, db });
+        console.log(`job created on queue ${job.name} with id ${jobId}`);
       }
       return { rowCount: jobs.length };
     } finally {

@@ -6,10 +6,10 @@ import { catchErr, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Tooling | Expect Job', function () {
   describe('#withJobsCount', function () {
-    it('succeeds when count of executed jobs is correct', async function () {
+    it.only('succeeds when count of executed jobs is correct', async function () {
       // given
-      const job = new JobRepository({ name: 'JobTest' }, knex);
-      const job2 = new JobRepository({ name: 'JobTest2' }, knex);
+      const job = new JobRepository({ name: 'JobTest' });
+      const job2 = new JobRepository({ name: 'JobTest2' });
 
       // when
       await job.performAsync({ foo: 'bar' });

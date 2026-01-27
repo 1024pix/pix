@@ -104,11 +104,11 @@ export async function registerJobs({ jobGroups, dependencies = { startPgBoss, cr
 
     if (job.isJobEnabled) {
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-      jobQueues.register(metrics, job.jobName, ModuleClass);
+      await jobQueues.register(metrics, job.jobName, ModuleClass);
 
       if (!job.jobCron && job.legacyName) {
         logger.warn(`Temporary Job" ${job.legacyName}" registered from module "${moduleName}."`);
-        jobQueues.register(metrics, job.legacyName, ModuleClass);
+        await jobQueues.register(metrics, job.legacyName, ModuleClass);
       }
 
       if (job.jobCron) {
