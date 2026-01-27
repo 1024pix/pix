@@ -64,6 +64,13 @@ export default function routes() {
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
+  this.get('/config', (schema) => {
+    return {
+      featureToggles: schema.featureToggles.findOrCreateBy({ id: '0' }),
+      permitPixAdminLoginFromPassword: true,
+      autonomousCoursesOrganizationId: 999,
+    };
+  });
 
   this.get('/admin/autonomous-courses/target-profiles', findAutonomousCourseTargetProfiles);
   this.post('/admin/autonomous-courses', createAutonomousCourse);
