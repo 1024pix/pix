@@ -14,8 +14,8 @@ QUnit.hooks.beforeEach(function () {
   clearAllCookies();
 });
 
-export async function start() {
+export async function start({ availableModules }) {
   setApplication(Application.create(config.APP));
   setup(QUnit.assert);
-  await startEmberExam();
+  await startEmberExam({ availableModules });
 }

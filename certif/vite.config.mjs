@@ -6,7 +6,10 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(({ mode }) => ({
   define: {
-    'process.env.NODE_ENV': JSON.stringify(mode),
+    'process.env': JSON.stringify({
+      NODE_ENV: mode,
+      CI: process.env.CI,
+    }),
   },
   plugins: [
     classicEmberSupport(),
