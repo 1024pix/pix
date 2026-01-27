@@ -1,29 +1,23 @@
-import Object from '@ember/object';
-import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
+import sinon from 'sinon';
 
-module('Unit | Service | feature toggles', function (hooks) {
+module('Unit | Service | feature-toggles', function (hooks) {
   setupTest(hooks);
 
-  module('feature toggles are loaded', function () {
-    test('should load the feature toggles', async function (assert) {
-      // Given
-      const featureToggles = Object.create({
-        aFakeFeatureToggle: false,
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(featureToggles),
-      });
+  module('featureToggles', function () {
+    test('returns properties', async function (assert) {
+      // given
+      const configService = this.owner.lookup('service:config');
+      sinon.stub(configService, 'featureToggles').value({ aProperty: 'some value' });
+
       const featureToggleService = this.owner.lookup('service:featureToggles');
-      featureToggleService.set('store', storeStub);
 
-      // When
-      await featureToggleService.load();
+      // when
+      const featureToggles = await featureToggleService.featureToggles;
 
-      // Then
-      assert.false(featureToggleService.featureToggles.aFakeFeatureToggle);
+      // then
+      assert.deepEqual(featureToggles, { aProperty: 'some value' });
     });
   });
 });

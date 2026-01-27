@@ -17,7 +17,6 @@ export default class ApplicationRoute extends Route {
     this.intl.setFormats(formats);
     this.locale.setBestLocale({ queryParams });
     await this.session.setup();
-    await this.featureToggles.load();
     await this.currentUser.load();
   }
 }
