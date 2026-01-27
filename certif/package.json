@@ -68,7 +68,7 @@
     "@glimmer/tracking": "^1.1.2",
     "@nullvoxpopuli/ember-composable-helpers": "^5.3.0",
     "@rollup/plugin-babel": "^6.0.4",
-    "babel-plugin-ember-template-compilation": "^2.3.0",
+    "babel-plugin-ember-template-compilation": "^4.0.0",
     "dayjs": "^1.11.6",
     "decorator-transforms": "^2.3.0",
     "ember-auto-import": "^2.10.0",
