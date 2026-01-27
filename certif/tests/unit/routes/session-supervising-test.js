@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import ENV from '../../../config/environment';
+import ENV from 'pix-certif/config/environment';
 import setupIntl from '../helpers/setup-intl';
 
 module('Unit | Route | session-supervising', function (hooks) {

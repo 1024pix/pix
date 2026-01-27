@@ -1,4 +1,4 @@
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import dayjsFormat from 'pix-certif/helpers/dayjs-format';
 import { t } from 'ember-intl';
 
 <template>

@@ -10,7 +10,7 @@ import EmberObject, { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import dayjsFormat from 'pix-certif/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';

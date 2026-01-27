@@ -1,6 +1,6 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, fillIn, settled, waitUntil } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from '../test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';

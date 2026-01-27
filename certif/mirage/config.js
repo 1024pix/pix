@@ -1,8 +1,29 @@
-import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer, Response } from 'miragejs';
 
+import certificationCandidateFactory from './factories/certification-candidate';
+import certificationIssueReportFactory from './factories/certification-issue-report';
+import certificationPointOfContactFactory from './factories/certification-point-of-contact';
+import certificationReportFactory from './factories/certification-report';
+import countryFactory from './factories/country';
+import divisionFactory from './factories/division';
+import featureToggleFactory from './factories/feature-toggle';
+import informationBannerFactory from './factories/information-banner';
+import sessionEnrolmentFactory from './factories/session-enrolment';
+import sessionManagementFactory from './factories/session-management';
+import studentFactory from './factories/student';
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
+import applicationSerializer from './serializers/application';
+import certificationCandidateSerializer from './serializers/certification-candidate';
+import certificationIssueReportSerializer from './serializers/certification-issue-report';
+import certificationPointOfContactSerializer from './serializers/certification-point-of-contact';
+import certificationReportSerializer from './serializers/certification-report';
+import informationBannerSerializer from './serializers/information-banner';
+import sessionEnrolmentSerializer from './serializers/session-enrolment';
+import sessionForSupervisingSerializer from './serializers/session-for-supervising';
+import sessionManagementSerializer from './serializers/session-management';
+import sessionSummarySerializer from './serializers/session-summary';
+import studentSerializer from './serializers/student';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -13,16 +34,41 @@ function parseQueryString(queryString) {
   return result;
 }
 
-export default function makeServer(config) {
-  const finalConfig = {
+export default function makeServer(config = {}) {
+  const server = createServer({
     ...config,
-    models: { ...discoverEmberDataModels(config.store), ...config.models },
-    serializers: applyEmberDataSerializers(config.serializers),
+    factories: {
+      'certification-candidate': certificationCandidateFactory,
+      'certification-issue-report': certificationIssueReportFactory,
+      'certification-point-of-contact': certificationPointOfContactFactory,
+      'certification-report': certificationReportFactory,
+      country: countryFactory,
+      division: divisionFactory,
+      'feature-toggle': featureToggleFactory,
+      'information-banner': informationBannerFactory,
+      'session-enrolment': sessionEnrolmentFactory,
+      'session-management': sessionManagementFactory,
+      student: studentFactory,
+      ...config.factories,
+    },
+    serializers: {
+      application: applicationSerializer,
+      'certification-candidate': certificationCandidateSerializer,
+      'certification-issue-report': certificationIssueReportSerializer,
+      'certification-point-of-contact': certificationPointOfContactSerializer,
+      'certification-report': certificationReportSerializer,
+      'information-banner': informationBannerSerializer,
+      'session-enrolment': sessionEnrolmentSerializer,
+      'session-for-supervising': sessionForSupervisingSerializer,
+      'session-management': sessionManagementSerializer,
+      'session-summary': sessionSummarySerializer,
+      student: studentSerializer,
+      ...config.serializers,
+    },
     routes,
-    logging: true,
+    logging: config.environment !== 'test',
     urlPrefix: 'http://localhost:3000',
-  };
-  const server = createServer(finalConfig);
+  });
   server.create('information-banner', 'withoutBanners');
 
   return server;

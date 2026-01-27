@@ -1,7 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { settled } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from '../test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
