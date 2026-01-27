@@ -1,21 +1,20 @@
-import { helper } from '@ember/component/helper';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import Helper from '@ember/component/helper';
+import { service } from '@ember/service';
 
-dayjs.extend(customParseFormat);
+export default class DayjsFormat extends Helper {
+  @service dayjs;
 
-export function dayjsFormat([value, format], { inputFormat, 'allow-empty': allowEmpty } = {}) {
-  if (!value) {
-    return allowEmpty ? '' : value;
+  compute([value, format], { inputFormat, 'allow-empty': allowEmpty } = {}) {
+    if (!value) {
+      return allowEmpty ? '' : value;
+    }
+
+    const parsed = this.dayjs.self(value, inputFormat);
+
+    if (!parsed.isValid()) {
+      return allowEmpty ? '' : value;
+    }
+
+    return parsed.format(format);
   }
-
-  const parsed = inputFormat ? dayjs(value, inputFormat) : dayjs(value);
-
-  if (!parsed.isValid()) {
-    return allowEmpty ? '' : value;
-  }
-
-  return parsed.format(format);
 }
-
-export default helper(dayjsFormat);

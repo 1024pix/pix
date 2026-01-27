@@ -1,6 +1,5 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, fillIn, settled, waitUntil } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
@@ -9,6 +8,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { authenticateSession } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 const isVisible = (element) => {
   return window.getComputedStyle(element).visibility !== 'hidden';

@@ -1,9 +1,9 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import ENV from 'pix-certif/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import ENV from 'pix-certif/config/environment';
 import setupIntl from '../helpers/setup-intl';
 
 module('Unit | Route | session-supervising', function (hooks) {

@@ -1,10 +1,10 @@
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 module('Acceptance | Restricted access', function (hooks) {
   setupApplicationTest(hooks);

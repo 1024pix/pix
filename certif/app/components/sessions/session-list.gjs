@@ -9,9 +9,9 @@ import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsFormat from 'pix-certif/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
+import dayjsFormat from 'pix-certif/helpers/dayjs-format';
 
 import { CREATED, FINALIZED, PROCESSED } from '../../models/session-management';
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';

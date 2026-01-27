@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -10,6 +9,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 module('Acceptance | authenticated', function (hooks) {
   setupApplicationTest(hooks);

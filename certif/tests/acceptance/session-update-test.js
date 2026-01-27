@@ -1,10 +1,10 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 module('Acceptance | Session Update', function (hooks) {
   setupApplicationTest(hooks);

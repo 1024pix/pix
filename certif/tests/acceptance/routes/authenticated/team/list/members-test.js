@@ -1,6 +1,5 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { setupMirage } from '../../../../../test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -10,6 +9,7 @@ import {
   authenticateSession,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../../../helpers/test-init';
+import { setupMirage } from '../../../../../test-support/setup-mirage';
 
 module('Acceptance | Routes | Team | List | Members', function (hooks) {
   setupApplicationTest(hooks);

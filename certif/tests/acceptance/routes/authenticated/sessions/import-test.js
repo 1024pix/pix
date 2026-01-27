@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled, triggerEvent } from '@ember/test-helpers';
-import { setupMirage } from '../../../../test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
@@ -11,6 +10,7 @@ import {
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
 } from '../../../../helpers/test-init';
+import { setupMirage } from '../../../../test-support/setup-mirage';
 
 /* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Routes | Authenticated | Sessions | import', function (hooks) {

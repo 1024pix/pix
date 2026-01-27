@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession, invalidateSession } from 'ember-simple-auth/test-support';
 import { module, test } from 'qunit';
@@ -10,6 +9,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   createCertificationPointOfContactWithTermsOfServiceNotAccepted,
 } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 module('Acceptance | authentication', function (hooks) {
   setupApplicationTest(hooks);

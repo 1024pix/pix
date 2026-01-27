@@ -1,6 +1,5 @@
 import { clickByName, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { setupMirage } from '../../../test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -17,6 +16,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../helpers/test-init';
 import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
+import { setupMirage } from '../../../test-support/setup-mirage';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);

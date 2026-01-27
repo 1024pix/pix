@@ -1,8 +1,9 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+
+import { setupMirage } from '../test-support/setup-mirage';
 
 module('Application', function (hooks) {
   setupApplicationTest(hooks);

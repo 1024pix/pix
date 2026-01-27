@@ -12,7 +12,6 @@ import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
 import { t } from 'ember-intl';
 
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from '../../../../models/subscription';
@@ -24,6 +23,7 @@ const POSTAL_CODE_OPTION = 'postal';
 
 export default class CandidateCreationModal extends Component {
   @service currentUser;
+  @service dayjs;
   @service intl;
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
@@ -127,7 +127,7 @@ export default class CandidateCreationModal extends Component {
   };
 
   updateBirthdate = (event) => {
-    const birthdate = dayjs(event.target.value).format('YYYY-MM-DD');
+    const birthdate = this.dayjs.self(event.target.value).format('YYYY-MM-DD');
     this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthdate', birthdate);
   };
 

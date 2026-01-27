@@ -1,12 +1,12 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit as visitWithAbort } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { CREATED, FINALIZED } from 'pix-certif/models/session-management';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 module('Acceptance | Session Details Parameters', function (hooks) {
   setupApplicationTest(hooks);

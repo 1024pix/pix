@@ -1,5 +1,5 @@
-import dayjsFormat from 'pix-certif/helpers/dayjs-format';
 import { t } from 'ember-intl';
+import dayjsFormat from 'pix-certif/helpers/dayjs-format';
 
 <template>
   <div class='session-details__header'>

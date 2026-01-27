@@ -2,12 +2,6 @@ import { action, set } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(LocalizedFormat);
-dayjs.extend(utc);
 
 const Modals = {
   Confirmation: 'Confirmation',
@@ -23,8 +17,9 @@ const PIX_PLUS_DURATIONS = {
 };
 
 export default class CandidateInList extends Component {
-  @service pixToast;
+  @service dayjs;
   @service intl;
+  @service pixToast;
   @service store;
 
   @tracked isMenuOpen = false;
@@ -43,7 +38,7 @@ export default class CandidateInList extends Component {
   get formattedBirthdate() {
     if (!this.args.candidate.birthdate) return '';
 
-    return dayjs.utc(this.args.candidate.birthdate).format('L');
+    return this.dayjs.utc(this.args.candidate.birthdate).format('L');
   }
 
   get isConfirmButtonToBeDisplayed() {
@@ -323,7 +318,7 @@ export default class CandidateInList extends Component {
   }
 
   get candidateStartTime() {
-    const startTime = dayjs(this.args.candidate.startDateTime).format('HH:mm');
+    const startTime = this.dayjs.self(this.args.candidate.startDateTime).format('HH:mm');
     return startTime;
   }
 
@@ -331,11 +326,11 @@ export default class CandidateInList extends Component {
     const pixPlusDuration = this._getPixPlusDurationInMinutes();
 
     if (pixPlusDuration !== null) {
-      const endTime = dayjs(this.args.candidate.startDateTime).add(pixPlusDuration, 'minute').format('HH:mm');
+      const endTime = this.dayjs.self(this.args.candidate.startDateTime).add(pixPlusDuration, 'minute').format('HH:mm');
       return endTime;
     }
 
-    const theoricalEndDateTime = dayjs(this.args.candidate.theoricalEndDateTime).format('HH:mm');
+    const theoricalEndDateTime = this.dayjs.self(this.args.candidate.theoricalEndDateTime).format('HH:mm');
     return theoricalEndDateTime;
   }
 

@@ -1,12 +1,12 @@
 import { visit, waitFor, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/test-helpers';
-import { setupMirage } from '../test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
+import { setupMirage } from '../test-support/setup-mirage';
 
 /* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Session Details Certification Candidates', function (hooks) {
