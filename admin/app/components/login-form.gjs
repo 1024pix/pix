@@ -17,6 +17,7 @@ const SSO_LOGO_BASE_URL = 'https://assets.pix.org/sso-logos/';
 const SSO_LOGO_BASE_FILE_PREFIX = 'sso-logo-';
 
 export default class LoginForm extends Component {
+  @service config;
   @service url;
   @service intl;
   @service session;
@@ -25,6 +26,10 @@ export default class LoginForm extends Component {
   @tracked password;
   @tracked errorMessage;
   @service oidcIdentityProviders;
+
+  get permitPixAdminLoginFromPassword() {
+    return this.config.permitPixAdminLoginFromPassword;
+  }
 
   get useSsoProviders() {
     return this.oidcIdentityProviders.hasIdentityProviders;
@@ -142,7 +147,8 @@ export default class LoginForm extends Component {
               plateforme.
             </PixNotificationAlert>
           {{/if}}
-        {{else}}
+        {{/if}}
+        {{#if this.permitPixAdminLoginFromPassword}}
           <PixInput required="true" @value={{this.email}} autocomplete="true" {{on "input" this.onEmailChange}}>
             <:label>{{t "pages.login.fields.email.label"}} </:label>
           </PixInput>

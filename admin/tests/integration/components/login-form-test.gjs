@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 import { reject } from 'rsvp';
 import sinon from 'sinon';
 
+import { stubConfigService } from '../../helpers/service-stubs.js';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
@@ -23,24 +24,34 @@ module('Integration | Component | login-form', function (hooks) {
     assert.dom(screen.getByText("L'accès à Pix Admin est limité aux administrateurs de la plateforme")).exists();
   });
 
-  module('when there is no identity provider enabled for Pix Admin', function () {
-    test('it displays an email/password login form', async function (assert) {
-      // given
-      class IdentityProviderServiceStub extends Service {
-        isProviderEnabled = sinon.stub();
-      }
-      this.owner.register('service:oidcIdentityProviders', IdentityProviderServiceStub);
-      const identityProvidersServiceStub = this.owner.lookup('service:oidcIdentityProviders');
-      identityProvidersServiceStub.isProviderEnabled.withArgs('google').returns(false);
+  module('Password login form', function () {
+    module('when permitPixAdminLoginFromPassword is enabled', function () {
+      test('displays a password login form', async function (assert) {
+        // given
+        stubConfigService(this.owner, { permitPixAdminLoginFromPassword: true });
 
-      // when
-      const screen = await render(<template><LoginForm /></template>);
+        // when
+        const screen = await render(<template><LoginForm /></template>);
 
-      // then
-      assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
-      assert.dom(screen.getByLabelText('Mot de passe')).exists();
-      assert.dom(screen.getByRole('button', { name: 'Je me connecte' })).exists();
-      assert.dom(screen.queryByRole('link', { name: 'Se connecter avec Google' })).doesNotExist();
+        // then
+        assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
+        assert.dom(screen.getByLabelText('Mot de passe')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Je me connecte' })).exists();
+      });
+    });
+
+    module('when permitPixAdminLoginFromPassword is disabled', function () {
+      test('does not display a password login form', async function (assert) {
+        // given
+        stubConfigService(this.owner, { permitPixAdminLoginFromPassword: false });
+
+        // when
+        const screen = await render(<template><LoginForm /></template>);
+
+        // then
+        assert.dom(screen.queryByRole('textbox', { name: 'Adresse e-mail' })).doesNotExist();
+        assert.dom(screen.queryByLabelText('Mot de passe')).doesNotExist();
+      });
     });
   });
 
@@ -65,6 +76,7 @@ module('Integration | Component | login-form', function (hooks) {
       // when
       const screen = await render(<template><LoginForm /></template>);
 
+      // then
       assert
         .dom(
           screen.getByRole('link', {
@@ -72,8 +84,6 @@ module('Integration | Component | login-form', function (hooks) {
           }),
         )
         .exists();
-
-      assert.dom(screen.queryByRole('button', { name: 'Je me connecte' })).doesNotExist();
     });
 
     module('when user has no Pix account', function () {
@@ -142,6 +152,8 @@ module('Integration | Component | login-form', function (hooks) {
     let sessionStub;
 
     hooks.beforeEach(function () {
+      stubConfigService(this.owner, { permitPixAdminLoginFromPassword: true });
+
       this.owner.register('service:session', SessionStub);
       sessionStub = this.owner.lookup('service:session');
     });
