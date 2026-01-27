@@ -127,7 +127,6 @@ module.exports = function (environment) {
       },
       AUTHENTICATED_SOURCE_FROM_GAR: 'external',
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
-      AUTONOMOUS_COURSES_ORGANIZATION_ID: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
       AUTO_SHARE_AFTER_DATE: process.env.AUTO_SHARE_AFTER_DATE || '2025-07-18',
       COMBINIX_SURVEY_LINK:
@@ -190,7 +189,6 @@ module.exports = function (environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
-    ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 9000000;
     ENV.companion.disabled = true;
   }
 
@@ -213,7 +211,6 @@ module.exports = function (environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
-    ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 999;
     ENV.APP.AUTO_SHARE_AFTER_DATE = '2025-07-18';
     ENV.APP.COMBINIX_SURVEY_LINK =
       'https://app-eu.123formbuilder.com/index.php?p=login&pactionafter=edit_fields%26id%3D86361%26startup_panel%3Deditor%26click_from%3Dyour_forms';

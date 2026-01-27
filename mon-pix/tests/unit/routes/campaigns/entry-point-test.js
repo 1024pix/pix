@@ -1,9 +1,10 @@
 import EmberObject from '@ember/object';
 import { setupTest } from 'ember-qunit';
-import ENV from 'mon-pix/config/environment';
 import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import { stubConfigService } from '../../../helpers/service-stubs.js';
 
 module('Unit | Route | Entry Point', function (hooks) {
   setupTest(hooks);
@@ -11,6 +12,8 @@ module('Unit | Route | Entry Point', function (hooks) {
   let route, campaign;
 
   hooks.beforeEach(function () {
+    stubConfigService(this.owner, { autonomousCoursesOrganizationId: 9999 });
+
     campaign = EmberObject.create({
       id: '3',
       code: 'NEW_CODE',
@@ -167,7 +170,7 @@ module('Unit | Route | Entry Point', function (hooks) {
           .withArgs('campaign-participation', {
             campaignId: 3,
             userId: 12,
-            organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+            organizationId: 9999,
           })
           .resolves('Existing campaign participation');
 

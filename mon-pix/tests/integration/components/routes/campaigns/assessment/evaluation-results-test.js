@@ -4,6 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
+import { stubConfigService } from '../../../../../helpers/service-stubs.js';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Components | Routes | Campaigns | Assessment | Evaluation Results', function (hooks) {
@@ -13,6 +14,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
   hooks.beforeEach(async function () {
     // given
+    stubConfigService(this.owner);
     const store = this.owner.lookup('service:store');
 
     const campaign = store.createRecord('campaign', {

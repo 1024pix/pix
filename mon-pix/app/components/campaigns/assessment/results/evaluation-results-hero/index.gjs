@@ -12,7 +12,6 @@ import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { t } from 'ember-intl';
 import or from 'ember-truth-helpers/helpers/or';
-import ENV from 'mon-pix/config/environment';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
 import AcquiredBadges from './acquired-badges';
@@ -24,8 +23,8 @@ dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
 export default class EvaluationResultsHero extends Component {
+  @service config;
   @service currentUser;
-
   @service pixMetrics;
   @service router;
   @service store;
@@ -54,7 +53,7 @@ export default class EvaluationResultsHero extends Component {
   }
 
   get isCampaignAutonomousCourse() {
-    return this.args.campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
+    return this.args.campaign.organizationId === this.config.autonomousCoursesOrganizationId;
   }
 
   get showCustomOrganizationBlock() {
