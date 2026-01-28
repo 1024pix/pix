@@ -474,10 +474,6 @@ const configuration = (function () {
       expirationDelaySeconds: ms(process.env.ANONYMOUS_USER_TOKEN_TEMPORARY_STORAGE_LIFESPAN || '1d') / 1000,
     },
     v3Certification: {
-      scoring: {
-        minimumAnswersRequiredToValidateACertification: 20,
-        maximumReachableScore: 895,
-      },
       maxReachableLevel: 7,
     },
     version: process.env.CONTAINER_VERSION || 'development',

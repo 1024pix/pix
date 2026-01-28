@@ -12,9 +12,11 @@ export const buildV3CertificationScoring = ({
     { bounds: { max: 4.90123, min: 2.45678 }, meshLevel: 6 },
     { bounds: { max: 6.56789, min: 4.90123 }, meshLevel: 7 },
   ],
+  minimumAnswersRequiredToValidateACertification = 20,
 } = {}) => {
   return new V3CertificationScoring({
     competencesForScoring,
     certificationScoringConfiguration,
+    minimumAnswersRequiredToValidateACertification,
   });
 };

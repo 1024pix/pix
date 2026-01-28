@@ -65,6 +65,8 @@ export class CertificationAssessmentScoreV3 {
         maximumAssessmentLength: flashAssessmentAlgorithmConfiguration.maximumAssessmentLength,
         answers: allAnswers,
         abortReason,
+        minimumAnswersRequiredToValidateACertification:
+          v3CertificationScoring.minimumAnswersRequiredToValidateACertification,
       })
     ) {
       capacity = scoringDegradationService.downgradeCapacity({
@@ -85,7 +87,12 @@ export class CertificationAssessmentScoreV3 {
 
     const competenceMarks = v3CertificationScoring.getCompetencesScore(capacity);
 
-    const status = _isCertificationRejected({ answers: allAnswers, abortReason })
+    const status = _isCertificationRejected({
+      answers: allAnswers,
+      abortReason,
+      minimumAnswersRequiredToValidateACertification:
+        v3CertificationScoring.minimumAnswersRequiredToValidateACertification,
+    })
       ? CertificationStatus.REJECTED
       : CertificationStatus.VALIDATED;
 
@@ -136,21 +143,28 @@ const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
   return Math.min(maximumReachableScore, score);
 };
 
-const _isCertificationRejected = ({ answers, abortReason }) => {
-  return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason;
+const _isCertificationRejected = ({ answers, abortReason, minimumAnswersRequiredToValidateACertification }) => {
+  return (
+    !_hasCandidateAnsweredEnoughQuestions({ answers, minimumAnswersRequiredToValidateACertification }) && abortReason
+  );
 };
 
-const _hasCandidateAnsweredEnoughQuestions = ({ answers }) => {
-  return answers.length >= config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
+const _hasCandidateAnsweredEnoughQuestions = ({ answers, minimumAnswersRequiredToValidateACertification }) => {
+  return answers.length >= minimumAnswersRequiredToValidateACertification;
 };
 
 const _hasCandidateCompletedTheCertification = ({ answers, maximumAssessmentLength }) => {
   return answers.length >= maximumAssessmentLength;
 };
 
-const _shouldDowngradeCapacity = ({ maximumAssessmentLength, answers, abortReason }) => {
+const _shouldDowngradeCapacity = ({
+  maximumAssessmentLength,
+  answers,
+  abortReason,
+  minimumAnswersRequiredToValidateACertification,
+}) => {
   return (
-    _hasCandidateAnsweredEnoughQuestions({ answers }) &&
+    _hasCandidateAnsweredEnoughQuestions({ answers, minimumAnswersRequiredToValidateACertification }) &&
     !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength }) &&
     abortReason === ABORT_REASONS.CANDIDATE
   );

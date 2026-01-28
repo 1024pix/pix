@@ -1,9 +1,14 @@
 import { CompetenceForScoring } from './CompetenceForScoring.js';
 
 export class V3CertificationScoring {
-  constructor({ competencesForScoring, certificationScoringConfiguration }) {
+  constructor({
+    competencesForScoring,
+    certificationScoringConfiguration,
+    minimumAnswersRequiredToValidateACertification,
+  }) {
     this._competencesForScoring = competencesForScoring;
     this._certificationScoringConfiguration = certificationScoringConfiguration;
+    this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredToValidateACertification;
   }
 
   getCompetencesScore(capacity) {
@@ -27,6 +32,7 @@ export class V3CertificationScoring {
     certificationScoringConfiguration,
     allAreas,
     competenceList,
+    minimumAnswersRequiredToValidateACertification,
   }) {
     const competencesForScoring = competenceForScoringConfiguration.map(({ competence: competenceCode, values }) => {
       const competence = competenceList.find(({ index: code }) => code === competenceCode);
@@ -42,6 +48,7 @@ export class V3CertificationScoring {
     return new V3CertificationScoring({
       competencesForScoring,
       certificationScoringConfiguration,
+      minimumAnswersRequiredToValidateACertification,
     });
   }
 }

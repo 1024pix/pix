@@ -11,14 +11,23 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
   const competenceList = await competenceRepository.listPixCompetencesOnly({ locale });
 
   const configuration = await knexConn('certification_versions')
-    .select('id', 'globalScoringConfiguration', 'competencesScoringConfiguration')
+    .select(
+      'id',
+      'globalScoringConfiguration',
+      'competencesScoringConfiguration',
+      'minimumAnswersRequiredToValidateACertification',
+    )
     .where('startDate', '<=', date)
     .andWhere((queryBuilder) => {
       queryBuilder.whereNull('expirationDate').orWhere('expirationDate', '>', date);
     })
     .first();
 
-  if (!configuration || !configuration.competencesScoringConfiguration || !configuration.globalScoringConfiguration) {
+  if (
+    !configuration?.competencesScoringConfiguration ||
+    !configuration?.globalScoringConfiguration ||
+    !configuration?.minimumAnswersRequiredToValidateACertification
+  ) {
     throw new NotFoundError(`No certification scoring configuration found for date ${date.toISOString()}`);
   }
 
@@ -27,6 +36,7 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
     certificationScoringConfiguration: configuration.globalScoringConfiguration,
     allAreas,
     competenceList,
+    minimumAnswersRequiredToValidateACertification: configuration.minimumAnswersRequiredToValidateACertification,
   });
 };
 
@@ -35,8 +45,16 @@ export const getLatestByVersion = async ({ version }) => {
   const allAreas = await areaRepository.list();
   const competenceList = await competenceRepository.listPixCompetencesOnly();
 
-  const { globalScoringConfiguration, competencesScoringConfiguration } = await knexConn('certification_versions')
-    .select('globalScoringConfiguration', 'competencesScoringConfiguration')
+  const {
+    globalScoringConfiguration,
+    competencesScoringConfiguration,
+    minimumAnswersRequiredToValidateACertification,
+  } = await knexConn('certification_versions')
+    .select(
+      'globalScoringConfiguration',
+      'competencesScoringConfiguration',
+      'minimumAnswersRequiredToValidateACertification',
+    )
     .where({
       id: version.id,
     })
@@ -47,6 +65,7 @@ export const getLatestByVersion = async ({ version }) => {
     certificationScoringConfiguration: globalScoringConfiguration,
     allAreas,
     competenceList,
+    minimumAnswersRequiredToValidateACertification,
   });
 };
 

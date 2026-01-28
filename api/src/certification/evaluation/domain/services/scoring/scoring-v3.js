@@ -126,6 +126,8 @@ function _scoreCoreCertification({
     isRejectedForFraud: assessmentSheet.isRejectedForFraud,
     isAbortReasonTechnical: assessmentSheet.isAbortReasonTechnical,
     juryId: event?.juryId,
+    minimumAnswersRequiredToValidateACertification:
+      v3CertificationScoring.minimumAnswersRequiredToValidateACertification,
   });
 
   return {

@@ -1,4 +1,3 @@
-import { config } from '../../../../../shared/config.js';
 import { AssessmentResultFactory } from '../../../../scoring/domain/models/factories/AssessmentResultFactory.js';
 
 export function createV3AssessmentResult({
@@ -9,6 +8,7 @@ export function createV3AssessmentResult({
   isRejectedForFraud,
   isAbortReasonTechnical,
   juryId,
+  minimumAnswersRequiredToValidateACertification,
 }) {
   if (toBeCancelled) {
     return AssessmentResultFactory.buildCancelledAssessmentResult({
@@ -27,7 +27,9 @@ export function createV3AssessmentResult({
     });
   }
 
-  if (_candidateDidNotAnswerEnoughV3CertificationQuestions(allAnswers)) {
+  if (
+    _candidateDidNotAnswerEnoughV3CertificationQuestions(allAnswers, minimumAnswersRequiredToValidateACertification)
+  ) {
     if (isAbortReasonTechnical) {
       return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
         pixScore: certificationAssessmentScore.nbPix,
@@ -65,6 +67,9 @@ export function createV3AssessmentResult({
   });
 }
 
-function _candidateDidNotAnswerEnoughV3CertificationQuestions(allAnswers) {
-  return allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
+function _candidateDidNotAnswerEnoughV3CertificationQuestions(
+  allAnswers,
+  minimumAnswersRequiredToValidateACertification,
+) {
+  return allAnswers.length < minimumAnswersRequiredToValidateACertification;
 }
