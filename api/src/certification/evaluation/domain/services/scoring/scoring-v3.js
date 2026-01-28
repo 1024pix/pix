@@ -15,14 +15,13 @@
  * @typedef {CertificationJuryDone | CertificationCourseRejected | CertificationCourseUnrejected | CertificationCancelled | CertificationRescored | CertificationUncancelled} CertificationRescoringEvent
  */
 
-import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import CertificationCancelled from '../../../../../shared/domain/events/CertificationCancelled.js';
 import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { CoreScoring } from '../../models/CoreScoring.js';
 import { DoubleCertificationScoring } from '../../models/DoubleCertificationScoring.js';
 import { createV3AssessmentResult } from './create-v3-assessment-result.js';
 
-export const handleV3CertificationScoring = withTransaction(
+export const handleV3CertificationScoring =
   /**
    * @param {object} params
    * @param {CertificationRescoringEvent} [params.event]
@@ -37,7 +36,7 @@ export const handleV3CertificationScoring = withTransaction(
    *
    * @return {Promise<undefined | CoreScoring | Object<CoreScoring, DoubleCertificationScoring>>}
    */
-  async ({
+  ({
     event,
     candidate,
     assessmentSheet,
@@ -65,7 +64,7 @@ export const handleV3CertificationScoring = withTransaction(
     }
 
     if (candidate.hasCleaSubscription) {
-      const coreScoring = await _scoreCoreCertification({
+      const coreScoring = _scoreCoreCertification({
         event,
         assessmentSheet,
         algorithm,
@@ -82,8 +81,7 @@ export const handleV3CertificationScoring = withTransaction(
       });
       return { coreScoring, doubleCertificationScoring };
     }
-  },
-);
+  };
 
 /**
  * @param {object} params

@@ -40,7 +40,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
     });
 
     context('when scoring a only CORE scoped certification', function () {
-      it('should return a CoreScoring', async function () {
+      it('should return a CoreScoring', function () {
         // given
         const assessmentId = 1214;
         const certificationCourseId = 1234;
@@ -71,7 +71,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         assessmentSheet.answers = answers;
 
         // when
-        const score = await handleV3CertificationScoring({
+        const score = handleV3CertificationScoring({
           event,
           assessmentSheet,
           candidate,
@@ -89,7 +89,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
     });
 
     context('when scoring a CLEA scoped certification', function () {
-      it('should return a CoreScoring and a DoubleCertificationScoring', async function () {
+      it('should return a CoreScoring and a DoubleCertificationScoring', function () {
         const assessmentId = 1214;
         const certificationCourseId = 1234;
         const userId = 4567;
@@ -119,7 +119,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         const cleaScoringCriteria =
           domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria();
 
-        const score = await handleV3CertificationScoring({
+        const score = handleV3CertificationScoring({
           event,
           assessmentSheet,
           candidate,
@@ -137,13 +137,13 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
     });
 
     context('when scoring a not CORE scoped certification', function () {
-      it('should return undefined because no scoring occurred', async function () {
+      it('should return undefined because no scoring occurred', function () {
         const candidate = domainBuilder.certification.evaluation.buildCandidate({
           subscriptionScope: SCOPES.PIX_PLUS_DROIT,
           hasCleaSubscription: false,
         });
 
-        const hasScored = await handleV3CertificationScoring({
+        const hasScored = handleV3CertificationScoring({
           candidate,
         });
 
