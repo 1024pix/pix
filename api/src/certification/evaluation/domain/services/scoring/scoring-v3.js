@@ -34,7 +34,7 @@ export const handleV3CertificationScoring =
    * @param {ComplementaryCertificationScoringCriteria} params.cleaScoringCriteria
    * @param {ScoringDegradationService} params.scoringDegradationService
    *
-   * @return {Promise<undefined | CoreScoring | Object<CoreScoring, DoubleCertificationScoring>>}
+   * @return {Object<CoreScoring, DoubleCertificationScoring>}
    */
   ({
     event,
@@ -64,7 +64,7 @@ export const handleV3CertificationScoring =
     }
 
     if (candidate.hasCleaSubscription) {
-      const coreScoring = _scoreCoreCertification({
+      const { coreScoring } = _scoreCoreCertification({
         event,
         assessmentSheet,
         algorithm,
@@ -128,7 +128,9 @@ function _scoreCoreCertification({
     juryId: event?.juryId,
   });
 
-  return new CoreScoring(certificationAssessmentScore, assessmentResult);
+  return {
+    coreScoring: new CoreScoring(certificationAssessmentScore, assessmentResult),
+  };
 }
 
 /**

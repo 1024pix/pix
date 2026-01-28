@@ -84,7 +84,8 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         });
 
         // then
-        expect(score).to.be.instanceOf(CoreScoring);
+        expect(score.coreScoring).to.be.instanceOf(CoreScoring);
+        expect(score.doubleCertificationScoring).to.be.undefined;
       });
     });
 
