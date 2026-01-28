@@ -1,6 +1,6 @@
 import { scoreV3Certification } from '../../../../../../src/certification/evaluation/domain/usecases/new-score-v3.js';
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { NotFinalizedSessionError } from '../../../../../../src/shared/domain/errors.js';
+import { NotFinalizedSessionError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../shared/fixtures/challenges.js';
 
@@ -13,6 +13,20 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | New Score V3', 
 
   afterEach(function () {
     sinon.restore();
+  });
+
+  context('when certification course does not exist', function () {
+    it('should throw an error', async function () {
+      const dependencies = createDependencies({
+        assessmentSheetRepository: {
+          findByCertificationCourseId: sinon.stub().withArgs(1).resolves(null),
+        },
+        certificationCourseId: 1,
+      });
+
+      const error = await catchErr(scoreV3Certification)(dependencies);
+      expect(error).to.deepEqualInstance(new NotFoundError('No AssessmentSheet found for certificationCourseId 1'));
+    });
   });
 
   context('when candidate is not scorable', function () {

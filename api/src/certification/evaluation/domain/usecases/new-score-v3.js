@@ -14,7 +14,7 @@
  */
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
+import { NotFinalizedSessionError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationAssessmentHistory } from '../../../scoring/domain/models/CertificationAssessmentHistory.js';
 import { SessionAlreadyPublishedError } from '../../../session-management/domain/errors.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
@@ -56,6 +56,8 @@ export const scoreV3Certification = withTransaction(
     complementaryCertificationScoringCriteriaRepository,
   }) => {
     const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
+    if (!assessmentSheet)
+      throw new NotFoundError('No AssessmentSheet found for certificationCourseId ' + certificationCourseId);
 
     const candidate = await certificationCandidateRepository.findByAssessmentId({
       assessmentId: assessmentSheet.assessmentId,

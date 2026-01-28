@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { answerRepository } from '../../../../shared/infrastructure/repositories/answer-repository.js';
+import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import { AssessmentSheet } from '../../domain/models/AssessmentSheet.js';
 
 export async function findByCertificationCourseId(certificationCourseId) {
@@ -14,7 +14,10 @@ export async function findByCertificationCourseId(certificationCourseId) {
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .where('certification-courses.id', '=', certificationCourseId);
+    .where('certification-courses.id', '=', certificationCourseId)
+    .first();
+
+  if (!data) return null;
 
   const answers = await answerRepository.findByAssessment(data.assessmentId);
 
