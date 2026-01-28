@@ -1,9 +1,9 @@
-import * as serializer from '../../../../../src/certification/evaluation/infrastructure/serializers/certification-course-serializer.js';
-import { CertificationCourse } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CertificationIssueReport } from '../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
-import { CertificationIssueReportCategory } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/evaluation/infrastructure/serializers/certification-course-serializer.js';
+import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
+import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function () {
   describe('#serialize', function () {
