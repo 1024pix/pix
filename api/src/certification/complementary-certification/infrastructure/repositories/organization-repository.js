@@ -1,7 +1,8 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const getOrganizationUserEmailByCampaignTargetProfileId = async function (targetProfileId) {
-  return knex('campaigns')
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('campaigns')
     .innerJoin('organizations', 'campaigns.organizationId', 'organizations.id')
     .innerJoin('memberships', 'organizations.id', 'memberships.organizationId')
     .innerJoin('users', 'users.id', 'memberships.userId')
