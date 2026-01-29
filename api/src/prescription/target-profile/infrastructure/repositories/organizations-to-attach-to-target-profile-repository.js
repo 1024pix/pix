@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { foreignKeyConstraintViolated } from '../../../../shared/infrastructure/utils/knex-utils.js';
 
@@ -21,18 +21,20 @@ const attachOrganizations = async function (targetProfile) {
 };
 
 const addTargetProfilesToOrganization = async function ({ organizationId, targetProfileIdList }) {
+  const knexConn = DomainTransaction.getConnection();
   const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
     return { organizationId, targetProfileId };
   });
-  await knex('target-profile-shares')
+  await knexConn('target-profile-shares')
     .insert(targetProfileShareToAdd)
     .onConflict(['targetProfileId', 'organizationId'])
     .ignore();
 };
 
 async function _createTargetProfileShares(targetProfileShares) {
+  const knexConn = DomainTransaction.getConnection();
   try {
-    const insertedTargetProfileShares = await knex('target-profile-shares')
+    const insertedTargetProfileShares = await knexConn('target-profile-shares')
       .insert(targetProfileShares)
       .onConflict(['targetProfileId', 'organizationId'])
       .ignore()
