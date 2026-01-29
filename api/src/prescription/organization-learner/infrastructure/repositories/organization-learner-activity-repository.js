@@ -1,9 +1,10 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { OrganizationLearnerActivity } from '../../domain/read-models/OrganizationLearnerActivity.js';
 import { OrganizationLearnerParticipation } from '../../domain/read-models/OrganizationLearnerParticipation.js';
 
 async function get(organizationLearnerId) {
-  const organizationLearnerParticipations = await knex('campaign-participations')
+  const knexConn = DomainTransaction.getConnection();
+  const organizationLearnerParticipations = await knexConn('campaign-participations')
     .select(
       'campaign-participations.id',
       'campaign-participations.createdAt',
@@ -12,14 +13,14 @@ async function get(organizationLearnerId) {
       'campaign-participations.status',
       'campaigns.name',
       'campaigns.type',
-      knex('campaign-participations')
+      knexConn('campaign-participations')
         .whereRaw('"campaignId" = "campaigns"."id"')
         .where('organizationLearnerId', organizationLearnerId)
         .whereNull('deletedAt')
         .groupBy('campaignId')
         .count()
         .as('participationsCount'),
-      knex('campaign-participations')
+      knexConn('campaign-participations')
         .select('campaign-participations.id')
         .whereRaw('"campaignId" = "campaigns"."id"')
         .where('organizationLearnerId', organizationLearnerId)
