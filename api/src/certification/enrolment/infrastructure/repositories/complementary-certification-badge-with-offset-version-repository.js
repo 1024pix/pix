@@ -1,5 +1,5 @@
 // @ts-check
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationBadgeWithOffsetVersion } from '../../domain/models/ComplementaryCertificationBadge.js';
 
 /**
@@ -9,7 +9,8 @@ import { ComplementaryCertificationBadgeWithOffsetVersion } from '../../domain/m
  * @returns {Promise<Array<ComplementaryCertificationBadgeWithOffsetVersion>>}
  */
 export async function getAllWithSameTargetProfile({ complementaryCertificationBadgeId }) {
-  const results = await knex('complementary-certification-badges')
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn('complementary-certification-badges')
     .select(
       'complementary-certification-badges.id',
       'complementary-certification-badges.minimumEarnedPix',
@@ -17,7 +18,7 @@ export async function getAllWithSameTargetProfile({ complementaryCertificationBa
       'complementary-certification-badges.label',
       'complementary-certification-badges.imageUrl',
       'complementary-certification-badges.detachedAt',
-      knex.raw(
+      knexConn.raw(
         '(rank() over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) - 1 as "offsetVersion"',
       ),
     )
@@ -25,7 +26,7 @@ export async function getAllWithSameTargetProfile({ complementaryCertificationBa
     .where(
       'badges.targetProfileId',
       '=',
-      knex('complementary-certification-badges')
+      knexConn('complementary-certification-badges')
         .select('target-profiles.id')
         .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
         .join('target-profiles', 'target-profiles.id', '=', 'badges.targetProfileId')
