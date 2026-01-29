@@ -1,11 +1,10 @@
 import { createV3AssessmentResult } from '../../../../../../../src/certification/evaluation/domain/services/scoring/create-v3-assessment-result.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { config } from '../../../../../../../src/shared/config.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { domainBuilder, expect } from '../../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 
-const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
+const minimumAnswersRequiredToValidateACertification = 20;
 
 describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Assessment Result', function () {
   describe('createV3AssessmentResult', function () {
@@ -19,6 +18,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
         isRejectedForFraud: false,
         isAbortReasonTechnical: false,
         juryId: 123,
+        minimumAnswersRequiredToValidateACertification,
       });
 
       //then
@@ -34,6 +34,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
         isRejectedForFraud: true,
         isAbortReasonTechnical: false,
         juryId: 123,
+        minimumAnswersRequiredToValidateACertification,
       });
 
       //then
@@ -54,6 +55,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
           isRejectedForFraud: false,
           isAbortReasonTechnical: true,
           juryId: 123,
+          minimumAnswersRequiredToValidateACertification,
         });
 
         //then
@@ -73,6 +75,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
           isRejectedForFraud: false,
           isAbortReasonTechnical: false,
           juryId: 123,
+          minimumAnswersRequiredToValidateACertification,
         });
 
         //then
@@ -101,6 +104,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
           isRejectedForFraud: false,
           isAbortReasonTechnical: false,
           juryId: 123,
+          minimumAnswersRequiredToValidateACertification,
         });
 
         //then
@@ -123,6 +127,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
           isRejectedForFraud: false,
           isAbortReasonTechnical: false,
           juryId: 123,
+          minimumAnswersRequiredToValidateACertification,
         });
 
         //then

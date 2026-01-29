@@ -3,7 +3,6 @@ import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { config } from '../../../../../src/shared/config.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
@@ -597,16 +596,6 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         });
 
         context('when certification is a double certification', function () {
-          let originalConfigValue;
-          beforeEach(async function () {
-            originalConfigValue = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
-            config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification = 1;
-          });
-
-          afterEach(function () {
-            config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification = originalConfigValue;
-          });
-
           it('should acquire the double certification', async function () {
             // given
             const userId = databaseBuilder.factory.buildUser().id;

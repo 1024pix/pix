@@ -1,5 +1,4 @@
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { config } from '../../../../../src/shared/config.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
@@ -14,18 +13,12 @@ import {
 
 describe('Certification | Evaluation | Acceptance | Application |  certification rescoring', function () {
   describe('GET /api/admin/certifications/{certificationCourseId}/rescore', function () {
-    let server, originalConfigValue, calibrationId;
+    let server, calibrationId;
 
     beforeEach(async function () {
       calibrationId = 1;
-      originalConfigValue = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
-      config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification = 1;
 
       server = await createServer();
-    });
-
-    afterEach(function () {
-      config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification = originalConfigValue;
     });
 
     describe('when scoring from the current framework', function () {
@@ -70,10 +63,12 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           challengesConfiguration: null,
           globalScoringConfiguration: null,
           competencesScoringConfiguration: null,
+          minimumAnswersRequiredToValidateACertification: 1,
         });
         databaseBuilder.factory.buildCertificationVersion({
           startDate: new Date('2010-02-01'),
           expirationDate: null,
+          minimumAnswersRequiredToValidateACertification: 1,
         });
 
         const candidate = databaseBuilder.factory.buildUser();
@@ -204,6 +199,7 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
             maximumAssessmentLength: 1,
             defaultCandidateCapacity: -3,
           }),
+          minimumAnswersRequiredToValidateACertification: 1,
         });
 
         databaseBuilder.factory.buildCertificationVersion({
@@ -211,6 +207,7 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           expirationDate: null,
           globalScoringConfiguration: null,
           competencesScoringConfiguration: null,
+          minimumAnswersRequiredToValidateACertification: 1,
         });
 
         const candidate = databaseBuilder.factory.buildUser();

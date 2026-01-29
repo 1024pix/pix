@@ -1,10 +1,9 @@
 import * as calibratedChallengeService from '../../../../../../../src/certification/evaluation/domain/services/scoring/calibrated-challenge-service.js';
-import { config } from '../../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 
-const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
+const minimumAnswersRequiredToValidateACertification = 20;
 
 describe('Certification | Evaluation | Unit | Domain | Services | calibrated challenge service', function () {
   context('#findByCertificationCourseAndVersion', function () {
