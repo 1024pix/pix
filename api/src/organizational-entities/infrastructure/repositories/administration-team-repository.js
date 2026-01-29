@@ -1,14 +1,16 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AdministrationTeam } from '../../domain/models/AdministrationTeam.js';
 
 const findAll = async function () {
-  const administrationTeams = await knex.select('id', 'name').from('administration_teams').orderBy('name', 'asc');
+  const knexConn = DomainTransaction.getConnection();
+  const administrationTeams = await knexConn.select('id', 'name').from('administration_teams').orderBy('name', 'asc');
 
   return administrationTeams.map(_toDomain);
 };
 
 const getById = async function (id) {
-  const administrationTeam = await knex.select('id', 'name').from('administration_teams').where({ id }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const administrationTeam = await knexConn.select('id', 'name').from('administration_teams').where({ id }).first();
 
   if (!administrationTeam) {
     return null;
