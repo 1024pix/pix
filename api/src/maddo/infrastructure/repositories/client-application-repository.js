@@ -1,6 +1,7 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 export async function getJurisdiction(clientId) {
-  const clientApplication = await knex('client_applications').select('jurisdiction').where({ clientId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const clientApplication = await knexConn('client_applications').select('jurisdiction').where({ clientId }).first();
   return clientApplication.jurisdiction;
 }
