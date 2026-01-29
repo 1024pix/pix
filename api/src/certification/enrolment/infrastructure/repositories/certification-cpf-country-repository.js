@@ -1,5 +1,5 @@
 // @ts-check
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCpfCountry } from '../../../shared/domain/models/CertificationCpfCountry.js';
 
 /**
@@ -9,9 +9,10 @@ import { CertificationCpfCountry } from '../../../shared/domain/models/Certifica
  * @returns {Promise<CertificationCpfCountry | null> }
  */
 const getByMatcher = async function ({ matcher }) {
+  const knexConn = DomainTransaction.getConnection();
   const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];
 
-  const result = await knex.select(COLUMNS).from('certification-cpf-countries').where({ matcher }).first();
+  const result = await knexConn.select(COLUMNS).from('certification-cpf-countries').where({ matcher }).first();
 
   if (!result) {
     return null;
