@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
@@ -17,7 +17,8 @@ import {
 } from '../../domain/read-models/CertifiedProfile.js';
 
 const get = async function (certificationCourseId) {
-  const certificationDatas = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const certificationDatas = await knexConn
     .select({
       userId: 'certification-courses.userId',
       createdAt: 'certification-courses.createdAt',
