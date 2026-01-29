@@ -3,7 +3,7 @@
  * @typedef {import ('../../domain/models/SCOCertificationCandidate.js').SCOCertificationCandidate} SCOCertificationCandidate
  */
 
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 
 /**
@@ -14,10 +14,11 @@ import { Subscription } from '../../domain/models/Subscription.js';
  * @returns {Promise<void>}
  */
 const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertificationCandidates }) {
-  await knex.transaction(async (trx) => {
+  await DomainTransaction.execute(async () => {
+    const knexConn = DomainTransaction.getConnection();
     const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);
 
-    const alreadyEnrolledCandidate = await trx
+    const alreadyEnrolledCandidate = await knexConn
       .select(['organizationLearnerId'])
       .from('certification-candidates')
       .whereIn('organizationLearnerId', organizationLearnerIds)
@@ -35,13 +36,13 @@ const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertif
     for (const candidateDTO of candidatesToBeEnrolledDTOs) {
       const { subscriptions, ...candidateToInsert } = candidateDTO;
 
-      const [{ id }] = await trx('certification-candidates').insert(candidateToInsert).returning('id');
+      const [{ id }] = await knexConn('certification-candidates').insert(candidateToInsert).returning('id');
 
       subscriptions[0].certificationCandidateId = id;
       // eslint-disable-next-line no-unused-vars
       const { complementaryCertificationKey, ...subscriptionToInsert } = subscriptions[0];
 
-      await trx('certification-subscriptions').insert(subscriptionToInsert);
+      await knexConn('certification-subscriptions').insert(subscriptionToInsert);
     }
   });
 };
