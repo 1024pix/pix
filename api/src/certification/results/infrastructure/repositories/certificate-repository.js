@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
@@ -14,7 +14,8 @@ import { CertifiedBadge } from '../../domain/read-models/CertifiedBadge.js';
 import * as competenceTreeRepository from './competence-tree-repository.js';
 
 const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division, locale }) {
-  const certificationCourseDTOs = await _selectCertificationCourseDTOs()
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCourseDTOs = await _selectCertificationCourseDTOs(knexConn)
     .select({ organizationLearnerId: 'view-active-organization-learners.id' })
     .innerJoin('certification-candidates', function () {
       this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
@@ -53,7 +54,8 @@ const findByDivisionForScoIsManagingStudentsOrganization = async function ({ org
 };
 
 const getCertificate = async function ({ certificationCourseId, locale }) {
-  const certificationCourseDTO = await _selectCertificationCourseDTOs()
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCourseDTO = await _selectCertificationCourseDTOs(knexConn)
     .where('certification-courses.id', '=', certificationCourseId)
     .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
     .first();
@@ -63,13 +65,14 @@ const getCertificate = async function ({ certificationCourseId, locale }) {
   }
 
   const competenceTree = await competenceTreeRepository.get({ locale });
-  const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
+  const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id, knexConn);
 
   return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges });
 };
 
 const findPrivateCertificatesByUserId = async function ({ userId }) {
-  const certificationCourseDTOs = await _selectPrivateCertificates()
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCourseDTOs = await _selectPrivateCertificates(knexConn)
     .where('certification-courses.userId', '=', userId)
     .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
     .orderBy('certification-courses.createdAt', 'DESC');
@@ -82,7 +85,8 @@ const findPrivateCertificatesByUserId = async function ({ userId }) {
 };
 
 const getPrivateCertificate = async function (id, { locale } = {}) {
-  const certificationCourseDTO = await _selectPrivateCertificates()
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCourseDTO = await _selectPrivateCertificates(knexConn)
     .where('certification-courses.id', '=', id)
     .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
     .where('certification-courses.isPublished', true)
@@ -93,7 +97,7 @@ const getPrivateCertificate = async function (id, { locale } = {}) {
     throw new NotFoundError(`Certificate not found for ID ${id}`);
   }
 
-  const certifiedBadges = await _getCertifiedBadges(id);
+  const certifiedBadges = await _getCertifiedBadges(id, knexConn);
 
   const competenceTree = await competenceTreeRepository.get({ locale });
 
@@ -105,7 +109,8 @@ const getPrivateCertificate = async function (id, { locale } = {}) {
 };
 
 const getShareableCertificate = async function ({ certificationCourseId, locale }) {
-  const shareableCertificateDTO = await _selectShareableCertificates()
+  const knexConn = DomainTransaction.getConnection();
+  const shareableCertificateDTO = await _selectShareableCertificates(knexConn)
     .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
     .where('certification-courses.id', certificationCourseId)
     .first();
@@ -116,7 +121,7 @@ const getShareableCertificate = async function ({ certificationCourseId, locale 
 
   const competenceTree = await competenceTreeRepository.get({ locale });
 
-  const certifiedBadges = await _getCertifiedBadges(shareableCertificateDTO.id);
+  const certifiedBadges = await _getCertifiedBadges(shareableCertificateDTO.id, knexConn);
 
   return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
 };
@@ -129,8 +134,8 @@ export {
   getShareableCertificate,
 };
 
-function _selectCertificationCourseDTOs() {
-  return _getCertificateQuery()
+function _selectCertificationCourseDTOs(knexConn) {
+  return _getCertificateQuery(knexConn)
     .select({
       id: 'certification-courses.id',
       firstName: 'certification-courses.firstName',
@@ -148,7 +153,7 @@ function _selectCertificationCourseDTOs() {
       algorithmEngineVersion: 'certification-courses.version',
       pixScore: 'assessment-results.pixScore',
       assessmentResultId: 'assessment-results.id',
-      competenceMarks: knex.raw(`
+      competenceMarks: knexConn.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
@@ -158,8 +163,8 @@ function _selectCertificationCourseDTOs() {
     .where('certification-courses.isPublished', true);
 }
 
-function _selectPrivateCertificates() {
-  return _getCertificateQuery().select({
+function _selectPrivateCertificates(knexConn) {
+  return _getCertificateQuery(knexConn).select({
     id: 'certification-courses.id',
     firstName: 'certification-courses.firstName',
     lastName: 'certification-courses.lastName',
@@ -178,7 +183,7 @@ function _selectPrivateCertificates() {
     commentByAutoJury: 'assessment-results.commentByAutoJury',
     assessmentResultStatus: 'assessment-results.status',
     assessmentResultId: 'assessment-results.id',
-    competenceMarks: knex.raw(`
+    competenceMarks: knexConn.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
@@ -187,8 +192,8 @@ function _selectPrivateCertificates() {
   });
 }
 
-function _selectShareableCertificates() {
-  return _getCertificateQuery()
+function _selectShareableCertificates(knexConn) {
+  return _getCertificateQuery(knexConn)
     .select({
       id: 'certification-courses.id',
       firstName: 'certification-courses.firstName',
@@ -204,7 +209,7 @@ function _selectShareableCertificates() {
       pixScore: 'assessment-results.pixScore',
       assessmentResultId: 'assessment-results.id',
       version: 'sessions.version',
-      competenceMarks: knex.raw(`
+      competenceMarks: knexConn.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
@@ -214,8 +219,8 @@ function _selectShareableCertificates() {
     .where('certification-courses.isPublished', true);
 }
 
-function _getCertificateQuery() {
-  return knex
+function _getCertificateQuery(knexConn) {
+  return knexConn
     .from('certification-courses')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
     .join(
@@ -311,8 +316,8 @@ function _toDomainForShareableCertificate({ shareableCertificateDTO, competenceT
   });
 }
 
-async function _getCertifiedBadges(certificationCourseId) {
-  const complementaryCertificationCourseResults = await knex
+async function _getCertifiedBadges(certificationCourseId, knexConn) {
+  const complementaryCertificationCourseResults = await knexConn
     .select(
       'complementary-certification-course-results.source',
       'complementary-certification-course-results.acquired',
