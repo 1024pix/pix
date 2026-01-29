@@ -1,11 +1,13 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
 
 const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
-    const query = knex
+    const knexConn = DomainTransaction.getConnection();
+    const query = knexConn
       .with('campaign_participants_activities_ordered', (qb) =>
         _buildCampaignParticipationByParticipant(qb, campaignId, filters),
       )
