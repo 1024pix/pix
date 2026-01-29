@@ -1,8 +1,9 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SessionForInvigilatorKit } from '../../domain/read-models/SessionForInvigilatorKit.js';
 
 const get = async function ({ id }) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
     .select(
       'sessions.id',
       'sessions.date',
