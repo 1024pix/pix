@@ -1,8 +1,9 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
 
 const findByCertificationCourseId = async function ({ certificationCourseId }) {
-  const competenceMarks = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const competenceMarks = await knexConn
     .select(
       'competence-marks.id',
       'competence-marks.area_code',
