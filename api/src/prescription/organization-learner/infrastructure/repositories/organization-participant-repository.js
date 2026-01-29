@@ -1,13 +1,12 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import {
-  CampaignParticipationStatuses,
-  CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 import { OrganizationParticipant } from '../../domain/read-models/OrganizationParticipant.js';
 
 async function findPaginatedFilteredParticipants({ organizationId, page, filters = {}, sort = {} }) {
+  const knexConn = DomainTransaction.getConnection();
   const totalParticipants = await _countOrganizationParticipant({ organizationId, withImport: false });
 
   const organizationLearnerQuery = _organizationLearnerParticipantsQuery({
@@ -17,7 +16,11 @@ async function findPaginatedFilteredParticipants({ organizationId, page, filters
     sort,
     withImport: false,
   });
-  const { results, pagination } = await fetchPage({ queryBuilder: organizationLearnerQuery, paginationParams: page });
+  const { results, pagination } = await fetchPage({
+    queryBuilder: organizationLearnerQuery,
+    paginationParams: page,
+    trx: knexConn(),
+  });
   const organizationParticipants = results.map((rawParticipant) => new OrganizationParticipant(rawParticipant));
   return { organizationParticipants, meta: { ...pagination, participantCount: totalParticipants } };
 }
@@ -30,6 +33,7 @@ async function findPaginatedFilteredImportedParticipants({
   filters = {},
   sort = {},
 }) {
+  const knexConn = DomainTransaction.getConnection();
   const totalParticipants = await _countOrganizationParticipant({ organizationId, withImport: true });
 
   const organizationLearnerQuery = _organizationLearnerParticipantsQuery({
@@ -40,7 +44,11 @@ async function findPaginatedFilteredImportedParticipants({
     sort,
     withImport: true,
   });
-  const { results, pagination } = await fetchPage({ queryBuilder: organizationLearnerQuery, paginationParams: page });
+  const { results, pagination } = await fetchPage({
+    queryBuilder: organizationLearnerQuery,
+    paginationParams: page,
+    trx: knexConn,
+  });
   const organizationParticipants = results.map((rawParticipant) => new OrganizationParticipant(rawParticipant));
   return { organizationParticipants, meta: { ...pagination, participantCount: totalParticipants } };
 }
@@ -117,7 +125,8 @@ function _buildWithQuery({ organizationId, extraColumns, withImport }) {
 }
 
 async function _countOrganizationParticipant({ organizationId, withImport = true }) {
-  const countParticipationQuery = knex
+  const knexConn = DomainTransaction.getConnection();
+  const countParticipationQuery = knexConn
     .select(knex.raw('COUNT(DISTINCT "view-active-organization-learners"."id")'))
     .from('view-active-organization-learners');
 
