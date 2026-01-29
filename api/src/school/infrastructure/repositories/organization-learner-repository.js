@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 
 const getStudentsByOrganizationId = async function ({ organizationId, organizationLearnerApi }) {
@@ -18,11 +18,12 @@ const getById = async function ({ organizationLearnerId, organizationLearnerApi 
 };
 
 async function getDivisionsWhichStartedMission({ missionId, organizationId, organizationLearnerApi }) {
+  const knexConn = DomainTransaction.getConnection();
   const { organizationLearners } = await organizationLearnerApi.find({
     organizationId,
   });
 
-  const startedOrganizationLearnersIds = await knex
+  const startedOrganizationLearnersIds = await knexConn
     .select('organizationLearnerId')
     .from('mission-assessments')
     .where({ missionId })
