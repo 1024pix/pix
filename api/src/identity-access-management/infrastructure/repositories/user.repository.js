@@ -1,4 +1,3 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import { InvalidOrAlreadyUsedEmailError } from '../../../identity-access-management/domain/errors.js';
 import * as legalDocumentApi from '../../../legal-documents/application/api/legal-documents-api.js';
 import * as organizationFeaturesApi from '../../../organizational-entities/application/api/organization-features-api.js';
@@ -21,7 +20,8 @@ import { UserDetailsForAdmin } from '../../domain/models/UserDetailsForAdmin.js'
 import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {
-  const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
+  const knexConn = DomainTransaction.getConnection();
+  const foundUser = await knexConn.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
   if (!foundUser) {
     throw new UserNotFoundError(`User not found for email ${email}`);
   }
@@ -34,13 +34,14 @@ const getByEmail = async function (email) {
  * @throws {UserNotFoundError}
  */
 const getFullById = async function (userId) {
-  const userDTO = await knex('users').where({ id: userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const userDTO = await knexConn('users').where({ id: userId }).first();
   if (!userDTO) {
     throw new UserNotFoundError();
   }
 
-  const membershipsDTO = await knex('memberships').where({ userId: userDTO.id, disabledAt: null });
-  const authenticationMethodsDTO = await knex('authentication-methods').where({
+  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
+  const authenticationMethodsDTO = await knexConn('authentication-methods').where({
     userId: userDTO.id,
     identityProvider: 'PIX',
   });
@@ -49,7 +50,8 @@ const getFullById = async function (userId) {
 };
 
 const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
-  const userDTO = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const userDTO = await knexConn('users')
     .whereRaw('LOWER("email") = ?', username.toLowerCase())
     .orWhere({ username: username.toLowerCase() })
     .first();
@@ -58,8 +60,8 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
     throw new UserNotFoundError();
   }
 
-  const membershipsDTO = await knex('memberships').where({ userId: userDTO.id, disabledAt: null });
-  const authenticationMethodsDTO = await knex('authentication-methods').where({
+  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
+  const authenticationMethodsDTO = await knexConn('authentication-methods').where({
     userId: userDTO.id,
     identityProvider: 'PIX',
   });
@@ -88,7 +90,8 @@ const getByIds = async function (userIds) {
 };
 
 const getForObfuscation = async function (userId) {
-  const foundUser = await knex.select('id', 'email', 'username').from('users').where({ id: userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const foundUser = await knexConn.select('id', 'email', 'username').from('users').where({ id: userId }).first();
   if (!foundUser) {
     throw new UserNotFoundError(`User not found for ID ${userId}`);
   }
@@ -96,7 +99,8 @@ const getForObfuscation = async function (userId) {
 };
 
 const getUserDetailsForAdmin = async function (userId) {
-  const userDTO = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const userDTO = await knexConn('users')
     .leftJoin('user-logins', 'user-logins.userId', 'users.id')
     .leftJoin('users AS anonymisedBy', 'anonymisedBy.id', 'users.hasBeenAnonymisedBy')
     .select([
@@ -122,9 +126,9 @@ const getUserDetailsForAdmin = async function (userId) {
     type: 'TOS',
   });
 
-  const lastUserApplicationConnectionsDTO = await knex('last-user-application-connections').where({ userId });
+  const lastUserApplicationConnectionsDTO = await knexConn('last-user-application-connections').where({ userId });
 
-  const authenticationMethodsDTO = await knex('authentication-methods')
+  const authenticationMethodsDTO = await knexConn('authentication-methods')
     .select([
       'authentication-methods.id',
       'authentication-methods.identityProvider',
@@ -134,7 +138,7 @@ const getUserDetailsForAdmin = async function (userId) {
     .join('users', 'users.id', 'authentication-methods.userId')
     .where({ userId });
 
-  const organizationLearnersDTO = await knex('view-active-organization-learners')
+  const organizationLearnersDTO = await knexConn('view-active-organization-learners')
     .select([
       'view-active-organization-learners.*',
       'organizations.name AS organizationName',
@@ -153,7 +157,7 @@ const getUserDetailsForAdmin = async function (userId) {
     }
   }
 
-  const pixAdminRolesDTO = await knex('pix-admin-roles').where({ userId });
+  const pixAdminRolesDTO = await knexConn('pix-admin-roles').where({ userId });
 
   return _fromKnexDTOToUserDetailsForAdmin({
     userDTO,
@@ -166,7 +170,8 @@ const getUserDetailsForAdmin = async function (userId) {
 };
 
 const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_TYPES.CONTAINS }) {
-  const query = knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn('users')
     .where((qb) => _setSearchFiltersForQueryBuilder(filter, qb, queryType))
     .orderBy([{ column: 'firstName', order: 'asc' }, { column: 'lastName', order: 'asc' }, { column: 'id' }]);
   const { results, pagination } = await fetchPage({
@@ -179,13 +184,14 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
 };
 
 const getWithMemberships = async function (userId) {
-  const userDTO = await knex('users').where({ id: userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const userDTO = await knexConn('users').where({ id: userId }).first();
 
   if (!userDTO) {
     throw new UserNotFoundError();
   }
 
-  const membershipsDTO = await knex('memberships')
+  const membershipsDTO = await knexConn('memberships')
     .select(
       'memberships.*',
       'organizations.name AS organizationName',
@@ -200,10 +206,11 @@ const getWithMemberships = async function (userId) {
 };
 
 const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
-  const user = await knex('users').where({ id: userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const user = await knexConn('users').where({ id: userId }).first();
   if (!user) throw new UserNotFoundError(`User not found for ID ${userId}`);
 
-  const userIsMemberOfThisCertificationCenter = await knex('certification-center-memberships')
+  const userIsMemberOfThisCertificationCenter = await knexConn('certification-center-memberships')
     .where({
       userId,
       certificationCenterId,
@@ -215,7 +222,8 @@ const isUserAllowedToAccessCertificationCenter = async function (userId, certifi
 };
 
 const getBySamlId = async function (samlId) {
-  const user = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const user = await knexConn('users')
     .select('users.*')
     .join('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId')
@@ -243,7 +251,8 @@ const updateWithEmailConfirmed = function ({ id, userAttributes }) {
 };
 
 const checkIfEmailIsAvailable = async function (email) {
-  const existingUserEmail = await knex('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
+  const knexConn = DomainTransaction.getConnection();
+  const existingUserEmail = await knexConn('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
 
   if (existingUserEmail) throw new InvalidOrAlreadyUsedEmailError();
 
@@ -251,13 +260,18 @@ const checkIfEmailIsAvailable = async function (email) {
 };
 
 const isUserExistingByEmail = async function (email) {
-  const existingUser = await knex('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
+  const knexConn = DomainTransaction.getConnection();
+  const existingUser = await knexConn('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
   if (!existingUser) throw new UserNotFoundError();
   return true;
 };
 
 const updateEmail = async function ({ id, email }) {
-  const [updatedUserEmail] = await knex('users').where({ id }).update({ email, updatedAt: new Date() }).returning('*');
+  const knexConn = DomainTransaction.getConnection();
+  const [updatedUserEmail] = await knexConn('users')
+    .where({ id })
+    .update({ email, updatedAt: new Date() })
+    .returning('*');
   if (!updatedUserEmail) throw new UserNotFoundError(`User not found for ID ${id}`);
   return new User(updatedUserEmail);
 };
@@ -290,7 +304,8 @@ const updateUserDetailsForAdministration = async function ({ id, userAttributes 
 };
 
 const updateHasSeenAssessmentInstructionsToTrue = async function (id) {
-  const [user] = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const [user] = await knexConn('users')
     .where({ id })
     .update({ hasSeenAssessmentInstructions: true, updatedAt: new Date() })
     .returning('*');
@@ -299,7 +314,8 @@ const updateHasSeenAssessmentInstructionsToTrue = async function (id) {
 };
 
 const updateHasSeenNewDashboardInfoToTrue = async function (id) {
-  const [user] = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const [user] = await knexConn('users')
     .where({ id })
     .update({ hasSeenNewDashboardInfo: true, updatedAt: new Date() })
     .returning('*');
@@ -308,15 +324,16 @@ const updateHasSeenNewDashboardInfoToTrue = async function (id) {
 };
 
 const updateHasSeenChallengeTooltip = async function ({ userId, challengeType }) {
+  const knexConn = DomainTransaction.getConnection();
   let user;
   if (challengeType === 'focused') {
-    [user] = await knex('users')
+    [user] = await knexConn('users')
       .where({ id: userId })
       .update({ hasSeenFocusedChallengeTooltip: true, updatedAt: new Date() })
       .returning('*');
   }
   if (challengeType === 'other') {
-    [user] = await knex('users')
+    [user] = await knexConn('users')
       .where({ id: userId })
       .update({ hasSeenOtherChallengesTooltip: true, updatedAt: new Date() })
       .returning('*');
@@ -325,7 +342,8 @@ const updateHasSeenChallengeTooltip = async function ({ userId, challengeType })
 };
 
 const acceptPixLastTermsOfService = async function (id) {
-  const [user] = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const [user] = await knexConn('users')
     .where({ id })
     .update({ lastTermsOfServiceValidatedAt: new Date(), mustValidateTermsOfService: false, updatedAt: new Date() })
     .returning('*');
@@ -346,7 +364,8 @@ const updatePixCertifTermsOfServiceAcceptedToTrue = async function (id) {
 };
 
 const isUsernameAvailable = async function (username) {
-  const foundUser = await knex('users').where({ username }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const foundUser = await knexConn('users').where({ username }).first();
 
   if (foundUser) throw new AlreadyRegisteredUsernameError();
 
@@ -364,7 +383,8 @@ const updateUsername = async function ({ id, username }) {
 };
 
 const findByExternalIdentifier = async function ({ externalIdentityId, identityProvider }) {
-  const user = await knex('users')
+  const knexConn = DomainTransaction.getConnection();
+  const user = await knexConn('users')
     .select('users.*')
     .join('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId')
@@ -377,13 +397,17 @@ const findByExternalIdentifier = async function ({ externalIdentityId, identityP
 };
 
 const findAnotherUserByEmail = async function (userId, email) {
-  const anotherUsers = await knex('users').whereNot('id', userId).whereRaw('LOWER("email") = ?', email.toLowerCase());
+  const knexConn = DomainTransaction.getConnection();
+  const anotherUsers = await knexConn('users')
+    .whereNot('id', userId)
+    .whereRaw('LOWER("email") = ?', email.toLowerCase());
 
   return anotherUsers.map((anotherUser) => new User(anotherUser));
 };
 
 const findAnotherUserByUsername = async function (userId, username) {
-  const anotherUsers = await knex('users').whereNot('id', userId).where({ username });
+  const knexConn = DomainTransaction.getConnection();
+  const anotherUsers = await knexConn('users').whereNot('id', userId).where({ username });
 
   return anotherUsers.map((anotherUser) => new User(anotherUser));
 };
@@ -393,7 +417,8 @@ const findAnotherUserByUsername = async function (userId, username) {
  * @return {Promise<User>}
  */
 const findById = async function (userId) {
-  const user = await knex('users').where({ id: userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const user = await knexConn('users').where({ id: userId }).first();
   return user ? new User(user) : null;
 };
 
@@ -404,9 +429,10 @@ const findById = async function (userId) {
  * @return {Promise<User>}
  */
 const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
   const now = new Date();
 
-  const [user] = await knex('users')
+  const [user] = await knexConn('users')
     .where({ id: userId })
     .update({ lastDataProtectionPolicySeenAt: now, updatedAt: new Date() })
     .returning('*');
