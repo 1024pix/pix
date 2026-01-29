@@ -1,9 +1,10 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionJuryComment } from '../../domain/models/SessionJuryComment.js';
 
 const get = async function ({ id }) {
-  const result = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn
     .select({
       id: 'id',
       comment: 'juryComment',
@@ -22,27 +23,29 @@ const get = async function ({ id }) {
 };
 
 const save = async function ({ sessionJuryComment }) {
+  const knexConn = DomainTransaction.getConnection();
   const columnsToSave = {
     juryComment: sessionJuryComment.comment,
     juryCommentAuthorId: sessionJuryComment.authorId,
     juryCommentedAt: sessionJuryComment.updatedAt,
   };
-  await _persist(sessionJuryComment.id, columnsToSave);
+  await _persist(knexConn, sessionJuryComment.id, columnsToSave);
 };
 
 const remove = async function ({ id }) {
+  const knexConn = DomainTransaction.getConnection();
   const columnsToSave = {
     juryComment: null,
     juryCommentAuthorId: null,
     juryCommentedAt: null,
   };
-  await _persist(id, columnsToSave);
+  await _persist(knexConn, id, columnsToSave);
 };
 
 export { get, remove, save };
 
-async function _persist(sessionId, columnsToSave) {
-  const updatedSessionIds = await knex('sessions').update(columnsToSave).where({ id: sessionId }).returning('id');
+async function _persist(knexConn, sessionId, columnsToSave) {
+  const updatedSessionIds = await knexConn('sessions').update(columnsToSave).where({ id: sessionId }).returning('id');
 
   if (updatedSessionIds.length === 0) {
     throw new NotFoundError(`La session ${sessionId} n'existe pas ou son accès est restreint.`);
