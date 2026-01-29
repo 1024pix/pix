@@ -1,10 +1,11 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
 const getByCode = async function ({ code, organizationFeatureAPI }) {
-  const result = await knex('campaigns')
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn('campaigns')
     .select('campaigns.*')
     .select({
       organizationId: 'organizations.id',
@@ -28,7 +29,7 @@ const getByCode = async function ({ code, organizationFeatureAPI }) {
     throw new NotFoundError(`La campagne au code ${code} n'existe pas ou son accès est restreint`);
   }
 
-  const externalIdFeature = await knex('campaign-features')
+  const externalIdFeature = await knexConn('campaign-features')
     .select('params')
     .join('features', 'features.id', 'featureId')
     .where({ campaignId: result.id, 'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key })
