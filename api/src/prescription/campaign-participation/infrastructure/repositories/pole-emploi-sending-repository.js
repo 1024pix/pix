@@ -1,15 +1,17 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import * as OidcIdentityProviders from '../../../../identity-access-management/domain/constants/oidc-identity-providers.js';
 import { config } from '../../../../shared/config.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const create = function ({ poleEmploiSending }) {
-  return knex('pole-emploi-sendings').insert({ ...poleEmploiSending });
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('pole-emploi-sendings').insert({ ...poleEmploiSending });
 };
 
 const find = async function (sending, filters) {
+  const knexConn = DomainTransaction.getConnection();
   const POLE_EMPLOI_SENDINGS_LIMIT = config.poleEmploi.poleEmploiSendingsLimit;
 
-  const rawSendings = await knex('pole-emploi-sendings')
+  const rawSendings = await knexConn('pole-emploi-sendings')
     .select(
       'pole-emploi-sendings.id AS idEnvoi',
       'pole-emploi-sendings.createdAt AS dateEnvoi',
