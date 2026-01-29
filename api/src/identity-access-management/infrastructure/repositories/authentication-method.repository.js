@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
@@ -74,7 +73,8 @@ const createPasswordThatShouldBeChanged = async function ({ userId, hashedPasswo
 };
 
 const findOneByUserIdAndIdentityProvider = async function ({ userId, identityProvider }) {
-  const authenticationMethodDTO = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTO = await knexConn
     .select(COLUMNS)
     .from(AUTHENTICATION_METHODS_TABLE)
     .where({ userId, identityProvider })
@@ -84,7 +84,8 @@ const findOneByUserIdAndIdentityProvider = async function ({ userId, identityPro
 };
 
 const findOneByExternalIdentifierAndIdentityProvider = async function ({ externalIdentifier, identityProvider }) {
-  const authenticationMethodDTO = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTO = await knexConn
     .select(COLUMNS)
     .from(AUTHENTICATION_METHODS_TABLE)
     .where({ externalIdentifier, identityProvider })
@@ -94,7 +95,8 @@ const findOneByExternalIdentifierAndIdentityProvider = async function ({ externa
 };
 
 const findByUserId = async function ({ userId }) {
-  const authenticationMethodDTOs = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTOs = await knexConn
     .select(COLUMNS)
     .from(AUTHENTICATION_METHODS_TABLE)
     .where({ userId })
@@ -104,7 +106,8 @@ const findByUserId = async function ({ userId }) {
 };
 
 const getByIdAndUserId = async function ({ id, userId }) {
-  const authenticationMethod = await knex.from(AUTHENTICATION_METHODS_TABLE).where({ id, userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethod = await knexConn.from(AUTHENTICATION_METHODS_TABLE).where({ id, userId }).first();
   if (!authenticationMethod) {
     throw new AuthenticationMethodNotFoundError(`Authentication method of id ${id} and user id ${userId} not found.`);
   }
@@ -112,7 +115,8 @@ const getByIdAndUserId = async function ({ id, userId }) {
 };
 
 const hasIdentityProviderPIX = async function ({ userId }) {
-  const authenticationMethodDTO = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTO = await knexConn
     .select(COLUMNS)
     .from(AUTHENTICATION_METHODS_TABLE)
     .where({
@@ -125,7 +129,8 @@ const hasIdentityProviderPIX = async function ({ userId }) {
 };
 
 const hasIdentityProviderGar = async function ({ userId }) {
-  const authenticationMethodDTO = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTO = await knexConn
     .select(COLUMNS)
     .from(AUTHENTICATION_METHODS_TABLE)
     .where({
@@ -148,7 +153,8 @@ const updateLastLoggedAtByIdentityProvider = async function ({ userId, identityP
 };
 
 const removeByUserIdAndIdentityProvider = async function ({ userId, identityProvider }) {
-  return knex(AUTHENTICATION_METHODS_TABLE).where({ userId, identityProvider }).del();
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn(AUTHENTICATION_METHODS_TABLE).where({ userId, identityProvider }).del();
 };
 
 const removeAllAuthenticationMethodsByUserId = async function ({ userId }) {
@@ -216,13 +222,17 @@ const updateAuthenticationComplementByUserIdAndIdentityProvider = async function
 };
 
 const updateAuthenticationMethodUserId = async function ({ originUserId, identityProvider, targetUserId }) {
-  await knex(AUTHENTICATION_METHODS_TABLE)
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({ userId: originUserId, identityProvider })
     .update({ userId: targetUserId, updatedAt: new Date(), lastLoggedAt: null });
 };
 
 const update = async function ({ id, authenticationComplement }) {
-  await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn(AUTHENTICATION_METHODS_TABLE)
+    .where({ id })
+    .update({ authenticationComplement, updatedAt: new Date() });
 };
 
 const batchUpsertPasswordThatShouldBeChanged = function ({ usersToUpdateWithNewPassword }) {
@@ -250,8 +260,8 @@ const anonymizeByUserIds = async function ({ userIds }) {
     .andWhere('identityProvider', 'GAR')
     .update({
       authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
-      updatedAt: knex.fn.now(),
-      externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
+      updatedAt: knexConn.fn.now(),
+      externalIdentifier: knexConn.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
     })
     .returning('userId');
 
@@ -265,7 +275,8 @@ const anonymizeByUserIds = async function ({ userIds }) {
  * @returns {Promise<*>}
  */
 const findByUserIdsAndIdentityProvider = async ({ userIds, identityProvider }) => {
-  const authenticationMethodDTOs = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTOs = await knexConn
     .select(COLUMNS)
     .from(AUTHENTICATION_METHODS_TABLE)
     .whereIn('userId', userIds)
