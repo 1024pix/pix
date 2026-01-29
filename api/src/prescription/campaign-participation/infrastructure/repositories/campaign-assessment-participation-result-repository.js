@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
@@ -20,7 +20,8 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
   campaignId,
   campaignParticipationId,
 ) {
-  const [campaignAssessmentParticipationResult] = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const [campaignAssessmentParticipationResult] = await knexConn
     .with('campaignAssessmentParticipationResult', (qb) => {
       qb.select([
         'users.id AS userId',
