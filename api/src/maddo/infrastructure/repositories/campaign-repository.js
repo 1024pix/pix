@@ -1,5 +1,5 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import * as campaignAPI from '../../../prescription/campaign/application/api/campaigns-api.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
 export async function findByOrganizationId(organizationId, page, locale) {
@@ -16,7 +16,8 @@ export async function findByOrganizationId(organizationId, page, locale) {
 }
 
 export async function getOrganizationId(campaignId) {
-  const [organizationId] = await knex.pluck('organizationId').from('campaigns').where('id', campaignId);
+  const knexConn = DomainTransaction.getConnection();
+  const [organizationId] = await knexConn.pluck('organizationId').from('campaigns').where('id', campaignId);
   return organizationId;
 }
 
