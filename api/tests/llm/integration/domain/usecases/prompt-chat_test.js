@@ -1839,13 +1839,13 @@ function buildBasicAssistantMessage(content, index) {
 }
 
 async function createChat(chatDTO) {
-  databaseBuilder.factory.buildChat({
+  databaseBuilder.factory.llm.buildChat({
     ...chatDTO,
     configId: chatDTO.configurationId,
     configContent: chatDTO.configuration,
   });
   for (const messageDTO of chatDTO.messages) {
-    databaseBuilder.factory.buildChatMessage({
+    databaseBuilder.factory.llm.buildChatMessage({
       ...messageDTO,
       chatId: chatDTO.id,
       wasModerated: messageDTO.wasModerated ?? null,

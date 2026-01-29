@@ -391,7 +391,7 @@ describe('Acceptance | Controller | passage-controller', function () {
             configId: chatDTO.configurationId,
             configContent: chatDTO.configuration,
           };
-          await databaseBuilder.factory.buildChat(databaseChat);
+          await databaseBuilder.factory.llm.buildChat(databaseChat);
           await databaseBuilder.commit();
           const promptLlmScope = nock('https://llm-test.pix.fr/api')
             .post('/chat', {

@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../../database-buffer.js';
 import { buildChat } from './build-chat.js';
 
 const TABLE_NAME = 'chat_messages';

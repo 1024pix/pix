@@ -214,7 +214,7 @@ describe('Acceptance | Route | llm-preview', function () {
           },
           messages: [],
         };
-        await databaseBuilder.factory.buildChat(chat);
+        await databaseBuilder.factory.llm.buildChat(chat);
         await databaseBuilder.commit();
 
         // when
@@ -286,9 +286,9 @@ describe('Acceptance | Route | llm-preview', function () {
         totalInputTokens: 2_000,
         totalOutputTokens: 5_000,
       };
-      await databaseBuilder.factory.buildChat(chat);
+      await databaseBuilder.factory.llm.buildChat(chat);
       for (const message of messages) {
-        await databaseBuilder.factory.buildChatMessage(message);
+        await databaseBuilder.factory.llm.buildChatMessage(message);
       }
       await databaseBuilder.commit();
 
@@ -365,7 +365,7 @@ describe('Acceptance | Route | llm-preview', function () {
     context('when chat belongs to a user', function () {
       it('returns a 403 status code', async function () {
         // given
-        await databaseBuilder.factory.buildChat({
+        await databaseBuilder.factory.llm.buildChat({
           id: '123e4567-e89b-12d3-a456-426614174000',
           userId: 123,
           configId: 'some-config-id',
@@ -392,7 +392,7 @@ describe('Acceptance | Route | llm-preview', function () {
 
     it('returns LLM response as stream', async function () {
       // given
-      await databaseBuilder.factory.buildChat({
+      await databaseBuilder.factory.llm.buildChat({
         id: '123e4567-e89b-12d3-a456-426614174000',
         userId: null,
         configId: 'some-config-id',

@@ -113,7 +113,7 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
       let databaseChat;
 
       beforeEach(async function () {
-        databaseChat = databaseBuilder.factory.buildChat();
+        databaseChat = databaseBuilder.factory.llm.buildChat();
         await databaseBuilder.commit();
       });
 
@@ -150,9 +150,9 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
       let databaseChat, firstDatabaseChatMessage, secondDatabaseChatMessage;
 
       beforeEach(async function () {
-        databaseChat = databaseBuilder.factory.buildChat();
-        firstDatabaseChatMessage = databaseBuilder.factory.buildChatMessage({ chatId: databaseChat.id });
-        secondDatabaseChatMessage = databaseBuilder.factory.buildChatMessage({
+        databaseChat = databaseBuilder.factory.llm.buildChat();
+        firstDatabaseChatMessage = databaseBuilder.factory.llm.buildChatMessage({ chatId: databaseChat.id });
+        secondDatabaseChatMessage = databaseBuilder.factory.llm.buildChatMessage({
           chatId: databaseChat.id,
           index: 1,
           emitter: 'assistant',
@@ -218,7 +218,7 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
 
     it('should return the Chat model when chat is found', async function () {
       // given
-      const chatId = databaseBuilder.factory.buildChat({
+      const chatId = databaseBuilder.factory.llm.buildChat({
         assessmentId: 123,
         userId: 456,
         challengeId: 'recCHallengeA',
@@ -241,7 +241,7 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
         totalInputTokens: 1500,
         totalOutputTokens: 2500,
       }).id;
-      databaseBuilder.factory.buildChatMessage({
+      databaseBuilder.factory.llm.buildChatMessage({
         attachmentName: 'attachmentA',
         chatId,
         content: 'Voici le fichier :',
@@ -249,7 +249,7 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
         index: 0,
         wasModerated: false,
       });
-      databaseBuilder.factory.buildChatMessage({
+      databaseBuilder.factory.llm.buildChatMessage({
         attachmentName: null,
         chatId,
         content: 'Les arc en ciels c super bo',
@@ -257,7 +257,7 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
         index: 1,
         wasModerated: null,
       });
-      databaseBuilder.factory.buildChatMessage({ content: 'je ne fais pas partie du chat du test !! ' });
+      databaseBuilder.factory.llm.buildChatMessage({ content: 'je ne fais pas partie du chat du test !! ' });
       await databaseBuilder.commit();
 
       // when
