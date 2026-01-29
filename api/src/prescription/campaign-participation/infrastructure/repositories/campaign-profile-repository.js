@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
@@ -24,7 +24,8 @@ const findProfile = async function ({ campaignId, campaignParticipationId, local
 export { findProfile };
 
 async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
-  const [profile] = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const [profile] = await knexConn
     .with('campaignProfile', (qb) => {
       qb.select([
         'campaign-participations.userId',
