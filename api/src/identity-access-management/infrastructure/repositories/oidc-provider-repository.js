@@ -1,4 +1,3 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
@@ -55,7 +54,8 @@ const create = async function (oidcProviderProperties) {
  * @return {Promise<Array<OidcProvider>>}
  */
 const findAllOidcProviders = async function () {
-  const result = await knex.select().from(OIDC_PROVIDERS_TABLE_NAME);
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn.select().from(OIDC_PROVIDERS_TABLE_NAME);
   return result.map(_toDomain);
 };
 
