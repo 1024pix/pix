@@ -38,7 +38,8 @@ const findByIds = async (ids) => {
 };
 
 const getByCode = async function (code) {
-  const campaign = await knex.select('id').from('campaigns').where({ code }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const campaign = await knexConn.select('id').from('campaigns').where({ code }).first();
 
   if (!campaign) return null;
 
@@ -46,11 +47,12 @@ const getByCode = async function (code) {
 };
 
 const get = async function (id) {
-  const campaign = await knex('campaigns').where({ id }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const campaign = await knexConn('campaigns').where({ id }).first();
 
   if (!campaign) return null;
 
-  const { count: participationCount } = await knex('campaign-participations')
+  const { count: participationCount } = await knexConn('campaign-participations')
     .count('id')
     .where({ campaignId: id })
     .first();
@@ -136,32 +138,27 @@ const save = async function (campaigns, dependencies = { skillRepository }) {
 };
 
 const swapCampaignCodes = async function ({ firstCampaignId, secondCampaignId }) {
-  const trx = await knex.transaction();
-  const randomBytesBuffer = await cryptoService.randomBytes(16);
-  const temporaryCode = randomBytesBuffer.toString('base64');
-
-  try {
+  return DomainTransaction.execute(async () => {
+    const knexConn = DomainTransaction.getConnection();
+    const randomBytesBuffer = await cryptoService.randomBytes(16);
+    const temporaryCode = randomBytesBuffer.toString('base64');
     const [{ code: firstCode }, { code: secondCode }] = await Promise.all([
-      trx('campaigns').select('code').where({ id: firstCampaignId }).first(),
-      trx('campaigns').select('code').where({ id: secondCampaignId }).first(),
+      knexConn('campaigns').select('code').where({ id: firstCampaignId }).first(),
+      knexConn('campaigns').select('code').where({ id: secondCampaignId }).first(),
     ]);
 
-    await trx('campaigns').where({ id: secondCampaignId }).update({ code: temporaryCode });
+    await knexConn('campaigns').where({ id: secondCampaignId }).update({ code: temporaryCode });
 
-    await trx('campaigns').where({ id: firstCampaignId }).update({ code: secondCode });
-    await trx('campaigns').where({ id: secondCampaignId }).update({ code: firstCode });
-
-    return trx.commit();
-  } catch (err) {
-    await trx.rollback();
-    throw err;
-  }
+    await knexConn('campaigns').where({ id: firstCampaignId }).update({ code: secondCode });
+    await knexConn('campaigns').where({ id: secondCampaignId }).update({ code: firstCode });
+  });
 };
 
 const isFromSameOrganization = async function ({ firstCampaignId, secondCampaignId }) {
+  const knexConn = DomainTransaction.getConnection();
   const [firstCampaign, secondCampaign] = await Promise.all([
-    knex('campaigns').select('organizationId').where({ id: firstCampaignId }).first(),
-    knex('campaigns').select('organizationId').where({ id: secondCampaignId }).first(),
+    knexConn('campaigns').select('organizationId').where({ id: firstCampaignId }).first(),
+    knexConn('campaigns').select('organizationId').where({ id: secondCampaignId }).first(),
   ]);
 
   if (!firstCampaign || !secondCampaign) {
@@ -172,7 +169,8 @@ const isFromSameOrganization = async function ({ firstCampaignId, secondCampaign
 };
 
 const archiveCampaigns = function (campaignIds, userId) {
-  return knex('campaigns').whereNull('archivedAt').whereInArray('id', campaignIds).update({
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('campaigns').whereNull('archivedAt').whereInArray('id', campaignIds).update({
     archivedBy: userId,
     archivedAt: new Date(),
   });
@@ -187,9 +185,9 @@ const archiveCampaigns = function (campaignIds, userId) {
 export const deleteExternalIdLabelFromCampaigns = (campaignIds) => {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('campaign-features')
-    .update('params', knex.raw("params - 'label'"))
+    .update('params', knexConn.raw("params - 'label'"))
     .updateFrom('features')
-    .where('features.id', '=', knex.raw('??', ['campaign-features.featureId']))
+    .where('features.id', '=', knexConn.raw('??', ['campaign-features.featureId']))
     .where('features.key', '=', CAMPAIGN_FEATURES.EXTERNAL_ID.key)
     .whereIn('campaign-features.campaignId', campaignIds);
 };
