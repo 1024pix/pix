@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-
+// TODO LAURA check me again later
 const DEFAULT_PAGINATION = {
   PAGE: 1,
   PAGE_SIZE: 10,

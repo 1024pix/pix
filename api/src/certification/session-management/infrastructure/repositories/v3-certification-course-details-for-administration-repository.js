@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AnswerStatus } from '../../../../shared/domain/models/AnswerStatus.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
 import { V3CertificationChallengeForAdministration } from '../../domain/models/V3CertificationChallengeForAdministration.js';
@@ -6,7 +6,8 @@ import { V3CertificationChallengeLiveAlertForAdministration } from '../../domain
 import { V3CertificationCourseDetailsForAdministration } from '../../domain/models/V3CertificationCourseDetailsForAdministration.js';
 
 const getV3DetailsByCertificationCourseId = async function ({ certificationCourseId }) {
-  const liveAlertsDTO = await knex('certification-challenge-live-alerts')
+  const knexConn = DomainTransaction.getConnection();
+  const liveAlertsDTO = await knexConn('certification-challenge-live-alerts')
     .select({
       id: 'certification-challenge-live-alerts.id',
       challengeId: 'certification-challenge-live-alerts.challengeId',
@@ -26,7 +27,7 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     .where('certification-challenge-live-alerts.status', CertificationChallengeLiveAlertStatus.VALIDATED)
     .orderBy('certification-challenge-live-alerts.createdAt', 'ASC');
 
-  const certificationCourseDTO = await knex
+  const certificationCourseDTO = await knexConn
     .select({
       isRejectedForFraud: 'certification-courses.isRejectedForFraud',
       certificationCourseId: 'certification-courses.id',
@@ -55,7 +56,7 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .first();
 
-  const certificationChallengesDetailsDTO = await knex
+  const certificationChallengesDetailsDTO = await knexConn
     .select({
       challengeId: 'certification-challenges.challengeId',
       answerStatus: 'answers.result',
