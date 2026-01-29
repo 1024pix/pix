@@ -1,8 +1,9 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Group } from '../../domain/models/Group.js';
 
 async function findByCampaignId(campaignId) {
-  const groups = await knex('view-active-organization-learners')
+  const knexConn = DomainTransaction.getConnection();
+  const groups = await knexConn('view-active-organization-learners')
     .where({ campaignId })
     .where({ 'campaign-participations.deletedAt': null })
     .distinct('group')
@@ -18,7 +19,8 @@ async function findByCampaignId(campaignId) {
 }
 
 async function findByOrganizationId({ organizationId }) {
-  const groupRows = await knex('view-active-organization-learners')
+  const knexConn = DomainTransaction.getConnection();
+  const groupRows = await knexConn('view-active-organization-learners')
     .distinct('group')
     .where({ organizationId, isDisabled: false })
     .whereNotNull('group')
