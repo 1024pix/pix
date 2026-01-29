@@ -61,6 +61,7 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
 };
 
 const update = async function (targetProfile) {
+  const knexConn = DomainTransaction.getConnection();
   let results;
   const editedAttributes = _.pick(targetProfile, [
     'name',
@@ -72,7 +73,7 @@ const update = async function (targetProfile) {
   ]);
 
   try {
-    results = await knex('target-profiles')
+    results = await knexConn('target-profiles')
       .where({ id: targetProfile.id })
       .update(editedAttributes)
       .returning(['id', 'isSimplifiedAccess']);
@@ -117,7 +118,8 @@ const getTubesByTargetProfileId = async (targetProfileId) => {
 };
 
 const findByOrganization = async function ({ organizationId }) {
-  const results = await knex('target-profiles')
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn('target-profiles')
     .select({
       id: 'target-profiles.id',
       internalName: 'target-profiles.internalName',
@@ -208,10 +210,11 @@ async function _getLearningContent(targetProfileId, tubesData, locale) {
 }
 
 async function _findBadges(targetProfileId) {
-  const badgeDTOs = await knex('badges').select('*').where({ targetProfileId }).orderBy('id');
+  const knexConn = DomainTransaction.getConnection();
+  const badgeDTOs = await knexConn('badges').select('*').where({ targetProfileId }).orderBy('id');
   const badges = [];
   for (const badgeDTO of badgeDTOs) {
-    const badgeCriteriaDTO = await knex('badge-criteria').select('*').where({ badgeId: badgeDTO.id }).orderBy('id');
+    const badgeCriteriaDTO = await knexConn('badge-criteria').select('*').where({ badgeId: badgeDTO.id }).orderBy('id');
     const criteria = [];
     for (const badgeCriterionDTO of badgeCriteriaDTO) {
       if (badgeCriterionDTO.scope === SCOPES.CAMPAIGN_PARTICIPATION) {
@@ -251,8 +254,9 @@ async function _findBadges(targetProfileId) {
 }
 
 async function _getStageCollection(targetProfileId) {
-  const stages = await knex('stages').where({ targetProfileId }).orderBy('id', 'asc');
-  const { max: maxLevel } = await knex('target-profile_tubes')
+  const knexConn = DomainTransaction.getConnection();
+  const stages = await knexConn('stages').where({ targetProfileId }).orderBy('id', 'asc');
+  const { max: maxLevel } = await knexConn('target-profile_tubes')
     .max('level')
     .where('targetProfileId', targetProfileId)
     .first();
@@ -261,13 +265,15 @@ async function _getStageCollection(targetProfileId) {
 }
 
 async function _hasLinkedCampaign(targetProfileId) {
-  const campaigns = await knex('campaigns').where({ targetProfileId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const campaigns = await knexConn('campaigns').where({ targetProfileId }).first();
 
   return Boolean(campaigns);
 }
 
 async function _hasLinkedAutonomousCourse(targetProfile, hasLinkedCampaign) {
-  const targetProfileSharesLinkedWithAutonomousCourseOrganization = await knex('target-profile-shares')
+  const knexConn = DomainTransaction.getConnection();
+  const targetProfileSharesLinkedWithAutonomousCourseOrganization = await knexConn('target-profile-shares')
     .where({
       targetProfileId: targetProfile.id,
       organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
