@@ -1,24 +1,27 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserSavedTutorial } from '../../domain/models/UserSavedTutorial.js';
 
 const TABLE_NAME = 'user-saved-tutorials';
 
 const addTutorial = async function ({ userId, tutorialId, skillId }) {
-  const userSavedTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
+  const knexConn = DomainTransaction.getConnection();
+  const userSavedTutorials = await knexConn(TABLE_NAME).where({ userId, tutorialId });
   if (userSavedTutorials.length) {
     return _toDomain(userSavedTutorials[0]);
   }
-  const savedUserSavedTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId, skillId }).returning('*');
+  const savedUserSavedTutorials = await knexConn(TABLE_NAME).insert({ userId, tutorialId, skillId }).returning('*');
   return _toDomain(savedUserSavedTutorials[0]);
 };
 
 const find = async function ({ userId }) {
-  const userSavedTutorials = await knex(TABLE_NAME).where({ userId }).orderBy('createdAt', 'desc');
+  const knexConn = DomainTransaction.getConnection();
+  const userSavedTutorials = await knexConn(TABLE_NAME).where({ userId }).orderBy('createdAt', 'desc');
   return userSavedTutorials.map(_toDomain);
 };
 
 const removeFromUser = async function (userSavedTutorial) {
-  return knex(TABLE_NAME).where(userSavedTutorial).delete();
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn(TABLE_NAME).where(userSavedTutorial).delete();
 };
 
 export { addTutorial, find, removeFromUser };
