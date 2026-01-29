@@ -2,7 +2,7 @@
 /**
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertification } from '../../../shared/domain/models/ComplementaryCertification.js';
 
 /**
@@ -10,7 +10,8 @@ import { ComplementaryCertification } from '../../../shared/domain/models/Comple
  * @returns {Promise<Array<ComplementaryCertification>>}
  */
 const findAll = async function () {
-  const result = await knex.from('complementary-certifications').select('id', 'label', 'key').orderBy('id', 'asc');
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn.from('complementary-certifications').select('id', 'label', 'key').orderBy('id', 'asc');
 
   return result.map(_toDomain);
 };
