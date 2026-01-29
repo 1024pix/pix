@@ -30,15 +30,15 @@ async function save({ certificationCourse }) {
   return get({ id: certificationCourseId });
 }
 
-const _findCertificationCourse = async function (id, knexConn = knex) {
+const _findCertificationCourse = async function (id, knexConn) {
   return knexConn('certification-courses').where({ id }).first();
 };
 
-const _findAssessment = async function (certificationCourseId, knexConn = knex) {
+const _findAssessment = async function (certificationCourseId, knexConn) {
   return knexConn('assessments').where({ certificationCourseId }).first();
 };
 
-const _findAllChallenges = async function (certificationCourseId, knexConn = knex) {
+const _findAllChallenges = async function (certificationCourseId, knexConn) {
   return knexConn('certification-challenges').where({ courseId: certificationCourseId });
 };
 
