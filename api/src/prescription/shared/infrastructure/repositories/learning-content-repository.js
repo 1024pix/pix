@@ -22,7 +22,8 @@ async function findByCampaignId(campaignId, locale) {
 }
 
 async function findByTargetProfileId(targetProfileId, locale) {
-  const cappedTubesDTO = await knex('target-profile_tubes')
+  const knexConn = DomainTransaction.getConnection();
+  const cappedTubesDTO = await knexConn('target-profile_tubes')
     .select({
       id: 'tubeId',
       level: 'level',
