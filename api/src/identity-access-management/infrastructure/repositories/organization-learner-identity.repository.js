@@ -1,4 +1,4 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OrganizationLearnerIdentityNotFoundError } from '../../domain/errors.js';
 import { OrganizationLearnerIdentity } from '../../domain/models/OrganizationLearnerIdentity.js';
 
@@ -6,7 +6,8 @@ const USER_TABLE_NAME = 'users';
 const VIEW_ORGANIZATION_LEARNERS_TABLE_NAME = 'view-active-organization-learners';
 
 async function getByIds(ids) {
-  const results = await knex({
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn({
     viewOrganizationLearners: VIEW_ORGANIZATION_LEARNERS_TABLE_NAME,
   })
     .join({ users: USER_TABLE_NAME }, 'users.id', 'viewOrganizationLearners.userId')
