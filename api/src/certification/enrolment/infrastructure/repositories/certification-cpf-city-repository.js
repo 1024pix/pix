@@ -1,5 +1,5 @@
 // @ts-check
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCpfCity } from '../../../shared/domain/models/CertificationCpfCity.js';
 
 const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
@@ -11,7 +11,8 @@ const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
  * @returns {Promise<Array<CertificationCpfCity>> }
  */
 const findByINSEECode = async function ({ INSEECode }) {
-  const result = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn
     .select(COLUMNS)
     .from('certification-cpf-cities')
     .where({ INSEECode })
@@ -28,7 +29,8 @@ const findByINSEECode = async function ({ INSEECode }) {
  * @returns {Promise<Array<CertificationCpfCity>> }
  */
 const findByPostalCode = async function ({ postalCode }) {
-  const result = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn
     .select(COLUMNS)
     .from('certification-cpf-cities')
     .where({ postalCode })
