@@ -93,7 +93,7 @@ const findMasteryRates = async (campaignId) => {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .from('campaign-participations as cp')
-    .select(['organizationLearnerId', getLatestParticipationSharedForOneLearner(knex, 'masteryRate', campaignId)])
+    .select(['organizationLearnerId', getLatestParticipationSharedForOneLearner(knexConn, 'masteryRate', campaignId)])
     .groupBy('organizationLearnerId')
     .where('status', SHARED)
     .where('deletedAt', null)
@@ -109,9 +109,10 @@ const findPaginatedFilteredByOrganizationId = async function ({
   userId,
   combinedCourseDetailsRepository = injectedCombinedCourseDetailRepository,
 }) {
+  const knexConn = DomainTransaction.getConnection();
   const combinedCourses = await combinedCourseDetailsRepository.findByOrganizationId({ organizationId });
   const campaignIdsToExclude = combinedCourses.flatMap((combinedCourse) => combinedCourse.campaignIds);
-  const query = knex('campaigns')
+  const query = knexConn('campaigns')
     .distinct('campaigns.id')
     .select(
       'campaigns.id',
@@ -141,7 +142,7 @@ const findPaginatedFilteredByOrganizationId = async function ({
     .orderBy('campaigns.createdAt', 'DESC');
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
-  const atLeastOneCampaign = await knex('campaigns')
+  const atLeastOneCampaign = await knexConn('campaigns')
     .count('id')
     .where({ organizationId })
     .whereNull('deletedAt')
