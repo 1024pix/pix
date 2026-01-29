@@ -2,6 +2,7 @@ import chunk from 'lodash/chunk.js';
 import isBoolean from 'lodash/isBoolean.js';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../shared/infrastructure/constants.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
@@ -38,7 +39,8 @@ function _getResultListPaginated(campaignId, filters, page) {
 }
 
 function _getParticipantsResultList(campaignId, filters) {
-  return knex
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn
     .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, filters))
     .select('*')
     .from('campaign_participation_summaries')
