@@ -3,7 +3,6 @@
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
@@ -25,7 +24,8 @@ function _toDomain(row) {
  * @returns {Promise<Array<ComplementaryCertification>>}
  */
 const findAll = async function () {
-  const result = await knex.from('complementary-certifications').select('id', 'label', 'key').orderBy('id', 'asc');
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn.from('complementary-certifications').select('id', 'label', 'key').orderBy('id', 'asc');
 
   return result.map(_toDomain);
 };
@@ -51,7 +51,8 @@ const getByKey = async function (key) {
  * @returns {Promise<ComplementaryCertification>}
  */
 const getById = async function ({ id }) {
-  const complementaryCertification = await knex.from('complementary-certifications').where({ id }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const complementaryCertification = await knexConn.from('complementary-certifications').where({ id }).first();
 
   if (!complementaryCertification) {
     throw new NotFoundError('Complementary certification does not exist');
