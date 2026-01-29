@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AccountRecoveryDemand } from '../../domain/models/AccountRecoveryDemand.js';
@@ -14,7 +13,8 @@ const _toDomainArray = (accountRecoveryDemandsDTOs) => {
 };
 
 const findByTemporaryKey = async function (temporaryKey) {
-  const accountRecoveryDemandDTO = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const accountRecoveryDemandDTO = await knexConn
     .where({ temporaryKey })
     .select('id', 'organizationLearnerId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
     .from('account-recovery-demands')
@@ -28,7 +28,8 @@ const findByTemporaryKey = async function (temporaryKey) {
 };
 
 const findByUserId = async function (userId) {
-  const accountRecoveryDemandsDTOs = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const accountRecoveryDemandsDTOs = await knexConn
     .select('id', 'organizationLearnerId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
     .from('account-recovery-demands')
     .where({ userId });
@@ -37,14 +38,17 @@ const findByUserId = async function (userId) {
 };
 
 const save = async function (accountRecoveryDemand) {
-  const result = await knex('account-recovery-demands').insert(accountRecoveryDemand).returning('*');
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn('account-recovery-demands').insert(accountRecoveryDemand).returning('*');
 
   return _toDomain(result[0]);
 };
 
 const markAsBeingUsed = async function (temporaryKey) {
   const knexConn = DomainTransaction.getConnection();
-  return knexConn('account-recovery-demands').where({ temporaryKey }).update({ used: true, updatedAt: knex.fn.now() });
+  return knexConn('account-recovery-demands')
+    .where({ temporaryKey })
+    .update({ used: true, updatedAt: knexConn.fn.now() });
 };
 
 export const accountRecoveryDemandRepository = { findByTemporaryKey, findByUserId, markAsBeingUsed, save };
