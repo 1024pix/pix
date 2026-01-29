@@ -1,5 +1,5 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import * as campaignRepository from '../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
@@ -8,7 +8,8 @@ import * as campaignParticipationRepository from './campaign-participation-repos
 
 const participantResultsSharedRepository = {
   async save(participantResultShared) {
-    await knex('campaign-participations').update(participantResultShared).where({ id: participantResultShared.id });
+    const knexConn = DomainTransaction.getConnection();
+    await knexConn('campaign-participations').update(participantResultShared).where({ id: participantResultShared.id });
   },
 
   async get(campaignParticipationId) {
