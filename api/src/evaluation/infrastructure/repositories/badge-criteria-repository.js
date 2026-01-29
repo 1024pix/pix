@@ -1,4 +1,3 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import { BadRequestError } from '../../../shared/application/http-errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
@@ -29,11 +28,12 @@ const saveAll = async function (badgeCriteria) {
 };
 
 const updateCriterion = async function (id, attributesToUpdate) {
+  const knexConn = DomainTransaction.getConnection();
   if (Object.keys(attributesToUpdate).length === 0) {
     throw new BadRequestError("Erreur, aucune propriété n'est à mettre à jour");
   }
 
-  const [updatedCriterion] = await knex(TABLE_NAME).update(attributesToUpdate).where({ id }).returning('*');
+  const [updatedCriterion] = await knexConn(TABLE_NAME).update(attributesToUpdate).where({ id }).returning('*');
 
   if (!updatedCriterion) {
     throw new NotFoundError('Erreur, critère de badge introuvable');
