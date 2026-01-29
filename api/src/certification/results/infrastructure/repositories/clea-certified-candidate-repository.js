@@ -1,9 +1,10 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CleaCertifiedCandidate } from '../../domain/read-models/CleaCertifiedCandidate.js';
 
 const getBySessionId = async function (sessionId) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
     .from('certification-courses')
     .select(
       'certification-courses.firstName',
