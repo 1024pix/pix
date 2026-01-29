@@ -1,7 +1,7 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Subscription } from '../../../enrolment/domain/models/Subscription.js';
-import { CertificationCandidate } from '../../../shared/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
 /**
@@ -12,13 +12,15 @@ import { ComplementaryCertification } from '../../domain/models/ComplementaryCer
  */
 
 const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
-  const candidateData = await _candidateBaseQuery().where({ sessionId, userId }).first();
-  const subscriptionData = candidateData ? await _getSubscriptions(candidateData.id) : undefined;
+  const knexConn = DomainTransaction.getConnection();
+  const candidateData = await _candidateBaseQuery(knexConn).where({ sessionId, userId }).first();
+  const subscriptionData = candidateData ? await _getSubscriptions(knexConn, candidateData.id) : undefined;
   return candidateData ? _toDomain({ candidateData, subscriptionData }) : undefined;
 };
 
 const findBySessionId = async function (sessionId) {
-  const certificationCandidates = await _candidateBaseQuery()
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCandidates = await _candidateBaseQuery(knexConn)
     .where({ 'certification-candidates.sessionId': sessionId })
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
     .orderByRaw('LOWER("certification-candidates"."firstName") asc');
@@ -26,7 +28,7 @@ const findBySessionId = async function (sessionId) {
   const result = [];
 
   for (const candidateData of certificationCandidates) {
-    const subscriptions = await _getSubscriptions(candidateData.id);
+    const subscriptions = await _getSubscriptions(knexConn, candidateData.id);
     const certificationCandidate = _toDomain({ candidateData, subscriptions });
 
     result.push(certificationCandidate);
@@ -36,7 +38,8 @@ const findBySessionId = async function (sessionId) {
 };
 
 const update = async function (certificationCandidate) {
-  const result = await knex('certification-candidates')
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn('certification-candidates')
     .where({ id: certificationCandidate.id })
     .update({ authorizedToStart: certificationCandidate.authorizedToStart });
 
@@ -46,9 +49,10 @@ const update = async function (certificationCandidate) {
 };
 
 const getWithComplementaryCertification = async function ({ id }) {
-  const candidateData = await _candidateBaseQuery().where('certification-candidates.id', id).first();
+  const knexConn = DomainTransaction.getConnection();
+  const candidateData = await _candidateBaseQuery(knexConn).where('certification-candidates.id', id).first();
 
-  const subscriptionData = await _getSubscriptions(id);
+  const subscriptionData = await _getSubscriptions(knexConn, id);
 
   if (!candidateData) {
     throw new NotFoundError('Candidate not found');
@@ -74,8 +78,8 @@ function _toDomain({ candidateData, subscriptionData }) {
   });
 }
 
-function _candidateBaseQuery() {
-  return knex
+function _candidateBaseQuery(knexConn) {
+  return knexConn
     .select({
       certificationCandidate: 'certification-candidates.*',
       complementaryCertificationId: 'complementary-certifications.id',
@@ -96,8 +100,8 @@ function _candidateBaseQuery() {
     .groupBy('certification-candidates.id', 'complementary-certifications.id');
 }
 
-async function _getSubscriptions(candidateId) {
-  return knex
+async function _getSubscriptions(knexConn, candidateId) {
+  return knexConn
     .select(
       'certification-subscriptions.complementaryCertificationId',
       'certification-subscriptions.certificationCandidateId',
