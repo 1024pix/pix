@@ -1,4 +1,3 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
@@ -28,7 +27,8 @@ const save = async function ({ certificationChallenge }) {
 };
 
 const getNextChallengeByCourseId = async function (courseId, ignoredChallengeIds) {
-  const certificationChallenge = await knex('certification-challenges')
+  const knexConn = DomainTransaction.getConnection();
+  const certificationChallenge = await knexConn('certification-challenges')
     .where({ courseId })
     .whereNotIn('challengeId', ignoredChallengeIds)
     .orderBy('id', 'asc')
