@@ -1,9 +1,10 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
 
 const get = async function ({ certificationCandidateId }) {
-  const result = await knex('certification-candidates')
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn('certification-candidates')
     .select(
       'certification-candidates.*',
       'assessments.state AS assessmentStatus',
@@ -25,7 +26,8 @@ const get = async function ({ certificationCandidateId }) {
 };
 
 const update = async function (certificationCandidateForSupervising) {
-  const result = await knex('certification-candidates')
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn('certification-candidates')
     .where({
       id: certificationCandidateForSupervising.id,
     })
