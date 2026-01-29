@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
 import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
@@ -14,7 +14,8 @@ const CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME = 'certification-center-member
  * @returns {Promise<AllowedCertificationCenterAccess>} - center access
  */
 const getCertificationCenterAccess = async ({ certificationCenterId }) => {
-  const certificationCenterAccess = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCenterAccess = await knexConn
     .select({
       id: 'certification-centers.id',
       name: 'certification-centers.name',
@@ -22,8 +23,8 @@ const getCertificationCenterAccess = async ({ certificationCenterId }) => {
       type: 'certification-centers.type',
       isInWhitelist: 'certification-centers.isScoBlockedAccessWhitelist',
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
-      habilitations: knex.raw(
+      tags: knexConn.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
+      habilitations: knexConn.raw(
         `array_agg(json_build_object(
           'id', "complementary-certifications".id,
           'label', "complementary-certifications".label,
@@ -54,7 +55,7 @@ const getCertificationCenterAccess = async ({ certificationCenterId }) => {
     .groupBy('certification-centers.id', 'organizations.isManagingStudents')
     .first();
 
-  const scoBlockedAccessDatesRows = await knex('certification_sco_blocked_access_dates').select(
+  const scoBlockedAccessDatesRows = await knexConn('certification_sco_blocked_access_dates').select(
     'scoOrganizationTagName',
     'reopeningDate',
   );
@@ -87,17 +88,18 @@ const _toDomain = ({ certificationCenterAccess, scoBlockedAccessDates }) => {
  * @returns {Promise<Array>} - List of allowed center accesses.
  */
 const getAllowedCenterAccesses = async function ({ centerList }) {
+  const knexConn = DomainTransaction.getConnection();
   const allowedCenterIdList = centerList.map((center) => center.id);
 
-  const allowedAccessDTOs = await knex
+  const allowedAccessDTOs = await knexConn
     .select({
       id: 'certification-centers.id',
       externalId: 'certification-centers.externalId',
       type: 'certification-centers.type',
       isInWhitelist: 'certification-centers.isScoBlockedAccessWhitelist',
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
-      habilitations: knex.raw(
+      tags: knexConn.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
+      habilitations: knexConn.raw(
         `array_agg(json_build_object(
           'id', "complementary-certifications".id,
           'label', "complementary-certifications".label,
@@ -128,7 +130,7 @@ const getAllowedCenterAccesses = async function ({ centerList }) {
     .orderBy('certification-centers.id')
     .groupBy('certification-centers.id', 'organizations.isManagingStudents');
 
-  const scoBlockedAccessDatesRows = await knex('certification_sco_blocked_access_dates').select(
+  const scoBlockedAccessDatesRows = await knexConn('certification_sco_blocked_access_dates').select(
     'scoOrganizationTagName',
     'reopeningDate',
   );
@@ -144,7 +146,8 @@ const getAllowedCenterAccesses = async function ({ centerList }) {
  * @returns {Promise<Object>} - Authorized center IDs and user data.
  */
 const getAuthorizedCenterIds = async function (userId) {
-  const certificationPointOfContactDTO = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const certificationPointOfContactDTO = await knexConn
     .select({
       id: 'users.id',
       firstName: 'users.firstName',
@@ -152,7 +155,7 @@ const getAuthorizedCenterIds = async function (userId) {
       email: 'users.email',
       lang: 'users.lang',
       pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-      certificationCenterIds: knex.raw('array_agg(?? order by ?? asc)', [
+      certificationCenterIds: knexConn.raw('array_agg(?? order by ?? asc)', [
         'certificationCenterId',
         'certificationCenterId',
       ]),
@@ -169,6 +172,7 @@ const getAuthorizedCenterIds = async function (userId) {
 
   return {
     authorizedCenterIds: await _removeDisabledCertificationCenterAccesses({
+      knexConn,
       certificationPointOfContactDTO,
     }),
     certificationPointOfContactDTO,
@@ -186,7 +190,8 @@ const getPointOfContact = async function ({
   certificationPointOfContactDTO,
   allowedCertificationCenterAccesses,
 }) {
-  const certificationCenterMemberships = await _findNotDisabledCertificationCenterMemberships(userId);
+  const knexConn = DomainTransaction.getConnection();
+  const certificationCenterMemberships = await _findNotDisabledCertificationCenterMemberships(knexConn, userId);
 
   return new CertificationPointOfContact({
     ...certificationPointOfContactDTO,
@@ -221,8 +226,8 @@ function _toDomainList({ allowedAccessDTOs, centerList, scoBlockedAccessDates })
  * @param {Object} certificationPointOfContactDTO - Certification point of contact DTO.
  * @returns {Promise<Array>} - List of active certification center IDs.
  */
-async function _removeDisabledCertificationCenterAccesses({ certificationPointOfContactDTO }) {
-  const certificationCenters = await knex
+async function _removeDisabledCertificationCenterAccesses({ knexConn, certificationPointOfContactDTO }) {
+  const certificationCenters = await knexConn
     .select('certificationCenterId')
     .from('certification-center-memberships')
     .where('certification-center-memberships.userId', certificationPointOfContactDTO.id)
@@ -268,8 +273,8 @@ function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
  * @param {number} userId - User ID.
  * @returns {Promise<Array>} - List of active certification center memberships.
  */
-async function _findNotDisabledCertificationCenterMemberships(userId) {
-  return knex(CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME)
+async function _findNotDisabledCertificationCenterMemberships(knexConn, userId) {
+  return knexConn(CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME)
     .select('id', 'certificationCenterId', 'userId', 'role')
     .where({
       userId,
