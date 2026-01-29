@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationIssueReport } from '../../../shared/domain/models/CertificationIssueReport.js';
 import { JuryCertification } from '../../domain/models/JuryCertification.js';
@@ -8,7 +8,8 @@ import { ComplementaryCertificationCourseResultForJuryCertification } from '../.
 import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 
 const get = async function ({ certificationCourseId }) {
-  const juryCertificationDTO = await _selectJuryCertifications()
+  const knexConn = DomainTransaction.getConnection();
+  const juryCertificationDTO = await _selectJuryCertifications(knexConn)
     .where('certification-courses.id', certificationCourseId)
     .first();
 
@@ -16,13 +17,13 @@ const get = async function ({ certificationCourseId }) {
     throw new NotFoundError(`Certification course of id ${certificationCourseId} does not exist.`);
   }
 
-  const competenceMarkDTOs = await knex('competence-marks')
+  const competenceMarkDTOs = await knexConn('competence-marks')
     .where({
       assessmentResultId: juryCertificationDTO.assessmentResultId,
     })
     .orderBy('competence_code', 'asc');
 
-  const complementaryCertificationCourseResultDTOs = await knex('complementary-certification-course-results')
+  const complementaryCertificationCourseResultDTOs = await knexConn('complementary-certification-course-results')
     .select(
       'complementary-certification-course-results.complementaryCertificationBadgeId',
       'complementary-certification-course-results.complementaryCertificationCourseId',
@@ -53,9 +54,9 @@ const get = async function ({ certificationCourseId }) {
       certificationCourseId: juryCertificationDTO.certificationCourseId,
     });
 
-  const badgeIdAndLabels = await _getComplementaryBadgeIdAndLabels({ certificationCourseId });
+  const badgeIdAndLabels = await _getComplementaryBadgeIdAndLabels({ certificationCourseId, knexConn });
 
-  const certificationIssueReportDTOs = await knex('certification-issue-reports')
+  const certificationIssueReportDTOs = await knexConn('certification-issue-reports')
     .where({ certificationCourseId })
     .orderBy('id', 'ASC');
 
@@ -70,8 +71,8 @@ const get = async function ({ certificationCourseId }) {
 
 export { get };
 
-function _selectJuryCertifications() {
-  return knex
+function _selectJuryCertifications(knexConn) {
+  return knexConn
     .select({
       certificationCourseId: 'certification-courses.id',
       sessionId: 'certification-courses.sessionId',
@@ -166,15 +167,15 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
   };
 }
 
-async function _getComplementaryBadgeIdAndLabels({ certificationCourseId }) {
-  return knex
+async function _getComplementaryBadgeIdAndLabels({ certificationCourseId, knexConn }) {
+  return knexConn
     .select('complementary-certification-badges.id', 'complementary-certification-badges.label')
     .from('badges')
     .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .where(
       'targetProfileId',
       '=',
-      knex('badges')
+      knexConn('badges')
         .select('targetProfileId')
         .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
         .innerJoin(
