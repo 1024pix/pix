@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseWithResults } from '../../domain/models/ComplementaryCertificationCourseWithResults.js';
 
 /**
@@ -8,12 +8,13 @@ import { ComplementaryCertificationCourseWithResults } from '../../domain/models
  * @returns {Promise<Array<ComplementaryCertificationCourseWithResults>>}
  */
 const findByUserId = async function ({ userId }) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
     .select({
       id: 'complementary-certification-courses.id',
       hasExternalJury: 'complementary-certifications.hasExternalJury',
       complementaryCertificationBadgeId: 'targetedBadge.id',
-      results: knex.raw(
+      results: knexConn.raw(
         `array_agg(json_build_object(
         'id', "complementary-certification-course-results".id,
         'acquired', "complementary-certification-course-results".acquired,
