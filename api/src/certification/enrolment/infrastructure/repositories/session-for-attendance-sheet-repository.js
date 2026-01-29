@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidateForAttendanceSheet } from '../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
 import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAttendanceSheet.js';
@@ -11,7 +11,8 @@ import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAt
  * @throws {NotFoundError}
  */
 const getWithCertificationCandidates = async function ({ id }) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
     .select(
       'sessions.id',
       'sessions.date',
@@ -24,7 +25,7 @@ const getWithCertificationCandidates = async function ({ id }) {
       'organizations.isManagingStudents',
     )
     .select({
-      certificationCandidates: knex.raw(`
+      certificationCandidates: knexConn.raw(`
       json_agg(json_build_object(
       'firstName', "certification-candidates"."firstName",
       'lastName', "certification-candidates"."lastName",
