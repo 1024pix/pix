@@ -1,4 +1,3 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const getStatusesBySessionId = async function (sessionId) {
@@ -40,7 +39,8 @@ const publishCertificationCourses = async function (certificationStatuses) {
 };
 
 const unpublishCertificationCoursesBySessionId = async function ({ sessionId }) {
-  await knex('certification-courses').where({ sessionId }).update({ isPublished: false, updatedAt: new Date() });
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('certification-courses').where({ sessionId }).update({ isPublished: false, updatedAt: new Date() });
 };
 
 export { getStatusesBySessionId, publishCertificationCourses, unpublishCertificationCoursesBySessionId };
