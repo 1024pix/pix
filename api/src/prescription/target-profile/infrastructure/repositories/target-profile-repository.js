@@ -1,4 +1,3 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { Badge } from '../../../../evaluation/domain/models/Badge.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -21,19 +20,21 @@ const get = async function (id) {
 };
 
 const findByIds = async function (targetProfileIds) {
-  const targetProfiles = await knex('target-profiles').whereIn('id', targetProfileIds);
+  const knexConn = DomainTransaction.getConnection();
+  const targetProfiles = await knexConn('target-profiles').whereIn('id', targetProfileIds);
   return targetProfiles.map((targetProfile) => {
     return new TargetProfile(targetProfile);
   });
 };
 
 const findOrganizationIds = async function (targetProfileId) {
-  const targetProfile = await knex(TARGET_PROFILE_TABLE).select('id').where({ id: targetProfileId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const targetProfile = await knexConn(TARGET_PROFILE_TABLE).select('id').where({ id: targetProfileId }).first();
   if (!targetProfile) {
     throw new NotFoundError(`No target profile for ID ${targetProfileId}`);
   }
 
-  const targetProfileShares = await knex('target-profile-shares')
+  const targetProfileShares = await knexConn('target-profile-shares')
     .select('organizationId')
     .where({ 'target-profile-shares.targetProfileId': targetProfileId });
   return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
