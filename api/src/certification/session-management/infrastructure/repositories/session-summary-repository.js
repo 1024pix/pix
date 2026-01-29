@@ -1,9 +1,10 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { SessionSummary } from '../../domain/read-models/SessionSummary.js';
 
 const findPaginatedByCertificationCenterId = async function ({ certificationCenterId, page }) {
-  const query = knex('sessions')
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn('sessions')
     .select({
       id: 'sessions.id',
       address: 'sessions.address',
@@ -16,8 +17,8 @@ const findPaginatedByCertificationCenterId = async function ({ certificationCent
       createdAt: 'sessions.createdAt',
     })
     .select(
-      knex.raw('COUNT("certification-candidates"."id") AS "enrolledCandidatesCount"'),
-      knex.raw('COUNT("certification-courses"."id") AS "effectiveCandidatesCount"'),
+      knexConn.raw('COUNT("certification-candidates"."id") AS "enrolledCandidatesCount"'),
+      knexConn.raw('COUNT("certification-courses"."id") AS "effectiveCandidatesCount"'),
     )
     .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .leftJoin('certification-courses', function () {
@@ -32,7 +33,7 @@ const findPaginatedByCertificationCenterId = async function ({ certificationCent
     .orderBy('sessions.time', 'DESC')
     .orderBy('sessions.id', 'ASC');
 
-  const countQuery = knex('sessions').count('*', { as: 'row_count' }).where({ certificationCenterId });
+  const countQuery = knexConn('sessions').count('*', { as: 'row_count' }).where({ certificationCenterId });
 
   const { results, pagination } = await fetchPage({
     queryBuilder: query,
