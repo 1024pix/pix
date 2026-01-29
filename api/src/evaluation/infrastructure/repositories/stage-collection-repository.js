@@ -1,9 +1,10 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import { StageCollection } from '../../../prescription/target-profile/domain/models/StageCollection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 const getByTargetProfileId = async function (targetProfileId) {
-  const stages = await knex('stages').where({ targetProfileId }).orderBy('id', 'asc');
-  const { max: maxLevel } = await knex('target-profile_tubes')
+  const knexConn = DomainTransaction.getConnection();
+  const stages = await knexConn('stages').where({ targetProfileId }).orderBy('id', 'asc');
+  const { max: maxLevel } = await knexConn('target-profile_tubes')
     .max('level')
     .where('targetProfileId', targetProfileId)
     .first();
@@ -34,9 +35,10 @@ const update = async function (stageCollectionUpdate) {
     prescriberDescription: stage.prescriberDescription,
     targetProfileId: stage.targetProfileId,
   }));
-  await knex.transaction(async (trx) => {
-    await trx('stages').whereIn('id', stageIdsToDelete).del();
-    await trx('stages')
+  await DomainTransaction.execute(async () => {
+    const knexConn = DomainTransaction.getConnection();
+    await knexConn('stages').whereIn('id', stageIdsToDelete).del();
+    await knexConn('stages')
       .insert([...stagesToCreate, ...stagesToUpdate])
       .onConflict('id')
       .merge();
