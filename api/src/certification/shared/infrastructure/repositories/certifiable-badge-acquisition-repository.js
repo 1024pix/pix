@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertifiableBadgeAcquisition } from '../../domain/models/CertifiableBadgeAcquisition.js';
 
@@ -56,7 +55,7 @@ const findHighestCertifiable = async function ({ userId, limitDate = new Date() 
     .join('complementary-certifications', 'complementary-certifications.id', 'user-badges.complementaryCertificationId')
     .join('campaign-participations', 'campaign-participations.id', 'user-badges.campaignParticipationId')
     .where({
-      'user-badges.acquiredAt': knex('latest-acquiredAt-badges')
+      'user-badges.acquiredAt': knexConn('latest-acquiredAt-badges')
         .select('acquiredAt')
         .whereRaw(
           '"latest-acquiredAt-badges"."complementaryCertificationId" = "user-badges"."complementaryCertificationId"',
