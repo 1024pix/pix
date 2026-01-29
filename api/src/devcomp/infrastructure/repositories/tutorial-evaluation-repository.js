@@ -1,3 +1,4 @@
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { TutorialEvaluation } from '../../domain/models/TutorialEvaluation.js';
 
@@ -14,7 +15,7 @@ const createOrUpdate = async function ({ userId, tutorialId, status }) {
     .onConflict(['userId', 'tutorialId'])
     .merge({
       status,
-      updatedAt: knexConn.fn.now(),
+      updatedAt: knex.fn.now(),
     })
     .returning('*');
   return _toDomain(tutorialEvaluation[0]);

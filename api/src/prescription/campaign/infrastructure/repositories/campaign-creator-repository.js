@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CampaignCreator } from '../../domain/models/CampaignCreator.js';
 
@@ -8,16 +9,12 @@ async function get(organizationId) {
     .andWhere((queryBuilder) => {
       queryBuilder
         .where({ ownerOrganizationId: organizationId })
-        .orWhere(
-          'id',
-          'in',
-          knexConn.select('targetProfileId').from('target-profile-shares').where({ organizationId }),
-        );
+        .orWhere('id', 'in', knex.select('targetProfileId').from('target-profile-shares').where({ organizationId }));
     })
     .pluck('target-profiles.id');
 
   const availableFeatures = await knexConn('features')
-    .select('key', knexConn.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
+    .select('key', knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
     .leftJoin('organization-features', function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',

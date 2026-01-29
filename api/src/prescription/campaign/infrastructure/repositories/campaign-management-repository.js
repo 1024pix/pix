@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import * as CombinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-course-repository.js';
 import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -108,9 +109,9 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
 async function _countParticipationsByStatus(knexConn, campaignId, campaignType) {
   const row = await knexConn('campaign-participations')
     .select([
-      knexConn.raw(`sum(case when status = ? then 1 else 0 end) as shared`, SHARED),
-      knexConn.raw(`sum(case when status = ? then 1 else 0 end) as completed`, TO_SHARE),
-      knexConn.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
+      knex.raw(`sum(case when status = ? then 1 else 0 end) as shared`, SHARED),
+      knex.raw(`sum(case when status = ? then 1 else 0 end) as completed`, TO_SHARE),
+      knex.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
     ])
     .where({ campaignId, isImproved: false })
     .whereNull('campaign-participations.deletedAt')

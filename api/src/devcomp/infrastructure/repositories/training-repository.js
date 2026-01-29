@@ -1,5 +1,6 @@
 import lodash from 'lodash';
 
+import { knex } from '../../../../db/knex-database-connection.js';
 import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
@@ -49,11 +50,11 @@ async function findPaginatedSummaries({ filter, page }) {
       'trainings.title',
       'trainings.internalTitle',
       'trainings.isDisabled',
-      knexConn.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
+      knex.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
     )
     .leftJoin(
-      knexConn('target-profile-trainings')
-        .select('trainingId', knexConn.raw('count(\'trainingId\') as "targetProfilesCount"'))
+      knex('target-profile-trainings')
+        .select('trainingId', knex.raw('count(\'trainingId\') as "targetProfilesCount"'))
         .groupBy('trainingId')
         .as('target-profile-trainings-count'),
       'target-profile-trainings-count.trainingId',
@@ -82,13 +83,13 @@ async function findPaginatedSummariesByTargetProfileId({ targetProfileId, page }
       'trainings.id',
       'trainings.title',
       'trainings.internalTitle',
-      knexConn.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
+      knex.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
       'trainings.isDisabled',
     )
     .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
     .leftJoin(
-      knexConn('target-profile-trainings')
-        .select('trainingId', knexConn.raw('count(\'trainingId\') as "targetProfilesCount"'))
+      knex('target-profile-trainings')
+        .select('trainingId', knex.raw('count(\'trainingId\') as "targetProfilesCount"'))
         .groupBy('trainingId')
         .as('target-profile-trainings-count'),
       'target-profile-trainings-count.trainingId',

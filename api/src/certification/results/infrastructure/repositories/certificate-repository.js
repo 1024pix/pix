@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
@@ -153,7 +154,7 @@ function _selectCertificationCourseDTOs(knexConn) {
       algorithmEngineVersion: 'certification-courses.version',
       pixScore: 'assessment-results.pixScore',
       assessmentResultId: 'assessment-results.id',
-      competenceMarks: knexConn.raw(`
+      competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
@@ -183,7 +184,7 @@ function _selectPrivateCertificates(knexConn) {
     commentByAutoJury: 'assessment-results.commentByAutoJury',
     assessmentResultStatus: 'assessment-results.status',
     assessmentResultId: 'assessment-results.id',
-    competenceMarks: knexConn.raw(`
+    competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
@@ -209,7 +210,7 @@ function _selectShareableCertificates(knexConn) {
       pixScore: 'assessment-results.pixScore',
       assessmentResultId: 'assessment-results.id',
       version: 'sessions.version',
-      competenceMarks: knexConn.raw(`
+      competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc

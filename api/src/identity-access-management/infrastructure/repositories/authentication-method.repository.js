@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
@@ -260,8 +261,8 @@ const anonymizeByUserIds = async function ({ userIds }) {
     .andWhere('identityProvider', 'GAR')
     .update({
       authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
-      updatedAt: knexConn.fn.now(),
-      externalIdentifier: knexConn.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
+      updatedAt: knex.fn.now(),
+      externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
     })
     .returning('userId');
 

@@ -1,3 +1,4 @@
+import { knex } from '../../../../db/knex-database-connection.js';
 import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
@@ -7,7 +8,7 @@ const save = function ({ userId, trainingId, campaignParticipationId }) {
   return knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
     .insert({ userId, trainingId, campaignParticipationId })
     .onConflict(['userId', 'trainingId', 'campaignParticipationId'])
-    .merge({ updatedAt: knexConn.fn.now() });
+    .merge({ updatedAt: knex.fn.now() });
 };
 
 const findByCampaignParticipationId = async function ({ campaignParticipationId, locale }) {

@@ -10,7 +10,7 @@ async function availableForOrganization(organizationId) {
 
 function _fetchTargetProfiles(organizationId) {
   const knexConn = DomainTransaction.getConnection();
-  const selectTargetProfileSharesIdsBelongToOrganization = knex
+  const selectTargetProfileSharesIdsBelongToOrganization = knexConn
     .select('targetProfileId')
     .from('target-profile-shares')
     .where({ organizationId });
@@ -22,9 +22,9 @@ function _fetchTargetProfiles(organizationId) {
       'target-profiles.category',
       'target-profiles.areKnowledgeElementsResettable',
       'target-profiles.isSimplifiedAccess',
-      knex.count('id').from('badges').whereRaw('badges."targetProfileId"="target-profiles".id').as('countBadges'),
-      knex.count('id').from('stages').whereRaw('stages."targetProfileId"="target-profiles".id').as('countStages'),
-      knex
+      knexConn.count('id').from('badges').whereRaw('badges."targetProfileId"="target-profiles".id').as('countBadges'),
+      knexConn.count('id').from('stages').whereRaw('stages."targetProfileId"="target-profiles".id').as('countStages'),
+      knexConn
         .count('tubeId')
         .from('target-profile_tubes')
         .whereRaw('"target-profile_tubes"."targetProfileId"="target-profiles".id')

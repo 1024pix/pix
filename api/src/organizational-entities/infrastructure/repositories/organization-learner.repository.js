@@ -1,3 +1,4 @@
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ParticipantRepartition } from '../../domain/models/ParticipantRepartition.js';
 
@@ -19,8 +20,8 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationId = async function
     .join('campaign-participations', function () {
       this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id').andOnVal(
         'campaign-participations.deletedAt',
-        knexConn.raw('IS'),
-        knexConn.raw('NULL'),
+        knex.raw('IS'),
+        knex.raw('NULL'),
       );
     })
     .where({ organizationId });

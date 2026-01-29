@@ -2,6 +2,7 @@
 /**
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -24,7 +25,7 @@ export async function getById({ id }) {
       name: 'certification-centers.name',
       type: 'certification-centers.type',
       externalId: 'certification-centers.externalId',
-      habilitations: knexConn.raw(
+      habilitations: knex.raw(
         `json_agg(json_build_object(
         'complementaryCertificationId', "complementary-certification-habilitations"."complementaryCertificationId",
         'key', "complementary-certifications"."key",

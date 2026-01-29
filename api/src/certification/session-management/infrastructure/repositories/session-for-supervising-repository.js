@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
@@ -18,7 +19,7 @@ const get = async function ({ id }) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
-      certificationCandidates: knexConn.raw(`
+      certificationCandidates: knex.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
           'firstName', "certification-candidates"."firstName",

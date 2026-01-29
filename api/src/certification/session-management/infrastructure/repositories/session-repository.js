@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
@@ -76,7 +77,7 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
       examinerGlobalComment,
       hasIncident,
       hasJoiningIssue,
-      finalizedAt: knexConn.fn.now(),
+      finalizedAt: knex.fn.now(),
     })
     .returning('*');
 

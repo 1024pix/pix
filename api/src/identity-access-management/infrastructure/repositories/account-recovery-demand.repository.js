@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AccountRecoveryDemand } from '../../domain/models/AccountRecoveryDemand.js';
@@ -46,9 +47,7 @@ const save = async function (accountRecoveryDemand) {
 
 const markAsBeingUsed = async function (temporaryKey) {
   const knexConn = DomainTransaction.getConnection();
-  return knexConn('account-recovery-demands')
-    .where({ temporaryKey })
-    .update({ used: true, updatedAt: knexConn.fn.now() });
+  return knexConn('account-recovery-demands').where({ temporaryKey }).update({ used: true, updatedAt: knex.fn.now() });
 };
 
 export const accountRecoveryDemandRepository = { findByTemporaryKey, findByUserId, markAsBeingUsed, save };

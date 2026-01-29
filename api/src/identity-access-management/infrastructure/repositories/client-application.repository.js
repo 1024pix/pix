@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingClientApplicationScopesError } from '../../domain/errors.js';
 import { ClientApplication } from '../../domain/models/ClientApplication.js';
@@ -68,7 +69,7 @@ export const clientApplicationRepository = {
       newScopes.forEach((scope) => scopes.add(scope));
 
       await knexConn('client_applications')
-        .update({ scopes: Array.from(scopes), updatedAt: knexConn.fn.now() })
+        .update({ scopes: Array.from(scopes), updatedAt: knex.fn.now() })
         .where('clientId', clientId);
 
       return true;
@@ -97,7 +98,7 @@ export const clientApplicationRepository = {
       }
 
       await knexConn('client_applications')
-        .update({ scopes: Array.from(scopes), updatedAt: knexConn.fn.now() })
+        .update({ scopes: Array.from(scopes), updatedAt: knex.fn.now() })
         .where('clientId', clientId);
 
       return true;
@@ -106,7 +107,7 @@ export const clientApplicationRepository = {
 
   async setClientSecret(clientId, clientSecret) {
     const knexConn = DomainTransaction.getConnection();
-    const rows = await knexConn(TABLE_NAME).update({ clientSecret, updatedAt: knexConn.fn.now() }).where({ clientId });
+    const rows = await knexConn(TABLE_NAME).update({ clientSecret, updatedAt: knex.fn.now() }).where({ clientId });
     return rows === 1;
   },
 };

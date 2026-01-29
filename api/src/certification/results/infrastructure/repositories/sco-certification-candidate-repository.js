@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 /**
@@ -8,10 +9,10 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
  */
 const findIdsByOrganizationIdAndDivision = async function ({ organizationId, division }) {
   const knexConn = DomainTransaction.getConnection();
-  const uniqLastCandidatesByOrganizationLearners = knexConn
+  const uniqLastCandidatesByOrganizationLearners = knex
     .select(
       'certification-candidates.id',
-      knexConn.raw(
+      knex.raw(
         `row_number() OVER (
           PARTITION BY "certification-candidates"."organizationLearnerId"
           ORDER BY "certification-courses"."createdAt" DESC

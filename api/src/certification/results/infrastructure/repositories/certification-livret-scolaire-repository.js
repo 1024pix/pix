@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { Certificate } from '../../domain/read-models/livret-scolaire/Certificate.js';
@@ -20,7 +21,7 @@ const getCertificatesByOrganizationUAI = async function (uai) {
       isPublished: 'certification-courses.isPublished',
       status: 'assessment-results.status',
       pixScore: 'assessment-results.pixScore',
-      competenceResults: knexConn.raw(`
+      competenceResults: knex.raw(`
       json_agg(
         json_build_object('level', "competence-marks".level, 'competenceId', "competence-marks"."competence_code")
         ORDER BY "competence-marks"."competence_code" asc
@@ -51,7 +52,7 @@ const getCertificatesByOrganizationUAI = async function (uai) {
     .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .whereNotExists(
-      knexConn
+      knex
         .select(1)
         .from({ 'last-certification-courses': 'certification-courses' })
         .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')

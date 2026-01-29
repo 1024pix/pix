@@ -1,4 +1,5 @@
 // @ts-check
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Center } from '../../domain/models/Center.js';
 import { CenterTypes } from '../../domain/models/CenterTypes.js';
@@ -13,7 +14,7 @@ export const addToWhitelistByExternalIds = async ({ externalIds }) => {
   const updatedLines = await knexConn('certification-centers')
     .update({
       isScoBlockedAccessWhitelist: true,
-      updatedAt: knexConn.fn.now(),
+      updatedAt: knex.fn.now(),
     })
     .where({
       type: CenterTypes.SCO,
@@ -32,7 +33,7 @@ export const addToWhitelistByExternalIds = async ({ externalIds }) => {
 export const resetWhitelist = async () => {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification-centers')
-    .update({ isScoBlockedAccessWhitelist: false, updatedAt: knexConn.fn.now() })
+    .update({ isScoBlockedAccessWhitelist: false, updatedAt: knex.fn.now() })
     .where({ type: CenterTypes.SCO });
 };
 

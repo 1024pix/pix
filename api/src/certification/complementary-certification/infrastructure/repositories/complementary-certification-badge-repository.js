@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { Badge } from '../../../../evaluation/domain/models/Badge.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
@@ -41,7 +42,7 @@ const findAttachableBadgesByIds = async function ({ ids }) {
     .whereIn('badges.id', ids)
     .andWhere('badges.isCertifiable', true)
     .whereNotExists(
-      knexConn
+      knex
         .select(1)
         .from('complementary-certification-badges')
         .whereRaw('"complementary-certification-badges"."badgeId" = "badges"."id"'),

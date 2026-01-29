@@ -1,5 +1,6 @@
 import difference from 'lodash/difference.js';
 
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { CombinedCourseBlueprint } from '../../domain/models/CombinedCourseBlueprint.js';
@@ -80,9 +81,7 @@ export async function findById({ id }) {
       content: 'combined_course_blueprints.content',
       createdAt: 'combined_course_blueprints.createdAt',
       updatedAt: 'combined_course_blueprints.updatedAt',
-      organizationIds: knexConn.raw(
-        `array_remove(array_agg("combined_course_blueprint_shares"."organizationId"), NULL)`,
-      ),
+      organizationIds: knex.raw(`array_remove(array_agg("combined_course_blueprint_shares"."organizationId"), NULL)`),
     })
     .leftJoin(
       'combined_course_blueprint_shares',

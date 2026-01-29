@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
@@ -23,8 +24,8 @@ const getCertificationCenterAccess = async ({ certificationCenterId }) => {
       type: 'certification-centers.type',
       isInWhitelist: 'certification-centers.isScoBlockedAccessWhitelist',
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: knexConn.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
-      habilitations: knexConn.raw(
+      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
+      habilitations: knex.raw(
         `array_agg(json_build_object(
           'id', "complementary-certifications".id,
           'label', "complementary-certifications".label,
@@ -98,8 +99,8 @@ const getAllowedCenterAccesses = async function ({ centerList }) {
       type: 'certification-centers.type',
       isInWhitelist: 'certification-centers.isScoBlockedAccessWhitelist',
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: knexConn.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
-      habilitations: knexConn.raw(
+      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
+      habilitations: knex.raw(
         `array_agg(json_build_object(
           'id', "complementary-certifications".id,
           'label', "complementary-certifications".label,
@@ -155,7 +156,7 @@ const getAuthorizedCenterIds = async function (userId) {
       email: 'users.email',
       lang: 'users.lang',
       pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-      certificationCenterIds: knexConn.raw('array_agg(?? order by ?? asc)', [
+      certificationCenterIds: knex.raw('array_agg(?? order by ?? asc)', [
         'certificationCenterId',
         'certificationCenterId',
       ]),

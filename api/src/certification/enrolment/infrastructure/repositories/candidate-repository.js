@@ -3,6 +3,7 @@
  */
 
 // @ts-check
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
@@ -149,7 +150,7 @@ export async function insert(candidate) {
 export async function deleteBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification-subscriptions')
-    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
+    .whereIn('certificationCandidateId', knex.select('id').from('certification-candidates').where({ sessionId }))
     .del();
 
   await knexConn('certification-candidates').where({ sessionId }).del();
@@ -217,7 +218,7 @@ function buildBaseReadQuery(knexConnection) {
   return knexConnection('certification-candidates')
     .select('certification-candidates.*')
     .select({
-      subscriptions: knexConnection.raw(
+      subscriptions: knex.raw(
         `json_agg(
           json_build_object(
             'type', "certification-subscriptions"."type",

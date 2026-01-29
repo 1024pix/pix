@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
@@ -101,7 +102,7 @@ function _getCertificationCoursesIdBySessionIdQuery(sessionId) {
         .onNull('certification-issue-reports.resolvedAt')
         .on((qb2) => {
           qb2
-            .onIn('categoryId', knexConn.select('id').from('impactful-categories'))
+            .onIn('categoryId', knex.select('id').from('impactful-categories'))
             .orOnNull('certification-issue-reports.id');
         });
     })

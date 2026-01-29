@@ -152,7 +152,7 @@ const get = async function ({ organizationId }) {
     .select(
       'key',
       'organization-features.params',
-      knexConn.raw('"organization-features"."organizationId" IS NOT NULL as enabled'),
+      knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'),
     )
     .leftJoin(ORGANIZATION_FEATURES_TABLE_NAME, function () {
       this.on('features.id', 'organization-features.featureId').andOn(

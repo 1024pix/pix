@@ -1,4 +1,5 @@
 // @ts-check
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js';
@@ -71,7 +72,7 @@ function buildBaseReadQuery(knexConnection) {
   return knexConnection
     .select('certification-candidates.*')
     .select({
-      subscriptions: knexConnection.raw(
+      subscriptions: knex.raw(
         `json_agg(
           json_build_object(
             'type', "certification-subscriptions"."type",

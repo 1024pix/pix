@@ -44,9 +44,7 @@ const getRecentlyUsedTags = async function ({ tagId, numberOfRecentTags }) {
     await knexConn.select('organizationId').from('organization-tags').where('tagId', '=', tagId)
   ).map(({ organizationId }) => organizationId);
   const tags = await knexConn
-    .select(
-      knexConn.raw('"organization-tags"."tagId", "tags"."name", COUNT("organization-tags"."tagId") AS "usedCount"'),
-    )
+    .select(knex.raw('"organization-tags"."tagId", "tags"."name", COUNT("organization-tags"."tagId") AS "usedCount"'))
     .from('organization-tags')
     .join('tags', 'tags.id', '=', 'organization-tags.tagId')
     .whereIn('organization-tags.organizationId', organizationIds)

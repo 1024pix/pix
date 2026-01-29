@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
@@ -10,7 +11,7 @@ export const getAllWithSameTargetProfile = async (complementaryCertificationBadg
     .where(
       'badges.targetProfileId',
       '=',
-      knexConn('complementary-certification-badges')
+      knex('complementary-certification-badges')
         .select('target-profiles.id')
         .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
         .join('target-profiles', 'target-profiles.id', '=', 'badges.targetProfileId')

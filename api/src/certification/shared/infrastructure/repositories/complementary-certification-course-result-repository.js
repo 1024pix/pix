@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
@@ -25,7 +26,7 @@ const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function
     .where(
       'targetProfileId',
       '=',
-      knexConn('badges')
+      knex('badges')
         .select('targetProfileId')
         .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
         .where({ 'complementary-certification-badges.id': complementaryCertificationBadgeId })

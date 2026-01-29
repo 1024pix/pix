@@ -2,6 +2,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 const BADGE_TABLE = 'badges';
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
+import { knex } from '../../../../db/knex-database-connection.js';
 
 const createOrUpdate = async function ({ badgeAcquisitionsToCreate = [] }) {
   const knexConn = DomainTransaction.getConnection();
@@ -17,7 +18,7 @@ const createOrUpdate = async function ({ badgeAcquisitionsToCreate = [] }) {
       await knexConn(BADGE_ACQUISITIONS_TABLE).insert(badgeAcquisitionsToCreate);
     } else {
       await knexConn(BADGE_ACQUISITIONS_TABLE)
-        .update({ updatedAt: knexConn.raw('CURRENT_TIMESTAMP') })
+        .update({ updatedAt: knex.raw('CURRENT_TIMESTAMP') })
         .where({ userId, badgeId, campaignParticipationId });
     }
   }
@@ -31,7 +32,7 @@ const deleteUserIdOnNonCertifiableBadgesForCampaignParticipations = async (campa
   return knexConnection(BADGE_ACQUISITIONS_TABLE)
     .update({ userId: null })
     .updateFrom(BADGE_TABLE)
-    .where(`${BADGE_ACQUISITIONS_TABLE}.badgeId`, knexConnection.raw('??', [`${BADGE_TABLE}.id`]))
+    .where(`${BADGE_ACQUISITIONS_TABLE}.badgeId`, knex.raw('??', [`${BADGE_TABLE}.id`]))
     .where(`${BADGE_TABLE}.isCertifiable`, '=', false)
     .whereIn(`${BADGE_ACQUISITIONS_TABLE}.campaignParticipationId`, campaignParticipationIds);
 };

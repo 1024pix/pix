@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { User } from '../../../enrolment/domain/models/User.js';
 
@@ -9,7 +10,7 @@ export async function get({ id }) {
     .select({
       id: 'users.id',
       lang: 'users.lang',
-      organizationLearnerIds: knexConn.raw(
+      organizationLearnerIds: knex.raw(
         `array_agg("view-active-organization-learners".id order by "view-active-organization-learners".id)`,
       ),
     })

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { knex } from '../../../../../db/knex-database-connection.js';
 import * as organizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
@@ -69,7 +70,7 @@ const disableAllOrganizationLearnersInOrganization = async function ({ organizat
   await knexConn('organization-learners')
     .where({ organizationId, isDisabled: false })
     .whereNotIn('nationalStudentId', nationalStudentIds)
-    .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
+    .update({ isDisabled: true, updatedAt: knex.raw('CURRENT_TIMESTAMP') });
 };
 
 const addOrUpdateOrganizationOfOrganizationLearners = async function (organizationLearnerDatas, organizationId) {
@@ -91,13 +92,13 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (organizati
   try {
     const organizationLearnersToSave = reconciledOrganizationLearnersToImport.map((organizationLearner) => ({
       ..._.omit(organizationLearner, ['id', 'createdAt', 'isCertifiable', 'certifiableAt']),
-      updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
+      updatedAt: knex.raw('CURRENT_TIMESTAMP'),
       isDisabled: false,
     }));
 
     await knexConn('organization-learners')
       .insert(organizationLearnersToSave)
-      .onConflict(knexConn.raw('("organizationId","nationalStudentId") where "deletedAt" is NULL'))
+      .onConflict(knex.raw('("organizationId","nationalStudentId") where "deletedAt" is NULL'))
       .merge();
   } catch {
     throw new OrganizationLearnersCouldNotBeSavedError();
@@ -254,7 +255,7 @@ const reconcileUserByNationalStudentIdAndOrganizationId = async function ({
         nationalStudentId,
         isDisabled: false,
       })
-      .update({ userId, updatedAt: knexConn.fn.now() })
+      .update({ userId, updatedAt: knex.fn.now() })
       .returning('*');
 
     if (!rawOrganizationLearner) throw new Error();
@@ -305,7 +306,7 @@ const reconcileUserToOrganizationLearner = async function ({ userId, organizatio
     const [rawOrganizationLearner] = await knexConn('organization-learners')
       .where({ id: organizationLearnerId })
       .where('isDisabled', false)
-      .update({ userId, updatedAt: knexConn.fn.now() })
+      .update({ userId, updatedAt: knex.fn.now() })
       .returning('*');
     if (!rawOrganizationLearner) throw new Error();
     return new OrganizationLearner(rawOrganizationLearner);

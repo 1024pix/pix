@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 
@@ -20,12 +21,12 @@ const getParticipationCountOnPrescriberCampaigns = async function (organizationI
   return knexConnection('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .select(
-      knexConnection.raw('count(*) as "totalParticipationCount"'),
-      knexConnection.raw(
+      knex.raw('count(*) as "totalParticipationCount"'),
+      knex.raw(
         `count(*) filter (where "status" = ?) as "completedParticipationCount"`,
         CampaignParticipationStatuses.SHARED,
       ),
-      knexConnection.raw(
+      knex.raw(
         `count(*) filter (where "sharedAt" >= NOW() - INTERVAL '30 days') as "sharedParticipationCountLastThirtyDays"`,
       ),
     )

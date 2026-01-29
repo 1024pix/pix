@@ -185,9 +185,9 @@ const archiveCampaigns = function (campaignIds, userId) {
 export const deleteExternalIdLabelFromCampaigns = (campaignIds) => {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('campaign-features')
-    .update('params', knexConn.raw("params - 'label'"))
+    .update('params', knex.raw("params - 'label'"))
     .updateFrom('features')
-    .where('features.id', '=', knexConn.raw('??', ['campaign-features.featureId']))
+    .where('features.id', '=', knex.raw('??', ['campaign-features.featureId']))
     .where('features.key', '=', CAMPAIGN_FEATURES.EXTERNAL_ID.key)
     .whereIn('campaign-features.campaignId', campaignIds);
 };

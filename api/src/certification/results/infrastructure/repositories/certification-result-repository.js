@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationResult } from '../../domain/models/CertificationResult.js';
@@ -66,7 +67,7 @@ function _selectCertificationResults(knexConn) {
       commentForOrganization: 'assessment-results.commentForOrganization',
     })
     .select(
-      knexConn.raw(`
+      knex.raw(`
         json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)  as "competenceMarks"`),
     )
     .from('certification-courses')

@@ -1,3 +1,4 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidateForAttendanceSheet } from '../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
@@ -25,7 +26,7 @@ const getWithCertificationCandidates = async function ({ id }) {
       'organizations.isManagingStudents',
     )
     .select({
-      certificationCandidates: knexConn.raw(`
+      certificationCandidates: knex.raw(`
       json_agg(json_build_object(
       'firstName', "certification-candidates"."firstName",
       'lastName', "certification-candidates"."lastName",

@@ -1,6 +1,6 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseWithResults } from '../../domain/models/ComplementaryCertificationCourseWithResults.js';
-
 /**
  * @function
  * @param {object} params
@@ -14,7 +14,7 @@ const findByUserId = async function ({ userId }) {
       id: 'complementary-certification-courses.id',
       hasExternalJury: 'complementary-certifications.hasExternalJury',
       complementaryCertificationBadgeId: 'targetedBadge.id',
-      results: knexConn.raw(
+      results: knex.raw(
         `array_agg(json_build_object(
         'id', "complementary-certification-course-results".id,
         'acquired', "complementary-certification-course-results".acquired,

@@ -100,7 +100,7 @@ function _getCombinedCoursesParticipations({ userId }) {
         createdAt: 'organization_learner_participations.createdAt',
         participationState: _computeCombinedCourseParticipationState(),
         updatedAt: 'organization_learner_participations.updatedAt',
-        campaignType: knexConn.raw('?', OrganizationLearnerParticipationTypes.COMBINED_COURSE),
+        campaignType: knex.raw('?', OrganizationLearnerParticipationTypes.COMBINED_COURSE),
       })
         .from('organization_learner_participations')
         .join('combined_courses', function () {
