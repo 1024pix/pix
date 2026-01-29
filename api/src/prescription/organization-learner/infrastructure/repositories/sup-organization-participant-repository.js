@@ -31,7 +31,8 @@ function _setFilters(qb, { search, studentNumber, groups, certificability } = {}
 }
 
 const findPaginatedFilteredSupParticipants = async function ({ organizationId, filter, page = {}, sort = {} }) {
-  const { totalSupParticipants } = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const { totalSupParticipants } = await knexConn
     .count('id', { as: 'totalSupParticipants' })
     .from('view-active-organization-learners')
     .where({ organizationId: organizationId, isDisabled: false })
@@ -160,7 +161,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
     .orderBy(orderByClause)
     .modify(_setFilters, filter);
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page, trx: knexConn });
   const supOrganizationParticipants = results.map((result) => {
     return new SupOrganizationParticipant({ ...result });
   });
