@@ -1,7 +1,8 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const getByCertificationCourseId = async function ({ certificationCourseId }) {
-  const { version } = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const { version } = await knexConn
     .select('version')
     .from('certification-courses')
     .where({ id: certificationCourseId })
