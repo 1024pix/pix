@@ -5,13 +5,14 @@ import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js
 import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileSummaryForAdmin.js';
 
 const findPaginatedFiltered = async function ({ filter, page }) {
+  const knexConn = DomainTransaction.getConnection();
   const query = knex('target-profiles')
     .select('id', 'internalName', 'outdated', 'category', 'createdAt')
     .orderBy('outdated', 'ASC')
     .orderBy('internalName', 'ASC')
     .modify(_applyFilters, filter);
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page, trx: knexConn });
 
   const targetProfileSummaries = results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
   return { models: targetProfileSummaries, meta: { ...pagination } };
