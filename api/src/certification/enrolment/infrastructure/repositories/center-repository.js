@@ -2,7 +2,6 @@
 /**
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -55,7 +54,7 @@ export async function getById({ id }) {
   }
   let matchingOrganization = null;
   if (center.type === CERTIFICATION_CENTER_TYPES.SCO) {
-    const organizationDB = await knex('organizations')
+    const organizationDB = await knexConn('organizations')
       .where({ type: Organization.types.SCO })
       .whereRaw('LOWER("externalId") = ?', center.externalId?.toLowerCase() ?? '')
       .first();
