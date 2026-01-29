@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationIssueReportCategory } from '../../domain/read-models/CertificationIssueReportCategory.js';
 
@@ -7,7 +7,8 @@ function _toDomain(issueReportCategoryModel) {
 }
 
 const get = async function ({ name }) {
-  const issueReportCategory = await knex('issue-report-categories').where({ name }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const issueReportCategory = await knexConn('issue-report-categories').where({ name }).first();
 
   if (!issueReportCategory) {
     throw new NotFoundError('The issue report category name does not exist');
