@@ -1,11 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import {
-  NotFoundError,
-  OrganizationLearnerNotFound,
-  UserNotFoundError,
-} from '../../../../../src/shared/domain/errors.js';
 import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError, OrganizationLearnerNotFound, UserNotFoundError } from '../../../../shared/domain/errors.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { OrganizationLearner as OrganizationLearnerToManage } from '../../../learner-management/domain/models/OrganizationLearner.js';
@@ -119,7 +115,11 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
     }
   }
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({
+    queryBuilder: query,
+    paginationParams: page,
+    trx: DomainTransaction.getConnection(),
+  });
 
   const learners = results.map((learner) => new OrganizationLearner(learner));
 
@@ -163,7 +163,8 @@ async function findPaginatedAttestationStatusForOrganizationLearnersAndKey({
   page,
   attestationsApi,
 }) {
-  const query = knex
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn
     .select(
       'view-active-organization-learners.id',
       'userId',
