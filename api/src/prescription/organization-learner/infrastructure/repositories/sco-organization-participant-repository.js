@@ -1,13 +1,11 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import {
-  CampaignParticipationStatuses,
-  CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../identity-access-management/domain/constants/identity-providers.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 import { ScoOrganizationParticipant } from '../../domain/read-models/ScoOrganizationParticipant.js';
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
@@ -60,7 +58,8 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
 }
 
 const findPaginatedFilteredScoParticipants = async function ({ organizationId, filter, page = {}, sort = {} }) {
-  const { totalScoParticipants } = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const { totalScoParticipants } = await knexConn
     .count('id', { as: 'totalScoParticipants' })
     .from('view-active-organization-learners')
     .where({ organizationId: organizationId, isDisabled: false })
@@ -206,7 +205,7 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     .modify(_setFilters, filter)
     .orderBy(orderByClause);
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page, trx: knexConn });
 
   const scoOrganizationParticipants = results.map((result) => {
     return new ScoOrganizationParticipant({
