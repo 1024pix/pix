@@ -502,6 +502,10 @@ const configuration = (function () {
     config.auditLogger.baseUrl = 'http://audit-logger.local';
     config.auditLogger.clientSecret = 'client-super-secret';
 
+    config.autonomousCourse = {
+      autonomousCoursesOrganizationId: 9000000,
+    };
+
     config.baseUrl = 'https://api.test.pix.fr';
 
     config.oidcExampleNet = {
