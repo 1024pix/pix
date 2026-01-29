@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../shared/infrastructure/constants.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
@@ -32,7 +32,8 @@ const getCampaignCollectiveResult = async function (campaignId, campaignLearning
 export { getCampaignCollectiveResult };
 
 async function _getChunksSharedParticipations(campaignId) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
     .from('campaign-participations')
     .max('id')
     .where({ campaignId, status: SHARED, deletedAt: null })
