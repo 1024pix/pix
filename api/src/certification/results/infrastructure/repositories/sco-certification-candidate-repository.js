@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 /**
  * @param {object} params
@@ -6,11 +6,12 @@ import { knex } from '../../../../../db/knex-database-connection.js';
  * @param {string} params.division
  * @returns {Promise<Array<number>>} candidates identifiers of active students participants to certification sessions within given division
  */
-const findIdsByOrganizationIdAndDivision = function ({ organizationId, division }) {
-  const uniqLastCandidatesByOrganizationLearners = knex
+const findIdsByOrganizationIdAndDivision = async function ({ organizationId, division }) {
+  const knexConn = DomainTransaction.getConnection();
+  const uniqLastCandidatesByOrganizationLearners = knexConn
     .select(
       'certification-candidates.id',
-      knex.raw(
+      knexConn.raw(
         `row_number() OVER (
           PARTITION BY "certification-candidates"."organizationLearnerId"
           ORDER BY "certification-courses"."createdAt" DESC
@@ -36,7 +37,7 @@ const findIdsByOrganizationIdAndDivision = function ({ organizationId, division 
     .orderBy('certification-candidates.firstName', 'ASC')
     .as('uniqLastCandidatesByOrganizationLearners');
 
-  return knex
+  return knexConn
     .pluck('id')
     .from(uniqLastCandidatesByOrganizationLearners)
     .where('uniqLastCandidatesByOrganizationLearners.session_number', 1);
