@@ -1,5 +1,5 @@
 // @ts-check
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js';
 
@@ -24,7 +24,8 @@ import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js
  * @returns {Promise<Array<EnrolledCandidate>>}
  */
 export async function findBySessionId({ sessionId }) {
-  const candidatesData = await buildBaseReadQuery(knex).where({ 'certification-candidates.sessionId': sessionId });
+  const knexConn = DomainTransaction.getConnection();
+  const candidatesData = await buildBaseReadQuery(knexConn).where({ 'certification-candidates.sessionId': sessionId });
 
   return candidatesData.map(toDomain).sort(sortAlphabeticallyByLastNameThenFirstName);
 }
@@ -70,7 +71,7 @@ function buildBaseReadQuery(knexConnection) {
   return knexConnection
     .select('certification-candidates.*')
     .select({
-      subscriptions: knex.raw(
+      subscriptions: knexConnection.raw(
         `json_agg(
           json_build_object(
             'type', "certification-subscriptions"."type",
