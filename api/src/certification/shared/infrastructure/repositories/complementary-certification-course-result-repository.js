@@ -1,9 +1,9 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const getPixSourceResultByComplementaryCertificationCourseId = async function ({ complementaryCertificationCourseId }) {
-  const result = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn
     .select('*')
     .from('complementary-certification-course-results')
     .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.PIX })
@@ -17,14 +17,15 @@ const getPixSourceResultByComplementaryCertificationCourseId = async function ({
 const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function ({
   complementaryCertificationBadgeId,
 }) {
-  return knex
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn
     .pluck('complementary-certification-badges.id')
     .from('badges')
     .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .where(
       'targetProfileId',
       '=',
-      knex('badges')
+      knexConn('badges')
         .select('targetProfileId')
         .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
         .where({ 'complementary-certification-badges.id': complementaryCertificationBadgeId })
@@ -34,7 +35,8 @@ const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function
 };
 
 const removeExternalJuryResult = async function ({ complementaryCertificationCourseId }) {
-  await knex('complementary-certification-course-results')
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('complementary-certification-course-results')
     .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.EXTERNAL })
     .delete();
 };
