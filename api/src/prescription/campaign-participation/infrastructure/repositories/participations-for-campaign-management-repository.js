@@ -1,10 +1,12 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { ParticipationForCampaignManagement } from '../../domain/models/ParticipationForCampaignManagement.js';
 
 const updateParticipantExternalId = async function ({ campaignParticipationId, participantExternalId }) {
-  const updatedRows = await knex('campaign-participations')
+  const knexConn = DomainTransaction.getConnection();
+  const updatedRows = await knexConn('campaign-participations')
     .where('id', campaignParticipationId)
     .update({ participantExternalId });
 
@@ -14,7 +16,8 @@ const updateParticipantExternalId = async function ({ campaignParticipationId, p
 };
 
 const findPaginatedParticipationsForCampaignManagement = async function ({ campaignId, page }) {
-  const query = knex('campaign-participations')
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn('campaign-participations')
     .select({
       id: 'campaign-participations.id',
       lastName: 'view-active-organization-learners.lastName',
