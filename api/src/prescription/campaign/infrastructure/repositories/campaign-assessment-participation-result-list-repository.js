@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { STAGE_ACQUISITIONS_TABLE_NAME } from '../../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { StageAcquisitionCollection } from '../../../campaign-participation/domain/models/StageAcquisitionCollection.js';
@@ -28,8 +29,9 @@ export const findPaginatedByCampaignId = async ({
   };
 };
 
-const getParticipantsResultList = (campaignId, filters) =>
-  knex
+const getParticipantsResultList = (campaignId, filters) => {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn
     .with('campaign_participation_summaries', (qb) => getParticipations(qb, campaignId, filters))
     .select('*')
     .from('campaign_participation_summaries')
@@ -37,6 +39,7 @@ const getParticipantsResultList = (campaignId, filters) =>
     .modify(filterByUnacquiredBadges, filters)
     .modify(filterByStage, filters)
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+};
 
 const getParticipations = (qb, campaignId, filters) => {
   qb.select(
@@ -216,11 +219,15 @@ const buildCampaignAssessmentParticipationResultList = async (results, stageColl
     });
   });
 
-const getAcquiredStages = async (campaignParticipationId) =>
-  await knex(STAGE_ACQUISITIONS_TABLE_NAME).select('*').where({ campaignParticipationId });
+const getAcquiredStages = async (campaignParticipationId) => {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn(STAGE_ACQUISITIONS_TABLE_NAME).select('*').where({ campaignParticipationId });
+};
 
-const getAcquiredBadges = async (campaignParticipationId) =>
-  await knex('badge-acquisitions')
+const getAcquiredBadges = async (campaignParticipationId) => {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('badge-acquisitions')
     .select(['badges.id AS id', 'title', 'altMessage', 'imageUrl'])
     .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
     .where({ campaignParticipationId: campaignParticipationId });
+};
