@@ -19,6 +19,11 @@ function toBoolean(environmentVariable) {
   return environmentVariable === 'true';
 }
 
+/**
+ * @template T
+ * @param {string=} numberAsString
+ * @param {T} defaultValue
+ */
 function _getNumber(numberAsString, defaultValue) {
   const number = parseInt(numberAsString, 10);
   return isNaN(number) ? defaultValue : number;
