@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingClientApplicationScopesError } from '../../domain/errors.js';
 import { ClientApplication } from '../../domain/models/ClientApplication.js';
 
@@ -8,13 +8,15 @@ const TABLE_NAME = 'client_applications';
 
 export const clientApplicationRepository = {
   async findByClientId(clientId) {
-    const dto = await knex.select().from(TABLE_NAME).where({ clientId }).first();
+    const knexConn = DomainTransaction.getConnection();
+    const dto = await knexConn.select().from(TABLE_NAME).where({ clientId }).first();
     if (!dto) return undefined;
     return toDomain(dto);
   },
 
   async list() {
-    const dtos = await knex.select().from(TABLE_NAME).orderBy('name');
+    const knexConn = DomainTransaction.getConnection();
+    const dtos = await knexConn.select().from(TABLE_NAME).orderBy('name');
     return dtos.map((dto) => {
       const clientApplication = toDomain(dto);
       // eslint-disable-next-line no-unused-vars -- extract clientSecret so that it's not returned/displayed
@@ -38,17 +40,20 @@ export const clientApplicationRepository = {
     if (jurisdiction) {
       await jurisdictionSchema.validateAsync(jurisdiction);
     }
-    await knex.insert({ name, clientId, clientSecret, scopes, jurisdiction }).into(TABLE_NAME);
+    const knexConn = DomainTransaction.getConnection();
+    await knexConn.insert({ name, clientId, clientSecret, scopes, jurisdiction }).into(TABLE_NAME);
   },
 
   async removeByClientId(clientId) {
-    const rows = await knex.delete().from(TABLE_NAME).where({ clientId });
+    const knexConn = DomainTransaction.getConnection();
+    const rows = await knexConn.delete().from(TABLE_NAME).where({ clientId });
     return rows === 1;
   },
 
   async addScopes(clientId, newScopes) {
-    return knex.transaction(async (trx) => {
-      const clientApplication = await trx
+    return DomainTransaction.execute(async () => {
+      const knexConn = DomainTransaction.getConnection();
+      const clientApplication = await knexConn
         .select('scopes')
         .from('client_applications')
         .where('clientId', clientId)
@@ -62,8 +67,8 @@ export const clientApplicationRepository = {
       const scopes = new Set(clientApplication.scopes);
       newScopes.forEach((scope) => scopes.add(scope));
 
-      await trx('client_applications')
-        .update({ scopes: Array.from(scopes), updatedAt: knex.fn.now() })
+      await knexConn('client_applications')
+        .update({ scopes: Array.from(scopes), updatedAt: knexConn.fn.now() })
         .where('clientId', clientId);
 
       return true;
@@ -71,8 +76,9 @@ export const clientApplicationRepository = {
   },
 
   async removeScopes(clientId, scopesToRemove) {
-    return knex.transaction(async (trx) => {
-      const clientApplication = await trx
+    return DomainTransaction.execute(async () => {
+      const knexConn = DomainTransaction.getConnection();
+      const clientApplication = await knexConn
         .select('scopes')
         .from('client_applications')
         .where('clientId', clientId)
@@ -90,8 +96,8 @@ export const clientApplicationRepository = {
         throw new MissingClientApplicationScopesError();
       }
 
-      await trx('client_applications')
-        .update({ scopes: Array.from(scopes), updatedAt: knex.fn.now() })
+      await knexConn('client_applications')
+        .update({ scopes: Array.from(scopes), updatedAt: knexConn.fn.now() })
         .where('clientId', clientId);
 
       return true;
@@ -99,7 +105,8 @@ export const clientApplicationRepository = {
   },
 
   async setClientSecret(clientId, clientSecret) {
-    const rows = await knex(TABLE_NAME).update({ clientSecret, updatedAt: knex.fn.now() }).where({ clientId });
+    const knexConn = DomainTransaction.getConnection();
+    const rows = await knexConn(TABLE_NAME).update({ clientSecret, updatedAt: knexConn.fn.now() }).where({ clientId });
     return rows === 1;
   },
 };
