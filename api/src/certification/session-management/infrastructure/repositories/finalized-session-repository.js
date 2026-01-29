@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FinalizedSession } from '../../domain/models/FinalizedSession.js';
@@ -28,8 +27,9 @@ const get = async function ({ sessionId }) {
 };
 
 const findFinalizedSessionsToPublish = async function ({ version } = {}) {
+  const knexConn = DomainTransaction.getConnection();
   const versionFilter = version ? { 'sessions.version': version } : {};
-  const publishableFinalizedSessions = await knex('finalized-sessions')
+  const publishableFinalizedSessions = await knexConn('finalized-sessions')
     .innerJoin('sessions', 'finalized-sessions.sessionId', 'sessions.id')
     .where({
       ...versionFilter,
@@ -44,8 +44,9 @@ const findFinalizedSessionsToPublish = async function ({ version } = {}) {
 };
 
 const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}) {
+  const knexConn = DomainTransaction.getConnection();
   const versionFilter = version ? { 'sessions.version': version } : {};
-  const publishableFinalizedSessions = await knex('finalized-sessions')
+  const publishableFinalizedSessions = await knexConn('finalized-sessions')
     .innerJoin('sessions', 'finalized-sessions.sessionId', 'sessions.id')
     .where({
       ...versionFilter,
