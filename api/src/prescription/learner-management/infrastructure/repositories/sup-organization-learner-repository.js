@@ -23,11 +23,13 @@ const ATTRIBUTES_TO_SAVE = [
 ];
 
 const updateStudentNumber = async function (studentId, studentNumber) {
-  await knex('organization-learners').where('id', studentId).update({ studentNumber });
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('organization-learners').where('id', studentId).update({ studentNumber });
 };
 
 const findOneByStudentNumberAndBirthdate = async function ({ organizationId, studentNumber, birthdate }) {
-  const organizationLearner = await knex('view-active-organization-learners')
+  const knexConn = DomainTransaction.getConnection();
+  const organizationLearner = await knexConn('view-active-organization-learners')
     .where('organizationId', organizationId)
     .where('birthdate', birthdate)
     .where('isDisabled', false)
@@ -38,7 +40,8 @@ const findOneByStudentNumberAndBirthdate = async function ({ organizationId, stu
 };
 
 const findOneByStudentNumber = async function ({ organizationId, studentNumber }) {
-  const organizationLearner = await knex('view-active-organization-learners')
+  const knexConn = DomainTransaction.getConnection();
+  const organizationLearner = await knexConn('view-active-organization-learners')
     .where('organizationId', organizationId)
     .where('isDisabled', false)
     .whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber'])
@@ -48,7 +51,7 @@ const findOneByStudentNumber = async function ({ organizationId, studentNumber }
 };
 
 const addStudents = async function (supOrganizationLearners) {
-  await _upsertStudents(knex, supOrganizationLearners);
+  await _upsertStudents(supOrganizationLearners);
 };
 
 export {
@@ -72,7 +75,8 @@ async function getOrganizationLearnerIdsNotInList({ organizationId, studentNumbe
     .pluck('id');
 }
 
-async function _upsertStudents(queryBuilder, supOrganizationLearners) {
+async function _upsertStudents(supOrganizationLearners) {
+  const knexConn = DomainTransaction.getConnection();
   const supOrganizationLearnersToInsert = supOrganizationLearners.map((supOrganizationLearner) => ({
     ..._.pick(supOrganizationLearner, ATTRIBUTES_TO_SAVE),
     status: supOrganizationLearner.studyScheme,
@@ -81,7 +85,7 @@ async function _upsertStudents(queryBuilder, supOrganizationLearners) {
   }));
 
   try {
-    await queryBuilder('organization-learners')
+    await knexConn('organization-learners')
       .insert(supOrganizationLearnersToInsert)
       .onConflict(knex.raw('("studentNumber", "organizationId") where "deletedAt" is NULL and "deletedBy" is NULL'))
       .merge();
