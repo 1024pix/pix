@@ -144,6 +144,9 @@ const schema = Joi.object({
   LCMS_API_RELEASE_ID: Joi.any(),
   LLM_API_GET_CONFIGURATIONS_URL: Joi.string().optional(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
+  LLM_DELETE_CHATS_JOB_LIFESPAN: Joi.number().min(0).optional(),
+  LLM_DELETE_CHATS_JOB_DRY_RUN: Joi.string().optional().valid('true', 'false'),
+  LLM_DELETE_CHATS_JOB_CRON: Joi.string().optional(),
   LOG_ENABLED: Joi.string().required().valid('true', 'false'),
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
@@ -345,6 +348,11 @@ const configuration = (function () {
       getConfigurationUrl: _removeTrailingSlashFromUrl(process.env.LLM_API_GET_CONFIGURATIONS_URL ?? ''),
       postPromptUrl: _removeTrailingSlashFromUrl(process.env.LLM_API_POST_PROMPT_URL ?? ''),
       authSecret: process.env.LLM_API_JWT_SECRET,
+      deleteChatsJob: {
+        lifespan: _getNumber(process.env.LLM_DELETE_CHATS_JOB_LIFESPAN, 80),
+        cron: process.env.LLM_DELETE_CHATS_JOB_CRON || '0 19 * * *',
+        dryRun: toBoolean(process.env.LLM_DELETE_CHATS_JOB_DRY_RUN ?? true),
+      },
     },
     logging: {
       enabled: toBoolean(process.env.LOG_ENABLED),
