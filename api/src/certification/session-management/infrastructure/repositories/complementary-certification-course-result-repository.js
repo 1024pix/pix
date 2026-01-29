@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const save = async function ({
   complementaryCertificationCourseId,
@@ -6,7 +6,8 @@ const save = async function ({
   acquired,
   source,
 }) {
-  return knex('complementary-certification-course-results')
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('complementary-certification-course-results')
     .insert({ complementaryCertificationBadgeId, acquired, complementaryCertificationCourseId, source })
     .onConflict(['complementaryCertificationCourseId', 'source'])
     .merge();
