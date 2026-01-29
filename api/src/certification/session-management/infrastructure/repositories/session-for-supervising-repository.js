@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
@@ -8,7 +8,8 @@ import { ComplementaryCertificationForSupervising } from '../../domain/models/Co
 import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
 const get = async function ({ id }) {
-  const results = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
     .select({
       id: 'sessions.id',
       date: 'sessions.date',
@@ -17,7 +18,7 @@ const get = async function ({ id }) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
-      certificationCandidates: knex.raw(`
+      certificationCandidates: knexConn.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
           'firstName', "certification-candidates"."firstName",
