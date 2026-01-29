@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationForTargetProfileAttachment } from '../../domain/models/ComplementaryCertificationForTargetProfileAttachment.js';
 
@@ -7,7 +7,8 @@ function _toDomain(row) {
 }
 
 const getById = async function ({ complementaryCertificationId }) {
-  const complementaryCertification = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const complementaryCertification = await knexConn
     .from('complementary-certifications')
     .where({ id: complementaryCertificationId })
     .first();
@@ -28,7 +29,8 @@ const getById = async function ({ complementaryCertificationId }) {
  * @throws {NotFoundError}
  */
 const getByKey = async function ({ complementaryCertificationKey }) {
-  const complementaryCertification = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const complementaryCertification = await knexConn
     .from('complementary-certifications')
     .where({ key: complementaryCertificationKey })
     .first();
