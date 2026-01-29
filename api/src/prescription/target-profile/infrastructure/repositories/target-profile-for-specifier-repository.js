@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { TargetProfileForSpecifier } from '../../domain/read-models/TargetProfileForSpecifier.js';
 
@@ -9,11 +9,12 @@ async function availableForOrganization(organizationId) {
 }
 
 function _fetchTargetProfiles(organizationId) {
+  const knexConn = DomainTransaction.getConnection();
   const selectTargetProfileSharesIdsBelongToOrganization = knex
     .select('targetProfileId')
     .from('target-profile-shares')
     .where({ organizationId });
-  return knex('target-profiles')
+  return knexConn('target-profiles')
     .select([
       'target-profiles.id',
       'target-profiles.name',
