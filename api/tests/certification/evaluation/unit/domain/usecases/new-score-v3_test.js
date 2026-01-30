@@ -95,7 +95,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | New Score V3', 
         await scoreV3Certification(dependencies);
 
         expect(dependencies.assessmentResultRepository.save).to.have.been.called;
-        expect(dependencies.competenceMarkRepository.save).to.have.been.called;
+        expect(dependencies.sharedCompetenceMarkRepository.save).to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).to.have.been.called;
         expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
 
@@ -112,7 +112,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | New Score V3', 
         await scoreV3Certification(dependencies);
 
         expect(dependencies.assessmentResultRepository.save).to.have.been.called;
-        expect(dependencies.competenceMarkRepository.save).to.have.been.called;
+        expect(dependencies.sharedCompetenceMarkRepository.save).to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).to.have.been.called;
         expect(dependencies.complementaryCertificationCourseResultRepository.save).to.have.been.called;
         expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
@@ -130,7 +130,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | New Score V3', 
         expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
 
         expect(dependencies.assessmentResultRepository.save).not.to.have.been.called;
-        expect(dependencies.competenceMarkRepository.save).not.to.have.been.called;
+        expect(dependencies.sharedCompetenceMarkRepository.save).not.to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).not.to.have.been.called;
         expect(dependencies.complementaryCertificationCourseResultRepository.save).not.to.have.been.called;
       });
@@ -269,11 +269,11 @@ function stubCertificationCourseRepository() {
   return certificationCourseRepository;
 }
 
-function stubCompetenceMarkRepository() {
-  const competenceMarkRepository = {
+function stubSharedCompetenceMarkRepository() {
+  const sharedCompetenceMarkRepository = {
     save: sinon.stub(),
   };
-  return competenceMarkRepository;
+  return sharedCompetenceMarkRepository;
 }
 
 function stubComplementaryCertificationCourseResultRepository() {
@@ -313,7 +313,7 @@ function createDependencies(overrides = {}) {
     certificationAssessmentHistoryRepository: stubCertificationAssessmentHistoryRepository(),
     assessmentResultRepository: stubAssessmentResultRepository(),
     certificationCourseRepository: stubCertificationCourseRepository(),
-    competenceMarkRepository: stubCompetenceMarkRepository(),
+    sharedCompetenceMarkRepository: stubSharedCompetenceMarkRepository(),
     complementaryCertificationCourseResultRepository: stubComplementaryCertificationCourseResultRepository(),
     complementaryCertificationScoringCriteriaRepository: stubComplementaryCertificationScoringCriteriaRepository(),
     evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),

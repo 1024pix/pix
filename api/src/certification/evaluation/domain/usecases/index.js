@@ -13,6 +13,7 @@ import * as certificationCenterRepository from '../../../shared/infrastructure/r
 import * as sessionManagementCertificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
+import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as scoringConfigurationRepository from '../../../shared/infrastructure/repositories/scoring-configuration-repository.js';
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import * as sharedVersionRepository from '../../../shared/infrastructure/repositories/version-repository.js';
@@ -31,6 +32,7 @@ import { services } from '../services/index.js';
 import pickChallengeService from '../services/pick-challenge-service.js';
 
 /**
+ * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {certificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
  * @typedef {scoringConfigurationRepository} ScoringConfigurationRepository
  * @typedef {sharedVersionRepository} SharedVersionRepository
@@ -54,6 +56,7 @@ import pickChallengeService from '../services/pick-challenge-service.js';
  * @typedef {services} Services
  */
 const dependencies = {
+  complementaryCertificationCourseResultRepository,
   certificationAssessmentHistoryRepository,
   sharedVersionRepository,
   scoringConfigurationRepository,

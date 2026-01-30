@@ -26,6 +26,7 @@ export const scoreV3Certification = withTransaction(
    * @param {object} params
    * @param {number} params.certificationCourseId
    * @param {string} params.locale
+   * @param {Object} params.event
    * @param {Services} params.services
    * @param {AssessmentSheetRepository} params.assessmentSheetRepository
    * @param {CertificationCandidateRepository} params.certificationCandidateRepository
@@ -40,6 +41,7 @@ export const scoreV3Certification = withTransaction(
    * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
    */
   async ({
+    event,
     certificationCourseId,
     locale,
     services,
@@ -101,6 +103,7 @@ export const scoreV3Certification = withTransaction(
     ) {
       const { coreScoring, doubleCertificationScoring } = services.handleNewV3CertificationScoring({
         locale,
+        event,
         candidate,
         assessmentSheet,
         allChallenges,

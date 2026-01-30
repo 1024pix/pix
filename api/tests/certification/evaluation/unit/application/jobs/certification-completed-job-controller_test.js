@@ -4,40 +4,33 @@ import { usecases } from '../../../../../../src/certification/evaluation/domain/
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Certification | Application | jobs | CertificationCompletedJobController', function () {
-  let certificationCompletedJobController;
+describe('Unit | Certification | Evaluation | Application | jobs | CertificationCompletedJobController', function () {
+  let certificationCompletedJobController, data;
+  const certificationCourseId = 123;
+  const userId = 4567;
 
   beforeEach(function () {
     certificationCompletedJobController = new CertificationCompletedJobController();
+    data = new CertificationCompletedJob({
+      certificationCourseId,
+      userId,
+      locale: FRENCH_SPOKEN,
+    });
   });
 
-  context('when assessment is of type CERTIFICATION', function () {
-    const certificationCourseId = 123;
-    const userId = 4567;
-    let data;
+  it('should call the scoreV3Certification usecase', async function () {
+    // given
+    sinon.stub(usecases, 'scoreV3Certification');
 
-    beforeEach(function () {
-      data = new CertificationCompletedJob({
-        certificationCourseId,
-        userId,
-        locale: FRENCH_SPOKEN,
-      });
+    // when
+    await certificationCompletedJobController.handle({
+      data,
     });
 
-    it('should call the scoreCompletedCertification usecase', async function () {
-      // given
-      sinon.stub(usecases, 'scoreCompletedCertification');
-
-      // when
-      await certificationCompletedJobController.handle({
-        data,
-      });
-
-      // then
-      expect(usecases.scoreCompletedCertification).to.have.been.calledWithExactly({
-        certificationCourseId: data.certificationCourseId,
-        locale: FRENCH_SPOKEN,
-      });
+    // then
+    expect(usecases.scoreV3Certification).to.have.been.calledWithExactly({
+      certificationCourseId: data.certificationCourseId,
+      locale: FRENCH_SPOKEN,
     });
   });
 });
