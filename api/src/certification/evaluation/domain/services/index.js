@@ -23,6 +23,10 @@ import * as certificationCandidateRepository from '../../infrastructure/reposito
 import * as challengeCalibrationRepository from '../../infrastructure/repositories/challenge-calibration-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as flashAlgorithmService from './algorithm-methods/flash.js';
+import { findByCertificationCourseAndVersion } from './scoring/calibrated-challenge-service.js';
+import { scoreComplementaryCertificationV2 } from './scoring/score-complementary-certification-v2.js';
+import { calculateCertificationAssessmentScore, handleV2CertificationScoring } from './scoring/scoring-v2.js';
+import { handleV3CertificationScoring } from './scoring/scoring-v3.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -75,11 +79,6 @@ const dependencies = {
   calibratedChallengeRepository,
 };
 
-import { findByCertificationCourseAndVersion } from './scoring/calibrated-challenge-service.js';
-import { scoreComplementaryCertificationV2 } from './scoring/score-complementary-certification-v2.js';
-import { calculateCertificationAssessmentScore, handleV2CertificationScoring } from './scoring/scoring-v2.js';
-import { handleV3CertificationScoring as handleNewV3CertificationScoring } from './scoring/scoring-v3.js';
-
 const servicesWithoutInjectedDependencies = {
   findByCertificationCourseAndVersion,
   scoreComplementaryCertificationV2,
@@ -92,5 +91,5 @@ const injectedServices = injectDependencies(servicesWithoutInjectedDependencies,
 export const services = {
   ...injectedServices,
   flashAlgorithmService,
-  handleNewV3CertificationScoring,
+  handleV3CertificationScoring,
 };

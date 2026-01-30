@@ -98,7 +98,7 @@ export const scoreV3Certification = withTransaction(
         evaluationSessionRepository,
       })
     ) {
-      const { coreScoring, doubleCertificationScoring } = services.handleNewV3CertificationScoring({
+      const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
         event,
         candidate,
         assessmentSheet,

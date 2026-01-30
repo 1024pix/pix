@@ -1,10 +1,10 @@
-import { scoreV3Certification } from '../../../../../../src/certification/evaluation/domain/usecases/new-score-v3.js';
+import { scoreV3Certification } from '../../../../../../src/certification/evaluation/domain/usecases/score-v3-certification.js';
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { NotFinalizedSessionError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../shared/fixtures/challenges.js';
 
-describe('Unit | Certification | Evaluation | Domain | UseCase | New Score V3', function () {
+describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certification', function () {
   beforeEach(function () {
     sinon.stub(knex, 'transaction').callsFake(async (callback) => {
       return callback(knex);
@@ -198,7 +198,7 @@ function stubSharedVersionRepository() {
 function stubServices({ hasCleaSubscription = false, hasPixPlusSubscription = false } = {}) {
   const services = {
     findByCertificationCourseAndVersion: sinon.stub(),
-    handleNewV3CertificationScoring: sinon.stub(),
+    handleV3CertificationScoring: sinon.stub(),
     flashAlgorithmService: {
       getCapacityAndErrorRateHistory: sinon.stub(),
     },
@@ -225,7 +225,7 @@ function stubServices({ hasCleaSubscription = false, hasPixPlusSubscription = fa
         : null,
   };
   services.findByCertificationCourseAndVersion.resolves(object);
-  services.handleNewV3CertificationScoring.returns(scoringObject);
+  services.handleV3CertificationScoring.returns(scoringObject);
   services.flashAlgorithmService.getCapacityAndErrorRateHistory.returns([]);
 
   return services;
