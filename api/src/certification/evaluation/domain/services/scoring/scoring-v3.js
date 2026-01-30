@@ -129,7 +129,7 @@ function _scoreCoreCertification({
   });
 
   return {
-    coreScoring: new CoreScoring(certificationAssessmentScore, assessmentResult),
+    coreScoring: new CoreScoring({ certificationAssessmentScore, assessmentResult }),
   };
 }
 
@@ -147,7 +147,7 @@ export function _scoreDoubleCertification({ assessmentSheet, assessmentResult, c
     complementaryCertificationBadgeId: cleaScoringCriteria.complementaryCertificationBadgeId,
     reproducibilityRate: assessmentResult.reproducibilityRate,
     pixScore: assessmentResult.pixScore,
-    minimumEarnedPix: cleaScoringCriteria.complementaryCertificationBadgeId,
+    minimumEarnedPix: cleaScoringCriteria.minimumEarnedPix,
     hasAcquiredPixCertification: assessmentResult.isValidated(),
     minimumReproducibilityRate: cleaScoringCriteria.minimumReproducibilityRate,
     isRejectedForFraud: assessmentSheet.isRejectedForFraud,

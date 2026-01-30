@@ -145,6 +145,10 @@ export const buildCertificationVersion = function ({
   competencesScoringConfiguration = defaultCompetencesScoringConfiguration,
   challengesConfiguration = defaultChallengesConfiguration,
 } = {}) {
+  const finalChallengesConfiguration = {
+    ...defaultChallengesConfiguration,
+    ...challengesConfiguration,
+  };
   return databaseBuffer.pushInsertable({
     tableName: 'certification_versions',
     values: {
@@ -155,7 +159,7 @@ export const buildCertificationVersion = function ({
       assessmentDuration,
       globalScoringConfiguration: JSON.stringify(globalScoringConfiguration),
       competencesScoringConfiguration: JSON.stringify(competencesScoringConfiguration),
-      challengesConfiguration: JSON.stringify(challengesConfiguration),
+      challengesConfiguration: JSON.stringify(finalChallengesConfiguration),
     },
   });
 };

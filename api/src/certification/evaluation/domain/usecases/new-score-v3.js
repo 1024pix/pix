@@ -4,7 +4,7 @@
  * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('./index.js').SharedVersionRepository} SharedVersionRepository
  * @typedef {import('./index.js').AssessmentResultRepository} AssessmentResultRepository
- * @typedef {import('./index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import('./index.js').sharedCompetenceMarkRepository} SharedCompetenceMarkRepository
  * @typedef {import('./index.js').CertificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
@@ -31,7 +31,7 @@ export const scoreV3Certification = withTransaction(
    * @param {CertificationCandidateRepository} params.certificationCandidateRepository
    * @param {SharedVersionRepository} params.sharedVersionRepository
    * @param {AssessmentResultRepository} params.assessmentResultRepository
-   * @param {CompetenceMarkRepository} params.competenceMarkRepository
+   * @param {SharedCompetenceMarkRepository} params.sharedCompetenceMarkRepository
    * @param {CertificationAssessmentHistoryRepository} params.certificationAssessmentHistoryRepository
    * @param {CertificationCourseRepository} params.certificationCourseRepository
    * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
@@ -47,7 +47,7 @@ export const scoreV3Certification = withTransaction(
     certificationCandidateRepository,
     sharedVersionRepository,
     assessmentResultRepository,
-    competenceMarkRepository,
+    sharedCompetenceMarkRepository,
     certificationAssessmentHistoryRepository,
     certificationCourseRepository,
     complementaryCertificationCourseResultRepository,
@@ -85,9 +85,11 @@ export const scoreV3Certification = withTransaction(
       version,
     });
 
-    const cleaScoringCriteria = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({
-      certificationCourseId: assessmentSheet.certificationCourseId,
-    })[0];
+    const [cleaScoringCriteria] = await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId(
+      {
+        certificationCourseId: assessmentSheet.certificationCourseId,
+      },
+    );
 
     if (
       await _verifyCertificationIsScorable({
@@ -97,7 +99,7 @@ export const scoreV3Certification = withTransaction(
         evaluationSessionRepository,
       })
     ) {
-      const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
+      const { coreScoring, doubleCertificationScoring } = services.handleNewV3CertificationScoring({
         locale,
         candidate,
         assessmentSheet,
@@ -121,7 +123,7 @@ export const scoreV3Certification = withTransaction(
           certificationCourseId: assessmentSheet.certificationCourseId,
           certificationAssessmentScore: coreScoring.certificationAssessmentScore,
           assessmentResultRepository,
-          competenceMarkRepository,
+          sharedCompetenceMarkRepository,
           certificationCourseRepository,
         });
 
@@ -175,14 +177,14 @@ const _verifyCertificationIsScorable = async ({
  * @param {number} params.certificationCourseId
  * @param {CertificationAssessmentScoreV3} params.certificationAssessmentScore
  * @param {AssessmentResultRepository} params.assessmentResultRepository
- * @param {CompetenceMarkRepository} params.competenceMarkRepository
+ * @param {sharedCompetenceMarkRepository} params.sharedCompetenceMarkRepository
  */
 async function _saveV3Result({
   assessmentResult,
   certificationCourseId,
   certificationAssessmentScore,
   assessmentResultRepository,
-  competenceMarkRepository,
+  sharedCompetenceMarkRepository,
   certificationCourseRepository,
 }) {
   const newAssessmentResult = await assessmentResultRepository.save({
@@ -195,7 +197,7 @@ async function _saveV3Result({
       ...competenceMark,
       assessmentResultId: newAssessmentResult.id,
     });
-    await competenceMarkRepository.save(competenceMarkDomain);
+    await sharedCompetenceMarkRepository.save(competenceMarkDomain);
   }
 
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });

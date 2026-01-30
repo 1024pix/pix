@@ -79,9 +79,10 @@ import { findByCertificationCourseAndVersion } from './scoring/calibrated-challe
 import { scoreComplementaryCertificationV2 } from './scoring/score-complementary-certification-v2.js';
 import { scoreDoubleCertificationV3 } from './scoring/score-double-certification-v3.js';
 import { calculateCertificationAssessmentScore, handleV2CertificationScoring } from './scoring/scoring-v2.js';
+import { handleV3CertificationScoring as handleNewV3CertificationScoring } from './scoring/scoring-v3.js';
 import { handleV3CertificationScoring } from './scoring/scoring-v3-old.js';
 
-const usecasesWithoutInjectedDependencies = {
+const servicesWithoutInjectedDependencies = {
   findByCertificationCourseAndVersion,
   scoreComplementaryCertificationV2,
   scoreDoubleCertificationV3,
@@ -90,6 +91,10 @@ const usecasesWithoutInjectedDependencies = {
   handleV3CertificationScoring,
 };
 
-const services = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const injectedServices = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
 
-export { services };
+export const services = {
+  ...injectedServices,
+  flashAlgorithmService,
+  handleNewV3CertificationScoring,
+};

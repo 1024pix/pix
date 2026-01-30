@@ -10,7 +10,7 @@ export class CoreScoring {
     assessmentResult: Joi.object().instance(AssessmentResult).required(),
   });
 
-  constructor(certificationAssessmentScore, assessmentResult) {
+  constructor({ certificationAssessmentScore, assessmentResult }) {
     this.certificationAssessmentScore = certificationAssessmentScore;
     this.assessmentResult = assessmentResult;
     this.#validate();
