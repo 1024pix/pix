@@ -98,7 +98,6 @@ import { scoreV3Certification } from './new-score-v3.js';
 import { rescoreV2Certification } from './rescore-v2-certification.js';
 import { rescoreV3Certification } from './rescore-v3-certification.js';
 import { retrieveLastOrCreateCertificationCourse } from './retrieve-last-or-create-certification-course.js';
-import { scoreCompletedCertification } from './score-completed-certification.js';
 import { simulateFlashAssessmentScenario } from './simulate-flash-assessment-scenario.js';
 
 const usecasesWithoutInjectedDependencies = {
@@ -110,7 +109,6 @@ const usecasesWithoutInjectedDependencies = {
   rescoreV2Certification,
   rescoreV3Certification,
   retrieveLastOrCreateCertificationCourse,
-  scoreCompletedCertification,
   simulateFlashAssessmentScenario,
   scoreV3Certification,
 };
