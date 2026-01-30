@@ -16,8 +16,24 @@ describe('Integration | Certification | Scripts | CalculateCapacities', function
     certificationCourseId1,
     certificationCourseId2;
 
-  const challengesConfigurationPixPlusEdu2ndDegre = '{"for":"pixPlusEdu2ndDegre"}';
-  const challengesConfigurationPixCore = '{"for":"pixCore"}';
+  const challengesConfigurationPixPlusEdu2ndDegre = {
+    maximumAssessmentLength: 1,
+    challengesBetweenSameCompetence: 1,
+    limitToOneQuestionPerTube: true,
+    enablePassageByAllCompetences: true,
+    variationPercent: 1,
+    defaultCandidateCapacity: 1,
+    defaultProbabilityToPickChallenge: 1,
+  };
+  const challengesConfigurationPixCore = {
+    maximumAssessmentLength: 99,
+    challengesBetweenSameCompetence: 99,
+    limitToOneQuestionPerTube: false,
+    enablePassageByAllCompetences: false,
+    variationPercent: 99,
+    defaultCandidateCapacity: 99,
+    defaultProbabilityToPickChallenge: 99,
+  };
 
   beforeEach(function () {
     activationDatePixPlus = new Date('2025-01-15');
@@ -255,7 +271,15 @@ describe('Integration | Certification | Scripts | CalculateCapacities', function
       certificationCandidateId: certificationCandidateId2,
     });
 
-    const challengesConfigurationPixPlusEdu1erDegre = '{"for":"pixPlusEdu1erDegre"}';
+    const challengesConfigurationPixPlusEdu1erDegre = {
+      maximumAssessmentLength: 55,
+      challengesBetweenSameCompetence: 55,
+      limitToOneQuestionPerTube: true,
+      enablePassageByAllCompetences: false,
+      variationPercent: 55,
+      defaultCandidateCapacity: 55,
+      defaultProbabilityToPickChallenge: 55,
+    };
     const complementaryCertificationIdForPixPlus2 =
       databaseBuilder.factory.buildComplementaryCertification.pixEdu1erDegre().id;
     databaseBuilder.factory.buildCertificationVersion({

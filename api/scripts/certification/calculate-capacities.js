@@ -2,16 +2,15 @@ import { knex } from '../../db/knex-database-connection.js';
 import { FlashAssessmentAlgorithm } from '../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithm.js';
 import * as flashAlgorithmService from '../../src/certification/evaluation/domain/services/algorithm-methods/flash.js';
 import { services as certificationEvaluationServices } from '../../src/certification/evaluation/domain/services/index.js';
+import * as assessmentSheetRepository from '../../src/certification/evaluation/infrastructure/repositories/assessment-sheet-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../src/certification/evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationCandidateRepository from '../../src/certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
 import { CertificationAssessmentHistory } from '../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
-import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
-import * as certificationCourseRepository from '../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as sharedVersionRepository from '../../src/certification/shared/infrastructure/repositories/version-repository.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
-import * as answerRepository from '../../src/shared/infrastructure/repositories/answer-repository.js';
+import { NotFoundError } from '../../src/shared/domain/errors.js';
 
 export class CalculateCapacities extends Script {
   constructor() {
@@ -84,14 +83,12 @@ export class CalculateCapacities extends Script {
 }
 
 async function computeCapacities(certificationCourseId, algorithm) {
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
-    certificationCourseId,
-  });
-
-  const answers = await answerRepository.findByAssessment(certificationAssessment.id);
+  const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
+  if (!assessmentSheet)
+    throw new NotFoundError('No AssessmentSheet found for certificationCourseId ' + certificationCourseId);
 
   const candidate = await certificationCandidateRepository.findByAssessmentId({
-    assessmentId: certificationAssessment.id,
+    assessmentId: assessmentSheet.assessmentId,
   });
 
   const version = await sharedVersionRepository.getByScopeAndReconciliationDate({
@@ -99,19 +96,18 @@ async function computeCapacities(certificationCourseId, algorithm) {
     reconciliationDate: candidate.reconciledAt,
   });
 
-  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   const { challengeCalibrationsWithoutLiveAlerts } =
     await certificationEvaluationServices.findByCertificationCourseAndVersion({
-      certificationCourse: certificationCourse,
+      certificationCourseId: assessmentSheet.certificationCourseId,
+      assessmentId: assessmentSheet.assessmentId,
       version,
     });
 
   const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
     algorithm,
     challenges: challengeCalibrationsWithoutLiveAlerts,
-    allAnswers: answers,
+    allAnswers: assessmentSheet.answers,
   });
-
   await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
 }
 
