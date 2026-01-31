@@ -1,5 +1,4 @@
 // TODO: cross-bounded context violation
-import * as scoringDegradationService from '../../../../certification/scoring/domain/services/scoring-degradation-service.js';
 import * as certificationChallengeLiveAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 // TODO: cross-bounded context violation
 import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
@@ -25,6 +24,7 @@ import * as complementaryCertificationScoringCriteriaRepository from '../../infr
 import * as flashAlgorithmService from './algorithm-methods/flash.js';
 import { findByCertificationCourseAndVersion } from './scoring/calibrated-challenge-service.js';
 import { scoreComplementaryCertificationV2 } from './scoring/score-complementary-certification-v2.js';
+import * as scoringDegradationService from './scoring/scoring-degradation-service.js';
 import { calculateCertificationAssessmentScore, handleV2CertificationScoring } from './scoring/scoring-v2.js';
 import { handleV3CertificationScoring } from './scoring/scoring-v3.js';
 
@@ -92,4 +92,5 @@ export const services = {
   ...injectedServices,
   flashAlgorithmService,
   handleV3CertificationScoring,
+  scoringDegradationService,
 };

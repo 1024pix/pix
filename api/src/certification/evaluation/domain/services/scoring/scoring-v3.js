@@ -6,7 +6,7 @@
  * @typedef {import('../../../../../shared/domain/models/AssessmentResult.js')} AssessmentResult
  * @typedef {import('../../models/AssessmentSheet.js')} AssessmentSheet
  * @typedef {import('../../models/ComplementaryCertificationScoringCriteria.js')} ComplementaryCertificationScoringCriteria
- * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
+ * @typedef {import('../index.js').services.scoringDegradationService} ScoringDegradationService
  * @typedef {import('../../../../../shared/domain/events/CertificationCourseUnrejected.js').CertificationCourseUnrejected} CertificationCourseUnrejected
  * @typedef {import('../../../../../shared/domain/events/CertificationUncancelled.js').default} CertificationUncancelled
  * @typedef {import('../../../../session-management/domain/events/CertificationCourseRejected.js').CertificationCourseRejected} CertificationCourseRejected
@@ -16,7 +16,7 @@
  */
 
 import CertificationCancelled from '../../../../../shared/domain/events/CertificationCancelled.js';
-import { CertificationAssessmentScoreV3 } from '../../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
+import { CertificationAssessmentScoreV3 } from '../../models/CertificationAssessmentScoreV3.js';
 import { CoreScoring } from '../../models/CoreScoring.js';
 import { DoubleCertificationScoring } from '../../models/DoubleCertificationScoring.js';
 import { createV3AssessmentResult } from './create-v3-assessment-result.js';

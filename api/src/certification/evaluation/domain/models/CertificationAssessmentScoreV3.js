@@ -1,8 +1,8 @@
 /**
- * @typedef {import('../../../evaluation/domain/models/CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
+ * @typedef {import('./CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
  * @typedef {import('../../../../evaluation/domain/models/Answer.js').Answer} Answer
- * @typedef {import('../../../evaluation/domain/models/FlashAssessmentAlgorithm.js').FlashAssessmentAlgorithm} FlashAssessmentAlgorithm
- * @typedef {import('../../../evaluation/domain/services/index.js').ScoringDegradationService} ScoringDegradationService
+ * @typedef {import('./FlashAssessmentAlgorithm.js').FlashAssessmentAlgorithm} FlashAssessmentAlgorithm
+ * @typedef {import('../services/index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../../../shared/domain/models/V3CertificationScoring.js').V3CertificationScoring} V3CertificationScoring
  * @typedef {import('../../../shared/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
  */
@@ -11,8 +11,8 @@ import { config } from '../../../../shared/config.js';
 import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../shared/domain/constants.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
 import { meshConfiguration } from '../../../results/domain/models/v3/MeshConfiguration.js';
+import { Intervals } from '../../../scoring/domain/models/Intervals.js';
 import { ABORT_REASONS } from '../../../shared/domain/models/CertificationCourse.js';
-import { Intervals } from './Intervals.js';
 
 export class CertificationAssessmentScoreV3 {
   /**

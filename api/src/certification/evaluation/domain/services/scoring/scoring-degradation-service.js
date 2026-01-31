@@ -1,16 +1,16 @@
 /**
  * @typedef {import('../../evaluation/domain/models/AssessmentSimulator.js').AssessmentSimulator} AssessmentSimulator
- * @typedef {import('../models/CertificationAssessmentScoreV3.js').CertificationAlgorithm} CertificationAlgorithm
+ * @typedef {import('../../models/CertificationAssessmentScoreV3.js').CertificationAlgorithm} CertificationAlgorithm
  * @typedef {import('../../../shared/domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import('../../evaluation/domain/models/Answer.js').Answer} Answer
  * @typedef {import('../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js').FlashAssessmentAlgorithmConfiguration} FlashAssessmentAlgorithmConfiguration
  */
 
-import { AnswerStatus } from '../../../../shared/domain/models/AnswerStatus.js';
-import { AssessmentSimulator } from '../../../evaluation/domain/models/AssessmentSimulator.js';
-import { AssessmentSimulatorSingleMeasureStrategy } from '../../../evaluation/domain/models/AssessmentSimulatorSingleMeasureStrategy.js';
-import pickChallengeService from '../../../evaluation/domain/services/pick-challenge-service.js';
-import { pickAnswerStatusService } from '../../../shared/domain/services/pick-answer-status-service.js';
+import { AnswerStatus } from '../../../../../shared/domain/models/AnswerStatus.js';
+import { pickAnswerStatusService } from '../../../../shared/domain/services/pick-answer-status-service.js';
+import { AssessmentSimulator } from '../../models/AssessmentSimulator.js';
+import { AssessmentSimulatorSingleMeasureStrategy } from '../../models/AssessmentSimulatorSingleMeasureStrategy.js';
+import pickChallengeService from '../pick-challenge-service.js';
 
 const PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION = 100;
 

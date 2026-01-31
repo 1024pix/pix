@@ -1,4 +1,4 @@
-import { CertificationAssessmentScoreV3 } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
+import { CertificationAssessmentScoreV3 } from '../../../../src/certification/evaluation/domain/models/CertificationAssessmentScoreV3.js';
 import { status as CertificationStatus } from '../../../../src/shared/domain/models/AssessmentResult.js';
 
 const buildCertificationAssessmentScoreV3 = function ({ nbPix = 100, status = CertificationStatus.VALIDATED } = {}) {

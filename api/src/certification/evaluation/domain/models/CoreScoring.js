@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
-import { CertificationAssessmentScoreV3 } from '../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
+import { CertificationAssessmentScoreV3 } from './CertificationAssessmentScoreV3.js';
 
 export class CoreScoring {
   static #schema = Joi.object({
