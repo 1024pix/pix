@@ -53,7 +53,6 @@ export class AssessmentSheet {
   #validate() {
     const { error } = AssessmentSheet.#schema.validate(this, { allowUnknown: false });
     if (error) {
-      console.log(error);
       throw EntityValidationError.fromJoiErrors(error.details);
     }
   }

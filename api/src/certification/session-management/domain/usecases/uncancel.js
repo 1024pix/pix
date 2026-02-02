@@ -14,7 +14,7 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
  * @param {number} params.juryId
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CertificationRescoringRepository} params.certificationRescoringRepository
- * @param {SessionRepository} params.SessionRepository
+ * @param {SessionRepository} params.sessionRepository
  */
 export const uncancel = async function ({
   certificationCourseId,

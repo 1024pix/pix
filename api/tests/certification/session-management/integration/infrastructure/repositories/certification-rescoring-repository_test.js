@@ -30,7 +30,7 @@ describe('Integration | Repository | certification-rescoring-repository', functi
       });
 
       // then
-      expect(error).to.deepEqualInstance(new NotFoundError('Certification course does not exist'));
+      expect(error).to.deepEqualInstance(new NotFoundError('No AssessmentSheet found for certificationCourseId 444'));
     });
   });
 });

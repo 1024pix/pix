@@ -50,6 +50,26 @@ export const getLatestByVersionAndLocale = async ({ version, locale }) => {
   });
 };
 
+export const getLatestByVersion = async ({ version }) => {
+  const knexConn = DomainTransaction.getConnection();
+  const allAreas = await areaRepository.list();
+  const competenceList = await competenceRepository.listPixCompetencesOnly();
+
+  const { globalScoringConfiguration, competencesScoringConfiguration } = await knexConn('certification_versions')
+    .select('globalScoringConfiguration', 'competencesScoringConfiguration')
+    .where({
+      id: version.id,
+    })
+    .first();
+
+  return V3CertificationScoring.fromConfigurations({
+    competenceForScoringConfiguration: competencesScoringConfiguration,
+    certificationScoringConfiguration: globalScoringConfiguration,
+    allAreas,
+    competenceList,
+  });
+};
+
 export const saveCompetenceForScoringConfiguration = async ({ configuration }) => {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification_versions')

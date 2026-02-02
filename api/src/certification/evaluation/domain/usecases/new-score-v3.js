@@ -25,7 +25,6 @@ export const scoreV3Certification = withTransaction(
   /**
    * @param {object} params
    * @param {number} params.certificationCourseId
-   * @param {string} params.locale
    * @param {Object} params.event
    * @param {Services} params.services
    * @param {AssessmentSheetRepository} params.assessmentSheetRepository
@@ -43,7 +42,6 @@ export const scoreV3Certification = withTransaction(
   async ({
     event,
     certificationCourseId,
-    locale,
     services,
     assessmentSheetRepository,
     certificationCandidateRepository,
@@ -82,8 +80,7 @@ export const scoreV3Certification = withTransaction(
       configuration: version.challengesConfiguration,
     });
 
-    const v3CertificationScoring = await scoringConfigurationRepository.getLatestByVersionAndLocale({
-      locale,
+    const v3CertificationScoring = await scoringConfigurationRepository.getLatestByVersion({
       version,
     });
 
@@ -102,7 +99,6 @@ export const scoreV3Certification = withTransaction(
       })
     ) {
       const { coreScoring, doubleCertificationScoring } = services.handleNewV3CertificationScoring({
-        locale,
         event,
         candidate,
         assessmentSheet,
@@ -166,7 +162,7 @@ const _verifyCertificationIsScorable = async ({
     throw new SessionAlreadyPublishedError();
   }
 
-  const hasCandidateSeenEndScreen = answers.length == maximumAssessmentLength;
+  const hasCandidateSeenEndScreen = answers.length === maximumAssessmentLength;
 
   if (!session.isFinalized && !hasCandidateSeenEndScreen) {
     throw new NotFinalizedSessionError();

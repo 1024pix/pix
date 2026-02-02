@@ -233,10 +233,10 @@ function stubServices({ hasCleaSubscription = false, hasPixPlusSubscription = fa
 
 function stubScoringConfigurationRepository() {
   const scoringConfigurationRepository = {
-    getLatestByVersionAndLocale: sinon.stub(),
+    getLatestByVersion: sinon.stub(),
   };
   const v3CertificationScoring = domainBuilder.buildV3CertificationScoring();
-  scoringConfigurationRepository.getLatestByVersionAndLocale.resolves(v3CertificationScoring);
+  scoringConfigurationRepository.getLatestByVersion.resolves(v3CertificationScoring);
 
   return scoringConfigurationRepository;
 }

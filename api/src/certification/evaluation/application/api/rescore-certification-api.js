@@ -14,17 +14,19 @@ import { usecases } from '../../domain/usecases/index.js';
  * @function
  * @name rescoreV3Certification
  *
- * @param {ChallengeNeutralized|ChallengeDeneutralized|CertificationJuryDone|CertificationCourseRejected|CertificationCourseUnrejected|CertificationCancelled|CertificationRescored|CertificationUncancelled} params.event
+ * @param {object} params
+ * @param {CertificationJuryDone|CertificationCourseRejected|CertificationCourseUnrejected|CertificationCancelled|CertificationRescored|CertificationUncancelled} params.event
  *
  * @returns {Promise<void>}
  */
 export const rescoreV3Certification = async ({ event }) => {
-  return usecases.rescoreV3Certification({ event });
+  return usecases.scoreV3Certification({ certificationCourseId: event.certificationCourseId, event });
 };
 /**
  * @function
  * @name rescoreV2Certification
  *
+ * @param {object} params
  * @param {ChallengeNeutralized|ChallengeDeneutralized|CertificationJuryDone|CertificationCourseRejected|CertificationCourseUnrejected|CertificationCancelled|CertificationRescored|CertificationUncancelled} params.event
  *
  * @returns {Promise<void>}

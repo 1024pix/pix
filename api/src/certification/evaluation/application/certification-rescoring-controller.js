@@ -1,9 +1,9 @@
 import { CertificationRescoringNotAllowedError } from '../../../shared/domain/errors.js';
-import { usecases } from '../../evaluation/domain/usecases/index.js';
 import * as courseAssessmentResultRepository from '../../session-management/infrastructure/repositories/course-assessment-result-repository.js';
 import { AlgorithmEngineVersion } from '../../shared/domain/models/AlgorithmEngineVersion.js';
 import * as certificationCourseRepository from '../../shared/infrastructure/repositories/certification-course-repository.js';
 import CertificationRescored from '../domain/events/CertificationRescored.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const rescoreCertification = async function (
   request,
@@ -23,7 +23,8 @@ const rescoreCertification = async function (
   }
 
   if (AlgorithmEngineVersion.isV3(certificationCourse.getVersion())) {
-    await usecases.rescoreV3Certification({
+    await usecases.scoreV3Certification({
+      certificationCourseId,
       event: new CertificationRescored({ certificationCourseId, juryId }),
     });
   }

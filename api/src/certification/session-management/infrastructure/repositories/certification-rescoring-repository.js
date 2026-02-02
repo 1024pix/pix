@@ -1,6 +1,6 @@
 /**
  * @typedef {import('../../../../../src/shared/domain/events/CertificationCancelled.js'} CertificationCancelled
- * @typedef {import('../../../../../src/shared/domain/events/CertificationUncancelled.js'} CertificationUncancelled
+ * @typedef {import('../../../../../../src/shared/domain/events/CertificationUncancelled.js'} CertificationUncancelled
  * @typedef {import('./index.js').CertificationEvaluationApi} CertificationEvaluationApi
  */
 
