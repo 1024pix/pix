@@ -141,7 +141,7 @@ function _scoreCoreCertification({
  *
  * @returns {DoubleCertificationScoring}
  */
-export function _scoreDoubleCertification({ assessmentSheet, assessmentResult, cleaScoringCriteria }) {
+function _scoreDoubleCertification({ assessmentSheet, assessmentResult, cleaScoringCriteria }) {
   return new DoubleCertificationScoring({
     complementaryCertificationCourseId: cleaScoringCriteria.complementaryCertificationCourseId,
     complementaryCertificationBadgeId: cleaScoringCriteria.complementaryCertificationBadgeId,

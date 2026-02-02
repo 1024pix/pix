@@ -88,39 +88,6 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
       });
     });
 
-    context('when scoring a CORE only certification', function () {
-      it('should persist scoring information', async function () {
-        const dependencies = createDependencies();
-
-        await scoreV3Certification(dependencies);
-
-        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
-        expect(dependencies.assessmentResultRepository.save).to.have.been.called;
-        expect(dependencies.sharedCompetenceMarkRepository.save).to.have.been.called;
-        expect(dependencies.certificationCourseRepository.update).to.have.been.called;
-        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
-
-        expect(dependencies.complementaryCertificationCourseResultRepository.save).not.to.have.been.called;
-      });
-    });
-
-    context('when scoring a CLEA certification', function () {
-      it('should persist scoring information', async function () {
-        const dependencies = createDependencies({
-          services: stubServices({ hasCleaSubscription: true }),
-        });
-
-        await scoreV3Certification(dependencies);
-
-        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
-        expect(dependencies.assessmentResultRepository.save).to.have.been.called;
-        expect(dependencies.sharedCompetenceMarkRepository.save).to.have.been.called;
-        expect(dependencies.certificationCourseRepository.update).to.have.been.called;
-        expect(dependencies.complementaryCertificationCourseResultRepository.save).to.have.been.called;
-        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
-      });
-    });
-
     context('when scoring a Pix+ certification', function () {
       it('should only persist certification assessment history', async function () {
         const dependencies = createDependencies({
@@ -195,8 +162,7 @@ function stubSharedVersionRepository() {
 
   return sharedVersionRepository;
 }
-
-function stubServices({ hasCleaSubscription = false, hasPixPlusSubscription = false } = {}) {
+function stubServices({ hasPixPlusSubscription = false } = {}) {
   const services = {
     findByCertificationCourseAndVersion: sinon.stub(),
     handleV3CertificationScoring: sinon.stub(),
@@ -220,10 +186,7 @@ function stubServices({ hasCleaSubscription = false, hasPixPlusSubscription = fa
           assessmentResult: domainBuilder.buildAssessmentResult({ id: assessmentResultId }),
         }
       : undefined,
-    doubleCertificationScoring:
-      hasCleaSubscription && !hasPixPlusSubscription
-        ? domainBuilder.certification.evaluation.buildDoubleCertificationScoring()
-        : null,
+    doubleCertificationScoring: null,
   };
   services.findByCertificationCourseAndVersion.resolves(object);
   services.handleV3CertificationScoring.returns(scoringObject);

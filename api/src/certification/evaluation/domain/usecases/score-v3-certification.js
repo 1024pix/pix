@@ -68,6 +68,13 @@ export const scoreV3Certification = withTransaction(
       reconciliationDate: candidate.reconciledAt,
     });
 
+    await _verifyCertificationIsScorable({
+      certificationCourseId: assessmentSheet.certificationCourseId,
+      answers: assessmentSheet.answers,
+      maximumAssessmentLength: version.challengesConfiguration.maximumAssessmentLength,
+      evaluationSessionRepository,
+    });
+
     const { allChallenges, askedChallengesWithoutLiveAlerts, challengeCalibrationsWithoutLiveAlerts } =
       await services.findByCertificationCourseAndVersion({
         certificationCourseId: assessmentSheet.certificationCourseId,
@@ -90,52 +97,43 @@ export const scoreV3Certification = withTransaction(
       },
     );
 
-    if (
-      await _verifyCertificationIsScorable({
+    const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
+      event,
+      candidate,
+      assessmentSheet,
+      allChallenges,
+      askedChallengesWithoutLiveAlerts,
+      algorithm,
+      v3CertificationScoring,
+      cleaScoringCriteria,
+    });
+
+    const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
+      algorithm,
+      challenges: challengeCalibrationsWithoutLiveAlerts,
+      allAnswers: assessmentSheet.answers,
+    });
+    await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
+
+    if (coreScoring) {
+      await _saveV3Result({
+        assessmentResult: coreScoring.assessmentResult,
         certificationCourseId: assessmentSheet.certificationCourseId,
-        answers: assessmentSheet.answers,
-        maximumAssessmentLength: version.challengesConfiguration.maximumAssessmentLength,
-        evaluationSessionRepository,
-      })
-    ) {
-      const { coreScoring, doubleCertificationScoring } = services.handleV3CertificationScoring({
-        event,
-        candidate,
-        assessmentSheet,
-        allChallenges,
-        askedChallengesWithoutLiveAlerts,
-        algorithm,
-        v3CertificationScoring,
-        cleaScoringCriteria,
+        certificationAssessmentScore: coreScoring.certificationAssessmentScore,
+        assessmentResultRepository,
+        sharedCompetenceMarkRepository,
+        certificationCourseRepository,
       });
 
-      const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
-        algorithm,
-        challenges: challengeCalibrationsWithoutLiveAlerts,
-        allAnswers: assessmentSheet.answers,
-      });
-      await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
-
-      if (coreScoring) {
-        await _saveV3Result({
-          assessmentResult: coreScoring.assessmentResult,
-          certificationCourseId: assessmentSheet.certificationCourseId,
-          certificationAssessmentScore: coreScoring.certificationAssessmentScore,
-          assessmentResultRepository,
-          sharedCompetenceMarkRepository,
-          certificationCourseRepository,
-        });
-
-        if (doubleCertificationScoring) {
-          await complementaryCertificationCourseResultRepository.save(
-            ComplementaryCertificationCourseResult.from({
-              complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
-              complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
-              source: doubleCertificationScoring.source,
-              acquired: doubleCertificationScoring.isAcquired(),
-            }),
-          );
-        }
+      if (doubleCertificationScoring) {
+        await complementaryCertificationCourseResultRepository.save(
+          ComplementaryCertificationCourseResult.from({
+            complementaryCertificationCourseId: doubleCertificationScoring.complementaryCertificationCourseId,
+            complementaryCertificationBadgeId: doubleCertificationScoring.complementaryCertificationBadgeId,
+            source: doubleCertificationScoring.source,
+            acquired: doubleCertificationScoring.isAcquired(),
+          }),
+        );
       }
     }
   },
@@ -167,7 +165,6 @@ const _verifyCertificationIsScorable = async ({
   if (!session.isFinalized && !hasCandidateSeenEndScreen) {
     throw new NotFinalizedSessionError();
   }
-  return true;
 };
 
 /**

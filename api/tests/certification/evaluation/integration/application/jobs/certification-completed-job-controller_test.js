@@ -202,6 +202,15 @@ describe('Certification | Evaluation | Integration | Application | Certification
           .first();
 
         expect(certifCourseCompletedAt).not.to.be.null;
+        const competenceMarks = await knex('competence-marks').where({ assessmentResultId: results[0].id });
+        expect(competenceMarks).to.have.lengthOf(1);
+        expect(competenceMarks[0].assessmentResultId).to.equal(results[0].id);
+
+        const certificationChallengeCapacities = await knex('certification-challenge-capacities').whereIn(
+          'certificationChallengeId',
+          knex('certification-challenges').select('id').where({ courseId: certificationCourseId }),
+        );
+        expect(certificationChallengeCapacities).to.have.lengthOf(8);
       });
 
       it('should rollback scoring if any error happens', async function () {
@@ -245,6 +254,17 @@ describe('Certification | Evaluation | Integration | Application | Certification
           .first();
 
         expect(certifCourseNotUpdated.completedAt).to.be.null;
+        const noCompetenceMarks = await knex('competence-marks').whereIn(
+          'assessmentResultId',
+          knex('assessment-results').select('id').where({ assessmentId: completedCertificationAssessmentId }),
+        );
+        expect(noCompetenceMarks).to.have.lengthOf(0);
+
+        const noCertificationChallengeCapacities = await knex('certification-challenge-capacities').whereIn(
+          'certificationChallengeId',
+          knex('certification-challenges').select('id').where({ courseId: certificationCourseId }),
+        );
+        expect(noCertificationChallengeCapacities).to.have.lengthOf(0);
       });
     });
 
@@ -349,6 +369,11 @@ describe('Certification | Evaluation | Integration | Application | Certification
           .first();
 
         expect(certifCourseCompletedAt).not.to.be.null;
+        const certificationChallengeCapacities = await knex('certification-challenge-capacities').whereIn(
+          'certificationChallengeId',
+          knex('certification-challenges').select('id').where({ courseId: certificationCourseId }),
+        );
+        expect(certificationChallengeCapacities).to.have.lengthOf(8);
 
         const complementaryResults = await knex('complementary-certification-course-results').where({
           complementaryCertificationCourseId,
@@ -356,6 +381,9 @@ describe('Certification | Evaluation | Integration | Application | Certification
         });
         expect(complementaryResults).to.have.lengthOf(1);
         expect(complementaryResults[0].acquired).to.be.true;
+        const competenceMarks = await knex('competence-marks').where({ assessmentResultId: results[0].id });
+        expect(competenceMarks).to.have.lengthOf(1);
+        expect(competenceMarks[0].assessmentResultId).to.equal(results[0].id);
       });
 
       it('should rollback scoring if any error happens', async function () {
@@ -399,12 +427,22 @@ describe('Certification | Evaluation | Integration | Application | Certification
           .first();
 
         expect(certifCourseNotUpdated.completedAt).to.be.null;
+        const noCertificationChallengeCapacities = await knex('certification-challenge-capacities').whereIn(
+          'certificationChallengeId',
+          knex('certification-challenges').select('id').where({ courseId: certificationCourseId }),
+        );
+        expect(noCertificationChallengeCapacities).to.have.lengthOf(0);
 
         const noComplementaryScoring = await knex('complementary-certification-course-results').where({
           complementaryCertificationCourseId,
           complementaryCertificationBadgeId,
         });
         expect(noComplementaryScoring).to.have.lengthOf(0);
+        const noCompetenceMarks = await knex('competence-marks').whereIn(
+          'assessmentResultId',
+          knex('assessment-results').select('id').where({ assessmentId: completedCertificationAssessmentId }),
+        );
+        expect(noCompetenceMarks).to.have.lengthOf(0);
       });
     });
   });
