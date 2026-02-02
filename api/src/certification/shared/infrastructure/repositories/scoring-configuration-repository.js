@@ -30,26 +30,6 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
   });
 };
 
-export const getLatestByVersionAndLocale = async ({ version, locale }) => {
-  const knexConn = DomainTransaction.getConnection();
-  const allAreas = await areaRepository.list();
-  const competenceList = await competenceRepository.listPixCompetencesOnly({ locale });
-
-  const { globalScoringConfiguration, competencesScoringConfiguration } = await knexConn('certification_versions')
-    .select('globalScoringConfiguration', 'competencesScoringConfiguration')
-    .where({
-      id: version.id,
-    })
-    .first();
-
-  return V3CertificationScoring.fromConfigurations({
-    competenceForScoringConfiguration: competencesScoringConfiguration,
-    certificationScoringConfiguration: globalScoringConfiguration,
-    allAreas,
-    competenceList,
-  });
-};
-
 export const getLatestByVersion = async ({ version }) => {
   const knexConn = DomainTransaction.getConnection();
   const allAreas = await areaRepository.list();
