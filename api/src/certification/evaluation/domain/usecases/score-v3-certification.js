@@ -107,7 +107,6 @@ export const scoreV3Certification = withTransaction(
         algorithm,
         v3CertificationScoring,
         cleaScoringCriteria,
-        scoringDegradationService: services.scoringDegradationService,
       });
 
       const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({

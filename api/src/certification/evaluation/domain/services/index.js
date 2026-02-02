@@ -1,6 +1,3 @@
-// TODO: cross-bounded context violation
-import * as certificationChallengeLiveAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
-// TODO: cross-bounded context violation
 import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
@@ -10,6 +7,7 @@ import * as sharedChallengeRepository from '../../../../shared/infrastructure/re
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as sharedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
+import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as competenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../shared/infrastructure/repositories/complementary-certification-badge-repository.js';
@@ -84,6 +82,7 @@ const servicesWithoutInjectedDependencies = {
   scoreComplementaryCertificationV2,
   calculateCertificationAssessmentScore,
   handleV2CertificationScoring,
+  handleV3CertificationScoring,
 };
 
 const injectedServices = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
@@ -91,6 +90,4 @@ const injectedServices = injectDependencies(servicesWithoutInjectedDependencies,
 export const services = {
   ...injectedServices,
   flashAlgorithmService,
-  handleV3CertificationScoring,
-  scoringDegradationService,
 };
