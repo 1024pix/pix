@@ -94,6 +94,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
 
         await scoreV3Certification(dependencies);
 
+        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
         expect(dependencies.assessmentResultRepository.save).to.have.been.called;
         expect(dependencies.sharedCompetenceMarkRepository.save).to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).to.have.been.called;
@@ -111,6 +112,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
 
         await scoreV3Certification(dependencies);
 
+        expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
         expect(dependencies.assessmentResultRepository.save).to.have.been.called;
         expect(dependencies.sharedCompetenceMarkRepository.save).to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).to.have.been.called;
@@ -128,7 +130,6 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
         await scoreV3Certification(dependencies);
 
         expect(dependencies.certificationAssessmentHistoryRepository.save).to.have.been.called;
-
         expect(dependencies.assessmentResultRepository.save).not.to.have.been.called;
         expect(dependencies.sharedCompetenceMarkRepository.save).not.to.have.been.called;
         expect(dependencies.certificationCourseRepository.update).not.to.have.been.called;
