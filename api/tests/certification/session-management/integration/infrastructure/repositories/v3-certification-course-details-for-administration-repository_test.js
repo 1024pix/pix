@@ -1,5 +1,5 @@
 import * as v3CertificationCourseDetailsForAdministrationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
-import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,

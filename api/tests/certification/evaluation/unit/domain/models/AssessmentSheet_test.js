@@ -1,4 +1,4 @@
-import { ABORT_REASONS } from '../../../../../../src/certification/evaluation/domain/models/AssessmentSheet.js';
+import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Evaluation | Domain | Models | AssessmentSheet', function () {

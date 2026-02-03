@@ -6,7 +6,7 @@ import { usecases as evaluationUseCases } from '../../../../../src/certification
 import { usecases as flashUseCases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { usecases as scoringUseCases } from '../../../../../src/certification/scoring/domain/usecases/index.js';
 import { usecases as sessionManagementUseCases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
-import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { CertificationReport } from '../../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { pickAnswerStatusService } from '../../../../../src/certification/shared/domain/services/pick-answer-status-service.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';

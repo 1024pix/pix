@@ -1,8 +1,8 @@
 import { CertificationJuryDone } from '../../../../../../src/certification/session-management/domain/events/CertificationJuryDone.js';
 import { SessionFinalized } from '../../../../../../src/certification/session-management/domain/read-models/SessionFinalized.js';
 import { processAutoJury } from '../../../../../../src/certification/session-management/domain/usecases/process-auto-jury.js';
+import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,

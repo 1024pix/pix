@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { CertificationAssessmentScoreV3 } from '../../../../../src/certification/evaluation/domain/models/CertificationAssessmentScoreV3.js';
-import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { config } from '../../../../../src/shared/config.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { status } from '../../../../../src/shared/domain/models/AssessmentResult.js';

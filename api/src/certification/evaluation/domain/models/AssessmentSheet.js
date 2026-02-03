@@ -6,11 +6,7 @@ import Joi from 'joi';
 
 import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-
-export const ABORT_REASONS = {
-  CANDIDATE: 'candidate',
-  TECHNICAL: 'technical',
-};
+import { ABORT_REASONS } from '../../../shared/domain/constants/abort-reasons.js';
 
 export class AssessmentSheet {
   /**

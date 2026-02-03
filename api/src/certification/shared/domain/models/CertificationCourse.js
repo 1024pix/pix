@@ -10,14 +10,10 @@ import BaseJoi from 'joi';
 import _ from 'lodash';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { ABORT_REASONS } from '../constants/abort-reasons.js';
 import { AlgorithmEngineVersion } from './AlgorithmEngineVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
-
-export const ABORT_REASONS = {
-  CANDIDATE: 'candidate',
-  TECHNICAL: 'technical',
-};
 
 const V3_CERTIFICATION_AVAILABLE_LANGUAGES = ['fr', 'en'];
 

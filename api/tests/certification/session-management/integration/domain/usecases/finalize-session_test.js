@@ -1,6 +1,6 @@
 import { SessionWithAbortReasonOnCompletedCertificationCourseError } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
-import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 

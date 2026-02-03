@@ -8,8 +8,8 @@ import {
   handleV2CertificationScoring,
 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v2.js';
 import { CertificationAssessment } from '../../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { ABORT_REASONS } from '../../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { AlgorithmEngineVersion } from '../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { ABORT_REASONS } from '../../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import * as scoringService from '../../../../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import CertificationCancelled from '../../../../../../../src/shared/domain/events/CertificationCancelled.js';
