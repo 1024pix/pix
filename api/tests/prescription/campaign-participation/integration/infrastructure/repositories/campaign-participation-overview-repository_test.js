@@ -950,6 +950,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
 
         // then
         expect(campaignParticipationOverviews).to.have.lengthOf(1);
+        expect(campaignParticipationOverviews[0].campaignId).to.be.equal(campaign.id);
       });
     });
 

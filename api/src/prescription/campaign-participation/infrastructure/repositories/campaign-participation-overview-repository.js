@@ -19,9 +19,8 @@ const findByUserIdWithFilters = async function ({ userId, states }) {
         .whereIn('combined_courses.organizationId', function () {
           this.select('organizationId').from('organization-learners').where('userId', userId);
         })
-        .crossJoin(knex.raw('jsonb_array_elements("successRequirements") as success_elem'))
-        .whereNotNull('successRequirements')
-        .andWhereRaw("(success_elem->'data'->'campaignId'->>'data')::integer = \"campaigns\".\"id\"");
+        .andWhereRaw(`"quests"."successRequirements" @> jsonb_build_array(jsonb_build_object('data', jsonb_build_object('campaignId', jsonb_build_object('data',"campaignId"))))
+`);
     });
   });
 
