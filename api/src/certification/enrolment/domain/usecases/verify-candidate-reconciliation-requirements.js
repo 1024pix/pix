@@ -4,6 +4,7 @@
  * @typedef {import ('./index.js').CertificationCenterRepository} CertificationCenterRepository
  */
 
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 
@@ -17,27 +18,27 @@ import { CenterHabilitationError } from '../../../shared/domain/errors.js';
  * @returns {Promise<void>} if candidate is deemed eligible
  * @throws {UserNotAuthorizedToCertifyError} candidate is not certifiable for CORE
  */
-export async function verifyCandidateReconciliationRequirements({
-  candidate,
-  sessionId,
-  placementProfileService,
-  certificationCenterRepository,
-}) {
-  const placementProfile = await placementProfileService.getPlacementProfile({
-    userId: candidate.userId,
-    limitDate: candidate.reconciledAt,
-  });
-
-  if (!placementProfile.isCertifiable()) {
+export const verifyCandidateReconciliationRequirements = withTransaction(
+  async ({ candidate, sessionId, placementProfileService, certificationCenterRepository }) => {
     throw new UserNotAuthorizedToCertifyError();
-  }
+    const placementProfile = await placementProfileService.getPlacementProfile({
+      userId: candidate.userId,
+      limitDate: candidate.reconciledAt,
+    });
+    console.log(placementProfile);
 
-  if (candidate.hasComplementarySubscription()) {
-    const complementarySubscription = candidate.getComplementarySubscription();
-    const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
-
-    if (!certificationCenter.isHabilitated(complementarySubscription.complementaryCertificationKey)) {
-      throw new CenterHabilitationError();
+    if (!placementProfile.isCertifiable()) {
+      console.log('Will throw');
+      throw new UserNotAuthorizedToCertifyError();
     }
-  }
-}
+
+    if (candidate.hasComplementarySubscription()) {
+      const complementarySubscription = candidate.getComplementarySubscription();
+      const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
+
+      if (!certificationCenter.isHabilitated(complementarySubscription.complementaryCertificationKey)) {
+        throw new CenterHabilitationError();
+      }
+    }
+  },
+);

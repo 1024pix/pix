@@ -3,6 +3,8 @@
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  */
 
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+
 /**
  * @param {object} params
  * @param {Candidate} params.candidate
@@ -11,8 +13,8 @@
  *
  * @returns {Promise<Candidate>}
  */
-export async function reconcileCandidate({ userId, candidate, candidateRepository }) {
+export const reconcileCandidate = withTransaction(async ({ userId, candidate, candidateRepository }) => {
   candidate.reconcile(userId);
   await candidateRepository.update(candidate);
   return candidate;
-}
+});

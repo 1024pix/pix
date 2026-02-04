@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Subscription } from '../../../enrolment/domain/models/Subscription.js';
 import { CertificationCandidate } from '../../../shared/domain/models/CertificationCandidate.js';
@@ -75,6 +76,7 @@ function _toDomain({ candidateData, subscriptionData }) {
 }
 
 function _candidateBaseQuery() {
+  const knex = DomainTransaction.getConnection();
   return knex
     .select({
       certificationCandidate: 'certification-candidates.*',
@@ -97,6 +99,7 @@ function _candidateBaseQuery() {
 }
 
 async function _getSubscriptions(candidateId) {
+  const knex = DomainTransaction.getConnection();
   return knex
     .select(
       'certification-subscriptions.complementaryCertificationId',

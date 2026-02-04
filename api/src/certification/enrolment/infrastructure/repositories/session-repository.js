@@ -42,7 +42,9 @@ export async function save({ session }) {
  * @throws {NotFoundError}
  */
 export async function get({ id }) {
-  const foundSession = await knex
+  const knexConn = DomainTransaction.getConnection();
+
+  const foundSession = await knexConn
     .select('sessions.*')
     .select({ certificationCenterType: 'certification-centers.type' })
     .from('sessions')
@@ -110,10 +112,10 @@ export async function update(session) {
  */
 export async function remove({ id }) {
   await knex.transaction(async (trx) => {
-    const certificationCandidateIdsInSession = await knex('certification-candidates')
+    const certificationCandidateIdsInSession = await trx('certification-candidates')
       .where({ sessionId: id })
       .pluck('id');
-    const invigilatorAccessIds = await knex('invigilator_accesses').where({ sessionId: id }).pluck('id');
+    const invigilatorAccessIds = await trx('invigilator_accesses').where({ sessionId: id }).pluck('id');
 
     if (invigilatorAccessIds) {
       await trx('invigilator_accesses').whereIn('id', invigilatorAccessIds).del();

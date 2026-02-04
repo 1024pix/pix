@@ -6,6 +6,7 @@
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  */
 
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -24,61 +25,63 @@ import { CertificationCourse } from '../../../shared/domain/models/Certification
  * @param {UserRepository} params.userRepository
  * @returns {Promise<Candidate>}
  */
-export const verifyCandidateIdentity = async ({
-  userId,
-  sessionId,
-  firstName,
-  lastName,
-  birthdate,
-  candidateRepository,
-  centerRepository,
-  sessionRepository,
-  userRepository,
-  normalizeStringFnc,
-}) => {
-  const user = await userRepository.get({ id: userId });
-
-  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
-  if (!isUserLanguageValid) {
-    throw new LanguageNotSupportedError(user.lang);
-  }
-
-  const session = await sessionRepository.get({ id: sessionId });
-
-  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId: session.id });
-
-  const candidate = findMatchingEnrolledCandidate({
-    session,
-    candidatesInSession,
+export const verifyCandidateIdentity = withTransaction(
+  async ({
+    userId,
+    sessionId,
     firstName,
     lastName,
     birthdate,
+    candidateRepository,
+    centerRepository,
+    sessionRepository,
+    userRepository,
     normalizeStringFnc,
-  });
+  }) => {
+    const user = await userRepository.get({ id: userId });
 
-  if (candidate.isReconciled()) {
-    if (candidate.isReconciledTo(userId)) {
-      return candidate;
+    const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
+    if (!isUserLanguageValid) {
+      throw new LanguageNotSupportedError(user.lang);
     }
-    throw new UnexpectedUserAccountError({});
-  }
 
-  if (session.hasReconciledCandidateTo({ candidates: candidatesInSession, userId })) {
-    throw new UserAlreadyLinkedToCandidateInSessionError(
-      'The user is already linked to a candidate with different personal info in the given session',
-    );
-  }
+    const session = await sessionRepository.get({ id: sessionId });
 
-  const center = await centerRepository.getById({ id: session.certificationCenterId });
+    const candidatesInSession = await candidateRepository.findBySessionId({ sessionId: session.id });
 
-  if (center.isMatchingOrganizationScoAndManagingStudents) {
-    if (!user.has({ organizationLearnerId: candidate.organizationLearnerId })) {
-      throw new MatchingReconciledStudentNotFoundError();
+    const candidate = findMatchingEnrolledCandidate({
+      session,
+      candidatesInSession,
+      firstName,
+      lastName,
+      birthdate,
+      normalizeStringFnc,
+    });
+
+    if (candidate.isReconciled()) {
+      if (candidate.isReconciledTo(userId)) {
+        return candidate;
+      }
+      throw new UnexpectedUserAccountError({});
     }
-  }
 
-  return candidate;
-};
+    if (session.hasReconciledCandidateTo({ candidates: candidatesInSession, userId })) {
+      throw new UserAlreadyLinkedToCandidateInSessionError(
+        'The user is already linked to a candidate with different personal info in the given session',
+      );
+    }
+
+    const center = await centerRepository.getById({ id: session.certificationCenterId });
+
+    if (center.isMatchingOrganizationScoAndManagingStudents) {
+      if (!user.has({ organizationLearnerId: candidate.organizationLearnerId })) {
+        throw new MatchingReconciledStudentNotFoundError();
+      }
+    }
+
+    return candidate;
+  },
+);
 
 /**
  * @param {object} params

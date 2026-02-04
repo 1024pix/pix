@@ -34,7 +34,9 @@ export async function get({ certificationCandidateId }) {
  * @returns {Promise<Array<Candidate>>}
  */
 export async function findBySessionId({ sessionId }) {
-  const candidatesData = await buildBaseReadQuery(knex)
+  const knexConn = DomainTransaction.getConnection();
+
+  const candidatesData = await buildBaseReadQuery(knexConn)
     .where({ 'certification-candidates.sessionId': sessionId })
     .orderBy('certification-candidates.id');
 
