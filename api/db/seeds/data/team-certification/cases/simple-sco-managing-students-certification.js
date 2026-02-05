@@ -200,6 +200,7 @@ export class ScoManagingStudent {
       firstName: candidate.firstName,
       lastName: candidate.lastName,
       birthdate: organizationLearner.birthdate,
+      isFrenchDomainExtension: true,
       normalizeStringFnc: normalize,
     });
 

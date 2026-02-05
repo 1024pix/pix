@@ -210,6 +210,7 @@ export class SupWithHabilitationsSeed {
       firstName: candidate.firstName,
       lastName: candidate.lastName,
       birthdate: candidateBirthdate,
+      isFrenchDomainExtension: true,
       normalizeStringFnc: normalize,
     });
 

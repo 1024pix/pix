@@ -175,6 +175,7 @@ export class ProSeed {
       firstName: candidate.firstName,
       lastName: candidate.lastName,
       birthdate: candidateBirthdate,
+      isFrenchDomainExtension: true,
       normalizeStringFnc: normalize,
     });
 
