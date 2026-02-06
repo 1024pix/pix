@@ -161,6 +161,11 @@ const enableOpsMetrics = async function (server, metrics) {
     });
     metrics.addMetricPoint({
       type: 'gauge',
+      name: 'captain.api.knex.db_connections_pending_acquire',
+      value: pool.numPendingAcquires(),
+    });
+    metrics.addMetricPoint({
+      type: 'gauge',
       name: 'captain.api.knex.db_connections_pending_destroy',
       value: pool.pendingDestroys.length,
     });
