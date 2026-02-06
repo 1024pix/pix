@@ -174,10 +174,7 @@ const enableOpsMetrics = async function (server, metrics) {
   const client = knex.client;
   gaugeConnections(client.pool)();
 
-  client.pool.on('createSuccess', gaugeConnections(client.pool));
-  client.pool.on('acquireSuccess', gaugeConnections(client.pool));
-  client.pool.on('release', gaugeConnections(client.pool));
-  client.pool.on('destroySuccess', gaugeConnections(client.pool));
+  setInterval(gaugeConnections(client.pool), 10_000);
 
   server.events.on('response', (request) => {
     const info = request.info;
