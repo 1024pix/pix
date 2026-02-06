@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## [5.317.5](https://github.com/1024pix/pix/compare/v5.317.4...v5.317.5) (2026-02-06)
+
+### :bug: Correction
+- [TECH] Mettre un FT pour activer ou désactiver la transaction autour du usecase de get next challenge
+
 ## [5.317.4](https://github.com/1024pix/pix/compare/v5.317.3...v5.317.4) (2026-02-05)
 
 ### :bug: Correction
