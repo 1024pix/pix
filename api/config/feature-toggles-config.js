@@ -75,4 +75,10 @@ export default {
     devDefaultValues: { test: false, reviewApp: true },
     tags: ['frontend', 'team-devcomp', 'modulix', 'pix-app'],
   },
+  enableTransactionForGetNext: {
+    type: 'boolean',
+    description: 'Enable wrapping the get next challenge usecase in a transaction',
+    defaultValue: true,
+    tags: ['captain', 'backend', 'db', 'pool'],
+  },
 };

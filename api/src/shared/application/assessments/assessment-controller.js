@@ -8,6 +8,7 @@ import * as competenceEvaluationSerializer from '../../../evaluation/infrastruct
 import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { sharedUsecases } from '../../domain/usecases/index.js';
+import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import { extractUserIdFromRequest, getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
@@ -25,12 +26,28 @@ const getAssessmentWithNextChallenge = async function (request) {
   const locale = getChallengeLocale(request);
   const userId = extractUserIdFromRequest(request);
 
-  const assessment = await DomainTransaction.execute(async () => {
-    const assessmentWithoutChallenge = await sharedUsecases.getAssessment({ assessmentId, locale });
+  const enableTransactionForGetNext = await featureToggles.get('enableTransactionForGetNext');
+  if (enableTransactionForGetNext) {
+    const assessment = await DomainTransaction.execute(async () => {
+      const assessmentWithoutChallenge = await sharedUsecases.getAssessment({ assessmentId, locale });
 
-    return sharedUsecases.updateAssessmentWithNextChallenge({ assessment: assessmentWithoutChallenge, userId, locale });
+      return sharedUsecases.updateAssessmentWithNextChallenge({
+        assessment: assessmentWithoutChallenge,
+        userId,
+        locale,
+      });
+    });
+
+    return assessmentSerializer.serialize(assessment.toDto());
+  }
+
+  const assessmentWithoutChallenge = await sharedUsecases.getAssessment({ assessmentId, locale });
+
+  const assessment = sharedUsecases.updateAssessmentWithNextChallenge({
+    assessment: assessmentWithoutChallenge,
+    userId,
+    locale,
   });
-
   return assessmentSerializer.serialize(assessment.toDto());
 };
 
