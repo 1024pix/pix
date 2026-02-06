@@ -393,7 +393,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
       context('when session is v3', function () {
         beforeEach(async function () {
           ({ options, session } = await _createSession({ version: 3 }));
-          databaseBuilder.factory.buildCertificationVersion();
+          databaseBuilder.factory.buildCertificationVersion({ minimumAnswersRequiredToValidateACertification: 1 });
           await databaseBuilder.commit();
         });
 

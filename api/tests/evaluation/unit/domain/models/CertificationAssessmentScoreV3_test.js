@@ -6,7 +6,7 @@ import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStat
 import { status } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Evaluation | Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {
+describe('Certification | Evaluation | Unit | Domain | Models | CertificationAssessmentScoreV3', function () {
   const maxReachableLevelOnCertificationDate = 7;
   const minimumAnswersRequiredToValidateACertification = 20;
 
@@ -472,13 +472,13 @@ describe('Certification | Evaluation | Unit | Domain | Models | CertificationAss
             challenges,
             allAnswers,
             algorithm,
-            abortReason: 'candidate',
+            abortReason: ABORT_REASONS.TECHNICAL,
             maxReachableLevelOnCertificationDate,
             v3CertificationScoring,
             scoringDegradationService,
           });
 
-          expect(score.status).to.equal(status.REJECTED);
+          expect(score.status).to.equal(status.CANCELLED);
         });
       });
 
@@ -503,7 +503,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | CertificationAss
             challenges,
             allAnswers,
             algorithm,
-            abortReason: 'candidate',
+            abortReason: ABORT_REASONS.CANDIDATE,
             maxReachableLevelOnCertificationDate,
             v3CertificationScoring,
             scoringDegradationService,
@@ -511,38 +511,6 @@ describe('Certification | Evaluation | Unit | Domain | Models | CertificationAss
 
           expect(score.status).to.equal(status.REJECTED);
         });
-      });
-    });
-
-    describe('when less than the minimum number of answers required by the config has been answered and the candidate didnt quit', function () {
-      it('should be validated', function () {
-        const difficulty = 0;
-        const certificationCourseAbortReason = 'technical';
-        const numberOfChallenges = minimumAnswersRequiredToValidateACertification - 1;
-        const challenges = _buildChallenges(difficulty, numberOfChallenges);
-        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        algorithm.getCapacityAndErrorRate
-          .withArgs({
-            challenges,
-            allAnswers,
-          })
-          .returns({
-            capacity: 0,
-          });
-
-        algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
-
-        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-          challenges,
-          allAnswers,
-          algorithm,
-          certificationCourseAbortReason,
-          maxReachableLevelOnCertificationDate,
-          v3CertificationScoring,
-          scoringDegradationService,
-        });
-
-        expect(score.status).to.equal(status.VALIDATED);
       });
     });
   });

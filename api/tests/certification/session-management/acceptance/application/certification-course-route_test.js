@@ -278,7 +278,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         version: AlgorithmEngineVersion.V3,
       });
 
-      databaseBuilder.factory.buildCertificationVersion();
+      databaseBuilder.factory.buildCertificationVersion({ minimumAnswersRequiredToValidateACertification: 1 });
 
       const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
         sessionId: session.id,

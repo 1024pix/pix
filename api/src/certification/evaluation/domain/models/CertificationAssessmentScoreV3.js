@@ -87,14 +87,12 @@ export class CertificationAssessmentScoreV3 {
 
     const competenceMarks = v3CertificationScoring.getCompetencesScore(capacity);
 
-    const status = _isCertificationRejected({
+    const status = _computeStatus({
       answers: allAnswers,
       abortReason,
       minimumAnswersRequiredToValidateACertification:
         v3CertificationScoring.minimumAnswersRequiredToValidateACertification,
-    })
-      ? CertificationStatus.REJECTED
-      : CertificationStatus.VALIDATED;
+    });
 
     return new CertificationAssessmentScoreV3({
       nbPix,
@@ -143,10 +141,20 @@ const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
   return Math.min(maximumReachableScore, score);
 };
 
-const _isCertificationRejected = ({ answers, abortReason, minimumAnswersRequiredToValidateACertification }) => {
-  return (
-    !_hasCandidateAnsweredEnoughQuestions({ answers, minimumAnswersRequiredToValidateACertification }) && abortReason
-  );
+const _computeStatus = ({ answers, abortReason, minimumAnswersRequiredToValidateACertification }) => {
+  if (_hasCandidateAnsweredEnoughQuestions({ answers, minimumAnswersRequiredToValidateACertification })) {
+    return CertificationStatus.VALIDATED;
+  }
+
+  if (abortReason === ABORT_REASONS.CANDIDATE) {
+    return CertificationStatus.REJECTED;
+  }
+
+  if (abortReason === ABORT_REASONS.TECHNICAL) {
+    return CertificationStatus.CANCELLED;
+  }
+
+  return CertificationStatus.ERROR;
 };
 
 const _hasCandidateAnsweredEnoughQuestions = ({ answers, minimumAnswersRequiredToValidateACertification }) => {
