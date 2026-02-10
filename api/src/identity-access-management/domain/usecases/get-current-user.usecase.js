@@ -1,4 +1,3 @@
-import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserWithActivity } from '../read-models/UserWithActivity.js';
 
 /**
@@ -10,7 +9,7 @@ import { UserWithActivity } from '../read-models/UserWithActivity.js';
  * }} params
  * @return {Promise<UserWithActivity>}
  */
-export const getCurrentUser = withTransaction(async function ({
+export const getCurrentUser = async function ({
   authenticatedUserId,
   userRepository,
   campaignParticipationRepository,
@@ -39,4 +38,4 @@ export const getCurrentUser = withTransaction(async function ({
     shouldSeeDataProtectionPolicyInformationBanner,
     anonymousUserToken,
   });
-});
+};
