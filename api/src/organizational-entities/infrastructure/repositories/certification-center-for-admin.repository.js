@@ -2,6 +2,11 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { CenterForAdmin } from '../../domain/models/CenterForAdmin.js';
 
+/**
+ * @function
+ * @param {CenterForAdmin} certificationCenter
+ * @returns {Promise<CenterForAdmin>}
+ */
 const save = async function (certificationCenter) {
   const knexConn = DomainTransaction.getConnection();
   const [certificationCenterCreated] = await knexConn('certification-centers').returning('*').insert({
@@ -13,6 +18,11 @@ const save = async function (certificationCenter) {
   return _toDomain(certificationCenterCreated);
 };
 
+/**
+ * @function
+ * @param {CenterForAdmin} certificationCenter
+ * @returns {Promise<number>}
+ */
 const update = async function (certificationCenter) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification-centers')
@@ -25,11 +35,11 @@ const update = async function (certificationCenter) {
 };
 
 /**
- * @type {function}
+ * @function
  * @param {Object} params
- * @param {string|number} params.certificationCenterId
- * @param {string|number} params.archivedBy
- * @param {date} params.archiveDate
+ * @param {string | number} params.certificationCenterId
+ * @param {string | number} params.archivedBy
+ * @param {Date} params.archiveDate
  */
 const archive = async function ({ certificationCenterId, archivedBy, archiveDate }) {
   const knexConn = DomainTransaction.getConnection();
