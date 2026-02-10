@@ -23,6 +23,7 @@ import { identityAccessManagementRoutes } from './src/identity-access-management
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import { learningContentRoutes } from './src/learning-content/routes.js';
 import { llmRoutes } from './src/llm/routes.js';
+import { queryVizRoutes } from './src/monitoring/application/query-viz-routes.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
@@ -93,6 +94,8 @@ const createServer = async () => {
   await setupOpenApiSpecification(server);
 
   setupDeserialization(server);
+
+  await setupQueryVisualization(server);
 
   return server;
 };
@@ -215,6 +218,60 @@ const setupDeserialization = function (server) {
   });
 };
 
+const setupQueryVisualization = async function (server) {
+  if (!config.queryVisualization?.enabled) {
+    return;
+  }
+
+  const { QueryTracker } = await import('./src/shared/infrastructure/metrics/query-tracker.js');
+  const { randomUUID } = await import('node:crypto');
+
+  const queryTracker = QueryTracker.getInstance();
+
+  // Hook: track when HTTP request starts
+  server.ext('onPreHandler', (request, h) => {
+    // Skip tracking for query-viz dashboard routes themselves
+    if (request.route.path.startsWith('/api/query-viz')) {
+      return h.continue;
+    }
+
+    // Generate or use existing request ID and store it in the request
+    const requestId = request.headers['x-request-id'] || randomUUID();
+
+    // Store in request.app for access throughout the request lifecycle
+    if (!request.app) {
+      request.app = {};
+    }
+    request.app.queryVizRequestId = requestId;
+
+    // Also store in headers so it's available everywhere
+    if (!request.headers['x-request-id']) {
+      request.headers['x-request-id'] = requestId;
+    }
+
+    queryTracker.onRequestStart({
+      requestId,
+      routePath: request.route.path,
+      method: request.method.toUpperCase(),
+    });
+    return h.continue;
+  });
+
+  // Hook: track when HTTP request completes
+  server.events.on('response', (request) => {
+    const requestId = request.app?.queryVizRequestId || request.headers['x-request-id'];
+    const statusCode = request.raw.res.statusCode;
+
+    if (requestId) {
+      const poolMetricsData = databaseConnections.getPoolMetrics();
+      queryTracker.onRequestEnd(requestId, {
+        poolMetrics: poolMetricsData.pools || poolMetricsData, // Extract .pools if present
+        statusCode,
+      });
+    }
+  });
+};
+
 const setupAuthentication = function (server) {
   Object.values(serverAuthentication.schemes).forEach((scheme) => {
     server.auth.scheme(scheme.name, scheme.scheme);
@@ -244,6 +301,8 @@ const setupRoutesAndPlugins = async function (server) {
     bannerRoutes,
     ...announcementRoutes,
     llmRoutes,
+    // Query Visualization Dashboard (development only)
+    config.queryVisualization?.enabled ? queryVizRoutes : [],
     {
       name: 'root',
       register: async function (server) {

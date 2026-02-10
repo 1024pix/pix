@@ -145,6 +145,10 @@ const schema = Joi.object({
   DOMAIN_PIX_ORGA: Joi.string().optional(),
   EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN: Joi.string().optional().default('3d'),
   ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
+  ENABLE_QUERY_VISUALIZATION: Joi.string().optional().valid('true', 'false'),
+  QUERY_VIZ_MAX_REQUESTS: Joi.number().optional(),
+  QUERY_VIZ_MAX_QUERIES: Joi.number().optional(),
+  QUERY_VIZ_SLOW_THRESHOLD: Joi.number().optional(),
   FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
   FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
@@ -410,6 +414,12 @@ const configuration = (function () {
       enableLogEndingEventDispatch: toBoolean(process.env.LOG_ENDING_EVENT_DISPATCH),
       opsEventIntervalInSeconds: process.env.OPS_EVENT_INTERVAL_IN_SECONDS || 15,
       debugSections: process.env.LOG_DEBUG?.split(',') ?? [],
+    },
+    queryVisualization: {
+      enabled: toBoolean(process.env.ENABLE_QUERY_VISUALIZATION),
+      maxRequests: _getNumber(process.env.QUERY_VIZ_MAX_REQUESTS, 100),
+      maxQueriesPerRequest: _getNumber(process.env.QUERY_VIZ_MAX_QUERIES, 1000),
+      slowQueryThresholdMs: _getNumber(process.env.QUERY_VIZ_SLOW_THRESHOLD, 50),
     },
     login: {
       temporaryBlockingThresholdFailureCount: _getNumber(

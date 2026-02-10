@@ -9,6 +9,7 @@ import {
   incrementInContext,
   setInContext,
 } from '../src/shared/infrastructure/execution-context-manager.js';
+import { QueryTracker } from '../src/shared/infrastructure/metrics/query-tracker.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { configureConnectionExtension, disableTypeCastingForJsonTypes } from './knex-extensions.js';
 
@@ -51,10 +52,25 @@ export class DatabaseConnection {
         }
       });
 
-      configureConnectionExtension(this.knex);
-    } else {
-      logger.error('Database connection not found');
+      const queryTracker = QueryTracker.getInstance();
+
+      this.knex.on('query', (data) => {
+        queryTracker.onQueryStart(data, {
+          database: knexConfig.name,
+          pool: knexConfig.name,
+        });
+      });
+
+      this.knex.on('query-response', (response, data) => {
+        queryTracker.onQueryEnd(data.__knexQueryUid, response);
+      });
+
+      this.knex.on('query-error', (error, data) => {
+        queryTracker.onQueryError(data.__knexQueryUid, error);
+      });
     }
+
+    configureConnectionExtension(this.knex);
   }
 
   async checkStatus() {

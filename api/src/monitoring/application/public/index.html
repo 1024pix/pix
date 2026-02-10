@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pix API - Query Visualization Dashboard</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="/api/query-viz/assets/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>📊 Query Visualization Dashboard</h1>
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-label">Active Requests:</span>
+                    <span class="stat-value" id="stat-active">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Historical:</span>
+                    <span class="stat-value" id="stat-historical">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">SSE Status:</span>
+                    <span class="stat-value" id="sse-status">Connecting...</span>
+                </div>
+                <button id="btn-clear" class="btn-clear">Clear Data</button>
+            </div>
+        </header>
+
+        <div class="pools-container">
+            <h2>Connection Pools</h2>
+            <div id="pool-metrics" class="pool-metrics"></div>
+        </div>
+
+        <div class="timeline-container">
+            <h2>Query Timeline</h2>
+            <div class="timeline-controls">
+                <label>
+                    <input type="checkbox" id="filter-slow" />
+                    Show only slow queries (>50ms)
+                </label>
+                <label>
+                    <input type="checkbox" id="auto-scroll" checked />
+                    Auto-scroll to latest
+                </label>
+            </div>
+            <div id="timeline" class="timeline"></div>
+        </div>
+
+        <div class="requests-list">
+            <h2>Recent Requests</h2>
+            <div id="requests-container" class="requests"></div>
+        </div>
+    </div>
+
+    <div id="query-detail-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Query Details</h3>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="/api/query-viz/assets/js/dashboard.js"></script>
+</body>
+</html>
