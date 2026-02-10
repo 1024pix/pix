@@ -1,34 +1,32 @@
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
-import Breadcrumb from 'pix-admin/components/organizations/breadcrumb';
+import DetailsPageLayout from 'pix-admin/components/layout/details-page-layout';
 import HeadInformation from 'pix-admin/components/organizations/head-information';
 
 <template>
-  <header class="page-header">
-    <Breadcrumb @currentPageLabel={{@model.name}} />
-  </header>
+  <DetailsPageLayout
+    @currentPageLabel={{@model.name}}
+    @navigationAriaLabel={{t "pages.organization.navbar.aria-label"}}
+  >
 
-  <main class="page-body" id="organizations-get-page">
-    <HeadInformation @organization={{@model}} />
+    <:headSection>
+      <HeadInformation @organization={{@model}} />
+    </:headSection>
 
-    {{#if @model.isArchived}}
-      <PixNotificationAlert @type="warning">
-        {{t
-          "components.organizations.information-section-view.is-archived-warning"
-          archivedAt=@model.archivedFormattedDate
-          archivedBy=@model.archivistFullName
-        }}
-      </PixNotificationAlert>
-    {{/if}}
+    <:alert>
+      {{#if @model.isArchived}}
+        <PixNotificationAlert class="organization-information-section__archived-message" @type="warning">
+          {{t
+            "components.organizations.information-section-view.is-archived-warning"
+            archivedAt=@model.archivedFormattedDate
+            archivedBy=@model.archivistFullName
+          }}
+        </PixNotificationAlert>
+      {{/if}}
+    </:alert>
 
-    <PixTabs
-      @variant="primary"
-      @ariaLabel={{t "pages.organization.navbar.aria-label"}}
-      class="navigation organization__navigation"
-    >
-
+    <:navigationLinks>
       <LinkTo @route="authenticated.organizations.get.details" @model={{@model}}>
         {{t "pages.organization.navbar.details"}}
       </LinkTo>
@@ -77,8 +75,11 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
           </LinkTo>
         {{/if}}
       {{/if}}
-    </PixTabs>
+    </:navigationLinks>
 
-    {{outlet}}
-  </main>
+    <:outlet>
+      {{outlet}}
+    </:outlet>
+
+  </DetailsPageLayout>
 </template>
