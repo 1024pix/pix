@@ -73,8 +73,8 @@ export const PIX_CERTIF_PRO_DATA = {
   rawPassword: 'pix123',
   certificationCenters: [
     {
-      type: 'PRO',
-      externalId: 'CERTIFPRO',
+      type: 'SUP',
+      externalId: 'CERTIFSUP',
       habilitations: [CERTIFICATIONS_DATA.CLEA.key],
       withOrganization: {
         isManagingStudents: false,

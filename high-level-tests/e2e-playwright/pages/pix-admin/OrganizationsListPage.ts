@@ -10,7 +10,7 @@ export class OrganizationsListPage {
       .locator('table tbody tr', { has: this.page.getByText(organizationName) })
       .getByRole('link')
       .click();
-    await this.page.waitForURL(/organizations\/\d+\/team/);
+    await this.page.waitForURL(/organizations\/\d+\/details/);
 
     return new OrganizationDetailsPage(this.page);
   }

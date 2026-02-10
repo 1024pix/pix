@@ -4,17 +4,12 @@ import sharedConfig, { App, isCI, reuseExistingApps, setupWebServer } from './pl
 
 export default defineConfig({
   ...sharedConfig,
+  timeout: 180000,
   projects: [
-    {
-      name: 'recette prescription - setup base data for anonymization',
-      testDir: 'tests/recette-prescription',
-      testMatch: '**/create-organization-learner.spec.ts',
-    },
     {
       name: 'recette prescription - anonymization scenarios',
       testDir: 'tests/recette-prescription',
       testMatch: '**/organization-learner-anonymisation/**/*.ts',
-      dependencies: ['recette prescription - setup base data for anonymization'],
     },
   ],
 

@@ -262,7 +262,7 @@ async function buildAuthenticatedUsers() {
     }
   }
 
-  const admiUserId = await createUserInDB(
+  const adminSupportUserId = await createUserInDB(
     {
       firstName: PIX_ADMIN_SUPPORT_DATA.firstName,
       lastName: PIX_ADMIN_SUPPORT_DATA.lastName,
@@ -275,7 +275,7 @@ async function buildAuthenticatedUsers() {
     },
     knex,
   );
-  await knex('pix-admin-roles').insert({ userId: admiUserId, role: PIX_ADMIN_SUPPORT_DATA.role });
+  await knex('pix-admin-roles').insert({ userId: adminSupportUserId, role: PIX_ADMIN_SUPPORT_DATA.role });
 }
 
 async function buildTargetProfiles() {

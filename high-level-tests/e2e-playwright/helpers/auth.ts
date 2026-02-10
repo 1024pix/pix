@@ -4,7 +4,14 @@ import * as fs from 'fs/promises';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
-import { PIX_APP_USER_DATA, PIX_CERTIF_PRO_DATA, PIX_ORGA_ADMIN_DATA, PIX_ORGA_MEMBER_DATA } from './db-data.js';
+import {
+  PIX_ADMIN_SUPPORT_DATA,
+  PIX_APP_USER_DATA,
+  PIX_CERTIF_PRO_DATA,
+  PIX_ORGA_ADMIN_DATA,
+  PIX_ORGA_MEMBER_DATA,
+} from './db-data.js';
+
 export const AUTH_DIR = path.resolve(import.meta.dirname, '../.auth');
 export const shouldRecordHAR = process.env.RECORD_HAR === 'true';
 export const HAR_DIR = path.resolve(import.meta.dirname, '../.har-record');
@@ -54,6 +61,15 @@ export const PIX_CERTIF_PRO_CREDENTIALS: Credentials = {
   email: PIX_CERTIF_PRO_DATA.email,
   rawPassword: PIX_CERTIF_PRO_DATA.rawPassword,
   appUrl: process.env.PIX_CERTIF_URL as string,
+};
+export const PIX_ADMIN_SUPPORT_CREDENTIALS: Credentials = {
+  id: PIX_ADMIN_SUPPORT_DATA.id,
+  label: 'pix-admin_support',
+  firstName: PIX_ADMIN_SUPPORT_DATA.firstName,
+  lastName: PIX_ADMIN_SUPPORT_DATA.lastName,
+  email: PIX_ADMIN_SUPPORT_DATA.email,
+  rawPassword: PIX_ADMIN_SUPPORT_DATA.rawPassword,
+  appUrl: process.env.PIX_ADMIN_URL as string,
 };
 
 export function getGarTokenForNewUser(firstName: string, lastName: string, expiresIn: ms.StringValue = '1h') {

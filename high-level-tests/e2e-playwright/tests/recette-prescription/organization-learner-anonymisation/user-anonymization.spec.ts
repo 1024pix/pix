@@ -1,25 +1,26 @@
-import { expect, test } from '../../../fixtures/index.ts';
+import { expect, test } from '../../../fixtures/prescription/index.ts';
 import { PIX_ADMIN_SUPPORT_DATA } from '../../../helpers/db-data.ts';
-import { LoginPage as AdminLoginPage } from '../../../pages/pix-admin/index.ts';
+import { HomePage as AdminHomePage } from '../../../pages/pix-admin/index.ts';
 import { LoginPage as AppLoginPage } from '../../../pages/pix-app/index.ts';
 import { HomePage as PixOrgaHomePage, ParticipantsPage } from '../../../pages/pix-orga/index.ts';
-// deso c moi, je me suis permise car je sais que tu n'utilises plus superAdminContext de toute façon, lors du merge accepte
-// tous tes changements
-test(`user is anonymized`, async ({ page: pixAppPage, pixOrgaMemberContext }) => {
+
+test(`user is anonymized`, async ({
+  page: pixAppPage,
+  pixAdminSupportContext,
+  pixOrgaMemberContext,
+  createOrganizationLearnerOfUserToAnonymize,
+}) => {
   test.slow();
+  expect(createOrganizationLearnerOfUserToAnonymize).toBe(true);
 
   await test.step('User can access to their account on PixApp', async function () {
     await pixAppPage.goto(process.env.PIX_APP_URL as string);
-    const loginPage = new AppLoginPage(pixAppPage);
-    await loginPage.login(`jambon.beurre@example.net`, 'Coucoulesdevs44');
-
     await expect(pixAppPage.getByText('Bonjour Jambon')).toBeVisible();
   });
 
-  const pixAdminPage = pixAppPage;
+  const pixAdminPage = await pixAdminSupportContext.newPage();
   await pixAdminPage.goto(process.env.PIX_ADMIN_URL as string);
-  const adminLoginPage = new AdminLoginPage(pixAdminPage);
-  const adminHomepage = await adminLoginPage.login(PIX_ADMIN_SUPPORT_DATA.email, PIX_ADMIN_SUPPORT_DATA.rawPassword);
+  const adminHomepage = new AdminHomePage(pixAdminPage);
 
   await test.step('Anonymize user', async () => {
     const userListPage = await adminHomepage.goToUsersTab();
