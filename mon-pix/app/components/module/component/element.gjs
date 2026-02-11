@@ -1,4 +1,6 @@
+import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 import AudioElement from 'mon-pix/components/module/element/audio';
@@ -24,6 +26,8 @@ import ENV from 'mon-pix/config/environment';
 export const VERIFY_RESPONSE_DELAY = ENV.APP.MODULIX_VERIFICATION_RESPONSE_DELAY;
 
 export default class ModulixElement extends Component {
+  @service modulixPreviewMode;
+
   // @deprecated to remove due to function not being used anymore on qcu, qcm and qrocm element
   @action
   getLastCorrectionForElement() {
@@ -31,6 +35,11 @@ export default class ModulixElement extends Component {
   }
 
   <template>
+    {{#if this.modulixPreviewMode.isElementIdsButtonEnabled}}
+      <PixTag @color="yellow">
+        <p id="{{@element.id}}">{{@element.id}}</p>
+      </PixTag>
+    {{/if}}
     {{#if (eq @element.type "text")}}
       <TextElement @text={{@element}} />
     {{else if (eq @element.type "image")}}

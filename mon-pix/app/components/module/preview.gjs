@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -131,6 +132,11 @@ export default class ModulixPreview extends Component {
   noop() {}
 
   @action
+  enableElementIdsButton() {
+    this.modulixPreviewMode.enableElementIdsButton();
+  }
+
+  @action
   updateModule(event) {
     try {
       this.errorMessage = null;
@@ -151,6 +157,14 @@ export default class ModulixPreview extends Component {
 
   <template>
     {{pageTitle this.formattedModule.title}}
+
+    <div class="element-ids-button" tabindex="-2">
+      <PixSegmentedControl @onChange={{this.enableElementIdsButton}} @variant="primary" @toggled={{true}}>
+        <:label>Afficher les ids des éléments</:label>
+        <:viewA>oui</:viewA>
+        <:viewB>non</:viewB>
+      </PixSegmentedControl>
+    </div>
 
     {{#unless this.previewingExistingModule}}
       <div class="module-preview__buttons">

@@ -3,3 +3,14 @@
   height: 600px;
   border: none;
 }
+
+.element-ids-button {
+  position: sticky;
+  top: 40px;
+  display: inline-block;
+  margin-left: 20px;
+  padding: 15px;
+  background-color: var(--pix-neutral-0);
+  border: 2px solid var(--pix-primary-500);
+  border-radius: 4px;
+}
