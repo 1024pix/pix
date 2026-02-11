@@ -51,7 +51,9 @@ const save = async function ({ organizationInvitedUser }) {
         organizationId: organizationInvitedUser.invitation.organizationId,
         userId: organizationInvitedUser.userId,
       })
-      .returning('id');
+      .returning('id')
+      .onConflict(['organizationId', 'userId'])
+      .ignore();
 
     organizationInvitedUser.currentMembershipId = membershipId;
   }
