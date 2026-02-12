@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import ms from 'ms';
 
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { oidcProviderController } from './oidc-provider.controller.js';
@@ -11,8 +10,7 @@ export const oidcProviderRoutes = [
     options: {
       auth: false,
       cache: {
-        expiresIn: ms('1 Day'),
-        privacy: 'public',
+        otherwise: 'public, max-age=0, s-maxage=86400, must-revalidate',
       },
       handler: (request, h) => oidcProviderController.getIdentityProviders(request, h),
       notes: [

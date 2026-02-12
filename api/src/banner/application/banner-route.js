@@ -1,5 +1,3 @@
-import ms from 'ms';
-
 import { bannerController } from './banner-controller.js';
 
 const register = async function (server) {
@@ -11,8 +9,7 @@ const register = async function (server) {
         auth: false,
         handler: bannerController.getInformationBanner,
         cache: {
-          expiresIn: ms('1 Year'),
-          privacy: 'public',
+          otherwise: 'public, max-age=0, s-maxage=86400, must-revalidate',
         },
       },
     },
