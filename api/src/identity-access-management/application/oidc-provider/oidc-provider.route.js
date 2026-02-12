@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import ms from 'ms';
 
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { oidcProviderController } from './oidc-provider.controller.js';
@@ -9,7 +10,10 @@ export const oidcProviderRoutes = [
     path: '/api/oidc/identity-providers/{any*}',
     options: {
       auth: false,
-      cache: false,
+      cache: {
+        expiresIn: ms('1 Day'),
+        privacy: 'public',
+      },
       handler: (request, h) => oidcProviderController.getIdentityProviders(request, h),
       notes: [
         'Cette route renvoie une liste contenant les informations requises par le front pour les partenaires OIDC',
