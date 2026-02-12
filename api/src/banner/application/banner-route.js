@@ -1,3 +1,5 @@
+import ms from 'ms';
+
 import { bannerController } from './banner-controller.js';
 
 const register = async function (server) {
@@ -8,7 +10,10 @@ const register = async function (server) {
       options: {
         auth: false,
         handler: bannerController.getInformationBanner,
-        cache: false,
+        cache: {
+          expiresIn: ms('1 Year'),
+          privacy: 'public',
+        },
       },
     },
   ]);
