@@ -1,3 +1,5 @@
+import ms from 'ms';
+
 import { featureToggleController } from './feature-toggle-controller.js';
 
 const register = async function (server) {
@@ -9,7 +11,10 @@ const register = async function (server) {
         auth: false,
         handler: featureToggleController.getActiveFeatures,
         tags: ['api'],
-        cache: false,
+        cache: {
+          expiresIn: ms('5 Minutes'),
+          privacy: 'public',
+        },
       },
     },
   ]);
