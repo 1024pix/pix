@@ -2,13 +2,15 @@ import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-al
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
 import DetailsPageLayout from 'pix-admin/components/layout/details-page-layout';
+import Breadcrumb from 'pix-admin/components/organizations/breadcrumb';
 import HeadInformation from 'pix-admin/components/organizations/head-information';
 
 <template>
-  <DetailsPageLayout
-    @currentPageLabel={{@model.name}}
-    @navigationAriaLabel={{t "pages.organization.navbar.aria-label"}}
-  >
+  <DetailsPageLayout @navigationAriaLabel={{t "pages.organization.navbar.aria-label"}}>
+
+    <:breadCrumb>
+      <Breadcrumb @currentPageLabel={{@model.name}} />
+    </:breadCrumb>
 
     <:headSection>
       <HeadInformation @organization={{@model}} />
@@ -25,7 +27,19 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
         </PixNotificationAlert>
       {{/if}}
     </:alert>
+    <:alert>
+      {{#if @model.isArchived}}
+        <PixNotificationAlert class="organization-information-section__archived-message" @type="warning">
+          {{t
+            "components.organizations.information-section-view.is-archived-warning"
+            archivedAt=@model.archivedFormattedDate
+            archivedBy=@model.archivistFullName
+          }}
+        </PixNotificationAlert>
+      {{/if}}
+    </:alert>
 
+    <:navigationLinks>
     <:navigationLinks>
       <LinkTo @route="authenticated.organizations.get.details" @model={{@model}}>
         {{t "pages.organization.navbar.details"}}
@@ -76,7 +90,13 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
         {{/if}}
       {{/if}}
     </:navigationLinks>
+    </:navigationLinks>
 
+    <:outlet>
+      {{outlet}}
+    </:outlet>
+
+  </DetailsPageLayout>
     <:outlet>
       {{outlet}}
     </:outlet>

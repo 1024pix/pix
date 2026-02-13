@@ -1,9 +1,8 @@
 import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
-import Breadcrumb from 'pix-admin/components/organizations/breadcrumb';
 
 <template>
   <header class="page-header">
-    <Breadcrumb @currentPageLabel={{@currentPageLabel}} />
+    {{yield to="breadCrumb"}}
 
   </header>
 
@@ -13,11 +12,11 @@ import Breadcrumb from 'pix-admin/components/organizations/breadcrumb';
     {{#if (has-block "alert")}}
       {{yield to="alert"}}
     {{/if}}
-
-    <PixTabs @variant="primary" @ariaLabel={{@navigationAriaLabel}} class="navigation">
-
-      {{yield to="navigationLinks"}}
-    </PixTabs>
+    {{#if (has-block "navigationLinks")}}
+      <PixTabs @variant="primary" @ariaLabel={{@navigationAriaLabel}} class="navigation">
+        {{yield to="navigationLinks"}}
+      </PixTabs>
+    {{/if}}
 
     {{#if (has-block "outlet")}}
       {{yield to="outlet"}}

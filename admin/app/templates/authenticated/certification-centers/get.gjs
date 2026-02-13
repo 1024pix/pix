@@ -1,24 +1,37 @@
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { LinkTo } from '@ember/routing';
-import pageTitle from 'ember-page-title/helpers/page-title';
+import { t } from 'ember-intl';
 import Breadcrumb from 'pix-admin/components/certification-centers/breadcrumb';
-import Information from 'pix-admin/components/certification-centers/information';
+import DetailsPageLayout from 'pix-admin/components/layout/details-page-layout';
+
 <template>
-  {{pageTitle "Centre " @model.certificationCenter.id}}
-  <header class="page-header">
-    <Breadcrumb @currentPageLabel={{@model.certificationCenter.name}} />
-  </header>
+  <DetailsPageLayout @currentPageLabel={{@model.certificationCenter.name}} @navigationAriaLabel="Navigation">
+    <:breadCrumb>
+      <Breadcrumb @currentPageLabel={{@model.certificationCenter.name}} />
+    </:breadCrumb>
 
-  <main class="page-body" id="certification-center-get-page">
-    <Information
-      @availableHabilitations={{@controller.model.habilitations}}
-      @certificationCenter={{@controller.model.certificationCenter}}
-      @updateCertificationCenter={{@controller.updateCertificationCenter}}
-      @refreshModel={{@controller.refresh}}
-    />
+    <:headSection>
+      <h1 class="certification-center-information-display__name">{{@model.certificationCenter.name}}</h1>
 
-    {{#unless @controller.model.certificationCenter.isArchived}}
-      <PixTabs @variant="primary" @ariaLabel="Navigation de la section centre de certification" class="navigation">
+    </:headSection>
+
+    <:alert>
+      {{#if @model.certificationCenter.isArchived}}
+        <PixNotificationAlert class="certification-center-information-display__archived-warning" @type="warning">
+          {{t
+            "pages.certification-centers.information-view.is-archived-warning"
+            archivedAt=@model.certificationCenter.archivedAtFormatDate
+            archivedBy=@model.certificationCenter.archivistFullName
+          }}
+        </PixNotificationAlert>
+      {{/if}}
+    </:alert>
+
+    <:navigationLinks>
+      {{#unless @model.certificationCenter.isArchived}}
+        <LinkTo @route="authenticated.certification-centers.get.details">
+          {{t "pages.organization.navbar.details"}}
+        </LinkTo>
         <LinkTo @route="authenticated.certification-centers.get.team">
           Équipe ({{@controller.model.certificationCenter.certificationCenterMemberships.length}})
         </LinkTo>
@@ -26,9 +39,11 @@ import Information from 'pix-admin/components/certification-centers/information'
         <LinkTo @route="authenticated.certification-centers.get.invitations">
           Invitations
         </LinkTo>
-      </PixTabs>
-    {{/unless}}
+      {{/unless}}
+    </:navigationLinks>
 
-    {{outlet}}
-  </main>
+    <:outlet>
+      {{outlet}}
+    </:outlet>
+  </DetailsPageLayout>
 </template>
