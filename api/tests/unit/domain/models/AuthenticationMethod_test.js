@@ -218,10 +218,9 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
     });
 
     context('OidcAuthenticationComplement', function () {
-      it('cannot be created without properties', function () {
+      it('cannot be created without object', function () {
         // when
         expect(() => new AuthenticationMethod.OidcAuthenticationComplement()).to.throw(ObjectValidationError);
-        expect(() => new AuthenticationMethod.OidcAuthenticationComplement({})).to.throw(ObjectValidationError);
       });
 
       it('can hold any properties', function () {
