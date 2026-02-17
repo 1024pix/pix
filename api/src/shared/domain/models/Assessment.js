@@ -171,10 +171,10 @@ class Assessment {
     return this.lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT;
   }
 
-  toDto() {
+  toDto(globalProgression) {
     switch (this.type) {
       case Assessment.types.CAMPAIGN:
-        return new CampaignAssessment(this);
+        return new CampaignAssessment(this, globalProgression);
       case Assessment.types.CERTIFICATION:
         return new CertificationAssessment(this);
       case Assessment.types.DEMO:

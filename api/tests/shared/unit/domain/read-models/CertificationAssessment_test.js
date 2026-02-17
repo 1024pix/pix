@@ -24,7 +24,7 @@ describe('Unit | Domain | Read-Models | CertificationAssessment', function () {
     });
 
     it('should init showGlobalProgression', function () {
-        expect(assessment.showGlobalProgression).to.equal(false);
+      expect(assessment.showGlobalProgression).to.equal(false);
     });
 
     it('should init hasCheckpoints', function () {

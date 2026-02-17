@@ -567,7 +567,9 @@ describe('Unit | Domain | Models | Assessment', function () {
       it('should return a CampaignAssessment', function () {
         const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
-        expect(assessment.toDto()).to.be.instanceOf(CampaignAssessment);
+        const campaignDTO = assessment.toDto(0.6);
+        expect(campaignDTO).to.be.instanceOf(CampaignAssessment);
+        expect(campaignDTO.globalProgression).equal(0.6);
       });
     });
     describe('when assessment is type DEMO', function () {

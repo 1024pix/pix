@@ -1,7 +1,7 @@
 import { Progression } from '../../../evaluation/domain/models/Progression.js';
 import { Assessment } from '../models/Assessment.js';
 class CampaignAssessment {
-  constructor(assessment) {
+  constructor(assessment, globalProgression = null) {
     this.id = assessment.id;
     this.createdAt = assessment.createdAt;
     this.codeCampaign = assessment.campaign?.code;
@@ -21,6 +21,7 @@ class CampaignAssessment {
     this.orderedChallengeIdsAnswered = assessment.answers?.map((answer) => answer.challengeId) ?? [];
     this.competenceId = assessment.competenceId;
     this.nextChallenge = assessment.nextChallenge;
+    this.globalProgression = globalProgression;
   }
 
   get progression() {

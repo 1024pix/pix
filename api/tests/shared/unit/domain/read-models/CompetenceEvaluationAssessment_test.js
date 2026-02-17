@@ -22,7 +22,7 @@ describe('Unit | Domain | Read-Models | CompetenceEvaluationAssessment', functio
     });
 
     it('should init showGlobalProgression', function () {
-        expect(assessment.showGlobalProgression).to.equal(false);
+      expect(assessment.showGlobalProgression).to.equal(false);
     });
 
     it('should init hasCheckpoints', function () {
