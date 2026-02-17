@@ -17,8 +17,8 @@ describe('Unit | Domain | Read-Models | DemoAssessment', function () {
       expect(assessment.method).to.equal(Assessment.methods.COURSE_DETERMINED);
     });
 
-    it('should init showProgressBar', function () {
-      expect(assessment.showProgressBar).to.equal(true);
+    it('should init showChallengeStepper', function () {
+      expect(assessment.showChallengeStepper).to.equal(true);
     });
 
     it('should init hasCheckpoints', function () {

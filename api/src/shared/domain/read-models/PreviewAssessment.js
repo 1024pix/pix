@@ -12,7 +12,7 @@ class PreviewAssessment {
     this.hasOngoingChallengeLiveAlert = false;
     this.hasOngoingCompanionLiveAlert = false;
     this.hasCheckpoints = false;
-    this.showProgressBar = false;
+    this.showChallengeStepper = false;
     this.showLevelup = false;
     this.showQuestionCounter = true;
     this.answers = assessment.answers;

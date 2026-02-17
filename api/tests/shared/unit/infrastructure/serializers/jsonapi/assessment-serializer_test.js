@@ -41,7 +41,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             'competence-id': assessment.competenceId,
             'last-question-state': Assessment.statesOfLastQuestion.ASKED,
             method: Assessment.methods.CERTIFICATION_DETERMINED,
-            'show-progress-bar': false,
+            'show-challenge-stepper': false,
             'show-levelup': false,
             'has-checkpoints': false,
             'show-question-counter': true,

@@ -34,7 +34,7 @@ const serialize = function (assessments) {
       'competenceId',
       'lastQuestionState',
       'method',
-      'showProgressBar',
+      'showChallengeStepper',
       'hasCheckpoints',
       'showLevelup',
       'showQuestionCounter',

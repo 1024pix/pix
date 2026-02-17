@@ -19,8 +19,8 @@ describe('Unit | Domain | Read-Models | CertificationAssessment', function () {
       expect(assessment.method).to.equal(Assessment.methods.CERTIFICATION_DETERMINED);
     });
 
-    it('should init showProgressBar', function () {
-      expect(assessment.showProgressBar).to.equal(false);
+    it('should init showChallengeStepper', function () {
+      expect(assessment.showChallengeStepper).to.equal(false);
     });
 
     it('should init hasCheckpoints', function () {

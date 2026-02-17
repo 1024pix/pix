@@ -241,7 +241,7 @@ function _adaptModelToDb(assessment) {
     'campaignCode',
     'challengeLiveAlerts',
     'companionLiveAlerts',
-    'showProgressBar',
+    'showChallengeStepper',
     'hasCheckpoints',
     'showLevelup',
     'showQuestionCounter',

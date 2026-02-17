@@ -20,8 +20,8 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
         assessment = new CampaignAssessment({ campaign });
       });
 
-      it('should init showProgressBar', function () {
-        expect(assessment.showProgressBar).to.equal(true);
+      it('should init showChallengeStepper', function () {
+        expect(assessment.showChallengeStepper).to.equal(true);
       });
 
       it('should init hasCheckpoints', function () {
@@ -48,8 +48,8 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
         assessment = new CampaignAssessment({ campaign });
       });
 
-      it('should init showProgressBar', function () {
-        expect(assessment.showProgressBar).to.equal(false);
+      it('should init showChallengeStepper', function () {
+        expect(assessment.showChallengeStepper).to.equal(false);
       });
 
       it('should init hasCheckpoints', function () {
@@ -75,8 +75,8 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
         assessment = new CampaignAssessment({ campaign: null });
       });
 
-      it('should init showProgressBar', function () {
-        expect(assessment.showProgressBar).to.equal(false);
+      it('should init showChallengeStepper', function () {
+        expect(assessment.showChallengeStepper).to.equal(false);
       });
 
       it('should init hasCheckpoints', function () {
