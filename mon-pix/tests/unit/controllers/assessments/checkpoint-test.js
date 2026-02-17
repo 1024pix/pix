@@ -42,26 +42,26 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
     });
   });
 
-  module('#completionPercentage', function () {
-    test('should equal 100 if it is the final checkpoint', function (assert) {
+  module('#completionRate', function () {
+    test('should equal 1 if it is the final checkpoint', function (assert) {
       // when
       controller.set('finalCheckpoint', true);
 
       // then
-      assert.strictEqual(controller.completionPercentage, 100);
+      assert.strictEqual(controller.completionRate, 1);
     });
 
-    test('should equal the progression completionPercentage', function (assert) {
+    test('should equal the progression completionRate', function (assert) {
       // when
       const model = EmberObject.create({
         progression: {
-          completionPercentage: 73,
+          completionRate: 0.73,
         },
       });
       controller.set('model', model);
 
       // then
-      assert.strictEqual(controller.completionPercentage, 73);
+      assert.strictEqual(controller.completionRate, 0.73);
     });
   });
 

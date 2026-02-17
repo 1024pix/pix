@@ -14,6 +14,7 @@ export default function (schema, request) {
     type: 'COMPETENCE_EVALUATION',
     hasCheckpoints: true,
     showChallengeStepper: true,
+    showGlobalProgression: false,
     showLevelup: true,
     showQuestionCounter: true,
     orderedChallengeIdsAnswered: [],

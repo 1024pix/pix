@@ -1195,7 +1195,7 @@
       },
       "completion-percentage": {
         "caption": "customised test progression",
-        "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your customised test.'</p>'"
+        "label": "'<p class=\"sr-only\">'You have completed '</p>'{completion, number, ::percent}'<p class=\"sr-only\">' of your customised test.'</p>'"
       },
       "sharing-results": {
         "information-banner": "By clicking on the ‘View my results’ button, your results will be sent to the organiser."

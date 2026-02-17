@@ -1191,7 +1191,7 @@
       },
       "completion-percentage": {
         "caption": "progreso del test",
-        "label": "'<p class=\"sr-only\">'Has completado el '</p>'{completionPercentage}%'<p class=\"sr-only\">' del test.'</p>'"
+        "label": "'<p class=\"sr-only\">'Has completado el '</p>'{completion, number, ::percent}'<p class=\"sr-only\">' del test.'</p>'"
       },
       "sharing-results": {
         "information-banner": "Al hacer clic en el botón «Ver mis resultados», sus resultados se enviarán al organizador."

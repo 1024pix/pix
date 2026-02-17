@@ -1195,7 +1195,7 @@
       },
       "completion-percentage": {
         "caption": "vooruitgang",
-        "label": "'<p class=\"sr-only\">'Je hebt '</p>'{completionPercentage}%'<p class=\"sr-only\">' van je test voltooid.'</p>'"
+        "label": "'<p class=\"sr-only\">'Je hebt '</p>'{completion, number, ::percent}'<p class=\"sr-only\">' van je test voltooid.'</p>'"
       },
       "sharing-results": {
         "information-banner": "Door op de knop \"Mijn resultaten bekijken\" te klikken, worden uw resultaten doorgestuurd naar de organisator."

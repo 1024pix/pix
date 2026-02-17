@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -23,6 +24,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         const mockAssessment = store.createRecord('assessment', {
           type: 'CAMPAIGN',
           showChallengeStepper: true,
+          showGlobalProgression: false,
           hasCheckpoints: true,
           showQuestionCounter: true,
         });
@@ -56,6 +58,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         const mockAssessment = store.createRecord('assessment', {
           type: 'CAMPAIGN',
           showChallengeStepper: true,
+          showGlobalProgression: false,
           hasCheckpoints: true,
           showQuestionCounter: false,
         });
@@ -92,6 +95,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         const mockAssessment = store.createRecord('assessment', {
           type: 'CERTIFICATION',
           showChallengeStepper: false,
+          showGlobalProgression: false,
           hasCheckpoints: false,
           showQuestionCounter: true,
           certificationCourse: store.createRecord('certification-course', {
@@ -129,6 +133,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         const mockAssessment = store.createRecord('assessment', {
           type: 'CAMPAIGN',
           showChallengeStepper: false,
+          showGlobalProgression: false,
           hasCheckpoints: false,
           showQuestionCounter: false,
         });
@@ -145,6 +150,65 @@ module('Integration | Component | progress-bar', function (hooks) {
         // then
         assert.dom(screen.queryByText('Question 3 / 15')).doesNotExist();
         assert.dom('.progress-bar-container').doesNotExist();
+      });
+      module('global progression', function () {
+        test('should not show global progression if assessment.showGlobalProgression is false', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+
+          const answers = [];
+          const mockAssessment = store.createRecord('assessment', {
+            type: 'CAMPAIGN',
+            showChallengeStepper: false,
+            showGlobalProgression: false,
+            hasCheckpoints: false,
+            showQuestionCounter: false,
+          });
+
+          mockAssessment.answers = answers;
+
+          this.set('assessment', mockAssessment);
+          this.set('currentChallengeNumber', 0);
+
+          // when
+          const screen = await render(
+            hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          );
+
+          // then
+          assert.dom(screen.queryByText('Question 3 / 15')).doesNotExist();
+          assert.dom(screen.queryByLabelText(t('pages.challenge.parts.progress'))).doesNotExist();
+        });
+        test('should display global progression if assessment.showGlobalProgression is true', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+
+          const answers = [];
+          const mockAssessment = store.createRecord('assessment', {
+            type: 'CAMPAIGN',
+            showChallengeStepper: false,
+            showGlobalProgression: true,
+            globalProgression: 0.56,
+            hasCheckpoints: false,
+            showQuestionCounter: false,
+          });
+
+          mockAssessment.answers = answers;
+
+          this.set('assessment', mockAssessment);
+          this.set('currentChallengeNumber', 0);
+
+          // when
+          const screen = await render(
+            hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('progressbar')).exists();
+
+          assert.dom(screen.queryByText(t('pages.checkpoint.completion-percentage.caption'))).exists();
+          assert.strictEqual(screen.queryByRole('progressbar').value, 0.56);
+        });
       });
     });
   });

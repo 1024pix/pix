@@ -21,6 +21,14 @@ export default Factory.extend({
     return true;
   },
 
+  showGlobalProgression() {
+    return false;
+  },
+
+  globalProgression() {
+    return 0.76;
+  },
+
   showQuestionCounter() {
     return true;
   },

@@ -45,9 +45,11 @@ export default function (schema, request) {
     codeCampaign: campaign.code,
     hasCheckpoints: campaign.type === 'ASSESSMENT',
     showChallengeStepper: campaign.type === 'ASSESSMENT',
+    showGlobalProgression: campaign.type === 'EXAM',
     showLevelup: campaign.type === 'ASSESSMENT',
     showQuestionCounter: campaign.type === 'ASSESSMENT',
     orderedChallengeIdsAnswered: [],
+    globalProgression: campaign.type === 'EXAM' ? 0.76 : undefined,
   };
 
   const assessment = schema.assessments.create(newAssessment);

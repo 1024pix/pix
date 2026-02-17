@@ -35,8 +35,8 @@ export default class CheckpointController extends Controller {
       : this.intl.t('pages.checkpoint.actions.next-page.continue');
   }
 
-  get completionPercentage() {
-    return this.finalCheckpoint ? 100 : this.model.get('progression.completionPercentage');
+  get completionRate() {
+    return this.finalCheckpoint ? 1 : this.model.get('progression.completionRate');
   }
 
   get shouldDisplayAnswers() {
