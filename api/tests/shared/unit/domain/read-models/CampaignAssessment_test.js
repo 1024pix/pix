@@ -24,6 +24,10 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
         expect(assessment.showChallengeStepper).to.equal(true);
       });
 
+      it('should init showGlobalProgression', function () {
+        expect(assessment.showGlobalProgression).to.equal(false);
+      });
+
       it('should init hasCheckpoints', function () {
         expect(assessment.hasCheckpoints).to.equal(true);
       });
@@ -52,6 +56,10 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
         expect(assessment.showChallengeStepper).to.equal(false);
       });
 
+      it('should init showGlobalProgression', function () {
+        expect(assessment.showGlobalProgression).to.equal(true);
+      });
+
       it('should init hasCheckpoints', function () {
         expect(assessment.hasCheckpoints).to.equal(false);
       });
@@ -77,6 +85,10 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
 
       it('should init showChallengeStepper', function () {
         expect(assessment.showChallengeStepper).to.equal(false);
+      });
+
+      it('should init showGlobalProgression', function () {
+        expect(assessment.showGlobalProgression).to.equal(false);
       });
 
       it('should init hasCheckpoints', function () {

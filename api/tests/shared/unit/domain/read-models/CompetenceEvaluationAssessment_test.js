@@ -21,6 +21,10 @@ describe('Unit | Domain | Read-Models | CompetenceEvaluationAssessment', functio
       expect(assessment.showChallengeStepper).to.equal(true);
     });
 
+    it('should init showGlobalProgression', function () {
+        expect(assessment.showGlobalProgression).to.equal(false);
+    });
+
     it('should init hasCheckpoints', function () {
       expect(assessment.hasCheckpoints).to.equal(true);
     });

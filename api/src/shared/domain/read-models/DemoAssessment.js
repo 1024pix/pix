@@ -14,6 +14,7 @@ class DemoAssessment {
     this.hasOngoingCompanionLiveAlert = false;
     this.hasCheckpoints = false;
     this.showChallengeStepper = true;
+    this.showGlobalProgression = false;
     this.showLevelup = false;
     this.showQuestionCounter = true;
     this.answers = assessment.answers;

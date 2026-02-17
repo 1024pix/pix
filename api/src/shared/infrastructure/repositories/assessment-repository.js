@@ -242,6 +242,7 @@ function _adaptModelToDb(assessment) {
     'challengeLiveAlerts',
     'companionLiveAlerts',
     'showChallengeStepper',
+    'showGlobalProgression',
     'hasCheckpoints',
     'showLevelup',
     'showQuestionCounter',

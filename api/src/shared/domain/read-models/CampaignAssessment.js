@@ -14,6 +14,7 @@ class CampaignAssessment {
     this.hasOngoingCompanionLiveAlert = false;
     this.hasCheckpoints = assessment.campaign?.isAssessment ?? false;
     this.showChallengeStepper = assessment.campaign?.isAssessment ?? false;
+    this.showGlobalProgression = assessment.campaign?.isExam ?? false;
     this.showLevelup = assessment.campaign?.isAssessment ?? false;
     this.showQuestionCounter = assessment.campaign?.isAssessment ?? false;
     this.answers = assessment.answers;

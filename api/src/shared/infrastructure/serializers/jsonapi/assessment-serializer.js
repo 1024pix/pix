@@ -35,6 +35,7 @@ const serialize = function (assessments) {
       'lastQuestionState',
       'method',
       'showChallengeStepper',
+      'showGlobalProgression',
       'hasCheckpoints',
       'showLevelup',
       'showQuestionCounter',

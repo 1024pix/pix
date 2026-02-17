@@ -42,6 +42,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             'last-question-state': Assessment.statesOfLastQuestion.ASKED,
             method: Assessment.methods.CERTIFICATION_DETERMINED,
             'show-challenge-stepper': false,
+            'show-global-progression': false,
             'show-levelup': false,
             'has-checkpoints': false,
             'show-question-counter': true,
