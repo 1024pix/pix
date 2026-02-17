@@ -21,7 +21,7 @@ export default Factory.extend({
           certificationNumber: certificationCourse.id,
           certificationCourse,
           hasCheckpoints: false,
-          showProgressBar: false,
+          showChallengeStepper: false,
           showLevelup: false,
           showQuestionCounter: true,
         }),

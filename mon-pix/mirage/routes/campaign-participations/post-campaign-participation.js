@@ -44,7 +44,7 @@ export default function (schema, request) {
     type: 'CAMPAIGN',
     codeCampaign: campaign.code,
     hasCheckpoints: campaign.type === 'ASSESSMENT',
-    showProgressBar: campaign.type === 'ASSESSMENT',
+    showChallengeStepper: campaign.type === 'ASSESSMENT',
     showLevelup: campaign.type === 'ASSESSMENT',
     showQuestionCounter: campaign.type === 'ASSESSMENT',
     orderedChallengeIdsAnswered: [],

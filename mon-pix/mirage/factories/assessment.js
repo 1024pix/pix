@@ -17,7 +17,7 @@ export default Factory.extend({
     return true;
   },
 
-  showProgressBar() {
+  showChallengeStepper() {
     return true;
   },
 

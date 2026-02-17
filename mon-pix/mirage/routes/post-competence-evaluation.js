@@ -13,7 +13,7 @@ export default function (schema, request) {
   const assessment = schema.assessments.create({
     type: 'COMPETENCE_EVALUATION',
     hasCheckpoints: true,
-    showProgressBar: true,
+    showChallengeStepper: true,
     showLevelup: true,
     showQuestionCounter: true,
     orderedChallengeIdsAnswered: [],

@@ -22,7 +22,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         ];
         const mockAssessment = store.createRecord('assessment', {
           type: 'CAMPAIGN',
-          showProgressBar: true,
+          showChallengeStepper: true,
           hasCheckpoints: true,
           showQuestionCounter: true,
         });
@@ -55,7 +55,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         ];
         const mockAssessment = store.createRecord('assessment', {
           type: 'CAMPAIGN',
-          showProgressBar: true,
+          showChallengeStepper: true,
           hasCheckpoints: true,
           showQuestionCounter: false,
         });
@@ -91,7 +91,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         ];
         const mockAssessment = store.createRecord('assessment', {
           type: 'CERTIFICATION',
-          showProgressBar: false,
+          showChallengeStepper: false,
           hasCheckpoints: false,
           showQuestionCounter: true,
           certificationCourse: store.createRecord('certification-course', {
@@ -128,7 +128,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         ];
         const mockAssessment = store.createRecord('assessment', {
           type: 'CAMPAIGN',
-          showProgressBar: false,
+          showChallengeStepper: false,
           hasCheckpoints: false,
           showQuestionCounter: false,
         });

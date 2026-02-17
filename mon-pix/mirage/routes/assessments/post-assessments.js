@@ -13,7 +13,7 @@ export default function (schema, request) {
       state: 'started',
       type: 'DEMO',
       hasCheckpoints: false,
-      showProgressBar: true,
+      showChallengeStepper: true,
       showLevelup: false,
       showQuestionCounter: true,
       orderedChallengeIdsAnswered: [],

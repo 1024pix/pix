@@ -8,7 +8,7 @@ import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 export default class ProgressBar extends Component {
   <template>
     <div class="assessment-progress-bar">
-      {{#if this.showProgressBar}}
+      {{#if this.showChallengeStepper}}
         <div class="progress-bar-container">
           {{#if this.showQuestionCounterInsideProgressBar}}
             <div
@@ -55,16 +55,16 @@ export default class ProgressBar extends Component {
   MINIMUM_WIDTH_STEP_IN_PERCENT = 1.7;
   MINIMUM_WIDTH_STEP_IN_PIXEL = 16;
 
-  get showProgressBar() {
-    return this.args.assessment.showProgressBar && this.media.isDesktop;
+  get showChallengeStepper() {
+    return this.args.assessment.showChallengeStepper && this.media.isDesktop;
   }
 
   get showQuestionCounterInsideProgressBar() {
-    return this.showProgressBar && this.args.assessment.showQuestionCounter;
+    return this.showChallengeStepper && this.args.assessment.showQuestionCounter;
   }
 
   get showQuestionCounterOutside() {
-    return !this.showProgressBar && this.args.assessment.showQuestionCounter;
+    return !this.showChallengeStepper && this.args.assessment.showQuestionCounter;
   }
 
   get currentStepIndex() {
