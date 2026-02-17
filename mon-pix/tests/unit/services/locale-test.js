@@ -22,7 +22,7 @@ module('Unit | Services | locale', function (hooks) {
 
   hooks.beforeEach(function () {
     localeService = this.owner.lookup('service:locale');
-    sinon.stub(localeService, 'availableLocales').value(['en', 'es', 'fr', 'nl', 'fr-BE', 'fr-FR', 'nl-BE']);
+    sinon.stub(localeService, 'availableLocales').value(['de-AT', 'en', 'es', 'fr', 'nl', 'fr-BE', 'fr-FR', 'nl-BE']);
 
     currentDomainService = this.owner.lookup('service:currentDomain');
     sinon.stub(currentDomainService, 'getExtension');
@@ -71,7 +71,7 @@ module('Unit | Services | locale', function (hooks) {
       const pixLocales = localeService.pixLocales;
 
       // then
-      assert.deepEqual(pixLocales, ['en', 'es', 'es-419', 'fr', 'nl', 'fr-BE', 'fr-FR', 'nl-BE']);
+      assert.deepEqual(pixLocales, ['de-AT', 'en', 'es', 'es-419', 'fr', 'nl', 'fr-BE', 'fr-FR', 'nl-BE']);
     });
   });
 
@@ -260,7 +260,7 @@ module('Unit | Services | locale', function (hooks) {
       const pixChallengeLocales = localeService.pixChallengeLocales;
 
       // then
-      assert.deepEqual(pixChallengeLocales, ['en', 'fr', 'fr-fr', 'nl', 'es', 'es-419', 'it', 'de']);
+      assert.deepEqual(pixChallengeLocales, ['en', 'fr', 'fr-fr', 'nl', 'es', 'es-419', 'it', 'de', 'de-AT']);
     });
   });
 

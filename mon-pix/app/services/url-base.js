@@ -57,6 +57,7 @@ export const PIX_WEBSITE_ROOT_URLS = {
   es: 'https://pix.org/en',
   'es-419': 'https://pix.org/en',
   fr: 'https://pix.org/fr',
+  'de-AT': 'https://pix.org/de-AT',
 };
 
 // Pix website paths for each supported locales

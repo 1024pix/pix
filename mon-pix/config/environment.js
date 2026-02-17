@@ -39,6 +39,7 @@ module.exports = function (environment) {
       APPLICATION_NAME: process.env.APP || 'pix-app-local',
       DEFAULT_LOCALE: process.env.DEFAULT_LOCALE || 'en',
       SUPPORTED_LOCALES: [
+        { value: 'de-AT', nativeName: 'Allemand (Autriche)', displayedInSwitcher: false },
         { value: 'en', nativeName: 'English', displayedInSwitcher: true },
         { value: 'es', nativeName: 'Español', displayedInSwitcher: false },
         { value: 'es-419', nativeName: 'Español (Latinoamérica y el Caribe)', displayedInSwitcher: true },
