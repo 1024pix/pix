@@ -494,18 +494,16 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationId = async function
 const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async function (organizationIds) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
-    .select('users.isAnonymous', 'view-active-organization-learners.organizationId')
-    .distinct('view-active-organization-learners.id')
-    .from('view-active-organization-learners')
-    .join('users', 'users.id', 'view-active-organization-learners.userId')
-    .join('campaign-participations', function () {
-      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id').andOnVal(
-        'campaign-participations.deletedAt',
-        knexConn.raw('IS'),
-        knexConn.raw('NULL'),
-      );
-    })
-    .whereIn('organizationId', organizationIds);
+    .select('users.isAnonymous', 'vaol.organizationId')
+    .from(knexConn.raw('unnest(?::int[]) AS organization(id)', [organizationIds]))
+    .join('view-active-organization-learners as vaol', 'vaol.organizationId', 'organization.id')
+    .join('users', 'users.id', 'vaol.userId')
+    .whereExists(function () {
+      this.select(1)
+        .from('campaign-participations')
+        .whereRaw('"campaign-participations"."organizationLearnerId" = vaol.id')
+        .whereNull('campaign-participations.deletedAt');
+    });
 
   const resultByOrganization = {};
 
