@@ -101,7 +101,7 @@ import { buildHint } from './build-hint.js';
 import { buildJuryCertification } from './build-jury-certification.js';
 import { buildJuryCertificationSummary } from './build-jury-certification-summary.js';
 import { buildJurySession } from './build-jury-session.js';
-import { buildKnowledgeElement } from './build-knowledge-element.js';
+import { buildKnowledgeElement, buildKnowledgeElementSnapshot } from './build-knowledge-element.js';
 import { buildLearningContent } from './build-learning-content.js';
 import { buildLegalDocument } from './build-legal-document.js';
 import { buildMembership } from './build-membership.js';
@@ -468,6 +468,7 @@ export {
   buildJuryCertificationSummary,
   buildJurySession,
   buildKnowledgeElement,
+  buildKnowledgeElementSnapshot,
   buildLearningContent,
   buildLegalDocument,
   buildMembership,

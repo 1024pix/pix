@@ -1,6 +1,9 @@
 import { usecases as certificationUsecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
+import { config } from '../../../../../src/shared/config.js';
+import { sharedUsecases } from '../../../../../src/shared/domain/usecases/index.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | assessment-controller', function () {
@@ -98,6 +101,53 @@ describe('Unit | Controller | assessment-controller', function () {
         assessmentId,
         challengeId,
       });
+    });
+  });
+
+  describe('#getAssessmentWithNextChallenge', function () {
+    it('should return progression for exam campaign', async function () {
+      // given
+      const userId = 123;
+      const assessmentId = 456;
+      const assessment = { campaign: { isExam: true } };
+      const progression = { completionRate: 0.75 };
+      const dtoStub = sinon.stub();
+      const assessmentResult = Symbol('assessment');
+      dtoStub.withArgs(progression.completionRate).returns(assessmentResult);
+      const assessmentWithChallenge = { toDto: dtoStub };
+      const serializedResult = Symbol('serialized-result');
+      const extractUserIdFromRequest = sinon.stub().returns(userId);
+
+      sinon.stub(config, 'featureToggles');
+      await featureToggles.set('enableTransactionForGetNext', false);
+
+      sinon.stub(sharedUsecases, 'getAssessment').withArgs({ assessmentId, locale: 'fr-fr' }).resolves(assessment);
+
+      sinon
+        .stub(evaluationUsecases, 'getProgression')
+        .withArgs({ progressionId: assessmentId.toString(), userId })
+        .resolves(progression);
+
+      sinon
+        .stub(sharedUsecases, 'updateAssessmentWithNextChallenge')
+        .withArgs({ assessment, userId, locale: 'fr-fr' })
+        .resolves(assessmentWithChallenge);
+
+      const assessmentSerializer = { serialize: sinon.stub() };
+      assessmentSerializer.serialize.withArgs(assessmentResult).returns(serializedResult);
+
+      const request = {
+        params: {
+          id: assessmentId,
+        },
+      };
+
+      // when
+      const result = await assessmentController.getAssessmentWithNextChallenge(request, hFake, {
+        assessmentSerializer,
+        extractUserIdFromRequest,
+      });
+      expect(result).equal(serializedResult);
     });
   });
 });

@@ -8,6 +8,7 @@ const getProgression = async function ({
   competenceEvaluationRepository,
   campaignParticipationRepository,
   knowledgeElementRepository,
+  knowledgeElementForParticipationService,
   skillRepository,
   campaignRepository,
   improvementService,
@@ -23,10 +24,14 @@ const getProgression = async function ({
     const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
 
     const skillIds = await campaignRepository.findSkillIds({ campaignId: campaignParticipation.campaignId });
-    const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({
-      userId,
-      limitDate: campaignParticipation.sharedAt,
-    });
+
+    const knowledgeElementsBeforeSharedDate =
+      await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+        userId,
+        campaignParticipationId: campaignParticipation.id,
+        limitDate: campaignParticipation.sharedAt,
+      });
+
     const isRetrying = await campaignParticipationRepository.isRetrying({
       campaignParticipationId: assessment.campaignParticipationId,
     });

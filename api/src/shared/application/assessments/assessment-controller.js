@@ -21,15 +21,28 @@ const save = async function (request, h, dependencies = { assessmentRepository }
   return h.response(assessmentSerializer.serialize(createdAssessment.toDto())).created();
 };
 
-const getAssessmentWithNextChallenge = async function (request) {
+const getAssessmentWithNextChallenge = async function (
+  request,
+  h,
+  dependencies = { assessmentSerializer, extractUserIdFromRequest },
+) {
+  let globalProgression = null;
   const assessmentId = request.params.id;
   const locale = getChallengeLocale(request);
-  const userId = extractUserIdFromRequest(request);
+  const userId = dependencies.extractUserIdFromRequest(request);
 
   const enableTransactionForGetNext = await featureToggles.get('enableTransactionForGetNext');
   if (enableTransactionForGetNext) {
     const assessment = await DomainTransaction.execute(async () => {
       const assessmentWithoutChallenge = await sharedUsecases.getAssessment({ assessmentId, locale });
+
+      if (assessmentWithoutChallenge?.campaign?.isExam) {
+        const progression = await evaluationUsecases.getProgression({
+          progressionId: assessmentId.toString(),
+          userId,
+        });
+        globalProgression = progression.completionRate;
+      }
 
       return sharedUsecases.updateAssessmentWithNextChallenge({
         assessment: assessmentWithoutChallenge,
@@ -38,17 +51,23 @@ const getAssessmentWithNextChallenge = async function (request) {
       });
     });
 
-    return assessmentSerializer.serialize(assessment.toDto());
+    return dependencies.assessmentSerializer.serialize(assessment.toDto(globalProgression));
   }
 
   const assessmentWithoutChallenge = await sharedUsecases.getAssessment({ assessmentId, locale });
+
+  if (assessmentWithoutChallenge?.campaign?.isExam) {
+    const progression = await evaluationUsecases.getProgression({ progressionId: assessmentId.toString(), userId });
+    globalProgression = progression.completionRate;
+  }
 
   const assessment = await sharedUsecases.updateAssessmentWithNextChallenge({
     assessment: assessmentWithoutChallenge,
     userId,
     locale,
   });
-  return assessmentSerializer.serialize(assessment.toDto());
+
+  return dependencies.assessmentSerializer.serialize(assessment.toDto(globalProgression));
 };
 
 const updateLastChallengeState = async function (request) {

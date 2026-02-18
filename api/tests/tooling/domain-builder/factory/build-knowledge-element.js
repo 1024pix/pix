@@ -98,4 +98,10 @@ buildKnowledgeElement.inferredValidated = function ({
   });
 };
 
-export { buildKnowledgeElement };
+const buildKnowledgeElementSnapshot = (knowledgeElement) => {
+  const { createdAt, source, status, earnedPix, skillId, competenceId } = knowledgeElement;
+
+  return { createdAt, source, status, earnedPix, skillId, competenceId };
+};
+
+export { buildKnowledgeElement, buildKnowledgeElementSnapshot };
