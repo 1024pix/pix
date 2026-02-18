@@ -1,6 +1,7 @@
 /* eslint-disable knex/avoid-injections */
 import _ from 'lodash';
 
+import { DatabaseConnection } from '../database-connection.js';
 import { databaseBuffer as defaultDatabaseBuffer, RawBufferValue } from './database-buffer.js';
 import * as databaseHelpers from './database-helpers.js';
 import { factory } from './factory/index.js';
