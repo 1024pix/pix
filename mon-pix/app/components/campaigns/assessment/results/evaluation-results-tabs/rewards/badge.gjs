@@ -1,6 +1,7 @@
 import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -10,10 +11,15 @@ import ShowMoreText from '../../../../../../components/show-more-text';
 
 export default class RewardsBadge extends Component {
   @tracked isDescriptionShrinked = true;
+  @service locale;
 
   @action
   toggleDescriptionShrink() {
     this.isDescriptionShrinked = !this.isDescriptionShrinked;
+  }
+
+  get completionRatio() {
+    return this.args.badge.acquisitionPercentage / 100;
   }
 
   <template>
@@ -47,7 +53,11 @@ export default class RewardsBadge extends Component {
           <MarkdownToHtml @markdown={{@badge.message}} @isInline={{true}} />
         </ShowMoreText>
         {{#unless @badge.isAcquired}}
-          <PixProgressBar class="evaluation-results-tab-badge__progress-bar" @value={{@badge.acquisitionPercentage}} />
+          <PixProgressBar
+            class="evaluation-results-tab-badge__progress-bar"
+            @value={{this.completionRatio}}
+            @locale={{this.locale.currentLocale}}
+          />
         {{/unless}}
       </div>
     </li>
