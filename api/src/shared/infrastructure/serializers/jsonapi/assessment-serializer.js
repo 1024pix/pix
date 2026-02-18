@@ -28,6 +28,7 @@ const serialize = function (assessments) {
       'certificationNumber',
       'hasOngoingChallengeLiveAlert',
       'hasOngoingCompanionLiveAlert',
+      'globalProgression',
       'course',
       'certificationCourse',
       'progression',

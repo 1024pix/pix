@@ -5,7 +5,7 @@ import { CampaignAssessment } from '../../../../../../src/shared/domain/read-mod
 import { CertificationAssessment } from '../../../../../../src/shared/domain/read-models/CertificationAssessment.js';
 import { CompetenceEvaluationAssessment } from '../../../../../../src/shared/domain/read-models/CompetenceEvaluationAssessment.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
-import { catchErrSync, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
   describe('#serialize', function () {
@@ -150,13 +150,55 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       });
       const campaignAssessment = new CampaignAssessment(assessment);
 
-      const expectedProgressionJson = {
-        data: {
-          id: `progression-${assessment.id}`,
-          type: 'progressions',
+      const expectedJson = {
+        type: 'assessments',
+        id: '123',
+        attributes: {
+          title: 'Parcours',
+          type: 'CAMPAIGN',
+          state: 'completed',
+          'created-at': assessment.createdAt,
+          'code-campaign': 'CAMPAGNE1',
+          'has-ongoing-challenge-live-alert': false,
+          'has-ongoing-companion-live-alert': false,
+          'global-progression': null,
+          'competence-id': null,
+          'last-question-state': 'asked',
+          method: 'SMART_RANDOM',
+          'show-challenge-stepper': true,
+          'show-global-progression': false,
+          'has-checkpoints': true,
+          'show-levelup': true,
+          'show-question-counter': true,
+          'ordered-challenge-ids-answered': ['recChallenge123'],
         },
-        links: {
-          related: `/api/progressions/progression-${assessment.id}`,
+        relationships: {
+          answers: {
+            data: [
+              {
+                id: '123',
+                type: 'answers',
+              },
+            ],
+            links: {
+              related: '/api/answers?assessmentId=123',
+            },
+          },
+          progression: {
+            data: {
+              id: `progression-${assessment.id}`,
+              type: 'progressions',
+            },
+            links: {
+              related: `/api/progressions/progression-${assessment.id}`,
+            },
+          },
+          'next-challenge': { data: null },
+          campaign: {
+            links: {
+              related: '/api/campaigns?filter[code]=CAMPAGNE1',
+            },
+          },
         },
       };
 
@@ -164,36 +206,71 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       const json = serializer.serialize(campaignAssessment);
 
       // then
-      expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
-      expect(json.data.attributes['code-campaign']).to.equal('CAMPAGNE1');
-      expect(json.data.attributes['title']).to.equal('Parcours');
+      expect(json.data).to.deep.equal(expectedJson);
     });
 
     it('should convert an exam CampaignAssessment into JSON API data', function () {
       //given
-      const clock = sinon.useFakeTimers({ now: new Date('2025-10-21T10:00:00Z'), toFake: ['Date'] });
-      const createdAtDate = new Date();
-
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
-        createdAt: createdAtDate,
+        createdAt: new Date('2025-01-01'),
         title: 'Parcours',
         campaign: domainBuilder.buildCampaign({ title: 'Parcours', code: 'CAMPAGNE1', type: CampaignTypes.EXAM }),
       });
+
       const campaignAssessment = new CampaignAssessment(assessment);
 
-      const expectedProgressionJson = { data: null };
+      // when
+      const expectedJson = {
+        type: 'assessments',
+        id: '123',
+        attributes: {
+          title: 'Parcours',
+          type: 'CAMPAIGN',
+          state: 'completed',
+          'created-at': assessment.createdAt,
+          'code-campaign': 'CAMPAGNE1',
+          'has-ongoing-challenge-live-alert': false,
+          'has-ongoing-companion-live-alert': false,
+          'global-progression': null,
+          'competence-id': null,
+          'last-question-state': 'asked',
+          method: 'SMART_RANDOM',
+          'show-challenge-stepper': false,
+          'show-global-progression': true,
+          'has-checkpoints': false,
+          'show-levelup': false,
+          'show-question-counter': false,
+          'ordered-challenge-ids-answered': ['recChallenge123'],
+        },
+        relationships: {
+          answers: {
+            data: [
+              {
+                id: '123',
+                type: 'answers',
+              },
+            ],
+            links: {
+              related: '/api/answers?assessmentId=123',
+            },
+          },
+          progression: {
+            data: null,
+          },
+          'next-challenge': { data: null },
+          campaign: {
+            links: {
+              related: '/api/campaigns?filter[code]=CAMPAGNE1',
+            },
+          },
+        },
+      };
 
       // when
       const json = serializer.serialize(campaignAssessment);
 
       // then
-      expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
-      expect(json.data.attributes['created-at']).to.deep.equal(new Date());
-      expect(json.data.attributes['has-checkpoints']).to.be.false;
-      expect(json.data.attributes['code-campaign']).to.equal('CAMPAGNE1');
-      expect(json.data.attributes['title']).to.equal('Parcours');
-
-      clock.restore();
+      expect(json.data).to.deep.equal(expectedJson);
     });
   });
 
