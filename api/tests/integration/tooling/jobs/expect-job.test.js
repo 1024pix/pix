@@ -51,10 +51,10 @@ describe('Integration | Tooling | Expect Job', function () {
       await expect('JobTest').to.have.been.performed.withJob({
         name: 'JobTest',
         data: { foo: 'bar' },
-        retrylimit: job.retry.retryLimit,
-        retrydelay: job.retry.retryDelay,
-        retrybackoff: job.retry.retryBackoff,
-        expirein: job.expireIn,
+        retryLimit: job.retry.retryLimit,
+        retryDelay: job.retry.retryDelay,
+        retryBackoff: job.retry.retryBackoff,
+        expireIn: job.expireIn,
       });
     });
 
@@ -205,6 +205,12 @@ describe('Integration | Tooling | Expect Job', function () {
         // when
         await jobQueue.scheduleCronJob({
           name: jobName,
+          cron: '*/5 * * * *',
+          data: { my_data: 'awesome_data' },
+          options: { tz: 'Europe/Paris' },
+        });
+        await jobQueue.scheduleCronJob({
+          name: 'otherJob',
           cron: '*/5 * * * *',
           data: { my_data: 'awesome_data' },
           options: { tz: 'Europe/Paris' },

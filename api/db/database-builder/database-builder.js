@@ -204,16 +204,13 @@ export class DatabaseBuilder {
 
     const publicResults = await this.knex.raw(_constructRawQuery('public'));
     const learningContentResults = await this.knex.raw(_constructRawQuery('learningcontent'));
-    const pgbossResults = await this.knex.raw(_constructRawQuery('pgboss'));
 
     this.#tablesOrderedByDependency = [
       ...publicResults.rows.map(({ table_name }) => table_name),
       ...learningContentResults.rows.map(({ table_name }) => `learningcontent.${table_name}`),
-      ...pgbossResults.rows.map(({ table_name }) => `pgboss.${table_name}`),
     ].filter((tableName) => !READONLY_TABLES.includes(tableName));
 
     this.#deletePriority = new Map(this.#tablesOrderedByDependency.map((tableName, index) => [tableName, index]));
-
     this.#insertPriority = new Map(
       this.#tablesOrderedByDependency.toReversed().map((tableName, index) => [tableName, index]),
     );
@@ -225,7 +222,6 @@ export class DatabaseBuilder {
         const tableName = databaseHelpers.getTableNameFromInsertSqlQuery(queryData.sql);
 
         if (!tableName || tableName === '') return;
-        if (tableName === 'pgboss.version') return;
 
         this.#dirtyTables.add(tableName);
       }

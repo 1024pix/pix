@@ -7,6 +7,7 @@ import { learningContentCache } from './src/shared/infrastructure/caches/learnin
 import { quitAllStorages } from './src/shared/infrastructure/key-value-storages/index.js';
 import * as prometheusPushGateway from './src/shared/infrastructure/metrics/pushgateway.js';
 import { quitMutex } from './src/shared/infrastructure/mutex/RedisMutex.js';
+import { pgBoss } from './src/shared/infrastructure/repositories/jobs/pg-boss.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 import { redisMonitor } from './src/shared/infrastructure/utils/redis-monitor.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
@@ -67,6 +68,10 @@ process.on('SIGINT', () => {
     await start();
     if (config.infra.startJobInWebProcess) {
       registerJobs({ jobGroups: [JobGroup.DEFAULT, JobGroup.FAST] });
+      import('./worker.js');
+    } else {
+      // when worker is in its own process we need to start pgBoss in server container too
+      await pgBoss.start();
     }
   } catch (error) {
     logger.error(error);

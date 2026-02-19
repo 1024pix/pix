@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../domain/errors.js';
+import { pgBoss } from './pg-boss.js';
 
 export class JobRepository {
   #schema = Joi.object({
@@ -47,24 +47,36 @@ export class JobRepository {
   #buildPayload(data) {
     return {
       name: this.name,
-      retrylimit: this.retry.retryLimit,
-      retrydelay: this.retry.retryDelay,
-      retrybackoff: this.retry.retryBackoff,
-      expirein: this.expireIn,
       data,
-      on_complete: true,
-      priority: this.priority,
+      options: {
+        retryLimit: this.retry.retryLimit,
+        retryDelay: this.retry.retryDelay,
+        retryBackoff: this.retry.retryBackoff,
+        expireInSeconds: this.expireIn,
+        onComplete: true,
+        priority: this.priority,
+      },
     };
   }
 
   async #send(jobs) {
     const knexConn = DomainTransaction.getConnection();
+    const connection = await knexConn.client.acquireConnection();
 
-    const results = await knex.batchInsert('pgboss.job', jobs).transacting(knexConn.isTransaction ? knexConn : null);
+    try {
+      const db = {
+        executeSql: (sql, values) => {
+          return connection.query(sql, values);
+        },
+      };
 
-    const rowCount = results.reduce((total, batchResult) => total + (batchResult.rowCount || 0), 0);
-
-    return { rowCount };
+      for (const job of jobs) {
+        await pgBoss.send(job.name, job.data, { ...job.options, db });
+      }
+      return { rowCount: jobs.length };
+    } finally {
+      await knexConn.client.releaseConnection(connection);
+    }
   }
 
   async performAsync(...datas) {
@@ -124,15 +136,18 @@ export const JobRetry = Object.freeze({
 });
 
 /**
- * Job expireIn. define few config to set expireIn field
+ * Job expireIn. define few config to set expireInSeconds field
  * @see https://github.com/timgit/pg-boss/blob/9.0.3/docs/readme.md#insertjobs
  * @readonly
  * @enum {string}
  */
 export const JobExpireIn = Object.freeze({
-  INFINITE: '48:00:00',
+  INFINITE: 48 * 60,
   /*
    pg-boss n'arrête pas les jobs expirés. De plus, il empile d'autres jobs par dessus et relance le job expiré, ce qui peut provoquer des états incohérents.
    Par conséquent nous définissons 48 heures comme durée maximale, ce qui fait plus que la durée maximale d'un conteneur.
    */
+  DEFAULT: 15 * 60,
+  HIGH: 30 * 60,
+  FOUR_HOURS: 4 * 60 * 60,
 });

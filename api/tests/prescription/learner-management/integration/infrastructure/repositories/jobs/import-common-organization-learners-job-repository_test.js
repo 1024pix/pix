@@ -13,9 +13,9 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | impo
 
       // then
       await expect(ImportCommonOrganizationLearnersJob.name).to.have.have.been.performed.withJob({
-        retrylimit: JobRetry.FEW_RETRY.retryLimit,
-        retrydelay: JobRetry.FEW_RETRY.retryDelay,
-        retrybackoff: JobRetry.FEW_RETRY.retryBackoff,
+        retryLimit: JobRetry.FEW_RETRY.retryLimit,
+        retryDelay: JobRetry.FEW_RETRY.retryDelay,
+        retryBackoff: JobRetry.FEW_RETRY.retryBackoff,
         data: { organizationImportId: 4123132 },
       });
     });

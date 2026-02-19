@@ -3,7 +3,6 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import _ from 'lodash';
-import PgBoss from 'pg-boss';
 
 import { databaseConnections } from './db/database-connections.js';
 import { Metrics } from './src/monitoring/infrastructure/metrics.js';
@@ -13,6 +12,7 @@ import { learningContentCache } from './src/shared/infrastructure/caches/learnin
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
 import { quitAllStorages } from './src/shared/infrastructure/key-value-storages/index.js';
 import { quitMutex } from './src/shared/infrastructure/mutex/RedisMutex.js';
+import { pgBoss } from './src/shared/infrastructure/repositories/jobs/pg-boss.js';
 import { importNamedExportFromFile } from './src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
@@ -33,13 +33,7 @@ export async function startPgBoss() {
   }
 
   logger.info('Starting pg-boss');
-  const monitorStateIntervalSeconds = config.pgBoss.monitorStateIntervalSeconds;
-  const pgBoss = new PgBoss({
-    connectionString: process.env.DATABASE_URL,
-    max: config.pgBoss.connexionPoolMaxSize,
-    ...(monitorStateIntervalSeconds ? { monitorStateIntervalSeconds } : {}),
-    archiveFailedAfterSeconds: config.pgBoss.archiveFailedAfterSeconds,
-  });
+
   pgBoss.on('monitor-states', (state) => {
     logger.info({ event: 'pg-boss-state', name: 'global' }, { ...state, queues: undefined });
     _.each(state.queues, (queueState, queueName) => {

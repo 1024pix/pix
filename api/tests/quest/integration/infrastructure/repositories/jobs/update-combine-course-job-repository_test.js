@@ -14,9 +14,9 @@ describe('Integration | Prescription | Application | Jobs | updateCombinedCourse
 
       // then
       await expect(UpdateCombineCourseJob.name).to.have.been.performed.withJob({
-        retrylimit: 0,
-        retrydelay: 0,
-        retrybackoff: false,
+        retryLimit: 0,
+        retryDelay: 0,
+        retryBackoff: false,
         data: { userId, moduleId },
       });
     });
