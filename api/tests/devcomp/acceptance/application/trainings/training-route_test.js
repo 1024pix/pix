@@ -517,7 +517,6 @@ describe('Acceptance | Controller | training-controller', function () {
           'internal-name': targetProfile.internalName,
           outdated: false,
           'created-at': undefined,
-          'can-detach': true,
           category: undefined,
           'is-part-of-combined-course': false,
         },

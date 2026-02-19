@@ -9,10 +9,6 @@ class TargetProfileSummaryForAdmin {
       this.isPartOfCombinedCourse = params.isPartOfCombinedCourse;
     }
   }
-
-  get canDetach() {
-    return true;
-  }
 }
 
 export { TargetProfileSummaryForAdmin };
