@@ -15,12 +15,8 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
         organizationId,
       });
 
-      const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
-      const secondTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
+      const firstTargetProfile = databaseBuilder.factory.buildTargetProfile();
+      const secondTargetProfile = databaseBuilder.factory.buildTargetProfile();
 
       const firstCampaign = databaseBuilder.factory.buildCampaign({
         organizationId,
@@ -100,15 +96,9 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       });
 
       // build target profiles
-      const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
-      const secondTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
-      const thirdTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
+      const firstTargetProfile = databaseBuilder.factory.buildTargetProfile();
+      const secondTargetProfile = databaseBuilder.factory.buildTargetProfile();
+      const thirdTargetProfile = databaseBuilder.factory.buildTargetProfile();
 
       // build campaigns
       const firstCampaign = databaseBuilder.factory.buildCampaign({
@@ -241,7 +231,7 @@ describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignPa
       organizationLearnerId,
       userId,
     });
-    const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+    const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
     const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
     databaseBuilder.factory.buildCampaignParticipation({
       organizationLearnerId,

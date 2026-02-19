@@ -24,7 +24,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course', fun
     const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
     const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
     const trainingId = databaseBuilder.factory.buildTraining({ type: 'modulix', link: '/modules/bac-a-sable' }).id;
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfile.id, trainingId });
 
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
@@ -88,7 +88,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course', fun
       type: 'modulix',
       link: '/modules/au-dela-des-mots-de-passe',
     }).id;
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfile.id, trainingId });
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfile.id, trainingId: training2Id });
 
@@ -141,7 +141,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course', fun
   it('should not update combined course if it not completed', async function () {
     const code = 'SOMETHING';
     const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
     const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
@@ -172,7 +172,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course', fun
   it('should not throw if combinedCourseParticipation does not exist', async function () {
     const code = 'SOMETHING';
     const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
     databaseBuilder.factory.buildCombinedCourse({
@@ -192,7 +192,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course', fun
   it('should not update combined course if it is already completed', async function () {
     const code = 'SOMETHING';
     const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
     const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({

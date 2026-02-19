@@ -61,7 +61,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       userId = organizationLearner.userId;
       organizationId = organizationLearner.organizationId;
 
-      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+      targetProfile = databaseBuilder.factory.buildTargetProfile();
       campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
       training1 = databaseBuilder.factory.buildTraining({ type: 'modulix', link: '/modules/bac-a-sable' });
@@ -273,7 +273,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
 
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
       const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
 

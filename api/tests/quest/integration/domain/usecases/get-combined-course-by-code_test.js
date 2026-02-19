@@ -33,7 +33,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
     it('should return CombinedCourse for provided code', async function () {
       nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
       const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
@@ -120,7 +120,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
     it('should return started combined course for given userId', async function () {
       nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
       const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
@@ -243,7 +243,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
 
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
       const userId = databaseBuilder.factory.buildUser().id;
 

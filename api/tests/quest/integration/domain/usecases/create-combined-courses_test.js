@@ -17,17 +17,17 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     const firstOrganizationId = databaseBuilder.factory.buildOrganization().id;
     const secondOrganizationId = databaseBuilder.factory.buildOrganization().id;
 
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: firstOrganizationId,
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
+    databaseBuilder.factory.buildTargetProfileShare({
+      organizationId: firstOrganizationId,
+      targetProfileId: targetProfile.id,
     });
     databaseBuilder.factory.buildTargetProfileShare({
       organizationId: secondOrganizationId,
       targetProfileId: targetProfile.id,
     });
 
-    const targetProfileWithTraining = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: firstOrganizationId,
-    });
+    const targetProfileWithTraining = databaseBuilder.factory.buildTargetProfile();
     const trainingId = databaseBuilder.factory.buildTraining({
       type: 'modulix',
       title: 'Demo combinix 1',

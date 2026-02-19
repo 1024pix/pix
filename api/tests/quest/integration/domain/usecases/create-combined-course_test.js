@@ -13,13 +13,9 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     const userId = databaseBuilder.factory.buildUser().id;
     const organizationId = databaseBuilder.factory.buildOrganization().id;
 
-    const targetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: organizationId,
-    });
+    const targetProfile = databaseBuilder.factory.buildTargetProfile();
 
-    const targetProfileWithTraining = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: organizationId,
-    });
+    const targetProfileWithTraining = databaseBuilder.factory.buildTargetProfile();
     const trainingId = databaseBuilder.factory.buildTraining({
       type: 'modulix',
       title: 'Demo combinix 1',

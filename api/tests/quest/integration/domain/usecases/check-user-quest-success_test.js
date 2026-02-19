@@ -59,9 +59,7 @@ describe('Integration | Quest | Domain | UseCases | check-user-quest-success', f
     const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
       organizationId,
     });
-    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: organizationId,
-    });
+    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile();
     const firstCampaign = databaseBuilder.factory.buildCampaign({
       organizationId,
       targetProfileId: firstTargetProfile.id,
@@ -117,9 +115,7 @@ describe('Integration | Quest | Domain | UseCases | check-user-quest-success', f
     const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
       organizationId,
     });
-    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: organizationId,
-    });
+    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile();
     const firstCampaign = databaseBuilder.factory.buildCampaign({
       organizationId,
       targetProfileId: firstTargetProfile.id,
@@ -175,9 +171,7 @@ describe('Integration | Quest | Domain | UseCases | check-user-quest-success', f
     const { userId } = databaseBuilder.factory.buildOrganizationLearner({
       organizationId,
     });
-    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: organizationId,
-    });
+    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile();
     const userKnowledgeElements = [
       {
         userId,
