@@ -356,6 +356,7 @@ describe('Integration | Application | campaign-api', function () {
           expect(campaign).instanceOf(SavedCampaign);
           expect(campaignDb.type).equal(CampaignTypes.ASSESSMENT);
         });
+
         it('should throw an error if allowCreationWithoutTargetProfileShare is not defined', async function () {
           const organizationWithoutProfileShareId = databaseBuilder.factory.buildOrganization().id;
           const otherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;

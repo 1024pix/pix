@@ -18,7 +18,11 @@ describe('Integration | UseCases | update-campaign-details', function () {
   beforeEach(async function () {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
-    targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+    targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    databaseBuilder.factory.buildTargetProfileShare({
+      organizationId,
+      targetProfileId,
+    });
     databaseBuilder.factory.buildMembership({ organizationId, userId });
 
     campaign = databaseBuilder.factory.buildCampaign({

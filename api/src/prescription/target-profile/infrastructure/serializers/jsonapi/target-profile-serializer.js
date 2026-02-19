@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (targetProfiles, meta) {
   return new Serializer('target-profile', {
-    attributes: ['name', 'outdated', 'ownerOrganizationId', 'isSimplifiedAccess'],
+    attributes: ['name', 'outdated', 'isSimplifiedAccess'],
     meta,
   }).serialize(targetProfiles);
 };
@@ -24,8 +24,6 @@ const deserialize = function (json) {
   if (attributes.description !== undefined) deserializedData.description = attributes.description;
   if (attributes.comment !== undefined) deserializedData.comment = attributes.comment;
   if (attributes['image-url'] !== undefined) deserializedData.imageUrl = attributes['image-url'];
-  if (attributes['owner-organization-id'] !== undefined)
-    deserializedData.ownerOrganizationId = attributes['owner-organization-id'];
   if (attributes.tubes !== undefined) deserializedData.tubes = attributes.tubes;
   if (attributes['are-knowledge-elements-resettable'] !== undefined)
     deserializedData.areKnowledgeElementsResettable = attributes['are-knowledge-elements-resettable'];

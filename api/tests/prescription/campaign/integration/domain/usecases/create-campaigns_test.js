@@ -21,11 +21,18 @@ describe('Integration | UseCases | create-campaigns', function () {
       organizationId: secondOrganizationId,
     });
 
-    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: firstOrganizationId,
+    const firstTargetProfile = databaseBuilder.factory.buildTargetProfile();
+
+    databaseBuilder.factory.buildTargetProfileShare({
+      organizationId: firstOrganizationId,
+      targetProfileId: firstTargetProfile.id,
     });
-    const secondTargetProfile = databaseBuilder.factory.buildTargetProfile({
-      ownerOrganizationId: secondOrganizationId,
+
+    const secondTargetProfile = databaseBuilder.factory.buildTargetProfile();
+
+    databaseBuilder.factory.buildTargetProfileShare({
+      organizationId: secondOrganizationId,
+      targetProfileId: secondTargetProfile.id,
     });
 
     databaseBuilder.factory.buildFeature({

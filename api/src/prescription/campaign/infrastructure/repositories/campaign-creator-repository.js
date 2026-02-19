@@ -6,13 +6,9 @@ async function get(organizationId) {
   const availableTargetProfileIds = await knexConn('target-profiles')
     .where({ outdated: false })
     .andWhere((queryBuilder) => {
-      queryBuilder
-        .where({ ownerOrganizationId: organizationId })
-        .orWhere(
-          'id',
-          'in',
-          knexConn.select('targetProfileId').from('target-profile-shares').where({ organizationId }),
-        );
+      queryBuilder.whereIn('id', (qb) => {
+        qb.select('targetProfileId').from('target-profile-shares').where({ organizationId });
+      });
     })
     .pluck('target-profiles.id');
 

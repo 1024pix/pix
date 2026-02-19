@@ -26,7 +26,6 @@ describe('Unit | UseCase | create-target-profile', function () {
       description: 'la description',
       comment: 'le commentaire',
       imageUrl: 'mon-image/stylée',
-      ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
     });
     targetProfileAdministrationRepositoryStub.create.resolves();
@@ -39,7 +38,6 @@ describe('Unit | UseCase | create-target-profile', function () {
       description: 'la description',
       comment: 'le commentaire',
       imageUrl: 'mon-image/stylée',
-      ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
       areKnowledgeElementsResettable: false,
     };
@@ -66,7 +64,6 @@ describe('Unit | UseCase | create-target-profile', function () {
       description: 'la description',
       comment: 'le commentaire',
       imageUrl: 'mon-image/stylée',
-      ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
     });
     targetProfileAdministrationRepositoryStub.create
@@ -83,7 +80,6 @@ describe('Unit | UseCase | create-target-profile', function () {
       description: 'la description',
       comment: 'le commentaire',
       imageUrl: 'mon-image/stylée',
-      ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
       areKnowledgeElementsResettable: false,
     };

@@ -32,7 +32,6 @@ const serialize = function ({ targetProfile, filter }) {
       'internalName',
       'outdated',
       'createdAt',
-      'ownerOrganizationId',
       'description',
       'comment',
       'imageUrl',

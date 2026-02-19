@@ -8,7 +8,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       // given
       const targetProfile = new TargetProfile({
         id: 132,
-        ownerOrganizationId: 12,
         name: 'Les compétences de BRO 2.0',
         outdated: true,
         isSimplifiedAccess: true,
@@ -23,7 +22,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
           attributes: {
             name: targetProfile.name,
             outdated: targetProfile.outdated,
-            'owner-organization-id': targetProfile.ownerOrganizationId,
             'is-simplified-access': targetProfile.isSimplifiedAccess,
           },
         },
@@ -65,7 +63,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             description: 'Amazing description',
             comment: 'Interesting comment',
             'image-url': 'superImage.png',
-            'owner-organization-id': 12,
             tubes: [
               { id: 'tubeId1', level: '5' },
               { id: 'tubeId2', level: '7' },
@@ -85,7 +82,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
         description: 'Amazing description',
         comment: 'Interesting comment',
         imageUrl: 'superImage.png',
-        ownerOrganizationId: 12,
         tubes: [
           { id: 'tubeId1', level: '5' },
           { id: 'tubeId2', level: '7' },

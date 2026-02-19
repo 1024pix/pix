@@ -215,7 +215,6 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
         name: 'Savoir tout faire',
         'internal-name': 'Savoir tout faire',
         outdated: false,
-        'owner-organization-id': targetProfile.ownerOrganizationId,
         'max-level': -Infinity,
       };
 
@@ -753,9 +752,12 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
       organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfile({
         id: 1,
-        ownerOrganizationId: organizationId,
         name: 'Super profil cible',
         outdated: false,
+      });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId,
+        targetProfileId: 1,
       });
       await databaseBuilder.commit();
     });
@@ -779,14 +781,11 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
 
   describe('GET /api/admin/target-profile-summaries', function () {
     let userId;
-    let organizationId;
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser.withRole().id;
-      organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfile({
         id: 1,
-        ownerOrganizationId: organizationId,
         name: 'Super profil cible',
         outdated: false,
         category: TargetProfile.categories.OTHER,
@@ -847,7 +846,6 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
               description: 'coucou maman',
               comment: 'coucou papa',
               'image-url': 'http://some/image.ok',
-              'owner-organization-id': '1',
               tubes: [{ id: 'recTube1', level: 5 }],
               'are-knowledge-elements-resettable': true,
             },

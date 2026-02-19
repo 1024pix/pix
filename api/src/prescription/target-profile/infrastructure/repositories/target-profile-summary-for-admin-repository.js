@@ -26,7 +26,6 @@ const findByTraining = async function ({ trainingId }) {
       id: 'target-profiles.id',
       internalName: 'target-profiles.internalName',
       outdated: 'target-profiles.outdated',
-      ownerOrganizationId: 'target-profiles.ownerOrganizationId',
     })
     .innerJoin('target-profile-trainings', 'target-profiles.id', 'target-profile-trainings.targetProfileId')
     .where({ trainingId })

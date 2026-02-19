@@ -75,7 +75,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
     organizationLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
       organizationId,
     });
-    targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+    targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
 
     campaignId = databaseBuilder.factory.buildCampaign({
       type: CampaignTypes.ASSESSMENT,

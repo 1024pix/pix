@@ -8,9 +8,10 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
     context('when there is one target profile', function () {
       it('returns the count of tube', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organizationId,
-        });
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
 
@@ -24,9 +25,9 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       it('returns the count of thematic results', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organizationId,
-        });
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
         databaseBuilder.factory.buildBadge({ targetProfileId });
 
         await databaseBuilder.commit();
@@ -39,9 +40,10 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       it('returns a boolean to know if target profile has stages', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organizationId,
-        });
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
         databaseBuilder.factory.buildStage({ targetProfileId });
 
         await databaseBuilder.commit();
@@ -54,10 +56,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       it('returns the target profile category', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildTargetProfile({
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({
           category: categories.CUSTOM,
-          ownerOrganizationId: organizationId,
-        });
+        }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
@@ -68,10 +71,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       it('returns the target profile description', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organizationId,
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({
           description: 'THIS IS SPARTA!',
-        });
+        }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
@@ -82,10 +86,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       it('returns the target profile areKnowledgeElementsResettable', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildTargetProfile({
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({
           areKnowledgeElementsResettable: false,
-          ownerOrganizationId: organizationId,
-        });
+        }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
@@ -100,14 +105,14 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         const { id: targetProfileId1 } = databaseBuilder.factory.buildTargetProfile({
           name: 'name1',
-          ownerOrganizationId: organizationId,
           isSimplifiedAccess: true,
         });
+
         const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile({
           name: 'name2',
-          ownerOrganizationId: organizationId,
           isSimplifiedAccess: false,
         });
+
         databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId1, organizationId });
         databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId2, organizationId });
 
@@ -146,27 +151,12 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
     });
 
-    it('returns target profile owned by the organizations', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
-      databaseBuilder.factory.buildTargetProfile();
-
-      await databaseBuilder.commit();
-
-      const [targetProfile] = await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
-
-      expect(targetProfile.id).to.equal(targetProfileId);
-    });
-
     it('returns target profile shared with the organization', async function () {
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      });
-      databaseBuilder.factory.buildTargetProfile();
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+
+      databaseBuilder.factory.buildTargetProfile();
 
       await databaseBuilder.commit();
 
@@ -179,13 +169,9 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
         outdated: true,
-        ownerOrganizationId: organizationId,
       });
+
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
-      databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-        outdated: true,
-      });
 
       await databaseBuilder.commit();
 

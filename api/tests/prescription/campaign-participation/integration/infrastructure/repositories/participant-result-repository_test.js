@@ -16,7 +16,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
 
     beforeEach(function () {
       domainBuilder.buildAssessment();
-      targetProfile = domainBuilder.buildTargetProfile({ ownerOrganizationId: null });
+      targetProfile = domainBuilder.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfile(targetProfile);
 
       const learningContent = {

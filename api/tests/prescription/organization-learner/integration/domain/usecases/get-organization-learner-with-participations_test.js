@@ -28,9 +28,7 @@ describe('Integration | UseCases | get-organization-learner-with-participations'
       for (const tag of tags) {
         databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId: tag.id });
       }
-      const firstTargetProfileId = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organization.id,
-      }).id;
+      const firstTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const firstCampaign = databaseBuilder.factory.buildCampaign({ targetProfileId: firstTargetProfileId });
       const firstCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: firstCampaign.id,
@@ -38,9 +36,7 @@ describe('Integration | UseCases | get-organization-learner-with-participations'
         organizationLearnerId,
       });
 
-      const secondTargetProfileId = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organization.id,
-      }).id;
+      const secondTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const secondCampaign = databaseBuilder.factory.buildCampaign({ targetProfileId: secondTargetProfileId });
       const secondCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: secondCampaign.id,
@@ -131,9 +127,7 @@ describe('Integration | UseCases | get-organization-learner-with-participations'
         organizationId: organization.id,
       });
 
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organization.id,
-      }).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
 
       // stages
       const stage1 = databaseBuilder.factory.buildStage({ targetProfileId: targetProfileId });

@@ -9,7 +9,6 @@ class TargetProfileForAdmin {
     internalName,
     outdated,
     createdAt,
-    ownerOrganizationId,
     description,
     comment,
     imageUrl,
@@ -32,7 +31,6 @@ class TargetProfileForAdmin {
     this.internalName = internalName;
     this.outdated = outdated;
     this.createdAt = createdAt;
-    this.ownerOrganizationId = ownerOrganizationId;
     this.description = description;
     this.comment = comment;
     this.imageUrl = imageUrl;

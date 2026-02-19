@@ -23,7 +23,11 @@ describe('Integration | UseCases | create-campaign', function () {
 
     userId = databaseBuilder.factory.buildUser().id;
 
-    targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+    targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    databaseBuilder.factory.buildTargetProfileShare({
+      organizationId,
+      targetProfileId,
+    });
 
     databaseBuilder.factory.buildMembership({
       organizationId,

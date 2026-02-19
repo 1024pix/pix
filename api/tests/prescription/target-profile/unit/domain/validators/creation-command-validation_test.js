@@ -14,7 +14,6 @@ describe('Unit | Domain | Validators | target-profile/creationCommandValidator',
         description: 'Une description',
         comment: 'Un commentaire',
         imageUrl: 'url/vers/image',
-        ownerOrganizationId: 123,
         tubes: [
           {
             id: 'recTube1',

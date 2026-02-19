@@ -1260,7 +1260,6 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
             description: 'coucou maman',
             comment: 'coucou papa',
             'image-url': 'http://some/image.ok',
-            'owner-organization-id': null,
             tubes: [{ id: 'recTube1', level: '5' }],
             'are-knowledge-elements-resettable': false,
           },

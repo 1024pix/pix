@@ -31,10 +31,7 @@ function _fetchTargetProfiles(organizationId) {
         .as('countTubes'),
     ])
     .where({ outdated: false })
-    .where((qb) => {
-      qb.orWhere({ ownerOrganizationId: organizationId });
-      qb.orWhereIn('target-profiles.id', selectTargetProfileSharesIdsBelongToOrganization);
-    })
+    .whereIn('target-profiles.id', selectTargetProfileSharesIdsBelongToOrganization)
     .groupBy('target-profiles.id');
 }
 

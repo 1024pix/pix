@@ -31,7 +31,6 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
       'target-profiles.createdAt',
       'target-profiles.description',
       'target-profiles.comment',
-      'target-profiles.ownerOrganizationId',
       'target-profiles.category',
       'target-profiles.isSimplifiedAccess',
       'target-profiles.areKnowledgeElementsResettable',
@@ -98,7 +97,6 @@ const create = async function ({ targetProfileForCreation }) {
     'description',
     'comment',
     'imageUrl',
-    'ownerOrganizationId',
     'areKnowledgeElementsResettable',
   ]);
   const [{ id: targetProfileId }] = await knexConn(TARGET_PROFILE_TABLE).insert(targetProfileRawData).returning('id');
@@ -126,7 +124,6 @@ const findByOrganization = async function ({ organizationId }) {
       id: 'target-profiles.id',
       internalName: 'target-profiles.internalName',
       outdated: 'target-profiles.outdated',
-      ownerOrganizationId: 'target-profiles.ownerOrganizationId',
       sharedOrganizationId: 'target-profile-shares.organizationId',
     })
     .leftJoin('target-profile-shares', function () {
@@ -137,10 +134,7 @@ const findByOrganization = async function ({ organizationId }) {
     })
     .where({ outdated: false })
     .where((qb) => {
-      qb.orWhere({ ownerOrganizationId: organizationId });
-      qb.orWhere((subQb) => {
-        subQb.whereNotNull('target-profile-shares.id');
-      });
+      qb.whereNotNull('target-profile-shares.id');
     })
     .orderBy('id', 'ASC');
 
@@ -286,9 +280,7 @@ async function _hasLinkedAutonomousCourse(targetProfile, hasLinkedCampaign) {
     })
     .first();
 
-  const isLinkedWithAutonomousCourseOrga =
-    targetProfile.ownerOrganizationId === constants.AUTONOMOUS_COURSES_ORGANIZATION_ID ||
-    Boolean(targetProfileSharesLinkedWithAutonomousCourseOrganization);
+  const isLinkedWithAutonomousCourseOrga = Boolean(targetProfileSharesLinkedWithAutonomousCourseOrganization);
   const isSimplifiedAccess = Boolean(targetProfile.isSimplifiedAccess);
 
   return hasLinkedCampaign && isLinkedWithAutonomousCourseOrga && isSimplifiedAccess;

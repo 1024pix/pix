@@ -5,7 +5,7 @@ describe('Acceptance | Application | target-profile-api', function () {
   describe('#getByOrganizationId', function () {
     it('should not fail', async function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
+      databaseBuilder.factory.buildTargetProfile();
 
       await databaseBuilder.commit();
 

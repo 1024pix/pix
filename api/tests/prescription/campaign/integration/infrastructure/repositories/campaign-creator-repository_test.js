@@ -10,8 +10,10 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       const { id: otherOrganizationId } = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       databaseBuilder.factory.buildMembership({ organizationId: otherOrganizationId, userId });
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId,
+        targetProfileId,
       });
       await databaseBuilder.commit();
 
@@ -66,7 +68,10 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
         const { id: organizationTargetProfileId } = databaseBuilder.factory.buildTargetProfile({
           outdated: false,
-          ownerOrganizationId: organizationId,
+        });
+        databaseBuilder.factory.buildTargetProfileShare({
+          organizationId,
+          targetProfileId: organizationTargetProfileId,
         });
 
         await databaseBuilder.commit();
@@ -81,9 +86,12 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
           const { id: organizationId } = databaseBuilder.factory.buildOrganization();
           databaseBuilder.factory.buildMembership({ organizationId, userId });
 
-          databaseBuilder.factory.buildTargetProfile({
+          const targetProfileId = databaseBuilder.factory.buildTargetProfile({
             outdated: true,
-            ownerOrganizationId: organizationId,
+          }).id;
+          databaseBuilder.factory.buildTargetProfileShare({
+            organizationId,
+            targetProfileId,
           });
           const { id: targetProfileSharedId } = databaseBuilder.factory.buildTargetProfile({
             outdated: true,

@@ -39,7 +39,6 @@ describe('Integration | Repository | Target-profile', function () {
           name: 'Mon Super Profil Cible qui déchire',
           outdated: false,
           createdAt: new Date('2020-01-01'),
-          ownerOrganizationId: 66,
           imageUrl: 'some/image/url',
           description: 'cool stuff',
           comment: 'i like it',
@@ -131,7 +130,6 @@ describe('Integration | Repository | Target-profile', function () {
           internalName: 'Mon Super Profil Cible qui déchire en interne',
           outdated: false,
           createdAt: new Date('2020-01-01'),
-          ownerOrganizationId: 66,
           imageUrl: 'some/image/url',
           description: 'cool stuff',
           comment: 'i like it',
@@ -473,7 +471,6 @@ describe('Integration | Repository | Target-profile', function () {
           internalName: targetProfileDB.internalName,
           createdAt: targetProfileDB.createdAt,
           outdated: targetProfileDB.outdated,
-          ownerOrganizationId: targetProfileDB.ownerOrganizationId,
           description: targetProfileDB.description,
           comment: targetProfileDB.comment,
           imageUrl: targetProfileDB.imageUrl,
@@ -502,7 +499,6 @@ describe('Integration | Repository | Target-profile', function () {
           name: 'Mon Super Profil Cible qui déchire',
           outdated: false,
           createdAt: new Date('2020-01-01'),
-          ownerOrganizationId: 66,
           imageUrl: 'some/image/url',
           description: 'cool stuff',
           comment: 'i like it',
@@ -629,7 +625,6 @@ describe('Integration | Repository | Target-profile', function () {
           internalName: targetProfileDB.internalName,
           createdAt: targetProfileDB.createdAt,
           outdated: targetProfileDB.outdated,
-          ownerOrganizationId: targetProfileDB.ownerOrganizationId,
           description: targetProfileDB.description,
           comment: targetProfileDB.comment,
           imageUrl: targetProfileDB.imageUrl,
@@ -768,10 +763,12 @@ describe('Integration | Repository | Target-profile', function () {
           });
 
           const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-            ownerOrganizationId: organizationId,
             isSimplifiedAccess: true,
           });
-
+          databaseBuilder.factory.buildTargetProfileShare({
+            organizationId,
+            targetProfileId,
+          });
           databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId });
 
           await databaseBuilder.commit();
@@ -793,13 +790,15 @@ describe('Integration | Repository | Target-profile', function () {
           const learningContentObjects = learningContentBuilder([learningContent]);
           await mockLearningContent(learningContentObjects);
 
-          const { id: ownerOrganizationId } = databaseBuilder.factory.buildOrganization({ id: 9999 });
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization({ id: 9999 });
 
           const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-            ownerOrganizationId,
             isSimplifiedAccess: true,
           });
-
+          databaseBuilder.factory.buildTargetProfileShare({
+            organizationId,
+            targetProfileId,
+          });
           const { id: autonomousCourseOrganizationId } = databaseBuilder.factory.buildOrganization({
             id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
           });
@@ -966,7 +965,6 @@ describe('Integration | Repository | Target-profile', function () {
     it('should create the target profile tubes in database', async function () {
       // given
       const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
-        ownerOrganizationId: null,
         tubes: [
           { id: 'recTube2', level: 5 },
           { id: 'recTube1', level: 8 },
@@ -995,7 +993,6 @@ describe('Integration | Repository | Target-profile', function () {
     it('should be transactional through DomainTransaction and do nothing if an error occurs', async function () {
       // given
       const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
-        ownerOrganizationId: null,
         tubes: [{ id: 'recTube2', level: 5 }],
       });
 
@@ -1048,7 +1045,6 @@ describe('Integration | Repository | Target-profile', function () {
         databaseBuilder.factory.buildOrganization({ id: 1 });
         databaseBuilder.factory.buildTargetProfile({
           id: 10,
-          ownerOrganizationId: 1,
           outdated: false,
         });
         await databaseBuilder.commit();
@@ -1071,7 +1067,6 @@ describe('Integration | Repository | Target-profile', function () {
           databaseBuilder.factory.buildOrganization({ id: 2 });
           databaseBuilder.factory.buildTargetProfile({
             id: 10,
-            ownerOrganizationId: 1,
             outdated: false,
           });
           await databaseBuilder.commit();
@@ -1087,70 +1082,6 @@ describe('Integration | Repository | Target-profile', function () {
       });
 
       context('when organization has some target profiles attached', function () {
-        it('should return summaries for owned target profiles', async function () {
-          // given
-          databaseBuilder.factory.buildOrganization({ id: 1 });
-          databaseBuilder.factory.buildOrganization({ id: 2 });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 11,
-            name: 'A_tp',
-            ownerOrganizationId: 1,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 10,
-            name: 'B_tp',
-            ownerOrganizationId: 1,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 12,
-            name: 'Not_Mine',
-            ownerOrganizationId: 2,
-            outdated: false,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
-            organizationId: 1,
-          });
-
-          // then
-          const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, internalName: 'B_tp', outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, internalName: 'A_tp', outdated: false }),
-          ];
-          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
-        });
-
-        it('should return once if target profile is owned and shared', async function () {
-          // given
-          databaseBuilder.factory.buildOrganization({ id: 1 });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 11,
-            internalName: 'A_tp',
-            ownerOrganizationId: 1,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildOrganization({ id: 2 });
-          databaseBuilder.factory.buildOrganization({ id: 3 });
-          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 2 });
-          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 3 });
-          await databaseBuilder.commit();
-
-          // when
-          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
-            organizationId: 1,
-          });
-
-          // then
-          const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, internalName: 'A_tp', outdated: false }),
-          ];
-          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
-        });
-
         it('should return summaries for attached target profiles', async function () {
           // given
           databaseBuilder.factory.buildOrganization({ id: 1 });
@@ -1188,45 +1119,15 @@ describe('Integration | Repository | Target-profile', function () {
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
 
-        it('should summaries target profiles belong to me', async function () {
-          // given
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildTargetProfile({
-            id: 11,
-            ownerOrganizationId: organizationId,
-            name: 'A_tp',
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 10,
-            ownerOrganizationId: organizationId,
-            name: 'B_tp',
-            outdated: false,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
-            organizationId,
-          });
-
-          // then
-          const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, internalName: 'B_tp', outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, internalName: 'A_tp', outdated: false }),
-          ];
-          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
-        });
-
         it('should ignore outdated target profiles', async function () {
           // given
           databaseBuilder.factory.buildOrganization({ id: 1 });
           databaseBuilder.factory.buildTargetProfile({
             id: 10,
-            ownerOrganizationId: 1,
             name: 'B_tp',
             outdated: true,
           });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 10, organizationId: 1 });
           await databaseBuilder.commit();
 
           // when
@@ -1244,7 +1145,6 @@ describe('Integration | Repository | Target-profile', function () {
           databaseBuilder.factory.buildTargetProfile({
             id: 11,
             name: 'B_tp',
-            ownerOrganizationId: 1,
             outdated: false,
           });
           databaseBuilder.factory.buildTargetProfile({
@@ -1257,6 +1157,8 @@ describe('Integration | Repository | Target-profile', function () {
             name: 'D_tp',
             outdated: true,
           });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 1 });
+
           databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: 1 });
           await databaseBuilder.commit();
 

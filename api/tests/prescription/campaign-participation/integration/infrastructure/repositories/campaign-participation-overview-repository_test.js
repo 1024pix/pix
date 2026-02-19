@@ -855,7 +855,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
     context('when there is an campaign of type PROFILE_COLLECTION', function () {
       it('should not keep the autonomous course from the campaign participations list', async function () {
         // given
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ ownerOrganizationId: userId });
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           organizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
@@ -884,7 +884,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
     context('when there is an campaign of type EXAM', function () {
       it('should not keep the autonomous course from the campaign participations list', async function () {
         // given
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ ownerOrganizationId: userId });
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ organizationId });
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           organizationId,

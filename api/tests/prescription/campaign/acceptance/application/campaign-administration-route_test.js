@@ -28,7 +28,12 @@ describe('Acceptance | API | campaign-administration-route', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+      });
+
       await databaseBuilder.commit();
 
       const learningContent = [
@@ -151,7 +156,12 @@ describe('Acceptance | API | campaign-administration-route', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+      });
+
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
@@ -256,7 +266,12 @@ describe('Acceptance | API | campaign-administration-route', function () {
         databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID).id;
 
         databaseBuilder.factory.buildMembership({ organizationId, userId, organizationRole: Membership.roles.ADMIN });
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildTargetProfileShare({
+          organizationId,
+          targetProfileId,
+        });
+
         await databaseBuilder.commit();
 
         const buffer = `Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Type de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire*
