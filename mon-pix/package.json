@@ -47,7 +47,7 @@
     "@1024pix/ember-testing-library": "^3.0.27",
     "@1024pix/epreuves-components": "^2.8.1",
     "@1024pix/eslint-plugin": "^2.1.17",
-    "@1024pix/pix-ui": "^59.0.0",
+    "@1024pix/pix-ui": "^58.4.9",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.25.1",
     "@babel/plugin-proposal-decorators": "^7.24.7",
