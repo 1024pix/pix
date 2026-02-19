@@ -6,7 +6,6 @@ const buildTargetProfileSummaryForAdmin = function ({
   category,
   outdated = false,
   createdAt,
-  ownerOrganizationId,
   sharedOrganizationId,
   isPartOfCombinedCourse = undefined,
 } = {}) {
@@ -16,7 +15,6 @@ const buildTargetProfileSummaryForAdmin = function ({
     outdated,
     category,
     createdAt,
-    ownerOrganizationId,
     sharedOrganizationId,
   });
   if (isPartOfCombinedCourse !== undefined) {
