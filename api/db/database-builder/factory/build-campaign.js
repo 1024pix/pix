@@ -34,9 +34,7 @@ const buildCampaign = function ({
   assessmentMethod,
 } = {}) {
   if (type === CampaignTypes.ASSESSMENT && !assessmentMethod) {
-    targetProfileId = _.isUndefined(targetProfileId)
-      ? buildTargetProfile({ ownerOrganizationId: organizationId }).id
-      : targetProfileId;
+    targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile().id : targetProfileId;
     assessmentMethod = Assessment.methods.SMART_RANDOM;
   }
 
