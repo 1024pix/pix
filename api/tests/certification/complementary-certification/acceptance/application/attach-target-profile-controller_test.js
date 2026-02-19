@@ -34,14 +34,21 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         userId: superAdmin.id,
       });
       const alreadyAttachedTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organization.id,
         id: 11,
+      });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: organization.id,
+        targetProfileId: alreadyAttachedTargetProfile.id,
       });
 
       const targetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organization.id,
         id: 12,
       });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+      });
+
       const alreadyAttachedBadge = databaseBuilder.factory.buildBadge({
         id: 999,
         targetProfileId: alreadyAttachedTargetProfile.id,
