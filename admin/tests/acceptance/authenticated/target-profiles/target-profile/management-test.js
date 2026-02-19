@@ -97,16 +97,15 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.strictEqual(termsList[0].textContent.trim(), t('pages.target-profiles.label.id'));
       assert.strictEqual(definitionsList[0].textContent.trim(), '1');
 
-      assert.strictEqual(termsList[6].textContent.trim(), t('pages.target-profiles.label.outdated'));
-      assert.strictEqual(definitionsList[6].textContent.trim(), t('common.words.no'));
+      assert.strictEqual(termsList[5].textContent.trim(), t('pages.target-profiles.label.outdated'));
+      assert.strictEqual(definitionsList[5].textContent.trim(), t('common.words.no'));
 
-      assert.strictEqual(termsList[8].textContent.trim(), t('pages.target-profiles.label.link-campaign'));
-      assert.strictEqual(definitionsList[8].textContent.trim(), t('common.words.yes'));
+      assert.strictEqual(termsList[7].textContent.trim(), t('pages.target-profiles.label.link-campaign'));
+      assert.strictEqual(definitionsList[7].textContent.trim(), t('common.words.yes'));
 
-      assert.strictEqual(termsList[9].textContent.trim(), t('pages.target-profiles.resettable-checkbox.label'));
-      assert.strictEqual(definitionsList[9].textContent.trim(), t('common.words.no'));
+      assert.strictEqual(termsList[8].textContent.trim(), t('pages.target-profiles.resettable-checkbox.label'));
+      assert.strictEqual(definitionsList[8].textContent.trim(), t('common.words.no'));
 
-      assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();
       assert.dom(screen.getByAltText('Profil cible')).exists();
@@ -129,8 +128,8 @@ module('Acceptance | Target Profile Management', function (hooks) {
       const termsList = screen.getAllByRole('term');
       const definitionsList = screen.getAllByRole('definition');
 
-      assert.strictEqual(termsList[7].textContent.trim(), t('pages.target-profiles.label.simplified-access'));
-      assert.strictEqual(definitionsList[7].textContent.trim(), t('common.words.yes'));
+      assert.strictEqual(termsList[6].textContent.trim(), t('pages.target-profiles.label.simplified-access'));
+      assert.strictEqual(definitionsList[6].textContent.trim(), t('common.words.yes'));
     });
 
     test('it should outdate target profile', async function (assert) {

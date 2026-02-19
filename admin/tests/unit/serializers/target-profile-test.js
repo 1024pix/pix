@@ -32,7 +32,6 @@ module('Unit | Serializer | Target Profile', function (hooks) {
           'image-url': targetProfileData.imageUrl,
           name: targetProfileData.name,
           'internal-name': targetProfileData.internalName,
-          'owner-organization-id': String(targetProfileData.ownerOrganizationId),
           tubes,
         });
       });
@@ -64,7 +63,6 @@ module('Unit | Serializer | Target Profile', function (hooks) {
           'image-url': targetProfileData.imageUrl,
           name: targetProfileData.name,
           'internal-name': targetProfileData.internalName,
-          'owner-organization-id': String(targetProfileData.ownerOrganizationId),
         });
       });
     });

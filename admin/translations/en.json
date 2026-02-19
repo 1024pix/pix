@@ -1551,7 +1551,6 @@
         "link-campaign": "Is associated with a campaign",
         "name": "Internal name",
         "outdated": "Outdated",
-        "owner-organization-id": "Reference organisation",
         "simplified-access": "Simplified Access"
       },
       "resettable-checkbox": {

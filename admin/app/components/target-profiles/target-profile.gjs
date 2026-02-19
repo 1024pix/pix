@@ -231,17 +231,6 @@ export default class TargetProfile extends Component {
 
             <DescriptionList.Divider />
 
-            <DescriptionList.Item @label={{t "pages.target-profiles.label.owner-organization-id"}}>
-              {{#if @model.ownerOrganizationId}}
-                <LinkTo
-                  @route="authenticated.organizations.get"
-                  @model={{@model.ownerOrganizationId}}
-                >{{@model.ownerOrganizationId}}</LinkTo>
-              {{else}}
-                Champs déprécié décommission en cours
-              {{/if}}
-            </DescriptionList.Item>
-
             <DescriptionList.Divider />
 
             <DescriptionList.Item @label={{t "pages.target-profiles.label.created-at"}}>

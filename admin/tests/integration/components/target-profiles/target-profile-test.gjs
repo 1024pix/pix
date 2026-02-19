@@ -51,23 +51,20 @@ module('Integration | Component | TargetProfile', function (hooks) {
 
         assert.strictEqual(termsList[3].textContent, t('pages.target-profiles.label.estimated-time'));
 
-        assert.strictEqual(termsList[4].textContent, t('pages.target-profiles.label.owner-organization-id'));
-        assert.strictEqual(definitionsList[4].textContent.trim(), model.ownerOrganizationId);
+        assert.strictEqual(termsList[4].textContent, t('pages.target-profiles.label.created-at'));
+        assert.strictEqual(definitionsList[4].textContent.trim(), '01/03/2024');
 
-        assert.strictEqual(termsList[5].textContent, t('pages.target-profiles.label.created-at'));
-        assert.strictEqual(definitionsList[5].textContent.trim(), '01/03/2024');
+        assert.strictEqual(termsList[5].textContent, t('pages.target-profiles.label.outdated'));
+        assert.strictEqual(definitionsList[5].textContent.trim(), t('common.words.no'));
 
-        assert.strictEqual(termsList[6].textContent, t('pages.target-profiles.label.outdated'));
+        assert.strictEqual(termsList[6].textContent, t('pages.target-profiles.label.simplified-access'));
         assert.strictEqual(definitionsList[6].textContent.trim(), t('common.words.no'));
 
-        assert.strictEqual(termsList[7].textContent, t('pages.target-profiles.label.simplified-access'));
-        assert.strictEqual(definitionsList[7].textContent.trim(), t('common.words.no'));
+        assert.strictEqual(termsList[8].textContent, t('pages.target-profiles.resettable-checkbox.label'));
+        assert.strictEqual(definitionsList[8].textContent.trim(), t('common.words.no'));
 
-        assert.strictEqual(termsList[9].textContent, t('pages.target-profiles.resettable-checkbox.label'));
-        assert.strictEqual(definitionsList[9].textContent.trim(), t('common.words.no'));
-
-        assert.strictEqual(termsList[10].textContent, t('pages.target-profiles.tubes-count'));
-        assert.strictEqual(definitionsList[10].textContent.trim(), `${model.tubesCount}`);
+        assert.strictEqual(termsList[9].textContent, t('pages.target-profiles.tubes-count'));
+        assert.strictEqual(definitionsList[9].textContent.trim(), `${model.tubesCount}`);
       });
 
       test('it should display link to a metabase dashboard', async function (assert) {
@@ -96,10 +93,10 @@ module('Integration | Component | TargetProfile', function (hooks) {
         assert.dom(screen.queryByText(t('pages.target-profiles.label.link-campaign'))).doesNotExist();
         assert.dom(screen.queryByText(t('pages.target-profiles.label.link-autonomous-course'))).doesNotExist();
         assert.strictEqual(
-          screen.getAllByRole('term')[8].textContent,
+          screen.getAllByRole('term')[7].textContent,
           t('pages.target-profiles.label.link-autonomous-course-or-campaign'),
         );
-        assert.strictEqual(screen.getAllByRole('definition')[8].textContent.trim(), t('common.words.no'));
+        assert.strictEqual(screen.getAllByRole('definition')[7].textContent.trim(), t('common.words.no'));
       });
     });
 
@@ -112,8 +109,8 @@ module('Integration | Component | TargetProfile', function (hooks) {
         const screen = await render(<template><TargetProfile @model={{model}} /></template>);
 
         // then
-        assert.strictEqual(screen.getAllByRole('term')[8].textContent, t('pages.target-profiles.label.link-campaign'));
-        assert.strictEqual(screen.getAllByRole('definition')[8].textContent.trim(), t('common.words.yes'));
+        assert.strictEqual(screen.getAllByRole('term')[7].textContent, t('pages.target-profiles.label.link-campaign'));
+        assert.strictEqual(screen.getAllByRole('definition')[7].textContent.trim(), t('common.words.yes'));
 
         assert.dom(screen.queryByText(t('pages.target-profiles.label.link-autonomous-course'))).doesNotExist();
         assert
@@ -139,14 +136,14 @@ module('Integration | Component | TargetProfile', function (hooks) {
         const termsList = screen.getAllByRole('term');
         const definitionsList = screen.getAllByRole('definition');
 
-        assert.strictEqual(termsList[7].textContent, t('pages.target-profiles.label.simplified-access'));
+        assert.strictEqual(termsList[6].textContent, t('pages.target-profiles.label.simplified-access'));
+        assert.strictEqual(definitionsList[6].textContent.trim(), t('common.words.yes'));
+
+        assert.strictEqual(termsList[7].textContent, t('pages.target-profiles.label.link-campaign'));
         assert.strictEqual(definitionsList[7].textContent.trim(), t('common.words.yes'));
 
-        assert.strictEqual(termsList[8].textContent, t('pages.target-profiles.label.link-campaign'));
+        assert.strictEqual(termsList[8].textContent, t('pages.target-profiles.label.link-autonomous-course'));
         assert.strictEqual(definitionsList[8].textContent.trim(), t('common.words.yes'));
-
-        assert.strictEqual(termsList[9].textContent, t('pages.target-profiles.label.link-autonomous-course'));
-        assert.strictEqual(definitionsList[9].textContent.trim(), t('common.words.yes'));
 
         assert
           .dom(screen.queryByText(t('pages.target-profiles.label.link-autonomous-course-or-campaign')))

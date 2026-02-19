@@ -16,19 +16,12 @@ export default class TargetProfileSerializer extends ApplicationSerializer {
           'image-url': attributes['image-url'],
           name: attributes.name,
           'internal-name': attributes['internal-name'],
-          'owner-organization-id': attributes['owner-organization-id'],
         },
       },
     };
 
     if (options?.tubes) {
       json.data.attributes.tubes = options.tubes;
-    }
-
-    const isUpdateMode = options?.update;
-
-    if (isUpdateMode) {
-      delete json.data.attributes['owner-organization-id'];
     }
 
     return json;
