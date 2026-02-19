@@ -61,7 +61,7 @@ export default class ProgressBar extends Component {
           @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
           @themeMode="dark"
         />
-        {{log @assessment.globalProgression this.globalProgressionPercentage}}
+        {{log @assessment.globalProgression "-" this.globalProgressionPercentage}}
       {{/if}}
     </div>
   </template>
@@ -72,7 +72,8 @@ export default class ProgressBar extends Component {
   MINIMUM_WIDTH_STEP_IN_PIXEL = 16;
 
   get globalProgressionPercentage() {
-    return this.args.assessment.globalProgression.toLocaleString(this.locale.currentLocale, { style: 'percent' });
+    return 0.5;
+    // return this.args.assessment.globalProgression.toLocaleString(this.locale.currentLocale, { style: 'percent' });
   }
   get showChallengeStepper() {
     return this.args.assessment.showChallengeStepper && this.media.isDesktop;
