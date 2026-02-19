@@ -97,21 +97,15 @@ module('Integration | Component | organizations/target-profiles-section', functi
     module('when detaching a target profile from an organization', function () {
       test('it should display an Actions column with a detach button', async function (assert) {
         // given
-        const publicTargetProfileSummary = store.createRecord('target-profile-summary', {
-          id: '666',
-          internalName: 'Number of The Beast',
-          canDetach: false,
-        });
         const privateTargetProfileSummary = store.createRecord('target-profile-summary', {
           id: '777',
           internalName: 'Super Lucky',
-          canDetach: true,
         });
         const organization = store.createRecord('organization', {
           id: '1',
           targetProfiles: [],
         });
-        const targetProfileSummaries = [publicTargetProfileSummary, privateTargetProfileSummary];
+        const targetProfileSummaries = [privateTargetProfileSummary];
 
         // when
         const screen = await render(
@@ -131,7 +125,6 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const targetProfileSummary = store.createRecord('target-profile-summary', {
           id: '666',
           internalName: 'Number of The Beast',
-          canDetach: true,
         });
         const organization = store.createRecord('organization', {
           id: '1',
@@ -163,7 +156,6 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const targetProfileSummary = store.createRecord('target-profile-summary', {
           id: '666',
           internalName: 'Number of The Beast',
-          canDetach: true,
         });
         const organization = store.createRecord('organization', {
           id: '1',
@@ -202,7 +194,6 @@ module('Integration | Component | organizations/target-profiles-section', functi
           store.createRecord('target-profile-summary', {
             id: '666',
             internalName: 'Number of The Beast',
-            canDetach: true,
           }),
         ];
         targetProfileSummaries.reload = sinon.stub();

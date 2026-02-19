@@ -6,7 +6,6 @@ export default class TargetProfileSummary extends Model {
   @attr() outdated;
   @attr() category;
   @attr() createdAt;
-  @attr() canDetach;
   @attr() isPartOfCombinedCourse;
 
   get translationKeyCategory() {

@@ -33,11 +33,6 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
   }
 
   @action
-  canDetachTargetProfile({ canDetach }) {
-    return canDetach;
-  }
-
-  @action
   onTargetProfilesToAttachChange(event) {
     this.targetProfilesToAttach = event.target.value;
   }
@@ -192,11 +187,9 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
                   Actions
                 </:header>
                 <:cell>
-                  {{#if (this.canDetachTargetProfile summary)}}
-                    <PixButton @variant="error" @size="small" @triggerAction={{fn this.openModal summary}}>
-                      Détacher
-                    </PixButton>
-                  {{/if}}
+                  <PixButton @variant="error" @size="small" @triggerAction={{fn this.openModal summary}}>
+                    Détacher
+                  </PixButton>
                 </:cell>
               </PixTableColumn>
             {{/if}}
