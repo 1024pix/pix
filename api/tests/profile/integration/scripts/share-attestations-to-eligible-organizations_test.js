@@ -50,13 +50,9 @@ describe('Integration | Profile | Scripts | sixth-grade-organization-share  ', f
       attestation1Id = databaseBuilder.factory.buildAttestation({ key: 'attestation1' }).id;
       attestation2Id = databaseBuilder.factory.buildAttestation({ key: 'attestation2' }).id;
 
-      targetProfile1Id = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationWithoutAttestationId,
-      }).id;
+      targetProfile1Id = databaseBuilder.factory.buildTargetProfile().id;
 
-      targetProfile2Id = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationWithoutAttestationId,
-      }).id;
+      targetProfile2Id = databaseBuilder.factory.buildTargetProfile().id;
 
       databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
