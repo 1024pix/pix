@@ -71,7 +71,10 @@ function _createComplementaryWithoutReferential(databaseBuilder) {
     name: 'Parcours complet CléA numérique V1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: CLEA_V1_TARGET_PROFILE_ID,
   });
 
   databaseBuilder.factory.buildTargetProfile({
@@ -81,8 +84,12 @@ function _createComplementaryWithoutReferential(databaseBuilder) {
     name: 'Parcours complet CléA numérique V2',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: CLEA_V2_TARGET_PROFILE_ID,
+  });
+
   [
     { tubeId: 'recs1vdbHxX8X55G9', level: 4 },
     { tubeId: 'recPOjwrHFhM21yGE', level: 4 },
@@ -262,8 +269,13 @@ function _createComplementaryWithHasComplementaryReferential(databaseBuilder) {
     name: '[Pix+Droit] Prêt pour la certification',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
+
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
+  });
+
   [
     { tubeId: 'reccqGUKgzIOK8f9U', level: 8 },
     { tubeId: 'rec4RO6t7qai3ODuJ', level: 8 },
@@ -417,7 +429,10 @@ function _createComplementaryWithHasComplementaryReferential(databaseBuilder) {
     name: '[Pix+Droit (PC 2)] Prêt pour la certification',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_2_ID,
   });
 
   databaseBuilder.factory.buildBadge({
@@ -615,8 +630,12 @@ function _createWithHasExternalJury(databaseBuilder) {
     isSimplifiedAccess: false,
     areKnowledgeElementsResettable: true,
     category: 'PREDEFINED',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
+  });
+
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
     imageUrl: null,
@@ -624,8 +643,12 @@ function _createWithHasExternalJury(databaseBuilder) {
     name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
+  });
+
   [
     { tubeId: 'rec5D8oOcnSVc1wb5', level: 6 },
     { tubeId: 'recS1VZiU2ZNQEJey', level: 6 },

@@ -190,12 +190,16 @@ async function _createCoreTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_PIX_ID,
     name: 'Profil cible Pur Pix (Niv3 ~ 5)',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description:
       'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
     configTargetProfile,
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: TARGET_PROFILE_PIX_ID,
+  });
+
   await tooling.targetProfile.createBadge({
     databaseBuilder,
     targetProfileId,
@@ -255,11 +259,15 @@ async function _createDiverseTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_PIX_AND_MORE_ID,
     name: 'Profil cible Pix et un autre réf (Niv1 ~ 8)',
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8) et des paliers SEUILS',
     configTargetProfile,
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: PRO_ORGANIZATION_ID,
+    targetProfileId: TARGET_PROFILE_PIX_AND_MORE_ID,
+  });
+
   await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId,

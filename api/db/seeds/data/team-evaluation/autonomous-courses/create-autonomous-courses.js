@@ -43,7 +43,6 @@ export default async function initUser(databaseBuilder) {
     // 3.1. Create some target-profiles owned by our specific organization
     const { targetProfileId, cappedTubesDTO } = await tooling.targetProfile.createTargetProfile({
       databaseBuilder,
-      ownerOrganizationId: specificOrganizationId,
       targetProfileId: AUTONOMOUS_COURSES_ID + i,
       isSimplifiedAccess: true,
       name: `Profil-cible pour parcours autonome n°${i}`,
@@ -65,6 +64,10 @@ export default async function initUser(databaseBuilder) {
           },
         ],
       },
+    });
+    databaseBuilder.factory.buildTargetProfileShare({
+      organizationId: specificOrganizationId,
+      targetProfileId: AUTONOMOUS_COURSES_ID + i,
     });
 
     // 3.2. Create assessment campaigns linked to those target-profiles

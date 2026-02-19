@@ -4,7 +4,6 @@ import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 export async function buildTargetProfiles({ databaseBuilder, organizationIds }) {
   const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    ownerOrganizationId: SCO_ORGANIZATION_ID,
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
     description: null,
     name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
@@ -24,7 +23,11 @@ export async function buildTargetProfiles({ databaseBuilder, organizationIds }) 
     });
   });
 
-  _buildTargetProfileShares({ databaseBuilder, organizationIds, targetProfileId });
+  _buildTargetProfileShares({
+    databaseBuilder,
+    organizationIds: [...organizationIds, SCO_ORGANIZATION_ID],
+    targetProfileId,
+  });
   await databaseBuilder.commit();
 }
 

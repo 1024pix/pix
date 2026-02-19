@@ -48,7 +48,6 @@ export default async function initUser(databaseBuilder) {
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID,
     name: 'Profil cible paliers et RT acquis',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par niveaux et avec des RT acquis, certifiables et en lacune',
     configTargetProfile: {
@@ -61,6 +60,10 @@ export default async function initUser(databaseBuilder) {
         },
       ],
     },
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID,
   });
 
   // 2. Build target-profile badges

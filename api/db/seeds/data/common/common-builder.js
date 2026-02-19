@@ -231,7 +231,6 @@ function _createPublicTargetProfile(databaseBuilder) {
   return createTargetProfile({
     databaseBuilder,
     targetProfileId: PIX_PUBLIC_TARGET_PROFILE_ID,
-    ownerOrganizationId: null,
     name: 'Profil Cible',
     configTargetProfile: {
       frameworks: [

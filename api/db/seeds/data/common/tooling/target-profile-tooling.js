@@ -14,7 +14,6 @@ const tubeIdsByFramework = {};
  * @param targetProfileId{number}
  * @param name{string}
  * @param category{string}
- * @param ownerOrganizationId{number}
  * @param isSimplifiedAccess{boolean}
  * @param description{string}
  * @param comment{string}
@@ -39,7 +38,6 @@ async function createTargetProfile({
   targetProfileId,
   name,
   category,
-  ownerOrganizationId,
   isSimplifiedAccess,
   description,
   comment,
@@ -71,7 +69,6 @@ async function createTargetProfile({
     targetProfileId,
     name,
     category,
-    ownerOrganizationId,
     isSimplifiedAccess,
     description,
     comment,
@@ -225,7 +222,6 @@ function _createTargetProfile({
   targetProfileId,
   name,
   category,
-  ownerOrganizationId,
   isSimplifiedAccess,
   description,
   comment,
@@ -238,7 +234,6 @@ function _createTargetProfile({
     id: targetProfileId,
     name,
     category,
-    ownerOrganizationId,
     isSimplifiedAccess,
     description,
     comment,

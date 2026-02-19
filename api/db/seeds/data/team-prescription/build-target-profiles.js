@@ -23,7 +23,6 @@ async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
   await createTargetProfile({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
-    ownerOrganizationId: null,
     name: 'Pix (Niv3 ~ 5) - NO Badges - NO Stages',
     isSimplifiedAccess: false,
     description: 'Pix (Niv3 ~ 5)',
@@ -46,11 +45,14 @@ async function _createTargetProfileWithBadgesStages(databaseBuilder) {
   const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
-    ownerOrganizationId: SCO_MANAGING_ORGANIZATION_ID,
     name: 'Pix (Niv1 ~ 5) - Badges - Stages',
     isSimplifiedAccess: false,
     description: 'Pix (Niv1 ~ 5)',
     configTargetProfile,
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: SCO_MANAGING_ORGANIZATION_ID,
+    targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
   });
 
   await createBadge({

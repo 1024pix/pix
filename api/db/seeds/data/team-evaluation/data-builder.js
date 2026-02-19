@@ -85,12 +85,16 @@ async function createCoreTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_PIX_ID,
     name: 'Profil cible Pur Pix (Niv3 ~ 6)',
-    ownerOrganizationId: SCO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description:
       'Profil cible pur pix (Niv3 ~ 6) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
     configTargetProfile,
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: SCO_ORGANIZATION_ID,
+    targetProfileId: TARGET_PROFILE_PIX_ID,
+  });
+
   await tooling.targetProfile.createBadge({
     databaseBuilder,
     targetProfileId,

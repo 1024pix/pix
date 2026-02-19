@@ -50,7 +50,6 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
     const { id: targetProfileId } = buildTargetProfile({
       description: combinedCourseData.targetProfile.description,
       name: combinedCourseData.targetProfile.name,
-      ownerOrganizationId: combinedCourseData.organizationId,
     });
 
     // Build stages if any

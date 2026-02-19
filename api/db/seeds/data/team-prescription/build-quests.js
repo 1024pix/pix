@@ -294,13 +294,12 @@ const buildCampaigns = async (databaseBuilder, organization) => {
   for (const configTargetProfile of TARGET_PROFILE_CONFIG) {
     const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
       databaseBuilder,
-      ownerOrganizationId: organization.id,
       name: `parcours attestation 6 eme numero ${index + 1}`,
       isSimplifiedAccess: false,
       description: `parcours attestation 6 eme numero ${index + 1}`,
       configTargetProfile,
     });
-
+    databaseBuilder.factory.buildTargetProfileShare({ organizationId: organization.id, targetProfileId });
     const campaign = await createAssessmentCampaign({
       databaseBuilder,
       targetProfileId,

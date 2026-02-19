@@ -48,7 +48,6 @@ export default async function initUser(databaseBuilder) {
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID,
     name: 'Profil cible palier par niveau à 0',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier par niveau à 0',
     configTargetProfile: {
@@ -62,11 +61,15 @@ export default async function initUser(databaseBuilder) {
       ],
     },
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID,
+  });
+
   const targetProfile2 = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID + 1,
     name: 'Profil cible paliers "Premier acquis" et un niveau à 0',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier "Premier acquis" et un niveau à 0',
     configTargetProfile: {
@@ -80,11 +83,15 @@ export default async function initUser(databaseBuilder) {
       ],
     },
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID + 1,
+  });
+
   const targetProfile3 = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID + 2,
     name: 'Profil cible paliers par niveaux',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par niveaux',
     configTargetProfile: {
@@ -98,11 +105,14 @@ export default async function initUser(databaseBuilder) {
       ],
     },
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID + 2,
+  });
   const targetProfile4 = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID + 3,
     name: 'Profil cible palier par seuil à 0',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier par seuil à 0',
     configTargetProfile: {
@@ -116,11 +126,15 @@ export default async function initUser(databaseBuilder) {
       ],
     },
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID + 3,
+  });
+
   const targetProfile5 = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID + 4,
     name: 'Profil cible paliers "Premier acquis" et un seuil à 0',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier "Premier acquis" et un niveau à 0',
     configTargetProfile: {
@@ -134,11 +148,14 @@ export default async function initUser(databaseBuilder) {
       ],
     },
   });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID + 4,
+  });
   const targetProfile6 = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID + 5,
     name: 'Profil cible paliers par seuils',
-    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par seuils',
     areKnowledgeElementsResettable: true,
@@ -152,6 +169,10 @@ export default async function initUser(databaseBuilder) {
         },
       ],
     },
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    targetProfileId: ALL_PURPOSE_ID + 5,
   });
 
   // 2. Build target-profile stages
