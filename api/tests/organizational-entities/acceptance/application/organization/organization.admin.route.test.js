@@ -65,9 +65,11 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       });
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const parentOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
-      }).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId,
+        targetProfileId,
+      });
       const organizationLearnerTypeId = databaseBuilder.factory.buildOrganizationLearnerType().id;
 
       await databaseBuilder.commit();
@@ -128,7 +130,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       expect(dataProtectionOfficers).to.have.lengthOf(2);
 
       const targetProfileShares = await knex('target-profile-shares');
-      expect(targetProfileShares).to.have.lengthOf(2);
+      expect(targetProfileShares).to.have.lengthOf(3);
 
       const firstTargetProfileShare = targetProfileShares.find(
         (targetProfileShare) => targetProfileShare.organizationId === firstOrganizationCreated.id,

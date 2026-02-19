@@ -227,7 +227,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     describe('when one provided tag is not found in database', function () {
       it('should rollback', async function () {
         // given
-        databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+        databaseBuilder.factory.buildTargetProfile({ id: 123 }).id;
         await databaseBuilder.commit();
 
         const organizationsWithTagsNotExists = [
@@ -303,7 +303,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   describe('when tags provided are found in database', function () {
     it('should add tags to created organization', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTargetProfile({ id: 123 }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       databaseBuilder.factory.buildTag({ name: 'TAG2' });
       databaseBuilder.factory.buildTag({ name: 'TAG3' });
@@ -406,7 +406,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   describe('when one provided target profile is not found in database', function () {
     it('should rollback', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTargetProfile({ id: 123 }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       await databaseBuilder.commit();
 
@@ -777,7 +777,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   describe('when target profiles provided are found in database', function () {
     it('should add target profiles to created organization', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTargetProfile({ id: 123 }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       databaseBuilder.factory.buildTag({ name: 'TAG2' });
       databaseBuilder.factory.buildTag({ name: 'TAG3' });
@@ -880,7 +880,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   describe('when role is specified', function () {
     it('should create organization invitation with role', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTargetProfile({ id: 123 }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       databaseBuilder.factory.buildTag({ name: 'TAG2' });
       databaseBuilder.factory.buildTag({ name: 'TAG3' });
@@ -1057,7 +1057,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       // given
       const externalId = 'PIX_EXT_ID';
 
-      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTargetProfile({ id: 123 }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       databaseBuilder.factory.buildOrganization({ type: 'PRO', externalId });
       await databaseBuilder.commit();
