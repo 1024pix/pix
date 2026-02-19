@@ -1,4 +1,4 @@
-import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
+// import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
 import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
@@ -48,10 +48,10 @@ export default class ProgressBar extends Component {
             {{this.maxStepsNumber}}
           </div>
         </div>
-      {{else if @assessment.showGlobalProgression}}
+        {{!-- {{else if @assessment.showGlobalProgression}}
         <PixProgressBar
           class="checkpoint__progression-gauge"
-          @value={{@assessment.globalProgression}}
+          @value={{.5}}
           @locale={{this.locale.currentLocale}}
           @label={{t
             "pages.checkpoint.completion-percentage.label"
@@ -60,7 +60,7 @@ export default class ProgressBar extends Component {
           }}
           @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
           @themeMode="dark"
-        />
+        /> --}}
       {{/if}}
     </div>
   </template>
