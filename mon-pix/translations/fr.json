@@ -1196,7 +1196,7 @@
       },
       "completion-percentage": {
         "caption": "avancement dans le parcours",
-        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completion, number, ::percent}'<p class=\"sr-only\">' de votre parcours.'</p>'"
+        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completion}'<p class=\"sr-only\">' de votre parcours.'</p>'"
       },
       "sharing-results": {
         "information-banner": "En cliquant sur le bouton \"Voir mes résultats\", vos résultats seront transmis à l'organisateur."
