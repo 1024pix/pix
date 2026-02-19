@@ -21,7 +21,6 @@ class TargetProfile {
     outdated,
     stages,
     badges,
-    ownerOrganizationId,
     description,
   } = {}) {
     this.id = id;
@@ -33,7 +32,6 @@ class TargetProfile {
     this.outdated = outdated;
     this.stages = stages;
     this.badges = badges;
-    this.ownerOrganizationId = ownerOrganizationId;
     this.description = description;
     this.organizationsAttached = [];
   }
