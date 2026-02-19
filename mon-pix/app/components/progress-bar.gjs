@@ -51,13 +51,9 @@ export default class ProgressBar extends Component {
       {{else if @assessment.showGlobalProgression}}
         <PixProgressBar
           class="checkpoint__progression-gauge"
-          @value={{this.globalProgressionPercent}}
+          @value={{@assessment.globalProgression}}
           @locale={{this.locale.currentLocale}}
-          @label={{t
-            "pages.checkpoint.completion-percentage.label"
-            completion=this.globalProgressionPercent
-            htmlSafe=true
-          }}
+          @label={{t "pages.checkpoint.completion-percentage.label" completion=0.5 htmlSafe=true}}
           @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
           @themeMode="dark"
         />
@@ -69,10 +65,6 @@ export default class ProgressBar extends Component {
 
   MINIMUM_WIDTH_STEP_IN_PERCENT = 1.7;
   MINIMUM_WIDTH_STEP_IN_PIXEL = 16;
-
-  get globalProgressionPercent() {
-    return this.args.assessment.globalProgression * 100;
-  }
 
   get showChallengeStepper() {
     return this.args.assessment.showChallengeStepper && this.media.isDesktop;
