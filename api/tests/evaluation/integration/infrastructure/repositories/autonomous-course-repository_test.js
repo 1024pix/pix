@@ -13,8 +13,10 @@ describe('Integration | Repository | Autonomous Course', function () {
         id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
       });
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId,
+        targetProfileId,
       });
 
       await databaseBuilder.commit();
@@ -45,9 +47,12 @@ describe('Integration | Repository | Autonomous Course', function () {
         id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
       });
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: organizationId,
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId,
+        targetProfileId,
       });
+
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
 
       await databaseBuilder.commit();
@@ -96,9 +101,13 @@ describe('Integration | Repository | Autonomous Course', function () {
           id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
         });
         const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organizationId,
           isSimplifiedAccess: true,
         });
+        databaseBuilder.factory.buildTargetProfileShare({
+          organizationId,
+          targetProfileId,
+        });
+
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: autonomousCourseId } = databaseBuilder.factory.buildCampaign({
           name: 'Nom interne parcours autonome',

@@ -57,8 +57,9 @@ describe('Acceptance | API | Autonomous Course', function () {
         });
         targetProfileId = databaseBuilder.factory.buildTargetProfile({
           isSimplifiedAccess: true,
-          ownerOrganizationId: organizationId,
         }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
+
         databaseBuilder.factory.buildMembership({ organizationId, userId });
 
         await databaseBuilder.commit();
@@ -111,8 +112,8 @@ describe('Acceptance | API | Autonomous Course', function () {
 
       const targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
-        ownerOrganizationId: organizationId,
       }).id;
+      databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
 
       const autonomousCourse1 = databaseBuilder.factory.buildCampaign({
         name: 'First autonomous course',
@@ -185,8 +186,9 @@ describe('Acceptance | API | Autonomous Course', function () {
       });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
-        ownerOrganizationId: organizationId,
       }).id;
+      databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
+
       await databaseBuilder.commit();
     });
 
@@ -244,8 +246,9 @@ describe('Acceptance | API | Autonomous Course', function () {
       });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
-        ownerOrganizationId: organizationId,
       }).id;
+      databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
+
       await databaseBuilder.commit();
     });
 
@@ -310,23 +313,35 @@ describe('Acceptance | API | Autonomous Course', function () {
       databaseBuilder.factory.buildMembership({ organizationId: mainOrganization.id, userId });
 
       const validTargetProfile1 = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: mainOrganization.id,
         isSimplifiedAccess: true,
+      });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: mainOrganization.id,
+        targetProfileId: validTargetProfile1.id,
       });
 
       const validTargetProfile2 = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: mainOrganization.id,
         isSimplifiedAccess: true,
+      });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: mainOrganization.id,
+        targetProfileId: validTargetProfile2.id,
       });
 
       const targetProfileFromAnotherOrganization = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: otherOrganization.id,
         isSimplifiedAccess: true,
+      });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: otherOrganization.id,
+        targetProfileId: targetProfileFromAnotherOrganization.id,
       });
 
       const targetProfileNotSimplifiedAccess = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: mainOrganization.id,
         isSimplifiedAccess: false,
+      });
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId: mainOrganization.id,
+        targetProfileId: targetProfileNotSimplifiedAccess.id,
       });
 
       targetProfiles = [

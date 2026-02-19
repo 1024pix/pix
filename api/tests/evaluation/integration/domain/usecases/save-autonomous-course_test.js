@@ -53,8 +53,10 @@ describe('Integration | Usecases | Save autonomous course', function () {
         });
         const otherOrganization = databaseBuilder.factory.buildOrganization();
 
-        const targetProfileNotOwnedByAutonomousCourse = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organization.id,
+        const targetProfileNotOwnedByAutonomousCourse = databaseBuilder.factory.buildTargetProfile({});
+        databaseBuilder.factory.buildTargetProfileShare({
+          organizationId: organization.id,
+          targetProfileId: targetProfileNotOwnedByAutonomousCourse.id,
         });
         databaseBuilder.factory.buildTargetProfileShare({
           organizationId: otherOrganization.id,
@@ -88,7 +90,6 @@ describe('Integration | Usecases | Save autonomous course', function () {
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
 
         const targetProfileOwnedByAutonomousCourseOrganization = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organization.id,
           isSimplifiedAccess: true,
         });
         databaseBuilder.factory.buildTargetProfileShare({

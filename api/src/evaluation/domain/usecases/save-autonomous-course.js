@@ -29,7 +29,7 @@ const saveAutonomousCourse = async ({
 
   const organizationIds = await targetProfileRepository.findOrganizationIds(autonomousCourse.targetProfileId);
 
-  if (![...organizationIds, targetProfile.ownerOrganizationId].includes(constants.AUTONOMOUS_COURSES_ORGANIZATION_ID)) {
+  if (!organizationIds.includes(constants.AUTONOMOUS_COURSES_ORGANIZATION_ID)) {
     throw new TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization();
   }
 
