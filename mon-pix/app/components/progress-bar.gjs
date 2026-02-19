@@ -61,6 +61,7 @@ export default class ProgressBar extends Component {
           @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
           @themeMode="dark"
         />
+        {{log @assessment.globalProgression this.globalProgressionPercentage}}
       {{/if}}
     </div>
   </template>
