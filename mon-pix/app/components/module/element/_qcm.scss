@@ -15,31 +15,6 @@
 
   &__proposals, &__short-proposals, &__3-short-proposals {
     margin: var(--pix-spacing-4x) 0;
-
-    @media (not (prefers-reduced-motion: reduce)) {
-      .pix-label-wrapped--state-success,
-      .pix-label-wrapped--state-error {
-        transition:
-          border 0.25s 0.25s,
-          color 0.25s 0.25s;
-      }
-    }
-
-    .pix-checkbox .pix-label-wrapped--state-error {
-      color: var(--pix-warning-700);
-      background-color: var(--state-background-color);
-      border-color: var(--pix-warning-700);
-
-      --state-background-color: var(--pix-warning-50);
-    }
-
-    .pix-checkbox .pix-label-wrapped--state-success {
-      color: var(--pix-success-700);
-      background-color: var(--state-background-color);
-      border-color: var(--pix-success-700);
-
-      --state-background-color: var(--pix-success-50);
-    }
   }
 
   &__short-proposals, &__3-short-proposals {
