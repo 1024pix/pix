@@ -146,7 +146,7 @@ export default class ModuleQcu extends ModuleElement {
               @value={{proposal.id}}
               @isDisabled={{this.disableInput}}
               @state={{this.getProposalState proposal.id}}
-              @variant="tile"
+              @variant="modulix"
               {{on "click" (fn this.radioClicked proposal.id)}}
             >
               <:label>
