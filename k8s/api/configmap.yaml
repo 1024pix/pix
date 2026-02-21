@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  namespace: pix
+data:
+  # Database
+  DATABASE_URL: "postgresql://postgres@postgres:5432/pix"
+  TEST_DATABASE_URL: "postgresql://postgres@postgres:5432/pix_test"
+  DATAMART_DATABASE_URL: "postgresql://postgres@postgres:5432/datamart"
+  TEST_DATAMART_DATABASE_URL: "postgresql://postgres@postgres:5432/datamart_test"
+  DATAWAREHOUSE_DATABASE_URL: "postgresql://postgres@postgres:5432/datawarehouse"
+  TEST_DATAWAREHOUSE_DATABASE_URL: "postgresql://postgres@postgres:5432/datawarehouse_test"
+
+  AUTONOMOUS_COURSES_ORGANIZATION_ID: "9000000"
+
+  # Redis
+  REDIS_URL: "redis://redis:6379"
+
+  # S3
+  S3_ENDPOINT: "http://s3-mock:9090"
+  S3_BUCKET: "pix-import-dev"
+  S3_REGION: "eu-west-1"
+
+  # Email
+  MAILING_ENABLED: "true"
+  MAILING_PROVIDER: "mailpit"
+  MAILING_SMTP_URL: "smtp://mailpit:1025/"
+
+  # Server
+  PORT: "3000"
+  LOG_LEVEL: "info"
+  LOG_ENABLED: "true"
+  LOG_FOR_HUMANS: "true"
+
+  # Security
+  AUTH_SECRET: "change-me-in-production-this-is-for-dev-only"
+
+  # Learning content (mocked)
+  LCMS_API_URL: "https://lcms.minimal.pix.fr/api"
+  LCMS_API_KEY: "e5d7b101-d0bd-4a3b-86c9-61edd5d39e8d"
+
+  # Datadog (disabled in dev)
+  DATADOG_API_KEY: "nokey"
+
+  # Feature flags
+  START_JOB_IN_WEB_PROCESS: "true"
+
+  # CORS
+  DOMAIN_PIX: "https://dev.pix"
+  DOMAIN_PIX_APP: "https://app.dev.pix"
+  DOMAIN_PIX_ORGA: "https://orga.dev.pix"
+  DOMAIN_PIX_CERTIF: "https://certif.dev.pix"
+  DOMAIN_PIX_ADMIN: "https://admin.dev.pix"
+  DOMAIN_PIX_JUNIOR: "https://junior.dev.pix"
+
+  DEBUG: "pix:oidc-providers:*"
+  OIDC_PROVIDERS: |
+    [
+      {
+        "application": "app",
+        "applicationTld": ".fr",
+        "identityProvider": "OIDC_EXAMPLE_NET_FROM_FILE-A",
+        "organizationName": "OIDC Example A from file",
+        "scope": "openid profile",
+        "slug": "file-a-oidc-example-net",
+        "source": "file-a-oidc-example-net",
+        "clientId": "a-XXX",
+        "clientSecret": "a-YYY",
+        "accessTokenLifespan": "48h",
+        "enabled": true,
+        "openidConfigurationUrl": "https://file-a.oidc.example.net/.well-known/openid-configuration",
+        "redirectUri": "https://app.dev.pix.org/connexion/file-a-oidc-example-net"
+      },
+      {
+        "application": "app",
+        "applicationTld": ".org",
+        "identityProvider": "OIDC_EXAMPLE_NET_FROM_FILE-B",
+        "organizationName": "OIDC Example B from file",
+        "scope": "openid profile",
+        "slug": "file-b-oidc-example-net",
+        "source": "file-b-oidc-example-net",
+        "clientId": "b-XXX",
+        "clientSecret": "b-YYY",
+        "accessTokenLifespan": "48h",
+        "enabled": true,
+        "openidConfigurationUrl": "https://file-b.oidc.example.net/.well-known/openid-configuration",
+        "redirectUri": "https://app.dev.pix.org/connexion/file-b-oidc-example-net"
+      },
+      {
+        "application": "orga",
+        "applicationTld": ".org",
+        "identityProvider": "OIDC_EXAMPLE_NET_FROM_FILE-B-ORGA",
+        "organizationName": "OIDC Example B from file",
+        "scope": "openid profile",
+        "slug": "file-b-oidc-example-net",
+        "source": "file-b-oidc-example-net",
+        "clientId": "b-XXX",
+        "clientSecret": "b-YYY",
+        "connectionMethodCode": "OIDC_EXAMPLE_NET_FROM_FILE-B",
+        "accessTokenLifespan": "48h",
+        "enabled": true,
+        "openidConfigurationUrl": "https://file-b.oidc.example.net/.well-known/openid-configuration",
+        "redirectUri": "https://app.dev.pix.org/connexion/file-b-oidc-example-net"
+      },
+      {
+        "identityProvider": "OIDC_EXAMPLE_NET_FROM_FILE-C",
+        "application": "app",
+        "applicationTld": ".org",
+        "organizationName": "OIDC Example C from file",
+        "scope": "openid profile",
+        "slug": "file-c-oidc-example-net",
+        "source": "file-c-oidc-example-net",
+        "clientId": "c-XXX",
+        "clientSecret": "c-YYY",
+        "accessTokenLifespan": "48h",
+        "enabled": true,
+        "openidConfigurationUrl": "https://file-c.oidc.example.net/.well-known/openid-configuration",
+        "redirectUri": "https://app.dev.pix.org/connexion/file-c-oidc-example-net",
+        "isVisible": false
+      }
+    ]

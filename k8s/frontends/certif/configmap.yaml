@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certif-config
+  namespace: pix
+data:
+  API_HOST: "https://pix-api.ccaya.cc"
+  APP: "pix-certif-local"
+  DEFAULT_LOCALE: "fr"
+  PIX_APP_URL_WITHOUT_EXTENSION: "https://pix-app.ccaya."
