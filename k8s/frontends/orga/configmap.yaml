@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orga-config
+  namespace: pix
+data:
+  API_HOST: "https://pix-api.ccaya.cc"
+  APP: "pix-orga-local"
+  DEFAULT_LOCALE: "fr"
+  PIX_APP_URL_WITHOUT_EXTENSION: "https://pix-app.ccaya."

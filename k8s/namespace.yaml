@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pix
+  labels:
+    app.kubernetes.io/name: pix
+    app.kubernetes.io/part-of: pix
