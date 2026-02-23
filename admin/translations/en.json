@@ -493,7 +493,8 @@
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
-        "target-profile": "Target profile"
+        "target-profile": "Target profile",
+        "questId": "Id de la quête"
       },
       "list": {
         "content": "Content",

@@ -494,7 +494,8 @@
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
-        "target-profile": "Profil cible"
+        "target-profile": "Profil cible",
+        "questId": "Id de la quête"
       },
       "list": {
         "content": "Contenu",
