@@ -26,6 +26,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         createdAt: new Date('2024-01-25'),
         updatedAt: new Date('2024-01-26'),
         organizationIds: [],
+        questId: 1,
       };
       // when
       const blueprint = new CombinedCourseBlueprint(values);

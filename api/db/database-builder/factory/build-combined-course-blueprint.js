@@ -9,6 +9,7 @@ const buildCombinedCourseBlueprint = function ({
   createdAt = new Date(),
   updatedAt,
   content = [],
+  questId,
 } = {}) {
   const values = {
     id,
@@ -19,6 +20,7 @@ const buildCombinedCourseBlueprint = function ({
     createdAt,
     updatedAt: updatedAt ?? createdAt,
     content: JSON.stringify(content),
+    questId,
   };
 
   return databaseBuffer.pushInsertable({

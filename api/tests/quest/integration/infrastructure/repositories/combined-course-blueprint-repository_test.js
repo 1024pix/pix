@@ -7,6 +7,8 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
   describe('#save', function () {
     it('should create a combined course blueprint', async function () {
       // given
+      await databaseBuilder.factory.buildQuest({ id: 1 });
+
       const combinedCourseBlueprint = {
         name: 'Combined course IA',
         internalName: 'Ia combined course blueprint',
@@ -17,6 +19,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         questId: 1,
       };
 
+      await databaseBuilder.commit();
       // when
       const savedCombinedCourseBlueprint = await combinedCourseBluePrintRepository.save({ combinedCourseBlueprint });
 

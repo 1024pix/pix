@@ -16,6 +16,7 @@ export class CombinedCourseBlueprint {
     createdAt,
     updatedAt,
     organizationIds = [],
+    questId = null,
   }) {
     this.id = id;
     this.name = name;
@@ -26,6 +27,7 @@ export class CombinedCourseBlueprint {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.organizationIds = organizationIds;
+    this.questId = questId;
   }
 
   get targetProfileIds() {
@@ -61,6 +63,7 @@ export class CombinedCourseBlueprint {
     const createdAt = new Date();
 
     const quest = new Quest({
+      id: this.questId,
       createdAt: createdAt,
       updatedAt: createdAt,
       rewardType: null,
