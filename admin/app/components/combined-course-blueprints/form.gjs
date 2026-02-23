@@ -224,6 +224,17 @@ export default class CombineCourseBluePrintForm extends Component {
           </:label>
         </PixInput>
 
+        <PixInput
+          @id="questId"
+          @value={{this.questId}}
+          {{on "change" (fn this.setData "questId")}}
+          class="combined-course-page__input"
+        >
+          <:label>
+            {{t "components.combined-course-blueprints.labels.questId"}}
+
+          </:label>
+        </PixInput>
         <PixTextarea
           @id="description"
           @value={{this.description}}

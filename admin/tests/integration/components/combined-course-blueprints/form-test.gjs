@@ -56,6 +56,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       'illustrations/hello.svg',
     );
 
+    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.questId'), { exact: false }), 1);
+
     await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
 
     await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
@@ -65,6 +67,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
     assert.ok(blueprintStub.save.calledOnce);
     assert.strictEqual(blueprintStub.name, 'name');
     assert.strictEqual(blueprintStub.internalName, 'internalName');
+    assert.strictEqual(blueprintStub.questId, '1');
     assert.deepEqual(blueprintStub.content, [
       { type: 'evaluation', value: 1, label: 'super pc' },
       { type: 'module', value: 'module-123', label: 'module 123' },
