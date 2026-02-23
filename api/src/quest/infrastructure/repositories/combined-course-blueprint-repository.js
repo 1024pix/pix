@@ -111,6 +111,7 @@ function _toDTO({ combinedCourseBlueprint }) {
     content: JSON.stringify(combinedCourseBlueprint.content),
     createdAt: combinedCourseBlueprint.createdAt,
     updatedAt: combinedCourseBlueprint.updatedAt,
+    questId: combinedCourseBlueprint.questId,
   };
 }
 
@@ -125,6 +126,7 @@ function _toDomain(rawData) {
     createdAt: rawData.createdAt,
     updatedAt: rawData.updatedAt,
     organizationIds: rawData.organizationIds,
+    questId: rawData.questId,
   });
 }
 
@@ -139,5 +141,6 @@ function _buildSelectFields(knexConn) {
     createdAt: 'combined_course_blueprints.createdAt',
     updatedAt: 'combined_course_blueprints.updatedAt',
     organizationIds: knexConn.raw(`array_remove(array_agg("combined_course_blueprint_shares"."organizationId"), NULL)`),
+    questId: 'combined_course_blueprints.questId',
   };
 }

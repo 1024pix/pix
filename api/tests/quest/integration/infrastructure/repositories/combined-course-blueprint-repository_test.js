@@ -14,6 +14,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         illustration: 'illustration/ia.svg',
         content: CombinedCourseBlueprint.buildContentItems([{ moduleShortId: 'modulix' }]),
         organizationIds: [],
+        questId: 1,
       };
 
       // when
