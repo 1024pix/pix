@@ -44,10 +44,6 @@ export default class ModuleQcu extends ModuleElement {
 
   @action
   getProposalState(proposalId) {
-    if (!this.correction) {
-      return null;
-    }
-
     if (this.selectedAnswerId !== proposalId || !this.displayFeedbackState) {
       return 'neutral';
     }
