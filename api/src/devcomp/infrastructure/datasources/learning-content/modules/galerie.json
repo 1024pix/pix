@@ -30,6 +30,18 @@
                 "type": "text",
                 "content": "<p><strong>Bienvenue dans la galerie Modulix !</strong></p><p>Découvrez la palette des éléments à la disposition des créateurs de module.</p>"
               }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "9733e41d-2253-4d42-9883-8ee7001654ca",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/nouvo_docier/jodit-test.jpg",
+                "alt": "Puzzle Buachaille Etive Mòr",
+                "alternativeText": "PuzzleBuachaille Etive Mòr",
+                "legend": "Magnifique puzzle complété par des personnes passionnées. Le brut force a été utilisé",
+                "licence": "©Pix Corporation & Fun, 2026, Challenge Accepted Inc. "
+              }
             }
           ]
         },
