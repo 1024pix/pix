@@ -91,6 +91,23 @@ executors:
         environment:
           - initialBuckets=pix-import-test
     resource_class: medium
+  node-redis-postgres-s3-docker-large:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 24.11.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+      - image: postgres:16.9-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:7.2.11-alpine
+      - image: adobe/s3mock:4.11.0
+        environment:
+          - initialBuckets=pix-import-test
+    resource_class: large
   node-browsers-docker:
     parameters:
       node-version:
@@ -1200,7 +1217,7 @@ jobs:
 
   e2e_playwright_test_recette_certif:
     executor:
-      name: node-redis-postgres-s3-docker-medium
+      name: node-redis-postgres-s3-docker-large
     working_directory: ~/pix/high-level-tests/e2e-playwright
     parallelism: 4
     steps:
