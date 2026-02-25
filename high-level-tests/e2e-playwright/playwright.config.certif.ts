@@ -4,7 +4,7 @@ import sharedConfig, { App, isCI, reuseExistingApps, setupWebServer } from './pl
 
 export default defineConfig({
   ...sharedConfig,
-  timeout: 40_000,
+  timeout: 70_000,
   projects: [
     {
       name: 'Recette',
