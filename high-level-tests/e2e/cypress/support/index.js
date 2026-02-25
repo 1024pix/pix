@@ -15,7 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
-import 'cypress-axe';
 import { disableAnimation } from "./disable-animation";
 
 // Alternatively you can use CommonJS syntax:
