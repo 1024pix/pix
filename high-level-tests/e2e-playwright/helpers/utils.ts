@@ -75,3 +75,22 @@ export function normalizeWhitespace(str: string): string {
 export function sanitizeFilename(name: string) {
   return name.replace(/[^a-z0-9_\-.]/gi, '_');
 }
+
+export async function disableAnimation(page: Page) {
+  // Disable all CSS animations and transitions
+  await page.addInitScript(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+    *,*::before,*::after{
+      animation-duration:0s!important;
+      transition-duration:0s!important;
+    }
+  `;
+    document.head.appendChild(style);
+  });
+}
+
+export const A11Y_VIEWPORTS = [
+  { width: 350, height: 667 },
+  { width: 1280, height: 800 },
+];
