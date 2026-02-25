@@ -60,7 +60,7 @@ test(
         await page.getByRole('link', { name: 'Commencer' }).click();
 
         await test.step(`"${competenceTitle}" answering right or wrong according to pattern`, async () => {
-          while (!page.url().endsWith('/checkpoint?finalCheckpoint=true')) {
+          while (!page.url().includes('finalCheckpoint=true')) {
             const challengePage = new ChallengePage(page);
             const challengeImprint = await challengePage.getChallengeImprint();
             snapshotHandler.push('challenge imprint to have value', challengeImprint);

@@ -57,7 +57,7 @@ test('Assessment campaign', async ({ page }) => {
     await startCampaignPage.goToFirstChallenge(campaignCode);
 
     await test.step(`answering right or wrong according to pattern`, async () => {
-      while (!page.url().endsWith('/checkpoint?finalCheckpoint=true')) {
+      while (!page.url().includes('finalCheckpoint=true')) {
         const challengePage = new ChallengePage(page);
         await challengePage.setRightOrWrongAnswer(rightWrongAnswerCycleIter.next().value as boolean);
         await challengePage.validateAnswer();
