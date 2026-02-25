@@ -11,6 +11,12 @@ const routes = [
   { path: '/competences', title: 'Compétences | Pix' },
   { path: '/mes-certifications', title: 'Mes certifications | Pix' },
   { path: '/mes-formations', title: 'Mes formations | Pix' },
+  { path: '/mon-compte/informations-personnelles', title: 'Mon compte | Pix' },
+  { path: '/mon-compte/langue', title: 'Mon compte | Pix' },
+  { path: '/mon-compte/methodes-de-connexion', title: 'Mon compte | Pix' },
+  { path: '/plan-du-site', title: 'Plan du site | Pix' },
+  { path: '/mes-tutos/recommandes', title: 'Mes tutoriels | Pix' },
+  { path: '/mes-tutos/enregistres', title: 'Mes tutoriels | Pix' },
 ];
 
 test.describe('Check a11y for authenticated pages', () => {
