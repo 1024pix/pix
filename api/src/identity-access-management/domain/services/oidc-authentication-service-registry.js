@@ -1,3 +1,5 @@
+import { locks } from 'node:worker_threads';
+
 import { InvalidIdentityProviderError } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
@@ -53,45 +55,65 @@ export class OidcAuthenticationServiceRegistry {
     }
   }
 
-  async #configureReadyOidcProviderServiceByCode(oidcProviderServiceCode) {
-    const oidcProviderService = this.#allOidcProviderServices?.find(
-      (oidcProviderService) => oidcProviderService.code === oidcProviderServiceCode,
-    );
+  async #configureReadyOidcProviderServiceByCode(identityProviderCode) {
+    const lockName = `configureReadyOidcProviderServiceByCode-${identityProviderCode}`;
+    await locks.request(lockName, async () => {
+      // The lock has been acquired.
+      // eslint-disable-next-line no-console
+      console.log(`lock ${lockName} has been acquired↑↑↑`);
+      const oidcProviderService = this.#allOidcProviderServices?.find(
+        (oidcProviderService) => oidcProviderService.code === identityProviderCode,
+      );
 
-    if (!oidcProviderService) return;
+      if (!oidcProviderService) return;
 
-    await oidcProviderService.initializeClientConfig();
+      await oidcProviderService.initializeClientConfig();
+    });
+    // The lock has been released here.
+    // eslint-disable-next-line no-console
+    console.log(`lock ${lockName} has been released↓↓↓`);
   }
 
   async #loadAllOidcProviderServices(oidcProviderServices) {
-    if (this.#allOidcProviderServices) {
-      return;
-    }
+    const lockName = 'loadAllOidcProviderServices';
+    await locks.request(lockName, async () => {
+      // The lock has been acquired.
+      // eslint-disable-next-line no-console
+      console.log(`lock ${lockName} has been acquired↑↑↑`);
 
-    if (!oidcProviderServices) {
-      const oidcProviders = await this.oidcProviderRepository.findAllOidcProviders();
+      if (this.#allOidcProviderServices) {
+        return;
+      }
 
-      oidcProviderServices = await PromiseUtils.mapSeries(oidcProviders, async (oidcProvider) => {
-        await oidcProvider.decryptClientSecret(cryptoService);
-        switch (oidcProvider.identityProvider) {
-          case 'FWB':
-            return new FwbOidcAuthenticationService(oidcProvider);
-          case 'POLE_EMPLOI':
-            return new PoleEmploiOidcAuthenticationService(oidcProvider);
-          default:
-            return new OidcAuthenticationService(oidcProvider);
-        }
-      });
-    }
+      if (!oidcProviderServices) {
+        const oidcProviders = await this.oidcProviderRepository.findAllOidcProviders();
 
-    this.#allOidcProviderServices = oidcProviderServices;
+        oidcProviderServices = await PromiseUtils.mapSeries(oidcProviders, async (oidcProvider) => {
+          await oidcProvider.decryptClientSecret(cryptoService);
+          switch (oidcProvider.identityProvider) {
+            case 'FWB':
+              return new FwbOidcAuthenticationService(oidcProvider);
+            case 'POLE_EMPLOI':
+              return new PoleEmploiOidcAuthenticationService(oidcProvider);
+            default:
+              return new OidcAuthenticationService(oidcProvider);
+          }
+        });
+      }
 
-    this.#readyOidcProviderServicesByRequestedApplications = Object.groupBy(
-      this.#allOidcProviderServices.filter(
-        (oidcProviderService) => oidcProviderService.isReady || oidcProviderService.isReadyForPixAdmin,
-      ),
-      (oidcProviderService) => generateGroupByKey(oidcProviderService.application, oidcProviderService.applicationTld),
-    );
+      this.#allOidcProviderServices = oidcProviderServices;
+
+      this.#readyOidcProviderServicesByRequestedApplications = Object.groupBy(
+        this.#allOidcProviderServices.filter(
+          (oidcProviderService) => oidcProviderService.isReady || oidcProviderService.isReadyForPixAdmin,
+        ),
+        (oidcProviderService) =>
+          generateGroupByKey(oidcProviderService.application, oidcProviderService.applicationTld),
+      );
+    });
+    // The lock has been released here.
+    // eslint-disable-next-line no-console
+    console.log(`lock ${lockName} has been released↓↓↓`);
   }
 }
 
