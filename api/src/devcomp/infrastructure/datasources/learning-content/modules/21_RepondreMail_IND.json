@@ -514,21 +514,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "11c07731-a746-4ad2-a103-38eae5e75f3e",
-      "type": "retain-the-essentials",
-      "grains": []
-    },
-    {
-      "id": "ef0b8c81-0ee7-45ba-bfec-e975ed3e53ac",
-      "type": "practise",
-      "grains": []
-    },
-    {
-      "id": "a3d83fe7-56e4-439c-812c-c35e6e2da327",
-      "type": "go-further",
-      "grains": []
     }
   ]
 }
