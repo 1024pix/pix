@@ -217,10 +217,10 @@
                   },
                   {
                     "type": "select",
-                    "input": "",
+                    "input": "1",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionnez la bonne réponse",
                     "tolerances": [],
                     "options": [
                       {
@@ -256,7 +256,7 @@
             {
               "type": "element",
               "element": {
-                "id": "d81d0530-cf91-4956-9bee-0b7b8073aa8d",
+                "id": "9ac7abcf-950a-4f00-9753-64c94c731e54",
                 "type": "qrocm",
                 "instruction": "<p>Complétez la phrase suivante.</p>",
                 "proposals": [
@@ -266,10 +266,10 @@
                   },
                   {
                     "type": "select",
-                    "input": "",
+                    "input": "2",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionnez la bonne réponse",
                     "tolerances": [],
                     "options": [
                       {
@@ -315,10 +315,10 @@
                   },
                   {
                     "type": "select",
-                    "input": "",
+                    "input": "3",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionnez la bonne réponse",
                     "tolerances": [],
                     "options": [
                       {
