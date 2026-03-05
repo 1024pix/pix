@@ -1,6 +1,6 @@
 import { config } from '../../../../src/shared/config.js';
 import { lcmsClient } from '../../../../src/shared/infrastructure/lcms-client.js';
-import { catchErr, expect, mockLearningContent, nock } from '../../../test-helper.js';
+import { catchErr, createTempFile, expect, mockLearningContent, nock, removeTempFile } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | LCMS Client', function () {
   describe('#getRelease', function () {
@@ -42,6 +42,46 @@ describe('Integration | Infrastructure | LCMS Client', function () {
         expect(error).to.be.instanceOf(Error);
         expect(error.message).to.equal(`An error occurred while fetching https://lcms-test.pix.fr/api`);
         expect(lcmsCall.isDone()).to.be.true;
+      });
+    });
+
+    context('when url is a file:// url', function () {
+      let originalUrl;
+      let tempFilePath;
+
+      beforeEach(function () {
+        originalUrl = config.lcms.url;
+      });
+
+      afterEach(async function () {
+        config.lcms.url = originalUrl;
+        await removeTempFile(tempFilePath);
+      });
+
+      it('reads learning content from the file', async function () {
+        // given
+        const learningContent = { models: [{ id: 'fromFile' }] };
+        const releaseData = { id: 'v1', createdAt: '2024-01-01', content: learningContent };
+        tempFilePath = await createTempFile('lcms-release.json', JSON.stringify(releaseData));
+        config.lcms.url = `file://${tempFilePath}`;
+
+        // when
+        const response = await lcmsClient.getRelease();
+
+        // then
+        expect(response).to.deep.equal(learningContent);
+      });
+
+      it('rejects when file does not exist', async function () {
+        // given
+        tempFilePath = '/tmp/nonexistent-lcms-release.json';
+        config.lcms.url = `file://${tempFilePath}`;
+
+        // when
+        const error = await catchErr(lcmsClient.getRelease)();
+
+        // then
+        expect(error).to.be.instanceOf(Error);
       });
     });
 
