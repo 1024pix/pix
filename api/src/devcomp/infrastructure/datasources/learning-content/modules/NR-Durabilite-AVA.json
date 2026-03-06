@@ -41,6 +41,7 @@
                 "id": "9e8b7be9-71a9-49bd-8358-c6542684b92f",
                 "type": "qcu-discovery",
                 "instruction": "<p>À votre avis, quel pourcentage de français change de téléphone alors que l’ancien fonctionne encore ?</p>",
+                "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
@@ -71,8 +72,7 @@
                     }
                   }
                 ],
-                "solution": "3",
-                "hasShortProposals": false
+                "solution": "3"
               }
             }
           ]
@@ -119,7 +119,9 @@
                     {
                       "id": "6dc7cc3b-9fba-498d-bd9d-9ec89d6f0869",
                       "type": "custom",
-                      "instruction": "<p>À votre avis, pour fabriquer un ordinateur portable, combien faut-il de kilos de minerais ?<br>Déplacez la jauge entre 1kg et 800kg.</p>",
+                      "title": "",
+                      "instruction": "<p>À votre avis, combien de kilos de minerais faut-il mobiliser pour fabriquer un ordinateur portable ?<br>Déplacez la jauge entre 1kg et 800kg.</p>",
+                      "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
                         "options": [
@@ -152,9 +154,7 @@
                             }
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     }
                   ]
                 },
@@ -163,7 +163,9 @@
                     {
                       "id": "10dbae70-c3ba-4cd6-a3a2-adf81cb60eba",
                       "type": "custom",
+                      "title": "",
                       "instruction": "<p>À votre avis, pour fabriquer un ordinateur portable, combien faut-il d’eau ?<br>Déplacez la jauge entre 1 litre et 1,5 tonne d’eau.</p>",
+                      "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
                         "options": [
@@ -196,9 +198,7 @@
                             }
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     }
                   ]
                 },
@@ -207,7 +207,9 @@
                     {
                       "id": "c6d1cf5f-34f7-4875-8583-234d2bf092a9",
                       "type": "custom",
-                      "instruction": "<p>À votre avis, pour fabriquer un ordinateur portable, combien faut-il de kilos d’énergie fossile ?<br>Déplacez la jauge entre 1kg et 240kg.</p>",
+                      "title": "",
+                      "instruction": "<p>À votre avis, combien de kilos d’énergies fossiles sont consommés pour fabriquer un ordinateur portable ?<br>Déplacez la jauge entre 1kg et 200kg.</p>",
+                      "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
                         "options": [
@@ -215,78 +217,32 @@
                             "label": "1kg",
                             "feedback": {
                               "type": "bad",
-                              "text": "La fabrication d’un ordinateur portable mobilise environ 240kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
+                              "text": "La fabrication d’un ordinateur portable mobilise environ 200kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
                             }
                           },
                           {
-                            "label": "80kg",
+                            "label": "100kg",
                             "feedback": {
                               "type": "bad",
-                              "text": "La fabrication d’un ordinateur portable mobilise environ 240kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
+                              "text": "La fabrication d’un ordinateur portable mobilise environ 200kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
                             }
                           },
                           {
-                            "label": "160kg",
+                            "label": "150kg",
                             "feedback": {
                               "type": "bad",
-                              "text": "La fabrication d’un ordinateur portable mobilise environ 240kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
+                              "text": "La fabrication d’un ordinateur portable mobilise environ 200kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
                             }
                           },
                           {
-                            "label": "240kg",
+                            "label": "200kg",
                             "feedback": {
                               "type": "good",
-                              "text": "La fabrication d’un ordinateur portable mobilise environ 240kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
+                              "text": "La fabrication d’un ordinateur portable mobilise environ 200kg d’énergie fossile car l’extraction des minerais et l’assemblage nécessitent des machines très énergivores. Dans de nombreux pays producteurs d’énergie (Asie, Amérique du Sud, Afrique), cette dernière provient surtout du charbon, ce qui génère d’importantes émissions de gaz à effet de serre."
                             }
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "7e2ffcb2-a37f-4767-80ce-bee937eac2d8",
-                      "type": "custom",
-                      "instruction": "<p>À votre avis, pour fabriquer un ordinateur portable, combien faut-il de kilos de produits toxiques ?<br>Déplacez la jauge entre 1kg et 33kg.</p>",
-                      "tagName": "pix-cursor",
-                      "props": {
-                        "options": [
-                          {
-                            "label": "1kg",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "La fabrication d’un ordinateur portable génère environ 22kg de produits toxiques : des déchets industriels et des substances chimiques dangereuses qui exposent les travailleurs et les populations locales à des risques pour leur santé (troubles respiratoires, intoxications)."
-                            }
-                          },
-                          {
-                            "label": "11kg",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "La fabrication d’un ordinateur portable génère environ 22kg de produits toxiques : des déchets industriels et des substances chimiques dangereuses qui exposent les travailleurs et les populations locales à des risques pour leur santé (troubles respiratoires, intoxications)."
-                            }
-                          },
-                          {
-                            "label": "22kg",
-                            "feedback": {
-                              "type": "good",
-                              "text": "La fabrication d’un ordinateur portable génère environ 22kg de produits toxiques : des déchets industriels et des substances chimiques dangereuses qui exposent les travailleurs et les populations locales à des risques pour leur santé (troubles respiratoires, intoxications)."
-                            }
-                          },
-                          {
-                            "label": "33kg",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "La fabrication d’un ordinateur portable génère environ 22kg de produits toxiques : des déchets industriels et des substances chimiques dangereuses qui exposent les travailleurs et les populations locales à des risques pour leur santé (troubles respiratoires, intoxications)."
-                            }
-                          }
-                        ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     }
                   ]
                 }
@@ -304,7 +260,7 @@
               "element": {
                 "id": "80b90a55-683b-4627-8538-5da724524046",
                 "type": "text",
-                "content": "<p>L’étape de fabrication des appareils numériques est très polluante. Elle consomme beaucoup de ressources, d’<strong>énergie</strong> et d’<strong>eau</strong>, tout en générant de <strong>fortes pollutions</strong> et des <strong>déchets industriels</strong>.<br>Fabriquer toujours plus de nouveaux appareils numériques contribue à accentuer un phénomène déjà présent&nbsp;: nous utilisons aujourd’hui <strong>plus de ressources naturelles</strong> que ce que la terre peut <strong>régénérer</strong>, <strong>fournir</strong> ou <strong>absorber</strong>.🌍</p>"
+                "content": "<p>L’étape de fabrication des appareils numériques est très polluante. Elle consomme beaucoup de ressources, d’<strong>énergie</strong> et d’<strong>eau</strong>, tout en générant de <strong>fortes pollutions</strong> et des <strong>déchets industriels</strong>.<br><br>Fabriquer toujours plus de nouveaux appareils numériques contribue à accentuer un phénomène déjà présent&nbsp;: nous utilisons aujourd’hui <strong>plus de ressources naturelles</strong> que ce que la terre peut <strong>régénérer</strong>, <strong>fournir</strong> ou <strong>absorber</strong>.🌍</p>"
               }
             }
           ]
@@ -360,6 +316,7 @@
                       "id": "223c4351-1768-45f6-bea4-b62167da8601",
                       "type": "qcu-discovery",
                       "instruction": "<p>À votre avis, quel serait le diagnostic le plus pertinent ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -390,8 +347,7 @@
                           }
                         }
                       ],
-                      "solution": "3",
-                      "hasShortProposals": false
+                      "solution": "3"
                     }
                   ]
                 },
@@ -415,6 +371,7 @@
                       "id": "5ebd266a-6efb-4741-a3f9-66ad90f82002",
                       "type": "qcu-discovery",
                       "instruction": "<p>À votre avis, quel serait le diagnostic le plus pertinent ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "2",
@@ -445,8 +402,7 @@
                           }
                         }
                       ],
-                      "solution": "2",
-                      "hasShortProposals": false
+                      "solution": "2"
                     }
                   ]
                 },
@@ -470,6 +426,7 @@
                       "id": "264ca995-c4c9-4601-b49e-a2f976f80c52",
                       "type": "qcu-discovery",
                       "instruction": "<p>À votre avis, quel serait le diagnostic le plus pertinent ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -493,8 +450,7 @@
                           }
                         }
                       ],
-                      "solution": "2",
-                      "hasShortProposals": false
+                      "solution": "2"
                     }
                   ]
                 },
@@ -518,6 +474,7 @@
                       "id": "5759eb75-ee53-4028-9c95-2a5a85b9e9ca",
                       "type": "qcu-discovery",
                       "instruction": "<p>À votre avis, quel serait le conseil le plus pertinent ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -548,8 +505,7 @@
                           }
                         }
                       ],
-                      "solution": "3",
-                      "hasShortProposals": false
+                      "solution": "3"
                     }
                   ]
                 }
@@ -570,7 +526,7 @@
                     {
                       "id": "e2b5c3b2-bd52-485d-b5a2-5ab2c983493d",
                       "type": "text",
-                      "content": "<h5>Quel est le point commun entre tous ces exemples ?</h5><p>Certains fabricants usent de stratégies pour réduire délibérément la durée de vie des produits et ainsi pousser les consommateurs à acheter des produits neufs. Ce mécanisme porte un nom&nbsp;: l’<strong>obsolescence programmée.<br><br>🤔 Bon à savoir&nbsp;: </strong>Ce phénomène d’obsolescence existe aussi dans d’autres secteurs comme l’électroménager, la mode ou l’automobile.</p>"
+                      "content": "<h5>Quel est le point commun entre tous ces exemples ?</h5><p>Certains fabricants usent de stratégies pour réduire délibérément la durée de vie des produits et ainsi pousser les consommateurs à acheter des produits neufs. Ce mécanisme porte un nom&nbsp;: l’<strong>obsolescence programmée.<br><br>🤔 Bon à savoir&nbsp;: </strong>Ce phénomène d’obsolescence existe aussi dans d’autres secteurs comme l’électroménager, la mode ou l’automobile. Ce phénomène est puni par la loi.</p>"
                     }
                   ]
                 },
@@ -579,7 +535,7 @@
                     {
                       "id": "dd7638c3-1e9e-4d37-8deb-96b03c33aab5",
                       "type": "text",
-                      "content": "<h5>Comment font les fabricants pour réduire la durée de vie des produits ?</h5><p>Ils utilisent différentes stratégies&nbsp;:</p><ul><li>L’<strong>obsolescence technique</strong>.</li><li>L’<strong>obsolescence logicielle</strong>.</li><li>L’<strong>obsolescence psychologique (ou par effet de mode)</strong>. Cette stratégie est très puissante. 🧠</li></ul>"
+                      "content": "<h5>Comment font les fabricants pour réduire la durée d'usage des produits ?</h5><p>Ils utilisent différentes stratégies&nbsp;:</p><ul><li>L’<strong>obsolescence technique</strong>.</li><li>L’<strong>obsolescence logicielle</strong>.</li><li>L’<strong>obsolescence psychologique (ou par effet de mode)</strong>. Cette stratégie est très puissante. 🧠</li></ul>"
                     }
                   ]
                 }
@@ -639,8 +595,8 @@
                     "content": "<p>1 =&nbsp;</p>"
                   },
                   {
-                    "input": "Un",
                     "type": "select",
+                    "input": "Un",
                     "display": "block",
                     "placeholder": "- Sélectionnez -",
                     "ariaLabel": "Sélectionnez",
@@ -648,7 +604,7 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "Refabriquer"
+                        "content": "Reconditionner"
                       },
                       {
                         "id": "2",
@@ -663,15 +619,17 @@
                         "content": "Réparer"
                       }
                     ],
-                    "solutions": ["2"]
+                    "solutions": [
+                      "2"
+                    ]
                   },
                   {
                     "type": "text",
                     "content": "<p>2 =&nbsp;</p>"
                   },
                   {
-                    "input": "Deux",
                     "type": "select",
+                    "input": "Deux",
                     "display": "block",
                     "placeholder": "- Sélectionnez -",
                     "ariaLabel": "Sélectionnez",
@@ -679,7 +637,7 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "Refabriquer"
+                        "content": "Reconditionner"
                       },
                       {
                         "id": "2",
@@ -694,15 +652,17 @@
                         "content": "Réparer"
                       }
                     ],
-                    "solutions": ["1"]
+                    "solutions": [
+                      "1"
+                    ]
                   },
                   {
                     "type": "text",
                     "content": "<p>3 =</p>"
                   },
                   {
-                    "input": "Trois",
                     "type": "select",
+                    "input": "Trois",
                     "display": "block",
                     "placeholder": "- Sélectionnez -",
                     "ariaLabel": "Sélectionnez",
@@ -718,22 +678,24 @@
                       },
                       {
                         "id": "3",
-                        "content": "Refabriquer"
+                        "content": "Reconditionner"
                       },
                       {
                         "id": "4",
                         "content": "Réemployer"
                       }
                     ],
-                    "solutions": ["4"]
+                    "solutions": [
+                      "4"
+                    ]
                   },
                   {
                     "type": "text",
                     "content": "<p>4 =</p>"
                   },
                   {
-                    "input": "Quatre",
                     "type": "select",
+                    "input": "Quatre",
                     "display": "block",
                     "placeholder": "- Sélectionnez -",
                     "ariaLabel": "Sélectionnez",
@@ -741,7 +703,7 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "Refabriquer"
+                        "content": "Reconditionner"
                       },
                       {
                         "id": "2",
@@ -756,17 +718,19 @@
                         "content": "Réparer"
                       }
                     ],
-                    "solutions": ["4"]
+                    "solutions": [
+                      "4"
+                    ]
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien joué !</p>",
-                    "diagnosis": "<p><strong>Réemployer</strong>, <strong>recycler</strong>, <strong>refabriquer</strong> et <strong>réparer</strong>&nbsp;: vous avez ici les actions au coeur de l’économie circulaire !</p>"
+                    "diagnosis": "<p><strong>Réemployer</strong>, <strong>recycler</strong>, <strong>reconditionner</strong> et <strong>réparer</strong>&nbsp;: vous avez ici les actions au coeur de l’économie circulaire !</p>"
                   },
                   "invalid": {
                     "state": "<p>Pas vraiment.</p>",
-                    "diagnosis": "<p>Quand on utilise les matières premières, on <strong>recycle</strong>. Quand on récupère les pièces détachées, on <strong>refabrique</strong> à partir des pièces récupérées. Quand on utilise un appareil encore fonctionnel pour le donner ou le revendre, on parle de <strong>réemploi</strong>. Enfin, quand on souhaite garder son  appareil, on peut également le <strong>réparer</strong>. Ces quatre gestes sont les piliers de l’économie circulaire.</p>"
+                    "diagnosis": "<p>Quand on utilise les matières premières, on <strong>recycle</strong>. Quand on récupère les pièces détachées, on <strong>reconditionne</strong> à partir des pièces récupérées. Quand on utilise un appareil encore fonctionnel pour le donner ou le revendre, on parle de <strong>réemploi</strong>. Enfin, quand on souhaite garder son  appareil, on peut également le <strong>réparer</strong>. Ces quatre gestes sont les piliers de l’économie circulaire.</p>"
                   }
                 }
               }
@@ -850,6 +814,7 @@
                 "id": "a439ddb8-fc46-4e67-ba6e-544dccaef549",
                 "type": "qcu",
                 "instruction": "<p>Parmi les affirmations suivantes, laquelle décrit le mieux l’impact de l’étape de fabrication ?</p>",
+                "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "3",
@@ -884,8 +849,7 @@
                     }
                   }
                 ],
-                "solution": "1",
-                "hasShortProposals": false
+                "solution": "1"
               }
             }
           ]
@@ -909,6 +873,7 @@
                       "id": "1e1a6976-b96e-4202-b27d-17c3ddc96195",
                       "type": "qcu",
                       "instruction": "<p>Le prix pour remettre en état une montre connectée est plus élevé que celui d’une montre neuve.</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "3",
@@ -935,8 +900,7 @@
                           }
                         }
                       ],
-                      "solution": "1",
-                      "hasShortProposals": false
+                      "solution": "1"
                     }
                   ]
                 },
@@ -946,6 +910,7 @@
                       "id": "5ff16265-8026-41d3-9697-916afebf4e5c",
                       "type": "qcu",
                       "instruction": "<p>L’arrêt des mises à jour du système d’exploitation de l’ordinateur entraîne des incompatibilités et accroît la vulnérabilité de l’appareil.</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -972,8 +937,7 @@
                           }
                         }
                       ],
-                      "solution": "2",
-                      "hasShortProposals": false
+                      "solution": "2"
                     }
                   ]
                 },
@@ -983,6 +947,7 @@
                       "id": "6e9332f6-5852-4376-9b10-5b8af0022def",
                       "type": "qcu",
                       "instruction": "<p>Le smartphone réduit automatiquement ses performances lorsque la batterie atteint un certain niveau d’usure.</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -1009,8 +974,7 @@
                           }
                         }
                       ],
-                      "solution": "1",
-                      "hasShortProposals": false
+                      "solution": "1"
                     }
                   ]
                 },
@@ -1020,6 +984,7 @@
                       "id": "0ececc0b-83c4-41b8-88f0-9c0673d98ffa",
                       "type": "qcu",
                       "instruction": "<p>Un fabricant de smartphone propose une nouvelle gamme de couleurs  totalement inédites,  mise en avant par la publicité.</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -1046,8 +1011,7 @@
                           }
                         }
                       ],
-                      "solution": "3",
-                      "hasShortProposals": false
+                      "solution": "3"
                     }
                   ]
                 }
@@ -1153,7 +1117,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/NR_Durabilite_AVA/nr_durabilite_tablette1.png",
                 "alt": "Description en détail ci-après ",
-                "alternativeText": "Tablette tactile «&nbsp;Idea Pro Tab Plus&nbsp;» présentée avec un clavier détachable et un stylet.&nbsp;À droite de l’image figure l’étiquette énergie européenne indiquant une classe énergétique F sur une échelle de A à G. L’autonomie annoncée est de 112 heures et 43 minutes. L’étiquette mentionne une charge USB Power Delivery de 15 à 45 W, une durabilité de l’appareil classée E, une réparabilité classée A, une endurance de la batterie de 1000 cycles, ainsi qu’une certification IP52 indiquant une résistance limitée à la poussière et aux éclaboussures.",
+                "alternativeText": "<p>Tablette tactile «&nbsp;Idea Pro Tab Plus&nbsp;» présentée avec un clavier détachable et un stylet.&nbsp;À droite de l’image figure l’étiquette énergie européenne indiquant une classe énergétique F sur une échelle de A à G. L’autonomie annoncée est de 112 heures et 43 minutes. L’étiquette mentionne une charge USB Power Delivery de 15 à 45 W, une durabilité de l’appareil classée E, une réparabilité classée A, une endurance de la batterie de 1000 cycles, ainsi qu’une certification IP52 indiquant une résistance limitée à la poussière et aux éclaboussures.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -1163,9 +1127,9 @@
               "element": {
                 "id": "d25a2a3f-1832-4338-8d01-11d6155f4f63",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/NR_Durabilite_AVA/tablette-2.png",
-                "alt": "Une deuxième tablette (à modifier)",
-                "alternativeText": "",
+                "url": "https://assets.pix.org/modules/NR_Durabilite_AVA/nr-obsolescence-tablette2.png",
+                "alt": "Une deuxième tablette ",
+                "alternativeText": "<p>Tablette tactile «&nbsp;Universe 6 GB » .&nbsp;À droite de l’image figure l’étiquette énergie européenne indiquant une classe énergétique E sur une échelle de A à G. L’autonomie annoncée est de 98 heures et 32 minutes. L’étiquette mentionne une charge USB Power Delivery de 15 à 45 W, une durabilité de l’appareil classée E, une réparabilité classée C, une endurance de la batterie de 1200 cycles, ainsi qu’une certification IP52 indiquant une résistance limitée à la poussière et aux éclaboussures.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -1176,6 +1140,7 @@
                 "id": "fadb1f8a-ee5b-4248-9430-e754f361395e",
                 "type": "qcu",
                 "instruction": "<p>Laquelle de ces deux tablettes est la plus facile à réparer ?</p>",
+                "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
@@ -1194,8 +1159,7 @@
                     }
                   }
                 ],
-                "solution": "1",
-                "hasShortProposals": false
+                "solution": "1"
               }
             }
           ]
