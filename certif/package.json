@@ -102,7 +102,7 @@
     "ember-template-lint": "^7.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
     "ember-truth-helpers": "^5.0.0",
-    "eslint": "^9.39.4",
+    "eslint": "^10.0.0",
     "eslint-plugin-chai-expect": "^3.1.0",
     "eslint-plugin-ember": "^12.5.0",
     "eslint-plugin-i18n-json": "^4.0.1",
