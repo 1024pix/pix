@@ -204,6 +204,7 @@ workflows:
       - e2e_test_mon_pix:
           context: Pix
           requires:
+            - api_install
             - mon_pix_build
 
       - orga_build:
@@ -221,6 +222,7 @@ workflows:
       - e2e_test_orga:
           context: Pix
           requires:
+            - api_install
             - orga_build
 
       - certif_build:
@@ -265,6 +267,7 @@ workflows:
       - e2e_playwright_test:
           context: Pix
           requires:
+            - api_install
             - mon_pix_build
             - orga_build
             - certif_build
@@ -272,6 +275,7 @@ workflows:
       - e2e_playwright_test_recette_certif:
           context: Pix
           requires:
+            - api_install
             - mon_pix_build
             - orga_build
             - certif_build
@@ -966,16 +970,6 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -1047,16 +1041,6 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -1120,18 +1104,8 @@ jobs:
           name: Typescript
           command: npm run tsc
       - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
           name: Install Playwright Browser
           command: npx playwright install --with-deps chromium
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -1227,18 +1201,8 @@ jobs:
             - v7-playwright-npm-{{ checksum "cachekey" }}
       - run: npm ci
       - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
           name: Install Playwright Browser
           command: npx playwright install --with-deps chromium
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
