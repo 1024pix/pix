@@ -39,7 +39,7 @@
     "@types/pngjs": "^6.0.5",
     "baseline-browser-mapping": "^2.9.14",
     "dotenv": "^17.0.0",
-    "eslint": "^9.21.0",
+    "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^17.0.0",
