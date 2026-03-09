@@ -919,6 +919,7 @@ jobs:
     working_directory: ~/pix/admin
     parallelism: 3
     steps:
+      - run: google-chrome --version
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
