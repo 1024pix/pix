@@ -79,16 +79,20 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       return;
     }
 
-    const response = await fetch(
-      `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
+    try {
+      const response = await fetch(
+        `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
         },
-      },
-    );
-    const { redirectLogoutUrl } = await response.json();
+      );
+      const { redirectLogoutUrl } = await response.json();
 
-    this.session.alternativeRootURL = redirectLogoutUrl;
+      this.session.alternativeRootURL = redirectLogoutUrl;
+    } catch {
+      // Catch all errors because invalidate must never fail
+    }
   }
 }
