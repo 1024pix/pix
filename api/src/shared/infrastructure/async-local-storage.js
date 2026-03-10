@@ -3,25 +3,25 @@ import lodash from 'lodash';
 const { get, set } = lodash;
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-const asyncLocalStorage = new AsyncLocalStorage();
+export const asyncLocalStorage = new AsyncLocalStorage();
 
-function getInContext(path, defaultValue) {
+export function getInContext(path, defaultValue) {
   const store = asyncLocalStorage.getStore();
   if (!store) return;
   return get(store, path, defaultValue);
 }
 
-function setInContext(path, value) {
+export function setInContext(path, value) {
   const store = asyncLocalStorage.getStore();
   if (!store) return;
   set(store, path, value);
 }
 
-function getContext() {
+export function getContext() {
   return asyncLocalStorage.getStore();
 }
 
-function installHapiHook() {
+export function installHapiHook() {
   const originalMethod = Request.prototype._execute;
 
   if (!originalMethod) {
@@ -34,5 +34,3 @@ function installHapiHook() {
     return asyncLocalStorage.run(context, () => originalMethod.call(request, args));
   };
 }
-
-export { asyncLocalStorage, getContext, getInContext, installHapiHook, setInContext };
