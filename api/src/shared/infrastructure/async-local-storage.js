@@ -21,6 +21,16 @@ export function getContext() {
   return asyncLocalStorage.getStore();
 }
 
+export function executeInContext(context, lambda) {
+  const currentContext = getContext();
+  if (currentContext) {
+    Object.assign(currentContext, context);
+    return lambda();
+  } else {
+    return asyncLocalStorage.run(context, lambda);
+  }
+}
+
 export function installHapiHook() {
   const originalMethod = Request.prototype._execute;
 

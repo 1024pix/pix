@@ -1,5 +1,6 @@
 import {
   asyncLocalStorage,
+  executeInContext,
   getContext,
   getInContext,
   setInContext,
@@ -61,6 +62,40 @@ describe('Shared | Unit | Infrastructure | async-local-storage', function () {
 
       // then
       expect(result.foo.bar).to.equal(givenValue);
+    });
+  });
+
+  describe('#executeInContext', function () {
+    context('when a context already exists', function () {
+      it('should merge context information and run the function', async function () {
+        const context = { foo: 'bar', bubu: 'wowo' };
+
+        const res = await executeInContext(context, () => {
+          const newContext = { foo: 'bar1', fuu: 'baz' };
+          return executeInContext(newContext, () => {
+            return getContext();
+          });
+        });
+
+        expect(res).to.deep.equal({
+          foo: 'bar1',
+          fuu: 'baz',
+          bubu: 'wowo',
+        });
+      });
+    });
+
+    context('when a context does not exist', function () {
+      it('should run the function in a dedicated context', async function () {
+        const context = { foo: 'bar' };
+
+        const res = await executeInContext(context, () => {
+          const currentContext = getContext();
+          return currentContext.foo;
+        });
+
+        expect(res).to.equal('bar');
+      });
     });
   });
 });
