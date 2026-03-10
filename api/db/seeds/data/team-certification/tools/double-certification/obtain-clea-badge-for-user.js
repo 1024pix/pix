@@ -7,8 +7,7 @@ import { KnowledgeElementCollection } from '../../../../../../src/prescription/s
 import { usecases as prescriptionTargetProfilesUsecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { assertNotNullOrUndefined } from '../../../../../../src/shared/domain/models/asserts.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { sharedUsecases } from '../../../../../../src/shared/domain/usecases/index.js';
+import { getWithAnswers } from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as profileTooling from '../../../../data/common/tooling/profile-tooling.js';
 import { CLEA_V2_TARGET_PROFILE_ID } from '../../../common/complementary-certification-builder.js';
 
@@ -77,10 +76,7 @@ export default async function obtainCleaBadgeForUser({
 
     await databaseBuilder.commit();
 
-    const assessment = await sharedUsecases.getAssessment({
-      assessmentId: assessmentDb.id,
-      locale: FRENCH_FRANCE,
-    });
+    const assessment = await getWithAnswers(assessmentDb.id);
 
     await evaluationUsecases.handleBadgeAcquisition({ assessment });
   }
