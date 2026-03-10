@@ -1,9 +1,10 @@
 import PgBoss from 'pg-boss';
 
 import { Metrics } from '../../../../../src/monitoring/infrastructure/metrics.js';
+import { getContext } from '../../../../../src/shared/infrastructure/async-local-storage.js';
 import { JobQueue } from '../../../../../src/shared/infrastructure/jobs/JobQueue.js';
 import { JobRepository } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobQueue', function () {
   let pgBoss, jobQueue;
@@ -39,6 +40,44 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
           handle(params) {
             try {
               expect(params).to.deep.contains({ data: expectedParams });
+            } catch (err) {
+              reject(err);
+            }
+            resolve();
+          }
+        };
+
+        jobQueue.register(new Metrics({ config: { metrics: { isDirectMetricsEnabled: false } } }), name, handler);
+      });
+
+      return promise;
+    });
+
+    it('runs the job within an execution context', async function () {
+      // given
+      const name = 'JobTest';
+      const job = new JobRepository({ name });
+
+      // when
+      await job.performAsync({ jobParam: 1 });
+
+      // then
+      const promise = new Promise((resolve, reject) => {
+        const handler = class {
+          get teamConcurrency() {
+            return 1;
+          }
+
+          get teamSize() {
+            return 2;
+          }
+
+          handle(_) {
+            try {
+              const currentContext = getContext();
+              sinon.assert.match(currentContext, {
+                jobId: sinon.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/),
+              });
             } catch (err) {
               reject(err);
             }
