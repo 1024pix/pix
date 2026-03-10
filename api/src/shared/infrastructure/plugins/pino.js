@@ -1,9 +1,9 @@
 import { stdSerializers } from 'pino';
 
-import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { generateHash } from '../../../identity-access-management/infrastructure/utils/crypto.js';
 import { getForwardedOrigin } from '../../../identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../config.js';
+import { monitoringTools } from '../monitoring-tools.js';
 import { loggerPino } from '../utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');
@@ -15,8 +15,6 @@ function requestSerializer(req) {
     clientVersion: req.headers['x-app-version'] || '-',
     clientVersionMismatched: config.version !== req.headers['x-app-version'],
   };
-
-  if (!config.hapi.enableRequestMonitoring) return enhancedReq;
 
   // monitor api token route
   const context = monitoringTools.getContext();

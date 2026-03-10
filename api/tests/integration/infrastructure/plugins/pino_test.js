@@ -2,10 +2,9 @@ import { Writable } from 'node:stream';
 
 import pino from 'pino';
 
-import { config } from '../../../../src/shared/config.js';
 import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import * as pinoPlugin from '../../../../src/shared/infrastructure/plugins/pino.js';
-import { expect, generateAuthenticatedUserRequestHeaders, HttpTestServer, sinon } from '../../../test-helper.js';
+import { expect, generateAuthenticatedUserRequestHeaders, HttpTestServer } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | plugins | pino', function () {
   let httpTestServer;
@@ -88,141 +87,105 @@ describe('Integration | Infrastructure | plugins | pino', function () {
       expect(messages[1].msg).to.equal('request completed');
     });
 
-    context('with request monitoring disabled', function () {
-      beforeEach(function () {
-        sinon.stub(config.hapi, 'enableRequestMonitoring').value(false);
+    it('should log the message, version, user id, route and metrics', async function () {
+      // given
+      const messages = [];
+      await registerWithPlugin((data) => {
+        messages.push(data);
       });
 
-      it('should log the message and version', async function () {
-        // given
-        const messages = [];
-        await registerWithPlugin((data) => {
-          messages.push(data);
-        });
+      const method = 'GET';
+      const url = '/';
+      const headers = generateAuthenticatedUserRequestHeaders();
 
-        const method = 'GET';
-        const url = '/';
+      // when
+      const response = await httpTestServer.request(method, url, null, null, headers);
 
-        // when
-        const response = await httpTestServer.request(method, url);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(messages).to.have.lengthOf(1);
-        expect(messages[0].level).to.equal(30);
-        expect(messages[0].msg).to.equal('request completed');
-        expect(messages[0].req.version).to.equal('development');
-        expect(messages[0].req.user_id).to.be.undefined;
-        expect(messages[0].req.route).to.be.undefined;
-        expect(messages[0].req.metrics).to.be.undefined;
-      });
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(messages).to.have.lengthOf(1);
+      expect(messages[0].msg).to.equal('request completed');
+      expect(messages[0].req.version).to.equal('development');
+      expect(messages[0].req.user_id).to.equal(1234);
+      expect(messages[0].req.route).to.equal('/');
+      expect(messages[0].req.metrics).to.deep.equal({ knexQueryCount: 1 });
     });
 
-    context('with request monitoring enabled', function () {
-      beforeEach(function () {
-        sinon.stub(config.hapi, 'enableRequestMonitoring').value(true);
+    context('when calling /api/token', function () {
+      context('when there is a username', function () {
+        it('logs the message, version, user id, route, metrics and hashed username', async function () {
+          // given
+          const messages = [];
+          await registerWithPlugin((data) => {
+            messages.push(data);
+          });
+
+          const method = 'POST';
+          const url = '/api/token';
+          const payload = {
+            username: 'toto',
+          };
+          const headers = { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'app.pix.org' };
+
+          // when
+          const response = await httpTestServer.request(method, url, payload, null, headers);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(messages).to.have.lengthOf(1);
+          expect(messages[0].msg).to.equal('request completed');
+          expect(messages[0].req.version).to.equal('development');
+          expect(messages[0].req.user_id).to.equal('-');
+          expect(messages[0].req.route).to.equal('/api/token');
+          expect(messages[0].req.usernameHash).to.equal(
+            '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66', // echo -n 'toto'| shasum -a 256
+          );
+        });
       });
 
-      it('should log the message, version, user id, route and metrics', async function () {
-        // given
-        const messages = [];
-        await registerWithPlugin((data) => {
-          messages.push(data);
+      context('when there is no username', function () {
+        it('logs the message, version, user id, route, metrics and default value for username', async function () {
+          // given
+          const messages = [];
+          await registerWithPlugin((data) => {
+            messages.push(data);
+          });
+          const method = 'POST';
+          const url = '/api/token';
+          const headers = { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'app.pix.org' };
+
+          // when
+          const response = await httpTestServer.request(method, url, null, null, headers);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(messages).to.have.lengthOf(1);
+          expect(messages[0].msg).to.equal('request completed');
+          expect(messages[0].req.version).to.equal('development');
+          expect(messages[0].req.user_id).to.equal('-');
+          expect(messages[0].req.route).to.equal('/api/token');
+          expect(messages[0].req.usernameHash).to.equal('-');
         });
-
-        const method = 'GET';
-        const url = '/';
-        const headers = generateAuthenticatedUserRequestHeaders();
-
-        // when
-        const response = await httpTestServer.request(method, url, null, null, headers);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(messages).to.have.lengthOf(1);
-        expect(messages[0].msg).to.equal('request completed');
-        expect(messages[0].req.version).to.equal('development');
-        expect(messages[0].req.user_id).to.equal(1234);
-        expect(messages[0].req.route).to.equal('/');
-        expect(messages[0].req.metrics).to.deep.equal({ knexQueryCount: 1 });
       });
 
-      context('when calling /api/token', function () {
-        context('when there is a username', function () {
-          it('logs the message, version, user id, route, metrics and hashed username', async function () {
-            // given
-            const messages = [];
-            await registerWithPlugin((data) => {
-              messages.push(data);
-            });
-
-            const method = 'POST';
-            const url = '/api/token';
-            const payload = {
-              username: 'toto',
-            };
-            const headers = { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'app.pix.org' };
-
-            // when
-            const response = await httpTestServer.request(method, url, payload, null, headers);
-
-            // then
-            expect(response.statusCode).to.equal(200);
-            expect(messages).to.have.lengthOf(1);
-            expect(messages[0].msg).to.equal('request completed');
-            expect(messages[0].req.version).to.equal('development');
-            expect(messages[0].req.user_id).to.equal('-');
-            expect(messages[0].req.route).to.equal('/api/token');
-            expect(messages[0].req.usernameHash).to.equal(
-              '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66', // echo -n 'toto'| shasum -a 256
-            );
+      context('when there is no forwarded origin (no x-forwarded headers)', function () {
+        it('handles the ForwardedOriginError error', async function () {
+          // given
+          const messages = [];
+          await registerWithPlugin((data) => {
+            messages.push(data);
           });
-        });
+          const method = 'POST';
+          const url = '/api/token';
+          const noForwardedHeaders = {};
 
-        context('when there is no username', function () {
-          it('logs the message, version, user id, route, metrics and default value for username', async function () {
-            // given
-            const messages = [];
-            await registerWithPlugin((data) => {
-              messages.push(data);
-            });
-            const method = 'POST';
-            const url = '/api/token';
-            const headers = { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'app.pix.org' };
+          // when
+          const response = await httpTestServer.request(method, url, null, null, noForwardedHeaders);
 
-            // when
-            const response = await httpTestServer.request(method, url, null, null, headers);
-
-            // then
-            expect(response.statusCode).to.equal(200);
-            expect(messages).to.have.lengthOf(1);
-            expect(messages[0].msg).to.equal('request completed');
-            expect(messages[0].req.version).to.equal('development');
-            expect(messages[0].req.user_id).to.equal('-');
-            expect(messages[0].req.route).to.equal('/api/token');
-            expect(messages[0].req.usernameHash).to.equal('-');
-          });
-        });
-
-        context('when there is no forwarded origin (no x-forwarded headers)', function () {
-          it('handles the ForwardedOriginError error', async function () {
-            // given
-            const messages = [];
-            await registerWithPlugin((data) => {
-              messages.push(data);
-            });
-            const method = 'POST';
-            const url = '/api/token';
-            const noForwardedHeaders = {};
-
-            // when
-            const response = await httpTestServer.request(method, url, null, null, noForwardedHeaders);
-
-            // then
-            expect(response.statusCode).to.equal(200);
-            expect(messages).to.have.lengthOf(1);
-            expect(messages[0].msg).to.equal('request completed');
-          });
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(messages).to.have.lengthOf(1);
+          expect(messages[0].msg).to.equal('request completed');
         });
       });
     });

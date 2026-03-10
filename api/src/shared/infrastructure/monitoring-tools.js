@@ -1,18 +1,10 @@
-import { randomUUID } from 'node:crypto';
-
 import lodash from 'lodash';
-
-import { config } from '../config.js';
 
 const { get, update } = lodash;
 import { tokenService } from '../domain/services/token-service.js';
 import { asyncLocalStorage, getContext, getInContext, setInContext } from './async-local-storage.js';
 
 export function getRequestId() {
-  if (!config.hapi.enableRequestMonitoring) {
-    return null;
-  }
-
   const context = getContext();
 
   return get(context, 'request.headers.x-request-id', null);
@@ -22,7 +14,7 @@ export function getCorrelationContext() {
   const request = getInContext('request', null);
   const scriptName = getInContext('scriptName', null);
   const jobId = getInContext('jobId', null);
-  const request_id = get(request, 'headers.x-request-id', `default_${randomUUID()}`);
+  const request_id = get(request, 'headers.x-request-id', getInContext('default_request_id', null));
   const user_id = extractUserIdFromRequest(request);
 
   return {
