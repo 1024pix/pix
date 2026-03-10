@@ -2,6 +2,7 @@ import { databaseConnections } from '../../../../../db/database-connections.js';
 import { Script } from '../../../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../../../src/shared/application/scripts/script-runner.js';
 import { learningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
+import { logger, loggerPino } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Shared | Unit | Application | ScriptRunner', function () {
@@ -9,16 +10,17 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
   let scriptRunStub;
   let ScriptClass;
   let isRunningFromCli;
-  let logger;
+  let loggerInfoSpy, loggerErrorSpy;
   let getProcessArgs;
 
   beforeEach(function () {
     scriptFileUrl = 'file://script.js';
     isRunningFromCli = sinon.stub();
-    logger = { info: sinon.stub(), error: sinon.stub() };
+    loggerInfoSpy = sinon.spy(logger, 'info');
+    loggerErrorSpy = sinon.spy(logger, 'error');
     getProcessArgs = sinon.stub();
     scriptRunStub = sinon.stub();
-    ScriptClass = class extends Script {
+    ScriptClass = class MyTestScript extends Script {
       constructor() {
         super({
           description: 'Test script',
@@ -41,6 +43,26 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
     sinon.stub(learningContentCache, 'quit');
   });
 
+  it('runs in a dedicated context and attach correlation information', async function () {
+    // given
+    isRunningFromCli.returns(true);
+    scriptRunStub.resolves();
+    getProcessArgs.returns(['--verbose', 'pouet', '--volume', '666']);
+    const loggerPinoChildSpy = sinon.spy(loggerPino, 'child');
+
+    // when
+    await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
+
+    // then
+    expect(
+      loggerPinoChildSpy.calledWithMatch(
+        sinon.match({
+          scriptName: 'MyTestScript',
+        }),
+      ),
+    ).to.be.true;
+  });
+
   context('when not running from CLI', function () {
     beforeEach(function () {
       isRunningFromCli.returns(false);
@@ -50,11 +72,11 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
       // given
 
       // when
-      await ScriptRunner.execute(scriptFileUrl, ScriptClass, { logger, isRunningFromCli, getProcessArgs });
+      await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
 
       // then
-      expect(logger.info).not.to.have.been.called;
-      expect(logger.error).not.to.have.been.called;
+      expect(loggerInfoSpy).not.to.have.been.called;
+      expect(loggerErrorSpy).not.to.have.been.called;
     });
   });
 
@@ -69,16 +91,16 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
       getProcessArgs.returns(['--verbose', 'pouet', '--volume', '666']);
 
       // when
-      await ScriptRunner.execute(scriptFileUrl, ScriptClass, { logger, isRunningFromCli, getProcessArgs });
+      await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
 
       // then
-      expect(logger.info).to.have.been.calledWith('Start script');
+      expect(loggerInfoSpy).to.have.been.calledWith('Start script');
       expect(scriptRunStub).to.have.been.calledWith({
         command: 'pouet',
         options: { verbose: true, volume: 666 },
         logger,
       });
-      expect(logger.info).to.have.been.calledWith('Script execution successful.');
+      expect(loggerInfoSpy).to.have.been.calledWith('Script execution successful.');
     });
 
     context('when an error occurs in the script', function () {
@@ -88,12 +110,12 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
         getProcessArgs.returns([]);
 
         // when
-        await ScriptRunner.execute(scriptFileUrl, ScriptClass, { logger, isRunningFromCli, getProcessArgs });
+        await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
 
         // then
         expect(scriptRunStub).to.have.been.calledOnce;
-        expect(logger.error).to.have.been.calledWith('Script execution failed.');
-        expect(logger.error).to.have.been.calledWithMatch(sinon.match.instanceOf(Error));
+        expect(loggerErrorSpy).to.have.been.calledWith('Script execution failed.');
+        expect(loggerErrorSpy).to.have.been.calledWithMatch(sinon.match.instanceOf(Error));
         expect(process.exitCode).to.equal(1);
       });
     });
