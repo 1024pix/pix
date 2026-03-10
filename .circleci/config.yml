@@ -402,7 +402,7 @@ jobs:
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - api
+            - api/node_modules
 
   api_lint:
     executor:
@@ -610,7 +610,8 @@ jobs:
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - mon-pix
+            - mon-pix/node_modules
+            - mon-pix/dist
 
   mon_pix_lint:
     executor:
@@ -682,7 +683,8 @@ jobs:
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - orga
+            - orga/node_modules
+            - orga/dist
 
   orga_lint:
     executor:
@@ -747,7 +749,8 @@ jobs:
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - junior
+            - junior/node_modules
+            - junior/dist
 
   junior_lint:
     executor:
@@ -819,7 +822,8 @@ jobs:
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - certif
+            - certif/node_modules
+            - certif/dist
 
   certif_lint:
     executor:
@@ -891,7 +895,8 @@ jobs:
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - admin
+            - admin/node_modules
+            - admin/dist
 
   admin_lint:
     executor:
