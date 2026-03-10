@@ -3,7 +3,7 @@ import { stdSerializers } from 'pino';
 import { generateHash } from '../../../identity-access-management/infrastructure/utils/crypto.js';
 import { getForwardedOrigin } from '../../../identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../config.js';
-import { monitoringTools } from '../monitoring-tools.js';
+import { getCorrelationContext, monitoringTools } from '../monitoring-tools.js';
 import { loggerPino } from '../utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');
@@ -34,7 +34,7 @@ function requestSerializer(req) {
 
   return {
     ...enhancedReq,
-    user_id: monitoringTools.extractUserIdFromRequest(req),
+    ...getCorrelationContext(),
     metrics: context?.metrics,
     route: context?.request?.route?.path,
     routeDomain: context?.request?.route?.realm?.plugin,

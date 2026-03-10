@@ -127,8 +127,16 @@ function messageFormatCompact(log, messageKey, _logLevel, { colors }) {
     const request = colors.magentaBright([method, req.url].filter(Boolean).join(' '));
     const details = colors.yellow([queries, queriesTime].filter(Boolean).join(' '));
     const time = colors.gray(`(${responseTime}ms)`);
+    const correlationInfo = colors.gray(
+      JSON.stringify({
+        user_id: req.user_id,
+        request_id: req.request_id,
+        scriptName: req.scriptName,
+        jobId: req.jobId,
+      }),
+    );
 
-    return [statusCode, request, details, time].filter(Boolean).join(' - ');
+    return [statusCode, request, details, time, correlationInfo].filter(Boolean).join(' - ');
   }
 
   // compact log by default
