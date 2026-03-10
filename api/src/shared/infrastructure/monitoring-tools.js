@@ -19,17 +19,17 @@ export function getRequestId() {
 }
 
 export function getCorrelationContext() {
-  if (!config.hapi.enableRequestMonitoring) {
-    return {};
-  }
-  const context = asyncLocalStorage.getStore();
-  const request = get(context, 'request', null);
-
-  if (!request) return {};
+  const request = getInContext('request', null);
+  const scriptName = getInContext('scriptName', null);
+  const jobId = getInContext('jobId', null);
+  const request_id = get(request, 'headers.x-request-id', `default_${randomUUID()}`);
+  const user_id = extractUserIdFromRequest(request);
 
   return {
-    user_id: extractUserIdFromRequest(request),
-    request_id: get(request, 'headers.x-request-id', `default_${randomUUID()}`),
+    user_id,
+    request_id,
+    scriptName,
+    jobId,
   };
 }
 
