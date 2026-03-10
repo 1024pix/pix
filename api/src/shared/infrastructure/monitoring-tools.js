@@ -8,7 +8,7 @@ const { get, update } = lodash;
 import { tokenService } from '../domain/services/token-service.js';
 import { asyncLocalStorage, getContext, getInContext, setInContext } from './async-local-storage.js';
 
-function getRequestId() {
+export function getRequestId() {
   if (!config.hapi.enableRequestMonitoring) {
     return null;
   }
@@ -18,7 +18,7 @@ function getRequestId() {
   return get(context, 'request.headers.x-request-id', null);
 }
 
-function getCorrelationContext() {
+export function getCorrelationContext() {
   if (!config.hapi.enableRequestMonitoring) {
     return {};
   }
@@ -33,7 +33,7 @@ function getCorrelationContext() {
   };
 }
 
-function extractUserIdFromRequest(request) {
+export function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
 
   if (!userId && get(request, 'headers.authorization')) {
@@ -44,13 +44,13 @@ function extractUserIdFromRequest(request) {
   return userId || '-';
 }
 
-function incrementInContext(path, increment = 1) {
+export function incrementInContext(path, increment = 1) {
   const store = asyncLocalStorage.getStore();
   if (!store) return;
   update(store, path, (v) => (v ?? 0) + increment);
 }
 
-const monitoringTools = {
+export const monitoringTools = {
   extractUserIdFromRequest,
   getContext,
   getInContext,
@@ -58,14 +58,4 @@ const monitoringTools = {
   setInContext,
 };
 
-export {
-  asyncLocalStorage,
-  extractUserIdFromRequest,
-  getContext,
-  getCorrelationContext,
-  getInContext,
-  getRequestId,
-  incrementInContext,
-  monitoringTools,
-  setInContext,
-};
+export { asyncLocalStorage, getContext, getInContext, setInContext };
