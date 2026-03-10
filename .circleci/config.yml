@@ -435,6 +435,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
+      - run: circleci tests glob "tests/**/*-test.js" | circleci tests split --show-counts
       - run:
           name: Test
           command: npm run test:api:unit
@@ -444,13 +445,13 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_FILE: /home/circleci/test-results/api_unit_test/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
           when: always
       - store_test_results:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/api_unit_test
       - store_artifacts:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/api_unit_test
 
   api_integration_test:
     executor:
@@ -459,6 +460,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
+      - run: circleci tests glob "tests/**/*-test.js" | circleci tests split --show-counts
       - run:
           name: Prepare database
           command: npm run db:prepare
@@ -493,14 +495,14 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_FILE: /home/circleci/test-results/api_integration_test/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
             MOCHA_RETRIES: 2
           when: always
       - store_test_results:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/api_integration_test
       - store_artifacts:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/api_integration_test
 
   api_acceptance_test:
     executor:
@@ -510,6 +512,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
+      - run: circleci tests glob "tests/**/*-test.js" | circleci tests split --show-counts
       - run:
           name: Prepare database
           command: npm run db:prepare
@@ -542,14 +545,14 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_FILE: /home/circleci/test-results/api_acceptance_test/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
             MOCHA_RETRIES: 2
           when: always
       - store_test_results:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/api_acceptance_test
       - store_artifacts:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/api_acceptance_test
 
   audit_logger_test:
     executor:
@@ -580,9 +583,9 @@ jobs:
             PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
       - store_test_results:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/audit_logger_test
       - store_artifacts:
-          path: /home/circleci/test-results
+          path: /home/circleci/test-results/audit_logger_test
 
   mon_pix_build:
     executor:
@@ -646,16 +649,17 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
+      - run: circleci tests glob "tests/**/*-test.js" | circleci tests split --show-counts
       - run:
           environment:
-            RESULTS_PATH: ../../test-results/mon_pix
+            RESULTS_PATH: ../../test-results/mon_pix_test
           name: Test
           command: npm run test:ci
           when: always
       - store_test_results:
-          path: /home/circleci/test-results/mon_pix
+          path: /home/circleci/test-results/mon_pix_test
       - store_artifacts:
-          path: /home/circleci/test-results/mon_pix
+          path: /home/circleci/test-results/mon_pix_test
 
   orga_build:
     executor:
@@ -721,14 +725,14 @@ jobs:
           at: ~/pix
       - run:
           environment:
-            RESULTS_PATH: ../../test-results/orga
+            RESULTS_PATH: ../../test-results/orga_test
           name: Test
           command: npm run test:ci
           when: always
       - store_test_results:
-          path: /home/circleci/test-results/orga
+          path: /home/circleci/test-results/orga_test
       - store_artifacts:
-          path: /home/circleci/test-results/orga
+          path: /home/circleci/test-results/orga_test
 
   junior_install:
     executor:
@@ -787,14 +791,14 @@ jobs:
           at: ~/pix
       - run:
           environment:
-            RESULTS_PATH: ../../test-results/junior
+            RESULTS_PATH: ../../test-results/junior_test
           name: Test
           command: npm run test:ci
           when: always
       - store_test_results:
-          path: /home/circleci/test-results/junior
+          path: /home/circleci/test-results/junior_test
       - store_artifacts:
-          path: /home/circleci/test-results/junior
+          path: /home/circleci/test-results/junior_test
 
   certif_build:
     executor:
@@ -860,14 +864,14 @@ jobs:
           at: ~/pix
       - run:
           environment:
-            RESULTS_PATH: ../../test-results/certif
+            RESULTS_PATH: ../../test-results/certif_test
           name: Test
           command: npm run test:ci
           when: always
       - store_test_results:
-          path: /home/circleci/test-results/certif
+          path: /home/circleci/test-results/certif_test
       - store_artifacts:
-          path: /home/circleci/test-results/certif
+          path: /home/circleci/test-results/certif_test
 
   admin_build:
     executor:
@@ -933,14 +937,14 @@ jobs:
           at: ~/pix
       - run:
           environment:
-            RESULTS_PATH: ../../test-results/admin
+            RESULTS_PATH: ../../test-results/admin_test
           name: Test
           command: npm run test:ci
           when: always
       - store_test_results:
-          path: /home/circleci/test-results/admin
+          path: /home/circleci/test-results/admin_test
       - store_artifacts:
-          path: /home/circleci/test-results/admin
+          path: /home/circleci/test-results/admin_test
 
   e2e_test_mon_pix:
     executor:
