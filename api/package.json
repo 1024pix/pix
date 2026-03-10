@@ -88,7 +88,8 @@
     "toggles": "LOG_FOR_HUMANS_FORMAT=compact node --env-file-if-exists=.env src/shared/infrastructure/feature-toggles/feature-toggles-script.js",
     "monitoring:arborescence": "node --env-file-if-exists=.env scripts/arborescence-monitoring/arborescence-monitoring.js",
     "monitoring:metrics": "node --env-file-if-exists=.env scripts/arborescence-monitoring/add-metrics-to-gist.js",
-    "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/acceptance/module-instantiation_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/integration/repositories/module-repository_test.js'"
+    "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/acceptance/module-instantiation_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/integration/repositories/module-repository_test.js'",
+    "verify:migration": "sh -c 'node db/utils/migration-to-sql.js $0 && ./node_modules/.bin/squawk ./db/utils/migration.sql; rm ./db/utils/migration.sql'"
   },
   "dependencies": {
     "@1024pix/epreuves-components": "^4.0.1",
@@ -191,6 +192,7 @@
     "pdfjs-dist": "^5.0.0",
     "sinon": "^21.0.0",
     "sinon-chai": "^4.0.0",
+    "squawk-cli": "^2.43.0",
     "stream-to-promise": "^3.0.0"
   },
   "overrides": {

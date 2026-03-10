@@ -17,28 +17,36 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-const up = async function (knex) {
-  await knex.schema.table('certification-candidates', function (table) {
-    table.string('subscription', 50).comment('Enum value of Framework that candidate is subscribe to');
-  });
-  await knex.schema.table('certification-courses', function (table) {
-    table.integer('versionId').comment('Active certification version at candidate reconciliation.');
-    table.integer('candidateId').comment('link to certification candidate');
-  });
-  await knex.raw(`
-    ALTER TABLE "certification-courses"
-    ADD CONSTRAINT certification_courses_candidateid_foreign
-    FOREIGN KEY ("candidateId")
-    REFERENCES "certification-candidates"(id)
-    NOT VALID
-`);
-  await knex.raw(`
+export function builder(knex) {
+  return [
+    knex.schema.table('certification-candidates', function (table) {
+      table.string('subscription', 50).comment('Enum value of Framework that candidate is subscribe to');
+    }),
+    knex.schema.table('certification-courses', function (table) {
+      table.integer('versionId').comment('Active certification version at candidate reconciliation.');
+      table.integer('candidateId').comment('link to certification candidate');
+    }),
+    knex.raw(`
+      ALTER TABLE "certification-courses"
+        ADD CONSTRAINT certification_courses_candidateid_foreign
+          FOREIGN KEY ("candidateId")
+            REFERENCES "certification-candidates" (id)
+        NOT VALID
+    `),
+    knex.raw(`
     ALTER TABLE "certification-courses"
     ADD CONSTRAINT certification_courses_versionid_foreign
     FOREIGN KEY ("versionId")
     REFERENCES certification_versions(id)
     NOT VALID
-`);
+`),
+  ];
+}
+
+const up = async function (knex) {
+  for (const request of builder(knex)) {
+    await request;
+  }
 };
 
 /**
