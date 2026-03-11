@@ -41,6 +41,6 @@ export function installHapiHook() {
   Request.prototype._execute = function (...args) {
     const request = this;
     const context = { request, default_request_id: crypto.randomUUID() };
-    return asyncLocalStorage.run(context, () => originalMethod.call(request, args));
+    return executeInContext(context, () => originalMethod.call(request, args));
   };
 }
