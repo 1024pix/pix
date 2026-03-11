@@ -19,6 +19,9 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | part
         retrybackoff: false,
         data: {
           campaignParticipationId: 777,
+          correlationContext: {
+            user_id: '-',
+          },
         },
       });
     });

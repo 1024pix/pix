@@ -12,14 +12,16 @@ class JobQueue {
     const jobHandler = new handlerClass();
     const { teamConcurrency, teamSize } = jobHandler;
     this.pgBoss.work(name, { teamSize, teamConcurrency }, async (job) => {
-      return executeInContext({ jobId: job.id }, async () => {
+      const context = initContext(job);
+      return executeInContext(context, async () => {
         const monitoredJobHandler = new MonitoredJobHandler(metrics, jobHandler, logger);
         return monitoredJobHandler.handle({ data: job.data, jobName: name, jobId: job.id });
       });
     });
 
     this.pgBoss.onComplete(name, { teamSize, teamConcurrency }, (job) => {
-      return executeInContext({ jobId: job.id }, async () => {
+      const context = initContext(job);
+      return executeInContext(context, async () => {
         const monitoringJobHandler = new MonitoringJobExecutionTimeHandler({ logger });
         return monitoringJobHandler.handle(job);
       });
@@ -37,6 +39,15 @@ class JobQueue {
   async stop() {
     await this.pgBoss.stop({ graceful: false, timeout: 1000, destroy: true });
   }
+}
+
+function initContext(job) {
+  return {
+    jobId: job.id,
+    scriptName: job.data?.correlationContext?.scriptName ?? null,
+    user_id: job.data?.correlationContext?.user_id ?? null,
+    request_id: job.data?.correlationContext?.request_id ?? null,
+  };
 }
 
 export { JobQueue };

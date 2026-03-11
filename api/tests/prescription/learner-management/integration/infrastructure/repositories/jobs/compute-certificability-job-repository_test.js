@@ -13,7 +13,12 @@ describe('Integration | Prescription | Application | Jobs | computeCertificabili
         retrylimit: 0,
         retrydelay: 0,
         retrybackoff: false,
-        data: { organizationLearnerId: 4123132 },
+        data: {
+          organizationLearnerId: 4123132,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

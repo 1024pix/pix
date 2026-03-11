@@ -13,7 +13,12 @@ describe('Learning Content | Integration | Repository | Jobs | LcmsRefreshCacheJ
         retrylimit: 0,
         retrydelay: 0,
         retrybackoff: false,
-        data: { userId: 123 },
+        data: {
+          userId: 123,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

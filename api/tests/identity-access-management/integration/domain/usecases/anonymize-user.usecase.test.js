@@ -70,6 +70,9 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
       occurredAt: now.toISOString(),
       userId: anonymizedByUserId,
       targetUserIds: [userId],
+      correlationContext: {
+        user_id: '-',
+      },
     });
 
     const authenticationMethods = await knex('authentication-methods').where({ userId });

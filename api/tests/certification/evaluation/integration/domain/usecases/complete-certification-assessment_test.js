@@ -60,7 +60,13 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | complete
         .first();
       expect(assessmentStateAndUpdatedAt).to.deep.equal({ state: Assessment.states.COMPLETED, updatedAt: now });
       await expect('CertificationCompletedJob').to.have.been.schedule.withJob({
-        data: { certificationCourseId, locale },
+        data: {
+          certificationCourseId,
+          locale,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

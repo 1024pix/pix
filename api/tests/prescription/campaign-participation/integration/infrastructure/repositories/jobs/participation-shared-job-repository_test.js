@@ -15,7 +15,12 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | part
         retrylimit: 0,
         retrydelay: 0,
         retrybackoff: false,
-        data: { campaignParticipationId: 2 },
+        data: {
+          campaignParticipationId: 2,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

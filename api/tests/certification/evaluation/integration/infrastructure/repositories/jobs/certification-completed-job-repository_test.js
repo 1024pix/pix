@@ -22,7 +22,12 @@ describe('Integration | Repository | Jobs | CertificationCompletedJobRepository'
         retrydelay: 30,
         retrybackoff: true,
         priority: JobPriority.HIGH,
-        data,
+        data: {
+          ...data,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

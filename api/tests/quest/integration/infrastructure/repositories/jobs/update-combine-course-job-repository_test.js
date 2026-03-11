@@ -17,7 +17,13 @@ describe('Integration | Prescription | Application | Jobs | updateCombinedCourse
         retrylimit: 0,
         retrydelay: 0,
         retrybackoff: false,
-        data: { userId, moduleId },
+        data: {
+          userId,
+          moduleId,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

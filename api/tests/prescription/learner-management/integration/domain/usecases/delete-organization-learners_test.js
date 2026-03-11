@@ -259,6 +259,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         occurredAt: now.toISOString(),
         targetUserIds: [organizationLearner1.id],
         data: {},
+        correlationContext: {
+          user_id: '-',
+        },
       },
       {
         client: 'PIX_ORGA',
@@ -268,6 +271,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         occurredAt: now.toISOString(),
         targetUserIds: [campaignParticipation1.id],
         data: {},
+        correlationContext: {
+          user_id: '-',
+        },
       },
     ]);
   });

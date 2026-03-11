@@ -65,7 +65,7 @@ describe('Evaluation | Unit | Infrastructure | Repositories | AnswerJobRepositor
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
-      const userId = Symbol('userId');
+      const userId = 123;
       const answerJobRepository = new AnswerJobRepository({
         dependencies: { profileRewardTemporaryStorage: profileRewardTemporaryStorageStub },
       });

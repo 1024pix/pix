@@ -15,7 +15,12 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | part
         retrylimit: JobRetry.FEW_RETRY.retryLimit,
         retrydelay: JobRetry.FEW_RETRY.retryDelay,
         retrybackoff: JobRetry.FEW_RETRY.retryBackoff,
-        data: { campaignParticipationId: 3 },
+        data: {
+          campaignParticipationId: 3,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });

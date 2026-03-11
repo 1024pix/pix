@@ -148,6 +148,9 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
       occurredAt: now.toISOString(),
       targetUserIds: [campaignParticipationId],
       data: {},
+      correlationContext: {
+        user_id: '-',
+      },
     });
   });
 

@@ -50,7 +50,12 @@ describe('Integration | Tooling | Expect Job', function () {
       // then
       await expect('JobTest').to.have.been.performed.withJob({
         name: 'JobTest',
-        data: { foo: 'bar' },
+        data: {
+          foo: 'bar',
+          correlationContext: {
+            user_id: '-',
+          },
+        },
         retrylimit: job.retry.retryLimit,
         retrydelay: job.retry.retryDelay,
         retrybackoff: job.retry.retryBackoff,
@@ -100,7 +105,20 @@ describe('Integration | Tooling | Expect Job', function () {
       await job.performAsync({ bar: 'baz' });
 
       // then
-      await expect('JobTest').to.have.been.performed.withJobPayloads([{ foo: 'bar' }, { bar: 'baz' }]);
+      await expect('JobTest').to.have.been.performed.withJobPayloads([
+        {
+          foo: 'bar',
+          correlationContext: {
+            user_id: '-',
+          },
+        },
+        {
+          bar: 'baz',
+          correlationContext: {
+            user_id: '-',
+          },
+        },
+      ]);
     });
 
     it('fails when not all job payloads are correct', async function () {
@@ -148,8 +166,18 @@ describe('Integration | Tooling | Expect Job', function () {
       await job2.performAsync({ bar: 'baz' });
 
       // then
-      await expect('JobTest').to.have.been.performed.withJobPayload({ foo: 'bar' });
-      await expect('JobTest2').to.have.been.performed.withJobPayload({ bar: 'baz' });
+      await expect('JobTest').to.have.been.performed.withJobPayload({
+        foo: 'bar',
+        correlationContext: {
+          user_id: '-',
+        },
+      });
+      await expect('JobTest2').to.have.been.performed.withJobPayload({
+        bar: 'baz',
+        correlationContext: {
+          user_id: '-',
+        },
+      });
     });
 
     it('fails when the job payload is not correct', async function () {

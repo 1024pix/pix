@@ -6,6 +6,11 @@ describe('Learning Content | Integration | Domain | Use case | scheduleRefreshLe
   it('should schedule the job', async function () {
     await usecases.scheduleRefreshLearningContentCacheJob({ userId: 123 });
 
-    await expect(LcmsRefreshCacheJob.name).to.have.been.performed.withJobPayload({ userId: 123 });
+    await expect(LcmsRefreshCacheJob.name).to.have.been.performed.withJobPayload({
+      userId: 123,
+      correlationContext: {
+        user_id: '-',
+      },
+    });
   });
 });

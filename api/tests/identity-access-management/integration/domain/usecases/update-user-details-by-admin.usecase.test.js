@@ -62,6 +62,9 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       targetUserIds: [userId],
       data: { oldEmail: 'email@example.net', newEmail: userDetailsToUpdate.email },
       occurredAt: '2024-12-25T00:00:00.000Z',
+      correlationContext: {
+        user_id: '-',
+      },
     });
   });
 

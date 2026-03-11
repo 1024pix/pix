@@ -6,6 +6,11 @@ describe('Learning Content | Integration | Domain | Use case | scheduleCreateLea
   it('should schedule the job', async function () {
     await usecases.scheduleCreateLearningContentReleaseJob({ userId: 123 });
 
-    await expect(LcmsCreateReleaseJob.name).to.have.been.performed.withJobPayload({ userId: 123 });
+    await expect(LcmsCreateReleaseJob.name).to.have.been.performed.withJobPayload({
+      userId: 123,
+      correlationContext: {
+        user_id: '-',
+      },
+    });
   });
 });

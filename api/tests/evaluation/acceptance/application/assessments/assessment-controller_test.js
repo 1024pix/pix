@@ -702,6 +702,9 @@ describe('Acceptance | Controller | assessment-controller', function () {
             await expect(CertificationCompletedJob.name).to.have.been.performed.withJobPayload({
               certificationCourseId,
               locale: FRENCH_FRANCE,
+              correlationContext: {
+                user_id: '-',
+              },
             });
           });
         });

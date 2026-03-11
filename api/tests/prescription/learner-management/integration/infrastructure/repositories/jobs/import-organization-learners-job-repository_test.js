@@ -16,7 +16,12 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | impo
         retrylimit: JobRetry.FEW_RETRY.retryLimit,
         retrydelay: JobRetry.FEW_RETRY.retryDelay,
         retrybackoff: JobRetry.FEW_RETRY.retryBackoff,
-        data: { organizationImportId: 4123132 },
+        data: {
+          organizationImportId: 4123132,
+          correlationContext: {
+            user_id: '-',
+          },
+        },
       });
     });
   });
