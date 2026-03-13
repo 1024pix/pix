@@ -475,7 +475,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       expect(response.statusCode).to.equal(204);
     });
 
-    it('returns a 400 when grant type is not "access_token" nor "refresh_token"', async function () {
+    it('returns a 400 when token_type_hint is not "access_token" nor "refresh_token"', async function () {
       // given
       payload = querystring.stringify({
         token: 'jwt.access.token',
