@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16.9-alpine
+    image: postgres:16.13-alpine
     container_name: pix-e2e-postgres
     environment:
       POSTGRES_DB: pix

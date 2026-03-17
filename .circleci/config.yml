@@ -65,7 +65,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: postgres:16.9-alpine
+      - image: postgres:16.13-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -82,7 +82,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: postgres:16.9-alpine
+      - image: postgres:16.13-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -99,7 +99,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: postgres:16.9-alpine
+      - image: postgres:16.13-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -127,7 +127,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
-      - image: postgres:16.9-alpine
+      - image: postgres:16.13-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -141,7 +141,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: postgres:16.9-alpine
+      - image: postgres:16.13-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
