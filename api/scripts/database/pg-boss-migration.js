@@ -1,4 +1,4 @@
-import PgBoss from 'pg-boss';
+import { PgBoss } from 'pg-boss';
 
 import { databaseConnections } from '../../db/database-connections.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';

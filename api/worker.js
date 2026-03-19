@@ -86,7 +86,7 @@ export async function registerJobs({ jobGroups, dependencies = { startPgBoss } }
 
     if (job.isJobEnabled) {
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-      jobQueues.register(metrics, job.jobName, ModuleClass);
+      await jobQueues.register(metrics, job.jobName, ModuleClass);
 
       if (!job.jobCron && job.legacyName) {
         logger.warn(`Temporary Job" ${job.legacyName}" registered from module "${moduleName}."`);
@@ -94,7 +94,7 @@ export async function registerJobs({ jobGroups, dependencies = { startPgBoss } }
       }
 
       if (job.jobCron) {
-        await jobQueues.scheduleCronJob({
+        await jobQueues.registerScheduleJob({
           name: job.jobName,
           cron: job.jobCron,
           options: { tz: 'Europe/Paris', expireInSeconds: job.expireIn },

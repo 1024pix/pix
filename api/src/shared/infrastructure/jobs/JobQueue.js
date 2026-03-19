@@ -1,27 +1,33 @@
 import { logger } from '../utils/logger.js';
 import { MonitoredJobHandler } from './monitoring/MonitoredJobHandler.js';
-import { MonitoringJobExecutionTimeHandler } from './monitoring/MonitoringJobExecutionTimeHandler.js';
 
+// TODO: renommer en JobQueues
 class JobQueue {
   constructor(pgBoss) {
     this.pgBoss = pgBoss;
   }
 
-  register(metrics, name, handlerClass) {
+  // TODO: renommer name en queue
+  async register(metrics, name, handlerClass) {
     const jobHandler = new handlerClass();
     const { teamConcurrency, teamSize } = jobHandler;
+
+    await this.pgBoss.createQueue(name);
+
     this.pgBoss.work(name, { teamSize, teamConcurrency }, async (job) => {
       const monitoredJobHandler = new MonitoredJobHandler(metrics, jobHandler, logger);
       return monitoredJobHandler.handle({ data: job.data, jobName: name, jobId: job.id });
     });
 
-    this.pgBoss.onComplete(name, { teamSize, teamConcurrency }, (job) => {
-      const monitoringJobHandler = new MonitoringJobExecutionTimeHandler({ logger });
-      monitoringJobHandler.handle(job);
-    });
+    // TODO: n'existe plus, à voir comment le remplacer
+    // this.pgBoss.onComplete(name, { teamSize, teamConcurrency }, (job) => {
+    //   const monitoringJobHandler = new MonitoringJobExecutionTimeHandler({ logger });
+    //   monitoringJobHandler.handle(job);
+    // });
   }
 
-  scheduleCronJob({ name, cron, data, options }) {
+  async registerScheduleJob({ name, cron, data, options }) {
+    await this.pgBoss.createQueue(name);
     return this.pgBoss.schedule(name, cron, data, options);
   }
 

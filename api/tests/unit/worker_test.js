@@ -18,7 +18,7 @@ describe('Unit | Worker', function () {
     beforeEach(function () {
       startPgBossStub = sinon.stub().resolves(Symbol('pgBoss'));
       sinon.stub(JobQueue.prototype, 'register');
-      sinon.stub(JobQueue.prototype, 'scheduleCronJob');
+      sinon.stub(JobQueue.prototype, 'registerScheduleJob');
       sinon.stub(JobQueue.prototype, 'unscheduleCronJob');
     });
 
@@ -114,7 +114,7 @@ describe('Unit | Worker', function () {
 
       // then
       expect(JobQueue.prototype.register).to.not.have.been.called;
-      expect(JobQueue.prototype.scheduleCronJob).to.not.have.been.called;
+      expect(JobQueue.prototype.registerScheduleJob).to.not.have.been.called;
     });
 
     it('should throws an error when no groups is invalid', async function () {
@@ -157,7 +157,7 @@ describe('Unit | Worker', function () {
         });
 
         // then
-        expect(JobQueue.prototype.scheduleCronJob).to.have.been.calledWithExactly({
+        expect(JobQueue.prototype.registerScheduleJob).to.have.been.calledWithExactly({
           name: 'ScheduleComputeOrganizationLearnersCertificabilityJob',
           cron: '0 21 * * *',
           options: { tz: 'Europe/Paris', expireInSeconds: JobExpireIn.INFINITE },

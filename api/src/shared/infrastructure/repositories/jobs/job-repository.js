@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import PgBoss from 'pg-boss';
+import { PgBoss } from 'pg-boss';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { config } from '../../../config.js';
@@ -135,9 +135,9 @@ export const JobRetry = Object.freeze({
  * @enum {string}
  */
 export const JobExpireIn = Object.freeze({
-  INFINITE: 48 * 3600,
+  INFINITE: 20 * 3600,
   /*
    pg-boss n'arrête pas les jobs expirés. De plus, il empile d'autres jobs par dessus et relance le job expiré, ce qui peut provoquer des états incohérents.
-   Par conséquent nous définissons 48 heures comme durée maximale, ce qui fait plus que la durée maximale d'un conteneur.
+   Par conséquent nous définissons 20 heures comme durée maximale, ce qui fait plus que la durée maximale d'un conteneur.
    */
 });

@@ -11,25 +11,23 @@ export const jobChai = (pgBoss) => (_chai, utils) => {
 
   Assertion.addMethod('withJobsCount', async function (expectedCount) {
     const jobName = this._obj;
-    const jobs = await pgBoss.fetch(jobName, expectedCount + 1, { includeMetadata: true });
+    const jobs = await pgBoss.fetch(jobName, { batchSize: expectedCount + 1, includeMetadata: true });
     const actualCount = jobs?.length ?? 0;
     assert.strictEqual(
       actualCount,
       expectedCount,
       `expected ${jobName} to have been performed ${expectedCount} times, but it was performed ${actualCount} times`,
     );
-    return (jobs ?? []).map(
-      ({ id, name, data, retrylimit, retrydelay, retrybackoff, expire_in_seconds, priority }) => ({
-        id,
-        name,
-        data,
-        retryLimit: retrylimit,
-        retryDelay: retrydelay,
-        retryBackoff: retrybackoff,
-        expireIn: Math.round(expire_in_seconds),
-        priority,
-      }),
-    );
+    return (jobs ?? []).map(({ id, name, data, retryLimit, retryDelay, retryBackoff, expireInSeconds, priority }) => ({
+      id,
+      name,
+      data,
+      retryLimit,
+      retryDelay,
+      retryBackoff,
+      expireIn: Math.round(expireInSeconds),
+      priority,
+    }));
   });
 
   Assertion.addMethod('withJob', async function (jobData) {

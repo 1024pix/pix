@@ -1,6 +1,7 @@
-import PgBoss from 'pg-boss';
+import { PgBoss } from 'pg-boss';
 
 import { Metrics } from '../../../../../src/monitoring/infrastructure/metrics.js';
+import { JobController } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { JobQueue } from '../../../../../src/shared/infrastructure/jobs/JobQueue.js';
 import { JobRepository } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../test-helper.js';
@@ -20,36 +21,19 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
       // given
       const name = 'JobTest';
       const expectedParams = { jobParam: 1 };
+      class JobTest extends JobController {
+        constructor() {
+          super(name);
+        }
+      }
       const job = new JobRepository({ name });
 
       // when
+      await jobQueue.register(new Metrics({ config: { metrics: { isDirectMetricsEnabled: false } } }), name, JobTest);
       await job.performAsync(expectedParams);
 
       // then
-      const promise = new Promise((resolve, reject) => {
-        const handler = class {
-          get teamConcurrency() {
-            return 1;
-          }
-
-          get teamSize() {
-            return 2;
-          }
-
-          handle(params) {
-            try {
-              expect(params).to.deep.contains({ data: expectedParams });
-            } catch (err) {
-              reject(err);
-            }
-            resolve();
-          }
-        };
-
-        jobQueue.register(new Metrics({ config: { metrics: { isDirectMetricsEnabled: false } } }), name, handler);
-      });
-
-      return promise;
+      await expect(name).to.have.been.performed.withJobPayload(expectedParams);
     });
   });
 
@@ -59,7 +43,7 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
       const name = 'CronJobTest';
 
       // when
-      await jobQueue.scheduleCronJob({
+      await jobQueue.registerScheduleJob({
         name,
         cron: '*/5 * * * *',
         data: { my_data: 'awesome_data' },
@@ -77,7 +61,7 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
     it('remove schedule job', async function () {
       // given
       const name = 'CronJobTest';
-      await jobQueue.scheduleCronJob({
+      await jobQueue.registerScheduleJob({
         name,
         cron: '*/5 * * * *',
         data: { my_data: 'awesome_data' },

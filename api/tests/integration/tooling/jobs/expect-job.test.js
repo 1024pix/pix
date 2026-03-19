@@ -1,10 +1,14 @@
-import PgBoss from 'pg-boss';
-
 import { JobQueue } from '../../../../src/shared/infrastructure/jobs/JobQueue.js';
-import { JobRepository } from '../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRepository, pgBoss } from '../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { catchErr, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Tooling | Expect Job', function () {
+  beforeEach(async function () {
+    await pgBoss.createQueue('JobTest');
+    await pgBoss.createQueue('JobTest2');
+    await pgBoss.createQueue('JobTestOther');
+  });
+
   describe('#withJobsCount', function () {
     it('succeeds when count of executed jobs is correct', async function () {
       // given
@@ -185,17 +189,10 @@ describe('Integration | Tooling | Expect Job', function () {
   });
 
   describe('cronJob helper', function () {
-    let pgBoss, jobQueue;
+    let jobQueue;
 
     beforeEach(async function () {
-      const pgBossInstance = new PgBoss(process.env.TEST_DATABASE_URL);
-      pgBoss = await pgBossInstance.start();
-
       jobQueue = new JobQueue(pgBoss);
-    });
-
-    afterEach(async function () {
-      await pgBoss.stop();
     });
 
     describe('#withCronJobsCount', function () {
@@ -203,13 +200,13 @@ describe('Integration | Tooling | Expect Job', function () {
         // given
         const jobName = 'My_Job';
         // when
-        await jobQueue.scheduleCronJob({
+        await jobQueue.registerScheduleJob({
           name: jobName,
           cron: '*/5 * * * *',
           data: { my_data: 'awesome_data' },
           options: { tz: 'Europe/Paris' },
         });
-        await jobQueue.scheduleCronJob({
+        await jobQueue.registerScheduleJob({
           name: 'otherJob',
           cron: '*/5 * * * *',
           data: { my_data: 'awesome_data' },
@@ -226,7 +223,7 @@ describe('Integration | Tooling | Expect Job', function () {
         // given
         const jobName = 'My_Job';
         // when
-        await jobQueue.scheduleCronJob({
+        await jobQueue.registerScheduleJob({
           name: jobName,
           cron: '*/5 * * * *',
           data: { my_data: 'awesome_data' },

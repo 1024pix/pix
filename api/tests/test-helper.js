@@ -31,6 +31,7 @@ import { ApplicationAccessToken } from '../src/identity-access-management/domain
 import { UserAccessToken } from '../src/identity-access-management/domain/models/UserAccessToken.js';
 import { UserReconciliationSamlIdToken } from '../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
 import * as missionRepository from '../src/school/infrastructure/repositories/mission-repository.js';
+import { JobGroup } from '../src/shared/application/jobs/job-controller.js';
 import { ORGANIZATION_FEATURE } from '../src/shared/domain/constants.js';
 import { Membership } from '../src/shared/domain/models/Membership.js';
 import { featureToggles } from '../src/shared/infrastructure/feature-toggles/index.js';
@@ -44,6 +45,7 @@ import { pgBoss } from '../src/shared/infrastructure/repositories/jobs/job-repos
 import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../src/shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../src/shared/infrastructure/repositories/tube-repository.js';
+import { registerJobs } from '../worker.js';
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 import * as domainBuilder from './tooling/domain-builder/factory/index.js';
 import { jobChai } from './tooling/jobs/expect-job.js';
@@ -90,7 +92,8 @@ const { ROLES } = PIX_ADMIN;
 
 before(async function () {
   try {
-    await pgBoss.start();
+    // TODO: voir si on peut pas faire mieux que tout register ici
+    await registerJobs({ jobGroups: [JobGroup.DEFAULT, JobGroup.FAST] });
   } catch {
     // pgBoss is not available on unit tests
   }
@@ -113,7 +116,7 @@ afterEach(async function () {
   await datamartBuilder.clean();
   await clearMutex();
   try {
-    await pgBoss.clearStorage();
+    await pgBoss.deleteAllJobs();
   } catch {
     // pgBoss is not available on unit tests
   }
