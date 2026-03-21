@@ -5,7 +5,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import { tokenService } from '../domain/services/token-service.js';
 
-export const executionContextManager = new AsyncLocalStorage();
+const executionContextManager = new AsyncLocalStorage();
 
 export function getInContext(path, defaultValue) {
   const store = executionContextManager.getStore();

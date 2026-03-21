@@ -3,7 +3,7 @@ import { stdSerializers } from 'pino';
 import { generateHash } from '../../../identity-access-management/infrastructure/utils/crypto.js';
 import { getForwardedOrigin } from '../../../identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../config.js';
-import { getContext,getCorrelationContext } from '../execution-context-manager.js';
+import { getContext, getCorrelationContext } from '../execution-context-manager.js';
 import { loggerPino } from '../utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');

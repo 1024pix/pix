@@ -1,6 +1,5 @@
 import {
   executeInContext,
-  executionContextManager,
   getContext,
   getCorrelationContext,
   getInContext,
@@ -18,7 +17,7 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
           scriptName: 'myScriptName',
           jobId: 'myJobId',
         };
-        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
+        const correlationContext = await executeInContext(context, () => getCorrelationContext());
 
         expect(correlationContext).to.deep.equal({
           user_id: 123,
@@ -33,7 +32,7 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
           some: 'noCorrelationInfo',
           default_request_id: 'fallbackRequestId',
         };
-        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
+        const correlationContext = await executeInContext(context, () => getCorrelationContext());
 
         sinon.assert.match(correlationContext, {
           user_id: null,
@@ -47,7 +46,7 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
         const context = {
           some: 'noCorrelationInfo',
         };
-        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
+        const correlationContext = await executeInContext(context, () => getCorrelationContext());
 
         sinon.assert.match(correlationContext, {
           user_id: null,
@@ -60,18 +59,15 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
   });
 
   describe('#getRequestId', function () {
-    it('should return request ID', function () {
+    it('should return request ID within context', async function () {
       // given
-      const expectedRequestId = Symbol('RequestId');
-      const context = { request: { headers: { 'x-request-id': expectedRequestId } } };
-      sinon.stub(executionContextManager, 'getStore');
-      executionContextManager.getStore.returns(context);
+      const context = { request: { headers: { 'x-request-id': 'abc123' } } };
 
       // when
-      const requestId = getRequestId();
+      const requestId = await executeInContext(context, () => getRequestId());
 
       // then
-      expect(requestId).equal(expectedRequestId);
+      expect(requestId).equal('abc123');
     });
   });
 
@@ -81,7 +77,7 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
       const expectedResult = { foo: 'bar' };
 
       // when
-      const result = executionContextManager.run(expectedResult, () => getContext());
+      const result = executeInContext(expectedResult, () => getContext());
 
       // then
       expect(result).to.deep.equal(expectedResult);
@@ -95,7 +91,7 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
       const context = { foo: { bar: expectedResult } };
 
       // when
-      const result = executionContextManager.run(context, () => getInContext('foo.bar'));
+      const result = executeInContext(context, () => getInContext('foo.bar'));
 
       // then
       expect(result).to.deep.equal(expectedResult);
@@ -107,7 +103,7 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
       const context = {};
 
       // when
-      const result = executionContextManager.run(context, () => getInContext('foo.bar', defaultValue));
+      const result = executeInContext(context, () => getInContext('foo.bar', defaultValue));
 
       // then
       expect(result).to.deep.equal(defaultValue);
@@ -122,9 +118,9 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
       const context = {};
 
       // when
-      const result = executionContextManager.run(context, () => {
+      const result = executeInContext(context, () => {
         setInContext(givenPath, givenValue);
-        return executionContextManager.getStore();
+        return getContext();
       });
 
       // then
