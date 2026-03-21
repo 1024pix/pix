@@ -703,7 +703,10 @@ describe('Acceptance | Controller | assessment-controller', function () {
               certificationCourseId,
               locale: FRENCH_FRANCE,
               correlationContext: {
-                user_id: null,
+                jobId: null,
+                scriptName: null,
+                user_id: certifiableUserId,
+                request_id: sinon.match.string,
               },
             });
           });

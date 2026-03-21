@@ -1,4 +1,5 @@
 import { assert, Assertion } from 'chai';
+import sinon from 'sinon';
 
 export const jobChai = (knex) => (_chai, utils) => {
   utils.addProperty(Assertion.prototype, 'performed', function () {
@@ -54,7 +55,18 @@ export const jobChai = (knex) => (_chai, utils) => {
     const jobName = this._obj;
     const jobs = await knex('pgboss.job').where({ name: jobName });
     const actualPayloads = jobs.map((job) => job.data);
-    assert.deepEqual(actualPayloads, payloads, `Job '${jobName}' was performed with a different payload`);
+
+    try {
+      sinon.assert.match(actualPayloads, payloads);
+    } catch {
+      this.assert(
+        false,
+        `Job '${jobName}' was performed with a different payload`,
+        undefined,
+        payloads,
+        actualPayloads,
+      );
+    }
   });
 
   Assertion.addMethod('withJobPayload', async function (payload) {

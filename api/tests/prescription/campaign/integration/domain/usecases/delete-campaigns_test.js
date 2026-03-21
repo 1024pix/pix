@@ -370,10 +370,9 @@ describe('Integration | UseCases | delete-campaign', function () {
           userId: adminUserId,
           occurredAt: now.toISOString(),
           targetUserIds: [campaignParticipationId],
-          data: {
-            correlationContext: {
-              user_id: null,
-            },
+          data: {},
+          correlationContext: {
+            user_id: null,
           },
         });
       });
