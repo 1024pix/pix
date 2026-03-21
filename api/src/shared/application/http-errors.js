@@ -1,4 +1,4 @@
-import { getRequestId } from '../infrastructure/monitoring-tools.js';
+import { getRequestId } from '../infrastructure/execution-context-manager.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 
 class BaseHttpError extends Error {

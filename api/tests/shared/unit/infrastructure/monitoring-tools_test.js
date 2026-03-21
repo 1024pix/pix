@@ -1,24 +1,8 @@
 import { executionContextManager } from '../../../../src/shared/infrastructure/execution-context-manager.js';
-import { getCorrelationContext, getRequestId } from '../../../../src/shared/infrastructure/monitoring-tools.js';
+import { getCorrelationContext } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
-  describe('#getRequestId', function () {
-    it('should return request ID', function () {
-      // given
-      const expectedRequestId = Symbol('RequestId');
-      const context = { request: { headers: { 'x-request-id': expectedRequestId } } };
-      sinon.stub(executionContextManager, 'getStore');
-      executionContextManager.getStore.returns(context);
-
-      // when
-      const requestId = getRequestId();
-
-      // then
-      expect(requestId).equal(expectedRequestId);
-    });
-  });
-
   describe('#getCorrelationContext', function () {
     context('when an execution context is ongoing', function () {
       it('should return an object filled with correlation context info', async function () {

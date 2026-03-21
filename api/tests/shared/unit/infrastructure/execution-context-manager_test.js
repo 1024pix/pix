@@ -3,11 +3,28 @@ import {
   executionContextManager,
   getContext,
   getInContext,
+  getRequestId,
   setInContext,
 } from '../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Shared | Unit | Infrastructure | execution-context-manager', function () {
+  describe('#getRequestId', function () {
+    it('should return request ID', function () {
+      // given
+      const expectedRequestId = Symbol('RequestId');
+      const context = { request: { headers: { 'x-request-id': expectedRequestId } } };
+      sinon.stub(executionContextManager, 'getStore');
+      executionContextManager.getStore.returns(context);
+
+      // when
+      const requestId = getRequestId();
+
+      // then
+      expect(requestId).equal(expectedRequestId);
+    });
+  });
+
   describe('#getContext', function () {
     it('should return async local storage', function () {
       // given

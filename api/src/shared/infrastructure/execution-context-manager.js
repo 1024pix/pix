@@ -31,6 +31,12 @@ export function executeInContext(context, lambda) {
   }
 }
 
+export function getRequestId() {
+  const context = getContext();
+
+  return get(context, 'request.headers.x-request-id', null);
+}
+
 export function installHapiHook() {
   const originalMethod = Request.prototype._execute;
 

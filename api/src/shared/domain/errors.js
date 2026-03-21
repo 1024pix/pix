@@ -1,4 +1,4 @@
-import { getRequestId } from '../infrastructure/monitoring-tools.js';
+import { getRequestId } from '../infrastructure/execution-context-manager.js';
 import { VALIDATION_ERRORS } from './constants.js';
 
 class DomainError extends Error {

@@ -4,12 +4,6 @@ const { get, update } = lodash;
 import { tokenService } from '../domain/services/token-service.js';
 import { executionContextManager, getContext, getInContext, setInContext } from './execution-context-manager.js';
 
-export function getRequestId() {
-  const context = getContext();
-
-  return get(context, 'request.headers.x-request-id', null);
-}
-
 export function getCorrelationContext() {
   const request = getInContext('request', null);
   const scriptName = getInContext('scriptName', null);
