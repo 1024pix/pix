@@ -1,6 +1,6 @@
 import Request from '@hapi/hapi/lib/request.js';
 import lodash from 'lodash';
-const { get, set } = lodash;
+const { get, set, update } = lodash;
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 export const executionContextManager = new AsyncLocalStorage();
@@ -35,6 +35,12 @@ export function getRequestId() {
   const context = getContext();
 
   return get(context, 'request.headers.x-request-id', null);
+}
+
+export function incrementInContext(path, increment = 1) {
+  const store = executionContextManager.getStore();
+  if (!store) return;
+  update(store, path, (v) => (v ?? 0) + increment);
 }
 
 export function installHapiHook() {

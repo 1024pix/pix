@@ -2,7 +2,7 @@ import { Writable } from 'node:stream';
 
 import pino from 'pino';
 
-import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
+import { incrementInContext } from '../../../../src/shared/infrastructure/execution-context-manager.js';
 import * as pinoPlugin from '../../../../src/shared/infrastructure/plugins/pino.js';
 import { expect, generateAuthenticatedUserRequestHeaders, HttpTestServer } from '../../../test-helper.js';
 
@@ -19,7 +19,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
             path: '/',
             config: {
               handler: () => {
-                monitoringTools.incrementInContext('metrics.knexQueryCount');
+                incrementInContext('metrics.knexQueryCount');
                 return { cou: 'cou' };
               },
             },

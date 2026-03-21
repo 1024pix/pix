@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-const { get, update } = lodash;
+const { get } = lodash;
 import { tokenService } from '../domain/services/token-service.js';
-import { executionContextManager, getContext, getInContext, setInContext } from './execution-context-manager.js';
+import { getContext, getInContext, setInContext } from './execution-context-manager.js';
 
 export function getCorrelationContext() {
   const request = getInContext('request', null);
@@ -30,17 +30,9 @@ function extractUserIdFromRequest(request) {
   return userId ?? null;
 }
 
-export function incrementInContext(path, increment = 1) {
-  const store = executionContextManager.getStore();
-  if (!store) return;
-  update(store, path, (v) => (v ?? 0) + increment);
-}
-
 export const monitoringTools = {
   getContext,
   getInContext,
-  incrementInContext,
-  setInContext,
 };
 
 export { getContext, getInContext, setInContext };

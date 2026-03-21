@@ -4,7 +4,11 @@ import Knex from 'knex';
 import _ from 'lodash';
 
 import { config } from '../src/shared/config.js';
-import { monitoringTools } from '../src/shared/infrastructure/monitoring-tools.js';
+import {
+  getInContext,
+  incrementInContext,
+  setInContext,
+} from '../src/shared/infrastructure/execution-context-manager.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { configureConnectionExtension, disableTypeCastingForJsonTypes } from './knex-extensions.js';
 
@@ -32,17 +36,17 @@ export class DatabaseConnection {
       this.knex.on('query', function (data) {
         if (logging.enableKnexPerformanceMonitoring) {
           const queryId = data.__knexQueryUid;
-          monitoringTools.setInContext(`knexQueryStartTimes.${queryId}`, performance.now());
+          setInContext(`knexQueryStartTimes.${queryId}`, performance.now());
         }
       });
 
       this.knex.on('query-response', function (response, data) {
-        monitoringTools.incrementInContext('metrics.knexQueryCount');
+        incrementInContext('metrics.knexQueryCount');
         if (logging.enableKnexPerformanceMonitoring) {
-          const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${data.__knexQueryUid}`);
+          const queryStartedTime = getInContext(`knexQueryStartTimes.${data.__knexQueryUid}`);
           if (queryStartedTime) {
             const duration = performance.now() - queryStartedTime;
-            monitoringTools.incrementInContext('metrics.knexTotalTimeSpent', duration);
+            incrementInContext('metrics.knexTotalTimeSpent', duration);
           }
         }
       });
