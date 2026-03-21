@@ -2,7 +2,7 @@ import Knex from 'knex';
 import QueryBuilder from 'knex/lib/query/querybuilder.js';
 import pg from 'pg';
 
-import { monitoringTools } from '../src/shared/infrastructure/monitoring-tools.js';
+import { getInContext } from '../src/shared/infrastructure/execution-context-manager.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 const types = pg.types;
@@ -30,7 +30,7 @@ export function configureGlobalExtensions() {
   const originalToSQL = QueryBuilder.prototype.toSQL;
   QueryBuilder.prototype.toSQL = function () {
     const ret = originalToSQL.apply(this);
-    const request = monitoringTools.getInContext('request');
+    const request = getInContext('request');
     const comments = [['path', request?.route?.path]].map((comment) => comment.join(': ')).join(' ');
     ret.sql = `/* ${comments} */ `.concat(ret.sql);
     return ret;

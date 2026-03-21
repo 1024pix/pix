@@ -5,7 +5,7 @@ import pino from 'pino';
 import pretty from 'pino-pretty';
 
 import { config } from '../../config.js';
-import { getCorrelationContext } from '../monitoring-tools.js';
+import { getCorrelationContext } from '../execution-context-manager.js';
 
 const { logging } = config;
 

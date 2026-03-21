@@ -3,7 +3,7 @@ import { stdSerializers } from 'pino';
 import { generateHash } from '../../../identity-access-management/infrastructure/utils/crypto.js';
 import { getForwardedOrigin } from '../../../identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../config.js';
-import { getCorrelationContext, monitoringTools } from '../monitoring-tools.js';
+import { getContext,getCorrelationContext } from '../execution-context-manager.js';
 import { loggerPino } from '../utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');
@@ -17,7 +17,7 @@ function requestSerializer(req) {
   };
 
   // monitor api token route
-  const context = monitoringTools.getContext();
+  const context = getContext();
   if (context?.request?.route?.path === '/api/token') {
     const { username, refresh_token, grant_type } = context.request.payload || {};
     let origin;

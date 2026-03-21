@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { getCorrelationContext } from '../../../shared/infrastructure/monitoring-tools.js';
+import { getCorrelationContext } from '../../../shared/infrastructure/execution-context-manager.js';
 import { Chat } from '../../domain/models/Chat.js';
 
 /**

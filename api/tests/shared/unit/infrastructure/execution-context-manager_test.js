@@ -2,6 +2,7 @@ import {
   executeInContext,
   executionContextManager,
   getContext,
+  getCorrelationContext,
   getInContext,
   getRequestId,
   setInContext,
@@ -9,6 +10,55 @@ import {
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Shared | Unit | Infrastructure | execution-context-manager', function () {
+  describe('#getCorrelationContext', function () {
+    context('when an execution context is ongoing', function () {
+      it('should return an object filled with correlation context info', async function () {
+        const context = {
+          request: { headers: { 'x-request-id': 'myRequestId' }, auth: { credentials: { userId: 123 } } },
+          scriptName: 'myScriptName',
+          jobId: 'myJobId',
+        };
+        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
+
+        expect(correlationContext).to.deep.equal({
+          user_id: 123,
+          request_id: 'myRequestId',
+          scriptName: 'myScriptName',
+          jobId: 'myJobId',
+        });
+      });
+
+      it('should read fallback value for request_id when primary value is missing', async function () {
+        const context = {
+          some: 'noCorrelationInfo',
+          default_request_id: 'fallbackRequestId',
+        };
+        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
+
+        sinon.assert.match(correlationContext, {
+          user_id: null,
+          request_id: 'fallbackRequestId',
+          scriptName: null,
+          jobId: null,
+        });
+      });
+
+      it('should return default or null values when context info are missing', async function () {
+        const context = {
+          some: 'noCorrelationInfo',
+        };
+        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
+
+        sinon.assert.match(correlationContext, {
+          user_id: null,
+          request_id: null,
+          scriptName: null,
+          jobId: null,
+        });
+      });
+    });
+  });
+
   describe('#getRequestId', function () {
     it('should return request ID', function () {
       // given

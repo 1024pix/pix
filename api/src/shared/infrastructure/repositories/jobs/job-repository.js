@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../domain/errors.js';
-import { getCorrelationContext } from '../../monitoring-tools.js';
+import { getCorrelationContext } from '../../execution-context-manager.js';
 
 export class JobRepository {
   #schema = Joi.object({
