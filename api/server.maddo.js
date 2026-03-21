@@ -16,7 +16,7 @@ import { Metrics } from './src/monitoring/infrastructure/metrics.js';
 import * as franceTravailRoutes from './src/prescription/campaign-participation/application/pole-emploi-route.js';
 import * as healthcheckRoutes from './src/shared/application/healthcheck/index.js';
 import { config } from './src/shared/config.js';
-import { installHapiHook } from './src/shared/infrastructure/async-local-storage.js';
+import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { maddoSwaggers } from './src/shared/swaggers.js';

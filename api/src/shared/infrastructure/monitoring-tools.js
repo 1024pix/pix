@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { get, update } = lodash;
 import { tokenService } from '../domain/services/token-service.js';
-import { asyncLocalStorage, getContext, getInContext, setInContext } from './async-local-storage.js';
+import { executionContextManager, getContext, getInContext, setInContext } from './execution-context-manager.js';
 
 export function getRequestId() {
   const context = getContext();
@@ -37,7 +37,7 @@ function extractUserIdFromRequest(request) {
 }
 
 export function incrementInContext(path, increment = 1) {
-  const store = asyncLocalStorage.getStore();
+  const store = executionContextManager.getStore();
   if (!store) return;
   update(store, path, (v) => (v ?? 0) + increment);
 }
@@ -49,4 +49,4 @@ export const monitoringTools = {
   setInContext,
 };
 
-export { asyncLocalStorage, getContext, getInContext, setInContext };
+export { getContext, getInContext, setInContext };

@@ -3,22 +3,22 @@ import lodash from 'lodash';
 const { get, set } = lodash;
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-export const asyncLocalStorage = new AsyncLocalStorage();
+export const executionContextManager = new AsyncLocalStorage();
 
 export function getInContext(path, defaultValue) {
-  const store = asyncLocalStorage.getStore();
+  const store = executionContextManager.getStore();
   if (!store) return;
   return get(store, path, defaultValue);
 }
 
 export function setInContext(path, value) {
-  const store = asyncLocalStorage.getStore();
+  const store = executionContextManager.getStore();
   if (!store) return;
   set(store, path, value);
 }
 
 export function getContext() {
-  return asyncLocalStorage.getStore();
+  return executionContextManager.getStore();
 }
 
 export function executeInContext(context, lambda) {
@@ -27,7 +27,7 @@ export function executeInContext(context, lambda) {
     Object.assign(currentContext, context);
     return lambda();
   } else {
-    return asyncLocalStorage.run(context, lambda);
+    return executionContextManager.run(context, lambda);
   }
 }
 

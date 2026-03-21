@@ -1,4 +1,4 @@
-import { asyncLocalStorage } from '../../../../src/shared/infrastructure/async-local-storage.js';
+import { executionContextManager } from '../../../../src/shared/infrastructure/execution-context-manager.js';
 import { getCorrelationContext, getRequestId } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { expect, sinon } from '../../../test-helper.js';
 
@@ -8,8 +8,8 @@ describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
       // given
       const expectedRequestId = Symbol('RequestId');
       const context = { request: { headers: { 'x-request-id': expectedRequestId } } };
-      sinon.stub(asyncLocalStorage, 'getStore');
-      asyncLocalStorage.getStore.returns(context);
+      sinon.stub(executionContextManager, 'getStore');
+      executionContextManager.getStore.returns(context);
 
       // when
       const requestId = getRequestId();
@@ -27,7 +27,7 @@ describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
           scriptName: 'myScriptName',
           jobId: 'myJobId',
         };
-        const correlationContext = await asyncLocalStorage.run(context, () => getCorrelationContext());
+        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
 
         expect(correlationContext).to.deep.equal({
           user_id: 123,
@@ -42,7 +42,7 @@ describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
           some: 'noCorrelationInfo',
           default_request_id: 'fallbackRequestId',
         };
-        const correlationContext = await asyncLocalStorage.run(context, () => getCorrelationContext());
+        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
 
         sinon.assert.match(correlationContext, {
           user_id: null,
@@ -56,7 +56,7 @@ describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
         const context = {
           some: 'noCorrelationInfo',
         };
-        const correlationContext = await asyncLocalStorage.run(context, () => getCorrelationContext());
+        const correlationContext = await executionContextManager.run(context, () => getCorrelationContext());
 
         sinon.assert.match(correlationContext, {
           user_id: null,

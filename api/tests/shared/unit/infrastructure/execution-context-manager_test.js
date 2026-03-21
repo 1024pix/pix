@@ -1,20 +1,20 @@
 import {
-  asyncLocalStorage,
   executeInContext,
+  executionContextManager,
   getContext,
   getInContext,
   setInContext,
-} from '../../../../src/shared/infrastructure/async-local-storage.js';
+} from '../../../../src/shared/infrastructure/execution-context-manager.js';
 import { expect } from '../../../test-helper.js';
 
-describe('Shared | Unit | Infrastructure | async-local-storage', function () {
+describe('Shared | Unit | Infrastructure | execution-context-manager', function () {
   describe('#getContext', function () {
     it('should return async local storage', function () {
       // given
       const expectedResult = { foo: 'bar' };
 
       // when
-      const result = asyncLocalStorage.run(expectedResult, () => getContext());
+      const result = executionContextManager.run(expectedResult, () => getContext());
 
       // then
       expect(result).to.deep.equal(expectedResult);
@@ -28,7 +28,7 @@ describe('Shared | Unit | Infrastructure | async-local-storage', function () {
       const context = { foo: { bar: expectedResult } };
 
       // when
-      const result = asyncLocalStorage.run(context, () => getInContext('foo.bar'));
+      const result = executionContextManager.run(context, () => getInContext('foo.bar'));
 
       // then
       expect(result).to.deep.equal(expectedResult);
@@ -40,7 +40,7 @@ describe('Shared | Unit | Infrastructure | async-local-storage', function () {
       const context = {};
 
       // when
-      const result = asyncLocalStorage.run(context, () => getInContext('foo.bar', defaultValue));
+      const result = executionContextManager.run(context, () => getInContext('foo.bar', defaultValue));
 
       // then
       expect(result).to.deep.equal(defaultValue);
@@ -55,9 +55,9 @@ describe('Shared | Unit | Infrastructure | async-local-storage', function () {
       const context = {};
 
       // when
-      const result = asyncLocalStorage.run(context, () => {
+      const result = executionContextManager.run(context, () => {
         setInContext(givenPath, givenValue);
-        return asyncLocalStorage.getStore();
+        return executionContextManager.getStore();
       });
 
       // then

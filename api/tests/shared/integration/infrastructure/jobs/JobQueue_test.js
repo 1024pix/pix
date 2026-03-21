@@ -1,7 +1,7 @@
 import PgBoss from 'pg-boss';
 
 import { Metrics } from '../../../../../src/monitoring/infrastructure/metrics.js';
-import { executeInContext, getContext } from '../../../../../src/shared/infrastructure/async-local-storage.js';
+import { executeInContext, getContext } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { JobQueue } from '../../../../../src/shared/infrastructure/jobs/JobQueue.js';
 import { JobRepository } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect, sinon } from '../../../../test-helper.js';

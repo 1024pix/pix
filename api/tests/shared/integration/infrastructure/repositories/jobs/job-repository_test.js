@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { executeInContext } from '../../../../../../src/shared/infrastructure/async-local-storage.js';
+import { executeInContext } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import {
   JobExpireIn,
   JobPriority,

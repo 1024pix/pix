@@ -1,4 +1,4 @@
-import { executeInContext } from '../async-local-storage.js';
+import { executeInContext } from '../execution-context-manager.js';
 import { logger } from '../utils/logger.js';
 import { MonitoredJobHandler } from './monitoring/MonitoredJobHandler.js';
 import { MonitoringJobExecutionTimeHandler } from './monitoring/MonitoringJobExecutionTimeHandler.js';

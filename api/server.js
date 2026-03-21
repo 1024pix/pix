@@ -36,7 +36,7 @@ import { profileRoutes } from './src/profile/routes.js';
 import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { config } from './src/shared/config.js';
-import { installHapiHook } from './src/shared/infrastructure/async-local-storage.js';
+import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 // bounded context migration

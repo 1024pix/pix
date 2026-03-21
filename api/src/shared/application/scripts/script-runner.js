@@ -5,8 +5,8 @@ import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
 import { databaseConnections } from '../../../../db/database-connections.js';
-import { executeInContext } from '../../infrastructure/async-local-storage.js';
 import { learningContentCache } from '../../infrastructure/caches/learning-content-cache.js';
+import { executeInContext } from '../../infrastructure/execution-context-manager.js';
 import { quitAllStorages } from '../../infrastructure/key-value-storages/index.js';
 import { quitMutex } from '../../infrastructure/mutex/RedisMutex.js';
 import { logger } from '../../infrastructure/utils/logger.js';
