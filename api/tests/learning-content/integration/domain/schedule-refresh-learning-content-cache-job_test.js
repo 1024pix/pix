@@ -9,7 +9,7 @@ describe('Learning Content | Integration | Domain | Use case | scheduleRefreshLe
     await expect(LcmsRefreshCacheJob.name).to.have.been.performed.withJobPayload({
       userId: 123,
       correlationContext: {
-        user_id: '-',
+        user_id: null,
       },
     });
   });

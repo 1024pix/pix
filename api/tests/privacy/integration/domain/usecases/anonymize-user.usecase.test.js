@@ -104,7 +104,7 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user', function (
       userId: anonymizedByUserId,
       targetUserIds: [userId],
       correlationContext: {
-        user_id: '-',
+        user_id: null,
       },
     });
 

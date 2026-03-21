@@ -703,7 +703,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
               certificationCourseId,
               locale: FRENCH_FRANCE,
               correlationContext: {
-                user_id: '-',
+                user_id: null,
               },
             });
           });

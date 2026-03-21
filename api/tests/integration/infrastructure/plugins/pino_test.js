@@ -135,7 +135,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
           expect(messages).to.have.lengthOf(1);
           expect(messages[0].msg).to.equal('request completed');
           expect(messages[0].req.version).to.equal('development');
-          expect(messages[0].req.user_id).to.equal('-');
+          expect(messages[0].req.user_id).to.equal(null);
           expect(messages[0].req.route).to.equal('/api/token');
           expect(messages[0].req.usernameHash).to.equal(
             '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66', // echo -n 'toto'| shasum -a 256
@@ -162,7 +162,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
           expect(messages).to.have.lengthOf(1);
           expect(messages[0].msg).to.equal('request completed');
           expect(messages[0].req.version).to.equal('development');
-          expect(messages[0].req.user_id).to.equal('-');
+          expect(messages[0].req.user_id).to.equal(null);
           expect(messages[0].req.route).to.equal('/api/token');
           expect(messages[0].req.usernameHash).to.equal('-');
         });

@@ -21,7 +21,7 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | impo
           type: 'REPLACE',
           locale: 'fr',
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

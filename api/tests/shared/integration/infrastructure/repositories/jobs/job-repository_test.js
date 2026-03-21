@@ -13,7 +13,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
   it('create one job db with given config', async function () {
     // given
     const name = 'JobTest';
-    const expectedCorrelationContext = { user_id: '-' };
+    const expectedCorrelationContext = { user_id: null };
     const expectedParams = { jobParam: 1, correlationContext: expectedCorrelationContext };
     const retry = JobRetry.STANDARD_RETRY;
     const priority = JobPriority.HIGH;
@@ -37,7 +37,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
   it('create jobs db with given config', async function () {
     // given
     const name = 'JobTest';
-    const expectedCorrelationContext = { user_id: '-' };
+    const expectedCorrelationContext = { user_id: null };
     const expectedParams = [
       { jobParam: 1, correlationContext: expectedCorrelationContext },
       { jobParam: 2, correlationContext: expectedCorrelationContext },

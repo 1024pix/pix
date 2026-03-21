@@ -21,7 +21,7 @@ describe('Integration | Prescription | Application | Jobs | updateCombinedCourse
           userId,
           moduleId,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { extractUserIdFromRequest } from '../../../shared/infrastructure/monitoring-tools.js';
 import * as csvSerializer from '../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { generateCSVTemplate } from '../../../shared/infrastructure/serializers/csv/csv-template.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -8,7 +7,7 @@ import * as certificationCenterForAdminSerializer from '../../infrastructure/ser
 
 const archiveCertificationCenter = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
-  const userId = extractUserIdFromRequest(request);
+  const { userId } = request.auth.credentials;
   await usecases.archiveCertificationCenter({ certificationCenterId, userId });
 
   return h.response().code(204);
@@ -27,7 +26,7 @@ const getTemplateForArchiveInBatch = async function (request, h) {
 };
 
 const archiveInBatch = async function (request, h) {
-  const userId = extractUserIdFromRequest(request);
+  const { userId } = request.auth.credentials;
   const certificationCenterIds = await csvSerializer.deserializeForCertificationCenterBatchArchive(
     request.payload.path,
   );
@@ -37,7 +36,7 @@ const archiveInBatch = async function (request, h) {
 };
 
 const create = async function (request) {
-  const userId = extractUserIdFromRequest(request);
+  const { userId } = request.auth.credentials;
   const certificationCenter = certificationCenterForAdminSerializer.deserialize({
     data: request.payload.data,
     createdBy: userId,

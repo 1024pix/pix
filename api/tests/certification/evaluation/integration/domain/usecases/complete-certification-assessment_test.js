@@ -64,7 +64,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | complete
           certificationCourseId,
           locale,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

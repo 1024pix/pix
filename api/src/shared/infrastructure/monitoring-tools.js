@@ -25,7 +25,7 @@ export function getCorrelationContext() {
   };
 }
 
-export function extractUserIdFromRequest(request) {
+function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
 
   if (!userId && get(request, 'headers.authorization')) {
@@ -33,7 +33,7 @@ export function extractUserIdFromRequest(request) {
     userId = tokenService.extractUserId(token);
   }
 
-  return userId || '-';
+  return userId ?? null;
 }
 
 export function incrementInContext(path, increment = 1) {
@@ -43,7 +43,6 @@ export function incrementInContext(path, increment = 1) {
 }
 
 export const monitoringTools = {
-  extractUserIdFromRequest,
   getContext,
   getInContext,
   incrementInContext,

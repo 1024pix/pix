@@ -45,7 +45,7 @@ describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
         const correlationContext = await asyncLocalStorage.run(context, () => getCorrelationContext());
 
         sinon.assert.match(correlationContext, {
-          user_id: '-',
+          user_id: null,
           request_id: 'fallbackRequestId',
           scriptName: null,
           jobId: null,
@@ -59,7 +59,7 @@ describe('Shared | Unit | Infrastructure | monitoring-tools', function () {
         const correlationContext = await asyncLocalStorage.run(context, () => getCorrelationContext());
 
         sinon.assert.match(correlationContext, {
-          user_id: '-',
+          user_id: null,
           request_id: null,
           scriptName: null,
           jobId: null,

@@ -20,7 +20,7 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | part
         data: {
           campaignParticipationId: 777,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

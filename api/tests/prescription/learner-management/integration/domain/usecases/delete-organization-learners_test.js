@@ -260,7 +260,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         targetUserIds: [organizationLearner1.id],
         data: {},
         correlationContext: {
-          user_id: '-',
+          user_id: null,
         },
       },
       {
@@ -272,7 +272,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         targetUserIds: [campaignParticipation1.id],
         data: {},
         correlationContext: {
-          user_id: '-',
+          user_id: null,
         },
       },
     ]);

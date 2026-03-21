@@ -25,7 +25,7 @@ describe('Integration | Repository | Jobs | CertificationCompletedJobRepository'
         data: {
           ...data,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

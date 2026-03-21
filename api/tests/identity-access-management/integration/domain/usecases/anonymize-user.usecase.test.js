@@ -71,7 +71,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
       userId: anonymizedByUserId,
       targetUserIds: [userId],
       correlationContext: {
-        user_id: '-',
+        user_id: null,
       },
     });
 

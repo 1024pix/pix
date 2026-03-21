@@ -149,7 +149,7 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
       targetUserIds: [campaignParticipationId],
       data: {},
       correlationContext: {
-        user_id: '-',
+        user_id: null,
       },
     });
   });

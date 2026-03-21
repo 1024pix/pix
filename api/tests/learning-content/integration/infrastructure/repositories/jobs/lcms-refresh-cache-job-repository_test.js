@@ -16,7 +16,7 @@ describe('Learning Content | Integration | Repository | Jobs | LcmsRefreshCacheJ
         data: {
           userId: 123,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

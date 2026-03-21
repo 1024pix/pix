@@ -20,7 +20,7 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | impo
           organizationImportId: 4123132,
           locale: 'fr',
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

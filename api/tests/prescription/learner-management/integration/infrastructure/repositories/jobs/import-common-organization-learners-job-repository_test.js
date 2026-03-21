@@ -19,7 +19,7 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | impo
         data: {
           organizationImportId: 4123132,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });

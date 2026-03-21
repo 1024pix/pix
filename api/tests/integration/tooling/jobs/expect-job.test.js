@@ -53,7 +53,7 @@ describe('Integration | Tooling | Expect Job', function () {
         data: {
           foo: 'bar',
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
         retrylimit: job.retry.retryLimit,
@@ -109,13 +109,13 @@ describe('Integration | Tooling | Expect Job', function () {
         {
           foo: 'bar',
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
         {
           bar: 'baz',
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       ]);
@@ -169,13 +169,13 @@ describe('Integration | Tooling | Expect Job', function () {
       await expect('JobTest').to.have.been.performed.withJobPayload({
         foo: 'bar',
         correlationContext: {
-          user_id: '-',
+          user_id: null,
         },
       });
       await expect('JobTest2').to.have.been.performed.withJobPayload({
         bar: 'baz',
         correlationContext: {
-          user_id: '-',
+          user_id: null,
         },
       });
     });

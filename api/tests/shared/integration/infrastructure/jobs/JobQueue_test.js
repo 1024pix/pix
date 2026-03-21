@@ -79,7 +79,7 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
               try {
                 const currentContext = getContext();
                 sinon.assert.match(currentContext, {
-                  user_id: '-', // put by getCorrelationContext() call in performAsync, default value
+                  user_id: null, // put by getCorrelationContext() call in performAsync, default value
                   request_id: null,
                   scriptName: null,
                   jobId: sinon.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/),

@@ -16,7 +16,7 @@ describe('Integration | Prescription | Application | Jobs | computeCertificabili
         data: {
           organizationLearnerId: 4123132,
           correlationContext: {
-            user_id: '-',
+            user_id: null,
           },
         },
       });
