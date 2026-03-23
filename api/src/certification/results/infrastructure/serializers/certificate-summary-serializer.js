@@ -20,6 +20,7 @@ const serialize = function (certificateSummaries, { translate }) {
       'status',
       'extraCertificationStatus',
       'certificateType',
+      'reachedMeshIndex',
     ],
   }).serialize(certificateSummaries);
 };

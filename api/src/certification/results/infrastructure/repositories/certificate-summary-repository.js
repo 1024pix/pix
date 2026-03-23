@@ -24,6 +24,7 @@ export async function findByUserId({ userId }) {
       commentForCandidate: 'assessment-results.commentForCandidate',
       commentByAutoJury: 'assessment-results.commentByAutoJury',
       assessmentResultStatus: 'assessment-results.status',
+      reachedMeshIndex: 'assessment-results.reachedMeshIndex',
     })
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
     .join(

@@ -33,6 +33,7 @@ export class CertificateSummary {
     status,
     extraCertificationStatus,
     certificateType,
+    reachedMeshIndex,
   }) {
     this.id = id;
     this.verificationCode = verificationCode;
@@ -44,6 +45,7 @@ export class CertificateSummary {
     this.status = status;
     this.extraCertificationStatus = extraCertificationStatus;
     this.certificateType = certificateType;
+    this.reachedMeshIndex = reachedMeshIndex;
   }
 
   static buildFrom({
@@ -59,6 +61,7 @@ export class CertificateSummary {
     isPublished,
     isExtraCertificationAcquired,
     algorithmVersion,
+    reachedMeshIndex,
   }) {
     let status, extraCertificationStatus;
 
@@ -106,6 +109,7 @@ export class CertificateSummary {
       status,
       extraCertificationStatus,
       certificateType,
+      reachedMeshIndex,
     });
   }
 }

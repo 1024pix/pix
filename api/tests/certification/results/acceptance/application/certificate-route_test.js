@@ -546,8 +546,9 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           version: AlgorithmEngineVersion.V2,
         }).id;
         const eduLastAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-          pixScore: 555,
+          pixScore: null,
           status: AssesmentResult.status.VALIDATED,
+          reachedMeshIndex: 1,
           commentForCandidate: 'Bravo',
         }).id;
         databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
@@ -598,6 +599,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
               'certificate-type': CERTIFICATE_TYPES.CERTIFICATE,
               status: CERTIFICATE_STATUSES.VALIDATED,
               'extra-certification-status': EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE,
+              'reached-mesh-index': null,
             },
           },
           {
@@ -610,9 +612,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
               'certification-started-at': new Date('2025-06-06'),
               comment: 'Bravo',
               'certificate-type': CERTIFICATE_TYPES.ATTESTATION,
-              'pix-score': 555,
+              'pix-score': null,
               status: CERTIFICATE_STATUSES.VALIDATED,
               'extra-certification-status': EXTRA_CERTIFICATE_STATUSES.NOT_ACQUIRED,
+              'reached-mesh-index': 1,
             },
           },
         ]);

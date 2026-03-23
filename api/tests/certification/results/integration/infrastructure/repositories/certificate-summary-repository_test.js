@@ -48,55 +48,225 @@ describe('Integration | Infrastructure | Repository | Certification summary', fu
       });
     });
 
-    describe('when the user has a core certification taken', function () {
-      it('should return an array with the certificate summary', async function () {
-        // given
-        const session = databaseBuilder.factory.buildSession({
-          certificationCenter: 'Centre de certif pix',
-        });
-        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-          sessionId: session.id,
-          framework: Frameworks.CORE,
-          version: AlgorithmEngineVersion.V3,
-        });
-        const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-          status: AssessmentResult.status.VALIDATED,
-          commentForCandidate: 'blabla',
-        });
-        databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-          certificationCourseId: certificationCourse.id,
-          lastAssessmentResultId: assessmentResult.id,
-        });
-        await databaseBuilder.commit();
+    describe('for v2 certifications', function () {
+      describe('when the user has a core certification taken', function () {
+        it('should return an array with the certificate summary', async function () {
+          // given
+          const session = databaseBuilder.factory.buildSession({
+            certificationCenter: 'Centre de certif pix',
+          });
+          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+            sessionId: session.id,
+            framework: Frameworks.CORE,
+            version: AlgorithmEngineVersion.V2,
+          });
+          const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+            status: AssessmentResult.status.VALIDATED,
+            commentForCandidate: 'blabla',
+            reachedMeshIndex: null,
+          });
+          databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+            certificationCourseId: certificationCourse.id,
+            lastAssessmentResultId: assessmentResult.id,
+          });
+          await databaseBuilder.commit();
 
-        // when
-        const certificationTaken = await certificateSummaryRepository.findByUserId({
-          userId: certificationCourse.userId,
-        });
+          // when
+          const certificationTaken = await certificateSummaryRepository.findByUserId({
+            userId: certificationCourse.userId,
+          });
 
-        // then
-        expect(certificationTaken).to.deepEqualArray([
-          domainBuilder.certification.results.buildCertificateSummary({
-            id: certificationCourse.id,
-            certificationCenterName: session.certificationCenter,
-            certificationFramework: certificationCourse.framework,
-            certificationStartedAt: certificationCourse.createdAt,
-            extraCertificationStatus: EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE,
-            juryComment: {
-              commentByAutoJury: undefined,
-              fallbackComment: assessmentResult.commentForCandidate,
-            },
-            pixScore: assessmentResult.pixScore,
-            status: CERTIFICATE_STATUSES.VALIDATED,
-            verificationCode: certificationCourse.verificationCode,
-            certificateType: CERTIFICATE_TYPES.CERTIFICATE,
-          }),
-        ]);
+          // then
+          expect(certificationTaken).to.deepEqualArray([
+            domainBuilder.certification.results.buildCertificateSummary({
+              id: certificationCourse.id,
+              certificationCenterName: session.certificationCenter,
+              certificationFramework: certificationCourse.framework,
+              certificationStartedAt: certificationCourse.createdAt,
+              extraCertificationStatus: EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE,
+              juryComment: {
+                commentByAutoJury: undefined,
+                fallbackComment: assessmentResult.commentForCandidate,
+              },
+              pixScore: assessmentResult.pixScore,
+              status: CERTIFICATE_STATUSES.VALIDATED,
+              verificationCode: certificationCourse.verificationCode,
+              certificateType: CERTIFICATE_TYPES.ATTESTATION,
+              reachedMeshIndex: null,
+            }),
+          ]);
+        });
+      });
+
+      describe('when the user has a double certifications taken', function () {
+        describe('when the certification has a complementary', function () {
+          it('should return an array with the certificate summary', async function () {
+            // given
+            const session = databaseBuilder.factory.buildSession({
+              certificationCenter: 'Centre de certif pix',
+            });
+
+            const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+              sessionId: session.id,
+              framework: Frameworks.EDU_1ER_DEGRE,
+              version: AlgorithmEngineVersion.V2,
+            });
+            const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+              status: AssessmentResult.status.VALIDATED,
+              reachedMeshIndex: null,
+            });
+            databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+              certificationCourseId: certificationCourse.id,
+              lastAssessmentResultId: assessmentResult.id,
+            });
+
+            const complementaryCertificationCourse = databaseBuilder.factory.buildComplementaryCertificationCourse({
+              certificationCourseId: certificationCourse.id,
+            });
+            databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: true,
+              complementaryCertificationCourseId: complementaryCertificationCourse.id,
+              complementaryCertificationBadgeId: complementaryCertificationCourse.complementaryCertificationBadgeId,
+            });
+            databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+              source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+              acquired: true,
+              complementaryCertificationCourseId: complementaryCertificationCourse.id,
+              complementaryCertificationBadgeId: complementaryCertificationCourse.complementaryCertificationBadgeId,
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const certificationTaken = await certificateSummaryRepository.findByUserId({
+              userId: certificationCourse.userId,
+            });
+
+            // then
+            expect(certificationTaken).to.deepEqualArray([
+              domainBuilder.certification.results.buildCertificateSummary({
+                id: certificationCourse.id,
+                certificationCenterName: session.certificationCenter,
+                certificationFramework: certificationCourse.framework,
+                certificationStartedAt: certificationCourse.createdAt,
+                extraCertificationStatus: EXTRA_CERTIFICATE_STATUSES.ACQUIRED,
+                juryComment: {
+                  commentByAutoJury: undefined,
+                  fallbackComment: assessmentResult.commentForCandidate,
+                },
+                pixScore: assessmentResult.pixScore,
+                status: CERTIFICATE_STATUSES.VALIDATED,
+                verificationCode: certificationCourse.verificationCode,
+                certificateType: CERTIFICATE_TYPES.ATTESTATION,
+                reachedMeshIndex: null,
+              }),
+            ]);
+          });
+        });
       });
     });
 
-    describe('when the user has a double certifications taken', function () {
-      describe('when it is a v2 with a complementary', function () {
+    describe('for v3 certifications', function () {
+      describe('when the user has a core certification taken', function () {
+        it('should return an array with the certificate summary', async function () {
+          // given
+          const session = databaseBuilder.factory.buildSession({
+            certificationCenter: 'Centre de certif pix',
+          });
+          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+            sessionId: session.id,
+            framework: Frameworks.CORE,
+            version: AlgorithmEngineVersion.V3,
+          });
+          const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+            status: AssessmentResult.status.VALIDATED,
+            commentForCandidate: 'blabla',
+            reachedMeshIndex: 1,
+          });
+          databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+            certificationCourseId: certificationCourse.id,
+            lastAssessmentResultId: assessmentResult.id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const certificationTaken = await certificateSummaryRepository.findByUserId({
+            userId: certificationCourse.userId,
+          });
+
+          // then
+          expect(certificationTaken).to.deepEqualArray([
+            domainBuilder.certification.results.buildCertificateSummary({
+              id: certificationCourse.id,
+              certificationCenterName: session.certificationCenter,
+              certificationFramework: certificationCourse.framework,
+              certificationStartedAt: certificationCourse.createdAt,
+              extraCertificationStatus: EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE,
+              juryComment: {
+                commentByAutoJury: undefined,
+                fallbackComment: assessmentResult.commentForCandidate,
+              },
+              pixScore: assessmentResult.pixScore,
+              status: CERTIFICATE_STATUSES.VALIDATED,
+              verificationCode: certificationCourse.verificationCode,
+              certificateType: CERTIFICATE_TYPES.CERTIFICATE,
+              reachedMeshIndex: 1,
+            }),
+          ]);
+        });
+      });
+
+      describe('when the user has a Pix+ certification taken', function () {
+        it('should return an array with the certificate summary', async function () {
+          // given
+          const session = databaseBuilder.factory.buildSession({
+            certificationCenter: 'Centre de certif pix',
+          });
+          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+            sessionId: session.id,
+            framework: Frameworks.DROIT,
+            version: AlgorithmEngineVersion.V3,
+          });
+          const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+            status: AssessmentResult.status.VALIDATED,
+            commentForCandidate: 'blabla',
+            reachedMeshIndex: 3,
+          });
+          databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+            certificationCourseId: certificationCourse.id,
+            lastAssessmentResultId: assessmentResult.id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const certificationTaken = await certificateSummaryRepository.findByUserId({
+            userId: certificationCourse.userId,
+          });
+
+          // then
+          expect(certificationTaken).to.deepEqualArray([
+            domainBuilder.certification.results.buildCertificateSummary({
+              id: certificationCourse.id,
+              certificationCenterName: session.certificationCenter,
+              certificationFramework: certificationCourse.framework,
+              certificationStartedAt: certificationCourse.createdAt,
+              extraCertificationStatus: EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE,
+              juryComment: {
+                commentByAutoJury: undefined,
+                fallbackComment: assessmentResult.commentForCandidate,
+              },
+              pixScore: assessmentResult.pixScore,
+              status: CERTIFICATE_STATUSES.VALIDATED,
+              verificationCode: certificationCourse.verificationCode,
+              certificateType: CERTIFICATE_TYPES.CERTIFICATE,
+              reachedMeshIndex: 3,
+            }),
+          ]);
+        });
+      });
+
+      describe('when the user has a double certifications taken', function () {
         it('should return an array with the certificate summary', async function () {
           // given
           const session = databaseBuilder.factory.buildSession({
@@ -105,11 +275,12 @@ describe('Integration | Infrastructure | Repository | Certification summary', fu
 
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             sessionId: session.id,
-            framework: Frameworks.EDU_1ER_DEGRE,
-            version: AlgorithmEngineVersion.V2,
+            framework: Frameworks.CLEA,
+            version: AlgorithmEngineVersion.V3,
           });
           const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
             status: AssessmentResult.status.VALIDATED,
+            reachedMeshIndex: null,
           });
           databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
             certificationCourseId: certificationCourse.id,
@@ -154,71 +325,8 @@ describe('Integration | Infrastructure | Repository | Certification summary', fu
               pixScore: assessmentResult.pixScore,
               status: CERTIFICATE_STATUSES.VALIDATED,
               verificationCode: certificationCourse.verificationCode,
-              certificateType: CERTIFICATE_TYPES.ATTESTATION,
-            }),
-          ]);
-        });
-      });
-
-      describe('when it is a Clea double certification', function () {
-        it('should return an array with the certificate summary', async function () {
-          // given
-          const session = databaseBuilder.factory.buildSession({
-            certificationCenter: 'Centre de certif pix',
-          });
-
-          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-            sessionId: session.id,
-            framework: Frameworks.CLEA,
-            version: 3,
-          });
-          const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-            status: AssessmentResult.status.VALIDATED,
-          });
-          databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-            certificationCourseId: certificationCourse.id,
-            lastAssessmentResultId: assessmentResult.id,
-          });
-
-          const complementaryCertificationCourse = databaseBuilder.factory.buildComplementaryCertificationCourse({
-            certificationCourseId: certificationCourse.id,
-          });
-          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            source: ComplementaryCertificationCourseResult.sources.PIX,
-            acquired: true,
-            complementaryCertificationCourseId: complementaryCertificationCourse.id,
-            complementaryCertificationBadgeId: complementaryCertificationCourse.complementaryCertificationBadgeId,
-          });
-          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
-            acquired: false,
-            complementaryCertificationCourseId: complementaryCertificationCourse.id,
-            complementaryCertificationBadgeId: complementaryCertificationCourse.complementaryCertificationBadgeId,
-          });
-
-          await databaseBuilder.commit();
-
-          // when
-          const certificationTaken = await certificateSummaryRepository.findByUserId({
-            userId: certificationCourse.userId,
-          });
-
-          // then
-          expect(certificationTaken).to.deepEqualArray([
-            domainBuilder.certification.results.buildCertificateSummary({
-              id: certificationCourse.id,
-              certificationCenterName: session.certificationCenter,
-              certificationFramework: certificationCourse.framework,
-              certificationStartedAt: certificationCourse.createdAt,
-              extraCertificationStatus: EXTRA_CERTIFICATE_STATUSES.NOT_ACQUIRED,
-              juryComment: {
-                commentByAutoJury: undefined,
-                fallbackComment: assessmentResult.commentForCandidate,
-              },
-              pixScore: assessmentResult.pixScore,
-              status: CERTIFICATE_STATUSES.VALIDATED,
-              verificationCode: certificationCourse.verificationCode,
               certificateType: CERTIFICATE_TYPES.CERTIFICATE,
+              reachedMeshIndex: null,
             }),
           ]);
         });

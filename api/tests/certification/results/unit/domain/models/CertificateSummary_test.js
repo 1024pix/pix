@@ -25,6 +25,7 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
       commentForCandidate: 'some comment for candidate',
       commentByAutoJury: 'some comment for auto jury',
       algorithmVersion: AlgorithmEngineVersion.V3,
+      reachedMeshIndex: 1,
     };
 
     context('status computation', function () {
