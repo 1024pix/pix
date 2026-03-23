@@ -3,6 +3,7 @@ import Dataloader from 'dataloader';
 import { config } from '../../config.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { LearningContentCache } from '../caches/learning-content-cache.js';
+import { getMapAdapter } from '../caches/learning-content-sqlite.js';
 import { createHistogram } from '../metrics/metrics.js';
 import { child, SCOPES } from '../utils/logger.js';
 
@@ -52,15 +53,16 @@ export class LearningContentRepository {
     this.#tableName = tableName;
     this.#idType = idType;
 
+    const table = this.#tableName.split('.').at(-1);
+
     this.#dataloader = new Dataloader((ids) => this.#batchLoad(ids), {
-      cacheMap: new LearningContentCache({ name: `${tableName}:entities` }),
+      cacheMap: new LearningContentCache({ name: `${tableName}:entities`, map: getMapAdapter(table) }),
     });
 
     this.#findCache = new LearningContentCache({ name: `${tableName}:results` });
 
     this.#findCacheMiss = new Map();
 
-    const table = this.#tableName.split('.').at(-1);
     this.#metrics = {
       load: metrics.read.labels({ table, cache: 'entities' }),
       find: metrics.read.labels({ table, cache: 'results' }),
