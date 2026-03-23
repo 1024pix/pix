@@ -91,11 +91,28 @@ export class CommonCertificationVersions {
         this.pixPlusEdu1erDegreVersion = {};
 
         const pixPlusEdu1erDegreFrameworkName = 'Edu';
-        this.pixPlusEdu1erDegreVersion.currentVersionId = await this.#createActiveFrameworkVersion({
-          databaseBuilder,
-          fromLcmsFrameworkName: pixPlusEdu1erDegreFrameworkName,
-          toFrameworkScope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
+        this.pixPlusEdu1erDegreVersion.currentVersionId
+
+        const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: pixPlusEdu1erDegreFrameworkName });
+        const currentVersionId = await configurationUsecases.createCertificationVersion({
+          scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
+          tubeIds,
         });
+
+        await databaseBuilder
+          .knex('certification_versions')
+          .where('id', currentVersionId)
+          .update({
+            challengesConfiguration: JSON.stringify(CHALLENGES_CONFIGURATION),
+            globalScoringConfiguration: JSON.stringify([{ bounds: { max: 8, min: 1 }, meshLevel: 1 }]),
+            competencesScoringConfiguration: null,
+            minimumAnswersRequiredToValidateACertification: MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
+          });
+        await databaseBuilder.commit();
+
+        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
+
+        await databaseBuilder.commit();
       }
     } catch (error) {
       if (error instanceof NotFoundError) {
@@ -107,24 +124,24 @@ export class CommonCertificationVersions {
   }
 
   /**
-   * @param {Object} params
-   * @param {string} params.frameworkName
-   * @returns {Promise<Array<number>>}
-   */
-  static async #getTubeIdsByFramework({ frameworkName }) {
-    const areas = await learningContentUsecases.getFrameworkAreas({
-      frameworkName,
-      locale: FRENCH_SPOKEN,
-    });
+    * @param {Object} params
+    * @param {string} params.frameworkName
+    * @returns {Promise<Array<number>>}
+    */
+    static async #getTubeIdsByFramework({ frameworkName }) {
+      const areas = await learningContentUsecases.getFrameworkAreas({
+        frameworkName,
+        locale: FRENCH_SPOKEN,
+      });
 
-    const allTubeIds = areas.flatMap((area) =>
-      area.competences.flatMap((competence) =>
-        competence.thematics.flatMap((thematic) => thematic.tubes.map((tube) => tube.id)),
-      ),
-    );
+      const allTubeIds = areas.flatMap((area) =>
+        area.competences.flatMap((competence) =>
+          competence.thematics.flatMap((thematic) => thematic.tubes.map((tube) => tube.id)),
+        ),
+      );
 
-    return _.sampleSize(allTubeIds, CommonCertificationVersions.#NUMBER_OF_CHALLENGES_PER_VERSION);
-  }
+      return _.sampleSize(allTubeIds, CommonCertificationVersions.#NUMBER_OF_CHALLENGES_PER_VERSION);
+    }
 
   /**
    * @param {Object} params

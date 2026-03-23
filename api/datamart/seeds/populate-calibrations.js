@@ -1,4 +1,4 @@
-import { complementaryCertifications } from '../../db/seeds/data/team-certification/cases/complementary-certifications.js';
+import { complementaryCertifications } from '../../db/seeds/data/team-certification/shared/complementary-certifications.js';
 import { ComplementaryCertificationKeys } from '../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 async function insertCalibrations({ knex }) {
