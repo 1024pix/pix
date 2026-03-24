@@ -14,16 +14,24 @@ export default class CertificationTags extends Component {
 
   @tracked errorMessage = null;
 
+  get isPixPlusV3Certification() {
+    return !['CORE', 'CLEA'].includes(this.args.framework) && Number.isInteger(this.args.reachedMeshIndex);
+  }
+
   get statusTagData() {
     const tagMap = {
       [CERTIFICATE_STATUSES.VALIDATED]: {
         color: 'green',
-        content: this.intl.t('pages.certifications-list.statuses.validated'),
+        content: this.isPixPlusV3Certification
+          ? this.intl.t(`pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshIndex}`)
+          : this.intl.t('pages.certifications-list.statuses.validated'),
         displayFramework: true,
       },
       [CERTIFICATE_STATUSES.REJECTED]: {
         color: 'error',
-        content: this.intl.t('pages.certifications-list.statuses.rejected'),
+        content: this.isPixPlusV3Certification
+          ? this.intl.t(`pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshIndex}`)
+          : this.intl.t('pages.certifications-list.statuses.rejected'),
         displayFramework: true,
       },
       [CERTIFICATE_STATUSES.CANCELLED]: {
@@ -73,7 +81,7 @@ export default class CertificationTags extends Component {
         {{#if this.extraStatusTagData}}
           <strong>{{t "pages.certification-frameworks.CORE"}}&nbsp;:</strong>
         {{else if this.statusTagData.displayFramework}}
-          <strong>{{@framework}}&nbsp;:</strong>
+          <strong>{{this.frameworkName}}&nbsp;:</strong>
         {{/if}}
         {{this.statusTagData.content}}
       </div>
@@ -81,7 +89,7 @@ export default class CertificationTags extends Component {
     {{#if this.extraStatusTagData}}
       <PixTag data-testid="pw-certification-card-extra-status" @color={{this.extraStatusTagData.color}} class="tag">
         <div>
-          <strong>{{@framework}}&nbsp;:</strong>
+          <strong>{{this.frameworkName}}&nbsp;:</strong>
           {{this.extraStatusTagData.content}}
         </div>
       </PixTag>

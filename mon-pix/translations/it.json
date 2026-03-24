@@ -2371,6 +2371,22 @@
       },
       "title": "Il mio account"
     },
+    "user-certifications": {
+      "meshes": {
+        "EDU_1ER_DEGRE": {
+          "0": "Non ammissibile",
+          "1": "Ammissibile"
+        },
+        "EDU_2ND_DEGRE": {
+          "0": "Non ammissibile",
+          "1": "Ammissibile"
+        },
+        "EDU_CPE": {
+          "0": "Non ammissibile",
+          "1": "Ammissibile"
+        }
+      }
+    },
     "user-tests": {
       "anonymised-participations": {
         "course": "Corso",

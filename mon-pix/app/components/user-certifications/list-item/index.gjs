@@ -72,7 +72,8 @@ export default class ListItem extends Component {
           <Tags
             @status={{@certificateSummary.status}}
             @extraStatus={{@certificateSummary.extraCertificationStatus}}
-            @framework={{this.frameworkName}}
+            @framework={{@certificateSummary.certificationFramework}}
+            @reachedMeshIndex={{@certificateSummary.reachedMeshIndex}}
           />
           {{#if this.shouldDisplayFramework}}
             <p data-testid="pw-certification-card-details-framework" class="info">

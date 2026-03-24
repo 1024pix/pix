@@ -2378,6 +2378,22 @@
       },
       "title": "Mein Konto"
     },
+    "user-certifications": {
+      "meshes": {
+        "EDU_1ER_DEGRE": {
+          "0": "Nicht zulässig",
+          "1": "Zulässig"
+        },
+        "EDU_2ND_DEGRE": {
+          "0": "Nicht zulässig",
+          "1": "Zulässig"
+        },
+        "EDU_CPE": {
+          "0": "Nicht zulässig",
+          "1": "Zulässig"
+        }
+      }
+    },
     "user-tests": {
       "anonymised-participations": {
         "course": "Parcours",

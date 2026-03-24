@@ -2369,6 +2369,22 @@
       },
       "title": "Mijn account"
     },
+    "user-certifications": {
+      "meshes": {
+        "EDU_1ER_DEGRE": {
+          "0": "Niet toelaatbaar",
+          "1": "Toelaatbaar"
+        },
+        "EDU_2ND_DEGRE": {
+          "0": "Niet toelaatbaar",
+          "1": "Toelaatbaar"
+        },
+        "EDU_CPE": {
+          "0": "Niet toelaatbaar",
+          "1": "Toelaatbaar"
+        }
+      }
+    },
     "user-tests": {
       "anonymised-participations": {
         "course": "Route",

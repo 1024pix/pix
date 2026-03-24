@@ -2379,6 +2379,22 @@
       },
       "title": "Mon compte"
     },
+    "user-certifications": {
+      "meshes": {
+        "EDU_1ER_DEGRE": {
+          "0": "Non admissible",
+          "1": "Admissible"
+        },
+        "EDU_2ND_DEGRE": {
+          "0": "Non admissible",
+          "1": "Admissible"
+        },
+        "EDU_CPE": {
+          "0": "Non admissible",
+          "1": "Admissible"
+        }
+      }
+    },
     "user-tests": {
       "anonymised-participations": {
         "course": "Parcours",
