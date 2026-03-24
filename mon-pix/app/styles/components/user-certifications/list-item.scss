@@ -53,9 +53,18 @@ $small-media-width: 500px;
     width: 110px;
     height: 110px;
     margin: -10px -10px 0 0;
-    background: url('/images/certificate/pix-score-hexagon.svg') no-repeat;
+    background-image: url('/images/certificate/pix-score-hexagon.svg');
+    background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
+
+    &--pix-plus-validated {
+      background-image: url('/images/certificate/pix-plus-hexagon-validated.svg');
+    }
+
+    &--pix-plus-not-validated {
+      background-image: url('/images/certificate/pix-plus-hexagon-not-validated.svg');
+    }
 
     @media (max-width: $small-media-width) {
       margin: 0 auto;
@@ -78,6 +87,13 @@ $small-media-width: 500px;
       left: 50%;
       text-transform: uppercase;
       transform: translateX(-50%);
+    }
+
+    &--pix-plus-validated,
+    &--pix-plus-not-validated {
+      .pix {
+        display: none;
+      }
     }
   }
 }
