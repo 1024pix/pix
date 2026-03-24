@@ -6,6 +6,7 @@ import { PRO_ORGANIZATION_ID, REAL_PIX_SUPER_ADMIN_ID } from './constants.js';
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
 const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
 const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
+const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 
 // TARGET PROFILES
 const CLEA_V1_TARGET_PROFILE_ID = 56;
@@ -45,6 +46,7 @@ export {
   PIX_EDU_1ER_DEGRE_FC_CONFIRME_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FI_CONFIRME_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID,
+  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 };
 
 async function complementaryCertificationBuilder({ databaseBuilder }) {
@@ -623,6 +625,9 @@ function _createComplementaryWithHasComplementaryReferential(databaseBuilder) {
 function _createWithHasExternalJury(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification.pixEdu1erDegre({
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  });
+  databaseBuilder.factory.buildComplementaryCertification.pixEdu2ndDegre({
+    id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,

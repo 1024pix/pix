@@ -12,6 +12,7 @@ import { UnseedableError } from './UnseedableError.js';
  * @property {{ expiredVersionId: string, currentVersionId: string }} coreVersion
  * @property {{ currentVersionId: string }} pixPlusDroitVersion
  * @property {{ currentVersionId: string }} pixPlusEdu1erDegreVersion
+ * @property {{ currentVersionId: string }} pixPlusEdu2ndDegreVersion
  */
 export class CommonCertificationVersions {
   static #NUMBER_OF_CHALLENGES_PER_VERSION = 100;
@@ -91,7 +92,6 @@ export class CommonCertificationVersions {
         this.pixPlusEdu1erDegreVersion = {};
 
         const pixPlusEdu1erDegreFrameworkName = 'Edu';
-        this.pixPlusEdu1erDegreVersion.currentVersionId
 
         const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: pixPlusEdu1erDegreFrameworkName });
         const currentVersionId = await configurationUsecases.createCertificationVersion({
@@ -113,6 +113,8 @@ export class CommonCertificationVersions {
         await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
 
         await databaseBuilder.commit();
+
+        this.pixPlusEdu1erDegreVersion.currentVersionId = currentVersionId;
       }
     } catch (error) {
       if (error instanceof NotFoundError) {
@@ -124,24 +126,70 @@ export class CommonCertificationVersions {
   }
 
   /**
-    * @param {Object} params
-    * @param {string} params.frameworkName
-    * @returns {Promise<Array<number>>}
-    */
-    static async #getTubeIdsByFramework({ frameworkName }) {
-      const areas = await learningContentUsecases.getFrameworkAreas({
-        frameworkName,
-        locale: FRENCH_SPOKEN,
-      });
+   * @param {Object} params
+   * @param {Knex} params.databaseBuilder
+   * @returns {Promise<void>}
+   */
+  static async initPixPlusEdu2ndDegreVersion({ databaseBuilder }) {
+    try {
+      if (!this.pixPlusEdu2ndDegreVersion) {
+        this.pixPlusEdu2ndDegreVersion = {};
 
-      const allTubeIds = areas.flatMap((area) =>
-        area.competences.flatMap((competence) =>
-          competence.thematics.flatMap((thematic) => thematic.tubes.map((tube) => tube.id)),
-        ),
-      );
+        const pixPlusEdu2ndDegreFrameworkName = 'Edu';
+        const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: pixPlusEdu2ndDegreFrameworkName });
+        const currentVersionId = await configurationUsecases.createCertificationVersion({
+          scope: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
+          tubeIds,
+        });
 
-      return _.sampleSize(allTubeIds, CommonCertificationVersions.#NUMBER_OF_CHALLENGES_PER_VERSION);
+        await databaseBuilder
+          .knex('certification_versions')
+          .where('id', currentVersionId)
+          .update({
+            challengesConfiguration: JSON.stringify(CHALLENGES_CONFIGURATION),
+            globalScoringConfiguration: JSON.stringify([
+              { bounds: { max: 1, min: -8 }, meshLevel: 0 },
+              { bounds: { max: 8, min: 1 }, meshLevel: 1 },
+            ]),
+            competencesScoringConfiguration: null,
+            minimumAnswersRequiredToValidateACertification: MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
+          });
+        await databaseBuilder.commit();
+
+        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
+
+        await databaseBuilder.commit();
+
+        this.pixPlusEdu2ndDegreVersion.currentVersionId = currentVersionId;
+      }
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw new UnseedableError('Could not find Edu 2nd degré referential', error);
+      }
+      this.pixPlusEdu2ndDegreVersion = null;
+      throw error;
     }
+  }
+
+  /**
+   * @param {Object} params
+   * @param {string} params.frameworkName
+   * @returns {Promise<Array<number>>}
+   */
+  static async #getTubeIdsByFramework({ frameworkName }) {
+    const areas = await learningContentUsecases.getFrameworkAreas({
+      frameworkName,
+      locale: FRENCH_SPOKEN,
+    });
+
+    const allTubeIds = areas.flatMap((area) =>
+      area.competences.flatMap((competence) =>
+        competence.thematics.flatMap((thematic) => thematic.tubes.map((tube) => tube.id)),
+      ),
+    );
+
+    return _.sampleSize(allTubeIds, CommonCertificationVersions.#NUMBER_OF_CHALLENGES_PER_VERSION);
+  }
 
   /**
    * @param {Object} params

@@ -16,6 +16,7 @@ import { usecases as teamUsecases } from '../../../../../src/team/domain/usecase
 import {
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../../common/complementary-certification-builder.js';
 import { CommonCertifiableUser } from '../shared/common-certifiable-user.js';
 import { CommonCertificationVersions } from '../shared/common-certification-versions.js';
@@ -130,11 +131,13 @@ export class SupWithHabilitationsSeed {
         habilitations: [
           ComplementaryCertificationKeys.PIX_PLUS_DROIT,
           ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
+          ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
         ],
       }),
       complementaryCertificationIds: [
         PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
         PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+        PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
       ],
     });
 
