@@ -108,6 +108,12 @@ export default {
     devDefaultValues: { test: false, reviewApp: false },
     tags: ['team-acces', 'pix-api', 'mon-pix', 'frontend', 'backend'],
   },
+  userCertificationsActionsDisabledFrameworks: {
+    type: 'array',
+    description: 'List of certification frameworks for which actions are hidden in mon-pix',
+    defaultValue: ['DROIT', 'EDU_1ER_DEGRE', 'EDU_2ND_DEGRE', 'EDU_CPE', 'PRO_SANTE'],
+    tags: ['team-certif', 'mon-pix', 'frontend'],
+  },
   restrictedOidcProvidersForEmailCreation: {
     type: 'array',
     description:

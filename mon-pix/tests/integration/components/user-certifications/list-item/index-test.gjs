@@ -6,7 +6,7 @@ import ListItem from 'mon-pix/components/user-certifications/list-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | User certifications | List item', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -228,40 +228,22 @@ module('Integration | Component | User certifications | List item', function (ho
     });
   });
 
-  module('when there is an extra certification status', function () {
-    test('displays two tags when extra status is ACQUIRED', async function (assert) {
+  module('when framework is in userCertificationsActionsDisabledFrameworks feature toggle', function () {
+    test('does not display actions', async function (assert) {
       // given
+      const featureToggles = this.owner.lookup('service:featureToggles');
+      sinon.stub(featureToggles, 'featureToggles').value({ userCertificationsActionsDisabledFrameworks: ['DROIT'] });
+
       const store = this.owner.lookup('service:store');
       const certificateSummary = store.createRecord('certificate-summary', {
         certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
-        certificationCenterName: 'Centre',
-        certificationFramework: 'CLEA',
-        pixScore: 500,
-        status: 'VALIDATED',
-        verificationCode: 'P-XYZ',
-        extraCertificationStatus: 'ACQUIRED',
-        certificateType: 'ATTESTATION',
-      });
-
-      // when
-      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
-
-      // then
-      const tags = screen.getAllByText(t('pages.certifications-list.statuses.validated'));
-      assert.strictEqual(tags.length, 2);
-    });
-
-    test('does display score for a validated Pix+ certification', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const certificateSummary = store.createRecord('certificate-summary', {
-        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
-        certificationCenterName: 'Centre',
+        certificationCenterName: 'Université de Lyon',
         certificationFramework: 'DROIT',
-        pixScore: 500,
+        pixScore: 654,
         status: 'VALIDATED',
-        verificationCode: 'P-XYZ',
-        extraCertificationStatus: 'ACQUIRED',
+        comment: null,
+        verificationCode: 'P-ABC123',
+        extraCertificationStatus: null,
         certificateType: 'ATTESTATION',
       });
 
@@ -269,30 +251,10 @@ module('Integration | Component | User certifications | List item', function (ho
       const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
 
       // then
-      assert.dom(screen.getByText('500')).exists();
-      assert.dom(screen.getByText(t('common.pix'))).exists();
-    });
-
-    test('displays rejected tag for extra status NOT_ACQUIRED', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const certificateSummary = store.createRecord('certificate-summary', {
-        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
-        certificationCenterName: 'Centre',
-        certificationFramework: 'CLEA',
-        pixScore: 500,
-        status: 'VALIDATED',
-        verificationCode: 'P-XYZ',
-        extraCertificationStatus: 'NOT_ACQUIRED',
-        certificateType: 'ATTESTATION',
-      });
-
-      // when
-      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
-
-      // then
-      assert.ok(screen.getByText(t('pages.certifications-list.statuses.validated')));
-      assert.ok(screen.getByText(t('pages.certifications-list.statuses.rejected')));
+      assert.dom(screen.queryByText(t('pages.certifications-list.buttons.details'))).doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: t('pages.certifications-list.buttons.download-attestation') }))
+        .doesNotExist();
     });
   });
 });

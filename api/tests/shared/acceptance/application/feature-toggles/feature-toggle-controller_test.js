@@ -31,6 +31,13 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'is-pix-plus-candidate-a11y-enabled': false,
             'are-module-short-id-urls-enabled': false,
             'add-email-connection-method-enabled': false,
+            'user-certifications-actions-disabled-frameworks': [
+              'DROIT',
+              'EDU_1ER_DEGRE',
+              'EDU_2ND_DEGRE',
+              'EDU_CPE',
+              'PRO_SANTE',
+            ],
           },
         },
       };

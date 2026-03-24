@@ -7,4 +7,5 @@ export default class FeatureToggle extends Model {
   @attr('boolean') areModuleShortIdUrlsEnabled;
   @attr('array') disabledLocalesInFrontend;
   @attr('boolean') addEmailConnectionMethodEnabled;
+  @attr('array') userCertificationsActionsDisabledFrameworks;
 }
