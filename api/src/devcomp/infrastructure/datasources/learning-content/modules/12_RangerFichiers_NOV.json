@@ -72,7 +72,7 @@
                 "props": {
                   "name": "QCU image boite mail",
                   "multiple": false,
-                  "context": "",
+                  "context": "modulix",
                   "maxChoicesPerLine": 3,
                   "hideChoicesName": false,
                   "orderChoices": false,
@@ -244,11 +244,6 @@
                         }
                       ],
                       "solution": "1"
-                    },
-                    {
-                      "id": "a3a41820-b853-4465-8c07-9c44c8aa67ac",
-                      "type": "text",
-                      "content": ""
                     }
                   ]
                 },
@@ -364,7 +359,7 @@
                 "type": "embed",
                 "isCompletionRequired": false,
                 "title": "pixmail",
-                "url": "https://epreuves.pix.fr/fr/pixmail-spam/modulix-repondremail-nov.html ",
+                "url": "https://epreuves.pix.fr/fr/pixmail-spam/modulix-repondremail-nov.html",
                 "instruction": "<p>Dans l’interface ci-dessous, ouvrez le mail envoyé par BioChoux puis répondez à la question qui suit.</p>",
                 "solution": "",
                 "height": 500
@@ -953,7 +948,7 @@
       "type": "go-further",
       "grains": [
         {
-          "id": "bf6af7f5-de62-4fbe-8855-233c12b52ac2",
+          "id": "bbe56c7e-5238-424d-9315-c03c9162635f",
           "type": "challenge",
           "title": "Aller plus loin",
           "components": [
@@ -1016,28 +1011,32 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Oui<br></p>",
+                          "content": "Oui",
                           "feedback": {
                             "diagnosis": "<p>Pas vraiment. Cette réponse est trop courte et contient une abréviation. Il manque aussi une formule de politesse au début et à la fin ainsi qu'une signature.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Non<br></p>",
+                          "content": "Non",
                           "feedback": {
                             "diagnosis": "<p>Effectivement. Cette réponse est trop courte et contient une abréviation. Il manque aussi une formule de politesse au début et à la fin ainsi qu'une signature.</p>"
                           }
                         }
                       ],
                       "solution": "2"
-                    },
+                    }
+                  ]
+                },
+                {
+                  "elements": [
                     {
-                      "id": "5f19efe0-35c4-48de-b679-971b79f08615",
+                      "id": "ebe01e69-3ab7-4684-add2-aeb2b4923ce7",
                       "type": "text",
                       "content": "<blockquote>Bonjour Monsieur Flament, </blockquote><blockquote>Je vous remercie pour votre invitation, mais je ne pourrai pas y participer.&nbsp; </blockquote><blockquote>Je vous prie de m'excuser.&nbsp;</blockquote><blockquote> Cordialement, </blockquote><blockquote>Flora</blockquote>"
                     },
                     {
-                      "id": "86e614c6-030e-4466-bfae-58a4b2948c1b",
+                      "id": "7b5e2a1c-020b-4cf8-ad61-51b3a60fa587",
                       "type": "qcu-discovery",
                       "instruction": "<p>Cette réponse par mail respecte-t-il les règles de politesse et de conduite sur internet ?</p>",
                       "hasShortProposals": true,
@@ -1053,7 +1052,7 @@
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet :&nbsp;</p>\n<ul>\n    <li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li>\n    <li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li>\n    <li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes</strong> <strong>d'orthographes.</strong></li>\n</ul>"
+                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet :&nbsp;</p><ul>    <li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li>    <li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes&nbsp;</strong><strong>d'orthographes.</strong></li>    </ul>"
                           }
                         }
                       ],
