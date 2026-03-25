@@ -9,6 +9,7 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
   let organizationLearner;
   let userId;
   let organizationLearnerRepository;
+  let organizationLearnerImportFormatRepository;
   const organizationId = 1;
   const organizationLearnerId = 1;
   const nationalStudentId = '123456789AZ';
@@ -21,6 +22,8 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
       nationalStudentId,
     });
 
+    organizationLearnerImportFormatRepository = { get: sinon.stub() };
+    organizationLearnerImportFormatRepository.get.resolves(null);
     organizationLearnerRepository = {
       reconcileUserByNationalStudentIdAndOrganizationId: sinon.stub(),
       findByUserId: sinon.stub(),
@@ -40,6 +43,7 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
         userId,
         organizationId,
         organizationLearnerRepository,
+        organizationLearnerImportFormatRepository,
       });
 
       // then
@@ -59,6 +63,7 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
         userId,
         organizationId,
         organizationLearnerRepository,
+        organizationLearnerImportFormatRepository,
       });
 
       // then
@@ -78,6 +83,7 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
         userId,
         organizationId,
         organizationLearnerRepository,
+        organizationLearnerImportFormatRepository,
       });
 
       // then
@@ -115,6 +121,7 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
         userId,
         organizationId,
         organizationLearnerRepository,
+        organizationLearnerImportFormatRepository,
       });
 
       // then
