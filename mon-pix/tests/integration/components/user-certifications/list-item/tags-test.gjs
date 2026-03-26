@@ -1,7 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import Tags from 'mon-pix/components/user-certifications/list-item/tags';
-import { CERTIFICATE_STATUSES, EXTRA_CERTIFICATE_STATUSES } from 'mon-pix/models/certificate-summary';
+import {
+  CERTIFICATE_STATUSES,
+  CERTIFICATE_TYPES,
+  EXTRA_CERTIFICATE_STATUSES,
+} from 'mon-pix/models/certificate-summary';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -83,31 +87,7 @@ module('Integration | Component | User certifications | List item | Tags', funct
       const status = CERTIFICATE_STATUSES.VALIDATED;
       const framework = 'EDU_2ND_DEGRE';
       const extraStatus = EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE;
-      const reachedMeshIndex = 1;
-
-      // when
-      const screen = await render(
-        <template>
-          <Tags
-            @status={{status}}
-            @framework={{framework}}
-            @extraStatus={{extraStatus}}
-            @reachedMeshIndex={{reachedMeshIndex}}
-          />
-        </template>,
-      );
-
-      // then
-      const mainTag = screen.getByTestId('pw-certification-card-main-status');
-      assert.dom(mainTag).containsText(t('pages.certification-frameworks.EDU_2ND_DEGRE'));
-      assert.dom(mainTag).containsText(t('pages.user-certifications.meshes.EDU_2ND_DEGRE.1'));
-    });
-
-    test('displays mesh level for Pix+ v3 rejected certification', async function (assert) {
-      // given
-      const status = CERTIFICATE_STATUSES.REJECTED;
-      const framework = 'EDU_2ND_DEGRE';
-      const extraStatus = EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE;
+      const certificateType = CERTIFICATE_TYPES.CERTIFICATE;
       const reachedMeshIndex = 0;
 
       // when
@@ -118,13 +98,41 @@ module('Integration | Component | User certifications | List item | Tags', funct
             @framework={{framework}}
             @extraStatus={{extraStatus}}
             @reachedMeshIndex={{reachedMeshIndex}}
+            @certificateType={{certificateType}}
           />
         </template>,
       );
 
       // then
       const mainTag = screen.getByTestId('pw-certification-card-main-status');
+      assert.dom(mainTag).containsText(t('pages.certification-frameworks.EDU_2ND_DEGRE'));
       assert.dom(mainTag).containsText(t('pages.user-certifications.meshes.EDU_2ND_DEGRE.0'));
+    });
+
+    test('displays mesh level for Pix+ v3 rejected certification below minimum', async function (assert) {
+      // given
+      const status = CERTIFICATE_STATUSES.REJECTED;
+      const framework = 'EDU_2ND_DEGRE';
+      const extraStatus = EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE;
+      const certificateType = CERTIFICATE_TYPES.CERTIFICATE;
+      const reachedMeshIndex = null;
+
+      // when
+      const screen = await render(
+        <template>
+          <Tags
+            @status={{status}}
+            @framework={{framework}}
+            @extraStatus={{extraStatus}}
+            @reachedMeshIndex={{reachedMeshIndex}}
+            @certificateType={{certificateType}}
+          />
+        </template>,
+      );
+
+      // then
+      const mainTag = screen.getByTestId('pw-certification-card-main-status');
+      assert.dom(mainTag).containsText(t('pages.user-certifications.meshes.EDU_2ND_DEGRE.BELOW_MINIMUM'));
     });
   });
 

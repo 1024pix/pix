@@ -9,7 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import CopyPasteButton from 'mon-pix/components/copy-paste-button';
-import { CERTIFICATE_STATUSES } from 'mon-pix/models/certificate-summary';
+import { CERTIFICATE_STATUSES, CERTIFICATE_TYPES } from 'mon-pix/models/certificate-summary';
 
 import Hexagon from './hexagon';
 import Tags from './tags';
@@ -44,6 +44,9 @@ export default class ListItem extends Component {
   }
 
   get shouldDisplayActions() {
+    if (this.args.certificateSummary.certificateType === CERTIFICATE_TYPES.ATTESTATION) {
+      return true;
+    }
     const disabledFrameworks = this.featureToggles.featureToggles?.userCertificationsActionsDisabledFrameworks ?? [];
     return !disabledFrameworks.includes(this.args.certificateSummary.certificationFramework);
   }
@@ -80,6 +83,7 @@ export default class ListItem extends Component {
             @extraStatus={{@certificateSummary.extraCertificationStatus}}
             @framework={{@certificateSummary.certificationFramework}}
             @reachedMeshIndex={{@certificateSummary.reachedMeshIndex}}
+            @certificateType={{@certificateSummary.certificateType}}
           />
           {{#if this.shouldDisplayFramework}}
             <p data-testid="pw-certification-card-details-framework" class="info">
@@ -102,6 +106,7 @@ export default class ListItem extends Component {
           @extraStatus={{@certificateSummary.extraCertificationStatus}}
           @reachedMeshIndex={{@certificateSummary.reachedMeshIndex}}
           @framework={{@certificateSummary.certificationFramework}}
+          @certificateType={{@certificateSummary.certificateType}}
         />
       </div>
       {{#if this.notObtainedCertificationWithComment}}

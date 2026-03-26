@@ -119,9 +119,13 @@ module('Integration | Component | User certifications | List item | Hexagon', fu
         .doesNotHaveClass('certification-item__hexagon--pix-plus-not-validated');
     });
 
-    test('has validated class for Pix+ framework with a reachedMeshIndex higher than 0', async function (assert) {
+    test('has validated class for Pix+ v3 with a reachedMeshIndex', async function (assert) {
       // when
-      await render(<template><Hexagon @isValidated={{true}} @framework="DROIT" @reachedMeshIndex={{1}} /></template>);
+      await render(
+        <template>
+          <Hexagon @isValidated={{true}} @framework="DROIT" @reachedMeshIndex={{0}} @certificateType="CERTIFICATE" />
+        </template>,
+      );
 
       // then
       assert
@@ -129,9 +133,21 @@ module('Integration | Component | User certifications | List item | Hexagon', fu
         .hasClass('certification-item__hexagon--pix-plus-validated');
     });
 
-    test('has not-validated class for Pix+ framework with a reachedMeshIndex of 0', async function (assert) {
+    test('has not-validated class for Pix+ v3 with null reachedMeshIndex', async function (assert) {
+      // given
+      const reachedMeshIndex = null;
+
       // when
-      await render(<template><Hexagon @isValidated={{true}} @framework="DROIT" @reachedMeshIndex={{0}} /></template>);
+      await render(
+        <template>
+          <Hexagon
+            @isValidated={{true}}
+            @framework="DROIT"
+            @reachedMeshIndex={{reachedMeshIndex}}
+            @certificateType="CERTIFICATE"
+          />
+        </template>,
+      );
 
       // then
       assert

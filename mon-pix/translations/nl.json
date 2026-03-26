@@ -2372,16 +2372,16 @@
     "user-certifications": {
       "meshes": {
         "EDU_1ER_DEGRE": {
-          "0": "Niet toelaatbaar",
-          "1": "Toelaatbaar"
+          "BELOW_MINIMUM": "Niet toelaatbaar",
+          "0": "Toelaatbaar"
         },
         "EDU_2ND_DEGRE": {
-          "0": "Niet toelaatbaar",
-          "1": "Toelaatbaar"
+          "BELOW_MINIMUM": "Niet toelaatbaar",
+          "0": "Toelaatbaar"
         },
         "EDU_CPE": {
-          "0": "Niet toelaatbaar",
-          "1": "Toelaatbaar"
+          "BELOW_MINIMUM": "Niet toelaatbaar",
+          "0": "Toelaatbaar"
         }
       }
     },

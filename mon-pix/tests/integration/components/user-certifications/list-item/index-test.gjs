@@ -229,7 +229,35 @@ module('Integration | Component | User certifications | List item', function (ho
   });
 
   module('when framework is in userCertificationsActionsDisabledFrameworks feature toggle', function () {
-    test('does not display actions', async function (assert) {
+    test('does not display actions when certificateType is CERTIFICATE', async function (assert) {
+      // given
+      const featureToggles = this.owner.lookup('service:featureToggles');
+      sinon.stub(featureToggles, 'featureToggles').value({ userCertificationsActionsDisabledFrameworks: ['DROIT'] });
+
+      const store = this.owner.lookup('service:store');
+      const certificateSummary = store.createRecord('certificate-summary', {
+        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
+        certificationCenterName: 'Université de Lyon',
+        certificationFramework: 'DROIT',
+        pixScore: 654,
+        status: 'VALIDATED',
+        comment: null,
+        verificationCode: 'P-ABC123',
+        extraCertificationStatus: null,
+        certificateType: 'CERTIFICATE',
+      });
+
+      // when
+      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
+
+      // then
+      assert.dom(screen.queryByText(t('pages.certifications-list.buttons.details'))).doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: t('pages.certifications-list.buttons.download-certificate') }))
+        .doesNotExist();
+    });
+
+    test('still displays actions when certificateType is ATTESTATION even if framework is disabled', async function (assert) {
       // given
       const featureToggles = this.owner.lookup('service:featureToggles');
       sinon.stub(featureToggles, 'featureToggles').value({ userCertificationsActionsDisabledFrameworks: ['DROIT'] });
@@ -251,10 +279,34 @@ module('Integration | Component | User certifications | List item', function (ho
       const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
 
       // then
-      assert.dom(screen.queryByText(t('pages.certifications-list.buttons.details'))).doesNotExist();
-      assert
-        .dom(screen.queryByRole('button', { name: t('pages.certifications-list.buttons.download-attestation') }))
-        .doesNotExist();
+      assert.ok(screen.getByText(t('pages.certifications-list.buttons.details')));
+      assert.ok(screen.getByRole('button', { name: t('pages.certifications-list.buttons.download-attestation') }));
+    });
+
+    test('displays actions when certificateType is CERTIFICATE and framework is not disabled', async function (assert) {
+      // given
+      const featureToggles = this.owner.lookup('service:featureToggles');
+      sinon.stub(featureToggles, 'featureToggles').value({ userCertificationsActionsDisabledFrameworks: ['DROIT'] });
+
+      const store = this.owner.lookup('service:store');
+      const certificateSummary = store.createRecord('certificate-summary', {
+        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
+        certificationCenterName: 'Université de Lyon',
+        certificationFramework: 'CORE',
+        pixScore: 654,
+        status: 'VALIDATED',
+        comment: null,
+        verificationCode: 'P-ABC123',
+        extraCertificationStatus: null,
+        certificateType: 'CERTIFICATE',
+      });
+
+      // when
+      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('pages.certifications-list.buttons.details')));
+      assert.ok(screen.getByRole('button', { name: t('pages.certifications-list.buttons.download-certificate') }));
     });
   });
 });

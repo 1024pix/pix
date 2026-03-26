@@ -2374,16 +2374,16 @@
     "user-certifications": {
       "meshes": {
         "EDU_1ER_DEGRE": {
-          "0": "Non ammissibile",
-          "1": "Ammissibile"
+          "BELOW_MINIMUM": "Non ammissibile",
+          "0": "Ammissibile"
         },
         "EDU_2ND_DEGRE": {
-          "0": "Non ammissibile",
-          "1": "Ammissibile"
+          "BELOW_MINIMUM": "Non ammissibile",
+          "0": "Ammissibile"
         },
         "EDU_CPE": {
-          "0": "Non ammissibile",
-          "1": "Ammissibile"
+          "BELOW_MINIMUM": "Non ammissibile",
+          "0": "Ammissibile"
         }
       }
     },

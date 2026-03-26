@@ -2381,16 +2381,16 @@
     "user-certifications": {
       "meshes": {
         "EDU_1ER_DEGRE": {
-          "0": "Not eligible",
-          "1": "Eligible"
+          "BELOW_MINIMUM": "Not eligible",
+          "0": "Eligible"
         },
         "EDU_2ND_DEGRE": {
-          "0": "Not eligible",
-          "1": "Eligible"
+          "BELOW_MINIMUM": "Not eligible",
+          "0": "Eligible"
         },
         "EDU_CPE": {
-          "0": "Not eligible",
-          "1": "Eligible"
+          "BELOW_MINIMUM": "Not eligible",
+          "0": "Eligible"
         }
       }
     },

@@ -3,7 +3,11 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { CERTIFICATE_STATUSES, EXTRA_CERTIFICATE_STATUSES } from 'mon-pix/models/certificate-summary';
+import {
+  CERTIFICATE_STATUSES,
+  CERTIFICATE_TYPES,
+  EXTRA_CERTIFICATE_STATUSES,
+} from 'mon-pix/models/certificate-summary';
 
 export default class CertificationTags extends Component {
   @service intl;
@@ -15,7 +19,9 @@ export default class CertificationTags extends Component {
   @tracked errorMessage = null;
 
   get isPixPlusV3Certification() {
-    return !['CORE', 'CLEA'].includes(this.args.framework) && Number.isInteger(this.args.reachedMeshIndex);
+    return (
+      !['CORE', 'CLEA'].includes(this.args.framework) && this.args.certificateType === CERTIFICATE_TYPES.CERTIFICATE
+    );
   }
 
   get statusTagData() {
@@ -23,14 +29,18 @@ export default class CertificationTags extends Component {
       [CERTIFICATE_STATUSES.VALIDATED]: {
         color: 'green',
         content: this.isPixPlusV3Certification
-          ? this.intl.t(`pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshIndex}`)
+          ? this.intl.t(
+              `pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshIndex ?? 'BELOW_MINIMUM'}`,
+            )
           : this.intl.t('pages.certifications-list.statuses.validated'),
         displayFramework: true,
       },
       [CERTIFICATE_STATUSES.REJECTED]: {
         color: 'error',
         content: this.isPixPlusV3Certification
-          ? this.intl.t(`pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshIndex}`)
+          ? this.intl.t(
+              `pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshIndex ?? 'BELOW_MINIMUM'}`,
+            )
           : this.intl.t('pages.certifications-list.statuses.rejected'),
         displayFramework: true,
       },
