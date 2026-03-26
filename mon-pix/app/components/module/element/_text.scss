@@ -1,4 +1,6 @@
 @use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+@use 'pix-design-tokens/breakpoints';
 
 .element-text {
   table {
@@ -12,11 +14,25 @@
     vertical-align: top;
     border-bottom: 1px solid var(--pix-neutral-100);
 
-    &.width-auto { width: auto; }
-    &.width-15 { width: 15%; }
-    &.width-20 { width: 20%; }
-    &.width-30 { width: 30%; }
-    &.width-full { width: 100%; }
+    &.width-auto {
+      width: auto;
+    }
+
+    &.width-15 {
+      width: 15%;
+    }
+
+    &.width-20 {
+      width: 20%;
+    }
+
+    &.width-30 {
+      width: 30%;
+    }
+
+    &.width-full {
+      width: 100%;
+    }
   }
 
   th {
@@ -57,4 +73,51 @@
     padding: 0 var(--pix-spacing-2x);
     color: var(--pix-primary-700);
   }
+
+  &__glossary {
+    position: relative;
+    display: inline-block;
+    background-color: #c3d0ff;
+
+  }
+
+  &__glossary-tooltip {
+    @extend %pix-shadow-default;
+
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 241px;
+    padding: var(--pix-spacing-4x);
+    color: var(--pix-neutral-800);
+    background: var(--pix-neutral-0);
+    border-radius: var(--pix-spacing-4x);
+    visibility: hidden;
+
+    @include breakpoints.device-is('desktop') {
+      position: absolute;
+      bottom: 2rem;
+      left: 0;
+    }
+
+    img.__glossary-image {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      height: 80px;
+
+    }
+  }
+
+
+  &__glossary:hover > &__glossary-tooltip,
+  &__glossary:focus > &__glossary-tooltip,
+  &__glossary:hover > &__glossary-image,
+  &__glossary:focus > &__glossary-image,
+  &__glossary-tooltip:hover,
+  &__glossary-tooltip:focus {
+    visibility: visible;
+  }
+
+
 }
