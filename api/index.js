@@ -32,8 +32,12 @@ const start = async function () {
   prometheusPushGateway.startPushingMetrics();
 };
 
+let exiting = false;
+
 async function _exitOnSignal(signal) {
-  logger.info(`Received signal: ${signal}.`);
+  if (exiting) return;
+  exiting = true;
+  logger.info({ activeResources: process.getActiveResourcesInfo() }, `Received signal: ${signal}.`);
   logger.info('Stopping HAPI server...');
   await server.stop({ timeout: 30000 });
   await server.directMetrics?.clearMetrics();
@@ -52,7 +56,10 @@ async function _exitOnSignal(signal) {
   logger.info('Closing connections to redis monitor...');
   await redisMonitor.quit();
   await prometheusPushGateway.stopPushingMetrics();
-  logger.info('Exiting process...');
+  logger.info({ activeResources: process.getActiveResourcesInfo() }, 'Exiting process...');
+  setInterval(() => {
+    logger.warn('Still not exited...');
+  }, 1000).unref();
 }
 
 process.on('SIGTERM', () => {
