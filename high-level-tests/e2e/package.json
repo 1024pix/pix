@@ -49,6 +49,6 @@
     "npm-run-all2": "8.0.4"
   },
   "dependencies": {
-    "jsonwebtoken": "8.5.1"
+    "jsonwebtoken": "9.0.3"
   }
 }
