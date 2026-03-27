@@ -22,6 +22,26 @@ describe('Unit | Devcomp | Domain | UseCases | get-module-by-short-id', function
       expect(module).to.equal(expectedModule);
     });
 
+    it('should highlight glossary words in text elements', async function () {
+      // given
+      const shortId = 'ab12cd34';
+      const textElement = { type: 'text', content: '<p>Le chat ronronne.</p>' };
+      const moduleWithGlossary = {
+        glossary: [{ word: 'chat', definition: Symbol('definition') }],
+        sections: [{ grains: [{ components: [{ type: 'element', element: textElement }] }] }],
+      };
+      const moduleRepository = { getByShortId: sinon.stub() };
+      moduleRepository.getByShortId.withArgs({ shortId }).resolves(moduleWithGlossary);
+
+      // when
+      const module = await getModuleByShortId({ shortId, moduleRepository });
+
+      // then
+      expect(module.sections[0].grains[0].components[0].element.content).to.equal(
+        '<p>Le <button class="module-glossary-word">chat</button> ronronne.</p>',
+      );
+    });
+
     it('should get and return a Module with a redirection url', async function () {
       // given
       const id = 1;
