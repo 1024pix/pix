@@ -1757,6 +1757,9 @@
         "alternativeText": {
           "title": "Textalternative"
         },
+        "book": {
+          "title": "{count, plural, one {Ressource des Moduls} other {Ressourcen des Moduls}}"
+        },
         "transcription": {
           "title": "Transkription"
         }
@@ -1767,6 +1770,9 @@
             "disabled": "Nicht verfügbar. Vorherigen Schritt beenden",
             "enabled": "Gehe zu Schritt {sectionTitle}.",
             "steps": "Schritt {indexSection} auf {totalSections}."
+          },
+          "book": {
+            "label": "Definitionen"
           }
         },
         "tooltip": {

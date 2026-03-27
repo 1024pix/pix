@@ -1,4 +1,7 @@
+import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -6,6 +9,7 @@ import { t } from 'ember-intl';
 
 import didInsert from '../../../modifiers/modifier-did-insert';
 import ModulixNavigationButton from './navigation-button';
+import GlossaryNavigationButton from './glossary-navigation-button';
 
 export default class ModulixNavigation extends Component {
   @service modulixNavigationProgress;
@@ -49,6 +53,10 @@ export default class ModulixNavigation extends Component {
     return this.args.sections.length;
   }
 
+  get hasGlossary() {
+    return this.args.glossary?.length > 0;
+  }
+
   @action currentSectionIndex(section) {
     return this.args.sections.indexOf(section) + 1;
   }
@@ -86,6 +94,13 @@ export default class ModulixNavigation extends Component {
           />
         {{/each}}
       </:navElements>
+      <:footer>
+        {{#if this.hasGlossary}}
+          <GlossaryNavigationButton
+            @glossary={{this.args.glossary}}
+          />
+        {{/if}}
+      </:footer>
     </PixNavigation>
   </template>
 }

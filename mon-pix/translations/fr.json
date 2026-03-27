@@ -1759,6 +1759,9 @@
         "alternativeText": {
           "title": "Alternative textuelle"
         },
+        "book": {
+          "title": "{count, plural, =1 {Définition du module} other {Définitions du module}}"
+        },
         "transcription": {
           "title": "Transcription"
         }
@@ -1769,6 +1772,9 @@
             "disabled": "Non disponible. Terminer l'étape précédente",
             "enabled": "Accéder à l'étape {sectionTitle}",
             "steps": "Étape {indexSection} sur {totalSections}."
+          },
+          "book": {
+            "label": "Définitions"
           }
         },
         "tooltip": {

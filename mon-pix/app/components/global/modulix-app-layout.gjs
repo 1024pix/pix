@@ -40,7 +40,7 @@ export default class ModulixAppLayout extends Component {
       </:banner>
       <:navigation>
         {{#if this.shouldDisplayNavigation}}
-          <ModulixNavigation @sections={{this.currentModuleSections}} />
+          <ModulixNavigation @sections={{this.currentModuleSections}} @glossary={{this.currentModule.glossary}} />
         {{/if}}
       </:navigation>
       <:main>

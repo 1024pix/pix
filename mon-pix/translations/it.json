@@ -1758,6 +1758,9 @@
         "alternativeText": {
           "title": "Alternativa di testo"
         },
+        "book": {
+          "title": "{count, plural, one {Risorsa del modulo} other {Risorse del modulo}}"
+        },
         "transcription": {
           "title": "Trascrizione"
         }
@@ -1768,6 +1771,9 @@
             "disabled": "Non disponibile. Terminare il passo precedente",
             "enabled": "Passare al passo {sectionTitle}.",
             "steps": "Passare da {indexSection} a {totalSections}."
+          },
+          "book": {
+            "label": "Definizioni"
           }
         },
         "tooltip": {

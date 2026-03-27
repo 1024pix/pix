@@ -1757,6 +1757,9 @@
         "alternativeText": {
           "title": "Alternative text"
         },
+        "book": {
+          "title": "{count, plural, one {Module resource} other {Module resources}}"
+        },
         "transcription": {
           "title": "Transcription"
         }
@@ -1767,6 +1770,9 @@
             "disabled": "Not available. Complete the previous step.",
             "enabled": "Go to step {sectionTitle}",
             "steps": "Step {indexSection} of {totalSections}."
+          },
+          "book": {
+            "label": "Definitions"
           }
         },
         "tooltip": {

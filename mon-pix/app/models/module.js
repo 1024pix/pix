@@ -6,6 +6,7 @@ export default class Module extends Model {
   @attr('string') title;
   @attr('boolean') isBeta;
   @attr() details;
+  @attr('array') glossary;
   @attr('string') version;
   @attr('string') redirectionUrl;
   @hasMany('section', { async: false, inverse: 'module' }) sections;
