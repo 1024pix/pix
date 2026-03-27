@@ -3,6 +3,15 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ModulixNavigationProgress extends Service {
   @tracked currentSectionIndex = 0;
+  @tracked isBookModalOpen = false;
+
+  openBookModal() {
+    this.isBookModalOpen = true;
+  }
+
+  closeBookModal() {
+    this.isBookModalOpen = false;
+  }
 
   setCurrentSectionIndex(currentSectionIndex) {
     if (currentSectionIndex < 0) {

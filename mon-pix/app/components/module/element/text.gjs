@@ -1,6 +1,8 @@
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { concat } from '@ember/helper';
 import { t } from 'ember-intl';
+import { on } from '@ember/modifier';
+import { service } from '@ember/service';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 
 import ModuleElement from './module-element';
@@ -14,6 +16,8 @@ const TAG_COLORS = {
 };
 
 export default class ModulixText extends ModuleElement {
+  @service modulixGlossaryModal;
+
   get tagColor() {
     return TAG_COLORS[this.args.text.tag];
   }
@@ -23,7 +27,7 @@ export default class ModulixText extends ModuleElement {
   }
 
   <template>
-    <div class="element-text">
+    <div class="element-text" {{on "click" this.modulixGlossaryModal.handleGlossaryWordClick}}>
       {{#if this.hasTag}}
         <PixTag @color={{this.tagColor}} class="element-text--with-tag">
           {{t (concat "pages.modulix.elements.text.tag." @text.tag)}}

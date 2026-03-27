@@ -124,7 +124,7 @@
 .module-navigation-glossary {
   display: flex;
   flex-direction: column;
-  gap: var(--pix-spacing-4x);
+  gap: var(--pix-spacing-1x);
   margin: 0;
 
   dt {
@@ -134,8 +134,11 @@
   }
 
   dd {
-    margin: var(--pix-spacing-1x) 0 0;
-    color: var(--pix-neutral-700);
+    margin-left: var(--pix-spacing-2x);
+  }
+
+  &__divider {
+    margin-bottom: var(--pix-spacing-4x);
   }
 }
 
