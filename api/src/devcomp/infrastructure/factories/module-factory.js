@@ -30,6 +30,7 @@ import { Text } from '../../domain/models/element/Text.js';
 import { Video } from '../../domain/models/element/Video.js';
 import { Grain } from '../../domain/models/Grain.js';
 import { Details } from '../../domain/models/module/Details.js';
+import { Glossary } from '../../domain/models/module/Glossary.js';
 import { Module } from '../../domain/models/module/Module.js';
 import { Section } from '../../domain/models/module/Section.js';
 import { QcmProposal } from '../../domain/models/QcmProposal.js';
@@ -47,6 +48,7 @@ export class ModuleFactory {
         isBeta: moduleData.isBeta,
         visibility: moduleData.visibility,
         details: new Details(moduleData.details),
+        glossary: moduleData.glossary.map((entry) => new Glossary({ word: entry.word, definition: entry.definition })),
         sections: await Promise.all(
           await Promise.all(
             moduleData.sections.map(async (section) => {

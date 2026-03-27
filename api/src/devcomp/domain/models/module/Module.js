@@ -6,7 +6,7 @@ class Module {
     PRIVATE: 'private',
   });
 
-  constructor({ id, shortId, slug, title, isBeta, sections, details, version, visibility }) {
+  constructor({ id, shortId, slug, title, isBeta, sections, details, version, visibility, glossary }) {
     assertNotNullOrUndefined(id, 'The id is required for a module');
     assertNotNullOrUndefined(shortId, 'The shortId is required for a module');
     assertNotNullOrUndefined(slug, 'The slug is required for a module');
@@ -25,6 +25,7 @@ class Module {
     this.details = details;
     this.version = version;
     this.visibility = visibility;
+    this.glossary = glossary;
   }
 
   setRedirectionUrl(url) {

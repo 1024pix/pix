@@ -13,6 +13,12 @@ function serialize(module) {
         isBeta: module.isBeta,
         version: module.version,
         details: module.details,
+        glossary: module.glossary.map((glossary) => {
+          return {
+            word: glossary.word,
+            definition: glossary.definition,
+          };
+        }),
         sections: module.sections.map((section) => {
           return {
             id: section.id,
@@ -28,7 +34,7 @@ function serialize(module) {
 
       return transformedModule;
     },
-    attributes: ['shortId', 'slug', 'title', 'isBeta', 'version', 'sections', 'details', 'redirectionUrl'],
+    attributes: ['shortId', 'slug', 'title', 'isBeta', 'version', 'sections', 'details', 'glossary', 'redirectionUrl'],
     sections: {
       ref: 'id',
       includes: true,

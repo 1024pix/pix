@@ -148,6 +148,12 @@ const moduleSectionSchema = Joi.object({
   grains: Joi.array().items(grainSchema).required(),
 });
 
+const moduleGlossarySchema = Joi.object({
+  id: uuidSchema,
+  word: Joi.string().required(),
+  definition: htmlSchema.required(),
+});
+
 const moduleSchema = Joi.object({
   id: uuidSchema.description('Identifiant universel unique (uuid) du module.'),
   shortId: Joi.string().length(8).required().description("Identifiant court unique du module, présent dans l'url."),
@@ -167,6 +173,7 @@ const moduleSchema = Joi.object({
     ),
   details: moduleDetailsSchema.required(),
   sections: Joi.array().items(moduleSectionSchema).required(),
+  glossary: Joi.array().items(moduleGlossarySchema).required(),
 }).required();
 
 export { componentStepperSchema, grainSchema, moduleSchema };
