@@ -10,18 +10,27 @@ export default class GlossaryModal extends Component {
   @service intl;
   @service modulixGlossaryModal;
 
+  get displayedEntries() {
+    const { selectedWord } = this.modulixGlossaryModal;
+    if (!selectedWord) return this.args.glossary;
+    return this.args.glossary.filter(
+      (entry) => entry.word.toLowerCase() === selectedWord.toLowerCase(),
+    );
+  }
+
   <template>
     <InElement @destinationId="modal-container" @waitForElement={{true}}>
       <PixModal
-        @title={{t "pages.modulix.modals.book.title"}}
+        @title={{t "pages.modulix.modals.book.title" count=this.displayedEntries.length}}
         @showModal={{this.modulixGlossaryModal.isBookModalOpen}}
         @onCloseButtonClick={{this.args.onCloseButtonClick}}
       >
         <:content>
           <dl class="module-navigation-glossary">
-            {{#each @glossary as |entry|}}
+            {{#each this.displayedEntries as |entry|}}
               <dt>{{entry.word}}</dt>
               <dd>{{htmlUnsafe entry.definition}}</dd>
+              <div class="module-navigation-glossary__divider"></div>
             {{/each}}
           </dl>
         </:content>
