@@ -88,6 +88,15 @@
             {
               "type": "element",
               "element": {
+                "id": "b21949a3-b11c-47c5-8294-6744fdf7dbb5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>ron... ron... fait le chat</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "96e29215-3610-4bc6-b4a6-026bf13276b8",
                 "type": "short-video",
                 "title": "Exemple de vidéo courte",
@@ -1635,6 +1644,18 @@
           ]
         }
       ]
+    }
+  ],
+  "glossary": [
+    {
+      "id": "6efcd6ae-5a22-4e6d-937b-a0ecb06b84df",
+      "word": "chat",
+      "definition": "<p>Le chat est un animal très mignon</p>"
+    },
+    {
+      "id": "706de086-1ea7-4c56-a914-bb953da2ba92",
+      "word": "Jude",
+      "definition": "<p>Le chien le plus mignon de la planète ❤️</p>"
     }
   ]
 }
