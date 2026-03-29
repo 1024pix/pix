@@ -555,7 +555,7 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
         await databaseBuilder.commit();
 
         // when
-        const err = await catchErr(calibratedChallengeRepository.findActiveFlashCompatible)();
+        const err = await catchErr(calibratedChallengeRepository.findActiveFlashCompatible)({});
 
         // then
         expect(err.message).to.equal('Locale shall be defined');

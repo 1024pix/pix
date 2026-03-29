@@ -2,15 +2,14 @@
  * @typedef {import('../../../shared/domain/models/Version.js').Version} Version
  */
 
+import * as challengesApi from '../../../../learning-content/application/api/challenges-api.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { LearningContentRepository } from '../../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CalibratedChallenge } from '../../domain/models/CalibratedChallenge.js';
 import { CalibratedChallengeSkill } from '../../domain/models/CalibratedChallengeSkill.js';
 
-const TABLE_NAME = 'learningcontent.challenges';
 const VALIDATED_STATUS = 'validé';
 
 /**
@@ -19,16 +18,9 @@ const VALIDATED_STATUS = 'validé';
  * @param {Version} params.version
  * @returns {Promise<CalibratedChallenge[]>} challenges with validated LCMS status
  */
-export async function findActiveFlashCompatible({
-  locale,
-  version,
-  dependencies = {
-    getInstance,
-  },
-} = {}) {
+export async function findActiveFlashCompatible({ locale, version }) {
   const knexConn = DomainTransaction.getConnection();
   _assertLocaleIsDefined(locale);
-  const cacheKey = `findActiveFlashCompatible({ versionId: ${version?.id}, locale: ${locale} })`;
 
   const certificationChallenges = await knexConn
     .select('difficulty', 'discriminant', 'challengeId')
@@ -38,20 +30,14 @@ export async function findActiveFlashCompatible({
     .whereNotNull('difficulty');
 
   const certificationChallengeIds = certificationChallenges.map(({ challengeId }) => challengeId);
-
-  const findCallback = async (lcmsKnex) => {
-    return lcmsKnex
-      .select('id', 'skillId', 'accessibility1', 'accessibility2')
-      .whereIn('id', certificationChallengeIds)
-      .where('status', VALIDATED_STATUS)
-      .whereRaw('?=ANY(??)', [locale, 'locales'])
-      .orderBy('id');
-  };
-
-  const validChallengeDtos = await dependencies.getInstance().find(cacheKey, findCallback);
+  const baseChallenges = await challengesApi.findInIds({
+    ids: certificationChallengeIds,
+    status: VALIDATED_STATUS,
+    locale,
+  });
 
   const challengeDtos = decorateWithCertificationCalibration({
-    validChallengeDtos,
+    baseChallenges,
     certificationChallenges,
   });
 
@@ -65,13 +51,7 @@ export async function findActiveFlashCompatible({
  * @param {Version} params.version
  * @returns {Promise<CalibratedChallenge[]>}
  */
-export async function getMany({
-  ids,
-  version,
-  dependencies = {
-    getInstance,
-  },
-} = {}) {
+export async function getMany({ ids, version }) {
   const knexConn = DomainTransaction.getConnection();
   const calibrations = await knexConn
     .select('difficulty', 'discriminant', 'challengeId')
@@ -86,17 +66,20 @@ export async function getMany({
     throw new NotFoundError('Some challenges do not exist in certification version');
   }
 
-  const lcmsChallenges = await dependencies.getInstance().loadMany(ids);
-  lcmsChallenges.forEach((challengeDto, index) => {
-    if (challengeDto) return;
-    logger.error({ challengeId: ids[index] }, 'Some challenges do not exist in LCMS');
-    throw new NotFoundError('Some challenges do not exist in LCMS');
-  });
-
-  lcmsChallenges.sort(_byId);
+  let baseChallenges;
+  try {
+    baseChallenges = await challengesApi.findInIds({
+      ids,
+    });
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      throw new NotFoundError('Some challenges do not exist in LCMS');
+    }
+  }
+  baseChallenges.sort(_byId);
 
   const challengesWithCalibration = decorateWithCertificationCalibration({
-    validChallengeDtos: lcmsChallenges,
+    baseChallenges,
     certificationChallenges: calibrations,
   });
 
@@ -109,12 +92,7 @@ export async function getMany({
  * @param {Version} params.version
  * @returns {Promise<CalibratedChallenge[]>}
  */
-export const getAllCalibratedChallenges = async ({
-  version,
-  dependencies = {
-    getInstance,
-  },
-}) => {
+export const getAllCalibratedChallenges = async ({ version }) => {
   const knexConn = DomainTransaction.getConnection();
 
   const calibrationForThisVersion = await knexConn
@@ -127,17 +105,20 @@ export const getAllCalibratedChallenges = async ({
 
   const challengesIds = calibrationForThisVersion.map(({ challengeId }) => challengeId);
 
-  const lcmsChallenges = await dependencies.getInstance().loadMany(challengesIds);
-  lcmsChallenges.forEach((challengeDto, index) => {
-    if (challengeDto) return;
-    logger.error({ challengeId: challengesIds[index] }, 'Some challenges do not exist in LCMS');
-    throw new NotFoundError('Some challenges do not exist in LCMS');
-  });
-
-  lcmsChallenges.sort(_byId);
+  let baseChallenges;
+  try {
+    baseChallenges = await challengesApi.findInIds({
+      ids: challengesIds,
+    });
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      throw new NotFoundError('Some challenges do not exist in LCMS');
+    }
+  }
+  baseChallenges.sort(_byId);
 
   const challengesWithCalibration = decorateWithCertificationCalibration({
-    validChallengeDtos: lcmsChallenges,
+    baseChallenges,
     certificationChallenges: calibrationForThisVersion,
   });
 
@@ -145,8 +126,8 @@ export const getAllCalibratedChallenges = async ({
   return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
 };
 
-const _byId = (challenge1, challenge2) => {
-  return challenge1.id < challenge2.id ? -1 : 1;
+const _byId = (baseChallenge1, baseChallenge2) => {
+  return baseChallenge1.id < baseChallenge2.id ? -1 : 1;
 };
 
 async function loadChallengeDtosSkills(challengeDtos) {
@@ -158,14 +139,17 @@ async function loadChallengeDtosSkills(challengeDtos) {
   );
 }
 
-function decorateWithCertificationCalibration({ validChallengeDtos, certificationChallenges }) {
-  return validChallengeDtos.map((challenge) => {
+function decorateWithCertificationCalibration({ baseChallenges, certificationChallenges }) {
+  return baseChallenges.map((baseChallenge) => {
     const { discriminant, difficulty } = certificationChallenges.find(
-      ({ challengeId }) => challengeId === challenge.id,
+      ({ challengeId }) => challengeId === baseChallenge.id,
     );
 
     return {
-      ...challenge,
+      id: baseChallenge.id,
+      skillId: baseChallenge.skillId,
+      accessibility1: baseChallenge.accessibility1,
+      accessibility2: baseChallenge.accessibility2,
       discriminant,
       difficulty,
     };
@@ -192,13 +176,4 @@ function _toDomain({ challengeDto, skill }) {
       tubeId: skill.tubeId,
     }),
   });
-}
-
-let instance;
-
-function getInstance() {
-  if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }
