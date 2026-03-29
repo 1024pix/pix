@@ -12,7 +12,7 @@ import { SkillDTO } from './models/SkillDTO.js';
 /**
  * @function
  * @name findByIds
- *
+ * @deprecated use the new skills API
  * @param {Object} params
  * @param {Array<string>} params.ids
  * @returns {Promise<Array<SkillDTO>>}

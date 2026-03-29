@@ -1,9 +1,9 @@
 import { SkillDTO } from '../../../../../src/learning-content/application/api/models/SkillDTO.js';
-import * as skillsApi from '../../../../../src/learning-content/application/api/skills-api.js';
+import * as skillsApi from '../../../../../src/learning-content/application/api/old-skills-api.js';
 import { usecases } from '../../../../../src/learning-content/domain/usecases/index.js';
 import { domainBuilder, expect, preventStubsToBeCalledUnexpectedly, sinon } from '../../../../test-helper.js';
 
-describe('LearningContent | Unit | Application | Api | skills', function () {
+describe('LearningContent | Unit | Application | Api | (OLD) skills', function () {
   describe('#findByIds', function () {
     let findByIdsStub;
 
