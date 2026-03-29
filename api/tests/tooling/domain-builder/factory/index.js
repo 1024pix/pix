@@ -224,6 +224,7 @@ import {
   buildLtiPlatformRegistrationWithPlatformConfig,
 } from './identity-access-management/build-lti-platform-registration.js';
 import { buildUserLogin } from './identity-access-management/build-user-login.js';
+import { builders as learningContentBuilders } from './learning-content/index.js';
 import { buildChat } from './llm/build-chat.js';
 import { buildConfiguration } from './llm/build-configuration.js';
 import { buildAssistantMessage, buildUserMessage } from './llm/build-message.js';
@@ -355,6 +356,8 @@ const llm = {
   buildConfiguration,
   buildUserMessage,
 };
+
+const learningContent = learningContentBuilders;
 
 export {
   acquisition,
@@ -531,6 +534,7 @@ export {
   certification,
   devcomp,
   identityAccessManagement,
+  learningContent,
   llm,
   maddo,
   organizationalEntities,
