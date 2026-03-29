@@ -30,7 +30,7 @@ import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js'
  * @param {FlashAlgorithmService} params.flashAlgorithmService
  * @param {PickChallengeService} params.pickChallengeService
  */
-const getNextChallenge = async function ({
+export async function getNextChallenge({
   assessment,
   locale,
   answerRepository,
@@ -125,11 +125,11 @@ const getNextChallenge = async function ({
   await sessionManagementCertificationChallengeRepository.save({ certificationChallenge });
 
   return sharedChallengeRepository.get(challenge.id);
-};
+}
 
-const _hasAnsweredToAllChallenges = ({ possibleChallenges }) => {
+function _hasAnsweredToAllChallenges({ possibleChallenges }) {
   return possibleChallenges.length === 0;
-};
+}
 
 /**
  * Excludes challenges if their associated skill has a validated live alert.
@@ -139,7 +139,7 @@ const _hasAnsweredToAllChallenges = ({ possibleChallenges }) => {
  * @param {Array<CalibratedChallenge>} params.challenges - An array of calibrated challenges.
  * @returns {Array<CalibratedChallenge>} An array of challenges with skills that do not have validated live alerts.
  */
-const _excludeChallengesWithASkillWithAValidatedLiveAlert = ({ validatedLiveAlertChallengeIds, challenges }) => {
+function _excludeChallengesWithASkillWithAValidatedLiveAlert({ validatedLiveAlertChallengeIds, challenges }) {
   const validatedLiveAlertChallenges = challenges.filter((challenge) => {
     return validatedLiveAlertChallengeIds.includes(challenge.id);
   });
@@ -147,11 +147,11 @@ const _excludeChallengesWithASkillWithAValidatedLiveAlert = ({ validatedLiveAler
   const excludedSkillIds = validatedLiveAlertChallenges.map((challenge) => challenge.skill.id);
 
   return challenges.filter((challenge) => !excludedSkillIds.includes(challenge.skill.id));
-};
+}
 
-const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
+async function _getValidatedLiveAlertChallengeIds({ assessmentId, certificationChallengeLiveAlertRepository }) {
   return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId });
-};
+}
 
 /**
  * Construct a certification referential in the state presented to the current user
@@ -163,7 +163,7 @@ const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationC
  * @param {Array<CalibratedChallenge>} currentCalibratedChallenges.
  * @returns {Array<CalibratedChallenge>}
  */
-const candidateCertificationReferential = (answeredCalibratedChallenges, currentCalibratedChallenges) => {
+export function candidateCertificationReferential(answeredCalibratedChallenges, currentCalibratedChallenges) {
   // It is critical that answeredCalibratedChallenges is in first parameter in order to take precedence
   const challenges = [...answeredCalibratedChallenges, ...currentCalibratedChallenges];
 
@@ -178,6 +178,4 @@ const candidateCertificationReferential = (answeredCalibratedChallenges, current
       return acc;
     }, {}),
   );
-};
-
-export { candidateCertificationReferential, getNextChallenge };
+}
