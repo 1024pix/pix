@@ -3,7 +3,6 @@
  * @typedef {import('../index.js').ChallengeCalibrationRepository} ChallengeCalibrationRepository
  * @typedef {import('../index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {import('../index.js').CertificationCourseRepository} CertificationCourseRepository
- * @typedef {import('../index.js').SharedChallengeRepository} SharedChallengeRepository
  * @typedef {import('../index.js').CalibratedChallengeRepository} CalibratedChallengeRepository
  * @typedef {import('../../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import('../../read-models/ChallengeCalibration.js').ChallengeCalibration} ChallengeCalibration

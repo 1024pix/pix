@@ -9,6 +9,7 @@ export async function updateAssessmentWithNextChallenge({
   assessmentRepository,
   certificationEvaluationRepository,
   courseRepository,
+  challengeRepository,
   competenceRepository,
   certificationChallengeLiveAlertRepository,
   certificationCompanionAlertRepository,
@@ -26,10 +27,11 @@ export async function updateAssessmentWithNextChallenge({
       });
       assessment.attachLiveAlerts({ challengeLiveAlerts, companionLiveAlerts });
       if (assessment.isStarted()) {
-        nextChallenge = await certificationEvaluationRepository.selectNextCertificationChallenge({
+        const nextChallengeId = await certificationEvaluationRepository.selectNextCertificationChallenge({
           assessmentId: assessment.id,
           locale,
         });
+        nextChallenge = await challengeRepository.get(nextChallengeId);
       }
     }
 

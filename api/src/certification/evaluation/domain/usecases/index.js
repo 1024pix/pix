@@ -3,7 +3,6 @@ import * as placementProfileService from '../../../../shared/domain/services/pla
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
-import * as sharedChallengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as verifyCertificateCodeService from '../../../evaluation/domain/services/verify-certificate-code-service.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
@@ -58,13 +57,11 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {complementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {answerRepository} AnswerRepository
- * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {calibratedChallengeRepository} CalibratedChallengeRepository
  * @typedef {sessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {versionRepository} VersionRepository
@@ -88,7 +85,6 @@ const dependencies = {
   answerRepository,
   calibratedChallengeRepository,
   sharedCompetenceMarkRepository,
-  sharedChallengeRepository,
   userRepository,
   flashAlgorithmService,
   certificationBadgesService,

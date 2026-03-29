@@ -21,6 +21,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
     let evaluationUsecases_getProgressionStub;
     let certificationEvaluationRepository_selectNextCertificationChallengeStub;
     let courseRepository_getStub;
+    let challengeRepository_getStub;
     let competenceRepository_getCompetenceNameStub;
     let certificationChallengeLiveAlertRepository_getByAssessmentIdStub;
     let certificationCompanionAlertRepository_getAllByAssessmentIdStub;
@@ -45,6 +46,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         .stub()
         .named('selectNextCertificationChallenge');
       courseRepository_getStub = sinon.stub().named('getCourse');
+      challengeRepository_getStub = sinon.stub().named('getChallenge');
       competenceRepository_getCompetenceNameStub = sinon.stub().named('getCompetenceName');
       certificationChallengeLiveAlertRepository_getByAssessmentIdStub = sinon.stub().named('getChallengeLiveAlerts');
       certificationCompanionAlertRepository_getAllByAssessmentIdStub = sinon.stub().named('getCompanionLiveAlerts');
@@ -59,6 +61,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         evaluationUsecases_getProgressionStub,
         certificationEvaluationRepository_selectNextCertificationChallengeStub,
         courseRepository_getStub,
+        challengeRepository_getStub,
         competenceRepository_getCompetenceNameStub,
         certificationChallengeLiveAlertRepository_getByAssessmentIdStub,
         certificationCompanionAlertRepository_getAllByAssessmentIdStub,
@@ -86,6 +89,10 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         get: courseRepository_getStub,
       };
 
+      const challengeRepository = {
+        get: challengeRepository_getStub,
+      };
+
       const competenceRepository = {
         getCompetenceName: competenceRepository_getCompetenceNameStub,
       };
@@ -105,6 +112,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         assessmentRepository,
         certificationEvaluationRepository,
         courseRepository,
+        challengeRepository,
         competenceRepository,
         certificationChallengeLiveAlertRepository,
         certificationCompanionAlertRepository,
@@ -419,7 +427,9 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
           const challenge = domainBuilder.buildChallenge({ id: 'challengeForCertification' });
           certificationEvaluationRepository_selectNextCertificationChallengeStub
             .withArgs({ assessmentId: assessment.id, locale })
-            .resolves(challenge);
+            .resolves('challengeIdForCertification');
+          challengeRepository_getStub.withArgs('challengeIdForCertification').resolves(challenge);
+
           const { assessment: assessmentWithNextChallenge, globalProgression } =
             await updateAssessmentWithNextChallenge(dependencies);
 

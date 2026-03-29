@@ -2,7 +2,6 @@
  * @typedef {import('../../../evaluation/domain/usecases/index.js').AnswerRepository} AnswerRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {import('../../../evaluation/domain/usecases/index.js').SharedChallengeRepository} SharedChallengeRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').CalibratedChallengeRepository} CalibratedChallengeRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').SessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').VersionRepository} VersionRepository
@@ -23,12 +22,13 @@ import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js'
  * @param {AnswerRepository} params.answerRepository
  * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
- * @param {SharedChallengeRepository} params.sharedChallengeRepository
  * @param {CalibratedChallengeRepository} params.calibratedChallengeRepository
  * @param {VersionRepository} params.versionRepository
  * @param {SessionManagementCertificationChallengeRepository} params.sessionManagementCertificationChallengeRepository
  * @param {FlashAlgorithmService} params.flashAlgorithmService
  * @param {PickChallengeService} params.pickChallengeService
+ *
+ * @return {string} - next challenge ID. If no challenge, it will throw an AssessmentEndedError (which is a weird way to end up on an expected note)
  */
 export async function getNextChallenge({
   assessment,
@@ -37,7 +37,6 @@ export async function getNextChallenge({
   certificationCandidateRepository,
   certificationChallengeLiveAlertRepository,
   sessionManagementCertificationChallengeRepository,
-  sharedChallengeRepository,
   calibratedChallengeRepository,
   versionRepository,
   flashAlgorithmService,
@@ -62,7 +61,7 @@ export async function getNextChallenge({
     );
 
   if (lastNonAnsweredCertificationChallenge) {
-    return sharedChallengeRepository.get(lastNonAnsweredCertificationChallenge.challengeId);
+    return lastNonAnsweredCertificationChallenge.challengeId;
   }
 
   const candidate = await certificationCandidateRepository.findByAssessmentId({ assessmentId: assessment.id });
@@ -124,7 +123,7 @@ export async function getNextChallenge({
 
   await sessionManagementCertificationChallengeRepository.save({ certificationChallenge });
 
-  return sharedChallengeRepository.get(challenge.id);
+  return challenge.id;
 }
 
 function _hasAnsweredToAllChallenges({ possibleChallenges }) {
