@@ -3,9 +3,9 @@
  */
 
 import * as challengesApi from '../../../../learning-content/application/api/challenges-api.js';
+import * as skillsApi from '../../../../learning-content/application/api/skills-api.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CalibratedChallenge } from '../../domain/models/CalibratedChallenge.js';
 import { CalibratedChallengeSkill } from '../../domain/models/CalibratedChallengeSkill.js';
@@ -36,13 +36,9 @@ export async function findActiveFlashCompatible({ locale, version }) {
     locale,
   });
 
-  const challengeDtos = decorateWithCertificationCalibration({
-    baseChallenges,
-    certificationChallenges,
-  });
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(baseChallenges);
 
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
+  return toDomainMap({ baseChallenges, certificationChallenges, calibratedSkillsMap });
 }
 
 /**
@@ -78,13 +74,9 @@ export async function getMany({ ids, version }) {
   }
   baseChallenges.sort(_byId);
 
-  const challengesWithCalibration = decorateWithCertificationCalibration({
-    baseChallenges,
-    certificationChallenges: calibrations,
-  });
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(baseChallenges);
 
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengesWithCalibration);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
+  return toDomainMap({ baseChallenges, certificationChallenges: calibrations, calibratedSkillsMap });
 }
 
 /**
@@ -117,44 +109,14 @@ export const getAllCalibratedChallenges = async ({ version }) => {
   }
   baseChallenges.sort(_byId);
 
-  const challengesWithCalibration = decorateWithCertificationCalibration({
-    baseChallenges,
-    certificationChallenges: calibrationForThisVersion,
-  });
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(baseChallenges);
 
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengesWithCalibration);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
+  return toDomainMap({ baseChallenges, certificationChallenges: calibrationForThisVersion, calibratedSkillsMap });
 };
 
 const _byId = (baseChallenge1, baseChallenge2) => {
   return baseChallenge1.id < baseChallenge2.id ? -1 : 1;
 };
-
-async function loadChallengeDtosSkills(challengeDtos) {
-  return Promise.all(
-    challengeDtos.map(async (challengeDto) => [
-      challengeDto,
-      challengeDto.skillId ? await skillRepository.get(challengeDto.skillId) : null,
-    ]),
-  );
-}
-
-function decorateWithCertificationCalibration({ baseChallenges, certificationChallenges }) {
-  return baseChallenges.map((baseChallenge) => {
-    const { discriminant, difficulty } = certificationChallenges.find(
-      ({ challengeId }) => challengeId === baseChallenge.id,
-    );
-
-    return {
-      id: baseChallenge.id,
-      skillId: baseChallenge.skillId,
-      accessibility1: baseChallenge.accessibility1,
-      accessibility2: baseChallenge.accessibility2,
-      discriminant,
-      difficulty,
-    };
-  });
-}
 
 function _assertLocaleIsDefined(locale) {
   if (!locale) {
@@ -162,18 +124,37 @@ function _assertLocaleIsDefined(locale) {
   }
 }
 
-function _toDomain({ challengeDto, skill }) {
-  return new CalibratedChallenge({
-    id: challengeDto.id,
-    discriminant: challengeDto.discriminant,
-    difficulty: challengeDto.difficulty,
-    blindnessCompatibility: challengeDto.accessibility1,
-    colorBlindnessCompatibility: challengeDto.accessibility2,
-    skill: new CalibratedChallengeSkill({
-      id: skill.id,
-      name: skill.name,
-      competenceId: skill.competenceId,
-      tubeId: skill.tubeId,
-    }),
+async function loadCalibratedSkillsMap(baseChallenges) {
+  const uniqueSkillIds = [...new Set(baseChallenges.map((bc) => bc.skillId).filter(Boolean))];
+  const baseSkills = await skillsApi.findInIds({
+    ids: uniqueSkillIds,
+  });
+  return new Map(
+    baseSkills.map((bs) => [
+      bs.id,
+      new CalibratedChallengeSkill({
+        id: bs.id,
+        name: bs.name,
+        competenceId: bs.competenceId,
+        tubeId: bs.tubeId,
+      }),
+    ]),
+  );
+}
+
+function toDomainMap({ baseChallenges, certificationChallenges, calibratedSkillsMap }) {
+  return baseChallenges.map((baseChallenge) => {
+    const { discriminant, difficulty } = certificationChallenges.find(
+      ({ challengeId }) => challengeId === baseChallenge.id,
+    );
+    const calibratedSkill = baseChallenge.skillId ? calibratedSkillsMap.get(baseChallenge.skillId) : null;
+    return new CalibratedChallenge({
+      id: baseChallenge.id,
+      discriminant,
+      difficulty,
+      blindnessCompatibility: baseChallenge.accessibility1,
+      colorBlindnessCompatibility: baseChallenge.accessibility2,
+      skill: calibratedSkill,
+    });
   });
 }
