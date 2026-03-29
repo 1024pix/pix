@@ -4,6 +4,9 @@ import * as readChallengeRepository from '../../infrastructure/repositories/read
  * @typedef BaseChallenge
  * @type {object}
  * @property {string} id
+ * @property {string} skillId
+ * @property {string} accessibility1
+ * @property {string} accessibility2
  */
 
 /**
