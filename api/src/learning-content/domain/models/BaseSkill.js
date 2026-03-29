@@ -11,6 +11,10 @@ export class BaseSkill {
     return this._cachedSkillDto.name;
   }
 
+  get difficulty() {
+    return this._cachedSkillDto.level;
+  }
+
   get tubeId() {
     return this._cachedSkillDto.tubeId;
   }

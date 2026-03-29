@@ -1,4 +1,4 @@
-export class SkillDTO {
+export class Skill {
   constructor({ id, difficulty, tubeId }) {
     this.id = id;
     this.difficulty = difficulty;

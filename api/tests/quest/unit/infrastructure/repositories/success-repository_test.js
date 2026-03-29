@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 
+import { Skill } from '../../../../../src/quest/domain/models/Skill.js';
 import { Success } from '../../../../../src/quest/domain/models/Success.js';
 import * as successRepository from '../../../../../src/quest/infrastructure/repositories/success-repository.js';
 import { expect, preventStubsToBeCalledUnexpectedly } from '../../../../test-helper.js';
@@ -7,20 +8,20 @@ import { expect, preventStubsToBeCalledUnexpectedly } from '../../../../test-hel
 describe('Quest | Unit | Infrastructure | repositories | success', function () {
   describe('#find', function () {
     let knowledgeElementsApi_findFilteredMostRecentByUserStub;
-    let skillsApi_findByIdsStub;
+    let skillsApi_findInIdsStub;
     let campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub;
     let targetProfilesApi_findSkillsByTargetProfileIdsStub;
 
     beforeEach(function () {
       knowledgeElementsApi_findFilteredMostRecentByUserStub = sinon.stub().named('findFilteredMostRecentByUser');
-      skillsApi_findByIdsStub = sinon.stub().named('findByIds');
+      skillsApi_findInIdsStub = sinon.stub().named('findInIds');
       campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub = sinon
         .stub()
         .named('findCampaignSkillIdsForCampaignParticipations');
       targetProfilesApi_findSkillsByTargetProfileIdsStub = sinon.stub();
       preventStubsToBeCalledUnexpectedly([
         knowledgeElementsApi_findFilteredMostRecentByUserStub,
-        skillsApi_findByIdsStub,
+        skillsApi_findInIdsStub,
         campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub,
         targetProfilesApi_findSkillsByTargetProfileIdsStub,
       ]);
@@ -33,17 +34,13 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
       const campaignParticipationIds = Symbol('campaignParticipationIds');
       const targetProfileIds = Symbol('targetProfileIds');
       const campaignSkillIds = Symbol('campaignSkillIds');
-      const campaignSkills = [{ id: 'A', tubeId: 'AA' }];
+      const baseSkills = [{ id: 'A', tubeId: 'AA' }];
       const targetProfileSkills = [{ id: 'B', tubeId: 'BB' }];
-      const skills = [
-        { id: 'A', tubeId: 'AA' },
-        { id: 'B', tubeId: 'BB' },
-      ];
       const knowledgeElementsApi = {
         findFilteredMostRecentByUser: knowledgeElementsApi_findFilteredMostRecentByUserStub,
       };
       const skillsApi = {
-        findByIds: skillsApi_findByIdsStub,
+        findInIds: skillsApi_findInIdsStub,
       };
       const targetProfilesApi = {
         findSkillsByTargetProfileIds: targetProfilesApi_findSkillsByTargetProfileIdsStub,
@@ -55,7 +52,7 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
       campaignsApi.findCampaignSkillIdsForCampaignParticipations
         .withArgs(campaignParticipationIds)
         .resolves(campaignSkillIds);
-      skillsApi_findByIdsStub.withArgs({ ids: campaignSkillIds }).resolves(campaignSkills);
+      skillsApi_findInIdsStub.withArgs({ ids: campaignSkillIds }).resolves(baseSkills);
       targetProfilesApi_findSkillsByTargetProfileIdsStub.withArgs(targetProfileIds).resolves(targetProfileSkills);
 
       // when
@@ -72,7 +69,10 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
       // then
       expect(result).to.be.an.instanceof(Success);
       expect(result.knowledgeElements).to.deepEqualArray(knowledgeElements);
-      expect(result.skills).to.deepEqualArray(skills);
+      expect(result.skills).to.deepEqualArray([
+        new Skill({ id: 'A', tubeId: 'AA' }),
+        new Skill({ id: 'B', tubeId: 'BB' }),
+      ]);
     });
   });
 });

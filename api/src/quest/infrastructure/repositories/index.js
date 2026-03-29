@@ -2,7 +2,7 @@ import * as modulesApi from '../../../devcomp/application/api/modules-api.js';
 import * as recommendedModulesApi from '../../../devcomp/application/api/recommended-modules-api.js';
 import * as knowledgeElementsApi from '../../../evaluation/application/api/knowledge-elements-api.js';
 import * as userApi from '../../../identity-access-management/application/api/users-api.js';
-import * as skillsApi from '../../../learning-content/application/api/old-skills-api.js';
+import * as skillsApi from '../../../learning-content/application/api/skills-api.js';
 import * as campaignsApi from '../../../prescription/campaign/application/api/campaigns-api.js';
 import * as campaignParticipationsApi from '../../../prescription/campaign-participation/application/api/campaign-participations-api.js';
 import * as organizationLearnerApi from '../../../prescription/organization-learner/application/api/organization-learners-api.js';

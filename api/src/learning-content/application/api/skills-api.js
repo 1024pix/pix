@@ -5,6 +5,7 @@ import * as readSkillRepository from '../../infrastructure/repositories/read-ski
  * @type {object}
  * @property {string} id
  * @property {string} name
+ * @property {number} difficulty
  * @property {string} competenceId
  * @property {string} tubeId
  */
