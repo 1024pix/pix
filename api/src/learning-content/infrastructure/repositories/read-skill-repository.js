@@ -12,6 +12,7 @@ const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONT
  * @param {Object} params
  * @param {string[]} params.ids
  * @returns {Promise<BaseSkill[]>}
+ * @throws NotFoundError when at least one challenge in the given ids is not found
  */
 export async function findInIds({ ids }) {
   const skillDtos = await getInstance().loadMany(ids);

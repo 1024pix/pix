@@ -1,15 +1,6 @@
 import * as readChallengeRepository from '../../infrastructure/repositories/read-challenge-repository.js';
 
 /**
- * @typedef BaseChallenge
- * @type {object}
- * @property {string} id
- * @property {string} skillId
- * @property {string} accessibility1
- * @property {string} accessibility2
- */
-
-/**
  * @function
  * @name findInIds
  *
@@ -18,6 +9,7 @@ import * as readChallengeRepository from '../../infrastructure/repositories/read
  * @param {string} [params.status] - leave empty to not filter by status
  * @param {string} [params.locale] - leave empty to not filter by locale
  * @returns {Promise<BaseChallenge[]>}
+ * @throws NotFoundError when at least one challenge in the given ids is not found
  */
 export async function findInIds({ ids, status, locale }) {
   if (!Array.isArray(ids) || ids.length === 0) return [];

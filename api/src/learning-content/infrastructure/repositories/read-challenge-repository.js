@@ -14,6 +14,7 @@ const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONT
  * @param {string} params.status
  * @param {string} params.locale
  * @returns {Promise<BaseChallenge[]>}
+ * @throws NotFoundError when at least one challenge in the given ids is not found
  */
 export async function findInIdsByStatusAndLocale({ ids, status, locale }) {
   const sortedIds = [...ids].sort();
@@ -41,6 +42,7 @@ export async function findInIdsByStatusAndLocale({ ids, status, locale }) {
  * @param {Object} params
  * @param {string[]} params.ids
  * @returns {Promise<BaseChallenge[]>}
+ * @throws NotFoundError when at least one challenge in the given ids is not found
  */
 export async function findInIds({ ids }) {
   const challengeDtos = await getInstance().loadMany(ids);
