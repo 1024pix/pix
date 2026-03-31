@@ -15,55 +15,62 @@ class HttpResponse {
 }
 
 const httpAgent = {
-  async post({ url, payload, headers, timeout }) {
+  async post({ url, payload, headers }) {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const config = {
-        headers,
-      };
-      if (timeout != undefined) {
-        config.timeout = timeout;
-      }
-      const httpResponse = await axios.post(url, payload, config);
+      const finalHeaders = structuredClone(headers);
+      finalHeaders['Content-type'] = 'application/json';
+      const httpResponse = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: finalHeaders,
+      });
       responseTime = performance.now() - startTime;
+      if (!httpResponse.ok) {
+        const data = await _parseResponseBody(httpResponse);
+        const code = httpResponse.status;
+        const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
+
+        logger.error({
+          metrics: { responseTime },
+          message,
+        });
+
+        return new HttpResponse({
+          code,
+          data,
+          isSuccessful: false,
+        });
+      }
+
       logger.info({
         metrics: { responseTime },
         message: `End POST request to ${url} success: ${httpResponse.status}`,
       });
+      const data = await _parseResponseBody(httpResponse);
 
       return new HttpResponse({
         code: httpResponse.status,
-        data: httpResponse.data,
+        data,
         isSuccessful: true,
       });
     } catch (httpErr) {
       responseTime = performance.now() - startTime;
-      let code = null;
-      let data;
-
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
-      } else {
-        code = httpErr.code;
-        data = httpErr.message;
-      }
-
-      const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
-
+      const message = `End POST request to ${url} , unexpected error: ${httpErr.message}`;
       logger.error({
         metrics: { responseTime },
         message,
       });
 
       return new HttpResponse({
-        code,
-        data,
+        code: null,
+        data: httpErr.message,
         isSuccessful: false,
       });
     }
   },
+
   async get({ url, payload, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
@@ -115,5 +122,13 @@ const httpAgent = {
     }
   },
 };
+
+async function _parseResponseBody(response) {
+  const contentType = response.headers.get('content-type') ?? '';
+  if (contentType.includes('application/json')) {
+    return response.json();
+  }
+  return response.text();
+}
 
 export { httpAgent };
