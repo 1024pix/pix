@@ -1,3 +1,4 @@
+import { Challenge as ChallengeProxy } from '../../../learning-content/domain/models/Challenge.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
@@ -130,6 +131,31 @@ export async function getManyTypes(ids) {
     throw new NotFoundError();
   }
   return Object.fromEntries(challengeDtos.map(({ id, type }) => [id, type]));
+}
+
+export async function findValidatedByIds_proxy({ versionId, ids, locale }) {
+  _assertLocaleIsDefined(locale);
+  const cacheKey = `findActiveFlashCompatible({ versionId: ${versionId}, locale: ${locale} })`;
+  const findCallback = async (knex) => {
+    return knex
+      .select('id', 'skillId', 'accessibility1', 'accessibility2')
+      .whereIn('id', ids)
+      .where('status', VALIDATED_STATUS)
+      .whereRaw('?=ANY(??)', [locale, 'locales'])
+      .orderBy('id');
+  };
+  const challengeDtos = await getInstance().find(cacheKey, findCallback);
+  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+}
+
+export async function getMany_proxy(ids) {
+  const challengeDtos = await getInstance().loadMany(ids);
+  challengeDtos.forEach((challengeDto, index) => {
+    if (challengeDto) return;
+    logger.warn({ challengeId: ids[index] }, 'Épreuve introuvable');
+    throw new NotFoundError('Épreuve introuvable');
+  });
+  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
 export function clearCache(id) {

@@ -10,7 +10,6 @@ export function buildCalibratedChallenge({
   difficulty = 0,
   blindnessCompatibility = Accessibility.OK,
   colorBlindnessCompatibility = Accessibility.RAS,
-  competenceId = 'competenceId',
   skill = buildCalibratedChallengeSkill(),
 } = {}) {
   return new CalibratedChallenge({
@@ -19,7 +18,6 @@ export function buildCalibratedChallenge({
     difficulty,
     blindnessCompatibility,
     colorBlindnessCompatibility,
-    competenceId,
     skill,
   });
 }
