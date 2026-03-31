@@ -33,14 +33,9 @@ export async function findActiveFlashCompatible({ locale, version } = {}) {
     locale,
     ids: certificationChallengeIds,
   });
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallenges);
 
-  const challengeDtos = decorateWithCertificationCalibration({
-    lcmsChallenges,
-    certificationChallenges,
-  });
-
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
+  return toDomainMap({ lcmsChallenges, certificationChallenges, calibratedSkillsMap });
 }
 
 /**
@@ -66,14 +61,9 @@ export async function getMany({ ids, version }) {
 
   const lcmsChallenges = await challengeRepository.getMany_proxy(ids);
   lcmsChallenges.sort(_byId);
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallenges);
 
-  const challengesWithCalibration = decorateWithCertificationCalibration({
-    lcmsChallenges,
-    certificationChallenges: calibrations,
-  });
-
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengesWithCalibration);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
+  return toDomainMap({ lcmsChallenges, certificationChallenges: calibrations, calibratedSkillsMap });
 }
 
 /**
@@ -96,58 +86,44 @@ export async function getAllCalibratedChallenges({ version }) {
 
   const lcmsChallenges = await challengeRepository.getMany_proxy(challengesIds);
   lcmsChallenges.sort(_byId);
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallenges);
 
-  const challengesWithCalibration = decorateWithCertificationCalibration({
-    lcmsChallenges,
-    certificationChallenges: calibrationForThisVersion,
-  });
-
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengesWithCalibration);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => _toDomain({ challengeDto, skill }));
+  return toDomainMap({ lcmsChallenges, certificationChallenges: calibrationForThisVersion, calibratedSkillsMap });
 }
 
 const _byId = (challenge1, challenge2) => {
   return challenge1.id < challenge2.id ? -1 : 1;
 };
 
-async function loadChallengeDtosSkills(challengeDtos) {
-  return Promise.all(
-    challengeDtos.map(async (challengeDto) => [
-      challengeDto,
-      challengeDto.skillId ? await skillRepository.get(challengeDto.skillId) : null,
+async function loadCalibratedSkillsMap(lcmsChallenges) {
+  const uniqueSkillIds = [...new Set(lcmsChallenges.map((lcmsChallenge) => lcmsChallenge.skillId))];
+  const baseSkills = await skillRepository.findByRecordIds(uniqueSkillIds);
+  return new Map(
+    baseSkills.map((bs) => [
+      bs.id,
+      new CalibratedChallengeSkill({
+        id: bs.id,
+        name: bs.name,
+        competenceId: bs.competenceId,
+        tubeId: bs.tubeId,
+      }),
     ]),
   );
 }
 
-function decorateWithCertificationCalibration({ lcmsChallenges, certificationChallenges }) {
+function toDomainMap({ lcmsChallenges, certificationChallenges, calibratedSkillsMap }) {
   return lcmsChallenges.map((lcmsChallenge) => {
     const { discriminant, difficulty } = certificationChallenges.find(
       ({ challengeId }) => challengeId === lcmsChallenge.id,
     );
-
-    return {
+    const calibratedSkill = lcmsChallenge.skillId ? calibratedSkillsMap.get(lcmsChallenge.skillId) : null;
+    return new CalibratedChallenge({
       id: lcmsChallenge.id,
-      blindnessCompatibility: lcmsChallenge.accessibility1,
-      colorBlindnessCompatibility: lcmsChallenge.accessibility2,
-      skillId: lcmsChallenge.skillId,
       discriminant,
       difficulty,
-    };
-  });
-}
-
-function _toDomain({ challengeDto, skill }) {
-  return new CalibratedChallenge({
-    id: challengeDto.id,
-    discriminant: challengeDto.discriminant,
-    difficulty: challengeDto.difficulty,
-    blindnessCompatibility: challengeDto.blindnessCompatibility,
-    colorBlindnessCompatibility: challengeDto.colorBlindnessCompatibility,
-    skill: new CalibratedChallengeSkill({
-      id: skill.id,
-      name: skill.name,
-      competenceId: skill.competenceId,
-      tubeId: skill.tubeId,
-    }),
+      blindnessCompatibility: lcmsChallenge.accessibility1,
+      colorBlindnessCompatibility: lcmsChallenge.accessibility2,
+      skill: calibratedSkill,
+    });
   });
 }
