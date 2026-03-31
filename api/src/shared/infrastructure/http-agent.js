@@ -14,114 +14,70 @@ class HttpResponse {
 
 const httpAgent = {
   async post({ url, payload, headers }) {
-    const startTime = performance.now();
-    let responseTime = null;
-    try {
-      const finalHeaders = structuredClone(headers);
-      finalHeaders['Content-type'] = 'application/json';
-      const httpResponse = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: finalHeaders,
-      });
-      responseTime = performance.now() - startTime;
-      if (!httpResponse.ok) {
-        const data = await _parseResponseBody(httpResponse);
-        const code = httpResponse.status;
-        const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
-
-        logger.error({
-          metrics: { responseTime },
-          message,
-        });
-
-        return new HttpResponse({
-          code,
-          data,
-          isSuccessful: false,
-        });
-      }
-
-      logger.info({
-        metrics: { responseTime },
-        message: `End POST request to ${url} success: ${httpResponse.status}`,
-      });
-      const data = await _parseResponseBody(httpResponse);
-
-      return new HttpResponse({
-        code: httpResponse.status,
-        data,
-        isSuccessful: true,
-      });
-    } catch (httpErr) {
-      responseTime = performance.now() - startTime;
-      const message = `End POST request to ${url} , unexpected error: ${httpErr.message}`;
-      logger.error({
-        metrics: { responseTime },
-        message,
-      });
-
-      return new HttpResponse({
-        code: null,
-        data: httpErr.message,
-        isSuccessful: false,
-      });
-    }
+    const finalHeaders = structuredClone(headers);
+    finalHeaders['Content-type'] = 'application/json';
+    return _doRequest({ url, headers: finalHeaders, payload, method: 'POST' });
   },
 
   async get({ url, headers }) {
-    const startTime = performance.now();
-    let responseTime = null;
-    try {
-      const httpResponse = await fetch(url, {
-        method: 'GET',
-        headers: headers,
-      });
-      responseTime = performance.now() - startTime;
-      if (!httpResponse.ok) {
-        const data = await _parseResponseBody(httpResponse);
-        const code = httpResponse.status;
-        const message = `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
+    return _doRequest({ url, headers, method: 'GET' });
+  },
+};
 
-        logger.error({
-          metrics: { responseTime },
-          message,
-        });
-
-        return new HttpResponse({
-          code,
-          data,
-          isSuccessful: false,
-        });
-      }
-
-      logger.info({
-        metrics: { responseTime },
-        message: `End GET request to ${url} success: ${httpResponse.status}`,
-      });
+async function _doRequest({ url, payload, headers, method }) {
+  const startTime = performance.now();
+  let responseTime = null;
+  const body = payload ? JSON.stringify(payload) : undefined;
+  try {
+    const httpResponse = await fetch(url, {
+      method,
+      body,
+      headers,
+    });
+    responseTime = performance.now() - startTime;
+    if (!httpResponse.ok) {
       const data = await _parseResponseBody(httpResponse);
+      const code = httpResponse.status;
+      const message = `End ${method} request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
-      return new HttpResponse({
-        code: httpResponse.status,
-        data,
-        isSuccessful: true,
-      });
-    } catch (httpErr) {
-      responseTime = performance.now() - startTime;
-      const message = `End GET request to ${url} , unexpected error: ${httpErr.message}`;
       logger.error({
         metrics: { responseTime },
         message,
       });
 
       return new HttpResponse({
-        code: null,
-        data: httpErr.message,
+        code,
+        data,
         isSuccessful: false,
       });
     }
-  },
-};
+
+    logger.info({
+      metrics: { responseTime },
+      message: `End ${method} request to ${url} success: ${httpResponse.status}`,
+    });
+    const data = await _parseResponseBody(httpResponse);
+
+    return new HttpResponse({
+      code: httpResponse.status,
+      data,
+      isSuccessful: true,
+    });
+  } catch (httpErr) {
+    responseTime = performance.now() - startTime;
+    const message = `End ${method} request to ${url} , unexpected error: ${httpErr.message}`;
+    logger.error({
+      metrics: { responseTime },
+      message,
+    });
+
+    return new HttpResponse({
+      code: null,
+      data: httpErr.message,
+      isSuccessful: false,
+    });
+  }
+}
 
 async function _parseResponseBody(response) {
   const contentType = response.headers.get('content-type') ?? '';
