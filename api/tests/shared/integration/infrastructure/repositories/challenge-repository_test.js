@@ -762,7 +762,9 @@ describe('Integration | Repository | challenge-repository', function () {
             // given
             const webComponentServerCall = nock('https://example.com')
               .get('/embed.json')
-              .reply(200, JSON.stringify({ name: 'web-component', props: { prop1: 'value1', prop2: 'value2' } }));
+              .reply(200, JSON.stringify({ name: 'web-component', props: { prop1: 'value1', prop2: 'value2' } }), {
+                'Content-Type': 'application/json',
+              });
 
             // when
             const challenge = await challengeRepository.get('challengeId01');

@@ -1,7 +1,5 @@
 import perf_hooks from 'node:perf_hooks';
 
-import axios from 'axios';
-
 const { performance } = perf_hooks;
 
 import { logger } from './utils/logger.js';
@@ -71,53 +69,55 @@ const httpAgent = {
     }
   },
 
-  async get({ url, payload, headers, timeout }) {
+  async get({ url, headers }) {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const config = {
-        data: payload,
-        headers,
-      };
-      if (timeout != undefined) {
-        config.timeout = timeout;
-      }
-      const httpResponse = await axios.get(url, config);
+      const httpResponse = await fetch(url, {
+        method: 'GET',
+        headers: headers,
+      });
       responseTime = performance.now() - startTime;
+      if (!httpResponse.ok) {
+        const data = await _parseResponseBody(httpResponse);
+        const code = httpResponse.status;
+        const message = `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
+
+        logger.error({
+          metrics: { responseTime },
+          message,
+        });
+
+        return new HttpResponse({
+          code,
+          data,
+          isSuccessful: false,
+        });
+      }
+
       logger.info({
         metrics: { responseTime },
         message: `End GET request to ${url} success: ${httpResponse.status}`,
       });
+      const data = await _parseResponseBody(httpResponse);
 
       return new HttpResponse({
         code: httpResponse.status,
-        data: httpResponse.data,
+        data,
         isSuccessful: true,
       });
     } catch (httpErr) {
       responseTime = performance.now() - startTime;
-      const isSuccessful = false;
-
-      let code;
-      let data;
-
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
-      } else {
-        code = httpErr.code;
-        data = httpErr.message;
-      }
-
+      const message = `End GET request to ${url} , unexpected error: ${httpErr.message}`;
       logger.error({
         metrics: { responseTime },
-        message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
+        message,
       });
 
       return new HttpResponse({
-        code,
-        data,
-        isSuccessful,
+        code: null,
+        data: httpErr.message,
+        isSuccessful: false,
       });
     }
   },
