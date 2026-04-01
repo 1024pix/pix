@@ -94,12 +94,17 @@ async function _doRequest({ url, payload, headers, method }) {
   }
 }
 
+// Deliberately not checking headers for content-type to determine
+// whether to use response.json() or not
+// to mimic how axios handles it (axios is much more agressive and does not read the headers)
+// ref: https://github.com/axios/axios/blob/v1.x/lib/defaults/index.js  fnc: stringifySafely
 async function _parseResponseBody(response) {
-  const contentType = response.headers.get('content-type') ?? '';
-  if (contentType.includes('application/json')) {
-    return response.json();
+  const rawData = await response.text();
+  try {
+    return JSON.parse(rawData);
+  } catch {
+    return rawData;
   }
-  return response.text();
 }
 
 export { httpAgent };

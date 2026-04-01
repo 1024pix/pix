@@ -16,9 +16,7 @@ describe('Shared | Integration | Infrastructure | http-agent', function () {
         reqheaders: { 'content-type': 'application/json', ...headers },
       })
         .post('/someresource', payload)
-        .reply(201, JSON.stringify(response), {
-          'Content-Type': 'application/json',
-        });
+        .reply(201, JSON.stringify(response));
 
       // when
       const actualResponse = await post({ url: 'https://my-url.com/someresource', payload, headers });
@@ -93,9 +91,7 @@ describe('Shared | Integration | Infrastructure | http-agent', function () {
         reqheaders: headers,
       })
         .get('/someresource')
-        .reply(200, JSON.stringify(response), {
-          'Content-Type': 'application/json',
-        });
+        .reply(200, JSON.stringify(response));
 
       // when
       const actualResponse = await get({ url: 'https://my-url.com/someresource', headers });
