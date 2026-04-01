@@ -1809,4 +1809,159 @@ describe('Integration | Repository | challenge-repository', function () {
       });
     }),
   );
+
+  describe('proxy', function () {
+    describe('#findValidatedByIds_proxy', function () {
+      context('when no locale defined', function () {
+        it('throws an error', async function () {
+          const err = await catchErr(challengeRepository.findValidatedByIds_proxy)({ versionId: 1, ids: [] });
+
+          expect(err.message).to.equal('Locale shall be defined');
+        });
+      });
+      context('when locale is defined', function () {
+        const locale = 'fr';
+
+        it('returns validated challenge that exist in the given locale according to provided ids', async function () {
+          const chalValidatedFr1 = {
+            id: 'chalValidatedFr1',
+            accessibility1: 'accessibility1 chalValidatedFr1',
+            accessibility2: 'accessibility2 chalValidatedFr1',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          const chalValidatedFr2 = {
+            id: 'chalValidatedFr2',
+            accessibility1: 'accessibility1 chalValidatedFr2',
+            accessibility2: 'accessibility2 chalValidatedFr2',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          const chalValidatedEn3 = {
+            id: 'chalValidatedEn3',
+            accessibility1: 'accessibility1 chalValidatedEn3',
+            accessibility2: 'accessibility2 chalValidatedEn3',
+            skillId: 'skill0',
+            status: 'validé',
+            locale: ['en'],
+          };
+          const chalArchiveFr4 = {
+            id: 'chalArchiveFr4',
+            accessibility1: 'accessibility1 chalArchiveFr4',
+            accessibility2: 'accessibility2 chalArchiveFr4',
+            skillId: 'skill0',
+            status: 'archivé',
+            locales: ['fr'],
+          };
+          const chalValidatedFr5 = {
+            id: 'chalValidatedFr5',
+            accessibility1: 'accessibility1 chalValidatedFr5',
+            accessibility2: 'accessibility2 chalValidatedFr5',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          databaseBuilder.factory.learningContent.build(
+            {
+              challenges: [chalValidatedFr1, chalValidatedFr2, chalValidatedEn3, chalArchiveFr4, chalValidatedFr5],
+            },
+            { noDefaultValues: true },
+          );
+          await databaseBuilder.commit();
+
+          const challenges = await challengeRepository.findValidatedByIds_proxy({
+            versionId: 1,
+            ids: ['chalValidatedFr5', 'chalValidatedFr1', 'chalValidatedEn3', 'chalArchiveFr4'],
+            locale,
+          });
+
+          expect(challenges).to.deepEqualArray(
+            [chalValidatedFr1, chalValidatedFr5].map(domainBuilder.learningContent.buildChallenge),
+          );
+        });
+      });
+    });
+    describe('#getMany_proxy', function () {
+      context('when some challenges are not found', function () {
+        it('throws a NotFoundError', async function () {
+          const chal1 = {
+            id: 'chal1',
+            accessibility1: 'accessibility1 chal1',
+            accessibility2: 'accessibility2 chal1',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          const chal2 = {
+            id: 'chal2',
+            accessibility1: 'accessibility1 chal2',
+            accessibility2: 'accessibility2 chal2',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          const chal3 = {
+            id: 'chal3',
+            accessibility1: 'accessibility1 chal3',
+            accessibility2: 'accessibility2 chal3',
+            skillId: 'skill0',
+            status: 'validé',
+            locale: ['en'],
+          };
+          databaseBuilder.factory.learningContent.build(
+            {
+              challenges: [chal1, chal2, chal3],
+            },
+            { noDefaultValues: true },
+          );
+          await databaseBuilder.commit();
+
+          const err = await catchErr(challengeRepository.getMany_proxy)(['chal2', 'chalIllusion']);
+
+          expect(err).to.deepEqualInstance(new NotFoundError('Épreuve introuvable'));
+        });
+      });
+      context('when all challenges are found', function () {
+        it('returns challenges according to provided ids', async function () {
+          const chal1 = {
+            id: 'chal1',
+            accessibility1: 'accessibility1 chal1',
+            accessibility2: 'accessibility2 chal1',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          const chal2 = {
+            id: 'chal2',
+            accessibility1: 'accessibility1 chal2',
+            accessibility2: 'accessibility2 chal2',
+            skillId: 'skill0',
+            status: 'validé',
+            locales: ['fr'],
+          };
+          const chal3 = {
+            id: 'chal3',
+            accessibility1: 'accessibility1 chal3',
+            accessibility2: 'accessibility2 chal3',
+            skillId: 'skill0',
+            status: 'validé',
+            locale: ['en'],
+          };
+          databaseBuilder.factory.learningContent.build(
+            {
+              challenges: [chal1, chal2, chal3],
+            },
+            { noDefaultValues: true },
+          );
+          await databaseBuilder.commit();
+
+          const challenges = await challengeRepository.getMany_proxy(['chal3', 'chal1']);
+
+          expect(challenges).to.deepEqualArray([chal3, chal1].map(domainBuilder.learningContent.buildChallenge));
+        });
+      });
+    });
+  });
 });
