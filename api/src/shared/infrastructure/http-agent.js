@@ -13,12 +13,27 @@ class HttpResponse {
 }
 
 const httpAgent = {
+  /**
+   * Sends a POST request with a JSON payload.
+   * @param {Object} options
+   * @param {string} options.url
+   * @param {Object} options.payload
+   * @param {Object} [options.headers={}]
+   * @returns {Promise<HttpResponse>}
+   */
   async post({ url, payload, headers }) {
     const finalHeaders = structuredClone(headers);
     finalHeaders['Content-type'] = 'application/json';
     return _doRequest({ url, headers: finalHeaders, payload, method: 'POST' });
   },
 
+  /**
+   * Sends a GET request to the specified URL.
+   * @param {Object} options
+   * @param {string} options.url
+   * @param {Object} [options.headers]
+   * @returns {Promise<HttpResponse>}
+   */
   async get({ url, headers }) {
     return _doRequest({ url, headers, method: 'GET' });
   },
