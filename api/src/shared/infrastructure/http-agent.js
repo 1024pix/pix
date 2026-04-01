@@ -18,11 +18,11 @@ const httpAgent = {
    * @param {Object} options
    * @param {string} options.url
    * @param {Object} options.payload
-   * @param {Object} [options.headers={}]
+   * @param {Object} [options.headers]
    * @returns {Promise<HttpResponse>}
    */
   async post({ url, payload, headers }) {
-    const finalHeaders = structuredClone(headers);
+    const finalHeaders = structuredClone(headers ?? {});
     finalHeaders['Content-type'] = 'application/json';
     return _doRequest({ url, headers: finalHeaders, payload, method: 'POST' });
   },
