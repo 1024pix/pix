@@ -24,7 +24,8 @@ const httpAgent = {
   async post({ url, payload, headers }) {
     const finalHeaders = structuredClone(headers ?? {});
     finalHeaders['Content-type'] = 'application/json';
-    return _doRequest({ url, headers: finalHeaders, payload, method: 'POST' });
+    const body = payload && JSON.stringify(payload);
+    return _doRequest({ url, headers: finalHeaders, body, method: 'POST' });
   },
 
   /**
@@ -39,10 +40,9 @@ const httpAgent = {
   },
 };
 
-async function _doRequest({ url, payload, headers, method }) {
+async function _doRequest({ url, body, headers, method }) {
   const startTime = performance.now();
-  let responseTime = null;
-  const body = payload ? JSON.stringify(payload) : undefined;
+  let responseTime;
   try {
     const httpResponse = await fetch(url, {
       method,
