@@ -41,7 +41,7 @@
               "element": {
                 "id": "69a1ce4b-e852-4fc1-a406-cc749c7d8591",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/superveto.png",
+                "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/interface_code.svg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "",
@@ -213,7 +213,7 @@
                     {
                       "id": "cf7202ab-bb5d-4fe9-801b-f6c64832043b",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/solveig.png",
+                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/mfa_schema.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -262,7 +262,7 @@
                     {
                       "id": "97af4dbc-08bd-4b79-8be2-deca187a834f",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/otis.png",
+                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/mfa_tv.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -311,7 +311,7 @@
                     {
                       "id": "5b60aa73-5002-4965-94dd-0faf6536cb86",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/kathy.png",
+                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/mfa_visage.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -414,7 +414,7 @@
                     {
                       "id": "8193967a-9428-4ca5-ae79-f56681457750",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/qcu2-mdp.png",
+                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/mdp.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -466,7 +466,7 @@
                     {
                       "id": "178a6210-9ccd-4469-b67e-ac0099ee9fa5",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/qcu2-sms.png",
+                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/sms.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -517,7 +517,7 @@
                     {
                       "id": "ca7faf8e-5e4f-4a27-b2a4-d4d8f5d517b4",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/qcu2-empreinte.png",
+                      "url": "https://assets.pix.org/draft/modules/cy_MFA_IND/empreinte.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
