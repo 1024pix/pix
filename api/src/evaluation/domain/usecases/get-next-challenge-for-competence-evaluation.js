@@ -1,6 +1,6 @@
 import { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } from '../../../shared/domain/errors.js';
 
-const getNextChallengeForCompetenceEvaluation = async function ({
+export async function getNextChallengeForCompetenceEvaluation({
   assessment,
   userId,
   locale,
@@ -25,9 +25,7 @@ const getNextChallengeForCompetenceEvaluation = async function ({
     randomSeed: assessment.id,
     locale: locale,
   });
-};
-
-export { getNextChallengeForCompetenceEvaluation };
+}
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId !== userId) {

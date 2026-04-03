@@ -4,7 +4,7 @@ import { AssessmentEndedError } from '../../../shared/domain/errors.js';
 
 const debugChallengeLocales = Debug('pix:challenge:locales');
 
-const getNextChallengeForCampaignAssessment = async function ({
+export async function getNextChallengeForCampaignAssessment({
   assessment,
   locale,
   challengeRepository,
@@ -60,6 +60,4 @@ const getNextChallengeForCampaignAssessment = async function ({
     randomSeed: assessment.id,
     locale,
   });
-};
-
-export { getNextChallengeForCampaignAssessment };
+}
