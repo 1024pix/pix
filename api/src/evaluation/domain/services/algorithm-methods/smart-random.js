@@ -5,16 +5,14 @@ import { computeTubesFromSkills } from '../tube-service.js';
 import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
 
-export { getPossibleSkillsForNextChallenge };
-
-const getPossibleSkillsForNextChallenge = ({
+export function getPossibleSkillsForNextChallenge({
   knowledgeElements,
   challenges,
   targetSkills,
   lastAnswer,
   allAnswers,
   locale,
-} = {}) => {
+}) {
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = lastAnswer ? wasLastChallengeTimed(lastAnswer) : false;
   const tubes = findTubes(targetSkills, challenges);
@@ -38,21 +36,24 @@ const getPossibleSkillsForNextChallenge = ({
   return possibleSkillsForNextChallenge.length > 0
     ? { hasAssessmentEnded: false, possibleSkillsForNextChallenge, levelEstimated }
     : { hasAssessmentEnded: true, possibleSkillsForNextChallenge, levelEstimated };
-};
+}
 
-const wasLastChallengeTimed = (lastAnswer) => Boolean(lastAnswer.timeout);
+function wasLastChallengeTimed(lastAnswer) {
+  return Boolean(lastAnswer.timeout);
+}
 
-const findTubes = (skills, challenges) => {
+function findTubes(skills, challenges) {
   const listSkillsWithChallenges = filterSkillsByChallenges(skills, challenges);
   return computeTubesFromSkills(listSkillsWithChallenges);
-};
+}
 
-const filterSkillsByChallenges = (skills, challenges) =>
-  skills.filter((skill) => {
+function filterSkillsByChallenges(skills, challenges) {
+  return skills.filter((skill) => {
     return challenges.find((challenge) => challenge.skill.name === skill.name);
   });
+}
 
-const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) => {
+function findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const { availableSkills } = getFilteredSkillsForNextChallenge({
     knowledgeElements,
@@ -71,24 +72,24 @@ const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChalle
   logStep(STEPS_NAMES.MAX_REWARDING_SKILLS, maxRewardingSkills);
 
   return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
-};
+}
 
-const findFirstChallenge = ({ knowledgeElements, targetSkills, tubes }) => {
+function findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
   const { availableSkills } = getFilteredSkillsForFirstChallenge({
     knowledgeElements,
     tubes,
     targetSkills,
   });
   return { possibleSkillsForNextChallenge: availableSkills, levelEstimated: 2 };
-};
+}
 
-const getSkillsWithAddedInformations = ({ targetSkills, filteredChallenges, locale }) => {
+function getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale }) {
   const locales = fallbackChallengeLocales(locale);
 
   return targetSkills.map((skill) => {
-    const challenges = filteredChallenges.filter((challenge) => {
-      return challenge.skill.id === skill.id && challenge.locales.some((locale) => locales.includes(locale));
-    });
+    const challenges = filteredChallenges.filter(
+      (challenge) => challenge.skill.id === skill.id && challenge.locales.some((locale) => locales.includes(locale)),
+    );
     const [firstChallenge] = challenges;
 
     skill.challenges = challenges;
@@ -97,9 +98,9 @@ const getSkillsWithAddedInformations = ({ targetSkills, filteredChallenges, loca
 
     return skill;
   });
-};
+}
 
-const removeChallengesWithAnswer = ({ challenges, allAnswers }) => {
+function removeChallengesWithAnswer({ challenges, allAnswers }) {
   const challengeIdsWithAnswer = allAnswers.map((answer) => answer.challengeId);
   return challenges.filter((challenge) => !challengeIdsWithAnswer.includes(challenge.id));
-};
+}
