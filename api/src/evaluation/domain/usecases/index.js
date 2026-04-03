@@ -1,3 +1,4 @@
+import * as smartRandomChallengeRepository from '../../../evaluation/infrastructure/repositories/smart-random-challenge-repository.js';
 import * as llmApi from '../../../llm/application/api/llm-api.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
@@ -77,6 +78,7 @@ const dependencies = {
   convertLevelStagesIntoThresholdsService,
   getMasteryPercentageService,
   knowledgeElementForParticipationService,
+  smartRandomChallengeRepository,
 };
 
 import { completeAssessment } from './complete-assessment.js';
