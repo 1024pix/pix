@@ -126,6 +126,10 @@ class Challenge {
     this.noValidationNeeded = noValidationNeeded;
   }
 
+  get skillId() {
+    return this.skill.id;
+  }
+
   isTimed() {
     return Number.isFinite(Number.parseFloat(this.timer));
   }

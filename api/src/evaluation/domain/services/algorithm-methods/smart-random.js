@@ -49,7 +49,7 @@ function findTubes(skills, challenges) {
 
 function filterSkillsByChallenges(skills, challenges) {
   return skills.filter((skill) => {
-    return challenges.find((challenge) => challenge.skill.name === skill.name);
+    return challenges.find((challenge) => challenge.skillId === skill.id);
   });
 }
 
@@ -88,7 +88,7 @@ function getSkillsWithAddedInformations({ targetSkills, filteredChallenges, loca
 
   return targetSkills.map((skill) => {
     const challenges = filteredChallenges.filter(
-      (challenge) => challenge.skill.id === skill.id && challenge.locales.some((locale) => locales.includes(locale)),
+      (challenge) => challenge.skillId === skill.id && challenge.locales.some((locale) => locales.includes(locale)),
     );
     const [firstChallenge] = challenges;
 
