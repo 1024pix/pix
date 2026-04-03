@@ -219,6 +219,7 @@ import { buildComplementaryCertification as buildSharedComplementaryCertificatio
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
 import { buildPassage } from './devcomp/build-passage.js';
+import { builders as evaluationBuilders } from './evaluation/index.js';
 import {
   buildLtiPlatformRegistration,
   buildLtiPlatformRegistrationWithPlatformConfig,
@@ -334,6 +335,8 @@ const prescription = {
 const devcomp = {
   buildPassage,
 };
+
+const evaluation = evaluationBuilders;
 
 const identityAccessManagement = {
   buildUserLogin,
@@ -533,6 +536,7 @@ export {
   buildValidator,
   certification,
   devcomp,
+  evaluation,
   identityAccessManagement,
   learningContent,
   llm,
