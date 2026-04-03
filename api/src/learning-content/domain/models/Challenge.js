@@ -1,3 +1,18 @@
+export const TYPES = Object.freeze({
+  QCU: 'QCU',
+  QCM: 'QCM',
+  QROC: 'QROC',
+  QROCM_IND: 'QROCM-ind',
+  QROCM_DEP: 'QROCM-dep',
+});
+
+export const STATUSES = Object.freeze({
+  VALIDATED: 'validé',
+  ARCHIVED: 'archivé',
+  OBSOLETE: 'périmé',
+  PROPOSED: 'proposé',
+});
+
 export class Challenge {
   #cachedChallengeDto;
 
@@ -42,7 +57,7 @@ export class Challenge {
 
   /**
    * @readonly
-   * @type {string}
+   * @type {TYPES[keyof TYPES]}
    */
   get type() {
     return this.#cachedChallengeDto.type;
@@ -90,7 +105,7 @@ export class Challenge {
 
   /**
    * @readonly
-   * @type {string}
+   * @type {STATUSES[keyof STATUSES]}
    */
   get status() {
     return this.#cachedChallengeDto.status;

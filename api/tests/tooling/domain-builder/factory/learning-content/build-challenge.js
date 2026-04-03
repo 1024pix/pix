@@ -1,17 +1,17 @@
-import { Challenge } from '../../../../../src/learning-content/domain/models/Challenge.js';
+import { Challenge, STATUSES, TYPES } from '../../../../../src/learning-content/domain/models/Challenge.js';
 
-export function buildChallenge({
+export const buildChallenge = function buildChallenge({
   id = 'foo id',
   instruction = 'foo instruction',
   alternativeInstruction = 'foo alternativeInstruction',
   proposals = 'foo proposals',
-  type = 'foo type',
+  type = TYPES.QCM,
   solution = 'foo solution',
   solutionToDisplay = 'foo solutionToDisplay',
   t1Status = false,
   t2Status = false,
   t3Status = false,
-  status = 'foo status',
+  status = STATUSES.VALIDATED,
   genealogy = 'foo genealogy',
   accessibility1 = 'foo accessibility1',
   accessibility2 = 'foo accessibility2',
@@ -78,4 +78,7 @@ export function buildChallenge({
     hasEmbedInternalValidation,
     noValidationNeeded,
   });
-}
+};
+
+buildChallenge.TYPES = TYPES;
+buildChallenge.STATUSES = STATUSES;
