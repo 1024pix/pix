@@ -1491,11 +1491,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findValidatedByCompetenceId', function () {
+  describe('#findValidatedByCompetenceId_proxy', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
         // when
-        const err = await catchErr(challengeRepository.findValidatedByCompetenceId)('competenceId00');
+        const err = await catchErr(challengeRepository.findValidatedByCompetenceId_proxy)('competenceId00');
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -1506,7 +1506,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when no validated challenges found for given locale and competenceId', function () {
         it('should return an empty array', async function () {
           // when
-          const challenges = await challengeRepository.findValidatedByCompetenceId('competenceId00', 'es');
+          const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'es');
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -1516,114 +1516,27 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when validated challenges are found for given locale and competenceId', function () {
         it('should return the challenges', async function () {
           // when
-          const challenges = await challengeRepository.findValidatedByCompetenceId('competenceId00', 'en');
+          const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'en');
 
           // then
           expect(challenges).to.deep.equal([
-            domainBuilder.buildChallenge({
-              ...challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
-              blindnessCompatibility:
-                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility2,
-              focused: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.focusable,
-              discriminant: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.alpha,
-              difficulty: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.id,
-                  type: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.type,
-                  value: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.solution,
-                  isT1Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t1Status,
-                  isT2Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t2Status,
-                  isT3Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...skillData00_tube00competence00_actif,
-                difficulty: skillData00_tube00competence00_actif.level,
-                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
-              blindnessCompatibility:
-                challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.accessibility2,
-              focused: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.focusable,
-              discriminant: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.alpha,
-              difficulty: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.id,
-                  type: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.type,
-                  value: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.solution,
-                  isT1Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t1Status,
-                  isT2Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t2Status,
-                  isT3Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...skillData01_tube01competence00_actif,
-                difficulty: skillData01_tube01competence00_actif.level,
-                hint: skillData01_tube01competence00_actif.hint_i18n.fr,
-              }),
-            }),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
+            ),
           ]);
         });
       });
     });
   });
 
-  describe('#findValidatedByCompetenceId_proxy', function () {
-        context('when locale is not defined', function () {
-          it('should throw an Error', async function () {
-            // when
-            const err = await catchErr(challengeRepository.findValidatedByCompetenceId_proxy)('competenceId00');
-
-            // then
-            expect(err.message).to.equal('Locale shall be defined');
-          });
-        });
-
-        context('when locale is defined', function () {
-          context('when no validated challenges found for given locale and competenceId', function () {
-            it('should return an empty array', async function () {
-              // when
-              const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'es');
-
-              // then
-              expect(challenges).to.deep.equal([]);
-            });
-          });
-
-          context('when validated challenges are found for given locale and competenceId', function () {
-            it('should return the challenges', async function () {
-              // when
-              const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'en');
-
-              // then
-              expect(challenges).to.deep.equal([
-                domainBuilder.learningContent.buildChallenge(
-                  challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
-                ),
-                domainBuilder.learningContent.buildChallenge(
-                  challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
-                ),
-              ]);
-            });
-          });
-        });
-      });
-
-      describe('#findOperativeBySkills', function () {
-        context('when locale is not defined', function () {
-          it('should throw an Error', async function () {
-            // when
-            const err = await catchErr(challengeRepository.findOperativeBySkills)(domainBuilder.buildSkill());
+  describe('#findOperativeBySkills', function () {
+    context('when locale is not defined', function () {
+      it('should throw an Error', async function () {
+        // when
+        const err = await catchErr(challengeRepository.findOperativeBySkills)(domainBuilder.buildSkill());
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -1867,7 +1780,7 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findOperativeBySkillsAndLocales', function () {
+  describe('#findOperativeBySkillsAndLocales_proxy', function () {
     context('when locale is defined', function () {
       context('when no operative challenges found for given locale', function () {
         it('should return an empty array', async function () {
@@ -1879,7 +1792,7 @@ describe('Integration | Repository | challenge-repository', function () {
           });
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkillsAndLocales([skill00], ['catalan']);
+          const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy([skill00], ['catalan']);
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -1898,191 +1811,25 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkillsAndLocales(skills, ['en-TZ', 'en']);
+          const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, ['en-TZ', 'en']);
           // then
           expect(challenges).to.deep.equal([
-            domainBuilder.buildChallenge({
-              ...enArchivedChallenge,
-              blindnessCompatibility: enArchivedChallenge.accessibility1,
-              colorBlindnessCompatibility: enArchivedChallenge.accessibility2,
-              focused: enArchivedChallenge.focusable,
-              discriminant: enArchivedChallenge.alpha,
-              difficulty: enArchivedChallenge.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: enArchivedChallenge.id,
-                  type: enArchivedChallenge.type,
-                  value: enArchivedChallenge.solution,
-                  isT1Enabled: enArchivedChallenge.t1Status,
-                  isT2Enabled: enArchivedChallenge.t2Status,
-                  isT3Enabled: enArchivedChallenge.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...activeSkill,
-                difficulty: activeSkill.level,
-                hint: activeSkill.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...enTZArchivedChallenge,
-              blindnessCompatibility: enTZArchivedChallenge.accessibility1,
-              colorBlindnessCompatibility: enTZArchivedChallenge.accessibility2,
-              focused: enTZArchivedChallenge.focusable,
-              discriminant: enTZArchivedChallenge.alpha,
-              difficulty: enTZArchivedChallenge.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: enTZArchivedChallenge.id,
-                  type: enTZArchivedChallenge.type,
-                  value: enTZArchivedChallenge.solution,
-                  isT1Enabled: enTZArchivedChallenge.t1Status,
-                  isT2Enabled: enTZArchivedChallenge.t2Status,
-                  isT3Enabled: enTZArchivedChallenge.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...activeSkill,
-                difficulty: activeSkill.level,
-                hint: activeSkill.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...enTZValidatedChallenge,
-              blindnessCompatibility: enTZValidatedChallenge.accessibility1,
-              colorBlindnessCompatibility: enTZValidatedChallenge.accessibility2,
-              focused: enTZValidatedChallenge.focusable,
-              discriminant: enTZValidatedChallenge.alpha,
-              difficulty: enTZValidatedChallenge.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: enTZValidatedChallenge.id,
-                  type: enTZValidatedChallenge.type,
-                  value: enTZValidatedChallenge.solution,
-                  isT1Enabled: enTZValidatedChallenge.t1Status,
-                  isT2Enabled: enTZValidatedChallenge.t2Status,
-                  isT3Enabled: enTZValidatedChallenge.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...activeSkill,
-                difficulty: activeSkill.level,
-                hint: activeSkill.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...enUGValidatedChallenge,
-              blindnessCompatibility: enUGValidatedChallenge.accessibility1,
-              colorBlindnessCompatibility: enUGValidatedChallenge.accessibility2,
-              focused: enUGValidatedChallenge.focusable,
-              discriminant: enUGValidatedChallenge.alpha,
-              difficulty: enUGValidatedChallenge.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: enUGValidatedChallenge.id,
-                  type: enUGValidatedChallenge.type,
-                  value: enUGValidatedChallenge.solution,
-                  isT1Enabled: enUGValidatedChallenge.t1Status,
-                  isT2Enabled: enUGValidatedChallenge.t2Status,
-                  isT3Enabled: enUGValidatedChallenge.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...activeSkill,
-                difficulty: activeSkill.level,
-                hint: activeSkill.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...enValidatedChallenge,
-              blindnessCompatibility: enValidatedChallenge.accessibility1,
-              colorBlindnessCompatibility: enValidatedChallenge.accessibility2,
-              focused: enValidatedChallenge.focusable,
-              discriminant: enValidatedChallenge.alpha,
-              difficulty: enValidatedChallenge.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: enValidatedChallenge.id,
-                  type: enValidatedChallenge.type,
-                  value: enValidatedChallenge.solution,
-                  isT1Enabled: enValidatedChallenge.t1Status,
-                  isT2Enabled: enValidatedChallenge.t2Status,
-                  isT3Enabled: enValidatedChallenge.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...activeSkill,
-                difficulty: activeSkill.level,
-                hint: activeSkill.hint_i18n.fr,
-              }),
-            }),
+            domainBuilder.learningContent.buildChallenge(enArchivedChallenge),
+            domainBuilder.learningContent.buildChallenge(enTZArchivedChallenge),
+            domainBuilder.learningContent.buildChallenge(enTZValidatedChallenge),
+            domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
+            domainBuilder.learningContent.buildChallenge(enValidatedChallenge),
           ]);
         });
       });
     });
   });
 
-  describe('#findOperativeBySkillsAndLocales_proxy', function () {
-        context('when locale is defined', function () {
-          context('when no operative challenges found for given locale', function () {
-            it('should return an empty array', async function () {
-              // given
-              const skill00 = domainBuilder.buildSkill({
-                ...skillData00_tube00competence00_actif,
-                difficulty: skillData00_tube00competence00_actif.level,
-                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-              });
-
-              // when
-              const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(
-                [skill00],
-                ['catalan'],
-              );
-
-              // then
-              expect(challenges).to.deep.equal([]);
-            });
-          });
-
-          context('when searching for en-TZ and en operative challenges', function () {
-            it('should return the challenges having en-TZ or en included in their locales', async function () {
-              // given
-              const skills = [
-                domainBuilder.buildSkill({
-                  ...activeSkill,
-                  difficulty: activeSkill.level,
-                  hint: activeSkill.hint_i18n.fr,
-                }),
-              ];
-
-              // when
-              const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, [
-                'en-TZ',
-                'en',
-              ]);
-              // then
-              expect(challenges).to.deep.equal([
-                domainBuilder.learningContent.buildChallenge(enArchivedChallenge),
-                domainBuilder.learningContent.buildChallenge(enTZArchivedChallenge),
-                domainBuilder.learningContent.buildChallenge(enTZValidatedChallenge),
-                domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
-                domainBuilder.learningContent.buildChallenge(enValidatedChallenge),
-              ]);
-            });
-          });
-        });
-      });
-
-      describe('#findValidatedBySkills', function () {
-        context('when locale is not defined', function () {
-          it('should throw an Error', async function () {
-            // when
-            const err = await catchErr(challengeRepository.findValidatedBySkills)(domainBuilder.buildSkill());
+  describe('#findValidatedBySkills', function () {
+    context('when locale is not defined', function () {
+      it('should throw an Error', async function () {
+        // when
+        const err = await catchErr(challengeRepository.findValidatedBySkills)(domainBuilder.buildSkill());
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
