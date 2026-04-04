@@ -86,6 +86,15 @@ export async function findOperativeByIds(ids) {
     .map(toDomain);
 }
 
+export async function findOperativeByIds_proxy(ids) {
+  const skillDtos = await getInstance().getMany(ids);
+  const operativeSkillDtos = skillDtos
+    .filter((skillDto) => skillDto && OPERATIVE_STATUSES.includes(skillDto.status))
+    .sort(byId);
+
+  return operativeSkillDtos.map((operativeSkillDto) => new SkillProxy(operativeSkillDto));
+}
+
 export async function findByRecordIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos

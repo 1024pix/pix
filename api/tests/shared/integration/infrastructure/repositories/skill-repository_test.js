@@ -644,6 +644,67 @@ describe('Integration | Repository | skill-repository', function () {
     });
   });
 
+  describe('#findOperativeByIds_proxy', function () {
+    context('when no operative skills for given ids', function () {
+      it('should return an empty array', async function () {
+        // when
+        const skills = await skillRepository.findOperativeByIds_proxy(['skillId02', 'skillCoucou']);
+
+        // then
+        expect(skills).to.deep.equal([]);
+      });
+    });
+
+    context('when operative skills for given ids', function () {
+      it('should return skills', async function () {
+        // when
+        const skills = await skillRepository.findOperativeByIds_proxy([
+          'skillId02',
+          'skillId03',
+          'skillId01',
+          'skillIdCoucou',
+        ]);
+
+        // then
+        expect(skills).to.deepEqualArray([
+          domainBuilder.learningContent.buildSkill(skillData01_tubeAcompetenceA_archive),
+          domainBuilder.learningContent.buildSkill(skillData03_tubeBcompetenceA_actif),
+        ]);
+      });
+
+      it('should avoid returning duplicates', async function () {
+        // when
+        const skills = await skillRepository.findOperativeByIds_proxy([
+          'skillId02',
+          'skillId03',
+          'skillId01',
+          'skillIdCoucou',
+          'skillId01',
+        ]);
+
+        // then
+        expect(skills).to.deepEqualArray([
+          domainBuilder.learningContent.buildSkill(skillData01_tubeAcompetenceA_archive),
+          domainBuilder.learningContent.buildSkill(skillData03_tubeBcompetenceA_actif),
+        ]);
+      });
+    });
+
+    context('when invalid value given for ids argument', function () {
+      it('should return an empty array', async function () {
+        // when
+        const skills1 = await skillRepository.findOperativeByIds(null);
+        const skills2 = await skillRepository.findOperativeByIds(undefined);
+        const skills3 = await skillRepository.findOperativeByIds([]);
+
+        // then
+        expect(skills1).to.deep.equal([]);
+        expect(skills2).to.deep.equal([]);
+        expect(skills3).to.deep.equal([]);
+      });
+    });
+  });
+
   describe('#get', function () {
     context('when no skill for given id', function () {
       it('should throw a NotFoundError', async function () {
