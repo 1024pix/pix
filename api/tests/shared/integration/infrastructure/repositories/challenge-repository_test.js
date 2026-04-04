@@ -2027,11 +2027,62 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findValidatedBySkills', function () {
-    context('when locale is not defined', function () {
-      it('should throw an Error', async function () {
-        // when
-        const err = await catchErr(challengeRepository.findValidatedBySkills)(domainBuilder.buildSkill());
+  describe('#findOperativeBySkillsAndLocales_proxy', function () {
+        context('when locale is defined', function () {
+          context('when no operative challenges found for given locale', function () {
+            it('should return an empty array', async function () {
+              // given
+              const skill00 = domainBuilder.buildSkill({
+                ...skillData00_tube00competence00_actif,
+                difficulty: skillData00_tube00competence00_actif.level,
+                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+              });
+
+              // when
+              const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(
+                [skill00],
+                ['catalan'],
+              );
+
+              // then
+              expect(challenges).to.deep.equal([]);
+            });
+          });
+
+          context('when searching for en-TZ and en operative challenges', function () {
+            it('should return the challenges having en-TZ or en included in their locales', async function () {
+              // given
+              const skills = [
+                domainBuilder.buildSkill({
+                  ...activeSkill,
+                  difficulty: activeSkill.level,
+                  hint: activeSkill.hint_i18n.fr,
+                }),
+              ];
+
+              // when
+              const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, [
+                'en-TZ',
+                'en',
+              ]);
+              // then
+              expect(challenges).to.deep.equal([
+                domainBuilder.learningContent.buildChallenge(enArchivedChallenge),
+                domainBuilder.learningContent.buildChallenge(enTZArchivedChallenge),
+                domainBuilder.learningContent.buildChallenge(enTZValidatedChallenge),
+                domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
+                domainBuilder.learningContent.buildChallenge(enValidatedChallenge),
+              ]);
+            });
+          });
+        });
+      });
+
+      describe('#findValidatedBySkills', function () {
+        context('when locale is not defined', function () {
+          it('should throw an Error', async function () {
+            // when
+            const err = await catchErr(challengeRepository.findValidatedBySkills)(domainBuilder.buildSkill());
 
         // then
         expect(err.message).to.equal('Locale shall be defined');

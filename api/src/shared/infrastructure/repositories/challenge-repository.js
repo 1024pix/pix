@@ -109,6 +109,20 @@ export async function findOperativeBySkillsAndLocales(skills, locales) {
   return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
 }
 
+export async function findOperativeBySkillsAndLocales_proxy(skills, locales) {
+  const skillIds = skills.map((skill) => skill.id);
+  const cacheKey = `findOperativesBySkillsAndLocales([${skillIds.sort()}], ${locales.sort().join(',')})`;
+
+  const findOperativeByLocaleBySkillIdsCallback = (knex) =>
+    knex
+      .whereRaw('?? && ?', ['locales', locales])
+      .whereIn('status', OPERATIVE_STATUSES)
+      .whereIn('skillId', skillIds)
+      .orderBy('id');
+  const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
+  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+}
+
 export async function findOperativeBySkills(skills, locale) {
   _assertLocaleIsDefined(locale);
   const skillIds = skills.map((skill) => skill.id);
