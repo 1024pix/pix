@@ -9,9 +9,8 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campai
         // given
         const locale = 'fr-fr';
         const firstChallengeId = 'first_challenge';
-        const secondChallengeId = 'second_challenge';
-        const firstChallenge = domainBuilder.buildChallenge({ id: firstChallengeId });
-        const secondChallenge = domainBuilder.buildChallenge({ id: secondChallengeId });
+        const firstChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ id: firstChallengeId });
+        const finalChallenge = domainBuilder.buildChallenge({ id: firstChallenge.id });
         const assessment = domainBuilder.buildAssessment({ id: 1165 });
         const skill = domainBuilder.buildSkill();
 
@@ -19,8 +18,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campai
         const challengeRepository = { get: sinon.stub() };
         const pickChallengeService = { pickChallenge: sinon.stub() };
 
-        challengeRepository.get.withArgs(firstChallengeId).resolves(firstChallenge);
-        challengeRepository.get.withArgs(secondChallengeId).resolves(secondChallenge);
+        challengeRepository.get.withArgs(firstChallengeId).resolves(finalChallenge);
 
         const possibleSkillsForNextChallenge = [skill];
         const smartRandomStub = {
@@ -49,7 +47,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campai
         });
 
         // then
-        expect(challenge).to.deep.equal(firstChallenge);
+        expect(challenge).to.deep.equal(finalChallenge);
       });
     });
   });

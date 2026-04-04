@@ -7,7 +7,7 @@ const debugChallengeLocales = Debug('pix:challenge:locales');
 export async function getNextChallengeForCampaignAssessment({
   assessment,
   locale,
-  challengeRepository,
+  smartRandomChallengeRepository,
   answerRepository,
   pickChallengeService,
   algorithmDataFetcherService,
@@ -17,6 +17,7 @@ export async function getNextChallengeForCampaignAssessment({
   knowledgeElementForParticipationService,
   campaignParticipationRepository,
   improvementService,
+  challengeRepository,
 }) {
   const { allAnswers, lastAnswer, targetSkills, challenges, knowledgeElements } =
     await algorithmDataFetcherService.fetchForCampaigns({
@@ -24,7 +25,7 @@ export async function getNextChallengeForCampaignAssessment({
       locale,
       answerRepository,
       campaignRepository,
-      challengeRepository,
+      smartRandomChallengeRepository,
       knowledgeElementRepository,
       campaignParticipationRepository,
       knowledgeElementForParticipationService,
@@ -55,9 +56,10 @@ export async function getNextChallengeForCampaignAssessment({
     throw new AssessmentEndedError();
   }
 
-  return pickChallengeService.pickChallenge({
+  const smartRandomChallenge = pickChallengeService.pickChallenge({
     skills: algoResult.possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
     locale,
   });
+  return challengeRepository.get(smartRandomChallenge.id);
 }

@@ -5,7 +5,7 @@ export async function fetchForCampaigns({
   assessment,
   answerRepository,
   campaignRepository,
-  challengeRepository,
+  smartRandomChallengeRepository,
   knowledgeElementForParticipationService,
   knowledgeElementRepository,
   campaignParticipationRepository,
@@ -31,7 +31,7 @@ export async function fetchForCampaigns({
   });
   const [skills, challenges] = await _fetchSkillsAndChallenges({
     campaignSkills,
-    challengeRepository,
+    smartRandomChallengeRepository,
     locale,
   });
 
@@ -74,9 +74,9 @@ async function _fetchKnowledgeElements({
   });
 }
 
-export async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }) {
+export async function _fetchSkillsAndChallenges({ campaignSkills, smartRandomChallengeRepository, locale }) {
   const locales = fallbackChallengeLocales(locale);
-  const challenges = await challengeRepository.findOperativeBySkillsAndLocales(campaignSkills, locales);
+  const challenges = await smartRandomChallengeRepository.findOperativeBySkillsAndLocales(campaignSkills, locales);
   return [campaignSkills, challenges];
 }
 
