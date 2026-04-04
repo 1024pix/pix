@@ -7,7 +7,7 @@ const KNOWLEDGE_ELEMENT_STATUS = {
   INVALIDATED: 'invalidated',
 };
 
-describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', function () {
+describe('Evaluation | Integration | Domain | Algorithm-methods | SmartRandom', function () {
   let challenges,
     targetSkills,
     knowledgeElements,
@@ -80,101 +80,25 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
     cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2', difficulty: 2 });
 
     // Challenges
-    challengeWeb_1 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb1',
-      skillId: web1.id,
-      locales: ['fr'],
-    });
-    challengeWeb_2 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb2',
-      skillId: web2.id,
-      locales: ['fr'],
-    });
-    challengeWeb_2_v2 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb2v2',
-      skillId: web2_v2.id,
-      locales: ['fr'],
-    });
-    challengeWeb_2_3 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb23',
-      skillId: web3.id,
-      locales: ['fr'],
-    });
-    challengeWeb_3 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb3',
-      skillId: web3.id,
-      locales: ['fr'],
-    });
-    challengeWeb_4 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb4',
-      skillId: web4.id,
-      locales: ['fr'],
-    });
-    challengeWeb_5 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb5',
-      skillId: web5.id,
-      locales: ['fr'],
-    });
-    challengeWeb_6 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb6',
-      skillId: web6.id,
-      locales: ['fr'],
-    });
-    challengeWeb_7 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recweb7',
-      skillId: web7.id,
-      locales: ['fr'],
-    });
-    challengeUrl_2 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recurl2',
-      skillId: url2.id,
-      locales: ['fr'],
-    });
-    challengeUrl_3 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recurl3',
-      skillId: url3.id,
-      locales: ['fr'],
-    });
-    challengeUrl_4 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recurl4',
-      skillId: url4.id,
-      locales: ['fr'],
-    });
-    challengeUrl_5 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recurl5',
-      skillId: url5.id,
-      locales: ['fr'],
-    });
-    challengeUrl_6 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recurl6',
-      skillId: url6.id,
-      locales: ['fr'],
-    });
-    challengeRechInfo_5 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recinfo5',
-      skillId: rechInfo5.id,
-      locales: ['fr'],
-    });
-    challengeRechInfo_7 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recinfo7',
-      skillId: rechInfo7.id,
-      locales: ['fr'],
-    });
-    challengeCnil_1 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'reccnil1',
-      skillId: cnil1.id,
-      locales: ['fr'],
-    });
-    challengeCnil_2 = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'reccnil2',
-      skillId: cnil2.id,
-      locales: ['fr'],
-    });
-    challengeInfo_2_frAndEn = domainBuilder.evaluation.buildSmartRandomChallenge({
-      id: 'recinfo2',
-      skillId: info2.id,
-      locales: ['fr', 'en'],
-    });
+    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skill: web1, locales: ['fr'] });
+    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skill: web2, locales: ['fr'] });
+    challengeWeb_2_v2 = domainBuilder.buildChallenge({ id: 'recweb2v2', skill: web2_v2, locales: ['fr'] });
+    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skill: web3, locales: ['fr'] });
+    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skill: web3, locales: ['fr'] });
+    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skill: web4, locales: ['fr'] });
+    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skill: web5, locales: ['fr'] });
+    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb6', skill: web6, locales: ['fr'] });
+    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'recweb7', skill: web7, locales: ['fr'] });
+    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skill: url2, locales: ['fr'] });
+    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skill: url3, locales: ['fr'] });
+    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skill: url4, locales: ['fr'] });
+    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skill: url5, locales: ['fr'] });
+    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skill: url6, locales: ['fr'] });
+    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skill: rechInfo5, locales: ['fr'] });
+    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skill: rechInfo7, locales: ['fr'] });
+    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skill: cnil1, locales: ['fr'] });
+    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skill: cnil2, locales: ['fr'] });
+    challengeInfo_2_frAndEn = domainBuilder.buildChallenge({ id: 'recinfo2', skill: info2, locales: ['fr', 'en'] });
   });
 
   describe('#getPossibleSkillsForNextChallenge', function () {
@@ -845,36 +769,6 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
 
         expect(possibleSkillsForNextChallengeInEnglish.length).to.be.equal(1);
         expect(possibleSkillsForNextChallengeInEnglish[0].name).to.be.equal('@info2');
-      });
-    });
-
-    context('when user locale is `fr-fr`', function () {
-      beforeEach(function () {
-        locale = 'fr-fr';
-      });
-
-      it('should return fr-fr and fr challenges', function () {
-        targetSkills = [web1, cnil1];
-        const challengeCnil_1_fr_fr = domainBuilder.buildChallenge({
-          id: 'recweb1_2',
-          skill: cnil1,
-          locales: ['fr-fr'],
-        });
-        challenges = [challengeCnil_1_fr_fr, challengeWeb_1];
-
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
-          locale,
-        });
-
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(2);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
-        expect(possibleSkillsForNextChallenge[1].id).to.be.equal(cnil1.id);
       });
     });
   });

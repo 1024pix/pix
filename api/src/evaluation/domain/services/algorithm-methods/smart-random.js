@@ -5,6 +5,22 @@ import { computeTubesFromSkills } from '../tube-service.js';
 import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
 
+/**
+ * @typedef {import('../../models/SmartRandomChallenge.js').SmartRandomChallenge} SmartRandomChallenge
+ * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} SharedChallenge
+ */
+
+/**
+ *
+ * @param {object} params
+ * @param {KnowledgeElement[]} params.knowledgeElements
+ * @param {SmartRandomChallenge[]|SharedChallenge[]} params.challenges
+ * @param {Skill[]} params.targetSkills
+ * @param {Answer} params.lastAnswer
+ * @param {Answer[]} params.allAnswers
+ * @param {string} locale
+ * @returns {{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge: SmartRandomChallenge|SharedChallenge, levelEstimated: number}}
+ */
 export function getPossibleSkillsForNextChallenge({
   knowledgeElements,
   challenges,
