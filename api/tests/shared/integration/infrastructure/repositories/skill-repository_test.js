@@ -316,6 +316,32 @@ describe('Integration | Repository | skill-repository', function () {
     });
   });
 
+
+  describe('#findActiveByCompetenceId_proxy', function () {
+    context('when no active skills for given competence id', function () {
+      it('should return an empty array', async function () {
+        // when
+        const skills = await skillRepository.findActiveByCompetenceId_proxy('competenceIdC');
+
+        // then
+        expect(skills).to.deep.equal([]);
+      });
+    });
+
+    context('when active skills for given competence id', function () {
+      it('should return skills', async function () {
+        // when
+        const skills = await skillRepository.findActiveByCompetenceId_proxy('competenceIdB');
+
+        // then
+        expect(skills).to.deepEqualArray([
+          domainBuilder.learningContent.buildSkill(skillData06_tubeCcompetenceB_actif),
+          domainBuilder.learningContent.buildSkill(skillData09_tubeDcompetenceB_actif),
+        ]);
+      });
+    });
+  });
+
   describe('#findOperativeByCompetenceId', function () {
     context('when no operative skills for given competence id', function () {
       it('should return an empty array', async function () {

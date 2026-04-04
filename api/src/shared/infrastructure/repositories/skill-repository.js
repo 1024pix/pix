@@ -1,3 +1,4 @@
+import { Skill as SkillProxy } from '../../../learning-content/domain/models/Skill.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
@@ -48,6 +49,13 @@ export async function findActiveByCompetenceId(competenceId) {
   const findActiveByCompetenceIdCallback = (knex) => knex.where({ competenceId, status: ACTIVE_STATUS }).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findActiveByCompetenceIdCallback);
   return skillDtos.map(toDomain);
+}
+
+export async function findActiveByCompetenceId_proxy(competenceId) {
+  const cacheKey = `findActiveByCompetenceId(${competenceId})`;
+  const findActiveByCompetenceIdCallback = (knex) => knex.where({ competenceId, status: ACTIVE_STATUS }).orderBy('id');
+  const skillDtos = await getInstance().find(cacheKey, findActiveByCompetenceIdCallback);
+  return skillDtos.map((skillDto) => new SkillProxy(skillDto));
 }
 
 export async function findOperativeByCompetenceId(competenceId) {
