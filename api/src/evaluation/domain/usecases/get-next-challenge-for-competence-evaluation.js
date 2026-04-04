@@ -7,9 +7,23 @@ export async function getNextChallengeForCompetenceEvaluation({
   pickChallengeService,
   smartRandomService,
   algorithmDataFetcherService,
+  challengeRepository,
+  answerRepository,
+  smartRandomChallengeRepository,
+  knowledgeElementRepository,
+  skillRepository,
+  improvementService,
 }) {
   _checkIfAssessmentBelongsToUser(assessment, userId);
-  const inputValues = await algorithmDataFetcherService.fetchForCompetenceEvaluations(...arguments);
+  const inputValues = await algorithmDataFetcherService.fetchForCompetenceEvaluations({
+    assessment,
+    locale,
+    answerRepository,
+    smartRandomChallengeRepository,
+    knowledgeElementRepository,
+    skillRepository,
+    improvementService,
+  });
 
   const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandomService.getPossibleSkillsForNextChallenge({
     ...inputValues,
@@ -20,11 +34,12 @@ export async function getNextChallengeForCompetenceEvaluation({
     throw new AssessmentEndedError();
   }
 
-  return pickChallengeService.pickChallenge({
+  const smartRandomChallenge = pickChallengeService.pickChallenge({
     skills: possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
     locale: locale,
   });
+  return challengeRepository.get(smartRandomChallenge.id);
 }
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {

@@ -1,7 +1,7 @@
 import * as dataFetcher from '../../../../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | services | smart-random | dataFetcher', function () {
+describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', function () {
   describe('#fetchForCampaigns', function () {
     let answerRepository;
     let campaignRepository;
@@ -170,7 +170,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
 
   describe('#fetchForCompetenceEvaluations', function () {
     let answerRepository;
-    let challengeRepository;
+    let smartRandomChallengeRepository;
     let knowledgeElementRepository;
     let skillRepository;
     let improvementService;
@@ -185,7 +185,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
-      challengeRepository = {
+      smartRandomChallengeRepository = {
         findValidatedByCompetenceId: sinon.stub(),
       };
       knowledgeElementRepository = {
@@ -199,7 +199,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       };
 
       answer = domainBuilder.buildAnswer();
-      challenges = [domainBuilder.buildChallenge()];
+      challenges = [domainBuilder.evaluation.buildSmartRandomChallenge()];
       knowledgeElements = [domainBuilder.buildKnowledgeElement()];
       skills = [domainBuilder.buildSkill()];
       const assessment = domainBuilder.buildAssessment.ofTypeCompetenceEvaluation({
@@ -209,7 +209,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-      challengeRepository.findValidatedByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
+      smartRandomChallengeRepository.findValidatedByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElements
         .withArgs({
@@ -225,7 +225,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       data = await dataFetcher.fetchForCompetenceEvaluations({
         assessment,
         answerRepository,
-        challengeRepository,
+        smartRandomChallengeRepository,
         knowledgeElementRepository,
         skillRepository,
         improvementService,

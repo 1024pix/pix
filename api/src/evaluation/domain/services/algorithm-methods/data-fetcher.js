@@ -83,7 +83,7 @@ export async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepos
 export async function fetchForCompetenceEvaluations({
   assessment,
   answerRepository,
-  challengeRepository,
+  smartRandomChallengeRepository,
   knowledgeElementRepository,
   skillRepository,
   improvementService,
@@ -91,7 +91,7 @@ export async function fetchForCompetenceEvaluations({
 }) {
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
   const targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
-  const challenges = await challengeRepository.findValidatedByCompetenceId(assessment.competenceId, locale);
+  const challenges = await smartRandomChallengeRepository.findValidatedByCompetenceId(assessment.competenceId, locale);
   const knowledgeElements = await _fetchKnowledgeElements({
     assessment,
     knowledgeElementRepository,
