@@ -14,3 +14,17 @@ export async function findValidatedByCompetenceId(competenceId, locale) {
       }),
   );
 }
+
+export async function findOperativeBySkillsAndLocales(skills, locales) {
+  const lcmsChallenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, locales);
+  return lcmsChallenges.map(
+    (lcmsChallenge) =>
+      new SmartRandomChallenge({
+        id: lcmsChallenge.id,
+        locales: lcmsChallenge.locales,
+        status: lcmsChallenge.status,
+        skillId: lcmsChallenge.skillId,
+        timer: lcmsChallenge.timer,
+      }),
+  );
+}
