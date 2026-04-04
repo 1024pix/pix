@@ -1,6 +1,6 @@
 import { Challenge, STATUSES, TYPES } from '../../../../../src/learning-content/domain/models/Challenge.js';
 
-export const buildChallenge = function buildChallenge({
+export const buildChallenge = function ({
   id = 'foo id',
   instruction = 'foo instruction',
   alternativeInstruction = 'foo alternativeInstruction',
