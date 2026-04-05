@@ -42,6 +42,11 @@ const getSkillsFromTubes = (tubes) => (tubes ? tubes.flatMap(({ skills }) => ski
 const remapDifficulty = (difficulty) =>
   Number(difficulty) === DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : Number(difficulty);
 
+/**
+ *
+ * @param {SmartRandomSkill[]} targetSkills - some fields have been arbitrarly added in smart-random-service
+ * @returns {SmartRandomSkill[]}
+ */
 const focusOnDefaultLevel = (targetSkills) =>
   targetSkills.reduce((defaultLevelSkills, skill) => {
     if (defaultLevelSkills.length === 0) {
@@ -69,6 +74,14 @@ const isSkillTooHard = (skill, predictedLevel) =>
 const removeTooDifficultSkills = (predictedLevel, targetSkills) =>
   targetSkills.filter((skill) => !isSkillTooHard(skill, predictedLevel));
 
+/**
+ *
+ * @param {object} params
+ * @param {KnowledgeElement[]} params.knowledgeElements
+ * @param {tubes[]} params.tubes
+ * @param {SmartRandomSkill[]} params.targetSkills - some fields have been arbitrarly added in smart-random-service
+ * @returns {{ availableSkills: SmartRandomSkill[]}}
+ */
 const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSkills }) => {
   const playableSkills = getPlayableSkills(targetSkills);
   logStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
@@ -88,6 +101,16 @@ const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSk
   return { availableSkills: skillsFocusedOnDefaultLevel };
 };
 
+/**
+ *
+ * @param {object} params
+ * @param {KnowledgeElement[]} params.knowledgeElements
+ * @param {tubes[]} params.tubes
+ * @param {number} params.predictedLevel
+ * @param {boolean} params.isLastChallengeTimed
+ * @param {SmartRandomSkill[]} params.targetSkills - some fields have been arbitrarly added in smart-random-service
+ * @returns {{ availableSkills: SmartRandomSkill[]}}
+ */
 const getFilteredSkillsForNextChallenge = ({
   knowledgeElements,
   tubes,

@@ -8,6 +8,8 @@ import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge }
 /**
  * @typedef {import('../../models/SmartRandomChallenge.js').SmartRandomChallenge} SmartRandomChallenge
  * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} SharedChallenge
+ * @typedef {import('../../models/SmartRandomSkill.js').SmartRandomSkill} SmartRandomSkill
+ * @typedef {import('../../../../shared/domain/models/Skill.js').Skill} SharedSkill
  */
 
 /**
@@ -15,11 +17,11 @@ import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge }
  * @param {object} params
  * @param {KnowledgeElement[]} params.knowledgeElements
  * @param {SmartRandomChallenge[]|SharedChallenge[]} params.challenges
- * @param {Skill[]} params.targetSkills
+ * @param {SmartRandomSkill[]|SharedSkill[]} params.targetSkills
  * @param {Answer} params.lastAnswer
  * @param {Answer[]} params.allAnswers
  * @param {string} locale
- * @returns {{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge: SmartRandomChallenge|SharedChallenge, levelEstimated: number}}
+ * @returns {{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge: SmartRandomSkill[]|Skill[], levelEstimated: number}}
  */
 export function getPossibleSkillsForNextChallenge({
   knowledgeElements,

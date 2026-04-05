@@ -5,11 +5,26 @@ export { findMaxRewardingSkills, getPredictedLevel };
 
 const CAT_LEVELS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
 
+/**
+ *
+ * @param {object} params
+ * @param {SmartRandomSkill[]} params.availableSkills - some fields have been arbitrarly added in smart-random-service
+ * @param {number} params.predictedLevel
+ * @param {Tube[]} params.tubes
+ * @param {KnowledgeElement[]} params.knowledgeElements
+ * @returns {SmartRandomSkill[]}
+ */
 const findMaxRewardingSkills = ({ availableSkills, predictedLevel, tubes, knowledgeElements }) => {
   const maxRewardingSkills = getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements });
   return clearSkillsIfNotRewarding(maxRewardingSkills);
 };
 
+/**
+ *
+ * @param {KnowledgeElement[]} knowledgeElements
+ * @param {SmartRandomSkill[]} skills - some fields have been arbitrarly added in smart-random-service
+ * @returns {number}
+ */
 const getPredictedLevel = (knowledgeElements, skills) => {
   const eachLevelWithProbability = CAT_LEVELS.map((level) => ({
     level,
