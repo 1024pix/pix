@@ -1,4 +1,4 @@
-import { Skill } from '../../../../../src/learning-content/domain/models/Skill.js';
+import { Skill, STATUSES } from '../../../../../src/learning-content/domain/models/Skill.js';
 
 export const buildSkill = function ({
   id = 'foo id',
@@ -6,7 +6,7 @@ export const buildSkill = function ({
   pixValue = 10,
   version = 11,
   level = 12,
-  status = 'foo status',
+  status = STATUSES.ACTIVE,
   hintStatus = 'foo hintStatus',
   hint_i18n = { fr: 'le foo', en: 'the foo' },
   competenceId = 'foo competenceId',
@@ -29,3 +29,5 @@ export const buildSkill = function ({
     learningMoreTutorialIds,
   });
 };
+
+buildSkill.STATUSES = STATUSES;

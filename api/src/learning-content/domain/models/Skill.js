@@ -1,3 +1,10 @@
+export const STATUSES = Object.freeze({
+  ACTIVE: 'actif',
+  ARCHIVED: 'archivé',
+  OBSOLETE: 'périmé',
+  EN_CONSTRUCTION: 'en construction',
+});
+
 export class Skill {
   #cachedSkillDto;
 

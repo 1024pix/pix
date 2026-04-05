@@ -114,7 +114,7 @@ describe('Evaluation | Integration | Infrastructure| Repository | smart-random-c
         await databaseBuilder.commit();
 
         const smartRandomChallenges = await smartRandomChallengeRepository.findOperativeBySkillsAndLocales(
-          [{ id: 'skillB' }],
+          [domainBuilder.evaluation.buildSmartRandomSkill({ id: 'skillB' })],
           ['fr'],
         );
 
@@ -180,7 +180,10 @@ describe('Evaluation | Integration | Infrastructure| Repository | smart-random-c
         await databaseBuilder.commit();
 
         const smartRandomChallenges = await smartRandomChallengeRepository.findOperativeBySkillsAndLocales(
-          [{ id: 'skillOK1' }, { id: 'skillOK2' }],
+          [
+            domainBuilder.evaluation.buildSmartRandomSkill({ id: 'skillOK1' }),
+            domainBuilder.evaluation.buildSmartRandomSkill({ id: 'skillOK2' }),
+          ],
           locales,
         );
 

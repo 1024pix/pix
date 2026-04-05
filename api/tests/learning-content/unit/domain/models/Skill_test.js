@@ -7,7 +7,7 @@ describe('LearningContent | Unit | Domain | Models | Skill', function () {
     pixValue: 1,
     version: 2,
     level: 3,
-    status: 'status skillId00',
+    status: domainBuilder.learningContent.buildSkill.STATUSES.ARCHIVED,
     hintStatus: 'hintStatus skillId00',
     hint_i18n: { fr: 'fr hint', en: 'en hint' },
     competenceId: 'competenceId00',
