@@ -37,7 +37,8 @@ describe('Unit | Service | PickChallengeService', function () {
     context('when challenge in selected locale exists', function () {
       it('should return challenge in selected locale', function () {
         // given
-        const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, englishSpokenChallenge] }];
+        const skills = [domainBuilder.evaluation.buildSmartRandomSkill()];
+        skills[0].challenges = [frenchChallenge, frenchSpokenChallenge, englishSpokenChallenge];
 
         // when
         const challenge = pickChallengeService.pickChallenge({
@@ -52,7 +53,8 @@ describe('Unit | Service | PickChallengeService', function () {
 
       it('should always return the same challenge in selected locale', function () {
         // given
-        const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, otherFrenchSpokenChallenge] }];
+        const skills = [domainBuilder.evaluation.buildSmartRandomSkill()];
+        skills[0].challenges = [frenchChallenge, frenchSpokenChallenge, otherFrenchSpokenChallenge];
 
         // when
         const challenges = _.times(5, () =>
@@ -90,7 +92,8 @@ describe('Unit | Service | PickChallengeService', function () {
     context('when skills have validated and archived challenges', function () {
       it('should return validated challenge', function () {
         // given
-        const skills = [{ challenges: [archivedChallenge, validatedChallenge] }];
+        const skills = [domainBuilder.evaluation.buildSmartRandomSkill()];
+        skills[0].challenges = [archivedChallenge, validatedChallenge];
 
         // when
         const challenge = pickChallengeService.pickChallenge({
@@ -107,7 +110,8 @@ describe('Unit | Service | PickChallengeService', function () {
     context('when skills only have archived challenges', function () {
       it('should return archived challenge', function () {
         // given
-        const skills = [{ challenges: [archivedChallenge] }];
+        const skills = [domainBuilder.evaluation.buildSmartRandomSkill()];
+        skills[0].challenges = [archivedChallenge];
 
         // when
         const challenge = pickChallengeService.pickChallenge({
@@ -128,8 +132,10 @@ describe('Unit | Service | PickChallengeService', function () {
         const challengeTwoForSkillOne = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
         const challengeOneForSkillTwo = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
         const challengeTwoForSkillTwo = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
-        const skillOne = { challenges: [challengeOneForSkillOne, challengeTwoForSkillOne] };
-        const skillTwo = { challenges: [challengeOneForSkillTwo, challengeTwoForSkillTwo] };
+        const skillOne = domainBuilder.evaluation.buildSmartRandomSkill();
+        skillOne.challenges = [challengeOneForSkillOne, challengeTwoForSkillOne];
+        const skillTwo = domainBuilder.evaluation.buildSmartRandomSkill();
+        skillTwo.challenges = [challengeOneForSkillTwo, challengeTwoForSkillTwo];
         const skills = [skillOne, skillTwo];
 
         const challenges = _.times(50, (time) =>
@@ -169,7 +175,9 @@ describe('Unit | Service | PickChallengeService', function () {
       context('when there are many challenges with different locales', function () {
         it('should prioritize challenge with an exact matching locale', function () {
           // given
-          const skills = [{ challenges: [validatedChallenge_fr_fr, validatedChallenge_fr] }];
+          const skill = domainBuilder.evaluation.buildSmartRandomSkill();
+          skill.challenges = [validatedChallenge_fr_fr, validatedChallenge_fr];
+          const skills = [skill];
 
           // when
           const challenge = pickChallengeService.pickChallenge({
@@ -181,9 +189,12 @@ describe('Unit | Service | PickChallengeService', function () {
           // then
           expect(challenge).to.equal(validatedChallenge_fr_fr);
         });
+
         it('should prioritize a validated challenge matching the language instead of an archived challenge with an exact matching locale', function () {
           // given
-          const skills = [{ challenges: [archivedChallenge_fr_fr, validatedChallenge_fr] }];
+          const skill = domainBuilder.evaluation.buildSmartRandomSkill();
+          skill.challenges = [archivedChallenge_fr_fr, validatedChallenge_fr];
+          const skills = [skill];
 
           // when
           const challenge = pickChallengeService.pickChallenge({
@@ -200,7 +211,9 @@ describe('Unit | Service | PickChallengeService', function () {
       context('when there are only challenges with locales without country code', function () {
         it('should return challenge without country code', function () {
           // given
-          const skills = [{ challenges: [validatedChallenge_fr] }];
+          const skill = domainBuilder.evaluation.buildSmartRandomSkill();
+          skill.challenges = [validatedChallenge_fr];
+          const skills = [skill];
 
           // when
           const challenge = pickChallengeService.pickChallenge({

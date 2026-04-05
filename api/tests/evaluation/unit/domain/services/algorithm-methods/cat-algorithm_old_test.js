@@ -2,9 +2,10 @@ import {
   findMaxRewardingSkills,
   getPredictedLevel,
 } from '../../../../../../src/evaluation/domain/services/algorithm-methods/cat-algorithm.js';
-import { domainBuilder, expect } from '../../../../../test-helper.js';
+import { expect } from '../../../../../test-helper.js';
+import { buildKnowledgeElement, buildSkill, buildTube } from '../../../../../tooling/domain-builder/factory/index.js';
 
-describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
+describe('Unit | Domain | services | cat-algorithm', function () {
   let knowledgeElements;
   let predictedLevel;
   let skills;
@@ -284,7 +285,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
         status: 'validated',
         skillId: 'skillO9IBV1NC2tNmd',
       },
-    ].map(domainBuilder.buildKnowledgeElement);
+    ].map(buildKnowledgeElement);
     skills = [
       {
         id: 'rec1TZRdq2lKyLEaR',
@@ -596,7 +597,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
         name: '@spam7',
         difficulty: 7,
       },
-    ].map(domainBuilder.evaluation.buildSmartRandomSkill);
+    ].map(buildSkill);
     tubes = [
       {
         skills: [
@@ -625,7 +626,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@répondreMail5',
             difficulty: 5,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'répondreMail',
       },
       {
@@ -645,7 +646,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@adresseElect3',
             difficulty: 3,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'adresseElect',
       },
       {
@@ -680,7 +681,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@spam7',
             difficulty: 7,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'spam',
       },
       {
@@ -710,7 +711,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@gestionMails6',
             difficulty: 6,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'gestionMails',
       },
       {
@@ -740,7 +741,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@communicationAsynchrone7',
             difficulty: 7,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'communicationAsynchrone',
       },
       {
@@ -770,7 +771,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@outilsMsgélectronique6',
             difficulty: 6,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'outilsMsgélectronique',
       },
       {
@@ -785,7 +786,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@netiquette6',
             difficulty: 6,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'netiquette',
       },
       {
@@ -820,7 +821,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@champsCourriel6',
             difficulty: 6,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'champsCourriel',
       },
       {
@@ -850,7 +851,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@conversation5',
             difficulty: 5,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'conversation',
       },
       {
@@ -875,7 +876,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@canal4',
             difficulty: 4,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'canal',
       },
       {
@@ -900,7 +901,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@PJ5',
             difficulty: 5,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'PJ',
       },
       {
@@ -920,7 +921,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@contacts7',
             difficulty: 7,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'contacts',
       },
       {
@@ -945,7 +946,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@outilsVisio6',
             difficulty: 6,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'outilsVisio',
       },
       {
@@ -960,7 +961,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@outilsMessagerie4',
             difficulty: 4,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'outilsMessagerie',
       },
       {
@@ -980,10 +981,10 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
             name: '@utiliserVisio4',
             difficulty: 4,
           },
-        ].map(domainBuilder.evaluation.buildSmartRandomSkill),
+        ],
         name: 'utiliserVisio',
       },
-    ].map(domainBuilder.buildTube);
+    ].map(buildTube);
   });
 
   describe('#getPredictedLevel', function () {
@@ -1010,7 +1011,7 @@ describe('Evaluation | Unit | Domain | services | cat-algorithm', function () {
           name: '@communicationAsynchrone6',
           difficulty: 6,
         },
-      ].map(domainBuilder.evaluation.buildSmartRandomSkill);
+      ].map(buildSkill);
 
       // when / then
       expect(

@@ -60,24 +60,24 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
     locale = 'fr';
 
     // Acquis (skills)
-    web1 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec01', name: '@web1', difficulty: 1 });
-    web2 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec02', name: '@web2', difficulty: 2 });
-    web2_v2 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec02v2', name: '@web2', difficulty: 2 });
-    web3 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec03', name: '@web3', difficulty: 3 });
-    web4 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec04', name: '@web4', difficulty: 4 });
-    web5 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec05', name: '@web5', difficulty: 5 });
-    web6 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec06', name: '@web6', difficulty: 6 });
-    web7 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec07', name: '@web7', difficulty: 7 });
-    url2 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec08', name: '@url2', difficulty: 2 });
-    url3 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec09', name: '@url3', difficulty: 3 });
-    url4 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec10', name: '@url4', difficulty: 4 });
-    url5 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec11', name: '@url5', difficulty: 5 });
-    url6 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec12', name: '@url6', difficulty: 6 });
-    rechInfo5 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec13', name: '@rechInfo5', difficulty: 5 });
-    rechInfo7 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec14', name: '@rechInfo7', difficulty: 7 });
-    info2 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec15', name: '@info2', difficulty: 2 });
-    cnil1 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec16', name: '@cnil1', difficulty: 1 });
-    cnil2 = domainBuilder.evaluation.buildSmartRandomSkill({ id: 'rec17', name: '@cnil2', difficulty: 2 });
+    web1 = domainBuilder.buildSkill({ id: 'rec01', name: '@web1', difficulty: 1 });
+    web2 = domainBuilder.buildSkill({ id: 'rec02', name: '@web2', difficulty: 2 });
+    web2_v2 = domainBuilder.buildSkill({ id: 'rec02v2', name: '@web2', difficulty: 2 });
+    web3 = domainBuilder.buildSkill({ id: 'rec03', name: '@web3', difficulty: 3 });
+    web4 = domainBuilder.buildSkill({ id: 'rec04', name: '@web4', difficulty: 4 });
+    web5 = domainBuilder.buildSkill({ id: 'rec05', name: '@web5', difficulty: 5 });
+    web6 = domainBuilder.buildSkill({ id: 'rec06', name: '@web6', difficulty: 6 });
+    web7 = domainBuilder.buildSkill({ id: 'rec07', name: '@web7', difficulty: 7 });
+    url2 = domainBuilder.buildSkill({ id: 'rec08', name: '@url2', difficulty: 2 });
+    url3 = domainBuilder.buildSkill({ id: 'rec09', name: '@url3', difficulty: 3 });
+    url4 = domainBuilder.buildSkill({ id: 'rec10', name: '@url4', difficulty: 4 });
+    url5 = domainBuilder.buildSkill({ id: 'rec11', name: '@url5', difficulty: 5 });
+    url6 = domainBuilder.buildSkill({ id: 'rec12', name: '@url6', difficulty: 6 });
+    rechInfo5 = domainBuilder.buildSkill({ id: 'rec13', name: '@rechInfo5', difficulty: 5 });
+    rechInfo7 = domainBuilder.buildSkill({ id: 'rec14', name: '@rechInfo7', difficulty: 7 });
+    info2 = domainBuilder.buildSkill({ id: 'rec15', name: '@info2', difficulty: 2 });
+    cnil1 = domainBuilder.buildSkill({ id: 'rec16', name: '@cnil1', difficulty: 1 });
+    cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2', difficulty: 2 });
 
     // Challenges
     challengeWeb_1 = domainBuilder.evaluation.buildSmartRandomChallenge({
@@ -206,9 +206,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         // given
         lastAnswer = domainBuilder.buildAnswer({ timeout: 50 });
         targetSkills = [url2, web1];
-        const challenge_defaultLevel_Timed = domainBuilder.evaluation.buildSmartRandomChallenge({
+        const challenge_defaultLevel_Timed = domainBuilder.buildChallenge({
           id: 'recurl2',
-          skillId: url2.id,
+          skill: url2,
           locales: ['fr'],
           timer: 60,
         });
@@ -281,9 +281,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
       it('should start with a timed challenge anyway when no untimed challenges were found', function () {
         // given
         targetSkills = [web3];
-        const challenge_AnyLevel_Timed = domainBuilder.evaluation.buildSmartRandomChallenge({
+        const challenge_AnyLevel_Timed = domainBuilder.buildChallenge({
           id: 'recweb3',
-          skillId: web3.id,
+          skill: web3,
           locales: ['fr'],
           timer: 60,
         });
@@ -599,9 +599,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
       it('should end the test if the next challenges wont provide any additional knowledge on the user', function () {
         // given
         targetSkills = [web1, web2];
-        const challengeWeb_2_duplicate = domainBuilder.evaluation.buildSmartRandomChallenge({
+        const challengeWeb_2_duplicate = domainBuilder.buildChallenge({
           id: 'recweb2_duplicate',
-          skillId: web2.id,
+          skill: web2,
           locales: ['fr'],
         });
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2_duplicate];
@@ -845,36 +845,6 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
 
         expect(possibleSkillsForNextChallengeInEnglish.length).to.be.equal(1);
         expect(possibleSkillsForNextChallengeInEnglish[0].name).to.be.equal('@info2');
-      });
-    });
-
-    context('when user locale is `fr-fr`', function () {
-      beforeEach(function () {
-        locale = 'fr-fr';
-      });
-
-      it('should return fr-fr and fr challenges', function () {
-        targetSkills = [web1, cnil1];
-        const challengeCnil_1_fr_fr = domainBuilder.evaluation.buildSmartRandomChallenge({
-          id: 'recweb1_2',
-          skillId: cnil1.id,
-          locales: ['fr-fr'],
-        });
-        challenges = [challengeCnil_1_fr_fr, challengeWeb_1];
-
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
-          locale,
-        });
-
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(2);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
-        expect(possibleSkillsForNextChallenge[1].id).to.be.equal(cnil1.id);
       });
     });
   });

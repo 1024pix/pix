@@ -6,7 +6,7 @@ import {
 import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
 import { logPredictedLevel, logStep } from '../smart-random-log-service.js';
 
-const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
+const getPlayableSkills = (skills) => skills.filter((skill) => skill.isPlayable);
 
 const notAlreadyTestedSkill = (knowledgeElements) => {
   const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
@@ -24,7 +24,7 @@ const keepSkillsFromEasyTubes = (tubes, targetSkills) => {
 
 const removeTimedSkillsIfNeeded = (isLastChallengeTimed, targetSkills) => {
   if (isLastChallengeTimed) {
-    const skillsWithoutTimedChallenges = targetSkills.filter(({ timed }) => !timed);
+    const skillsWithoutTimedChallenges = targetSkills.filter((skill) => !skill.timed);
     return skillsWithoutTimedChallenges.length > 0 ? skillsWithoutTimedChallenges : targetSkills;
   }
   return targetSkills;
