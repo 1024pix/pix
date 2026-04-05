@@ -12,7 +12,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campai
         const firstChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ id: firstChallengeId });
         const finalChallenge = domainBuilder.buildChallenge({ id: firstChallenge.id });
         const assessment = domainBuilder.buildAssessment({ id: 1165 });
-        const skill = domainBuilder.buildSkill();
+        const skill = domainBuilder.evaluation.buildSmartRandomSkill();
 
         const answerRepository = { findByAssessment: sinon.stub() };
         const challengeRepository = { get: sinon.stub() };

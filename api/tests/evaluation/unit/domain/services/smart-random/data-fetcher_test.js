@@ -4,8 +4,8 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', function () {
   describe('#fetchForCampaigns', function () {
     let answerRepository;
-    let campaignRepository;
     let smartRandomChallengeRepository;
+    let smartRandomSkillRepository;
     let knowledgeElementForParticipationService;
     let knowledgeElementRepository;
     let campaignParticipationRepository;
@@ -15,8 +15,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
-      campaignRepository = {
-        findSkillsByCampaignParticipationId: sinon.stub(),
+      smartRandomSkillRepository = {
+        findOperativeByCampaignParticipationId: sinon.stub(),
       };
       smartRandomChallengeRepository = {
         findOperativeBySkillsAndLocales: sinon.stub(),
@@ -51,10 +51,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       const filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      campaignRepository.findSkillsByCampaignParticipationId
-        .withArgs({
-          campaignParticipationId: assessment.campaignParticipationId,
-        })
+      smartRandomSkillRepository.findOperativeByCampaignParticipationId
+        .withArgs(assessment.campaignParticipationId)
         .resolves(skills);
       smartRandomChallengeRepository.findOperativeBySkillsAndLocales.resolves(challenges);
       knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
@@ -82,7 +80,7 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       const data = await dataFetcher.fetchForCampaigns({
         assessment,
         answerRepository,
-        campaignRepository,
+        smartRandomSkillRepository,
         smartRandomChallengeRepository,
         knowledgeElementForParticipationService,
         knowledgeElementRepository,
@@ -119,10 +117,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       const filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      campaignRepository.findSkillsByCampaignParticipationId
-        .withArgs({
-          campaignParticipationId: assessment.campaignParticipationId,
-        })
+      smartRandomSkillRepository.findOperativeByCampaignParticipationId
+        .withArgs(assessment.campaignParticipationId)
         .resolves(skills);
       smartRandomChallengeRepository.findOperativeBySkillsAndLocales.withArgs(skills).resolves(challenges);
       knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
@@ -150,7 +146,7 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       const data = await dataFetcher.fetchForCampaigns({
         assessment,
         answerRepository,
-        campaignRepository,
+        smartRandomSkillRepository,
         smartRandomChallengeRepository,
         knowledgeElementForParticipationService,
         knowledgeElementRepository,

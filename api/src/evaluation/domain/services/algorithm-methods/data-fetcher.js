@@ -4,17 +4,17 @@ import { fallbackChallengeLocales } from '../../../../shared/domain/services/loc
 export async function fetchForCampaigns({
   assessment,
   answerRepository,
-  campaignRepository,
   smartRandomChallengeRepository,
+  smartRandomSkillRepository,
   knowledgeElementForParticipationService,
   knowledgeElementRepository,
   campaignParticipationRepository,
   improvementService,
   locale,
 }) {
-  const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
-    campaignParticipationId: assessment.campaignParticipationId,
-  });
+  const campaignSkills = await smartRandomSkillRepository.findOperativeByCampaignParticipationId(
+    assessment.campaignParticipationId,
+  );
   const isRetrying = await campaignParticipationRepository.isRetrying({
     campaignParticipationId: assessment.campaignParticipationId,
   });
