@@ -171,8 +171,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
   describe('#fetchForCompetenceEvaluations', function () {
     let answerRepository;
     let smartRandomChallengeRepository;
+    let smartRandomSkillRepository;
     let knowledgeElementRepository;
-    let skillRepository;
     let improvementService;
     let data;
     let answer;
@@ -191,7 +191,7 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
       };
-      skillRepository = {
+      smartRandomSkillRepository = {
         findActiveByCompetenceId: sinon.stub(),
       };
       improvementService = {
@@ -201,14 +201,14 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
       answer = domainBuilder.buildAnswer();
       challenges = [domainBuilder.evaluation.buildSmartRandomChallenge()];
       knowledgeElements = [domainBuilder.buildKnowledgeElement()];
-      skills = [domainBuilder.buildSkill()];
+      skills = [domainBuilder.evaluation.buildSmartRandomSkill()];
       const assessment = domainBuilder.buildAssessment.ofTypeCompetenceEvaluation({
         isImproving: true,
       });
       filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
+      smartRandomSkillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       smartRandomChallengeRepository.findValidatedByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElements
@@ -227,7 +227,7 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
         answerRepository,
         smartRandomChallengeRepository,
         knowledgeElementRepository,
-        skillRepository,
+        smartRandomSkillRepository,
         improvementService,
       });
     });

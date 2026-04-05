@@ -10,8 +10,8 @@ export async function getNextChallengeForCompetenceEvaluation({
   challengeRepository,
   answerRepository,
   smartRandomChallengeRepository,
+  smartRandomSkillRepository,
   knowledgeElementRepository,
-  skillRepository,
   improvementService,
 }) {
   _checkIfAssessmentBelongsToUser(assessment, userId);
@@ -21,7 +21,7 @@ export async function getNextChallengeForCompetenceEvaluation({
     answerRepository,
     smartRandomChallengeRepository,
     knowledgeElementRepository,
-    skillRepository,
+    smartRandomSkillRepository,
     improvementService,
   });
 

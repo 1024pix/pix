@@ -84,13 +84,13 @@ export async function fetchForCompetenceEvaluations({
   assessment,
   answerRepository,
   smartRandomChallengeRepository,
+  smartRandomSkillRepository,
   knowledgeElementRepository,
-  skillRepository,
   improvementService,
   locale,
 }) {
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
-  const targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
+  const targetSkills = await smartRandomSkillRepository.findActiveByCompetenceId(assessment.competenceId);
   const challenges = await smartRandomChallengeRepository.findValidatedByCompetenceId(assessment.competenceId, locale);
   const knowledgeElements = await _fetchKnowledgeElements({
     assessment,
