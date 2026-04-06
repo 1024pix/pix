@@ -1536,6 +1536,43 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+
+  describe('#findByIds_proxy', function () {
+    context('when at least one challenge cannot be found for ids', function () {
+      it('should throw a NotFoundError an empty array', async function () {
+        // when
+        const err = await catchErr(challengeRepository.findByIds_proxy)(['challengeId01', 'challengeIdFOO']);
+
+        // then
+        expect(err).to.deepEqualInstance(new NotFoundError('Some challenges do not exist in LCMS'));
+      });
+    });
+
+    context('when all challenges are found for given ids', function () {
+      it('should return the challenges', async function () {
+        // when
+        const challenges = await challengeRepository.findByIds_proxy([
+          'enUGValidatedChallengeId',
+          'challengeId01',
+          'challengeId00',
+          'enArchivedChallengeId',
+        ]);
+
+        // then
+        expect(challenges).to.deep.equal([
+          domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
+          domainBuilder.learningContent.buildChallenge(
+            challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
+          ),
+          domainBuilder.learningContent.buildChallenge(
+            challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson,
+          ),
+          domainBuilder.learningContent.buildChallenge(enArchivedChallenge),
+        ]);
+      });
+    });
+  });
+
   describe('#findValidatedByCompetenceId_proxy', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {

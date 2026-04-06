@@ -163,6 +163,16 @@ export async function findValidatedByIdsAndLocale_proxy({ ids, locale, customCac
   return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
+export async function findByIds_proxy(ids) {
+  const challengeDtos = await getInstance().loadMany(ids);
+  challengeDtos.forEach((challengeDto, index) => {
+    if (challengeDto) return;
+    logger.error({ challengeId: ids[index] }, 'Some challenges do not exist in LCMS');
+    throw new NotFoundError('Some challenges do not exist in LCMS');
+  });
+  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+}
+
 export function clearCache(id) {
   return getInstance().clearCache(id);
 }
