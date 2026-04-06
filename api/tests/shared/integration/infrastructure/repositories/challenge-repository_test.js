@@ -1491,6 +1491,51 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+  describe('#findValidatedByIdsAndLocale_proxy', function () {
+    context('when locale is not defined', function () {
+      it('should throw an Error', async function () {
+        // when
+        const err = await catchErr(challengeRepository.findValidatedByIdsAndLocale_proxy)({});
+
+        // then
+        expect(err.message).to.equal('Locale shall be defined');
+      });
+    });
+
+    context('when locale is defined', function () {
+      context('when no validated challenges found for given locale and ids', function () {
+        it('should return an empty array', async function () {
+          // when
+          const challenges = await challengeRepository.findValidatedByIdsAndLocale_proxy({
+            locale: 'nl',
+            ids: ['challengeId01', 'challengeId02'],
+          });
+
+          // then
+          expect(challenges).to.deep.equal([]);
+        });
+      });
+
+      context('when validated challenges are found for given locale and ids', function () {
+        it('should return the challenges', async function () {
+          // when
+          const challenges = await challengeRepository.findValidatedByIdsAndLocale_proxy({
+            locale: 'en',
+            ids: ['enUGValidatedChallengeId', 'challengeId01', 'challengeId00', 'enArchivedChallenge'],
+          });
+
+          // then
+          expect(challenges).to.deep.equal([
+            domainBuilder.learningContent.buildChallenge(
+              challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
+          ]);
+        });
+      });
+    });
+  });
+
   describe('#findValidatedByCompetenceId_proxy', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {

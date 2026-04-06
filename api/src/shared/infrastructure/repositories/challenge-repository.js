@@ -146,6 +146,23 @@ export async function getManyTypes(ids) {
   return Object.fromEntries(challengeDtos.map(({ id, type }) => [id, type]));
 }
 
+export async function findValidatedByIdsAndLocale_proxy({ ids, locale, customCacheKey }) {
+  _assertLocaleIsDefined(locale);
+  const cacheKey = customCacheKey ?? `findValidatedByIdsAndLocale_proxy([${ids.sort()}], ${locale})`;
+
+  const findCallback = async (lcmsKnex) => {
+    return lcmsKnex
+      .select('id', 'skillId', 'accessibility1', 'accessibility2')
+      .whereIn('id', ids)
+      .where('status', VALIDATED_STATUS)
+      .whereRaw('?=ANY(??)', [locale, 'locales'])
+      .orderBy('id');
+  };
+
+  const challengeDtos = await getInstance().find(cacheKey, findCallback);
+  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+}
+
 export function clearCache(id) {
   return getInstance().clearCache(id);
 }
