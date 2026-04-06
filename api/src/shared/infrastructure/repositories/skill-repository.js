@@ -103,6 +103,14 @@ export async function findByRecordIds(ids) {
     .map(toDomain);
 }
 
+export async function findByRecordIds_proxy(ids) {
+  const skillDtos = await getInstance().getMany(ids);
+  return skillDtos
+    .filter((skillDto) => skillDto)
+    .sort(byId)
+    .map((skillDto) => new SkillProxy(skillDto));
+}
+
 export async function findActiveByRecordIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos

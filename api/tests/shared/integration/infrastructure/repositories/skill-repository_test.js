@@ -965,4 +965,72 @@ describe('Integration | Repository | skill-repository', function () {
       });
     });
   });
+
+
+  describe('#findByRecordIds_proxy', function () {
+    context('when no skills for given ids', function () {
+      it('should return an empty array', async function () {
+        // when
+        const skills = await skillRepository.findByRecordIds_proxy(['skillCoucou']);
+
+        // then
+        expect(skills).to.deep.equal([]);
+      });
+    });
+
+    context('when skills for given ids', function () {
+      it('should return skills', async function () {
+        // when
+        const skills = await skillRepository.findByRecordIds_proxy([
+          'skillId02',
+          'skillId03',
+          'skillId01',
+          'skillId00',
+          'skillIdCoucou',
+        ]);
+
+        // then
+        expect(skills).to.deepEqualArray([
+          domainBuilder.learningContent.buildSkill(skillData00_tubeAcompetenceA_actif),
+          domainBuilder.learningContent.buildSkill(skillData01_tubeAcompetenceA_archive),
+          domainBuilder.learningContent.buildSkill(skillData02_tubeAcompetenceA_perime),
+          domainBuilder.learningContent.buildSkill(skillData03_tubeBcompetenceA_actif),
+        ]);
+      });
+
+      it('should avoid returning duplicates', async function () {
+        // when
+        const skills = await skillRepository.findByRecordIds_proxy([
+          'skillId02',
+          'skillId03',
+          'skillId01',
+          'skillId00',
+          'skillIdCoucou',
+          'skillId00',
+        ]);
+
+        // then
+        expect(skills).to.deepEqualArray([
+          domainBuilder.learningContent.buildSkill(skillData00_tubeAcompetenceA_actif),
+          domainBuilder.learningContent.buildSkill(skillData01_tubeAcompetenceA_archive),
+          domainBuilder.learningContent.buildSkill(skillData02_tubeAcompetenceA_perime),
+          domainBuilder.learningContent.buildSkill(skillData03_tubeBcompetenceA_actif),
+        ]);
+      });
+    });
+
+    context('when invalid value given for ids argument', function () {
+      it('should return an empty array', async function () {
+        // when
+        const skills1 = await skillRepository.findByRecordIds_proxy(null);
+        const skills2 = await skillRepository.findByRecordIds_proxy(undefined);
+        const skills3 = await skillRepository.findByRecordIds_proxy([]);
+
+        // then
+        expect(skills1).to.deep.equal([]);
+        expect(skills2).to.deep.equal([]);
+        expect(skills3).to.deep.equal([]);
+      });
+    });
+  });
 });
