@@ -262,7 +262,7 @@ function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill,
 /** @type {LearningContentRepository} */
 let instance;
 
-export function getInstance() {
+function getInstance() {
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }
