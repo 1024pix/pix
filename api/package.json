@@ -91,7 +91,7 @@
     "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/acceptance/module-instantiation_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/integration/repositories/module-repository_test.js'"
   },
   "dependencies": {
-    "@1024pix/epreuves-components": "^4.2.0",
+    "@1024pix/epreuves-components": "^4.3.0",
     "@1024pix/oppsy": "^1.0.2",
     "@aws-sdk/client-s3": "^3.121.0",
     "@aws-sdk/lib-storage": "^3.121.0",
