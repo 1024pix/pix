@@ -6,6 +6,7 @@ import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
+import { AssessmentLackOfChallengesError } from '../../../../src/shared/domain/errors.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailAndUsernameError,
@@ -243,6 +244,23 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    it('should instantiate UnprocessableEntityError when AssessmentLackOfChallengesError', async function () {
+      // given
+      const error = new AssessmentLackOfChallengesError({ numberOfAnswers: 5, maximumAssessmentLength: 32 });
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
+        error.message,
+        'ASSESSMENT_LACK_OF_CHALLENGES',
+        { numberOfAnswers: error.numberOfAnswers },
+      );
     });
 
     it('should instantiate UnprocessableEntityError when AdminMemberError', async function () {

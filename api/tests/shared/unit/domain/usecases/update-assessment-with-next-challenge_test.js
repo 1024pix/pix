@@ -25,6 +25,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
     let competenceRepository_getCompetenceNameStub;
     let certificationChallengeLiveAlertRepository_getByAssessmentIdStub;
     let certificationCompanionAlertRepository_getAllByAssessmentIdStub;
+    let certificationCourseRepository_getStub;
+    let certificationCourseRepository_updateStub;
 
     beforeEach(function () {
       userId = 'someUserId';
@@ -49,6 +51,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
       competenceRepository_getCompetenceNameStub = sinon.stub().named('getCompetenceName');
       certificationChallengeLiveAlertRepository_getByAssessmentIdStub = sinon.stub().named('getChallengeLiveAlerts');
       certificationCompanionAlertRepository_getAllByAssessmentIdStub = sinon.stub().named('getCompanionLiveAlerts');
+      certificationCourseRepository_getStub = sinon.stub().named('certificationCourseRepository.get');
+      certificationCourseRepository_updateStub = sinon.stub().named('certificationCourseRepository.update');
       preventStubsToBeCalledUnexpectedly([
         assessmentRepository_getWithAnswersStub,
         assessmentRepository_updateLastQuestionDateStub,
@@ -63,6 +67,8 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         competenceRepository_getCompetenceNameStub,
         certificationChallengeLiveAlertRepository_getByAssessmentIdStub,
         certificationCompanionAlertRepository_getAllByAssessmentIdStub,
+        certificationCourseRepository_getStub,
+        certificationCourseRepository_updateStub,
       ]);
 
       const assessmentRepository = {
@@ -98,6 +104,11 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         getAllByAssessmentId: certificationCompanionAlertRepository_getAllByAssessmentIdStub,
       };
 
+      const certificationCourseRepository = {
+        get: certificationCourseRepository_getStub,
+        update: certificationCourseRepository_updateStub,
+      };
+
       dependencies = {
         assessmentId,
         userId,
@@ -105,6 +116,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         evaluationUsecases,
         assessmentRepository,
         certificationEvaluationRepository,
+        certificationCourseRepository,
         courseRepository,
         competenceRepository,
         certificationChallengeLiveAlertRepository,
@@ -466,21 +478,42 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         });
 
         context('when the referential is exhausted before reaching maximum assessment length', function () {
-          it('should return an assessment with no nextChallenge', async function () {
+          it('should throw an AssessmentLackOfChallengesError', async function () {
             // given
+            const certificationCourse = domainBuilder.buildCertificationCourse({
+              id: assessment.certificationCourseId,
+            });
             certificationEvaluationRepository_selectNextCertificationChallengeStub.rejects(
               new AssessmentLackOfChallengesError({ numberOfAnswers: 27, maximumAssessmentLength: 32 }),
             );
+            certificationCourseRepository_getStub.resolves(certificationCourse);
+            certificationCourseRepository_updateStub.resolves();
 
             // when
-            const { assessment: assessmentWithoutChallenge, globalProgression } =
-              await updateAssessmentWithNextChallenge(dependencies);
+            const error = await catchErr(updateAssessmentWithNextChallenge)(dependencies);
 
             // then
-            expect(assessmentWithoutChallenge.nextChallenge).to.be.null;
-            expect(assessmentWithoutChallenge.challengeLiveAlerts).to.deep.equal([certificationChallengeLiveAlert]);
-            expect(assessmentWithoutChallenge.companionLiveAlerts).to.deep.equal([certificationCompanionLiveAlert]);
-            expect(globalProgression).to.be.null;
+            expect(error).to.be.instanceOf(AssessmentLackOfChallengesError);
+          });
+
+          it('should abort the certification course with technical reason', async function () {
+            // given
+            const certificationCourse = domainBuilder.buildCertificationCourse({
+              id: assessment.certificationCourseId,
+            });
+            certificationEvaluationRepository_selectNextCertificationChallengeStub.rejects(
+              new AssessmentLackOfChallengesError({ numberOfAnswers: 27, maximumAssessmentLength: 32 }),
+            );
+            certificationCourseRepository_getStub.resolves(certificationCourse);
+            certificationCourseRepository_updateStub.resolves();
+
+            // when
+            await catchErr(updateAssessmentWithNextChallenge)(dependencies);
+
+            // then
+            expect(certificationCourseRepository_updateStub).to.have.been.calledOnce;
+            const updatedCourse = certificationCourseRepository_updateStub.firstCall.args[0].certificationCourse;
+            expect(updatedCourse.toDTO().abortReason).to.equal('technical');
           });
         });
 

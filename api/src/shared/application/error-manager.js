@@ -139,7 +139,9 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message, error.code);
   }
   if (error instanceof SharedDomainErrors.AssessmentLackOfChallengesError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, 'ASSESSMENT_LACK_OF_CHALLENGES');
+    return new HttpErrors.UnprocessableEntityError(error.message, 'ASSESSMENT_LACK_OF_CHALLENGES', {
+      numberOfAnswers: error.numberOfAnswers,
+    });
   }
   if (error instanceof SharedDomainErrors.AssessmentEndedError) {
     return new HttpErrors.BaseHttpError(error.message);
