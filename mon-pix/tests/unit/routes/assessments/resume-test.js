@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -237,6 +238,57 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
             assert.ok(true);
           });
         });
+      });
+    });
+  });
+
+  module('#error', function (hooks) {
+    let certificationTechnicalErrorService;
+
+    hooks.beforeEach(function () {
+      certificationTechnicalErrorService = Service.create({ setError: sinon.stub() });
+      this.owner.register('service:certification-technical-error', certificationTechnicalErrorService, {
+        instantiate: false,
+      });
+      route = this.owner.lookup('route:assessments.resume');
+    });
+
+    module('when error code is ASSESSMENT_LACK_OF_CHALLENGES', function () {
+      test('calls certificationTechnicalError.setError with isToBeCancelled', function (assert) {
+        // given
+        const error = { errors: [{ code: 'ASSESSMENT_LACK_OF_CHALLENGES', meta: { isToBeCancelled: true } }] };
+
+        // when
+        const result = route.error(error);
+
+        // then
+        sinon.assert.calledWith(certificationTechnicalErrorService.setError, { isToBeCancelled: true });
+        assert.false(result);
+      });
+
+      test('defaults isToBeCancelled to false when meta is absent', function (assert) {
+        // given
+        const error = { errors: [{ code: 'ASSESSMENT_LACK_OF_CHALLENGES' }] };
+
+        // when
+        route.error(error);
+
+        // then
+        sinon.assert.calledWith(certificationTechnicalErrorService.setError, { isToBeCancelled: false });
+        assert.ok(true);
+      });
+    });
+
+    module('when error code is something else', function () {
+      test('returns true to propagate the error', function (assert) {
+        // given
+        const error = { errors: [{ code: 'SOME_OTHER_ERROR' }] };
+
+        // when
+        const result = route.error(error);
+
+        // then
+        assert.true(result);
       });
     });
   });

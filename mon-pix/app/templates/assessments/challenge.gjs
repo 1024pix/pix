@@ -2,6 +2,7 @@ import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import AssessmentBanner from 'mon-pix/components/assessment-banner';
 import CertificationBanner from 'mon-pix/components/certification-banner';
+import CertificationTechnicalError from 'mon-pix/components/certifications/certification-technical-error';
 import Content from 'mon-pix/components/challenge/content';
 import FocusedCertificationChallengeInstructions from 'mon-pix/components/focused-certification-challenge-instructions';
 import LevelupNotif from 'mon-pix/components/levelup-notif';
@@ -9,6 +10,13 @@ import ProgressBar from 'mon-pix/components/progress-bar';
 import TimedChallengeInstructions from 'mon-pix/components/timed-challenge-instructions';
 <template>
   {{pageTitle @controller.pageTitle}}
+
+  {{#if @controller.hasCertificationTechnicalError}}
+    <CertificationTechnicalError
+      @certificationNumber={{@model.assessment.certificationNumber}}
+      @isToBeCancelled={{@controller.isCertificationtoBeCancelled}}
+    />
+  {{else}}
 
   {{#if @controller.couldDisplayInfoAlert}}
     <div
@@ -117,5 +125,6 @@ import TimedChallengeInstructions from 'mon-pix/components/timed-challenge-instr
 
   {{#if @controller.showLevelup}}
     <LevelupNotif @level={{@controller.newLevel}} @competenceName={{@controller.competenceLeveled}} />
+  {{/if}}
   {{/if}}
 </template>

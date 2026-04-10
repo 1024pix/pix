@@ -1,0 +1,119 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.certification-technical-error {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-10x);
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 990px;
+  margin: -150px auto;
+  overflow: hidden;
+
+  @include breakpoints.device-is('tablet') {
+    gap: var(--pix-spacing-6x);
+  }
+
+  &__finished-test {
+    @include breakpoints.device-is('tablet') {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    background-color: var(--pix-neutral-20);
+    border-radius: 10px;
+
+    @include breakpoints.device-is('tablet') {
+      padding: var(--pix-spacing-6x) var(--pix-spacing-12x);
+    }
+  }
+}
+
+.certification-technical-error-finished-test {
+  &__image {
+    display: block;
+    height: 168px;
+    margin: auto;
+
+    @include breakpoints.device-is('tablet') {
+      order: 2;
+      height: 250px;
+      margin: 0;
+    }
+  }
+
+  &__candidate {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    margin-top: var(--pix-spacing-4x);
+    text-align: center;
+
+    @include breakpoints.device-is('tablet') {
+      align-items: flex-start;
+      order: 1;
+      width: 55%;
+      text-align: left;
+    }
+  }
+}
+
+.certification-technical-error-candidate {
+  &__name {
+    display: flex;
+    gap: var(--pix-spacing-1x);
+    color: var(--pix-neutral-500);
+
+    @extend %pix-body-l;
+  }
+
+  &__title {
+    color: var(--pix-neutral-700);
+
+    @extend %pix-title-l;
+  }
+
+  &__message {
+    color: var(--pix-neutral-500);
+
+    @extend %pix-body-s;
+  }
+
+  &__disconnect-tip {
+    padding-top: var(--pix-spacing-3x);
+    color: var(--pix-neutral-500);
+
+    @extend %pix-body-s;
+  }
+}
+
+.certification-technical-error-results {
+  &__disclaimer {
+    margin-bottom: var(--pix-spacing-2x);
+    color: var(--pix-neutral-700);
+    text-transform: uppercase;
+
+    @extend %pix-title-xs;
+  }
+
+  &__title {
+    margin-bottom: 6px;
+    color: var(--pix-neutral-900);
+
+    @extend %pix-body-l;
+  }
+
+  &__steps {
+    color: var(--pix-neutral-500);
+
+    @extend %pix-body-s;
+  }
+}

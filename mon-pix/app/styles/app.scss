@@ -42,6 +42,7 @@
 @use 'components/certifications/shareable-certificate/v3-certificate' as *;
 @use 'components/certifications/shareable-certificate/v2-certificate' as *;
 @use 'components/certifications/certification-ender' as *;
+@use 'components/certifications/certification-technical-error' as *;
 @use 'components/combined-courses' as *;
 @use '../components/routes/combined-courses/process-custom-passages' as *;
 @use 'components/communication-banner' as *;

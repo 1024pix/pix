@@ -335,4 +335,40 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       assert.ok(controller.model.assessment.reload.calledOnce);
     });
   });
+
+  module('#hasCertificationTechnicalError', function (hooks) {
+    hooks.beforeEach(function () {
+      const certificationTechnicalErrorService = Service.create({ hasError: false });
+      this.owner.register('service:certification-technical-error', certificationTechnicalErrorService, {
+        instantiate: false,
+      });
+      controller = this.owner.lookup('controller:assessments/challenge');
+    });
+
+    test('returns the hasError value from the service', function (assert) {
+      // given
+      controller.certificationTechnicalError.hasError = true;
+
+      // then
+      assert.true(controller.hasCertificationTechnicalError);
+    });
+  });
+
+  module('#isCertificationtoBeCancelled', function (hooks) {
+    hooks.beforeEach(function () {
+      const certificationTechnicalErrorService = Service.create({ isToBeCancelled: false });
+      this.owner.register('service:certification-technical-error', certificationTechnicalErrorService, {
+        instantiate: false,
+      });
+      controller = this.owner.lookup('controller:assessments/challenge');
+    });
+
+    test('returns the isToBeCancelled value from the service', function (assert) {
+      // given
+      controller.certificationTechnicalError.isToBeCancelled = true;
+
+      // then
+      assert.true(controller.isCertificationtoBeCancelled);
+    });
+  });
 });

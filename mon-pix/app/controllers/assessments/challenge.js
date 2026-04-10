@@ -18,6 +18,15 @@ export default class ChallengeController extends Controller {
   @service currentUser;
   @service focusedCertificationChallengeWarningManager;
   @service pixMetrics;
+  @service certificationTechnicalError;
+
+  get hasCertificationTechnicalError() {
+    return this.certificationTechnicalError.hasError;
+  }
+
+  get isCertificationtoBeCancelled() {
+    return this.certificationTechnicalError.isToBeCancelled;
+  }
 
   @tracked newLevel = null;
   @tracked competenceLeveled = null;

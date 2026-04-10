@@ -750,6 +750,19 @@
         "title": "How can I view and share my certification results?"
       }
     },
+    "certification-technical-error": {
+      "candidate": {
+        "cancelled": {
+          "disclaimer": "This certification will be cancelled due to the technical problem encountered.",
+          "title": "How can I retake my certification ?",
+          "step-1": "We invite you to consult your certification center to schedule a retake."
+        },
+        "disconnect": "Log out of my account",
+        "disconnect-tip": "If this is not your computer, please remember to log out.",
+        "message": "Your certification test has ended due to a technical problem. You can no longer answer questions.",
+        "title": "An error has occurred"
+      }
+    },
     "certification-frameworks": {
       "CLEA": "CLéA Numérique",
       "CORE": "Pix certification",

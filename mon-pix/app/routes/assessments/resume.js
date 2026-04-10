@@ -2,10 +2,10 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
-
 export default class ResumeRoute extends Route {
   @service store;
   @service router;
+  @service certificationTechnicalError;
 
   hasSeenCheckpoint = false;
   campaignCode = null;
@@ -44,6 +44,16 @@ export default class ResumeRoute extends Route {
     }
 
     return this._resumeAssessmentWithoutCheckpoint(assessment);
+  }
+
+  @action
+  error(error) {
+    if (error.errors?.[0]?.code === 'ASSESSMENT_LACK_OF_CHALLENGES') {
+      const isToBeCancelled = error.errors[0].meta?.isToBeCancelled ?? false;
+      this.certificationTechnicalError.setError({ isToBeCancelled });
+      return false;
+    }
+    return true;
   }
 
   @action

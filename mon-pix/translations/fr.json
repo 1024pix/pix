@@ -751,6 +751,19 @@
         "title": "Comment consulter et partager mes résultats de certification ?"
       }
     },
+    "certification-technical-error": {
+      "candidate": {
+        "cancelled": {
+          "disclaimer": "Cette certification sera annulée en raison du problème technique rencontré.",
+          "title": "Comment repasser ma certification ?",
+          "step-1": "Nous vous invitons à vous rapprocher de votre centre de certification pour convenir d’un rattrapage."
+        },
+        "disconnect": "Déconnecter mon compte",
+        "disconnect-tip": "Si cet ordinateur n'est pas le vôtre, pensez à vous déconnecter.",
+        "message": "Votre test de certification a pris fin en raison d'un problème technique. Vous ne pouvez plus continuer de répondre aux questions.",
+        "title": "Une erreur est survenue"
+      }
+    },
     "certification-frameworks": {
       "CLEA": "CLéA Numérique",
       "CORE": "Certification Pix",
