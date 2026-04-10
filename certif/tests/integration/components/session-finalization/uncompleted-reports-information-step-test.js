@@ -350,4 +350,65 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       });
     });
   });
+
+  module('when abort reason is already set', function () {
+    test('the select is disabled and the tooltip is visible', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationReport = store.createRecord('certification-report', {
+        certificationCourseId: 1234,
+        firstName: 'Alice',
+        lastName: 'Alister',
+        abortReason: 'technical',
+        certificationIssueReports: [],
+      });
+
+      this.set('certificationReports', [certificationReport]);
+      this.set('abort', sinon.stub());
+
+      // when
+      const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
+
+      // then
+      assert.dom(screen.getByRole('combobox', { name: "Sélectionner la raison de l'abandon" })).isDisabled();
+      assert
+        .dom(
+          screen.getByText(
+            t(
+              'pages.session-finalization.reporting.uncompleted-reports-information.table.tooltip.technical-problem-auto-detected',
+            ),
+          ),
+        )
+        .exists();
+    });
+  });
+
+  module('when abort reason is not set', function () {
+    test('the select is enabled', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationReport = store.createRecord('certification-report', {
+        certificationCourseId: 1234,
+        firstName: 'Alice',
+        lastName: 'Alister',
+        abortReason: null,
+        certificationIssueReports: [],
+      });
+
+      this.set('certificationReports', [certificationReport]);
+      this.set('abort', sinon.stub());
+
+      // when
+      const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
+
+      // then
+      assert.dom(screen.getByRole('combobox', { name: "Sélectionner la raison de l'abandon" })).isNotDisabled();
+    });
+  });
 });

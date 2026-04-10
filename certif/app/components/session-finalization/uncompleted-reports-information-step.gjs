@@ -20,6 +20,14 @@ export default class UncompletedReportsInformationStep extends Component {
   @tracked showIssueReportsModal = false;
   @service intl;
 
+  _initialAbortReasons = new Map(
+    this.args.certificationReports.map((report) => [report.id, report.abortReason]),
+  );
+
+  isAbortReasonPreFilled = (report) => {
+    return Boolean(this._initialAbortReasons.get(report.id));
+  };
+
   get certificationReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
   }
@@ -184,20 +192,34 @@ export default class UncompletedReportsInformationStep extends Component {
               </div>
             </:header>
             <:cell>
-              <PixSelect
-                @screenReaderOnly='true'
-                @id={{concat 'finalization-report-abort-reason__select' report.id}}
-                @placeholder='-- {{t "common.actions.choose"}} --'
-                @onChange={{fn @onChangeAbortReason report}}
-                @hideDefaultOption={{true}}
-                @value={{report.abortReason}}
-                required='required'
-                @options={{this.abortOptions}}
+              <PixTooltip
+                @id={{concat 'finalization-report-abort-reason__tooltip' report.id}}
+                @isLight={{true}}
+                @hide={{if (this.isAbortReasonPreFilled report) false true}}
               >
-                <:label>{{t
-                    'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment-reason-label'
-                  }}</:label>
-              </PixSelect>
+                <:triggerElement>
+                  <PixSelect
+                    @screenReaderOnly='true'
+                    @id={{concat 'finalization-report-abort-reason__select' report.id}}
+                    @placeholder='-- {{t "common.actions.choose"}} --'
+                    @onChange={{fn @onChangeAbortReason report}}
+                    @hideDefaultOption={{true}}
+                    @value={{report.abortReason}}
+                    @isDisabled={{this.isAbortReasonPreFilled report}}
+                    required='required'
+                    @options={{this.abortOptions}}
+                  >
+                    <:label>{{t
+                        'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment-reason-label'
+                      }}</:label>
+                  </PixSelect>
+                </:triggerElement>
+                <:tooltip>
+                  {{t
+                    'pages.session-finalization.reporting.uncompleted-reports-information.table.tooltip.technical-problem-auto-detected'
+                  }}
+                </:tooltip>
+              </PixTooltip>
             </:cell>
           </PixTableColumn>
         </:columns>

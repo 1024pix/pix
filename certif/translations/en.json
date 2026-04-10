@@ -438,8 +438,9 @@
                 "enough-time-description": "The candidate didn’t have enough time to answer all the questions",
                 "left-deliberately-description": "The candidate left deliberately before the end of the exam"
               },
-              "extra-information": "Reason for abandonment's description",
-              "technical-problem-description": "The candidate encountered a technical problem that prevented him from finishing his exam"
+              "extra-information": "Reason for abandonment’s description",
+              "technical-problem-description": "The candidate encountered a technical problem that prevented him from finishing his exam",
+              "technical-problem-auto-detected": "A technical problem was automatically detected during the certification"
             }
           }
         }

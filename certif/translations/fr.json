@@ -435,11 +435,12 @@
             },
             "tooltip": {
               "abandonment": {
-                "enough-time-description": "Le candidat n'a pas eu le temps de répondre à toutes ses questions",
+                "enough-time-description": "Le candidat n’a pas eu le temps de répondre à toutes ses questions",
                 "left-deliberately-description": "Le candidat est parti volontairement avant la fin du test"
               },
-              "extra-information": "Description de la raison de l'abandon",
-              "technical-problem-description": "Le candidat a rencontré un problème technique l'empêchant de poursuivre son test jusqu’à la fin"
+              "extra-information": "Description de la raison de l’abandon",
+              "technical-problem-description": "Le candidat a rencontré un problème technique l’empêchant de poursuivre son test jusqu’à la fin",
+              "technical-problem-auto-detected": "Un problème technique a été détecté automatiquement durant la certification"
             }
           }
         }
