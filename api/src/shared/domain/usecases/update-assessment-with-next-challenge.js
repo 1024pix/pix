@@ -84,7 +84,7 @@ export async function updateAssessmentWithNextChallenge({
         },
         'Assessment ended prematurely: no challenge remaining before reaching maximum assessment length',
       );
-      nextChallenge = null;
+      throw error;
     } else if (error instanceof AssessmentEndedError) {
       nextChallenge = null;
     } else {

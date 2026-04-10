@@ -138,6 +138,9 @@ function _mapToHttpError(error) {
   if (error instanceof SharedDomainErrors.AlreadyRegisteredEmailError) {
     return new HttpErrors.BadRequestError(error.message, error.code);
   }
+  if (error instanceof SharedDomainErrors.AssessmentLackOfChallengesError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, 'ASSESSMENT_LACK_OF_CHALLENGES');
+  }
   if (error instanceof SharedDomainErrors.AssessmentEndedError) {
     return new HttpErrors.BaseHttpError(error.message);
   }
