@@ -133,6 +133,27 @@ export async function getFrameworkHistory({ scope }) {
     .orderBy('startDate', 'desc');
 }
 
+export async function getFullFrameworkHistory({ scope }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  return knexConn('certification_versions')
+    .select(
+      'certification_versions.id',
+      'certification_versions.assessmentDuration',
+      'certification_versions.startDate',
+      'certification_versions.expirationDate',
+      knexConn.raw('COUNT("certification-frameworks-challenges"."id") AS "challengesCount"'),
+    )
+    .leftJoin(
+      'certification-frameworks-challenges',
+      'certification-frameworks-challenges.versionId',
+      'certification_versions.id',
+    )
+    .where({ scope })
+    .groupBy('certification_versions.id')
+    .orderBy('certification_versions.startDate', 'desc');
+}
+
 const _toDomain = ({
   id,
   scope,

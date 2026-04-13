@@ -304,6 +304,94 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
     });
   });
 
+  describe('#getFullFrameworkHistory', function () {
+    it('should return an empty array when there is no framework history', async function () {
+      // given
+      const scope = SCOPES.PIX_PLUS_DROIT;
+
+      // when
+      const frameworkHistory = await versionsRepository.getFullFrameworkHistory({ scope });
+
+      // then
+      expect(frameworkHistory).to.deep.equal([]);
+    });
+
+    it('should return the full framework history ordered by start date descending with challenge count', async function () {
+      // given
+      const scope = SCOPES.PIX_PLUS_DROIT;
+      const otherScope = SCOPES.CORE;
+
+      const version1 = databaseBuilder.factory.buildCertificationVersion({
+        scope,
+        startDate: new Date('2024-03-15'),
+        assessmentDuration: 90,
+        challengesConfiguration: {},
+      });
+      const version2 = databaseBuilder.factory.buildCertificationVersion({
+        scope,
+        startDate: new Date('2025-06-21'),
+        assessmentDuration: 120,
+        challengesConfiguration: {},
+      });
+      const version3 = databaseBuilder.factory.buildCertificationVersion({
+        scope,
+        startDate: new Date('2026-01-01'),
+        assessmentDuration: 60,
+        challengesConfiguration: {},
+      });
+      databaseBuilder.factory.buildCertificationVersion({
+        scope: otherScope,
+        startDate: new Date('2025-06-21'),
+        assessmentDuration: 90,
+        challengesConfiguration: {},
+      });
+
+      databaseBuilder.factory.buildCertificationFrameworksChallenge({ versionId: version1.id, challengeId: 'rec123' });
+      databaseBuilder.factory.buildCertificationFrameworksChallenge({
+        versionId: version1.id,
+        challengeId: 'rec456',
+      });
+      databaseBuilder.factory.buildCertificationFrameworksChallenge({
+        versionId: version1.id,
+        challengeId: 'rec789',
+      });
+      databaseBuilder.factory.buildCertificationFrameworksChallenge({
+        versionId: version2.id,
+        challengeId: 'rec012',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const frameworkHistory = await versionsRepository.getFullFrameworkHistory({ scope });
+
+      // then
+      expect(frameworkHistory).to.deep.equal([
+        {
+          id: version3.id,
+          startDate: version3.startDate,
+          expirationDate: version3.expirationDate,
+          assessmentDuration: version3.assessmentDuration,
+          challengesCount: 0,
+        },
+        {
+          id: version2.id,
+          startDate: version2.startDate,
+          expirationDate: version2.expirationDate,
+          assessmentDuration: version2.assessmentDuration,
+          challengesCount: 1,
+        },
+        {
+          id: version1.id,
+          startDate: version1.startDate,
+          expirationDate: version1.expirationDate,
+          assessmentDuration: version1.assessmentDuration,
+          challengesCount: 3,
+        },
+      ]);
+    });
+  });
+
   describe('#getFrameworkHistory', function () {
     it('should return an empty array when there is no framework history', async function () {
       // given
@@ -319,7 +407,7 @@ describe('Certification | Configuration | Integration | Repository | Versions', 
     it('should return the framework history ordered by start date descending', async function () {
       // given
       const scope = SCOPES.PIX_PLUS_DROIT;
-      const otherScope = SCOPES.CLEA;
+      const otherScope = SCOPES.CORE;
 
       const version1 = databaseBuilder.factory.buildCertificationVersion({
         scope,
