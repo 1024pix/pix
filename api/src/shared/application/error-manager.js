@@ -140,7 +140,7 @@ function _mapToHttpError(error) {
   }
   if (error instanceof SharedDomainErrors.AssessmentLackOfChallengesError) {
     return new HttpErrors.UnprocessableEntityError(error.message, 'ASSESSMENT_LACK_OF_CHALLENGES', {
-      numberOfAnswers: error.numberOfAnswers,
+      isToBeCancelled: error.isToBeCancelled,
     });
   }
   if (error instanceof SharedDomainErrors.AssessmentEndedError) {

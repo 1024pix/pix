@@ -96,6 +96,7 @@ const getNextChallenge = async function ({
   const assessmentAlgorithm = new FlashAssessmentAlgorithm({
     flashAlgorithmImplementation: flashAlgorithmService,
     configuration: version.challengesConfiguration,
+    minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
   });
   const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
     assessmentAnswers: allAnswers,

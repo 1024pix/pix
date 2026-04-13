@@ -259,7 +259,7 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
         error.message,
         'ASSESSMENT_LACK_OF_CHALLENGES',
-        { numberOfAnswers: error.numberOfAnswers },
+        { isToBeCancelled: error.isToBeCancelled },
       );
     });
 

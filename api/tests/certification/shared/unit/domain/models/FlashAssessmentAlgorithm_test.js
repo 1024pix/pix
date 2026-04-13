@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
       });
     });
 
-    context('when user has answered to the maximun number of questions', function () {
+    context('when user has answered to the maximum number of questions', function () {
       it('should throw an AssessmentEndedError', function () {
         // then
         const assessmentAnswers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
@@ -251,6 +251,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             maximumAssessmentLength: 32,
             limitToOneQuestionPerTube: true,
           }),
+          minimumAnswersRequiredToValidateACertification: 20,
         });
 
         const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
@@ -286,6 +287,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
         // then
         expect(error).to.be.instanceOf(AssessmentLackOfChallengesError);
         expect(error.numberOfAnswers).to.equal(1);
+        expect(error.minimumAnswersRequiredToValidateACertification).to.equal(20);
         expect(error.maximumAssessmentLength).to.equal(32);
       });
     });

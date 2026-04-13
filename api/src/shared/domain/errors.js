@@ -39,10 +39,11 @@ class AssessmentEndedError extends DomainError {
 }
 
 class AssessmentLackOfChallengesError extends AssessmentEndedError {
-  constructor({ numberOfAnswers, maximumAssessmentLength } = {}) {
-    super(`No eligible challenges remaining. ${numberOfAnswers} answers (maximum was ${maximumAssessmentLength})`);
+  constructor({ numberOfAnswers, maximumAssessmentLength, minimumAnswersRequiredToValidateACertification } = {}) {
+    super(`No eligible challenges remaining. ${numberOfAnswers} answers (minimum was ${minimumAnswersRequiredToValidateACertification} and maximum was ${maximumAssessmentLength})`);
     this.numberOfAnswers = numberOfAnswers;
     this.maximumAssessmentLength = maximumAssessmentLength;
+    this.isToBeCancelled = numberOfAnswers < minimumAnswersRequiredToValidateACertification;
   }
 }
 

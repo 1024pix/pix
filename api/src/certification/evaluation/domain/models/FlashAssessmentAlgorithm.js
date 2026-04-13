@@ -25,13 +25,14 @@ class FlashAssessmentAlgorithm {
    * @param {FlashAlgorithmImplementation} params.flashAlgorithmImplementation
    * @param {FlashAssessmentAlgorithmConfiguration} params.configuration
    */
-  constructor({ flashAlgorithmImplementation, configuration }) {
+  constructor({ flashAlgorithmImplementation, configuration, minimumAnswersRequiredToValidateACertification }) {
     /**
      * @private
      * @type {FlashAssessmentAlgorithmConfiguration}
      */
     this._configuration = configuration;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
+    this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredToValidateACertification;
 
     this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
       limitToOneQuestionPerTube: configuration.limitToOneQuestionPerTube,
@@ -69,6 +70,7 @@ class FlashAssessmentAlgorithm {
       throw new AssessmentLackOfChallengesError({
         numberOfAnswers: assessmentAnswers?.length,
         maximumAssessmentLength,
+        minimumAnswersRequiredToValidateACertification: this.minimumAnswersRequiredToValidateACertification,
       });
     }
 
