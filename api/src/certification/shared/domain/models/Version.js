@@ -10,6 +10,7 @@ export class Version {
     scope: Joi.string()
       .required()
       .valid(...Object.values(SCOPES)),
+    minimumAnswersRequiredToValidateACertification: Joi.number().min(0).required(),
     challengesConfiguration: Joi.object().instance(FlashAssessmentAlgorithmConfiguration).required(),
   });
 
@@ -19,9 +20,10 @@ export class Version {
    * @param {SCOPES} params.scope - Certification scope (CORE, DROIT, etc.)
    * @param {FlashAssessmentAlgorithmConfiguration} params.challengesConfiguration - Challenges configuration
    */
-  constructor({ id, scope, challengesConfiguration }) {
+  constructor({ id, scope, minimumAnswersRequiredToValidateACertification, challengesConfiguration }) {
     this.id = id;
     this.scope = scope;
+    this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredToValidateACertification;
     this.challengesConfiguration = challengesConfiguration;
     this.#validate();
   }

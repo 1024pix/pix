@@ -36,7 +36,7 @@ export const getByScopeAndReconciliationDate = async ({ scope, reconciliationDat
   const knexConn = DomainTransaction.getConnection();
 
   const versionData = await knexConn('certification_versions')
-    .select('id', 'scope', 'challengesConfiguration')
+    .select('id', 'scope', 'minimumAnswersRequiredToValidateACertification', 'challengesConfiguration')
     .where({ scope })
     .andWhere('startDate', '<=', reconciliationDate)
     .andWhere((queryBuilder) => {
@@ -52,10 +52,11 @@ export const getByScopeAndReconciliationDate = async ({ scope, reconciliationDat
   return _toDomain(versionData);
 };
 
-const _toDomain = ({ id, scope, challengesConfiguration }) => {
+const _toDomain = ({ id, scope, minimumAnswersRequiredToValidateACertification, challengesConfiguration }) => {
   return new Version({
     id,
     scope,
+    minimumAnswersRequiredToValidateACertification,
     challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
       maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
       challengesBetweenSameCompetence: challengesConfiguration.challengesBetweenSameCompetence,

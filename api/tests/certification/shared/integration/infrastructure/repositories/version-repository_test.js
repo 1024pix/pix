@@ -56,6 +56,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
         startDate: new Date('2025-01-01'),
         expirationDate: new Date('2025-05-31'),
         assessmentDuration: 90,
+        minimumAnswersRequiredToValidateACertification: 1,
         globalScoringConfiguration: [{ config: 'old' }],
         competencesScoringConfiguration: [{ config: 'old' }],
         challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({ defaultCandidateCapacity: 2 }),
@@ -69,6 +70,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
         startDate: new Date('2025-06-01'),
         expirationDate: null,
         assessmentDuration: 120,
+        minimumAnswersRequiredToValidateACertification: 2,
         globalScoringConfiguration: [{ config: 'current' }],
         competencesScoringConfiguration: [{ config: 'current' }],
         challengesConfiguration: expectedChallengeConf,
@@ -79,6 +81,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
         startDate: new Date('2025-07-01'),
         expirationDate: null,
         assessmentDuration: 150,
+        minimumAnswersRequiredToValidateACertification: 3,
         globalScoringConfiguration: [{ config: 'future' }],
         competencesScoringConfiguration: [{ config: 'future' }],
         challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({ defaultCandidateCapacity: 1 }),
@@ -96,6 +99,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
       expect(result).to.be.instanceOf(Version);
       expect(result.id).to.equal(expectedVersionId);
       expect(result.scope).to.equal(scope);
+      expect(result.minimumAnswersRequiredToValidateACertification).to.equal(2);
       expect(result.challengesConfiguration).to.deep.equal(expectedChallengeConf);
     });
 
@@ -111,6 +115,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
         startDate: new Date('2025-05-01'),
         expirationDate: null,
         assessmentDuration: 100,
+        minimumAnswersRequiredToValidateACertification: 1,
         globalScoringConfiguration: [{ target: 'scope' }],
         competencesScoringConfiguration: null,
         challengesConfiguration: expectedChallengeConf,
@@ -121,6 +126,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
         startDate: new Date('2025-06-10'),
         expirationDate: null,
         assessmentDuration: 150,
+        minimumAnswersRequiredToValidateACertification: 2,
         globalScoringConfiguration: [{ other: 'scope' }],
         competencesScoringConfiguration: null,
         challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({ defaultCandidateCapacity: -3 }),
@@ -138,6 +144,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
       expect(result).to.be.instanceOf(Version);
       expect(result.id).to.equal(expectedVersionId);
       expect(result.scope).to.equal(targetScope);
+      expect(result.minimumAnswersRequiredToValidateACertification).to.equal(1);
       expect(result.challengesConfiguration).to.deep.equal(expectedChallengeConf);
     });
 
@@ -153,6 +160,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
           startDate: reconciliationDate,
           expirationDate: null,
           assessmentDuration: 100,
+          minimumAnswersRequiredToValidateACertification: 1,
           globalScoringConfiguration: null,
           competencesScoringConfiguration: null,
           challengesConfiguration: expectedChallengeConf,
@@ -169,6 +177,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repository
         // then
         expect(result).to.be.instanceOf(Version);
         expect(result.id).to.equal(expectedVersionId);
+        expect(result.minimumAnswersRequiredToValidateACertification).to.equal(1);
         expect(result.challengesConfiguration).to.deep.equal(expectedChallengeConf);
       });
     });

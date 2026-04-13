@@ -11,6 +11,7 @@ describe('Unit | Certification | Evaluation | Domain | Models | Version', functi
       const versionData = {
         id: 123,
         scope: SCOPES.CORE,
+        minimumAnswersRequiredToValidateACertification: 20,
         challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
           challengesBetweenSameCompetence: 0,
           maximumAssessmentLength: 10,
@@ -29,6 +30,7 @@ describe('Unit | Certification | Evaluation | Domain | Models | Version', functi
       expect(version).to.be.instanceOf(Version);
       expect(version.id).to.equal(123);
       expect(version.scope).to.equal(SCOPES.CORE);
+      expect(version.minimumAnswersRequiredToValidateACertification).to.equal(20);
       expect(version.challengesConfiguration).to.deep.equal(
         new FlashAssessmentAlgorithmConfiguration({
           challengesBetweenSameCompetence: 0,
@@ -47,6 +49,7 @@ describe('Unit | Certification | Evaluation | Domain | Models | Version', functi
       const versionData = {
         id: 456,
         scope: SCOPES.PIX_PLUS_DROIT,
+        minimumAnswersRequiredToValidateACertification: 20,
         challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
           challengesBetweenSameCompetence: 0,
           maximumAssessmentLength: 10,
@@ -65,6 +68,7 @@ describe('Unit | Certification | Evaluation | Domain | Models | Version', functi
       expect(version).to.be.instanceOf(Version);
       expect(version.id).to.equal(456);
       expect(version.scope).to.equal(SCOPES.PIX_PLUS_DROIT);
+      expect(version.minimumAnswersRequiredToValidateACertification).to.equal(20);
       expect(version.challengesConfiguration).to.deep.equal(
         new FlashAssessmentAlgorithmConfiguration({
           challengesBetweenSameCompetence: 0,
@@ -82,33 +86,8 @@ describe('Unit | Certification | Evaluation | Domain | Models | Version', functi
       // given
       const invalidData = {
         scope: SCOPES.CORE,
-      };
-
-      // when
-      const error = catchErrSync(() => new Version(invalidData))();
-
-      // then
-      expect(error).to.be.instanceOf(EntityValidationError);
-    });
-
-    it('should throw an EntityValidationError when scope is missing', function () {
-      // given
-      const invalidData = {
-        id: 123,
-      };
-
-      // when
-      const error = catchErrSync(() => new Version(invalidData))();
-
-      // then
-      expect(error).to.be.instanceOf(EntityValidationError);
-    });
-
-    it('should throw an EntityValidationError when scope is invalid', function () {
-      // given
-      const invalidData = {
-        id: 123,
-        scope: 'INVALID_SCOPE',
+        minimumAnswersRequiredToValidateACertification: 123,
+        challengesConfiguration: { config: 'test' },
       };
 
       // when
@@ -123,7 +102,68 @@ describe('Unit | Certification | Evaluation | Domain | Models | Version', functi
       const invalidData = {
         id: 'not-a-number',
         scope: SCOPES.CORE,
+        minimumAnswersRequiredToValidateACertification: 123,
         challengesConfiguration: { config: 'test' },
+      };
+
+      // when
+      const error = catchErrSync(() => new Version(invalidData))();
+
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
+    });
+
+    it('should throw an EntityValidationError when scope is missing', function () {
+      // given
+      const invalidData = {
+        id: 123,
+        minimumAnswersRequiredToValidateACertification: 123,
+        challengesConfiguration: { config: 'test' }
+      };
+
+      // when
+      const error = catchErrSync(() => new Version(invalidData))();
+
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
+    });
+
+    it('should throw an EntityValidationError when minimumAnswersRequiredToValidateACertification is missing', function () {
+      // given
+      const invalidData = {
+        id: 123,
+        scope: SCOPES.CORE,
+        challengesConfiguration: { config: 'test' }
+      };
+
+      // when
+      const error = catchErrSync(() => new Version(invalidData))();
+
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
+    });
+
+    it('should throw an EntityValidationError when minimumAnswersRequiredToValidateACertification is not a number', function () {
+      // given
+      const invalidData = {
+        id: 123,
+        scope: SCOPES.CORE,
+        minimumAnswersRequiredToValidateACertification: 'not-a-number',
+        challengesConfiguration: { config: 'test' }
+      };
+
+      // when
+      const error = catchErrSync(() => new Version(invalidData))();
+
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
+    });
+
+    it('should throw an EntityValidationError when scope is invalid', function () {
+      // given
+      const invalidData = {
+        id: 123,
+        scope: 'INVALID_SCOPE',
       };
 
       // when
