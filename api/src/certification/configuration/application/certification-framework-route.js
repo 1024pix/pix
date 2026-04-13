@@ -95,6 +95,37 @@ const register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/v2/admin/certification-frameworks/{scope}/framework-history',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            scope: Joi.string()
+              .required()
+              .valid(...Object.values(SCOPES)),
+          }),
+        },
+        handler: certificationFrameworkController.getFrameworkHistory,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec un rôle Super Admin, Certif, Support ou Métier',
+          "Elle permet de récupérer l'historique d'un référentiel de certification, les profils cibles courants et ses badges associés, ainsi que l'historique des profils cibles qui ont été rattachés à la certification complémentaire.\",",
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/frameworks/{scope}/new-version',
       config: {
