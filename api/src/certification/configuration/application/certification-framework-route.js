@@ -117,7 +117,7 @@ const register = async function (server) {
               .valid(...Object.values(SCOPES)),
           }),
         },
-        handler: certificationFrameworkController.getFrameworkHistory,
+        handler: certificationFrameworkController.getFrameworkAndTargetProfilesHistory,
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec un rôle Super Admin, Certif, Support ou Métier',

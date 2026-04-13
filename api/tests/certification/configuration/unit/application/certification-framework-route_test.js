@@ -159,7 +159,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         sinon
           .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .returns((request, h) => h.response().code(403).takeover());
-        sinon.stub(certificationFrameworkController, 'getFrameworkHistory').returns('ok');
+        sinon.stub(certificationFrameworkController, 'getFrameworkAndTargetProfilesHistory').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -171,7 +171,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(certificationFrameworkController.getFrameworkHistory);
+        sinon.assert.notCalled(certificationFrameworkController.getFrameworkAndTargetProfilesHistory);
       });
     });
 
@@ -181,7 +181,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         it('should return 200 HTTP status code', async function () {
           // given
           sinon.stub(securityPreHandlers, `checkAdminMemberHasRole${role}`).returns(true);
-          sinon.stub(certificationFrameworkController, 'getFrameworkHistory').returns('ok');
+          sinon.stub(certificationFrameworkController, 'getFrameworkAndTargetProfilesHistory').returns('ok');
 
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -194,7 +194,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
           // then
           expect(response.statusCode).to.equal(200);
-          sinon.assert.calledOnce(certificationFrameworkController.getFrameworkHistory);
+          sinon.assert.calledOnce(certificationFrameworkController.getFrameworkAndTargetProfilesHistory);
         });
       });
     });

@@ -14,6 +14,16 @@ const getActiveConsolidatedFramework = async function (request) {
   return certificationConsolidatedFrameworkSerializer.serialize(consolidatedFramework);
 };
 
+const getFrameworkAndTargetProfilesHistory = async function (request) {
+  const scope = request.params.scope;
+
+  const frameworkHistory = await usecases.getFrameworkHistory({
+    scope,
+  });
+
+  return frameworkHistorySerializer.serialize({ scope, frameworkHistory });
+};
+
 const getFrameworkHistory = async function (request) {
   const scope = request.params.scope;
 
@@ -44,6 +54,7 @@ const certificationFrameworkController = {
   createCertificationVersion,
   findCertificationFrameworks,
   getActiveConsolidatedFramework,
+  getFrameworkAndTargetProfilesHistory,
   getFrameworkHistory,
 };
 
