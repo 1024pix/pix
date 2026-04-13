@@ -1,7 +1,6 @@
 import { CampaignParticipationDeletedError } from '../../../prescription/campaign-participation/domain/errors.js';
-import { ABORT_REASONS } from '../../../certification/shared/domain/constants/abort-reasons.js';
 import { logger } from '../../infrastructure/utils/logger.js';
-import { AssessmentEndedError, AssessmentLackOfChallengesError, NotFoundError } from '../errors.js';
+import { AssessmentEndedError, NotFoundError } from '../errors.js';
 
 export async function updateAssessmentWithNextChallenge({
   assessmentId,
@@ -10,7 +9,6 @@ export async function updateAssessmentWithNextChallenge({
   evaluationUsecases,
   assessmentRepository,
   certificationEvaluationRepository,
-  certificationCourseRepository,
   courseRepository,
   competenceRepository,
   certificationChallengeLiveAlertRepository,
@@ -77,21 +75,7 @@ export async function updateAssessmentWithNextChallenge({
       }
     }
   } catch (error) {
-    if (error instanceof AssessmentLackOfChallengesError) {
-      logger.warn(
-        {
-          assessmentId: assessment.id,
-          numberOfAnswers: error.numberOfAnswers,
-          maximumAssessmentLength: error.maximumAssessmentLength,
-        },
-        'Assessment ended prematurely: no challenge remaining before reaching maximum assessment length',
-      );
-      await _abortCertificationCourseForTechnicalReason({
-        certificationCourseId: assessment.certificationCourseId,
-        certificationCourseRepository,
-      });
-      throw error;
-    } else if (error instanceof AssessmentEndedError) {
+    if (error instanceof AssessmentEndedError) {
       nextChallenge = null;
     } else {
       logger.error(
@@ -117,10 +101,4 @@ export async function updateAssessmentWithNextChallenge({
     assessment,
     globalProgression,
   };
-}
-
-async function _abortCertificationCourseForTechnicalReason({ certificationCourseId, certificationCourseRepository }) {
-  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
-  certificationCourse.abort(ABORT_REASONS.TECHNICAL);
-  await certificationCourseRepository.update({ certificationCourse });
 }

@@ -11,9 +11,14 @@
  * @typedef {import ('../../../../shared/domain/errors.js').AssessmentLackOfChallengesError} AssessmentLackOfChallengesError
  * @typedef {import ('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  */
-import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { DomainTransaction, withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
+import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import { AssessmentLackOfChallengesError } from '../../../../shared/domain/errors.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { ABORT_REASONS } from '../../../shared/domain/constants/abort-reasons.js';
 
 /**
  * @function
@@ -52,19 +57,42 @@ export const rescoreV2Certification = async ({ event }) => {
  * @throws {AssessmentEndedError} test ended or no next challenge available
  * @throws {AssessmentLackOfChallengesError} no eligible challenges remaining before reaching maximum assessment length
  */
-export const selectNextCertificationChallenge = withTransaction(
+export const selectNextCertificationChallenge =
   async ({
     assessmentId,
     locale,
     dependencies = {
       assessmentRepository,
+      certificationCourseRepository,
     },
   }) => {
     const assessment = await dependencies.assessmentRepository.get(assessmentId);
+    try {
+      return await DomainTransaction.execute(async () => {
+        return await usecases.getNextChallenge({ assessment, locale });
+      });
+    } catch (error) {
+      if (error instanceof AssessmentLackOfChallengesError) {
+        logger.warn(
+          {
+            assessmentId: assessment.id,
+            numberOfAnswers: error.numberOfAnswers,
+            maximumAssessmentLength: error.maximumAssessmentLength,
+          },
+          'Assessment ended prematurely: no challenge remaining before reaching maximum assessment length',
+        );
 
-    return usecases.getNextChallenge({ assessment, locale });
-  },
-);
+        await DomainTransaction.execute(async () => {
+          const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
+          certificationCourse.abort(ABORT_REASONS.TECHNICAL);
+          await certificationCourseRepository.update({ certificationCourse });
+          await dependencies.assessmentRepository.updateStateById(assessment.id, Assessment.states.ABORTED)
+        });
+        throw error;
+      }
+    }
+  }
+
 
 /**
  * @function

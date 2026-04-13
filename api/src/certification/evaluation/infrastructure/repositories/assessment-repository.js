@@ -28,4 +28,11 @@ const updateWhenNewChallengeIsAsked = async function (assessment) {
   });
 };
 
-export { get, updateLastQuestionDate, updateWhenNewChallengeIsAsked };
+const updateStateById = async function (assessmentId, state) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('assessments')
+    .where({ id: assessmentId })
+    .update({ state });
+}
+
+export { get, updateLastQuestionDate, updateWhenNewChallengeIsAsked, updateStateById };

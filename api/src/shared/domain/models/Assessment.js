@@ -107,6 +107,10 @@ class Assessment {
     this.state = Assessment.states.COMPLETED;
   }
 
+  setAborted() {
+    this.state = Assessment.states.ABORTED;
+  }
+
   start() {
     this.state = Assessment.states.STARTED;
   }

@@ -57,6 +57,21 @@ describe('Unit | Domain | Models | Assessment', function () {
     });
   });
 
+  describe('#setAborted', function () {
+    it('should return the same object with state aborted', function () {
+      // given
+      const assessment = new Assessment({ state: 'started', userId: 2 });
+
+      // when
+      assessment.setAborted();
+
+      // then
+      expect(assessment.state).to.be.equal('aborted');
+      expect(assessment.userId).to.be.equal(2);
+    });
+  });
+
+
   describe('#detachCampaignParticipation', function () {
     let clock, now;
 
