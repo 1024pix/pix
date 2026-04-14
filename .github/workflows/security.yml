@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Install Cyclone DX
-        run: npm install @cyclonedx/cyclonedx-npm@$(cat package.json | jq -r '.devDependencies.["@cyclonedx/cyclonedx-npm"]')
+        run: npm ci
 
       - name: Monorepo - Create SBOM
         run: npx @cyclonedx/cyclonedx-npm --output-file pix-repo-sbom.json package.json && [ -e "pix-repo-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
