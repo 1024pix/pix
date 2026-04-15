@@ -7,65 +7,75 @@ import { usecases } from '../domain/usecases/index.js';
 import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 
 const importSupOrganizationLearners = async function (request, h, dependencies = { logger, unlink: fs.unlink }) {
-  const i18n = getI18nFromRequest(request);
-
-  const organizationId = request.params.organizationId;
-  const userId = request.auth.credentials.userId;
-
   try {
-    await usecases.uploadCsvFile({
-      Parser: SupOrganizationLearnerParser,
-      payload: request.payload,
-      organizationId,
-      userId,
-      i18n,
-      type: 'ADDITIONAL_STUDENT',
-    });
-  } catch (error) {
-    dependencies.logger.warn(error);
+    const i18n = getI18nFromRequest(request);
 
-    throw error;
-  } finally {
+    const organizationId = request.params.organizationId;
+    const userId = request.auth.credentials.userId;
+
     try {
-      dependencies.unlink(request.payload.path);
-    } catch (err) {
-      dependencies.logger.error(err);
-    }
-  }
+      await usecases.uploadCsvFile({
+        Parser: SupOrganizationLearnerParser,
+        payload: request.payload,
+        organizationId,
+        userId,
+        i18n,
+        type: 'ADDITIONAL_STUDENT',
+      });
+    } catch (error) {
+      dependencies.logger.warn(error);
 
-  return h.response().code(204);
+      throw error;
+    } finally {
+      try {
+        dependencies.unlink(request.payload.path);
+      } catch (err) {
+        dependencies.logger.error(err);
+      }
+    }
+
+    return h.response().code(204);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 const replaceSupOrganizationLearners = async function (request, h, dependencies = { logger, unlink: fs.unlink }) {
-  const i18n = getI18nFromRequest(request);
-
-  const userId = request.auth.credentials.userId;
-  const organizationId = request.params.organizationId;
-
   try {
-    await usecases.uploadCsvFile({
-      Parser: SupOrganizationLearnerParser,
-      payload: request.payload,
-      organizationId,
-      userId,
-      i18n,
-      type: 'REPLACE_STUDENT',
-    });
-  } catch (error) {
-    dependencies.logger.warn(error);
+    const i18n = getI18nFromRequest(request);
 
-    throw error;
-  } finally {
-    // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
-    // add a catch to avoid an error if unlink fails
+    const userId = request.auth.credentials.userId;
+    const organizationId = request.params.organizationId;
+
     try {
-      dependencies.unlink(request.payload.path);
-    } catch (err) {
-      dependencies.logger.error(err);
-    }
-  }
+      await usecases.uploadCsvFile({
+        Parser: SupOrganizationLearnerParser,
+        payload: request.payload,
+        organizationId,
+        userId,
+        i18n,
+        type: 'REPLACE_STUDENT',
+      });
+    } catch (error) {
+      dependencies.logger.warn(error);
 
-  return h.response().code(204);
+      throw error;
+    } finally {
+      // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
+      // add a catch to avoid an error if unlink fails
+      try {
+        dependencies.unlink(request.payload.path);
+      } catch (err) {
+        dependencies.logger.error(err);
+      }
+    }
+
+    return h.response().code(204);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 const getOrganizationLearnersCsvTemplate = async function (request, h, dependencies = { tokenService }) {

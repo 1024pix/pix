@@ -10,47 +10,52 @@ import * as scoOrganizationLearnerSerializer from '../infrastructure/serializers
 const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
 
 const importOrganizationLearnersFromSIECLE = async function (request, h, dependencies = { logger }) {
-  const i18n = getI18nFromRequest(request);
-
-  const authenticatedUserId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
-  const userId = request.auth.credentials.userId;
-  const { format } = request.query;
   try {
-    if (!['xml', 'csv'].includes(format))
-      throw new FileValidationError(INVALID_FILE_EXTENSION_ERROR, { fileExtension: format });
+    const i18n = getI18nFromRequest(request);
 
-    if (format === 'xml') {
-      await usecases.uploadSiecleFile({
-        userId: authenticatedUserId,
-        organizationId,
-        payload: request.payload,
-      });
-    } else if (format === 'csv') {
-      await usecases.uploadCsvFile({
-        Parser: OrganizationLearnerParser,
-        payload: request.payload,
-        organizationId,
-        userId,
-        type: 'FREGATA',
-        i18n,
-      });
-    }
-  } catch (error) {
-    dependencies.logger.warn(error);
-
-    throw error;
-  } finally {
-    // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
-    // add a catch to avoid an error if unlink fails
+    const authenticatedUserId = request.auth.credentials.userId;
+    const organizationId = request.params.id;
+    const userId = request.auth.credentials.userId;
+    const { format } = request.query;
     try {
-      await fs.unlink(request.payload.path);
-    } catch (error) {
-      dependencies.logger.error(error);
-    }
-  }
+      if (!['xml', 'csv'].includes(format))
+        throw new FileValidationError(INVALID_FILE_EXTENSION_ERROR, { fileExtension: format });
 
-  return h.response(null).code(204);
+      if (format === 'xml') {
+        await usecases.uploadSiecleFile({
+          userId: authenticatedUserId,
+          organizationId,
+          payload: request.payload,
+        });
+      } else if (format === 'csv') {
+        await usecases.uploadCsvFile({
+          Parser: OrganizationLearnerParser,
+          payload: request.payload,
+          organizationId,
+          userId,
+          type: 'FREGATA',
+          i18n,
+        });
+      }
+    } catch (error) {
+      dependencies.logger.warn(error);
+
+      throw error;
+    } finally {
+      // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
+      // add a catch to avoid an error if unlink fails
+      try {
+        await fs.unlink(request.payload.path);
+      } catch (error) {
+        dependencies.logger.error(error);
+      }
+    }
+
+    return h.response(null).code(204);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 const reconcileScoOrganizationLearnerManually = async function (
