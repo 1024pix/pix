@@ -16,7 +16,7 @@ export default class NewController extends Controller {
   async createOrganizationInvitation(event) {
     event.preventDefault();
     this.isLoading = true;
-    this.notifications.removeAllNotifications();
+    this.pixToast.removeAllNotifications();
     const emails = this.model.email.split(',');
 
     try {
