@@ -19,7 +19,7 @@ export default class FileSaverService extends Service {
     const response = await fetcher({ url, token, acceptLanguage });
 
     if (response.status === 204) {
-      this.notifications.sendWarning(noContentMessageNotification);
+      this.pixToast.sendWarningNotifications({ message: noContentMessageNotification });
       return;
     }
 

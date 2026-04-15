@@ -48,10 +48,9 @@ export default class AuthenticatedCertificationsController extends Controller {
       await this.fileSaver.save({ url, token });
     } catch (error) {
       if (_isErrorNotFound(error)) {
-        this.notifications.info(
-          this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
-          { autoClear: false },
-        );
+        this.pixToast.sendInformationNotification({
+          message: this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
+        });
       } else {
         this.pixToast.sendErrorNotification({ message: error.message });
       }
@@ -79,16 +78,16 @@ export default class AuthenticatedCertificationsController extends Controller {
       await this.fileSaver.save({ url, token });
     } catch (error) {
       if (_isErrorNotFound(error)) {
-        this.notifications.info(
-          this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
-          { autoClear: false },
-        );
+        this.pixToast.sendInformationNotification({
+          message: this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
+        });
       }
       if (_isErrorNoResults(error)) {
-        this.notifications.info(
-          this.intl.t('pages.certifications.errors.no-certificates', { selectedDivision: this.selectedDivision }),
-          { autoClear: false },
-        );
+        this.pixToast.sendInformationNotification({
+          message: this.intl.t('pages.certifications.errors.no-certificates', {
+            selectedDivision: this.selectedDivision,
+          }),
+        });
       } else {
         this.pixToast.sendErrorNotification({ message: error.message });
       }
