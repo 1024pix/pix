@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class NewController extends Controller {
   @service router;
   @service store;
-  @service notifications;
+  @service pixToast;
   @service intl;
 
   @tracked errors;
@@ -15,7 +15,7 @@ export default class NewController extends Controller {
 
   @action
   async createCampaign() {
-    this.notifications.clearAll();
+    this.pixToast.removeAllNotifications();
     this.errors = null;
     try {
       await this.model.campaign.save();

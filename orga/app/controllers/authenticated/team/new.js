@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class NewController extends Controller {
   @service intl;
-  @service notifications;
+  @service pixToast;
   @service store;
   @service currentUser;
   @service router;
