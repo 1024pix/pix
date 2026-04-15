@@ -206,9 +206,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         // given
         lastAnswer = domainBuilder.buildAnswer({ timeout: 50 });
         targetSkills = [url2, web1];
-        const challenge_defaultLevel_Timed = domainBuilder.buildChallenge({
+        const challenge_defaultLevel_Timed = domainBuilder.evaluation.buildSmartRandomChallenge({
           id: 'recurl2',
-          skill: url2,
+          skillId: url2.id,
           locales: ['fr'],
           timer: 60,
         });
@@ -281,9 +281,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
       it('should start with a timed challenge anyway when no untimed challenges were found', function () {
         // given
         targetSkills = [web3];
-        const challenge_AnyLevel_Timed = domainBuilder.buildChallenge({
+        const challenge_AnyLevel_Timed = domainBuilder.evaluation.buildSmartRandomChallenge({
           id: 'recweb3',
-          skill: web3,
+          skillId: web3.id,
           locales: ['fr'],
           timer: 60,
         });
@@ -599,9 +599,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
       it('should end the test if the next challenges wont provide any additional knowledge on the user', function () {
         // given
         targetSkills = [web1, web2];
-        const challengeWeb_2_duplicate = domainBuilder.buildChallenge({
+        const challengeWeb_2_duplicate = domainBuilder.evaluation.buildSmartRandomChallenge({
           id: 'recweb2_duplicate',
-          skill: web2,
+          skillId: web2.id,
           locales: ['fr'],
         });
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2_duplicate];
@@ -855,9 +855,9 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
 
       it('should return fr-fr and fr challenges', function () {
         targetSkills = [web1, cnil1];
-        const challengeCnil_1_fr_fr = domainBuilder.buildChallenge({
+        const challengeCnil_1_fr_fr = domainBuilder.evaluation.buildSmartRandomChallenge({
           id: 'recweb1_2',
-          skill: cnil1,
+          skillId: cnil1.id,
           locales: ['fr-fr'],
         });
         challenges = [challengeCnil_1_fr_fr, challengeWeb_1];

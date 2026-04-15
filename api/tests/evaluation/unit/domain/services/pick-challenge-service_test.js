@@ -20,12 +20,18 @@ describe('Unit | Service | PickChallengeService', function () {
     const randomSeed = 'some-random-seed';
 
     beforeEach(function () {
-      englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
-      frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
-      otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
-      frenchChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_FRANCE] });
-      validatedChallenge = domainBuilder.buildChallenge({ status: 'validé', locales: [FRENCH_SPOKEN] });
-      archivedChallenge = domainBuilder.buildChallenge({ status: 'archivé', locales: [FRENCH_SPOKEN] });
+      englishSpokenChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: [ENGLISH_SPOKEN] });
+      frenchSpokenChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: [FRENCH_SPOKEN] });
+      otherFrenchSpokenChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: [FRENCH_SPOKEN] });
+      frenchChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: [FRENCH_FRANCE] });
+      validatedChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({
+        status: 'validé',
+        locales: [FRENCH_SPOKEN],
+      });
+      archivedChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({
+        status: 'archivé',
+        locales: [FRENCH_SPOKEN],
+      });
     });
 
     context('when challenge in selected locale exists', function () {
@@ -118,10 +124,10 @@ describe('Unit | Service | PickChallengeService', function () {
     context('when picking a lot of challenges', function () {
       it('should return all challenges propose', function () {
         // given
-        const challengeOneForSkillOne = domainBuilder.buildChallenge();
-        const challengeTwoForSkillOne = domainBuilder.buildChallenge();
-        const challengeOneForSkillTwo = domainBuilder.buildChallenge();
-        const challengeTwoForSkillTwo = domainBuilder.buildChallenge();
+        const challengeOneForSkillOne = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
+        const challengeTwoForSkillOne = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
+        const challengeOneForSkillTwo = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
+        const challengeTwoForSkillTwo = domainBuilder.evaluation.buildSmartRandomChallenge({ locales: ['fr'] });
         const skillOne = { challenges: [challengeOneForSkillOne, challengeTwoForSkillOne] };
         const skillTwo = { challenges: [challengeOneForSkillTwo, challengeTwoForSkillTwo] };
         const skills = [skillOne, skillTwo];
@@ -145,9 +151,18 @@ describe('Unit | Service | PickChallengeService', function () {
     context('user locale has country code', function () {
       let archivedChallenge_fr_fr, validatedChallenge_fr, validatedChallenge_fr_fr, locale;
       beforeEach(function () {
-        validatedChallenge_fr = domainBuilder.buildChallenge({ status: 'validé', locales: [FRENCH_SPOKEN] });
-        validatedChallenge_fr_fr = domainBuilder.buildChallenge({ status: 'validé', locales: [FRENCH_FRANCE] });
-        archivedChallenge_fr_fr = domainBuilder.buildChallenge({ status: 'archivé', locales: [FRENCH_FRANCE] });
+        validatedChallenge_fr = domainBuilder.evaluation.buildSmartRandomChallenge({
+          status: 'validé',
+          locales: [FRENCH_SPOKEN],
+        });
+        validatedChallenge_fr_fr = domainBuilder.evaluation.buildSmartRandomChallenge({
+          status: 'validé',
+          locales: [FRENCH_FRANCE],
+        });
+        archivedChallenge_fr_fr = domainBuilder.evaluation.buildSmartRandomChallenge({
+          status: 'archivé',
+          locales: [FRENCH_FRANCE],
+        });
         locale = FRENCH_FRANCE;
       });
 
