@@ -9,7 +9,7 @@ export default class ListController extends Controller {
   @service currentUser;
   @service router;
   @service store;
-  @service notifications;
+  @service pixToast;
   @service intl;
 
   @tracked pageNumber = 1;
@@ -125,13 +125,13 @@ export default class ListController extends Controller {
         listLearners.map(({ id }) => id),
       );
       this.send('refreshModel');
-      this.notifications.sendSuccess(
-        this.intl.t('pages.organization-participants.action-bar.success-message', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.organization-participants.action-bar.success-message', {
           count: listLearners.length,
           firstname: listLearners[0].firstName,
           lastname: listLearners[0].lastName,
         }),
-      );
+      });
     } catch {
       this.notifications.sendError(
         this.intl.t('pages.organization-participants.action-bar.error-message', {

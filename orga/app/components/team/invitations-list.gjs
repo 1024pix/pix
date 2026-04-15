@@ -7,7 +7,7 @@ import InvitationsListItem from './invitations-list-item';
 
 export default class TeamInvitationsListComponent extends Component {
   @service store;
-  @service notifications;
+  @service pixToast;
   @service currentUser;
   @service intl;
 
@@ -21,7 +21,9 @@ export default class TeamInvitationsListComponent extends Component {
         adapterOptions: { organizationInvitationId: organizationInvitation.id, organizationId },
       });
 
-      this.notifications.sendSuccess(this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'),
+      });
     } catch {
       this.notifications.sendError(this.intl.t('api-error-messages.global'));
     }

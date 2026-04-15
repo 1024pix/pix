@@ -16,7 +16,7 @@ export default class NewController extends Controller {
   async createOrganizationInvitation(event) {
     event.preventDefault();
     this.isLoading = true;
-    this.notifications.clearAll();
+    this.notifications.removeAllNotifications();
     const emails = this.model.email.split(',');
 
     try {
@@ -33,7 +33,7 @@ export default class NewController extends Controller {
         emails.length > 1
           ? this.intl.t('pages.team-new.success.multiple-invitations')
           : this.intl.t('pages.team-new.success.invitation', { email: emails[0] });
-      this.notifications.sendSuccess(message);
+      this.pixToast.sendSuccessNotification({ message: message });
     } catch (error) {
       this._handleResponseError(error);
     }

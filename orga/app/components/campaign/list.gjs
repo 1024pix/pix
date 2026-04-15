@@ -33,7 +33,7 @@ export default class List extends Component {
   @service intl;
   @service locale;
   @service store;
-  @service notifications;
+  @service pixToast;
   @tracked showDeletionModal = false;
 
   get canDelete() {
@@ -55,11 +55,11 @@ export default class List extends Component {
     try {
       this.toggleDeletionModal();
       await this.store.adapterFor('campaign').delete(this.args.organizationId, campaignIds);
-      this.notifications.sendSuccess(
-        this.intl.t('pages.campaigns-list.action-bar.success-message', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.campaigns-list.action-bar.success-message', {
           count: selectedCampaigns.length,
         }),
-      );
+      });
       this.args.onDeleteCampaigns();
     } catch {
       this.notifications.sendError(

@@ -9,7 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 export default class EditStudentNumberModal extends Component {
-  @service notifications;
+  @service pixToast;
   @service intl;
 
   @tracked error = null;
@@ -29,12 +29,12 @@ export default class EditStudentNumberModal extends Component {
     }
     try {
       await this.args.onSubmit(validatedStudentNumber);
-      this.notifications.sendSuccess(
-        this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
           firstName: this.args.student.firstName,
           lastName: this.args.student.lastName,
         }),
-      );
+      });
       this.close();
     } catch (errorResponse) {
       this._handleError(errorResponse);

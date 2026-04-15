@@ -12,7 +12,7 @@ import CopyPasteButton from '../copy-paste-button';
 
 export default class ManageAuthenticationMethodModal extends Component {
   @service store;
-  @service notifications;
+  @service pixToast;
   @service intl;
 
   @tracked isUniquePasswordVisible = false;
@@ -69,11 +69,11 @@ export default class ManageAuthenticationMethodModal extends Component {
         organizationId: this.args.organizationId,
         organizationLearnerId: this.args.student.id,
       });
-      this.notifications.sendSuccess(
-        this.intl.t(
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t(
           'pages.sco-organization-participants.manage-authentication-method-modal.section.unblock.success-notification',
         ),
-      );
+      });
       await this.args.refreshValues();
     } catch (fetchErrors) {
       const error = Array.isArray(fetchErrors) && fetchErrors.length > 0 && fetchErrors[0];

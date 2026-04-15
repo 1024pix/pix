@@ -33,7 +33,7 @@ function stopPropagation(event) {
 
 export default class ScoList extends Component {
   @service currentUser;
-  @service notifications;
+  @service pixToast;
   @service intl;
   @service locale;
   @service store;
@@ -155,9 +155,9 @@ export default class ScoList extends Component {
       });
       this.closeResetPasswordModal();
       resetSelectedStudents();
-      this.notifications.sendSuccess(
-        this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
-      );
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
+      });
       await this.args.refreshValues();
     } catch (fetchErrors) {
       const error = Array.isArray(fetchErrors) && fetchErrors.length > 0 && fetchErrors[0];

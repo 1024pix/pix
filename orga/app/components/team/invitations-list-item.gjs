@@ -11,7 +11,7 @@ import ENV from 'pix-orga/config/environment';
 
 export default class InvitationsListItem extends Component {
   @service store;
-  @service notifications;
+  @service pixToast;
   @service currentUser;
   @service intl;
 
@@ -30,9 +30,9 @@ export default class InvitationsListItem extends Component {
         },
       });
 
-      this.notifications.sendSuccess(
-        this.intl.t('pages.team-new.success.invitation', { email: organizationInvitation.email }),
-      );
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.team-new.success.invitation', { email: organizationInvitation.email }),
+      });
     } catch {
       this.notifications.sendError(this.intl.t('api-error-messages.global'));
     } finally {

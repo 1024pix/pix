@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class ActivityController extends Controller {
   @service currentUser;
   @service intl;
-  @service notifications;
+  @service pixToast;
   @service router;
 
   @tracked pageNumber = 1;
@@ -57,7 +57,9 @@ export default class ActivityController extends Controller {
         },
       });
       this.send('refreshModel');
-      this.notifications.sendSuccess(this.intl.t('pages.campaign-activity.delete-participation-modal.success'));
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('pages.campaign-activity.delete-participation-modal.success'),
+      });
     } catch {
       this.notifications.sendError(this.intl.t('pages.campaign-activity.delete-participation-modal.error'));
     }
