@@ -80,7 +80,7 @@ export default class NewController extends Controller {
     }
 
     const uniqueErrorMessages = new Set(errorMessages);
-    uniqueErrorMessages.forEach((errorMessage) => this.notifications.sendError(errorMessage));
+    uniqueErrorMessages.forEach((errorMessage) => this.pixToast.sendErrorNotification({ message: errorMessage }));
   }
 }
 

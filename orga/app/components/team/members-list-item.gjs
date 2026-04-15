@@ -88,7 +88,9 @@ export default class MembersListItem extends Component {
       });
     } catch {
       membership.rollbackAttributes();
-      this.notifications.sendError(this.intl.t('pages.team-members.notifications.change-member-role.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.team-members.notifications.change-member-role.error'),
+      });
     }
   }
 
@@ -133,7 +135,9 @@ export default class MembersListItem extends Component {
         }),
       });
     } catch {
-      this.notifications.sendError(this.intl.t('pages.team-members.notifications.remove-membership.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.team-members.notifications.remove-membership.error'),
+      });
     } finally {
       this.closeRemoveMembershipModal();
     }
@@ -152,7 +156,9 @@ export default class MembersListItem extends Component {
       await this.session.waitBeforeInvalidation(5000);
       this.session.invalidate();
     } catch {
-      this.notifications.sendError(this.intl.t('pages.team-members.notifications.leave-organization.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.team-members.notifications.leave-organization.error'),
+      });
     } finally {
       this.closeLeaveOrganizationModal();
     }

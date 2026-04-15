@@ -9,7 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 export default class EditParticipantNameModal extends Component {
-  @service notifications;
+  @service pixToast;
   @service intl;
   @service store;
   @service currentUser;
@@ -79,7 +79,7 @@ export default class EditParticipantNameModal extends Component {
       this.notifications.success(this.intl.t('components.ui.edit-participant-name-modal.success-message'));
       this.args.onClose();
     } catch {
-      this.notifications.error(this.intl.t('api-error-messages.global'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('api-error-messages.global') });
     } finally {
       this.isLoading = false;
     }

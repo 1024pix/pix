@@ -61,7 +61,9 @@ export default class ActivityController extends Controller {
         message: this.intl.t('pages.campaign-activity.delete-participation-modal.success'),
       });
     } catch {
-      this.notifications.sendError(this.intl.t('pages.campaign-activity.delete-participation-modal.error'));
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.campaign-activity.delete-participation-modal.error'),
+      });
     }
   }
 }

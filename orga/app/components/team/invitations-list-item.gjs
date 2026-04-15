@@ -34,7 +34,7 @@ export default class InvitationsListItem extends Component {
         message: this.intl.t('pages.team-new.success.invitation', { email: organizationInvitation.email }),
       });
     } catch {
-      this.notifications.sendError(this.intl.t('api-error-messages.global'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('api-error-messages.global') });
     } finally {
       setTimeout(() => {
         this.isResending = false;

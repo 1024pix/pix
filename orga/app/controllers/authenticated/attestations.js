@@ -48,7 +48,7 @@ export default class AuthenticatedAttestationsController extends Controller {
         noContentMessageNotification: noAttestationMessageNotification,
       });
     } catch (error) {
-      this.notifications.sendError(error.message, { autoClear: false });
+      this.pixToast.sendErrorNotification({ message: error.message });
     }
   }
 

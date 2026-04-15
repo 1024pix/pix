@@ -29,7 +29,7 @@ export default class CampaignTabs extends Component {
       await this.fileSaver.save({ url: this.args.campaign.urlToResult, token });
       this.pixMetrics.trackEvent(EVENT_NAME.CAMPAIGN.EXPORT_DATA_CLICK);
     } catch {
-      this.notifications.sendError(this.intl.t('api-error-messages.global'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('api-error-messages.global') });
     }
   }
 

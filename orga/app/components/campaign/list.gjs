@@ -62,11 +62,11 @@ export default class List extends Component {
       });
       this.args.onDeleteCampaigns();
     } catch {
-      this.notifications.sendError(
-        this.intl.t('pages.campaigns-list.action-bar.error-message', {
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.campaigns-list.action-bar.error-message', {
           count: selectedCampaigns.length,
         }),
-      );
+      });
     }
   }
 

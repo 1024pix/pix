@@ -133,13 +133,13 @@ export default class ListController extends Controller {
         }),
       });
     } catch {
-      this.notifications.sendError(
-        this.intl.t('pages.organization-participants.action-bar.error-message', {
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.organization-participants.action-bar.error-message', {
           count: listLearners.length,
           firstname: listLearners[0].firstName,
           lastname: listLearners[0].lastName,
         }),
-      );
+      });
     }
   }
 }

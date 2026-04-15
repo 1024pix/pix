@@ -8,7 +8,7 @@ export default class AuthenticatedCertificationsController extends Controller {
   @service fileSaver;
   @service session;
   @service currentUser;
-  @service notifications;
+  @service pixToast;
   @service intl;
   @service locale;
 
@@ -53,7 +53,7 @@ export default class AuthenticatedCertificationsController extends Controller {
           { autoClear: false },
         );
       } else {
-        this.notifications.sendError(error.message, { autoClear: false });
+        this.pixToast.sendErrorNotification({ message: error.message });
       }
     }
   }
@@ -90,7 +90,7 @@ export default class AuthenticatedCertificationsController extends Controller {
           { autoClear: false },
         );
       } else {
-        this.notifications.sendError(error.message, { autoClear: false });
+        this.pixToast.sendErrorNotification({ message: error.message });
       }
     }
   }

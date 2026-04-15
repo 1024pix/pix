@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { service } from '@ember/service';
 
 export default class FileSaverService extends Service {
-  @service notifications;
+  @service pixToast;
   @service intl;
   @service locale;
 

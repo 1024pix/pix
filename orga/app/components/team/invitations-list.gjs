@@ -25,7 +25,7 @@ export default class TeamInvitationsListComponent extends Component {
         message: this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'),
       });
     } catch {
-      this.notifications.sendError(this.intl.t('api-error-messages.global'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('api-error-messages.global') });
     }
   }
   <template>

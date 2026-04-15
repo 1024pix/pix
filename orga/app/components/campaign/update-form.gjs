@@ -66,11 +66,11 @@ export default class UpdateForm extends Component {
   _handleErrors(errorResponse) {
     const errors = errorResponse.errors;
     if (!errors) {
-      return this.notifications.sendError(this.intl.t('api-error-messages.global'));
+      this.pixToast.sendErrorNotification({ message: this.intl.t('api-error-messages.global') });
     }
     return errorResponse.errors.forEach((error) => {
       if (error.status !== '422') {
-        return this.notifications.sendError(this.intl.t('api-error-messages.global'));
+        return this.pixToast.sendErrorNotification({ message: this.intl.t('api-error-messages.global') });
       }
     });
   }

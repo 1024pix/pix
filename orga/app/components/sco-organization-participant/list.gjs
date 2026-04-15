@@ -181,7 +181,7 @@ export default class ScoList extends Component {
         default:
           errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
       }
-      this.notifications.sendError(errorMessage);
+      this.pixToast.sendErrorNotification({ message: errorMessage });
     }
   }
 

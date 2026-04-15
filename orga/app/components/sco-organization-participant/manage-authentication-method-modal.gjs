@@ -34,7 +34,7 @@ export default class ManageAuthenticationMethodModal extends Component {
       this.generatedPassword = dependentUser.generatedPassword;
       this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
     } catch {
-      this.notifications.sendError(this._t('error.unexpected'));
+      this.pixToast.sendErrorNotification({ message: this._t('error.unexpected') });
     }
   }
 
@@ -56,7 +56,7 @@ export default class ManageAuthenticationMethodModal extends Component {
       }
     } catch (response) {
       const errorDetail = response?.errors[0]?.detail ?? this.defaultErrorMessage;
-      this.notifications.sendError(errorDetail);
+      this.pixToast.sendErrorNotification({ message: errorDetail });
     }
   }
 
@@ -92,7 +92,7 @@ export default class ManageAuthenticationMethodModal extends Component {
         default:
           errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
       }
-      this.notifications.sendError(errorMessage);
+      this.pixToast.sendErrorNotification({ message: errorMessage });
     }
   }
 
