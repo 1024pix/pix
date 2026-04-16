@@ -12,7 +12,6 @@ import {
 } from './builders/index.ts';
 
 export async function buildCertificationData() {
-  await buildCertifiableUsers(knex);
   await buildCpfData(knex);
   await buildCoreVersion(knex);
   await buildCleaData(knex);
@@ -20,6 +19,8 @@ export async function buildCertificationData() {
   await buildPixPlusDroitData(knex);
   await buildPixPlusProSanteData(knex);
   await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA);
+  const organizationId = await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA);
+  await buildCertifiableUsers(knex, organizationId);
 }
 
 export async function changeCandidateAnswers(certificationId: number, rightWrongAnswersPattern: boolean[]) {

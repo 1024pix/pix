@@ -10,6 +10,7 @@ import {
 import { PixCertifUserData } from '../types.ts';
 
 export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData) {
+  let organizationId;
   const certificationUserId = await createUserInDB(
     {
       firstName: userData.firstName,
@@ -43,7 +44,7 @@ export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData
         userId: certificationUserId,
         acceptedAt: someDate,
       });
-      const organizationId = await createOrganizationInDB({
+      organizationId = await createOrganizationInDB({
         type: certificationCenter.type,
         externalId: certificationCenter.externalId,
         isManagingStudents: certificationCenter.withOrganization.isManagingStudents,
@@ -55,4 +56,5 @@ export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData
       }
     }
   }
+  return organizationId;
 }

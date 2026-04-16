@@ -64,6 +64,25 @@ export async function createUserInDB(
   return userId;
 }
 
+export async function createOrganizationLearnerInDb(
+  {
+    organizationId,
+    firstName,
+    lastName,
+  }: {
+    organizationId: number;
+    firstName: string;
+    lastName: string;
+  },
+  knex: Knex,
+) {
+  return knex('organization-learners').insert({
+    organizationId,
+    firstName,
+    lastName,
+  });
+}
+
 export async function createCertificationCenterInDB(
   {
     type,
