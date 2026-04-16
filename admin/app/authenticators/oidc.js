@@ -60,9 +60,24 @@ export default class OidcAuthenticator extends BaseAuthenticator {
 
   restore(data) {
     return new Promise((resolve, reject) => {
-      if (!isEmpty(data['access_token'])) {
-        resolve(data);
+      const accessToken = data['access_token'];
+
+      if (isEmpty(accessToken)) {
+        reject();
+        return;
       }
+
+      try {
+        const decodedAccessToken = jwtDecode(accessToken);
+        const nowInSeconds = Math.floor(Date.now() / 1000);
+
+        if (typeof decodedAccessToken.exp === 'number' && decodedAccessToken.exp > nowInSeconds) {
+          resolve(data);
+          return;
+        }
+      } catch {
+      }
+
       reject();
     });
   }
