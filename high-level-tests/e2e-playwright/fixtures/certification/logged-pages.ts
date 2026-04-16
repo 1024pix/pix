@@ -8,7 +8,6 @@ import { pixCertifiableUserData } from '../../helpers/certification/data.ts';
 import { PixAdminUserData, PixCertifiableUserData, PixCertifUserData } from '../../helpers/certification/types.ts';
 import { knex } from '../../helpers/db.ts';
 import { CERTIFICATIONS_DATA } from '../../helpers/db-data.ts';
-import { createUserInDB } from '../../helpers/db-utils.ts';
 import {
   ChallengePage,
   FinalCheckpointPage,
@@ -66,9 +65,14 @@ export const loggedPagesFixtures = sharedTest.extend<
     await use(page);
     await page.close();
   },
-  getCertifiableUserData: async ({ certifiableUserDatas }, use) => {
+  // eslint-disable-next-line no-empty-pattern
+  getCertifiableUserData: async ({}, use) => {
     const getByIndex = async (index: number) => {
-      return certifiableUserDatas[index];
+      const users = await knex('users').whereILike('email', 'pix-app-user-%').orderBy('id');
+      return {
+        ...users[index],
+        ...pixCertifiableUserData[index],
+      };
     };
     await use(getByIndex);
   },
@@ -90,32 +94,6 @@ export const loggedPagesFixtures = sharedTest.extend<
       const nextId: () => number = () => generatorInstance.next().value!;
 
       await use(nextId);
-    },
-    { scope: 'worker' },
-  ],
-  certifiableUserDatas: [
-    async ({ nextId }, use) => {
-      const userDatas = [];
-      let nextUserId = nextId();
-      for (const userData of pixCertifiableUserData) {
-        const finalUserData = {
-          ...userData,
-          id: nextUserId,
-          email: `pix-app-user-${nextUserId}-0@example.net`,
-        };
-        userDatas.push(finalUserData);
-        await createUserInDB(
-          {
-            ...finalUserData,
-            cgu: true,
-            pixCertifTermsOfServiceAccepted: true,
-            mustValidateTermsOfService: false,
-          },
-          knex,
-        );
-        nextUserId = nextId();
-      }
-      await use(userDatas);
     },
     { scope: 'worker' },
   ],
