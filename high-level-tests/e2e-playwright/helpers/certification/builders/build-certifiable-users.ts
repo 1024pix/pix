@@ -17,7 +17,7 @@ export async function buildCertifiableUsers(knex: Knex, organizationId: number):
     await createUserInDB(finalUserData, knex);
 
     await createOrganizationLearnerInDb(
-      { organizationId, firstName: finalUserData.firstName, lastName: finalUserData.lastName },
+      { organizationId, userId, firstName: finalUserData.firstName, lastName: finalUserData.lastName },
       knex,
     );
 

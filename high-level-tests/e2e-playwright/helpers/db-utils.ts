@@ -67,10 +67,12 @@ export async function createUserInDB(
 export async function createOrganizationLearnerInDb(
   {
     organizationId,
+    userId,
     firstName,
     lastName,
   }: {
     organizationId: number;
+    userId: number;
     firstName: string;
     lastName: string;
   },
@@ -78,6 +80,7 @@ export async function createOrganizationLearnerInDb(
 ) {
   return knex('organization-learners').insert({
     organizationId,
+    userId,
     firstName,
     lastName,
   });
