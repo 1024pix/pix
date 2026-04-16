@@ -24,6 +24,7 @@ export const loggedPagesFixtures = sharedTest.extend<
   {
     pixAdminRoleCertifPage: Page;
     pixCertifProPage: Page;
+    pixCertifScoPage: Page;
     pixCertifInvigilatorPage: Page;
     pixOrgaProPage: Page;
     getCertifiableUserData: (i: number) => Promise<PixCertifiableUserData>;
@@ -32,9 +33,11 @@ export const loggedPagesFixtures = sharedTest.extend<
     nextId: () => number;
     certifiableUserDatas: PixCertifiableUserData[];
     pixCertifProUserData: PixCertifUserData;
+    pixCertifScoUserData: PixCertifUserData;
     pixAdminRoleCertifUserData: PixAdminUserData;
     pixAdminRoleCertifWorkerContext: BrowserContext;
     pixCertifProWorkerContext: BrowserContext;
+    pixCertifScoWorkerContext: BrowserContext;
     pixOrgaProWorkerContext: BrowserContext;
     pixAppCertifiableUserContext: (p: PixCertifiableUserData) => Promise<BrowserContext>;
     pixAppCertifiableUserPage: (p: PixCertifiableUserData) => Promise<Page>;
@@ -55,6 +58,12 @@ export const loggedPagesFixtures = sharedTest.extend<
   },
   pixCertifProPage: async ({ pixCertifProWorkerContext }, use) => {
     const page = await pixCertifProWorkerContext.newPage();
+    await page.goto(process.env.PIX_CERTIF_URL!);
+    await use(page);
+    await page.close();
+  },
+  pixCertifScoPage: async ({ pixCertifScoWorkerContext }, use) => {
+    const page = await pixCertifScoWorkerContext.newPage();
     await page.goto(process.env.PIX_CERTIF_URL!);
     await use(page);
     await page.close();
@@ -127,6 +136,31 @@ export const loggedPagesFixtures = sharedTest.extend<
     },
     { scope: 'worker' },
   ],
+  pixCertifScoUserData: [
+    async ({ nextId }, use) => {
+      const nextUserId = nextId();
+      const certifScoUserData: PixCertifUserData = {
+        id: nextUserId,
+        firstName: 'pixCertifSco',
+        lastName: `pixCertifSco${nextUserId}`,
+        email: `pix-certif-pro-${nextUserId}@example.net`,
+        rawPassword: 'pix123',
+        certificationCenters: [
+          {
+            type: 'SCO',
+            externalId: `CERTIFSCO${nextUserId}`,
+            habilitations: [],
+            withOrganization: {
+              isManagingStudents: true,
+            },
+          },
+        ],
+      };
+      await buildPixCertifUser(knex, certifScoUserData);
+      await use(certifScoUserData);
+    },
+    { scope: 'worker' },
+  ],
   pixAdminRoleCertifUserData: [
     async ({ nextId }, use) => {
       const nextUserId = nextId();
@@ -169,6 +203,23 @@ export const loggedPagesFixtures = sharedTest.extend<
         lastName: pixCertifProUserData.lastName,
         email: pixCertifProUserData.email,
         rawPassword: pixCertifProUserData.rawPassword,
+        appUrl: process.env.PIX_CERTIF_URL!,
+      };
+      const context = await setupContext(browser, credentials);
+      await use(context);
+      await context.close();
+    },
+    { scope: 'worker' },
+  ],
+  pixCertifScoWorkerContext: [
+    async ({ browser, pixCertifScoUserData }, use) => {
+      const credentials = {
+        id: pixCertifScoUserData.id,
+        label: `pix-certif-pro-${pixCertifScoUserData.id}`,
+        firstName: pixCertifScoUserData.firstName,
+        lastName: pixCertifScoUserData.lastName,
+        email: pixCertifScoUserData.email,
+        rawPassword: pixCertifScoUserData.rawPassword,
         appUrl: process.env.PIX_CERTIF_URL!,
       };
       const context = await setupContext(browser, credentials);
