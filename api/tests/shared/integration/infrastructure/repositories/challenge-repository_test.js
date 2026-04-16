@@ -1249,6 +1249,78 @@ describe('Integration | Repository | challenge-repository', function () {
                     hint: skillData02_tube02competence01_perime.hint_i18n.fr,
                   }),
                 }),
+                domainBuilder.buildChallenge({
+                  ...enArchivedChallenge,
+                  blindnessCompatibility: enArchivedChallenge.accessibility1,
+                  colorBlindnessCompatibility: enArchivedChallenge.accessibility2,
+                  focused: enArchivedChallenge.focusable,
+                  discriminant: enArchivedChallenge.alpha,
+                  difficulty: enArchivedChallenge.delta,
+                  validator: new ValidatorQCU({
+                    solution: domainBuilder.buildSolution({
+                      id: enArchivedChallenge.id,
+                      type: enArchivedChallenge.type,
+                      value: enArchivedChallenge.solution,
+                      tEnabled: enArchivedChallenge.tStatus
+                        .toString(2)
+                        .padStart(32, '0'),
+                      qrocBlocksTypes: {},
+                    }),
+                  }),
+                  skill: domainBuilder.buildSkill({
+                    ...activeSkill,
+                    difficulty: activeSkill.level,
+                    hint: activeSkill.hint_i18n.fr,
+                  }),
+                }),
+                domainBuilder.buildChallenge({
+                  ...enUGValidatedChallenge,
+                  blindnessCompatibility: enUGValidatedChallenge.accessibility1,
+                  colorBlindnessCompatibility: enUGValidatedChallenge.accessibility2,
+                  focused: enUGValidatedChallenge.focusable,
+                  discriminant: enUGValidatedChallenge.alpha,
+                  difficulty: enUGValidatedChallenge.delta,
+                  validator: new ValidatorQCU({
+                    solution: domainBuilder.buildSolution({
+                      id: enUGValidatedChallenge.id,
+                      type: enUGValidatedChallenge.type,
+                      value: enUGValidatedChallenge.solution,
+                      tEnabled: enUGValidatedChallenge.tStatus
+                        .toString(2)
+                        .padStart(32, '0'),
+                      qrocBlocksTypes: {},
+                    }),
+                  }),
+                  skill: domainBuilder.buildSkill({
+                    ...activeSkill,
+                    difficulty: activeSkill.level,
+                    hint: activeSkill.hint_i18n.fr,
+                  }),
+                }),
+                domainBuilder.buildChallenge({
+                  ...enValidatedChallenge,
+                  blindnessCompatibility: enValidatedChallenge.accessibility1,
+                  colorBlindnessCompatibility: enValidatedChallenge.accessibility2,
+                  focused: enValidatedChallenge.focusable,
+                  discriminant: enValidatedChallenge.alpha,
+                  difficulty: enValidatedChallenge.delta,
+                  validator: new ValidatorQCU({
+                    solution: domainBuilder.buildSolution({
+                      id: enValidatedChallenge.id,
+                      type: enValidatedChallenge.type,
+                      value: enValidatedChallenge.solution,
+                      tEnabled: enValidatedChallenge.tStatus
+                        .toString(2)
+                        .padStart(32, '0'),
+                      qrocBlocksTypes: {},
+                    }),
+                  }),
+                  skill: domainBuilder.buildSkill({
+                    ...activeSkill,
+                    difficulty: activeSkill.level,
+                    hint: activeSkill.hint_i18n.fr,
+                  }),
+                }),
               ]);
             });
           });
@@ -1730,6 +1802,166 @@ describe('Integration | Repository | challenge-repository', function () {
           });
         });
       });
+
+  describe('#findOperativeBySkillsAndLocales', function () {
+    context('when locale is defined', function () {
+      context('when no operative challenges found for given locale', function () {
+        it('should return an empty array', async function () {
+          // given
+          const skill00 = domainBuilder.buildSkill({
+            ...skillData00_tube00competence00_actif,
+            difficulty: skillData00_tube00competence00_actif.level,
+            hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+          });
+
+          // when
+          const challenges = await challengeRepository.findOperativeBySkillsAndLocales([skill00], ['catalan']);
+
+          // then
+          expect(challenges).to.deep.equal([]);
+        });
+      });
+
+      context('when searching for en-TZ and en operative challenges', function () {
+        it('should return the challenges having en-TZ or en included in their locales', async function () {
+          // given
+          const skills = [
+            domainBuilder.buildSkill({
+              ...activeSkill,
+              difficulty: activeSkill.level,
+              hint: activeSkill.hint_i18n.fr,
+            }),
+          ];
+
+          // when
+          const challenges = await challengeRepository.findOperativeBySkillsAndLocales(skills, ['en-TZ', 'en']);
+          // then
+          expect(challenges).to.deep.equal([
+            domainBuilder.buildChallenge({
+              ...enArchivedChallenge,
+              blindnessCompatibility: enArchivedChallenge.accessibility1,
+              colorBlindnessCompatibility: enArchivedChallenge.accessibility2,
+              focused: enArchivedChallenge.focusable,
+              discriminant: enArchivedChallenge.alpha,
+              difficulty: enArchivedChallenge.delta,
+              validator: new ValidatorQCU({
+                solution: domainBuilder.buildSolution({
+                  id: enArchivedChallenge.id,
+                  type: enArchivedChallenge.type,
+                  value: enArchivedChallenge.solution,
+                  tEnabled: enArchivedChallenge.tStatus
+                    .toString(2)
+                    .padStart(32, '0'),
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...activeSkill,
+                difficulty: activeSkill.level,
+                hint: activeSkill.hint_i18n.fr,
+              }),
+            }),
+            domainBuilder.buildChallenge({
+              ...enTZArchivedChallenge,
+              blindnessCompatibility: enTZArchivedChallenge.accessibility1,
+              colorBlindnessCompatibility: enTZArchivedChallenge.accessibility2,
+              focused: enTZArchivedChallenge.focusable,
+              discriminant: enTZArchivedChallenge.alpha,
+              difficulty: enTZArchivedChallenge.delta,
+              validator: new ValidatorQCU({
+                solution: domainBuilder.buildSolution({
+                  id: enTZArchivedChallenge.id,
+                  type: enTZArchivedChallenge.type,
+                  value: enTZArchivedChallenge.solution,
+                  tEnabled: enTZArchivedChallenge.tStatus
+                    .toString(2)
+                    .padStart(32, '0'),
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...activeSkill,
+                difficulty: activeSkill.level,
+                hint: activeSkill.hint_i18n.fr,
+              }),
+            }),
+            domainBuilder.buildChallenge({
+              ...enTZValidatedChallenge,
+              blindnessCompatibility: enTZValidatedChallenge.accessibility1,
+              colorBlindnessCompatibility: enTZValidatedChallenge.accessibility2,
+              focused: enTZValidatedChallenge.focusable,
+              discriminant: enTZValidatedChallenge.alpha,
+              difficulty: enTZValidatedChallenge.delta,
+              validator: new ValidatorQCU({
+                solution: domainBuilder.buildSolution({
+                  id: enTZValidatedChallenge.id,
+                  type: enTZValidatedChallenge.type,
+                  value: enTZValidatedChallenge.solution,
+                  tEnabled: enTZValidatedChallenge.tStatus
+                    .toString(2)
+                    .padStart(32, '0'),
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...activeSkill,
+                difficulty: activeSkill.level,
+                hint: activeSkill.hint_i18n.fr,
+              }),
+            }),
+            domainBuilder.buildChallenge({
+              ...enUGValidatedChallenge,
+              blindnessCompatibility: enUGValidatedChallenge.accessibility1,
+              colorBlindnessCompatibility: enUGValidatedChallenge.accessibility2,
+              focused: enUGValidatedChallenge.focusable,
+              discriminant: enUGValidatedChallenge.alpha,
+              difficulty: enUGValidatedChallenge.delta,
+              validator: new ValidatorQCU({
+                solution: domainBuilder.buildSolution({
+                  id: enUGValidatedChallenge.id,
+                  type: enUGValidatedChallenge.type,
+                  value: enUGValidatedChallenge.solution,
+                  tEnabled: enUGValidatedChallenge.tStatus
+                    .toString(2)
+                    .padStart(32, '0'),
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...activeSkill,
+                difficulty: activeSkill.level,
+                hint: activeSkill.hint_i18n.fr,
+              }),
+            }),
+            domainBuilder.buildChallenge({
+              ...enValidatedChallenge,
+              blindnessCompatibility: enValidatedChallenge.accessibility1,
+              colorBlindnessCompatibility: enValidatedChallenge.accessibility2,
+              focused: enValidatedChallenge.focusable,
+              discriminant: enValidatedChallenge.alpha,
+              difficulty: enValidatedChallenge.delta,
+              validator: new ValidatorQCU({
+                solution: domainBuilder.buildSolution({
+                  id: enValidatedChallenge.id,
+                  type: enValidatedChallenge.type,
+                  value: enValidatedChallenge.solution,
+                  tEnabled: enValidatedChallenge.tStatus
+                    .toString(2)
+                    .padStart(32, '0'),
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...activeSkill,
+                difficulty: activeSkill.level,
+                hint: activeSkill.hint_i18n.fr,
+              }),
+            }),
+          ]);
+        });
+      });
+    });
+  });
 
   describe('#findValidatedBySkills', function () {
     context('when locale is not defined', function () {
