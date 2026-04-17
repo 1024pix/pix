@@ -1,4 +1,4 @@
-export { buildCertifiableUsers } from './build-certifiable-users.ts';
+export { buildCandidates } from './build-candidates.ts';
 export { buildCleaData } from './build-clea-data.ts';
 export { buildCoreVersion } from './build-core-version.ts';
 export { buildCpfData } from './build-cpf-data.ts';

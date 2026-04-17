@@ -1,7 +1,7 @@
 import { knex } from '../db.ts';
 import { PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../db-data.ts';
 import {
-  buildCertifiableUsers,
+  buildCandidates,
   buildCleaData,
   buildCoreVersion,
   buildCpfData,
@@ -20,7 +20,7 @@ export async function buildCertificationData() {
   await buildPixPlusProSanteData(knex);
   await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA);
   const organizationId = await buildPixCertifUser(knex, PIX_CERTIF_SCO_DATA);
-  await buildCertifiableUsers(knex, organizationId);
+  await buildCandidates(knex, organizationId);
 }
 
 export async function changeCandidateAnswers(certificationId: number, rightWrongAnswersPattern: boolean[]) {

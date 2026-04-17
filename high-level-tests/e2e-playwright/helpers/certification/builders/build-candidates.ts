@@ -3,7 +3,7 @@ import { Knex } from 'knex';
 import { createOrganizationLearnerInDb, createUserInDB } from '../../db-utils.ts';
 import { pixCertifiableUserData } from '../data.ts';
 
-export async function buildCertifiableUsers(knex: Knex, organizationId: number): Promise<void> {
+export async function buildCandidates(knex: Knex, organizationId: number): Promise<void> {
   let userId = 1_000_000_000;
   for (const userData of pixCertifiableUserData) {
     const finalUserData = {
