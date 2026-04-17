@@ -107,6 +107,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-qunit": "^8.2.6",
     "globals": "^17.0.0",
+    "http-server": "^14.1.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "jwt-decode": "^4.0.0",
     "loader.js": "^4.7.0",
