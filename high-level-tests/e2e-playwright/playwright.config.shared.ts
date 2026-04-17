@@ -113,7 +113,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
       command: `npx http-server ./dist -p ${appConfig[app].port} --proxy http://localhost:${process.env.PIX_API_PORT}`,
       url: appConfig[app].url,
       reuseExistingServer,
-      stdout: 'ignore',
+      stdout: 'pipe',
       stderr: 'pipe',
       env: {
         DEFAULT_LOCALE: 'fr',
