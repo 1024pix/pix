@@ -1,5 +1,4 @@
 import * as mailService from '../../../../../src/certification/shared/domain/services/mail-service.js';
-import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -7,6 +6,7 @@ import * as targetProfileHistoryRepository from '../../../shared/infrastructure/
 import * as activeCalibratedChallengeRepository from '../../infrastructure/repositories/active-calibrated-challenge-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
+import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
@@ -28,7 +28,6 @@ import * as versionRepository from '../../infrastructure/repositories/version-re
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  * @typedef {frameworkChallengesRepository} FrameworkChallengesRepository
- * @typedef {consolidatedFrameworkRepository} ConsolidatedFrameworkRepository
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  * @typedef {learningContentRepository} LearningContentRepository
  * @typedef {mailService} MailService

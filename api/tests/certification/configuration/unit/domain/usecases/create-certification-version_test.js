@@ -7,7 +7,7 @@ import {
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { FRENCH_FRANCE, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
+import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | create-certification-version', function () {
@@ -60,18 +60,15 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
       const tubeIds = [tube1.id, tube2.id];
 
       const challenges = [
-        domainBuilder.buildChallenge({ id: 'challenge1', locales: ['fr-fr'] }),
-        domainBuilder.buildChallenge({ id: 'challenge2', locales: ['fr-fr', 'fr-be'] }),
-        domainBuilder.buildChallenge({ id: 'challenge3', locales: ['fr', 'fr-fr'] }),
-        domainBuilder.buildChallenge({ id: 'challenge4', locales: ['fr'] }),
-        domainBuilder.buildChallenge({ id: 'challenge5', locales: ['fr-be'] }),
+        domainBuilder.certification.configuration.buildChallenge({ id: 'challenge1' }),
+        domainBuilder.certification.configuration.buildChallenge({ id: 'challenge2' }),
+        domainBuilder.certification.configuration.buildChallenge({ id: 'challenge3' }),
       ];
-      const frFrChallenges = challenges.filter((challenge) => challenge.locales.includes(FRENCH_FRANCE));
 
       versionRepository.findActiveByScope.resolves(currentVersion);
       tubeRepository.findActiveByRecordIds.resolves([tube1, tube2]);
       skillRepository.findActiveByRecordIds.resolves([...tube1.skills, ...tube2.skills]);
-      challengeRepository.findValidatedBySkills.resolves(frFrChallenges);
+      challengeRepository.findValidatedBySkills.resolves(challenges);
       versionRepository.create.resolves();
 
       // when
@@ -96,10 +93,10 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
         ...tube1.skillIds,
         ...tube2.skillIds,
       ]);
-      expect(challengeRepository.findValidatedBySkills).to.have.been.calledOnceWithExactly(
-        [...tube1.skills, ...tube2.skills],
-        FRENCH_FRANCE,
-      );
+      expect(challengeRepository.findValidatedBySkills).to.have.been.calledOnceWithExactly([
+        ...tube1.skills,
+        ...tube2.skills,
+      ]);
       expect(versionRepository.create).to.have.been.calledOnce;
       const { version, challenges: versionFrameworkChallenges } = versionRepository.create.firstCall.args[0];
       expect(version).to.deepEqualInstance(
@@ -114,7 +111,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
           challengesConfiguration: currentVersion.challengesConfiguration,
         }),
       );
-      expect(versionFrameworkChallenges).to.deep.equal(frFrChallenges);
+      expect(versionFrameworkChallenges).to.deep.equal(challenges);
 
       clock.restore();
     });
@@ -134,15 +131,14 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
       const tubeIds = [tube1.id, tube2.id];
 
       const challenges = [
-        domainBuilder.buildChallenge({ id: 'challenge1', locales: ['fr-fr'] }),
-        domainBuilder.buildChallenge({ id: 'challenge2', locales: ['fr-fr', 'fr-be'] }),
+        domainBuilder.certification.configuration.buildChallenge({ id: 'challenge1' }),
+        domainBuilder.certification.configuration.buildChallenge({ id: 'challenge2' }),
       ];
-      const frFrChallenges = challenges.filter((challenge) => challenge.locales.includes(FRENCH_FRANCE));
 
       versionRepository.findActiveByScope.resolves(null);
       tubeRepository.findActiveByRecordIds.resolves([tube1, tube2]);
       skillRepository.findActiveByRecordIds.resolves([...tube1.skills, ...tube2.skills]);
-      challengeRepository.findValidatedBySkills.resolves(frFrChallenges);
+      challengeRepository.findValidatedBySkills.resolves(challenges);
       versionRepository.create.resolves();
 
       // when
@@ -162,10 +158,10 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
         ...tube1.skillIds,
         ...tube2.skillIds,
       ]);
-      expect(challengeRepository.findValidatedBySkills).to.have.been.calledOnceWithExactly(
-        [...tube1.skills, ...tube2.skills],
-        FRENCH_FRANCE,
-      );
+      expect(challengeRepository.findValidatedBySkills).to.have.been.calledOnceWithExactly([
+        ...tube1.skills,
+        ...tube2.skills,
+      ]);
       expect(versionRepository.create).to.have.been.calledOnce;
       const { version, challenges: versionFrameworkChallenges } = versionRepository.create.firstCall.args[0];
       expect(version).to.deepEqualInstance(
@@ -186,7 +182,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
           }),
         }),
       );
-      expect(versionFrameworkChallenges).to.deep.equal(frFrChallenges);
+      expect(versionFrameworkChallenges).to.deep.equal(challenges);
 
       clock.restore();
     });

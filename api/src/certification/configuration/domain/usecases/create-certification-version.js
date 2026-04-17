@@ -9,7 +9,7 @@
 import dayjs from 'dayjs';
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { FRENCH_FRANCE, FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
+import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
 import {
   DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
   DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
@@ -107,5 +107,5 @@ const _getChallengesForTubes = async ({ tubeIds, tubeRepository, skillRepository
   const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, FRENCH_SPOKEN);
   const skillIds = tubes.flatMap((tube) => tube.skillIds);
   const skills = await skillRepository.findActiveByRecordIds(skillIds);
-  return challengeRepository.findValidatedBySkills(skills, FRENCH_FRANCE);
+  return challengeRepository.findValidatedBySkills(skills);
 };

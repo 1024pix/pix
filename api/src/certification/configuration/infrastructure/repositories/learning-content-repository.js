@@ -7,9 +7,9 @@ import * as thematicRepository from '../../../../shared/infrastructure/repositor
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 
 async function getFrameworkReferential({ challengeIds }) {
-  const challenges = await challengeRepository.getMany(challengeIds, FRENCH_FRANCE);
+  const challenges = await challengeRepository.getMany_proxy(challengeIds, FRENCH_FRANCE);
 
-  const skillIds = challenges.map((challenge) => challenge.skill.id);
+  const skillIds = challenges.map((challenge) => challenge.skillId);
   const uniqSkillIds = [...new Set(skillIds)];
   const skills = await skillRepository.findByRecordIds(uniqSkillIds);
 

@@ -31,8 +31,8 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       });
 
       databaseBuilder.factory.buildComplementaryCertification({ key: version.scope });
-      const challenge1 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'challenge1' });
-      const challenge2 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'challenge2' });
+      const challenge1 = domainBuilder.certification.configuration.buildChallenge({ id: 'challenge1' });
+      const challenge2 = domainBuilder.certification.configuration.buildChallenge({ id: 'challenge2' });
 
       await databaseBuilder.commit();
 

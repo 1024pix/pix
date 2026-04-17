@@ -1117,6 +1117,138 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+  describe('#getMany_proxy', function () {
+    context('when no locale provided', function () {
+      context('when at least one challenge is not found amongst the provided ids', function () {
+        it('should throw a NotFound error', async function () {
+          // when
+          const err = await catchErr(challengeRepository.getMany_proxy)(['challengeIdPipeauPipette', 'challengeId00']);
+
+          // then
+          expect(err).to.be.instanceOf(NotFoundError);
+          expect(err).to.have.property('message', 'Épreuve introuvable');
+        });
+      });
+
+      context('when all challenges are found', function () {
+        it('should return the challenges', async function () {
+          // when
+          const challenges = await challengeRepository.getMany_proxy(['challengeId02', 'challengeId00']);
+
+          // then
+          expect(challenges).to.deepEqualArray([
+            domainBuilder.learningContent.buildChallenge(
+              challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson,
+            ),
+          ]);
+        });
+
+        it('should allow duplicates', async function () {
+          // when
+          const challenges = await challengeRepository.getMany_proxy([
+            'challengeId02',
+            'challengeId00',
+            'challengeId02',
+          ]);
+
+          // then
+          expect(challenges).to.deepEqualArray([
+            domainBuilder.learningContent.buildChallenge(
+              challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson,
+            ),
+          ]);
+        });
+      });
+    });
+
+    context('when locale is provided', function () {
+      context('when at least one challenge is not found amongst the provided ids', function () {
+        it('should throw a NotFound error', async function () {
+          // when
+          const err = await catchErr(challengeRepository.getMany)(['challengeIdPipeauPipette', 'challengeId00']);
+
+          // then
+          expect(err).to.be.instanceOf(NotFoundError);
+          expect(err).to.have.property('message', 'Épreuve introuvable');
+        });
+      });
+
+      context('when all challenges are found', function () {
+        it('should return only the challenges for given locale', async function () {
+          // when
+          const challenges = await challengeRepository.getMany(
+            ['challengeId02', 'challengeId00', 'challengeId01'],
+            'en',
+          );
+
+          // then
+          expect(challenges).to.deepEqualArray([
+            domainBuilder.buildChallenge({
+              ...challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
+              blindnessCompatibility:
+                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility1,
+              colorBlindnessCompatibility:
+                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility2,
+              focused: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.focusable,
+              discriminant: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.alpha,
+              difficulty: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.delta,
+              validator: new ValidatorQCU({
+                solution: domainBuilder.buildSolution({
+                  id: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.id,
+                  type: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.type,
+                  value: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.solution,
+                  isT1Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t1Status,
+                  isT2Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t2Status,
+                  isT3Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t3Status,
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...skillData00_tube00competence00_actif,
+                difficulty: skillData00_tube00competence00_actif.level,
+                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+              }),
+            }),
+            domainBuilder.buildChallenge({
+              ...challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson,
+              blindnessCompatibility: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.accessibility1,
+              colorBlindnessCompatibility:
+                challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.accessibility2,
+              focused: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.focusable,
+              discriminant: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.alpha,
+              difficulty: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.delta,
+              validator: new ValidatorQCM({
+                solution: domainBuilder.buildSolution({
+                  id: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.id,
+                  type: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.type,
+                  value: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.solution,
+                  isT1Enabled: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.t1Status,
+                  isT2Enabled: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.t2Status,
+                  isT3Enabled: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.t3Status,
+                  qrocBlocksTypes: {},
+                }),
+              }),
+              skill: domainBuilder.buildSkill({
+                ...skillData00_tube00competence00_actif,
+                difficulty: skillData00_tube00competence00_actif.level,
+                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+              }),
+            }),
+          ]);
+        });
+      });
+    });
+  });
+
   describe('list', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
@@ -2017,6 +2149,112 @@ describe('Integration | Repository | challenge-repository', function () {
                 hint: skillData01_tube01competence00_actif.hint_i18n.fr,
               }),
             }),
+          ]);
+        });
+      });
+    });
+  });
+
+  describe('#findValidatedBySkills_proxy', function () {
+    context('when locale is not defined', function () {
+      it('should throw an Error', async function () {
+        // when
+        const err = await catchErr(challengeRepository.findValidatedBySkills_proxy)(domainBuilder.buildSkill());
+
+        // then
+        expect(err.message).to.equal('Locale shall be defined');
+      });
+    });
+
+    context('when locale is defined', function () {
+      context('when no operative challenges found for given locale', function () {
+        it('should return an empty array', async function () {
+          // given
+          const skill00 = domainBuilder.buildSkill({
+            ...skillData00_tube00competence00_actif,
+            difficulty: skillData00_tube00competence00_actif.level,
+            hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+          });
+
+          // when
+          const challenges = await challengeRepository.findValidatedBySkills_proxy([skill00], 'catalan');
+
+          // then
+          expect(challenges).to.deep.equal([]);
+        });
+      });
+
+      context('when operative challenges are found for given locale', function () {
+        it('should return the challenges', async function () {
+          // given
+          const skills = [
+            domainBuilder.buildSkill({
+              ...skillData00_tube00competence00_actif,
+              difficulty: skillData00_tube00competence00_actif.level,
+              hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+            }),
+            domainBuilder.buildSkill({
+              ...skillData02_tube02competence01_perime,
+              difficulty: skillData02_tube02competence01_perime.level,
+              hint: skillData02_tube02competence01_perime.hint_i18n.fr,
+            }),
+            domainBuilder.buildSkill({
+              ...skillData01_tube01competence00_actif,
+              difficulty: skillData01_tube01competence00_actif.level,
+              hint: skillData01_tube01competence00_actif.hint_i18n.fr,
+            }),
+          ];
+
+          // when
+          const challenges = await challengeRepository.findValidatedBySkills_proxy(skills, 'en');
+
+          // then
+          expect(challenges).to.deep.equal([
+            domainBuilder.learningContent.buildChallenge(
+              challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
+            ),
+          ]);
+        });
+
+        it('should avoid duplicates', async function () {
+          // given
+          const skills = [
+            domainBuilder.buildSkill({
+              ...skillData00_tube00competence00_actif,
+              difficulty: skillData00_tube00competence00_actif.level,
+              hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+            }),
+            domainBuilder.buildSkill({
+              ...skillData02_tube02competence01_perime,
+              difficulty: skillData02_tube02competence01_perime.level,
+              hint: skillData02_tube02competence01_perime.hint_i18n.fr,
+            }),
+            domainBuilder.buildSkill({
+              ...skillData01_tube01competence00_actif,
+              difficulty: skillData01_tube01competence00_actif.level,
+              hint: skillData01_tube01competence00_actif.hint_i18n.fr,
+            }),
+            domainBuilder.buildSkill({
+              ...skillData00_tube00competence00_actif,
+              difficulty: skillData00_tube00competence00_actif.level,
+              hint: skillData00_tube00competence00_actif.hint_i18n.fr,
+            }),
+          ];
+
+          // when
+          const challenges = await challengeRepository.findValidatedBySkills_proxy(skills, 'en');
+
+          // then
+          expect(challenges).to.deep.equal([
+            domainBuilder.learningContent.buildChallenge(
+              challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
+            ),
+            domainBuilder.learningContent.buildChallenge(
+              challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
+            ),
           ]);
         });
       });

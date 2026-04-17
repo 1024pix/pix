@@ -1,7 +1,7 @@
 // @ts-check
 /**
  * @typedef {import('../../../shared/domain/models/Scopes.js').SCOPES} SCOPES
- * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
+ * @typedef {import('../../domain/models/Challenge.js').Challenge} Challenge
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
