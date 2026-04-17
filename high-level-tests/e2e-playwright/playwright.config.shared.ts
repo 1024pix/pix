@@ -54,7 +54,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
         cwd: '../../api',
         command: 'npm run db:prepare && npm run cache:refresh && npm run start',
         url: `http://localhost:${process.env.PIX_API_PORT}`,
-        reuseExistingServer: false,
+        reuseExistingServer,
         timeout: 180 * 1000,
         stdout: 'ignore',
         stderr: 'pipe',
@@ -77,21 +77,25 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
   const appConfig = {
     [App.PIX_APP]: {
       url: process.env.PIX_APP_URL!,
+      port: process.env.PIX_APP_PORT ?? 4200,
       cwd: '../../mon-pix',
       label: 'PixApp',
     },
     [App.PIX_ORGA]: {
       url: process.env.PIX_ORGA_URL!,
+      port: process.env.PIX_ORGA_PORT ?? 4201,
       cwd: '../../orga',
       label: 'PixOrga',
     },
     [App.PIX_ADMIN]: {
       url: process.env.PIX_ADMIN_URL!,
+      port: process.env.PIX_ADMIN_PORT ?? 4202,
       cwd: '../../admin',
       label: 'PixAdmin',
     },
     [App.PIX_CERTIF]: {
       url: process.env.PIX_CERTIF_URL!,
+      port: process.env.PIX_CERTIF_PORT ?? 4203,
       cwd: '../../certif',
       label: 'PixCertif',
     },
@@ -100,15 +104,15 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
     return {
       command: `while true; do echo "Wait for ${appConfig[app].label} to start"; sleep 300; done`,
       url: appConfig[app].url,
-      reuseExistingServer: true,
+      reuseExistingServer,
     };
   } else {
     return {
       cwd: appConfig[app].cwd,
       timeout: 180 * 1000,
-      command: `npx ember serve --proxy http://localhost:${process.env.PIX_API_PORT}`,
+      command: `npx http-server ./dist -p ${appConfig[app].port} --proxy http://localhost:${process.env.PIX_API_PORT}`,
       url: appConfig[app].url,
-      reuseExistingServer: false,
+      reuseExistingServer,
       stdout: 'ignore',
       stderr: 'pipe',
       env: {

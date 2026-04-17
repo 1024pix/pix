@@ -33,7 +33,7 @@ export default defineConfig({
   ],
 
   webServer: isCI
-    ? [setupWebServer(App.PIX_APP, true), setupWebServer(App.PIX_ORGA, true), setupWebServer(App.PIX_CERTIF, true)]
+    ? [setupWebServer(App.PIX_APP, false), setupWebServer(App.PIX_ORGA, false), setupWebServer(App.PIX_CERTIF, false)]
     : [
         setupWebServer(App.PIX_API, false),
         setupWebServer(App.PIX_APP, reuseExistingApps),
