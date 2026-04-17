@@ -1,16 +1,21 @@
-import { STATUSES as ORIGINAL_STATUSES } from '../../../learning-content/domain/models/Challenge.js';
+import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from '../../../shared/domain/models/BaseChallenge.js';
 
-export class SmartRandomChallenge {
-  constructor({ id, locales, status, skillId, timer }) {
-    this.id = id;
-    this.locales = locales;
-    this.status = status;
-    this.skillId = skillId;
-    this.timer = timer;
-  }
-
-  isTimed() {
-    return !!this.timer && this.timer > 0;
+/**
+ * @class SmartRandomChallenge
+ * @extends BaseChallenge
+ * @description
+ * This model represents a Challenge as used in the SmartRandom functions.
+ * Although it inherits all fields from BaseChallenge, the following are the
+ * only fields documented to be indeed used in SmartRandom functions :
+ * @property {string} id
+ * @property {string[]|null} locales
+ * @property {string} status
+ * @property {string} skillId
+ * @property {number|null} timer
+ */
+export class SmartRandomChallenge extends BaseChallenge {
+  constructor(coreChallenge) {
+    super(coreChallenge);
   }
 }
 export const STATUSES = ORIGINAL_STATUSES;

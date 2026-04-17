@@ -1,4 +1,5 @@
 import { SmartRandomChallenge, STATUSES } from '../../../../../src/evaluation/domain/models/SmartRandomChallenge.js';
+import { buildBaseChallenge } from '../shared/build-base-challenge.js';
 
 export const buildSmartRandomChallenge = function ({
   id = 'challengeABC123',
@@ -7,13 +8,14 @@ export const buildSmartRandomChallenge = function ({
   skillId = 'skillDEF456',
   timer = null,
 } = {}) {
-  return new SmartRandomChallenge({
+  const baseChallenge = buildBaseChallenge({
     id,
     locales,
     status,
     skillId,
     timer,
   });
+  return new SmartRandomChallenge(baseChallenge);
 };
 
 buildSmartRandomChallenge.STATUSES = STATUSES;
