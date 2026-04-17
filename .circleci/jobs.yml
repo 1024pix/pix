@@ -990,16 +990,6 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -1071,16 +1061,6 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -1140,16 +1120,6 @@ jobs:
       - run:
           name: Typescript
           command: npm run tsc
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -1244,16 +1214,6 @@ jobs:
           keys:
             - v8-playwright-npm-{{ checksum "cachekey" }}
       - run: npm ci
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
