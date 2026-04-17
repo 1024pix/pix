@@ -88,3 +88,21 @@ export const PIX_CERTIF_PRO_DATA = {
     },
   ],
 };
+
+export const PIX_CERTIF_SCO_DATA = {
+  id: 1_000_006,
+  firstName: 'PixCertif',
+  lastName: 'CentreSCO',
+  email: 'pix-certif_sco@example.net',
+  rawPassword: 'pix123',
+  certificationCenters: [
+    {
+      type: 'SCO',
+      externalId: 'CERTIFSCO',
+      habilitations: [],
+      withOrganization: {
+        isManagingStudents: true,
+      },
+    },
+  ],
+};

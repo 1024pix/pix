@@ -7,7 +7,7 @@ import { buildPixAdminUser, buildPixCertifUser } from '../../helpers/certificati
 import { pixCertifiableUserData } from '../../helpers/certification/data.ts';
 import { PixAdminUserData, PixCertifiableUserData, PixCertifUserData } from '../../helpers/certification/types.ts';
 import { knex } from '../../helpers/db.ts';
-import { CERTIFICATIONS_DATA } from '../../helpers/db-data.ts';
+import { CERTIFICATIONS_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/db-data.ts';
 import {
   ChallengePage,
   FinalCheckpointPage,
@@ -137,27 +137,9 @@ export const loggedPagesFixtures = sharedTest.extend<
     { scope: 'worker' },
   ],
   pixCertifScoUserData: [
-    async ({ nextId }, use) => {
-      const nextUserId = nextId();
-      const certifScoUserData: PixCertifUserData = {
-        id: nextUserId,
-        firstName: 'pixCertifSco',
-        lastName: `pixCertifSco${nextUserId}`,
-        email: `pix-certif-pro-${nextUserId}@example.net`,
-        rawPassword: 'pix123',
-        certificationCenters: [
-          {
-            type: 'SCO',
-            externalId: `CERTIFSCO${nextUserId}`,
-            habilitations: [],
-            withOrganization: {
-              isManagingStudents: true,
-            },
-          },
-        ],
-      };
-      await buildPixCertifUser(knex, certifScoUserData);
-      await use(certifScoUserData);
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
+      await use(PIX_CERTIF_SCO_DATA);
     },
     { scope: 'worker' },
   ],
@@ -215,7 +197,7 @@ export const loggedPagesFixtures = sharedTest.extend<
     async ({ browser, pixCertifScoUserData }, use) => {
       const credentials = {
         id: pixCertifScoUserData.id,
-        label: `pix-certif-pro-${pixCertifScoUserData.id}`,
+        label: `pix-certif-sco-${pixCertifScoUserData.id}`,
         firstName: pixCertifScoUserData.firstName,
         lastName: pixCertifScoUserData.lastName,
         email: pixCertifScoUserData.email,

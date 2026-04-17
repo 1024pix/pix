@@ -43,9 +43,15 @@ export class SessionManagementPage {
   }
 
   async goToEnrollCandidateForm() {
-    await this.page.getByRole('link', { name: 'Candidats' }).click();
+    await this.page.getByRole('link', { name: /^Candidats/ }).click();
     await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
     await this.page.getByRole('button', { name: 'Inscrire un candidat' }).click();
+  }
+
+  async goToEnrollScoCandidateForm() {
+    await this.page.getByRole('link', { name: /^Candidats/ }).click();
+    await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
+    await this.page.getByRole('link', { name: 'Inscrire des candidats' }).click();
   }
 
   async goToFinalizeSession() {
@@ -124,8 +130,13 @@ export class SessionManagementPage {
     }
   }
 
+  async addScoCandidate({ firstName, lastName }: { firstName: string; lastName: string }) {
+    await this.page.getByLabel(`Sélectionner le candidat ${firstName} ${lastName}`).click();
+    await this.page.getByRole('button', { name: 'Inscrire' }).click();
+  }
+
   async getEnrolledCandidatesData() {
-    await this.page.getByRole('link', { name: 'Candidats' }).click();
+    await this.page.getByRole('link', { name: /^Candidats/ }).click();
     await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
     const table = this.page.locator('table');
     const headers = await table.locator('thead th').allTextContents();
@@ -148,7 +159,7 @@ export class SessionManagementPage {
   }
 
   async importOdsFile(filePath: string) {
-    await this.page.getByRole('link', { name: 'Candidats' }).click();
+    await this.page.getByRole('link', { name: /^Candidats/ }).click();
     await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
     await this.page.getByLabel('Importer (.ods)').setInputFiles(filePath);
   }

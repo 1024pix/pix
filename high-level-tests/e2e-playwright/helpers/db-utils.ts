@@ -70,11 +70,19 @@ export async function createOrganizationLearnerInDb(
     userId,
     firstName,
     lastName,
+    birthdate,
+    birthCountryCode,
+    birthCity,
+    sex,
   }: {
     organizationId: number;
     userId: number;
     firstName: string;
     lastName: string;
+    birthdate?: string;
+    birthCountryCode?: string;
+    birthCity?: string;
+    sex?: string;
   },
   knex: Knex,
 ) {
@@ -83,6 +91,10 @@ export async function createOrganizationLearnerInDb(
     userId,
     firstName,
     lastName,
+    birthdate,
+    birthCountryCode,
+    birthCity,
+    sex,
   });
 }
 

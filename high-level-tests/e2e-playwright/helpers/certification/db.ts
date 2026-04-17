@@ -1,5 +1,5 @@
 import { knex } from '../db.ts';
-import { PIX_CERTIF_PRO_DATA } from '../db-data.ts';
+import { PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../db-data.ts';
 import {
   buildCertifiableUsers,
   buildCleaData,
@@ -19,7 +19,7 @@ export async function buildCertificationData() {
   await buildPixPlusDroitData(knex);
   await buildPixPlusProSanteData(knex);
   await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA);
-  const organizationId = await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA);
+  const organizationId = await buildPixCertifUser(knex, PIX_CERTIF_SCO_DATA);
   await buildCertifiableUsers(knex, organizationId);
 }
 
