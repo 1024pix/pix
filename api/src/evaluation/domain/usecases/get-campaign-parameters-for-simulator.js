@@ -2,11 +2,12 @@ const getCampaignParametersForSimulator = async function ({
   campaignId,
   locale,
   campaignRepository,
-  challengeRepository,
+  baseChallengeRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const skills = await campaignRepository.findSkills({ campaignId: campaign.id });
-  const challenges = await challengeRepository.findOperativeBySkills(skills, locale);
+  const skillsMap = new Map(skills.map((skill) => [skill.id, skill]));
+  const challenges = await baseChallengeRepository.findOperativeBySkills(skills, locale);
   const sanitizedChallenges = challenges.map((challenge) => ({
     id: challenge.id,
     format: challenge.format,
@@ -15,9 +16,8 @@ const getCampaignParametersForSimulator = async function ({
     timer: challenge.timer,
     type: challenge.type,
     locales: challenge.locales,
-    skill: challenge.skill,
+    skill: skillsMap.get(challenge.skillId),
     focused: challenge.focused,
-    difficulty: challenge.difficulty,
     responsive: challenge.responsive,
   }));
   return { skills, challenges: sanitizedChallenges };

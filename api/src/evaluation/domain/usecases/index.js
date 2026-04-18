@@ -9,6 +9,7 @@ import * as answerRepository from '../../../shared/infrastructure/repositories/a
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as badgeForCalculationRepository from '../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
+import * as baseChallengeRepository from '../../../shared/infrastructure/repositories/base-challenge-repository.js';
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../../../shared/infrastructure/repositories/course-repository.js';
@@ -81,6 +82,7 @@ const dependencies = {
   smartRandomChallengeRepository,
   challengeToPlayRepository,
   challengeForCorrectionRepository,
+  baseChallengeRepository,
 };
 
 import { completeAssessment } from './complete-assessment.js';
