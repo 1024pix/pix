@@ -6,7 +6,7 @@ import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/c
  * @name get
  *
  * @param {string} challengeId
- * @returns {Promise<ChallengeToPlay>} corrected answer
+ * @returns {Promise<ChallengeToPlay>}
  */
 export function get(challengeId) {
   return challengeToPlayRepository.get(challengeId);

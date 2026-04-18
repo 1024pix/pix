@@ -4,9 +4,9 @@ import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from '../../../shared/do
  * @class ChallengeToPlay
  * @extends BaseChallenge
  * @description
- * This model represents a Challenge as used in the shared folder.
+ * This model represents a Challenge as used in the evaluation bounded context, regarding when it's about playing a challenge.
  * Although it inherits all fields from BaseChallenge, the following are the
- * only fields documented to be indeed used in shared folder code :
+ * only fields documented to be indeed used in evaluation code :
  * @property {string} id
  * @property {string} type
  * @property {string} format

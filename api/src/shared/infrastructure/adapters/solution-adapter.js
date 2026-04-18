@@ -1,5 +1,4 @@
-import { Solution } from '../../../../src/shared/domain/models/Solution.js';
-import { _ } from '../utils/lodash-utils.js';
+import { Solution } from '../../domain/models/Solution.js';
 
 function statusToBoolean(value) {
   if (typeof value === 'boolean') {
@@ -16,26 +15,23 @@ function _getKeyOfBlock(block) {
   return block.replace('${', '').match(/^(.+?)(#|§|}| options)+/i)[1];
 }
 
-function _extractTypeOfQroc(datasourceObject) {
-  if (datasourceObject.type === 'QCU' || datasourceObject.type === 'QCM') {
+function _extractTypeOfQroc(challenge) {
+  if (challenge.type === 'QCU' || challenge.type === 'QCM') {
     return {};
   }
   const qrocBlocksTypes = {};
-  const qrocBlocks = _getAllBlocks(datasourceObject.proposals);
+  const qrocBlocks = _getAllBlocks(challenge.proposals);
 
   qrocBlocks.forEach((qrocBlock) => {
     const blockText = qrocBlock[0];
     const qrocBlockKey = _getKeyOfBlock(blockText);
-    const qrocBlockType = blockText.includes('options=') ? 'select' : 'input';
-    qrocBlocksTypes[qrocBlockKey] = qrocBlockType;
+    qrocBlocksTypes[qrocBlockKey] = blockText.includes('options=') ? 'select' : 'input';
   });
 
   return qrocBlocksTypes;
 }
 
-const fromDatasourceObject = function (datasourceObject) {
-  // TODO scoring n'existe plus dans challenge
-  const scoring = _.ensureString(datasourceObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
+export function fromDatasourceObject(datasourceObject) {
   const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);
   return new Solution({
     id: datasourceObject.id,
@@ -44,9 +40,19 @@ const fromDatasourceObject = function (datasourceObject) {
     isT3Enabled: statusToBoolean(datasourceObject.t3Status),
     type: datasourceObject.type,
     value: datasourceObject.solution,
-    scoring,
     qrocBlocksTypes,
   });
-};
+}
 
-export { fromDatasourceObject };
+export function fromChallenge(challenge) {
+  const qrocBlocksTypes = _extractTypeOfQroc(challenge);
+  return new Solution({
+    id: challenge.id,
+    isT1Enabled: statusToBoolean(challenge.t1Status),
+    isT2Enabled: statusToBoolean(challenge.t2Status),
+    isT3Enabled: statusToBoolean(challenge.t3Status),
+    type: challenge.type,
+    value: challenge.solution,
+    qrocBlocksTypes,
+  });
+}

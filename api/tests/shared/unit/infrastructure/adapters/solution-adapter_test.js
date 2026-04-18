@@ -2,7 +2,9 @@ import { Solution } from '../../../../../src/shared/domain/models/Solution.js';
 import * as solutionAdapter from '../../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
+// todo move me eval
 describe('Unit | Adapter | Solution', function () {
+  // todo delete me
   describe('#fromDatasourceObject', function () {
     it('should create a Solution model', function () {
       // given
@@ -55,6 +57,65 @@ describe('Unit | Adapter | Solution', function () {
       // then
       expect(solution).to.be.an.instanceof(Solution);
       expect(solution).to.deep.equal(expectedSolution);
+    });
+  });
+
+  describe('#fromChallenge', function () {
+    it('should create a Solution model', function () {
+      // given
+      const challenge = domainBuilder.learningContent.buildChallenge({
+        id: 'recwWzTquPlvIl4So',
+        t1Status: true,
+        t2Status: false,
+        t3Status: true,
+        type: domainBuilder.learningContent.buildChallenge.TYPES.QCM,
+        solution: '1, 5',
+      });
+
+      // when
+      const solution = solutionAdapter.fromChallenge(challenge);
+
+      // then
+      expect(solution).to.deepEqualInstance(
+        new Solution({
+          id: 'recwWzTquPlvIl4So',
+          isT1Enabled: true,
+          isT2Enabled: false,
+          isT3Enabled: true,
+          type: 'QCM',
+          value: '1, 5',
+          qrocBlocksTypes: {},
+        }),
+      );
+    });
+
+    it('should precise the type of each key in Solution model', function () {
+      // given
+      const challenge = domainBuilder.learningContent.buildChallenge({
+        id: 'recwWzTquPlvIl4So',
+        t1Status: true,
+        t2Status: false,
+        t3Status: true,
+        proposals: 'Je fait ${rep1#test§test} et ${rep2 options=["a","b"]}, ${rep3§test options=["a","b"]}, ${rep4}',
+        type: domainBuilder.learningContent.buildChallenge.TYPES.QROCM_DEP,
+        solution: '1, 5, 9, 7',
+      });
+
+      // when
+      const solution = solutionAdapter.fromChallenge(challenge);
+
+      // then
+      expect(solution).to.deepEqualInstance(
+        new Solution({
+          id: 'recwWzTquPlvIl4So',
+          isT1Enabled: true,
+          isT2Enabled: false,
+          isT3Enabled: true,
+          type: 'QROCM-dep',
+          value: '1, 5, 9, 7',
+          qrocBlocksTypes: { rep1: 'input', rep2: 'select', rep3: 'select', rep4: 'input' },
+        }),
+      );
     });
   });
 });
