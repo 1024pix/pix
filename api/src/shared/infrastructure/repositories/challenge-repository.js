@@ -1,10 +1,7 @@
-import * as solutionAdapter from '../../../evaluation/infrastructure/adapters/solution-adapter.js';
 import { Challenge as ChallengeProxy, STATUSES } from '../../../learning-content/domain/models/Challenge.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { Challenge } from '../../domain/models/Challenge.js';
 import { child, SCOPES } from '../utils/logger.js';
 import { LearningContentRepository } from './learning-content-repository.js';
-import * as skillRepository from './skill-repository.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
@@ -79,21 +76,6 @@ export async function findOperativeBySkills_proxy(skills, locale) {
   return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
-export async function findValidatedBySkills(skills, locale) {
-  _assertLocaleIsDefined(locale);
-  const skillIds = skills.map((skill) => skill.id);
-  const cacheKey = `findValidatedBySkills([${skillIds.sort()}], ${locale})`;
-  const findOperativeByLocaleBySkillIdsCallback = (knex) =>
-    knex
-      .whereRaw('?=ANY(??)', [locale, 'locales'])
-      .where('status', STATUSES.VALIDATED)
-      .whereIn('skillId', skillIds)
-      .orderBy('id');
-  const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
-}
-
 export async function findValidatedBySkills_proxy(skills, locale) {
   _assertLocaleIsDefined(locale);
   const skillIds = skills.map((skill) => skill.id);
@@ -108,16 +90,6 @@ export async function findValidatedBySkills_proxy(skills, locale) {
   return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
-export async function findValidatedBySkillId(skillId, locale) {
-  _assertLocaleIsDefined(locale);
-  const cacheKey = `findValidatedBySkillId(${skillId}, ${locale})`;
-  const findValidatedByLocaleBySkillIdCallback = (knex) =>
-    knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ skillId, status: STATUSES.VALIDATED }).orderBy('id');
-  const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleBySkillIdCallback);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
-}
-
 export async function getManyTypes(ids) {
   const challengeDtos = await getInstance().loadMany(ids);
   if (challengeDtos.some((challengeDto) => !challengeDto)) {
@@ -130,15 +102,6 @@ export function clearCache(id) {
   return getInstance().clearCache(id);
 }
 
-async function loadChallengeDtosSkills(challengeDtos) {
-  return Promise.all(
-    challengeDtos.map(async (challengeDto) => [
-      challengeDto,
-      challengeDto.skillId ? await skillRepository.get(challengeDto.skillId) : null,
-    ]),
-  );
-}
-
 function _assertLocaleIsDefined(locale) {
   if (!locale) {
     throw new Error('Locale shall be defined');
@@ -147,53 +110,6 @@ function _assertLocaleIsDefined(locale) {
 
 function byId(challenge1, challenge2) {
   return challenge1.id < challenge2.id ? -1 : 1;
-}
-
-function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill, successProbabilityThreshold }) {
-  const solution = solutionAdapter.fromDatasourceObject(challengeDto);
-  const validator = Challenge.createValidatorForChallengeType({
-    challengeType: challengeDto.type,
-    solution,
-  });
-
-  if (OPERATIVE_STATUSES.includes(challengeDto.status) && !skill) {
-    logger.warn({ challenge: challengeDto }, 'operative challenge has no skill');
-  }
-
-  return new Challenge({
-    id: challengeDto.id,
-    type: challengeDto.type,
-    status: challengeDto.status,
-    instruction: challengeDto.instruction,
-    alternativeInstruction: challengeDto.alternativeInstruction,
-    proposals: challengeDto.proposals,
-    timer: challengeDto.timer,
-    illustrationUrl: challengeDto.illustrationUrl,
-    attachments: challengeDto.attachments ? [...challengeDto.attachments] : null,
-    embedUrl: challengeDto.embedUrl,
-    embedTitle: challengeDto.embedTitle,
-    embedHeight: challengeDto.embedHeight,
-    webComponentTagName,
-    webComponentProps,
-    skill,
-    validator,
-    competenceId: challengeDto.competenceId,
-    illustrationAlt: challengeDto.illustrationAlt,
-    format: challengeDto.format,
-    locales: challengeDto.locales ? [...challengeDto.locales] : null,
-    autoReply: challengeDto.autoReply,
-    focused: challengeDto.focusable,
-    discriminant: challengeDto.alpha,
-    difficulty: challengeDto.delta,
-    responsive: challengeDto.responsive,
-    shuffled: challengeDto.shuffled,
-    alternativeVersion: challengeDto.alternativeVersion,
-    blindnessCompatibility: challengeDto.accessibility1,
-    colorBlindnessCompatibility: challengeDto.accessibility2,
-    successProbabilityThreshold,
-    hasEmbedInternalValidation: challengeDto.hasEmbedInternalValidation,
-    noValidationNeeded: challengeDto.noValidationNeeded,
-  });
 }
 
 /** @type {LearningContentRepository} */
