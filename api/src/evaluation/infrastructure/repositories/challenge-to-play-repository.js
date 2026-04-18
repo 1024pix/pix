@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
+import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import { ChallengeToPlay } from '../../domain/models/ChallengeToPlay.js';
-import { httpAgent } from '../http-agent.js';
-import * as challengeRepository from './challenge-repository.js';
 
 export async function get(challengeId) {
   const challenge = await challengeRepository.get_proxy(challengeId);

@@ -6,14 +6,14 @@ describe('Unit | UseCase | update-last-question-state', function () {
   const assessmentId = 'assessmentId';
   const focusedChallengeId = 'focusedChallengeId';
   const notFocusedChallengeId = 'notFocusedChallengeId';
-  let challengeToPlayRepository;
+  let challengeToPlayApi;
   let assessmentRepository;
   let lastQuestionState;
   let focusedChallenge;
   let notFocusedChallenge;
 
   beforeEach(function () {
-    challengeToPlayRepository = {
+    challengeToPlayApi = {
       get: sinon.stub(),
     };
     assessmentRepository = {
@@ -21,12 +21,12 @@ describe('Unit | UseCase | update-last-question-state', function () {
       updateLastQuestionState: sinon.stub(),
     };
 
-    focusedChallenge = domainBuilder.shared.buildChallengeToPlay({
+    focusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
       id: focusedChallengeId,
       focused: true,
     });
 
-    notFocusedChallenge = domainBuilder.shared.buildChallengeToPlay({
+    notFocusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
       id: notFocusedChallengeId,
       focused: false,
     });
@@ -47,7 +47,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
         lastQuestionState,
         challengeId: focusedChallengeId,
         assessmentRepository,
-        challengeToPlayRepository,
+        challengeToPlayApi,
       });
 
       // Then
@@ -62,7 +62,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
 
     it('should return early when challengeId is not provided', async function () {
       // Given
-      challengeToPlayRepository.get.withArgs(notFocusedChallengeId).resolves(notFocusedChallenge);
+      challengeToPlayApi.get.withArgs(notFocusedChallengeId).resolves(notFocusedChallenge);
 
       // When
       await updateLastQuestionState({
@@ -71,17 +71,17 @@ describe('Unit | UseCase | update-last-question-state', function () {
         challengeId: undefined,
 
         assessmentRepository,
-        challengeToPlayRepository,
+        challengeToPlayApi,
       });
 
       // Then
-      sinon.assert.notCalled(challengeToPlayRepository.get);
+      sinon.assert.notCalled(challengeToPlayApi.get);
       sinon.assert.called(assessmentRepository.updateLastQuestionState);
     });
 
     it('should early return if challenge is not focused', async function () {
       // Given
-      challengeToPlayRepository.get.withArgs(notFocusedChallengeId).resolves(notFocusedChallenge);
+      challengeToPlayApi.get.withArgs(notFocusedChallengeId).resolves(notFocusedChallenge);
 
       // When
       await updateLastQuestionState({
@@ -90,7 +90,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
         challengeId: notFocusedChallengeId,
 
         assessmentRepository,
-        challengeToPlayRepository,
+        challengeToPlayApi,
       });
 
       // Then
@@ -100,7 +100,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
     context('when challenge is focused', function () {
       it('should return early if the provided challenge id differs from assessment.lastChallengeId in repository', async function () {
         // Given
-        challengeToPlayRepository.get.withArgs(focusedChallengeId).resolves(focusedChallenge);
+        challengeToPlayApi.get.withArgs(focusedChallengeId).resolves(focusedChallenge);
 
         const assessment = domainBuilder.buildAssessment({
           id: assessmentId,
@@ -116,7 +116,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
           challengeId: focusedChallengeId,
 
           assessmentRepository,
-          challengeToPlayRepository,
+          challengeToPlayApi,
         });
 
         // Then
@@ -125,7 +125,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
 
       it('should call assessmentRepository.updateLastQuestionState when the challenge id equals assessment.lastChallengeId', async function () {
         // Given
-        challengeToPlayRepository.get.withArgs(focusedChallengeId).resolves(focusedChallenge);
+        challengeToPlayApi.get.withArgs(focusedChallengeId).resolves(focusedChallenge);
 
         const assessment = domainBuilder.buildAssessment({
           id: assessmentId,
@@ -142,7 +142,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
           lastQuestionState,
           challengeId: focusedChallengeId,
           assessmentRepository,
-          challengeToPlayRepository,
+          challengeToPlayApi,
         });
 
         // Then

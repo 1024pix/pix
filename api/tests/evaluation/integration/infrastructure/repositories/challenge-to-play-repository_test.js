@@ -1,8 +1,8 @@
+import * as challengeToPlayRepository from '../../../../../src/evaluation/infrastructure/repositories/challenge-to-play-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import * as challengeToPlayRepository from '../../../../../src/shared/infrastructure/repositories/challenge-to-play-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, nock } from '../../../../test-helper.js';
 
-describe('Integration | Repository | challenge-repository', function () {
+describe('Evaluation | Integration | Infrastructure| Repository | challenge-to-play', function () {
   const challengeDataWithoutComponent = {
     id: 'challengeId00',
     instruction: 'instruction challengeId00',
@@ -108,7 +108,7 @@ describe('Integration | Repository | challenge-repository', function () {
           // then
           expect(webComponentServerCall.isDone()).to.equal(true);
           expect(challenge).to.deepEqualInstance(
-            domainBuilder.shared.buildChallengeToPlay({
+            domainBuilder.evaluation.buildChallengeToPlay({
               ...challengeDataWithComponent,
               focused: challengeDataWithComponent.focusable,
               webComponentTagName: 'web-component',
@@ -143,7 +143,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
         // then
         expect(challenge).to.deepEqualInstance(
-          domainBuilder.shared.buildChallengeToPlay({
+          domainBuilder.evaluation.buildChallengeToPlay({
             ...challengeDataWithoutComponent,
             focused: challengeDataWithComponent.focusable,
             webComponentTagName: null,

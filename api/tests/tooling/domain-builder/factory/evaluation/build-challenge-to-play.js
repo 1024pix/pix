@@ -1,4 +1,4 @@
-import { ChallengeToPlay } from '../../../../../src/shared/domain/models/ChallengeToPlay.js';
+import { ChallengeToPlay } from '../../../../../src/evaluation/domain/models/ChallengeToPlay.js';
 import { buildChallenge } from '../learning-content/build-challenge.js';
 
 export const buildChallengeToPlay = function ({

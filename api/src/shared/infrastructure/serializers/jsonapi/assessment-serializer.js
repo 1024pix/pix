@@ -1,9 +1,9 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 import isEmpty from 'lodash/isEmpty.js';
 
+import { config as challengeSerializerConfig } from '../../../../evaluation/infrastructure/serializers/jsonapi/challenge-serializer.js';
 import { DomainError } from '../../../domain/errors.js';
 import { Assessment } from '../../../domain/models/Assessment.js';
-import { config as challengeSerializerConfig } from './challenge-serializer.js';
 
 const { Serializer } = jsonapiSerializer;
 

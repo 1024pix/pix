@@ -1,4 +1,4 @@
-import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from './BaseChallenge.js';
+import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from '../../../shared/domain/models/BaseChallenge.js';
 
 /**
  * @class ChallengeToPlay
