@@ -1,15 +1,15 @@
 import { logger } from '../../infrastructure/utils/logger.js';
 import { Assessment } from '../models/Assessment.js';
 
-const updateLastQuestionState = async function ({
+export async function updateLastQuestionState({
   assessmentId,
   lastQuestionState,
   challengeId,
   assessmentRepository,
-  challengeRepository,
+  challengeToPlayRepository,
 }) {
   if (lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT && challengeId !== undefined) {
-    const challenge = await challengeRepository.get(challengeId);
+    const challenge = await challengeToPlayRepository.get(challengeId);
     if (!challenge.focused) {
       logger.warn(
         {
@@ -42,6 +42,4 @@ const updateLastQuestionState = async function ({
     id: assessmentId,
     lastQuestionState,
   });
-};
-
-export { updateLastQuestionState };
+}

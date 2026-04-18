@@ -162,10 +162,5 @@ buildBaseChallenge.fromDTO = function ({
   return new BaseChallenge(coreChallenge);
 };
 
-buildBaseChallenge.fromCoreChallenge = function (coreChallenge) {
-  const finalCoreChallenge = coreChallenge ?? buildChallenge();
-  return new BaseChallenge(finalCoreChallenge);
-};
-
 buildBaseChallenge.TYPES = TYPES;
 buildBaseChallenge.STATUSES = STATUSES;

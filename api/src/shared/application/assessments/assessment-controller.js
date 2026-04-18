@@ -7,7 +7,6 @@ import { Answer } from '../../../evaluation/domain/models/Answer.js';
 import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
-import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { sharedUsecases } from '../../domain/usecases/index.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
@@ -39,17 +38,14 @@ const getAssessmentWithNextChallenge = async function (
   return dependencies.assessmentSerializer.serialize(assessment.toDto(globalProgression));
 };
 
-const updateLastChallengeState = async function (request) {
+async function updateLastChallengeState(request) {
   const assessmentId = request.params.id;
   const lastQuestionState = request.params.state;
   const challengeId = request.payload?.data?.attributes?.['challenge-id'];
 
-  await DomainTransaction.execute(async () => {
-    await sharedUsecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState });
-  });
-
+  await sharedUsecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState });
   return null;
-};
+}
 
 const findCompetenceEvaluations = async function (request) {
   const userId = request.auth.credentials.userId;

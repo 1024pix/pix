@@ -2,11 +2,11 @@ import { challengeController } from '../../../../../src/shared/application/chall
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | challenge-controller', function () {
-  let challengeRepository;
+  let challengeToPlayRepository;
   let challengeSerializer;
 
   beforeEach(async function () {
-    challengeRepository = { get: sinon.stub() };
+    challengeToPlayRepository = { get: sinon.stub() };
     challengeSerializer = { serialize: sinon.stub() };
   });
 
@@ -16,17 +16,17 @@ describe('Unit | Controller | challenge-controller', function () {
       const challengeId = 123;
       const challenge = Symbol('someChallenge');
       const expectedResult = Symbol('serialized-challenge');
-      challengeRepository.get.resolves(challenge);
+      challengeToPlayRepository.get.resolves(challenge);
       challengeSerializer.serialize.resolves(expectedResult);
 
       // when
       const response = await challengeController.get({ params: { id: challengeId } }, hFake, {
-        challengeRepository,
+        challengeToPlayRepository,
         challengeSerializer,
       });
 
       // then
-      expect(challengeRepository.get).to.have.been.calledWithExactly(challengeId);
+      expect(challengeToPlayRepository.get).to.have.been.calledWithExactly(challengeId);
       expect(challengeSerializer.serialize).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });

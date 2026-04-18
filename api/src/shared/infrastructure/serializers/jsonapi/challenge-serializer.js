@@ -1,5 +1,4 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import _ from 'lodash';
 
 const { Serializer } = jsonapiSerializer;
 
@@ -7,7 +6,6 @@ const config = {
   attributes: [
     'type',
     'instruction',
-    'competence',
     'proposals',
     'timer',
     'illustrationUrl',
@@ -26,12 +24,31 @@ const config = {
     'shuffled',
     'locales',
   ],
-  transform: (record) => {
-    const challenge = _.pickBy(record, (value) => !_.isUndefined(value));
+  transform: (challenge) => {
+    const data = {
+      id: challenge.id,
+      type: challenge.type,
+      instruction: challenge.instruction,
+      proposals: challenge.proposals,
+      timer: challenge.timer,
+      illustrationUrl: challenge.illustrationUrl,
+      attachments: challenge.attachments,
+      competence: challenge.competenceId || 'N/A',
+      embedUrl: challenge.embedUrl,
+      embedTitle: challenge.embedTitle,
+      embedHeight: challenge.embedHeight,
+      webComponentTagName: challenge.webComponentTagName,
+      webComponentProps: challenge.webComponentProps,
+      illustrationAlt: challenge.illustrationAlt,
+      format: challenge.format,
+      autoReply: challenge.autoReply,
+      alternativeInstruction: challenge.alternativeInstruction,
+      focused: challenge.focused,
+      shuffled: challenge.shuffled,
+      locales: challenge.locales,
+    };
 
-    challenge.competence = challenge.competenceId || 'N/A';
-
-    return challenge;
+    return Object.fromEntries(Object.entries(data).filter(([_, value]) => value != null));
   },
 };
 

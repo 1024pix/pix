@@ -41,6 +41,15 @@ export async function get(id, { forCorrection = false } = {}) {
   return toDomain({ challengeDto, skill, ...webComponentInfo });
 }
 
+export async function get_proxy(id) {
+  const challengeDto = await getInstance().load(id);
+  if (!challengeDto) {
+    logger.warn({ challengeId: id }, 'Épreuve introuvable');
+    throw new NotFoundError('Épreuve introuvable');
+  }
+  return new ChallengeProxy(challengeDto);
+}
+
 export async function getMany(ids, locale) {
   const challengeDtos = await getInstance().loadMany(ids);
   challengeDtos.forEach((challengeDto, index) => {

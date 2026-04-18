@@ -877,6 +877,33 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+  describe('#get_proxy', function () {
+    context('when no challenge found for id', function () {
+      it('should throw a NotFound error', async function () {
+        // when
+        const err = await catchErr(challengeRepository.get_proxy)('challengeIdPipeauPipette');
+
+        // then
+        expect(err).to.be.instanceOf(NotFoundError);
+        expect(err).to.have.property('message', 'Épreuve introuvable');
+      });
+    });
+
+    context('when challenge found for id', function () {
+      it('should return the challenge', async function () {
+        // when
+        const challenge = await challengeRepository.get_proxy('challengeId00');
+
+        // then
+        expect(challenge).to.deepEqualInstance(
+          domainBuilder.learningContent.buildChallenge(
+            challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson,
+          ),
+        );
+      });
+    });
+  });
+
   describe('#getMany', function () {
     context('when no locale provided', function () {
       context('when at least one challenge is not found amongst the provided ids', function () {

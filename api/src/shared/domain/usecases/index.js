@@ -5,7 +5,7 @@ import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js
 import * as badgeRepository from '../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 import { repositories as sharedInjectedRepositories } from '../../infrastructure/repositories/index.js';
@@ -20,7 +20,7 @@ const dependencies = {
   complementaryCertificationBadgeRepository,
   certificationChallengeLiveAlertRepository,
   badgeRepository,
-  challengeRepository,
+  challengeToPlayRepository,
   evaluationUsecases,
   ...sharedInjectedRepositories,
 };
