@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (challenges) {
+const serialize = function (challengesToPlay) {
   return new Serializer('challenge', {
     attributes: [
       'type',
@@ -21,13 +21,27 @@ const serialize = function (challenges) {
       'hasEmbedInternalValidation',
       'noValidationNeeded',
     ],
-    transform: (challenge) => {
+    transform: (challengeToPlay) => {
       return {
-        ...challenge,
-        instructions: challenge.instruction?.split('***'),
+        id: challengeToPlay.id,
+        type: challengeToPlay.type,
+        instructions: challengeToPlay.instruction?.split('***'),
+        proposals: challengeToPlay.proposals,
+        illustrationUrl: challengeToPlay.illustrationUrl,
+        embedUrl: challengeToPlay.embedUrl,
+        embedTitle: challengeToPlay.embedTitle,
+        embedHeight: challengeToPlay.embedHeight,
+        webComponentTagName: challengeToPlay.webComponentTagName,
+        webComponentProps: challengeToPlay.webComponentProps,
+        illustrationAlt: challengeToPlay.illustrationAlt,
+        format: challengeToPlay.format,
+        autoReply: challengeToPlay.autoReply,
+        shuffled: challengeToPlay.shuffled,
+        hasEmbedInternalValidation: challengeToPlay.hasEmbedInternalValidation,
+        noValidationNeeded: challengeToPlay.noValidationNeeded,
       };
     },
-  }).serialize(challenges);
+  }).serialize(challengesToPlay);
 };
 
 export { serialize };

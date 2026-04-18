@@ -6,7 +6,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 
 describe('Unit | UseCase | create-certification-challenge-live-alert', function () {
   let certificationChallengeLiveAlertRepository;
-  let challengeRepository;
+  let challengeToPlayApi;
   let answerRepository;
 
   beforeEach(function () {
@@ -15,7 +15,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
       getOngoingByChallengeIdAndAssessmentId: sinon.stub(),
     };
 
-    challengeRepository = {
+    challengeToPlayApi = {
       get: sinon.stub(),
     };
 
@@ -28,7 +28,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
     // given
     const assessmentId = 123;
     const challengeId = 'pix123';
-    const challenge = domainBuilder.buildChallenge({
+    const challenge = domainBuilder.evaluation.buildChallengeToPlay({
       id: challengeId,
       focused: true,
       embedUrl: 'embed.url',
@@ -44,7 +44,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
     const answers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
 
     answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-    challengeRepository.get.withArgs(challengeId).resolves(challenge);
+    challengeToPlayApi.get.withArgs(challengeId).resolves(challenge);
 
     certificationChallengeLiveAlertRepository.save.withArgs({ certificationChallengeLiveAlert }).resolves();
 
@@ -54,7 +54,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
       challengeId,
       certificationChallengeLiveAlertRepository,
       answerRepository,
-      challengeRepository,
+      challengeToPlayApi,
     });
 
     // then
@@ -93,7 +93,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
         challengeId,
         certificationChallengeLiveAlertRepository,
         answerRepository,
-        challengeRepository,
+        challengeToPlayApi,
       });
 
       // then
@@ -125,7 +125,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
       challengeId,
       certificationChallengeLiveAlertRepository,
       answerRepository,
-      challengeRepository,
+      challengeToPlayApi,
     });
 
     // then

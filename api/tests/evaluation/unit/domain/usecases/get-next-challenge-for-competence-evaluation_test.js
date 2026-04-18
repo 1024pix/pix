@@ -19,7 +19,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-compet
       challengeUrl22,
       algorithmDataFetcherServiceStub,
       smartRandomStub,
-      challengeRepository;
+      challengeToPlayRepository;
 
     beforeEach(async function () {
       userId = 'dummyUserId';
@@ -57,7 +57,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-compet
       };
       pickChallengeService = { pickChallenge: sinon.stub() };
       pickChallengeService.pickChallenge.returns(challengeUrl22);
-      challengeRepository = {
+      challengeToPlayRepository = {
         get: sinon.stub(),
       };
       algorithmDataFetcherServiceStub.fetchForCompetenceEvaluations.resolves({
@@ -86,7 +86,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-compet
           locale,
           smartRandomService: smartRandomStub,
           algorithmDataFetcherService: algorithmDataFetcherServiceStub,
-          challengeRepository,
+          challengeToPlayRepository,
         });
       });
 
@@ -98,8 +98,8 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-compet
     context('when user is related to assessment', function () {
       let finalChallenge;
       beforeEach(async function () {
-        finalChallenge = domainBuilder.buildChallenge({ id: challengeUrl22.id });
-        challengeRepository.get.withArgs(challengeUrl22.id).resolves(finalChallenge);
+        finalChallenge = domainBuilder.evaluation.buildChallengeToPlay({ id: challengeUrl22.id });
+        challengeToPlayRepository.get.withArgs(challengeUrl22.id).resolves(finalChallenge);
         actualComputedChallenge = await getNextChallengeForCompetenceEvaluation({
           assessment,
           userId,
@@ -107,7 +107,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-compet
           locale,
           smartRandomService: smartRandomStub,
           algorithmDataFetcherService: algorithmDataFetcherServiceStub,
-          challengeRepository,
+          challengeToPlayRepository,
         });
       });
 

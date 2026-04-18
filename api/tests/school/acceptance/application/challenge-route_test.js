@@ -1,7 +1,7 @@
 import { createServer, expect, mockLearningContent } from '../../../test-helper.js';
 import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';
 
-describe('Integration | Controller | challenge-controller', function () {
+describe('Acceptance | Controller | challenge-controller', function () {
   let server;
 
   beforeEach(async function () {

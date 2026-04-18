@@ -1,12 +1,12 @@
+import * as challengeToPlayApi from '../../evaluation/application/api/challenge-to-play-api.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as activitySerializer from '../infrastructure/serializers/activity-serializer.js';
 import * as assessmentSerializer from '../infrastructure/serializers/assessment-serializer.js';
-import * as challengeSerializer from '../infrastructure/serializers/challenge-serializer.js';
 
-const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
+const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeToPlayApi }) {
   const assessmentId = request.params.id;
-  const challenge = await usecases.getNextChallenge({ assessmentId });
-  return dependencies.challengeSerializer.serialize(challenge);
+  const challengeToPlay = await usecases.getNextChallenge({ assessmentId });
+  return dependencies.challengeToPlayApi.serialize(challengeToPlay);
 };
 
 const create = async function (request, h, dependencies = { assessmentSerializer }) {

@@ -11,7 +11,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 describe('Unit | Domain | Use Cases | get-next-challenge', function () {
   describe('#getNextChallenge', function () {
     let answerRepository,
-      sharedChallengeRepository,
+      challengeToPlayApi,
       calibratedChallengeRepository,
       complementaryCertificationRepository,
       certificationChallengeLiveAlertRepository,
@@ -32,7 +32,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
-      sharedChallengeRepository = {
+      challengeToPlayApi = {
         get: sinon.stub(),
       };
       calibratedChallengeRepository = {
@@ -95,7 +95,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         sessionManagementCertificationChallengeRepository.getNextChallengeByCourseId
           .withArgs(assessment.certificationCourseId, [])
           .resolves(null);
-        sharedChallengeRepository.get.resolves();
+        challengeToPlayApi.get.resolves();
 
         const reconciledAt = new Date('2024-10-18');
         const candidate = domainBuilder.certification.evaluation.buildCandidate({ reconciledAt });
@@ -134,7 +134,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .returns(nextCalibratedChallenge);
         pickChallengeService.getChallengePicker.withArgs().returns(getChallengePickerImpl);
 
-        sharedChallengeRepository.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
+        challengeToPlayApi.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
 
         // when
         const returnedChallenge = await getNextChallenge({
@@ -142,7 +142,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           assessment,
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           versionApi,
           calibratedChallengeRepository,
           flashAlgorithmService,
@@ -233,7 +233,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             .returns(nextCalibratedChallenge);
           pickChallengeService.getChallengePicker.withArgs().returns(getChallengePickerImpl);
 
-          sharedChallengeRepository.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
+          challengeToPlayApi.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
 
           // when
           const returnedChallenge = await getNextChallenge({
@@ -242,7 +242,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             sessionManagementCertificationChallengeRepository,
             certificationChallengeLiveAlertRepository,
             calibratedChallengeRepository,
-            sharedChallengeRepository,
+            challengeToPlayApi,
             versionApi,
             flashAlgorithmService,
             locale,
@@ -282,9 +282,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           sessionManagementCertificationChallengeRepository.getNextChallengeByCourseId
             .withArgs(assessment.certificationCourseId, [])
             .resolves(nonAnsweredCertificationChallenge);
-          sharedChallengeRepository.get
-            .withArgs(nonAnsweredCertificationChallenge.challengeId)
-            .resolves(lastSeenChallenge);
+          challengeToPlayApi.get.withArgs(nonAnsweredCertificationChallenge.challengeId).resolves(lastSeenChallenge);
 
           // when
           const challenge = await getNextChallenge({
@@ -292,7 +290,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             assessment,
             sessionManagementCertificationChallengeRepository,
             certificationChallengeLiveAlertRepository,
-            sharedChallengeRepository,
+            challengeToPlayApi,
             calibratedChallengeRepository,
             versionApi,
             flashAlgorithmService,
@@ -341,7 +339,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         sessionManagementCertificationChallengeRepository.getNextChallengeByCourseId
           .withArgs(assessment.certificationCourseId, [])
           .resolves(null);
-        sharedChallengeRepository.get.resolves();
+        challengeToPlayApi.get.resolves();
 
         const candidate = domainBuilder.certification.evaluation.buildCandidate();
         certificationCandidateRepository.findByAssessmentId
@@ -383,7 +381,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .returns(nextCalibratedChallenge);
         pickChallengeService.getChallengePicker.withArgs().returns(getChallengePickerImpl);
 
-        sharedChallengeRepository.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
+        challengeToPlayApi.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
 
         // when
         const returnedChallenge = await getNextChallenge({
@@ -391,7 +389,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           assessment,
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           calibratedChallengeRepository,
           versionApi,
           flashAlgorithmService,
@@ -480,7 +478,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .returns(nextCalibratedChallenge);
         pickChallengeService.getChallengePicker.withArgs().returns(getChallengePickerImpl);
 
-        sharedChallengeRepository.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
+        challengeToPlayApi.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
 
         // when
         const returnedChallenge = await getNextChallenge({
@@ -488,7 +486,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           assessment,
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           calibratedChallengeRepository,
           versionApi,
           flashAlgorithmService,
@@ -581,7 +579,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .returns(calibratedChallengeWithOtherSkill);
         pickChallengeService.getChallengePicker.withArgs().returns(getChallengePickerImpl);
 
-        sharedChallengeRepository.get.withArgs(calibratedChallengeWithOtherSkill.id).resolves(challenge);
+        challengeToPlayApi.get.withArgs(calibratedChallengeWithOtherSkill.id).resolves(challenge);
 
         // when
         const returnedChallenge = await getNextChallenge({
@@ -590,7 +588,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
           calibratedChallengeRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           versionApi,
           flashAlgorithmService,
           locale,
@@ -631,7 +629,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         sessionManagementCertificationChallengeRepository.getNextChallengeByCourseId
           .withArgs(assessment.certificationCourseId, [answeredChallenge.id])
           .resolves(null);
-        sharedChallengeRepository.get.resolves();
+        challengeToPlayApi.get.resolves();
 
         const candidate = domainBuilder.certification.evaluation.buildCandidate();
         certificationCandidateRepository.findByAssessmentId
@@ -655,7 +653,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
           calibratedChallengeRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           versionApi,
           flashAlgorithmService,
           locale,
@@ -704,7 +702,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             sessionManagementCertificationChallengeRepository.getNextChallengeByCourseId
               .withArgs(assessment.certificationCourseId, [])
               .resolves(null);
-            sharedChallengeRepository.get.resolves();
+            challengeToPlayApi.get.resolves();
 
             const candidate = domainBuilder.certification.evaluation.buildCandidate();
             certificationCandidateRepository.findByAssessmentId
@@ -743,7 +741,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
               .returns(nextCalibratedChallenge);
             pickChallengeService.getChallengePicker.withArgs().returns(getChallengePickerImpl);
 
-            sharedChallengeRepository.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
+            challengeToPlayApi.get.withArgs(nextCalibratedChallenge.id).resolves(challenge);
 
             // when
             const returnedChallenge = await getNextChallenge({
@@ -752,7 +750,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
               sessionManagementCertificationChallengeRepository,
               certificationChallengeLiveAlertRepository,
               calibratedChallengeRepository,
-              sharedChallengeRepository,
+              challengeToPlayApi,
               versionApi,
               flashAlgorithmService,
               locale,
@@ -789,7 +787,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         sessionManagementCertificationChallengeRepository.getNextChallengeByCourseId
           .withArgs(assessment.certificationCourseId, [])
           .resolves(null);
-        sharedChallengeRepository.get.resolves();
+        challengeToPlayApi.get.resolves();
 
         const candidate = domainBuilder.certification.evaluation.buildCandidate({
           subscriptionFramework: Frameworks.EDU_CPE,
@@ -815,7 +813,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
           calibratedChallengeRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           flashAlgorithmService,
           locale,
           pickChallengeService,
@@ -853,7 +851,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .withArgs(assessment.certificationCourseId, [])
           .resolves(null);
         versionApi.getByFrameworkAndDate.resolves(version);
-        sharedChallengeRepository.get.resolves();
+        challengeToPlayApi.get.resolves();
 
         const candidate = domainBuilder.certification.evaluation.buildCandidate({
           subscriptionFramework: Frameworks.CORE,
@@ -871,7 +869,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           sessionManagementCertificationChallengeRepository,
           certificationChallengeLiveAlertRepository,
           calibratedChallengeRepository,
-          sharedChallengeRepository,
+          challengeToPlayApi,
           flashAlgorithmService,
           locale,
           pickChallengeService,

@@ -20,6 +20,7 @@ import { answerJobRepository } from '../../infrastructure/repositories/answer-jo
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
@@ -79,6 +80,7 @@ const dependencies = {
   getMasteryPercentageService,
   knowledgeElementForParticipationService,
   smartRandomChallengeRepository,
+  challengeToPlayRepository,
 };
 
 import { completeAssessment } from './complete-assessment.js';

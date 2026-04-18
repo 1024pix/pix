@@ -2,7 +2,7 @@
  * @typedef {import('../../../evaluation/domain/usecases/index.js').AnswerRepository} AnswerRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {import('../../../evaluation/domain/usecases/index.js').SharedChallengeRepository} SharedChallengeRepository
+ * @typedef {import('../../../evaluation/domain/usecases/index.js').ChallengeToPlayApi} ChallengeToPlayApi
  * @typedef {import('../../../evaluation/domain/usecases/index.js').CalibratedChallengeRepository} CalibratedChallengeRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').SessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {import('../../../evaluation/domain/usecases/index.js').VersionApi} VersionApi
@@ -23,7 +23,7 @@ import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js'
  * @param {AnswerRepository} params.answerRepository
  * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
- * @param {SharedChallengeRepository} params.sharedChallengeRepository
+ * @param {ChallengeToPlayApi} params.challengeToPlayApi
  * @param {CalibratedChallengeRepository} params.calibratedChallengeRepository
  * @param {VersionApi} params.versionApi
  * @param {SessionManagementCertificationChallengeRepository} params.sessionManagementCertificationChallengeRepository
@@ -37,7 +37,7 @@ const getNextChallenge = async function ({
   certificationCandidateRepository,
   certificationChallengeLiveAlertRepository,
   sessionManagementCertificationChallengeRepository,
-  sharedChallengeRepository,
+  challengeToPlayApi,
   calibratedChallengeRepository,
   versionApi,
   flashAlgorithmService,
@@ -62,7 +62,7 @@ const getNextChallenge = async function ({
     );
 
   if (lastNonAnsweredCertificationChallenge) {
-    return sharedChallengeRepository.get(lastNonAnsweredCertificationChallenge.challengeId);
+    return challengeToPlayApi.get(lastNonAnsweredCertificationChallenge.challengeId);
   }
 
   const candidate = await certificationCandidateRepository.findByAssessmentId({ assessmentId: assessment.id });
@@ -124,7 +124,7 @@ const getNextChallenge = async function ({
 
   await sessionManagementCertificationChallengeRepository.save({ certificationChallenge });
 
-  return sharedChallengeRepository.get(challenge.id);
+  return challengeToPlayApi.get(challenge.id);
 };
 
 const _hasAnsweredToAllChallenges = ({ possibleChallenges }) => {

@@ -10,15 +10,15 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campai
         const locale = 'fr-fr';
         const firstChallengeId = 'first_challenge';
         const firstChallenge = domainBuilder.evaluation.buildSmartRandomChallenge({ id: firstChallengeId });
-        const finalChallenge = domainBuilder.buildChallenge({ id: firstChallenge.id });
+        const finalChallenge = domainBuilder.evaluation.buildChallengeToPlay({ id: firstChallenge.id });
         const assessment = domainBuilder.buildAssessment({ id: 1165 });
         const skill = domainBuilder.buildSkill();
 
         const answerRepository = { findByAssessment: sinon.stub() };
-        const challengeRepository = { get: sinon.stub() };
+        const challengeToPlayRepository = { get: sinon.stub() };
         const pickChallengeService = { pickChallenge: sinon.stub() };
 
-        challengeRepository.get.withArgs(firstChallengeId).resolves(finalChallenge);
+        challengeToPlayRepository.get.withArgs(firstChallengeId).resolves(finalChallenge);
 
         const possibleSkillsForNextChallenge = [skill];
         const smartRandomStub = {
@@ -36,7 +36,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campai
 
         // when
         const challenge = await getNextChallengeForCampaignAssessment({
-          challengeRepository,
+          challengeToPlayRepository,
           answerRepository,
           pickChallengeService,
           assessment,

@@ -7,7 +7,7 @@ export async function getNextChallengeForCompetenceEvaluation({
   pickChallengeService,
   smartRandomService,
   algorithmDataFetcherService,
-  challengeRepository,
+  challengeToPlayRepository,
   answerRepository,
   smartRandomChallengeRepository,
   knowledgeElementRepository,
@@ -39,7 +39,7 @@ export async function getNextChallengeForCompetenceEvaluation({
     randomSeed: assessment.id,
     locale: locale,
   });
-  return challengeRepository.get(smartRandomChallenge.id);
+  return challengeToPlayRepository.get(smartRandomChallenge.id);
 }
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {

@@ -4,7 +4,6 @@ import * as certificationCenterAccessApi from '../../../../identity-access-manag
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
-import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as certificationCpfCityRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
@@ -67,7 +66,6 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {certificationRepository} CertificationRepository
  * @typedef {v3CertificationCourseDetailsForAdministrationRepository} V3CertificationCourseDetailsForAdministrationRepository
  * @typedef {competenceRepository} CompetenceRepository
- * @typedef {challengeRepository} ChallengeRepository
  * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {answerRepository} AnswerRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
@@ -109,7 +107,6 @@ const repositoriesWithoutInjectedDependencies = {
   certificationReportRepository,
   v3CertificationCourseDetailsForAdministrationRepository,
   competenceRepository,
-  challengeRepository,
   answerRepository,
   assessmentResultRepository,
   competenceMarkRepository,
@@ -143,7 +140,6 @@ export {
   certificationChallengeRepository,
   certificationIssueReportRepository,
   certificationRepository,
-  challengeRepository,
   competenceMarkRepository,
   cpfExportRepository,
   repositories,

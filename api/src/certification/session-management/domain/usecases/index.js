@@ -1,3 +1,4 @@
+import * as challengeToPlayApi from '../../../../evaluation/application/api/challenge-to-play-api.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -14,7 +15,6 @@ import {
   certificationChallengeRepository,
   certificationIssueReportRepository,
   certificationRepository,
-  challengeRepository,
   competenceMarkRepository,
   cpfExportRepository,
   repositories,
@@ -38,7 +38,6 @@ import * as sessionPublicationService from '../services/session-publication-serv
  * @typedef {import('../../infrastructure/repositories/index.js').AssessmentRepository} AssessmentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').AssessmentResultRepository} AssessmentResultRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
- * @typedef {import('../../infrastructure/repositories/index.js').ChallengeRepository} ChallengeRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationRepository} CertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').AnswerRepository} AnswerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
@@ -82,7 +81,6 @@ import * as sessionPublicationService from '../services/session-publication-serv
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {certificationChallengeRepository} CertificationChallengeRepository
- * @typedef {challengeRepository} ChallengeRepository
  * @typedef {certificationRepository} CertificationRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {juryCertificationRepository} JuryCertificationRepository
@@ -110,6 +108,8 @@ import * as sessionPublicationService from '../services/session-publication-serv
  * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  * @typedef {userRepository} UserRepository
  * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
+ * @typedef {VersionApi} VersionApi
+ * @typedef {ChallengeToPlayApi} ChallengeToPlayApi
  **/
 const dependencies = {
   ...repositories,
@@ -118,7 +118,6 @@ const dependencies = {
   assessmentResultRepository,
   answerRepository,
   sharedCompetenceMarkRepository,
-  challengeRepository,
   competenceMarkRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,
@@ -134,6 +133,7 @@ const dependencies = {
   sessionPublicationService,
   sharedSessionRepository,
   versionApi,
+  challengeToPlayApi,
   userRepository,
 };
 

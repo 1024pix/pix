@@ -2,15 +2,19 @@ import { assessmentController } from '../../../../src/school/application/assessm
 import { Activity } from '../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../src/school/domain/models/Assessment.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#getNextChallengeForPix1d', function () {
     it('should call the expected usecase', async function () {
       const assessmentId = 104974;
-      const challenge = { id: 'rec1', instruction: '1st challenge for Pix1d' };
-      const challengeSerializerStub = { serialize: sinon.stub() };
-      challengeSerializerStub.serialize.resolves(challenge);
+      const challenge = domainBuilder.evaluation.buildChallengeToPlay({
+        id: 'rec1',
+        instruction: '1st challenge for Pix1d',
+      });
+      const serializedChallenge = Symbol('serializedChallenge');
+      const challengeToPlayApi = { serialize: sinon.stub() };
+      challengeToPlayApi.serialize.withArgs(challenge).returns(serializedChallenge);
 
       // given
       const request = {
@@ -23,11 +27,11 @@ describe('Unit | Controller | assessment-controller', function () {
 
       // when
       const result = await assessmentController.getNextChallengeForPix1d(request, hFake, {
-        challengeSerializer: challengeSerializerStub,
+        challengeToPlayApi,
       });
 
       // then
-      expect(result).to.be.equal(challenge);
+      expect(result).to.equal(serializedChallenge);
     });
   });
 

@@ -5,7 +5,7 @@ export async function getNextChallenge({
   assessmentId,
   assessmentRepository,
   activityAnswerRepository,
-  challengeRepository,
+  challengeToPlayApi,
   activityRepository,
   missionAssessmentRepository,
   missionRepository,
@@ -31,5 +31,5 @@ export async function getNextChallenge({
   });
 
   await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessmentId, lastChallengeId: challengeId });
-  return challengeRepository.get(challengeId);
+  return challengeToPlayApi.get(challengeId);
 }

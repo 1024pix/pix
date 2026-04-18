@@ -1,10 +1,9 @@
-import * as challengeRepository from '../../shared/infrastructure/repositories/challenge-repository.js';
-import { usecases } from '../domain/usecases/index.js';
+import * as challengeToPlayApi from '../../evaluation/application/api/challenge-to-play-api.js';
 import * as challengeSerializer from '../infrastructure/serializers/challenge-serializer.js';
 
-const get = async function (request, h, dependencies = { challengeRepository, challengeSerializer }) {
-  const challenge = await usecases.getChallenge({ id: request.params.id });
-  return dependencies.challengeSerializer.serialize(challenge);
+const get = async function (request, h, dependencies = { challengeToPlayApi, challengeSerializer }) {
+  const challengeToPlay = await dependencies.challengeToPlayApi.get(request.params.id);
+  return dependencies.challengeSerializer.serialize(challengeToPlay);
 };
 
 const challengeController = { get };

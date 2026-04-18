@@ -5,7 +5,7 @@ async function neutralizeIfTimedChallengeStrategy({
   certificationIssueReport,
   certificationAssessment,
   certificationIssueReportRepository,
-  challengeRepository,
+  challengeToPlayApi,
 }) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
@@ -14,7 +14,7 @@ async function neutralizeIfTimedChallengeStrategy({
     return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
-  const challenge = await challengeRepository.get(recId);
+  const challenge = await challengeToPlayApi.get(recId);
 
   if (!challenge.isTimed()) {
     return _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport);
@@ -26,7 +26,7 @@ async function neutralizeIfImageOrEmbedStrategy({
   certificationIssueReport,
   certificationAssessment,
   certificationIssueReportRepository,
-  challengeRepository,
+  challengeToPlayApi,
 }) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
@@ -35,7 +35,7 @@ async function neutralizeIfImageOrEmbedStrategy({
     return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
-  const challenge = await challengeRepository.get(recId);
+  const challenge = await challengeToPlayApi.get(recId);
 
   if (!challenge.hasIllustration() && !challenge.hasEmbed()) {
     return _resolveWithNeitherImageNorEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport);
@@ -48,7 +48,7 @@ async function neutralizeIfAttachmentStrategy({
   certificationIssueReport,
   certificationAssessment,
   certificationIssueReportRepository,
-  challengeRepository,
+  challengeToPlayApi,
 }) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
@@ -57,7 +57,7 @@ async function neutralizeIfAttachmentStrategy({
     return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
-  const challenge = await challengeRepository.get(recId);
+  const challenge = await challengeToPlayApi.get(recId);
 
   if (!challenge.hasAtLeastOneAttachment()) {
     return _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport);
@@ -70,7 +70,7 @@ async function neutralizeOrValidateIfFocusedChallengeStrategy({
   certificationIssueReport,
   certificationAssessment,
   certificationIssueReportRepository,
-  challengeRepository,
+  challengeToPlayApi,
 }) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
@@ -79,7 +79,7 @@ async function neutralizeOrValidateIfFocusedChallengeStrategy({
     return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
-  const challenge = await challengeRepository.get(recId);
+  const challenge = await challengeToPlayApi.get(recId);
 
   if (!challenge.isFocused()) {
     return _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport);
@@ -121,7 +121,7 @@ class CertificationIssueReportResolutionStrategies {
     neutralizeIfTimedChallenge = neutralizeIfTimedChallengeStrategy,
     neutralizeOrValidateIfFocusedChallenge = neutralizeOrValidateIfFocusedChallengeStrategy,
     certificationIssueReportRepository,
-    challengeRepository,
+    challengeToPlayApi,
   }) {
     this._neutralizeWithoutChecking = neutralizeWithoutChecking;
     this._neutralizeIfImageOrEmbed = neutralizeIfImageOrEmbed;
@@ -130,7 +130,7 @@ class CertificationIssueReportResolutionStrategies {
     this._neutralizeIfTimedChallenge = neutralizeIfTimedChallenge;
     this._neutralizeOrValidateIfFocusedChallenge = neutralizeOrValidateIfFocusedChallenge;
     this._certificationIssueReportRepository = certificationIssueReportRepository;
-    this._challengeRepository = challengeRepository;
+    this._challengeToPlayApi = challengeToPlayApi;
   }
 
   async resolve({ certificationIssueReport, certificationAssessment }) {
@@ -138,7 +138,7 @@ class CertificationIssueReportResolutionStrategies {
       certificationIssueReport,
       certificationAssessment,
       certificationIssueReportRepository: this._certificationIssueReportRepository,
-      challengeRepository: this._challengeRepository,
+      challengeToPlayApi: this._challengeToPlayApi,
     };
 
     switch (certificationIssueReport.subcategory) {

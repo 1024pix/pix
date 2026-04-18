@@ -1,10 +1,10 @@
 import { AssessmentEndedError } from '../../../shared/domain/errors.js';
 import { _ } from '../../../shared/infrastructure/utils/lodash-utils.js';
 
-const getNextChallengeForDemo = async function ({
+export async function getNextChallengeForDemo({
   assessment,
   answerRepository,
-  challengeRepository,
+  challengeToPlayRepository,
   courseRepository,
 }) {
   const course = await courseRepository.get(assessment.courseId);
@@ -13,10 +13,8 @@ const getNextChallengeForDemo = async function ({
   if (!nextChallengeId) {
     throw new AssessmentEndedError();
   }
-  return challengeRepository.get(nextChallengeId);
-};
-
-export { getNextChallengeForDemo };
+  return challengeToPlayRepository.get(nextChallengeId);
+}
 
 function _selectNextChallengeId(course, answers) {
   const courseChallengeIds = course.challenges;

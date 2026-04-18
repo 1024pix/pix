@@ -1,4 +1,5 @@
 import * as certificationChallengeLiveAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as challengeToPlayApi from '../../../../evaluation/application/api/challenge-to-play-api.js';
 import * as correctionApi from '../../../../evaluation/application/api/correction-api.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
@@ -66,6 +67,7 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {calibratedChallengeRepository} CalibratedChallengeRepository
  * @typedef {sessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {correctionApi} CorrectionApi
+ * @typedef {challengeToPlayApi} ChallengeToPlayApi
  * @typedef {versionApi} VersionApi
  * @typedef {certificationCompletedJobRepository} CertificationCompletedJobRepository
  * @typedef {services} Services
@@ -100,6 +102,7 @@ const dependencies = {
   certificationChallengeLiveAlertRepository,
   pixPlusCertificationCourseRepository,
   correctionApi,
+  challengeToPlayApi,
   versionApi,
   certificationCompletedJobRepository,
   services,

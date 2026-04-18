@@ -1,12 +1,11 @@
 import * as serializer from '../../../../../src/school/infrastructure/serializers/challenge-serializer.js';
-import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
-import { expect } from '../../../../test-helper.js';
+import { domainBuilder,expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | challenge-serializer', function () {
   describe('#serialize()', function () {
     it('should convert a Challenge model object into JSON API data', function () {
       // given
-      const challenge = new Challenge({
+      const challenge = domainBuilder.evaluation.buildChallengeToPlay({
         id: 'challenge_id',
         instruction: 'Une première bulle.<br/>Pour tout mettre***Une deuxième bulle\n sur plusieurs lignes',
         proposals:

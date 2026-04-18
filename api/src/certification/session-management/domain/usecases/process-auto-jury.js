@@ -3,6 +3,7 @@
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
+ * @typedef {import('./index.js').ChallengeToPlayApi} ChallengeToPlayApi
  * @typedef {import('../models/Session.js').Session} Session
  * @typedef {import('../models/CertificationCourse.js').CertificationCourse} CertificationCourse
  */
@@ -19,12 +20,13 @@ import { CertificationIssueReportResolutionStrategies } from '../models/Certific
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
  * @param {SessionRepository} params.sessionRepository
+ * @param {ChallengeToPlayApi} params.challengeToPlayApi
  */
 export async function processAutoJury({
   session,
   certificationIssueReportRepository,
   certificationAssessmentRepository,
-  challengeRepository,
+  challengeToPlayApi,
   certificationEvaluationRepository,
   sessionRepository,
 }) {
@@ -41,7 +43,7 @@ export async function processAutoJury({
       await _handleAutoJuryV2({
         certificationCourse,
         certificationIssueReportRepository,
-        challengeRepository,
+        challengeToPlayApi,
         certificationAssessmentRepository,
         certificationEvaluationRepository,
       });
@@ -54,17 +56,18 @@ export async function processAutoJury({
  * @param {CertificationCourse} params.certificationCourse
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
+ * @param {ChallengeToPlayApi} params.challengeToPlayApi
  */
 async function _handleAutoJuryV2({
   certificationCourse,
   certificationIssueReportRepository,
-  challengeRepository,
+  challengeToPlayApi,
   certificationAssessmentRepository,
   certificationEvaluationRepository,
 }) {
   const resolutionStrategies = new CertificationIssueReportResolutionStrategies({
     certificationIssueReportRepository,
-    challengeRepository,
+    challengeToPlayApi,
   });
 
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({

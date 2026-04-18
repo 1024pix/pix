@@ -1,18 +1,11 @@
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
-import { getNextChallenge } from '../../../../../src/school/domain/usecases/get-next-challenge.js';
-import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
-import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
-import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
-import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
-import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { databaseBuilder, expect, knex, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | School | Usecase | get-next-challenge', function () {
-  describe('#getNextChallenge', function () {
+  describe('#usecases.getNextChallenge', function () {
     context('when last activity is succeeded', function () {
       it('should return null', async function () {
         const { assessmentId } = databaseBuilder.factory.buildMissionAssessment({ state: Assessment.states.COMPLETED });
@@ -20,14 +13,8 @@ describe('Integration | School | Usecase | get-next-challenge', function () {
 
         await databaseBuilder.commit();
 
-        const challenge = await getNextChallenge({
+        const challenge = await usecases.getNextChallenge({
           assessmentId,
-          activityRepository,
-          activityAnswerRepository,
-          challengeRepository,
-          assessmentRepository,
-          missionAssessmentRepository,
-          missionRepository,
         });
         expect(challenge).to.be.null;
       });
@@ -88,19 +75,12 @@ describe('Integration | School | Usecase | get-next-challenge', function () {
           ],
         });
 
-        const challenge = await getNextChallenge({
+        const challenge = await usecases.getNextChallenge({
           assessmentId,
-          activityRepository,
-          activityAnswerRepository,
-          challengeRepository,
-          assessmentRepository,
-          missionAssessmentRepository,
-          missionRepository,
         });
 
         const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
         expect(challenge.id).to.equal('second_va_challenge_on_step_2_id');
-        expect(challenge).to.be.instanceOf(Challenge);
         expect(updatedAssessment.lastChallengeId).to.equal('second_va_challenge_on_step_2_id');
       });
     });
@@ -145,19 +125,12 @@ describe('Integration | School | Usecase | get-next-challenge', function () {
           ],
         });
 
-        const challenge = await getNextChallenge({
+        const challenge = await usecases.getNextChallenge({
           assessmentId,
-          activityRepository,
-          activityAnswerRepository,
-          challengeRepository,
-          assessmentRepository,
-          missionAssessmentRepository,
-          missionRepository,
         });
 
         const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
         expect(challenge.id).to.equal('second_va_challenge_id');
-        expect(challenge).to.be.instanceOf(Challenge);
         expect(updatedAssessment.lastChallengeId).to.equal('second_va_challenge_id');
       });
     });

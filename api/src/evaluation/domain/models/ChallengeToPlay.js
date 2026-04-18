@@ -24,6 +24,8 @@ import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from '../../../shared/do
  * @property {boolean} focused
  * @property {boolean} autoReply
  * @property {boolean} shuffled
+ * @property {boolean} noValidationNeeded
+ * @property {boolean} hasEmbedInternalValidation
  * @property {string[]|null} locales
  */
 export class ChallengeToPlay extends BaseChallenge {

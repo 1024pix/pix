@@ -20,6 +20,8 @@ export const buildChallengeToPlay = function ({
   embedTitle = 'foo embedTitle',
   locales = ['foo locale'],
   competenceId = 'foo competenceId',
+  noValidationNeeded = false,
+  hasEmbedInternalValidation = false,
   webComponentTagName = 'foo webComponentTagName',
   webComponentProps = { foo: 'bar' },
 } = {}) {
@@ -42,6 +44,8 @@ export const buildChallengeToPlay = function ({
     embedTitle,
     locales,
     competenceId,
+    noValidationNeeded,
+    hasEmbedInternalValidation,
   });
   return new ChallengeToPlay(coreChallenge, webComponentTagName, webComponentProps);
 };

@@ -6,7 +6,7 @@ const createCertificationChallengeLiveAlert = async function ({
   challengeId,
   certificationChallengeLiveAlertRepository,
   answerRepository,
-  challengeRepository,
+  challengeToPlayApi,
 }) {
   const unhandledCertificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
@@ -30,16 +30,16 @@ const createCertificationChallengeLiveAlert = async function ({
 
   const questionNumber = _getCurrentQuestionNumber(answers);
 
-  const { attachments, embedUrl, illustrationUrl, focused } = await challengeRepository.get(challengeId);
+  const challengeToPlay = await challengeToPlayApi.get(challengeId);
 
   const certificationChallengeLiveAlert = new CertificationChallengeLiveAlert({
     assessmentId,
     challengeId,
     questionNumber,
-    hasAttachment: attachments?.length > 0,
-    hasImage: illustrationUrl?.length > 0,
-    hasEmbed: embedUrl?.length > 0,
-    isFocus: focused,
+    hasAttachment: challengeToPlay.hasAtLeastOneAttachment(),
+    hasImage: challengeToPlay.hasIllustration(),
+    hasEmbed: challengeToPlay.hasEmbed(),
+    isFocus: challengeToPlay.isFocused(),
   });
 
   return certificationChallengeLiveAlertRepository.save({ certificationChallengeLiveAlert });

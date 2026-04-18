@@ -176,11 +176,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
-          const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+          const challengeWithImage = domainBuilder.evaluation.buildChallengeToPlay({ illustrationUrl: 'image_url' });
           const certificationIssueReportRepository = {
             save: sinon.stub(),
           };
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(challengeWithImage),
           };
 
@@ -189,7 +189,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -211,12 +211,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
-          const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+          const challengeWithImage = domainBuilder.evaluation.buildChallengeToPlay({ illustrationUrl: 'image_url' });
 
           const certificationIssueReportRepository = {
             save: sinon.stub(),
           };
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(challengeWithImage),
           };
 
@@ -225,7 +225,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -250,11 +250,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
-          const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
+          const challengeWithEmbed = domainBuilder.evaluation.buildChallengeToPlay({ embedUrl: 'embed_url' });
           const certificationIssueReportRepository = {
             save: sinon.stub(),
           };
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(challengeWithEmbed),
           };
 
@@ -263,7 +263,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -285,12 +285,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
-          const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
+          const challengeWithEmbed = domainBuilder.evaluation.buildChallengeToPlay({ embedUrl: 'embed_url' });
 
           const certificationIssueReportRepository = {
             save: sinon.stub(),
           };
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(challengeWithEmbed),
           };
 
@@ -299,7 +299,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -378,14 +378,14 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithoutIllustrationAndEmbed = domainBuilder.buildChallenge({
+        const challengeWithoutIllustrationAndEmbed = domainBuilder.evaluation.buildChallengeToPlay({
           illustrationUrl: null,
           embedUrl: null,
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithoutIllustrationAndEmbed),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -399,7 +399,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -418,11 +418,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithoutIllustration = domainBuilder.buildChallenge({ illustrationUrl: null });
+        const challengeWithoutIllustration = domainBuilder.evaluation.buildChallengeToPlay({ illustrationUrl: null });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithoutIllustration),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -436,7 +436,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -461,11 +461,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+        const challengeWithImage = domainBuilder.evaluation.buildChallengeToPlay({ illustrationUrl: 'image_url' });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithImage),
         };
 
@@ -474,7 +474,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -496,11 +496,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+        const challengeWithImage = domainBuilder.evaluation.buildChallengeToPlay({ illustrationUrl: 'image_url' });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithImage),
         };
 
@@ -509,7 +509,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -536,13 +536,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithAttachment = domainBuilder.buildChallenge({
+        const challengeWithAttachment = domainBuilder.evaluation.buildChallengeToPlay({
           attachments: ['some/attachment/url'],
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithAttachment),
         };
 
@@ -551,7 +551,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -574,7 +574,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
 
-        const challengeWithAttachment = domainBuilder.buildChallenge({
+        const challengeWithAttachment = domainBuilder.evaluation.buildChallengeToPlay({
           attachments: ['some/attachment/url'],
         });
 
@@ -582,7 +582,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           save: sinon.stub(),
         };
 
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithAttachment),
         };
 
@@ -591,7 +591,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -669,11 +669,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithoutAttachment = domainBuilder.buildChallenge({ attachments: [] });
+        const challengeWithoutAttachment = domainBuilder.evaluation.buildChallengeToPlay({ attachments: [] });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithoutAttachment),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -687,7 +687,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -703,11 +703,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithoutAttachment = domainBuilder.buildChallenge({ attachments: [] });
+        const challengeWithoutAttachment = domainBuilder.evaluation.buildChallengeToPlay({ attachments: [] });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithoutAttachment),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -721,7 +721,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -746,13 +746,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithAttachment = domainBuilder.buildChallenge({
+        const challengeWithAttachment = domainBuilder.evaluation.buildChallengeToPlay({
           attachments: ['some/attachment/url'],
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithAttachment),
         };
 
@@ -761,7 +761,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -783,13 +783,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithAttachment = domainBuilder.buildChallenge({
+        const challengeWithAttachment = domainBuilder.evaluation.buildChallengeToPlay({
           attachments: ['some/attachment/url'],
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(challengeWithAttachment),
         };
 
@@ -798,7 +798,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -825,13 +825,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const timedChallenge = domainBuilder.buildChallenge({
+        const timedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
           timer: 1.33,
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(timedChallenge),
         };
 
@@ -840,7 +840,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -863,7 +863,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
 
-        const timedChallenge = domainBuilder.buildChallenge({
+        const timedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
           timer: 1.33,
         });
 
@@ -871,7 +871,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           save: sinon.stub(),
         };
 
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(timedChallenge),
         };
 
@@ -880,7 +880,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -958,11 +958,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const notTimedChallenge = domainBuilder.buildChallenge({});
+        const notTimedChallenge = domainBuilder.evaluation.buildChallengeToPlay({});
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(notTimedChallenge),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -976,7 +976,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -992,11 +992,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const notTimedChallenge = domainBuilder.buildChallenge({});
+        const notTimedChallenge = domainBuilder.evaluation.buildChallengeToPlay({});
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(notTimedChallenge),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -1010,7 +1010,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -1035,13 +1035,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const timedChallenge = domainBuilder.buildChallenge({
+        const timedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
           timer: 1.33,
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(timedChallenge),
         };
 
@@ -1050,7 +1050,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -1072,13 +1072,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const timedChallenge = domainBuilder.buildChallenge({
+        const timedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
           timer: 1.33,
         });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(timedChallenge),
         };
 
@@ -1087,7 +1087,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -1117,11 +1117,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
-          const focusedChallenge = domainBuilder.buildChallenge({ focused: true });
+          const focusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({ focused: true });
           const certificationIssueReportRepository = {
             save: sinon.stub(),
           };
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(focusedChallenge),
           };
 
@@ -1130,7 +1130,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -1155,7 +1155,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             questionNumber: 1,
           });
 
-          const focusedChallenge = domainBuilder.buildChallenge({
+          const focusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
             focused: true,
           });
 
@@ -1163,7 +1163,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             save: sinon.stub(),
           };
 
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(focusedChallenge),
           };
 
@@ -1172,7 +1172,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -1200,11 +1200,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
-          const focusedChallenge = domainBuilder.buildChallenge({ focused: true });
+          const focusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({ focused: true });
           const certificationIssueReportRepository = {
             save: sinon.stub(),
           };
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(focusedChallenge),
           };
 
@@ -1213,7 +1213,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -1238,7 +1238,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             questionNumber: 1,
           });
 
-          const focusedChallenge = domainBuilder.buildChallenge({
+          const focusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({
             focused: true,
           });
 
@@ -1246,7 +1246,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             save: sinon.stub(),
           };
 
-          const challengeRepository = {
+          const challengeToPlayApi = {
             get: sinon.stub().resolves(focusedChallenge),
           };
 
@@ -1255,7 +1255,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationIssueReport,
             certificationAssessment,
             certificationIssueReportRepository,
-            challengeRepository,
+            challengeToPlayApi,
           });
 
           // then
@@ -1336,11 +1336,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
+        const notFocusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({ focused: false });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(notFocusedChallenge),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -1354,7 +1354,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -1370,11 +1370,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
+        const notFocusedChallenge = domainBuilder.evaluation.buildChallengeToPlay({ focused: false });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
-        const challengeRepository = {
+        const challengeToPlayApi = {
           get: sinon.stub().resolves(notFocusedChallenge),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
@@ -1388,7 +1388,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // then
@@ -1417,7 +1417,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         certificationIssueReport,
         certificationAssessment: null,
         certificationIssueReportRepository: null,
-        challengeRepository: null,
+        challengeToPlayApi: null,
       });
 
       // then
@@ -1437,7 +1437,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         certificationIssueReport,
         certificationAssessment: null,
         certificationIssueReportRepository: null,
-        challengeRepository: null,
+        challengeToPlayApi: null,
       });
 
       // then
@@ -1532,13 +1532,13 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationAssessment = domainBuilder.buildCertificationAssessment();
         const certificationIssueReportRepository = {};
-        const challengeRepository = {};
+        const challengeToPlayApi = {};
         const strategyStub = sinon.stub();
 
         const strategies = new CertificationIssueReportResolutionStrategies({
           [strategyToBeApplied]: strategyStub,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
 
         // when
@@ -1549,7 +1549,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
-          challengeRepository,
+          challengeToPlayApi,
         });
       });
     });

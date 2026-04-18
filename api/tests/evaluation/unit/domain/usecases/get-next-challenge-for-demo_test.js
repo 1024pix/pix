@@ -5,7 +5,7 @@ import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-demo', function () {
   describe('#get-next-challenge-for-demo', function () {
     let courseRepository;
-    let challengeRepository;
+    let challengeToPlayRepository;
     let answerRepository;
 
     let assessment;
@@ -14,16 +14,16 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-demo',
     let secondChallenge;
 
     beforeEach(function () {
-      firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge' });
-      secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge' });
+      firstChallenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'first_challenge' });
+      secondChallenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'second_challenge' });
       course = domainBuilder.buildCourse({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
       assessment = domainBuilder.buildAssessment({ id: 1165, courseId: course.id });
 
       courseRepository = { get: sinon.stub().resolves(course) };
-      challengeRepository = { get: sinon.stub() };
+      challengeToPlayRepository = { get: sinon.stub() };
       answerRepository = { findByAssessment: sinon.stub() };
-      challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
-      challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
+      challengeToPlayRepository.get.withArgs('first_challenge').resolves(firstChallenge);
+      challengeToPlayRepository.get.withArgs('second_challenge').resolves(secondChallenge);
     });
 
     it('should return the first challenge if no answer exist', async function () {
@@ -33,7 +33,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-demo',
       // when
       const result = await getNextChallengeForDemo({
         courseRepository,
-        challengeRepository,
+        challengeToPlayRepository,
         answerRepository,
         assessment,
       });
@@ -50,7 +50,7 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-demo',
       // when
       const result = await getNextChallengeForDemo({
         courseRepository,
-        challengeRepository,
+        challengeToPlayRepository,
         answerRepository,
         assessment,
       });
@@ -66,7 +66,12 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-demo',
       answerRepository.findByAssessment.resolves([firstAnswer, secondAnswer]);
 
       // when
-      const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
+      const promise = getNextChallengeForDemo({
+        courseRepository,
+        challengeToPlayRepository,
+        answerRepository,
+        assessment,
+      });
 
       // then
       return expect(promise).to.be.rejectedWith(AssessmentEndedError);

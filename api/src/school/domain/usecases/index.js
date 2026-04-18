@@ -1,3 +1,4 @@
+import * as challengeToPlayApi from '../../../evaluation/application/api/challenge-to-play-api.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
@@ -21,6 +22,7 @@ const dependencies = {
   organizationLearnerRepository: repositories.organizationLearnerRepository,
   schoolRepository: repositories.schoolRepository,
   challengeRepository,
+  challengeToPlayApi,
 };
 
 import { activateSchoolSession } from './activate-school-session.js';
@@ -33,7 +35,6 @@ import {
   findPaginatedMissionLearners,
 } from './find-paginated-mission-learners.js';
 import { getAssessmentById } from './get-assessment-by-id.js';
-import { getChallenge } from './get-challenge.js';
 import { getCurrentActivity } from './get-current-activity.js';
 import { getDivisions } from './get-divisions.js';
 import { getMission } from './get-mission.js';
@@ -52,7 +53,6 @@ const usecasesWithoutInjectedDependencies = {
   filterByStatuses,
   findPaginatedMissionLearners,
   getAssessmentById,
-  getChallenge,
   getCurrentActivity,
   getDivisions,
   getMission,
