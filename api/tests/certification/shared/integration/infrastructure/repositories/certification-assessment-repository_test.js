@@ -6,7 +6,7 @@ import * as certificationAssessmentRepository from '../../../../../../src/certif
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
+import { TYPES } from '../../../../../../src/shared/domain/models/BaseChallenge.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
@@ -65,19 +65,19 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       challenges: [
         {
           id: 'recChalA',
-          type: Challenge.Type.QCU,
+          type: TYPES.QCU,
           status: 'validé',
           skillId: 'recArea1_Competence1_Tube1_Skill1',
         },
         {
           id: 'recChalB',
-          type: Challenge.Type.QCM,
+          type: TYPES.QCM,
           status: 'archivé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
         },
         {
           id: 'recChalC',
-          type: Challenge.Type.QCM,
+          type: TYPES.QCM,
           status: 'périmé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
         },
@@ -186,10 +186,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           'recChalA',
           'recChalB',
         ]);
-        expect(_.map(certificationAssessment.certificationChallenges, 'type')).to.deep.equal([
-          Challenge.Type.QCU,
-          Challenge.Type.QCM,
-        ]);
+        expect(_.map(certificationAssessment.certificationChallenges, 'type')).to.deep.equal([TYPES.QCU, TYPES.QCM]);
       });
     });
 

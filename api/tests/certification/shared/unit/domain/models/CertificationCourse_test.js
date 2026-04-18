@@ -2,7 +2,6 @@ import { AlgorithmEngineVersion } from '../../../../../../src/certification/shar
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
-import { generateChallengeList } from '../../../fixtures/challenges.js';
 
 describe('Unit | Domain | Models | CertificationCourse', function () {
   describe('#abort', function () {
@@ -246,39 +245,19 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
   });
 
   describe('#getNumberOfChallenges', function () {
-    describe('when certification course is version 3', function () {
-      it('should return the number of challenges defined when created', function () {
-        // given
-        const numberOfChallenges = 5;
-        const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: AlgorithmEngineVersion.V3,
-          numberOfChallenges,
-        });
-
-        // when
-        const computedNumberOfChallenges = certificationCourse.getNumberOfChallenges();
-
-        // then
-        expect(computedNumberOfChallenges).to.equal(numberOfChallenges);
+    it('should return the number of challenges defined when created', function () {
+      // given
+      const numberOfChallenges = 5;
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        version: AlgorithmEngineVersion.V3,
+        numberOfChallenges,
       });
-    });
 
-    describe('when certification course is version 2', function () {
-      it('should return the number of challenges based on the challenges length', function () {
-        // given
-        const numberOfChallenges = 5;
-        const challenges = generateChallengeList({ length: numberOfChallenges });
-        const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: AlgorithmEngineVersion.V2,
-          challenges,
-        });
+      // when
+      const computedNumberOfChallenges = certificationCourse.getNumberOfChallenges();
 
-        // when
-        const computedNumberOfChallenges = certificationCourse.getNumberOfChallenges();
-
-        // then
-        expect(computedNumberOfChallenges).to.equal(numberOfChallenges);
-      });
+      // then
+      expect(computedNumberOfChallenges).to.equal(numberOfChallenges);
     });
   });
 

@@ -1,10 +1,10 @@
 import { CertificationChallengeWithType } from '../../../../src/certification/shared/domain/models/CertificationChallengeWithType.js';
-import { Type } from '../../../../src/shared/domain/models/Challenge.js';
+import { TYPES } from '../../../../src/shared/domain/models/BaseChallenge.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', function () {
   describe('#constructor', function () {
-    Object.values(Type).forEach((validType) => {
+    Object.values(TYPES).forEach((validType) => {
       it(`should initialize CertificationChallengeWithType with type ${validType}`, function () {
         // when
         const certificationChallengeWithType = new CertificationChallengeWithType({ type: validType });

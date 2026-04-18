@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('./index.js').CertificationEvaluationApi} CertificationEvaluationApi
- * @typedef {import ('../../domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import ('../../../certification/evaluation/domain/errors.js').AssessmentEndedError} AssessmentEndedError
+ * @typedef {import ('../../../evaluation/domain/models/ChallengeToPlay.js').ChallengeToPlay} ChallengeToPlay
  */
 
 /**
@@ -11,7 +11,7 @@
  * @param {string} params.locale - candidate locale
  * @param {CertificationEvaluationApi} params.certificationEvaluationApi
  *
- * @returns {Challenge}
+ * @returns {ChallengeToPlay}
  * @throws {AssessmentEndedError} test ended or no next challenge available
  */
 export const selectNextCertificationChallenge = async function ({ assessmentId, locale, certificationEvaluationApi }) {

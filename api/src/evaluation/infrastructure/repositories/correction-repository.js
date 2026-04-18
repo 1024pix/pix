@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { Challenge } from '../../../shared/domain/models/Challenge.js';
+import { TYPES } from '../../../shared/domain/models/BaseChallenge.js';
 import { Correction } from '../../../shared/domain/models/Correction.js';
 import { Hint } from '../../../shared/domain/models/Hint.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
@@ -31,10 +31,7 @@ export async function getByChallengeId({ challengeId, answerValue, userId, local
     tutorialRepository,
   });
 
-  if (
-    challengeForCorrection.type === Challenge.Type.QROCM_DEP &&
-    answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS
-  ) {
+  if (challengeForCorrection.type === TYPES.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
     correctionDetails = getCorrection({ solution: challengeForCorrection.solutionAlgo, answerValue });
   }
 

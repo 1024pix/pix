@@ -101,10 +101,10 @@ function _toDomain({
   return new CertificationCourse({
     ...certificationCourseDTO,
     assessment,
-    challenges: challengesDTO,
     complementaryCertificationCourse,
     certificationIssueReports,
     isAdjustedForAccessibility: accessibilityAdjustmentNeeded,
+    nbChallenges: challengesDTO.length,
   });
 }
 

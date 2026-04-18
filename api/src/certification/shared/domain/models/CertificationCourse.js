@@ -1,6 +1,5 @@
 /**
  * @typedef {import('../../../../shared/domain/models/Assessment.js').Assessment} Assessment
- * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import('./CertificationIssueReport.js').CertificationIssueReport} CertificationIssueReport
  * @typedef {import('../../../session-management/domain/models/ComplementaryCertificationCourse.js').ComplementaryCertificationCourse} ComplementaryCertificationCourse
  * @typedef {import('./AlgorithmEngineVersion.js').AlgorithmEngineVersion} AlgorithmEngineVersion
@@ -35,7 +34,6 @@ export class CertificationCourse {
    * @param {boolean} props.isPublished
    * @param {string} props.verificationCode
    * @param {Assessment} props.assessment
-   * @param {Array<Challenge>} props.challenges
    * @param {Array<CertificationIssueReport>} props.certificationIssueReports
    * @param {number} props.userId
    * @param {number} props.sessionId
@@ -64,7 +62,6 @@ export class CertificationCourse {
     isPublished = false,
     verificationCode,
     assessment,
-    challenges,
     certificationIssueReports,
     userId,
     sessionId,
@@ -96,7 +93,6 @@ export class CertificationCourse {
     this._version = version;
     this._verificationCode = verificationCode;
     this._assessment = assessment;
-    this._challenges = challenges;
     this._certificationIssueReports = certificationIssueReports;
     this._userId = userId;
     this._sessionId = sessionId;
@@ -115,7 +111,6 @@ export class CertificationCourse {
   static from({
     certificationCandidate,
     certificationVersion,
-    challenges,
     verificationCode,
     complementaryCertificationCourse,
     numberOfChallenges,
@@ -136,7 +131,6 @@ export class CertificationCourse {
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
       isAdjustedForAccessibility: certificationCandidate.accessibilityAdjustmentNeeded,
-      challenges,
       numberOfChallenges,
       verificationCode,
       complementaryCertificationCourse,
@@ -304,7 +298,7 @@ export class CertificationCourse {
   }
 
   getNumberOfChallenges() {
-    return this._numberOfChallenges ?? this._challenges?.length ?? 0;
+    return this._numberOfChallenges;
   }
 
   setNumberOfChallenges(numberOfChallenges) {
@@ -351,7 +345,6 @@ export class CertificationCourse {
       isAdjustedForAccessibility: this._isAdjustedForAccessibility,
       verificationCode: this._verificationCode,
       assessment: this._assessment,
-      challenges: this._challenges,
       certificationIssueReports: this._certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
       userId: this._userId,
       sessionId: this._sessionId,

@@ -1,4 +1,4 @@
-import { Type } from '../../../../shared/domain/models/Challenge.js';
+import { TYPES } from '../../../../shared/domain/models/BaseChallenge.js';
 
 class CertificationChallengeWithType {
   constructor({
@@ -15,7 +15,7 @@ class CertificationChallengeWithType {
     this.id = id;
     this.associatedSkillName = associatedSkillName;
     this.challengeId = challengeId;
-    const possibleTypeValues = Object.values(Type);
+    const possibleTypeValues = Object.values(TYPES);
     this.type = possibleTypeValues.includes(type) ? type : 'EmptyType';
     this.competenceId = competenceId;
     this.isNeutralized = isNeutralized;

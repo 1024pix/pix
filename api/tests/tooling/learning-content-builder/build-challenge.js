@@ -1,4 +1,4 @@
-import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
+import { TYPES } from '../../../src/learning-content/domain/models/Challenge.js';
 
 const buildChallenge = function ({
   id = 'recCHAL1',
@@ -15,7 +15,7 @@ const buildChallenge = function ({
   proposals = 'Une proposition',
   status = 'validé',
   timer,
-  type = Challenge.Type.QCM,
+  type = TYPES.QCM,
   locales = ['fr'],
   autoReply = false,
   alpha = 1,

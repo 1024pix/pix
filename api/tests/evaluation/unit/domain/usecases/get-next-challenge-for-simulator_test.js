@@ -51,6 +51,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
           assessmentId: Symbol('assessmentId'),
           locale: Symbol('locale'),
           answers: [],
+          skills: [],
         };
 
         smartRandomService.getPossibleSkillsForNextChallenge.returns({

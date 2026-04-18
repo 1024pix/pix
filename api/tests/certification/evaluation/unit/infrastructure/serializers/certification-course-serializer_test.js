@@ -15,11 +15,11 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const certificationCourse = new CertificationCourse({
         id: 1,
         assessment: assessment,
-        challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: [],
         version: 2,
         isAdjustedForAccessibility: true,
       });
+      certificationCourse.setNumberOfChallenges(2);
 
       const issueReport = new CertificationIssueReport({
         id: 1234,
@@ -67,11 +67,11 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const certificationCourse = new CertificationCourse({
         id: 1,
         assessment: assessment,
-        challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: undefined,
         version: 2,
         isAdjustedForAccessibility: false,
       });
+      certificationCourse.setNumberOfChallenges(2);
 
       const jsonCertificationCourseWithAssessment = {
         data: {
@@ -110,11 +110,11 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const certificationCourse = new CertificationCourse({
         id: 1,
         assessment: assessment,
-        challenges: undefined,
         certificationIssueReports: undefined,
         version: 2,
         isAdjustedForAccessibility: false,
       });
+      certificationCourse.setNumberOfChallenges(0);
 
       const jsonCertificationCourseWithAssessment = {
         data: {

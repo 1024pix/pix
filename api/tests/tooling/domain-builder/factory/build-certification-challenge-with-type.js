@@ -1,11 +1,11 @@
 import { CertificationChallengeWithType } from '../../../../src/certification/shared/domain/models/CertificationChallengeWithType.js';
-import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
+import { TYPES } from '../../../../src/shared/domain/models/BaseChallenge.js';
 
 const buildCertificationChallengeWithType = function ({
   id = 123,
   challengeId = 'recCHAL',
   competenceId = 'recCOMP',
-  type = Challenge.Type.QCU,
+  type = TYPES.QCU,
   associatedSkillName = 'cueillir des fleurs',
   isNeutralized = false,
   hasBeenSkippedAutomatically = false,

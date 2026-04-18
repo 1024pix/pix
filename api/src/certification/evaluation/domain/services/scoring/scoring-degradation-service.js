@@ -1,6 +1,6 @@
 /**
  * @typedef {import('../../models/AssessmentSimulator.js').AssessmentSimulator} AssessmentSimulator
- * @typedef {import('../../../../../shared/domain/models/Challenge.js').Challenge} Challenge
+ * @typedef {import('../../models/CalibratedChallenge.js').CalibratedChallenge} CalibratedChallenge
  * @typedef {import('../../models/FlashAssessmentAlgorithm.js').FlashAssessmentAlgorithm} FlashAssessmentAlgorithm
  * @typedef {import('../../../../../evaluation/domain/models/Answer.js').Answer} Answer
  * @typedef {import('../../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js').FlashAssessmentAlgorithmConfiguration} FlashAssessmentAlgorithmConfiguration
@@ -20,7 +20,7 @@ const PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION = 1
  * @param {object} params
  * @param {FlashAssessmentAlgorithm} params.algorithm - The certification algorithm.
  * @param {number} params.capacity - The current capacity.
- * @param {Challenge[]} params.allChallenges - All available challenges.
+ * @param {CalibratedChallenge[]} params.allChallenges - All available challenges.
  * @param {Answer[]} params.allAnswers - All answers provided so far.
  * @param {FlashAssessmentAlgorithmConfiguration} params.flashAssessmentAlgorithmConfiguration - The flash assessment algorithm configuration.
  * @returns {number} The downgraded capacity.

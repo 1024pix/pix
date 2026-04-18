@@ -9,7 +9,6 @@
  * @typedef {import ('../../domain/events/CertificationUncancelled.js').CertificationUncancelled} CertificationUncancelled
  * @typedef {import ('../../../../shared/domain/errors.js').AssessmentEndedError} AssessmentEndedError
  * @typedef {import ('../../../../shared/domain/errors.js').AssessmentLackOfChallengesError} AssessmentLackOfChallengesError
- * @typedef {import ('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  */
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -48,7 +47,7 @@ export const rescoreV2Certification = async ({ event }) => {
  * @param {number} params.assessmentId
  * @param {string} params.locale
  *
- * @returns {Promise<Challenge>}
+ * @returns {Promise<ChallengeToPlay>}
  * @throws {AssessmentEndedError} test ended or no next challenge available
  * @throws {AssessmentLackOfChallengesError} no eligible challenges remaining before reaching maximum assessment length
  */

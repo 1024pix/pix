@@ -129,16 +129,6 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
           expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
         });
 
-        it('should retrieve associated challenges with the certification course', async function () {
-          // when
-          const thisCertificationCourse = await certificationCourseRepository.get({
-            id: expectedCertificationCourse.id,
-          });
-
-          // then
-          expect(thisCertificationCourse.toDTO().challenges).to.have.lengthOf(2);
-        });
-
         context('When the certification course has one assessment', function () {
           let assessmentId;
 
@@ -392,7 +382,7 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
 
       // then
       expect(certificationCourses).to.have.lengthOf(2);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(
+      const certificationCourse1 = expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(
         _cleanCertificationCourse(new CertificationCourse(firstCertifCourse)),
       );
       expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(

@@ -4,7 +4,6 @@
  * @typedef {import('../index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {import('../index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../index.js').CalibratedChallengeRepository} CalibratedChallengeRepository
- * @typedef {import('../../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import('../../read-models/ChallengeCalibration.js').ChallengeCalibration} ChallengeCalibration
  * @typedef {import('../../../../configuration/application/api/models/Version.js').Version} Version
  * @typedef {import('../../../../shared/domain/models/CertificationCourse.js').CertificationCourse} CertificationCourse
