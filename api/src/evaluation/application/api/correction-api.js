@@ -5,7 +5,7 @@ import * as correctionService from '../../domain/services/correction-service.js'
  * @name correctAnswer
  *
  * @param {Object} params
- * @param {Challenge} params.challenge
+ * @param {ChallengeForCorrection} params.challenge
  * @param {Answer} params.answer
  * @param {boolean} params.challengeSubmittedAt
  * @param {boolean} params.hasChallengeBeenFocusedOut

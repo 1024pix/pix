@@ -14,7 +14,7 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   answerRepository,
   answerJobRepository,
   areaRepository,
-  challengeRepository,
+  challengeForCorrectionRepository,
   scorecardService,
   competenceRepository,
   competenceEvaluationRepository,
@@ -35,7 +35,7 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
     throw new EmptyAnswerError();
   }
 
-  const challenge = await challengeRepository.get(answer.challengeId);
+  const challenge = await challengeForCorrectionRepository.get(answer.challengeId);
   const correctedAnswer = correctionService.evaluateAnswer({
     challenge,
     answer,

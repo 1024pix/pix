@@ -3,25 +3,17 @@ import _ from 'lodash';
 import { Challenge } from '../../../shared/domain/models/Challenge.js';
 import { Correction } from '../../../shared/domain/models/Correction.js';
 import { Hint } from '../../../shared/domain/models/Hint.js';
-import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { Answer } from '../../domain/models/Answer.js';
+import { getCorrection } from '../../domain/services/solution/solution-service-qrocm-dep.js';
+import * as challengeForCorrectionRepository from './challenge-for-correction-repository.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
-export async function getByChallengeId({
-  challengeId,
-  answerValue,
-  userId,
-  locale,
-  tutorialRepository,
-  fromDatasourceObject,
-  getCorrection,
-} = {}) {
-  const challengeForCorrection = await challengeRepository.get(challengeId, { forCorrection: true });
+export async function getByChallengeId({ challengeId, answerValue, userId, locale, tutorialRepository }) {
+  const challengeForCorrection = await challengeForCorrectionRepository.get(challengeId);
   const skill = await _getSkill(challengeForCorrection, locale);
   const hint = await _getHint(skill);
-  const solution = fromDatasourceObject(challengeForCorrection);
   let correctionDetails;
 
   const tutorials = await _getTutorials({
@@ -43,7 +35,7 @@ export async function getByChallengeId({
     challengeForCorrection.type === Challenge.Type.QROCM_DEP &&
     answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS
   ) {
-    correctionDetails = getCorrection({ solution, answerValue });
+    correctionDetails = getCorrection({ solution: challengeForCorrection.solutionAlgo, answerValue });
   }
 
   return new Correction({

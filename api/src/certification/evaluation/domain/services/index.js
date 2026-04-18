@@ -3,7 +3,6 @@ import * as placementProfileService from '../../../../shared/domain/services/pla
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
-import * as sharedChallengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as sharedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
@@ -48,7 +47,6 @@ import { handleV3CertificationScoring } from './scoring/scoring-v3.js';
  * @typedef {complementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  * @typedef {sharedCertificationCandidateRepository} SharedCertificationCandidateRepository
  * @typedef {sharedVersionRepository} SharedVersionRepository
- * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {calibratedChallengeRepository} CalibratedChallengeRepository
  */
 const dependencies = {
@@ -70,7 +68,6 @@ const dependencies = {
   certificationAssessmentRepository,
   complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
-  sharedChallengeRepository,
   sharedCertificationCandidateRepository,
   calibratedChallengeRepository,
 };

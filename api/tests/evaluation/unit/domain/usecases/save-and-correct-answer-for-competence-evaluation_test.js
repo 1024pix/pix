@@ -14,13 +14,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   const userId = 1;
   let assessment;
   let challenge;
-  let solution;
-  let validator;
+  let solutionAlgo;
   let correctAnswerValue;
   let answer;
   let clock;
   let answerRepository,
-    challengeRepository,
+    challengeForCorrectionRepository,
     competenceRepository,
     areaRepository,
     competenceEvaluationRepository,
@@ -41,7 +40,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     clock = sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { save: sinon.stub() };
-    challengeRepository = { get: sinon.stub() };
+    challengeForCorrectionRepository = { get: sinon.stub() };
     skillRepository = { findActiveByCompetenceId: sinon.stub() };
     scorecardService = { computeLevelUpInformation: sinon.stub() };
     competenceRepository = { get: sinon.stub() };
@@ -70,15 +69,18 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     answer.result = undefined;
     answer.resultDetails = undefined;
     correctAnswerValue = '1';
-    solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-    validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
-    challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
-    challengeRepository.get.resolves(challenge);
+    solutionAlgo = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+    challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+      id: answer.challengeId,
+      solutionAlgo,
+      type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
+    });
+    challengeForCorrectionRepository.get.resolves(challenge);
 
     dependencies = {
       forceOKAnswer,
       answerRepository,
-      challengeRepository,
+      challengeForCorrectionRepository,
       competenceEvaluationRepository,
       skillRepository,
       knowledgeElementRepository,
@@ -159,11 +161,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     it('should throw an error', async function () {
       // Given
       const emptyAnswer = domainBuilder.buildAnswer({ value: '' });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
       });
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         userId,
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
@@ -191,15 +194,16 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     it('should not throw an error', async function () {
       // Given
       const emptyAnswer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
       });
       const skills = domainBuilder.buildSkillCollection();
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
       KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         userId,
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
@@ -249,7 +253,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ answerId: savedAnswer.id, earnedPix: 1 });
       skills = domainBuilder.buildSkillCollection();
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
       KnowledgeElement.createKnowledgeElementsForAnswer.returns([
         firstCreatedKnowledgeElement,

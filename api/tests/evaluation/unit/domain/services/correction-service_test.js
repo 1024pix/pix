@@ -18,7 +18,7 @@ describe('Unit | Domain | Service | correction-service', function () {
     context('when answer evaluation succeeds without forcing OK answer', function () {
       it('should return the corrected answer', function () {
         // given
-        const challenge = domainBuilder.buildChallenge();
+        const challenge = domainBuilder.evaluation.buildChallengeForCorrection();
         const answer = domainBuilder.buildAnswer();
         const hasChallengeBeenFocusedOut = false;
         const isCertificationEvaluation = true;
@@ -41,7 +41,7 @@ describe('Unit | Domain | Service | correction-service', function () {
     context('when evaluating answer forcing OK answer', function () {
       it('should return an OK corrected answer', function () {
         // given
-        const challenge = domainBuilder.buildChallenge();
+        const challenge = domainBuilder.evaluation.buildChallengeForCorrection();
         const answer = domainBuilder.buildAnswer({
           value: 'Some random value',
         });
@@ -68,7 +68,7 @@ describe('Unit | Domain | Service | correction-service', function () {
     context('when a challengeSubmittedAt is provided', function () {
       it('should compute the time spent on the challenge', function () {
         // given
-        const challenge = domainBuilder.buildChallenge();
+        const challenge = domainBuilder.evaluation.buildChallengeForCorrection();
         const answer = domainBuilder.buildAnswer({
           value: 'Some random value',
         });
@@ -95,7 +95,7 @@ describe('Unit | Domain | Service | correction-service', function () {
     context('when a challengeSubmittedAt is not provided', function () {
       it('should compute a zero-ish time spent', function () {
         // given
-        const challenge = domainBuilder.buildChallenge();
+        const challenge = domainBuilder.evaluation.buildChallengeForCorrection();
         const answer = domainBuilder.buildAnswer({
           value: 'Some random value',
         });

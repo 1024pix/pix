@@ -5,7 +5,6 @@ import * as campaignParticipationRepository from '../../../prescription/campaign
 import knowledgeElementForParticipationService from '../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
 import * as targetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
-import { fromDatasourceObject } from '../../../shared/infrastructure/adapters/solution-adapter.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -20,6 +19,7 @@ import { answerJobRepository } from '../../infrastructure/repositories/answer-jo
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+import * as challengeForCorrectionRepository from '../../infrastructure/repositories/challenge-for-correction-repository.js';
 import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
@@ -41,7 +41,6 @@ import * as getNewAcquiredStagesService from '../services/stages/get-new-acquire
 const dependencies = {
   algorithmDataFetcherService,
   answerJobRepository,
-  fromDatasourceObject,
   answerRepository,
   correctionRepository: repositories.correctionRepository,
   areaRepository,
@@ -81,6 +80,7 @@ const dependencies = {
   knowledgeElementForParticipationService,
   smartRandomChallengeRepository,
   challengeToPlayRepository,
+  challengeForCorrectionRepository,
 };
 
 import { completeAssessment } from './complete-assessment.js';

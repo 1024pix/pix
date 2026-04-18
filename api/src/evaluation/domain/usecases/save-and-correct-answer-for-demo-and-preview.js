@@ -6,7 +6,7 @@ export async function saveAndCorrectAnswerForDemoAndPreview({
   assessment,
   forceOKAnswer = false,
   answerRepository,
-  challengeRepository,
+  challengeForCorrectionRepository,
   correctionService,
 }) {
   if (assessment.answers.some((existingAnswer) => existingAnswer.challengeId === answer.challengeId)) {
@@ -19,7 +19,7 @@ export async function saveAndCorrectAnswerForDemoAndPreview({
     throw new EmptyAnswerError();
   }
 
-  const challenge = await challengeRepository.get(answer.challengeId);
+  const challenge = await challengeForCorrectionRepository.get(answer.challengeId);
   const correctedAnswer = correctionService.evaluateAnswer({
     challenge,
     answer,

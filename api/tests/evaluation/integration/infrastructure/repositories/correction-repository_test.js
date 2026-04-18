@@ -1,4 +1,3 @@
-import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import * as correctionRepository from '../../../../../src/evaluation/infrastructure/repositories/correction-repository.js';
 import { Correction } from '../../../../../src/shared/domain/models/Correction.js';
 import { databaseBuilder, domainBuilder, expect, sinon } from '../../../../test-helper.js';
@@ -47,7 +46,6 @@ describe('Integration | Repository | correction-repository', function () {
     };
     const userId = 'userId';
     const locale = 'en';
-    let fromDatasourceObject;
     let expectedHint;
     let expectedTutorials;
     let expectedLearningMoreTutorials;
@@ -58,8 +56,6 @@ describe('Integration | Repository | correction-repository', function () {
     const tutorialEvaluation3 = { id: 'tutorialEvaluationId3', userId, tutorialId: 'recTuto3' };
 
     beforeEach(function () {
-      fromDatasourceObject = sinon.stub();
-
       expectedHint = domainBuilder.buildHint({
         skillName: '@web1',
         value: 'Can we geo-locate a rabbit on the ice floe?',
@@ -82,8 +78,6 @@ describe('Integration | Repository | correction-repository', function () {
     });
 
     context('normal challenge', function () {
-      let challengeDataObject;
-
       beforeEach(async function () {
         // given
         databaseBuilder.factory.learningContent.buildSkill({
@@ -140,7 +134,6 @@ describe('Integration | Repository | correction-repository', function () {
         });
         databaseBuilder.factory.learningContent.buildChallenge(challengeBaseData);
         await databaseBuilder.commit();
-        const getCorrectionStub = sinon.stub();
 
         // when
         const result = await correctionRepository.getByChallengeId({
@@ -148,12 +141,9 @@ describe('Integration | Repository | correction-repository', function () {
           userId,
           locale,
           tutorialRepository,
-          fromDatasourceObject,
-          getCorrection: getCorrectionStub,
         });
 
         // then
-        expect(getCorrectionStub).not.to.have.been.called;
         expect(result).to.be.an.instanceof(Correction);
         expect(result).to.deep.equal(expectedCorrection);
         expect(expectedCorrection.tutorials.map(({ skillId }) => skillId)).to.deep.equal([
@@ -166,7 +156,6 @@ describe('Integration | Repository | correction-repository', function () {
         // given
         databaseBuilder.factory.learningContent.buildChallenge(challengeBaseData);
         await databaseBuilder.commit();
-        const getCorrectionStub = sinon.stub();
 
         // when
         const result = await correctionRepository.getByChallengeId({
@@ -174,91 +163,10 @@ describe('Integration | Repository | correction-repository', function () {
           userId,
           locale,
           tutorialRepository,
-          fromDatasourceObject,
-          getCorrection: getCorrectionStub,
         });
 
         // then
         expect(result.hint).to.deep.equal(expectedHint);
-      });
-
-      context('when challenge type is QROCM-dep', function () {
-        context('when answer is skipped', function () {
-          it('should not call getCorrection service', async function () {
-            // given
-            databaseBuilder.factory.learningContent.buildChallenge({
-              ...challengeBaseData,
-              type: 'QROCM-dep',
-            });
-            await databaseBuilder.commit();
-
-            const answerValue = Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS;
-            const solution = Symbol('solution');
-            fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
-            const getCorrectionStub = sinon.stub();
-
-            // when
-            const correction = await correctionRepository.getByChallengeId({
-              challengeId: recordId,
-              answerValue,
-              userId,
-              locale,
-              tutorialRepository,
-              fromDatasourceObject,
-              getCorrection: getCorrectionStub,
-            });
-
-            // then
-            expect(getCorrectionStub).not.to.have.been.called;
-            expect(correction.answersEvaluation).to.deep.equal([]);
-          });
-        });
-
-        it('should call solution service and return solution blocks', async function () {
-          // given
-          databaseBuilder.factory.learningContent.buildChallenge({
-            ...challengeBaseData,
-            type: 'QROCM-dep',
-          });
-          await databaseBuilder.commit();
-
-          const answerValue = Symbol('answerValue');
-          const solution = Symbol('solution');
-          fromDatasourceObject
-            .withArgs({
-              id: challengeBaseData.id,
-              skillId: challengeBaseData.skillId,
-              type: 'QROCM-dep',
-              solution: challengeBaseData.solution,
-              solutionToDisplay: challengeBaseData.solutionToDisplay,
-              proposals: challengeBaseData.proposals,
-              t1Status: challengeBaseData.t1Status,
-              t2Status: challengeBaseData.t2Status,
-              t3Status: challengeBaseData.t3Status,
-            })
-            .returns(solution);
-          const getCorrectionStub = sinon.stub();
-          const answersEvaluation = Symbol('answersEvaluation');
-          const solutionsWithoutGoodAnswers = Symbol('solutionsWithoutGoodAnswers');
-          getCorrectionStub
-            .withArgs({ solution, answerValue })
-            .returns({ answersEvaluation, solutionsWithoutGoodAnswers });
-
-          // when
-          const correction = await correctionRepository.getByChallengeId({
-            challengeId: recordId,
-            answerValue,
-            userId,
-            locale,
-            tutorialRepository,
-            fromDatasourceObject,
-            getCorrection: getCorrectionStub,
-          });
-
-          // then
-          expect(getCorrectionStub).to.have.been.calledWithExactly({ solution, answerValue });
-          expect(correction.answersEvaluation).to.equal(answersEvaluation);
-        });
       });
 
       context('when hint is not available for the provided locale', function () {
@@ -274,7 +182,6 @@ describe('Integration | Repository | correction-repository', function () {
               id: challengeId,
             });
             await databaseBuilder.commit();
-            const getCorrectionStub = sinon.stub();
             tutorialRepository.findByRecordIdsForCurrentUser
               .withArgs({ ids: [challengeId], userId, locale: providedLocale })
               .resolves(expectedTutorials);
@@ -288,8 +195,6 @@ describe('Integration | Repository | correction-repository', function () {
               userId,
               locale: providedLocale,
               tutorialRepository,
-              fromDatasourceObject,
-              getCorrection: getCorrectionStub,
             });
 
             // then
@@ -313,7 +218,6 @@ describe('Integration | Repository | correction-repository', function () {
               id: challengeId,
             });
             await databaseBuilder.commit();
-            const getCorrectionStub = sinon.stub();
             tutorialRepository.findByRecordIdsForCurrentUser
               .withArgs({ ids: [challengeId], userId, locale })
               .resolves(expectedTutorials);
@@ -327,8 +231,6 @@ describe('Integration | Repository | correction-repository', function () {
               userId,
               locale,
               tutorialRepository,
-              fromDatasourceObject,
-              getCorrection: getCorrectionStub,
             });
 
             // then
@@ -348,7 +250,6 @@ describe('Integration | Repository | correction-repository', function () {
               id: challengeId,
             });
             await databaseBuilder.commit();
-            const getCorrectionStub = sinon.stub();
             tutorialRepository.findByRecordIdsForCurrentUser
               .withArgs({ ids: [challengeId], userId, locale: providedLocale })
               .resolves(expectedTutorials);
@@ -362,8 +263,6 @@ describe('Integration | Repository | correction-repository', function () {
               userId,
               locale: providedLocale,
               tutorialRepository,
-              fromDatasourceObject,
-              getCorrection: getCorrectionStub,
             });
 
             // then

@@ -1,11 +1,11 @@
 import * as certificationChallengeLiveAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as challengeForCorrectionApi from '../../../../evaluation/application/api/challenge-for-correction-api.js';
 import * as challengeToPlayApi from '../../../../evaluation/application/api/challenge-to-play-api.js';
 import * as correctionApi from '../../../../evaluation/application/api/correction-api.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
-import * as sharedChallengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as versionApi from '../../../configuration/application/api/version-api.js';
 import * as verifyCertificateCodeService from '../../../evaluation/domain/services/verify-certificate-code-service.js';
@@ -88,7 +88,6 @@ const dependencies = {
   answerRepository,
   calibratedChallengeRepository,
   sharedCompetenceMarkRepository,
-  sharedChallengeRepository,
   userRepository,
   flashAlgorithmService,
   certificationBadgesService,
@@ -103,6 +102,7 @@ const dependencies = {
   pixPlusCertificationCourseRepository,
   correctionApi,
   challengeToPlayApi,
+  challengeForCorrectionApi,
   versionApi,
   certificationCompletedJobRepository,
   services,

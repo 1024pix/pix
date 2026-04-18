@@ -19,7 +19,7 @@ export async function evaluateAndSaveAnswer({
   correctionApi,
   certificationCandidateRepository,
   certificationChallengeLiveAlertRepository,
-  sharedChallengeRepository,
+  challengeForCorrectionApi,
 }) {
   const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
   if (!assessmentSheet) {
@@ -27,7 +27,7 @@ export async function evaluateAndSaveAnswer({
   }
   checkIfAnswerIsAdmissible({ assessmentSheet, answer, userId });
 
-  const challenge = await sharedChallengeRepository.get(answer.challengeId);
+  const challenge = await challengeForCorrectionApi.get(answer.challengeId);
   const ongoingOrValidatedCertificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
       challengeId: challenge.id,

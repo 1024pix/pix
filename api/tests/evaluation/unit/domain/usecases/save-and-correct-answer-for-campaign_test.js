@@ -17,13 +17,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   let assessment;
   let challenge;
   let campaign;
-  let solution;
-  let validator;
+  let solutionAlgo;
   let correctAnswerValue;
   let answer;
   let clock;
   let answerRepository,
-    challengeRepository,
+    challengeForCorrectionRepository,
     competenceRepository,
     areaRepository,
     competenceEvaluationRepository,
@@ -44,7 +43,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     clock = sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { save: sinon.stub() };
-    challengeRepository = { get: sinon.stub() };
+    challengeForCorrectionRepository = { get: sinon.stub() };
     scorecardService = { computeLevelUpInformation: sinon.stub() };
     campaign = domainBuilder.buildCampaign({ id: campaignId });
     campaignRepository = {
@@ -87,15 +86,18 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     answer.result = undefined;
     answer.resultDetails = undefined;
     correctAnswerValue = '1';
-    solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-    validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
-    challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
-    challengeRepository.get.resolves(challenge);
+    solutionAlgo = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+    challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+      id: answer.challengeId,
+      solutionAlgo,
+      type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
+    });
+    challengeForCorrectionRepository.get.resolves(challenge);
 
     dependencies = {
       forceOKAnswer,
       answerRepository,
-      challengeRepository,
+      challengeForCorrectionRepository,
       competenceEvaluationRepository,
       campaignRepository,
       knowledgeElementForParticipationService,
@@ -176,11 +178,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     it('should throw an error', async function () {
       // Given
       const emptyAnswer = domainBuilder.buildAnswer({ value: '' });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
       });
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         userId,
         campaignParticipationId: 12,
@@ -209,9 +212,10 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     it('should not throw an error', async function () {
       // Given
       const emptyAnswer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
       });
       const skills = domainBuilder.buildSkillCollection();
       campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
@@ -219,7 +223,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
         .resolves([]);
       KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         userId,
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
@@ -275,10 +279,11 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
         skillAlreadyValidated = skills[0];
         skillNotAlreadyValidated = skills[2];
-        challenge = domainBuilder.buildChallenge({
-          skill: skillNotAlreadyValidated,
+        challenge = domainBuilder.evaluation.buildChallengeForCorrection({
           id: answer.challengeId,
-          validator,
+          solutionAlgo,
+          skillId: skillNotAlreadyValidated.id,
+          type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
         });
 
         knowledgeElement = domainBuilder.buildKnowledgeElement({
@@ -296,7 +301,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           assessmentId: assessment.id,
           answerId: savedAnswer.id,
         });
-        challengeRepository.get.resolves(challenge);
+        challengeForCorrectionRepository.get.resolves(challenge);
 
         knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
           .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })

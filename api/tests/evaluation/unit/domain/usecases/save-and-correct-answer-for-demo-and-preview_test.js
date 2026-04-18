@@ -10,12 +10,11 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.
 describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-demo-and-preview', function () {
   let assessment;
   let challenge;
-  let solution;
-  let validator;
+  let solutionAlgo;
   let correctAnswerValue;
   let answer;
   let clock;
-  let answerRepository, challengeRepository;
+  let answerRepository, challengeForCorrectionRepository;
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
   const locale = 'fr';
@@ -28,7 +27,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
     nowDate.setMilliseconds(1);
     clock = sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
     answerRepository = { save: sinon.stub() };
-    challengeRepository = { get: sinon.stub() };
+    challengeForCorrectionRepository = { get: sinon.stub() };
 
     const challengeId = 'oneChallengeId';
     assessment = domainBuilder.buildAssessment({
@@ -41,15 +40,18 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
     answer.result = undefined;
     answer.resultDetails = undefined;
     correctAnswerValue = '1';
-    solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-    validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
-    challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
-    challengeRepository.get.resolves(challenge);
+    solutionAlgo = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+    challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+      id: answer.challengeId,
+      solutionAlgo,
+      type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
+    });
+    challengeForCorrectionRepository.get.resolves(challenge);
 
     dependencies = {
       forceOKAnswer,
       answerRepository,
-      challengeRepository,
+      challengeForCorrectionRepository,
       correctionService,
     };
   });
@@ -187,12 +189,13 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
     beforeEach(function () {
       // Given
       focusedOutAnswer = domainBuilder.buildAnswer({ isFocusedOut: true });
-      const nonFocusedChallenge = domainBuilder.buildChallenge({
-        id: focusedOutAnswer.challengeId,
-        validator,
+      const nonFocusedChallenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
         focused: false,
       });
-      challengeRepository.get.resolves(nonFocusedChallenge);
+      challengeForCorrectionRepository.get.resolves(nonFocusedChallenge);
       assessment = domainBuilder.buildAssessment({
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         type: Assessment.types.CERTIFICATION,
@@ -221,11 +224,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
     it('should throw an error', async function () {
       // Given
       const emptyAnswer = domainBuilder.buildAnswer({ value: '' });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
       });
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         type: Assessment.types.DEMO,
@@ -250,11 +254,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
     it('should not throw an error', async function () {
       // Given
       const emptyAnswer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
-      const challenge = domainBuilder.buildChallenge({
-        id: emptyAnswer.challengeId,
-        validator,
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection({
+        id: answer.challengeId,
+        solutionAlgo,
+        type: domainBuilder.evaluation.buildChallengeForCorrection.TYPES.QCU,
       });
-      challengeRepository.get.resolves(challenge);
+      challengeForCorrectionRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         type: Assessment.types.DEMO,
