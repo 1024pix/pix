@@ -735,11 +735,11 @@ describe('Integration | Repository | challenge-repository', function () {
     await databaseBuilder.commit();
   });
 
-  describe('#get_proxy', function () {
+  describe('#get', function () {
     context('when no challenge found for id', function () {
       it('should throw a NotFound error', async function () {
         // when
-        const err = await catchErr(challengeRepository.get_proxy)('challengeIdPipeauPipette');
+        const err = await catchErr(challengeRepository.get)('challengeIdPipeauPipette');
 
         // then
         expect(err).to.be.instanceOf(NotFoundError);
@@ -750,7 +750,7 @@ describe('Integration | Repository | challenge-repository', function () {
     context('when challenge found for id', function () {
       it('should return the challenge', async function () {
         // when
-        const challenge = await challengeRepository.get_proxy('challengeId00');
+        const challenge = await challengeRepository.get('challengeId00');
 
         // then
         expect(challenge).to.deepEqualInstance(
@@ -762,12 +762,12 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#getMany_proxy', function () {
+  describe('#getMany', function () {
     context('when no locale provided', function () {
       context('when at least one challenge is not found amongst the provided ids', function () {
         it('should throw a NotFound error', async function () {
           // when
-          const err = await catchErr(challengeRepository.getMany_proxy)(['challengeIdPipeauPipette', 'challengeId00']);
+          const err = await catchErr(challengeRepository.getMany)(['challengeIdPipeauPipette', 'challengeId00']);
 
           // then
           expect(err).to.be.instanceOf(NotFoundError);
@@ -778,7 +778,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when all challenges are found', function () {
         it('should return the challenges', async function () {
           // when
-          const challenges = await challengeRepository.getMany_proxy(['challengeId02', 'challengeId00']);
+          const challenges = await challengeRepository.getMany(['challengeId02', 'challengeId00']);
 
           // then
           expect(challenges).to.deepEqualArray([
@@ -793,11 +793,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
         it('should allow duplicates', async function () {
           // when
-          const challenges = await challengeRepository.getMany_proxy([
-            'challengeId02',
-            'challengeId00',
-            'challengeId02',
-          ]);
+          const challenges = await challengeRepository.getMany(['challengeId02', 'challengeId00', 'challengeId02']);
 
           // then
           expect(challenges).to.deepEqualArray([
@@ -819,7 +815,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when at least one challenge is not found amongst the provided ids', function () {
         it('should throw a NotFound error', async function () {
           // when
-          const err = await catchErr(challengeRepository.getMany_proxy)(['challengeIdPipeauPipette', 'challengeId00']);
+          const err = await catchErr(challengeRepository.getMany)(['challengeIdPipeauPipette', 'challengeId00']);
 
           // then
           expect(err).to.be.instanceOf(NotFoundError);
@@ -830,7 +826,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when all challenges are found', function () {
         it('should return only the challenges for given locale', async function () {
           // when
-          const challenges = await challengeRepository.getMany_proxy(
+          const challenges = await challengeRepository.getMany(
             ['challengeId02', 'challengeId00', 'challengeId01'],
             'en',
           );
@@ -849,11 +845,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#list_proxy', function () {
+  describe('#list', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
         // when
-        const err = await catchErr(challengeRepository.list_proxy)();
+        const err = await catchErr(challengeRepository.list)();
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -864,7 +860,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when no challenges found for locale', function () {
         it('should return an empty array', async function () {
           // when
-          const challenges = await challengeRepository.list_proxy('catalan');
+          const challenges = await challengeRepository.list('catalan');
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -874,7 +870,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when challenges found for locale', function () {
         it('should return the challenges', async function () {
           // when
-          const challenges = await challengeRepository.list_proxy('en');
+          const challenges = await challengeRepository.list('en');
 
           // then
           expect(challenges).to.deepEqualArray([
@@ -902,11 +898,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findValidatedByCompetenceId_proxy', function () {
+  describe('#findValidatedByCompetenceId', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
         // when
-        const err = await catchErr(challengeRepository.findValidatedByCompetenceId_proxy)('competenceId00');
+        const err = await catchErr(challengeRepository.findValidatedByCompetenceId)('competenceId00');
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -917,7 +913,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when no validated challenges found for given locale and competenceId', function () {
         it('should return an empty array', async function () {
           // when
-          const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'es');
+          const challenges = await challengeRepository.findValidatedByCompetenceId('competenceId00', 'es');
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -927,7 +923,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when validated challenges are found for given locale and competenceId', function () {
         it('should return the challenges', async function () {
           // when
-          const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'en');
+          const challenges = await challengeRepository.findValidatedByCompetenceId('competenceId00', 'en');
 
           // then
           expect(challenges).to.deep.equal([
@@ -943,11 +939,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findOperativeBySkills_proxy', function () {
+  describe('#findOperativeBySkills', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
         // when
-        const err = await catchErr(challengeRepository.findOperativeBySkills_proxy)(domainBuilder.buildSkill());
+        const err = await catchErr(challengeRepository.findOperativeBySkills)(domainBuilder.buildSkill());
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -965,7 +961,7 @@ describe('Integration | Repository | challenge-repository', function () {
           });
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkills_proxy([skill00], 'catalan');
+          const challenges = await challengeRepository.findOperativeBySkills([skill00], 'catalan');
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -994,7 +990,7 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkills_proxy(skills, 'en');
+          const challenges = await challengeRepository.findOperativeBySkills(skills, 'en');
 
           // then
           expect(challenges).to.deep.equal([
@@ -1036,7 +1032,7 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkills_proxy(skills, 'en');
+          const challenges = await challengeRepository.findOperativeBySkills(skills, 'en');
 
           // then
           expect(challenges).to.deep.equal([
@@ -1055,7 +1051,7 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findOperativeBySkillsAndLocales_proxy', function () {
+  describe('#findOperativeBySkillsAndLocales', function () {
     context('when locale is defined', function () {
       context('when no operative challenges found for given locale', function () {
         it('should return an empty array', async function () {
@@ -1067,7 +1063,7 @@ describe('Integration | Repository | challenge-repository', function () {
           });
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy([skill00], ['catalan']);
+          const challenges = await challengeRepository.findOperativeBySkillsAndLocales([skill00], ['catalan']);
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -1086,7 +1082,7 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, ['en-TZ', 'en']);
+          const challenges = await challengeRepository.findOperativeBySkillsAndLocales(skills, ['en-TZ', 'en']);
           // then
           expect(challenges).to.deep.equal([
             domainBuilder.learningContent.buildChallenge(enArchivedChallenge),
@@ -1100,11 +1096,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findValidatedBySkills_proxy', function () {
+  describe('#findValidatedBySkills', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
         // when
-        const err = await catchErr(challengeRepository.findValidatedBySkills_proxy)(domainBuilder.buildSkill());
+        const err = await catchErr(challengeRepository.findValidatedBySkills)(domainBuilder.buildSkill());
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -1122,7 +1118,7 @@ describe('Integration | Repository | challenge-repository', function () {
           });
 
           // when
-          const challenges = await challengeRepository.findValidatedBySkills_proxy([skill00], 'catalan');
+          const challenges = await challengeRepository.findValidatedBySkills([skill00], 'catalan');
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -1151,7 +1147,7 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findValidatedBySkills_proxy(skills, 'en');
+          const challenges = await challengeRepository.findValidatedBySkills(skills, 'en');
 
           // then
           expect(challenges).to.deep.equal([
@@ -1190,7 +1186,7 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findValidatedBySkills_proxy(skills, 'en');
+          const challenges = await challengeRepository.findValidatedBySkills(skills, 'en');
 
           // then
           expect(challenges).to.deep.equal([

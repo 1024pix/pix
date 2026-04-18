@@ -4,7 +4,7 @@ import * as challengeRepository from '../../../shared/infrastructure/repositorie
 import { ChallengeToPlay } from '../../domain/models/ChallengeToPlay.js';
 
 export async function get(challengeId) {
-  const challenge = await challengeRepository.get_proxy(challengeId);
+  const challenge = await challengeRepository.get(challengeId);
   const { webComponentProps, webComponentTagName } = await loadWebComponentInfo(challenge);
   return new ChallengeToPlay(challenge, webComponentTagName, webComponentProps);
 }
