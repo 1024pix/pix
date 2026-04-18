@@ -4,11 +4,11 @@ import { initMissionActivity } from '../services/init-mission-activity.js';
 import { updateAssessment } from '../services/update-assessment.js';
 import { updateCurrentActivity } from '../services/update-current-activity.js';
 
-const handleActivityAnswer = async function ({
+export async function handleActivityAnswer({
   activityAnswer,
   assessmentId,
   examiner,
-  challengeRepository,
+  challengeForCorrectionApi,
   assessmentRepository,
   activityAnswerRepository,
   activityRepository,
@@ -19,7 +19,7 @@ const handleActivityAnswer = async function ({
     const correctedAnswer = await correctAnswer({
       activityAnswer,
       assessmentId,
-      challengeRepository,
+      challengeForCorrectionApi,
       assessmentRepository,
       activityAnswerRepository,
       activityRepository,
@@ -52,6 +52,4 @@ const handleActivityAnswer = async function ({
 
     return correctedAnswer;
   });
-};
-
-export { handleActivityAnswer };
+}

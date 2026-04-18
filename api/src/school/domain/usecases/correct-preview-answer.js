@@ -1,7 +1,7 @@
 import { Examiner } from '../../../shared/domain/models/Examiner.js';
 
-const correctPreviewAnswer = async function ({ activityAnswer, challengeRepository, examiner: injectedExaminer } = {}) {
-  const challenge = await challengeRepository.get(activityAnswer.challengeId);
+export async function correctPreviewAnswer({ activityAnswer, challengeForCorrectionApi, examiner: injectedExaminer }) {
+  const challenge = await challengeForCorrectionApi.get(activityAnswer.challengeId);
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
   const correctedAnswer = examiner.evaluate({
     answer: activityAnswer,
@@ -11,6 +11,4 @@ const correctPreviewAnswer = async function ({ activityAnswer, challengeReposito
     ...correctedAnswer,
     id: 'preview-id',
   };
-};
-
-export { correctPreviewAnswer };
+}

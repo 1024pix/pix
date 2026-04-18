@@ -1,13 +1,13 @@
-import { NotInProgressAssessmentError } from '../../../../src/school/domain/school-errors.js';
 import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';
 import { Examiner } from '../../../shared/domain/models/Examiner.js';
 import { Assessment } from '../models/Assessment.js';
+import { NotInProgressAssessmentError } from '../school-errors.js';
 
 const correctAnswer = async function ({
   activityAnswer,
   assessmentId,
   activityAnswerRepository,
-  challengeRepository,
+  challengeForCorrectionApi,
   activityRepository,
   assessmentRepository,
   examiner: injectedExaminer,
@@ -23,7 +23,7 @@ const correctAnswer = async function ({
   }
 
   const activityId = (await activityRepository.getLastActivity(assessmentId)).id;
-  const challenge = await challengeRepository.get(activityAnswer.challengeId);
+  const challenge = await challengeForCorrectionApi.get(activityAnswer.challengeId);
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
   const correctedAnswer = examiner.evaluate({
     answer: activityAnswer,

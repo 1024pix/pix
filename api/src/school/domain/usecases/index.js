@@ -1,7 +1,7 @@
+import * as challengeForCorrectionApi from '../../../evaluation/application/api/challenge-for-correction-api.js';
 import * as challengeToPlayApi from '../../../evaluation/application/api/challenge-to-play-api.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
@@ -21,7 +21,7 @@ const dependencies = {
   missionLearnerRepository: repositories.missionLearnerRepository,
   organizationLearnerRepository: repositories.organizationLearnerRepository,
   schoolRepository: repositories.schoolRepository,
-  challengeRepository,
+  challengeForCorrectionApi,
   challengeToPlayApi,
 };
 

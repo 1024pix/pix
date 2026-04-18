@@ -1,7 +1,7 @@
 import { ValidatorAlwaysOK } from '../../../../../src/evaluation/domain/models/ValidatorAlwaysOK.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
-import { handleActivityAnswer } from '../../../../../src/school/domain/usecases/handle-activity-answer.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
@@ -21,7 +21,7 @@ import {
 } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
-describe('Integration | UseCase | handle activity answer', function () {
+describe('School | Integration | UseCase | handle activity answer', function () {
   const alwaysTrueExaminer = new Examiner({ validator: new ValidatorAlwaysOK() });
   const alwaysFalseExaminer = new Examiner({
     validator: {
@@ -55,7 +55,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
         await mockLearningContentForMission(missionId);
 
-        await handleActivityAnswer({
+        await usecases.handleActivityAnswer({
           activityAnswer,
           assessmentId,
           examiner: alwaysFalseExaminer,
@@ -97,7 +97,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
         await mockLearningContentForMission(missionId);
 
-        await handleActivityAnswer({
+        await usecases.handleActivityAnswer({
           activityAnswer,
           assessmentId,
           examiner: alwaysFalseExaminer,
@@ -140,7 +140,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
         await mockLearningContentForMission(missionId);
 
-        await handleActivityAnswer({
+        await usecases.handleActivityAnswer({
           activityAnswer,
           assessmentId,
           examiner: alwaysTrueExaminer,
@@ -187,7 +187,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
           await mockLearningContentForMission(missionId);
 
-          await handleActivityAnswer({
+          await usecases.handleActivityAnswer({
             activityAnswer,
             assessmentId,
             examiner: alwaysTrueExaminer,
@@ -229,7 +229,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
           await mockLearningContentForMission(missionId);
 
-          await handleActivityAnswer({
+          await usecases.handleActivityAnswer({
             activityAnswer,
             assessmentId,
             examiner: alwaysTrueExaminer,
@@ -274,7 +274,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
         await mockLearningContentForMission(missionId);
 
-        await handleActivityAnswer({
+        await usecases.handleActivityAnswer({
           activityAnswer,
           assessmentId,
           examiner: new Examiner(),
@@ -316,7 +316,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
         await mockLearningContentForMission(missionId);
 
-        await handleActivityAnswer({
+        await usecases.handleActivityAnswer({
           activityAnswer,
           assessmentId,
           examiner: new Examiner(),
@@ -365,7 +365,7 @@ describe('Integration | UseCase | handle activity answer', function () {
 
         await mockLearningContentForMission(missionId);
 
-        await handleActivityAnswer({
+        await usecases.handleActivityAnswer({
           activityAnswer,
           assessmentId,
           examiner,
@@ -419,7 +419,7 @@ describe('Integration | UseCase | handle activity answer', function () {
       ],
     });
 
-    await catchErr(handleActivityAnswer)({
+    await catchErr(usecases.handleActivityAnswer)({
       activityAnswer,
       assessmentId,
       examiner: alwaysTrueExaminer,

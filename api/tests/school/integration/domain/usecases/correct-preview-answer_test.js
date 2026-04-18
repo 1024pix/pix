@@ -1,5 +1,5 @@
 import { ValidatorAlwaysOK } from '../../../../../src/evaluation/domain/models/ValidatorAlwaysOK.js';
-import { correctPreviewAnswer } from '../../../../../src/school/domain/usecases/correct-preview-answer.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Examiner } from '../../../../../src/shared/domain/models/Examiner.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
@@ -26,7 +26,7 @@ describe('Integration | UseCases | correct-preview-answer', function () {
     const alwaysTrueExaminer = new Examiner({ validator: new ValidatorAlwaysOK() });
 
     // when
-    const correctedAnswer = await correctPreviewAnswer({
+    const correctedAnswer = await usecases.correctPreviewAnswer({
       activityAnswer,
       challengeRepository,
       examiner: alwaysTrueExaminer,
