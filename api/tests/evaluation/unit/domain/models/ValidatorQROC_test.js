@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
 
     beforeEach(function () {
       // given
-      solution = domainBuilder.buildSolution({ type: 'QROC' });
+      solution = domainBuilder.evaluation.buildSolution({ type: 'QROC' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQROC({ solution: solution }, solutionServiceQROCStub);

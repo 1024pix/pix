@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
     beforeEach(function () {
       // given
       solutionServiceQROCMDepStub.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({
+      solution = domainBuilder.evaluation.buildSolution({
         type: 'QROCM-dep',
         value: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         isT1Enabled: true,

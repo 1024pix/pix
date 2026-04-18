@@ -61,7 +61,7 @@ describe('Evaluation | Integration | Infrastructure| Repository | challenge-for-
         domainBuilder.evaluation.buildChallengeForCorrection({
           ...challengeData,
           focused: challengeData.focusable,
-          solutionAlgo: domainBuilder.buildSolution({
+          solutionAlgo: domainBuilder.evaluation.buildSolution({
             id: challengeData.id,
             type: challengeData.type,
             value: challengeData.solution,

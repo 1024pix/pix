@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | ValidatorQCU', function () {
     beforeEach(function () {
       // given
       solutionServiceQCUStub.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QCU' });
+      solution = domainBuilder.evaluation.buildSolution({ type: 'QCU' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQCU({

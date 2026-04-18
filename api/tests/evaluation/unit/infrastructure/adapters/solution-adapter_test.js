@@ -1,10 +1,8 @@
-import { Solution } from '../../../../../src/shared/domain/models/Solution.js';
-import * as solutionAdapter from '../../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+import { Solution } from '../../../../../src/evaluation/domain/models/Solution.js';
+import * as solutionAdapter from '../../../../../src/evaluation/infrastructure/adapters/solution-adapter.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-// todo move me eval
-describe('Unit | Adapter | Solution', function () {
-  // todo delete me
+describe('Evaluation | Unit | Adapter | Solution', function () {
   describe('#fromDatasourceObject', function () {
     it('should create a Solution model', function () {
       // given

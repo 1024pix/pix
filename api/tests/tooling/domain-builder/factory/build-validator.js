@@ -4,7 +4,7 @@ import { ValidatorQCU } from '../../../../src/evaluation/domain/models/Validator
 import { ValidatorQROC } from '../../../../src/evaluation/domain/models/ValidatorQROC.js';
 import { ValidatorQROCMDep } from '../../../../src/evaluation/domain/models/ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from '../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
-import { buildSolution } from './build-solution.js';
+import { buildSolution } from './evaluation/build-solution.js';
 
 // todo move me lolo
 export function buildValidator({ solution = buildSolution() } = {}) {

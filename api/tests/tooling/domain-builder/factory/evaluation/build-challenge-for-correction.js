@@ -1,6 +1,6 @@
 import { ChallengeForCorrection } from '../../../../../src/evaluation/domain/models/ChallengeForCorrection.js';
-import { buildSolution } from '../build-solution.js';
 import { buildChallenge } from '../learning-content/build-challenge.js';
+import { buildSolution } from './build-solution.js';
 
 export const buildChallengeForCorrection = function ({
   id = 'foo id',

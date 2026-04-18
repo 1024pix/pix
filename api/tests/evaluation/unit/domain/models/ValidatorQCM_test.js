@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | ValidatorQCM', function () {
     beforeEach(function () {
       // given
       solutionServiceQcmStub.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QCM' });
+      solution = domainBuilder.evaluation.buildSolution({ type: 'QCM' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQCM({

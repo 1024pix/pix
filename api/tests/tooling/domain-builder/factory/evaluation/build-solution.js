@@ -1,6 +1,6 @@
-import { Solution } from '../../../../src/shared/domain/models/Solution.js';
-// todo lolo move me
-const buildSolution = function ({
+import { Solution } from '../../../../../src/evaluation/domain/models/Solution.js';
+
+export function buildSolution({
   id = 'recCHAL123',
   type = 'QCM',
   value = '1',
@@ -18,6 +18,4 @@ const buildSolution = function ({
     isT3Enabled,
     qrocBlocksTypes,
   });
-};
-
-export { buildSolution };
+}

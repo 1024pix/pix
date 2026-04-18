@@ -12,7 +12,7 @@ describe('Unit | Devcomp | Domain | Models | ValidatorQROCMInd', function () {
       };
       solutionServiceQROCMIndStub.match.returns({ result: AnswerStatus.OK, resultDetails: 'resultDetails' });
 
-      const solution = domainBuilder.buildSolution({ type: 'QROCM-ind' });
+      const solution = domainBuilder.evaluation.buildSolution({ type: 'QROCM-ind' });
       const uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       const validator = new ValidatorQROCMInd({
         solution: solution,
@@ -40,7 +40,7 @@ describe('Unit | Devcomp | Domain | Models | ValidatorQROCMInd', function () {
       };
       solutionServiceQROCMIndStub.match.returns({ result: AnswerStatus.OK, resultDetails: 'resultDetails' });
 
-      const solution = domainBuilder.buildSolution({ type: 'QROCM-ind' });
+      const solution = domainBuilder.evaluation.buildSolution({ type: 'QROCM-ind' });
       const uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       const validator = new ValidatorQROCMInd({
         solution: solution,

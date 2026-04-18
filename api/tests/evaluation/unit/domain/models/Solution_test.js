@@ -1,7 +1,7 @@
-import { Solution } from '../../../../src/shared/domain/models/Solution.js';
-import { expect } from '../../../test-helper.js';
+import { Solution } from '../../../../../src/evaluation/domain/models/Solution.js';
+import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | Solution', function () {
+describe('Evaluation | Unit | Domain | Models | Solution', function () {
   describe('#enabledTreatments', function () {
     it('should contain nothing, when no treatments are set', function () {
       // given

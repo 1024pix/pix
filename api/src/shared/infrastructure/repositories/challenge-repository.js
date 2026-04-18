@@ -1,8 +1,7 @@
+import * as solutionAdapter from '../../../evaluation/infrastructure/adapters/solution-adapter.js';
 import { Challenge as ChallengeProxy } from '../../../learning-content/domain/models/Challenge.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Challenge } from '../../domain/models/Challenge.js';
-import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
-import { httpAgent } from '../http-agent.js';
 import { child, SCOPES } from '../utils/logger.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 import * as skillRepository from './skill-repository.js';
@@ -14,33 +13,6 @@ const VALIDATED_STATUS = 'validé';
 const ARCHIVED_STATUS = 'archivé';
 const OPERATIVE_STATUSES = [VALIDATED_STATUS, ARCHIVED_STATUS];
 
-export async function get(id, { forCorrection = false } = {}) {
-  const challengeDto = await getInstance().load(id);
-  if (!challengeDto) {
-    logger.warn({ challengeId: id }, 'Épreuve introuvable');
-    throw new NotFoundError('Épreuve introuvable');
-  }
-  if (forCorrection) {
-    return {
-      id: challengeDto.id,
-      skillId: challengeDto.skillId,
-      type: challengeDto.type,
-      solution: challengeDto.solution,
-      solutionToDisplay: challengeDto.solutionToDisplay,
-      proposals: challengeDto.proposals,
-      t1Status: challengeDto.t1Status,
-      t2Status: challengeDto.t2Status,
-      t3Status: challengeDto.t3Status,
-    };
-  }
-  let webComponentInfo;
-  if (!forCorrection) {
-    webComponentInfo = await loadWebComponentInfo(challengeDto);
-  }
-  const skill = await skillRepository.get(challengeDto.skillId);
-  return toDomain({ challengeDto, skill, ...webComponentInfo });
-}
-
 export async function get_proxy(id) {
   const challengeDto = await getInstance().load(id);
   if (!challengeDto) {
@@ -48,21 +20,6 @@ export async function get_proxy(id) {
     throw new NotFoundError('Épreuve introuvable');
   }
   return new ChallengeProxy(challengeDto);
-}
-
-export async function getMany(ids, locale) {
-  const challengeDtos = await getInstance().loadMany(ids);
-  challengeDtos.forEach((challengeDto, index) => {
-    if (challengeDto) return;
-    logger.warn({ challengeId: ids[index] }, 'Épreuve introuvable');
-    throw new NotFoundError('Épreuve introuvable');
-  });
-  const localeChallengeDtos = locale
-    ? challengeDtos.filter((challengeDto) => challengeDto.locales.includes(locale))
-    : challengeDtos;
-  localeChallengeDtos.sort(byId);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(localeChallengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
 }
 
 export async function getMany_proxy(ids, locale) {
@@ -76,7 +33,7 @@ export async function getMany_proxy(ids, locale) {
     ? challengeDtos.filter((challengeDto) => challengeDto.locales.includes(locale))
     : challengeDtos;
   localeChallengeDtos.sort(byId);
-  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+  return localeChallengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
 export async function list(locale) {
@@ -185,22 +142,6 @@ export async function getManyTypes(ids) {
 
 export function clearCache(id) {
   return getInstance().clearCache(id);
-}
-
-async function loadWebComponentInfo(challengeDto) {
-  if (challengeDto.embedUrl == null || !challengeDto.embedUrl.endsWith('.json')) return null;
-
-  const response = await httpAgent.get({ url: challengeDto.embedUrl });
-  if (!response.isSuccessful) {
-    throw new NotFoundError(
-      `Embed webcomponent config with URL ${challengeDto.embedUrl} in challenge ${challengeDto.id} not found`,
-    );
-  }
-
-  return {
-    webComponentTagName: response.data.name,
-    webComponentProps: response.data.props,
-  };
 }
 
 async function loadChallengeDtosSkills(challengeDtos) {

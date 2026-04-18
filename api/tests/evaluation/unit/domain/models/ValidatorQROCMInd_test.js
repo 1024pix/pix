@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', function () {
     beforeEach(function () {
       // given
       solutionServiceQROCMIndStub.match.returns({ result: AnswerStatus.OK, resultDetails: 'resultDetailYAMLString' });
-      solution = domainBuilder.buildSolution({ type: 'QROCM-ind' });
+      solution = domainBuilder.evaluation.buildSolution({ type: 'QROCM-ind' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQROCMInd({

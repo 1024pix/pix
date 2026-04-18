@@ -40,7 +40,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
     answer.result = undefined;
     answer.resultDetails = undefined;
     correctAnswerValue = '1';
-    solutionAlgo = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+    solutionAlgo = domainBuilder.evaluation.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
     challenge = domainBuilder.evaluation.buildChallengeForCorrection({
       id: answer.challengeId,
       solutionAlgo,

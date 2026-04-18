@@ -134,7 +134,6 @@ import { buildShareableCertificate } from './build-shareable-certificate.js';
 import { buildSkill } from './build-skill.js';
 import { BuildSkillCollection as buildSkillCollection } from './build-skill-collection.js';
 import { buildSkillLearningContentDataObject } from './build-skill-learning-content-data-object.js';
-import { buildSolution } from './build-solution.js';
 import { buildStage } from './build-stage.js';
 import { buildStageAcquisition } from './build-stage-acquisition.js';
 import { buildSupOrganizationLearner } from './build-sup-organization-learner.js';
@@ -212,6 +211,7 @@ import { buildComplementaryCertification as buildSharedComplementaryCertificatio
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
 import { buildPassage } from './devcomp/build-passage.js';
+import { buildSolution } from './evaluation/build-solution.js';
 import { builders as evaluationBuilders } from './evaluation/index.js';
 import {
   buildLtiPlatformRegistration,
