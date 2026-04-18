@@ -7,8 +7,8 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
   describe('#run', function () {
     it('should return the list of all the challenges', function () {
       // given
-      const firstChallenge = domainBuilder.buildChallenge({ id: 'rec1' });
-      const secondChallenge = domainBuilder.buildChallenge({ id: 'rec2' });
+      const firstChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec1' });
+      const secondChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec2' });
       const answersForSimulator = [AnswerStatus.OK, AnswerStatus.KO];
       const expectedEstimatedLevels = [0.4, 0.2];
       const expectedErrorRates = [0.2, 0.1];

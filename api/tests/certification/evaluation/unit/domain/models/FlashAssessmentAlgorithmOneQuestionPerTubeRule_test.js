@@ -41,17 +41,17 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           tubeId: 'unansweredTube',
         });
 
-        const answeredTubeAnsweredSkillChallenge = domainBuilder.buildChallenge({
+        const answeredTubeAnsweredSkillChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           skill: answeredTubeAnsweredSkill,
           id: answeredChallengeId,
         });
 
-        const answeredTubeUnansweredSkillChallenge = domainBuilder.buildChallenge({
+        const answeredTubeUnansweredSkillChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           skill: answeredTubeUnansweredSkill,
           id: 'rec2',
         });
 
-        const unansweredTubeUnansweredSkillChallenge = domainBuilder.buildChallenge({
+        const unansweredTubeUnansweredSkillChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           skill: unansweredTubeUnansweredSkill,
           id: 'rec3',
         });

@@ -1,5 +1,5 @@
-import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 import { clearLog, startLogging } from '../../domain/services/smart-random-log-service.js';
+import { evaluationUsecases } from '../../domain/usecases/index.js';
 import * as algorithmSimulatorSerializer from '../../infrastructure/serializers/jsonapi/smart-random-simulator-serializer.js';
 
 const getNextChallenge = async function (request, h, dependencies = { algorithmSimulatorSerializer }) {
@@ -9,7 +9,15 @@ const getNextChallenge = async function (request, h, dependencies = { algorithmS
     startLogging();
     const response = evaluationUsecases.getNextChallengeForSimulator({ simulationParameters: deserializedPayload });
     clearLog();
-    return response;
+    const challenge = response.challenge
+      ? {
+          id: response.challenge.id,
+        }
+      : null;
+    return {
+      challenge,
+      smartRandomLog: response.smartRandomLog,
+    };
   } catch (error) {
     clearLog();
     throw error;

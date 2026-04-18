@@ -1,6 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { Challenge } from '../../../../shared/domain/models/Challenge.js';
+import { BaseChallenge } from '../../../../shared/domain/models/BaseChallenge.js';
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 import { Skill } from '../../../../shared/domain/models/Skill.js';
 import { Answer } from '../../../domain/models/Answer.js';
@@ -24,7 +24,16 @@ const deserialize = async function (payload) {
       (knowledgeElement) => new KnowledgeElement(knowledgeElement),
     ),
     skills: deserializedPayload.skills.map((skill) => new Skill(skill)),
-    challenges: deserializedPayload.challenges.map((challenge) => new Challenge(challenge)),
+    challenges: deserializedPayload.challenges.map(
+      (challenge) =>
+        new BaseChallenge({
+          ...challenge,
+          skillId: challenge.skill.id,
+          focusable: challenge.focused,
+          accessibility1: challenge.blindnessCompatibility,
+          accessibility2: challenge.colorBlindnessCompatibility,
+        }),
+    ),
   });
 };
 

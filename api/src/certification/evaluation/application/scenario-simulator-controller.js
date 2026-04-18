@@ -7,13 +7,11 @@ import { DEFAULT_PROBABILITY_TO_PICK_CHALLENGE } from '../../shared/domain/const
 import { pickAnswerStatusService } from '../../shared/domain/services/pick-answer-status-service.js';
 import pickChallengeService from '../domain/services/pick-challenge-service.js';
 import { usecases } from '../domain/usecases/index.js';
-import { scenarioSimulatorBatchSerializer } from '../infrastructure/serializers/scenario-simulator-batch-serializer.js';
 
 async function simulateFlashAssessmentScenario(
   request,
   h,
   dependencies = {
-    scenarioSimulatorBatchSerializer,
     random,
     pickAnswerStatusService,
     pickChallengeService,

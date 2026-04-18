@@ -4,7 +4,6 @@ import { KnowledgeElement } from '../../../../src/shared/domain/models/Knowledge
 import { databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import {
   buildArea,
-  buildChallenge,
   buildCompetence,
   buildFramework,
   buildThematic,
@@ -16,7 +15,7 @@ const createLearningContent = () => {
   const framework = buildFramework({ id: 'frameworkId', name: 'someFramework' });
   const competenceId = 'competenceId';
 
-  const challenge1 = buildChallenge({
+  const challenge1 = domainBuilder.learningContent.buildChallenge({
     id: 'recCHAL1',
     competenceId,
   });

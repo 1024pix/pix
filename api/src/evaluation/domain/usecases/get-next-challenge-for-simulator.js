@@ -32,7 +32,7 @@ const getNextChallengeForSimulator = function ({ simulationParameters, pickChall
     locale: simulationParameters.locale,
   });
 
-  logStep(STEPS_NAMES.RANDOM_PICK, [challenge.skill]);
+  logStep(STEPS_NAMES.RANDOM_PICK, [simulationParameters.skills.find((skill) => skill.id === challenge.skillId)]);
 
   return { challenge, smartRandomLog: getSmartRandomLog() };
 };

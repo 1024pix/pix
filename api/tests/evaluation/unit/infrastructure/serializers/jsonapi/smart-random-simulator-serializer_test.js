@@ -1,7 +1,7 @@
 import { Answer } from '../../../../../../src/evaluation/domain/models/Answer.js';
 import { SimulationParameters } from '../../../../../../src/evaluation/domain/models/SimulationParameters.js';
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/smart-random-simulator-serializer.js';
-import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
+import { BaseChallenge } from '../../../../../../src/shared/domain/models/BaseChallenge.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Skill } from '../../../../../../src/shared/domain/models/Skill.js';
 import { expect } from '../../../../../test-helper.js';
@@ -61,7 +61,7 @@ describe('Unit | Serializer | JSONAPI | smart-random-simulator-serializer', func
       expect(simulatorParameters.answers[0]).to.be.instanceOf(Answer);
       expect(simulatorParameters.skills[0]).to.be.instanceOf(Skill);
       expect(simulatorParameters.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
-      expect(simulatorParameters.challenges[0]).to.be.instanceOf(Challenge);
+      expect(simulatorParameters.challenges[0]).to.be.instanceOf(BaseChallenge);
     });
   });
 });

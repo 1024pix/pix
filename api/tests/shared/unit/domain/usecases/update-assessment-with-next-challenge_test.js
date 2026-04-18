@@ -148,7 +148,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         assessmentRepository_getWithAnswersStub.withArgs(assessmentId).resolves(assessment);
         assessmentRepository_updateLastQuestionDateStub.resolves();
         assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-        const challenge = domainBuilder.buildChallenge({ id: 'challengeForPreview' });
+        const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForPreview' });
         evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(challenge);
 
         const { assessment: assessmentWithNextChallenge, globalProgression } =
@@ -167,7 +167,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         assessmentRepository_getWithAnswersStub.withArgs(assessmentId).resolves(assessment);
         assessmentRepository_updateLastQuestionDateStub.resolves();
         assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-        const challenge = domainBuilder.buildChallenge({ id: 'challengeForPreview' });
+        const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForPreview' });
         evaluationUsecases_getNextChallengeForPreviewStub.withArgs({}).resolves(challenge);
 
         const { assessment: assessmentWithNextChallenge, globalProgression } =
@@ -230,7 +230,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
             courseRepository_getStub
               .withArgs('recCourseId')
               .resolves(domainBuilder.buildCourse({ isActive: true, name: 'Mon super course' }));
-            const challenge = domainBuilder.buildChallenge({ id: 'challengeForDemo' });
+            const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForDemo' });
             evaluationUsecases_getNextChallengeForDemoStub.withArgs({ assessment }).resolves(challenge);
             const { assessment: assessmentWithNextChallenge, globalProgression } =
               await updateAssessmentWithNextChallenge(dependencies);
@@ -276,7 +276,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         it('should call usecase and return value from campaign usecase', async function () {
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-          const challenge = domainBuilder.buildChallenge({ id: 'challengeForCampaign' });
+          const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForCampaign' });
           evaluationUsecases_getNextChallengeForCampaignAssessmentStub
             .withArgs({ assessment, locale })
             .resolves(challenge);
@@ -342,7 +342,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
               .resolves({
                 completionRate: myGlobalProgression,
               });
-            const challenge = domainBuilder.buildChallenge({ id: 'challengeForCampaign' });
+            const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForCampaign' });
             evaluationUsecases_getNextChallengeForCampaignAssessmentStub
               .withArgs({ assessment: examAssessment, locale })
               .resolves(challenge);
@@ -377,7 +377,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
             .resolves('Ma super compétence');
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-          const challenge = domainBuilder.buildChallenge({ id: 'challengeForCompetenceEvaluation' });
+          const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForCompetenceEvaluation' });
           evaluationUsecases_getNextChallengeForCompetenceEvaluationStub
             .withArgs({ assessment, userId, locale })
             .resolves(challenge);
@@ -436,7 +436,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
         it('should call usecase and return value from certification usecase', async function () {
           assessmentRepository_updateLastQuestionDateStub.resolves();
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-          const challenge = domainBuilder.buildChallenge({ id: 'challengeForCertification' });
+          const challenge = domainBuilder.evaluation.buildChallengeToPlay({ id: 'challengeForCertification' });
           certificationEvaluationRepository_selectNextCertificationChallengeStub
             .withArgs({ assessmentId: assessment.id, locale })
             .resolves(challenge);
@@ -568,7 +568,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
 
             evaluationUsecases_getNextChallengeForPreviewStub
               .withArgs({})
-              .resolves(domainBuilder.buildChallenge({ id: 'currentChallengeId' }));
+              .resolves(domainBuilder.evaluation.buildChallengeToPlay({ id: 'currentChallengeId' }));
 
             await updateAssessmentWithNextChallenge(dependencies);
 
@@ -589,7 +589,7 @@ describe('Shared | Unit | Domain | Use Cases | get-next-challenge', function () 
 
             evaluationUsecases_getNextChallengeForPreviewStub
               .withArgs({})
-              .resolves(domainBuilder.buildChallenge({ id: 'nextChallengeId' }));
+              .resolves(domainBuilder.evaluation.buildChallengeToPlay({ id: 'nextChallengeId' }));
             assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
 
             await updateAssessmentWithNextChallenge(dependencies);

@@ -12,6 +12,7 @@ export function buildCalibratedChallenge({
   colorBlindnessCompatibility = Accessibility.RAS,
   competenceId = 'competenceId',
   skill = buildCalibratedChallengeSkill(),
+  successProbabilityThreshold,
 } = {}) {
   return new CalibratedChallenge({
     id,
@@ -21,5 +22,6 @@ export function buildCalibratedChallenge({
     colorBlindnessCompatibility,
     competenceId,
     skill,
+    successProbabilityThreshold,
   });
 }

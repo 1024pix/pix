@@ -32,7 +32,7 @@ export async function simulateFlashAssessmentScenario({
   return _simulateCertificationScenario({
     locale,
     accessibilityAdjustmentNeeded,
-    challengeRepository: calibratedChallengeRepository,
+    calibratedChallengeRepository,
     flashAlgorithmService,
     pickChallenge,
     pickAnswerStatus,
@@ -45,21 +45,21 @@ export async function simulateFlashAssessmentScenario({
 
 /**
  * @param {object} params
- * @param {CalibratedChallengeRepository} params.challengeRepository
+ * @param {CalibratedChallengeRepository} params.calibratedChallengeRepository
  */
 async function _simulateCertificationScenario({
   pickChallenge,
   pickAnswerStatus,
   initialCapacity,
   variationPercent,
-  challengeRepository,
+  calibratedChallengeRepository,
   flashAlgorithmService,
   locale,
   accessibilityAdjustmentNeeded,
   stopAtChallenge,
   version,
 }) {
-  let challenges = await challengeRepository.findActiveFlashCompatible({
+  let challenges = await calibratedChallengeRepository.findActiveFlashCompatible({
     locale,
     version,
   });

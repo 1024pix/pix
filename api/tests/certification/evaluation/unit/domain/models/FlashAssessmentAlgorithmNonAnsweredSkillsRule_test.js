@@ -36,17 +36,17 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           id: unansweredSkillId,
         });
 
-        const unansweredSkillUnansweredChallenge = domainBuilder.buildChallenge({
+        const unansweredSkillUnansweredChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'challenge1',
           skill: unansweredSkill,
         });
 
-        const answeredSkillUnansweredChallenge = domainBuilder.buildChallenge({
+        const answeredSkillUnansweredChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'challenge2',
           skill: answeredSkill,
         });
 
-        const answeredSkillAnsweredChallenge = domainBuilder.buildChallenge({
+        const answeredSkillAnsweredChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'challenge4',
           skill: answeredSkill,
         });

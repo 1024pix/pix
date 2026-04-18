@@ -83,10 +83,6 @@ describe('Certification | Evaluation | Unit | Domain | Services | calibrated cha
         });
         calibratedChallengeRepository.getAllCalibratedChallenges.withArgs({ version }).resolves(challengeList);
 
-        const challengeWithValidatedLiveAlert = domainBuilder.buildChallenge({
-          ...challengeList.at(-1),
-        });
-
         const expectedAskedChallenges = [...challengeList];
         const expectedChallengeCalibrations = _buildDataFromAnsweredChallenges(expectedAskedChallenges);
         challengeCalibrationRepository.getByCertificationCourseId
@@ -95,7 +91,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | calibrated cha
 
         certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
           .withArgs({ assessmentId })
-          .resolves([challengeWithValidatedLiveAlert.id]);
+          .resolves([challengeList.at(-1).id]);
 
         challengeCalibrationRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId })

@@ -76,7 +76,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         const nextCalibratedChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           blindnessCompatibility: 'KO',
         });
-        const challenge = domainBuilder.buildChallenge(nextCalibratedChallenge);
+        const challenge = domainBuilder.evaluation.buildChallengeToPlay(nextCalibratedChallenge);
         const locale = 'fr-FR';
         const complementaryCertificationId = 123;
         const complementaryCertification =
@@ -164,7 +164,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             blindnessCompatibility: 'RAS',
             colorBlindnessCompatibility: 'OK',
           });
-          const challenge = domainBuilder.buildChallenge(nextCalibratedChallenge);
+          const challenge = domainBuilder.evaluation.buildChallengeToPlay(nextCalibratedChallenge);
           const accessibleChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recCHAL2',
             blindnessCompatibility: 'OK',
@@ -270,7 +270,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             courseId: v3CertificationCourse.getId(),
           });
 
-          const lastSeenChallenge = domainBuilder.buildChallenge({
+          const lastSeenChallenge = domainBuilder.evaluation.buildChallengeToPlay({
             id: nonAnsweredCertificationChallenge.challengeId,
           });
 
@@ -310,18 +310,21 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
     context('when some answered challenges are not valid anymore', function () {
       it('saves next challenge', async function () {
         // given
-        const nextCalibratedChallenge = domainBuilder.buildChallenge({
+        const nextCalibratedChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'nextCalibratedChallenge',
           blindnessCompatibility: 'KO',
           status: 'validé',
           skill: domainBuilder.buildSkill({ id: 'nottAnsweredSkill' }),
         });
-        const challenge = domainBuilder.buildChallenge(nextCalibratedChallenge);
-        const alreadyAnsweredChallenge = domainBuilder.buildChallenge({
+        const challenge = domainBuilder.evaluation.buildChallengeToPlay(nextCalibratedChallenge);
+        const alreadyAnsweredChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'alreadyAnsweredChallenge',
           status: 'validé',
         });
-        const outdatedChallenge = domainBuilder.buildChallenge({ id: 'outdatedChallenge', status: 'périmé' });
+        const outdatedChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
+          id: 'outdatedChallenge',
+          status: 'périmé',
+        });
         const locale = 'fr-FR';
 
         versionApi.getByFrameworkAndDate.resolves(version);
@@ -423,9 +426,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           id: 'NextChallenge',
           skill,
         });
-        const challenge = domainBuilder.buildChallenge(nextCalibratedChallenge);
+        const challenge = domainBuilder.evaluation.buildChallengeToPlay(nextCalibratedChallenge);
 
-        const lastSeenChallenge = domainBuilder.buildChallenge({
+        const lastSeenChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: nonAnsweredCertificationChallenge.challengeId,
         });
 
@@ -528,7 +531,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           skill: secondSkill,
         });
 
-        const challenge = domainBuilder.buildChallenge(calibratedChallengeWithOtherSkill);
+        const challenge = domainBuilder.evaluation.buildChallengeToPlay(calibratedChallengeWithOtherSkill);
 
         const calibratedChallengeWithLiveAlert = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: nonAnsweredCertificationChallenge.challengeId,
@@ -606,7 +609,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
     context('when there are no challenges left', function () {
       it('should return the AssessmentEndedError', async function () {
         // given
-        const answeredChallenge = domainBuilder.buildChallenge();
+        const answeredChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge();
         const answer = domainBuilder.buildAnswer({ challengeId: answeredChallenge.id });
         const assessment = domainBuilder.buildAssessment();
         const locale = 'fr-FR';
@@ -684,7 +687,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           it('should use the configuration', async function () {
             //given
             const nextCalibratedChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge();
-            const challenge = domainBuilder.buildChallenge(nextCalibratedChallenge);
+            const challenge = domainBuilder.evaluation.buildChallengeToPlay(nextCalibratedChallenge);
 
             version = domainBuilder.certification.configuration.buildVersion({
               challengesConfiguration: flashConfiguration,

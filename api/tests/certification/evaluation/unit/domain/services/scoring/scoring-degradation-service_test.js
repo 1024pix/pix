@@ -39,7 +39,7 @@ const _buildChallenges = () => {
   const allChallenges = [];
   for (let index = 1; index < 5; index++) {
     allChallenges.push(
-      domainBuilder.buildChallenge({
+      domainBuilder.certification.evaluation.buildCalibratedChallenge({
         id: `recChallenge${index}`,
         difficulty: 1.5,
         discriminant: 5,

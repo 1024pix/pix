@@ -8,7 +8,10 @@ import { Frameworks } from '../../../../../../../src/certification/shared/domain
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
-import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
+import {
+  generateAnswersForChallenges,
+  generateCalibratedChallengeList,
+} from '../../../../../shared/fixtures/challenges.js';
 
 const maximumAssessmentLength = 32;
 
@@ -61,7 +64,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         const v3CertificationScoring = domainBuilder.buildV3CertificationScoring({
           competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
         });
-        const challenges = generateChallengeList({
+        const challenges = generateCalibratedChallengeList({
           length: maximumAssessmentLength,
         });
         const { answers } = _buildDataFromAnsweredChallenges(challenges);
@@ -107,7 +110,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
             competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
             certificationScoringConfiguration: [{ bounds: { max: 8, min: 7 }, meshLevel: 0 }],
           });
-          const challenges = generateChallengeList({
+          const challenges = generateCalibratedChallengeList({
             length: maximumAssessmentLength,
           });
           const { answers } = _buildDataFromAnsweredChallenges(challenges);
@@ -155,7 +158,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
           competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
         });
 
-        const challenges = generateChallengeList({
+        const challenges = generateCalibratedChallengeList({
           length: maximumAssessmentLength,
         });
         const cleaScoringCriteria =
@@ -196,7 +199,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         });
 
         const v3CertificationScoring = domainBuilder.buildV3CertificationScoring();
-        const challenges = generateChallengeList({
+        const challenges = generateCalibratedChallengeList({
           length: maximumAssessmentLength,
         });
         const { answers } = _buildDataFromAnsweredChallenges(challenges);
@@ -243,7 +246,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
             { bounds: { max: 30, min: 20 }, meshLevel: 1 },
           ],
         });
-        const challenges = generateChallengeList({
+        const challenges = generateCalibratedChallengeList({
           length: maximumAssessmentLength,
         });
         const { answers } = _buildDataFromAnsweredChallenges(challenges);

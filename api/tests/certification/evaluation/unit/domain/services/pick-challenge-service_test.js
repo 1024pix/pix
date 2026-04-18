@@ -6,9 +6,18 @@ describe('Unit | Certification | Evaluation | Services | PickChallengeService', 
     context('when given a 100% chance to pick the most discriminating challenge', function () {
       it('should return the most discriminating challenge', function () {
         // given
-        const mostDiscriminatingChallenge = domainBuilder.buildChallenge({ discriminant: 5, difficulty: 1 });
-        const otherChallenge = domainBuilder.buildChallenge({ discriminant: 2.5, difficulty: 1 });
-        const lessDiscriminatingChallenge = domainBuilder.buildChallenge({ discriminant: 1, difficulty: 1 });
+        const mostDiscriminatingChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
+          discriminant: 5,
+          difficulty: 1,
+        });
+        const otherChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
+          discriminant: 2.5,
+          difficulty: 1,
+        });
+        const lessDiscriminatingChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
+          discriminant: 1,
+          difficulty: 1,
+        });
         const probabilityToPickMostDiscriminatingChallenge = 100;
 
         // When provided to the below tested function, and thanks to Fisher–Snedecor distribution used by the algorithm to select upcoming questions,

@@ -7,7 +7,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     context('when there is a challenge', function () {
       it('should return hasAssessmentEnded as false and possibleChallenges not empty', function () {
         // given
-        const challenge = domainBuilder.buildChallenge();
+        const challenge = domainBuilder.certification.evaluation.buildCalibratedChallenge();
         const allChallenges = [challenge];
         const availableChallenges = [challenge];
         const allAnswers = [];
@@ -28,37 +28,37 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         // given
         const FirstSkill = domainBuilder.buildSkill({ id: 'First' });
         const SecondSkill = domainBuilder.buildSkill({ id: 'Second' });
-        const firstChallenge = domainBuilder.buildChallenge({
+        const firstChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           difficulty: -5,
           discriminant: -5,
           skill: FirstSkill,
           id: 'rec123first',
         });
-        const secondChallenge = domainBuilder.buildChallenge({
+        const secondChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           difficulty: 1,
           discriminant: 5,
           skill: SecondSkill,
           id: 'rec123second',
         });
-        const thirdChallenge = domainBuilder.buildChallenge({
+        const thirdChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           difficulty: -5,
           discriminant: -5,
           skill: FirstSkill,
           id: 'rec123third',
         });
-        const fourthChallenge = domainBuilder.buildChallenge({
+        const fourthChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           difficulty: -8,
           discriminant: 5,
           skill: SecondSkill,
           id: 'rec123fourth',
         });
-        const fifthChallenge = domainBuilder.buildChallenge({
+        const fifthChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           difficulty: 1,
           discriminant: 5,
           skill: SecondSkill,
           id: 'rec123fifth',
         });
-        const sixthChallenge = domainBuilder.buildChallenge({
+        const sixthChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           difficulty: 1,
           discriminant: 5,
           skill: SecondSkill,
@@ -123,7 +123,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the correct capacity when there is one answer', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
         }),
@@ -142,12 +142,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the correct capacity when there is two answers', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeFirstAnswers',
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeSecondAnswers',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,
@@ -170,17 +170,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the correct capacity when there is three answers', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeFirstAnswers',
           discriminant: 1.06665273005823,
           difficulty: -0.030736508016524,
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeSecondAnswers',
           discriminant: 1.50948587856458,
           difficulty: 1.62670103354638,
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeThirdAnswers',
           discriminant: 0.950709518595358,
           difficulty: 1.90647729810166,
@@ -216,121 +216,121 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         };
 
         const listChallenges = [
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recA',
             skill: listSkills.url5,
             difficulty: -0.917927344545694,
             discriminant: 1.02282430250024,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recB',
             skill: listSkills.web3,
             difficulty: 0.301604780272093,
             discriminant: 0.815896135600247,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recC',
             skill: listSkills.sourceinfo5,
             difficulty: -1.69218011589622,
             discriminant: 1.38594509996278,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recD',
             skill: listSkills.installogiciel2,
             difficulty: -5.4464574841729,
             discriminant: 0.427255285029657,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recE',
             skill: listSkills.fichier4,
             difficulty: -1.5526216455839,
             discriminant: 1.21015304225808,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recF',
             skill: listSkills.fichier4,
             difficulty: -1.36561917255237,
             discriminant: 1.09320650236677,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recG',
             skill: listSkills.fichier4,
             difficulty: -4.20230915443229,
             discriminant: 0.562929008226957,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recH',
             skill: listSkills.fichier4,
             difficulty: 0.262904155422314,
             discriminant: 0.901542609459213,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recI',
             skill: listSkills.fichier4,
             difficulty: -0.754355900389256,
             discriminant: 0.834990152043718,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recJ',
             skill: listSkills.sauvegarde5,
             difficulty: 3.174339929941,
             discriminant: 0.827526706077148,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recK',
             skill: listSkills.sauvegarde5,
             difficulty: -1.16967416012961,
             discriminant: 1.17433370794629,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recL',
             skill: listSkills.sauvegarde5,
             difficulty: -0.030736508016524,
             discriminant: 1.06665273005823,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recM',
             skill: listSkills.sauvegarde5,
             difficulty: -2.37249657419562,
             discriminant: 0.656224379307742,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recN',
             skill: listSkills.langbalise6,
             difficulty: 1.62670103354638,
             discriminant: 1.50948587856458,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recO',
             skill: listSkills.langbalise6,
             difficulty: 2.811956480867,
             discriminant: 1.04445171700575,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recP',
             skill: listSkills.langbalise6,
             difficulty: 0.026713944730478,
             discriminant: 0.703441785686095,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recQ',
             skill: listSkills.pratiquesinternet4,
             difficulty: -1.83253533603,
             discriminant: 0.711777117426424,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recR',
             skill: listSkills.pratiquesinternet4,
             difficulty: 0.251708600387063,
             discriminant: 0.369707224301943,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recS',
             skill: listSkills.pratiquesinternet4,
             difficulty: 1.90647729810166,
             discriminant: 0.950709518595358,
           }),
-          domainBuilder.buildChallenge({
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'recT',
             skill: listSkills.langbalise6,
             difficulty: -1.82670103354638,
@@ -376,7 +376,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         it('should return the limited capacity for the correct number of challenges', function () {
           // given
           const challenges = [
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 1.86350005965093,
               difficulty: 0.194712138508747,
             }),
@@ -402,7 +402,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         it('should return the limited capacity', function () {
           // given
           const challenges = [
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 1.86350005965093,
               difficulty: 0.194712138508747,
             }),
@@ -441,7 +441,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the correct capacity when there is one answer', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
         }),
@@ -460,12 +460,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the correct capacity when there are two answers', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeFirstAnswers',
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeSecondAnswers',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,
@@ -490,7 +490,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the answer id when there is at least one answer', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeFirstAnswer',
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
@@ -515,17 +515,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         it('should return the unlimited capacities for all challenges', function () {
           // given
           const challenges = [
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 1.86350005965093,
               difficulty: 0.194712138508747,
             }),
 
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 2.056,
               difficulty: 0.6973893,
             }),
 
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 2.5689203,
               difficulty: 1.36973893,
             }),
@@ -556,17 +556,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         it('should return the unlimited capacities for all challenges', function () {
           // given
           const challenges = [
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 1.86350005965093,
               difficulty: 0.194712138508747,
             }),
 
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 2.056,
               difficulty: 0.6973893,
             }),
 
-            domainBuilder.buildChallenge({
+            domainBuilder.certification.evaluation.buildCalibratedChallenge({
               discriminant: 2.5689203,
               difficulty: 1.36973893,
             }),
@@ -599,12 +599,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     it('should return the same list of challenges if there is no answers', function () {
       // given
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeFirstAnswers',
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'ChallengeSecondAnswers',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,
@@ -625,19 +625,19 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       const skills = [domainBuilder.buildSkill({ id: 'FirstSkill' }), domainBuilder.buildSkill({ id: 'SecondSkill' })];
 
       const challenges = [
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'First',
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
           skill: skills[0],
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'Second',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,
           skill: skills[0],
         }),
-        domainBuilder.buildChallenge({
+        domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'Third',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,

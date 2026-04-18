@@ -9,8 +9,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
       context('when there is no available answer', function () {
         it('should return null', function () {
           // given
-          const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
-          const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
+          const challenge1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec1' });
+          const challenge2 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec2' });
           const allChallenges = [challenge1, challenge2];
           const initialCapacity = 0;
           const algorithm = {
@@ -51,8 +51,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
         it('should return the result and the challengesAnswers with one element', function () {
           // given
           const stepIndex = 0;
-          const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
-          const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
+          const challenge1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec1' });
+          const challenge2 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec2' });
           const allChallenges = [challenge1, challenge2];
           const answerForSimulator = AnswerStatus.OK;
           const answer1 = { challengeId: challenge2.id, result: answerForSimulator };
@@ -143,8 +143,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
       context('when there is no available answer', function () {
         it('should return null', function () {
           // given
-          const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
-          const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
+          const challenge1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec1' });
+          const challenge2 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec2' });
           const allChallenges = [challenge1, challenge2];
           const capacityAfterFirstChallenge = 1.2;
           const algorithm = {
@@ -187,8 +187,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
         it('should return the result and the challengesAnswers with two elements', function () {
           // given
           const stepIndex = 1;
-          const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
-          const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
+          const challenge1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec1' });
+          const challenge2 = domainBuilder.certification.evaluation.buildCalibratedChallenge({ id: 'rec2' });
           const allChallenges = [challenge1, challenge2];
           const answerForSimulator = AnswerStatus.OK;
           const answer1 = { challengeId: challenge2.id, result: answerForSimulator };

@@ -28,7 +28,10 @@ describe('Integration | Application | scenario-simulator-controller', function (
   describe('/api/scenario-simulator', function () {
     describe('#post', function () {
       beforeEach(async function () {
-        challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
+        challenge1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
+          id: 'chall1',
+          successProbabilityThreshold: 0.65,
+        });
         reward1 = 0.2;
         errorRate1 = 0.3;
         capacity1 = 0.4;

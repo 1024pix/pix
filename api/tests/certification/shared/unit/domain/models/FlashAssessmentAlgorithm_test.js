@@ -30,8 +30,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
         const skill1 = domainBuilder.buildSkill({ id: 1 });
         const skill2 = domainBuilder.buildSkill({ id: 2 });
         const challenges = [
-          domainBuilder.buildChallenge({ id: assessmentAnswers[0].challengeId, skill: skill1 }),
-          domainBuilder.buildChallenge({ competenceId: 'comp2', skill: skill2 }),
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
+            id: assessmentAnswers[0].challengeId,
+            skill: skill1,
+          }),
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({ competenceId: 'comp2', skill: skill2 }),
         ];
         const capacity = 0;
         const algorithm = new FlashAssessmentAlgorithm({
@@ -67,8 +70,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
         const skill1 = domainBuilder.buildSkill({ id: 1 });
         const skill2 = domainBuilder.buildSkill({ id: 2 });
         const challenges = [
-          domainBuilder.buildChallenge({ id: assessmentAnswers[0].challengeId, skill: skill1 }),
-          domainBuilder.buildChallenge({ competenceId: 'comp2', skill: skill2 }),
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({
+            id: assessmentAnswers[0].challengeId,
+            skill: skill1,
+          }),
+          domainBuilder.certification.evaluation.buildCalibratedChallenge({ competenceId: 'comp2', skill: skill2 }),
         ];
         const capacity = 0;
         const algorithm = new FlashAssessmentAlgorithm({
@@ -114,17 +120,17 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             tubeId: 'tube2',
           });
 
-          const answeredChallengeTube1 = domainBuilder.buildChallenge({
+          const answeredChallengeTube1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'answeredChallengeTube1',
             skill: skill1Tube1,
           });
 
-          const unansweredChallengeTube1 = domainBuilder.buildChallenge({
+          const unansweredChallengeTube1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'unansweredChallengeTube1',
             skill: skill2Tube1,
           });
 
-          const unansweredChallengeTube2 = domainBuilder.buildChallenge({
+          const unansweredChallengeTube2 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'unansweredChallengeTube2',
             skill: skillTube2,
           });
@@ -190,17 +196,17 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             tubeId: 'tube2',
           });
 
-          const answeredChallengeTube1 = domainBuilder.buildChallenge({
+          const answeredChallengeTube1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'answeredChallengeTube1',
             skill: skill1Tube1,
           });
 
-          const unansweredChallengeTube1 = domainBuilder.buildChallenge({
+          const unansweredChallengeTube1 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'unansweredChallengeTube1',
             skill: skill2Tube1,
           });
 
-          const unansweredChallengeTube2 = domainBuilder.buildChallenge({
+          const unansweredChallengeTube2 = domainBuilder.certification.evaluation.buildCalibratedChallenge({
             id: 'unansweredChallengeTube2',
             skill: skillTube2,
           });
@@ -256,11 +262,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
         const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
         const skill2 = domainBuilder.buildSkill({ id: 'skill2', tubeId: 'tube1' });
 
-        const answeredChallenge = domainBuilder.buildChallenge({
+        const answeredChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'answeredChallenge',
           skill: skill1,
         });
-        const remainingChallenge = domainBuilder.buildChallenge({
+        const remainingChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge({
           id: 'remainingChallenge',
           skill: skill2,
         });

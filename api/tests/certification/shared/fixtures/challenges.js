@@ -4,7 +4,14 @@ import { domainBuilder } from '../../../test-helper.js';
 
 export const generateChallengeList = ({ length }) =>
   _.range(0, length).map((index) =>
-    domainBuilder.buildChallenge({
+    domainBuilder.shared.buildBaseChallenge({
+      id: `chall${index}`,
+    }),
+  );
+
+export const generateCalibratedChallengeList = ({ length }) =>
+  _.range(0, length).map((index) =>
+    domainBuilder.certification.evaluation.buildCalibratedChallenge({
       id: `chall${index}`,
     }),
   );

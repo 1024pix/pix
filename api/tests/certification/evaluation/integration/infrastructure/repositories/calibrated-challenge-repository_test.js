@@ -514,7 +514,7 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
         status: 'validé',
         skillId: skillData03_tube02competence01_actif.id,
       });
-      challengesLC.push(domainBuilder.buildChallenge({ id: 'toto', status: 'archivé' }));
+      challengesLC.push(domainBuilder.learningContent.buildChallenge({ id: 'toto', status: 'archivé' }));
 
       databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
 

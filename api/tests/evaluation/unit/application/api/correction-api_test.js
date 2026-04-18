@@ -17,7 +17,7 @@ describe('Evaluation | Unit | Application | API | correction-api', function () {
 
     it('corrects the answer and return the corrected versions of the answer', async function () {
       // given
-      const challenge = domainBuilder.buildChallenge();
+      const challenge = domainBuilder.evaluation.buildChallengeForCorrection();
       const answer = domainBuilder.buildAnswer({ userId: 123 });
       const hasChallengeBeenFocusedOut = false;
       const isCertificationEvaluation = true;
