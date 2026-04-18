@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
-import { Skill } from '../models/Skill.js';
+import { Skill } from './Skill.js';
 
 const statuses = {
   VALIDATED: 'validated',
@@ -115,21 +115,17 @@ function _createDirectKnowledgeElement({
   targetSkills,
   userId,
 }) {
+  const targetedSkill = targetSkills.find((targetSkill) => targetSkill.id === challenge.skillId);
+  if (!targetedSkill) return;
+
+  const hasAlreadyBeenAssessed = [
+    ...previouslyFailedSkills.map((skill) => skill.id),
+    ...previouslyValidatedSkills.map((skill) => skill.id),
+  ].some((skillId) => skillId === targetedSkill.id);
+  if (hasAlreadyBeenAssessed) return;
+
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
-
-  const filters = [
-    _skillIsInTargetedSkills({ targetSkills }),
-    _skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }),
-  ];
-  if (filters.every((filter) => filter(challenge.skill))) {
-    const source = sources.DIRECT;
-    const skill = challenge.skill;
-    return _createKnowledgeElement({ skill, source, status, answer, userId });
-  }
-}
-
-function _skillIsInTargetedSkills({ targetSkills }) {
-  return (skill) => !_(targetSkills).intersectionWith([skill], Skill.areEqualById).isEmpty();
+  return _createKnowledgeElement({ skill: targetedSkill, source: sources.DIRECT, status, answer, userId });
 }
 
 function _skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }) {

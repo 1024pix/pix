@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
 
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 const KE_STATUS_VALIDATED = KnowledgeElement.StatusType.VALIDATED;
 const KE_STATUS_INVALIDATED = KnowledgeElement.StatusType.INVALIDATED;
 const KE_SOURCE_DIRECT = KnowledgeElement.SourceType.DIRECT;
 const KE_SOURCE_INFERRED = KnowledgeElement.SourceType.INFERRED;
 
-describe('Unit | Domain | Models | KnowledgeElement', function () {
+describe('Shared | Unit | Domain | Models | KnowledgeElement', function () {
   describe('#isValidated', function () {
     it('should be true if status validated', function () {
       // given
@@ -120,7 +120,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
         minLevel: 1,
         maxLevel: 5,
       });
-      challenge = domainBuilder.buildChallenge({ skill });
+      challenge = domainBuilder.shared.buildBaseChallenge({ skillId: skill.id });
       validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
       invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
     });
@@ -183,7 +183,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
         // when
         createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
           answer: validAnswer,
-          challenge: challenge,
+          challenge,
           previouslyValidatedSkills: [],
           previouslyFailedSkills: [],
           targetSkills,
