@@ -125,7 +125,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
     });
 
-    context('and the skill is not in the target profile', function () {
+    context('when the skill is not in the target profile', function () {
       let otherSkill;
       let createdKnowledgeElements;
 
@@ -150,7 +150,29 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       });
     });
 
-    context('and the skill is in the target profile and is alone in it’s tube', function () {
+    context('when the skill is in the target profile but has already been assessed', function () {
+      let createdKnowledgeElements;
+      let targetSkills;
+
+      beforeEach(function () {
+        targetSkills = [skill];
+        createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+          answer: validAnswer,
+          challenge: challenge,
+          previouslyValidatedSkills: [],
+          previouslyFailedSkills: [skill],
+          targetSkills: targetSkills,
+          userId,
+        });
+      });
+
+      it('should not create any knowledge elements', function () {
+        // then
+        expect(createdKnowledgeElements).to.deep.equal([]);
+      });
+    });
+
+    context('when the skill is in the target profile and is alone in it’s tube', function () {
       let createdKnowledgeElements;
       let targetSkills;
 
@@ -187,7 +209,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       });
     });
 
-    context('and the skill is in the target profil and has other skills in it’s tube', function () {
+    context('when the skill is in the target profile and has other skills in it’s tube', function () {
       let targetSkills;
 
       beforeEach(function () {

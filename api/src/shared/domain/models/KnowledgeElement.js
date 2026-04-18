@@ -157,14 +157,13 @@ function _enrichDirectKnowledgeElementWithInferredKnowledgeElements({
     const newKnowledgeElements = targetSkillsGroupedByTubeName[directSkill.tubeNameWithoutPrefix]
       .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
       .flatMap((skillToInfer) => {
-        const newKnowledgeElements = _createInferredKnowledgeElements({
+        return _createInferredKnowledgeElements({
           answer,
           status,
           directSkill,
           skillToInfer,
           userId,
         });
-        return newKnowledgeElements;
       });
     return [directKnowledgeElement, ...newKnowledgeElements];
   }
