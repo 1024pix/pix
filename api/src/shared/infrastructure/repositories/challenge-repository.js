@@ -36,13 +36,12 @@ export async function getMany_proxy(ids, locale) {
   return localeChallengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
-export async function list(locale) {
+export async function list_proxy(locale) {
   _assertLocaleIsDefined(locale);
   const cacheKey = `list(${locale})`;
   const findByLocaleCallback = (knex) => knex.whereRaw('?=ANY(??)', [locale, 'locales']).orderBy('id');
   const challengeDtos = await getInstance().find(cacheKey, findByLocaleCallback);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
-  return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
 export async function findValidated(locale) {

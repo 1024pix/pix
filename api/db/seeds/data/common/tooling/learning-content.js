@@ -18,14 +18,9 @@ async function getAllCompetences() {
 
 async function getAllChallenges() {
   if (!ALL_CHALLENGES) {
-    ALL_CHALLENGES = await challengeRepository.list('fr-fr');
+    ALL_CHALLENGES = await challengeRepository.list_proxy('fr-fr');
   }
   return ALL_CHALLENGES;
-}
-
-async function findCompetence(competenceId) {
-  const allCompetences = await getAllCompetences();
-  return _.find(allCompetences, { id: competenceId });
 }
 
 async function getCoreCompetences() {
@@ -78,37 +73,16 @@ async function _getActiveSkillsByCompetence() {
 async function _getValidatedChallengesBySkill() {
   if (!VALIDATED_CHALLENGES_BY_SKILL) {
     const allChallenges = await getAllChallenges();
-    const validatedChallenges = _.filter(allChallenges, { status: 'validé' });
-    VALIDATED_CHALLENGES_BY_SKILL = _.groupBy(validatedChallenges, (challenge) => challenge.skill.id);
+    const validatedChallenges = allChallenges.filter((challenge) => challenge.status === 'validé');
+    VALIDATED_CHALLENGES_BY_SKILL = Object.groupBy(validatedChallenges, (challenge) => challenge.skillId);
   }
   return VALIDATED_CHALLENGES_BY_SKILL;
 }
 
-async function getV3CertificationChallenges(count) {
-  const challenges = await getAllChallenges();
-
-  return challenges
-    .filter(
-      ({ status, difficulty, discriminant }) =>
-        status === 'validé' && difficulty !== undefined && discriminant !== undefined,
-    )
-    .slice(0, count);
-}
-
-async function findActiveSkillsByFrameworkName(frameworkName) {
-  const allCompetences = await getAllCompetences();
-  const competenceIds = _.filter(allCompetences, { origin: frameworkName }).map(({ id }) => id);
-  const activeSkills = await getAllActiveSkills();
-  return _.filter(activeSkills, (activeSkill) => competenceIds.includes(activeSkill.competenceId));
-}
-
 export {
   findActiveSkillsByCompetenceId,
-  findActiveSkillsByFrameworkName,
   findActiveSkillsByTubeId,
-  findCompetence,
   findFirstValidatedChallengeBySkillId,
   getAllCompetences,
   getCoreCompetences,
-  getV3CertificationChallenges,
 };
