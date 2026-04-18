@@ -90,14 +90,6 @@ export async function findValidatedBySkills_proxy(skills, locale) {
   return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
 }
 
-export async function getManyTypes(ids) {
-  const challengeDtos = await getInstance().loadMany(ids);
-  if (challengeDtos.some((challengeDto) => !challengeDto)) {
-    throw new NotFoundError();
-  }
-  return Object.fromEntries(challengeDtos.map(({ id, type }) => [id, type]));
-}
-
 export function clearCache(id) {
   return getInstance().clearCache(id);
 }

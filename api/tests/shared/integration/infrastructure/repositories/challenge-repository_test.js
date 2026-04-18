@@ -1205,40 +1205,4 @@ describe('Integration | Repository | challenge-repository', function () {
       });
     });
   });
-
-  describe('#getManyTypes', function () {
-    it('should return an object associating ids to type', async function () {
-      // when
-      const challengesType = await challengeRepository.getManyTypes([
-        'challengeId09',
-        'challengeId04',
-        'challengeId07',
-        'challengeId02',
-        'challengeId01',
-      ]);
-
-      // then
-      expect(challengesType).to.deep.equal({
-        challengeId01: 'QCU',
-        challengeId02: 'QCM',
-        challengeId04: 'QCU',
-        challengeId07: 'QCM',
-        challengeId09: 'QCU',
-      });
-    });
-
-    it('should throw NotFoundError when some ids are not found', async function () {
-      // when
-      const err = await catchErr(challengeRepository.getManyTypes)([
-        'challengeId09',
-        'challengeId04',
-        'challengeId666',
-        'challengeId02',
-        'challengeId01',
-      ]);
-
-      // then
-      expect(err).to.be.instanceOf(NotFoundError);
-    });
-  });
 });

@@ -2,7 +2,7 @@ import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import * as answerStatusDatabaseAdapter from '../../../../shared/infrastructure/adapters/answer-status-database-adapter.js';
-import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as baseChallengeRepository from '../../../../shared/infrastructure/repositories/base-challenge-repository.js';
 import { CertificationAssessment } from '../../../session-management/domain/models/CertificationAssessment.js';
 import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
 
@@ -112,12 +112,13 @@ async function _getCertificationChallenges(certificationCourseId, knexConn) {
     .orderBy('challengeId', 'asc');
 
   const challengeIds = certificationChallengeRows.map(({ challengeId }) => challengeId);
-  const challengesType = await challengeRepository.getManyTypes(challengeIds);
+  const baseChallenges = await baseChallengeRepository.getMany(challengeIds);
+  const challengesMap = new Map(baseChallenges.map((baseChallenge) => [baseChallenge.id, baseChallenge.type]));
 
   return certificationChallengeRows.map((certificationChallengeRow) => {
     return new CertificationChallengeWithType({
       ...certificationChallengeRow,
-      type: challengesType[certificationChallengeRow.challengeId],
+      type: challengesMap.get(certificationChallengeRow.challengeId),
     });
   });
 }

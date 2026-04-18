@@ -5,3 +5,8 @@ export async function findOperativeBySkills(skills, locale) {
   const challenges = await challengeRepository.findOperativeBySkills_proxy(skills, locale);
   return challenges.map((challenge) => new BaseChallenge(challenge));
 }
+
+export async function getMany(ids, locale) {
+  const challenges = await challengeRepository.getMany_proxy(ids, locale);
+  return challenges.map((challenge) => new BaseChallenge(challenge));
+}
