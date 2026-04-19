@@ -3,7 +3,7 @@ import { Knex } from 'knex';
 import { createTargetProfileInDB, createTargetProfileTubesInDB } from '../../db.ts';
 import { CERTIFICATIONS_DATA } from '../../db-data.ts';
 
-export async function buildCleaData(knex: Knex) {
+export async function buildCleaData(knex: Knex): Promise<number> {
   const { id: cleaCertificationId } = await knex('complementary-certifications')
     .select('id')
     .where({ key: CERTIFICATIONS_DATA.CLEA })
@@ -41,6 +41,7 @@ export async function buildCleaData(knex: Knex) {
     createdAt: new Date('2021-01-01'),
     minimumEarnedPix: 256,
   });
+  return cleaTargetProfileId;
 }
 
 async function buildTargetProfile(knex: Knex) {

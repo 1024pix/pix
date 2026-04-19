@@ -3,19 +3,11 @@ import path from 'node:path';
 import { Browser, type BrowserContext, Page } from '@playwright/test';
 
 import { AUTH_DIR, Credentials, HAR_DIR, saveStorageState, shouldRecordHAR } from '../../helpers/auth.ts';
-import { buildPixAdminUser, buildPixCertifUser } from '../../helpers/certification/builders/index.ts';
 import { pixCertifiableUserData } from '../../helpers/certification/data.ts';
 import { PixAdminUserData, PixCertifiableUserData, PixCertifUserData } from '../../helpers/certification/types.ts';
 import { knex } from '../../helpers/db.ts';
-import { CERTIFICATIONS_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/db-data.ts';
-import {
-  ChallengePage,
-  FinalCheckpointPage,
-  IntermediateCheckpointPage,
-  StartCampaignPage,
-} from '../../pages/pix-app/index.ts';
-import { PixOrgaPage } from '../../pages/pix-orga/index.ts';
-import { expect, test as sharedTest } from '../index.ts';
+import { PIX_ADMIN_CERTIF_DATA, PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/db-data.ts';
+import { test as sharedTest } from '../index.ts';
 
 const pixAppBrowserContextsPerUser = new Map<number, BrowserContext>();
 const pixAppPages: Page[] = [];
@@ -30,7 +22,6 @@ export const loggedPagesFixtures = sharedTest.extend<
     getCertifiableUserData: (i: number) => Promise<PixCertifiableUserData>;
   },
   {
-    nextId: () => number;
     certifiableUserDatas: PixCertifiableUserData[];
     pixCertifProUserData: PixCertifUserData;
     pixCertifScoUserData: PixCertifUserData;
@@ -41,7 +32,6 @@ export const loggedPagesFixtures = sharedTest.extend<
     pixOrgaProWorkerContext: BrowserContext;
     pixAppCertifiableUserContext: (p: PixCertifiableUserData) => Promise<BrowserContext>;
     pixAppCertifiableUserPage: (p: PixCertifiableUserData) => Promise<Page>;
-    makeUserCertifiableAndReadyForClea: (p: Page) => Promise<void>;
   }
 >({
   pixAdminRoleCertifPage: async ({ pixAdminRoleCertifWorkerContext }, use) => {
@@ -85,7 +75,7 @@ export const loggedPagesFixtures = sharedTest.extend<
     };
     await use(getByIndex);
   },
-  nextId: [
+  /*nextId: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, workerInfo) => {
       const shardOffset = (workerInfo.config.shard?.current ?? 0) * 100;
@@ -105,34 +95,11 @@ export const loggedPagesFixtures = sharedTest.extend<
       await use(nextId);
     },
     { scope: 'worker' },
-  ],
+  ],*/
   pixCertifProUserData: [
-    async ({ nextId }, use) => {
-      const nextUserId = nextId();
-      const certifProUserData: PixCertifUserData = {
-        id: nextUserId,
-        firstName: 'pixCertifPro',
-        lastName: `pixCertifPro${nextUserId}`,
-        email: `pix-certif-pro-${nextUserId}@example.net`,
-        rawPassword: 'pix123',
-        certificationCenters: [
-          {
-            type: 'PRO',
-            externalId: `CERTIFPRO${nextUserId}`,
-            habilitations: [
-              CERTIFICATIONS_DATA.CLEA,
-              CERTIFICATIONS_DATA.EDU_1ER_DEGRE,
-              CERTIFICATIONS_DATA.DROIT,
-              CERTIFICATIONS_DATA.PRO_SANTE,
-            ],
-            withOrganization: {
-              isManagingStudents: false,
-            },
-          },
-        ],
-      };
-      await buildPixCertifUser(knex, certifProUserData);
-      await use(certifProUserData);
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
+      await use(PIX_CERTIF_PRO_DATA);
     },
     { scope: 'worker' },
   ],
@@ -144,18 +111,9 @@ export const loggedPagesFixtures = sharedTest.extend<
     { scope: 'worker' },
   ],
   pixAdminRoleCertifUserData: [
-    async ({ nextId }, use) => {
-      const nextUserId = nextId();
-      const adminUserData: PixAdminUserData = {
-        id: nextUserId,
-        firstName: 'pixAdminRoleCertif',
-        lastName: `pixAdminRoleCertif${nextUserId}`,
-        email: `pix-admin-role-certif-${nextUserId}@example.net`,
-        rawPassword: 'pix123',
-        role: 'CERTIF',
-      };
-      await buildPixAdminUser(knex, adminUserData);
-      await use(adminUserData);
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
+      await use(PIX_ADMIN_CERTIF_DATA as PixAdminUserData);
     },
     { scope: 'worker' },
   ],
@@ -228,7 +186,7 @@ export const loggedPagesFixtures = sharedTest.extend<
     { scope: 'worker' },
   ],
   pixAppCertifiableUserContext: [
-    async ({ browser, makeUserCertifiableAndReadyForClea }, use) => {
+    async ({ browser }, use) => {
       const createContextForUser = async (certifiableUserData: PixCertifiableUserData) => {
         if (pixAppBrowserContextsPerUser.has(certifiableUserData.id)) {
           return pixAppBrowserContextsPerUser.get(certifiableUserData.id)!;
@@ -244,9 +202,6 @@ export const loggedPagesFixtures = sharedTest.extend<
         };
         const context = await setupContext(browser, credentials);
         pixAppBrowserContextsPerUser.set(certifiableUserData.id, context);
-        const page = await context.newPage();
-        await makeUserCertifiableAndReadyForClea(page);
-        await page.close();
         return context;
       };
       await use(createContextForUser);
@@ -277,48 +232,6 @@ export const loggedPagesFixtures = sharedTest.extend<
       for (const page of pixAppPages) {
         await page.close();
       }
-    },
-    { scope: 'worker' },
-  ],
-  makeUserCertifiableAndReadyForClea: [
-    async ({ pixOrgaProWorkerContext }, use) => {
-      const prepareUser = async (pixApp: Page) => {
-        const pixOrgaProPage = await pixOrgaProWorkerContext.newPage();
-        await pixOrgaProPage.goto(process.env.PIX_ORGA_URL!);
-        const pixOrgaPage = new PixOrgaPage(pixOrgaProPage);
-        let campaignCode: string | null;
-        await sharedTest.step('creates the CLEA campaign', async () => {
-          await pixOrgaProPage.getByRole('link', { name: 'Campagnes', exact: true }).click();
-          await pixOrgaProPage.getByRole('link', { name: 'Créer une campagne' }).click();
-          await pixOrgaPage.createEvaluationCampaign({
-            campaignName: 'CLEA campagne',
-            targetProfileName: 'Parcours complet CléA numérique',
-          });
-          campaignCode = await pixOrgaProPage.locator('dd.campaign-header-title__campaign-code > span').textContent();
-        });
-
-        await sharedTest.step('user enters campaign and answers correctly all the way to the end', async () => {
-          await pixApp.goto(process.env.PIX_APP_URL!);
-          await pixApp.getByRole('link', { name: "J'ai un code" }).click();
-          const startCampaignPage = new StartCampaignPage(pixApp);
-          await startCampaignPage.goToFirstChallenge(campaignCode as string);
-          while (!pixApp.url().includes('finalCheckpoint=true')) {
-            const challengePage = new ChallengePage(pixApp);
-            await challengePage.setRightOrWrongAnswer(true);
-            await challengePage.validateAnswer();
-            if (pixApp.url().includes('/checkpoint') && !pixApp.url().includes('finalCheckpoint=true')) {
-              const checkpointPage = new IntermediateCheckpointPage(pixApp);
-              await checkpointPage.goNext();
-            }
-          }
-          const finalCheckpointPage = new FinalCheckpointPage(pixApp);
-          await finalCheckpointPage.goToResults();
-          await expect(
-            pixApp.getByRole('paragraph').filter({ hasText: 'Vos résultats ont été envoyés' }),
-          ).toBeVisible();
-        });
-      };
-      await use(prepareUser);
     },
     { scope: 'worker' },
   ],

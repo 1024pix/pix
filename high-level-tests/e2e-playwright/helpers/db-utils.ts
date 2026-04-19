@@ -86,16 +86,19 @@ export async function createOrganizationLearnerInDb(
   },
   knex: Knex,
 ) {
-  return knex('organization-learners').insert({
-    organizationId,
-    userId,
-    firstName,
-    lastName,
-    birthdate,
-    birthCountryCode,
-    birthCity,
-    sex,
-  });
+  const [{ id: organizationLearnerId }] = await knex('organization-learners')
+    .insert({
+      organizationId,
+      userId,
+      firstName,
+      lastName,
+      birthdate,
+      birthCountryCode,
+      birthCity,
+      sex,
+    })
+    .returning('id');
+  return organizationLearnerId;
 }
 
 export async function createCertificationCenterInDB(

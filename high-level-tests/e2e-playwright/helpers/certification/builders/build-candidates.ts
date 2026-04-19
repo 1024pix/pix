@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 
+import { CERTIFICATIONS_DATA } from '../../db-data.ts';
 import { createOrganizationLearnerInDb, createUserInDB } from '../../db-utils.ts';
 import { pixCertifiableUserData } from '../data.ts';
 
@@ -16,7 +17,7 @@ export async function buildCandidates(knex: Knex, organizationId: number): Promi
     };
     await createUserInDB(finalUserData, knex);
 
-    await createOrganizationLearnerInDb(
+    const organizationLearnerId = await createOrganizationLearnerInDb(
       {
         organizationId,
         userId,
@@ -30,6 +31,52 @@ export async function buildCandidates(knex: Knex, organizationId: number): Promi
       knex,
     );
 
+    await makeUserReadyForCleaAndCertifiable(knex, organizationId, userId, organizationLearnerId);
+
     userId++;
   }
+}
+
+async function makeUserReadyForCleaAndCertifiable(
+  knex: Knex,
+  organizationId: number,
+  userId: number,
+  organizationLearnerId: number,
+) {
+  const [campaignId] = await knex('campaigns').pluck('id').where({ organizationId });
+  const skillIds = await knex('campaign_skills').pluck('skillId').where({ campaignId });
+  const [{ id: campaignParticipationId }] = await knex('campaign-participations')
+    .insert({
+      campaignId,
+      sharedAt: new Date(),
+      userId,
+      validatedSkillsCount: skillIds.length,
+      isImproved: false,
+      masteryRate: 1,
+      pixScore: 875,
+      status: 'SHARED',
+      organizationLearnerId,
+      isCertifiable: true,
+    })
+    .returning('id');
+  const [badgeId] = await knex('badges').pluck('id').where({ key: CERTIFICATIONS_DATA.CLEA });
+  await knex('badge-acquisitions').insert({
+    userId,
+    campaignParticipationId,
+    badgeId,
+  });
+  const keData = [];
+  const skillData = await knex('learningcontent.skills').select(['id', 'competenceId', 'pixValue']);
+  const skillMap = new Map(skillData.map((s) => [s.id, { competenceId: s.competenceId, earnedPix: s.pixValue }]));
+  for (const skillId of skillIds) {
+    keData.push({
+      source: 'direct',
+      status: 'validated',
+      skillId,
+      earnedPix: skillMap.get(skillId)?.earnedPix,
+      userId,
+      competenceId: skillMap.get(skillId)?.competenceId,
+    });
+  }
+  await knex('knowledge-elements').insert(keData);
 }
