@@ -18,7 +18,6 @@ export const loggedPagesFixtures = sharedTest.extend<
     pixCertifProPage: Page;
     pixCertifScoPage: Page;
     pixCertifInvigilatorPage: Page;
-    pixOrgaProPage: Page;
     getCertifiableUserData: (i: number) => Promise<PixCertifiableUserData>;
   },
   {
@@ -29,7 +28,6 @@ export const loggedPagesFixtures = sharedTest.extend<
     pixAdminRoleCertifWorkerContext: BrowserContext;
     pixCertifProWorkerContext: BrowserContext;
     pixCertifScoWorkerContext: BrowserContext;
-    pixOrgaProWorkerContext: BrowserContext;
     pixAppCertifiableUserContext: (p: PixCertifiableUserData) => Promise<BrowserContext>;
     pixAppCertifiableUserPage: (p: PixCertifiableUserData) => Promise<Page>;
   }
@@ -37,12 +35,6 @@ export const loggedPagesFixtures = sharedTest.extend<
   pixAdminRoleCertifPage: async ({ pixAdminRoleCertifWorkerContext }, use) => {
     const page = await pixAdminRoleCertifWorkerContext.newPage();
     await page.goto(process.env.PIX_ADMIN_URL!);
-    await use(page);
-    await page.close();
-  },
-  pixOrgaProPage: async ({ pixOrgaProWorkerContext }, use) => {
-    const page = await pixOrgaProWorkerContext.newPage();
-    await page.goto(process.env.PIX_ORGA_URL!);
     await use(page);
     await page.close();
   },
@@ -161,23 +153,6 @@ export const loggedPagesFixtures = sharedTest.extend<
         email: pixCertifScoUserData.email,
         rawPassword: pixCertifScoUserData.rawPassword,
         appUrl: process.env.PIX_CERTIF_URL!,
-      };
-      const context = await setupContext(browser, credentials);
-      await use(context);
-      await context.close();
-    },
-    { scope: 'worker' },
-  ],
-  pixOrgaProWorkerContext: [
-    async ({ browser, pixCertifProUserData }, use) => {
-      const credentials = {
-        id: pixCertifProUserData.id,
-        label: `pix-orga-pro-${pixCertifProUserData.id}`,
-        firstName: pixCertifProUserData.firstName,
-        lastName: pixCertifProUserData.lastName,
-        email: pixCertifProUserData.email,
-        rawPassword: pixCertifProUserData.rawPassword,
-        appUrl: process.env.PIX_ORGA_URL!,
       };
       const context = await setupContext(browser, credentials);
       await use(context);

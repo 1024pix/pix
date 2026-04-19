@@ -406,7 +406,6 @@ workflows:
           requires:
             - api_install
             - mon_pix_install
-            - orga_install
             - certif_install
             - admin_install
           filters:
@@ -1271,11 +1270,6 @@ jobs:
             IS_RUNNING_PLAYWRIGHT: 'true'
             PIX_ADMIN_LOGIN_FROM_PASSWORD_ENABLED: 'true'
       - run:
-          name: Start Pix Orga
-          working_directory: ~/pix/orga
-          command: npx ember serve --path=./dist --proxy=http://localhost:3000
-          background: true
-      - run:
           name: Start Pix App
           working_directory: ~/pix/mon-pix
           command: npx ember serve --path=./dist --proxy=http://localhost:3000
@@ -1320,7 +1314,6 @@ jobs:
           environment:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200
-            PIX_ORGA_URL: http://localhost:4201
             PIX_ADMIN_URL: http://localhost:4202
             PIX_CERTIF_URL: http://localhost:4203
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'

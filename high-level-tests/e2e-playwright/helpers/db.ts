@@ -4,8 +4,14 @@ import Knex from 'knex';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../api/src/identity-access-management/domain/constants/identity-providers.js';
 // @ts-expect-error AuthenticationMethod from API project
 import { AuthenticationMethod } from '../../../api/src/identity-access-management/domain/models/AuthenticationMethod.js';
-import { buildCertificationData } from './certification/db.ts';
-import { PIX_ADMIN_SUPPORT_DATA, PIX_APP_USER_DATA, PIX_ORGA_ADMIN_DATA, PIX_ORGA_MEMBER_DATA } from './db-data.js';
+import { buildCoreVersion, buildCpfData, buildPixCertifUser } from './certification/builders/index.ts';
+import {
+  PIX_ADMIN_SUPPORT_DATA,
+  PIX_APP_USER_DATA,
+  PIX_CERTIF_PRO_DATA,
+  PIX_ORGA_ADMIN_DATA,
+  PIX_ORGA_MEMBER_DATA,
+} from './db-data.js';
 import { createCertificationCenterInDB, createCertificationCenterMembershipInDB, createUserInDB } from './db-utils.ts';
 
 export const knex = Knex({ client: 'postgresql', connection: process.env.DATABASE_URL });
@@ -15,7 +21,9 @@ export async function buildStaticData() {
   if (!hasDataAlreadyBeenBuilt) {
     await buildAuthenticatedUsers();
     await buildTargetProfiles();
-    await buildCertificationData();
+    await buildCpfData(knex);
+    await buildCoreVersion(knex);
+    await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA, null);
   }
 }
 
@@ -430,7 +438,9 @@ export async function createTargetProfileInDB(name: string) {
     targetProfileId: id,
     organizationId,
   }));
-  await knex('target-profile-shares').insert(targetProfileSharesToInsert);
+  if (targetProfileSharesToInsert.length > 0) {
+    await knex('target-profile-shares').insert(targetProfileSharesToInsert);
+  }
   return id;
 }
 

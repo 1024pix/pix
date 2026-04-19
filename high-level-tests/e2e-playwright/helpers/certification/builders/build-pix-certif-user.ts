@@ -11,7 +11,7 @@ import { PixCertifUserData } from '../types.ts';
 
 const CLEA_SKILLS_CACHE: string[] = [];
 
-export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData, cleaTargetProfileId: number) {
+export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData, cleaTargetProfileId: number | null) {
   let organizationId;
   const certificationUserId = await createUserInDB(
     {
@@ -39,13 +39,6 @@ export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData
       await createCertificationCenterHabilitationInDB({ certificationCenterId, key: habilitationKey }, knex);
     }
     if (certificationCenter.withOrganization) {
-      const { id: legalDocumentVersionId } = await knex('legal-document-versions').select('id').first();
-      const someDate = new Date('2025-07-09');
-      await knex('legal-document-version-user-acceptances').insert({
-        legalDocumentVersionId,
-        userId: certificationUserId,
-        acceptedAt: someDate,
-      });
       organizationId = await createOrganizationInDB({
         type: certificationCenter.type,
         externalId: certificationCenter.externalId,
@@ -56,7 +49,9 @@ export async function buildPixCertifUser(knex: Knex, userData: PixCertifUserData
       for (const targetProfileId of allTargetProfileIds) {
         await knex('target-profile-shares').insert({ targetProfileId, organizationId });
       }
-      await createCleaCampaign(knex, organizationId, certificationUserId, cleaTargetProfileId);
+      if (cleaTargetProfileId) {
+        await createCleaCampaign(knex, organizationId, certificationUserId, cleaTargetProfileId);
+      }
     }
   }
   return organizationId;

@@ -4,6 +4,7 @@ import sharedConfig, { App, isCI, reuseExistingApps, setupWebServer } from './pl
 
 export default defineConfig({
   ...sharedConfig,
+  globalSetup: './tests/recette-certif/global-setup',
   timeout: 80_000,
   projects: [
     {
@@ -14,16 +15,10 @@ export default defineConfig({
   ],
 
   webServer: isCI
-    ? [
-        setupWebServer(App.PIX_APP, true),
-        setupWebServer(App.PIX_ORGA, true),
-        setupWebServer(App.PIX_CERTIF, true),
-        setupWebServer(App.PIX_ADMIN, true),
-      ]
+    ? [setupWebServer(App.PIX_APP, true), setupWebServer(App.PIX_CERTIF, true), setupWebServer(App.PIX_ADMIN, true)]
     : [
         setupWebServer(App.PIX_API, false),
         setupWebServer(App.PIX_APP, reuseExistingApps),
-        setupWebServer(App.PIX_ORGA, reuseExistingApps),
         setupWebServer(App.PIX_CERTIF, reuseExistingApps),
         setupWebServer(App.PIX_ADMIN, reuseExistingApps),
       ],

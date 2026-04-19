@@ -4,6 +4,7 @@ import sharedConfig, { App, isCI, reuseExistingApps, setupWebServer } from './pl
 
 export default defineConfig({
   ...sharedConfig,
+  globalSetup: './global-setup',
   projects: [
     {
       name: 'recette prescription - setup base data for anonymization',

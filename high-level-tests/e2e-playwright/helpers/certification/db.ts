@@ -14,6 +14,13 @@ import {
 import { PixAdminUserData } from './types.ts';
 
 export async function buildCertificationData() {
+  // Use a PG mutex to solve the shard concurrency
+  // This data should only be inserted once
+  await knex.raw('SELECT pg_advisory_lock(12345)');
+  const res = await knex('certification_versions').pluck('id');
+  if (res.length > 0) {
+    return;
+  }
   await buildCpfData(knex);
   await buildCoreVersion(knex);
   const cleaTargetProfileId = await buildCleaData(knex);

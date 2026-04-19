@@ -11,7 +11,6 @@ export const reuseExistingApps = process.env.REUSE_EXISTING_APPS === 'true';
 
 // See https://playwright.dev/docs/test-configuration
 export default defineConfig({
-  globalSetup: './global-setup',
   outputDir: `${playwrightFolder}/output`,
   forbidOnly: isCI,
   retries: 0,
