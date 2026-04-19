@@ -1,17 +1,15 @@
 import { knex } from '../db.ts';
-import { PIX_ADMIN_CERTIF_DATA, PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../db-data.ts';
+import { PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../db-data.ts';
 import {
   buildCandidates,
   buildCleaData,
   buildCoreVersion,
   buildCpfData,
-  buildPixAdminUser,
   buildPixCertifUser,
   buildPixPlusDroitData,
   buildPixPlusEduData,
   buildPixPlusProSanteData,
 } from './builders/index.ts';
-import { PixAdminUserData } from './types.ts';
 
 export async function buildCertificationData() {
   // Use a PG mutex to solve the shard concurrency
@@ -30,7 +28,6 @@ export async function buildCertificationData() {
   await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA, cleaTargetProfileId);
   const organizationId = await buildPixCertifUser(knex, PIX_CERTIF_SCO_DATA, cleaTargetProfileId);
   await buildCandidates(knex, organizationId);
-  await buildPixAdminUser(knex, PIX_ADMIN_CERTIF_DATA as PixAdminUserData);
 }
 
 export async function changeCandidateAnswers(certificationId: number, rightWrongAnswersPattern: boolean[]) {

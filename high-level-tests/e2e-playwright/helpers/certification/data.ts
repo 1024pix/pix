@@ -1,3 +1,5 @@
+import { CERTIFICATIONS_DATA } from '../db-data.ts';
+
 export const pixCertifiableUserData = [
   {
     firstName: 'Buffy',
@@ -91,3 +93,50 @@ export const pixCertifiableUserData = [
     postalCode: '66000',
   },
 ];
+
+export const PIX_ADMIN_CERTIF_DATA = {
+  firstName: 'pixAdminRoleCertif',
+  lastName: `pixAdminRoleCertif`,
+  email: `pix-admin-role-certif@example.net`,
+  rawPassword: 'pix123',
+  role: 'CERTIF',
+};
+
+export const PIX_CERTIF_PRO_DATA = {
+  firstName: 'PixCertif',
+  lastName: 'CentrePRO',
+  email: 'pix-certif_pro@example.net',
+  rawPassword: 'pix123',
+  certificationCenters: [
+    {
+      type: 'PRO',
+      externalId: 'CERTIFPRO',
+      habilitations: [
+        CERTIFICATIONS_DATA.CLEA,
+        CERTIFICATIONS_DATA.EDU_1ER_DEGRE,
+        CERTIFICATIONS_DATA.DROIT,
+        CERTIFICATIONS_DATA.PRO_SANTE,
+      ],
+      withOrganization: {
+        isManagingStudents: false,
+      },
+    },
+  ],
+};
+
+export const PIX_CERTIF_SCO_DATA = {
+  firstName: 'PixCertif',
+  lastName: 'CentreSCO',
+  email: 'pix-certif_sco@example.net',
+  rawPassword: 'pix123',
+  certificationCenters: [
+    {
+      type: 'SCO',
+      externalId: 'CERTIFSCO',
+      habilitations: [],
+      withOrganization: {
+        isManagingStudents: true,
+      },
+    },
+  ],
+};

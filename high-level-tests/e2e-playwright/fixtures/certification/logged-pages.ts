@@ -3,16 +3,19 @@ import path from 'node:path';
 import { Browser, type BrowserContext, Page } from '@playwright/test';
 
 import { AUTH_DIR, Credentials, HAR_DIR, saveStorageState, shouldRecordHAR } from '../../helpers/auth.ts';
+import { buildPixAdminUser } from '../../helpers/certification/builders/index.ts';
 import { pixCertifiableUserData } from '../../helpers/certification/data.ts';
+import { PIX_ADMIN_CERTIF_DATA } from '../../helpers/certification/data.ts';
 import { PixAdminUserData, PixCertifiableUserData, PixCertifUserData } from '../../helpers/certification/types.ts';
 import { knex } from '../../helpers/db.ts';
-import { PIX_ADMIN_CERTIF_DATA, PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/db-data.ts';
+import { PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/db-data.ts';
 import { test as sharedTest } from '../index.ts';
 
 const pixAppBrowserContextsPerUser = new Map<number, BrowserContext>();
 const pixAppPages: Page[] = [];
 
 export const loggedPagesFixtures = sharedTest.extend<
+  // test scoped fixtures
   {
     pixAdminRoleCertifPage: Page;
     pixCertifProPage: Page;
@@ -20,7 +23,10 @@ export const loggedPagesFixtures = sharedTest.extend<
     pixCertifInvigilatorPage: Page;
     getCertifiableUserData: (i: number) => Promise<PixCertifiableUserData>;
   },
+  // worker scoped fixtures (run max once per worker)
   {
+    nextId: () => number;
+    userDataMap: Map<object, object>;
     certifiableUserDatas: PixCertifiableUserData[];
     pixCertifProUserData: PixCertifUserData;
     pixCertifScoUserData: PixCertifUserData;
@@ -67,7 +73,7 @@ export const loggedPagesFixtures = sharedTest.extend<
     };
     await use(getByIndex);
   },
-  /*nextId: [
+  nextId: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, workerInfo) => {
       const shardOffset = (workerInfo.config.shard?.current ?? 0) * 100;
@@ -87,7 +93,23 @@ export const loggedPagesFixtures = sharedTest.extend<
       await use(nextId);
     },
     { scope: 'worker' },
-  ],*/
+  ],
+  userDataMap: [
+    async ({ nextId }, use) => {
+      const userDataMap = new Map();
+      const id = nextId();
+      const email = buildUniqueEmailFromId(id, PIX_ADMIN_CERTIF_DATA.email);
+      const adminUserData = {
+        ...PIX_ADMIN_CERTIF_DATA,
+        id,
+        email,
+      } as PixAdminUserData;
+      await buildPixAdminUser(knex, adminUserData);
+      userDataMap.set(PIX_ADMIN_CERTIF_DATA, adminUserData);
+      await use(userDataMap);
+    },
+    { scope: 'worker' },
+  ],
   pixCertifProUserData: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
@@ -103,9 +125,8 @@ export const loggedPagesFixtures = sharedTest.extend<
     { scope: 'worker' },
   ],
   pixAdminRoleCertifUserData: [
-    // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      await use(PIX_ADMIN_CERTIF_DATA as PixAdminUserData);
+    async ({ userDataMap }, use) => {
+      await use(userDataMap.get(PIX_ADMIN_CERTIF_DATA) as PixAdminUserData);
     },
     { scope: 'worker' },
   ],
@@ -228,4 +249,9 @@ async function setupContext(browser: Browser, credentials: Credentials) {
     recordHar,
     permissions: ['clipboard-read', 'clipboard-write'],
   });
+}
+
+function buildUniqueEmailFromId(id: number, email: string) {
+  const [username, domain] = email.split('@');
+  return `${username}${id}@${domain}`;
 }

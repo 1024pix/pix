@@ -18,4 +18,5 @@ export async function buildPixAdminUser(knex: Knex, userData: PixAdminUserData) 
     knex,
   );
   await knex('pix-admin-roles').insert({ userId: adminUserId, role: userData.role });
+  return adminUserId;
 }
