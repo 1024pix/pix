@@ -2,25 +2,23 @@ import { Knex } from 'knex';
 
 import { CERTIFICATIONS_DATA } from '../../db-data.ts';
 import { createOrganizationLearnerInDb, createUserInDB } from '../../db-utils.ts';
-import { pixCertifiableUserData } from '../data.ts';
+import { PixCertifiableUserData } from '../types.ts';
 
-export async function buildCandidates(knex: Knex, organizationId: number): Promise<void> {
-  let userId = 1_000_000_000;
-  for (const userData of pixCertifiableUserData) {
-    const finalUserData = {
-      ...userData,
-      id: userId,
-      email: `pix-app-user-${userId}-0@example.net`,
-      cgu: true,
-      pixCertifTermsOfServiceAccepted: true,
-      mustValidateTermsOfService: false,
-    };
-    await createUserInDB(finalUserData, knex);
+export async function buildCandidate(knex: Knex, userData: PixCertifiableUserData): Promise<void> {
+  const finalUserData = {
+    ...userData,
+    cgu: true,
+    pixCertifTermsOfServiceAccepted: true,
+    mustValidateTermsOfService: false,
+  };
+  await createUserInDB(finalUserData, knex);
 
+  const organizationIds = await knex('organizations').pluck('id');
+  for (const organizationId of organizationIds) {
     const organizationLearnerId = await createOrganizationLearnerInDb(
       {
         organizationId,
-        userId,
+        userId: userData.id,
         firstName: finalUserData.firstName,
         lastName: finalUserData.lastName,
         birthdate: finalUserData.birthdate,
@@ -31,9 +29,7 @@ export async function buildCandidates(knex: Knex, organizationId: number): Promi
       knex,
     );
 
-    await makeUserReadyForCleaAndCertifiable(knex, organizationId, userId, organizationLearnerId);
-
-    userId++;
+    await makeUserReadyForCleaAndCertifiable(knex, organizationId, userData.id, organizationLearnerId);
   }
 }
 

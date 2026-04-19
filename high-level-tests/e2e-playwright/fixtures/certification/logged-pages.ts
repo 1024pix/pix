@@ -3,12 +3,12 @@ import path from 'node:path';
 import { Browser, type BrowserContext, Page } from '@playwright/test';
 
 import { AUTH_DIR, Credentials, HAR_DIR, saveStorageState, shouldRecordHAR } from '../../helpers/auth.ts';
-import { buildPixAdminUser } from '../../helpers/certification/builders/index.ts';
+import { buildCandidate, buildPixAdminUser, buildPixCertifUser } from '../../helpers/certification/builders/index.ts';
 import { pixCertifiableUserData } from '../../helpers/certification/data.ts';
-import { PIX_ADMIN_CERTIF_DATA } from '../../helpers/certification/data.ts';
+import { PIX_ADMIN_CERTIF_DATA, PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/certification/data.ts';
+import { getCleaTargetProfileId } from '../../helpers/certification/db.ts';
 import { PixAdminUserData, PixCertifiableUserData, PixCertifUserData } from '../../helpers/certification/types.ts';
 import { knex } from '../../helpers/db.ts';
-import { PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../../helpers/db-data.ts';
 import { test as sharedTest } from '../index.ts';
 
 const pixAppBrowserContextsPerUser = new Map<number, BrowserContext>();
@@ -21,13 +21,12 @@ export const loggedPagesFixtures = sharedTest.extend<
     pixCertifProPage: Page;
     pixCertifScoPage: Page;
     pixCertifInvigilatorPage: Page;
-    getCertifiableUserData: (i: number) => Promise<PixCertifiableUserData>;
+    getCertifiableUserData: (firstName: string) => Promise<PixCertifiableUserData>;
   },
   // worker scoped fixtures (run max once per worker)
   {
     nextId: () => number;
     userDataMap: Map<object, object>;
-    certifiableUserDatas: PixCertifiableUserData[];
     pixCertifProUserData: PixCertifUserData;
     pixCertifScoUserData: PixCertifUserData;
     pixAdminRoleCertifUserData: PixAdminUserData;
@@ -62,16 +61,12 @@ export const loggedPagesFixtures = sharedTest.extend<
     await use(page);
     await page.close();
   },
-  // eslint-disable-next-line no-empty-pattern
-  getCertifiableUserData: async ({}, use) => {
-    const getByIndex = async (index: number) => {
-      const users = await knex('users').whereILike('email', 'pix-app-user-%').orderBy('id');
-      return {
-        ...users[index],
-        ...pixCertifiableUserData[index],
-      };
+  getCertifiableUserData: async ({ userDataMap }, use) => {
+    const getByFirstName = async (searchedFirstName: string) => {
+      const userData = pixCertifiableUserData.find(({ firstName }) => firstName === searchedFirstName);
+      return userDataMap.get(userData as PixCertifiableUserData) as PixCertifiableUserData;
     };
-    await use(getByIndex);
+    await use(getByFirstName);
   },
   nextId: [
     // eslint-disable-next-line no-empty-pattern
@@ -97,30 +92,65 @@ export const loggedPagesFixtures = sharedTest.extend<
   userDataMap: [
     async ({ nextId }, use) => {
       const userDataMap = new Map();
-      const id = nextId();
-      const email = buildUniqueEmailFromId(id, PIX_ADMIN_CERTIF_DATA.email);
-      const adminUserData = {
+      const cleaTargetProfileId = await getCleaTargetProfileId();
+      // admin
+      let id = nextId();
+      let email = buildUniqueEmailFromId(id, PIX_ADMIN_CERTIF_DATA.email);
+      let userData: unknown = {
         ...PIX_ADMIN_CERTIF_DATA,
         id,
         email,
       } as PixAdminUserData;
-      await buildPixAdminUser(knex, adminUserData);
-      userDataMap.set(PIX_ADMIN_CERTIF_DATA, adminUserData);
+      await buildPixAdminUser(knex, userData as PixAdminUserData);
+      userDataMap.set(PIX_ADMIN_CERTIF_DATA, userData);
+
+      // pix certif pro
+      id = nextId();
+      email = buildUniqueEmailFromId(id, PIX_CERTIF_PRO_DATA.email);
+      userData = {
+        ...PIX_CERTIF_PRO_DATA,
+        id,
+        email,
+      } as PixCertifUserData;
+      await buildPixCertifUser(knex, userData as PixCertifUserData, cleaTargetProfileId);
+      userDataMap.set(PIX_CERTIF_PRO_DATA, userData);
+
+      // pix certif sco
+      id = nextId();
+      email = buildUniqueEmailFromId(id, PIX_CERTIF_SCO_DATA.email);
+      userData = {
+        ...PIX_CERTIF_SCO_DATA,
+        id,
+        email,
+      } as PixCertifUserData;
+      await buildPixCertifUser(knex, userData as PixCertifUserData, cleaTargetProfileId);
+      userDataMap.set(PIX_CERTIF_SCO_DATA, userData);
+
+      // certifiable users
+      for (const certifiableUserData of pixCertifiableUserData) {
+        id = nextId();
+        email = buildUniqueEmailFromId(id, certifiableUserData.email);
+        userData = {
+          ...certifiableUserData,
+          id,
+          email,
+        } as PixCertifiableUserData;
+        await buildCandidate(knex, userData as PixCertifiableUserData);
+        userDataMap.set(certifiableUserData, userData);
+      }
       await use(userDataMap);
     },
     { scope: 'worker' },
   ],
   pixCertifProUserData: [
-    // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      await use(PIX_CERTIF_PRO_DATA);
+    async ({ userDataMap }, use) => {
+      await use(userDataMap.get(PIX_CERTIF_PRO_DATA) as PixCertifUserData);
     },
     { scope: 'worker' },
   ],
   pixCertifScoUserData: [
-    // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      await use(PIX_CERTIF_SCO_DATA);
+    async ({ userDataMap }, use) => {
+      await use(userDataMap.get(PIX_CERTIF_SCO_DATA) as PixCertifUserData);
     },
     { scope: 'worker' },
   ],

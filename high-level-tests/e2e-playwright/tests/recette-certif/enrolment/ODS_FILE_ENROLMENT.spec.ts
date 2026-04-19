@@ -38,11 +38,11 @@ test(
     testRef,
   }) => {
     test.slow();
-    const userDataCoreSubscription = await getCertifiableUserData(0);
-    const userDataCleaSubscription = await getCertifiableUserData(1);
-    const userDataEduSubscription = await getCertifiableUserData(2);
-    const userDataDroitSubscription = await getCertifiableUserData(3);
-    const userDataProSanteSubscription = await getCertifiableUserData(4);
+    const userDataCoreSubscription = await getCertifiableUserData('Buffy');
+    const userDataCleaSubscription = await getCertifiableUserData('Rupert');
+    const userDataEduSubscription = await getCertifiableUserData('Cordelia');
+    const userDataDroitSubscription = await getCertifiableUserData('Willow');
+    const userDataProSanteSubscription = await getCertifiableUserData('Riley');
     await pixCertifProPage.goto(process.env.PIX_CERTIF_URL!);
 
     let sessionNumber = '',

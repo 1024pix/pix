@@ -57,15 +57,6 @@ export const CERTIFICATIONS_DATA = {
   PRO_SANTE: 'PRO_SANTE',
 };
 
-export const PIX_ADMIN_CERTIF_DATA = {
-  id: 1_000_004,
-  firstName: 'pixAdminRoleCertif',
-  lastName: `pixAdminRoleCertif`,
-  email: `pix-admin-role-certif@example.net`,
-  rawPassword: 'pix123',
-  role: 'CERTIF',
-};
-
 export const PIX_CERTIF_PRO_DATA = {
   id: 1_000_005,
   firstName: 'PixCertif',
@@ -84,24 +75,6 @@ export const PIX_CERTIF_PRO_DATA = {
       ],
       withOrganization: {
         isManagingStudents: false,
-      },
-    },
-  ],
-};
-
-export const PIX_CERTIF_SCO_DATA = {
-  id: 1_000_006,
-  firstName: 'PixCertif',
-  lastName: 'CentreSCO',
-  email: 'pix-certif_sco@example.net',
-  rawPassword: 'pix123',
-  certificationCenters: [
-    {
-      type: 'SCO',
-      externalId: 'CERTIFSCO',
-      habilitations: [],
-      withOrganization: {
-        isManagingStudents: true,
       },
     },
   ],

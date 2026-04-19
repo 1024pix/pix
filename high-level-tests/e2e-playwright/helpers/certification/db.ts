@@ -1,11 +1,9 @@
 import { knex } from '../db.ts';
-import { PIX_CERTIF_PRO_DATA, PIX_CERTIF_SCO_DATA } from '../db-data.ts';
+import { CERTIFICATIONS_DATA } from '../db-data.ts';
 import {
-  buildCandidates,
   buildCleaData,
   buildCoreVersion,
   buildCpfData,
-  buildPixCertifUser,
   buildPixPlusDroitData,
   buildPixPlusEduData,
   buildPixPlusProSanteData,
@@ -21,13 +19,10 @@ export async function buildCertificationData() {
   }
   await buildCpfData(knex);
   await buildCoreVersion(knex);
-  const cleaTargetProfileId = await buildCleaData(knex);
+  await buildCleaData(knex);
   await buildPixPlusEduData(knex);
   await buildPixPlusDroitData(knex);
   await buildPixPlusProSanteData(knex);
-  await buildPixCertifUser(knex, PIX_CERTIF_PRO_DATA, cleaTargetProfileId);
-  const organizationId = await buildPixCertifUser(knex, PIX_CERTIF_SCO_DATA, cleaTargetProfileId);
-  await buildCandidates(knex, organizationId);
 }
 
 export async function changeCandidateAnswers(certificationId: number, rightWrongAnswersPattern: boolean[]) {
@@ -42,4 +37,9 @@ export async function changeCandidateAnswers(certificationId: number, rightWrong
     const nextResult = rightWrongAnswersPattern[i % rightWrongAnswersPattern.length] ? 'ok' : 'ko';
     await knex('answers').update('result', nextResult).where('answers.id', answerId);
   }
+}
+
+export async function getCleaTargetProfileId() {
+  const [id] = await knex('badges').pluck('targetProfileId').where({ key: CERTIFICATIONS_DATA.CLEA });
+  return id;
 }

@@ -13,7 +13,7 @@ test(`${testRef} - Enroll candidate through individual enrolment modal`, async (
   passManyCertificationExams,
 }) => {
   test.slow();
-  const userDataCoreSubscription = await getCertifiableUserData(0);
+  const userDataCoreSubscription = await getCertifiableUserData('Buffy');
   await pixCertifScoPage.goto(process.env.PIX_CERTIF_URL!);
 
   let sessionNumber = '',
