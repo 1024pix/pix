@@ -1,52 +1,46 @@
-import { Candidate } from '../../../../../../src/certification/evaluation/domain/models/Candidate.js';
+import { expect } from 'chai';
+
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
-import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | Candidate', function () {
-  context('#constructor', function () {
-    it('should build an evaluated candidate', function () {
-      // given
-      // when
-      const candidate = new Candidate({
-        accessibilityAdjustmentNeeded: true,
-        reconciledAt: new Date('2024-10-18'),
-        subscriptionFramework: Frameworks.CORE,
+  context('#get hasSubscribedToClea', function () {
+    Object.values(Frameworks)
+      .filter((framework) => framework !== Frameworks.CLEA)
+      .forEach((framework) => {
+        it(`returns false when framework is ${framework}`, function () {
+          const candidate = domainBuilder.certification.evaluation.buildCandidate({ subscriptionFramework: framework });
+
+          expect(candidate.hasSubscribedToClea).to.be.false;
+        });
       });
 
-      // then
-      expect(candidate).to.deep.equal({
-        accessibilityAdjustmentNeeded: true,
-        reconciledAt: new Date('2024-10-18'),
-        subscriptionFramework: Frameworks.CORE,
+    it('returns true when framework is CLEA', function () {
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        subscriptionFramework: Frameworks.CLEA,
       });
+
+      expect(candidate.hasSubscribedToClea).to.be.true;
     });
+  });
 
-    context('invariants', function () {
-      it('should assess that evaluated candidate is always reconciled', function () {
-        // given
-        const reconciledAt = null;
+  context('#get hasSubscribedToSomethingElseButCore', function () {
+    Object.values(Frameworks)
+      .filter((framework) => framework !== Frameworks.CORE)
+      .forEach((framework) => {
+        it(`returns true when framework is ${framework}`, function () {
+          const candidate = domainBuilder.certification.evaluation.buildCandidate({ subscriptionFramework: framework });
 
-        // when
-        const error = catchErrSync(
-          (reconciledAt) =>
-            new Candidate({
-              accessibilityAdjustmentNeeded: false,
-              reconciledAt,
-              subscriptionFramework: Frameworks.CORE,
-            }),
-        )(reconciledAt);
-
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.deep.equal([
-          {
-            attribute: 'reconciledAt',
-            message: '"reconciledAt" must be a valid date',
-          },
-        ]);
+          expect(candidate.hasSubscribedToSomethingElseButCore).to.be.true;
+        });
       });
+
+    it('returns false when framework is CORE', function () {
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        subscriptionFramework: Frameworks.CORE,
+      });
+
+      expect(candidate.hasSubscribedToSomethingElseButCore).to.be.false;
     });
   });
 });

@@ -1,35 +1,67 @@
-import Joi from 'joi';
-
-import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
 export class Candidate {
-  static #schema = Joi.object({
-    accessibilityAdjustmentNeeded: Joi.boolean().optional(),
-    reconciledAt: Joi.date().required(),
-    subscriptionFramework: Joi.string()
-      .valid(...Object.values(Frameworks))
-      .required(),
-  });
-
   /**
    * @param {object} params
+   * @param {number} params.id
+   * @param {number} params.userId
+   * @param {number} params.sessionId
+   * @param {string} params.firstName
+   * @param {string} params.lastName
+   * @param {string} params.sex
+   * @param {string} params.birthdate
+   * @param {string} params.birthPostalCode
+   * @param {string} params.birthINSEECode
+   * @param {string} params.birthCountry
+   * @param {string} params.birthCity
+   * @param {string} params.externalId
    * @param {Date} params.reconciledAt
    * @param {boolean} [params.accessibilityAdjustmentNeeded]
    * @param {Frameworks} params.subscriptionFramework
+   * @param {boolean} params.authorizedToStart
    */
-  constructor({ accessibilityAdjustmentNeeded, reconciledAt, subscriptionFramework }) {
+  constructor({
+    id,
+    userId,
+    sessionId,
+    firstName,
+    lastName,
+    sex,
+    birthdate,
+    birthPostalCode,
+    birthINSEECode,
+    birthCountry,
+    birthCity,
+    externalId,
+    accessibilityAdjustmentNeeded,
+    reconciledAt,
+    subscriptionFramework,
+    authorizedToStart,
+  }) {
+    this.id = id;
+    this.userId = userId;
+    this.sessionId = sessionId;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.sex = sex;
+    this.birthdate = birthdate;
+    this.birthdate = birthdate;
+    this.birthPostalCode = birthPostalCode;
+    this.birthINSEECode = birthINSEECode;
+    this.birthCountry = birthCountry;
+    this.birthCity = birthCity;
+    this.externalId = externalId;
     this.accessibilityAdjustmentNeeded = !!accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
     this.subscriptionFramework = subscriptionFramework;
-
-    this.#validate();
+    this.authorizedToStart = authorizedToStart;
   }
 
-  #validate() {
-    const { error } = Candidate.#schema.validate(this, { allowUnknown: false });
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
-    }
+  get hasSubscribedToClea() {
+    return this.subscriptionFramework === Frameworks.CLEA;
+  }
+
+  get hasSubscribedToSomethingElseButCore() {
+    return this.subscriptionFramework !== Frameworks.CORE;
   }
 }

@@ -1,4 +1,4 @@
-import * as certificationCandidateRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
+import * as candidateRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
 import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -7,7 +7,7 @@ import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Integration | Repository | certification candidate', function () {
+describe('Evaluation | Integration | Repository | certification candidate', function () {
   describe('#findByAssessmentId', function () {
     describe('when certification candidate is found', function () {
       context('when certification candidate has subscribed to Pix Core', function () {
@@ -40,7 +40,7 @@ describe('Integration | Repository | certification candidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const result = await certificationCandidateRepository.findByAssessmentId({
+          const result = await candidateRepository.findByAssessmentId({
             assessmentId,
           });
 
@@ -82,7 +82,7 @@ describe('Integration | Repository | certification candidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const result = await certificationCandidateRepository.findByAssessmentId({
+          const result = await candidateRepository.findByAssessmentId({
             assessmentId,
           });
 
@@ -124,7 +124,7 @@ describe('Integration | Repository | certification candidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const result = await certificationCandidateRepository.findByAssessmentId({
+          const result = await candidateRepository.findByAssessmentId({
             assessmentId,
           });
 
@@ -165,7 +165,7 @@ describe('Integration | Repository | certification candidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(certificationCandidateRepository.findByAssessmentId)({
+        const error = await catchErr(candidateRepository.findByAssessmentId)({
           assessmentId: 4659,
         });
 
@@ -223,7 +223,7 @@ describe('Integration | Repository | certification candidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const result = await certificationCandidateRepository.findByAssessmentId({
+          const result = await candidateRepository.findByAssessmentId({
             assessmentId,
           });
 
@@ -236,6 +236,105 @@ describe('Integration | Repository | certification candidate', function () {
           );
         });
       });
+    });
+  });
+
+  describe('#findByUserIdAndSessionId', function () {
+    context('when certification candidate is found', function () {
+      it('returns the candidate', async function () {
+        // given
+        const session = databaseBuilder.factory.buildSession();
+        const user = databaseBuilder.factory.buildUser();
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: session.id,
+          userId: user.id,
+          reconciledAt: new Date('2024-10-17'),
+          authorizedToStart: false,
+          subscription: Frameworks.DROIT,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await candidateRepository.findByUserIdAndSessionId({
+          sessionId: session.id,
+          userId: user.id,
+        });
+
+        // then
+        expect(result).to.deep.equal(
+          domainBuilder.certification.evaluation.buildCandidate({
+            ...candidate,
+            subscriptionFramework: Frameworks.DROIT,
+          }),
+        );
+      });
+    });
+
+    context('when certification candidate is not found', function () {
+      it('should throw a certification candidate not found error', async function () {
+        // given
+        const session = databaseBuilder.factory.buildSession();
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: session.id,
+          userId: user.id,
+          reconciledAt: new Date('2024-10-17'),
+          authorizedToStart: false,
+          subscription: Frameworks.DROIT,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(candidateRepository.findByUserIdAndSessionId)({
+          sessionId: session.id + 1,
+          userId: user.id,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(CertificationCandidateNotFoundError);
+      });
+    });
+  });
+
+  describe('#update', function () {
+    it('updates only authorizedToStart field', async function () {
+      // given
+      const candidateInDB = databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Joplin',
+        firstName: 'Janis',
+        reconciledAt: new Date('2024-10-17'),
+        authorizedToStart: false,
+        subscription: Frameworks.CLEA,
+      });
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        candidateId: candidateInDB.id,
+      });
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        certificationCourseId: certificationCourse.id,
+      }).id;
+
+      await databaseBuilder.commit();
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        ...candidateInDB,
+        reconciledAt: new Date('2021-10-01'),
+        subscriptionFramework: Frameworks.EDU_CPE,
+        authorizedToStart: true,
+      });
+
+      // when
+      await candidateRepository.update(candidate);
+
+      // then
+      const actualCandidate = await candidateRepository.findByAssessmentId({ assessmentId });
+      expect(actualCandidate).to.deep.equal(
+        domainBuilder.certification.evaluation.buildCandidate({
+          ...candidateInDB,
+          subscriptionFramework: candidateInDB.subscription,
+          authorizedToStart: true, // only field changed
+        }),
+      );
     });
   });
 });
