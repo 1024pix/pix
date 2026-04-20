@@ -41,7 +41,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
-export const retrieveLastOrCreateCertificationCourse = async function ({
+export async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   sessionId,
   userId,
@@ -113,7 +113,7 @@ export const retrieveLastOrCreateCertificationCourse = async function ({
     verifyCertificateCodeService,
     certificationBadgesService,
   });
-};
+}
 
 function _validateUserLocale(userLanguage) {
   const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(userLanguage);

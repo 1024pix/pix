@@ -1,9 +1,12 @@
+import { expect } from 'chai';
+
 import {
   Frameworks,
   hasCoreScope,
   isEduFramework,
+  toScope,
 } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 
 describe('Unit | Certification | Configuration | Domain | Models | Frameworks', function () {
   it('should contain all supported certification frameworks', function () {
@@ -48,6 +51,26 @@ describe('Unit | Certification | Configuration | Domain | Models | Frameworks', 
       it(`should return ${result} when framework is ${framework}`, function () {
         expect(hasCoreScope(framework)).to.equal(result);
       });
+    });
+  });
+
+  context('#toScope', function () {
+    [
+      { framework: Frameworks.CORE, result: SCOPES.CORE },
+      { framework: Frameworks.CLEA, result: SCOPES.CORE },
+      { framework: Frameworks.DROIT, result: SCOPES.PIX_PLUS_DROIT },
+      { framework: Frameworks.EDU_1ER_DEGRE, result: SCOPES.PIX_PLUS_EDU_1ER_DEGRE },
+      { framework: Frameworks.EDU_2ND_DEGRE, result: SCOPES.PIX_PLUS_EDU_2ND_DEGRE },
+      { framework: Frameworks.EDU_CPE, result: SCOPES.PIX_PLUS_EDU_CPE },
+      { framework: Frameworks.PRO_SANTE, result: SCOPES.PIX_PLUS_PRO_SANTE },
+    ].forEach(({ framework, result }) => {
+      it(`should return ${result} when framework is ${framework}`, function () {
+        expect(toScope(framework)).to.equal(result);
+      });
+    });
+
+    it('throws an error when framework is not supported', function () {
+      expect(() => toScope('coucou')).to.throw('Framework "coucou" is not supported.');
     });
   });
 });

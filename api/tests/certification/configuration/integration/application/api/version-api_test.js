@@ -3,6 +3,7 @@ import { Frameworks } from '../../../../../../src/certification/shared/domain/mo
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Integration | Application | Api | version', function () {
   const dataDroit2025 = {
@@ -90,13 +91,13 @@ describe('Certification | Configuration | Integration | Application | Api | vers
 
   describe('#getByFrameworkAndDate', function () {
     context('when framework is not recognized', function () {
-      it('returns null', async function () {
-        const res = await versionApi.getByFrameworkAndDate({
+      it('throws an error', async function () {
+        const err = await catchErr(versionApi.getByFrameworkAndDate)({
           framework: 'CHOUBIDOUBIDOU',
           date: new Date('2026-05-05'),
         });
 
-        expect(res).to.be.null;
+        expect(err.message).to.equal('Framework "CHOUBIDOUBIDOU" is not supported.');
       });
     });
 
