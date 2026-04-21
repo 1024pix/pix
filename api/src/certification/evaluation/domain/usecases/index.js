@@ -10,7 +10,6 @@ import * as versionApi from '../../../configuration/application/api/version-api.
 import * as verifyCertificateCodeService from '../../../evaluation/domain/services/verify-certificate-code-service.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
-import * as sharedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as sessionManagementCertificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
@@ -80,7 +79,6 @@ const dependencies = {
   challengeCalibrationRepository,
   certificationCandidateRepository,
   assessmentRepository,
-  sharedCertificationCandidateRepository,
   verifyCertificateCodeService,
   assessmentResultRepository,
   answerRepository,

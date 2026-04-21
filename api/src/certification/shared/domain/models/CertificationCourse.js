@@ -113,7 +113,7 @@ export class CertificationCourse {
   }
 
   static from({
-    certificationCandidate,
+    candidate,
     certificationVersion,
     challenges,
     verificationCode,
@@ -125,18 +125,19 @@ export class CertificationCourse {
     lastAnswerAt,
   }) {
     return new CertificationCourse({
-      userId: certificationCandidate.userId,
-      sessionId: certificationCandidate.sessionId,
-      firstName: certificationCandidate.firstName,
-      lastName: certificationCandidate.lastName,
-      birthdate: certificationCandidate.birthdate,
-      birthPostalCode: certificationCandidate.birthPostalCode,
-      birthINSEECode: certificationCandidate.birthINSEECode,
-      birthCountry: certificationCandidate.birthCountry,
-      sex: certificationCandidate.sex,
-      birthplace: certificationCandidate.birthCity,
-      externalId: certificationCandidate.externalId,
-      isAdjustedForAccessibility: certificationCandidate.accessibilityAdjustmentNeeded,
+      candidateId: candidate.id,
+      userId: candidate.userId,
+      sessionId: candidate.sessionId,
+      firstName: candidate.firstName,
+      lastName: candidate.lastName,
+      birthdate: candidate.birthdate,
+      birthPostalCode: candidate.birthPostalCode,
+      birthINSEECode: candidate.birthINSEECode,
+      birthCountry: candidate.birthCountry,
+      sex: candidate.sex,
+      birthplace: candidate.birthCity,
+      externalId: candidate.externalId,
+      isAdjustedForAccessibility: candidate.accessibilityAdjustmentNeeded,
       challenges,
       numberOfChallenges,
       verificationCode,
@@ -144,7 +145,6 @@ export class CertificationCourse {
       version: algorithmEngineVersion,
       lang,
       versionId: certificationVersion.id,
-      candidateId: certificationCandidate.id,
       framework,
       lastAnswerAt,
     });

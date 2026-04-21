@@ -25,7 +25,6 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
-import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 
 const DEFAULT_LOCALE = 'fr-fr';
 
@@ -33,7 +32,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {object} params
  * @param {string} params.locale
  * @param {AssessmentRepository} params.assessmentRepository
- * @param {CertificationCandidateRepository} params.sharedCertificationCandidateRepository
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {EvaluationSessionRepository} params.evaluationSessionRepository
@@ -47,7 +46,7 @@ export async function retrieveLastOrCreateCertificationCourse({
   userId,
   locale = DEFAULT_LOCALE,
   assessmentRepository,
-  sharedCertificationCandidateRepository,
+  certificationCandidateRepository,
   certificationCourseRepository,
   evaluationSessionRepository,
   certificationCenterRepository,
@@ -60,20 +59,16 @@ export async function retrieveLastOrCreateCertificationCourse({
   _validateSessionAccess(session, accessCode);
   _validateSessionIsActive(session);
 
-  const certificationCandidate = await sharedCertificationCandidateRepository.getBySessionIdAndUserId({
+  const candidate = await certificationCandidateRepository.findByUserIdAndSessionId({
     userId,
     sessionId,
-  }); // normal candidate repo, voir où c'est utilisé
+  });
 
-  _validateUserIsCertificationCandidate(certificationCandidate);
-
-  const certificationScope = certificationCandidate.isEnrolledToComplementaryOnly()
-    ? certificationCandidate.complementaryCertification.key
-    : SCOPES.CORE;
+  _validateUserIsCandidate(candidate);
 
   const certificationVersion = await versionApi.getByFrameworkAndDate({
-    framework: certificationScope,
-    date: certificationCandidate.reconciledAt,
+    framework: candidate.subscriptionFramework,
+    date: candidate.reconciledAt,
   });
 
   const existingCertificationCourse =
@@ -82,15 +77,12 @@ export async function retrieveLastOrCreateCertificationCourse({
       sessionId,
     });
 
-  _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse);
+  _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse);
 
-  await _blockCandidateFromRestartingWithoutExplicitValidation(
-    certificationCandidate,
-    sharedCertificationCandidateRepository,
-  );
+  await _blockCandidateFromRestartingWithoutExplicitValidation(candidate, certificationCandidateRepository);
 
   if (existingCertificationCourse) {
-    existingCertificationCourse.adjustForAccessibility(certificationCandidate.accessibilityAdjustmentNeeded);
+    existingCertificationCourse.adjustForAccessibility(candidate.accessibilityAdjustmentNeeded);
     existingCertificationCourse.setNumberOfChallenges(
       certificationVersion.challengesConfiguration.maximumAssessmentLength,
     );
@@ -105,7 +97,7 @@ export async function retrieveLastOrCreateCertificationCourse({
     session,
     userId,
     locale,
-    certificationCandidate,
+    candidate,
     certificationVersion,
     assessmentRepository,
     certificationCourseRepository,
@@ -135,14 +127,14 @@ function _validateSessionIsActive(session) {
   }
 }
 
-function _validateUserIsCertificationCandidate(certificationCandidate) {
-  if (!certificationCandidate) {
+function _validateUserIsCandidate(candidate) {
+  if (!candidate) {
     throw new UnexpectedUserAccountError({});
   }
 }
 
-function _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse) {
-  if (!certificationCandidate.isAuthorizedToStart()) {
+function _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse) {
+  if (!candidate.authorizedToStart) {
     if (existingCertificationCourse) {
       throw new CandidateNotAuthorizedToResumeCertificationTestError();
     } else {
@@ -151,18 +143,16 @@ function _validateCandidateIsAuthorizedToStart(certificationCandidate, existingC
   }
 }
 
-async function _blockCandidateFromRestartingWithoutExplicitValidation(
-  certificationCandidate,
-  sharedCertificationCandidateRepository,
-) {
-  certificationCandidate.authorizedToStart = false;
-  await sharedCertificationCandidateRepository.update(certificationCandidate);
+async function _blockCandidateFromRestartingWithoutExplicitValidation(candidate, certificationCandidateRepository) {
+  candidate.authorizedToStart = false;
+  await certificationCandidateRepository.update(candidate);
 }
 
 /**
  * @param {object} params
  * @param {Session} params.session
  * @param {string} params.locale
+ * @param {Candidate} params.candidate
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
@@ -172,7 +162,7 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
 async function _startNewCertification({
   session,
   userId,
-  certificationCandidate,
+  candidate,
   certificationVersion,
   assessmentRepository,
   certificationCourseRepository,
@@ -186,37 +176,28 @@ async function _startNewCertification({
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId: session.id });
 
   let complementaryCertificationCourseData;
-  let framework = Frameworks.CORE;
+  let framework = candidate.subscriptionFramework;
 
-  if (certificationCandidate.isEnrolledToComplementaryOnly()) {
-    framework = certificationCandidate.complementaryCertification.key;
-    if (!certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
+  if (candidate.hasSubscribedToSomethingElseButCore) {
+    if (!certificationCenter.isHabilitated(candidate.subscriptionFramework)) {
       throw new CenterHabilitationError();
     }
 
-    complementaryCertificationCourseData = {
-      complementaryCertificationBadgeId: null,
-      complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-    };
-  }
+    if (candidate.hasSubscribedToClea) {
+      const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+        userId,
+      });
 
-  if (certificationCandidate.isEnrolledToDoubleCertification()) {
-    if (!certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
-      throw new CenterHabilitationError();
-    }
+      const [doubleCertificationBadge] = highestCertifiableBadgeAcquisitions.filter(
+        (acquiredBadge) => acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA,
+      );
 
-    const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-      userId,
-    });
-
-    const [doubleCertificationBadge] = highestCertifiableBadgeAcquisitions.filter(
-      (acquiredBadge) => acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA,
-    );
-
-    if (doubleCertificationBadge) {
-      framework = Frameworks.CLEA;
-      const { complementaryCertificationId, complementaryCertificationBadgeId } = doubleCertificationBadge;
-      complementaryCertificationCourseData = { complementaryCertificationBadgeId, complementaryCertificationId };
+      if (doubleCertificationBadge) {
+        const { complementaryCertificationId, complementaryCertificationBadgeId } = doubleCertificationBadge;
+        complementaryCertificationCourseData = { complementaryCertificationBadgeId, complementaryCertificationId };
+      } else {
+        framework = Frameworks.CORE;
+      }
     }
   }
 
@@ -235,7 +216,7 @@ async function _startNewCertification({
   }
 
   return _createCertificationCourse({
-    certificationCandidate,
+    candidate,
     certificationVersion,
     certificationCourseRepository,
     assessmentRepository,
@@ -267,7 +248,7 @@ function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
 async function _createCertificationCourse({
-  certificationCandidate,
+  candidate,
   certificationVersion,
   certificationCourseRepository,
   assessmentRepository,
@@ -286,7 +267,7 @@ async function _createCertificationCourse({
     : null;
 
   const newCertificationCourse = CertificationCourse.from({
-    certificationCandidate,
+    candidate,
     certificationVersion,
     complementaryCertificationCourse,
     verificationCode,

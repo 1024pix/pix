@@ -30,7 +30,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const evaluationSessionRepository = {};
   const assessmentRepository = {};
   const competenceRepository = {};
-  const sharedCertificationCandidateRepository = {};
+  const certificationCandidateRepository = {};
   const certificationCourseRepository = {};
   const certificationCenterRepository = {};
   const certificationBadgesService = {};
@@ -41,7 +41,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const injectables = {
     assessmentRepository,
     competenceRepository,
-    sharedCertificationCandidateRepository,
+    certificationCandidateRepository,
     certificationCourseRepository,
     evaluationSessionRepository,
     certificationCenterRepository,
@@ -59,8 +59,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     assessmentRepository.save = sinon.stub();
     competenceRepository.listPixCompetencesOnly = sinon.stub();
     certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
-    sharedCertificationCandidateRepository.getBySessionIdAndUserId = sinon.stub();
-    sharedCertificationCandidateRepository.update = sinon.stub();
+    certificationCandidateRepository.findByUserIdAndSessionId = sinon.stub();
+    certificationCandidateRepository.update = sinon.stub();
     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
     certificationCourseRepository.save = sinon.stub();
     evaluationSessionRepository.get = sinon.stub();
@@ -138,13 +138,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
             evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-            const candidateNotAuthorizedToStart = domainBuilder.buildCertificationCandidate({
+            const candidateNotAuthorizedToStart = domainBuilder.certification.evaluation.buildCandidate({
               userId: 2,
               sessionId: 1,
               authorizedToStart: false,
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+              subscriptionFramework: Frameworks.CORE,
             });
-            sharedCertificationCandidateRepository.getBySessionIdAndUserId
+            certificationCandidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
@@ -174,13 +174,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
             evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-            const candidateNotAuthorizedToStart = domainBuilder.buildCertificationCandidate({
+            const candidateNotAuthorizedToStart = domainBuilder.certification.evaluation.buildCandidate({
               userId: 2,
               sessionId: 1,
               authorizedToStart: false,
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+              subscriptionFramework: Frameworks.CORE,
             });
-            sharedCertificationCandidateRepository.getBySessionIdAndUserId
+            certificationCandidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
@@ -217,21 +217,21 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
             evaluationSessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
 
-            const foundCertificationCandidateId = 2;
+            const foundCandidateId = 2;
             domainBuilder.buildCertificationCourse({
-              userId: foundCertificationCandidateId,
+              userId: foundCandidateId,
               sessionId: foundSession.id,
             });
 
-            domainBuilder.buildCertificationCandidate({
-              userId: foundCertificationCandidateId,
+            domainBuilder.certification.evaluation.buildCandidate({
+              userId: foundCandidateId,
               sessionId: foundSession.id,
               authorizedToStart: true,
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+              subscriptionFramework: Frameworks.CORE,
             });
 
-            sharedCertificationCandidateRepository.getBySessionIdAndUserId
-              .withArgs({ sessionId: foundSession.id, userId: foundCertificationCandidateId })
+            certificationCandidateRepository.findByUserIdAndSessionId
+              .withArgs({ sessionId: foundSession.id, userId: foundCandidateId })
               .resolves(null);
 
             // when
@@ -257,15 +257,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
             evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-            const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+            const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
               userId: 2,
               sessionId: 1,
               authorizedToStart: true,
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+              subscriptionFramework: Frameworks.CORE,
             });
-            sharedCertificationCandidateRepository.getBySessionIdAndUserId
+            certificationCandidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: 1, userId: 2 })
-              .resolves(foundCertificationCandidate);
+              .resolves(foundCandidate);
 
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({
               userId: 2,
@@ -293,15 +293,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             // then
             expect(existingCertificationCourse.adjustForAccessibility).to.have.been.calledOnceWith(
-              foundCertificationCandidate.accessibilityAdjustmentNeeded,
+              foundCandidate.accessibilityAdjustmentNeeded,
             );
             expect(result).to.deep.equal({
               created: false,
               certificationCourse: existingCertificationCourse,
             });
-            expect(sharedCertificationCandidateRepository.update).to.have.been.calledOnceWith(
-              domainBuilder.buildCertificationCandidate({
-                ...foundCertificationCandidate,
+            expect(certificationCandidateRepository.update).to.have.been.calledOnceWith(
+              domainBuilder.certification.evaluation.buildCandidate({
+                ...foundCandidate,
                 authorizedToStart: false,
               }),
             );
@@ -315,16 +315,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
             evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-            const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+            const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
               userId: 2,
               sessionId: 1,
               authorizedToStart: true,
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+              subscriptionFramework: Frameworks.CORE,
               reconciledAt,
             });
-            sharedCertificationCandidateRepository.getBySessionIdAndUserId
+            certificationCandidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: 1, userId: 2 })
-              .resolves(foundCertificationCandidate);
+              .resolves(foundCandidate);
 
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({
               userId: 2,
@@ -353,9 +353,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             // then
             expect(result.certificationCourse._numberOfChallenges).to.equal(25);
-            expect(sharedCertificationCandidateRepository.update).to.have.been.calledOnceWith(
-              domainBuilder.buildCertificationCandidate({
-                ...foundCertificationCandidate,
+            expect(certificationCandidateRepository.update).to.have.been.calledOnceWith(
+              domainBuilder.certification.evaluation.buildCandidate({
+                ...foundCandidate,
                 authorizedToStart: false,
               }),
             );
@@ -373,15 +373,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode: 'accessCode',
               });
               evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-              const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              const certificationCandidate = domainBuilder.certification.evaluation.buildCandidate({
                 userId: user.id,
                 sessionId: foundSession.id,
                 authorizedToStart: true,
-                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+                subscriptionFramework: Frameworks.CORE,
                 reconciledAt,
               });
 
-              sharedCertificationCandidateRepository.getBySessionIdAndUserId
+              certificationCandidateRepository.findByUserIdAndSessionId
                 .withArgs({ sessionId: foundSession.id, userId: user.id })
                 .resolves(certificationCandidate);
 
@@ -445,16 +445,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               evaluationSessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
               const certificationVersion = domainBuilder.certification.configuration.buildVersion();
 
-              const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+              const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                 userId: user.id,
                 sessionId: foundSession.id,
                 authorizedToStart: true,
-                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+                subscriptionFramework: Frameworks.CORE,
                 reconciledAt,
               });
-              sharedCertificationCandidateRepository.getBySessionIdAndUserId
+              certificationCandidateRepository.findByUserIdAndSessionId
                 .withArgs({ sessionId: foundSession.id, userId: user.id })
-                .resolves(foundCertificationCandidate);
+                .resolves(foundCandidate);
 
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                 .withArgs({ userId: user.id, sessionId: foundSession.id })
@@ -465,9 +465,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
               certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: user.id }).resolves([]);
 
-              // TODO: extraire jusqu'à la ligne 387 dans une fonction ?
               const certificationCourseToSave = CertificationCourse.from({
-                certificationCandidate: foundCertificationCandidate,
+                candidate: foundCandidate,
                 certificationVersion,
                 verificationCode,
                 algorithmEngineVersion: AlgorithmEngineVersion.V3,
@@ -525,15 +524,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 });
                 evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId,
                   sessionId: 1,
                   authorizedToStart: true,
-                  subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+                  subscriptionFramework: Frameworks.CORE,
                 });
-                sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                certificationCandidateRepository.findByUserIdAndSessionId
                   .withArgs({ sessionId: 1, userId })
-                  .resolves(foundCertificationCandidate);
+                  .resolves(foundCandidate);
 
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                   .withArgs({ userId, sessionId: 1 })
@@ -572,17 +571,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
                 const certificationVersion = domainBuilder.certification.configuration.buildVersion();
 
-                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId,
                   sessionId: 1,
                   authorizedToStart: true,
-                  subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+                  subscriptionFramework: Frameworks.CORE,
                   reconciledAt,
                   accessibilityAdjustmentNeeded: true,
                 });
-                sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                certificationCandidateRepository.findByUserIdAndSessionId
                   .withArgs({ sessionId: 1, userId })
-                  .resolves(foundCertificationCandidate);
+                  .resolves(foundCandidate);
 
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                   .withArgs({ userId, sessionId: 1 })
@@ -598,12 +597,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 const user = domainBuilder.buildUser({ id: userId });
 
                 const certificationCourseToSave = CertificationCourse.from({
-                  certificationCandidate: foundCertificationCandidate,
+                  candidate: foundCandidate,
                   certificationVersion,
                   verificationCode,
                   algorithmEngineVersion: AlgorithmEngineVersion.V3,
                   lang: user.lang,
-                  isAdjustedForAccessibility: foundCertificationCandidate.accessibilityAdjustmentNeeded,
+                  isAdjustedForAccessibility: foundCandidate.accessibilityAdjustmentNeeded,
                   framework: Frameworks.CORE,
                 });
 
@@ -661,18 +660,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
                 const certificationVersion = domainBuilder.certification.configuration.buildVersion();
 
-                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId: 2,
                   authorizedToStart: true,
                   sessionId: 1,
-                  subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
-                  complementaryCertification: null,
+                  subscriptionFramework: Frameworks.CORE,
                   reconciledAt,
                 });
 
-                sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                certificationCandidateRepository.findByUserIdAndSessionId
                   .withArgs({ sessionId: 1, userId: 2 })
-                  .resolves(foundCertificationCandidate);
+                  .resolves(foundCandidate);
 
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                   .withArgs({ userId: 2, sessionId: 1 })
@@ -682,7 +680,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
                 const certificationCourseToSave = CertificationCourse.from({
-                  certificationCandidate: foundCertificationCandidate,
+                  candidate: foundCandidate,
                   certificationVersion,
                   verificationCode,
                   complementaryCertificationCourses: [],
@@ -731,7 +729,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
 
               context('when certification center is habilitated', function () {
-                it('should save complementary certification info', async function () {
+                it('should save certif course', async function () {
                   // given
                   const complementaryCertification = domainBuilder.certification.shared.buildComplementaryCertification(
                     {
@@ -750,39 +748,28 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     .withArgs({ userId: user.id, sessionId: foundSession.id })
                     .resolves(null);
 
-                  const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                  const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                     userId: user.id,
                     sessionId: foundSession.id,
                     authorizedToStart: true,
-                    subscriptions: [
-                      domainBuilder.certification.enrolment.buildComplementarySubscription({
-                        certificationCandidateId: 123,
-                        complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-                      }),
-                    ],
-                    complementaryCertification,
+                    subscriptionFramework: Frameworks.DROIT,
                     reconciledAt,
                   });
 
-                  sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                  certificationCandidateRepository.findByUserIdAndSessionId
                     .withArgs({ sessionId: foundSession.id, userId: user.id })
-                    .resolves(foundCertificationCandidate);
+                    .resolves(foundCandidate);
 
                   const certificationCenter = domainBuilder.buildCertificationCenter({
                     habilitations: [complementaryCertification],
                   });
                   certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
-                  const complementaryCertificationCourse = new ComplementaryCertificationCourse({
-                    complementaryCertificationId: complementaryCertification.id,
-                    complementaryCertificationBadgeId: null,
-                  });
-
                   const certificationCourseToSave = CertificationCourse.from({
-                    certificationCandidate: foundCertificationCandidate,
+                    candidate: foundCandidate,
                     certificationVersion,
                     verificationCode,
-                    complementaryCertificationCourse,
+                    complementaryCertificationCourse: null,
                     algorithmEngineVersion: AlgorithmEngineVersion.V3,
                     lang: user.lang,
                     framework: Frameworks.DROIT,
@@ -791,12 +778,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   const savedCertificationCourse = domainBuilder.buildCertificationCourse(
                     certificationCourseToSave.toDTO(),
                   );
-                  savedCertificationCourse._complementaryCertificationCourse = {
-                    ...complementaryCertificationCourse,
-                    id: 99,
-                    certificationCourseId: savedCertificationCourse.getId(),
-                    complementaryCertificationBadgeId: null,
-                  };
                   certificationCourseRepository.save
                     .withArgs({ certificationCourse: certificationCourseToSave })
                     .resolves(savedCertificationCourse);
@@ -822,47 +803,30 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   });
 
                   // then
-                  expect(result.certificationCourse._complementaryCertificationCourse).to.deep.equal({
-                    id: 99,
-                    certificationCourseId: savedCertificationCourse.getId(),
-                    complementaryCertificationId: complementaryCertification.id,
-                    complementaryCertificationBadgeId: null,
-                  });
+                  expect(result.certificationCourse._complementaryCertificationCourse).to.be.null;
                 });
               });
 
               context('when certification center is not habilitated anymore', function () {
                 it('should throw an CenterHabilitationError error', async function () {
                   // given
-                  const complementaryCertification = domainBuilder.certification.shared.buildComplementaryCertification(
-                    {
-                      key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-                    },
-                  );
-
                   const foundSession = domainBuilder.certification.sessionManagement.buildSessionManagement.created({
                     id: 1,
                     accessCode: 'accessCode',
                   });
                   evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-                  const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                  const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                     userId: 2,
                     sessionId: 1,
                     authorizedToStart: true,
-                    subscriptions: [
-                      domainBuilder.certification.enrolment.buildComplementarySubscription({
-                        certificationCandidateId: 123,
-                        complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-                      }),
-                    ],
-                    complementaryCertification,
+                    subscriptionFramework: Frameworks.DROIT,
                     reconciledAt,
                   });
 
-                  sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                  certificationCandidateRepository.findByUserIdAndSessionId
                     .withArgs({ sessionId: 1, userId: 2 })
-                    .resolves(foundCertificationCandidate);
+                    .resolves(foundCandidate);
 
                   certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                     .withArgs({ userId: 2, sessionId: 1 })
@@ -922,23 +886,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ userId: user.id, sessionId: foundSession.id })
                       .resolves(null);
 
-                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                    const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                       userId: user.id,
                       sessionId: foundSession.id,
                       authorizedToStart: true,
-                      subscriptions: [
-                        domainBuilder.certification.enrolment.buildCoreSubscription(),
-                        domainBuilder.certification.enrolment.buildComplementarySubscription({
-                          complementaryCertificationKey: cleaCertification.key,
-                        }),
-                      ],
-                      complementaryCertification: cleaCertification,
+                      subscriptionFramework: Frameworks.CLEA,
                       reconciledAt,
                     });
 
-                    sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                    certificationCandidateRepository.findByUserIdAndSessionId
                       .withArgs({ sessionId: foundSession.id, userId: user.id })
-                      .resolves(foundCertificationCandidate);
+                      .resolves(foundCandidate);
 
                     const certificationCenter = domainBuilder.buildCertificationCenter({
                       habilitations: [cleaCertification],
@@ -955,7 +913,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     });
 
                     const certificationCourseToSave = CertificationCourse.from({
-                      certificationCandidate: foundCertificationCandidate,
+                      candidate: foundCandidate,
                       certificationVersion,
                       verificationCode,
                       complementaryCertificationCourse,
@@ -1026,23 +984,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .withArgs({ userId: 2, sessionId: 1 })
                         .resolves(null);
 
-                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                         userId: 2,
                         sessionId: 1,
                         authorizedToStart: true,
-                        subscriptions: [
-                          domainBuilder.certification.enrolment.buildCoreSubscription(),
-                          domainBuilder.certification.enrolment.buildComplementarySubscription({
-                            complementaryCertificationKey: cleaCertification.key,
-                          }),
-                        ],
-                        complementaryCertification: cleaCertification,
+                        subscriptionFramework: Frameworks.CLEA,
                         reconciledAt,
                       });
 
-                      sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                      certificationCandidateRepository.findByUserIdAndSessionId
                         .withArgs({ sessionId: 1, userId: 2 })
-                        .resolves(foundCertificationCandidate);
+                        .resolves(foundCandidate);
 
                       const certificationCenter = domainBuilder.buildCertificationCenter({
                         habilitations: [cleaCertification],
@@ -1052,7 +1004,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
 
                       const certificationCourseToSave = CertificationCourse.from({
-                        certificationCandidate: foundCertificationCandidate,
+                        candidate: foundCandidate,
                         certificationVersion,
                         verificationCode,
                         algorithmEngineVersion: AlgorithmEngineVersion.V3,
@@ -1105,36 +1057,23 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               context('when certification center is not habilitated anymore', function () {
                 it('should throw an CenterHabilitationError error', async function () {
                   // given
-                  const complementaryCertification = domainBuilder.certification.shared.buildComplementaryCertification(
-                    {
-                      key: ComplementaryCertificationKeys.CLEA,
-                    },
-                  );
-
                   const foundSession = domainBuilder.certification.sessionManagement.buildSessionManagement.created({
                     id: 1,
                     accessCode: 'accessCode',
                   });
                   evaluationSessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-                  const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                  const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                     userId: 2,
                     sessionId: 1,
                     authorizedToStart: true,
-                    subscriptions: [
-                      domainBuilder.certification.enrolment.buildComplementarySubscription({
-                        certificationCandidateId: 123,
-                        complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
-                      }),
-                      domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: 123 }),
-                    ],
-                    complementaryCertification,
+                    subscriptionFramework: Frameworks.CLEA,
                     reconciledAt,
                   });
 
-                  sharedCertificationCandidateRepository.getBySessionIdAndUserId
+                  certificationCandidateRepository.findByUserIdAndSessionId
                     .withArgs({ sessionId: 1, userId: 2 })
-                    .resolves(foundCertificationCandidate);
+                    .resolves(foundCandidate);
 
                   certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                     .withArgs({ userId: 2, sessionId: 1 })

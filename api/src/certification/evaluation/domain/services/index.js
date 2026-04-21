@@ -5,7 +5,6 @@ import * as areaRepository from '../../../../shared/infrastructure/repositories/
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
-import * as sharedCertificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as competenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
@@ -43,9 +42,8 @@ import { handleV3CertificationScoring } from './scoring/scoring-v3.js';
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
- * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository *
+ * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {complementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
- * @typedef {sharedCertificationCandidateRepository} SharedCertificationCandidateRepository
  * @typedef {sharedVersionRepository} SharedVersionRepository
  * @typedef {calibratedChallengeRepository} CalibratedChallengeRepository
  */
@@ -68,7 +66,6 @@ const dependencies = {
   certificationAssessmentRepository,
   complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
-  sharedCertificationCandidateRepository,
   calibratedChallengeRepository,
 };
 
