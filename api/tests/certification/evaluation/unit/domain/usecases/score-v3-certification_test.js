@@ -34,7 +34,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
     context('when session is already published', function () {
       it('should throw a SessionAlreadyPublishedError', async function () {
         const dependencies = createDependencies({
-          evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: true }),
+          sessionRepository: stubSessionRepository({ isFinalized: true, isPublished: true }),
         });
 
         const error = await catchErr(scoreV3Certification)(dependencies);
@@ -46,7 +46,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
       context('when candidate has not seen the test end screen', function () {
         it('should throw a NotFinalizedSessionError', async function () {
           const dependencies = createDependencies({
-            evaluationSessionRepository: stubEvaluationSessionRepository({
+            sessionRepository: stubSessionRepository({
               isFinalized: false,
               isPublished: false,
             }),
@@ -64,7 +64,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
     context('when session is only finalized', function () {
       it('should score the certification', async function () {
         const dependencies = createDependencies({
-          evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),
+          sessionRepository: stubSessionRepository({ isFinalized: true, isPublished: false }),
         });
 
         await scoreV3Certification(dependencies);
@@ -76,7 +76,7 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
       context('when candidate has seen the test end screen', function () {
         it('should score the certification', async function () {
           const dependencies = createDependencies({
-            evaluationSessionRepository: stubEvaluationSessionRepository({
+            sessionRepository: stubSessionRepository({
               isFinalized: false,
               isPublished: false,
             }),
@@ -246,14 +246,14 @@ function stubComplementaryCertificationScoringCriteriaRepository() {
   return complementaryCertificationScoringCriteriaRepository;
 }
 
-function stubEvaluationSessionRepository({ isFinalized = false, isPublished = false }) {
-  const evaluationSessionRepository = {
+function stubSessionRepository({ isFinalized = false, isPublished = false }) {
+  const sessionRepository = {
     getByCertificationCourseId: sinon.stub(),
   };
   const session = domainBuilder.certification.evaluation.buildSession({ isFinalized, isPublished });
-  evaluationSessionRepository.getByCertificationCourseId.resolves(session);
+  sessionRepository.getByCertificationCourseId.resolves(session);
 
-  return evaluationSessionRepository;
+  return sessionRepository;
 }
 
 function createDependencies(overrides = {}) {
@@ -268,7 +268,7 @@ function createDependencies(overrides = {}) {
     sharedCompetenceMarkRepository: stubSharedCompetenceMarkRepository(),
     complementaryCertificationCourseResultRepository: stubComplementaryCertificationCourseResultRepository(),
     complementaryCertificationScoringCriteriaRepository: stubComplementaryCertificationScoringCriteriaRepository(),
-    evaluationSessionRepository: stubEvaluationSessionRepository({ isFinalized: true, isPublished: false }),
+    sessionRepository: stubSessionRepository({ isFinalized: true, isPublished: false }),
     ...overrides,
   };
 }

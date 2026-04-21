@@ -8,7 +8,7 @@
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {import('./index.js').ScoringConfigurationRepository} ScoringConfigurationRepository
- * @typedef {import('./index.js').EvaluationSessionRepository} EvaluationSessionRepository
+ * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  */
 
@@ -33,7 +33,7 @@ import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js'
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
  * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
- * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+ * @param {SessionRepository} params.sessionRepository
  * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
  */
 export async function scoreV3Certification({
@@ -48,7 +48,7 @@ export async function scoreV3Certification({
   certificationCourseRepository,
   complementaryCertificationCourseResultRepository,
   scoringConfigurationRepository,
-  evaluationSessionRepository,
+  sessionRepository,
   complementaryCertificationScoringCriteriaRepository,
 }) {
   const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
@@ -61,7 +61,7 @@ export async function scoreV3Certification({
     certificationCourseId: assessmentSheet.certificationCourseId,
     answers: assessmentSheet.answers,
     maximumAssessmentLength: version.challengesConfiguration.maximumAssessmentLength,
-    evaluationSessionRepository,
+    sessionRepository,
   });
 
   const { allChallenges, askedChallengesWithoutLiveAlerts, challengeCalibrationsWithoutLiveAlerts } =
@@ -130,7 +130,7 @@ export async function scoreV3Certification({
 /**
  * @param {object} params
  * @param {number} params.certificationCourseId
- * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+ * @param {SessionRepository} params.sessionRepository
  *
  * @returns {Promise<void>}
  * @throws {NotFinalizedSessionError}
@@ -140,9 +140,9 @@ const _verifyCertificationIsScorable = async ({
   certificationCourseId,
   answers,
   maximumAssessmentLength,
-  evaluationSessionRepository,
+  sessionRepository,
 }) => {
-  const session = await evaluationSessionRepository.getByCertificationCourseId({ certificationCourseId });
+  const session = await sessionRepository.getByCertificationCourseId({ certificationCourseId });
 
   if (session.isPublished) {
     throw new SessionAlreadyPublishedError();

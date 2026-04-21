@@ -3,7 +3,7 @@
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
- * @typedef {import('./index.js').EvaluationSessionRepository} EvaluationSessionRepository
+ * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').VersionApi} VersionApi
  * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
  * @typedef {import('./index.js').VerifyCertificateCodeService} VerifyCertificateCodeService
@@ -35,7 +35,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {CandidateRepository} params.candidateRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CertificationCenterRepository} params.certificationCenterRepository
- * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+ * @param {SessionRepository} params.sessionRepository
  * @param {VersionApi} params.versionApi
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
@@ -48,13 +48,13 @@ export async function retrieveLastOrCreateCertificationCourse({
   assessmentRepository,
   candidateRepository,
   certificationCourseRepository,
-  evaluationSessionRepository,
+  sessionRepository,
   certificationCenterRepository,
   versionApi,
   certificationBadgesService,
   verifyCertificateCodeService,
 }) {
-  const session = await evaluationSessionRepository.get({ id: sessionId });
+  const session = await sessionRepository.get({ id: sessionId });
 
   _validateSessionAccess(session, accessCode);
   _validateSessionIsActive(session);
@@ -99,7 +99,7 @@ export async function retrieveLastOrCreateCertificationCourse({
     locale,
     candidate,
     certificationVersion,
-    evaluationSessionRepository,
+    sessionRepository,
     assessmentRepository,
     certificationCourseRepository,
     certificationCenterRepository,
@@ -165,7 +165,7 @@ async function _startNewCertification({
   userId,
   candidate,
   certificationVersion,
-  evaluationSessionRepository,
+  sessionRepository,
   assessmentRepository,
   certificationCourseRepository,
   certificationCenterRepository,
@@ -221,7 +221,7 @@ async function _startNewCertification({
     session,
     candidate,
     certificationVersion,
-    evaluationSessionRepository,
+    sessionRepository,
     certificationCourseRepository,
     assessmentRepository,
     userId,
@@ -255,7 +255,7 @@ async function _createCertificationCourse({
   session,
   candidate,
   certificationVersion,
-  evaluationSessionRepository,
+  sessionRepository,
   certificationCourseRepository,
   assessmentRepository,
   verifyCertificateCodeService,
@@ -297,7 +297,7 @@ async function _createCertificationCourse({
     certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
 
     session.updateDate(savedCertificationCourse.getCreatedAt());
-    await evaluationSessionRepository.update(session);
+    await sessionRepository.update(session);
 
     return {
       created: true,

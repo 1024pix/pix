@@ -3,7 +3,7 @@
  * @typedef {import('./index.js').AssessmentResultRepository} AssessmentResultRepository
  * @typedef {import('./index.js').ScoringV2Service} ScoringV2Service
  * @typedef {import('./index.js').ComplementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
- * @typedef {import('./index.js').EvaluationSessionRepository} EvaluationSessionRepository
+ * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').Services} Services
  */
 import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
@@ -36,7 +36,7 @@ const eventTypes = [
  * @param {AssessmentResultRepository} params.assessmentResultRepository
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
  * @param {ComplementaryCertificationScoringCriteriaRepository} params.complementaryCertificationScoringCriteriaRepository
- * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+ * @param {SessionRepository} params.sessionRepository
  * @param {Services} services
  *
  * @returns {Promise<void>}
@@ -49,14 +49,14 @@ export const rescoreV2Certification = async ({
   assessmentResultRepository,
   certificationAssessmentRepository,
   complementaryCertificationScoringCriteriaRepository,
-  evaluationSessionRepository,
+  sessionRepository,
   services,
 }) => {
   checkEventTypes(event, eventTypes);
 
   const certificationCourseId = event.certificationCourseId;
 
-  await _verifySessionIsPublishable({ certificationCourseId, evaluationSessionRepository });
+  await _verifySessionIsPublishable({ certificationCourseId, sessionRepository });
 
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
@@ -74,14 +74,14 @@ export const rescoreV2Certification = async ({
 /**
  * @param {object} params
  * @param {number} params.certificationCourseId
- * @param {EvaluationSessionRepository} params.evaluationSessionRepository
+ * @param {SessionRepository} params.sessionRepository
  *
  * @returns {Promise<void>}
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
-const _verifySessionIsPublishable = async ({ certificationCourseId, evaluationSessionRepository }) => {
-  const session = await evaluationSessionRepository.getByCertificationCourseId({ certificationCourseId });
+const _verifySessionIsPublishable = async ({ certificationCourseId, sessionRepository }) => {
+  const session = await sessionRepository.getByCertificationCourseId({ certificationCourseId });
 
   if (!session.isFinalized) {
     throw new NotFinalizedSessionError();

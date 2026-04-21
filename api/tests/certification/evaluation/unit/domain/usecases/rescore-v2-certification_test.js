@@ -19,7 +19,7 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
       // given
       const certificationCourseId = 123;
       const sessionNotFinalized = domainBuilder.certification.evaluation.buildSession();
-      const evaluationSessionRepository = { getByCertificationCourseId: sinon.stub().resolves(sessionNotFinalized) };
+      const sessionRepository = { getByCertificationCourseId: sinon.stub().resolves(sessionNotFinalized) };
 
       const event = new CertificationCourseRejected({
         certificationCourseId,
@@ -28,11 +28,11 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
       // when
       const error = await catchErr(rescoreV2Certification)({
         event,
-        evaluationSessionRepository,
+        sessionRepository,
       });
 
       // then
-      expect(evaluationSessionRepository.getByCertificationCourseId).to.have.been.calledOnceWithExactly({
+      expect(sessionRepository.getByCertificationCourseId).to.have.been.calledOnceWithExactly({
         certificationCourseId,
       });
       expect(error).to.be.instanceOf(NotFinalizedSessionError);
@@ -43,7 +43,7 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
 
       const certificationCourseId = 123;
       const sessionStillPublished = domainBuilder.certification.evaluation.buildSession.published();
-      const evaluationSessionRepository = { getByCertificationCourseId: sinon.stub().resolves(sessionStillPublished) };
+      const sessionRepository = { getByCertificationCourseId: sinon.stub().resolves(sessionStillPublished) };
 
       const event = new CertificationCourseRejected({
         certificationCourseId,
@@ -52,11 +52,11 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
       // when
       const error = await catchErr(rescoreV2Certification)({
         event,
-        evaluationSessionRepository,
+        sessionRepository,
       });
 
       // then
-      expect(evaluationSessionRepository.getByCertificationCourseId).to.have.been.calledOnceWithExactly({
+      expect(sessionRepository.getByCertificationCourseId).to.have.been.calledOnceWithExactly({
         certificationCourseId,
       });
       expect(error).to.be.instanceOf(SessionAlreadyPublishedError);
@@ -67,13 +67,13 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
     let assessmentResultRepository,
       certificationAssessmentRepository,
       complementaryCertificationScoringCriteriaRepository,
-      evaluationSessionRepository,
+      sessionRepository,
       services,
       dependencies;
 
     beforeEach(function () {
       const session = domainBuilder.certification.evaluation.buildSession.finalized();
-      evaluationSessionRepository = { getByCertificationCourseId: sinon.stub().resolves(session) };
+      sessionRepository = { getByCertificationCourseId: sinon.stub().resolves(session) };
       assessmentResultRepository = { save: sinon.stub() };
       certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
       services = {
@@ -89,7 +89,7 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
         assessmentResultRepository,
         certificationAssessmentRepository,
         complementaryCertificationScoringCriteriaRepository,
-        evaluationSessionRepository,
+        sessionRepository,
         services,
       };
     });

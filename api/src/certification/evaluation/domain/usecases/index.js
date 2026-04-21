@@ -26,7 +26,7 @@ import * as complementaryCertificationScoringCriteriaRepository from '../../infr
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import * as pixPlusCertificationCourseRepository from '../../infrastructure/repositories/pix-plus-certification-course-repository.js';
 import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
-import * as evaluationSessionRepository from '../../infrastructure/repositories/session-repository.js';
+import * as sessionRepository from '../../infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../services/algorithm-methods/flash.js';
 import { services } from '../services/index.js';
 import pickChallengeService from '../services/pick-challenge-service.js';
@@ -51,7 +51,7 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {scoringConfigurationRepository} ScoringConfigurationRepository
  * @typedef {assessmentSheetRepository} AssessmentSheetRepository
  * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
- * @typedef {evaluationSessionRepository} EvaluationSessionRepository
+ * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {complementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
@@ -74,7 +74,7 @@ const dependencies = {
   certificationAssessmentHistoryRepository,
   scoringConfigurationRepository,
   assessmentSheetRepository,
-  evaluationSessionRepository,
+  sessionRepository,
   sessionManagementCertificationChallengeRepository,
   challengeCalibrationRepository,
   candidateRepository,
