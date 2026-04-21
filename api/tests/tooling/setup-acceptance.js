@@ -25,6 +25,7 @@ import * as tubeRepository from '../../src/shared/infrastructure/repositories/tu
 import * as customChaiHelpers from './chai-custom-helpers/index.js';
 import { jobChai } from './chai-custom-helpers/jobs/expect-job.js';
 import { databaseBuilder, datamartBuilder } from './databases.js';
+import { server, serverMaddo } from './servers.js';
 
 // Init Dayjs configuration
 dayjs.extend(localizedFormat);
@@ -41,21 +42,13 @@ global.expect = expect;
 export async function mochaGlobalSetup() {
   nock.disableNetConnect();
   nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
-
-  try {
-    await JobClient.instance.initialize();
-  } catch {
-    // pgBoss is not available on unit tests
-  }
 }
 
 export async function mochaGlobalTeardown() {
+  await server.stop();
+  await serverMaddo.stop();
   await quitMutex();
-  try {
-    await JobClient.instance.stop();
-  } catch {
-    // pgBoss is not available on unit tests
-  }
+  await JobClient.instance.stop();
   await disconnectKnex();
 }
 

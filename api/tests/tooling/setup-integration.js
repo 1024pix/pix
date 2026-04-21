@@ -41,12 +41,7 @@ global.expect = expect;
 export async function mochaGlobalSetup() {
   nock.disableNetConnect();
   nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
-
-  try {
-    await JobClient.instance.initialize();
-  } catch {
-    // pgBoss is not available on unit tests
-  }
+  await JobClient.instance.initialize();
 }
 
 export async function mochaGlobalTeardown() {
@@ -75,11 +70,7 @@ export const mochaHooks = {
     missionRepository.clearCache();
     await featureToggles.resetDefaults();
     await clearMutex();
-    try {
-      await JobClient.instance.flushJobs();
-    } catch {
-      // pgBoss is not available on unit tests
-    }
+    await JobClient.instance.flushJobs();
     await datamartBuilder.clean();
     await databaseBuilder.clean();
   },
