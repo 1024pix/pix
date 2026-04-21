@@ -52,4 +52,24 @@ describe('Certification | Evaluation| Unit | domain | models | Session', functio
       expect(session.isPublished).to.be.false;
     });
   });
+
+  describe('#updateDate', function () {
+    it('sets the date property to a YYYY-MM-DD string based on provided timestamp', function () {
+      const dateTime = new Date('2026-05-04');
+      const session = new Session({});
+
+      session.updateDate(dateTime);
+
+      expect(session.date).to.equal('2026-05-04');
+    });
+
+    it('correctly pads single digit months and days', function () {
+      const dateTime = new Date('2026-01-02');
+      const session = new Session({});
+
+      session.updateDate(dateTime);
+
+      expect(session.date).to.equal('2026-01-02');
+    });
+  });
 });

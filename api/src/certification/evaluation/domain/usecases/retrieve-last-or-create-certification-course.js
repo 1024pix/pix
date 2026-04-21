@@ -99,6 +99,7 @@ export async function retrieveLastOrCreateCertificationCourse({
     locale,
     candidate,
     certificationVersion,
+    evaluationSessionRepository,
     assessmentRepository,
     certificationCourseRepository,
     certificationCenterRepository,
@@ -164,6 +165,7 @@ async function _startNewCertification({
   userId,
   candidate,
   certificationVersion,
+  evaluationSessionRepository,
   assessmentRepository,
   certificationCourseRepository,
   certificationCenterRepository,
@@ -216,8 +218,10 @@ async function _startNewCertification({
   }
 
   return _createCertificationCourse({
+    session,
     candidate,
     certificationVersion,
+    evaluationSessionRepository,
     certificationCourseRepository,
     assessmentRepository,
     userId,
@@ -248,8 +252,10 @@ function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
 async function _createCertificationCourse({
+  session,
   candidate,
   certificationVersion,
+  evaluationSessionRepository,
   certificationCourseRepository,
   assessmentRepository,
   verifyCertificateCodeService,
@@ -290,7 +296,9 @@ async function _createCertificationCourse({
     const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
     certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
 
-    // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
+    session.updateDate(savedCertificationCourse.getCreatedAt());
+    await evaluationSessionRepository.update(session);
+
     return {
       created: true,
       certificationCourse,

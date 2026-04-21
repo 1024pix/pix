@@ -36,4 +36,14 @@ buildSession.published = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39'
   });
 };
 
+buildSession.ongoing = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39' } = {}) => {
+  return new Session({
+    id,
+    date,
+    accessCode,
+    finalizedAt: null,
+    publishedAt: null,
+  });
+};
+
 export { buildSession as buildSession };

@@ -279,6 +279,10 @@ export class CertificationCourse {
     return this._userId;
   }
 
+  getCreatedAt() {
+    return this._createdAt;
+  }
+
   getSessionId() {
     return this._sessionId;
   }
