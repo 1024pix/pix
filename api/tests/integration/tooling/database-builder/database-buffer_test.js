@@ -1,6 +1,6 @@
 import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
 
-describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
+describe('Integration | Tooling | DatabaseBuilder | database-buffer', function () {
   afterEach(function () {
     databaseBuffer.objectsToInsert = [];
   });
