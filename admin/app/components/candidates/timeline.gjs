@@ -15,7 +15,7 @@ export default class Timeline extends Component {
   <template>
     <section class="page">
       <PixBlock class="page-section" @shadow="light">
-        <header class="page-section__header">
+        <header class="header page-section__header">
           <h2 class="page-section__title">
             {{t "pages.candidate.title"}}
           </h2>

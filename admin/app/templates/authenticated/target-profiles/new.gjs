@@ -3,7 +3,7 @@ import Breadcrumb from 'pix-admin/components/target-profiles/breadcrumb';
 import EditTargetProfileForm from 'pix-admin/components/target-profiles/edit-target-profile-form';
 <template>
   {{pageTitle "Nouveau profil cible"}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @currentPageLabel="Nouveau profil cible" />
   </header>
 

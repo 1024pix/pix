@@ -4,7 +4,7 @@ import List from 'pix-admin/components/team/list';
 <template>
   {{pageTitle "Équipe"}}
 
-  <header>
+  <header class="header">
     <h1>Équipe</h1>
   </header>
 

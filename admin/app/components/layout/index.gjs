@@ -8,7 +8,7 @@ import MenuBar from './menu-bar';
   <div class="app-container">
 
     <aside class="app-sidebar">
-      <header class="app-logo">
+      <header class="header app-logo">
         <LinkTo @route="authenticated.index" class="app-logo__link">
           PIX
         </LinkTo>

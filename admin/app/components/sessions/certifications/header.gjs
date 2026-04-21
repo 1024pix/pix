@@ -49,7 +49,7 @@ export default class CertificationsHeader extends Component {
   }
 
   <template>
-    <header>
+    <header class="header">
       <h2>{{t "pages.certifications.title"}}</h2>
 
       <div class="certification-list-page__header">

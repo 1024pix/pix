@@ -24,7 +24,7 @@ export default class Header extends Component {
   }
 
   <template>
-    <header>
+    <header class="header">
       <PixBreadcrumb @links={{this.links}} class="breadcrumb" />
     </header>
 

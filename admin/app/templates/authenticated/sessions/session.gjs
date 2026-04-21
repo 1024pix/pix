@@ -8,7 +8,7 @@ import Breadcrumb from 'pix-admin/components/sessions/breadcrumb';
 <template>
   {{! template-lint-disable require-input-label }}
   {{pageTitle "Session " @model.id}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @sessionId={{@model.id}} />
     <div class="page-actions">
       <form class="form-inline" {{on "submit" @controller.loadSession}}>

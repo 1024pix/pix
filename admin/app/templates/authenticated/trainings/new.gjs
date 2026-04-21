@@ -4,7 +4,7 @@ import Breadcrumb from 'pix-admin/components/trainings/breadcrumb';
 import CreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';
 <template>
   {{pageTitle "Nouveau contenu formatif"}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @currentPageLabel="Création du contenu" />
 
     <div class="page-actions">

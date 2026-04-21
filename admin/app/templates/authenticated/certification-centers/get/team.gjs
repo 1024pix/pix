@@ -5,7 +5,7 @@ import MembershipsSection from 'pix-admin/components/certification-centers/membe
 <template>
   {{#unless @model.isCertificationCenterArchived}}
     <section class="page-section">
-      <header class="page-section__header">
+      <header class="header page-section__header">
         <h2 class="page-section__title">Ajouter un membre</h2>
       </header>
 

@@ -6,7 +6,7 @@ import List from 'pix-admin/components/certification-frameworks/list';
   {{pageTitle (t "components.certification-frameworks.page-title")}}
 
   <div class="page">
-    <header>
+    <header class="header">
       <h1>{{t "components.certification-frameworks.page-title"}}</h1>
     </header>
 

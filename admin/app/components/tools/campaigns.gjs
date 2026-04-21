@@ -33,7 +33,7 @@ export default class ToolsCampaigns extends Component {
 
   <template>
     <section class="page-section">
-      <header class="page-section__header">
+      <header class="header page-section__header">
         <h2 class="page-section__title">Archiver des campagnes en masse</h2>
       </header>
       <PixNotificationAlert class="tools__warning" @type="warning" @withIcon={{true}}>

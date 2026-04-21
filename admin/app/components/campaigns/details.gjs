@@ -22,7 +22,7 @@ export default class Details extends Component {
 
   <template>
     <section class="page-section">
-      <header class="campaign-title">
+      <header class="header campaign-title">
         <h2>{{@campaign.name}}</h2>
         <PixTag @color="primary">{{@campaign.totalParticipationsCount}}
           participants</PixTag>

@@ -5,7 +5,7 @@ import ListItems from 'pix-admin/components/certification-centers/list-items';
 
 <template>
   {{pageTitle "Centres de certification"}}
-  <header>
+  <header class="header">
     <h1>Tous les centres de certification</h1>
     <div class="page-actions">
       <PixButtonLink @route="authenticated.certification-centers.new" @variant="secondary" @iconBefore="add">

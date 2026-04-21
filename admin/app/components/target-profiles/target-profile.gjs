@@ -197,7 +197,7 @@ export default class TargetProfile extends Component {
   }
   <template>
     {{pageTitle "Profil " @model.id " | Pix Admin" replace=true}}
-    <header class="page-header">
+    <header class="header page-header">
       <Breadcrumb @currentPageLabel={{@model.internalName}} />
     </header>
 

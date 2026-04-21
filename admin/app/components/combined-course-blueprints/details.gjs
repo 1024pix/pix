@@ -17,7 +17,7 @@ export default class Details extends Component {
   <template>
     {{pageTitle "Profil " @model.id " | Pix Admin" replace=true}}
     <div class="page">
-      <header>
+      <header class="header">
         <div>
           <PixBreadcrumb @links={{this.links}} class="combined-course-blueprint__breadcrumb" />
           <h1>{{@model.internalName}}</h1>

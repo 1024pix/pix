@@ -39,7 +39,7 @@ export default class Details extends Component {
   }
 
   <template>
-    <header>
+    <header class="header">
       <Breadcrumb @currentPageLabel={{@autonomousCourse.internalTitle}} />
     </header>
 

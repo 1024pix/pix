@@ -2,7 +2,7 @@
 @use 'pix-design-tokens/typography';
 
 .page {
-  header {
+  .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,7 +43,6 @@
     inset: 60px 0 0 80px;
 
     .page-section {
-
       &__header {
         display: flex;
         align-items: center;
@@ -54,7 +53,8 @@
         border-top: 1px solid var(--pix-neutral-100);
       }
 
-      h2, &__title {
+      h2,
+      &__title {
         @extend %pix-title-xs;
 
         word-break: break-all;
@@ -79,5 +79,5 @@
 
 section.no-background {
   padding: 0;
-  background-color:transparent;
+  background-color: transparent;
 }

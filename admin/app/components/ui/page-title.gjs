@@ -8,7 +8,7 @@ function setTitleClasses(spaceBetweenTools, centerTitle) {
 }
 
 <template>
-  <header class="page-title" ...attributes>
+  <header class="header page-title" ...attributes>
     {{#if (has-block "breadcrumb")}}
       {{yield to="breadcrumb"}}
     {{/if}}

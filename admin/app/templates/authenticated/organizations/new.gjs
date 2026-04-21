@@ -5,7 +5,7 @@ import CreationForm from 'pix-admin/components/organizations/creation-form';
 
 <template>
   {{pageTitle "Nouvelle orga"}}
-  <header class="page-header">
+  <header class="header page-header">
     {{#if @model.parentOrganization}}
       <Breadcrumb @currentPageLabel={{t "pages.organizations.breadcrumb.new-child-organization-page"}} />
     {{else}}

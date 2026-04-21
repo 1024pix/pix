@@ -14,7 +14,7 @@ export default class OrganizationLearnerInformation extends Component {
   @service accessControl;
 
   <template>
-    <header class="page-section__header">
+    <header class="header page-section__header">
       <h2 class="page-section__title">{{t "components.organization-learner-information.title"}}</h2>
     </header>
 

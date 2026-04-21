@@ -7,7 +7,7 @@ import SearchForm from 'pix-admin/components/certifications/search-form';
 <template>
   {{pageTitle "Toutes les sessions"}}
   <div class="page">
-    <header>
+    <header class="header">
       <h1>{{t "pages.sessions.title"}}</h1>
       <SearchForm />
     </header>

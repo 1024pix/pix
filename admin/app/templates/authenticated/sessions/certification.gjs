@@ -6,7 +6,7 @@ import SearchForm from 'pix-admin/components/certifications/search-form';
 <template>
   {{pageTitle @controller.pageTitle replace=true}}
 
-  <header>
+  <header class="header">
     <h1>{{t "pages.certifications.certification.title"}} {{@model.id}}</h1>
     <SearchForm />
   </header>

@@ -5,7 +5,7 @@ import Breadcrumb from 'pix-admin/components/certification-centers/breadcrumb';
 import Information from 'pix-admin/components/certification-centers/information';
 <template>
   {{pageTitle "Centre " @model.certificationCenter.id}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @currentPageLabel={{@model.certificationCenter.name}} />
   </header>
 

@@ -13,7 +13,7 @@ export default class Stage extends Component {
   }
 
   <template>
-    <header class="page-header">
+    <header class="header page-header">
       <Breadcrumb @targetProfileName={{@targetProfileName}} @stageId={{@stage.id}} />
     </header>
 

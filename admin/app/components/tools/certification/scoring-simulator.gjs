@@ -80,7 +80,7 @@ export default class ScoringSimulator extends Component {
 
   <template>
     <section class="page-section">
-      <header class="page-section__header">
+      <header class="header page-section__header">
         <h2 class="page-section__title">
           {{t "pages.administration.certification.scoring-simulator.title"}}
         </h2>

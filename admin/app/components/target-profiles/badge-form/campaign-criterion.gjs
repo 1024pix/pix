@@ -4,7 +4,7 @@ import { t } from 'ember-intl';
 
 <template>
   <section class="badge-form-criterion">
-    <header>
+    <header class="header">
       <h3>Critère d’obtention sur l’ensemble du profil cible</h3>
     </header>
     <PixInput

@@ -2,7 +2,7 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import { t } from 'ember-intl';
 
 <template>
-  <header>
+  <header class="header">
     <h1>{{t "components.autonomous-courses.title"}}</h1>
     <PixButtonLink @route="authenticated.autonomous-courses.new" @variant="secondary">
       {{t "components.autonomous-courses.actions.new"}}

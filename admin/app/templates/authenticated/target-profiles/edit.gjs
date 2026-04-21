@@ -4,7 +4,7 @@ import EditTargetProfileForm from 'pix-admin/components/target-profiles/edit-tar
 <template>
   {{pageTitle "Modification du profil cible : " @model.targetProfile.internalName}}
 
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @targetProfile={{@model.targetProfile}} @currentPageLabel="Modification du profil cible" />
   </header>
 

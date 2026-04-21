@@ -94,7 +94,7 @@ export default class Training extends Component {
     {{pageTitle "Détail du contenu formatif " @model.id}}
 
     {{! template-lint-disable no-redundant-role }}
-    <header class="page-header" role="banner">
+    <header class="header page-header" role="banner">
       <TrainingBreadCrumb @currentPageLabel={{@model.id}} />
 
       <div class="page-actions">

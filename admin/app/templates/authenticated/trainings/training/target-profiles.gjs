@@ -11,7 +11,7 @@ import t from 'ember-intl/helpers/t';
   <div class="training-target-profiles">
     {{#if @controller.canAttachTargetProfiles}}
       <section class="page-section">
-        <header class="page-section__header">
+        <header class="header page-section__header">
           <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
         </header>
         <div>
@@ -36,7 +36,7 @@ import t from 'ember-intl/helpers/t';
     {{/if}}
 
     <section class="page-section">
-      <header class="page-section__header">
+      <header class="header page-section__header">
         <h2 id="page-section-title" class="page-section__title">{{t
             "pages.trainings.training.targetProfiles.tabName"
           }}</h2>

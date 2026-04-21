@@ -12,7 +12,7 @@ export default class Memberships extends Component {
   }
 
   <template>
-    <header class="page-section__header">
+    <header class="header page-section__header">
       <h2 class="page-section__title">{{t "components.users.certification-centers.memberships.section-title"}}</h2>
     </header>
 

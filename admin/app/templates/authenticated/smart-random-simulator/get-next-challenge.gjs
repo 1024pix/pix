@@ -9,7 +9,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
   {{pageTitle "Simulateur algorithme Smart Random"}}
   <div class="page">
 
-    <header>
+    <header class="header">
       <h1>Simulateur Smart Random</h1>
     </header>
 

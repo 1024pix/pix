@@ -3,7 +3,7 @@ import Breadcrumb from 'pix-admin/components/certification-centers/breadcrumb';
 import CreationForm from 'pix-admin/components/certification-centers/creation-form';
 <template>
   {{pageTitle "Nouveau Centre de certif"}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @currentPageLabel="Nouveau centre de certification" />
   </header>
 

@@ -17,7 +17,7 @@ export default class UserOrganizationMemberships extends Component {
   }
 
   <template>
-    <header class="page-section__header">
+    <header class="header page-section__header">
       <h2 class="page-section__title">Organisations de l’utilisateur</h2>
     </header>
 

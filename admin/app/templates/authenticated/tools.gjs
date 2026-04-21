@@ -6,7 +6,7 @@ import pageTitle from 'ember-page-title/helpers/page-title';
   {{pageTitle "Outils"}}
 
   <div class="page tools">
-    <header>
+    <header class="header">
       <h1>Outils</h1>
     </header>
 

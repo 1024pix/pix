@@ -5,7 +5,7 @@ import ListItems from 'pix-admin/components/networks/list-items';
 
 <template>
   {{pageTitle (t "pages.networks.list.page-title")}}
-  <header>
+  <header class="header">
     <h1>{{t "pages.networks.list.title"}}</h1>
     <div class="page-actions">
       <PixButtonLink @route="authenticated.networks.new" @variant="secondary" @iconBefore="add">

@@ -2,7 +2,7 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import ListSummaryItems from 'pix-admin/components/trainings/list-summary-items';
 <template>
-  <header>
+  <header class="header">
     <h1>Tous les contenus formatifs</h1>
     {{#if @controller.canCreateTrainings}}
       <div class="page-actions">

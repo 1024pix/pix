@@ -5,7 +5,7 @@ import HeadInformation from 'pix-admin/components/networks/head-information';
 import InformationView from 'pix-admin/components/networks/information-view';
 <template>
   {{pageTitle (t "pages.networks.get.page-title") " " @model.id}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @currentPageLabel={{@model.name}} />
   </header>
 

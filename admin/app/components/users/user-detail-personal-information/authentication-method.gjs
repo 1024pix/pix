@@ -214,7 +214,7 @@ export default class AuthenticationMethod extends Component {
   }
 
   <template>
-    <header class="page-section__header">
+    <header class="header page-section__header">
       <h2 class="page-section__title">Méthodes de connexion</h2>
     </header>
 

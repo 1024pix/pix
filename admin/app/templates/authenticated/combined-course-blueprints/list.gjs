@@ -4,7 +4,7 @@ import CombinedCourseBlueprintListSummaryItems from 'pix-admin/components/combin
 
 <template>
   <div class="page">
-    <header>
+    <header class="header">
       <h1>{{t "components.combined-course-blueprints.list.title"}}</h1>
       <div class="page-actions">
         <PixButtonLink @route="authenticated.combined-course-blueprints.new" @variant="secondary" @iconBefore="add">

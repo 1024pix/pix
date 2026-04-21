@@ -4,7 +4,7 @@ import pageTitle from 'ember-page-title/helpers/page-title';
 import ListItems from 'pix-admin/components/organizations/list-items';
 <template>
   {{pageTitle "Organisations"}}
-  <header>
+  <header class="header">
     <h1>Toutes les organisations</h1>
     {{#if @controller.accessControl.hasAccessToOrganizationActionsScope}}
       <div class="page-actions">

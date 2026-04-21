@@ -75,7 +75,7 @@ export default class NewAutonomousCourse extends Component {
   <template>
     {{pageTitle this.translatedTitle}}
 
-    <header>
+    <header class="header">
       <Breadcrumb @currentPageLabel="Nouveau parcours autonome" />
     </header>
 

@@ -25,7 +25,7 @@ export default class OrganizationTeamSection extends Component {
   <template>
     {{! template-lint-disable require-input-label }}
     <section class="page-section organization-team-section">
-      <header class="page-section__header">
+      <header class="header page-section__header">
         <h2 class="page-section__title">Membres</h2>
       </header>
 

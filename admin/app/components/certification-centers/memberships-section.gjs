@@ -5,7 +5,7 @@ import MembershipItem from './membership-item';
 
 <template>
   <section class="page-section">
-    <header class="page-section__header">
+    <header class="header page-section__header">
       <h2 class="page-section__title">Membres</h2>
     </header>
 

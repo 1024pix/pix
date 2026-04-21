@@ -5,7 +5,7 @@ import Update from 'pix-admin/components/campaigns/update';
 <template>
   {{pageTitle "Campagne " @model.name}}
 
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @campaign={{@model}} />
   </header>
 

@@ -127,7 +127,7 @@ export default class Badge extends Component {
   }
 
   <template>
-    <header class="page-header">
+    <header class="header page-header">
       <Breadcrumb @targetProfile={{@targetProfile}} @currentPageLabel={{@badge.id}} />
     </header>
 

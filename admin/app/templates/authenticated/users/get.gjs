@@ -6,7 +6,7 @@ import Breadcrumb from 'pix-admin/components/users/breadcrumb';
 import UserOverview from 'pix-admin/components/users/user-overview';
 <template>
   {{pageTitle "Utilisateur " @model.id}}
-  <header class="page-header">
+  <header class="header page-header">
     <Breadcrumb @userId={{@model.id}} />
   </header>
 

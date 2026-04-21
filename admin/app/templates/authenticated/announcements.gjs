@@ -5,7 +5,7 @@ const title = "Bandeau d'annonce Orga";
 <template>
   {{pageTitle title}}
   <div class="page">
-    <header>
+    <header class="header">
       <h1>{{title}}</h1>
     </header>
     <main class="page-body">
