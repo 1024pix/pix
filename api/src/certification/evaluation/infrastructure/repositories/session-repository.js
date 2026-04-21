@@ -5,7 +5,18 @@ import { Session } from '../../domain/models/Session.js';
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const sessionDTO = await knexConn('sessions')
-    .select('id', 'date', 'accessCode', 'finalizedAt', 'publishedAt')
+    .select(
+      'id',
+      'date',
+      'accessCode',
+      'finalizedAt',
+      'publishedAt',
+      knexConn('certification-courses')
+        .select(knexConn.raw('1'))
+        .whereRaw('?? = ??', ['certification-courses.sessionId', 'sessions.id'])
+        .limit(1)
+        .as('hasStarted'),
+    )
     .where('id', id)
     .first();
 
@@ -34,7 +45,10 @@ export async function getByCertificationCourseId({ certificationCourseId }) {
     throw new NotFoundError('Certification course does not exist');
   }
 
-  return _toDomain(sessionDTO);
+  return _toDomain({
+    ...sessionDTO,
+    hasStarted: true,
+  });
 }
 
 export async function update(session) {
@@ -51,7 +65,8 @@ function _toDomain(sessionDTO) {
     id: sessionDTO.id,
     date: sessionDTO.date,
     accessCode: sessionDTO.accessCode,
-    finalizedAt: !!sessionDTO.finalizedAt,
-    publishedAt: !!sessionDTO.publishedAt,
+    finalizedAt: sessionDTO.finalizedAt,
+    publishedAt: sessionDTO.publishedAt,
+    hasStarted: !!sessionDTO.hasStarted,
   });
 }

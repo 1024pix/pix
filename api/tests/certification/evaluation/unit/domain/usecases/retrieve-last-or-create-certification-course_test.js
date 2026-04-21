@@ -515,6 +515,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 id: 1,
                 accessCode: 'accessCode',
                 createdAt: new Date('2015-05-05'),
+                hasStarted: false,
               });
               sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
               const certificationVersion = domainBuilder.certification.configuration.buildVersion();
@@ -586,6 +587,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 }),
               });
               expect(sessionRepository.update).to.have.been.calledWithMatch({
+                id: 1,
                 date: '2022-02-02',
               });
             });

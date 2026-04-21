@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { Session } from '../../../../../../src/certification/evaluation/domain/models/Session.js';
+import { domainBuilder } from '../../../../../test-helper.js';
 
 describe('Certification | Evaluation| Unit | domain | models | Session', function () {
   describe('#isNotAccessible', function () {
@@ -54,22 +55,41 @@ describe('Certification | Evaluation| Unit | domain | models | Session', functio
   });
 
   describe('#updateDate', function () {
-    it('sets the date property to a YYYY-MM-DD string based on provided timestamp', function () {
-      const dateTime = new Date('2026-05-04');
-      const session = new Session({});
+    context('when session has already started', function () {
+      it('updates nothing', function () {
+        const session = domainBuilder.certification.evaluation.buildSession({
+          date: '2026-01-01',
+          hasStarted: true,
+        });
 
-      session.updateDate(dateTime);
+        session.updateDate(new Date('2026-05-04'));
 
-      expect(session.date).to.equal('2026-05-04');
+        expect(session.date).to.equal('2026-01-01');
+      });
     });
 
-    it('correctly pads single digit months and days', function () {
-      const dateTime = new Date('2026-01-02');
-      const session = new Session({});
+    context('when session has not started', function () {
+      it('sets the date property to a YYYY-MM-DD string based on provided timestamp', function () {
+        const session = domainBuilder.certification.evaluation.buildSession({
+          date: '2026-01-01',
+          hasStarted: false,
+        });
 
-      session.updateDate(dateTime);
+        session.updateDate(new Date('2026-05-04'));
 
-      expect(session.date).to.equal('2026-01-02');
+        expect(session.date).to.equal('2026-05-04');
+      });
+
+      it('correctly pads single digit months and days', function () {
+        const session = domainBuilder.certification.evaluation.buildSession({
+          date: '2026-01-01',
+          hasStarted: false,
+        });
+
+        session.updateDate(new Date('2026-01-02'));
+
+        expect(session.date).to.equal('2026-01-02');
+      });
     });
   });
 });

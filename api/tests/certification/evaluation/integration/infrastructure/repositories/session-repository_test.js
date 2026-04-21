@@ -22,6 +22,27 @@ describe('Certification | Evaluation | Integration | Infrastructure | Repositori
           date: '2023-06-06',
           isFinalized: session.isFinalized,
           isPublished: session.isPublished,
+          hasStarted: false,
+        });
+        expect(session).to.deepEqualInstance(expectedSession);
+      });
+
+      it('returns a session that "hasStarted" if there is at least one certification-course related to the session', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession({ id: 123, date: '2023-06-06' }).id;
+        databaseBuilder.factory.buildCertificationCourse({ sessionId });
+        await databaseBuilder.commit();
+
+        // when
+        const session = await sessionRepository.get({ id: sessionId });
+
+        // then
+        const expectedSession = domainBuilder.certification.evaluation.buildSession({
+          id: session.id,
+          date: '2023-06-06',
+          isFinalized: session.isFinalized,
+          isPublished: session.isPublished,
+          hasStarted: true,
         });
         expect(session).to.deepEqualInstance(expectedSession);
       });
@@ -61,6 +82,7 @@ describe('Certification | Evaluation | Integration | Infrastructure | Repositori
           date: '2023-06-06',
           isFinalized: session.isFinalized,
           isPublished: session.isPublished,
+          hasStarted: true,
         });
         expect(session).to.deepEqualInstance(expectedSession);
       });

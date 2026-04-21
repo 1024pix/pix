@@ -6,11 +6,13 @@ const buildSession = function ({
   accessCode = 'FMKP39',
   isFinalized = false,
   isPublished = false,
+  hasStarted = false,
 } = {}) {
   return new Session({
     id,
     date,
     accessCode,
+    hasStarted,
     finalizedAt: isFinalized ? new Date('2020-01-01') : null,
     publishedAt: isPublished ? new Date('2020-01-01') : null,
   });
@@ -23,6 +25,7 @@ buildSession.finalized = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39'
     accessCode,
     finalizedAt: new Date('2020-01-01'),
     publishedAt: null,
+    hasStarted: true,
   });
 };
 
@@ -33,16 +36,18 @@ buildSession.published = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39'
     accessCode,
     finalizedAt: new Date('2020-01-01'),
     publishedAt: new Date('2020-01-01'),
+    hasStarted: true,
   });
 };
 
-buildSession.ongoing = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39' } = {}) => {
+buildSession.ongoing = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39', hasStarted = false } = {}) => {
   return new Session({
     id,
     date,
     accessCode,
     finalizedAt: null,
     publishedAt: null,
+    hasStarted,
   });
 };
 
