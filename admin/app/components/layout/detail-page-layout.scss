@@ -1,0 +1,11 @@
+.detail-page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-6x);
+}
+
+.detail-page-layout__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-6x);
+}
