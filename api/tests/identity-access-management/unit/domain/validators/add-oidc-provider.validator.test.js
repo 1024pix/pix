@@ -1,6 +1,5 @@
 import { addOidcProviderValidator } from '../../../../../src/identity-access-management/domain/validators/add-oidc-provider.validator.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Identity Access Management | Domain | Validator | AddOidcProvider', function () {

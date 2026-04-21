@@ -1,4 +1,3 @@
-
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Unit | Tooling | Test utils | Error', function () {

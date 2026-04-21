@@ -5,7 +5,6 @@ import { Module } from '../../../../src/devcomp/domain/models/module/Module.js';
 import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import * as elementRepository from '../../../../src/devcomp/infrastructure/repositories/element-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Integration | DevComp | Repositories | ElementRepository', function () {

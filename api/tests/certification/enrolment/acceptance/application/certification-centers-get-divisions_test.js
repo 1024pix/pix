@@ -1,15 +1,8 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Enrolment | Acceptance | Route | Certification Centers', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/certification-centers/{certificationCenterId}/divisions', function () {
     it('should return 200 with divisions', async function () {
       // given

@@ -1,6 +1,5 @@
 import { OrganizationArchivedError } from '../../../../../src/team/domain/errors.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

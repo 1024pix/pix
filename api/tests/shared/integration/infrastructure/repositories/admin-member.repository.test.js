@@ -4,7 +4,6 @@ import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js'
 import { AdminMemberError } from '../../../../../src/authorization/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import { AdminMember } from '../../../../../src/team/domain/models/AdminMember.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

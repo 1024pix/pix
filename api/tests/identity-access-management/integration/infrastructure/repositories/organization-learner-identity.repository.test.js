@@ -1,7 +1,6 @@
 import { OrganizationLearnerIdentityNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { OrganizationLearnerIdentity } from '../../../../../src/identity-access-management/domain/models/OrganizationLearnerIdentity.js';
 import { organizationLearnerIdentityRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/organization-learner-identity.repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

@@ -7,7 +7,6 @@ import { createPassage } from '../../../../../src/devcomp/domain/usecases/create
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {

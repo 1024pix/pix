@@ -1,7 +1,6 @@
 import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import { CampaignExternalIdTypes, CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Models | CampaignForCreation', function () {

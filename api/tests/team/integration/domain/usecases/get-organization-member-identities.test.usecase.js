@@ -1,5 +1,4 @@
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Team | Integration | Domain | Usecases | get-organization-members', function () {

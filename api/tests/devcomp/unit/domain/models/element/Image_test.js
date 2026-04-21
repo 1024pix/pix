@@ -1,7 +1,6 @@
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { PixAssetImageInfos } from '../../../../../../src/shared/domain/models/PixAssetImageInfos.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Image', function () {

@@ -1,14 +1,12 @@
-import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session-management | Acceptance | complementary-certification-course-results-controller', function () {
   describe('POST /api/admin/complementary-certification-course-results', function () {
     it('should return 201 HTTP status code', async function () {
       // given
-      const server = await createServer();
       databaseBuilder.factory.buildTargetProfile({ id: 99 });
       const badge = databaseBuilder.factory.buildBadge({
         key: 'BADGE_KEY',

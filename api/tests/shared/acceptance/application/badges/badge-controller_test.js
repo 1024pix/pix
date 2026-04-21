@@ -1,13 +1,11 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | Badges', function () {
-  let server, options, badge, superAdmin;
+  let options, badge, superAdmin;
 
   beforeEach(async function () {
-    server = await createServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });

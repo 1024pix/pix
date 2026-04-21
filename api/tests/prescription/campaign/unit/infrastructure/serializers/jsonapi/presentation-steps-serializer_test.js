@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/presentation-steps-serializer.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | Campaign Presentation Steps Serializer', function () {

@@ -1,6 +1,5 @@
 import { Embed } from '../../../../../../src/devcomp/domain/models/element/Embed.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {

@@ -1,6 +1,5 @@
 import * as complementaryCertificationCourseRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-course-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

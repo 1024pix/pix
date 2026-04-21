@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { userVerification } from '../../../../src/identity-access-management/application/user/user-existence-verification-pre-handler.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Pre-handler | User Verification', function () {

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { resendCertificationCenterInvitation } from '../../../../../src/team/domain/usecases/resend-certification-center-invitation.usecase.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | UseCases | resendCertificationCenterInvitation', function () {

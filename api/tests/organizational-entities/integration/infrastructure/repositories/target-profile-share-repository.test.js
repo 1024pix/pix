@@ -1,5 +1,4 @@
 import * as targetProfileShareRepository from '../../../../../src/organizational-entities/infrastructure/repositories/target-profile-share-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | Target-profile-share', function () {

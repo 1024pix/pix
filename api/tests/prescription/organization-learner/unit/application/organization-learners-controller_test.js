@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { organizationLearnersController } from '../../../../../src/prescription/organization-learner/application/organization-learners-controller.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { NoProfileRewardsFoundError } from '../../../../../src/profile/domain/errors.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

@@ -4,7 +4,6 @@ import { certificationFrameworkController } from '../../../../../src/certificati
 import * as moduleUnderTest from '../../../../../src/certification/configuration/application/certification-framework-route.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Certification | Configuration | Application | Router | certification-framework-route', function () {

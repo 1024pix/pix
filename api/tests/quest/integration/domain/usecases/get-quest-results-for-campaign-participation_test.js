@@ -5,7 +5,6 @@ import {
 } from '../../../../../src/quest/domain/models/Quest.js';
 import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignParticipation', function () {

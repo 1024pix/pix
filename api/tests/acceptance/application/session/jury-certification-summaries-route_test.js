@@ -1,18 +1,11 @@
-import { createServer } from '../../../../server.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../src/certification/shared/domain/models/Frameworks.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
     let sessionId;
 

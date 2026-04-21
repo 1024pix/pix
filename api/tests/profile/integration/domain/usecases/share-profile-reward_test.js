@@ -1,7 +1,6 @@
 import { ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20241118134739_create-organizations-profile-rewards-table.js';
 import { ProfileRewardCantBeSharedError } from '../../../../../src/profile/domain/errors.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

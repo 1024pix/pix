@@ -1,7 +1,6 @@
 import { Candidate } from '../../../../../../src/certification/evaluation/domain/models/Candidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | Candidate', function () {

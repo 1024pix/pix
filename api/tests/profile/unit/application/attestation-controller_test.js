@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { attestationController } from '../../../../src/profile/application/attestation-controller.js';
 import { usecases } from '../../../../src/profile/domain/usecases/index.js';
 import { FRENCH_FRANCE } from '../../../../src/shared/domain/services/locale-service.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Profile | Unit | Controller | attestation-controller', function () {

@@ -1,6 +1,5 @@
 import { UserSavedTutorial } from '../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
 import * as userSavedTutorialRepository from '../../../../../src/devcomp/infrastructure/repositories/user-saved-tutorial-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | user-saved-tutorial-repository', function () {

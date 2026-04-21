@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { activityAnswerController } from '../../../../src/school/application/activity-answer-controller.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 

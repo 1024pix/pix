@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { sessionForSupervisingController } from '../../../../../src/certification/session-management/application/session-for-supervising-controller.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import * as sessionForSupervisingSerializer from '../../../../../src/certification/session-management/infrastructure/serializers/session-for-supervising-serializer.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

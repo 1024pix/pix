@@ -1,4 +1,3 @@
-
 import { CertificationCandidate } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidate.js';
 
 describe('Certification | Session Management | Unit | Domain | Models | Certification Candidate', function () {

@@ -1,6 +1,5 @@
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', function () {

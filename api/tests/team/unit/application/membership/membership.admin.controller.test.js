@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { membershipAdminController } from '../../../../../src/team/application/membership/membership.admin.controller.js';
 import { UserOrganizationForAdmin } from '../../../../../src/team/domain/read-models/UserOrganizationForAdmin.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Team | Application | Controller | Membership Admin', function () {

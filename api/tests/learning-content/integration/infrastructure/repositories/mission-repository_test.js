@@ -1,5 +1,4 @@
 import { missionRepository } from '../../../../../src/learning-content/infrastructure/repositories/mission-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Mission', function () {

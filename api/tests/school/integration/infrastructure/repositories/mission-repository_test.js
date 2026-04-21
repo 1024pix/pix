@@ -1,7 +1,6 @@
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
 import { MissionNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

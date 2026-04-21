@@ -1,4 +1,3 @@
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Enrolment | Domain | Model | User', function () {

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { Passage } from '../../../../../src/devcomp/domain/models/Passage.js';
 import { promptToLLMChat } from '../../../../../src/devcomp/domain/usecases/prompt-to-llm-chat.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | prompt-to-llm-chat', function () {

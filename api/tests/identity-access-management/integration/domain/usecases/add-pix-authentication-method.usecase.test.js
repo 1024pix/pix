@@ -2,7 +2,6 @@ import { addPixAuthenticationMethod } from '../../../../../src/identity-access-m
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { AuthenticationMethodAlreadyExistsError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

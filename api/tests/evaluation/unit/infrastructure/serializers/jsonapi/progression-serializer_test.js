@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/progression-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | progression-serializer', function () {

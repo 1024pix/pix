@@ -7,7 +7,6 @@ import {
 } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | delete-and-anonymise-participations-for-a-learner-id', function () {

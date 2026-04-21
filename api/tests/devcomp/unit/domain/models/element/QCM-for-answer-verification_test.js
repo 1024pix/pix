@@ -5,7 +5,6 @@ import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks
 import { QcmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcmCorrectionResponse.js';
 import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCM.js';
 import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification', function () {

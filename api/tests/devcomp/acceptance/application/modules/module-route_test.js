@@ -1,16 +1,10 @@
 import nock from 'nock';
 
-import { createServer } from '../../../../../server.js';
 import { config } from '../../../../../src/shared/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | Controller | Modules | Route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/modules/:slug', function () {
     context('when module exists', function () {
       it('should return module', async function () {

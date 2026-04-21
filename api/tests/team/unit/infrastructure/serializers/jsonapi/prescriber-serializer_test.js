@@ -3,7 +3,6 @@ import { Organization } from '../../../../../../src/organizational-entities/doma
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
 import { prescriberSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/prescriber-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Team | Infrastructure | Serializer | JSONAPI | prescriber', function () {

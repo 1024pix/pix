@@ -7,7 +7,6 @@ import * as serializer from '../../../../../../src/certification/results/infrast
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Results | Unit | Infrastructure | Serializers | certificate-summary-serializer', function () {

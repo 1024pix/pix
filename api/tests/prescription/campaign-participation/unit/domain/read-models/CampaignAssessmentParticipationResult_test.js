@@ -1,6 +1,5 @@
 import { CampaignAssessmentParticipationResult } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipationResult.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { removeByOrganizationLearnerIds } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Organization Learners Management | Campaign Participation', function () {

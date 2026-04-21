@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { learnerParticipationController } from '../../../../../src/prescription/campaign-participation/application/learner-participation-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign-participation/application/learner-participation-route.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | Route | learnerParticipationRouter', function () {

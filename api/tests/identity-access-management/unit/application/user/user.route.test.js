@@ -4,7 +4,6 @@ import { identityAccessManagementRoutes } from '../../../../../src/identity-acce
 import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
 import { userVerification } from '../../../../../src/identity-access-management/application/user/user-existence-verification-pre-handler.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

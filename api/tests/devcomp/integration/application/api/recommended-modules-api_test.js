@@ -4,7 +4,6 @@ import { RecommendableModule } from '../../../../../src/devcomp/application/api/
 import { RecommendedModule } from '../../../../../src/devcomp/application/api/models/RecommendedModule.js';
 import * as recommendedModulesApi from '../../../../../src/devcomp/application/api/recommended-modules-api.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

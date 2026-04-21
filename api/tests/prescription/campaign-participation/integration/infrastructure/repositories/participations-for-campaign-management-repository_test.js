@@ -4,7 +4,6 @@ import { ParticipationForCampaignManagement } from '../../../../../../src/prescr
 import * as participationsForCampaignManagementRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/participations-for-campaign-management-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

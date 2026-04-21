@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { UserHasNoOrganizationMembershipError } from '../../../../../src/team/domain/errors.js';
 import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

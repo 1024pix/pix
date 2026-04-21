@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { UserTeamsInfo } from '../../../../../src/team/application/api/models/user-teams-info.js';
 import { getUserTeamsInfo } from '../../../../../src/team/application/api/user-teams.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Team | Unit | Application | API | user-teams', function () {

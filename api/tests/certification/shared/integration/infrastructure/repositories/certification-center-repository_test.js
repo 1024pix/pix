@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import * as certificationCenterRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

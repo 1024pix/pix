@@ -1,5 +1,4 @@
 import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/campaign-repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | campaign', function () {

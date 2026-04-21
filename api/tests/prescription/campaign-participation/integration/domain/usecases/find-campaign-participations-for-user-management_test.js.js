@@ -9,7 +9,6 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | find-campaign-participations-for-user-management', function () {

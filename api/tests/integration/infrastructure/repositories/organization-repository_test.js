@@ -5,7 +5,6 @@ import { Organization } from '../../../../src/organizational-entities/domain/mod
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 

@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-for-user-management-serializer', function () {

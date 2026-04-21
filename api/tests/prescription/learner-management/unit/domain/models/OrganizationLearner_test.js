@@ -6,7 +6,6 @@ import { OrganizationLearner } from '../../../../../../src/prescription/learner-
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../../../../../../src/shared/domain/constants.js';
 import { PlacementProfile } from '../../../../../../src/shared/domain/models/PlacementProfile.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | OrganizationLearner', function () {

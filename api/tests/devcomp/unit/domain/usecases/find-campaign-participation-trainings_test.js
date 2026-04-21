@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { UserNotAuthorizedToFindTrainings } from '../../../../../src/devcomp/domain/errors.js';
 import { findCampaignParticipationTrainings } from '../../../../../src/devcomp/domain/usecases/find-campaign-participation-trainings.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

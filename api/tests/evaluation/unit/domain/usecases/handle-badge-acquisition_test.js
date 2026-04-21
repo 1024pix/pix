@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { handleBadgeAcquisition } from '../../../../../src/evaluation/domain/usecases/handle-badge-acquisition.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | handle-badge-acquisition', function () {

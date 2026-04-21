@@ -5,7 +5,6 @@ import { CertificationCompletedJob } from '../../../../../src/certification/eval
 import { AlreadyRatedAssessmentError } from '../../../../../src/evaluation/domain/errors.js';
 import { completeAssessment } from '../../../../../src/evaluation/domain/usecases/complete-assessment.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

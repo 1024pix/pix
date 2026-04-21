@@ -5,7 +5,6 @@ import {
   buildCountries,
   checkTransformUnicity,
 } from '../../../scripts/certification/import-certification-cpf-countries.js';
-
 import { catchErr } from '../../tooling/test-utils/error.js';
 
 const { noop } = lodash;

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
 import { ValidatorQCU } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCU.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import * as devcompDomainBuilder from '../../../../tooling/domain-builder/factory/index.js';
 

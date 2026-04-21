@@ -1,7 +1,6 @@
 import { SessionManagement } from '../../../../../../src/certification/session-management/domain/models/SessionManagement.js';
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-
 import { EMPTY_BLANK_AND_NULL } from '../../../../../tooling/test-utils/constants.js';
 
 describe('Unit | Certification | session-management | Serializer | session-serializer', function () {

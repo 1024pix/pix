@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { handleTrainingRecommendation } from '../../../../../src/devcomp/domain/usecases/handle-training-recommendation.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', function () {

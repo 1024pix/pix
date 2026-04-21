@@ -1,4 +1,3 @@
-
 import { datamartKnex, datawarehouseKnex, knex } from '../../tooling/databases.js';
 
 describe('Integration | DB | db-type-parsing', function () {

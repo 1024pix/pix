@@ -1,6 +1,5 @@
 import * as certificationCpfCityRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import { CertificationCpfCity } from '../../../../../../src/certification/shared/domain/models/CertificationCpfCity.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

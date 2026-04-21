@@ -1,6 +1,5 @@
 import { InvalidStageError } from '../../../../../../src/evaluation/domain/errors.js';
 import { StageCollectionUpdate } from '../../../../../../src/evaluation/domain/models/target-profile-management/StageCollectionUpdate.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | target-profile-management/StageCollectionUpdate', function () {

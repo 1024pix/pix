@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { scoBlockedAccessDatesController } from '../../../../../src/certification/configuration/application/sco-blocked-access-dates-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/configuration/application/sco-blocked-access-dates-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Configuration | Unit | Application | Router | sco-blocked-access-dates-route', function () {

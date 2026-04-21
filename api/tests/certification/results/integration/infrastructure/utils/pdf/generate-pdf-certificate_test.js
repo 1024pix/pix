@@ -6,7 +6,6 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 import { generate } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/generate-pdf-certificate.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 
 import { usecases } from '../../../../../../src/prescription/organization-place/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Domain | Use Cases | get-organization-places-statistics', function () {

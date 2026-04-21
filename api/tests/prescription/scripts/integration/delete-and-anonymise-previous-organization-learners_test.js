@@ -1,4 +1,3 @@
-
 import sinon from 'sinon';
 
 import { DeleteAndAnonymisePreviousOrganizationLearnersScript } from '../../../../src/prescription/scripts/delete-and-anonymise-previous-organization-learners.js';

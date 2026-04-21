@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import * as courseService from '../../../../../src/evaluation/domain/services/course-service.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

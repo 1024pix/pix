@@ -1,6 +1,5 @@
 import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../../../../src/certification/session-management/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Domain | Read-models | ComplementaryCertificationCourseResultForJuryCertificationWithExternal', function () {

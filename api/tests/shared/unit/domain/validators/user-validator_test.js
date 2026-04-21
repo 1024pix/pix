@@ -1,7 +1,6 @@
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import * as userValidator from '../../../../../src/shared/domain/validators/user-validator.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const MISSING_VALUE = '';

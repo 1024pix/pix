@@ -1,19 +1,12 @@
-import { createServer } from '../../../../../server.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | organization-import', function () {
-  let server;
-
-  before(async function () {
-    server = await createServer();
-  });
-
   describe('GET /organizations/{id}/import-information', function () {
     let options, connectedUser;
 

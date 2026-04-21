@@ -1,5 +1,4 @@
 import { challengeRepository } from '../../../../../src/learning-content/infrastructure/repositories/challenge-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Challenge', function () {

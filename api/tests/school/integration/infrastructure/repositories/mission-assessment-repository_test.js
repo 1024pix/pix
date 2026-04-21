@@ -5,7 +5,6 @@ import {
   MissionAssessmentResult,
 } from '../../../../../src/school/infrastructure/models/mission-assessment.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | mission-assessment-repository', function () {

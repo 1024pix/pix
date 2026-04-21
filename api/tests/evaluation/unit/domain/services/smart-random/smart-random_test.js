@@ -1,6 +1,5 @@
 import * as SmartRandom from '../../../../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {

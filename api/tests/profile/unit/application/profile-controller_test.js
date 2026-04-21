@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { profileController } from '../../../../src/profile/application/profile-controller.js';
 import { usecases } from '../../../../src/profile/domain/usecases/index.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Profile | Unit | Controller | profile-controller', function () {

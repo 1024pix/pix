@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import * as complementaryCertificationCourseResultRepository from '../../../../../../src/certification/shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

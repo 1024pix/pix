@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { findPaginatedCertificationCenterSessionSummaries } from '../../../../../../src/certification/session-management/domain/usecases/find-paginated-certification-center-session-summaries.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', function () {

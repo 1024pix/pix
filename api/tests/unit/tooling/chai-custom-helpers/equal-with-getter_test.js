@@ -1,4 +1,3 @@
-
 describe('Unit | chai-custom-helpers | equalWithGetter', function () {
   class A {
     get name() {

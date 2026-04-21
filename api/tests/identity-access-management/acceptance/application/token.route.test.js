@@ -2,7 +2,6 @@ import querystring from 'node:querystring';
 
 import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { generateInjectOptions } from '../../../tooling/test-utils/http-server.js';
 

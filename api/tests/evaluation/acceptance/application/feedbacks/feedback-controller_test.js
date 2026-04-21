@@ -1,15 +1,8 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | Controller | feedback-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/feedbacks', function () {
     let options;
 

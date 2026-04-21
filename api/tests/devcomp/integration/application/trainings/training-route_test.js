@@ -4,7 +4,6 @@ import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js'
 import { trainingController } from '../../../../../src/devcomp/application/trainings/training-controller.js';
 import * as moduleUnderTest from '../../../../../src/devcomp/application/trainings/training-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { getAdminRoleStub } from '../../../../tooling/mocks/security-pre-handlers.mock.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

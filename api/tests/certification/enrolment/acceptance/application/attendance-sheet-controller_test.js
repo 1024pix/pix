@@ -1,6 +1,5 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | session-controller-get-attendance-sheet', function () {
@@ -24,7 +23,6 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
       databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       await databaseBuilder.commit();
-      const server = await createServer();
 
       // when
       const options = {

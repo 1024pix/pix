@@ -1,6 +1,5 @@
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
 import { createOrganization } from '../../../../db/seeds/data/common/tooling/organization-tooling.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('Integration | Tooling | DatabaseBuilder | database-builder', function () {

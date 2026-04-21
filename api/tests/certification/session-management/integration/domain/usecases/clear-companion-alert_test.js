@@ -1,7 +1,6 @@
 import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
 import * as certificationCompanionAlertRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-companion-alert-repository.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 const { clearCompanionAlert } = usecases;

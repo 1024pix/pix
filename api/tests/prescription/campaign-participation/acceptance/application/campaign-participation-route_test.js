@@ -1,20 +1,18 @@
 import times from 'lodash/times.js';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { constants } from '../../../../../src/shared/domain/constants.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Campaign Participation | Application | Route', function () {
-  let server, options, userId, organizationId, campaignId;
+  let options, userId, organizationId, campaignId;
 
   beforeEach(async function () {
-    server = await createServer();
     userId = databaseBuilder.factory.buildUser().id;
     organizationId = databaseBuilder.factory.buildOrganization().id;
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
@@ -373,12 +371,11 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
 
     let user, campaign, assessment, campaignParticipation, targetProfile, campaignSkills;
 
-    let server, badge1, badge2, stage;
+    let badge1, badge2, stage;
 
     let recentDate, clock;
 
     beforeEach(async function () {
-      server = await createServer();
       clock = sinon.useFakeTimers({ now: new Date('2018-05-07'), toFake: ['Date'] });
       const oldDate = new Date('2018-02-03');
       recentDate = new Date('2018-05-06');

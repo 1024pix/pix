@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { registrationOrganizationLearnerController } from '../../../../../src/prescription/organization-learner/application/registration-organization-learner-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/registration-organization-learner-route.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | organization-learner-router', function () {

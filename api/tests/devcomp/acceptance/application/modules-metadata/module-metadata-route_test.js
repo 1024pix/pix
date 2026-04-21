@@ -1,15 +1,8 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | Modules Metadata | Route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/admin/modules-metadata', function () {
     context('when modules exists', function () {
       it('should return modules metadata', async function () {

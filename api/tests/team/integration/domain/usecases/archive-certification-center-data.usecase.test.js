@@ -1,7 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Domain | UseCase | archive-certification-center-data', function () {

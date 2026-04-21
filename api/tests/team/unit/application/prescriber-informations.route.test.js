@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { prescriberInformationsController } from '../../../../src/team/application/prescriber-informations.controller.js';
 import { teamRoutes } from '../../../../src/team/application/routes.js';
-
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Unit | Team | Application | Route | prescriber-informations', function () {

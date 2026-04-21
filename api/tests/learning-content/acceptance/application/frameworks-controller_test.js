@@ -1,11 +1,8 @@
-import { createServer } from '../../../../server.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | frameworks-controller', function () {
-  let server;
-
   const learningContent = {
     frameworks: [
       {
@@ -178,11 +175,6 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       },
     ],
   };
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/frameworks/pix/areas-for-user', function () {
     describe('User is authenticated', function () {
       let userId;

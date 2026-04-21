@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { StudentInformationForAccountRecovery } from '../../../../../src/identity-access-management/domain/read-models/StudentInformationForAccountRecovery.js';
 import { checkScoAccountRecovery } from '../../../../../src/identity-access-management/domain/usecases/check-sco-account-recovery.usecase.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | check-sco-account-recovery', function () {

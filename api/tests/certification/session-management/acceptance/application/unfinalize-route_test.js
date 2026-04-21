@@ -1,6 +1,5 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Controller | unfinalize', function () {
@@ -11,8 +10,6 @@ describe('Certification | Session Management | Acceptance | Application | Contro
       databaseBuilder.factory.buildSession({ id: 123 });
       databaseBuilder.factory.buildFinalizedSession({ sessionId: 123 });
       await databaseBuilder.commit();
-
-      const server = await createServer();
       const options = {
         method: 'PATCH',
         url: '/api/admin/sessions/123/unfinalize',

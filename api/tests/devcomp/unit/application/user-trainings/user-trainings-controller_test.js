@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { userTrainingsController } from '../../../../../src/devcomp/application/user-trainings/user-trainings-controller.js';
 import { usecases as devcompUsecases } from '../../../../../src/devcomp/domain/usecases/index.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | user-trainings-controller', function () {

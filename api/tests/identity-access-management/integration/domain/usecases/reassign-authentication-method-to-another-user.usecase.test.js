@@ -1,6 +1,5 @@
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { AuthenticationMethodAlreadyExistsError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | reassign-authentication-method-to-another-user', function () {

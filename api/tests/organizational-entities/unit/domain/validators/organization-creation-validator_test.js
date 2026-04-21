@@ -1,6 +1,5 @@
 import * as organizationCreationValidator from '../../../../../src/organizational-entities/domain/validators/organization-creation-validator.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const MISSING_VALUE = '';

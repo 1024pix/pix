@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { copyTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/copy-target-profile.js';
-
 import { buildTargetProfile } from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | UseCase | copy-target-profile', function () {

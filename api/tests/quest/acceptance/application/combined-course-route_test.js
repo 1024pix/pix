@@ -1,24 +1,17 @@
 import iconv from 'iconv-lite';
 
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 const ROLES = PIX_ADMIN.ROLES;
 
 describe('Quest | Acceptance | Application | Combined course Route ', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/admin/combined-courses', function () {
     context('when user is SuperAdmin', function () {
       let userId;

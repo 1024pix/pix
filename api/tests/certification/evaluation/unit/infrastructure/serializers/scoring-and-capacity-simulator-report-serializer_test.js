@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/certification/evaluation/infrastructure/serializers/scoring-and-capacity-simulator-report-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | scoring-and-capacity-simulator-report', function () {

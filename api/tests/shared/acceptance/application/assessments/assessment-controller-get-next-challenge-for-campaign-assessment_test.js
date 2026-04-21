@@ -1,10 +1,9 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -67,10 +66,7 @@ const learningContent = [
 ];
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-campaign-assessment', function () {
-  let server;
-
   beforeEach(async function () {
-    server = await createServer();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();

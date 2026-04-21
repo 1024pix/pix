@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | training-summary-serializer', function () {

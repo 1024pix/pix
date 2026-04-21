@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import * as usecase from '../../../../../src/shared/application/usecases/checkUserIsMemberOfCertificationCenter.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter', function () {

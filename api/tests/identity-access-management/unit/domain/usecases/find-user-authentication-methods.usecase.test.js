@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findUserAuthenticationMethods } from '../../../../../src/identity-access-management/domain/usecases/find-user-authentication-methods.usecase.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | find-user-authentication-methods', function () {

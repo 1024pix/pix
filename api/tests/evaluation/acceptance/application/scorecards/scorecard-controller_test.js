@@ -1,13 +1,11 @@
-import { createServer } from '../../../../../server.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;
-  let server;
   const userId = 42;
 
   const competenceId = 'recCompetence';
@@ -95,7 +93,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
   };
 
   beforeEach(async function () {
-    server = await createServer();
     databaseBuilder.factory.buildUser({ id: userId });
     databaseBuilder.factory.learningContent.build(learningContent);
     await databaseBuilder.commit();

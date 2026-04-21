@@ -1,5 +1,4 @@
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from '../../../../../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmOneQuestionPerTubeRule', function () {

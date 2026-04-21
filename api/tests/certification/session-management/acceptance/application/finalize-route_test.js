@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import {
   CertificationIssueReportCategory,
@@ -8,20 +7,14 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const examinerGlobalComment = 'It was a fine session my dear';
 
 describe('Certification | Session Management | Acceptance | Application | Route | finalize', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('PUT api/sessions/{sessionId}/finalization', function () {
     let options;
     let session;

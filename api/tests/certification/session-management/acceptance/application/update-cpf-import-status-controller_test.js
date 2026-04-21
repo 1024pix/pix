@@ -4,19 +4,14 @@ import * as url from 'node:url';
 
 import nock from 'nock';
 
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Acceptance | Controller | Session | update-cpf-import-status-controller', function () {
-  let server;
-
   beforeEach(async function () {
-    server = await createServer();
-
     nock('http://cpf-receipts.fake.endpoint.example.net:80')
       .get('/cpfReceipts.bucket/?list-type=2')
       .replyWithFile(200, __dirname + '/files/xml/integrateCpfProccessingReceiptsListObjectsV2.xml', {

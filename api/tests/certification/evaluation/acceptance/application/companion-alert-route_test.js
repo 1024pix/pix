@@ -1,19 +1,16 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | Application | Routes | companion-alert', function () {
   describe('POST /api/assessments/{assessmentId}/companion-alert', function () {
-    let server;
     let user;
     let assessment;
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         state: Assessment.states.STARTED,

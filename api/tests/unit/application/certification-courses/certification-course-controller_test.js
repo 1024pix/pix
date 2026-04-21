@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { certificationCourseController } from '../../../../src/certification/evaluation/application/certification-course-controller.js';
 import { usecases } from '../../../../src/certification/evaluation/domain/usecases/index.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

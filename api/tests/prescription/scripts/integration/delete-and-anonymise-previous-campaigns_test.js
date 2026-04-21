@@ -1,4 +1,3 @@
-
 import sinon from 'sinon';
 
 import { DeleteAndAnonymisePreviousCampaignsScript } from '../../../../src/prescription/scripts/delete-and-anonymise-previous-campaigns.js';

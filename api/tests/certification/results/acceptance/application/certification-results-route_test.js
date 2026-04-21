@@ -1,17 +1,15 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationResultsLinkByEmailToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkByEmailToken.js';
 import { CertificationResultsLinkToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkToken.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | Routes | certification results', function () {
   describe('GET /api/sessions/{sessionId}/certified-clea-candidate-data', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
       const dbf = databaseBuilder.factory;
 
       const user = dbf.buildUser();
@@ -61,7 +59,6 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
     context('when a valid token is given', function () {
       it('should return 200 HTTP status code', async function () {
         // given
-        const server = await createServer();
 
         const dbf = databaseBuilder.factory;
 
@@ -126,7 +123,6 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
     context('when a valid token is given', function () {
       it('should return 200 HTTP status code', async function () {
         // given
-        const server = await createServer();
 
         const dbf = databaseBuilder.factory;
 
@@ -196,7 +192,6 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           url: `/api/admin/sessions/${sessionId}/generate-results-download-link`,
           payload: {},
         };
-        const server = await createServer();
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
         databaseBuilder.factory.buildSession({ id: 121 });
         await databaseBuilder.commit();
@@ -219,7 +214,6 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           url: `/api/admin/sessions/${sessionId}/generate-results-download-link`,
           payload: {},
         };
-        const server = await createServer();
 
         // when
         options.headers = generateAuthenticatedUserRequestHeaders({ userId: 1111 });
@@ -239,7 +233,6 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           url: `/api/admin/sessions/${sessionId}/generate-results-download-link`,
           payload: {},
         };
-        const server = await createServer();
 
         // when
         options.headers = {};

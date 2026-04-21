@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 import { getAdminRoleStub } from '../../../tooling/mocks/security-pre-handlers.mock.js';
 import { catchErrSync } from '../../../tooling/test-utils/error.js';

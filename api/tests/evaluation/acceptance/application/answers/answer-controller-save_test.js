@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
@@ -6,20 +5,14 @@ import {
 } from '../../../../../src/quest/domain/models/Quest.js';
 import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
 } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | answer-controller-save', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/answers', function () {
     let userId;
     let insertedAssessmentId;

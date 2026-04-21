@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import * as correctionRepository from '../../../../../src/evaluation/infrastructure/repositories/correction-repository.js';
 import { Correction } from '../../../../../src/shared/domain/models/Correction.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

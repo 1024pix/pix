@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { createTempFile, removeTempFile } from '../../../../tooling/test-utils/file.js';
 

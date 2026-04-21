@@ -5,7 +5,6 @@ import { ChallengeDeneutralized } from '../../../../../src/certification/evaluat
 import { ChallengeNeutralized } from '../../../../../src/certification/evaluation/domain/events/ChallengeNeutralized.js';
 import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Evaluation | Unit | Application | Controller | certification', function () {

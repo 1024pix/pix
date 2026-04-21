@@ -1,6 +1,5 @@
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/certification-details-serializer.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Infrastructure | Serializers | certification-details-serializer', function () {

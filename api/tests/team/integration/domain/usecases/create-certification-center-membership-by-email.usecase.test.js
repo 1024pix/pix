@@ -3,7 +3,6 @@ import { AlreadyExistingEntityError, UserNotFoundError } from '../../../../../sr
 import { CertificationCenterMembership } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { createCertificationCenterMembershipByEmail } from '../../../../../src/team/domain/usecases/create-certification-center-membership-by-email.usecase.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

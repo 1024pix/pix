@@ -1,16 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | Controller | assessment-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /assessments/{id}/current-activity', function () {
     context('when the assessment is completed', function () {
       it('should return a 412 HTTP status code for PreconditionFailedError', async function () {

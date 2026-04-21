@@ -1,6 +1,5 @@
 import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedCourse.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-by-campaign-id', function () {

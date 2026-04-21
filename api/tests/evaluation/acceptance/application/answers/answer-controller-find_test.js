@@ -1,11 +1,9 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | answer-controller-find', function () {
   describe('GET /api/answers?challengeId=Y&assessmentId=Z', function () {
-    let server;
     let options;
     let userId;
     let answer;
@@ -13,7 +11,6 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
     context('when the assessmentid passed in query param is not an integer', function () {
       beforeEach(async function () {
-        server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
         options = {
@@ -42,7 +39,6 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
     context('when the assessment has an userId (is not a demo or preview)', function () {
       beforeEach(async function () {
-        server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answer = databaseBuilder.factory.buildAnswer({
@@ -92,7 +88,6 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
     context('when the assessment has an userId but the user is not the relevant user', function () {
       beforeEach(async function () {
-        server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answer = databaseBuilder.factory.buildAnswer({
@@ -128,7 +123,6 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
     context('when the assessment is demo and there is no userId', function () {
       beforeEach(async function () {
-        server = await createServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId: null, type: 'DEMO' });
         databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId });
         await databaseBuilder.commit();
@@ -149,14 +143,12 @@ describe('Acceptance | Controller | answer-controller-find', function () {
   });
 
   describe('GET /api/answers?assessment=12323', function () {
-    let server;
     let options;
     let userId;
     let answers;
 
     context('when the assessment has an userId (is not a demo or preview)', function () {
       beforeEach(async function () {
-        server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answers = [
@@ -206,7 +198,6 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
     context('when the assessment has an userId but the user is not the relevant user', function () {
       beforeEach(async function () {
-        server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answers = [databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok' })];
@@ -229,7 +220,6 @@ describe('Acceptance | Controller | answer-controller-find', function () {
 
     context('when the assessment is demo and there is no userId', function () {
       beforeEach(async function () {
-        server = await createServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId: null, type: 'DEMO' });
         databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok' });
         await databaseBuilder.commit();

@@ -1,7 +1,6 @@
 import { DetachedAssessment } from '../../../../../../src/prescription/campaign-participation/domain/read-models/DetachedAssessment.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | find-user-anonymised-campaign-assessments', function () {

@@ -1,6 +1,5 @@
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {

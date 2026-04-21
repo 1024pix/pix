@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 
-import { createServer } from '../../../../../server.js';
 import { generateCertificateVerificationCode } from '../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
 import {
   CERTIFICATE_STATUSES,
@@ -14,13 +13,13 @@ import { Assessment } from '../../../../../src/shared/domain/models/Assessment.j
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as AssesmentResult from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | Certification', function () {
-  let server, options;
+  let options;
   let userId;
   let session, certificationCourse, assessmentResult, badge;
 
@@ -216,7 +215,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
   describe('GET /api/certifications/{certificationCourseId}', function () {
     it('should return 200 HTTP status code and the certification with the result competence tree included', async function () {
       // given
-      server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
       ({ session, badge, certificationCourse, assessmentResult } = await _buildDatabaseForV2Certification({ userId }));
       databaseBuilder.factory.buildCompetenceMark({
@@ -335,7 +333,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
   describe('GET /api/certificate-summaries', function () {
     let certificationCenterId;
     beforeEach(async function () {
-      server = await createServer();
       userId = databaseBuilder.factory.buildUser().id;
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'SunnydaleHigh' }).id;
     });
@@ -475,8 +472,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
   describe('POST /api/shared-certifications', function () {
     beforeEach(async function () {
-      server = await createServer();
-
       const userId = databaseBuilder.factory.buildUser().id;
       ({ session, badge, certificationCourse, assessmentResult } = await _buildDatabaseForV2Certification({ userId }));
       databaseBuilder.factory.buildCompetenceMark({
@@ -647,8 +642,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           await databaseBuilder.commit();
 
-          const server = await createServer();
-
           // when
           const response = await server.inject({
             method: 'GET',
@@ -675,8 +668,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         const userId = databaseBuilder.factory.buildUser().id;
         const { certificationCourse } = await _buildDatabaseForV2Certification({ userId });
         await databaseBuilder.commit();
-
-        const server = await createServer();
 
         // when
         const response = await server.inject({
@@ -750,8 +741,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         await databaseBuilder.commit();
 
-        const server = await createServer();
-
         const options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true&lang=fr`,
@@ -822,8 +811,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         await databaseBuilder.commit();
 
-        const server = await createServer();
-
         const options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true&lang=fr`,
@@ -852,8 +839,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         const { session } = await _buildDatabaseForV2Certification({ userId: superAdmin.id });
         await databaseBuilder.commit();
 
-        const server = await createServer();
-
         // when
         const response = await server.inject({
           method: 'GET',
@@ -877,8 +862,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
         const { session } = await _buildDatabaseForV2Certification({ userId: superAdmin.id });
         await databaseBuilder.commit();
-
-        const server = await createServer();
 
         // when
         const response = await server.inject({

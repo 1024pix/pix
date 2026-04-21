@@ -1,17 +1,10 @@
-import { createServer } from '../../../../server.js';
 import { COURSE_ITEM_TYPES } from '../../../../src/quest/domain/models/CourseItem.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Course catalogue Route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/organizations/{organizationId}/courses', function () {
     context('when user belongs to the organization', function () {
       it('returns 200 with target profiles from blueprints and shares', async function () {

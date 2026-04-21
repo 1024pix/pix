@@ -1,15 +1,8 @@
-import { createServer } from '../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | answer-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/answers', function () {
     context('when challenge is focused out and answer is correct', function () {
       context('when the candidate needs an accessibility adjustment', function () {

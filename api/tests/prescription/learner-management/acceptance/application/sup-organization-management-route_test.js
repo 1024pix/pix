@@ -1,10 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const i18n = getI18n();
@@ -12,13 +11,7 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
   .map((column) => column.name)
   .join(';');
 
-let server;
-
 describe('Acceptance | Application | organization-controller-sup-organization-learners', function () {
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/sup-organization-learners/association', function () {
     let organization;
     let campaign;

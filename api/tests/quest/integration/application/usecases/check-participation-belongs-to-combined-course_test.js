@@ -3,7 +3,6 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Application | Usecases | checkParticipationBelongsToCombinedCourse', function () {

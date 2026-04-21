@@ -1,6 +1,5 @@
 import { copyTargetProfileStages } from '../../../../../src/evaluation/domain/usecases/copy-target-profile-stages.js';
 import * as stageRepository from '../../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Evaluation | Integration | Domain | UseCases | copy-stages', function () {

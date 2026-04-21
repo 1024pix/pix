@@ -1,6 +1,5 @@
 import { CustomElement } from '../../../../../../src/devcomp/domain/models/element/CustomElement.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | CustomElement', function () {

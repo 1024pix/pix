@@ -1,20 +1,13 @@
-import { createMaddoServer } from '../../../../server.maddo.js';
 import { Campaign } from '../../../../src/maddo/domain/models/Campaign.js';
 import { Organization } from '../../../../src/maddo/domain/models/Organization.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { serverMaddo } from '../../../tooling/servers.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Maddo | Route | Organizations', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createMaddoServer();
-  });
-
   describe('GET /api/organizations', function () {
     it('returns the list of all organizations of the client jurisdiction with an HTTP status code 200', async function () {
       // given
@@ -49,7 +42,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await serverMaddo.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -134,7 +127,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await serverMaddo.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -184,7 +177,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await serverMaddo.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -252,7 +245,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await serverMaddo.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -327,7 +320,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await serverMaddo.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -366,7 +359,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await serverMaddo.inject(options);
 
       // then
       expect(response.statusCode).to.equal(403);

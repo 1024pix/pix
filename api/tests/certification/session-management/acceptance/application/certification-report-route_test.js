@@ -1,13 +1,11 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | certification-report', function () {
-  let server, certificationCourseId, userId, sessionId, certificationCenterId;
+  let certificationCourseId, userId, sessionId, certificationCenterId;
 
   beforeEach(async function () {
-    server = await createServer();
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildIssueReportCategory({ name: 'FRAUD' });
     ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());

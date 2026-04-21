@@ -1,19 +1,12 @@
-import { createServer } from '../../../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../../tooling/servers.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
 } from '../../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Certification Courses', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/certification-courses', function () {
     context('when the certification course does not exist', function () {
       let learningContent;

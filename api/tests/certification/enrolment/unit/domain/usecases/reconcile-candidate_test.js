@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { reconcileCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/reconcile-candidate.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candidate', function () {

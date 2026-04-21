@@ -1,7 +1,6 @@
 import { Announcement } from '../../../../../src/announcements/domain/models/Announcement.js';
 import * as announcementRepository from '../../../../../src/announcements/infrastructure/repositories/announcement-repository.js';
 import { announcementsStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-
 import { knex } from '../../../../tooling/databases.js';
 
 const NAME = 'SCO';

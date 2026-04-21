@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { addManyMembersToExistingOrganization } from '../../../scripts/data-generation/add-many-fake-members-related-to-one-organization.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
-
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 

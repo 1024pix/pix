@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', function () {

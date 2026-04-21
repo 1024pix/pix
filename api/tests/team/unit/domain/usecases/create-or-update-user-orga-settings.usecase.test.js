@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { UserNotMemberOfOrganizationError } from '../../../../../src/team/domain/errors.js';
 import { createOrUpdateUserOrgaSettings } from '../../../../../src/team/domain/usecases/create-or-update-user-orga-settings.usecase.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | create-or-update-user-orga-settings', function () {

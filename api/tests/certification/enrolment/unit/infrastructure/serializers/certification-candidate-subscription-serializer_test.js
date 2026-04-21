@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-subscription-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | Serializer | certification-candidate-subscription', function () {

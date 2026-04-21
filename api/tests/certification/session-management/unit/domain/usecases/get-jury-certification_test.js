@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getJuryCertification } from '../../../../../../src/certification/session-management/domain/usecases/get-jury-certification.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Domain | Usecases | get-jury-certification', function () {

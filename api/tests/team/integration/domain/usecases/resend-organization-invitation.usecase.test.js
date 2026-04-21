@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Domain | Usecases | resend-organization-invitation', function () {

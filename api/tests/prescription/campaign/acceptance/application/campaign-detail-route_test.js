@@ -1,9 +1,7 @@
-import { createServer } from '../../../../../server.js';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
 } from '../../../../../src/prescription/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
@@ -11,14 +9,9 @@ import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/tes
 const { STARTED } = CampaignParticipationStatuses;
 import { CAMPAIGN_FEATURES } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | API | campaign-detail-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/campaigns', function () {
     it('should return the campaign requested by code', async function () {
       // given

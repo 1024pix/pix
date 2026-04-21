@@ -1,17 +1,10 @@
-import { createServer } from '../../../../../server.js';
 import { CenterTypes } from '../../../../../src/certification/configuration/domain/models/CenterTypes.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Configuration | Acceptance | API | sco-whitelist-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/admin/sco-whitelist', function () {
     it('should return 201 HTTP status code', async function () {
       // given

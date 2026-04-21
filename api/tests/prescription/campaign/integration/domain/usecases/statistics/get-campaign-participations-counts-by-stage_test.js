@@ -4,7 +4,6 @@ import {
   NoStagesForCampaign,
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../../tooling/learning-content-builder/index.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';

@@ -1,5 +1,4 @@
 import { anonymizedUserRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/anonymized-user.repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | Anonymized User', function () {

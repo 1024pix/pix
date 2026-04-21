@@ -1,14 +1,7 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | Application | organization-invitation-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/organizations-to-join/{code}', function () {
     context('Success cases', function () {
       it('should return organization with import details corresponding to the given campaign code', async function () {

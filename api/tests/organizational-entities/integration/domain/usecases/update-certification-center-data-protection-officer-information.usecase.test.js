@@ -1,6 +1,5 @@
 import { DataProtectionOfficer } from '../../../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational Entities | Domain | UseCase | update-certification-center-data-protection-officer-information', function () {

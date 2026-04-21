@@ -1,5 +1,4 @@
 import * as checkAuthorizationToManageCampaign from '../../../../src/shared/application/usecases/checkAuthorizationToManageCampaign.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 describe('Integration | API | checkAuthorizationToManageCampaign', function () {

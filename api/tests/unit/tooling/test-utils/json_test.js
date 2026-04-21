@@ -1,4 +1,3 @@
-
 import { parseNDJSON } from '../../../tooling/test-utils/json.js';
 
 describe('Unit | Tooling | Test utils | JSON', function () {

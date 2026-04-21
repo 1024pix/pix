@@ -1,6 +1,5 @@
 import { CsvParsingError } from '../../../../../../src/shared/domain/errors.js';
 import { getCsvContent } from '../../../../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Utils | csv | write-csv-utils', function () {

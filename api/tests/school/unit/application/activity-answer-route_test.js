@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { activityAnswerController } from '../../../../src/school/application/activity-answer-controller.js';
 import * as moduleUnderTest from '../../../../src/school/application/activity-answer-route.js';
-
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | activity-answer-router', function () {

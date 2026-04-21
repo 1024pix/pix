@@ -1,5 +1,4 @@
 import { ComplementaryCertification } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Session-Management | Domain | Models | ComplementaryCertification', function () {

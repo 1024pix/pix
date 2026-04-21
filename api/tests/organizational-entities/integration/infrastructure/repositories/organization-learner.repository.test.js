@@ -1,5 +1,4 @@
 import * as organizationLearnerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-learner.repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational-Entities | Infrastructure | Repositories | Organization-Learner', function () {

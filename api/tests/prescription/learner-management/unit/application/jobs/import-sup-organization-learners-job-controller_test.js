@@ -5,7 +5,6 @@ import { usecases } from '../../../../../../src/prescription/learner-management/
 import { config } from '../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Prescription | Application | Jobs | importSupOrganizationLearnersJobController', function () {

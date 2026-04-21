@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { getActiveVersionByScope } from '../../../../../../src/certification/configuration/domain/usecases/get-active-version-by-scope.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

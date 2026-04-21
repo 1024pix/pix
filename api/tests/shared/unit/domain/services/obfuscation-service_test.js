@@ -4,7 +4,6 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as obfuscationService from '../../../../../src/shared/domain/services/obfuscation-service.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

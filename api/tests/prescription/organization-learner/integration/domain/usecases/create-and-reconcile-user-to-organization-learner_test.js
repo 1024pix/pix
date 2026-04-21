@@ -8,7 +8,6 @@ import {
 } from '../../../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

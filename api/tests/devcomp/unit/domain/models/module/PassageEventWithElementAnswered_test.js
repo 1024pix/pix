@@ -1,7 +1,6 @@
 import { PassageEventWithElementAnsweredInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { PassageEventWithElementAnswered } from '../../../../../../src/devcomp/domain/models/passage-events/PassageEventWithElementAnswered.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | PassageEventWithElementAnswered', function () {

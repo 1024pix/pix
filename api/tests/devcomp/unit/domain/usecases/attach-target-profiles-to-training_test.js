@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { attachTargetProfilesToTraining } from '../../../../../src/devcomp/domain/usecases/attach-target-profiles-to-training.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | attach-target-profiles-to-training', function () {

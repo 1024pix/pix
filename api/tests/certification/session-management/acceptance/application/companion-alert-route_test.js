@@ -1,17 +1,10 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | companion-alert', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('PATCH /api/sessions/{sessionId}/users/{userId}/clear-companion-alert', function () {
     it('should return 204 no content and set alert status to CLEARED', async function () {
       // given

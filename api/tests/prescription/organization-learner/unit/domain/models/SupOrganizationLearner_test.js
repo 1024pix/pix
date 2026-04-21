@@ -1,5 +1,4 @@
 import { SupOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/SupOrganizationLearner.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Models | SupOrganizationLearner', function () {

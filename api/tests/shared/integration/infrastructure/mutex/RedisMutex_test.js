@@ -1,5 +1,4 @@
 import { redisMutex } from '../../../../../src/shared/infrastructure/mutex/RedisMutex.js';
-
 import { wait } from '../../../../tooling/test-utils/wait.js';
 
 describe('Shared | Integration | Infrastructure | Mutex | RedisMutex', function () {

@@ -3,7 +3,6 @@ import * as serializer from '../../../../../../../src/prescription/campaign-part
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { PlacementProfile } from '../../../../../../../src/shared/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../../../../src/shared/domain/models/UserCompetence.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 const { SHARED } = CampaignParticipationStatuses;

@@ -2,7 +2,6 @@ import { createV3AssessmentResult } from '../../../../../../../src/certification
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 

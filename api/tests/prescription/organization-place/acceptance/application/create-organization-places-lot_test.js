@@ -1,15 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Create Organization Places Lot', function () {
   describe('POST /api/admin/organizations/{id}/places', function () {
     it('should return 201 HTTP status code', async function () {
       // given
-      const server = await createServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const placeManagementFeature = databaseBuilder.factory.buildFeature({

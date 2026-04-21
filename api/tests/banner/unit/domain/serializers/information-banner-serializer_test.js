@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../src/banner/infrastructure/serializers/jsonapi/information-banner-serializer.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | information-banner-serializer', function () {

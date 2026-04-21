@@ -1,5 +1,4 @@
 import * as studentRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/student-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | student-repository', function () {

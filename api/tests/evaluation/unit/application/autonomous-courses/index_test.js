@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { autonomousCourseController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-controller.js';
 import * as autonomousCoursesRouter from '../../../../../src/evaluation/application/autonomous-courses/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Badges | Routes', function () {

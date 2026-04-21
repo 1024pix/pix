@@ -3,7 +3,6 @@ import omit from 'lodash/omit.js';
 
 import { PasswordNotMatching } from '../../../../../src/identity-access-management/domain/errors.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Domain | Services | Crypto', function () {

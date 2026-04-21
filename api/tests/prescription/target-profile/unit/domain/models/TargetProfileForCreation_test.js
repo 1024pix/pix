@@ -1,5 +1,4 @@
 import { TargetProfileForCreation } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfileForCreation.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | TargetProfileForCreation', function () {

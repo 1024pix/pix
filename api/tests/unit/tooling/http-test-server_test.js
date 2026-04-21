@@ -1,4 +1,3 @@
-
 import { HttpTestServer } from '../../tooling/server/http-test-server.js';
 
 describe('Unit | Tooling | Http-test-server', function () {

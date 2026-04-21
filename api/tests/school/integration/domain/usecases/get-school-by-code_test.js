@@ -1,7 +1,6 @@
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { OrganizationLearnerDTO } from '../../../../../src/school/domain/read-models/OrganizationLearnerDTO.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-school-by-code', function () {

@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI | certification center', function () {

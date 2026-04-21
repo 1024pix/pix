@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../../db/knex-database-connection.js';
 import { save } from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

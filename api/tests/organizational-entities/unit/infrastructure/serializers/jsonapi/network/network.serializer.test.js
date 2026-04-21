@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/network/network.serializer.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Infrastructure | Serializers | JsonApi |  Network | network-serializer', function () {

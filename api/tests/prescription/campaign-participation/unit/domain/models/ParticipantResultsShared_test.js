@@ -3,7 +3,6 @@ import lodash from 'lodash';
 import { ParticipantResultsShared } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipantResultsShared.js';
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 const { noop } = lodash;
 

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { teamRoutes } from '../../../../src/team/application/routes.js';
 import { usecases } from '../../../../src/team/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 

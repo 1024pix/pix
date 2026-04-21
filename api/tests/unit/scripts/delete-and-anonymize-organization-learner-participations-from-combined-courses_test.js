@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { DeleteAndAnonymizeOrganizationLearnerParticipationsScript } from '../../../src/prescription/scripts/delete-and-anonymize-organization-learner-participations-from-combined-courses.js';
 import { DomainTransaction } from '../../../src/shared/domain/DomainTransaction.js';
-
 import { catchErr } from '../../tooling/test-utils/error.js';
 
 describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function () {

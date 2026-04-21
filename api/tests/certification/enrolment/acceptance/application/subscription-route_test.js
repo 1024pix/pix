@@ -1,15 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Enrolment | Acceptance | Application | Routes | subscription', function () {
   describe('GET /api/certification-candidates/{certificationCandidateId}/subscriptions', function () {
     it('should return the certification candidate subscriptions', async function () {
       // given
-      const server = await createServer();
 
       const learningContent = _buildLearningContent();
       databaseBuilder.factory.learningContent.build(learningContent);

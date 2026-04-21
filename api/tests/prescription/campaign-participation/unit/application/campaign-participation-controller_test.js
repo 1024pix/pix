@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { campaignParticipationController } from '../../../../../src/prescription/campaign-participation/application/campaign-participation-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {

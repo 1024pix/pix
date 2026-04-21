@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
-
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 const KE_STATUS_VALIDATED = KnowledgeElement.StatusType.VALIDATED;

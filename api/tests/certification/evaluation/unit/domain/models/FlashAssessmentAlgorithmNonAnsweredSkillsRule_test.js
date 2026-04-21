@@ -1,5 +1,4 @@
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from '../../../../../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmNonAnsweredSkillsRule', function () {

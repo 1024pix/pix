@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import * as checkUserIsCandidateUseCase from '../../../../../../src/certification/enrolment/application/usecases/check-user-is-candidate.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Application | Validator | checkUserIsCandidateUseCase', function () {

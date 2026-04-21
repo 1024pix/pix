@@ -4,7 +4,6 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { InvalidJuryLevelError } from '../../../../../src/shared/domain/errors.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Complementary Certification Course Results', function () {

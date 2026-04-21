@@ -1,4 +1,3 @@
-
 import sinon from 'sinon';
 
 import { InvalidOrAlreadyUsedEmailError } from '../../../../../src/identity-access-management/domain/errors.js';

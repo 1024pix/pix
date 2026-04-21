@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { CertificationDetails } from '../../../../../../src/certification/session-management/domain/read-models/CertificationDetails.js';
 import { getCertificationDetails } from '../../../../../../src/certification/session-management/domain/usecases/get-certification-details.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Domain | UseCases | get-certification-details', function () {

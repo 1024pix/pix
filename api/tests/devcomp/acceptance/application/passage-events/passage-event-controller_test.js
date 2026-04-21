@@ -1,14 +1,7 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | Controller | passage-event-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/passages-events', function () {
     it('should create a new passage event and response with a 201', async function () {
       // given

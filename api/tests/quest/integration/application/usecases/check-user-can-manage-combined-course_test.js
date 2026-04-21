@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import * as checkUserCanManageCombinedCourse from '../../../../../src/quest/application/usecases/check-user-can-manage-combined-course.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

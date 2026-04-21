@@ -1,6 +1,5 @@
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | membership-serializer', function () {

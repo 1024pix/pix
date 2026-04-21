@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { FillLastAnswerAtColumn } from '../../../scripts/certification/fill-last-answer-at-column.js';
-
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 

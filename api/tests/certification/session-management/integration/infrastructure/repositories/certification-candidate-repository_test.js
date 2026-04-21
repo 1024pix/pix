@@ -1,6 +1,5 @@
 import * as certificationCandidateRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-candidate-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

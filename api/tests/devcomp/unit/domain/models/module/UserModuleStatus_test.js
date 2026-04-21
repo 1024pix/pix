@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { UserModuleStatus } from '../../../../../../src/devcomp/domain/models/module/UserModuleStatus.js';
 import { Passage } from '../../../../../../src/devcomp/domain/models/Passage.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | UserModuleStatus', function () {

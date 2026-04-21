@@ -3,7 +3,6 @@ import {
   CertificationIssueReportSubcategories,
 } from '../../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import * as serializer from '../../../../../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | certification-report-serializer', function () {

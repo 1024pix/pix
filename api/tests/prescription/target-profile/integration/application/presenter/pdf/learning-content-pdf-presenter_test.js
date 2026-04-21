@@ -5,7 +5,6 @@ import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import sinon from 'sinon';
 
 import * as learningContentPDFPresenter from '../../../../../../../src/prescription/target-profile/application/presenter/pdf/learning-content-pdf-presenter.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { isSameBinary } from '../../../../../../tooling/test-utils/file.js';
 

@@ -1,18 +1,16 @@
 import _ from 'lodash';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../server.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
 describe('Acceptance | Controller | users-controller-reset-scorecard', function () {
   let options;
-  let server;
 
   let userId;
   const competenceId = 'recAbe382T0e1337';
@@ -97,8 +95,6 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();
-
-    server = await createServer();
   });
 
   describe('POST /api/users/{id}/competences/{id}/reset', function () {

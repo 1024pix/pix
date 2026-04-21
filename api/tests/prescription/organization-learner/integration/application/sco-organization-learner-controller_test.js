@@ -5,7 +5,6 @@ import { usecases } from '../../../../../src/prescription/organization-learner/d
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { NotFoundError, UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';
 import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../../../../../src/shared/domain/errors.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

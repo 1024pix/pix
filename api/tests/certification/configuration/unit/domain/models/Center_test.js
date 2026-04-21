@@ -1,7 +1,6 @@
 import { Center } from '../../../../../../src/certification/configuration/domain/models/Center.js';
 import { CenterTypes } from '../../../../../../src/certification/configuration/domain/models/CenterTypes.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Certification | Configuration | Domain | Models | Center', function () {

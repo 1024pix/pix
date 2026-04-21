@@ -1,5 +1,4 @@
 import * as complementaryCertificationHabilitationRepository from '../../../../../src/organizational-entities/infrastructure/repositories/complementary-certification-habilitation.repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | complementary-certification-habilitation', function () {

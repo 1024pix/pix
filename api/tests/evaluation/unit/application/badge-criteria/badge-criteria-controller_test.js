@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import badgeCriteriaController from '../../../../../src/evaluation/application/badge-criteria/badge-criteria-controller.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | badge-criteria-controller', function () {

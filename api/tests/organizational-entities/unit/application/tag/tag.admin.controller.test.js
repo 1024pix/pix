@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { tagAdminController } from '../../../../../src/organizational-entities/application/tag/tag.admin.controller.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

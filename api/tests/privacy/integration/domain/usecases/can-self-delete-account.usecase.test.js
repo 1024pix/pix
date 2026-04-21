@@ -1,5 +1,4 @@
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Privacy | Domain | UseCase | can-self-delete-account', function () {

@@ -6,7 +6,6 @@ import { AlgorithmEngineVersion } from '../../../../../../src/certification/shar
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationRejectNotAllowedError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { status as assessmentResultStatuses } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -2,7 +2,6 @@ import nock from 'nock';
 
 import { RecommendedModule } from '../../../../../src/devcomp/domain/read-models/RecommendedModule.js';
 import { usecases } from '../../../../../src/devcomp/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | DevComp | Domain | Usecases | findRecommendedModulesByCampaignParticipationIds', function () {

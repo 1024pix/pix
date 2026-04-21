@@ -1,6 +1,5 @@
 import { EmailModificationDemand } from '../../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
 import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | UserEmailRepository', function () {

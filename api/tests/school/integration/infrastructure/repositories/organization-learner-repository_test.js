@@ -1,5 +1,4 @@
 import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | organizationLearner', function () {

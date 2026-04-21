@@ -5,7 +5,6 @@ import { PoleEmploiSending } from '../../../../src/prescription/campaign-partici
 import { insertMissingPoleEmploiSendingFromDate } from '../../../../src/prescription/scripts/insert-missing-pole-emploi-sending-from-date.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';

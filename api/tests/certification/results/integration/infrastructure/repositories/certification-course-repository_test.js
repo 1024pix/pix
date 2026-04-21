@@ -2,7 +2,6 @@ import { CertificationCourseVersion } from '../../../../../../src/certification/
 import * as certificationCourseRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-course-repository.js';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

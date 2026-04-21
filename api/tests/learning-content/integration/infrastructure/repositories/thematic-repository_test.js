@@ -1,5 +1,4 @@
 import { thematicRepository } from '../../../../../src/learning-content/infrastructure/repositories/thematic-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Thematic', function () {

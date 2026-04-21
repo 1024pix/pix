@@ -5,7 +5,6 @@ import { SessionPublicationBatchResult } from '../../../../../src/certification/
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { SessionPublicationBatchError } from '../../../../../src/shared/application/http-errors.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

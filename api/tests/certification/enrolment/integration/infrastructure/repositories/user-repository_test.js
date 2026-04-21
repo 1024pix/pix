@@ -1,5 +1,4 @@
 import * as userRepository from '../../../../../../src/certification/shared/infrastructure/repositories/user-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

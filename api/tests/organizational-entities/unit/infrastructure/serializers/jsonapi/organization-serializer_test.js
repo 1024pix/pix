@@ -1,7 +1,6 @@
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../../src/organizational-entities/domain/models/Tag.js';
 import * as serializer from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | organization-serializer', function () {

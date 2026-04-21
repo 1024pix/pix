@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { NoCertificationResultForDivision } from '../../../../../../src/certification/results/domain/errors.js';
 import { getScoCertificationResultsByDivision } from '../../../../../../src/certification/results/domain/usecases/get-sco-certification-results-by-division.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

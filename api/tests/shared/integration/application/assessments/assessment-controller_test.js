@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
 import { sharedUsecases } from '../../../../../src/shared/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

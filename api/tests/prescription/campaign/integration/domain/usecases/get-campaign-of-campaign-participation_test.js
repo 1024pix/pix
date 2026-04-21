@@ -1,6 +1,5 @@
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-campaign-of-campaign-participation', function () {

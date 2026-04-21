@@ -1,4 +1,3 @@
-
 describe('Async gotchas – anti-patterns vs good patterns', function () {
   function getStack(fn) {
     return fn().catch((err) => err.stack);

@@ -1,10 +1,8 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('POST /api/admin/sessions/publish-in-batch', function () {
-  let server;
   const options = {
     method: 'POST',
     url: '/api/admin/sessions/publish-in-batch',
@@ -12,7 +10,6 @@ describe('POST /api/admin/sessions/publish-in-batch', function () {
   let userId;
 
   beforeEach(async function () {
-    server = await createServer();
     // given
     userId = databaseBuilder.factory.buildUser.withRole().id;
     options.headers = generateAuthenticatedUserRequestHeaders({ userId });

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getLearningContentByTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/get-learning-content-by-target-profile.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | get-learning-content-by-target-profile', function () {

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { assignCertificationOfficerToJurySession } from '../../../../src/certification/session-management/domain/usecases/assign-certification-officer-to-jury-session.js';
-
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | assign-certification-officer-to-session', function () {

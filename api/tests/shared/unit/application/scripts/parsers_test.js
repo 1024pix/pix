@@ -9,7 +9,6 @@ import {
   csvFileStreamer,
   isoDateParser,
 } from '../../../../../src/shared/application/scripts/parsers.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

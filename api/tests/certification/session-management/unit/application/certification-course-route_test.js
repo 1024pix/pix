@@ -4,7 +4,6 @@ import { certificationCourseController } from '../../../../../src/certification/
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-course-route.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Course', function () {

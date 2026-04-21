@@ -8,7 +8,6 @@ import {
   DeprecatedCertificationIssueReportSubcategoryError,
   InvalidCertificationIssueReportForSaving,
 } from '../../../../../../src/shared/domain/errors.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const MISSING_VALUE = null;

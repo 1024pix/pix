@@ -1,16 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { ScoOrganizationTagName } from '../../../../../src/certification/configuration/domain/models/ScoOrganizationTagName.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Configuration | Acceptance | API | sco-blocked-access-dates-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('PATCH /api/admin/sco-blocked-access-dates', function () {
     it('should return 200 HTTP status code when updating valid entry', async function () {
       // given

@@ -1,16 +1,12 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info', function () {
-  let server;
   let user;
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
-
     user = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false });
 
     options = {

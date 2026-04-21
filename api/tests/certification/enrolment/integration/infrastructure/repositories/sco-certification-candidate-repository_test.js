@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/sco-certification-candidate-repository.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

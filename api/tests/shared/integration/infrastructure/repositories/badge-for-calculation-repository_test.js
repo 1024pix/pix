@@ -1,6 +1,5 @@
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import * as badgeForCalculationRepository from '../../../../../src/shared/infrastructure/repositories/badge-for-calculation-repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';

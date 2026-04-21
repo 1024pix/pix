@@ -1,6 +1,5 @@
 import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Block | BlockText', function () {

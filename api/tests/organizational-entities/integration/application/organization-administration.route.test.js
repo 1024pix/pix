@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { organizationAdminController } from '../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
 import { organizationalEntitiesRoutes } from '../../../../src/organizational-entities/application/routes.js';
 import { logo3Mb } from '../../../integration/application/organizations-administration/_files/logo-3mb.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

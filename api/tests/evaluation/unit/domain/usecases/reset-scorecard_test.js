@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { CompetenceResetError } from '../../../../../src/evaluation/domain/errors.js';
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { resetScorecard } from '../../../../../src/evaluation/domain/usecases/reset-scorecard.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | reset-scorecard', function () {

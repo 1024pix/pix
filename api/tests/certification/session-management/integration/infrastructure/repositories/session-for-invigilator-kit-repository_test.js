@@ -1,6 +1,5 @@
 import { SessionForInvigilatorKit } from '../../../../../../src/certification/session-management/domain/read-models/SessionForInvigilatorKit.js';
 import * as sessionForInvigilatorKitRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-for-invigilator-kit-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Session-for-invigilator-kit', function () {

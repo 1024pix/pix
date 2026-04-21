@@ -1,5 +1,4 @@
 import { competenceRepository } from '../../../../../src/learning-content/infrastructure/repositories/competence-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Competence', function () {

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { CreateStructureForEveryOrganizationScript } from '../../../../src/organizational-entities/scripts/create-structure-for-every-organization.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('Integration | Organizational Entities | Scripts | Create structure for every organization', function () {

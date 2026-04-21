@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getSessionResultsByResultRecipientEmail } from '../../../../../../src/certification/results/domain/usecases/get-session-results-by-result-recipient-email.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Results | Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function () {

@@ -1,5 +1,4 @@
 import * as divisionRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/division-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Division', function () {

@@ -1,12 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { TutorialEvaluation } from '../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
-  let server;
-
   const learningContent = {
     tutorials: [
       {
@@ -22,7 +19,6 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
   };
 
   beforeEach(async function () {
-    server = await createServer();
     await databaseBuilder.factory.buildUser({
       id: 4444,
       firstName: 'Classic',

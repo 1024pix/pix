@@ -1,18 +1,11 @@
 import _ from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Configuration | Acceptance | API | complementary-certification-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/admin/complementary-certifications/', function () {
     it('should return 200 HTTP status code', async function () {
       // given
@@ -147,7 +140,6 @@ describe('Certification | Configuration | Acceptance | API | complementary-certi
   describe('GET /api/admin/complementary-certifications/{complementaryCertificationKey}/target-profiles', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const attachedAt = new Date('2019-01-01');
 

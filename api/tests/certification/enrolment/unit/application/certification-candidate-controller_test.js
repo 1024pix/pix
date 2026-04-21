@@ -5,7 +5,6 @@ import { EditedCandidate } from '../../../../../src/certification/enrolment/doma
 import { CandidateTimeline } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateTimeline.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {

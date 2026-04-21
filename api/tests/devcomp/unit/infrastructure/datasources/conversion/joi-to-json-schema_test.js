@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 import { convertJoiToJsonSchema } from '../../../../../../src/devcomp/infrastructure/datasources/conversion/joi-to-json-schema.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema', function () {

@@ -1,19 +1,12 @@
 import lodash from 'lodash';
 
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { omit } = lodash;
 
 describe('Acceptance | Controller | Complementary certification | attach-target-profile-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('PUT /admin/complementary-certifications/{complementaryCertificationId}/badges/', function () {
     it('should return an OK status after saving in database', async function () {
       // given

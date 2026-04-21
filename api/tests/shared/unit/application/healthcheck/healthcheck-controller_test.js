@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { healthcheckController } from '../../../../../src/shared/application/healthcheck/healthcheck-controller.js';
 import { redisMonitor } from '../../../../../src/shared/infrastructure/utils/redis-monitor.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | healthcheckController', function () {

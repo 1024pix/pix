@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { assessmentInvigilatorAuthorization as sessionInvigilatorAuthorization } from '../../../../src/certification/shared/application/pre-handlers/session-invigilator-authorization.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

@@ -5,7 +5,6 @@ import * as moduleUnderTest from '../../../../../src/certification/configuration
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Certification | Configuration | Application | Router | certification-framework-route', function () {

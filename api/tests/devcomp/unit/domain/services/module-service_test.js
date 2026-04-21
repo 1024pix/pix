@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { ModuleDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
 import moduleService from '../../../../../src/devcomp/domain/services/module-service.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const { getModuleByLink } = moduleService;

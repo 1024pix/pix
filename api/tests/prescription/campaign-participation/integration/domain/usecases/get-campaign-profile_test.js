@@ -1,6 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-campaign-profile', function () {

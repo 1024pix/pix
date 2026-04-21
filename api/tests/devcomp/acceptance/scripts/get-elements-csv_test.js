@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { getElements, getElementsListAsCsv } from '../../../../scripts/modulix/get-elements-csv.js';
 import { ModuleFactory } from '../../../../src/devcomp/infrastructure/factories/module-factory.js';
-
 import moduleContent from './test-module.json' with { type: 'json' };
 
 describe('Acceptance | Script | Get Elements as CSV', function () {

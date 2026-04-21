@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { getMassImportTemplateInformation } from '../../../../../../src/certification/enrolment/domain/usecases/get-mass-import-template-information.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Session | UseCase | get-mass-import-template-information', function () {

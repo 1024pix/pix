@@ -4,7 +4,6 @@ import { complementaryCertificationCourseResultsController } from '../../../../.
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/complementary-certification-course-results-route.js';
 import { juryOptions } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Complementary Certification Course Results', function () {

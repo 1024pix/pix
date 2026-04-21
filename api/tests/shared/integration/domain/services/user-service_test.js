@@ -11,7 +11,6 @@ import { getLearnerInfo } from '../../../../../src/prescription/learner-manageme
 import * as organizationLearnerRepository from '../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearnerNotFound } from '../../../../../src/shared/domain/errors.js';
 import * as userService from '../../../../../src/shared/domain/services/user-service.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

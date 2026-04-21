@@ -1,14 +1,13 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const competenceId = 'recCompetence';
@@ -66,10 +65,7 @@ const learningContent = [
 ];
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-certification', function () {
-  let server;
-
   beforeEach(async function () {
-    server = await createServer();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();

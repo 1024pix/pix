@@ -1,5 +1,4 @@
-import { createServer } from '../../../../../server.js';
-
+import { server } from '../../../../tooling/servers.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Get Data Organization Places', function () {
@@ -8,8 +7,6 @@ describe('Acceptance | Route | Get Data Organization Places', function () {
       // given
       const PIX_DATA_CLIENT_ID = 'test-pixDataCliendId';
       const PIX_DATA_SCOPE = 'statistics';
-
-      const server = await createServer();
 
       // when
       const options = {

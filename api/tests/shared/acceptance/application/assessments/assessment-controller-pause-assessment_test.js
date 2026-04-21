@@ -1,12 +1,10 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | assessment-controller-pause-assessment', function () {
   describe('POST /api/assessments/{id}/alert', function () {
-    let server;
     let user;
     let assessment;
     let options;
@@ -32,8 +30,6 @@ describe('Acceptance | API | assessment-controller-pause-assessment', function (
           },
         ],
       };
-
-      server = await createServer();
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         state: Assessment.states.STARTED,

@@ -1,4 +1,3 @@
-
 import sinon from 'sinon';
 
 import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';

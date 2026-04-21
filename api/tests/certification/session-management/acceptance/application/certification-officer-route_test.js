@@ -1,16 +1,9 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | certification-officer', function () {
   describe('PATCH /api/admin/sessions/{sessionId}/certification-officer-assignment', function () {
-    let server;
-
-    beforeEach(async function () {
-      server = await createServer();
-    });
-
     context('when user does not have the role Super Admin', function () {
       it('should return a 403 error code', async function () {
         // given

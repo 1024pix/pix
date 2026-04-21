@@ -8,7 +8,6 @@ import {
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import * as organizationLearnerParticipationRepository from '../../../../../src/quest/infrastructure/repositories/organization-learner-participation-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Infrastructure | repositories | organization learner participations', function () {

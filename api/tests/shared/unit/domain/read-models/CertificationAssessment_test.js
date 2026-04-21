@@ -2,7 +2,6 @@ import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certif
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationAssessment } from '../../../../../src/shared/domain/read-models/CertificationAssessment.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | CertificationAssessment', function () {

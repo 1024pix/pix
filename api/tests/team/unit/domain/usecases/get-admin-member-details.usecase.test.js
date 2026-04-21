@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getAdminMemberDetails } from '../../../../../src/team/domain/usecases/get-admin-member-details.usecase.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Team | Domain | UseCase | get-admin-member-details', function () {

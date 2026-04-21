@@ -1,15 +1,8 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | Certification | Session management | session-for-supervising-controller-supervise', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   it('should return a HTTP 204 No Content', async function () {
     // given
     const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});

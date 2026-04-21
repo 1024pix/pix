@@ -1,19 +1,12 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import * as TargetProfile from '../../../../../src/shared/domain/models/TargetProfile.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | TargetProfile | Application | Route | admin-target-profile', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('PATCH /api/admin/target-profiles/{targetProfileId}', function () {
     const skillId = 'recArea1_Competence1_Tube1_Skill1';
     const tubeId = 'recArea1_Competence1_Tube1';
@@ -573,7 +566,6 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
   describe('DELETE /api/admin/target-profiles/{targetProfileId}/detach-organizations', function () {
     it('should return 200 after successfully detaching organizations from target profile', async function () {
       // given
-      const server = await createServer();
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const user = databaseBuilder.factory.buildUser.withRole();
       const organization1Id = databaseBuilder.factory.buildOrganization().id;
@@ -634,7 +626,6 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
   describe('PUT /api/admin/target-profiles/{targetProfileId}/simplified-access', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
 
       const user = databaseBuilder.factory.buildUser.withRole();
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });

@@ -6,7 +6,6 @@ import { InvalidMembershipOrganizationRoleError } from '../../../../../src/share
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

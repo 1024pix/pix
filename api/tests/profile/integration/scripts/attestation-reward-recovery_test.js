@@ -5,7 +5,6 @@ import {
   AttestationRewardRecoveryScript,
   TARGET_PROFILE_IDS,
 } from '../../../../src/profile/scripts/attestation-reward-recovery.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 

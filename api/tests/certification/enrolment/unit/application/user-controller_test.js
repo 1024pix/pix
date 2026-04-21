@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { userController } from '../../../../../src/certification/enrolment/application/user-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | Application | Controller | user-controller', function () {

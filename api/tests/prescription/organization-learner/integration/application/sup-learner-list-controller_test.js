@@ -4,7 +4,6 @@ import * as moduleUnderTest from '../../../../../src/prescription/organization-l
 import { SupOrganizationParticipant } from '../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | sup-learner-list-controller', function () {

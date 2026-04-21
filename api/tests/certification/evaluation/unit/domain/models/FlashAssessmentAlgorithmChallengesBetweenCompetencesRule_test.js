@@ -1,5 +1,4 @@
 import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from '../../../../../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmChallengesBetweenCompetencesRule', function () {

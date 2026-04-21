@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { scoWhitelistController } from '../../../../../src/certification/configuration/application/sco-whitelist-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/configuration/application/sco-whitelist-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Configuration | Unit | Application | Router | sco-whitelist-route', function () {

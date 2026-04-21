@@ -1,6 +1,5 @@
 import { OrganizationLearner } from '../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import * as organizationLearnerFeatureRepository from '../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-feature-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Prescription | OrganizationLearner | Integration | Infrastructure | OrganizationLearnerFeatureRepository', function () {

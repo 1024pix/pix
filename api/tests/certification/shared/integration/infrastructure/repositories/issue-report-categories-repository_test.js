@@ -1,7 +1,6 @@
 import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/read-models/CertificationIssueReportCategory.js';
 import * as issueReportCategoryRepository from '../../../../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -1,16 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session | Acceptance | Application | Routes | session-live-alert', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('PATCH /sessions/{sessionId}/candidates/{candidateId}/dismiss-live-alert', function () {
     describe('when user has invigilator authorization', function () {
       it('should return 204 when the alert is ongoing', async function () {

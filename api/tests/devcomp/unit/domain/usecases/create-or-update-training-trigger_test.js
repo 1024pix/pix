@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { createOrUpdateTrainingTrigger } from '../../../../../src/devcomp/domain/usecases/create-or-update-training-trigger.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | create-or-update-training-trigger', function () {

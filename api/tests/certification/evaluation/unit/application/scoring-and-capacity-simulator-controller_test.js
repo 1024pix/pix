@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { scoringAndCapacitySimulatorController } from '../../../../../src/certification/evaluation/application/scoring-and-capacity-simulator-controller.js';
 import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | scoringAndCapacitySimulatorController', function () {

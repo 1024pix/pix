@@ -8,7 +8,6 @@ import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources
 import { ModuleFactory } from '../../../../src/devcomp/infrastructure/factories/module-factory.js';
 import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {

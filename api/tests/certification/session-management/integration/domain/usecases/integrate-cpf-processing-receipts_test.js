@@ -8,7 +8,6 @@ import { CpfImportStatus } from '../../../../../../src/certification/session-man
 import { integrateCpfProccessingReceipts } from '../../../../../../src/certification/session-management/domain/usecases/integrate-cpf-processing-receipts.js';
 import * as cpfCertificationResultRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/cpf-certification-result-repository.js';
 import { cpfReceiptsStorage } from '../../../../../../src/certification/session-management/infrastructure/storage/cpf-receipts-storage.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

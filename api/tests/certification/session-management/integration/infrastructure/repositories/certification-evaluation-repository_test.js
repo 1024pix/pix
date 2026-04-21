@@ -1,7 +1,6 @@
 import { repositories } from '../../../../../../src/certification/session-management/infrastructure/repositories/index.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | certification-evaluation-repository', function () {

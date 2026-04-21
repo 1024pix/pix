@@ -1,15 +1,11 @@
-import { createServer } from '../../../../server.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | users-controller-find-users', function () {
-  let server;
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
-
     const userSuperAdminId = databaseBuilder.factory.buildUser.withRole({
       firstName: 'SuperAdmin_firstName',
       lastName: 'SuperAdmin_lastName',

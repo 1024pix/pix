@@ -1,7 +1,6 @@
 import { QrocmCorrectionResponse } from '../../../../../src/devcomp/domain/models/QrocmCorrectionResponse.js';
 import { AnswerStatus } from '../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | QrocmCorrectionResponse', function () {

@@ -2,7 +2,6 @@ import { ModuleDoesNotExistError } from '../../../../../../src/devcomp/domain/er
 import moduleDatasource from '../../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import { moduleSchema } from '../../../../../../src/devcomp/infrastructure/datasources/learning-content/validation/module-schema.js';
 import { LearningContentResourceNotFound } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 import { joiErrorParser } from './validation/joi-error-parser.js';
 

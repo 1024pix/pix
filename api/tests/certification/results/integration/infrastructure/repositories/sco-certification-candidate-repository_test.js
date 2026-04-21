@@ -1,5 +1,4 @@
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/results/infrastructure/repositories/sco-certification-candidate-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Certification | Course | Integration | Repository | SCOCertificationCandidate', function () {

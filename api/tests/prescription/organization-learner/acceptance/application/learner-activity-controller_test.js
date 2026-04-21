@@ -1,16 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | organization-learners-management', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/organization-learners/{id}/activity', function () {
     describe('Success case', function () {
       it('should return the organizationLearner activity (participations) and a 200 status code response', async function () {

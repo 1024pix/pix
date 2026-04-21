@@ -2,7 +2,6 @@ import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js'
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import { saveAdminMember } from '../../../../../src/team/domain/usecases/save-admin-member.usecase.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 const { ROLES } = PIX_ADMIN;

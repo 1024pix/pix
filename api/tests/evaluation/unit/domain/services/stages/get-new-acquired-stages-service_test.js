@@ -1,5 +1,4 @@
 import { getNewAcquiredStages } from '../../../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Stages calculation', function () {

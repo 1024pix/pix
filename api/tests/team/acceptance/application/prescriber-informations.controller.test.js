@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { createServer } from '../../../../server.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

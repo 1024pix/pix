@@ -2,7 +2,6 @@ import { UnableToDetachParentOrganizationFromChildOrganization } from '../../../
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | UseCases | detach-parent-organization-from-organization', function () {

@@ -1,6 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | Campaign | Domain | UseCase | update-campaign', function () {

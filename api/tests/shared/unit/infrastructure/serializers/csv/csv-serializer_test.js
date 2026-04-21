@@ -6,7 +6,6 @@ import { emptySession } from '../../../../../../src/certification/shared/infrast
 import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as csvSerializer from '../../../../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

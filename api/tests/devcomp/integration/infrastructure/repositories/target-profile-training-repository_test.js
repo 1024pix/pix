@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import * as targetProfileTrainingRepository from '../../../../../src/devcomp/infrastructure/repositories/target-profile-training-repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | target-profile-training-repository', function () {

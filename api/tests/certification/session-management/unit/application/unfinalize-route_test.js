@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { unfinalizeController } from '../../../../../src/certification/session-management/application/unfinalize-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/unfinalize-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Unfinalize', function () {

@@ -12,7 +12,6 @@ import * as complementaryCertificationBadgesRepository from '../../../../../../.
 import * as complementaryCertificationCourseResultRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
 import * as assessmentResultRepository from '../../../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-
 import { databaseBuilder, knex } from '../../../../../../tooling/databases.js';
 
 describe('Certification | Evaluation | Integration | Domain | Services | Score Complementary Certification', function () {

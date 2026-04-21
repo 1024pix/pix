@@ -1,4 +1,3 @@
-
 import sinon from 'sinon';
 
 import { DeleteAndAnonymiseCombinedCoursesScript } from '../../../scripts/prod/delete-and-anonymise-combined-courses.js';

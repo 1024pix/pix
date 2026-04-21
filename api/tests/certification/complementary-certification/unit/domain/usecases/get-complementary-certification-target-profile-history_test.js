@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getComplementaryCertificationTargetProfileHistory } from '../../../../../../src/certification/configuration/domain/usecases/get-complementary-certification-target-profile-history.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | get-complementary-certification-target-profile-history', function () {

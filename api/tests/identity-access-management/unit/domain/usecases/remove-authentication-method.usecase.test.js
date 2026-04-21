@@ -4,7 +4,6 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { removeAuthenticationMethod } from '../../../../../src/identity-access-management/domain/usecases/remove-authentication-method.usecase.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../../src/shared/domain/errors.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

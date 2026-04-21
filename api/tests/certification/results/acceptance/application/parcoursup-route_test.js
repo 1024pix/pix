@@ -1,11 +1,9 @@
-import { createMaddoServer } from '../../../../../server.maddo.js';
-
 import { datamartBuilder } from '../../../../tooling/databases.js';
+import { serverMaddo } from '../../../../tooling/servers.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | parcoursup-route', function () {
-  let server,
-    ine,
+  let ine,
     organizationUai,
     lastName,
     firstName,
@@ -17,8 +15,6 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
     certificationResultData;
 
   beforeEach(async function () {
-    server = await createMaddoServer();
-
     PARCOURSUP_CLIENT_ID = 'test-parcoursupClientId';
     PARCOURSUP_SCOPE = 'parcoursup';
     PARCOURSUP_SOURCE = 'parcoursup';
@@ -103,7 +99,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await serverMaddo.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -131,7 +127,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await serverMaddo.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -211,7 +207,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await serverMaddo.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);

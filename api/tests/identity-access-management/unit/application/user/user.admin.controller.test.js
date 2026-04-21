@@ -4,7 +4,6 @@ import { userAdminController } from '../../../../../src/identity-access-manageme
 import { QUERY_TYPES } from '../../../../../src/identity-access-management/domain/constants/user-query.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Identity Access Management | Application | Controller | Admin | User', function () {

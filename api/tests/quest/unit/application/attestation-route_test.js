@@ -5,7 +5,6 @@ import { attestationController } from '../../../../src/quest/application/attesta
 import * as attestationRoute from '../../../../src/quest/application/attestation-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-
 import { AttestationTemplateFixture } from '../../../tooling/fixtures/index.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

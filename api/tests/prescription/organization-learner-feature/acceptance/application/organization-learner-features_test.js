@@ -1,8 +1,7 @@
-import { createServer } from '../../../../../server.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organization learner features', function () {
@@ -26,7 +25,6 @@ describe('Acceptance | Organization learner features', function () {
       });
 
       await databaseBuilder.commit();
-      const server = await createServer();
 
       const options = {
         method: 'POST',
@@ -64,7 +62,6 @@ describe('Acceptance | Organization learner features', function () {
       });
 
       await databaseBuilder.commit();
-      const server = await createServer();
 
       const options = {
         method: 'DELETE',

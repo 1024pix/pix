@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { courseController } from '../../../../../src/evaluation/application/courses/course-controller.js';
 import { Course } from '../../../../../src/evaluation/domain/models/Course.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

@@ -1,6 +1,5 @@
 import { ModuleIssueReport } from '../../../../src/devcomp/domain/models/module/ModuleIssueReport.js';
 import * as moduleIssueReportRepository from '../../../../src/devcomp/infrastructure/repositories/module-issue-report-repository.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('Integration | DevComp | Repositories | ModuleIssueReportRepository', function () {

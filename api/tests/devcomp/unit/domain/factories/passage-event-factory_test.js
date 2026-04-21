@@ -1,4 +1,3 @@
-
 import { PassageEventFactory } from '../../../../../src/devcomp/domain/factories/passage-event-factory.js';
 import {
   CustomDraftRetriedEvent,

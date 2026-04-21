@@ -3,7 +3,6 @@ import * as url from 'node:url';
 import sinon from 'sinon';
 
 import { MassCreateUserAccountsScript } from '../../../../src/identity-access-management/scripts/mass-create-user-accounts.js';
-
 import { knex } from '../../../tooling/databases.js';
 
 const currentDirectory = url.fileURLToPath(new URL('.', import.meta.url));

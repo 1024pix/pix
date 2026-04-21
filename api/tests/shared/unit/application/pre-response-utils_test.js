@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { BaseHttpError } from '../../../../src/shared/application/http-errors.js';
 import { handleDomainAndHttpErrors } from '../../../../src/shared/application/pre-response-utils.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | PreResponse-utils', function () {

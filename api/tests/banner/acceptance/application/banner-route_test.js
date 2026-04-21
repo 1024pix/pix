@@ -1,13 +1,7 @@
-import { createServer } from '../../../../server.js';
 import { informationBannersStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
-
-let server;
+import { server } from '../../../tooling/servers.js';
 
 describe('Acceptance | Router | banner-route', function () {
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/information-banners/{target}', function () {
     context('when no banners have been stored for given target', function () {
       it('should return empty banners', async function () {

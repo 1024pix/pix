@@ -8,7 +8,6 @@ import * as missionRepository from '../../../../../src/school/infrastructure/rep
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

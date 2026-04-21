@@ -1,6 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

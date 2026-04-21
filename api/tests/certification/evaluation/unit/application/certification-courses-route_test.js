@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { certificationCourseController as certificationCoursesController } from '../../../../../src/certification/evaluation/application/certification-course-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/evaluation/application/certification-course-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Certifications Course | Route', function () {

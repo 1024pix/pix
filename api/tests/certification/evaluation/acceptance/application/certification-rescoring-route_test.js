@@ -1,20 +1,17 @@
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | Application |  certification rescoring', function () {
   describe('GET /api/admin/certifications/{certificationCourseId}/rescore', function () {
-    let server, calibrationId;
+    let calibrationId;
 
     beforeEach(async function () {
       calibrationId = 1;
-
-      server = await createServer();
     });
 
     describe('when scoring from the current framework', function () {

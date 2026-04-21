@@ -1,11 +1,9 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Routes | UserTrainingsRoute', function () {
   let options;
-  let server;
   let userId;
 
   beforeEach(async function () {
@@ -18,7 +16,6 @@ describe('Acceptance | Routes | UserTrainingsRoute', function () {
       payload: {},
       headers: generateAuthenticatedUserRequestHeaders({ userId }),
     };
-    server = await createServer();
   });
 
   describe('GET /users/:id/trainings', function () {

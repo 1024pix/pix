@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
 import { duplicateTraining } from '../../../../../src/devcomp/domain/usecases/duplicate-training.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Devcomp | Domain | UseCases | duplicate-training', function () {

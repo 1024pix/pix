@@ -2,7 +2,6 @@ import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/e
 import { QCUDeclarative } from '../../../../../../src/devcomp/domain/models/element/QCU-declarative.js';
 import { QCUDiscovery } from '../../../../../../src/devcomp/domain/models/element/QCU-discovery.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QCU-discovery', function () {

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { healthcheckController } from '../../../../../src/shared/application/healthcheck/healthcheck-controller.js';
 import * as moduleUnderTest from '../../../../../src/shared/application/healthcheck/index.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | HealthcheckRouter', function () {

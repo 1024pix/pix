@@ -1,5 +1,4 @@
 import { Accessibility } from '../../../../../../src/certification/evaluation/domain/models/CalibratedChallenge.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | CalibratedChallenge', function () {

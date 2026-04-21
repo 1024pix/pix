@@ -1,7 +1,6 @@
 import { UserDetailsForAdmin } from '../../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | get-user-details-for-admin', function () {

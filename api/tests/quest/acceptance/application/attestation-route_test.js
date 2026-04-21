@@ -1,21 +1,14 @@
 import FormData from 'form-data';
 
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { AttestationTemplateFixture } from '../../../tooling/fixtures/index.js';
 import { mockAttestationStorageUpload } from '../../../tooling/mocks/attestation-storage.mock.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Attestation Route ', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/admin/attestations', function () {
     context('when user has one of the authorized roles', function () {
       let userId;

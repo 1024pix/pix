@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { courseController } from '../../../../../src/evaluation/application/courses/course-controller.js';
 import * as moduleUnderTest from '../../../../../src/evaluation/application/courses/course-route.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | course-router', function () {

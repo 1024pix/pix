@@ -1,6 +1,5 @@
 import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/anonymised-campaign-assessment-serializer.js';
 import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | anonymised-campaign-assessment-serializer', function () {

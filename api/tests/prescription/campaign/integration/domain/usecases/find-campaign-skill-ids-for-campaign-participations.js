@@ -1,5 +1,4 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | find-campaign-skill-ids-for-campaign-participations', function () {

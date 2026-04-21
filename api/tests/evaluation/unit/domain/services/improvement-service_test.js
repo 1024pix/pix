@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import * as improvementService from '../../../../../src/evaluation/domain/services/improvement-service.js';
 import { constants } from '../../../../../src/shared/domain/constants.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | ImprovementService', function () {

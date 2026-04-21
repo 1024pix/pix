@@ -1,14 +1,12 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { constants } from '../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | Autonomous Course', function () {
-  let server;
   let userId;
   const skillWeb1Id = 'recAcquisWeb1';
   const skillWeb1Name = '@web1';
@@ -16,7 +14,6 @@ describe('Acceptance | API | Autonomous Course', function () {
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser.withRole().id;
     await databaseBuilder.commit();
-    server = await createServer();
 
     const learningContent = [
       {

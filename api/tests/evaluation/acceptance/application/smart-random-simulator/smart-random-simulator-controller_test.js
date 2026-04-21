@@ -1,16 +1,13 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | Smart Random Simulator', function () {
   let userId;
-  let server;
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser.withRole().id;
     await databaseBuilder.commit();
-    server = await createServer();
   });
 
   const buildPayload = (withChallengesMatchingUserLocale = true) => {

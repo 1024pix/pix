@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { MoreThanOneMatchingCertificationError } from '../../../../../../src/certification/results/domain/errors.js';
 import { getCertificationResultForParcoursup } from '../../../../../../src/certification/results/domain/usecases/get-certification-result-for-parcoursup.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

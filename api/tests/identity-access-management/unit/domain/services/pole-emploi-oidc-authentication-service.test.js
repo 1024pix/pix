@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
-
 import { createOpenIdClientMock } from '../../../../tooling/mocks/openid-client.mock.js';
 
 describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oidc-authentication-service', function () {

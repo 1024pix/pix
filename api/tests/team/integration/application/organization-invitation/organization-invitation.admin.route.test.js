@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Team | Application | Route | Admin | organization-invitations', function () {

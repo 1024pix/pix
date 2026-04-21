@@ -4,7 +4,6 @@ import { AttestationStorage } from '../../../../../src/quest/infrastructure/stor
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
 import { S3UploadError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { AttestationTemplateFixture } from '../../../../tooling/fixtures/index.js';
 import { mockAttestationStorageUpload } from '../../../../tooling/mocks/attestation-storage.mock.js';

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { ValidatorQROCMDep } from '../../../../../src/evaluation/domain/models/ValidatorQROCMDep.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Validation } from '../../../../../src/shared/domain/models/Validation.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | ValidatorQROCMDep', function () {

@@ -1,16 +1,12 @@
-import { createServer } from '../../../../server.js';
 import { announcementsStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 const CONTENT = { fr: 'Contenu en français', en: 'Content in English' };
 
-let server;
-
 describe('Acceptance | Router | announcement-route', function () {
   beforeEach(async function () {
-    server = await createServer();
     await announcementsStorage.flushAll();
   });
 

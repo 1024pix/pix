@@ -1,15 +1,8 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | certification-candidate', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/certification-candidates/{certificationCandidateId}/authorize-to-start', function () {
     context('when user is authenticated', function () {
       context('when the user is the invigilator of the session', function () {
@@ -68,7 +61,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       context('when the user is the invigilator of the session', function () {
         it('should return a 204 status code', async function () {
           // given
-          const server = await createServer();
           const candidateUserId = databaseBuilder.factory.buildUser().id;
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
           const sessionId = databaseBuilder.factory.buildSession({
@@ -121,7 +113,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       context('when the user is the invigilator of the session', function () {
         it('should return a 204 status code', async function () {
           // given
-          const server = await createServer();
           const candidateUserId = databaseBuilder.factory.buildUser({}).id;
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
           const sessionId = databaseBuilder.factory.buildSession({

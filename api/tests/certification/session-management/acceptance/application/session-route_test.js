@@ -1,15 +1,9 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Route | Session', function () {
-  let server, options;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
+  let options;
   describe('GET /api/admin/sessions', function () {
     beforeEach(function () {
       options = {
@@ -229,7 +223,6 @@ describe('Certification | Session Management | Acceptance | Application | Route 
   describe('GET /sessions/{sessionId}/management', function () {
     it('should respond with 200', async function () {
       // given
-      const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
 
       const { id: certificationCenterId, name: certificationCenter } = databaseBuilder.factory.buildCertificationCenter(

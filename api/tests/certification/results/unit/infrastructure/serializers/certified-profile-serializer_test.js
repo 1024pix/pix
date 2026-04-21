@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/certified-profile-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function () {

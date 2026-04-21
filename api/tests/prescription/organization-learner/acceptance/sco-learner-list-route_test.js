@@ -1,16 +1,9 @@
-import { createServer } from '../../../../server.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | sco-leaner-list-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/organizations/{id}/sco-participants', function () {
     let user;
     let organization;

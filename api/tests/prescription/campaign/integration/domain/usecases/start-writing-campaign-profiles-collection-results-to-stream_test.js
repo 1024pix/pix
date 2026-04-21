@@ -24,7 +24,6 @@ import * as placementProfileService from '../../../../../../src/shared/domain/se
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {

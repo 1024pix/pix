@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { updateCertificationCenterReferer } from '../../../../../src/team/domain/usecases/update-certification-center-referer.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | update-certification-center-referer', function () {

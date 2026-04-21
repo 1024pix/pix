@@ -4,7 +4,6 @@ import { certificationResultsController } from '../../../../../src/certification
 import * as moduleUnderTest from '../../../../../src/certification/results/application/certification-results-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Results | Unit | Application | Certification Results Route', function () {

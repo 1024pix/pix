@@ -1,6 +1,5 @@
 import { AnswerJob } from '../../../../../src/quest/domain/models/AnwserJob.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Quest | Unit | Domain | Models | AnswerJob', function () {

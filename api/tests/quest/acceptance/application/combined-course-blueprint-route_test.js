@@ -1,17 +1,10 @@
-import { createServer } from '../../../../server.js';
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { AdminCombinedCourseBlueprint } from '../../../../src/quest/domain/models/AdminCombinedCourseBlueprint.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Combined course blueprint Route ', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/admin/combined-course-blueprints', function () {
     context('when user is admin ', function () {
       it('should return the list of combined course blueprints', async function () {

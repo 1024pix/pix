@@ -1,5 +1,4 @@
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Acceptance | Application | target-profile-api', function () {

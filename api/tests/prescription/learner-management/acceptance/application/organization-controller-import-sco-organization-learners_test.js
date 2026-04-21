@@ -2,12 +2,11 @@ import { EventEmitter } from 'node:events';
 
 import iconv from 'iconv-lite';
 
-import { createServer } from '../../../../../server.js';
 import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 EventEmitter.defaultMaxListeners = 60;
@@ -19,12 +18,6 @@ const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).
   .join(';');
 
 describe('Acceptance | Application | organization-controller-import-sco-organization-learners', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/organizations/{id}/sco-organization-learners/import-siecle', function () {
     const externalId = 'UAI123ABC';
     let organizationId;

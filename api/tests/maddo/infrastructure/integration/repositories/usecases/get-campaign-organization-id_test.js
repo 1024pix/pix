@@ -1,5 +1,4 @@
 import { usecases } from '../../../../../../src/maddo/domain/usecases/index.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Maddo | Domain | Usecase | Get campaign organization id', function () {

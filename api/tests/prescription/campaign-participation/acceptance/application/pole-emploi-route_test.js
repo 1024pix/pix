@@ -1,5 +1,3 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import {
   generateAuthenticatedUserRequestHeaders,
@@ -9,18 +7,14 @@ import {
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 import { config as settings } from '../../../../../src/shared/config.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | API | Pole Emploi envois', function () {
-  let server, options;
+  let options;
 
   const POLE_EMPLOI_CLIENT_ID = 'test-poleEmploiClientId';
   const POLE_EMPLOI_SCOPE = 'pole-emploi-participants-result';
   const POLE_EMPLOI_SOURCE = 'poleEmploi';
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/pole-emploi/envois', function () {
     const originalEnv = settings.apiManager.url;
 

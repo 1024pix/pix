@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findFinalizedSessionsWithRequiredAction } from '../../../../../../src/certification/session-management/domain/usecases/find-finalized-sessions-with-required-action.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Domain | UseCases | findFinalizedSessionsWithRequiredAction', function () {

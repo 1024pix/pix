@@ -1,7 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const buildOptions = (answerId, userId) => ({
@@ -145,12 +144,6 @@ const learningContent = {
 };
 
 describe('Acceptance | Controller | answer-controller-get-correction', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/answers/{id}/correction', function () {
     let assessment = null;
     let answer = null;

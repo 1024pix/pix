@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { userController } from '../../../../../src/certification/results/application/user-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/results/application/user-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Results | Unit | Router | user', function () {

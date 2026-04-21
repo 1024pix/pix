@@ -1,12 +1,6 @@
-import { createServer } from '../../../../../server.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | Shared | Application | Controller | feature-toggle', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/feature-toggles', function () {
     const options = {
       method: 'GET',

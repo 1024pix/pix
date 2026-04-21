@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { Badge } from '../../../../../src/evaluation/domain/models/Badge.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Badge', function () {

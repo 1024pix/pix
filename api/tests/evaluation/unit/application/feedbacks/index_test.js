@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { feedbackController } from '../../../../../src/evaluation/application/feedbacks/feedback-controller.js';
 import * as moduleUnderTest from '../../../../../src/evaluation/application/feedbacks/index.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | feedback-router', function () {

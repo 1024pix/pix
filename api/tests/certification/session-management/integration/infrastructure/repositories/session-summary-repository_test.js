@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import * as sessionSummaryRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

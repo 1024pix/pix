@@ -2,7 +2,6 @@ import {
   findMaxRewardingSkills,
   getPredictedLevel,
 } from '../../../../../../src/evaluation/domain/services/algorithm-methods/cat-algorithm.js';
-
 import { buildKnowledgeElement, buildSkill, buildTube } from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Domain | services | cat-algorithm', function () {

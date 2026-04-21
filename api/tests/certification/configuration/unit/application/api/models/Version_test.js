@@ -1,6 +1,5 @@
 import { Version } from '../../../../../../../src/certification/configuration/application/api/models/Version.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
-
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Application | Api | Models | Version', function () {

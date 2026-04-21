@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { missionLearnerController } from '../../../../src/school/application/mission-learner-controller.js';
 import { MissionLearner } from '../../../../src/school/domain/models/MissionLearner.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Integration | Controller | mission-learner-controller', function () {

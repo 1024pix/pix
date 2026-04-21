@@ -1,17 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
   const userId = 4444;
-  let server;
 
   beforeEach(async function () {
-    server = await createServer();
-
     databaseBuilder.factory.buildUser({
       id: userId,
       firstName: 'Classic',

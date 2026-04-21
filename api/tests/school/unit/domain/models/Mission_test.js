@@ -1,6 +1,5 @@
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { ActivityInfo } from '../../../../../src/school/domain/models/ActivityInfo.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 

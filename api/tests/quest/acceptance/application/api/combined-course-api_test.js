@@ -1,7 +1,6 @@
 import * as combinedCourseApi from '../../../../../src/quest/application/api/combined-course-api.js';
 import { CombinedCourse } from '../../../../../src/quest/application/api/CombinedCourse.model.js';
 import { MultipleQuestFoundError } from '../../../../../src/quest/application/api/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

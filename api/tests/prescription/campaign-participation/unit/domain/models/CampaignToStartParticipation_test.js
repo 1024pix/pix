@@ -1,5 +1,4 @@
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CampaignToStartParticipation', function () {

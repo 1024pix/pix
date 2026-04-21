@@ -1,19 +1,12 @@
-import { createServer } from '../../../../../server.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder, datamartBuilder } from '../../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../../tooling/mocks/attestation-storage.mock.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Prescription | Organization Learner | Acceptance | Application | OrganizationLearnerRoute', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/organizations/{organizationId}/attestations/{attestationKey}', function () {
     it('should return 200 status code and right content type', async function () {
       // given

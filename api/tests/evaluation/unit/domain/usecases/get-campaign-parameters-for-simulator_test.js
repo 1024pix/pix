@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getCampaignParametersForSimulator } from '../../../../../src/evaluation/domain/usecases/get-campaign-parameters-for-simulator.js';
-
 import { buildChallenge } from '../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {

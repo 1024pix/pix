@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Examiner } from '../../../../../src/shared/domain/models/Examiner.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Examiner', function () {

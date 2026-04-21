@@ -1,6 +1,5 @@
 import * as pixPlusCertificationCourseRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/pix-plus-certification-course-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

@@ -7,7 +7,6 @@ import {
   getChallengeLocale,
   getUserLocale,
 } from '../../../../../src/shared/infrastructure/utils/request-response-utils.js';
-
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Unit | Utils | Request Utils', function () {

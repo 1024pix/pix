@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findComplementaryCertifications } from '../../../../../../src/certification/configuration/domain/usecases/find-complementary-certifications.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | UseCase | find-complementary-certifications', function () {

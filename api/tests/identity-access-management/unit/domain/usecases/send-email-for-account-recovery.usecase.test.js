@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { AccountRecoveryDemand } from '../../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
 import { sendEmailForAccountRecovery } from '../../../../../src/identity-access-management/domain/usecases/send-email-for-account-recovery.usecase.js';
 import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | send-email-for-account-recovery', function () {

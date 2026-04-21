@@ -1,4 +1,3 @@
-
 import { Email } from '.././../../../../../src/shared/mail/domain/models/Email.js';
 
 describe('Unit | Email | Domain | Models | Email', function () {

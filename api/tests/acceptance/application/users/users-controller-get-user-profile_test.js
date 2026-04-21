@@ -1,12 +1,10 @@
-import { createServer } from '../../../../server.js';
 import { constants } from '../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | users-controller-get-user-profile', function () {
   let options;
-  let server;
   let userId;
 
   const skillWeb1Id = 'recAcquisWeb1';
@@ -59,7 +57,6 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
       payload: {},
       headers: {},
     };
-    server = await createServer();
   });
 
   let knowledgeElement;

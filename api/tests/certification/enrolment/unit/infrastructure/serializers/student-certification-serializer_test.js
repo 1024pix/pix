@@ -1,6 +1,5 @@
 import { StudentForEnrolment } from '../../../../../../src/certification/enrolment/domain/read-models/StudentForEnrolment.js';
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/student-certification-serializer.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | student-certification-serializer', function () {

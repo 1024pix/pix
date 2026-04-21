@@ -1,5 +1,4 @@
 import { Area } from '../../../../../src/shared/domain/models/Area.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Shared | Unit | domain | models | Area ', function () {

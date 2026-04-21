@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { certificationCenterMembershipAdminController } from '../../../../../src/team/application/certification-center-membership/certification-center-membership.admin.controller.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

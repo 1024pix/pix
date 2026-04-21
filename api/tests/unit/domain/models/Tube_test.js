@@ -1,5 +1,4 @@
 import { Tube } from '../../../../src/shared/domain/models/Tube.js';
-
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Tube', function () {

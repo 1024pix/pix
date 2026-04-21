@@ -1,21 +1,14 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { status } from '../../../../../src/shared/domain/models/AssessmentResult.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session-Management | Acceptance | Application | Routes | session-publication', function () {
   describe('PATCH /api/admin/sessions/:id/publish', function () {
-    let server;
     const options = { method: 'PATCH' };
     let userId;
-
-    beforeEach(async function () {
-      server = await createServer();
-    });
-
     context('when user does not have the role Super Admin', function () {
       beforeEach(function () {
         userId = databaseBuilder.factory.buildUser().id;
@@ -178,14 +171,8 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
   });
 
   describe('PATCH /api/admin/sessions/:id/unpublish', function () {
-    let server;
     const options = { method: 'PATCH' };
     let userId;
-
-    beforeEach(async function () {
-      server = await createServer();
-    });
-
     context('when user does not have the role Super Admin', function () {
       beforeEach(function () {
         userId = databaseBuilder.factory.buildUser().id;

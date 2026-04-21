@@ -5,7 +5,6 @@ import {
   DifferentExternalIdentifierError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { reconcileOidcUserForAdmin } from '../../../../../src/identity-access-management/domain/usecases/reconcile-oidc-user-for-admin.usecase.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

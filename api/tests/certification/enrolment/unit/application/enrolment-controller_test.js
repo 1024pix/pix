@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { enrolmentController } from '../../../../../src/certification/enrolment/application/enrolment-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { getI18nFromRequest } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Enrolment | Unit | Controller | enrolment-controller', function () {

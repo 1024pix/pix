@@ -1,15 +1,12 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | answer-controller-update', function () {
   describe('PATCH /api/answers/:id', function () {
-    let server;
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
       const answer = databaseBuilder.factory.buildAnswer({

@@ -1,6 +1,5 @@
 import { stageCollectionController } from '../../../../../src/evaluation/application/stage-collections/stage-collection-controller.js';
 import * as stageCollectionRepository from '../../../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

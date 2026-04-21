@@ -1,6 +1,5 @@
 import { PlacesLot } from '../../../../../src/organizational-entities/domain/read-models/PlacesLot.js';
 import * as organizationPlacesLotRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-places-lot.repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational-Entities | Infrastructure |Repositories | Organization-Places-Lot', function () {

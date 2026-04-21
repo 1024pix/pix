@@ -18,7 +18,6 @@ import {
   UserHasNoOrganizationMembershipError,
   UserNotMemberOfOrganizationError,
 } from '../../../src/team/domain/errors.js';
-
 import { HttpTestServer } from '../../tooling/server/http-test-server.js';
 
 describe('Integration | API | Controller Error', function () {

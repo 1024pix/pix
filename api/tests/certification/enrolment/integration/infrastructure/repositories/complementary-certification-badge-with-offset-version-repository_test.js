@@ -1,5 +1,4 @@
 import * as complementaryCertificationBadgeWithOffsetVersionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-badge-with-offset-version-repository.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

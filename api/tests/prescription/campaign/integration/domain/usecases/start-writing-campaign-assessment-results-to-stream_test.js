@@ -12,7 +12,6 @@ import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/s
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

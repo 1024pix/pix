@@ -1,5 +1,4 @@
 import * as accessCodeRepository from '../../../../../src/shared/infrastructure/repositories/access-code-repository.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('#isCodeAvailable', function () {

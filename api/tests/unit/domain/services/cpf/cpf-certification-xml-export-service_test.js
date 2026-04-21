@@ -7,7 +7,6 @@ import utc from 'dayjs/plugin/utc.js';
 import sinon from 'sinon';
 
 import * as cpfCertificationXmlExportService from '../../../../../src/certification/session-management/domain/services/cpf-certification-xml-export-service.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 const { PassThrough } = stream;

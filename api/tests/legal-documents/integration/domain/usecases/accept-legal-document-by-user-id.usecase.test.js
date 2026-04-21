@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { usecases } from '../../../../../src/legal-documents/domain/usecases/index.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 const { PIX_ORGA } = LegalDocumentService.VALUES;

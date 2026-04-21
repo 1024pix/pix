@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { CsvOrganizationLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/csv-organization-learner-parser.js';
 import { CsvColumn } from '../../../../../../../src/shared/infrastructure/serializers/csv/csv-column.js';
-
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 class FakeLearnerSet {

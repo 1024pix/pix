@@ -1,5 +1,4 @@
 import * as analysisRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/analysis-repository.js';
-
 import { datamartBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | Analysis', function () {

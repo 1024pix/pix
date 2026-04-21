@@ -1,6 +1,5 @@
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import * as passwordValidator from '../../../../../src/shared/domain/validators/password-validator.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {

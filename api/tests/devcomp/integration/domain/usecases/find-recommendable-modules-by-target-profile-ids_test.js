@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { RecommendableModule } from '../../../../../src/devcomp/domain/read-models/RecommendableModule.js';
 import { usecases } from '../../../../../src/devcomp/domain/usecases/index.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesByTargetProfileIds', function () {

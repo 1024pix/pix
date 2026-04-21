@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findFinalizedSessionsToPublish } from '../../../../../../src/certification/session-management/domain/usecases/find-finalized-sessions-to-publish.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Domain | UseCases | find-finalized-sessions-to-publish', function () {

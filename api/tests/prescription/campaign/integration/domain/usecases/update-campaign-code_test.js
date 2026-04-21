@@ -1,5 +1,4 @@
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | Campaign | Domain | UseCase | update-campaign-code', function () {

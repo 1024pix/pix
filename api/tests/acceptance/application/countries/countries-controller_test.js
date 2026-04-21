@@ -1,14 +1,7 @@
-import { createServer } from '../../../../server.js';
-
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | countries-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/countries/', function () {
     it('should return 200 HTTP status code', async function () {
       // given

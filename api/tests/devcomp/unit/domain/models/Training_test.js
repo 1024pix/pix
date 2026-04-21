@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { Training } from '../../../../../src/devcomp/domain/models/Training.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Devcomp | Domain | Models | Training', function () {

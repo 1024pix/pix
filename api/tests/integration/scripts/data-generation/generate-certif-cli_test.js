@@ -6,7 +6,6 @@ import {
   main,
 } from '../../../../scripts/data-generation/generate-certif-cli.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 // FIXME Too hard to edit \o/

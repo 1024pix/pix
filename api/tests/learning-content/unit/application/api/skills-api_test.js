@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { SkillDTO } from '../../../../../src/learning-content/application/api/models/SkillDTO.js';
 import * as skillsApi from '../../../../../src/learning-content/application/api/skills-api.js';
 import { usecases } from '../../../../../src/learning-content/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { preventStubsToBeCalledUnexpectedly } from '../../../../tooling/test-utils/error.js';
 

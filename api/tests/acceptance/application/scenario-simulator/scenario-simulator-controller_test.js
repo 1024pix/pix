@@ -1,7 +1,6 @@
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 import { parseNDJSON } from '../../../tooling/test-utils/json.js';
 
@@ -10,7 +9,6 @@ const {
 } = PIX_ADMIN;
 
 describe('Acceptance | Controller | scenario-simulator-controller', function () {
-  let server;
   let adminAuthorizationHeaders;
   let validPayload;
 
@@ -178,8 +176,6 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
 
     databaseBuilder.factory.learningContent.build(learningContent);
     await databaseBuilder.commit();
-
-    server = await createServer();
   });
 
   describe('#simulateFlashAssessmentScenario', function () {

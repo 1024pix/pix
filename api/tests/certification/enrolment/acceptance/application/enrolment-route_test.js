@@ -3,19 +3,17 @@ import * as url from 'node:url';
 
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Certification | Enrolment | Acceptance | Application | Routes | enrolment', function () {
-  let server;
   let options;
   let payload;
   let userId;
@@ -23,7 +21,6 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
 
   describe('PUT /api/sessions/{sessionId}/enrol-students-to-session', function () {
     beforeEach(async function () {
-      server = await createServer();
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'POST',
@@ -218,7 +215,6 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
   describe('GET /api/sessions/{sessionId}/candidates-import-sheet', function () {
     it('should respond with a 200 when session can be found', async function () {
       // given
-      server = await createServer();
       const user = databaseBuilder.factory.buildUser();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId });
@@ -253,7 +249,6 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     let user, sessionIdAllowed;
 
     beforeEach(async function () {
-      server = await createServer();
       resolveMx = sinon.stub();
       resolveMx.resolves();
       setResolveMx(resolveMx);

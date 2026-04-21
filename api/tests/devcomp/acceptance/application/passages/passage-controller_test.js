@@ -3,22 +3,15 @@ import { Readable } from 'node:stream';
 
 import nock from 'nock';
 
-import { createServer } from '../../../../../server.js';
 import { Chat } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 import { waitForStreamFinalizationToBeDone } from '../../../../tooling/test-utils/wait.js';
 
 describe('Acceptance | Controller | passage-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/passages', function () {
     describe('when user is not authenticated', function () {
       it('should create a new passage and response with a 201', async function () {

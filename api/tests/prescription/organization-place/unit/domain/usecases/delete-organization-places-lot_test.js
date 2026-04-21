@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { deleteOrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/usecases/delete-organization-places-lot.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | delete-organization-places-lot', function () {

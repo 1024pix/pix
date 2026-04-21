@@ -1,6 +1,5 @@
 import { getProposals, getProposalsListAsCsv } from '../../../../scripts/modulix/get-proposals-csv.js';
 import { getAnswerableElements } from '../../../../scripts/modulix/utils/get-answerable-elements.js';
-
 import moduleContent from './test-module.json' with { type: 'json' };
 
 describe('Acceptance | Script | Get Proposals as CSV', function () {

@@ -2,7 +2,6 @@ import { CertificationResult } from '../../../../../../src/certification/results
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const CERTIFICATION_RESULT_STATUS_CANCELLED = CertificationResult.status.CANCELLED;

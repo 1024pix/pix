@@ -1,15 +1,8 @@
-import { createServer } from '../../../../server.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../tooling/servers.js';
 
 describe('Integration | Controller | challenge-controller', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('#get', function () {
     it('should fetch and return the given challenge, serialized as JSONAPI', async function () {
       const challenge = learningContentBuilder.buildChallenge({

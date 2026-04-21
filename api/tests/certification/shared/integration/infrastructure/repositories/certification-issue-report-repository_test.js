@@ -7,7 +7,6 @@ import {
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import * as certificationIssueReportRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

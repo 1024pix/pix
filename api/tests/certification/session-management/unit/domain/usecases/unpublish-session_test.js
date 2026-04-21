@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
 import { unpublishSession } from '../../../../../../src/certification/session-management/domain/usecases/unpublish-session.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-Management | Unit | Domain | Use Cases | unpublish-session', function () {

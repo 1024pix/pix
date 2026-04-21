@@ -1,4 +1,3 @@
-
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 
 describe('Integration | Infrastructure | knex-extensions', function () {

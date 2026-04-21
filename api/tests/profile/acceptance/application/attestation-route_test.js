@@ -1,16 +1,9 @@
-import { createServer } from '../../../../server.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../tooling/mocks/attestation-storage.mock.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Profile | Acceptance | Application | Attestation Route ', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/admin/attestations', function () {
     it('should return 200 with the list of attestations', async function () {
       // given

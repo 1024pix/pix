@@ -5,7 +5,6 @@ import liveKnexConfigs from '../../../db/knexfile.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../tooling/databases.js';
 
 describe('Integration | Infrastructure | database-connection', function () {

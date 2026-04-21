@@ -1,6 +1,5 @@
 import { OrganizationLearnerNotBelongToOrganizationIdentityError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { OrganizationLearnerIdentities } from '../../../../../src/identity-access-management/domain/models/OrganizationLearnerIdentities.js';
-
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Identity Access Management | Domain | Model | OrganizationIdentity', function () {

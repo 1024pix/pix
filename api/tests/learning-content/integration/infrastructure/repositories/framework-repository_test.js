@@ -1,5 +1,4 @@
 import { frameworkRepository } from '../../../../../src/learning-content/infrastructure/repositories/framework-repository.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Framework', function () {

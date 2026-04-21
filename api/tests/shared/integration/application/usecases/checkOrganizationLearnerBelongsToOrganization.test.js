@@ -1,6 +1,5 @@
 import { execute } from '../../../../../src/shared/application/usecases/checkOrganizationLearnerBelongsToOrganization.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { prescriberInformationsController } from '../../../../src/team/application/prescriber-informations.controller.js';
 import { usecases } from '../../../../src/team/domain/usecases/index.js';
-
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Team | Application | Controller | prescriber-informations', function () {

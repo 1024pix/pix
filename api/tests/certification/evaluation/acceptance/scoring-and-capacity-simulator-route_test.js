@@ -1,17 +1,10 @@
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | scoring-and-capacity-simulator-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/admin/simulate-score-or-capacity', function () {
     describe('when called without being authenticated', function () {
       it('should return a 401', async function () {

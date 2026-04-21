@@ -6,7 +6,6 @@ import {
   OrganizationWithoutEmailError,
 } from '../../../../../src/shared/domain/errors.js';
 import { sendScoInvitation } from '../../../../../src/team/domain/usecases/send-sco-invitation.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

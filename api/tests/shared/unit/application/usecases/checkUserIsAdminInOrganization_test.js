@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import * as useCase from '../../../../../src/shared/application/usecases/checkUserIsAdminInOrganization.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', function () {

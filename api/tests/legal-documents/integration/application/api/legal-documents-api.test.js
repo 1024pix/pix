@@ -2,7 +2,6 @@ import * as legalDocumentsApi from '../../../../../src/legal-documents/applicati
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentStatus, STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 const { PIX_ORGA } = LegalDocumentService.VALUES;

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { config } from '../../../../../../src/shared/config.js';
 import { MailingProviderInvalidEmailError } from '../../../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
 import { BrevoProvider } from '../../../../../../src/shared/mail/infrastructure/providers/BrevoProvider.js';
-
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 const { mailing } = config;
 

@@ -1,22 +1,15 @@
 import lodash from 'lodash';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/enrolment/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { omit } = lodash;
 
 describe('Acceptance | Controller | Session | session-mass-import-route', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
     let clock;
 
@@ -188,7 +181,6 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           userId,
         });
         await databaseBuilder.commit();
-        const server = await createServer();
 
         const options = {
           method: 'POST',
@@ -232,7 +224,6 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         certificationCenterId,
       });
       await databaseBuilder.commit();
-      const server = await createServer();
 
       const options = {
         method: 'GET',

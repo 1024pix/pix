@@ -1,14 +1,10 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function () {
-  let server;
-
   beforeEach(async function () {
-    server = await createServer();
     const learningContent = [
       {
         id: '1. Information et données',

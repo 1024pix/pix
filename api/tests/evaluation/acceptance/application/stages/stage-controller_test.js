@@ -1,16 +1,13 @@
-import { createServer } from '../../../../../server.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | Stages', function () {
-  let server;
   let userId;
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser.withRole().id;
-    server = await createServer();
 
     const learningContent = [
       {

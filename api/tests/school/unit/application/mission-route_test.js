@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { missionController } from '../../../../src/school/application/mission-controller.js';
 import * as moduleUnderTest from '../../../../src/school/application/mission-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | mission-route', function () {

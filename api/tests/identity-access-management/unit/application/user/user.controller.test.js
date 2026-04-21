@@ -5,7 +5,6 @@ import { User } from '../../../../../src/identity-access-management/domain/model
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import * as localeService from '../../../../../src/shared/domain/services/locale-service.js';
 import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

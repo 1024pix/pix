@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { DeleteOrganizationLearnersFromOrganizationScript } from '../../../../src/prescription/scripts/delete-organization-learners-from-organization.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 

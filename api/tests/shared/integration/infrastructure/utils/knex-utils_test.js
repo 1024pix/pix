@@ -4,7 +4,6 @@ import {
   DEFAULT_PAGINATION,
   fetchPage,
 } from '../../../../../src/shared/infrastructure/utils/knex-utils.js';
-
 import { knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Utils | Knex utils', function () {

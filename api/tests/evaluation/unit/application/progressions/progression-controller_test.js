@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { progressionController } from '../../../../../src/evaluation/application/progressions/progression-controller.js';
 import { evaluationUsecases as usecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

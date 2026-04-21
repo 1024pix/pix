@@ -1,6 +1,5 @@
 import { Habilitation } from '../../../../../../src/certification/enrolment/domain/models/Habilitation.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Habilitation', function () {

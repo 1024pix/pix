@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { getAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/get-autonomous-course.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | get-autonomous-course', function () {

@@ -1,14 +1,7 @@
-import { createServer } from '../../../../server.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 
 describe('Quest | Acceptance | Application | Verified Code Route ', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/verified-codes/{id}', function () {
     it('should return 404 when the code does not exist', async function () {
       const options = {

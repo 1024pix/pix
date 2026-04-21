@@ -1,6 +1,5 @@
 import { CertificationChallengeWithType } from '../../../../src/certification/shared/domain/models/CertificationChallengeWithType.js';
 import { Type } from '../../../../src/shared/domain/models/Challenge.js';
-
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', function () {

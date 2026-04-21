@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { certificationCandidateController } from '../../../../../src/certification/session-management/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
-
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Certification Candidate', function () {

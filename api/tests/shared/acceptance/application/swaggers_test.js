@@ -1,15 +1,8 @@
-import { createServer } from '../../../../server.js';
-import { createMaddoServer } from '../../../../server.maddo.js';
 import { config } from '../../../../src/shared/config.js';
+import { server, serverMaddo } from '../../../tooling/servers.js';
 
 describe('Acceptance | Controller | Open Api', function () {
-  let server;
-
   context('Internal API definitons', function () {
-    beforeEach(async function () {
-      server = await createServer();
-    });
-
     context('Pix API', function () {
       describe('GET /api/swagger.json', function () {
         it('should respond with a 200', async function () {
@@ -30,10 +23,6 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation pages', function () {
-        beforeEach(async function () {
-          await server.start();
-        });
-
         describe('GET /api/documentation', function () {
           it('should respond with a 200', async function () {
             // given
@@ -72,10 +61,6 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation pages', function () {
-        beforeEach(async function () {
-          await server.start();
-        });
-
         describe('GET /livret-scolaire/documentation', function () {
           it('should respond with a 200', async function () {
             // given
@@ -114,10 +99,6 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
-        beforeEach(async function () {
-          await server.start();
-        });
-
         describe('GET /pole-emploi/documentation', function () {
           it('should respond with a 200', async function () {
             // given
@@ -156,10 +137,6 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
-        beforeEach(async function () {
-          await server.start();
-        });
-
         describe('GET /authorization-server/documentation', function () {
           it('should respond with a 200', async function () {
             // given
@@ -181,10 +158,6 @@ describe('Acceptance | Controller | Open Api', function () {
   });
 
   context('API Manager definitions', function () {
-    beforeEach(async function () {
-      server = await createMaddoServer();
-    });
-
     context('Parcoursup', function () {
       describe('GET /documentation/parcoursup/openapi.json', function () {
         it('should respond with a 200', async function () {
@@ -195,7 +168,7 @@ describe('Acceptance | Controller | Open Api', function () {
             headers: {},
           };
           // when
-          const response = await server.inject(options);
+          const response = await serverMaddo.inject(options);
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -205,10 +178,6 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
-        beforeEach(async function () {
-          await server.start();
-        });
-
         describe('GET /documentation/parcoursup', function () {
           it('should respond with a 200', async function () {
             // given
@@ -218,7 +187,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await serverMaddo.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);
@@ -238,7 +207,7 @@ describe('Acceptance | Controller | Open Api', function () {
             headers: {},
           };
           // when
-          const response = await server.inject(options);
+          const response = await serverMaddo.inject(options);
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -248,10 +217,6 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
-        beforeEach(async function () {
-          await server.start();
-        });
-
         describe('GET /documentation/maddo', function () {
           it('should respond with a 200', async function () {
             // given
@@ -261,7 +226,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await serverMaddo.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);

@@ -1,4 +1,3 @@
-
 import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/badge-acquisitions-statistics-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | badge-acquisitions-statistics-serializer', function () {

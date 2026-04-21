@@ -1,6 +1,5 @@
 import service from '../../../../../src/devcomp/domain/services/solution-service-qrocm-ind.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const ANSWER_OK = AnswerStatus.OK;

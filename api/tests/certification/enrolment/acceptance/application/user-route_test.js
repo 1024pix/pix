@@ -1,19 +1,15 @@
-import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Enrolment | Acceptance | Routes | User', function () {
-  let server;
   let options;
   let user;
 
   beforeEach(async function () {
-    server = await createServer();
-
     user = databaseBuilder.factory.buildUser();
 
     const learningContent = learningContentBuilder.fromAreas([

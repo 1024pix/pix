@@ -6,7 +6,6 @@ import {
   CertificationBadgeForbiddenDeletionError,
 } from '../../../../../src/shared/domain/errors.js';
 import { deleteUnassociatedBadge } from '../../../../../src/shared/domain/usecases/delete-unassociated-badge.js';
-
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {

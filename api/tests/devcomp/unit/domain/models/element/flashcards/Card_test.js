@@ -1,5 +1,4 @@
 import { Card } from '../../../../../../../src/devcomp/domain/models/element/flashcards/Card.js';
-
 import { validateCard } from '../../../../../shared/validateFlashcards.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Flashcards | Card', function () {

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { campaignController } from '../../../../../src/prescription/campaign/application/campaign-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | campaign-router ', function () {

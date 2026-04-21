@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { tagAdminController } from '../../../../../src/organizational-entities/application/tag/tag.admin.controller.js';
 import * as tagAdminRoutes from '../../../../../src/organizational-entities/application/tag/tag.admin.route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

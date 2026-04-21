@@ -1,4 +1,3 @@
-import { createServer } from '../../../../server.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
@@ -6,8 +5,8 @@ import {
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
-
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | SecurityPreHandlers', function () {
@@ -20,13 +19,6 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       },
     ],
   };
-
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('#checkCampaignBelongsToCombinedCourse', function () {
     let campaignId;
     beforeEach(async function () {

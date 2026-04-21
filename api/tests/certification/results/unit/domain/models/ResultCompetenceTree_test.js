@@ -1,6 +1,5 @@
 import { ResultCompetence } from '../../../../../../src/certification/results/domain/models/ResultCompetence.js';
 import { ResultCompetenceTree } from '../../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | ResultCompetence', function () {

@@ -2,7 +2,6 @@ import { OidcAuthenticationServiceRegistry } from '../../../../../src/identity-a
 import { oidcProviderRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { InvalidIdentityProviderError } from '../../../../../src/shared/domain/errors.js';
-
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | Service | oidc-authentication-service-registry', function () {

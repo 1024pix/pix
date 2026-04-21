@@ -4,7 +4,6 @@ import { updateJuryComment } from '../../../../../../src/certification/session-m
 import { CompetenceMark } from '../../../../../../src/certification/shared/domain/models/CompetenceMark.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | update-jury-comment', function () {

@@ -2,18 +2,14 @@ import { Readable } from 'node:stream';
 
 import nock from 'nock';
 
-import { createServer } from '../../../../server.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
 import { waitForStreamFinalizationToBeDone } from '../../../tooling/test-utils/wait.js';
 
 describe('Acceptance | Route | llm-preview', function () {
-  let server;
-
   beforeEach(async function () {
-    server = await createServer();
     await featureToggles.set('isEmbedLLMEnabled', true);
   });
 

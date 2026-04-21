@@ -1,22 +1,15 @@
 import iconv from 'iconv-lite';
 
-import { createServer } from '../../../../server.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../src/quest/domain/models/Quest.js';
-
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { server } from '../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Quest Route ', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/campaign-participations/{campaignParticipationId}/quest-results', function () {
     it('should return quest results for given campaignPaticipationId and userId', async function () {
       // given

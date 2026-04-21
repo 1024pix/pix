@@ -7,7 +7,6 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
-
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

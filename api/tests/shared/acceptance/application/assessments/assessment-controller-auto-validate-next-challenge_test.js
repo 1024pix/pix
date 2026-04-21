@@ -1,9 +1,8 @@
-import { createServer } from '../../../../../server.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { server } from '../../../../tooling/servers.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const lastChallengeAnswer = 'last challenge answer';
@@ -42,14 +41,11 @@ const learningContent = [
 
 describe('Acceptance | API | assessment-controller-auto-validate-next-challenge', function () {
   let originalEnvValue;
-  let server;
   let assessmentId;
 
   beforeEach(async function () {
     originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
     settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
-
-    server = await createServer();
     const learningContentObjects = learningContentBuilder(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();
