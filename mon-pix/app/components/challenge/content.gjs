@@ -13,6 +13,11 @@ import ChallengeItem from './item';
 export default class ChallengeContent extends Component {
   @tracked isLiveAlertButtonEnabled = true;
 
+  constructor(...args) {
+    super(...args);
+    console.log('content', this.args.challenge.id, this.args.challenge.type);
+  }
+
   @action
   handleChallengeSubmit() {
     this.isLiveAlertButtonEnabled = false;

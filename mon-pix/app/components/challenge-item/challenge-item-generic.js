@@ -11,6 +11,11 @@ export default class ChallengeItemGeneric extends Component {
   @tracked isValidateActionLoading = false;
   @tracked isSkipActionLoading = false;
 
+  constructor(...args) {
+    super(...args);
+    console.log('ChallengeItemGeneric', this.args.challenge.id, this.args.challenge.type);
+  }
+
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer;
   }
@@ -46,7 +51,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   @action
-  validateAnswer(event) {
+  async validateAnswer(event) {
     event.preventDefault();
 
     if (this._hasError() && !this.hasChallengeTimedOut) {
@@ -58,18 +63,15 @@ export default class ChallengeItemGeneric extends Component {
     this.errorMessage = null;
 
     try {
-      return this.args
-        .answerValidated(
-          this.args.challenge,
-          this.args.assessment,
-          this._getAnswerValue(),
-          this._getTimeout(),
-          this.args.hasFocusedOutOfWindow,
-        )
-        .finally(() => {
-          this.args.resetAllChallengeInfo();
-        });
-    } catch {
+      await this.args.answerValidated(
+        this.args.challenge,
+        this.args.assessment,
+        this._getAnswerValue(),
+        this._getTimeout(),
+        this.args.hasFocusedOutOfWindow,
+      );
+    } finally {
+      this.args.resetAllChallengeInfo();
       this.isValidateActionLoading = false;
     }
   }
@@ -81,23 +83,20 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   @action
-  skipChallenge() {
+  async skipChallenge() {
     this.isSkipActionLoading = true;
     this.errorMessage = null;
 
     try {
-      return this.args
-        .answerValidated(
-          this.args.challenge,
-          this.args.assessment,
-          '#ABAND#',
-          this._getTimeout(),
-          this.args.hasFocusedOutOfWindow,
-        )
-        .finally(() => {
-          this.args.resetAllChallengeInfo();
-        });
-    } catch {
+      await this.args.answerValidated(
+        this.args.challenge,
+        this.args.assessment,
+        '#ABAND#',
+        this._getTimeout(),
+        this.args.hasFocusedOutOfWindow,
+      );
+    } finally {
+      this.args.resetAllChallengeInfo();
       this.isSkipActionLoading = false;
     }
   }

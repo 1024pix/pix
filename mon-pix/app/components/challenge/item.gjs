@@ -48,6 +48,7 @@ export default class Item extends Component {
     if (this.isFocusedChallenge && !this.args.answer) {
       this._setFocusOutEventListener();
     }
+    console.log('item', this.args.challenge.id, this.args.challenge.type);
   }
 
   get challengeComponent() {

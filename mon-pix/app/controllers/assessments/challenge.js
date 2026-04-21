@@ -160,6 +160,12 @@ export default class ChallengeController extends Controller {
   }
 
   get displayChallenge() {
+    const value = this._displayChallenge;
+    console.log('displayChallenge', value);
+    return value;
+  }
+
+  get _displayChallenge() {
     if (this._hasAlreadyAnswered()) {
       return true;
     }

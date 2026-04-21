@@ -7,7 +7,8 @@ export default class Router extends EmberRouter {
 
   constructor() {
     super(...arguments);
-    this.on('routeDidChange', () => {
+    this.on('routeDidChange', (transition) => {
+      console.log('routeDidChange', transition.from?.name, transition.to.name);
       window.scrollTo(0, 0);
     });
   }
