@@ -30,7 +30,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const evaluationSessionRepository = {};
   const assessmentRepository = {};
   const competenceRepository = {};
-  const certificationCandidateRepository = {};
+  const candidateRepository = {};
   const certificationCourseRepository = {};
   const certificationCenterRepository = {};
   const certificationBadgesService = {};
@@ -41,7 +41,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const injectables = {
     assessmentRepository,
     competenceRepository,
-    certificationCandidateRepository,
+    candidateRepository,
     certificationCourseRepository,
     evaluationSessionRepository,
     certificationCenterRepository,
@@ -59,8 +59,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     assessmentRepository.save = sinon.stub();
     competenceRepository.listPixCompetencesOnly = sinon.stub();
     certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
-    certificationCandidateRepository.findByUserIdAndSessionId = sinon.stub();
-    certificationCandidateRepository.update = sinon.stub();
+    candidateRepository.findByUserIdAndSessionId = sinon.stub();
+    candidateRepository.update = sinon.stub();
     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
     certificationCourseRepository.save = sinon.stub();
     evaluationSessionRepository.get = sinon.stub();
@@ -144,7 +144,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               authorizedToStart: false,
               subscriptionFramework: Frameworks.CORE,
             });
-            certificationCandidateRepository.findByUserIdAndSessionId
+            candidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
@@ -180,7 +180,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               authorizedToStart: false,
               subscriptionFramework: Frameworks.CORE,
             });
-            certificationCandidateRepository.findByUserIdAndSessionId
+            candidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
@@ -230,7 +230,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               subscriptionFramework: Frameworks.CORE,
             });
 
-            certificationCandidateRepository.findByUserIdAndSessionId
+            candidateRepository.findByUserIdAndSessionId
               .withArgs({ sessionId: foundSession.id, userId: foundCandidateId })
               .resolves(null);
 
@@ -263,9 +263,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               authorizedToStart: true,
               subscriptionFramework: Frameworks.CORE,
             });
-            certificationCandidateRepository.findByUserIdAndSessionId
-              .withArgs({ sessionId: 1, userId: 2 })
-              .resolves(foundCandidate);
+            candidateRepository.findByUserIdAndSessionId.withArgs({ sessionId: 1, userId: 2 }).resolves(foundCandidate);
 
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({
               userId: 2,
@@ -299,7 +297,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               created: false,
               certificationCourse: existingCertificationCourse,
             });
-            expect(certificationCandidateRepository.update).to.have.been.calledOnceWith(
+            expect(candidateRepository.update).to.have.been.calledOnceWith(
               domainBuilder.certification.evaluation.buildCandidate({
                 ...foundCandidate,
                 authorizedToStart: false,
@@ -322,9 +320,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               subscriptionFramework: Frameworks.CORE,
               reconciledAt,
             });
-            certificationCandidateRepository.findByUserIdAndSessionId
-              .withArgs({ sessionId: 1, userId: 2 })
-              .resolves(foundCandidate);
+            candidateRepository.findByUserIdAndSessionId.withArgs({ sessionId: 1, userId: 2 }).resolves(foundCandidate);
 
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({
               userId: 2,
@@ -353,7 +349,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             // then
             expect(result.certificationCourse._numberOfChallenges).to.equal(25);
-            expect(certificationCandidateRepository.update).to.have.been.calledOnceWith(
+            expect(candidateRepository.update).to.have.been.calledOnceWith(
               domainBuilder.certification.evaluation.buildCandidate({
                 ...foundCandidate,
                 authorizedToStart: false,
@@ -381,7 +377,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 reconciledAt,
               });
 
-              certificationCandidateRepository.findByUserIdAndSessionId
+              candidateRepository.findByUserIdAndSessionId
                 .withArgs({ sessionId: foundSession.id, userId: user.id })
                 .resolves(certificationCandidate);
 
@@ -452,7 +448,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 subscriptionFramework: Frameworks.CORE,
                 reconciledAt,
               });
-              certificationCandidateRepository.findByUserIdAndSessionId
+              candidateRepository.findByUserIdAndSessionId
                 .withArgs({ sessionId: foundSession.id, userId: user.id })
                 .resolves(foundCandidate);
 
@@ -530,7 +526,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   authorizedToStart: true,
                   subscriptionFramework: Frameworks.CORE,
                 });
-                certificationCandidateRepository.findByUserIdAndSessionId
+                candidateRepository.findByUserIdAndSessionId
                   .withArgs({ sessionId: 1, userId })
                   .resolves(foundCandidate);
 
@@ -579,7 +575,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   reconciledAt,
                   accessibilityAdjustmentNeeded: true,
                 });
-                certificationCandidateRepository.findByUserIdAndSessionId
+                candidateRepository.findByUserIdAndSessionId
                   .withArgs({ sessionId: 1, userId })
                   .resolves(foundCandidate);
 
@@ -668,7 +664,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   reconciledAt,
                 });
 
-                certificationCandidateRepository.findByUserIdAndSessionId
+                candidateRepository.findByUserIdAndSessionId
                   .withArgs({ sessionId: 1, userId: 2 })
                   .resolves(foundCandidate);
 
@@ -756,7 +752,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     reconciledAt,
                   });
 
-                  certificationCandidateRepository.findByUserIdAndSessionId
+                  candidateRepository.findByUserIdAndSessionId
                     .withArgs({ sessionId: foundSession.id, userId: user.id })
                     .resolves(foundCandidate);
 
@@ -824,7 +820,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     reconciledAt,
                   });
 
-                  certificationCandidateRepository.findByUserIdAndSessionId
+                  candidateRepository.findByUserIdAndSessionId
                     .withArgs({ sessionId: 1, userId: 2 })
                     .resolves(foundCandidate);
 
@@ -894,7 +890,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       reconciledAt,
                     });
 
-                    certificationCandidateRepository.findByUserIdAndSessionId
+                    candidateRepository.findByUserIdAndSessionId
                       .withArgs({ sessionId: foundSession.id, userId: user.id })
                       .resolves(foundCandidate);
 
@@ -992,7 +988,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         reconciledAt,
                       });
 
-                      certificationCandidateRepository.findByUserIdAndSessionId
+                      candidateRepository.findByUserIdAndSessionId
                         .withArgs({ sessionId: 1, userId: 2 })
                         .resolves(foundCandidate);
 
@@ -1071,7 +1067,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     reconciledAt,
                   });
 
-                  certificationCandidateRepository.findByUserIdAndSessionId
+                  candidateRepository.findByUserIdAndSessionId
                     .withArgs({ sessionId: 1, userId: 2 })
                     .resolves(foundCandidate);
 

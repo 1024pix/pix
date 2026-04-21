@@ -1,4 +1,4 @@
-import * as candidateRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
+import * as candidateRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/candidate-repository.js';
 import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -7,7 +7,7 @@ import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Evaluation | Integration | Repository | certification candidate', function () {
+describe('Certification | Evaluation | Integration | Repository | candidate', function () {
   describe('#findByAssessmentId', function () {
     describe('when certification candidate is found', function () {
       context('when certification candidate has subscribed to Pix Core', function () {

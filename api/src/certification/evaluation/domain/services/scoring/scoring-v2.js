@@ -2,7 +2,7 @@
  * @typedef {import('../index.js').AssessmentResultRepository} AssessmentResultRepository
  * @typedef {import('../index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../index.js').CompetenceMarkRepository} CompetenceMarkRepository
- * @typedef {import('../index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('../index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../index.js').ScoringService} ScoringService
  * @typedef {import('../index.js').PlacementProfileService} PlacementProfileService
@@ -30,7 +30,7 @@ import { CertificationContract } from '../CertificationContract.js';
  * @param {AreaRepository} params.areaRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {ScoringService} params.scoringService
- * @param {CertificationCandidateRepository} params.certificationCandidateRepository
+ * @param {CandidateRepository} params.candidateRepository
  * @param {object} params.dependencies
  * @param {calculateCertificationAssessmentScore} params.dependencies.calculateCertificationAssessmentScore
  */
@@ -43,7 +43,7 @@ export const handleV2CertificationScoring = async ({
   areaRepository,
   placementProfileService,
   scoringService,
-  certificationCandidateRepository,
+  candidateRepository,
   dependencies = { calculateCertificationAssessmentScore },
 }) => {
   const certificationAssessmentScore = await dependencies.calculateCertificationAssessmentScore({
@@ -51,7 +51,7 @@ export const handleV2CertificationScoring = async ({
     areaRepository,
     placementProfileService,
     scoringService,
-    certificationCandidateRepository,
+    candidateRepository,
   });
   const certificationCourse = await certificationCourseRepository.get({
     id: certificationAssessment.certificationCourseId,
@@ -82,16 +82,16 @@ export const handleV2CertificationScoring = async ({
  * @param {object} params
  * @param {CertificationAssessment} params.certificationAssessment
  * @param {ScoringService} params.scoringService
- * @param {CertificationCandidateRepository} params.certificationCandidateRepository
+ * @param {CandidateRepository} params.candidateRepository
  */
 export const calculateCertificationAssessmentScore = async function ({
   certificationAssessment,
   areaRepository,
   placementProfileService,
   scoringService,
-  certificationCandidateRepository,
+  candidateRepository,
 }) {
-  const candidate = await certificationCandidateRepository.findByAssessmentId({
+  const candidate = await candidateRepository.findByAssessmentId({
     assessmentId: certificationAssessment.id,
   });
 

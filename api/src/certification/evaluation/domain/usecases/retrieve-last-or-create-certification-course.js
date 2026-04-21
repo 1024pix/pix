@@ -1,6 +1,6 @@
 /**
  * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
- * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('./index.js').EvaluationSessionRepository} EvaluationSessionRepository
@@ -32,7 +32,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {object} params
  * @param {string} params.locale
  * @param {AssessmentRepository} params.assessmentRepository
- * @param {CertificationCandidateRepository} params.certificationCandidateRepository
+ * @param {CandidateRepository} params.candidateRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {EvaluationSessionRepository} params.evaluationSessionRepository
@@ -46,7 +46,7 @@ export async function retrieveLastOrCreateCertificationCourse({
   userId,
   locale = DEFAULT_LOCALE,
   assessmentRepository,
-  certificationCandidateRepository,
+  candidateRepository,
   certificationCourseRepository,
   evaluationSessionRepository,
   certificationCenterRepository,
@@ -59,7 +59,7 @@ export async function retrieveLastOrCreateCertificationCourse({
   _validateSessionAccess(session, accessCode);
   _validateSessionIsActive(session);
 
-  const candidate = await certificationCandidateRepository.findByUserIdAndSessionId({
+  const candidate = await candidateRepository.findByUserIdAndSessionId({
     userId,
     sessionId,
   });
@@ -79,7 +79,7 @@ export async function retrieveLastOrCreateCertificationCourse({
 
   _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse);
 
-  await _blockCandidateFromRestartingWithoutExplicitValidation(candidate, certificationCandidateRepository);
+  await _blockCandidateFromRestartingWithoutExplicitValidation(candidate, candidateRepository);
 
   if (existingCertificationCourse) {
     existingCertificationCourse.adjustForAccessibility(candidate.accessibilityAdjustmentNeeded);
@@ -143,9 +143,9 @@ function _validateCandidateIsAuthorizedToStart(candidate, existingCertificationC
   }
 }
 
-async function _blockCandidateFromRestartingWithoutExplicitValidation(candidate, certificationCandidateRepository) {
+async function _blockCandidateFromRestartingWithoutExplicitValidation(candidate, candidateRepository) {
   candidate.authorizedToStart = false;
-  await certificationCandidateRepository.update(candidate);
+  await candidateRepository.update(candidate);
 }
 
 /**

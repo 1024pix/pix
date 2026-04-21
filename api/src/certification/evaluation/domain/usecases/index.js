@@ -18,8 +18,8 @@ import * as complementaryCertificationCourseResultRepository from '../../../shar
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import * as assessmentSheetRepository from '../../infrastructure/repositories/assessment-sheet-repository.js';
 import * as calibratedChallengeRepository from '../../infrastructure/repositories/calibrated-challenge-repository.js';
+import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
-import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCompanionAlertRepository from '../../infrastructure/repositories/certification-companion-alert-repository.js';
 import * as challengeCalibrationRepository from '../../infrastructure/repositories/challenge-calibration-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
@@ -59,7 +59,7 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
- * @typedef {certificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {candidateRepository} CandidateRepository
  * @typedef {answerRepository} AnswerRepository
  * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {calibratedChallengeRepository} CalibratedChallengeRepository
@@ -77,7 +77,7 @@ const dependencies = {
   evaluationSessionRepository,
   sessionManagementCertificationChallengeRepository,
   challengeCalibrationRepository,
-  certificationCandidateRepository,
+  candidateRepository,
   assessmentRepository,
   verifyCertificateCodeService,
   assessmentResultRepository,

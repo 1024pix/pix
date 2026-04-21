@@ -16,7 +16,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
   const certificationCourseRepository = {};
   const complementaryCertificationBadgesRepository = {};
   const complementaryCertificationRepository = {};
-  const certificationCandidateRepository = {};
+  const candidateRepository = {};
 
   const dependencies = {
     certificationAssessmentRepository,
@@ -26,7 +26,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
     certificationCourseRepository,
     complementaryCertificationBadgesRepository,
     complementaryCertificationRepository,
-    certificationCandidateRepository,
+    candidateRepository,
   };
 
   beforeEach(function () {
@@ -38,7 +38,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
     certificationCourseRepository.get = sinon.stub();
     complementaryCertificationBadgesRepository.getAllWithSameTargetProfile = sinon.stub();
     complementaryCertificationRepository.get = sinon.stub();
-    certificationCandidateRepository.findByAssessmentId = sinon.stub();
+    candidateRepository.findByAssessmentId = sinon.stub();
   });
 
   context('when there is a complementary referential', function () {
@@ -95,13 +95,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
         }),
       );
 
-      certificationCandidateRepository.findByAssessmentId
-        .withArgs({ assessmentId: assessmentResult.assessmentId })
-        .resolves(
-          domainBuilder.certification.evaluation.buildCandidate({
-            subscriptionFramework: Frameworks.DROIT,
-          }),
-        );
+      candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+        domainBuilder.certification.evaluation.buildCandidate({
+          subscriptionFramework: Frameworks.DROIT,
+        }),
+      );
 
       complementaryCertificationRepository.get
         .withArgs({ id: complementaryCertificationId })
@@ -404,7 +402,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
               subscriptionFramework: Frameworks.DROIT,
             });
 
-            certificationCandidateRepository.findByAssessmentId
+            candidateRepository.findByAssessmentId
               .withArgs({ assessmentId: assessmentResult.assessmentId })
               .resolves(evaluationCandidate);
 
@@ -483,13 +481,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
             .withArgs({ certificationCourseId })
             .resolves(assessmentResult);
 
-          certificationCandidateRepository.findByAssessmentId
-            .withArgs({ assessmentId: assessmentResult.assessmentId })
-            .resolves(
-              domainBuilder.certification.evaluation.buildCandidate({
-                subscriptionFramework: Frameworks.DROIT,
-              }),
-            );
+          candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+            domainBuilder.certification.evaluation.buildCandidate({
+              subscriptionFramework: Frameworks.DROIT,
+            }),
+          );
 
           const complementaryCertificationId = 456;
           const complementaryCertificationCourse = {
@@ -608,13 +604,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
               .withArgs({ certificationCourseId: 123 })
               .resolves(assessmentResult);
 
-            certificationCandidateRepository.findByAssessmentId
-              .withArgs({ assessmentId: assessmentResult.assessmentId })
-              .resolves(
-                domainBuilder.certification.evaluation.buildCandidate({
-                  subscriptionFramework: Frameworks.DROIT,
-                }),
-              );
+            candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+              domainBuilder.certification.evaluation.buildCandidate({
+                subscriptionFramework: Frameworks.DROIT,
+              }),
+            );
 
             complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
@@ -701,13 +695,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
               .withArgs({ certificationCourseId })
               .resolves(assessmentResult);
 
-            certificationCandidateRepository.findByAssessmentId
-              .withArgs({ assessmentId: assessmentResult.assessmentId })
-              .resolves(
-                domainBuilder.certification.evaluation.buildCandidate({
-                  subscriptionFramework: Frameworks.DROIT,
-                }),
-              );
+            candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+              domainBuilder.certification.evaluation.buildCandidate({
+                subscriptionFramework: Frameworks.DROIT,
+              }),
+            );
 
             complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({ id: 888 }),
@@ -817,7 +809,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
                   .withArgs({ certificationCourseId })
                   .resolves(assessmentResult);
 
-                certificationCandidateRepository.findByAssessmentId
+                candidateRepository.findByAssessmentId
                   .withArgs({ assessmentId: assessmentResult.assessmentId })
                   .resolves(
                     domainBuilder.certification.evaluation.buildCandidate({
@@ -921,7 +913,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
                   .withArgs({ certificationCourseId })
                   .resolves(assessmentResult);
 
-                certificationCandidateRepository.findByAssessmentId
+                candidateRepository.findByAssessmentId
                   .withArgs({ assessmentId: assessmentResult.assessmentId })
                   .resolves(
                     domainBuilder.certification.evaluation.buildCandidate({
@@ -994,13 +986,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
         .withArgs({ certificationCourseId })
         .resolves(assessmentResult);
 
-      certificationCandidateRepository.findByAssessmentId
-        .withArgs({ assessmentId: assessmentResult.assessmentId })
-        .resolves(
-          domainBuilder.certification.evaluation.buildCandidate({
-            subscriptionFramework: Frameworks.CORE,
-          }),
-        );
+      candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+        domainBuilder.certification.evaluation.buildCandidate({
+          subscriptionFramework: Frameworks.CORE,
+        }),
+      );
 
       const complementaryCertificationId = 456;
       const complementaryCertificationCourse = {
@@ -1067,13 +1057,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ certificationCourseId })
           .resolves(assessmentResult);
 
-        certificationCandidateRepository.findByAssessmentId
-          .withArgs({ assessmentId: assessmentResult.assessmentId })
-          .resolves(
-            domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionFramework: Frameworks.CORE,
-            }),
-          );
+        candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+          domainBuilder.certification.evaluation.buildCandidate({
+            subscriptionFramework: Frameworks.CORE,
+          }),
+        );
 
         const complementaryCertificationScoringCriteria =
           domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria({
@@ -1171,13 +1159,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ certificationCourseId })
           .resolves(assessmentResult);
 
-        certificationCandidateRepository.findByAssessmentId
-          .withArgs({ assessmentId: assessmentResult.assessmentId })
-          .resolves(
-            domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionFramework: Frameworks.CORE,
-            }),
-          );
+        candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+          domainBuilder.certification.evaluation.buildCandidate({
+            subscriptionFramework: Frameworks.CORE,
+          }),
+        );
 
         const complementaryCertificationId = 456;
         const complementaryCertificationCourse = {
@@ -1261,13 +1247,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ certificationCourseId })
           .resolves(assessmentResult);
 
-        certificationCandidateRepository.findByAssessmentId
-          .withArgs({ assessmentId: assessmentResult.assessmentId })
-          .resolves(
-            domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionFramework: Frameworks.CORE,
-            }),
-          );
+        candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+          domainBuilder.certification.evaluation.buildCandidate({
+            subscriptionFramework: Frameworks.CORE,
+          }),
+        );
 
         const complementaryCertificationId = 456;
         const complementaryCertificationCourse = {
@@ -1351,13 +1335,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ certificationCourseId })
           .resolves(assessmentResult);
 
-        certificationCandidateRepository.findByAssessmentId
-          .withArgs({ assessmentId: assessmentResult.assessmentId })
-          .resolves(
-            domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionFramework: Frameworks.CORE,
-            }),
-          );
+        candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+          domainBuilder.certification.evaluation.buildCandidate({
+            subscriptionFramework: Frameworks.CORE,
+          }),
+        );
 
         const complementaryCertificationId = 456;
         const complementaryCertificationCourse = {
@@ -1441,13 +1423,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
           .withArgs({ certificationCourseId })
           .resolves(assessmentResult);
 
-        certificationCandidateRepository.findByAssessmentId
-          .withArgs({ assessmentId: assessmentResult.assessmentId })
-          .resolves(
-            domainBuilder.certification.evaluation.buildCandidate({
-              subscriptionFramework: Frameworks.CORE,
-            }),
-          );
+        candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(
+          domainBuilder.certification.evaluation.buildCandidate({
+            subscriptionFramework: Frameworks.CORE,
+          }),
+        );
 
         const complementaryCertificationId = 456;
         const complementaryCertificationCourse = {

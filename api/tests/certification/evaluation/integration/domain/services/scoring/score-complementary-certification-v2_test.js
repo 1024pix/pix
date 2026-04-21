@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import * as complementaryCertificationRepository from '../../../../../../../src/certification/configuration/infrastructure/repositories/complementary-certification-repository.js';
 import { scoreComplementaryCertificationV2 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/score-complementary-certification-v2.js';
-import * as certificationCandidateRepository from '../../../../../../../src/certification/evaluation/infrastructure/repositories/certification-candidate-repository.js';
+import * as candidateRepository from '../../../../../../../src/certification/evaluation/infrastructure/repositories/candidate-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../../../../src/certification/evaluation/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
@@ -105,7 +105,7 @@ describe('Certification | Evaluation | Integration | Domain | Services | Score C
           complementaryCertificationCourseResultRepository,
           complementaryCertificationScoringCriteriaRepository,
           certificationCourseRepository,
-          certificationCandidateRepository,
+          candidateRepository,
           complementaryCertificationRepository,
           complementaryCertificationBadgesRepository,
         });
@@ -165,7 +165,7 @@ describe('Certification | Evaluation | Integration | Domain | Services | Score C
             complementaryCertificationCourseResultRepository,
             complementaryCertificationScoringCriteriaRepository,
             certificationCourseRepository,
-            certificationCandidateRepository,
+            candidateRepository,
             complementaryCertificationRepository,
             complementaryCertificationBadgesRepository,
           });
@@ -291,7 +291,7 @@ describe('Certification | Evaluation | Integration | Domain | Services | Score C
           complementaryCertificationScoringCriteriaRepository,
           complementaryCertificationBadgesRepository,
           certificationCourseRepository,
-          certificationCandidateRepository,
+          candidateRepository,
           complementaryCertificationRepository,
         });
 

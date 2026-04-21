@@ -885,13 +885,13 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
   context('#calculateCertificationAssessmentScore', function () {
     let certificationAssessment, certificationAssessmentData, expectedCertifiedCompetences;
     let competenceWithMarks_1_1, competenceWithMarks_2_2, competenceWithMarks_3_3, competenceWithMarks_4_4;
-    let areaRepository, certificationCandidateRepository;
+    let areaRepository, candidateRepository;
 
     beforeEach(function () {
       areaRepository = {
         list: sinon.stub(),
       };
-      certificationCandidateRepository = {
+      candidateRepository = {
         findByAssessmentId: sinon.stub().throws('bad arguments'),
       };
       areaRepository.list.resolves(['1', '2', '3', '4', '5', '6'].map((code) => ({ id: `area${code}`, code })));
@@ -977,7 +977,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             version: AlgorithmEngineVersion.V2,
           })
           .resolves({ userCompetences });
-        certificationCandidateRepository.findByAssessmentId
+        candidateRepository.findByAssessmentId
           .withArgs({
             assessmentId: certificationAssessment.id,
           })
@@ -989,7 +989,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           areaRepository,
           placementProfileService,
           scoringService,
-          certificationCandidateRepository,
+          candidateRepository,
         });
 
         // then
@@ -1034,7 +1034,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             version: AlgorithmEngineVersion.V2,
           })
           .resolves({ userCompetences });
-        certificationCandidateRepository.findByAssessmentId
+        candidateRepository.findByAssessmentId
           .withArgs({
             assessmentId: certificationAssessment.id,
           })
@@ -1047,7 +1047,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           areaRepository,
           placementProfileService,
           scoringService,
-          certificationCandidateRepository,
+          candidateRepository,
         });
 
         // then
@@ -1154,7 +1154,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             version: AlgorithmEngineVersion.V2,
           })
           .resolves({ userCompetences });
-        certificationCandidateRepository.findByAssessmentId
+        candidateRepository.findByAssessmentId
           .withArgs({
             assessmentId: certificationAssessment.id,
           })
@@ -1167,7 +1167,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           areaRepository,
           placementProfileService,
           scoringService,
-          certificationCandidateRepository,
+          candidateRepository,
         });
 
         // then
@@ -1197,7 +1197,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             version: AlgorithmEngineVersion.V2,
           })
           .resolves({ userCompetences });
-        certificationCandidateRepository.findByAssessmentId
+        candidateRepository.findByAssessmentId
           .withArgs({
             assessmentId: certificationAssessment.id,
           })
@@ -1211,7 +1211,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           areaRepository,
           placementProfileService,
           scoringService,
-          certificationCandidateRepository,
+          candidateRepository,
         });
 
         // then
@@ -1235,7 +1235,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1251,7 +1251,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1295,7 +1295,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1332,7 +1332,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1370,7 +1370,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1391,7 +1391,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1446,7 +1446,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
                 getPlacementProfile: sinon.stub(),
               };
               const candidate = domainBuilder.certification.evaluation.buildCandidate();
-              certificationCandidateRepository.findByAssessmentId
+              candidateRepository.findByAssessmentId
                 .withArgs({
                   assessmentId: certificationAssessment.id,
                 })
@@ -1465,7 +1465,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
                 areaRepository,
                 placementProfileService,
                 scoringService,
-                certificationCandidateRepository,
+                candidateRepository,
               });
 
               // Then
@@ -1490,7 +1490,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
         placementProfileService = {
           getPlacementProfile: sinon.stub(),
         };
-        certificationCandidateRepository = {
+        candidateRepository = {
           findByAssessmentId: sinon
             .stub()
             .withArgs({
@@ -1515,7 +1515,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1559,7 +1559,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1594,7 +1594,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1635,7 +1635,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1644,7 +1644,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
       });
 
       context('when only one challenge is asked for a competence', function () {
-        let placementProfileService, certificationCandidateRepository;
+        let placementProfileService, candidateRepository;
 
         it('certifies a level below the estimated one if reproducibility rate is < 70%', async function () {
           // given
@@ -1682,7 +1682,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             getPlacementProfile: sinon.stub(),
           };
           const candidate = domainBuilder.certification.evaluation.buildCandidate();
-          certificationCandidateRepository = {
+          candidateRepository = {
             findByAssessmentId: sinon
               .stub()
               .withArgs({
@@ -1730,7 +1730,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1739,7 +1739,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
       });
 
       context('when challenges contains one QROCM-dep challenge to validate two skills', function () {
-        let placementProfileService, certificationCandidateRepository;
+        let placementProfileService, candidateRepository;
 
         beforeEach(function () {
           const userCompetences = [
@@ -1784,7 +1784,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           );
 
           const candidate = domainBuilder.certification.evaluation.buildCandidate();
-          certificationCandidateRepository = {
+          candidateRepository = {
             findByAssessmentId: sinon
               .stub()
               .withArgs({
@@ -1841,7 +1841,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1893,7 +1893,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1903,7 +1903,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
     });
 
     context('non neutralization rate trustability', function () {
-      let placementProfileService, certificationCandidateRepository;
+      let placementProfileService, candidateRepository;
 
       beforeEach(function () {
         certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -1916,7 +1916,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
         placementProfileService = {
           getPlacementProfile: sinon.stub(),
         };
-        certificationCandidateRepository = {
+        candidateRepository = {
           findByAssessmentId: sinon
             .stub()
             .withArgs({
@@ -1948,7 +1948,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then
@@ -1974,7 +1974,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
             areaRepository,
             placementProfileService,
             scoringService,
-            certificationCandidateRepository,
+            candidateRepository,
           });
 
           // then

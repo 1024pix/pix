@@ -17,7 +17,7 @@ export async function evaluateAndSaveAnswer({
   answerRepository,
   assessmentSheetRepository,
   correctionApi,
-  certificationCandidateRepository,
+  candidateRepository,
   certificationChallengeLiveAlertRepository,
   sharedChallengeRepository,
 }) {
@@ -38,7 +38,7 @@ export async function evaluateAndSaveAnswer({
     throw new ForbiddenAccess('An alert has been set.');
   }
 
-  const certificationCandidate = await certificationCandidateRepository.findByAssessmentId({
+  const certificationCandidate = await candidateRepository.findByAssessmentId({
     assessmentId: assessmentSheet.assessmentId,
   });
   const correctedAnswer = correctionApi.correctAnswer({

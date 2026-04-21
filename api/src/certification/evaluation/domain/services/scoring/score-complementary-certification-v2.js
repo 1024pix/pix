@@ -29,7 +29,7 @@ export async function scoreComplementaryCertificationV2({
   certificationAssessmentRepository,
   complementaryCertificationCourseResultRepository,
   certificationCourseRepository,
-  certificationCandidateRepository,
+  candidateRepository,
   complementaryCertificationBadgesRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
@@ -44,7 +44,7 @@ export async function scoreComplementaryCertificationV2({
     minimumEarnedPix,
   } = complementaryCertificationScoringCriteria;
 
-  const candidate = await certificationCandidateRepository.findByAssessmentId({
+  const candidate = await candidateRepository.findByAssessmentId({
     assessmentId: assessmentResult.assessmentId,
   });
 
