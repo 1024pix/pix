@@ -41,6 +41,12 @@ export default defineConfig([
   {
     ...mocha.configs.recommended,
     files: ['tests/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...mocha.configs.recommended.languageOptions.globals,
+        expect: 'readonly',
+      },
+    },
     rules: {
       ...mocha.configs.recommended.rules,
       'mocha/no-hooks-for-single-case': 'off',

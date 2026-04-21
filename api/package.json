@@ -75,7 +75,7 @@
     "test:db:reset": "NODE_ENV=test run-p db:prepare datamart:prepare datawarehouse:prepare",
     "test:db:empty": "NODE_ENV=test run-p db:empty",
     "test:api": "for testType in 'unit' 'integration' 'acceptance'; do npm run test:api:$testType || status=1 ; done ; exit $status",
-    "test:api:path": "NODE_ENV=test node --env-file-if-exists=.env ./node_modules/mocha/bin/mocha --exit --recursive --reporter=${MOCHA_REPORTER:-dot} --retries=${MOCHA_RETRIES:-0} --timeout=5000",
+    "test:api:path": "NODE_ENV=test node --env-file-if-exists=.env ./node_modules/mocha/bin/mocha --require=tests/test-helper.js --exit --recursive --reporter=${MOCHA_REPORTER:-dot} --retries=${MOCHA_RETRIES:-0} --timeout=5000",
     "test:api:scripts": "npm run test:api:path -- tests/integration/scripts",
     "test:api:unit": "TEST_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests TEST_REDIS_URL= npm run test:api:path -- 'tests/**/unit/**/*test.js'",
     "test:api:integration": "npm run test:api:path -- 'tests/**/integration/**/*test.js'",

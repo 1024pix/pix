@@ -1,6 +1,6 @@
 import 'dayjs/locale/fr.js';
 
-import { expect, use as chaiUse } from 'chai';
+import { use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
@@ -30,13 +30,15 @@ import { databaseBuilder, datamartBuilder } from './tooling/databases.js';
 dayjs.extend(localizedFormat);
 
 // Extends Chai helpers
-chaiUse(chaiAsPromised);
-chaiUse(sinonChai);
-chaiUse(jobChai);
-Object.values(customChaiHelpers).forEach(chaiUse);
+use(chaiAsPromised);
+use(sinonChai);
+use(jobChai);
+Object.values(customChaiHelpers).forEach(use);
 
-/* eslint-disable mocha/no-top-level-hooks */
-before(async function () {
+// Setup expect globally
+global.expect = expect;
+
+export async function mochaGlobalSetup() {
   nock.disableNetConnect();
   nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
 
@@ -45,33 +47,9 @@ before(async function () {
   } catch {
     // pgBoss is not available on unit tests
   }
-});
+}
 
-afterEach(async function () {
-  sinon.restore();
-  nock.cleanAll();
-  frameworkRepository.clearCache();
-  areaRepository.clearCache();
-  competenceRepository.clearCache();
-  thematicRepository.clearCache();
-  tubeRepository.clearCache();
-  skillRepository.clearCache();
-  challengeRepository.clearCache();
-  courseRepository.clearCache();
-  tutorialRepository.clearCache();
-  missionRepository.clearCache();
-  await featureToggles.resetDefaults();
-  await clearMutex();
-  try {
-    await JobClient.instance.flushJobs();
-  } catch {
-    // pgBoss is not available on unit tests
-  }
-  await datamartBuilder.clean();
-  await databaseBuilder.clean();
-});
-
-after(async function () {
+export async function mochaGlobalTeardown() {
   await quitMutex();
   try {
     await JobClient.instance.stop();
@@ -79,8 +57,30 @@ after(async function () {
     // pgBoss is not available on unit tests
   }
   await disconnectKnex();
-});
-/* eslint-enable mocha/no-top-level-hooks */
+}
 
-// eslint-disable-next-line mocha/no-exports
-export { expect };
+export const mochaHooks = {
+  async afterEach() {
+    sinon.restore();
+    nock.cleanAll();
+    frameworkRepository.clearCache();
+    areaRepository.clearCache();
+    competenceRepository.clearCache();
+    thematicRepository.clearCache();
+    tubeRepository.clearCache();
+    skillRepository.clearCache();
+    challengeRepository.clearCache();
+    courseRepository.clearCache();
+    tutorialRepository.clearCache();
+    missionRepository.clearCache();
+    await featureToggles.resetDefaults();
+    await clearMutex();
+    try {
+      await JobClient.instance.flushJobs();
+    } catch {
+      // pgBoss is not available on unit tests
+    }
+    await datamartBuilder.clean();
+    await databaseBuilder.clean();
+  },
+};
