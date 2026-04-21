@@ -45,12 +45,8 @@ export async function mochaGlobalSetup() {
 }
 
 export async function mochaGlobalTeardown() {
+  await JobClient.instance.stop();
   await quitMutex();
-  try {
-    await JobClient.instance.stop();
-  } catch {
-    // pgBoss is not available on unit tests
-  }
   await disconnectKnex();
 }
 

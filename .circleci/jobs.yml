@@ -86,11 +86,11 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ "postgres", "-c", "fsync=off", "-c", "full_page_writes=off" ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_INITDB_ARGS: "--nosync"
+          POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
       - image: adobe/s3mock:5.0.0
         environment:
@@ -116,11 +116,11 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
       - image: postgres:16.9-alpine
-        command: [ "postgres", "-c", "fsync=off", "-c", "full_page_writes=off" ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_INITDB_ARGS: "--nosync"
+          POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
     resource_class: medium
   node-postgres-docker:
@@ -132,11 +132,11 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ "postgres", "-c", "fsync=off", "-c", "full_page_writes=off" ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_INITDB_ARGS: "--nosync"
+          POSTGRES_INITDB_ARGS: '--nosync'
     resource_class: medium
   playwright-executor-medium:
     docker:
@@ -145,15 +145,15 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ "postgres", "-c", "fsync=off", "-c", "full_page_writes=off" ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_INITDB_ARGS: "--nosync"
+          POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
       - image: adobe/s3mock:5.0.0
         environment:
-          COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: "pix-import-test"
+          COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test'
     resource_class: medium
   playwright-executor-large:
     docker:
@@ -162,15 +162,15 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ "postgres", "-c", "fsync=off", "-c", "full_page_writes=off" ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_INITDB_ARGS: "--nosync"
+          POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
       - image: adobe/s3mock:5.0.0
         environment:
-          COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: "pix-import-test"
+          COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test'
     resource_class: large
 
 # ---------------------------------------------------------------------------
@@ -686,7 +686,7 @@ jobs:
           command: |
             circleci tests glob 'tests/**/acceptance/**/*test.js' |
             circleci tests split --split-by=filesize |
-            xargs npm run test:api:path --
+            xargs npm run test:api:path:acceptance --
           environment:
             NODE_ENV: test
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance

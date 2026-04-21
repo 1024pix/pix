@@ -11,6 +11,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
     const cleaCertificationId = 123;
 
     beforeEach(function () {
+      ``;
       databaseBuilder.factory.buildComplementaryCertification({
         key: ComplementaryCertificationKeys.CLEA,
         id: cleaCertificationId,
