@@ -3,7 +3,6 @@ import {
   hasCoreScope,
   isEduFramework,
 } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Configuration | Domain | Models | Frameworks', function () {
   it('should contain all supported certification frameworks', function () {

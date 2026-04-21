@@ -1,6 +1,5 @@
 import { CertificationCenterInvitation } from '../../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import * as serializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Team | Serializer | JSONAPI | certification-center-invitation-serializer', function () {
   describe('#serialize', function () {

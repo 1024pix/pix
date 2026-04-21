@@ -1,6 +1,6 @@
 import * as organizationApi from '../../../../src/organizational-entities/application/api/organization-api.js';
 import { OrganizationDTO } from '../../../../src/organizational-entities/application/api/OrganizationDTO.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 describe('Acceptance | Organizational Entities | Application | organizations-api', function () {

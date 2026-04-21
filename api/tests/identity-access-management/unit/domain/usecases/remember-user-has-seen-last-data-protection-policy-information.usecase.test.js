@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { rememberUserHasSeenLastDataProtectionPolicyInformation } from '../../../../../src/identity-access-management/domain/usecases/remember-user-has-seen-last-data-protection-policy-information.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | remember-user-has-seen-data-protection-policy-information', function () {
   let userRepository;

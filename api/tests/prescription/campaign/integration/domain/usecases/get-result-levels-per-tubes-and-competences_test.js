@@ -6,7 +6,7 @@ import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-result-levels-per-tubes-and-competences', function () {

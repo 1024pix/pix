@@ -1,7 +1,7 @@
 import { CertificationCenterMembership } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 const { findCertificationCenterMembershipsByCertificationCenter } = usecases;

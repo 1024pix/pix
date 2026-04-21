@@ -1,5 +1,5 @@
 import { repositories } from '../../../../../../src/certification/session-management/infrastructure/repositories/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Session Management | Integration | Infrastructure | Repository | certification center access', function () {

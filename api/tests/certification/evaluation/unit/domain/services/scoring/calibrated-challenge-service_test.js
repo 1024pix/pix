@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import * as calibratedChallengeService from '../../../../../../../src/certification/evaluation/domain/services/scoring/calibrated-challenge-service.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 

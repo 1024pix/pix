@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/target-profile-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/target-profile/application/target-profile-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Target Profiles | Application | Routes', function () {

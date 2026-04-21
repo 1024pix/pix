@@ -6,7 +6,6 @@ import {
   UserNotAuthorizedToCreateCampaignError,
 } from '../../../../../src/prescription/campaign/domain/errors.js';
 import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates ForbiddenError when CampaignParticipationDoesNotBelongToUser', async function () {

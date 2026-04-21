@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { getSessionResults } from '../../../../../../src/certification/results/domain/usecases/get-session-results.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Use Cases | get-session-results', function () {

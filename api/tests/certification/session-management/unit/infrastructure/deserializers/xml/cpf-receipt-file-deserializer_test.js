@@ -3,7 +3,7 @@ import path from 'node:path';
 import * as url from 'node:url';
 
 import { deserialize } from '../../../../../../../src/certification/session-management/infrastructure/deserializers/xml/cpf-receipt-file-deserializer.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

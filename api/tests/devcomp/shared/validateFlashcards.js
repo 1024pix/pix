@@ -1,6 +1,5 @@
 import { Card } from '../../../src/devcomp/domain/models/element/flashcards/Card.js';
 import { Flashcards } from '../../../src/devcomp/domain/models/element/flashcards/Flashcards.js';
-import { expect } from '../../test-helper.js';
 
 function validateFlashcards(flashcards, expectedFlashcards) {
   expect(flashcards).to.be.an.instanceOf(Flashcards);

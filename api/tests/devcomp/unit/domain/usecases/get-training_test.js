@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { getTraining } from '../../../../../src/devcomp/domain/usecases/get-training.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-training', function () {

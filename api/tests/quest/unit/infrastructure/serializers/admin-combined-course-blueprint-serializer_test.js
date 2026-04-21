@@ -3,7 +3,6 @@ import {
   AdminCombinedCourseBlueprint,
 } from '../../../../../src/quest/domain/models/AdminCombinedCourseBlueprint.js';
 import * as adminCombinedCourseBlueprintSerializer from '../../../../../src/quest/infrastructure/serializers/admin-combined-course-blueprint-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-blueprint', function () {
   it('#serialize', function () {

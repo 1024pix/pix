@@ -4,7 +4,7 @@ import { Chat } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { startChat } from '../../../../../src/llm/domain/usecases/start-chat.js';
 import { chatRepository, configurationRepository } from '../../../../../src/llm/infrastructure/repositories/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { knex } from '../../../../tooling/databases.js';
 
 describe('LLM | Integration | Domain | UseCases | start-chat', function () {

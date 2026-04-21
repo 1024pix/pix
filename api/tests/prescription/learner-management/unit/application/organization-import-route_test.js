@@ -5,7 +5,7 @@ import { organizationImportController } from '../../../../../src/prescription/le
 import * as moduleUnderTest from '../../../../../src/prescription/learner-management/application/organization-import-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | organization-import-router', function () {

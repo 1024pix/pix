@@ -1,5 +1,4 @@
 import { SessionMassImportReport } from '../../../../../../src/certification/enrolment/domain/models/SessionMassImportReport.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | SessionMassImportReport', function () {
   context('#addErrorsReports', function () {

@@ -7,7 +7,7 @@ import { refreshTokenRepository } from '../../../../../src/identity-access-manag
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {

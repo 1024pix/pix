@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | UserToCreate', function () {
   describe('constructor', function () {

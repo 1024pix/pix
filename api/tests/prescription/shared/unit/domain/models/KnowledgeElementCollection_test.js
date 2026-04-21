@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { buildKnowledgeElement } from '../../../../../tooling/domain-builder/factory/build-knowledge-element.js';
 
 describe('Unit | Domain | Models | KnowledgeElementCollection', function () {

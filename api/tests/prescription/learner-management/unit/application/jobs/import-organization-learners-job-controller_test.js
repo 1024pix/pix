@@ -4,7 +4,7 @@ import { ImportOrganizationLearnersJobController } from '../../../../../../src/p
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Prescription | Application | Jobs | importOrganizationLearnersJobController', function () {

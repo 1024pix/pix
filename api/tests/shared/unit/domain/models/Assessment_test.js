@@ -7,7 +7,7 @@ import { CertificationAssessment } from '../../../../../src/shared/domain/read-m
 import { CompetenceEvaluationAssessment } from '../../../../../src/shared/domain/read-models/CompetenceEvaluationAssessment.js';
 import { DemoAssessment } from '../../../../../src/shared/domain/read-models/DemoAssessment.js';
 import { PreviewAssessment } from '../../../../../src/shared/domain/read-models/PreviewAssessment.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 

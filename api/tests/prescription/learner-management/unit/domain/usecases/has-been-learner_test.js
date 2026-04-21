@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { hasBeenLearner } from '../../../../../../src/prescription/learner-management/domain/usecases/has-been-learner.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Learner Management | UseCase | has-been-learner', function () {
   let organizationLearnerRepository, userId;

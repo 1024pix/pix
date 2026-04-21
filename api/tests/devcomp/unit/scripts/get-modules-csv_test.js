@@ -1,5 +1,5 @@
 import { _getTotalElementsCount } from '../../../../scripts/modulix/get-modules-csv.js';
-import { expect } from '../../../test-helper.js';
+
 import { catchErrSync } from '../../../tooling/test-utils/error.js';
 
 describe('Unit | Scripts | Get Modules as CSV', function () {

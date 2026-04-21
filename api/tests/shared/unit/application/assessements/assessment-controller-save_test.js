@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { assessmentController as controller } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | assessment-controller-save', function () {

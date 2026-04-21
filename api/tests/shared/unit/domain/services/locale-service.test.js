@@ -1,5 +1,4 @@
 import * as localeService from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Service | Locale', function () {
   describe('getSupportedLanguages', function () {

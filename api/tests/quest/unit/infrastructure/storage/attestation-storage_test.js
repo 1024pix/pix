@@ -1,5 +1,4 @@
 import { AttestationStorage } from '../../../../../src/quest/infrastructure/storage/attestation-storage.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Storage | AttestationStorage', function () {
   describe('#createClient', function () {

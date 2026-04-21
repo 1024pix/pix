@@ -1,5 +1,4 @@
 import { CampaignAssessmentParticipationResultMinimal } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignAssessmentParticipationResultMinimal.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentParticipationResultMinimal', function () {
   describe('constructor', function () {

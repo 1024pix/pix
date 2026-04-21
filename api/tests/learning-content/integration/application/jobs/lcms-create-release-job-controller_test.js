@@ -1,7 +1,7 @@
 import nock from 'nock';
 
 import { LcmsCreateReleaseJobController } from '../../../../../src/learning-content/application/jobs/lcms-create-release-job-controller.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

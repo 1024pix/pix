@@ -1,5 +1,5 @@
 import * as invigilatorAccessRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/invigilator-access-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | invigilator-access-repository', function () {

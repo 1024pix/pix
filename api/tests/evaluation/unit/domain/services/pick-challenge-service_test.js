@@ -6,7 +6,7 @@ import {
   FRENCH_FRANCE,
   FRENCH_SPOKEN,
 } from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | PickChallengeService', function () {

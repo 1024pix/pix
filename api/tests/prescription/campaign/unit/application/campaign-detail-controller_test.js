@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

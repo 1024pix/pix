@@ -1,6 +1,6 @@
 import { ProfileReward } from '../../../../../src/profile/domain/models/ProfileReward.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Profile | Integration | Domain | get-attestation-details', function () {

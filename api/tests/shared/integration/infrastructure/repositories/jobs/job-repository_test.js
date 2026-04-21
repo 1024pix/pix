@@ -11,7 +11,7 @@ import {
   JobRepository,
   JobRetry,
 } from '../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Repositories | Jobs | job-repository', function () {

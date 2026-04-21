@@ -1,6 +1,5 @@
 import { anonymousUserTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/anonymous-user-token.repository.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 
 const anonymousUserTokensTemporaryStorage = temporaryStorage.withPrefix('anonymous-user-tokens:');
 

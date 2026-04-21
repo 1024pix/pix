@@ -1,6 +1,6 @@
 import * as certificationCpfCountryRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import { CertificationCpfCountry } from '../../../../../../src/certification/shared/domain/models/CertificationCpfCountry.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

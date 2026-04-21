@@ -1,7 +1,7 @@
 import * as learningContentRepository from '../../../../../../src/prescription/shared/infrastructure/repositories/learning-content-repository.js';
 import { PIX_ORIGIN } from '../../../../../../src/shared/domain/constants.js';
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

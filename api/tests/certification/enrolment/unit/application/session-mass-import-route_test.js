@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { sessionMassImportController } from '../../../../../src/certification/enrolment/application/session-mass-import-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/session-mass-import-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | session-mass-import-route', function () {

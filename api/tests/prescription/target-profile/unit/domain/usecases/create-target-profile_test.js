@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { createTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/create-target-profile.js';
 import { categories } from '../../../../../../src/shared/domain/models/TargetProfile.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | create-target-profile', function () {

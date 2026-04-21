@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { CantCalculateCampaignParticipationResultError } from '../../../../../../src/prescription/campaign-participation/domain/errors.js';
 import { saveComputedCampaignParticipationResult } from '../../../../../../src/prescription/campaign-participation/domain/usecases/save-computed-campaign-participation-result.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', function () {

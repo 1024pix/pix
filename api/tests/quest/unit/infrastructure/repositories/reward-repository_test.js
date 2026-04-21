@@ -6,7 +6,6 @@ import {
   getByAttestationKey,
   getByQuestAndUserId,
 } from '../../../../../src/quest/infrastructure/repositories/reward-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
   describe('#getByQuestAndUserId', function () {

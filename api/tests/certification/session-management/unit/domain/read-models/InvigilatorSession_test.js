@@ -1,5 +1,4 @@
 import { InvigilatorSession } from '../../../../../../src/certification/session-management/domain/read-models/InvigilatorSession.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Domain | Models | InvigilatorSession', function () {
   context('#isNotAccessible', function () {

@@ -1,5 +1,5 @@
 import * as moduleUnderTest from '../../../../../src/devcomp/application/passage-events/passage-event-route.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Devcomp | Application | Module | Router | passage-events-router', function () {

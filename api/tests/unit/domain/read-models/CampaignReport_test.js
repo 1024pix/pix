@@ -1,6 +1,6 @@
 import { CampaignReport } from '../../../../src/prescription/campaign/domain/read-models/CampaignReport.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../test-helper.js';
+
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CampaignReport', function () {

@@ -1,5 +1,4 @@
 import { LengthPrefixedJsonDecoderStream } from '../../../../../../src/llm/infrastructure/streaming/transforms/length-prefixed-json-decoder-transform.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('LLM | Unit | Infrastructure | Streaming | Transforms | LengthPrefixedJsonDecoderStream', function () {
   it('should create a TransformStream that is capable of extracting objects contained in streamed data formatted as "length prefixed json"', async function () {

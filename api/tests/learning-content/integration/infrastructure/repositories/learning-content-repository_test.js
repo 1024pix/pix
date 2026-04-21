@@ -1,5 +1,4 @@
 import { LearningContentRepository } from '../../../../../src/learning-content/infrastructure/repositories/learning-content-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Learning Content | Integration | Repositories | Learning Content', function () {
   describe('#saveMany', function () {

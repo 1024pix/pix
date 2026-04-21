@@ -1,4 +1,3 @@
-import { expect } from '../test-helper.js';
 
 describe('Async gotchas – anti-patterns vs good patterns', function () {
   function getStack(fn) {

@@ -9,7 +9,7 @@ import { CompetenceMark } from '../../../../../../../src/certification/shared/do
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findAnswerByChallengeAndAssessment } from '../../../../../src/evaluation/domain/usecases/find-answer-by-challenge-and-assessment.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {
   const challengeId = 'recChallenge';

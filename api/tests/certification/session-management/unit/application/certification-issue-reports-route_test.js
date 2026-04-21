@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { certificationIssueReportController } from '../../../../../src/certification/session-management/application/certification-issue-report-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-issue-report-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Certifications Issue Report | Route', function () {

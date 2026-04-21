@@ -1,5 +1,4 @@
-import { AssertionError, expect, util } from 'chai';
-
+import { AssertionError, util } from 'chai';
 // Utility used to test Chai custom helpers
 //
 // Inspired by what is done within chai project itself to test assertions

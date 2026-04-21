@@ -1,5 +1,5 @@
 import { repositories } from '../../../../../../src/prescription/campaign/infrastructure/repositories/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Target-profile', function () {

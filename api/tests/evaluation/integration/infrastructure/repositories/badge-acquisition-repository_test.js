@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as badgeAcquisitionRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import { deleteUserIdOnNonCertifiableBadgesForCampaignParticipations } from '../../../../../src/evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 const { buildBadge, buildBadgeAcquisition, buildUser, buildCampaignParticipation } = databaseBuilder.factory;
 

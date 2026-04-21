@@ -1,7 +1,6 @@
 import { CertifiedLevel } from '../../../../../../src/certification/evaluation/domain/models/CertifiedLevel.js';
 import { UNCERTIFIED_LEVEL } from '../../../../../../src/certification/shared/domain/constants.js';
 import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } from '../../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertifiedLevel', function () {
   context('when 3 challenges were answered', function () {

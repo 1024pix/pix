@@ -3,7 +3,6 @@ import {
   convertDateValue,
   isValidDate,
 } from '../../../../src/shared/infrastructure/utils/date-utils.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Utils | date-utils', function () {
   describe('#isValidDate', function () {

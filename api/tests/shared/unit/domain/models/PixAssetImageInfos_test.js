@@ -1,5 +1,4 @@
 import { PixAssetImageInfos } from '../../../../../src/shared/domain/models/PixAssetImageInfos.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
   describe('#constructor', function () {

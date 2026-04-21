@@ -1,5 +1,5 @@
 import { filterByFullName } from '../../../../../src/shared/infrastructure/utils/filter-utils.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Utils | filter-utils', function () {

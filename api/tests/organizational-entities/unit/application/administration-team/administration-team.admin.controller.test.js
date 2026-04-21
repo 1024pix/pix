@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { administrationTeamsController } from '../../../../../src/organizational-entities/application/administration-team/administration-team.admin.controller.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

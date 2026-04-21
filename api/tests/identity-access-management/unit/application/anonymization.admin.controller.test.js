@@ -5,7 +5,7 @@ import { GarAnonymizationParser } from '../../../../src/identity-access-manageme
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { anonymizeGarResultSerializer } from '../../../../src/identity-access-management/infrastructure/serializers/jsonapi/anonymize-gar-result.serializer.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 import { createTempFile } from '../../../tooling/test-utils/file.js';
 

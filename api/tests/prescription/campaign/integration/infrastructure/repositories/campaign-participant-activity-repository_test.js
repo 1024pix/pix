@@ -1,7 +1,7 @@
 import { campaignParticipantActivityRepository } from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participant-activity-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;

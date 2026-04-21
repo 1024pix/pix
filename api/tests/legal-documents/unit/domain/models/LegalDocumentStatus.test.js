@@ -2,7 +2,6 @@ import { LegalDocument } from '../../../../../src/legal-documents/domain/models/
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentStatus, STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
-import { expect } from '../../../../test-helper.js';
 
 const { PIX_ORGA } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;

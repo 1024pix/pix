@@ -13,7 +13,7 @@ import {
 } from '../../../../../../src/certification/session-management/domain/services/session-publication-service.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

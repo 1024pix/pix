@@ -1,6 +1,6 @@
 import { Card } from '../../../../../../../src/devcomp/domain/models/element/flashcards/Card.js';
 import { Flashcards } from '../../../../../../../src/devcomp/domain/models/element/flashcards/Flashcards.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { validateFlashcards } from '../../../../../shared/validateFlashcards.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Flashcards', function () {

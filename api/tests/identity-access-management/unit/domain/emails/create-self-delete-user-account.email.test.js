@@ -1,7 +1,6 @@
 import { createSelfDeleteUserAccountEmail } from '../../../../../src/identity-access-management/domain/emails/create-self-delete-user-account.email.js';
 import { Email } from '../../../../../src/shared/mail/domain/models/Email.js';
 import { mailer } from '../../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Email | create-self-delete-user-account', function () {
   it('creates self delete user account email with correct parameters', function () {

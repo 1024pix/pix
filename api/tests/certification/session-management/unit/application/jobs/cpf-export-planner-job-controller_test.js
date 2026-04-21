@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import { CpfExportPlannerJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-planner-job-controller.js';
 import { CpfExportBuilderJob } from '../../../../../../src/certification/session-management/domain/models/CpfExportBuilderJob.js';
 import { config } from '../../../../../../src/shared/config.js';
-import { expect } from '../../../../../test-helper.js';
 
 const { cpf } = config;
 const { noop } = lodash;

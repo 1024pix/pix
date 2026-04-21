@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { activateSchoolSession } from '../../../../../src/school/domain/usecases/activate-school-session.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | activate-school-session', function () {
   let clock;

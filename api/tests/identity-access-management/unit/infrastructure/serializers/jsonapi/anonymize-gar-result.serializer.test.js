@@ -1,5 +1,4 @@
 import { anonymizeGarResultSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/anonymize-gar-result.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | anonymize-gar-result', function () {
   describe('#serialize', function () {

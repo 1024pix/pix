@@ -1,6 +1,5 @@
 import { validateCommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/validators/common-organization-learner-validator.js';
 import { ModelValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Common Organization Learner Validator', function () {
   context('When learner is correct', function () {

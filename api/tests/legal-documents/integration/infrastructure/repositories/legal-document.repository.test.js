@@ -2,7 +2,7 @@ import { LegalDocument } from '../../../../../src/legal-documents/domain/models/
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import * as legalDocumentRepository from '../../../../../src/legal-documents/infrastructure/repositories/legal-document.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

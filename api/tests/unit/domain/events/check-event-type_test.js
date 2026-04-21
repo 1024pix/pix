@@ -1,5 +1,5 @@
 import { checkEventTypes } from '../../../../src/shared/domain/events/check-event-types.js';
-import { expect } from '../../../test-helper.js';
+
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Events | check-event-types', function () {

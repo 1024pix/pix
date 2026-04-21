@@ -1,6 +1,5 @@
 import { QCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCM-for-answer-verification.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Integration | Devcomp | Domain | Models | Element | QCMForAnswerVerification', function () {
   it('should return a valid answer when using tolerances with a right user response', function () {

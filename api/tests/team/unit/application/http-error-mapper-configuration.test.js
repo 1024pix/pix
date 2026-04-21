@@ -5,7 +5,6 @@ import {
   OrganizationArchivedError,
   UncancellableOrganizationInvitationError,
 } from '../../../../src/team/domain/errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Team | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates UnprocessableEntityError when UncancellableOrganizationInvitationError', async function () {

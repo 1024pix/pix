@@ -1,5 +1,4 @@
 import { getGrains } from '../../../../../scripts/modulix/utils/get-grains.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Script | Helper | Get grains', function () {
   const modulesListAsJs = [

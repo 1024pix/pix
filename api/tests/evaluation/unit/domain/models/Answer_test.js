@@ -1,6 +1,6 @@
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Answer', function () {

@@ -1,7 +1,6 @@
 import { Certificate } from '../../../../../../../src/certification/results/domain/models/v3/Certificate.js';
 import { GlobalCertificationLevel } from '../../../../../../../src/certification/results/domain/models/v3/GlobalCertificationLevel.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Certification | Results | Certificate v3', function () {
   describe('#resultCompetenceTree', function () {

@@ -1,5 +1,5 @@
 import { Email } from '../../../../../../src/shared/mail/domain/models/Email.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { EmailFactory } from '.././../../../../../src/shared/mail/domain/models/EmailFactory.js';
 
 describe('Unit | Email | Domain | Models | EmailFactory', function () {

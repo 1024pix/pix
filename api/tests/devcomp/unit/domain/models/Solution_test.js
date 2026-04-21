@@ -1,5 +1,4 @@
 import { Solution } from '../../../../../src/devcomp/domain/models/Solution.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Solution', function () {
   describe('#enabledTolerances', function () {

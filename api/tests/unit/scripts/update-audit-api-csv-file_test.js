@@ -1,5 +1,4 @@
 import { updateAuditCsvFromSwaggerJson } from '../../../scripts/update-audit-api-csv-file.js';
-import { expect } from '../../test-helper.js';
 
 describe('update-audit-api-csv-file script', function () {
   describe('updateAuditCsvFromSwaggerJson', function () {

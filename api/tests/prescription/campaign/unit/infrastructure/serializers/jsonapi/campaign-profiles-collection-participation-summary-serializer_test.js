@@ -1,6 +1,5 @@
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', function () {
   describe('#serialize', function () {

@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Legal documents | Domain | Model | LegalDocumentService', function () {
   describe('VALUES', function () {

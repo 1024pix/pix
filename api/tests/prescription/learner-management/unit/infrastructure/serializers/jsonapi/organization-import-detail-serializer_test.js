@@ -2,7 +2,6 @@ import { IMPORT_STATUSES } from '../../../../../../../src/prescription/learner-m
 import { OrganizationImportDetail } from '../../../../../../../src/prescription/learner-management/domain/read-models/OrganizationImportDetail.js';
 import { serialize } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/organization-import-detail-serializer.js';
 import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-import-detail-serializer', function () {
   describe('#serialize', function () {

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getCertificationsResultsForLivretScolaire } from '../../../../../../src/certification/results/domain/usecases/get-certifications-results-for-livret-scolaire.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Results | Unit | Domain | UseCases | get-certifications-results-for-livret-scolaire', function () {
   it('should call its repositories', async function () {

@@ -4,7 +4,7 @@ import { InvalidBadgeLevelError } from '../../../../../../src/certification/conf
 import { attachBadges } from '../../../../../../src/certification/configuration/domain/usecases/attach-badges.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

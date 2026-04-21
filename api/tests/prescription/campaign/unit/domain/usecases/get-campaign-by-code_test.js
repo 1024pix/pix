@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-campaign-by-code', function () {
   let code,

@@ -2,7 +2,7 @@ import nock from 'nock';
 
 import { getSectionsListAsCsv } from '../../../../scripts/modulix/get-sections-csv.js';
 import { ModuleFactory } from '../../../../src/devcomp/infrastructure/factories/module-factory.js';
-import { expect } from '../../../test-helper.js';
+
 import moduleContent from './test-module.json' with { type: 'json' };
 
 describe('Acceptance | Script | Get Sections as CSV', function () {

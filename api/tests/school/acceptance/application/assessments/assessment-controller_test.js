@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

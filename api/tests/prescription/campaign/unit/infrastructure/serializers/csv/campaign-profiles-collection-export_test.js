@@ -9,7 +9,6 @@ import sinon from 'sinon';
 
 import { CampaignProfilesCollectionExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function () {
   describe('#export', function () {

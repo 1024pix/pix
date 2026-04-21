@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import * as verifyCertificateCodeService from '../../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
 import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Service | VerifyCertificateCode', function () {

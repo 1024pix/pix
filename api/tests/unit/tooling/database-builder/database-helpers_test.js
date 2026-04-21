@@ -1,5 +1,4 @@
 import * as databaseHelpers from '../../../../db/database-builder/database-helpers.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-helpers', function () {
   describe('#getTableNameFromInsertSqlQuery', function () {

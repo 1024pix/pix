@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { questController } from '../../../../src/quest/application/quest-controller.js';
 import { usecases } from '../../../../src/quest/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | Controller | Quest', function () {

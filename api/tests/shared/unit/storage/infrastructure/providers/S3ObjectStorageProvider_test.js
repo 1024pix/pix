@@ -5,7 +5,6 @@ import sinon from 'sinon';
 
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider', function () {
   const S3_CONFIG = {

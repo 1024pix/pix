@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findCertificationCenterMembershipsByUser } from '../../../../../src/team/domain/usecases/find-certification-center-memberships-by-user.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Team | Domain | UseCase | find-certification-center-memberships-by-user', function () {
   let certificationCenterMembershipRepository;

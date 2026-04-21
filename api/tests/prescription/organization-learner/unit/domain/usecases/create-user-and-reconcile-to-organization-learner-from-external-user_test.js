@@ -5,7 +5,7 @@ import { UserAccessToken } from '../../../../../../src/identity-access-managemen
 import { UserReconciliationSamlIdToken } from '../../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
 import { RequestedApplication } from '../../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from '../../../../../../src/prescription/organization-learner/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-from-external-user', function () {

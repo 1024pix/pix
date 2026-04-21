@@ -1,6 +1,6 @@
 import * as organizationLearnerFilterRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-filter-repository.js';
 import { UnicityConstraintError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { acceptPixOrgaTermsOfService } from '../../../../../src/identity-access-management/domain/usecases/accept-pix-orga-terms-of-service.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | accept-pix-orga-terms-of-service', function () {
   let legalDocumentApiRepository;

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { rememberUserHasSeenAssessmentInstructions } from '../../../../../src/evaluation/domain/usecases/remember-user-has-seen-assessment-instructions.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', function () {
   let userRepository;

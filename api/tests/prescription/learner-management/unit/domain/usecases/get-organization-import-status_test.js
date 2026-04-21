@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getOrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/usecases/get-organization-import-status.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | Organization Learners Management | Get Organization Import status', function () {
   let organizationImportRepository, resultSymbol;

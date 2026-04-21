@@ -1,7 +1,6 @@
 import { ScoOrganizationParticipant } from '../../../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
 import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/sco-organization-participants-serializer.js';
 import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer', function () {
   describe('#serialize', function () {

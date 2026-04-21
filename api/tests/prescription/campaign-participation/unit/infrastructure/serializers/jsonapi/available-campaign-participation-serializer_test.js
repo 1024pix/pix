@@ -1,7 +1,6 @@
 import { AvailableCampaignParticipation } from '../../../../../../../src/prescription/campaign-participation/domain/read-models/AvailableCampaignParticipation.js';
 import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../../test-helper.js';
 
 const SHARED = CampaignParticipationStatuses.SHARED;
 

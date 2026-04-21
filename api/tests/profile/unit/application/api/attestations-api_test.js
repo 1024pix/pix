@@ -6,7 +6,6 @@ import {
 } from '../../../../../src/profile/application/api/attestations-api.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
 import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Profile | Unit | Application | Api | attestations', function () {
   describe('#generateAttestations', function () {

@@ -1,7 +1,6 @@
 import { LcmsRefreshCacheJob } from '../../../../src/learning-content/domain/models/LcmsRefreshCacheJob.js';
 import { usecases } from '../../../../src/learning-content/domain/usecases/index.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Learning Content | Integration | Domain | Use case | scheduleRefreshLearningContentCacheJob', function () {
   it('should schedule the job', async function () {

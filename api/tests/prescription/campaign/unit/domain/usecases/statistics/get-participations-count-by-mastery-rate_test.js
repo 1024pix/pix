@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { getParticipationsCountByMasteryRate } from '../../../../../../../src/prescription/campaign/domain/usecases/statistics/get-participations-count-by-mastery-rate.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | getParticipationsCountByMasteryRate', function () {

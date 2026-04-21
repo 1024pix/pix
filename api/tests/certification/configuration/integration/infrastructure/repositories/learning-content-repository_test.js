@@ -1,6 +1,6 @@
 import * as learningContentRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/learning-content-repository.js';
 import { FRENCH_FRANCE } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Certification | Configuration | Integration | Infrastructure | Repository | LearningContentRepository', function () {

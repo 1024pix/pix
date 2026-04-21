@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findOrganizationFeatures } from '../../../../../src/organizational-entities/domain/usecases/find-organization-features.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | UseCases | find-organization-features', function () {
   let organizationFeatureRepository;

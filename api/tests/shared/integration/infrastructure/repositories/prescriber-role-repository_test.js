@@ -1,5 +1,5 @@
 import * as prescriberRoleRepository from '../../../../../src/shared/infrastructure/repositories/prescriber-role-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | prescriber-role-repository', function () {

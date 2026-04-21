@@ -2,7 +2,6 @@ import { OrganizationLearnerActivity } from '../../../../../../../src/prescripti
 import { OrganizationLearnerParticipation } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
 import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
 import { CampaignTypes } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-participation-serialize', function () {
   describe('#serialize', function () {

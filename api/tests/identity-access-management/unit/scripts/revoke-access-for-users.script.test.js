@@ -3,7 +3,6 @@ import * as url from 'node:url';
 import sinon from 'sinon';
 
 import { RevokeAccessForUsersScript } from '../../../../src/identity-access-management/scripts/revoke-access-for-users.script.js';
-import { expect } from '../../../test-helper.js';
 
 const currentDirectory = url.fileURLToPath(new URL('.', import.meta.url));
 

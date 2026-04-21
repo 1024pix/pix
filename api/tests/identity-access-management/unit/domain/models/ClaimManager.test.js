@@ -1,5 +1,4 @@
 import { ClaimManager } from '../../../../../src/identity-access-management/domain/models/ClaimManager.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | ClaimManager', function () {
   describe('#mapClaims', function () {

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { modulesController } from '../../../../../src/devcomp/application/modules/module-controller.js';
 import * as moduleUnderTest from '../../../../../src/devcomp/application/modules/module-route.js';
 import { ElementInstantiationError, ModuleInstantiationError } from '../../../../../src/devcomp/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Devcomp | Application | Module | Router | module-router', function () {

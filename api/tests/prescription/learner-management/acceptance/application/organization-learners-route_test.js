@@ -4,7 +4,7 @@ import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-manage
 import { getLastByOrganizationId } from '../../../../../src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

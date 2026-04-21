@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { OrganizationLearnerActivity } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerActivity.js';
 import { OrganizationLearnerParticipation } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
 import { getOrganizationLearnerActivity } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-organization-learner-activity.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-organisation-learner-activity', function () {
   it('should return activity for the organization learner matching the given organizationLearnerId', async function () {

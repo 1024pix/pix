@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 const { updateParticipantExternalId } = usecases;
 

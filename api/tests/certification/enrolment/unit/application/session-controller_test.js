@@ -5,7 +5,7 @@ import { sessionController } from '../../../../../src/certification/enrolment/ap
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Enrolment | Unit | Application | Controller | session-controller', function () {

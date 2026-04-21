@@ -8,7 +8,7 @@ import {
 import { constants } from '../../../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/read-models/participant-results/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { NotFoundError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

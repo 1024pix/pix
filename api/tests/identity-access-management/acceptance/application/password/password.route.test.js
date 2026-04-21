@@ -2,7 +2,7 @@ import { createServer } from '../../../../../server.js';
 import { PasswordExpirationToken } from '../../../../../src/identity-access-management/domain/models/PasswordExpirationToken.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Acceptance | Identity Access Management | Application | Route | password', function () {

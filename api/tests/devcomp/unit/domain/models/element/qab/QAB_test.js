@@ -1,6 +1,5 @@
 import { QAB } from '../../../../../../../src/devcomp/domain/models/element/qab/QAB.js';
 import { QABCard } from '../../../../../../../src/devcomp/domain/models/element/qab/QABCard.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QAB', function () {
   describe('#constructor', function () {

@@ -4,7 +4,7 @@ import { OrganizationForAdmin } from '../../../../../../src/organizational-entit
 import { OrganizationLearnerType } from '../../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { organizationForAdminSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Team | Domain | UseCase | find-certification-center-memberships-by-certification-center', function () {

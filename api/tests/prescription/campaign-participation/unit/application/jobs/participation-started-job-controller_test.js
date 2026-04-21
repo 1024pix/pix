@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { ParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-started-job-controller.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Jobs | participation-started-controller', function () {
   describe('#handle', function () {

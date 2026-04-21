@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { markTargetProfileAsSimplifiedAccess } = usecases;

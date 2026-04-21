@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { PasswordExpirationToken } from '../../../../../src/identity-access-management/domain/models/PasswordExpirationToken.js';
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | PasswordExpirationToken', function () {
   beforeEach(function () {

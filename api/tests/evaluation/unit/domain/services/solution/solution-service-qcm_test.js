@@ -1,6 +1,5 @@
 import * as service from '../../../../../../src/evaluation/domain/services/solution/solution-service-qcm.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Service | SolutionServiceQCM ', function () {
   describe('if solution type is QCM', function () {

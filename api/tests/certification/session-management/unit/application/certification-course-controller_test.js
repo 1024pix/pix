@@ -4,7 +4,7 @@ import { certificationCourseController } from '../../../../../src/certification/
 import { CertificationCourseRejected } from '../../../../../src/certification/session-management/domain/events/CertificationCourseRejected.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { CertificationCourseUnrejected } from '../../../../../src/shared/domain/events/CertificationCourseUnrejected.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

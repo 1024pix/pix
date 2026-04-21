@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { sessionLiveAlertController } from '../../../../../src/certification/session-management/application/session-live-alert-controller.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Session Live Alert', function () {

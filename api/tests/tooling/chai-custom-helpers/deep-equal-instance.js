@@ -1,5 +1,4 @@
 import { Assertion } from 'chai';
-
 const deepEqualInstance = function () {
   Assertion.addMethod('deepEqualInstance', function (referenceInstance) {
     const assertedInstance = this._obj;

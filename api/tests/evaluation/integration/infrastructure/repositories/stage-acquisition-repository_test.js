@@ -6,7 +6,7 @@ import {
   getStageIdsByCampaignParticipation,
   saveStages,
 } from '../../../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Evaluation | Integration | Repository | Stage Acquisition', function () {

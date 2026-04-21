@@ -1,5 +1,4 @@
 import { RevokedUserAccess } from '../../../../../src/identity-access-management/domain/models/RevokedUserAccess.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess', function () {
   describe('#constructor', function () {

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { createTempFile, removeTempFile } from '../../../../tooling/test-utils/file.js';
 

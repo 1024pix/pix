@@ -5,7 +5,7 @@ import nock from 'nock';
 import { LLMApiError } from '../../../../../src/llm/domain/errors.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { prompt } from '../../../../../src/llm/infrastructure/repositories/prompt-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 import { waitForStreamFinalizationToBeDone } from '../../../../tooling/test-utils/wait.js';
 

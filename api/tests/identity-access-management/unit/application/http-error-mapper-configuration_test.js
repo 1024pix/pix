@@ -10,7 +10,6 @@ import {
 } from '../../../../src/identity-access-management/domain/errors.js';
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../../src/shared/application/models/domain-error-mapping-configuration.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | HttpErrorMapperConfiguration', function () {
   it('contains a list of HttpErrorMapper instances', function () {

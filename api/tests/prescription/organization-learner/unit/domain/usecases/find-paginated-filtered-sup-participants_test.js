@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findPaginatedFilteredSupParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-sup-participants.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | findPaginatedFilteredSupParticipants', function () {
   let supOrganizationParticipantRepository;

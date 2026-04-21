@@ -4,7 +4,7 @@ import { campaignParticipationController } from '../../../../../src/prescription
 import * as moduleUnderTest from '../../../../../src/prescription/campaign-participation/application/campaign-participation-route.js';
 import { campaignParticipationPreHandlers } from '../../../../../src/prescription/campaign-participation/application/pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | campaign-participation-router ', function () {

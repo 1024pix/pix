@@ -1,6 +1,5 @@
 import { ActivityAnswer } from '../../../../../src/school/domain/models/ActivityAnswer.js';
 import { getLastAnswerStatus } from '../../../../../src/school/domain/services/last-answer-status.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Service | getLastAnswerStatus', function () {
   describe('#getLastAnswerStatus', function () {

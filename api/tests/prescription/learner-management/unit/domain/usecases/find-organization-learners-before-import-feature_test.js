@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findOrganizationLearnersBeforeImportFeature } from '../../../../../../src/prescription/learner-management/domain/usecases/find-organization-learners-before-import-feature.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | Organization Learners Management | findOrganizationLearnersBeforeImportFeature', function () {
   let organizationLearnerRepository;

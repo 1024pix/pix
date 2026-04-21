@@ -9,7 +9,7 @@ import { Chat } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { usecases } from '../../../../../src/llm/domain/usecases/index.js';
 import { LLMResponseHandler } from '../../../../../src/llm/infrastructure/streaming/llm-response-handler.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('LLM | Unit | Application | API | llm', function () {

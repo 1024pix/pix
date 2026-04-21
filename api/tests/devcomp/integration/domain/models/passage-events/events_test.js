@@ -3,7 +3,6 @@ import {
   AudioTranscriptionOpenedEvent,
   ShortVideoTranscriptionOpenedEvent,
 } from '../../../../../../src/devcomp/domain/models/passage-events/events.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Integration | Devcomp | Domain | Models | passage-events | events', function () {
   describe('#ShortVideoTranscriptionOpenedEvent', function () {

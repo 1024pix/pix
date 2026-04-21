@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { OidcProvider } from '../../../../../src/identity-access-management/domain/models/OidcProvider.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | OidcProvider', function () {
   describe('#decryptClientSecret', function () {

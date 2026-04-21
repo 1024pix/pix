@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { commentSessionAsJury } from '../../../../../../src/certification/session-management/domain/usecases/comment-session-as-jury.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | Certification | session-management | comment-session-as-jury', function () {

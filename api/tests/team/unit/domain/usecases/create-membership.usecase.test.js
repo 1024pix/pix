@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { OrganizationArchivedError } from '../../../../../src/team/domain/errors.js';
 import { createMembership } from '../../../../../src/team/domain/usecases/create-membership.usecase.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

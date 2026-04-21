@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findFilteredMostRecentKnowledgeElementsByUser } from '../../../../../src/evaluation/domain/usecases/find-filtered-most-recent-knowledge-elements-by-user.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Evaluation | Unit | UseCase | find-filtered-most-recent-knowledge-elements-by-user', function () {
   let knowledgeElementRepository;

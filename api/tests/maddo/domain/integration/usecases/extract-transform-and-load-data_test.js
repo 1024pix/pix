@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.js';
 import * as replicationRepository from '../../../../../src/maddo/infrastructure/repositories/replication-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
 
 describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-data', function () {

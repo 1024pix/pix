@@ -3,7 +3,6 @@ import * as url from 'node:url';
 import sinon from 'sinon';
 
 import { ImportUserLastLogeedAtScript } from '../../../../src/identity-access-management/scripts/import-user-last-logged-at.script.js';
-import { expect } from '../../../test-helper.js';
 
 const currentDirectory = url.fileURLToPath(new URL('.', import.meta.url));
 

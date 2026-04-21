@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import * as competenceTreeRepository from '../../../../../../src/certification/results/infrastructure/repositories/competence-tree-repository.js';
 import { CompetenceTree } from '../../../../../../src/shared/domain/models/CompetenceTree.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Repository | competence-tree-repository', function () {
   let areaRepository;

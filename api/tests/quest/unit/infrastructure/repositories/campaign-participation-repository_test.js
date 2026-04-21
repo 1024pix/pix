@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignParticipation } from '../../../../../src/quest/domain/models/CampaignParticipation.js';
 import * as campaignParticipationRepository from '../../../../../src/quest/infrastructure/repositories/campaign-participation-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | campaign-participation', function () {
   let expectedResult, campaignParticipationsApiStub;

@@ -1,5 +1,4 @@
 import * as certificationFrameworkSerializer from '../../../../../../src/certification/configuration/infrastructure/serializers/certification-framework-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Configuration | Serializer | certification-framework-serializer', function () {
   describe('#serialize', function () {

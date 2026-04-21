@@ -2,7 +2,6 @@ import { CampaignParticipationStatuses } from '../../../../../src/prescription/s
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/models/CombinedCourseItem.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { serialize } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-detail-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('CombinedCourseParticipationSerializer', function () {
   it('should serialize a CombinedCourseParticipationDetail', function () {

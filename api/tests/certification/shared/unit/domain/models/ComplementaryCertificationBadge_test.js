@@ -1,5 +1,4 @@
 import { ComplementaryCertificationBadge } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationBadge.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Shared | Domain | Models | ComplementaryCertificationBadge', function () {
   it('should return a complementary certification', function () {

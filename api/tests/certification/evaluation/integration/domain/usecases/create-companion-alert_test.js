@@ -1,7 +1,7 @@
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import * as certificationCompanionAlertRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-companion-alert-repository.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 const { createCompanionAlert } = usecases;

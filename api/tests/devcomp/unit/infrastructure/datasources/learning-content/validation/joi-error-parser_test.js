@@ -1,4 +1,3 @@
-import { expect } from '../../../../../../test-helper.js';
 import { joiErrorParser } from './joi-error-parser.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | joi error parser', function () {

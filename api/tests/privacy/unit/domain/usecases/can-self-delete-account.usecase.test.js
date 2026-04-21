@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function () {
   const userId = '123';

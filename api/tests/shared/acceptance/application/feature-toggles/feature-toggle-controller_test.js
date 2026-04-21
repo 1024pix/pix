@@ -1,5 +1,4 @@
 import { createServer } from '../../../../../server.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Shared | Application | Controller | feature-toggle', function () {
   let server;

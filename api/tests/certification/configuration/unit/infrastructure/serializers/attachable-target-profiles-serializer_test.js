@@ -1,6 +1,5 @@
 import { AttachableTargetProfile } from '../../../../../../src/certification/configuration/domain/models/AttachableTargetProfile.js';
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/attachable-target-profiles-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | Serializer | attachable-target-profiles-serializer', function () {
   describe('#serialize', function () {

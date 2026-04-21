@@ -1,7 +1,7 @@
 import { ComplementaryCertificationBadgeForAdmin } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 import * as targetProfileHistoryRepository from '../../../../../../src/certification/shared/infrastructure/repositories/target-profile-history-repository.js';
 import { TargetProfileHistoryForAdmin } from '../../../../../../src/shared/domain/models/TargetProfileHistoryForAdmin.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | target-profile-history-repository', function () {

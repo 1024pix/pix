@@ -1,5 +1,5 @@
 import { createServer } from '../../../../server.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../tooling/mocks/attestation-storage.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

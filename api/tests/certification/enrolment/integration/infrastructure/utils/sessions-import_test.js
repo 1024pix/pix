@@ -1,5 +1,5 @@
 import { getCsvHeaders } from '../../../../../../src/certification/enrolment/infrastructure/utils/sessions-import.js';
-import { expect } from '../../../../../test-helper.js';
+
 const BOM_CHAR = '\ufeff';
 
 describe('Integration | Infrastructure | Files | sessions-import', function () {

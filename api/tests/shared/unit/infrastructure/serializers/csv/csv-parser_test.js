@@ -2,7 +2,7 @@ import iconv from 'iconv-lite';
 
 import { CsvColumn } from '../../../../../../src/shared/infrastructure/serializers/csv/csv-column.js';
 import { CsvParser } from '../../../../../../src/shared/infrastructure/serializers/csv/csv-parser.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr, catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Infrastructure | Serializer | CsvParser', function () {

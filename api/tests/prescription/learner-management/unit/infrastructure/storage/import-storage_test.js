@@ -9,7 +9,7 @@ import {
 import { config } from '../../../../../../src/shared/config.js';
 import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Storage | ImportStorage', function () {

@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findAssessmentParticipationResultList } from '../../../../../../src/prescription/campaign/domain/usecases/find-assessment-participation-result-list.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-assessment-participation-result-list', function () {
   it('return the assessmentParticipationResultMinimal list', async function () {

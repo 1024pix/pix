@@ -6,7 +6,7 @@ import { ValidatorQROCMDep } from '../../../../src/evaluation/domain/models/Vali
 import { ValidatorQROCMInd } from '../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
 import { Challenge, Statuses } from '../../../../src/shared/domain/models/Challenge.js';
 import { Skill } from '../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../test-helper.js';
+
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Challenge', function () {

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import { CORE_MESH_CONFIGURATION } from '../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import {

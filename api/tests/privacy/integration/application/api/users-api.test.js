@@ -1,5 +1,5 @@
 import * as userApi from '../../../../../src/privacy/application/api/users-api.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Privacy | Application | Api | users', function () {

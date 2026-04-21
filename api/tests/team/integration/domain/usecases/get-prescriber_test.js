@@ -2,7 +2,7 @@ import * as sharedMembershipRepository from '../../../../../src/shared/infrastru
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { repositories } from '../../../../../src/team/infrastructure/repositories/index.js';
 import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 const getPrescriber = usecases.getPrescriber;

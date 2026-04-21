@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { User } from '../../../../../src/profile/domain/models/User.js';
 import { normalizeAndRemoveAccents } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Profile | Domain | Models | User', function () {
   let clock;

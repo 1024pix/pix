@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { BaseHttpError, HttpErrors } from '../../../../src/shared/application/http-errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Shared | Application | HttpErrors', function () {
   it('instantiates BaseHttpError', async function () {

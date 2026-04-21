@@ -12,7 +12,7 @@ import {
 import { Chat, Message } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { promptChat } from '../../../../../src/llm/domain/usecases/prompt-chat.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('LLM | Unit | Domain | Usecases | promptChat', function () {

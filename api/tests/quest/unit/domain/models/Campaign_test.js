@@ -1,5 +1,4 @@
 import { Campaign } from '../../../../../src/quest/domain/models/Campaign.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Campaign ', function () {
   describe('#constructor', function () {

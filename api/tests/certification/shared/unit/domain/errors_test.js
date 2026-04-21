@@ -1,5 +1,4 @@
 import * as errors from '../../../../../src/certification/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Certification | shared | Unit | Domain | Errors', function () {
   it('should export a CertificationCourseUpdateError', function () {

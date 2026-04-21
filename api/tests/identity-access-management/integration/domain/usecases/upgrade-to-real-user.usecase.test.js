@@ -6,7 +6,7 @@ import { usecases } from '../../../../../src/identity-access-management/domain/u
 import { anonymousUserTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/anonymous-user-token.repository.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/http-errors.js';
 import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | upgradeToRealUser', function () {

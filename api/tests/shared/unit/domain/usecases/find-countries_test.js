@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { findCountries } from '../../../../../src/shared/domain/usecases/find-countries.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Shared | UseCase | find-country', function () {

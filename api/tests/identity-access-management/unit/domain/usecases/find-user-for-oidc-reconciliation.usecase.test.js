@@ -5,7 +5,7 @@ import {
   DifferentExternalIdentifierError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { findUserForOidcReconciliation } from '../../../../../src/identity-access-management/domain/usecases/find-user-for-oidc-reconciliation.usecase.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

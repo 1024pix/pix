@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { campaignResultsController } from '../../../../../src/prescription/campaign/application/campaign-results-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-results-route.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

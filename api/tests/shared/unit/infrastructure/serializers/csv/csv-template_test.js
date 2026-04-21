@@ -1,5 +1,4 @@
 import { generateCSVTemplate } from '../../../../../../src/shared/infrastructure/serializers/csv/csv-template.js';
-import { expect } from '../../../../../test-helper.js';
 
 const BOM_CHAR = '\ufeff';
 

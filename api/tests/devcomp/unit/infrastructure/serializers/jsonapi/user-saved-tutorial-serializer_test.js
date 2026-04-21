@@ -1,6 +1,6 @@
 import { UserSavedTutorial } from '../../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
 import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | user-saved-tutorial-serializer', function () {

@@ -4,7 +4,7 @@ import * as url from 'node:url';
 
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { EntityValidationError, FileValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -1,6 +1,6 @@
 import * as checkUserIsAdminAndManagingStudentsForOrganization from '../../../../src/shared/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization', function () {

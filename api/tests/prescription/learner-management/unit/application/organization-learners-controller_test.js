@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { CLIENTS, PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { organizationLearnersController } from '../../../../../src/prescription/learner-management/application/organization-learners-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Prescription | Learner Management | Application | organization-learner-controller', function () {

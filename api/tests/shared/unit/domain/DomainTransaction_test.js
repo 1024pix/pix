@@ -5,7 +5,7 @@ import {
   DomainTransaction,
   withTransaction,
 } from '../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../test-helper.js';
+
 import { knex } from '../../../tooling/databases.js';
 
 describe('Unit | Infrastructure | DomainTransaction', function () {

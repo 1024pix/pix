@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { saveCertificationIssueReport } from '../../../../../../src/certification/session-management/domain/usecases/save-certification-issue-report.js';
 import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -2,7 +2,7 @@ import { copyTargetProfile } from '../../../../../../src/prescription/target-pro
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import { categories } from '../../../../../../src/shared/domain/models/TargetProfile.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | copy-target-profile', function () {

@@ -1,6 +1,6 @@
 import { handleDomainAndHttpErrors } from '../../../../src/shared/application/pre-response-utils.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Integration | Application | PreResponse-utils', function () {

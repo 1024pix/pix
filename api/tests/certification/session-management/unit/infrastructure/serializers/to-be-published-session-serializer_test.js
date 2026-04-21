@@ -1,6 +1,5 @@
 import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/to-be-published-session-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Session-management | Unit | Infrastructure | Serializers | to-be-published-session-serializer', function () {
   describe('#serialize()', function () {

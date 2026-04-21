@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 import { CpfExportBuilderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-builder-job-controller.js';
 import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { PassThrough, Readable } = stream;

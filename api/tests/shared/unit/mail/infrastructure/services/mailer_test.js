@@ -7,7 +7,6 @@ import { MailingProviderInvalidEmailError } from '../../../../../../src/shared/m
 import { BrevoProvider } from '../../../../../../src/shared/mail/infrastructure/providers/BrevoProvider.js';
 import { MailpitProvider } from '../../../../../../src/shared/mail/infrastructure/providers/MailpitProvider.js';
 import { Mailer } from '../../../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { expect } from '../../../../../test-helper.js';
 
 const { mailing } = config;
 

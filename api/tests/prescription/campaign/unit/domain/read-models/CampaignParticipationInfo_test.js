@@ -1,7 +1,6 @@
 import { CampaignParticipationInfo } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipationInfo.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {
   describe('#constructor', function () {

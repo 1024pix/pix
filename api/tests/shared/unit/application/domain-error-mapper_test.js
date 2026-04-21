@@ -4,7 +4,7 @@ import { DomainErrorMapper } from '../../../../src/shared/application/domain-err
 import { BaseHttpError, HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { config } from '../../../../src/shared/config.js';
 import { DomainError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+
 import { catchErrSync } from '../../../tooling/test-utils/error.js';
 
 class DomainErrorName extends DomainError {}

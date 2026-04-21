@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { Center } from '../../../../../../src/certification/enrolment/domain/models/Center.js';
 import { getCenter } from '../../../../../../src/certification/enrolment/domain/usecases/get-center.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | get-center', function () {

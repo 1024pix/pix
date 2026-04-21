@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Repository | organizationLearner', function () {
   describe('#getStudentsByOrganizationId', function () {

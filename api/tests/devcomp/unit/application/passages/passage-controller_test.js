@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { passageController } from '../../../../../src/devcomp/application/passages/passage-controller.js';
-import { expect } from '../../../../test-helper.js';
+
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Unit | Devcomp | Application | Passages | Controller', function () {

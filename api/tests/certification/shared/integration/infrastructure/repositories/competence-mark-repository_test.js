@@ -1,6 +1,6 @@
 import { CompetenceMark } from '../../../../../../src/certification/shared/domain/models/CompetenceMark.js';
 import * as competenceMarkRepository from '../../../../../../src/certification/shared/infrastructure/repositories/competence-mark-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

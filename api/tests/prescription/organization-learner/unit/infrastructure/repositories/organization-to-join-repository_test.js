@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { OrganizationToJoin } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationToJoin.js';
 import * as organizationToJoinRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-to-join-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Repository | organization-to-join-repository', function () {

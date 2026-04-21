@@ -1,6 +1,6 @@
 import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/parcoursup-certification-serializer.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | Json | parcoursup-certification-serializer', function () {

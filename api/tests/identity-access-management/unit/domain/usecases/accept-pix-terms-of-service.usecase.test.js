@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { acceptPixLastTermsOfService } from '../../../../../src/identity-access-management/domain/usecases/accept-pix-last-terms-of-service.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | accept-pix-last-terms-of-service', function () {
   let userRepository;

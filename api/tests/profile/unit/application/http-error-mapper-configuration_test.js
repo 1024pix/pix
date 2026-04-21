@@ -5,7 +5,6 @@ import {
   RewardTypeDoesNotExistError,
 } from '../../../../src/profile/domain/errors.js';
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Profile | Unit | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates NotFoundError when AttestationNotFoundError', async function () {

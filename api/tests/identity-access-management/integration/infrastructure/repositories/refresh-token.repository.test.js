@@ -1,7 +1,6 @@
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');

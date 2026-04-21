@@ -10,7 +10,7 @@ import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/
 import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import * as codeGenerator from '../../../../../../src/shared/domain/services/code-generator.js';
 import * as accessCodeRepository from '../../../../../../src/shared/infrastructure/repositories/access-code-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

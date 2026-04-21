@@ -1,7 +1,7 @@
 import { CertificationFrameworksChallenge } from '../../../../../../src/certification/configuration/domain/models/CertificationFrameworksChallenge.js';
 import { ActiveCalibratedChallenge } from '../../../../../../src/certification/configuration/domain/read-models/ActiveCalibratedChallenge.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 

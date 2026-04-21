@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import { SmartRandomSkillReward } from '../../../../../src/evaluation/domain/models/SmartRandomSkillReward.js';
 import { SmartRandomStep, STEPS_NAMES } from '../../../../../src/evaluation/domain/models/SmartRandomStep.js';

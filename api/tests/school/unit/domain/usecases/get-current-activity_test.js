@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { NotInProgressAssessmentError } from '../../../../../src/school/domain/school-errors.js';
 import { getCurrentActivity } from '../../../../../src/school/domain/usecases/get-current-activity.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

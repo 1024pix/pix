@@ -2,7 +2,6 @@ import { ValidateCommonOrganizationImportFileJob } from '../../../../../../../sr
 import { validateCommonOrganizationImportFileJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/validate-common-organization-learners-import-file-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | validateCommonOrganizationImportFileJobRepository', function () {
   describe('#performAsync', function () {

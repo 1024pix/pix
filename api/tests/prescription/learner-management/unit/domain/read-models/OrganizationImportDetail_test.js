@@ -4,7 +4,6 @@ import {
   SiecleXmlImportError,
 } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { OrganizationImportDetail } from '../../../../../../src/prescription/learner-management/domain/read-models/OrganizationImportDetail.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | OrganizationImportDetail', function () {
   it('should instantiate an OrganizationImportDetail', function () {

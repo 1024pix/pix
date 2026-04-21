@@ -1,5 +1,5 @@
 import * as stageCollectionRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/stage-collection-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 

@@ -1,6 +1,5 @@
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { computeGlobalResult } from '../../../../../src/school/domain/services/compute-global-result.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Pix Junior | compute global result', function () {
   context('When the dare is successful', function () {

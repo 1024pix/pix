@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

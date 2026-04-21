@@ -1,6 +1,6 @@
 import { roles } from '../../../../../src/shared/domain/models/Membership.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Team | Integration | Domain | Use-case | getOrganizationMembership', function () {

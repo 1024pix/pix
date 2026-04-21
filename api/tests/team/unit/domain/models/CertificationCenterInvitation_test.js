@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
   describe('constructor', function () {

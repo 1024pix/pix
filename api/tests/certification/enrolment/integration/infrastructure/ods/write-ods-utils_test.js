@@ -11,7 +11,6 @@ import {
   makeUpdatedOdsByContentXml,
   updateXmlRows,
 } from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/write-ods-utils.js';
-import { expect } from '../../../../../test-helper.js';
 
 const { promises } = fs;
 

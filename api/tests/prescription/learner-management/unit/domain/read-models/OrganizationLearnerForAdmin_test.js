@@ -1,7 +1,6 @@
 import { IMPORT_KEY_FIELD } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationLearnerForAdmin } from '../../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function () {
   describe('#constructor', function () {

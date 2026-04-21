@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Identity Access Management | Domain | Model | LtiPlatformRegistration', function () {

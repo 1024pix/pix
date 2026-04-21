@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { sendTargetProfileNotifications } from '../../../../../../src/certification/configuration/domain/usecases/send-target-profile-notifications.js';
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase |send-target-profile-notifications', function () {
   it('should send an email to members', async function () {

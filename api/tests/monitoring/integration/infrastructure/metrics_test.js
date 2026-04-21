@@ -2,7 +2,6 @@ import metrics from 'datadog-metrics';
 import nock from 'nock';
 
 import { Metrics } from '../../../../src/monitoring/infrastructure/metrics.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Integration | Monitoring | Infrastructure | metrics', function () {
   describe('constructor', function () {

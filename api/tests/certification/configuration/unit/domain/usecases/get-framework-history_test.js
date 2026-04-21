@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getFrameworkHistory } from '../../../../../../src/certification/configuration/domain/usecases/get-framework-history.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | get-framework-history', function () {
   it('should return the framework history', async function () {

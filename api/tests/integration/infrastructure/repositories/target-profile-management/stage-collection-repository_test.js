@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { StageCollectionUpdate } from '../../../../../src/evaluation/domain/models/target-profile-management/StageCollectionUpdate.js';
 import * as stageCollectionRepository from '../../../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

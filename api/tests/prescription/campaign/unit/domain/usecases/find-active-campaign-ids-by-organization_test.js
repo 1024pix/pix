@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findActiveCampaignIdsByOrganization } from '../../../../../../src/prescription/campaign/domain/usecases/find-active-campaign-ids-by-organization.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-active-campaign-ids-by-organization', function () {
   it('should return active campaign IDs for the organization', async function () {

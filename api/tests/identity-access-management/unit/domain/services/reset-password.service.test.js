@@ -4,7 +4,6 @@ import { resetPasswordService } from '../../../../../src/identity-access-managem
 import { config } from '../../../../../src/shared/config.js';
 import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Service | reset-password', function () {
   describe('#generateTemporaryKey', function () {

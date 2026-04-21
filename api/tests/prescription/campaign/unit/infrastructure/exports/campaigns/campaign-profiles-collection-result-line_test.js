@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { CampaignProfilesCollectionResultLine } from '../../../../../../../src/prescription/campaign/infrastructure/exports/campaigns/campaign-profiles-collection-result-line.js';
 import { PlacementProfile } from '../../../../../../../src/shared/domain/models/PlacementProfile.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', function () {

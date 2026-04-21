@@ -4,7 +4,6 @@ import {
   buildCertificationsResults,
   buildReferentialOfCompetences,
 } from '../../../../../../src/certification/results/infrastructure/serializers/factory/build-certification-result-for-livret-scolaire.js';
-import { expect } from '../../../../../test-helper.js';
 
 const VALIDATED_CERTIFICATION = 'validated';
 const REJECTED_CERTIFICATION = 'rejected';

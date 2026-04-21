@@ -1,6 +1,6 @@
 import { checkLLMChatIsEnabled } from '../../../../../src/llm/application/pre-handlers/index.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('LLM | Unit | Application | PreHandlers', function () {

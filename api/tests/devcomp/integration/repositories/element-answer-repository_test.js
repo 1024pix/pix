@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { ElementAnswer } from '../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { AnswerStatus } from '../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import * as elementAnswerRepository from '../../../../src/devcomp/infrastructure/repositories/element-answer-repository.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('Integration | DevComp | Repositories | ElementAnswerRepository', function () {

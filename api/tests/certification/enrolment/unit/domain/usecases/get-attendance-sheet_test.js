@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getAttendanceSheet } from '../../../../../../src/certification/enrolment/domain/usecases/get-attendance-sheet.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-attendance-sheet', function () {
   describe('getAttendanceSheet', function () {

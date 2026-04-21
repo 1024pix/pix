@@ -1,7 +1,6 @@
 import { createWarningConnectionEmail } from '../../../../../src/identity-access-management/domain/emails/create-warning-connection.email.js';
 import { Email } from '../../../../../src/shared/mail/domain/models/Email.js';
 import { mailer } from '../../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Email | create-warning-connection', function () {
   it('creates warning connection email with the right parameters', function () {

@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import * as membershipRepository from '../../../../../src/team/infrastructure/repositories/membership.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Domain | UseCase | disable-own-membership', function () {

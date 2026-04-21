@@ -15,7 +15,7 @@ import { promptChat } from '../../../../../src/llm/domain/usecases/prompt-chat.j
 import { chatRepository, promptRepository } from '../../../../../src/llm/infrastructure/repositories/index.js';
 import { LLMResponseHandler } from '../../../../../src/llm/infrastructure/streaming/llm-response-handler.js';
 import { redisMutex } from '../../../../../src/shared/infrastructure/mutex/RedisMutex.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 import { waitForStreamFinalizationToBeDone } from '../../../../tooling/test-utils/wait.js';

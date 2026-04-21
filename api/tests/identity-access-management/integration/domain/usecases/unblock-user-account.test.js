@@ -1,7 +1,7 @@
 import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | unblockUserAccount', function () {

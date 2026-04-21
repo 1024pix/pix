@@ -1,6 +1,5 @@
 import { OrganizationLearner } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-serializer', function () {
   describe('#serialize', function () {

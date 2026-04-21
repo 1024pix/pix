@@ -1,5 +1,4 @@
 import { StageCollection } from '../../../../../../src/prescription/campaign-participation/domain/models/StageCollection.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | StageCollection', function () {
   context('getReachedStageIndex', function () {

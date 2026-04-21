@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { searchAttachableTargetProfiles } from '../../../../../../src/certification/configuration/domain/usecases/search-attachable-target-profiles.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | search-attachable-target-profiles', function () {
   it('should get attachable target profiles', async function () {

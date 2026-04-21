@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { getRecentlyUsedTags } from '../../../../../src/organizational-entities/domain/usecases/get-recently-used-tags.usecase.js';
 import * as organizationTagRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-tag.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational Entities | Domain | UseCase | get-recently-used-tags', function () {

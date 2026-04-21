@@ -1,7 +1,7 @@
 import * as organizationLearnersWithParticipationsApi from '../../../../../../src/prescription/organization-learner/application/api/organization-learners-with-participations-api.js';
 import { OrganizationLearnerWithParticipations } from '../../../../../../src/prescription/organization-learner/application/api/read-models/OrganizationLearnerWithParticipations.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | API | Organization Learner With Participations', function () {

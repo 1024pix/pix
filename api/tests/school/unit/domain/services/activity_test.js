@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { ActivityNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import { getCurrentActivity } from '../../../../../src/school/domain/services/activity.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Service | Activity', function () {

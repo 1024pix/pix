@@ -41,7 +41,7 @@ import {
   UserNotAuthorizedToAccessEntityError,
   UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {

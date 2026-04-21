@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

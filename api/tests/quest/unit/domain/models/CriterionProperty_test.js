@@ -1,5 +1,4 @@
 import { COMPARISONS, CriterionProperty } from '../../../../../src/quest/domain/models/CriterionProperty.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
   describe('#validate', function () {

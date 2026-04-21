@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { updateScoBlockedAccessDate } from '../../../../../../src/certification/configuration/domain/usecases/update-sco-blocked-access-date.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | UseCase | update-sco-blocked-access-date', function () {

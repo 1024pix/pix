@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { Chat, Message } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { get, save } from '../../../../../src/llm/infrastructure/repositories/chat-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('LLM | Integration | Infrastructure | Repositories | chat', function () {

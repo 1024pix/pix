@@ -4,7 +4,7 @@ import { AlreadyExistingMembershipError } from '../../../../../src/shared/domain
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { CertificationCenterInvitedUser } from '../../../../../src/team/domain/models/CertificationCenterInvitedUser.js';
 import { acceptCertificationCenterInvitation } from '../../../../../src/team/domain/usecases/accept-certification-center-invitation.usecase.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

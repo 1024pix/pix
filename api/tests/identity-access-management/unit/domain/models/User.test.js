@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { config } from '../../../../../src/shared/config.js';
 import * as localeService from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Identity Access Management | Domain | Model | User', function () {

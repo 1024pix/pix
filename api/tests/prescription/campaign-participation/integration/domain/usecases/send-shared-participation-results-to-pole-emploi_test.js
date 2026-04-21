@@ -1,5 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 

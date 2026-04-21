@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { ChallengeAlreadyAnsweredError } from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { createCertificationChallengeLiveAlert } from '../../../../../../src/certification/session-management/domain/usecases/create-certification-challenge-live-alert.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

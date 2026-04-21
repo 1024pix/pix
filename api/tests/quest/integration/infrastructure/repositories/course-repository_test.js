@@ -1,7 +1,7 @@
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { COURSE_ITEM_TYPES, CourseItem } from '../../../../../src/quest/domain/models/CourseItem.js';
 import * as courseRepository from '../../../../../src/quest/infrastructure/repositories/course-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | course-repository', function () {

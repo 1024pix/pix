@@ -1,6 +1,6 @@
 import { OrganizationLearnerWithParticipations } from '../../../../../../../src/prescription/organization-learner/application/api/read-models/OrganizationLearnerWithParticipations.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Application| API | Models | OrganizationLearnerWithParticipations', function () {

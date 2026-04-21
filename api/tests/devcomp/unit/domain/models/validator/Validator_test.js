@@ -1,7 +1,7 @@
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
 import { Validator } from '../../../../../../src/devcomp/domain/models/validator/Validator.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Devcomp | Domain | Models | Validator | Validator', function () {

@@ -1,5 +1,5 @@
 import { getJurisdiction } from '../../../../../src/maddo/infrastructure/repositories/client-application-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | client application', function () {

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { QUERY_TYPES } from '../../../../../src/identity-access-management/domain/constants/user-query.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | UseCase | find-paginated-filtered-users', function () {
   it('searches users with filtering and pagination', async function () {

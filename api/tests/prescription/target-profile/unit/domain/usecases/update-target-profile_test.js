@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-target-profile', function () {
   let targetProfileAdministrationRepository, targetProfileForUpdateRepository;

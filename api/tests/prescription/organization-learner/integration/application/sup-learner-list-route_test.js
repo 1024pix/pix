@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { supLearnerListController } from '../../../../../src/prescription/organization-learner/application/sup-learner-list-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/sup-learner-list-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | Routes | Sup Learner List', function () {

@@ -1,5 +1,4 @@
 import * as campaignParticipationService from '../../../../../../src/prescription/campaign/domain/services/campaign-participation-service.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Service | Campaign Participation Service', function () {
   describe('progress', function () {

@@ -2,7 +2,7 @@ import boom from '@hapi/boom';
 import sinon from 'sinon';
 
 import { campaignParticipationPreHandlers } from '../../../../../src/prescription/campaign-participation/application/pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Prescription | Campaign Participation | Application | pre handlers', function () {

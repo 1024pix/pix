@@ -3,7 +3,6 @@ import {
   filterByGlobalResult,
   filterByStatuses,
 } from '../../../../../src/school/domain/usecases/find-paginated-mission-learners.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-mission-learners', function () {
   context('filterByStatuses', function () {

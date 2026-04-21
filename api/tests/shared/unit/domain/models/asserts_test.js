@@ -7,7 +7,7 @@ import {
   assertNotNullOrUndefined,
   assertPositiveInteger,
 } from '../../../../../src/shared/domain/models/asserts.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Models | asserts', function () {

@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/complementary-certification-badge-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
   describe('#deserialize', function () {

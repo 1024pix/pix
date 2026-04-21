@@ -1,6 +1,6 @@
 import { knex } from '../../../../../../db/knex-database-connection.js';
 import * as targetProfileBondRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-bond-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Target Profile Management | Target Profile ', function () {

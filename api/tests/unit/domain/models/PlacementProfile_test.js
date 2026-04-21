@@ -1,6 +1,5 @@
 import { PlacementProfile } from '../../../../src/shared/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../src/shared/domain/models/UserCompetence.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | PlacementProfile', function () {
   describe('#constructor', function () {

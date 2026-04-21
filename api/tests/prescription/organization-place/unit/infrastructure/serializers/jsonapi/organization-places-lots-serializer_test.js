@@ -1,5 +1,4 @@
 import * as organizationPlacesLotsSerializer from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/jsonapi/organization-places-lots-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-places-lot-management-serializer', function () {
   describe('#serialize', function () {

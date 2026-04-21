@@ -1,6 +1,6 @@
 import 'dayjs/locale/fr.js';
 
-import { use } from 'chai';
+import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';

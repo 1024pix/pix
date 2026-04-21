@@ -7,7 +7,6 @@ import {
   areTwoStringsCloseEnough,
   getLevenshteinRatio,
 } from '../../../../../src/shared/domain/services/string-comparison-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Service | Validation Comparison', function () {
   describe('getSmallestLevenshteinDistance', function () {

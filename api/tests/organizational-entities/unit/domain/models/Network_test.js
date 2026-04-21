@@ -1,6 +1,5 @@
 import { Network } from '../../../../../src/organizational-entities/domain/models/Network.js';
 import { NetworkHeadOrganization } from '../../../../../src/organizational-entities/domain/models/NetworkHeadOrganization.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | Model | Network', function () {
   describe('constructor', function () {

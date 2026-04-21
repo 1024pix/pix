@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin.serializer.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Identity Access Management | Serializer | JSONAPI | user-anonymized-details-for-admin-serializer', function () {

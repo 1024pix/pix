@@ -1,6 +1,6 @@
 import { checkDisplayCatalogueIsEnabled } from '../../../../../src/quest/application/pre-handlers/display-catalogue.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Quest | Unit | Application | PreHandlers', function () {

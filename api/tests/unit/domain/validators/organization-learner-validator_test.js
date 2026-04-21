@@ -2,7 +2,6 @@ import {
   checkValidation,
   FRANCE_COUNTRY_CODE,
 } from '../../../../src/prescription/learner-management/domain/validators/organization-learner-validator.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Organization Learner validator', function () {
   context('#checkValidation', function () {

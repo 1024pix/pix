@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { findAllPaginatedAutonomousCourses } from '../../../../../src/evaluation/domain/usecases/find-all-paginated-autonomous-courses.js';
 import { constants } from '../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | find-all-paginated-autonomous-courses', function () {
   it('should return a paginated list of autonomous courses', async function () {

@@ -1,6 +1,5 @@
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
 import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-admin', function () {
   describe('#serialize', function () {

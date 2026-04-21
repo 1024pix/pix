@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | autonomous-course-serializer', function () {
   describe('#serializeId', function () {

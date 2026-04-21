@@ -1,6 +1,6 @@
 import { UserOrganizationForAdmin } from '../../../../../src/team/domain/read-models/UserOrganizationForAdmin.js';
 import { userOrganizationsForAdminRepository } from '../../../../../src/team/infrastructure/repositories/user-organizations-for-admin.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Infrastructure | Repository | user-organizations-for-admin', function () {

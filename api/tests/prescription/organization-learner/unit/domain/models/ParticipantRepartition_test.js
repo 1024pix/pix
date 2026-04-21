@@ -1,5 +1,4 @@
 import { ParticipantRepartition } from '../../../../../../src/prescription/organization-learner/domain/models/ParticipantRepartition.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | ParticipantRepartition', function () {
   it('counts the number of registred users', function () {

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { frameworksController } from '../../../../src/learning-content/application/frameworks-controller.js';
 import * as moduleUnderTest from '../../../../src/learning-content/application/frameworks-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
+
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

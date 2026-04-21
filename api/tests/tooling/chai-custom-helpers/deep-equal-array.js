@@ -1,5 +1,4 @@
 import { Assertion } from 'chai';
-
 const deepEqualArray = function () {
   Assertion.addMethod('deepEqualArray', function (referenceArray) {
     const assertedArray = this._obj;

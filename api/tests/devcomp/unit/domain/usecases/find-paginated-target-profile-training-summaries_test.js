@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findPaginatedTargetProfileTrainingSummaries as findPaginatedTargetProfileTrainings } from '../../../../../src/devcomp/domain/usecases/find-paginated-target-profile-training-summaries.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | findPaginatedTargetProfileTrainingSummaries', function () {
   it('should call the repository with the right arguments and return summaries', async function () {

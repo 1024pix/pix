@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { passwordController } from '../../../../../src/identity-access-management/application/password/password.controller.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Identity Access Management | Application | Controller | password', function () {

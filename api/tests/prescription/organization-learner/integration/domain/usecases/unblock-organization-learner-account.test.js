@@ -1,5 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Prescription | Organization Learner | Domain | UseCase | unblockOrganizationLearnerAccount', function () {

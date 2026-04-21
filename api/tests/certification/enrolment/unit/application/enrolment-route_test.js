@@ -5,7 +5,7 @@ import { enrolmentController } from '../../../../../src/certification/enrolment/
 import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/enrolment-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Enrolment | Unit | Application | Routes', function () {

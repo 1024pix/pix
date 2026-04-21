@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { OrganizationLearner } from '../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { SchoolLearner } from '../../../../../src/school/domain/models/SchoolLearner.js';
 import * as missionLearnersRepository from '../../../../../src/school/infrastructure/repositories/mission-learner-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Repository | organizationLearner', function () {
   describe('#findMissionLearners', function () {

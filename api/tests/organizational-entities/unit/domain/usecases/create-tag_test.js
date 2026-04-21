@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { createTag } from '../../../../../src/organizational-entities/domain/usecases/create-tag.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Organizational Entities | UseCase | create-tag', function () {

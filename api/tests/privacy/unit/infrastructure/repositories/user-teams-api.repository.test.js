@@ -1,5 +1,4 @@
 import { getUserTeamsInfo } from '../../../../../src/privacy/infrastructure/repositories/user-teams-api.repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Privacy | Infrastructure | Repositories | user-teams-api', function () {
   describe('#getUserTeamsInfo', function () {

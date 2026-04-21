@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import * as certificationBadgesService from '../../../../../../src/certification/shared/domain/services/certification-badges-service.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | certification-badges-service', function () {

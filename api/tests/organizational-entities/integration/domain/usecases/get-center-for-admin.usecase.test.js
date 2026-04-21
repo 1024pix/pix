@@ -1,6 +1,6 @@
 import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | UseCases | get-center-for-admin', function () {

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign-participation/application/learner-participation-route.js';
 import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | Campaign-participation | learner-participation-controller', function () {

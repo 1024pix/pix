@@ -1,5 +1,5 @@
 import * as thematicRepository from '../../../../../src/shared/infrastructure/repositories/thematic-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

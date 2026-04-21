@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getTargetProfile } from '../../../../../../src/prescription/campaign/domain/usecases/get-target-profile.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-target-profile', function () {
   it('should get target profile from campaignId', async function () {

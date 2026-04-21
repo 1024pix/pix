@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getAuthorizationUrl } from '../../../../../src/identity-access-management/domain/usecases/get-authorization-url.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCases | get-authorization-url', function () {
   it('returns the generated authorization url', async function () {

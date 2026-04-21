@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { finalizeController } from '../../../../../src/certification/session-management/application/finalize-controller.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Finalize', function () {

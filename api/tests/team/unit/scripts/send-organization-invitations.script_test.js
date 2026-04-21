@@ -4,7 +4,6 @@ import Joi from 'joi';
 import sinon from 'sinon';
 
 import { SendOrganizationInvitationsScript } from '../../../../src/team/scripts/send-organization-invitations.script.js';
-import { expect } from '../../../test-helper.js';
 
 const currentDirectory = url.fileURLToPath(new URL('.', import.meta.url));
 

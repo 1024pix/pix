@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { unarchiveCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/unarchive-campaign.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | unarchive-campaign', function () {
   let campaignAdministrationRepository;

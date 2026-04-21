@@ -3,7 +3,6 @@ import nock from 'nock';
 import { createServer } from '../../../../../server.js';
 import { config } from '../../../../../src/shared/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | Modules | Route', function () {
   let server;

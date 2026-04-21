@@ -1,6 +1,6 @@
 import { OrganizationLearner } from '../../../../../src/quest/domain/models/OrganizationLearner.js';
 import * as combinedCourseParticipantRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-participant-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Infrastructure | repositories | Combined Course Participant', function () {

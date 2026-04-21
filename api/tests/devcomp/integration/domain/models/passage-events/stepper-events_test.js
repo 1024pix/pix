@@ -1,6 +1,6 @@
 import { StepperNextStepEvent } from '../../../../../../src/devcomp/domain/models/passage-events/stepper-events.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Devcomp | Domain | Models | passage-events | stepper-events', function () {

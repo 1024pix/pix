@@ -4,7 +4,6 @@ import { AnswerJobRepository } from '../../../../../src/evaluation/infrastructur
 import { config } from '../../../../../src/shared/config.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 
 const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');
 

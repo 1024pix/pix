@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { User } from '../../../../../src/profile/domain/models/User.js';
 import * as userRepository from '../../../../../src/profile/infrastructure/repositories/user-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Profile | Infrastructure | Repositories | UserRepository', function () {
   it('should return users', async function () {

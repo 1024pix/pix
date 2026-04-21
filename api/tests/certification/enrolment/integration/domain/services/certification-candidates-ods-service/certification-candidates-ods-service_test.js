@@ -14,7 +14,7 @@ import { Frameworks } from '../../../../../../../src/certification/shared/domain
 import * as certificationCpfService from '../../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';

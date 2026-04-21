@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { unfinalizeSession } from '../../../../../src/certification/session-management/application/unfinalize-controller.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Unfinalize', function () {

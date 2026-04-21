@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { Module } from '../../../../../src/quest/domain/models/Module.js';
 import * as moduleRepository from '../../../../../src/quest/infrastructure/repositories/module-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Repositories | Module Repository', function () {
   describe('#getByIds', function () {

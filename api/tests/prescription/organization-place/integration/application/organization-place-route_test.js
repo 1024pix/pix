@@ -4,7 +4,7 @@ import { organizationPlaceController } from '../../../../../src/prescription/org
 import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

@@ -5,7 +5,7 @@ import { ParticipationStartedJob } from '../../../../../../src/prescription/camp
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | start-campaign-participation', function () {

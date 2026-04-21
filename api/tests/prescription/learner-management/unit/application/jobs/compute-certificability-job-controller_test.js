@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { ComputeCertificabilityJobController } from '../../../../../../src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | computeCertificabilityJobController', function () {
   describe('#handle', function () {

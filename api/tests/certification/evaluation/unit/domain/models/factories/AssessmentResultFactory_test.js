@@ -1,7 +1,7 @@
 import { AssessmentResultFactory } from '../../../../../../../src/certification/evaluation/domain/models/factories/AssessmentResultFactory.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | Factories | AssessmentResultFactory', function () {

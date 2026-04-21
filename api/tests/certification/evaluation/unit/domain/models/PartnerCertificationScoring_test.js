@@ -1,6 +1,5 @@
 import { PartnerCertificationScoring } from '../../../../../../src/certification/evaluation/domain/models/PartnerCertificationScoring.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
   describe('constructor', function () {

@@ -5,7 +5,7 @@ import pickChallengeService from '../../../../../src/certification/evaluation/do
 import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { pickAnswerStatusService } from '../../../../../src/certification/shared/domain/services/pick-answer-status-service.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { parseNDJSON } from '../../../../tooling/test-utils/json.js';

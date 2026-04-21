@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { attachTargetProfileController } from '../../../../../src/certification/configuration/application/attach-target-profile-controller.js';
 import { usecases } from '../../../../../src/certification/configuration/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | Certification | ComplementaryCertification | attach-target-profile-controller', function () {

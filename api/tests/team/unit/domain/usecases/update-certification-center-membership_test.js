@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { CertificationCenterMembership } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { updateCertificationCenterMembership } from '../../../../../src/team/domain/usecases/update-certification-center-membership.usecase.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Team | Domain | UseCase | update-certification-center-membership', function () {

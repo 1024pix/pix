@@ -1,6 +1,6 @@
 import { Scorecard } from '../../../../../../src/evaluation/domain/models/Scorecard.js';
 import { SharedProfileForCampaign } from '../../../../../../src/prescription/campaign-participation/domain/read-models/SharedProfileForCampaign.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | SharedProfileForCampaign', function () {

@@ -13,7 +13,7 @@ import {
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { CsvImportError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { identifiersType } from '../../../../../src/shared/domain/types/identifiers-type.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Organizational Entities | Application | Route | Admin | Organization', function () {

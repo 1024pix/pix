@@ -1,5 +1,5 @@
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { knex } from '../../../../tooling/databases.js';
 import { AttestationTemplateFixture } from '../../../../tooling/fixtures/index.js';
 import { mockAttestationStorageUpload } from '../../../../tooling/mocks/attestation-storage.mock.js';

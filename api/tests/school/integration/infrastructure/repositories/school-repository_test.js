@@ -3,7 +3,7 @@ import { Division } from '../../../../../src/school/domain/models/Division.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { SchoolNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

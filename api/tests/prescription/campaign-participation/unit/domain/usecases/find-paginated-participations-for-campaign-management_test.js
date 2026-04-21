@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { findPaginatedParticipationsForCampaignManagement } from '../../../../../../src/prescription/campaign-participation/domain/usecases/find-paginated-participations-for-campaign-management.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | findPaginatedParticipationsForCampaignManagement', function () {

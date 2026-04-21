@@ -1,5 +1,5 @@
 import { Card } from '../../../../../../../src/devcomp/domain/models/element/flashcards/Card.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { validateCard } from '../../../../../shared/validateFlashcards.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Flashcards | Card', function () {

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/badge-acquisitions-statistics-serializer.js';
 

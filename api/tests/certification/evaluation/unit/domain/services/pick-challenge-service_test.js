@@ -1,5 +1,5 @@
 import pickChallengeService from '../../../../../../src/certification/evaluation/domain/services/pick-challenge-service.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Evaluation | Services | PickChallengeService', function () {

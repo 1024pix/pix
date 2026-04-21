@@ -1,5 +1,5 @@
 import { PoleEmploiSending } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | PoleEmploiSending', function () {

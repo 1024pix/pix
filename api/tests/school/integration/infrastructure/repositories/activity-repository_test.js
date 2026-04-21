@@ -1,7 +1,7 @@
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { ActivityNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

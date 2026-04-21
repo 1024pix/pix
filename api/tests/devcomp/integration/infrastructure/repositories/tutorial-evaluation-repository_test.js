@@ -1,6 +1,6 @@
 import { TutorialEvaluation } from '../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
 import * as tutorialEvaluationRepository from '../../../../../src/devcomp/infrastructure/repositories/tutorial-evaluation-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', function () {

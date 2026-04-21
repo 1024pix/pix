@@ -1,6 +1,5 @@
 import { Attestation } from '../../../../../../src/profile/domain/models/Attestation.js';
 import * as serializer from '../../../../../../src/profile/infrastructure/serializers/jsonapi/attestation-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Profile | Unit | Serializer | JSONAPI | attestation', function () {
   describe('#serialize()', function () {

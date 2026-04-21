@@ -2,7 +2,7 @@ import nock from 'nock';
 
 import { config } from '../../../../src/shared/config.js';
 import { lcmsClient } from '../../../../src/shared/infrastructure/lcms-client.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Application | Jobs | AuditLoggingJobController', function () {
   const now = new Date(2024, 1, 1);

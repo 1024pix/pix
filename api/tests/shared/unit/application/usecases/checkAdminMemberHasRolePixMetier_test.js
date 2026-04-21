@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import * as useCase from '../../../../../src/shared/application/usecases/checkAdminMemberHasRoleMetier.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleMetier', function () {
   const userId = '1234';

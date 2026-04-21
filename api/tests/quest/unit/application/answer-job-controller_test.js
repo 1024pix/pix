@@ -5,7 +5,6 @@ import { AnswerJob } from '../../../../src/quest/domain/models/AnwserJob.js';
 import { usecases } from '../../../../src/quest/domain/usecases/index.js';
 import { JobGroup } from '../../../../src/shared/application/jobs/job-controller.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Application | Jobs | AnswerJobController', function () {
   let jobController;

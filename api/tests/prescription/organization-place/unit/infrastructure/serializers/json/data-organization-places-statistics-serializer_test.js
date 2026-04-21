@@ -1,5 +1,4 @@
 import * as dataOrganizationPlaceStatisticsSerializer from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/json/data-organization-places-statistics-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSON | data-organization-places-statistics-serializer', function () {
   describe('#serialize', function () {

@@ -5,7 +5,7 @@ import {
   CpfBirthInformationValidation,
   getBirthInformation,
 } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Certification CPF service', function () {

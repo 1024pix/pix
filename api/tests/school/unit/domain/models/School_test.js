@@ -1,7 +1,6 @@
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { OrganizationLearnerDTO } from '../../../../../src/school/domain/read-models/OrganizationLearnerDTO.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | School', function () {
   describe('#get organizationLearners', function () {

@@ -1,6 +1,5 @@
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { OrganizationToJoin } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationToJoin.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | OrganizationToJoin', function () {
   describe('for an organization with import format', function () {

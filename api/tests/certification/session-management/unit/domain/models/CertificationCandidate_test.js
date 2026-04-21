@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import { CertificationCandidate } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidate.js';
 

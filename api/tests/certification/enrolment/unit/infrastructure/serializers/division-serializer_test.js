@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/division-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | division-serializer', function () {
   describe('#serialize', function () {

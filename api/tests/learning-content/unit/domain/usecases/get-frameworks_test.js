@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/learning-content/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-frameworks', function () {
   let sharedFrameworkRepository;

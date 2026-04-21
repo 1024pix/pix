@@ -1,6 +1,5 @@
 import { OrganizationLearnerImportFormat } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { serialize } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/organization-learner-import-format-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-import-format-serializer', function () {
   describe('#serialize', function () {

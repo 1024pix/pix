@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { livretScolaireController } from '../../../../../src/certification/results/application/livret-scolaire-controller.js';
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Results | Unit | Application | certifications-controller', function () {

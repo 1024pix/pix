@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { KeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/KeyValueStorage.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | key-value-storage | KeyValueStorage', function () {
   describe('#save', function () {

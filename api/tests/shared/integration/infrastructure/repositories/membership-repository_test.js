@@ -1,7 +1,7 @@
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | membership-repository', function () {

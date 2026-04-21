@@ -4,7 +4,7 @@ import { assessmentController } from '../../../../src/school/application/assessm
 import { Activity } from '../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../src/school/domain/models/Assessment.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | assessment-controller', function () {

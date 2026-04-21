@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { hasCampaignParticipations } from '../../../../../../src/prescription/campaign-participation/domain/usecases/has-campaign-participations.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Prescription | Campaign participation | Usecase | Has campaign participations', function () {

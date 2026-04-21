@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { getUserCertificationEligibility } from '../../../../../../src/certification/enrolment/domain/services/eligibility-service.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | Services | eligibility-service', function () {

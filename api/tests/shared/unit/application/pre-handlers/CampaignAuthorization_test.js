@@ -1,5 +1,4 @@
 import { CampaignAuthorization } from '../../../../../src/shared/application/pre-handlers/CampaignAuthorization.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Shared | Unit | Application | PreHandlers | CampaignAuthorization', function () {
   describe('#isAllowedToManage', function () {

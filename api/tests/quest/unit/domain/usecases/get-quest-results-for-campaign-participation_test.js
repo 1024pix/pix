@@ -8,7 +8,6 @@ import {
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/Quest.js';
 import { getQuestResultsForCampaignParticipation } from '../../../../../src/quest/domain/usecases/get-quest-results-for-campaign-participation.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipation', function () {
   let questRepository, eligibilityRepository, rewardRepository, campaignParticipationId, userId, logger;

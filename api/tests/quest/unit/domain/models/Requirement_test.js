@@ -11,7 +11,6 @@ import {
 } from '../../../../../src/quest/domain/models/Requirement.js';
 import { Success } from '../../../../../src/quest/domain/models/Success.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Requirement ', function () {
   describe('Factory - buildRequirement', function () {

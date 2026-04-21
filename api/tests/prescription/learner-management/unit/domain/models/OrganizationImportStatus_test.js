@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | OrganizationImportStatus', function () {
   let clock;

@@ -10,7 +10,6 @@ import {
 } from '../../../../../src/shared/infrastructure/feature-toggles/feature-toggles-client.js';
 import { InMemoryKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/InMemoryKeyValueStorage.js';
 import { getTopic } from '../../../../../src/shared/infrastructure/pubsub.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | FeatureToggles | FeatureTogglesClient', function () {
   let config;

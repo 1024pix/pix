@@ -1,7 +1,7 @@
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | UseCases | find-all-active-missions', function () {

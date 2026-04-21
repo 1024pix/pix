@@ -7,7 +7,6 @@ const { PassThrough } = stream;
 
 import { CampaignAssessmentExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-assessment-export.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
   describe('#export', function () {

@@ -1,5 +1,4 @@
 import { CommonOrganizationLearnerFilter } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerFilter.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | CommonOrganizationLearnerFilter', function () {
   describe('#constructor', function () {

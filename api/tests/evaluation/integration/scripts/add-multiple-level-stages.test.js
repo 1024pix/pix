@@ -3,7 +3,7 @@ import * as url from 'node:url';
 import sinon from 'sinon';
 
 import { AddMultipleLevelStagesScript } from '../../../../src/evaluation/scripts/add-multiple-level-stages.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
 

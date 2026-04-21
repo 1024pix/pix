@@ -3,7 +3,7 @@ import * as badgeCriteriaRepository from '../../../../../src/evaluation/infrastr
 import * as badgeRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { withTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

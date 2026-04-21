@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { PlacesStatistics } from '../../../../../../../src/organizational-entities/domain/read-models/PlacesStatistics.js';
 import * as organizationPlaceStatisticsSerializer from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-places-statistics.serializer.js';
 import { PlacesLot } from '../../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Serializers | JSONAPI | Organizations-Administrations | organization-places-statistics', function () {
   describe('#serialize', function () {

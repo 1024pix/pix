@@ -9,7 +9,7 @@ import {
   save,
 } from '../../../../../src/profile/infrastructure/repositories/profile-reward-repository.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Profile | Integration | Repository | profile-reward', function () {

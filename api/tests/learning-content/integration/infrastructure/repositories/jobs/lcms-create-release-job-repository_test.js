@@ -1,7 +1,6 @@
 import { LcmsCreateReleaseJob } from '../../../../../../src/learning-content/domain/models/LcmsCreateReleaseJob.js';
 import { lcmsCreateReleaseJobRepository } from '../../../../../../src/learning-content/infrastructure/repositories/jobs/lcms-create-release-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Learning Content | Integration | Repository | Jobs | LcmsCreateReleaseJobRepository', function () {
   describe('#performAsync', function () {

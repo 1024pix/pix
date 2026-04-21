@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { RedisKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/RedisKeyValueStorage.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | key-value-storage | RedisKeyValueStorage', function () {
   const REDIS_URL = 'redis_url';

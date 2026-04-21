@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { answerController } from '../../../../../src/evaluation/application/answers/answer-controller.js';
 import * as moduleUnderTest from '../../../../../src/evaluation/application/answers/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | answer-router', function () {

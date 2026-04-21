@@ -1,6 +1,5 @@
 import { getScopeByName, SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Shared | Domain | Models | Scopes', function () {
   describe('getScopeByName', function () {

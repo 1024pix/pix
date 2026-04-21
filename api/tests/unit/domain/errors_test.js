@@ -7,7 +7,6 @@ import {
   ForbiddenAccess,
   InvalidTemporaryKeyError,
 } from '../../../src/shared/domain/errors.js';
-import { expect } from '../../test-helper.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {

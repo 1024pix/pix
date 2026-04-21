@@ -5,7 +5,7 @@ import {
   EntityValidationError,
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {

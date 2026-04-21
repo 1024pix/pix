@@ -5,7 +5,7 @@ import { ComplementaryCertificationKeys } from '../../../../../src/certification
 import { CertificationCenter } from '../../../../../src/organizational-entities/domain/models/CertificationCenter.js';
 import * as certificationCenterRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center.repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

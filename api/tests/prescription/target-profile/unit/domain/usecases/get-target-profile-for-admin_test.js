@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getTargetProfileForAdmin } from '../../../../../../src/prescription/target-profile/domain/usecases/get-target-profile-for-admin.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-target-profile-for-admin', function () {
   it('should get target profile for admin', async function () {

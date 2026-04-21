@@ -4,7 +4,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -2,7 +2,7 @@ import * as poleEmploiService from '../../../../../../src/prescription/campaign-
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import * as poleEmploiSendingRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/pole-emploi-sending-repository.js';
 import { config as settings } from '../../../../../../src/shared/config.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 

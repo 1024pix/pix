@@ -4,7 +4,6 @@ import { TutorialForUser } from '../../../../../../src/devcomp/domain/read-model
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/correction-serializer.js';
 import { Correction } from '../../../../../../src/shared/domain/models/Correction.js';
 import { Hint } from '../../../../../../src/shared/domain/models/Hint.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
   describe('#serialize()', function () {

@@ -1,5 +1,4 @@
 import { OrganizationBatchUpdateDTO } from '../../../../../src/organizational-entities/domain/dtos/OrganizationBatchUpdateDTO.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | DTO | OrganizationBatchUpdate', function () {
   describe('#constructor', function () {

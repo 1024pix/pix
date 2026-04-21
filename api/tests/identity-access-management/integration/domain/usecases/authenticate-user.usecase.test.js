@@ -10,7 +10,7 @@ import { usecases } from '../../../../../src/identity-access-management/domain/u
 import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../../../../src/shared/config.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | authenticate-user', function () {

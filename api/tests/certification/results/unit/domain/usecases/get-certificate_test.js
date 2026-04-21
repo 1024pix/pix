@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { getCertificate } from '../../../../../../src/certification/results/domain/usecases/get-certificate.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | get-certificate', function () {

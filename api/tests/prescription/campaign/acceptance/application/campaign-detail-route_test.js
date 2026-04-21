@@ -3,7 +3,7 @@ import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
 } from '../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

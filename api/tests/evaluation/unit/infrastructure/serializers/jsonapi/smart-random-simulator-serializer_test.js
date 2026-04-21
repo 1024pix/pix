@@ -4,7 +4,6 @@ import * as serializer from '../../../../../../src/evaluation/infrastructure/ser
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Skill } from '../../../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | smart-random-simulator-serializer', function () {
   describe('#deserialize()', function () {

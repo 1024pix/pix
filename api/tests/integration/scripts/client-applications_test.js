@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+
 import sinon from 'sinon';
 
 import { ClientApplicationsScript } from '../../../scripts/identity-access-management/client-applications.js';

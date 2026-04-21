@@ -3,7 +3,6 @@ import { certificationCompletedJobRepository } from '../../../../../../../src/ce
 import { FRENCH_SPOKEN } from '../../../../../../../src/shared/domain/services/locale-service.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { JobPriority } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Repository | Jobs | CertificationCompletedJobRepository', function () {
   describe('#performAsync', function () {

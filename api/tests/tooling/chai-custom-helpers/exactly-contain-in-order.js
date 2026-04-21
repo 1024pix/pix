@@ -1,5 +1,4 @@
 import { Assertion } from 'chai';
-
 export function exactlyContainInOrder() {
   Assertion.addMethod('exactlyContainInOrder', function (expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain in order [${expectedElements}]`;

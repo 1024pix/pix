@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { organizationLearnerController } from '../../../../src/school/application/organization-learner-controller.js';
 import { OrganizationLearnerDTO } from '../../../../src/school/domain/read-models/OrganizationLearnerDTO.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | organization-learner-controller', function () {

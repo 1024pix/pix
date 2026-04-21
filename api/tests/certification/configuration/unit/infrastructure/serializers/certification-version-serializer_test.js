@@ -1,6 +1,5 @@
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/certification-version-serializer.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Configuration | Serializer | certification-version-serializer', function () {
   describe('#serialize()', function () {

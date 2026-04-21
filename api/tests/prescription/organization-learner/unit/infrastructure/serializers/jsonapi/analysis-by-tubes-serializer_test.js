@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/analysis-by-tubes-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | analysis-by-tubes-serializer', function () {
   describe('#serialize', function () {

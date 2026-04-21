@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { certificationReportsController } from '../../../../../src/certification/results/application/certification-reports-controller.js';
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | certification-reports-controller', function () {

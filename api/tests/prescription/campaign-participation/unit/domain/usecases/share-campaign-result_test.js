@@ -4,7 +4,7 @@ import { ParticipationResultCalculationJob } from '../../../../../../src/prescri
 import { ParticipationSharedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

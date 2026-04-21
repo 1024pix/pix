@@ -1,6 +1,5 @@
 import * as campaignUpdateValidator from '../../../../../../src/prescription/campaign/domain/validators/campaign-update-validator.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';

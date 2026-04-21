@@ -4,7 +4,6 @@ import {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
 } from '../../../../../src/evaluation/domain/services/validation-treatments.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Service | Validation Treatments', function () {
   describe('#normalizeAndRemoveAccents', function () {

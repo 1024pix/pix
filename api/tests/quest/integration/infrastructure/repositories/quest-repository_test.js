@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import * as questRepository from '../../../../../src/quest/infrastructure/repositories/quest-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | quest', function () {

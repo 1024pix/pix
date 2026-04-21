@@ -1,7 +1,7 @@
 import { StageWithLinkedCampaignError } from '../../../../../src/evaluation/domain/errors.js';
 import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';

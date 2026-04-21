@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { autonomousCourseTargetProfileController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-target-profile-controller.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

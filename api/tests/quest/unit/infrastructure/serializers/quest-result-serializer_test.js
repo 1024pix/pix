@@ -1,7 +1,6 @@
 import { Attestation } from '../../../../../src/profile/domain/models/Attestation.js';
 import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
 import * as questResultSerializer from '../../../../../src/quest/infrastructure/serializers/quest-result-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | quest-result', function () {
   it('#serialize', function () {

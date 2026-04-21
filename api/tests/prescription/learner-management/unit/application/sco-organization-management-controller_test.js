@@ -7,7 +7,7 @@ import { usecases } from '../../../../../src/prescription/learner-management/dom
 import { OrganizationLearnerParser } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-parser.js';
 import { FileValidationError } from '../../../../../src/shared/domain/errors.js';
 import { getI18nFromRequest } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

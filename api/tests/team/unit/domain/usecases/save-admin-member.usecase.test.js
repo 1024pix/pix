@@ -5,7 +5,7 @@ import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AlreadyExistingAdminMemberError } from '../../../../../src/team/domain/errors.js';
 import { AdminMember } from '../../../../../src/team/domain/models/AdminMember.js';
 import { saveAdminMember } from '../../../../../src/team/domain/usecases/save-admin-member.usecase.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

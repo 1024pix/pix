@@ -1,5 +1,5 @@
 import { lastUserApplicationConnectionsRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | last-user-application-connections', function () {

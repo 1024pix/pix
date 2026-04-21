@@ -5,7 +5,6 @@ import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedC
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { Module } from '../../../../../src/quest/domain/models/Module.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function () {
   describe('#constructor', function () {

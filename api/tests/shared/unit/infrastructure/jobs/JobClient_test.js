@@ -8,7 +8,6 @@ import { config } from '../../../../../src/shared/config.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 class FakePgBoss {
   start() {

@@ -1,7 +1,7 @@
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import { getOrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-organization-learner.js';
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | get-organization-learner', function () {

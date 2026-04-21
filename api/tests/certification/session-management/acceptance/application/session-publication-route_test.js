@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { status } from '../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

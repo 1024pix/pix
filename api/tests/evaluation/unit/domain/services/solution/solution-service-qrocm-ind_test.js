@@ -1,7 +1,7 @@
 import * as service from '../../../../../../src/evaluation/domain/services/solution/solution-service-qrocm-ind.js';
 import { YamlParsingError } from '../../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 const ANSWER_OK = AnswerStatus.OK;

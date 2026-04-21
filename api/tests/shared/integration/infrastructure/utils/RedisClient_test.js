@@ -2,7 +2,6 @@ import { randomUUID } from 'node:crypto';
 
 import { config } from '../../../../../src/shared/config.js';
 import { RedisClient } from '../../../../../src/shared/infrastructure/utils/RedisClient.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Utils | RedisClient', function () {
   beforeEach(async function () {

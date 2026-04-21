@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { StageWithLinkedCampaignError } from '../../../../../src/evaluation/domain/errors.js';
 import { isStageNotUpdatable, updateStage } from '../../../../../src/evaluation/domain/usecases/update-stage.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Use Cases | update-stage', function () {

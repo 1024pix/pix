@@ -2,7 +2,7 @@ import _ from 'lodash';
 import sinon from 'sinon';
 
 import { SessionJuryComment } from '../../../../../../src/certification/session-management/domain/models/SessionJuryComment.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const SESSION_JURY_COMMENT_PROPS = ['id', 'comment', 'authorId', 'updatedAt'];

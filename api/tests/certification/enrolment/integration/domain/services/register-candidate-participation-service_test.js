@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { services } from '../../../../../../src/certification/enrolment/application/services/index.js';
 import { normalize } from '../../../../../../src/shared/infrastructure/utils/string-utils.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

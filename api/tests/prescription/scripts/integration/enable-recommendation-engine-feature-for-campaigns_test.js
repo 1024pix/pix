@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+
 import sinon from 'sinon';
 
 import { EnableRecommendationEngineFeatureForCampaignsScript } from '../../../../src/prescription/scripts/enable-recommendation-engine-feature-for-campaigns.js';

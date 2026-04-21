@@ -1,7 +1,6 @@
 import * as creationCommandValidator from '../../../../../../src/prescription/target-profile/domain/validators/creation-command-validation.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { categories } from '../../../../../../src/shared/domain/models/TargetProfile.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Validators | target-profile/creationCommandValidator', function () {
   describe('#validate', function () {

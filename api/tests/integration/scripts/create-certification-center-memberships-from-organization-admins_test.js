@@ -6,7 +6,7 @@ import {
   prepareDataForInsert,
 } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {

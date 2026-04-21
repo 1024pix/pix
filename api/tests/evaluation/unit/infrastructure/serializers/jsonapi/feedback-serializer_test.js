@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/feedback-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
   describe('#serialize()', function () {

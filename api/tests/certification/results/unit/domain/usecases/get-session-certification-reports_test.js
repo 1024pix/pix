@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getSessionCertificationReports } from '../../../../../../src/certification/results/domain/usecases/get-session-certification-reports.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-session-certification-reports', function () {
   it('should return the certification reports', async function () {

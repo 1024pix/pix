@@ -1,6 +1,5 @@
 import { CombinedCourseStatistics } from '../../../../../src/quest/domain/models/CombinedCourseStatistics.js';
 import { serialize } from '../../../../../src/quest/infrastructure/serializers/combined-course-statistics-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('CombinedCourseStatisticsSerializer', function () {
   it('should serialize CombinedCourseStatistics', function () {

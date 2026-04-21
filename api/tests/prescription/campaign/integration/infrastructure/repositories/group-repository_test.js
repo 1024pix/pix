@@ -1,5 +1,5 @@
 import * as groupRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/group-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Group', function () {

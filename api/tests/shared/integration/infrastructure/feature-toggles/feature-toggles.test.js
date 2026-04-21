@@ -1,5 +1,4 @@
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Feature Toggles | Feature Toggles', function () {
   it('changes the toggle value in tests', async function () {

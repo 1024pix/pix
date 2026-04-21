@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+
 import sinon from 'sinon';
 
 import { DeleteAndAnonymisePreviousCampaignParticipationsScript } from '../../../../src/prescription/scripts/delete-and-anonymise-previous-participations.js';

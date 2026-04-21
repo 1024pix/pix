@@ -6,7 +6,7 @@ import {
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

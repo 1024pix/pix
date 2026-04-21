@@ -3,7 +3,6 @@ import { CertificationCourse } from '../../../../../../src/certification/shared/
 import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function () {
   describe('#serialize', function () {

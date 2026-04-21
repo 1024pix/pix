@@ -1,6 +1,5 @@
 import { AttestationParticipantStatus } from '../../../../../../../src/prescription/organization-learner/domain/read-models/AttestationParticipantStatus.js';
 import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/attestation-participants-status-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | attestation-participants-status-serializer', function () {
   describe('#serialize', function () {

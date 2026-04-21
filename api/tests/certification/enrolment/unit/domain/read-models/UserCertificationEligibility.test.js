@@ -2,7 +2,6 @@ import {
   CertificationEligibility,
   UserCertificationEligibility,
 } from '../../../../../../src/certification/enrolment/domain/read-models/UserCertificationEligibility.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | Domain | ReadModels | UserCertificationEligibility', function () {
   describe('#isEligibleToDoubleCertification', function () {

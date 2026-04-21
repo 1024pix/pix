@@ -1,6 +1,5 @@
 import { ComplementaryCertificationCourseWithResults } from '../../../../../../src/certification/enrolment/domain/models/ComplementaryCertificationCourseWithResults.js';
 import { ChallengesReferential } from '../../../../../../src/certification/shared/domain/models/ChallengesReferential.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | ComplementaryCertificationCourseWithResults', function () {
   describe('#isAcquiredExpectedLevelByPixSource', function () {

@@ -7,7 +7,7 @@ import {
 import * as LLMDomainErrors from '../../../../src/llm/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
 import * as DomainErrors from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Integration | API | Controller Error', function () {

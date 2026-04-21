@@ -1,5 +1,4 @@
 import { UserAccountInfo } from '../../../../../src/identity-access-management/domain/models/UserAccountInfo.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | UserAccountInfo', function () {
   const restrictedOidcProvidersForEmailCreation = ['RESTRICTED_OIDC_PROVIDER_1'];

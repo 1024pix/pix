@@ -1,5 +1,5 @@
 import { scenarioSimulatorBatchSerializer } from '../../../../../../src/certification/evaluation/infrastructure/serializers/scenario-simulator-batch-serializer.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', function () {

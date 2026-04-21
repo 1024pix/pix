@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { updateOrganizationLearnerDependentUserPassword } from '../../../../src/prescription/organization-learner/domain/usecases/update-organization-learner-dependent-user-password.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | update-organization-learner-dependent-user-password', function () {

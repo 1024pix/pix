@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import { buildFramework } from '../../../../../db/database-builder/factory/learning-content/build-framework.js';
 import { CampaignLearningContent } from '../../../../../src/shared/domain/models/CampaignLearningContent.js';

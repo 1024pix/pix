@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { attachTargetProfileController } from '../../../../../src/certification/configuration/application/attach-target-profile-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/configuration/application/attach-target-profile-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Certification | ComplementaryCertification | attach-target-profile-route', function () {

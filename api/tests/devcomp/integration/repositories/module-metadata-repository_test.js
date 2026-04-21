@@ -6,7 +6,7 @@ import { ModuleMetadata } from '../../../../src/devcomp/domain/models/module/Mod
 import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import * as moduleMetadataRepository from '../../../../src/devcomp/infrastructure/repositories/module-metadata-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {

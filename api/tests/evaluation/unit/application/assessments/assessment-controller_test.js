@@ -8,7 +8,6 @@ import { usecases as profileUsecases } from '../../../../../src/profile/domain/u
 import { usecases as questUsecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#completeAssessment', function () {

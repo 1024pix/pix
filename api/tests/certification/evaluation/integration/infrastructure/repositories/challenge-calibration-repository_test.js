@@ -1,6 +1,6 @@
 import { ChallengeCalibration } from '../../../../../../src/certification/evaluation/domain/read-models/ChallengeCalibration.js';
 import { getByCertificationCourseId } from '../../../../../../src/certification/evaluation/infrastructure/repositories/challenge-calibration-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | ChallengeCalibrationRepository', function () {

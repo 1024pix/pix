@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getAvailableTargetProfilesForOrganization } from '../../../../../../src/prescription/target-profile/domain/usecases/get-available-target-profiles-for-organization.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-available-target-profiles-for-organization', function () {
   it('returns the target profile available for the given organizations', async function () {

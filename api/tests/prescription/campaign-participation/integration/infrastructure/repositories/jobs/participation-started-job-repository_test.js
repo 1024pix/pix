@@ -1,7 +1,6 @@
 import { ParticipationStartedJob } from '../../../../../../../src/prescription/campaign-participation/domain/models/ParticipationStartedJob.js';
 import { participationStartedJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-started-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | participationStartedJobRepository', function () {
   describe('#performAsync', function () {

@@ -1,7 +1,7 @@
 import { Subscription } from '../../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 

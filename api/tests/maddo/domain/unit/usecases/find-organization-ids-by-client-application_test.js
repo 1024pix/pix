@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findOrganizationIdsByClientApplication } from '../../../../../src/maddo/domain/usecases/find-organization-ids-by-client-application.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Maddo | Domain | Usecase | Find organization ids by client application', function () {
   context('when client application’s jurisdiction has only one tags rule', function () {

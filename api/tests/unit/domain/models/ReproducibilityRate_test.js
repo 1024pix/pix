@@ -1,6 +1,6 @@
 import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../../../src/certification/shared/domain/constants.js';
 import { ReproducibilityRate } from '../../../../src/certification/shared/domain/models/ReproducibilityRate.js';
-import { expect } from '../../../test-helper.js';
+
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | ReproducibilityRate', function () {

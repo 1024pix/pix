@@ -7,7 +7,6 @@ import sinon from 'sinon';
 
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import * as userService from '../../../../../src/shared/domain/services/user-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Service | user-service', function () {
   const hashedPassword = 'ABCD1234';

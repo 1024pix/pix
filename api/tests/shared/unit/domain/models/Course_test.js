@@ -1,5 +1,4 @@
 import { Course } from '../../../../../src/evaluation/domain/models/Course.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Course', function () {
   describe('#nbChallenges', function () {

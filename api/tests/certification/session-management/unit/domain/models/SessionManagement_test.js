@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { SessionManagement } from '../../../../../../src/certification/session-management/domain/models/SessionManagement.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const SESSION_PROPS = [

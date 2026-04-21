@@ -1,6 +1,6 @@
 import * as certifiableBadgeAcquisitionRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

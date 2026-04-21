@@ -1,5 +1,4 @@
 import { UserDetailsForAdmin } from '../../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
   describe('constructor', function () {

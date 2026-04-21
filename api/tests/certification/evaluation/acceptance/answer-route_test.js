@@ -1,5 +1,5 @@
 import { createServer } from '../../../../server.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

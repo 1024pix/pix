@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

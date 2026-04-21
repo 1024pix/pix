@@ -4,7 +4,7 @@ import { PassageDoesNotExistError, PassageTerminatedError } from '../../../../..
 import { terminatePassage } from '../../../../../src/devcomp/domain/usecases/terminate-passage.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | terminate-passage', function () {

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { httpAgent } from '../../../../src/shared/infrastructure/http-agent.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../test-helper.js';
 
 const { post, get } = httpAgent;
 

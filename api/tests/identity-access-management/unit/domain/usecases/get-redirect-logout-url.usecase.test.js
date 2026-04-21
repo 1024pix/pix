@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getRedirectLogoutUrl } from '../../../../../src/identity-access-management/domain/usecases/get-redirect-logout-url.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCases | get-redirect-logout-url', function () {
   it('returns the generated redirect logout url', async function () {

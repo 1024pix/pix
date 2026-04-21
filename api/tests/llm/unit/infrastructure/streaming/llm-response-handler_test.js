@@ -1,6 +1,5 @@
 import { Chat } from '../../../../../src/llm/domain/models/Chat.js';
 import { LLMResponseHandler } from '../../../../../src/llm/infrastructure/streaming/llm-response-handler.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('LLM | Unit | Infrastructure | Streaming | LLMResponseHandler', function () {
   describe('#processLlmResponse', function () {

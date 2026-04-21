@@ -3,7 +3,6 @@ import fs from 'node:fs';
 import sinon from 'sinon';
 
 import { UpdateTranslations } from '../../../scripts/update-translations.js';
-import { expect } from '../../test-helper.js';
 
 describe('unit | scripts | update-translations', function () {
   let script;

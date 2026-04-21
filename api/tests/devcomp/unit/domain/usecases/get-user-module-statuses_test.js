@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { UserModuleStatus } from '../../../../../src/devcomp/domain/models/module/UserModuleStatus.js';
 import { Passage } from '../../../../../src/devcomp/domain/models/Passage.js';
 import { getUserModuleStatuses } from '../../../../../src/devcomp/domain/usecases/get-user-module-statuses.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-user-module-statuses', function () {
   const now = new Date('2025-07-02T14:00:00Z');

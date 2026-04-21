@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/feature-toggle-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | feature-toggle-serializer', function () {
   describe('#serialize', function () {

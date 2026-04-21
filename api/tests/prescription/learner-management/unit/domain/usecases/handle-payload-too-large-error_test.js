@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { handlePayloadTooLargeError } from '../../../../../../src/prescription/learner-management/domain/usecases/handle-payload-too-large-error.js';
 import { PayloadTooLargeError } from '../../../../../../src/shared/application/http-errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | Organization Learners Management | Handle Payload Too Large Error', function () {

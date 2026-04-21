@@ -14,7 +14,7 @@ import { Assessment } from '../../../../../src/shared/domain/models/Assessment.j
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as AssesmentResult from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

@@ -1,4 +1,4 @@
-import { expect } from '../../../test-helper.js';
+
 import { expectChaiError } from '../../../tooling/chai-custom-helpers/chai-custom-test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 

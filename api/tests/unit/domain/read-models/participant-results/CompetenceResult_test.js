@@ -1,6 +1,6 @@
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { CompetenceResult } from '../../../../../src/shared/domain/read-models/participant-results/CompetenceResult.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', function () {

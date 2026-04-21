@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/tag-serializer.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Organizational Entities | Serializer | JSONAPI | tag', function () {

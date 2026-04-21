@@ -1,6 +1,6 @@
 import { extractExternalIds } from '../../../../../../../src/certification/configuration/infrastructure/serializers/csv/sco-whitelist-csv-parser.js';
 import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 import { createTempFile, removeTempFile } from '../../../../../../tooling/test-utils/file.js';
 

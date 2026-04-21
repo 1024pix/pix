@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { Division } from '../../../../../src/school/domain/models/Division.js';
 import { getDivisions } from '../../../../../src/school/domain/usecases/get-divisions.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-divisions', function () {
   it('should call the school repository ', async function () {

@@ -1,5 +1,4 @@
 import { QCUDeclarative } from '../../../../../../src/devcomp/domain/models/element/QCU-declarative.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QCU-declarative', function () {
   describe('#constructor', function () {

@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { endAssessmentByInvigilator } from '../../../../../../src/certification/session-management/domain/usecases/end-assessment-by-invigilator.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | end-assessment-by-invigilator', function () {

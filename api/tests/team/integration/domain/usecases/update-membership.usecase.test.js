@@ -1,7 +1,7 @@
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { updateMembership } from '../../../../../src/team/domain/usecases/update-membership.usecase.js';
 import * as membershipRepository from '../../../../../src/team/infrastructure/repositories/membership.repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | UseCases | update-membership', function () {

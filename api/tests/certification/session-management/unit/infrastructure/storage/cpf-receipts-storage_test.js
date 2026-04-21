@@ -8,7 +8,6 @@ import { CpfReceipt } from '../../../../../../src/certification/session-manageme
 import { CpfReceiptsStorage } from '../../../../../../src/certification/session-management/infrastructure/storage/cpf-receipts-storage.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { expect } from '../../../../../test-helper.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

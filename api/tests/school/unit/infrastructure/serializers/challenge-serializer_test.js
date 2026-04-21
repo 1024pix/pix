@@ -1,6 +1,5 @@
 import * as serializer from '../../../../../src/school/infrastructure/serializers/challenge-serializer.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | challenge-serializer', function () {
   describe('#serialize()', function () {

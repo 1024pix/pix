@@ -2,7 +2,6 @@ import { CombinedCourseParticipationStatuses } from '../../../../../src/prescrip
 import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedCourse.js';
 import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/CombinedCourseParticipation.js';
 import * as combinedCourseListSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-list-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-list', function () {
   describe('#serialize', function () {

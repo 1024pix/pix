@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { userOrgaSettingsController } from '../../../../src/team/application/user-orga-settings.controller.js';
 import { usecases } from '../../../../src/team/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | user-orga-settings-controller', function () {

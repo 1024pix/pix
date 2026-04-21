@@ -1,7 +1,6 @@
 import { emailChangeVerificationCodeEmail } from '../../../../../src/identity-access-management/domain/emails/email-change-verification-code.email.js';
 import { Email } from '../../../../../src/shared/mail/domain/models/Email.js';
 import { mailer } from '../../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Email | email-change-verification-code', function () {
   it('creates email change verification code email with correct parameters', function () {

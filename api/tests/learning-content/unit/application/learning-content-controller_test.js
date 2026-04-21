@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { learningContentController } from '../../../../src/learning-content/application/learning-content-controller.js';
 import { usecases } from '../../../../src/learning-content/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
+
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Learning Content | Unit | Controller | learning-content-controller', function () {

@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import * as moduleUnderTest from '../../../../../src/evaluation/application/scorecards/index.js';
 import { stageCollectionController } from '../../../../../src/evaluation/application/stage-collections/stage-collection-controller.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | stage-collections', function () {

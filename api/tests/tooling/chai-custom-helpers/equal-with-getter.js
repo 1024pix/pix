@@ -1,5 +1,4 @@
-import { Assertion, expect } from 'chai';
-
+import { Assertion } from 'chai';
 export function equalWithGetter() {
   Assertion.addMethod('equalWithGetter', function (expectedElement) {
     if (Array.isArray(expectedElement)) {

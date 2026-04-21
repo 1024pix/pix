@@ -1,6 +1,5 @@
 import * as service from '../../../../../../src/evaluation/domain/services/solution/solution-service-qroc.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 const ANSWER_KO = AnswerStatus.KO;
 const ANSWER_OK = AnswerStatus.OK;

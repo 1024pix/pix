@@ -1,6 +1,5 @@
 import { validateSupOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/validators/sup-organization-learner-validator.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Sup Organization Learner Validator', function () {
   const learner = {

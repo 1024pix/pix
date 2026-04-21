@@ -1,6 +1,6 @@
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/consolidated-framework-serializer.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Serializer | consolidated-framework-serializer', function () {

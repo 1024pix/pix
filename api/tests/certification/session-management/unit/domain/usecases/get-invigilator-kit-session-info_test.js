@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { SessionForInvigilatorKit } from '../../../../../../src/certification/session-management/domain/read-models/SessionForInvigilatorKit.js';
 import { getInvigilatorKitSessionInfo } from '../../../../../../src/certification/session-management/domain/usecases/get-invigilator-kit-session-info.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | get-invigilator-kit-info', function () {

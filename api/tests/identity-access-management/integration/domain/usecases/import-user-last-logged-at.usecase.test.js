@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | import user last logged at', function () {

@@ -1,5 +1,4 @@
 import { Session } from '../../../../../../src/certification/evaluation/domain/models/Session.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('unit | domain | models | Session', function () {
   describe('.isNotAccessible', function () {

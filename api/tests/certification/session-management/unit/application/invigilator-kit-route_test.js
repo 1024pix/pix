@@ -4,7 +4,7 @@ import { invigilatorKitController } from '../../../../../src/certification/sessi
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/invigilator-kit-route.js';
 import { authorization } from '../../../../../src/certification/session-management/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
+
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Invigilator Kit', function () {

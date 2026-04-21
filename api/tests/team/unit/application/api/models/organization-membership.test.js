@@ -1,6 +1,5 @@
 import { roles } from '../../../../../../src/shared/domain/models/Membership.js';
 import { OrganizationMembership } from '../../../../../../src/team/application/api/models/organization-membership.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Team | Unit | Application | API | Model | OrganizationMembership', function () {
   describe('#isMember', function () {

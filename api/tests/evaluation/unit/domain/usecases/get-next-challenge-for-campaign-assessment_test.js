@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import * as flash from '../../../../../src/certification/evaluation/domain/services/algorithm-methods/flash.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../../src/evaluation/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {

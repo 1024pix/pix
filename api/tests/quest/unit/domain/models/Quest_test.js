@@ -8,7 +8,6 @@ import {
 } from '../../../../../src/quest/domain/models/Quest.js';
 import { Success } from '../../../../../src/quest/domain/models/Success.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Quest ', function () {
   describe('#constructor', function () {

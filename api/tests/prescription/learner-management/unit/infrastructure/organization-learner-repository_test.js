@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getAttestationsForOrganizationLearnersAndKey } from '../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Prescription | Learner-Management | Unit | Infrastructure | organization-learner-repository', function () {
   describe('#getAttestationsForOrganizationLearnersAndKey', function () {

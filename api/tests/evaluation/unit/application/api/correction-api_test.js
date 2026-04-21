@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import * as correctionApi from '../../../../../src/evaluation/application/api/correction-api.js';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Application | API | correction-api', function () {

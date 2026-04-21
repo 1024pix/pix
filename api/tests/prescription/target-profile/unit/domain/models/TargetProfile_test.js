@@ -1,5 +1,5 @@
 import { TargetProfile } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfile.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | TargetProfile', function () {

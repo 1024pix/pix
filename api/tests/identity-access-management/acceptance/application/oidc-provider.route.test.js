@@ -6,7 +6,7 @@ import { createServer } from '../../../../server.js';
 import { authenticationSessionService } from '../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { AuthenticationSessionContent } from '../../../../src/shared/domain/models/AuthenticationSessionContent.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { createMockedTestOidcProviders } from '../../../tooling/mocks/openid-client.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

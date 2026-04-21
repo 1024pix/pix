@@ -1,6 +1,5 @@
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CompetenceEvaluationAssessment } from '../../../../../src/shared/domain/read-models/CompetenceEvaluationAssessment.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CompetenceEvaluationAssessment', function () {
   describe('#constructor', function () {

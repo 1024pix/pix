@@ -1,6 +1,6 @@
 import { attachOrganizationsToTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/attach-organizations-to-target-profile.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | attach-organizations-to-target-profile', function () {

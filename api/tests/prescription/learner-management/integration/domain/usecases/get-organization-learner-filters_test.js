@@ -1,5 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | Learner Management | get-organization-learner-filters', function () {

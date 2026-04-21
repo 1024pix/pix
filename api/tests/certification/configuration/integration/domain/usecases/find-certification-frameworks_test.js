@@ -1,7 +1,7 @@
 import { usecases } from '../../../../../../src/certification/configuration/domain/usecases/index.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Certification | Configuration | Integration | Domain | UseCase | find-certification-frameworks', function () {

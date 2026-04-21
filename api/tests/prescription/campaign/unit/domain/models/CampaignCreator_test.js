@@ -9,7 +9,7 @@ import { CampaignForCreation } from '../../../../../../src/prescription/campaign
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {

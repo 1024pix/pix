@@ -1,6 +1,6 @@
 import { AnswerCollectionForScoring } from '../../../../src/certification/shared/domain/models/AnswerCollectionForScoring.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../test-helper.js';
+
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | AnswerCollectionForScoring', function () {

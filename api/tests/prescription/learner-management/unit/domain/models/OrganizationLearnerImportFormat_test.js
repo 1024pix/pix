@@ -4,7 +4,6 @@ import {
 } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | OrganizationLearnerImportFormat', function () {
   let organizationLearnerImportFormatPayload;

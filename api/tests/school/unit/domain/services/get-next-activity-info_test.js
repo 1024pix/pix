@@ -4,7 +4,7 @@ import {
   END_OF_MISSION,
   getNextActivityInfo,
 } from '../../../../../src/school/domain/services/get-next-activity-info.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Pix Junior | get next activity info', function () {

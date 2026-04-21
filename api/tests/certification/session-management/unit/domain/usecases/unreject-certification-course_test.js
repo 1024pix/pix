@@ -4,7 +4,7 @@ import { unrejectCertificationCourse } from '../../../../../../src/certification
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationCourseUnrejected } from '../../../../../../src/shared/domain/events/CertificationCourseUnrejected.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | unreject-certification-course', function () {

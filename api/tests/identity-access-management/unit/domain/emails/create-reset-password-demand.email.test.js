@@ -1,7 +1,6 @@
 import { createResetPasswordDemandEmail } from '../../../../../src/identity-access-management/domain/emails/create-reset-password-demand.email.js';
 import { Email } from '../../../../../src/shared/mail/domain/models/Email.js';
 import { mailer } from '../../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Email | create-reset-password-demand', function () {
   it('creates reset password demand email with correct parameters', function () {

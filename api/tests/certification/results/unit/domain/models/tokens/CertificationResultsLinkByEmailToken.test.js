@@ -4,7 +4,6 @@ import { CertificationResultsLinkByEmailToken } from '../../../../../../../src/c
 import { config } from '../../../../../../../src/shared/config.js';
 import { InvalidResultRecipientTokenError } from '../../../../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Certification | Results | Domain | Model | CertificationResultsLinkByEmailToken', function () {
   beforeEach(function () {

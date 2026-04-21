@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { OrganizationPlacesLotManagement } from '../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', function () {
   describe('constructor', function () {

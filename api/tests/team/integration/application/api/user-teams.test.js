@@ -1,6 +1,6 @@
 import { UserTeamsInfo } from '../../../../../src/team/application/api/models/user-teams-info.js';
 import { getUserTeamsInfo } from '../../../../../src/team/application/api/user-teams.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Team | Integration | Application | API | user-teams', function () {

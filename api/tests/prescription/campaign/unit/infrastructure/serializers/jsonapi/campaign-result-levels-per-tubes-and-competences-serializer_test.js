@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';

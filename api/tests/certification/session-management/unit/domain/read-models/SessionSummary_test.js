@@ -1,5 +1,4 @@
 import { SessionSummary } from '../../../../../../src/certification/session-management/domain/read-models/SessionSummary.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | SessionSummary', function () {
   describe('#static from', function () {

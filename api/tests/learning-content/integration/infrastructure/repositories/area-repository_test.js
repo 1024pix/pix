@@ -1,5 +1,5 @@
 import { areaRepository } from '../../../../../src/learning-content/infrastructure/repositories/area-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Area', function () {

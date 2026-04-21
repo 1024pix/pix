@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
 import { generateCursor } from '../../../../../src/prescription/campaign-participation/domain/services/pole-emploi-service.js';
-import { expect } from '../../../../test-helper.js';
+
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | Pole Emploi Controller', function () {

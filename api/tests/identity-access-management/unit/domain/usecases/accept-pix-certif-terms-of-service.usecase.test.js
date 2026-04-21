@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { acceptPixCertifTermsOfService } from '../../../../../src/identity-access-management/domain/usecases/accept-pix-certif-terms-of-service.usecase.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | accept-pix-certif-terms-of-service', function () {
   let userRepository;

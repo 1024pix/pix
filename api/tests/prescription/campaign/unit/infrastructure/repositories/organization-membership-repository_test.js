@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { OrganizationMembership } from '../../../../../../src/prescription/campaign/domain/read-models/OrganizationMembership.js';
 import { getByUserIdAndOrganizationId } from '../../../../../../src/prescription/campaign/infrastructure/repositories/organization-membership-repository.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Repositories | Organization Membership Repository', function () {
   it('should returns the corresponding OrganizationMemberShip Model', async function () {

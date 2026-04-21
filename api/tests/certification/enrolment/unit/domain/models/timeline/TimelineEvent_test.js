@@ -1,6 +1,6 @@
 import { TimelineEvent } from '../../../../../../../src/certification/enrolment/domain/models/timeline/TimelineEvent.js';
 import { EntityValidationError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { catchErrSync } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | TimelineEvent', function () {

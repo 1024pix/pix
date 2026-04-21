@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { getCertificationCourseVersion } from '../../../../../../src/certification/results/domain/usecases/get-certification-course-version.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Results | Domain | Usecases | get-certification-course-version', function () {
   context('when there is a certification course with the given id', function () {

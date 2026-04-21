@@ -2,7 +2,7 @@ import * as url from 'node:url';
 
 import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';
 import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

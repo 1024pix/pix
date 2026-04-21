@@ -1,6 +1,6 @@
 import { OrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | find-organization-learners-by-userId', function () {

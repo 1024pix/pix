@@ -1,7 +1,6 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | enrolment | Serializer | session-serializer', function () {
   describe('#serialize()', function () {

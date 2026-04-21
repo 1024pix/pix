@@ -1,5 +1,4 @@
 import { EventStreamEncoderStream } from '../../../../../../src/llm/infrastructure/streaming/transforms/event-stream-encoder-transform.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('LLM | Unit | Infrastructure | Streaming | Transforms | EventStreamEncoderStream', function () {
   context('when a chunk contains "message"', function () {

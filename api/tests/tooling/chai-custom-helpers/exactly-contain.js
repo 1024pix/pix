@@ -1,5 +1,4 @@
 import { Assertion } from 'chai';
-
 export function exactlyContain() {
   Assertion.addMethod('exactlyContain', function (expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain [${expectedElements}]`;

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { Script } from '../../../../../src/shared/application/scripts/script.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Shared | Unit | Application | Script', function () {

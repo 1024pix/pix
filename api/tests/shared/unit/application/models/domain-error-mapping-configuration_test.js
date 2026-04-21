@@ -1,6 +1,5 @@
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Application | Models | DomainErrorMappingConfiguration', function () {
   context('when parameters are valid', function () {

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { Email } from '../../../../../../src/shared/mail/domain/models/Email.js';
 import * as emailRepository from '../../../../../../src/shared/mail/infrastructure/repositories/email.repository.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Email | Infrastructure | Repository | EmailRepository', function () {
   describe('#sendEmail', function () {

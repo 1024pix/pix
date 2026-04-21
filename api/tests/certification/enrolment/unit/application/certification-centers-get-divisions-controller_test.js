@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { certificationCenterController } from '../../../../../src/certification/enrolment/application/certification-centers-get-divisions-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Enrolment | Unit | Controller | certifications-centers-get-divisions-controller', function () {

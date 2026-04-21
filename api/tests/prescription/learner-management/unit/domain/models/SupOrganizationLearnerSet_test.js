@@ -1,7 +1,7 @@
 import { SupOrganizationLearnerSet } from '../../../../../../src/prescription/learner-management/domain/models/SupOrganizationLearnerSet.js';
 import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Models | SupOrganizationLearnerSet', function () {

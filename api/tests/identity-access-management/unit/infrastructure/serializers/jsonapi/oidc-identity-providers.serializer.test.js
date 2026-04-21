@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | oidc-identity-providers', function () {
   describe('#serialize', function () {

@@ -27,7 +27,7 @@ import { ModuleFactory } from '../../../../../src/devcomp/infrastructure/factori
 import { PixAssetImageInfos } from '../../../../../src/shared/domain/models/PixAssetImageInfos.js';
 import { getAssetInfos } from '../../../../../src/shared/infrastructure/repositories/pix-assets-repository.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 import { validateFlashcards } from '../../../shared/validateFlashcards.js';
 

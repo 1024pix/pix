@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { OrganizationBatchUpdateError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { updateOrganizationsInBatch } from '../../../../../src/organizational-entities/domain/usecases/update-organizations-in-batch.usecase.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 import { createTempFile, removeTempFile } from '../../../../tooling/test-utils/file.js';

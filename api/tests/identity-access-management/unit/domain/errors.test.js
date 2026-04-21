@@ -1,5 +1,4 @@
 import { PasswordResetDemandNotFoundError } from '../../../../src/identity-access-management/domain/errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Errors', function () {
   describe('#PasswordResetDemandNotFoundError', function () {

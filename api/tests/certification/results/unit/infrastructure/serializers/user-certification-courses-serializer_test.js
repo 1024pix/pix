@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/user-certification-courses-serializer.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Results | Unit | Serializer | user-certification-courses-serializer', function () {

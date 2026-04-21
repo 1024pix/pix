@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import * as certificationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-repository.js';
 import { AssessmentResult, status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Certification | Session-management | Integration | Infrastructure | Repositories | Certification', function () {

@@ -2,7 +2,6 @@ import lodash from 'lodash';
 import sinon from 'sinon';
 
 import { buildCities, getCitiesWithDistricts } from '../../../scripts/certification/import-certification-cpf-cities.js';
-import { expect } from '../../test-helper.js';
 
 const { noop } = lodash;
 

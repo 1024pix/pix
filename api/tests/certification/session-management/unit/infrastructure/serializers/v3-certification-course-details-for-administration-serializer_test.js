@@ -7,7 +7,6 @@ import { Frameworks } from '../../../../../../src/certification/shared/domain/mo
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administration-serializer', function () {
   describe('#serialize()', function () {

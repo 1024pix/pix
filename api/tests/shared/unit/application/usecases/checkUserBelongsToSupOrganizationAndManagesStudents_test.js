@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import * as useCase from '../../../../../src/shared/application/usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Application | Use Case | checkUserBelongsToSupOrganizationAndManagesStudents', function () {

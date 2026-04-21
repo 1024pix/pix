@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { getModuleMetadataListByIds } from '../../../../../src/devcomp/domain/usecases/get-module-metadata-list-by-ids.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
+
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-module-metadata-list-by-ids', function () {

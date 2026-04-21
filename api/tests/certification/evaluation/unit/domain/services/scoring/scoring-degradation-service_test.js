@@ -1,6 +1,6 @@
 import * as flashAlgorithmService from '../../../../../../../src/certification/evaluation/domain/services/algorithm-methods/flash.js';
 import { downgradeCapacity } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-degradation-service.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | services | scoringDegradationService', function () {

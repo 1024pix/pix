@@ -4,7 +4,7 @@ import { usecases as devCompUsecases } from '../../../../../src/devcomp/domain/u
 import { scorecardController } from '../../../../../src/evaluation/application/scorecards/scorecard-controller.js';
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
+
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | scorecard-controller', function () {

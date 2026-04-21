@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { deactivateAdminMember } from '../../../../../src/team/domain/usecases/deactivate-admin-member.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Team | Domain | UseCase | deactivate-admin-member', function () {
   it("should deactivate the given admin member and revoke all user's refresh tokens", async function () {

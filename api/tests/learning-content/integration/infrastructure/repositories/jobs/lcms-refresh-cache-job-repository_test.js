@@ -1,7 +1,6 @@
 import { LcmsRefreshCacheJob } from '../../../../../../src/learning-content/domain/models/LcmsRefreshCacheJob.js';
 import { lcmsRefreshCacheJobRepository } from '../../../../../../src/learning-content/infrastructure/repositories/jobs/lcms-refresh-cache-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Learning Content | Integration | Repository | Jobs | LcmsRefreshCacheJobRepository', function () {
   describe('#performAsync', function () {

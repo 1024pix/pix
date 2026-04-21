@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { findGroupsByOrganization } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-groups-by-organization.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-groups-by-organization', function () {
   it('should return all groups', async function () {

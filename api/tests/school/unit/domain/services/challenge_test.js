@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { ActivityInfo } from '../../../../../src/school/domain/models/ActivityInfo.js';
 import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Challenge', function () {

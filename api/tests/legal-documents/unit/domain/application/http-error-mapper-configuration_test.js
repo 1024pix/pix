@@ -2,7 +2,6 @@ import { legalDocumentsDomainErrorMappingConfiguration } from '../../../../../sr
 import { LegalDocumentInvalidDateError } from '../../../../../src/legal-documents/domain/errors.js';
 import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Legal Documents | Application | HttpErrorMapperConfiguration', function () {
   it('contains a list of HttpErrorMapper instances', function () {

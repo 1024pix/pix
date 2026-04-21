@@ -4,7 +4,6 @@ import { Organization } from '../../../../../../src/organizational-entities/doma
 import { DataOrganizationPlacesStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/DataOrganizationPlacesStatistics.js';
 import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
 import { PlaceStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/PlaceStatistics.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | DataOrganizationPlacesStatistics', function () {
   let clock;

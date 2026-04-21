@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { LearningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
   let topic, map, learningContentCache;

@@ -5,7 +5,6 @@ import { usecases } from '../../../../../../src/certification/evaluation/domain/
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Certification | Evaluation | API', function () {
   describe('#selectNextCertificationChallenge', function () {

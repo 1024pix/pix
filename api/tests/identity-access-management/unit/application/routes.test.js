@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Routes', function () {
   let routes;

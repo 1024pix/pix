@@ -1,7 +1,7 @@
 import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
 import * as targetProfileForSpecifierRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-for-specifier-repository.js';
 import { categories } from '../../../../../../src/shared/domain/models/TargetProfile.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {

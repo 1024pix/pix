@@ -1,7 +1,6 @@
 import { LcmsCreateReleaseJob } from '../../../../src/learning-content/domain/models/LcmsCreateReleaseJob.js';
 import { usecases } from '../../../../src/learning-content/domain/usecases/index.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Learning Content | Integration | Domain | Use case | scheduleCreateLearningContentReleaseJob', function () {
   it('should schedule the job', async function () {

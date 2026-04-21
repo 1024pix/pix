@@ -25,7 +25,7 @@ import {
   grainSchema,
   moduleSchema,
 } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/validation/module-schema.js';
-import { expect } from '../../../../../../test-helper.js';
+
 import { joiErrorParser } from './joi-error-parser.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {

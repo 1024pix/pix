@@ -1,6 +1,6 @@
 import { createServer } from '../../../../server.js';
 import { announcementsStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

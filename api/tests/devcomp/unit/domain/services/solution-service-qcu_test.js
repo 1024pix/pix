@@ -1,6 +1,5 @@
 import { AnswerStatus } from '../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import service from '../../../../../src/devcomp/domain/services/solution-service-qcu.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Services | SolutionServiceQCU ', function () {
   describe('if solution type is QCU', function () {

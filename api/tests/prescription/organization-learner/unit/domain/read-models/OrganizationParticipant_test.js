@@ -1,5 +1,4 @@
 import { OrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationParticipant.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | OrganizationParticipant', function () {
   describe('certificability context', function () {

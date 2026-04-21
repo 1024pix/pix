@@ -1,5 +1,5 @@
 import { skillRepository } from '../../../../../src/learning-content/infrastructure/repositories/skill-repository.js';
-import { expect } from '../../../../test-helper.js';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Skill', function () {

@@ -1,6 +1,5 @@
 import { CertificationCourseVersion } from '../../../../../../src/certification/results/domain/read-models/CertificationCourseVersion.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Results | Unit | Domain | Read-models | CertificationCourseVersion', function () {
   describe('#isV2', function () {

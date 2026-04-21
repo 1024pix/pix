@@ -1,7 +1,7 @@
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | Learner Management | find-all-organization-learner-import-format', function () {

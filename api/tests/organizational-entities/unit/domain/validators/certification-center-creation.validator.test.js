@@ -1,6 +1,5 @@
 import * as certificationCenterCreationValidator from '../../../../../src/organizational-entities/domain/validators/certification-center-creation.validator.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 const MISSING_VALUE = '';
 

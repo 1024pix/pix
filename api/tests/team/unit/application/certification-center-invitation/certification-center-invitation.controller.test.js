@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { certificationCenterInvitationController } from '../../../../../src/team/application/certification-center-invitation/certification-center-invitation.controller.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { certificationCenterInvitationSerializer } from '../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
-import { expect } from '../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

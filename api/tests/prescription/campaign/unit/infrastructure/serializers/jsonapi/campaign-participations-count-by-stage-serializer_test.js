@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participations-count-by-stage-serializer', function () {
   describe('#serialize', function () {

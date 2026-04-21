@@ -1,5 +1,4 @@
 import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
   afterEach(function () {

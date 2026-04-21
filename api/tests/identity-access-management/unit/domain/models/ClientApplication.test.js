@@ -1,6 +1,6 @@
 import { DeleteUnknownClientApplicationJurisdictionTagError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { ClientApplication } from '../../../../../src/identity-access-management/domain/models/ClientApplication.js';
-import { expect } from '../../../../test-helper.js';
+
 import { buildClientApplication } from '../../../../tooling/domain-builder/factory/build-client-application.js';
 
 describe('Unit | Identity Access Management | Domain | Model | ClientApplication', function () {

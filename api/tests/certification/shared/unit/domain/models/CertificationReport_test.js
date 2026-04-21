@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 import { InvalidCertificationReportForFinalization } from '../../../../../../src/certification/shared/domain/errors.js';
 import { CertificationReport } from '../../../../../../src/certification/shared/domain/models/CertificationReport.js';
-import { expect } from '../../../../../test-helper.js';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { EMPTY_BLANK_AND_NULL } from '../../../../../tooling/test-utils/constants.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
