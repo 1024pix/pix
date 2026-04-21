@@ -1,34 +1,30 @@
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
+import DetailPageLayout from 'pix-admin/components/layout/detail-page-layout';
 import Breadcrumb from 'pix-admin/components/organizations/breadcrumb';
 import HeadInformation from 'pix-admin/components/organizations/head-information';
 
 <template>
-  <header class="page-header">
-    <Breadcrumb @currentPageLabel={{@model.name}} />
-  </header>
+  <DetailPageLayout @navigationAriaLabel={{t "pages.organization.navbar.aria-label"}}>
+    <:header>
+      <Breadcrumb @currentPageLabel={{@model.name}} />
+      <HeadInformation @organization={{@model}} />
+    </:header>
 
-  <main class="page-body" id="organizations-get-page">
-    <HeadInformation @organization={{@model}} />
+    <:alert>
+      {{#if @model.isArchived}}
+        <PixNotificationAlert @type="warning">
+          {{t
+            "components.organizations.information-section-view.is-archived-warning"
+            archivedAt=@model.archivedFormattedDate
+            archivedBy=@model.archivistFullName
+          }}
+        </PixNotificationAlert>
+      {{/if}}
+    </:alert>
 
-    {{#if @model.isArchived}}
-      <PixNotificationAlert @type="warning">
-        {{t
-          "components.organizations.information-section-view.is-archived-warning"
-          archivedAt=@model.archivedFormattedDate
-          archivedBy=@model.archivistFullName
-        }}
-      </PixNotificationAlert>
-    {{/if}}
-
-    <PixTabs
-      @variant="primary"
-      @ariaLabel={{t "pages.organization.navbar.aria-label"}}
-      class="navigation organization__navigation"
-    >
-
+    <:navigationLinks>
       <LinkTo @route="authenticated.organizations.get.details" @model={{@model}}>
         {{t "pages.organization.navbar.details"}}
       </LinkTo>
@@ -77,8 +73,11 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
           </LinkTo>
         {{/if}}
       {{/if}}
-    </PixTabs>
 
-    {{outlet}}
-  </main>
+    </:navigationLinks>
+
+    <:outlet>
+      {{outlet}}
+    </:outlet>
+  </DetailPageLayout>
 </template>
