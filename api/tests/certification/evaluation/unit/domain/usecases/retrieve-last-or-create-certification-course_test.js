@@ -105,7 +105,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     context('when session is not accessible', function () {
       it('should throw a SessionNotAccessible error', async function () {
         // given
-        const foundSession = domainBuilder.certification.evaluation.buildResultsSession.finalized({
+        const foundSession = domainBuilder.certification.evaluation.buildSession.finalized({
           id: 1,
           accessCode: 'accessCode',
         });

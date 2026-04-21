@@ -250,7 +250,7 @@ function stubEvaluationSessionRepository({ isFinalized = false, isPublished = fa
   const evaluationSessionRepository = {
     getByCertificationCourseId: sinon.stub(),
   };
-  const session = domainBuilder.certification.evaluation.buildResultsSession({ isFinalized, isPublished });
+  const session = domainBuilder.certification.evaluation.buildSession({ isFinalized, isPublished });
   evaluationSessionRepository.getByCertificationCourseId.resolves(session);
 
   return evaluationSessionRepository;

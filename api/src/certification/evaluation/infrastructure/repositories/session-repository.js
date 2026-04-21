@@ -2,10 +2,10 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Session } from '../../domain/models/Session.js';
 
-export const get = async ({ id }) => {
+export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const sessionDTO = await knexConn('sessions')
-    .select('id', 'accessCode', 'finalizedAt', 'publishedAt')
+    .select('id', 'date', 'accessCode', 'finalizedAt', 'publishedAt')
     .where('id', id)
     .first();
 
@@ -14,13 +14,14 @@ export const get = async ({ id }) => {
   }
 
   return _toDomain(sessionDTO);
-};
+}
 
-export const getByCertificationCourseId = async ({ certificationCourseId }) => {
+export async function getByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const sessionDTO = await knexConn('sessions')
     .select({
       id: 'sessions.id',
+      date: 'sessions.date',
       accessCode: 'sessions.accessCode',
       finalizedAt: 'sessions.finalizedAt',
       publishedAt: 'sessions.publishedAt',
@@ -34,13 +35,23 @@ export const getByCertificationCourseId = async ({ certificationCourseId }) => {
   }
 
   return _toDomain(sessionDTO);
-};
+}
 
-const _toDomain = (sessionDTO) => {
+export async function update(session) {
+  const sessionData = {
+    date: session.date,
+  };
+
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('sessions').update(sessionData).where({ id: session.id });
+}
+
+function _toDomain(sessionDTO) {
   return new Session({
     id: sessionDTO.id,
+    date: sessionDTO.date,
     accessCode: sessionDTO.accessCode,
     finalizedAt: !!sessionDTO.finalizedAt,
     publishedAt: !!sessionDTO.publishedAt,
   });
-};
+}

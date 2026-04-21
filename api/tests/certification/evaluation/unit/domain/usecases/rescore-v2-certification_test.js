@@ -18,7 +18,7 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
     it('should reject to do a rescoring is session is still in progress', async function () {
       // given
       const certificationCourseId = 123;
-      const sessionNotFinalized = domainBuilder.certification.evaluation.buildResultsSession();
+      const sessionNotFinalized = domainBuilder.certification.evaluation.buildSession();
       const evaluationSessionRepository = { getByCertificationCourseId: sinon.stub().resolves(sessionNotFinalized) };
 
       const event = new CertificationCourseRejected({
@@ -42,7 +42,7 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
       // given
 
       const certificationCourseId = 123;
-      const sessionStillPublished = domainBuilder.certification.evaluation.buildResultsSession.published();
+      const sessionStillPublished = domainBuilder.certification.evaluation.buildSession.published();
       const evaluationSessionRepository = { getByCertificationCourseId: sinon.stub().resolves(sessionStillPublished) };
 
       const event = new CertificationCourseRejected({
@@ -72,7 +72,7 @@ describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certificatio
       dependencies;
 
     beforeEach(function () {
-      const session = domainBuilder.certification.evaluation.buildResultsSession.finalized();
+      const session = domainBuilder.certification.evaluation.buildSession.finalized();
       evaluationSessionRepository = { getByCertificationCourseId: sinon.stub().resolves(session) };
       assessmentResultRepository = { save: sinon.stub() };
       certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };

@@ -206,7 +206,7 @@ import { buildDoubleCertificationScoring } from './certification/evaluation/buil
 import { buildFlashAssessmentAlgorithm } from './certification/evaluation/build-flash-assessment-algorithm.js';
 import { buildPixPlusCertificationCourse } from './certification/evaluation/build-pix-plus-certification-course.js';
 import { buildComplementaryCertificationScoringWithComplementaryReferential } from './certification/evaluation/build-pix-plus-certification-scoring.js';
-import { buildResultsSession } from './certification/evaluation/build-session.js';
+import { buildSession } from './certification/evaluation/build-session.js';
 import { buildCertificateMeshLevel } from './certification/results/build-certificate-mesh-level.js';
 import { buildCertificateSummary } from './certification/results/build-certificate-summary.js';
 import { buildCertificate } from './certification/results/build-v3-certification-attestation.js';
@@ -290,7 +290,7 @@ const certification = {
     buildCalibratedChallenge,
     buildCalibratedChallengeSkill,
     buildCandidate: buildEvaluationCandidate,
-    buildResultsSession,
+    buildSession,
     buildComplementaryCertificationScoringCriteria,
     buildComplementaryCertificationScoringWithoutComplementaryReferential,
     buildComplementaryCertificationScoringWithComplementaryReferential,
