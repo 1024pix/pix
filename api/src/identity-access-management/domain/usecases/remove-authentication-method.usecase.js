@@ -3,13 +3,13 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
 import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js';
 
 /**
- * @param{object} params
- * @param{string} params.userId
- * @param{string} params.authenticationMethodType
- * @param{UserRepository} userRepository
- * @param{AuthenticationMethodRepository} authenticationMethodRepository
+ * @param {object} params
+ * @param {string} params.userId - The ID of the user
+ * @param {string} params.authenticationMethodType - The type of authentication method to remove (EMAIL, USERNAME, GAR, POLE_EMPLOI, etc.)
+ * @param {UserRepository} params.userRepository
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @returns {Promise<void>}
- * @throws UserNotAuthorizedToRemoveAuthenticationMethod
+ * @throws UserNotAuthorizedToRemoveAuthenticationMethod - If attempting to remove the last authentication method
  */
 export const removeAuthenticationMethod = async function ({
   userId,
@@ -42,6 +42,15 @@ export const removeAuthenticationMethod = async function ({
   }
 };
 
+/**
+ * Internal helper function to remove an authentication method by user ID and identity provider
+ * @param {string} userId - The ID of the user
+ * @param {string} identityProvider - The identity provider code
+ * @param {AuthenticationMethodRepository} authenticationMethodRepository - Repository for authentication methods
+ * @returns {Promise<void>}
+ * @throws UserNotAuthorizedToRemoveAuthenticationMethod - If attempting to remove the last authentication method
+ * @private
+ */
 async function _removeAuthenticationMethod(userId, identityProvider, authenticationMethodRepository) {
   const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
 

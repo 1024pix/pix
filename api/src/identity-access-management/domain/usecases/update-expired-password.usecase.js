@@ -8,6 +8,18 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
 import { PasswordResetTokenInvalidOrExpired } from '../errors.js';
 import { PasswordExpirationToken } from '../models/PasswordExpirationToken.js';
 
+/**
+ * @param {Object} params
+ * @param {string} params.passwordExpirationToken - The token containing password expiration info
+ * @param {string} params.newPassword - The new password to set
+ * @param {CryptoService} params.cryptoService - Service for password hashing
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserRepository} params.userRepository
+ * @returns {Promise<string>} The user's username or email
+ * @throws {PasswordResetTokenInvalidOrExpired} If token is invalid or expired
+ * @throws {UserNotFoundError} If user is not found
+ * @throws {ForbiddenAccess} If user is not authorized to change password
+ */
 const updateExpiredPassword = async function ({
   passwordExpirationToken,
   newPassword,

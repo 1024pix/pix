@@ -9,6 +9,18 @@ import {
 } from '../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 
+/**
+ * @param {Object} params
+ * @param {string} params.userId - The ID of the user to update
+ * @param {Object} params.userDetailsToUpdate - Object containing user details to update (email, username)
+ * @param {string} params.updatedByAdminId - The ID of the admin user making the update
+ * @param {UserRepository} params.userRepository
+ * @param {AuditLoggingJobRepository} params.auditLoggingJobRepository
+ * @returns {Promise<UserDetailsForAdmin>} Updated user details
+ * @throws {AlreadyRegisteredEmailError} If email is already used by another user
+ * @throws {AlreadyRegisteredUsernameError} If username is already used by another user
+ * @throws {AlreadyRegisteredEmailAndUsernameError} If both email and username are already used
+ */
 const updateUserDetailsByAdmin = async function ({
   userId,
   userDetailsToUpdate,
