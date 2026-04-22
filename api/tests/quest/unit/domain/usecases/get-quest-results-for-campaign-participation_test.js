@@ -44,17 +44,16 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
   it('should return empty array when there is no eligibility', async function () {
     // given
     const wrongCampaignParticipationId = 30;
-    questRepository.findAllWithReward.resolves([
-      new Quest({
-        id: 10,
-        eligibilityRequirements: [],
-        successRequirements: [],
-        rewardType: 'attestations',
-        rewardId: 20,
-      }),
-    ]);
+    const quest = new Quest({
+      id: 10,
+      eligibilityRequirements: [],
+      successRequirements: [],
+      rewardType: 'attestations',
+      rewardId: 20,
+    });
+    questRepository.findAllWithReward.resolves([quest]);
 
-    eligibilityRepository.find.withArgs({ userId }).resolves([
+    eligibilityRepository.find.withArgs({ userId, quest }).resolves([
       new Eligibility({
         campaignParticipations: [{ id: wrongCampaignParticipationId, targetProfileId: 40 }],
       }),
@@ -76,28 +75,27 @@ describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipa
   it('should return empty array when there is no eligible quests', async function () {
     // given
     const wrongTargetProfileId = 41;
-    questRepository.findAllWithReward.resolves([
-      new Quest({
-        id: 10,
-        eligibilityRequirements: [
-          {
-            requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
-            data: {
-              targetProfileId: {
-                data: wrongTargetProfileId,
-                comparison: CRITERION_COMPARISONS.EQUAL,
-              },
+    const quest = new Quest({
+      id: 10,
+      eligibilityRequirements: [
+        {
+          requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+          data: {
+            targetProfileId: {
+              data: wrongTargetProfileId,
+              comparison: CRITERION_COMPARISONS.EQUAL,
             },
-            comparison: REQUIREMENT_COMPARISONS.ALL,
           },
-        ],
-        successRequirements: [],
-        rewardType: 'attestations',
-        rewardId: 20,
-      }),
-    ]);
+          comparison: REQUIREMENT_COMPARISONS.ALL,
+        },
+      ],
+      successRequirements: [],
+      rewardType: 'attestations',
+      rewardId: 20,
+    });
+    questRepository.findAllWithReward.resolves([quest]);
 
-    eligibilityRepository.find.withArgs({ userId }).resolves([
+    eligibilityRepository.find.withArgs({ userId, quest }).resolves([
       new Eligibility({
         campaignParticipations: [{ id: campaignParticipationId, targetProfileId: 40 }],
       }),

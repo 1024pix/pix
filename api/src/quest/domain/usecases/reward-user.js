@@ -20,7 +20,6 @@ export const rewardUser = async ({
 
     logger.debug(`Found ${quests.length} quests with reward for user ${userId}`);
 
-    const eligibilities = await eligibilityRepository.find({ userId });
     const rewards = await rewardRepository.getByUserId({ userId });
 
     const rewardIds = rewards.map((reward) => reward.rewardId);
@@ -32,6 +31,7 @@ export const rewardUser = async ({
         continue;
       }
 
+      const eligibilities = await eligibilityRepository.find({ userId, quest });
       const dataForQuests = eligibilities
         .map((eligibility) => new DataForQuest({ eligibility }))
         .filter((dataForQuest) => quest.isEligible(dataForQuest));
@@ -48,7 +48,7 @@ export const rewardUser = async ({
         const targetProfileIds =
           quest.findTargetProfileIdsWithoutCampaignParticipationContributingToQuest(dataForQuest);
 
-        const success = await successRepository.find({ userId, campaignParticipationIds, targetProfileIds });
+        const success = await successRepository.find({ userId, campaignParticipationIds, targetProfileIds, quest });
         logger.debug({ success }, `Success for quest ${quest.id}`);
         dataForQuest.success = success;
 

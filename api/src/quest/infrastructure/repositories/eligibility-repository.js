@@ -1,9 +1,29 @@
 import { Eligibility } from '../../domain/models/Eligibility.js';
 // We import this repository here to avoid calling it in both dependencies and repositories in ./index.js
 import * as questOrganizationLearnerParticipationRepository from './organization-learner-participation-repository.js';
-export const find = async ({ userId, organizationLearnerWithParticipationApi }) => {
+
+export const find = async ({
+  userId,
+  quest,
+  organizationLearnerWithParticipationApi,
+  organizationLearnerParticipationRepository = questOrganizationLearnerParticipationRepository,
+}) => {
+  const dataNeeds = quest.getDataNeeds();
   const result = await organizationLearnerWithParticipationApi.find({ userIds: [userId] });
-  return result.map(toDomain);
+
+  if (!dataNeeds.needsPassages) {
+    return result.map(toDomain);
+  }
+
+  return Promise.all(
+    result.map(async (learnerData) => {
+      const passages = await organizationLearnerParticipationRepository.findByOrganizationLearnerIdAndModuleIds({
+        organizationLearnerId: learnerData.organizationLearner.id,
+        moduleIds: dataNeeds.moduleIds,
+      });
+      return toDomain({ ...learnerData, passages });
+    }),
+  );
 };
 
 export const findByOrganizationAndOrganizationLearnerId = async ({

@@ -27,6 +27,49 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
       ]);
     });
 
+    it('should not call APIs for data the quest does not need', async function () {
+      // given
+      const userId = Symbol('userId');
+      const campaignParticipationIds = Symbol('campaignParticipationIds');
+      const targetProfileIds = Symbol('targetProfileIds');
+      const knowledgeElementsApi = {
+        findFilteredMostRecentByUser: knowledgeElementsApi_findFilteredMostRecentByUserStub,
+      };
+      const skillsApi = { findByIds: skillsApi_findByIdsStub };
+      const campaignsApi = {
+        findCampaignSkillIdsForCampaignParticipations: campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub,
+      };
+      const targetProfilesApi = { findSkillsByTargetProfileIds: targetProfilesApi_findSkillsByTargetProfileIdsStub };
+      const quest = {
+        getDataNeeds: sinon.stub().returns({
+          needsKnowledgeElements: false,
+          needsCampaignSkills: false,
+          needsTargetProfileSkills: false,
+        }),
+      };
+
+      // when
+      const result = await successRepository.find({
+        userId,
+        targetProfileIds,
+        campaignParticipationIds,
+        quest,
+        targetProfilesApi,
+        knowledgeElementsApi,
+        campaignsApi,
+        skillsApi,
+      });
+
+      // then
+      expect(result).to.be.an.instanceof(Success);
+      expect(result.knowledgeElements).to.have.lengthOf(0);
+      expect(result.skills).to.have.lengthOf(0);
+      sinon.assert.notCalled(knowledgeElementsApi_findFilteredMostRecentByUserStub);
+      sinon.assert.notCalled(campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub);
+      sinon.assert.notCalled(skillsApi_findByIdsStub);
+      sinon.assert.notCalled(targetProfilesApi_findSkillsByTargetProfileIdsStub);
+    });
+
     it('should return a Success model according to data fetched from diverse APIs', async function () {
       // given
       const userId = Symbol('userId');
@@ -59,11 +102,20 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
       skillsApi_findByIdsStub.withArgs({ ids: campaignSkillIds }).resolves(campaignSkills);
       targetProfilesApi_findSkillsByTargetProfileIdsStub.withArgs(targetProfileIds).resolves(targetProfileSkills);
 
+      const quest = {
+        getDataNeeds: sinon.stub().returns({
+          needsKnowledgeElements: true,
+          needsCampaignSkills: true,
+          needsTargetProfileSkills: true,
+        }),
+      };
+
       // when
       const result = await successRepository.find({
         userId,
         targetProfileIds,
         campaignParticipationIds,
+        quest,
         targetProfilesApi,
         knowledgeElementsApi,
         campaignsApi,

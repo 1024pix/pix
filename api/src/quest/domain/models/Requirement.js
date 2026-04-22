@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Criterion } from './Criterion.js';
+import { DataNeeds } from './DataNeeds.js';
 
 export const COMPARISONS = {
   ALL: 'all',
@@ -39,6 +40,13 @@ class BaseRequirement {
    */
   isFulfilled(_) {
     throw new Error('implement me !');
+  }
+
+  /**
+   * @returns {DataNeeds}
+   */
+  getDataNeeds() {
+    return new DataNeeds();
   }
 
   /**
@@ -109,6 +117,13 @@ export class ComposedRequirement extends BaseRequirement {
     });
 
     return isFulfilled;
+  }
+
+  /**
+   * @returns {DataNeeds}
+   */
+  getDataNeeds() {
+    return this.#subRequirements.reduce((acc, req) => acc.merge(req.getDataNeeds()), new DataNeeds());
   }
 
   /**
@@ -190,6 +205,23 @@ export class ObjectRequirement extends BaseRequirement {
     return isFulfilled;
   }
 
+  /**
+   * @returns {DataNeeds}
+   */
+  getDataNeeds() {
+    const spec = new DataNeeds();
+    if (this.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
+      spec.needsCampaignParticipations = true;
+    } else if (this.requirement_type === TYPES.OBJECT.PASSAGES) {
+      spec.needsPassages = true;
+      const moduleIdCriterion = this.data.moduleId;
+      if (moduleIdCriterion) {
+        spec.moduleIds = Array.isArray(moduleIdCriterion.data) ? moduleIdCriterion.data : [moduleIdCriterion.data];
+      }
+    }
+    return spec;
+  }
+
   toDTO() {
     return {
       ...super.toDTO(),
@@ -248,6 +280,17 @@ export class CappedTubesRequirement extends BaseRequirement {
     const isFulfilled = masteryPercentage >= this.#threshold;
     logger.debug({ name: CappedTubesRequirement.name, masteryPercentage, threshold: this.#threshold, isFulfilled });
     return isFulfilled;
+  }
+
+  /**
+   * @returns {DataNeeds}
+   */
+  getDataNeeds() {
+    const spec = new DataNeeds();
+    spec.needsKnowledgeElements = true;
+    spec.needsCampaignSkills = true;
+    spec.needsTargetProfileSkills = true;
+    return spec;
   }
 
   /**

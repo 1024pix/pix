@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { COMPARISONS as _CRITERION_COMPARISONS } from './CriterionProperty.js';
+import { DataNeeds } from './DataNeeds.js';
 import {
   COMPARISONS as _REQUIREMENT_COMPARISONS,
   ComposedRequirement,
@@ -132,6 +133,16 @@ class Quest {
     }
 
     return false;
+  }
+
+  /**
+   * @returns {DataNeeds}
+   */
+  getDataNeeds() {
+    return [...this.#eligibilityRequirements.data, ...this.#successRequirements.data].reduce(
+      (acc, req) => acc.merge(req.getDataNeeds()),
+      new DataNeeds(),
+    );
   }
 
   /**

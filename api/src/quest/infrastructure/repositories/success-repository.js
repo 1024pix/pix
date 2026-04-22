@@ -4,16 +4,27 @@ export const find = async ({
   userId,
   campaignParticipationIds,
   targetProfileIds,
+  quest,
   knowledgeElementsApi,
   skillsApi,
   campaignsApi,
   targetProfilesApi,
 }) => {
-  const targetProfileSkills = await targetProfilesApi.findSkillsByTargetProfileIds(targetProfileIds);
-  const knowledgeElements = await knowledgeElementsApi.findFilteredMostRecentByUser({ userId });
-  const campaignSkillIds = await campaignsApi.findCampaignSkillIdsForCampaignParticipations(campaignParticipationIds);
-  const campaignSkills = await skillsApi.findByIds({
-    ids: campaignSkillIds,
-  });
+  const dataNeeds = quest.getDataNeeds();
+
+  const [knowledgeElements, campaignSkills, targetProfileSkills] = await Promise.all([
+    dataNeeds.needsKnowledgeElements
+      ? knowledgeElementsApi.findFilteredMostRecentByUser({ userId })
+      : Promise.resolve([]),
+    dataNeeds.needsCampaignSkills
+      ? campaignsApi
+          .findCampaignSkillIdsForCampaignParticipations(campaignParticipationIds)
+          .then((ids) => skillsApi.findByIds({ ids }))
+      : Promise.resolve([]),
+    dataNeeds.needsTargetProfileSkills
+      ? targetProfilesApi.findSkillsByTargetProfileIds(targetProfileIds)
+      : Promise.resolve([]),
+  ]);
+
   return new Success({ knowledgeElements, campaignSkills, targetProfileSkills });
 };

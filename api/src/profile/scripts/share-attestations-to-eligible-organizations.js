@@ -94,6 +94,7 @@ export class ShareAttestationsToEligibleOrganizationsScript extends Script {
             userId: profileReward.userId,
             campaignParticipationIds,
             targetProfileIds,
+            quest: desiredQuest,
             knowledgeElementsApi,
             skillsApi,
             campaignsApi,

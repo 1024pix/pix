@@ -18,7 +18,7 @@ export const checkUserQuest = async ({
     throw new NotFoundError(`No quest found for questId ${questId}`);
   }
 
-  const eligibilities = await eligibilityRepository.find({ userId });
+  const eligibilities = await eligibilityRepository.find({ userId, quest });
 
   const dataForQuest = eligibilities
     .map((eligibility) => new DataForQuest({ eligibility }))
@@ -34,7 +34,7 @@ export const checkUserQuest = async ({
 
   const campaignParticipationIds = quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
   const targetProfileIds = quest.findTargetProfileIdsWithoutCampaignParticipationContributingToQuest(dataForQuest);
-  const success = await successRepository.find({ userId, campaignParticipationIds, targetProfileIds });
+  const success = await successRepository.find({ userId, campaignParticipationIds, targetProfileIds, quest });
   dataForQuest.success = success;
 
   return quest.isSuccessful(dataForQuest);
