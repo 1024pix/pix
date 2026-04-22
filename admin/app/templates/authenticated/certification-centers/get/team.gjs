@@ -9,7 +9,7 @@ import MembershipsSection from 'pix-admin/components/certification-centers/membe
         <h2 class="page-section__title">Ajouter un membre</h2>
       </header>
 
-      <div class="certification-center__section">
+      <div class="certification-center-team__actions">
         <PixInput
           id="userEmailToAdd"
           type="email"
@@ -31,7 +31,7 @@ import MembershipsSection from 'pix-admin/components/certification-centers/membe
         </PixButton>
       </div>
       {{#if @controller.errorMessage}}
-        <div class="certification-center__section error">
+        <div class="certification-center-team__error">
           {{@controller.errorMessage}}
         </div>
       {{/if}}

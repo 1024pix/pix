@@ -9,7 +9,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('should access Certification center page by URL /certification-centers/:id', async function (assert) {
+  test('should redirect to details page when accessing Certification center page by URL /certification-centers/:id', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -23,7 +23,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.strictEqual(currentURL(), '/certification-centers/1');
+    assert.strictEqual(currentURL(), '/certification-centers/1/details');
   });
 
   test('should display Certification center detail', async function (assert) {
@@ -258,7 +258,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     module('tab navigation', function () {
-      test('should show Équipe and Invitations tab', async function (assert) {
+      test('should show Details, Équipe and Invitations tab', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationCenter = server.create('certification-center', {
@@ -278,6 +278,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
             name: 'Navigation de la section centre de certification',
           }),
         );
+        assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Détails' })).exists();
         assert.dom(certificationCenterNavigation.getByRole('link', { name: /Équipe/ })).exists();
         assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Invitations' })).exists();
       });
@@ -309,7 +310,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Équipe (2)' })).exists();
       });
 
-      test('displays invitation input and members list', async function (assert) {
+      test('displays members tab content when navigating', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationCenter = server.create('certification-center', {
@@ -322,6 +323,15 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
         // when
         const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+
+        const certificationCenterNavigation = within(
+          screen.getByRole('navigation', {
+            name: 'Navigation de la section centre de certification',
+          }),
+        );
+
+        const membersTab = certificationCenterNavigation.getByRole('link', { name: 'Équipe (0)' });
+        await click(membersTab);
 
         // then
 
@@ -368,7 +378,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByText('Archivé le 01/01/2023 par John Doe.')).exists();
     });
 
-    test('does not display navigation tab', async function (assert) {
+    test('displays only Details tab', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
@@ -383,13 +393,12 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // then
-      assert
-        .dom(
-          screen.queryByRole('navigation', {
-            name: 'Navigation de la section centre de certification',
-          }),
-        )
-        .doesNotExist();
+      const certificationCenterNavigation = screen.getByRole('navigation', {
+        name: 'Navigation de la section centre de certification',
+      });
+      assert.dom(within(certificationCenterNavigation).getByRole('link', { name: 'Détails' })).exists();
+      assert.dom(within(certificationCenterNavigation).queryByRole('link', { name: 'Équipe' })).doesNotExist();
+      assert.dom(within(certificationCenterNavigation).queryByRole('link', { name: 'Invitations' })).doesNotExist();
     });
 
     test('does not display invitation input and members list', async function (assert) {

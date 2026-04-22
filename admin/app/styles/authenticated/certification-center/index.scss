@@ -1,26 +1,13 @@
-/* stylelint-disable selector-class-pattern */
-#certification-center-get-page {
+.certification-center-team {
+  &__actions {
+    display: flex;
 
-  .page-section__header {
-    margin-top: var(--pix-spacing-6x);
-    margin-bottom: 0;
-    padding-top: var(--pix-spacing-3x);
-    padding-bottom: var(--pix-spacing-2x);
-    border-top: 1px solid var(--pix-neutral-100);
-  }
-
-  .certification-center {
-
-    &__section {
-      display: flex;
-
-      input {
-        width: 310px;
-      }
+    input {
+      width: 310px;
     }
   }
 
-  .error {
+  &__error {
     padding-top: 5px;
     color: var(--pix-error-700);
     font-size: 0.75rem;
