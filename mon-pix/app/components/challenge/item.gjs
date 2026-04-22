@@ -1,6 +1,5 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 import ENV from 'mon-pix/config/environment';
@@ -66,7 +65,7 @@ export default class Item extends Component {
       result = ChallengeItemQrocm;
     }
 
-    return ensureSafeComponent(result, this);
+    return result;
   }
 
   _setFocusOutEventListener() {
