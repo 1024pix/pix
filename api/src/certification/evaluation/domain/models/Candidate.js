@@ -45,7 +45,6 @@ export class Candidate {
     this.lastName = lastName;
     this.sex = sex;
     this.birthdate = birthdate;
-    this.birthdate = birthdate;
     this.birthPostalCode = birthPostalCode;
     this.birthINSEECode = birthINSEECode;
     this.birthCountry = birthCountry;
