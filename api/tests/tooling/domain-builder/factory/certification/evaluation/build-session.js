@@ -51,4 +51,4 @@ buildSession.ongoing = ({ id = 123, date = '2024-08-05', accessCode = 'FMKP39', 
   });
 };
 
-export { buildSession as buildSession };
+export { buildSession };
