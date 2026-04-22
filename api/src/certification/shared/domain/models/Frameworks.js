@@ -35,7 +35,7 @@ export function hasCoreScope(framework) {
 
 /**
  * @param {string} framework
- * @returns {boolean}
+ * @returns {SCOPES}
  */
 export function toScope(framework) {
   if ([Frameworks.CORE, Frameworks.CLEA].includes(framework)) {
