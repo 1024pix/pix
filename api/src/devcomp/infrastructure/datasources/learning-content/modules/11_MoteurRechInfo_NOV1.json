@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Sur internet, il y a des milliards de pages web sur de nombreux sujets. 🌀 </p><p>Comment s’y retrouver ? 🔎 <br></p><p>Dans ce module, vous allez découvrir ce qu’est un moteur de recherche et comment l’utiliser pour trouver des pages web pertinentes/intéressantes.<br></p>",
+    "description": "<p>Sur internet, il y a des milliards de pages web sur de nombreux sujets. 🌀 </p><p>Comment s’y retrouver ? 🔎 <br></p><p>Dans ce module, vous allez découvrir ce qu’est un moteur de recherche et comment l’utiliser pour trouver des pages web intéressantes.<br></p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -393,7 +393,7 @@
                         }
                       ],
                       "rephrase": "avis zoom macropix 12",
-                      "feedback": "Le mot “avis” influence la nature des résultats. Le moteur de recherche va proposer à Théo des sites spécialisés de témoignages d’utilisation du matériel."
+                      "feedback": "Le mot “avis” influence la nature des résultats. Le moteur de recherche va proposer à Théo des sites spécialisés de témoignages d’utilisateurs du matériel."
                     }
                   ]
                 }
