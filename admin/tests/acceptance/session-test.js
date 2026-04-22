@@ -118,7 +118,7 @@ module('Acceptance | Session pages', function (hooks) {
           await clickByName(session.certificationCenterName);
 
           // then
-          assert.strictEqual(currentURL(), '/certification-centers/1234');
+          assert.strictEqual(currentURL(), '/certification-centers/1234/details');
         });
       });
 
