@@ -44,7 +44,7 @@ Même si c'est le cas, pour que la dépendance puisse être utilisée par plusie
 
 Les montées de versions affecteront toutes les applications. Si une montée de version embarque un changement bloquant, le code de toutes les applications devra être être modifié avant de merger la PR, ce qui augmentera le temps de développement, de revue, et donc le délai de mise à disposition.
 
-Une partie du travail de montées de version est pris en charge par Renovate (lien vers [commit](https://github.com/1024pix/pix/pull/6791/commits/7956548245f6bbfaff21efc4f6ec94672b51aad0)).
+Une partie du travail de montées de version est pris en charge par Renovate (lien vers [commit](https://github.com/1024pix/pix/pull/6791/)).
 
 En résumé, l'inconvénient est le couplage entre applications.
 

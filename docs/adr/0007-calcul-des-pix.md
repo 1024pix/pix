@@ -10,7 +10,7 @@ Accepted
 
 Le référentiel des Acquis et Compétences est actuellement stocké et géré dans Airtable.  
 
-À chaque Acquis est associé une valeur en `pix`.  Cette valeur est la résultante d'un calcul expliqué dans la [documentation](../Calcul-Airtable.md). 
+À chaque Acquis est associé une valeur en `pix`.  Cette valeur est la résultante d'un calcul expliqué dans la [documentation](../calcul-airtable.md). 
 
 Dans le cadre de Pix+, des Acquis hors Compétences numériques sont ajoutés. Ces Acquis ne doivent pas influencer le nombre de `pix` gagné par l'utilisateur.  
  

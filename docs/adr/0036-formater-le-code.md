@@ -8,7 +8,7 @@ Accepté
 
 ## Contexte
 
-Le code [https://github.com/Automedon/CodeWars-7-kyu-Soluitions/blob/master/254%20shades%20of%20grey.js](suivant) est du Javascript valide, répond au besoin métier, mais n'est pas satisfaisant.
+Le code [suivant](https://github.com/Automedon/CodeWars-7-kyu-Soluitions/blob/master/254%20shades%20of%20grey.js) est du Javascript valide, répond au besoin métier, mais n'est pas satisfaisant.
 
 ```js
 function shadesOfGrey(n){const shades=[];for(let i=1;i<=Math.min(n,254);i++){const grey=('0'+i.toString(16)).slice(-2);shades.push('#'+grey+grey+grey);}return shades;}

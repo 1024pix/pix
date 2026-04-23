@@ -60,6 +60,5 @@ spécifiques d'un PaaS est importante.
 
 Garder l'image native déjà utilisée:
 
-- [local](../docker-compose.yaml)
-- [CI](../.circlecli/config.yaml)
-
+- [local](../../docker/docker-compose.yaml)
+- [CI](../../.circleci/config.yml)

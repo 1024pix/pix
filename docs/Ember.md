@@ -41,7 +41,7 @@ export default Route.extend({
 
 Afin d'être complètement agnostique de la locale de l'environnement de test, on privilégiera le fait de tester les textes traduits en passant
 par le `helper` `t` fourni par `ember-intl/test-support`. Ainsi, on s'affranchira de la contrainte de langue et on se concentrera plutôt
-sur la clé de traduction attendue sur un test donné ([procédé documenté dans la doc EmberIntl](https://ember-intl.github.io/ember-intl/versions/master/docs/guide/testing#t-key-options-)).
+sur la clé de traduction attendue sur un test donné ([procédé documenté dans la doc EmberIntl](https://ember-intl.github.io/ember-intl/docs/helpers/t-key)).
 
 Pour tester les textes traduits dans les templates :
 ```js

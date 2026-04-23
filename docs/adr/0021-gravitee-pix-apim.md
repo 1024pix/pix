@@ -6,7 +6,7 @@ Date : 2020-02-26
 Amendé par [0047-suppression-de-gravitee.md][0047]
 
 
-[0047]: ./0047-suppression-de-gravitee.md
+[0047]: ./0048-suppression-de-gravitee.md
 
 ## Contexte 
 Dans le cadre de l’interconnexion avec les systèmes Livret scolaire (LSU/LSL) via API, Pix avait besoin de garantir les points ci-dessous:

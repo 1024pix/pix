@@ -59,7 +59,7 @@ Exemple :
 
 Le build du CSS se fait dans le fichier `ember-cli-build.js`, à la racine du projet : [https://cli.emberjs.com/release/advanced-use/stylesheets/](Stylesheet compilation - Advanced use - Ember CLI Guides)
 
-La compilation se fait avec le package : [https://www.npmjs.com/package/ember-cli-sass](ember-cli-sass)
+La compilation se fait avec le package : [ember-cli-sass]https://www.npmjs.com/package/ember-cli-sass)
 Ce package nous permet de gérer les paths à inclure pour compiler les fichiers `scss`.
 
 Pour mettre les fichiers de style avec les composants, il suffit d'ajouter le path vers les composants dans `ember-cli-build.js`.
@@ -74,7 +74,7 @@ const app = new EmberApp(defaults, {
 
 Rien d'autre.
 
-Exemple avec la PR suivante : [https://github.com/1024pix/pix/pull/9992]([TECH] : bouger le fichier nav.scss du dossier globals vers le dossier composants)
+Exemple avec la PR suivante : [[TECH] : bouger le fichier nav.scss du dossier globals vers le dossier composants](https://github.com/1024pix/pix/pull/9992)
 
 ### Avantages
 - Très simple à mettre en place

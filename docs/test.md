@@ -81,18 +81,18 @@ it('should add a row in the table "organizations"', async () => {
 ```
 
 ### Unitaire
-Exemple:
-* use-case [ici](https://github.com/1024pix/pix/blob/dev/api/tests/unit/domain/usecases/update-expired-password.usecase.test.js)
-* composant avec un service, non stubbé [ici](https://github.com/1024pix/pix/blob/1a582f93335925e122a6ef83b06644ea44477aa0/api/tests/unit/domain/models/CampaignTubeRecommendation_test.js)
+Exemples:
+* use-case testé avec dépendances stubbées [ici](../api/tests/unit/domain/usecases/update-organization-learner-dependent-user-password_test.js)
+* service métier testé de façon isolée [ici](../api/tests/unit/domain/services/user-reconciliation-service_test.js)
 
 ### Intégration
 L'utilisation de Bookshelf, Knex, Nock pour faire des assertions est autorisé.
 Exemple:
-* entre HAPI et configuration de la route [ici](https://github.com/1024pix/pix/blob/dev/api/tests/integration/application/passwords/index_test.js)
+* hook de pré-réponse Hapi [ici](../api/tests/integration/application/pre-response-utils_test.js)
 
 ### Acceptation
 Exemple:
-* sur l'application : [ici](https://github.com/1024pix/pix/blob/dev/api/tests/acceptance/application/password-controller_test.js)
+* application démarrée avec `createServer()` [ici](../api/tests/acceptance/application/organizations/organization-controller_test.js)
 
 ## Front
 

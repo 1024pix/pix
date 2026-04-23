@@ -59,9 +59,7 @@ Exemple : https://github.com/1024pix/pix/pull/10974
 Il y a beaucoup beaucoup moins de besoins de traduction dans Pix API, mais ces
 besoins existent pour l’envoi d’emails.
 
-On note que le fichier
-[`api/src/shared/infrastructure/utils/url-builder.js`](https://github.com/1024pix/pix/blob/dev/api/src/shared/infrastructure/utils/url-builder.js)
-est disponible mais une solution existante à recommander n’existe pas encore.
+On note que le fichier [`url-service.js`](../api/src/shared/domain/services/url-service.js) est disponible mais une solution existante à recommander n’existe pas encore.
 
 ## Références (ADR, autres docs, PR, etc.)
 

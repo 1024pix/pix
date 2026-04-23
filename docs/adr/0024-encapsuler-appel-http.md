@@ -23,7 +23,7 @@ De plus, toutes n'offrent pas les mêmes fonctionnalités.
 Pour ces deux raisons, nous pourrions être amenés à vouloir changer de librairie.
 Dans ce cas, le coût de migration (réécriture du code) est un facteur à prendre en compte.
 
-Cette encapsulation a déjà été réalisée sur le logging avec [logger](./../../api/lib/infrastructure/logger.js).
+Cette encapsulation a déjà été réalisée sur le logging avec [logger](../../api/src/shared/infrastructure/utils/logger.js).
 À la question "Quels sont les cas pertinents pour encapsuler ?", les appels http sont régulièrement [cités](https://levelup.gitconnected.com/why-you-should-often-wrap-your-dependencies-5fced2999616).
 
 ### Solution n°1 : Encapsuler les appels à la librairie http dans un composant

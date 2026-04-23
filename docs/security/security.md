@@ -23,7 +23,7 @@ This is ESA [default policy](https://github.com/simplabs/ember-simple-auth#sessi
 State is stored in browser's memory space, mainly in Ember Store.
 
 In case several users are sharing the same OS session, we need to prevent them from accessing previous sessions's state.
-This is enforced by default on ESA. On logout, the [handleSessionInvalidated](https://github.com/simplabs/ember-simple-auth/blob/master/packages/ember-simple-auth/addon/-internals/routing.js) function call 
+This is enforced by default on ESA. On logout, the [handleSessionInvalidated](https://github.com/mainmatter/ember-simple-auth/blob/master/packages/ember-simple-auth/src/-internals/routing.js) function call 
 browser's native `location.replace()` method, which ensure no state is left behind.
 
 Wherever ESA default behavior is replaced by redefining `sessionInvalidated `(eg [in mon-pix](https://github.com/1024pix/pix/blob/dev/mon-pix/app/routes/application.js)), 
