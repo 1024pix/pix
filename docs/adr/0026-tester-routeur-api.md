@@ -59,7 +59,7 @@ Inconvénients :
 - n'attire pas l'attention du développeur sur les routes en cours de tests
 
 #### Serveur de test (léger) 
-Appelé [http-test-server](../../api/tests/tooling/http-test-server.js), il ne contient uniquement instance Hapi sans routes.
+Appelé [http-test-server](../../api/tests/tooling/server/http-test-server.js), il ne contient uniquement instance Hapi sans routes.
 Aucun plugin n'est chargé. La route à tester doit lui être indiqué, auquel cas il appliquera la validation syntaxique.
 
 Avantages :
