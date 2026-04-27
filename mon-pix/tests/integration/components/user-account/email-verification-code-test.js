@@ -218,7 +218,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         );
       });
 
-      test('shows email already exists message when receiving 400', async function (assert) {
+      test('shows email already exists message when receiving 422', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
@@ -229,8 +229,8 @@ module('Integration | Component | user-account | email-verification-code', funct
         const verifyCode = sinon.stub().throws({
           errors: [
             {
-              status: '400',
-              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
+              status: '422',
+              code: 'INVALID_OR_ALREADY_USED_EMAIL',
             },
           ],
         });
