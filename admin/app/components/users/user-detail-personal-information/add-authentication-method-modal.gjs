@@ -15,6 +15,7 @@ import { t } from 'ember-intl';
         <PixInput
           @id="new-email-for-adding-authentication-method"
           {{on "change" @onChangeNewEmail}}
+          autocomplete="off"
           @validationStatus={{if @showAlreadyExistingEmailError "error" "default"}}
           @errorMessage="Cette adresse e-mail est déjà utilisée"
           type="email"
