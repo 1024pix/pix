@@ -249,16 +249,10 @@ export default function routes() {
     const userHowHasAlreadyTheEmail = schema.users.findBy({ email });
     if (userHowHasAlreadyTheEmail) {
       return new Response(
-        400,
+        422,
         {},
         {
-          errors: [
-            {
-              status: '400',
-              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
-              title: 'Already existing email error',
-            },
-          ],
+          errors: [{ code: 'INVALID_OR_ALREADY_USED_EMAIL' }],
         },
       );
     }

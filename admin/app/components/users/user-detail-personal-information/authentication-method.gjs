@@ -163,9 +163,7 @@ export default class AuthenticationMethod extends Component {
       this.showAlreadyExistingEmailError = false;
     } catch (response) {
       const errors = response.errors;
-      const emailAlreadyExistingError = errors.some(
-        (error) => error.status === '400' && error.code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
-      );
+      const emailAlreadyExistingError = errors.some((error) => error.code === 'INVALID_OR_ALREADY_USED_EMAIL');
 
       if (emailAlreadyExistingError) {
         this.showAlreadyExistingEmailError = true;
