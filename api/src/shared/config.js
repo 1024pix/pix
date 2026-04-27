@@ -152,6 +152,7 @@ const schema = Joi.object({
   LLM_INFERENCE_API_POST_PROMPT_URL: Joi.string().optional(),
   LLM_INFERENCE_API_JWT_SECRET: Joi.string().optional(),
   LOG_ENABLED: Joi.string().required().valid('true', 'false'),
+  OTEL_ENABLED: Joi.string().optional().valid('true', 'false').default('false'),
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
@@ -374,6 +375,7 @@ const configuration = (function () {
     },
     logging: {
       enabled: toBoolean(process.env.LOG_ENABLED),
+      otelEnabled: toBoolean(process.env.OTEL_ENABLED),
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: _getLogForHumans(),
       logForHumansCompactFormat: process.env.LOG_FOR_HUMANS_FORMAT === 'compact',

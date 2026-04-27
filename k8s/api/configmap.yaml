@@ -13,6 +13,10 @@ data:
   TEST_DATAWAREHOUSE_DATABASE_URL: "postgresql://postgres@postgres:5432/datawarehouse_test"
 
   AUTONOMOUS_COURSES_ORGANIZATION_ID: "9000000"
+  HTTP_SERVER_RESPONSE_TIMEOUT_MS: "60000"
+
+  OTEL_ENABLED: "true"
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz-otel-collector.platform.svc.cluster.local:4318
 
   # Redis
   REDIS_URL: "redis://redis:6379"

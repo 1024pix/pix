@@ -2,6 +2,8 @@ import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+import { otelProxy } from './otel_proxy.js';
+
 export async function importNamedExportsFromDirectory({ path, ignoredFileNames = [] }) {
   const imports = {};
   const exportsLocations = {};
