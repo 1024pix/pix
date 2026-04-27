@@ -1,3 +1,5 @@
+import { setupOtel } from './src/shared/infrastructure/otel/otel-setup.js';
+setupOtel('pix-api-maddo');
 import { databaseConnections } from './db/database-connections.js';
 import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
