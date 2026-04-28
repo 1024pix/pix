@@ -7,34 +7,30 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | repositories | eligibility', function () {
   describe('#find', function () {
-    it('should call organizationLearnersWithParticipations api', async function () {
+    it('should call organizationLearnerApi and campaignParticipationsApi', async function () {
       // given
       const organizationLearnerId = Symbol('organizationLearnerId');
       const organization = Symbol('organization');
       const targetProfileId = Symbol('targetProfileId');
-      const organizationLearnerWithParticipationApiResponseSymbol = [
-        {
-          organizationLearner: {
-            id: organizationLearnerId,
-          },
-          organization,
-          campaignParticipations: [{ targetProfileId }],
-        },
-      ];
       const userId = 1;
-      const quest = { getDataNeeds: sinon.stub().returns({ needsPassages: false, moduleIds: [] }) };
-      const organizationLearnerWithParticipationApi = {
-        find: sinon.stub(),
+      const quest = {
+        getDataNeeds: sinon.stub().returns({ needsPassages: false, needsCampaignParticipations: true, moduleIds: [] }),
       };
-      organizationLearnerWithParticipationApi.find
-        .withArgs({ userIds: [userId] })
-        .resolves(organizationLearnerWithParticipationApiResponseSymbol);
+      const organizationLearnerApi = { findWithOrganizationByUserId: sinon.stub() };
+      organizationLearnerApi.findWithOrganizationByUserId
+        .withArgs({ userId })
+        .resolves([{ organizationLearner: { id: organizationLearnerId }, organization }]);
+      const campaignParticipationsApi = { findByOrganizationLearnerIds: sinon.stub() };
+      campaignParticipationsApi.findByOrganizationLearnerIds
+        .withArgs({ organizationLearnerIds: [organizationLearnerId] })
+        .resolves([{ id: 1, campaignId: 2, targetProfileId, organizationLearnerId }]);
 
       // when
       const result = await eligibilityRepository.find({
         userId,
         quest,
-        organizationLearnerWithParticipationApi,
+        organizationLearnerApi,
+        campaignParticipationsApi,
       });
 
       // then
@@ -49,19 +45,15 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
       const organizationLearnerId = Symbol('organizationLearnerId');
       const organization = Symbol('organization');
       const moduleIds = ['module1', 'module2'];
-      const organizationLearnerWithParticipationApiResponseSymbol = [
-        {
-          organizationLearner: { id: organizationLearnerId },
-          organization,
-          campaignParticipations: [],
-        },
-      ];
       const userId = 1;
-      const quest = { getDataNeeds: sinon.stub().returns({ needsPassages: true, moduleIds }) };
-      const organizationLearnerWithParticipationApi = { find: sinon.stub() };
-      organizationLearnerWithParticipationApi.find
-        .withArgs({ userIds: [userId] })
-        .resolves(organizationLearnerWithParticipationApiResponseSymbol);
+      const quest = {
+        getDataNeeds: sinon.stub().returns({ needsPassages: true, needsCampaignParticipations: false, moduleIds }),
+      };
+      const organizationLearnerApi = { findWithOrganizationByUserId: sinon.stub() };
+      organizationLearnerApi.findWithOrganizationByUserId
+        .withArgs({ userId })
+        .resolves([{ organizationLearner: { id: organizationLearnerId }, organization }]);
+      const campaignParticipationsApi = { findByOrganizationLearnerIds: sinon.stub() };
 
       const organizationLearnerParticipationRepository = {
         findByOrganizationLearnerIdAndModuleIds: sinon.stub(),
@@ -76,7 +68,8 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
       const result = await eligibilityRepository.find({
         userId,
         quest,
-        organizationLearnerWithParticipationApi,
+        organizationLearnerApi,
+        campaignParticipationsApi,
         organizationLearnerParticipationRepository,
       });
 
@@ -89,50 +82,45 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
   });
 
   describe('#findByUserIdAndOrganizationId', function () {
-    it('should call organizationLearnerWithParticipationApi', async function () {
+    it('should call organizationLearnerApi and campaignParticipationsApi', async function () {
       // given
       const organizationLearnerId = Symbol('organizationLearnerId');
       const organization = { id: 1 };
       const targetProfileId = Symbol('targetProfileId');
-      const apiResponseSymbol = {
-        organizationLearner: {
-          id: organizationLearnerId,
-        },
-        organization,
-        campaignParticipations: [{ targetProfileId }],
+      const moduleIds = ['module1'];
+      const quest = {
+        getDataNeeds: sinon.stub().returns({
+          needsCampaignParticipations: true,
+          needsPassages: true,
+          moduleIds,
+        }),
       };
-      const moduleIds = Symbol('moduleIds');
+
+      const organizationLearnerApi = { findWithOrganizationByIds: sinon.stub() };
+      organizationLearnerApi.findWithOrganizationByIds
+        .withArgs({ organizationLearnerIds: [organizationLearnerId], organizationId: organization.id })
+        .resolves([{ organizationLearner: { id: organizationLearnerId }, organization }]);
+
+      const campaignParticipationsApi = { findByOrganizationLearnerIds: sinon.stub() };
+      campaignParticipationsApi.findByOrganizationLearnerIds
+        .withArgs({ organizationLearnerIds: [organizationLearnerId] })
+        .resolves([{ id: 1, campaignId: 2, targetProfileId, organizationLearnerId }]);
 
       const organizationLearnerParticipationRepository = {
         findByOrganizationLearnerIdAndModuleIds: sinon.stub(),
       };
       organizationLearnerParticipationRepository.findByOrganizationLearnerIdAndModuleIds
-        .withArgs({
-          organizationLearnerId,
-          moduleIds,
-        })
-        .resolves([
-          {
-            status: OrganizationLearnerParticipationStatuses.STARTED,
-            referenceId: 1,
-            isTerminated: true,
-          },
-        ]);
-
-      const organizationLearnerWithParticipationApi = {
-        findByOrganizationAndOrganizationLearnerId: sinon.stub(),
-      };
-      organizationLearnerWithParticipationApi.findByOrganizationAndOrganizationLearnerId
-        .withArgs({ organizationLearnerId, organizationId: organization.id })
-        .resolves(apiResponseSymbol);
+        .withArgs({ organizationLearnerId, moduleIds })
+        .resolves([{ status: OrganizationLearnerParticipationStatuses.STARTED, referenceId: 1, isTerminated: true }]);
 
       // when
       const result = await eligibilityRepository.findByOrganizationAndOrganizationLearnerId({
         organizationLearnerId,
         organizationId: organization.id,
-        organizationLearnerWithParticipationApi,
+        quest,
+        organizationLearnerApi,
+        campaignParticipationsApi,
         organizationLearnerParticipationRepository,
-        moduleIds,
       });
 
       // then
@@ -147,66 +135,56 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
   });
 
   describe('#findByOrganizationAndOrganizationLearnerIds', function () {
-    it('should call organizationLearnerWithParticipationApi', async function () {
+    it('should call organizationLearnerApi and campaignParticipationsApi', async function () {
       // given
-      const organizationLearnerIds = [Symbol('organizationLearnerId')];
+      const organizationLearnerId = Symbol('organizationLearnerId');
+      const organizationLearnerIds = [organizationLearnerId];
       const organization = { id: 1 };
       const targetProfileId = Symbol('targetProfileId');
-      const apiResponseSymbol = new Map();
-      apiResponseSymbol.set(organizationLearnerIds[0], {
-        organizationLearner: {
-          id: organizationLearnerIds[0],
-        },
-        organization,
-        campaignParticipations: [{ targetProfileId }],
-      });
-      const moduleIds = Symbol('moduleIds');
+      const moduleIds = ['module1'];
+      const quest = {
+        getDataNeeds: sinon.stub().returns({
+          needsCampaignParticipations: true,
+          needsPassages: true,
+          moduleIds,
+        }),
+      };
+
+      const organizationLearnerApi = { findWithOrganizationByIds: sinon.stub() };
+      organizationLearnerApi.findWithOrganizationByIds
+        .withArgs({ organizationLearnerIds, organizationId: organization.id })
+        .resolves([{ organizationLearner: { id: organizationLearnerId }, organization }]);
+
+      const campaignParticipationsApi = { findByOrganizationLearnerIds: sinon.stub() };
+      campaignParticipationsApi.findByOrganizationLearnerIds
+        .withArgs({ organizationLearnerIds })
+        .resolves([{ id: 1, campaignId: 2, targetProfileId, organizationLearnerId }]);
 
       const organizationLearnerParticipationRepository = {
         findByOrganizationLearnerIdsAndModuleIds: sinon.stub(),
       };
       organizationLearnerParticipationRepository.findByOrganizationLearnerIdsAndModuleIds
-        .withArgs({
-          organizationLearnerIds,
-          moduleIds,
-        })
+        .withArgs({ organizationLearnerIds, moduleIds })
         .resolves(
-          new Map([
-            [
-              organizationLearnerIds[0],
-              [
-                {
-                  status: OrganizationLearnerParticipationStatuses.STARTED,
-                  referenceId: 1,
-                  isTerminated: true,
-                },
-              ],
-            ],
-          ]),
+          new Map([[organizationLearnerId, [{ status: OrganizationLearnerParticipationStatuses.STARTED, referenceId: 1, isTerminated: true }]]]),
         );
-
-      const organizationLearnerWithParticipationApi = {
-        findByOrganizationAndOrganizationLearnerIds: sinon.stub(),
-      };
-      organizationLearnerWithParticipationApi.findByOrganizationAndOrganizationLearnerIds
-        .withArgs({ organizationLearnerIds, organizationId: organization.id })
-        .resolves(apiResponseSymbol);
 
       // when
       const result = await eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
         organizationLearnerIds,
         organizationId: organization.id,
-        organizationLearnerWithParticipationApi,
+        quest,
+        organizationLearnerApi,
+        campaignParticipationsApi,
         organizationLearnerParticipationRepository,
-        moduleIds,
       });
 
-      const eligibility = result.get(organizationLearnerIds[0]);
+      const eligibility = result.get(organizationLearnerId);
 
       // then
       expect(eligibility).to.be.an.instanceof(Eligibility);
       expect(eligibility.organization).to.equal(organization);
-      expect(eligibility.organizationLearner.id).to.equal(organizationLearnerIds[0]);
+      expect(eligibility.organizationLearner.id).to.equal(organizationLearnerId);
       expect(eligibility.campaignParticipations[0].targetProfileId).to.equal(targetProfileId);
       expect(eligibility.passages).to.deep.equal([
         { status: OrganizationLearnerParticipationStatuses.STARTED, moduleId: 1, isTerminated: true },

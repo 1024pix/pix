@@ -5,23 +5,35 @@ import * as questOrganizationLearnerParticipationRepository from './organization
 export const find = async ({
   userId,
   quest,
-  organizationLearnerWithParticipationApi,
+  organizationLearnerApi,
+  campaignParticipationsApi,
   organizationLearnerParticipationRepository = questOrganizationLearnerParticipationRepository,
 }) => {
   const dataNeeds = quest.getDataNeeds();
-  const result = await organizationLearnerWithParticipationApi.find({ userIds: [userId] });
 
-  if (!dataNeeds.needsPassages) {
-    return result.map(toDomain);
-  }
+  const learnerData = await organizationLearnerApi.findWithOrganizationByUserId({ userId });
+
+  const organizationLearnerIds = learnerData.map((ld) => ld.organizationLearner.id);
+  const allCampaignParticipations =
+    dataNeeds.needsCampaignParticipations && organizationLearnerIds.length > 0
+      ? await campaignParticipationsApi.findByOrganizationLearnerIds({ organizationLearnerIds })
+      : [];
 
   return Promise.all(
-    result.map(async (learnerData) => {
+    learnerData.map(async (learner) => {
+      const campaignParticipations = allCampaignParticipations.filter(
+        (p) => p.organizationLearnerId === learner.organizationLearner.id,
+      );
+
+      if (!dataNeeds.needsPassages) {
+        return toDomain({ ...learner, campaignParticipations });
+      }
+
       const passages = await organizationLearnerParticipationRepository.findByOrganizationLearnerIdAndModuleIds({
-        organizationLearnerId: learnerData.organizationLearner.id,
+        organizationLearnerId: learner.organizationLearner.id,
         moduleIds: dataNeeds.moduleIds,
       });
-      return toDomain({ ...learnerData, passages });
+      return toDomain({ ...learner, campaignParticipations, passages });
     }),
   );
 };
@@ -29,46 +41,63 @@ export const find = async ({
 export const findByOrganizationAndOrganizationLearnerId = async ({
   organizationLearnerId,
   organizationId,
-  organizationLearnerWithParticipationApi,
+  quest,
+  organizationLearnerApi,
+  campaignParticipationsApi,
   organizationLearnerParticipationRepository = questOrganizationLearnerParticipationRepository,
-  moduleIds = [],
 }) => {
-  const passages = await organizationLearnerParticipationRepository.findByOrganizationLearnerIdAndModuleIds({
-    organizationLearnerId,
-    moduleIds,
-  });
-  const result = await organizationLearnerWithParticipationApi.findByOrganizationAndOrganizationLearnerId({
-    organizationLearnerId,
+  const dataNeeds = quest.getDataNeeds();
+
+  const [learner] = await organizationLearnerApi.findWithOrganizationByIds({
+    organizationLearnerIds: [organizationLearnerId],
     organizationId,
   });
-  return toDomain({ ...result, passages });
+
+  const campaignParticipations = dataNeeds.needsCampaignParticipations
+    ? await campaignParticipationsApi.findByOrganizationLearnerIds({ organizationLearnerIds: [organizationLearnerId] })
+    : [];
+
+  const passages = dataNeeds.needsPassages
+    ? await organizationLearnerParticipationRepository.findByOrganizationLearnerIdAndModuleIds({
+        organizationLearnerId,
+        moduleIds: dataNeeds.moduleIds,
+      })
+    : [];
+
+  return toDomain({ ...learner, campaignParticipations, passages });
 };
 
 export const findByOrganizationAndOrganizationLearnerIds = async ({
   organizationLearnerIds,
   organizationId,
-  organizationLearnerWithParticipationApi,
+  quest,
+  organizationLearnerApi,
+  campaignParticipationsApi,
   organizationLearnerParticipationRepository = questOrganizationLearnerParticipationRepository,
-  moduleIds = [],
 }) => {
-  const passagesByLearnerId = await organizationLearnerParticipationRepository.findByOrganizationLearnerIdsAndModuleIds(
-    {
-      organizationLearnerIds,
-      moduleIds,
-    },
-  );
-  const resultsByLearnerId = await organizationLearnerWithParticipationApi.findByOrganizationAndOrganizationLearnerIds({
-    organizationLearnerIds,
-    organizationId,
-  });
+  const dataNeeds = quest.getDataNeeds();
+
+  const learners = await organizationLearnerApi.findWithOrganizationByIds({ organizationLearnerIds, organizationId });
+
+  const allCampaignParticipations = dataNeeds.needsCampaignParticipations
+    ? await campaignParticipationsApi.findByOrganizationLearnerIds({ organizationLearnerIds })
+    : [];
+
+  const passagesByLearnerId = dataNeeds.needsPassages
+    ? await organizationLearnerParticipationRepository.findByOrganizationLearnerIdsAndModuleIds({
+        organizationLearnerIds,
+        moduleIds: dataNeeds.moduleIds,
+      })
+    : new Map();
 
   const eligibilitiesByLearnerId = new Map();
-  for (const organizationLearnerId of organizationLearnerIds) {
-    const result = resultsByLearnerId.get(organizationLearnerId);
+  for (const learner of learners) {
+    const organizationLearnerId = learner.organizationLearner.id;
+    const campaignParticipations = allCampaignParticipations.filter(
+      (p) => p.organizationLearnerId === organizationLearnerId,
+    );
     const passages = passagesByLearnerId.get(organizationLearnerId) ?? [];
-    if (result) {
-      eligibilitiesByLearnerId.set(organizationLearnerId, toDomain({ ...result, passages }));
-    }
+    eligibilitiesByLearnerId.set(organizationLearnerId, toDomain({ ...learner, campaignParticipations, passages }));
   }
   return eligibilitiesByLearnerId;
 };

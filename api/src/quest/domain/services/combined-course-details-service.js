@@ -57,7 +57,7 @@ async function getCombinedCourseDetails({
     const eligibility = await eligibilityRepository.findByOrganizationAndOrganizationLearnerId({
       organizationLearnerId,
       organizationId: combinedCourseDetails.organizationId,
-      moduleIds: combinedCourseDetails.moduleIds,
+      quest: combinedCourseDetails.quest,
     });
 
     dataForQuest = new DataForQuest({ eligibility });
@@ -104,7 +104,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
     eligibilitiesByLearnerId = await eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
       organizationLearnerIds: learnerIdsWithParticipation,
       organizationId: combinedCourseDetails.organizationId,
-      moduleIds: combinedCourseDetails.moduleIds,
+      quest: combinedCourseDetails.quest,
     });
   }
 
