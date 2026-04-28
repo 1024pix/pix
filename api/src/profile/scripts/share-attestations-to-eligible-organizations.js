@@ -1,11 +1,12 @@
 import * as knowledgeElementsApi from '../../evaluation/application/api/knowledge-elements-api.js';
 import * as skillsApi from '../../learning-content/application/api/skills-api.js';
 import * as campaignsApi from '../../prescription/campaign/application/api/campaigns-api.js';
-import * as organizationLearnerWithParticipationApi from '../../prescription/organization-learner/application/api/organization-learners-with-participations-api.js';
+import * as campaignParticipationsApi from '../../prescription/campaign-participation/application/api/campaign-participations-api.js';
+import * as organizationLearnerApi from '../../prescription/organization-learner/application/api/organization-learners-api.js';
 import { CampaignParticipationStatuses } from '../../prescription/shared/domain/constants.js';
 import * as targetProfilesApi from '../../prescription/target-profile/application/api/target-profile-api.js';
 import { DataForQuest } from '../../quest/domain/models/DataForQuest.js';
-import { Eligibility } from '../../quest/domain/models/Eligibility.js';
+import * as eligibilityRepository from '../../quest/infrastructure/repositories/eligibility-repository.js';
 import * as questRepository from '../../quest/infrastructure/repositories/quest-repository.js';
 import { find } from '../../quest/infrastructure/repositories/success-repository.js';
 import { isoDateParser } from '../../shared/application/scripts/parsers.js';
@@ -69,11 +70,12 @@ export class ShareAttestationsToEligibleOrganizationsScript extends Script {
         if (!desiredQuest) continue;
 
         if (!eligibilitiesByUserId[profileReward.userId]) {
-          const eligibilities = await organizationLearnerWithParticipationApi.find({ userIds: [profileReward.userId] });
-
-          eligibilitiesByUserId[profileReward.userId] = eligibilities.map(
-            (organizationLearnersWithParticipations) => new Eligibility(organizationLearnersWithParticipations),
-          );
+          eligibilitiesByUserId[profileReward.userId] = await eligibilityRepository.find({
+            userId: profileReward.userId,
+            quest: desiredQuest,
+            organizationLearnerApi,
+            campaignParticipationsApi,
+          });
         }
 
         const dataForQuests = eligibilitiesByUserId[profileReward.userId]
