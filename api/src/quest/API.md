@@ -1,7 +1,6 @@
-This doc has been generated on 01/09/2025 08:49:28 with `scripts/generate-api-documentation.js`. See package.json.
+This doc has been generated on 28/04/2026 14:10:02 with `scripts/generate-api-documentation.js`. See package.json.
 
 ---
-
 ## Modules
 
 <dl>
@@ -27,25 +26,24 @@ This doc has been generated on 01/09/2025 08:49:28 with `scripts/generate-api-do
 <a name="module_CombinedCourseApi"></a>
 
 ## CombinedCourseApi
-
 <a name="module_CombinedCourseApi..getByCampaignId"></a>
 
 ### CombinedCourseApi~getByCampaignId(campaignId) ⇒ [<code>Promise.&lt;CombinedCourse&gt;</code>](#CombinedCourse)
+**Kind**: inner method of [<code>CombinedCourseApi</code>](#module_CombinedCourseApi)  
 
-**Kind**: inner method of [<code>CombinedCourseApi</code>](#module_CombinedCourseApi)
-
-| Param      | Type                |
-| ---------- | ------------------- |
-| campaignId | <code>number</code> |
+| Param | Type |
+| --- | --- |
+| campaignId | <code>number</code> | 
 
 <a name="CombinedCourseArgs"></a>
 
 ## CombinedCourseArgs : <code>object</code>
-
 **Kind**: global typedef  
 **Properties**
 
-| Name | Type                |
-| ---- | ------------------- |
-| id   | <code>number</code> |
-| name | <code>string</code> |
+| Name | Type |
+| --- | --- |
+| id | <code>number</code> | 
+| name | <code>string</code> | 
+
+

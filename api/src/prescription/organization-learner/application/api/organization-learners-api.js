@@ -146,11 +146,26 @@ export const findByUserId = async (userId) => {
   return learners.map((learner) => _toAPIModel(learner));
 };
 
+/**
+ * @function
+ * @name findWithOrganizationByUserId
+ * @description Return organization learners with their organization linked to a given userId
+ * @param {number} userId
+ * @returns {Promise<Array<OrganizationLearnerWithOrganization>>}
+ */
 export const findWithOrganizationByUserId = async ({ userId }) => {
   const learners = await usecases.findOrganizationLearnersWithOrganizationByUserId({ userId });
   return learners.map((learner) => new OrganizationLearnerWithOrganization(learner));
 };
 
+/**
+ * @function
+ * @name findWithOrganizationByIds
+ * @description Return organization learners with their organization for a given list of ids and organizationId
+ * @param {Array<number>} organizationLearnerIds
+ * @param {number} organizationId
+ * @returns {Promise<Array<OrganizationLearnerWithOrganization>>}
+ */
 export const findWithOrganizationByIds = async ({ organizationLearnerIds, organizationId }) => {
   const learners = await findOrganizationLearnersWithOrganizationByIds({
     organizationLearnerIds,

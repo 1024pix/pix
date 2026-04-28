@@ -31,6 +31,13 @@ export const findByUserId = async ({ userId }) => {
   return participations.map((participation) => new CampaignParticipation(participation));
 };
 
+/**
+ * @function
+ * @name findByOrganizationLearnerIds
+ *
+ * @param {Array<number>} organizationLearnerIds
+ * @returns {Promise<Array<CampaignParticipation>>}
+ */
 export const findByOrganizationLearnerIds = async ({ organizationLearnerIds }) => {
   const participations = await usecases.findCampaignParticipationsByOrganizationLearnerIds({ organizationLearnerIds });
   return participations.map((participation) => new CampaignParticipation(participation));
