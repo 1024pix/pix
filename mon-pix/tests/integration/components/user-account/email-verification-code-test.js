@@ -143,7 +143,7 @@ module('Integration | Component | user-account | email-verification-code', funct
     });
 
     module('after entering code', function () {
-      test('shows invalid code message when receiving 403', async function (assert) {
+      test('shows invalid code message when receiving INVALID_VERIFICATION_CODE error code', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
@@ -151,7 +151,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         this.set('disableEmailEditionMode', disableEmailEditionMode);
         this.set('displayEmailUpdateMessage', displayEmailUpdateMessage);
         this.set('email', 'toto@example.net');
-        const verifyCode = sinon.stub().throws({ errors: [{ status: '403', code: 'INVALID_VERIFICATION_CODE' }] });
+        const verifyCode = sinon.stub().throws({ errors: [{ code: 'INVALID_VERIFICATION_CODE' }] });
         store.createRecord = () => ({ verifyCode });
 
         const screen = await render(hbs`<UserAccount::EmailVerificationCode
@@ -176,7 +176,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         assert.ok(screen.getByText(t('pages.user-account.email-verification.errors.incorrect-code')));
       });
 
-      test('shows demand expired message when receiving 403', async function (assert) {
+      test('shows demand expired message when receiving EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND error code', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
@@ -187,7 +187,6 @@ module('Integration | Component | user-account | email-verification-code', funct
         const verifyCode = sinon.stub().throws({
           errors: [
             {
-              status: '403',
               code: 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND',
             },
           ],
@@ -218,7 +217,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         );
       });
 
-      test('shows email already exists message when receiving 422', async function (assert) {
+      test('shows email already exists message when receiving INVALID_OR_ALREADY_USED_EMAIL error code', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
@@ -229,7 +228,6 @@ module('Integration | Component | user-account | email-verification-code', funct
         const verifyCode = sinon.stub().throws({
           errors: [
             {
-              status: '422',
               code: 'INVALID_OR_ALREADY_USED_EMAIL',
             },
           ],

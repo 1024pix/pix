@@ -82,20 +82,15 @@ export default class EmailVerificationCode extends Component {
       }
       this.args.disableEmailEditionMode();
     } catch (response) {
-      const status = get(response, 'errors[0].status');
       const code = get(response, 'errors[0].code');
-      if (status === '403') {
-        if (code === 'INVALID_VERIFICATION_CODE') {
-          this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.incorrect-code');
-        } else if (code === 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND') {
-          this.errorMessage = this.intl.t(
-            'pages.user-account.email-verification.errors.email-modification-demand-expired',
-          );
-        }
-      } else if (status === '422') {
-        if (code === 'INVALID_OR_ALREADY_USED_EMAIL') {
-          this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist');
-        }
+      if (code === 'INVALID_VERIFICATION_CODE') {
+        this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.incorrect-code');
+      } else if (code === 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND') {
+        this.errorMessage = this.intl.t(
+          'pages.user-account.email-verification.errors.email-modification-demand-expired',
+        );
+      } else if (code === 'INVALID_OR_ALREADY_USED_EMAIL') {
+        this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist');
       } else {
         this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.unknown-error');
       }
