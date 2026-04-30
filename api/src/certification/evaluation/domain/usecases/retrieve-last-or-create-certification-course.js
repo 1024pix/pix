@@ -296,8 +296,10 @@ async function _createCertificationCourse({
     const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
     certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
 
-    session.updateDate(savedCertificationCourse.getCreatedAt());
-    await sessionRepository.update(session);
+    if (!session.hasStarted) {
+      session.updateDateAndTime(savedCertificationCourse.getCreatedAt());
+      await sessionRepository.update(session);
+    }
 
     return {
       created: true,

@@ -8,6 +8,7 @@ export async function get({ id }) {
     .select(
       'id',
       'date',
+      'time',
       'accessCode',
       'finalizedAt',
       'publishedAt',
@@ -33,6 +34,7 @@ export async function getByCertificationCourseId({ certificationCourseId }) {
     .select({
       id: 'sessions.id',
       date: 'sessions.date',
+      time: 'sessions.time',
       accessCode: 'sessions.accessCode',
       finalizedAt: 'sessions.finalizedAt',
       publishedAt: 'sessions.publishedAt',
@@ -54,6 +56,7 @@ export async function getByCertificationCourseId({ certificationCourseId }) {
 export async function update(session) {
   const sessionData = {
     date: session.date,
+    time: session.time,
   };
 
   const knexConn = DomainTransaction.getConnection();
@@ -64,6 +67,7 @@ function _toDomain(sessionDTO) {
   return new Session({
     id: sessionDTO.id,
     date: sessionDTO.date,
+    time: sessionDTO.time,
     accessCode: sessionDTO.accessCode,
     finalizedAt: sessionDTO.finalizedAt,
     publishedAt: sessionDTO.publishedAt,

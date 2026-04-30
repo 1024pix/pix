@@ -509,13 +509,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
             });
 
-            it('updates the session date', async function () {
+            it('updates the session date and time', async function () {
               // given
               const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
                 id: 1,
                 accessCode: 'accessCode',
-                createdAt: new Date('2015-05-05'),
                 hasStarted: false,
+                date: '2024-01-01',
+                time: '12:00:00',
               });
               sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
               const certificationVersion = domainBuilder.certification.configuration.buildVersion();
@@ -551,7 +552,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
               const savedCertificationCourse = domainBuilder.buildCertificationCourse({
                 ...certificationCourseToSave.toDTO(),
-                createdAt: new Date('2022-02-02'),
+                // eslint-disable-next-line no-restricted-syntax
+                createdAt: new Date('2026-05-04T09:02:02.674+02:00'),
               });
               certificationCourseRepository.save
                 .withArgs({ certificationCourse: certificationCourseToSave })
@@ -588,7 +590,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
               expect(sessionRepository.update).to.have.been.calledWithMatch({
                 id: 1,
-                date: '2022-02-02',
+                date: '2026-05-04',
+                time: '09:02:00',
               });
             });
 

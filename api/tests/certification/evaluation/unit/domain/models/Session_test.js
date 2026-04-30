@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { Session } from '../../../../../../src/certification/evaluation/domain/models/Session.js';
-import { domainBuilder } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation| Unit | domain | models | Session', function () {
   describe('#isNotAccessible', function () {
@@ -54,42 +54,19 @@ describe('Certification | Evaluation| Unit | domain | models | Session', functio
     });
   });
 
-  describe('#updateDate', function () {
-    context('when session has already started', function () {
-      it('updates nothing', function () {
-        const session = domainBuilder.certification.evaluation.buildSession({
-          date: '2026-01-01',
-          hasStarted: true,
-        });
-
-        session.updateDate(new Date('2026-05-04'));
-
-        expect(session.date).to.equal('2026-01-01');
-      });
-    });
-
-    context('when session has not started', function () {
-      it('sets the date property to a YYYY-MM-DD string based on provided timestamp', function () {
-        const session = domainBuilder.certification.evaluation.buildSession({
-          date: '2026-01-01',
-          hasStarted: false,
-        });
-
-        session.updateDate(new Date('2026-05-04'));
-
-        expect(session.date).to.equal('2026-05-04');
+  describe('#updateDateAndTime', function () {
+    it('sets the new date and time properties based on provided timestamp', function () {
+      const session = domainBuilder.certification.evaluation.buildSession({
+        date: '2026-01-01',
+        time: '12:00:00',
+        hasStarted: false,
       });
 
-      it('correctly pads single digit months and days', function () {
-        const session = domainBuilder.certification.evaluation.buildSession({
-          date: '2026-01-01',
-          hasStarted: false,
-        });
+      // eslint-disable-next-line no-restricted-syntax
+      session.updateDateAndTime(new Date('2026-05-04T05:09:02.674+02:00'));
 
-        session.updateDate(new Date('2026-01-02'));
-
-        expect(session.date).to.equal('2026-01-02');
-      });
+      expect(session.date).to.equal('2026-05-04');
+      expect(session.time).to.equal('05:09:00');
     });
   });
 });
