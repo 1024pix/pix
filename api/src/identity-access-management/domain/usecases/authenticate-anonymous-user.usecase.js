@@ -22,7 +22,6 @@ export const authenticateAnonymousUser = async function ({
   audience,
   campaignToJoinRepository,
   userToCreateRepository,
-  anonymousUserTokenRepository,
 }) {
   const campaign = await campaignToJoinRepository.getByCode({ code: campaignCode });
   if (!campaign.isSimplifiedAccess) {
@@ -30,9 +29,7 @@ export const authenticateAnonymousUser = async function ({
   }
 
   const userToCreate = UserToCreate.createAnonymous({ lang, locale });
-
   const anonymousUser = await userToCreateRepository.create({ user: userToCreate });
-  await anonymousUserTokenRepository.save(anonymousUser.id);
 
   const { accessToken } = UserAccessToken.generateAnonymousUserToken({ userId: anonymousUser.id, audience });
   return accessToken;

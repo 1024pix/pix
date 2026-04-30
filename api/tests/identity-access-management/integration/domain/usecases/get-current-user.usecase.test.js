@@ -1,5 +1,4 @@
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { anonymousUserTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/anonymous-user-token.repository.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
@@ -18,7 +17,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | get-curr
     expect(currentUser).to.deep.include({
       id: user.id,
       isAnonymous: false,
-      anonymousUserToken: null,
       codeForLastProfileToShare: null,
       hasAssessmentParticipations: false,
       hasRecommendedTrainings: false,
@@ -95,13 +93,11 @@ describe('Integration | Identity Access Management | Domain | UseCase | get-curr
       const user = databaseBuilder.factory.buildUser({ isAnonymous: true });
       await databaseBuilder.commit();
 
-      const anonymousUserToken = await anonymousUserTokenRepository.save(user.id);
-
       // when
       const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
 
       // then
-      expect(currentUser).to.deep.include({ id: user.id, isAnonymous: true, anonymousUserToken });
+      expect(currentUser).to.deep.include({ id: user.id, isAnonymous: true });
     });
   });
 });

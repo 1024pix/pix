@@ -16,7 +16,6 @@ const serialize = function (users, meta) {
       'mustValidateTermsOfService',
       'lang',
       'isAnonymous',
-      'anonymousUserToken',
       'accountInfo',
       'profile',
       'hasSeenAssessmentInstructions',

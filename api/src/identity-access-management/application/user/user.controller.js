@@ -265,7 +265,7 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
  * @return {Promise<*>}
  */
 const upgradeToRealUser = async function (request, h, dependencies = { userSerializer, localeService }) {
-  const anonymousUserId = request.auth.credentials.userId;
+  const userId = request.auth.credentials.userId;
   const locale = getUserLocale(request);
 
   const userAttributes = {
@@ -277,13 +277,11 @@ const upgradeToRealUser = async function (request, h, dependencies = { userSeria
   };
 
   const password = request.payload.data.attributes.password;
-  const anonymousUserToken = request.payload.data.attributes['anonymous-user-token'];
 
   const realUser = await usecases.upgradeToRealUser({
-    userId: anonymousUserId,
+    userId,
     userAttributes,
     password,
-    anonymousUserToken,
     locale,
   });
   return h.response(dependencies.userSerializer.serialize(realUser));

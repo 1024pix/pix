@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { anonymousUserTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/anonymous-user-token.repository.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -145,13 +144,11 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     const password = 'P@ssW0rd';
 
     let userId;
-    let anonymousToken;
     let payload;
 
     beforeEach(async function () {
       const user = databaseBuilder.factory.buildUser.anonymous();
       userId = user.id;
-      anonymousToken = await anonymousUserTokenRepository.save(userId);
       await databaseBuilder.commit();
 
       payload = {
@@ -164,7 +161,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
             email,
             password,
             cgu: true,
-            'anonymous-user-token': anonymousToken,
           },
         },
       };
@@ -271,7 +267,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
             cgu: user.cgu,
             lang: 'fr',
             'is-anonymous': false,
-            'anonymous-user-token': null,
             'last-terms-of-service-validated-at': user.lastTermsOfServiceValidatedAt,
             'must-validate-terms-of-service': user.mustValidateTermsOfService,
             'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,

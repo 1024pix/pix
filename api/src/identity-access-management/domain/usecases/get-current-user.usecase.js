@@ -14,7 +14,6 @@ export const getCurrentUser = async function ({
   userRepository,
   campaignParticipationRepository,
   userRecommendedTrainingRepository,
-  anonymousUserTokenRepository,
 }) {
   const hasAssessmentParticipations =
     await campaignParticipationRepository.hasAssessmentParticipations(authenticatedUserId);
@@ -29,17 +28,11 @@ export const getCurrentUser = async function ({
   const user = await userRepository.get(authenticatedUserId);
   const shouldSeeDataProtectionPolicyInformationBanner = user.shouldSeeDataProtectionPolicyInformationBanner;
 
-  let anonymousUserToken;
-  if (user.isAnonymous) {
-    anonymousUserToken = await anonymousUserTokenRepository.find(authenticatedUserId);
-  }
-
   return new UserWithActivity({
     user,
     hasAssessmentParticipations,
     codeForLastProfileToShare,
     hasRecommendedTrainings,
     shouldSeeDataProtectionPolicyInformationBanner,
-    anonymousUserToken,
   });
 };

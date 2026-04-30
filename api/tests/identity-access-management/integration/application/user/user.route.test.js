@@ -208,40 +208,6 @@ describe('Integration | Identity Access Management | Application | Route | User'
         });
       });
     });
-
-    context('when anonymousUserToken is invalid', function () {
-      it('returns an HTTP status code 401', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser.anonymous().id;
-        await databaseBuilder.commit();
-
-        const headers = generateAuthenticatedUserRequestHeaders({ userId });
-
-        const payload = {
-          data: {
-            id: userId,
-            type: 'users',
-            attributes: {
-              'first-name': 'Joséphine',
-              'last-name': 'Baker',
-              email: 'test1@example.net',
-              password: 'someValidPassword-12345678',
-              cgu: true,
-              'anonymous-user-token': 'invalid-token',
-            },
-          },
-        };
-
-        const url = `/api/users/${userId}`;
-
-        // when
-        const response = await httpTestServer.request('PATCH', url, payload, null, headers);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.result.errors[0].code).to.equal('INVALID_ANONYMOUS_TOKEN');
-      });
-    });
   });
 
   describe('GET /api/user/validate-email', function () {

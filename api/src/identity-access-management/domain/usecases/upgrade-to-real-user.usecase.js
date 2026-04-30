@@ -9,17 +9,15 @@ const upgradeToRealUser = async function ({
   userId,
   userAttributes,
   password,
-  anonymousUserToken,
   locale,
-  anonymousUserTokenRepository,
   userRepository,
   authenticationMethodRepository,
   emailValidationDemandRepository,
   emailRepository,
   cryptoService,
 }) {
-  const anonymousUser = await userRepository.getFullById(userId);
-  if (!anonymousUser.isAnonymous) {
+  const user = await userRepository.getFullById(userId);
+  if (!user.isAnonymous) {
     throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
   }
 
@@ -28,13 +26,8 @@ const upgradeToRealUser = async function ({
     throw new AlreadyRegisteredEmailError();
   }
 
-  const storedAnonymousUserToken = await anonymousUserTokenRepository.find(userId);
-  if (storedAnonymousUserToken !== anonymousUserToken) {
-    throw new UnauthorizedError('Anonymous token is invalid', 'INVALID_ANONYMOUS_TOKEN');
-  }
-
   const { realUser, token } = await DomainTransaction.execute(async () => {
-    const realUser = anonymousUser.convertAnonymousToRealUser(userAttributes);
+    const realUser = user.convertAnonymousToRealUser(userAttributes);
     await userRepository.update(realUser.mapToDatabaseDto());
 
     const hashedPassword = await cryptoService.hashPassword(password);

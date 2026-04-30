@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { anonymousUserTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/anonymous-user-token.repository.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
@@ -25,7 +24,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
     // given
     const anonymousUser = databaseBuilder.factory.buildUser.anonymous();
     await databaseBuilder.commit();
-    const anonymousUserToken = await anonymousUserTokenRepository.save(anonymousUser.id);
 
     const password = 'P@ssW0rd';
     const locale = 'fr';
@@ -42,7 +40,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
       userId: anonymousUser.id,
       userAttributes,
       password,
-      anonymousUserToken,
       locale,
     });
 
@@ -76,7 +73,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
           locale: 'fr-FR',
         },
         password: 'P@ssW0rd',
-        anonymousUserToken: 'anonymous-token',
         locale: 'fr',
       });
 
@@ -104,38 +100,11 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
           locale: 'fr-FR',
         },
         password: 'P@ssW0rd',
-        anonymousUserToken: 'anonymous-token',
         locale: 'fr',
       });
 
       // then
       await expect(promise).to.be.rejectedWith(AlreadyRegisteredEmailError);
-    });
-  });
-
-  context('when the user anonymous token is invalid', function () {
-    it('throws an UnauthorizedError', async function () {
-      // given
-      const anonymousUser = databaseBuilder.factory.buildUser.anonymous();
-      await databaseBuilder.commit();
-
-      // when
-      const promise = usecases.upgradeToRealUser({
-        userId: anonymousUser.id,
-        userAttributes: {
-          firstName: 'First',
-          lastName: 'Last',
-          email: 'first.last@example.net',
-          cgu: true,
-          locale: 'fr-FR',
-        },
-        password: 'P@ssW0rd',
-        anonymousUserToken: 'invalid-anonymous-token',
-        locale: 'fr',
-      });
-
-      // then
-      await expect(promise).to.be.rejectedWith(UnauthorizedError, 'Anonymous token is invalid');
     });
   });
 });
