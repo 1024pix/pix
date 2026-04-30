@@ -55,16 +55,11 @@ export async function retrieveLastOrCreateCertificationCourse({
   verifyCertificateCodeService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
+  if (session.accessCode !== accessCode) throw new NotFoundError('Session not found');
+  if (session.isNotAccessible) throw new SessionNotAccessible();
 
-  _validateSessionAccess(session, accessCode);
-  _validateSessionIsActive(session);
-
-  const candidate = await candidateRepository.findByUserIdAndSessionId({
-    userId,
-    sessionId,
-  });
-
-  _validateUserIsCandidate(candidate);
+  const candidate = await candidateRepository.findByUserIdAndSessionId({ userId, sessionId });
+  if (!candidate) throw new UnexpectedUserAccountError({});
 
   const certificationVersion = await versionApi.getByFrameworkAndDate({
     framework: candidate.subscriptionFramework,
@@ -79,7 +74,7 @@ export async function retrieveLastOrCreateCertificationCourse({
 
   _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse);
 
-  await _blockCandidateFromRestartingWithoutExplicitValidation(candidate, candidateRepository);
+  await _preventCandidateFromRestarting(candidate, candidateRepository);
 
   if (existingCertificationCourse) {
     existingCertificationCourse.adjustForAccessibility(candidate.accessibilityAdjustmentNeeded);
@@ -116,24 +111,6 @@ function _validateUserLocale(userLanguage) {
   }
 }
 
-function _validateSessionAccess(session, accessCode) {
-  if (session.accessCode !== accessCode) {
-    throw new NotFoundError('Session not found');
-  }
-}
-
-function _validateSessionIsActive(session) {
-  if (session.isNotAccessible) {
-    throw new SessionNotAccessible();
-  }
-}
-
-function _validateUserIsCandidate(candidate) {
-  if (!candidate) {
-    throw new UnexpectedUserAccountError({});
-  }
-}
-
 function _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse) {
   if (!candidate.authorizedToStart) {
     if (existingCertificationCourse) {
@@ -144,7 +121,7 @@ function _validateCandidateIsAuthorizedToStart(candidate, existingCertificationC
   }
 }
 
-async function _blockCandidateFromRestartingWithoutExplicitValidation(candidate, candidateRepository) {
+async function _preventCandidateFromRestarting(candidate, candidateRepository) {
   candidate.authorizedToStart = false;
   await candidateRepository.update(candidate);
 }
