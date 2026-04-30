@@ -4,7 +4,7 @@ import { CertificationCandidateNotFoundError } from '../../../shared/domain/erro
 import { Candidate } from '../../domain/models/Candidate.js';
 
 /**
- * @typedef {object} RawCertificationCandidateResult
+ * @typedef {object} CandidateRecord
  * @property {number} id
  * @property {number} userId
  * @property {number} sessionId
@@ -125,7 +125,7 @@ export async function update(candidate) {
 
 /**
  * @function
- * @param {RawCertificationCandidateResult} data
+ * @param {CandidateRecord}
  * @returns {Candidate}
  */
 const _toDomain = (data) => {
