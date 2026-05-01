@@ -193,16 +193,23 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(attributes['is-anonymous']).to.be.false;
     });
 
-    it('fails with 401 if user is not authenticated', async function () {
-      // when
-      const response = await server.inject({
-        method: 'PATCH',
-        url: `/api/users/${userId}`,
-        payload: requestPayload,
-      });
+    context('when requested user is not the same as authenticated user', function () {
+      it('responds with 403 HTTP status code', async function () {
+        // given
+        const someOtherUser = databaseBuilder.factory.buildUser.anonymous();
+        await databaseBuilder.commit();
 
-      // then
-      expect(response.statusCode).to.equal(401);
+        // when
+        const response = await server.inject({
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          headers: generateAuthenticatedUserRequestHeaders({ userId: someOtherUser.id }),
+          payload,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
     });
   });
 
