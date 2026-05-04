@@ -40,7 +40,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
       expect(response.result.data).to.deep.equal([
         {
           type: 'oidc-identity-providers',
-          id: 'oidc-example-net',
+          id: 'OIDC_EXAMPLE_NET',
           attributes: {
             code: 'OIDC_EXAMPLE_NET',
             'organization-name': 'OIDC Example',

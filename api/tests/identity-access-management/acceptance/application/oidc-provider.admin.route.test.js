@@ -122,7 +122,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
       expect(response.result.data).to.deep.equal([
         {
           type: 'oidc-identity-providers',
-          id: 'oidc-example-net',
+          id: 'OIDC_EXAMPLE_NET',
           attributes: {
             code: 'OIDC_EXAMPLE_NET',
             'organization-name': 'OIDC Example',
@@ -172,7 +172,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.length).to.equal(1);
-        expect(response.result.data.at(0).id).to.equal('idp-1');
+        expect(response.result.data.at(0).id).to.equal('IDP_1');
       });
     });
   });

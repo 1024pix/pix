@@ -23,7 +23,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
       const expectedJSON = {
         data: {
           type: 'oidc-identity-providers',
-          id: 'oidc-partner',
+          id: 'OIDC_PARTNER',
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',

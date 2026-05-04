@@ -6,7 +6,7 @@ const serialize = function (oidcIdentityProviders) {
   return new Serializer('oidc-identity-providers', {
     transform(oidcIdentityProvider) {
       return {
-        id: oidcIdentityProvider.slug,
+        id: oidcIdentityProvider.code,
         code: oidcIdentityProvider.code,
         organizationName: oidcIdentityProvider.organizationName,
         slug: oidcIdentityProvider.slug,
