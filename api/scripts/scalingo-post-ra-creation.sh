@@ -9,7 +9,7 @@ if [[ -z "$MADDO" ]]; then
   npm run db:seed
 else
   # api-maddo deployment
-  node ./wait-for-api-deployment.js
+  npm run postdeploy:maddo
   npm run datamart:migrate
   npm run datamart:seed
   API_DATABASE_URL=$(scalingo -a pix-api-review-pr$PR_NUMBER env-get SCALINGO_POSTGRESQL_URL)
