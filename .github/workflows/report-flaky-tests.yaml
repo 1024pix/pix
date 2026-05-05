@@ -1,3 +1,4 @@
+name: Flaky tests slack notification
 on:
   # schedule:
   #   # Tous les lundis à 8h UTC
