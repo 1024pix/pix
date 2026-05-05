@@ -55,7 +55,7 @@ jobs:
 
       - name: Post to Slack
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_FLAKY_TESTS_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ENGINEERING_WEBHOOK_URL }}
         run: |
           curl -sS --fail -X POST \
             -H 'Content-Type: application/json' \
