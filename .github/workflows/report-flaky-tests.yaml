@@ -10,11 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch flaky tests from CircleCI Insights
-        env:
-          CIRCLECI_TOKEN: ${{ secrets.CIRCLECI_TOKEN }}
         run: |
           curl -sS --fail \
-            -H "Circle-Token: $CIRCLECI_TOKEN" \
             "https://circleci.com/api/v2/insights/github/1024pix/pix/flaky-tests" \
             -o flaky.json
           echo "Flaky tests count: $(jq '.flaky_tests | length' flaky.json)"
