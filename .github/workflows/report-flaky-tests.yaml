@@ -1,8 +1,8 @@
 name: Flaky tests slack notification
 on:
-  # schedule:
-  #   # Tous les lundis à 8h UTC
-  #   - cron: '0 8 * * 1'
+  schedule:
+    # Tous les lundis à 9h UTC
+    - cron: '0 9 * * 1'
   workflow_dispatch:
 
 jobs:
