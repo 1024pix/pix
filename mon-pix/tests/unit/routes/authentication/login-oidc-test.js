@@ -47,9 +47,9 @@ module('Unit | Route | login-oidc', function (hooks) {
         stubOidcIdentityProvidersService(this.owner, {
           oidcIdentityProviders: [
             {
-              id: 'oidc-partner',
-              slug: 'oidc-partner',
+              id: 'OIDC_PARTNER',
               code: 'OIDC_PARTNER',
+              slug: 'oidc-partner',
               organizationName: 'OIDC Partner',
             },
           ],
@@ -185,17 +185,16 @@ module('Unit | Route | login-oidc', function (hooks) {
   module('#model', function (hooks) {
     hooks.beforeEach(function () {
       const oidcPartner = {
-        id: 'oidc-partner',
-        slug: 'oidc-partner',
+        id: 'OIDC_PARTNER',
         code: 'OIDC_PARTNER',
+        slug: 'oidc-partner',
       };
-
-      class OidcIdentityProvidersStub extends Service {
-        'oidc-partner' = oidcPartner;
-        list = [oidcPartner];
-      }
-
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+      const storeStub = Service.create({
+        findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+        peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+      });
+      oidcIdentityProvidersService.set('store', storeStub);
     });
 
     module('when there is an unexpected error (not a JSON:API error)', function () {

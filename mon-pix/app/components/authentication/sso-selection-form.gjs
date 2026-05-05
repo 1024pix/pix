@@ -48,7 +48,7 @@ export default class SsoSelectionForm extends Component {
   @action
   goToOidcProviderLoginPage() {
     this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress = true;
-    const selectedOidcProviderSlug = this.oidcIdentityProviders[this.selectedProviderId].slug;
+    const selectedOidcProviderSlug = this.oidcIdentityProviders.findBySlug(this.selectedProviderId).slug;
     this.router.transitionTo('authentication.login-oidc', selectedOidcProviderSlug);
   }
 

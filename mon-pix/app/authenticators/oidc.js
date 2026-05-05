@@ -19,7 +19,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     };
     const host = `${ENV.APP.API_HOST}/api/oidc/`;
     let body;
-    const identityProvider = this.oidcIdentityProviders[identityProviderSlug];
+    const identityProvider = this.oidcIdentityProviders.findBySlug(identityProviderSlug);
 
     if (authenticationKey) {
       body = {

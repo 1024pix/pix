@@ -74,16 +74,18 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
     test('should display identity provider organization name', function (assert) {
       // given & when
       const oidcPartner = {
-        id: 'oidc-partner',
+        id: 'OIDC_PARTNER',
+        code: 'OIDC_PARTNER',
+        slug: 'oidc-partner',
         organizationName: 'Partenaire OIDC',
       };
+      const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+      const storeStub = Service.create({
+        findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+        peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+      });
+      oidcIdentityProvidersService.set('store', storeStub);
 
-      class OidcIdentityProvidersStub extends Service {
-        'oidc-partner' = oidcPartner;
-        list = [oidcPartner];
-      }
-
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const component = createGlimmerComponent('authentication/oidc-reconciliation');
       component.args.identityProviderSlug = 'oidc-partner';
 

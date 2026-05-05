@@ -50,7 +50,7 @@ export default class OidcSignupOrLoginController extends Controller {
 
   @action
   async onLogin({ enteredEmail, enteredPassword }) {
-    const identityProvider = this.oidcIdentityProviders[this.identityProviderSlug].code;
+    const identityProvider = this.oidcIdentityProviders.findBySlug(this.identityProviderSlug).code;
 
     const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
       password: enteredPassword,

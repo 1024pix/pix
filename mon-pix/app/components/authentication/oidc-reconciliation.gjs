@@ -95,7 +95,7 @@ export default class OidcReconciliationComponent extends Component {
   @tracked isLoading = false;
 
   get identityProviderOrganizationName() {
-    return this.oidcIdentityProviders[this.args.identityProviderSlug]?.organizationName;
+    return this.oidcIdentityProviders.findBySlug(this.args.identityProviderSlug)?.organizationName;
   }
 
   get shouldShowEmail() {

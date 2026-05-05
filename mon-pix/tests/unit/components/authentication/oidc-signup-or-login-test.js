@@ -177,7 +177,7 @@ module('Unit | Component | authentication | oidc-signup-or-login', function (hoo
   module('#login', function (hooks) {
     hooks.beforeEach(function () {
       const oidcPartner = {
-        id: 'oidc-partner',
+        id: 'OIDC_PARTNER',
         code: 'OIDC_PARTNER',
         organizationName: 'Partenaire OIDC',
         shouldCloseSession: false,
@@ -185,7 +185,7 @@ module('Unit | Component | authentication | oidc-signup-or-login', function (hoo
       };
 
       class OidcIdentityProvidersStub extends Service {
-        'oidc-partner' = oidcPartner;
+        OIDC_PARTNER = oidcPartner;
         list = [oidcPartner];
       }
 

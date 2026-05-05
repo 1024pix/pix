@@ -140,7 +140,7 @@ export default class OidcSignupOrLoginComponent extends Component {
   @tracked isRegisterLoading = false;
 
   get identityProviderOrganizationName() {
-    return this.oidcIdentityProviders[this.args.identityProviderSlug]?.organizationName;
+    return this.oidcIdentityProviders.findBySlug(this.args.identityProviderSlug)?.organizationName;
   }
 
   get cguUrl() {

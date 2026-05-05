@@ -11,7 +11,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
   let storeStub;
 
   const oidcPartner = {
-    id: 'oidc-partner',
+    id: 'OIDC_PARTNER',
     code: 'OIDC_PARTNER',
     slug: 'partenaire-oidc',
     organizationName: 'Partenaire OIDC',
@@ -21,7 +21,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
   };
 
   const nonVisibleIdentityProvider = {
-    id: 'oidc-partner',
+    id: 'OIDC_PARTNER',
     code: 'OIDC_PARTNER',
     slug: 'partenaire-oidc',
     organizationName: 'Partenaire OIDC',
@@ -47,13 +47,13 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.load();
 
       // then
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
+      assert.strictEqual(oidcIdentityProvidersService['OIDC_PARTNER'].code, oidcPartner.code);
+      assert.strictEqual(oidcIdentityProvidersService['OIDC_PARTNER'].organizationName, oidcPartner.organizationName);
       assert.strictEqual(
-        oidcIdentityProvidersService['oidc-partner'].shouldCloseSession,
+        oidcIdentityProvidersService['OIDC_PARTNER'].shouldCloseSession,
         oidcPartner.shouldCloseSession,
       );
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
+      assert.strictEqual(oidcIdentityProvidersService['OIDC_PARTNER'].source, oidcPartner.source);
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].shouldCloseSession, oidcPartner.shouldCloseSession);
@@ -209,14 +209,14 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
     test('should return identity provider names for methods', function (assert) {
       // given
       const oidcPartner2 = Object.create({
-        id: 'france-connect',
+        id: 'FRANCE_CONNECT',
         code: 'FRANCE_CONNECT',
         organizationName: 'France Connect',
         shouldCloseSession: false,
         source: 'france-connect',
       });
       const oidcPartner3 = Object.create({
-        id: 'impots-gouv',
+        id: 'IMPOTS_GOUV',
         code: 'IMPOTS_GOUV',
         organizationName: 'Impots.gouv',
         shouldCloseSession: false,

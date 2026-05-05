@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -13,18 +14,19 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
     this.set('identityProviderSlug', 'oidc-partner');
 
     const oidcPartner = {
-      id: 'oidc-partner',
+      id: 'OIDC_PARTNER',
       code: 'OIDC_PARTNER',
+      slug: 'oidc-partner',
       organizationName: 'Partenaire OIDC',
-      slug: 'partenaire-oidc',
       shouldCloseSession: false,
       source: 'oidc-externe',
     };
-    class OidcIdentityProvidersStub extends Service {
-      'oidc-partner' = oidcPartner;
-      list = [oidcPartner];
-    }
-    this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+    const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+    const storeStub = Service.create({
+      findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+      peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+    });
+    oidcIdentityProvidersService.set('store', storeStub);
 
     const userClaims = {
       firstName: 'Mélusine',

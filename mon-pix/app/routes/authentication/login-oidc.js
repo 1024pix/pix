@@ -28,7 +28,7 @@ export default class LoginOidcRoute extends Route {
     }
 
     const identityProviderSlug = transition.to.params.identity_provider_slug;
-    const identityProvider = this.oidcIdentityProviders[identityProviderSlug];
+    const identityProvider = this.oidcIdentityProviders.findBySlug(identityProviderSlug);
     if (!identityProvider) {
       this.router.transitionTo('authentication.login');
       return;
@@ -53,7 +53,7 @@ export default class LoginOidcRoute extends Route {
   async model(params, transition) {
     const { code, state, iss } = transition.to.queryParams;
     const identityProviderSlug = params.identity_provider_slug;
-    const identityProvider = this.oidcIdentityProviders[identityProviderSlug];
+    const identityProvider = this.oidcIdentityProviders.findBySlug(identityProviderSlug);
 
     const model = await this._handleOidcCallbackRequest({ identityProvider, code, state, iss });
     return model;

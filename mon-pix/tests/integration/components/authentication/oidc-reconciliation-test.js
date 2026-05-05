@@ -12,21 +12,36 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
 
   test('should display reconciliation page elements', async function (assert) {
     // given
-    class OidcIdentityProvidersStub extends Service {
-      'new-oidc-partner' = { organizationName: 'Nouveau partenaire' };
-      list = [
-        { organizationName: 'France Connect' },
-        { organizationName: 'Impots.gouv' },
-        { organizationName: 'Nouveau partenaire' },
-      ];
-      getIdentityProviderNamesByAuthenticationMethods = sinon.stub().returns(['France Connect', 'Impots.gouv']);
-    }
-    this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+    const oidcPartner1 = Object.create({
+      id: 'NOUVEAU_PARTENAIRE',
+      code: 'NOUVEAU_PARTENAIRE',
+      slug: 'new-oidc-partner',
+      organizationName: 'Nouveau partenaire',
+    });
+    const oidcPartner2 = Object.create({
+      id: 'FRANCE_CONNECT',
+      code: 'FRANCE_CONNECT',
+      slug: 'france-connect',
+      organizationName: 'France Connect',
+    });
+    const oidcPartner3 = Object.create({
+      id: 'IMPOTS_GOUV',
+      code: 'IMPOTS_GOUV',
+      slug: 'impots-gouv',
+      organizationName: 'Impots.gouv',
+    });
+    const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+    const storeStub = Service.create({
+      findAll: sinon.stub().resolves([oidcPartner1, oidcPartner2, oidcPartner3]),
+      peekAll: sinon.stub().returns([oidcPartner1, oidcPartner2, oidcPartner3]),
+    });
+    oidcIdentityProvidersService.set('store', storeStub);
+
     this.set('fullNameFromPix', 'Lloyd Pix');
     this.set('fullNameFromExternalIdentityProvider', 'Lloyd Cé');
     this.set('email', 'lloyidce@example.net');
     this.set('identityProviderSlug', 'new-oidc-partner');
-    this.set('authenticationMethods', [{ identityProvider: 'France Connect' }, { identityProvider: 'Impots.gouv' }]);
+    this.set('authenticationMethods', [{ identityProvider: 'FRANCE_CONNECT' }, { identityProvider: 'IMPOTS_GOUV' }]);
 
     //  when
     const screen = await render(

@@ -61,15 +61,15 @@ module('Unit | Route | Access', function (hooks) {
           stubOidcIdentityProvidersService(this.owner, {
             oidcIdentityProviders: [
               {
-                id: 'oidc-partner',
-                slug: 'oidc-partner',
+                id: 'OIDC_PARTNER',
                 code: 'OIDC_PARTNER',
+                slug: 'oidc-partner',
                 organizationName: 'OIDC Partner',
               },
               {
-                id: 'oidc-partner-different',
-                slug: 'oidc-partner-different',
+                id: 'OIDC_PARTNER_DIFFERENT',
                 code: 'OIDC_PARTNER_DIFFERENT',
+                slug: 'oidc-partner-different',
                 organizationName: 'OIDC Partner Different',
               },
             ],

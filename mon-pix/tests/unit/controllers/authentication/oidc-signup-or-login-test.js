@@ -13,16 +13,16 @@ module('Unit | Controller | authentication | oidc-signup-or-login', function (ho
     test('should request api for login', async function (assert) {
       // given
       const oidcPartner = {
-        id: 'oidc-partner',
+        id: 'OIDC_PARTNER',
         code: 'OIDC_PARTNER',
+        slug: 'oidc-partner',
       };
-
-      class OidcIdentityProvidersStub extends Service {
-        'oidc-partner' = oidcPartner;
-        list = [oidcPartner];
-      }
-
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+      const storeStub = Service.create({
+        findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+        peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+      });
+      oidcIdentityProvidersService.set('store', storeStub);
 
       const email = 'glace.alo@example.net';
       const password = 'pix123';
@@ -65,16 +65,16 @@ module('Unit | Controller | authentication | oidc-signup-or-login', function (ho
     test('should redirect to oidc reconciliation page', async function (assert) {
       // given
       const oidcPartner = {
-        id: 'oidc-partner',
+        id: 'OIDC_PARTNER',
         code: 'OIDC_PARTNER',
+        slug: 'oidc-partner',
       };
-
-      class OidcIdentityProvidersStub extends Service {
-        'oidc-partner' = oidcPartner;
-        list = [oidcPartner];
-      }
-
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+      const storeStub = Service.create({
+        findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+        peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+      });
+      oidcIdentityProvidersService.set('store', storeStub);
 
       const email = 'glace.alo@example.net';
       const password = 'pix123';
