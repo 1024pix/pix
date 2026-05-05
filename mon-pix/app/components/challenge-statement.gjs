@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { fn, get } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -23,6 +24,192 @@ const certifCandidateStorage = new SessionStorageEntry('certifCandidateStorage')
 const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
 export default class ChallengeStatement extends Component {
+  @service intl;
+  @service currentUser;
+  @service featureToggles;
+  @service router;
+  @service pixMetrics;
+
+  @tracked selectedAttachmentUrl;
+  @tracked displayAlternativeInstruction = false;
+  @tracked isSpeaking = false;
+  @tracked textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+  @tracked textToSpeechRate = 1;
+
+  constructor() {
+    super(...arguments);
+    this._initialiseDefaultAttachment();
+    this.stopTextToSpeechOnLeaveOrRefresh();
+  }
+  get isFocusedChallengeToggleEnabled() {
+    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED;
+  }
+
+  get challengeInstruction() {
+    const instruction = this.args.challenge.instruction;
+    return instruction ? this._formatLink(instruction) : null;
+  }
+
+  get linkTitle() {
+    return this.intl.t('navigation.external-link-title');
+  }
+
+  get challengeEmbedDocument() {
+    if (this.args.challenge && this.args.challenge.hasValidEmbedDocument) {
+      return {
+        url: this.args.challenge.embedUrl,
+        title: this.args.challenge.embedTitle,
+        height: this.args.challenge.embedHeight,
+      };
+    }
+    return undefined;
+  }
+
+  get id() {
+    return 'challenge_statement_' + this.args.challenge.id;
+  }
+
+  get showTextToSpeechButton() {
+    const isTextToSpeechFeatureActivated =
+      window.speechSynthesis &&
+      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
+      this.args.isTextToSpeechActivated;
+
+    const certificationCourse = this.args.assessment.belongsTo('certificationCourse').value();
+
+    const shouldShowInAssessment =
+      !this.args.assessment.isCertification || certificationCourse?.isAdjustedForAccessibility;
+
+    return isTextToSpeechFeatureActivated && shouldShowInAssessment;
+  }
+
+  get rangeValue() {
+    if (this.textToSpeechLanguage.includes('en')) {
+      return {
+        min: '0.5',
+        max: '10',
+        step: '0.5',
+      };
+    }
+
+    return {
+      min: '0.1',
+      max: '2',
+      step: '0.1',
+    };
+  }
+
+  @action
+  onChangeRateSpeech(event) {
+    this.textToSpeechRate = event.target.value;
+
+    if (this.isSpeaking) {
+      speechSynthesis.cancel();
+      this.isSpeaking = false;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+    }
+  }
+
+  @action
+  toggleAlternativeInstruction() {
+    this.displayAlternativeInstruction = !this.displayAlternativeInstruction;
+  }
+
+  @action
+  chooseAttachmentUrl(attachementUrl) {
+    this.selectedAttachmentUrl = attachementUrl;
+  }
+
+  @action
+  toggleInstructionTextToSpeech(event) {
+    event.preventDefault();
+
+    if (this.isSpeaking) {
+      speechSynthesis.cancel();
+      this.isSpeaking = false;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+    } else {
+      const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
+      const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
+
+      textToSpeech.lang = this.textToSpeechLanguage;
+      textToSpeech.pitch = 0.8;
+      textToSpeech.rate = this.textToSpeechRate;
+
+      textToSpeech.onend = () => {
+        this.isSpeaking = false;
+        this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+      };
+
+      this.isSpeaking = true;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.stop');
+      this.textToSpeechButtonIcon = 'circle-stop';
+      speechSynthesis.speak(textToSpeech);
+    }
+    this.addMetrics();
+  }
+
+  get textToSpeechLanguage() {
+    if (this.args.challenge.locales.length) {
+      return this.args.challenge.locales[0];
+    }
+    if (this.currentUser.user?.lang) {
+      return this.currentUser.user.lang;
+    }
+    return 'fr';
+  }
+
+  addMetrics() {
+    this.pixMetrics.trackEvent(`Clic sur le bouton de lecture d'épreuve : ${this.isSpeaking ? 'play' : 'stop'}`, {
+      disabled: true,
+      category: 'Vocalisation',
+      action: "Lecture d'une épreuve",
+    });
+
+    if (this.args.assessment.isCertification) {
+      if (!certifCandidateStorage.get()) {
+        this.pixMetrics.trackEvent('certifChallengeTextToSpeech');
+        certifCandidateStorage.set('certifChallengeTextToSpeech');
+      }
+    }
+  }
+
+  stopTextToSpeechOnLeaveOrRefresh() {
+    if (window.speechSynthesis) {
+      speechSynthesis.cancel();
+      this.router.on('routeWillChange', () => {
+        speechSynthesis.cancel();
+      });
+    }
+  }
+
+  get orderedAttachments() {
+    if (!this.args.challenge.attachments || !Array.isArray(this.args.challenge.attachments)) {
+      return [];
+    }
+
+    return sortBy(this.args.challenge.attachments, (attachmentUrl) => {
+      const extension = attachmentUrl.split('.').pop();
+      const newFirstChar = PREFERRED_ATTACHMENT_FORMATS.indexOf(extension) >= 0 ? 'A' : 'Z';
+      return newFirstChar + extension;
+    });
+  }
+
+  _initialiseDefaultAttachment() {
+    this.selectedAttachmentUrl = this.orderedAttachments[0];
+  }
+
+  _formatLink(instruction) {
+    const externalLinkRegex = /(\[(.*?)\]\((.*?)\))+/g;
+    return instruction.replace(externalLinkRegex, this._insertLinkTitle.bind(this));
+  }
+
+  _insertLinkTitle(markdownLink) {
+    const markdownLinkWithoutLastChar = markdownLink.substring(0, markdownLink.length - 1);
+    const linkDestination = markdownLink.substring(1, markdownLink.indexOf(']'));
+    return `${markdownLinkWithoutLastChar} "${linkDestination} (${this.linkTitle})")`;
+  }
+
   <template>
     <div class="challenge-statement">
       <h2 class="sr-only">{{t "pages.challenge.parts.instruction"}}</h2>
@@ -37,6 +224,15 @@ export default class ChallengeStatement extends Component {
               >
                 {{this.textToSpeechButtonTooltipText}}
               </PixButton>
+
+              <PixInput
+                type="range"
+                max={{this.rangeValue.max}}
+                min={{this.rangeValue.min}}
+                step={{this.rangeValue.step}}
+                @value={{this.textToSpeechRate}}
+                {{on "change" this.onChangeRateSpeech}}
+              ><:label>rate</:label></PixInput>
             {{/if}}
             <MarkdownToHtmlUnsafe
               @class="challenge-statement-instruction__text"
@@ -157,156 +353,4 @@ export default class ChallengeStatement extends Component {
       {{/if}}
     </div>
   </template>
-  @service intl;
-  @service currentUser;
-  @service featureToggles;
-  @service router;
-  @service pixMetrics;
-
-  @tracked selectedAttachmentUrl;
-  @tracked displayAlternativeInstruction = false;
-  @tracked isSpeaking = false;
-  @tracked textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
-
-  constructor() {
-    super(...arguments);
-    this._initialiseDefaultAttachment();
-    this.stopTextToSpeechOnLeaveOrRefresh();
-  }
-  get isFocusedChallengeToggleEnabled() {
-    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED;
-  }
-
-  get challengeInstruction() {
-    const instruction = this.args.challenge.instruction;
-    return instruction ? this._formatLink(instruction) : null;
-  }
-
-  get linkTitle() {
-    return this.intl.t('navigation.external-link-title');
-  }
-
-  get challengeEmbedDocument() {
-    if (this.args.challenge && this.args.challenge.hasValidEmbedDocument) {
-      return {
-        url: this.args.challenge.embedUrl,
-        title: this.args.challenge.embedTitle,
-        height: this.args.challenge.embedHeight,
-      };
-    }
-    return undefined;
-  }
-
-  get id() {
-    return 'challenge_statement_' + this.args.challenge.id;
-  }
-
-  get showTextToSpeechButton() {
-    const isTextToSpeechFeatureActivated =
-      window.speechSynthesis &&
-      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
-      this.args.isTextToSpeechActivated;
-
-    const certificationCourse = this.args.assessment.belongsTo('certificationCourse').value();
-
-    const shouldShowInAssessment =
-      !this.args.assessment.isCertification || certificationCourse?.isAdjustedForAccessibility;
-
-    return isTextToSpeechFeatureActivated && shouldShowInAssessment;
-  }
-
-  @action
-  toggleAlternativeInstruction() {
-    this.displayAlternativeInstruction = !this.displayAlternativeInstruction;
-  }
-
-  @action
-  chooseAttachmentUrl(attachementUrl) {
-    this.selectedAttachmentUrl = attachementUrl;
-  }
-
-  @action
-  toggleInstructionTextToSpeech() {
-    if (this.isSpeaking) {
-      speechSynthesis.cancel();
-      this.isSpeaking = false;
-      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
-    } else {
-      const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
-      const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
-      textToSpeech.lang = this.getTextToSpeechLanguage();
-      textToSpeech.pitch = 0.8;
-      textToSpeech.rate = 0.8;
-      textToSpeech.onend = () => {
-        this.isSpeaking = false;
-        this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
-      };
-      this.isSpeaking = true;
-      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.stop');
-      this.textToSpeechButtonIcon = 'circle-stop';
-      speechSynthesis.speak(textToSpeech);
-    }
-    this.addMetrics();
-  }
-
-  getTextToSpeechLanguage() {
-    if (this.args.challenge.locales.length) {
-      return this.args.challenge.locales[0];
-    }
-    if (this.currentUser.user?.lang) {
-      return this.currentUser.user.lang;
-    }
-    return 'fr';
-  }
-
-  addMetrics() {
-    this.pixMetrics.trackEvent(`Clic sur le bouton de lecture d'épreuve : ${this.isSpeaking ? 'play' : 'stop'}`, {
-      disabled: true,
-      category: 'Vocalisation',
-      action: "Lecture d'une épreuve",
-    });
-
-    if (this.args.assessment.isCertification) {
-      if (!certifCandidateStorage.get()) {
-        this.pixMetrics.trackEvent('certifChallengeTextToSpeech');
-        certifCandidateStorage.set('certifChallengeTextToSpeech');
-      }
-    }
-  }
-
-  stopTextToSpeechOnLeaveOrRefresh() {
-    if (window.speechSynthesis) {
-      speechSynthesis.cancel();
-      this.router.on('routeWillChange', () => {
-        speechSynthesis.cancel();
-      });
-    }
-  }
-
-  get orderedAttachments() {
-    if (!this.args.challenge.attachments || !Array.isArray(this.args.challenge.attachments)) {
-      return [];
-    }
-
-    return sortBy(this.args.challenge.attachments, (attachmentUrl) => {
-      const extension = attachmentUrl.split('.').pop();
-      const newFirstChar = PREFERRED_ATTACHMENT_FORMATS.indexOf(extension) >= 0 ? 'A' : 'Z';
-      return newFirstChar + extension;
-    });
-  }
-
-  _initialiseDefaultAttachment() {
-    this.selectedAttachmentUrl = this.orderedAttachments[0];
-  }
-
-  _formatLink(instruction) {
-    const externalLinkRegex = /(\[(.*?)\]\((.*?)\))+/g;
-    return instruction.replace(externalLinkRegex, this._insertLinkTitle.bind(this));
-  }
-
-  _insertLinkTitle(markdownLink) {
-    const markdownLinkWithoutLastChar = markdownLink.substring(0, markdownLink.length - 1);
-    const linkDestination = markdownLink.substring(1, markdownLink.indexOf(']'));
-    return `${markdownLinkWithoutLastChar} "${linkDestination} (${this.linkTitle})")`;
-  }
 }
