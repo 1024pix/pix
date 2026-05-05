@@ -28,4 +28,4 @@ class DatabaseConnections {
   }
 }
 
-export const databaseConnections = otelProxy( new DatabaseConnections(), "database-connections");
+export const databaseConnections = new DatabaseConnections();
