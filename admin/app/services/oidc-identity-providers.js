@@ -11,6 +11,14 @@ export default class OidcIdentityProviders extends Service {
     return this.list.length > 0;
   }
 
+  findByCode(identityProviderCode) {
+    return this.list.find((oidcProvider) => oidcProvider.code === identityProviderCode);
+  }
+
+  findBySlug(identityProviderSlug) {
+    return this.list.find((oidcProvider) => oidcProvider.slug === identityProviderSlug);
+  }
+
   async loadAllAvailableIdentityProviders() {
     await this.store.findAll('oidc-identity-provider');
   }
