@@ -1,0 +1,62 @@
+on:
+  # schedule:
+  #   # Tous les lundis à 8h UTC
+  #   - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  report-flaky-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch flaky tests from CircleCI Insights
+        env:
+          CIRCLECI_TOKEN: ${{ secrets.CIRCLECI_TOKEN }}
+        run: |
+          curl -sS --fail \
+            -H "Circle-Token: $CIRCLECI_TOKEN" \
+            "https://circleci.com/api/v2/insights/github/1024pix/pix/flaky-tests" \
+            -o flaky.json
+          echo "Flaky tests count: $(jq '.flaky_tests | length' flaky.json)"
+
+      - name: Build Slack payload
+        run: |
+          COUNT=$(jq '.flaky_tests | length' flaky.json)
+
+          if [ "$COUNT" -eq 0 ]; then
+            jq -n '{
+              text: "✅ Aucun flaky test détecté cette semaine",
+              blocks: [
+                { type: "header", text: { type: "plain_text", text: "✅ Flaky tests — RAS" } },
+                { type: "section", text: { type: "mrkdwn", text: "Aucun flaky test détecté sur la dernière fenêtre CircleCI Insights." } }
+              ]
+            }' > payload.json
+          else
+            TOP=$(jq -r '
+              .flaky_tests
+              | sort_by(-(.times_flaked // 0))
+              | .[0:10]
+              | map("• `\(.classname // "?")::\(.test_name // "?")` — \(.times_flaked // 0)x _(job: \(.job_name // "?"))_")
+              | join("\n")
+            ' flaky.json)
+
+            jq -n --arg count "$COUNT" --arg top "$TOP" '{
+              text: "🪲 Flaky tests — \($count) détecté(s)",
+              blocks: [
+                { type: "header", text: { type: "plain_text", text: "🪲 Rapport flaky tests" } },
+                { type: "section", text: { type: "mrkdwn", text: "Total détectés : *\($count)* — top 10 :" } },
+                { type: "section", text: { type: "mrkdwn", text: $top } },
+                { type: "context", elements: [
+                  { type: "mrkdwn", text: "Source : <https://app.circleci.com/insights/github/1024pix/pix/flaky-tests|CircleCI Insights>" }
+                ]}
+              ]
+            }' > payload.json
+          fi
+
+      - name: Post to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_FLAKY_TESTS_WEBHOOK_URL }}
+        run: |
+          curl -sS --fail -X POST \
+            -H 'Content-Type: application/json' \
+            --data @payload.json \
+            "$SLACK_WEBHOOK_URL"
