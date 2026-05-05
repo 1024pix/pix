@@ -16,7 +16,7 @@ export default class LoginOidcRoute extends Route {
       this._cleanSession();
 
       const identityProviderSlug = transition.to.params.identity_provider_slug.toString();
-      const identityProvider = this.oidcIdentityProviders.list.find((provider) => provider.id === identityProviderSlug);
+      const identityProvider = this.oidcIdentityProviders.findBySlug(identityProviderSlug);
       if (identityProvider !== undefined) return this._handleRedirectRequest(identityProvider);
 
       return this.router.replaceWith('login');

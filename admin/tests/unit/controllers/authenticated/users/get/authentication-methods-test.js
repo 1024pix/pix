@@ -11,6 +11,7 @@ module('Unit | Controller | authenticated/users/get/authentication-methods', fun
       test('should display error message when an 422 error occurred', async function (assert) {
         // given
         const identityProvider = 'POLE_EMPLOI';
+        const identityProviderSlug = 'pole-emploi';
         const organizationName = 'Pole Emploi';
         const controller = this.owner.lookup('controller:authenticated.users.get.authentication-methods');
 
@@ -45,20 +46,23 @@ module('Unit | Controller | authenticated/users/get/authentication-methods', fun
         };
         controller.pixToast.sendErrorNotification.resolves();
 
-        const store = this.owner.lookup('service:store');
-        const oidcPartner = store.createRecord('oidc-identity-provider', {
+        const oidcPartner = {
           code: identityProvider,
+          slug: identityProviderSlug,
           organizationName: organizationName,
           shouldCloseSession: false,
           source: 'idp',
+        };
+        const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+        const storeStub = Service.create({
+          findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+          peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
         });
-        class OidcIdentityProvidersStub extends Service {
-          list = [oidcPartner];
-        }
-        this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+        oidcIdentityProvidersService.set('store', storeStub);
 
         // when
         await controller.reassignAuthenticationMethod({ targetUserId, identityProvider });
+
         // then
         sinon.assert.calledWith(controller.pixToast.sendErrorNotification, {
           message: `L'utilisateur a déjà une méthode de connexion ${organizationName}`,

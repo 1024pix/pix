@@ -30,7 +30,7 @@ export default class OidcIdentityProviders extends Service {
   }
 
   isProviderEnabled(identityProviderSlug) {
-    const oidcIdentityProvider = this.list.find((provider) => provider.id === identityProviderSlug);
+    const oidcIdentityProvider = this.list.find((provider) => provider.code === identityProviderSlug);
     return oidcIdentityProvider !== undefined;
   }
 }

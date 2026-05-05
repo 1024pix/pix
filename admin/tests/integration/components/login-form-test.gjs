@@ -47,13 +47,13 @@ module('Integration | Component | login-form', function (hooks) {
   module('when there is an identity provider enabled for Pix Admin', function (hooks) {
     hooks.beforeEach(function () {
       const oidcPartner = {
-        id: 'oidc-partner',
-        slug: 'oidc-partner',
+        id: 'OIDC_PARTNER',
         code: 'OIDC_PARTNER',
+        slug: 'oidc-partner',
         organizationName: 'Partenaire OIDC',
       };
       class OidcIdentityProvidersStub extends Service {
-        'oidc-partner' = oidcPartner;
+        OIDC_PARTNER = oidcPartner;
         list = [oidcPartner];
         hasIdentityProviders = true;
         isProviderEnabled = sinon.stub();

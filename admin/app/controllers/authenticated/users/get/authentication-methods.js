@@ -28,10 +28,7 @@ export default class UserAuthenticationMethodsController extends Controller {
     const authenticationMethod = this.model.authenticationMethods.find(
       (authenticationMethod) => authenticationMethod.identityProvider === identityProvider,
     );
-    const oidcIdentityProvider = this.oidcIdentityProviders.list.find(
-      (oidcIdentityProvider) => oidcIdentityProvider.code === identityProvider,
-    );
-
+    const oidcIdentityProvider = this.oidcIdentityProviders.findByCode(identityProvider);
     const reassignedAuthenticationMethodLabel = oidcIdentityProvider
       ? oidcIdentityProvider.organizationName
       : 'Médiacentre';

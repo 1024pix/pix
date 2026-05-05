@@ -18,15 +18,16 @@ module('Unit | Route | login-oidc', function (hooks) {
           }),
         });
         const oidcPartner = {
-          id: 'oidc-partner',
+          id: 'OIDC_PARTNER',
           code: 'OIDC_PARTNER',
+          slug: 'oidc-partner',
         };
-
-        class OidcIdentityProvidersStub extends Service {
-          list = [oidcPartner];
-        }
-
-        this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+        const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+        const storeStub = Service.create({
+          findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+          peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+        });
+        oidcIdentityProvidersService.set('store', storeStub);
       });
 
       hooks.afterEach(function () {

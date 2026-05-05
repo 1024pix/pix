@@ -12,7 +12,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
   hooks.beforeEach(function () {
     // given
     oidcPartner = {
-      id: 'oidc-partner',
+      id: 'OIDC_PARTNER',
       code: 'OIDC_PARTNER',
       organizationName: 'Partenaire OIDC',
       shouldCloseSession: false,

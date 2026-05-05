@@ -9,7 +9,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   @service oidcIdentityProviders;
 
   async authenticate({ code, state, iss, authenticationKey, email, identityProviderSlug }) {
-    const identityProvider = this.oidcIdentityProviders.list.find((provider) => provider.id === identityProviderSlug);
+    const identityProvider = this.oidcIdentityProviders.findBySlug(identityProviderSlug);
 
     let url = `${ENV.APP.API_HOST}/api/admin/oidc/user/reconcile`;
     let body = {

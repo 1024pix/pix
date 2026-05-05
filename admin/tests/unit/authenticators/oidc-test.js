@@ -46,16 +46,18 @@ module('Unit | Authenticator | oidc', function (hooks) {
         ok: true,
       });
       const oidcPartner = {
-        id: identityProviderSlug,
+        id: identityProviderCode,
         code: identityProviderCode,
+        slug: identityProviderSlug,
         organizationName: 'Partenaire OIDC',
         source,
       };
-      class OidcIdentityProvidersStub extends Service {
-        [identityProviderSlug] = oidcPartner;
-        list = [oidcPartner];
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+      const storeStub = Service.create({
+        findAll: sinon.stub().resolves([Object.create(oidcPartner)]),
+        peekAll: sinon.stub().returns([Object.create(oidcPartner)]),
+      });
+      oidcIdentityProvidersService.set('store', storeStub);
     });
 
     hooks.afterEach(function () {
