@@ -130,22 +130,4 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
-
-  module('isProviderEnabled', function () {
-    test('returns true if given provider is in the list', async function (assert) {
-      // when
-      const isProviderEnabled = await oidcIdentityProvidersService.isProviderEnabled('oidc-partner');
-
-      // then
-      assert.true(isProviderEnabled);
-    });
-
-    test('returns false if given provider is in not the list', async function (assert) {
-      // when
-      const isProviderEnabled = await oidcIdentityProvidersService.isProviderEnabled('disabled-provider');
-
-      // then
-      assert.false(isProviderEnabled);
-    });
-  });
 });

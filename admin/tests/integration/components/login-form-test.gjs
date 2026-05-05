@@ -26,12 +26,8 @@ module('Integration | Component | login-form', function (hooks) {
   module('when there is no identity provider enabled for Pix Admin', function () {
     test('it displays an email/password login form', async function (assert) {
       // given
-      class IdentityProviderServiceStub extends Service {
-        isProviderEnabled = sinon.stub();
-      }
+      class IdentityProviderServiceStub extends Service {}
       this.owner.register('service:oidcIdentityProviders', IdentityProviderServiceStub);
-      const identityProvidersServiceStub = this.owner.lookup('service:oidcIdentityProviders');
-      identityProvidersServiceStub.isProviderEnabled.withArgs('google').returns(false);
 
       // when
       const screen = await render(<template><LoginForm /></template>);
@@ -56,7 +52,6 @@ module('Integration | Component | login-form', function (hooks) {
         OIDC_PARTNER = oidcPartner;
         list = [oidcPartner];
         hasIdentityProviders = true;
-        isProviderEnabled = sinon.stub();
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
     });

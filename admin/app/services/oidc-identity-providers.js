@@ -28,9 +28,4 @@ export default class OidcIdentityProviders extends Service {
       adapterOptions: { readyIdentityProviders: true },
     });
   }
-
-  isProviderEnabled(identityProviderSlug) {
-    const oidcIdentityProvider = this.list.find((provider) => provider.code === identityProviderSlug);
-    return oidcIdentityProvider !== undefined;
-  }
 }
