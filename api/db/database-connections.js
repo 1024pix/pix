@@ -1,3 +1,4 @@
+import {otelProxy} from "../src/shared/infrastructure/utils/otel_proxy.js";
 import { configureGlobalExtensions } from './knex-extensions.js';
 
 class DatabaseConnections {
@@ -27,4 +28,4 @@ class DatabaseConnections {
   }
 }
 
-export const databaseConnections = new DatabaseConnections();
+export const databaseConnections = otelProxy( new DatabaseConnections(), "database-connections");

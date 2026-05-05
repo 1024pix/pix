@@ -53,7 +53,7 @@ function wrapObject(resource, name) {
       const value = target[prop];
 
       if (typeof value === 'function') {
-        return wrapFunction(value, target, `${name}+${prop.toString()}`);
+        return wrapFunction(value, target, `${name}->${prop.toString()}`);
       }
       if (typeof value === 'object' && value !== null) {
         return wrapObject(value, name);

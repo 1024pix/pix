@@ -8,6 +8,7 @@ import { config } from '../../config.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
 import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import * as network from '../../infrastructure/utils/network.js';
+import { otelProxy } from "../../infrastructure/utils/otel_proxy.js";
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
 import { NotFoundError } from '../errors/http-errors.js';
@@ -75,6 +76,6 @@ const checkOsStatus = async function () {
   };
 };
 
-const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus, checkOsStatus };
+const healthcheckController = otelProxy({ get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus, checkOsStatus }, "healthcheck");
 
 export { healthcheckController };
