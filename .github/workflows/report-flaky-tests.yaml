@@ -47,7 +47,7 @@ jobs:
                 { type: "section", text: { type: "mrkdwn", text: "Total détectés : *\($count)* — top 10 :" } },
                 { type: "section", text: { type: "mrkdwn", text: $top } },
                 { type: "context", elements: [
-                  { type: "mrkdwn", text: "Source : <https://app.circleci.com/insights/github/1024pix/pix/flaky-tests|CircleCI Insights>" }
+                  { type: "mrkdwn", text: "Source : <https://app.circleci.com/insights/github/1024pix/pix/workflows/build-and-test/tests|CircleCI Tests>" }
                 ]}
               ]
             }' > payload.json
