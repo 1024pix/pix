@@ -11,7 +11,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
   let storeStub;
 
   const oidcPartner = {
-    id: 'oidc-partner',
+    id: 'OIDC_PARTNER',
     code: 'OIDC_PARTNER',
     slug: 'partenaire-oidc',
     organizationName: 'Partenaire OIDC',
@@ -21,7 +21,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
   };
 
   const nonVisibleIdentityProvider = {
-    id: 'oidc-partner',
+    id: 'OIDC_PARTNER',
     code: 'OIDC_PARTNER',
     slug: 'partenaire-oidc',
     organizationName: 'Partenaire OIDC',
@@ -208,21 +208,21 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         { identityProvider: 'AUTRE_FOURNISSEUR_D_IDENTITE' },
       ];
       const oidcPartnerObject = Object.create({
-        id: 'france-connect',
+        id: 'FRANCE_CONNECT',
         code: 'FRANCE_CONNECT',
         organizationName: 'France Connect',
         shouldCloseSession: false,
         source: 'france-connect',
       });
       const secondOidcPartnerObject = Object.create({
-        id: 'impots-gouv',
+        id: 'IMPOTS_GOUV',
         code: 'IMPOTS_GOUV',
         organizationName: 'Impots.gouv',
         shouldCloseSession: false,
         source: 'impots-gouv',
       });
       const thirdOidcPartnerObject = Object.create({
-        id: 'la-poste',
+        id: 'LA_POSTE',
         code: 'LA_POSTE',
         organizationName: 'la-poste.gouv',
         shouldCloseSession: false,

@@ -19,9 +19,9 @@ module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
       stubOidcIdentityProvidersService(this.owner, {
         oidcIdentityProviders: [
           {
-            id: 'oidc-partner',
-            slug: 'oidc-partner',
+            id: 'OIDC_PARTNER',
             code: 'OIDC_PARTNER',
+            slug: 'oidc-partner',
             organizationName: 'OIDC Partner',
           },
         ],

@@ -19,9 +19,9 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
   test('it displays a sorted list of oidc providers', async function (assert) {
     // given
     const providers = [
-      { id: 'third', slug: 'third', organizationName: 'Third', isVisible: true },
-      { id: 'second', slug: 'second', organizationName: 'Second', isVisible: true },
-      { id: 'first', slug: 'first', organizationName: 'First', isVisible: true },
+      { id: 'THIRD', code: 'THIRD', slug: 'third', organizationName: 'Third', isVisible: true },
+      { id: 'SECOND', code: 'SECOND', slug: 'second', organizationName: 'Second', isVisible: true },
+      { id: 'FIRST', code: 'FIRST', slug: 'first', organizationName: 'First', isVisible: true },
     ];
 
     // when
@@ -42,8 +42,20 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
     test('it triggers the onProviderChange property', async function (assert) {
       // given
       const providers = [
-        { id: 'connect-et-moi', slug: 'connect-et-moi', organizationName: 'ConnectEtMoi', isVisible: true },
-        { id: 'star-connect', slug: 'star-connect', organizationName: 'StarConnect', isVisible: true },
+        {
+          id: 'CONNECT_ET_MOI',
+          code: 'CONNECT_ET_MOI',
+          slug: 'connect-et-moi',
+          organizationName: 'ConnectEtMoi',
+          isVisible: true,
+        },
+        {
+          id: 'STAR_CONNECT',
+          code: 'STAR_CONNECT',
+          slug: 'star-connect',
+          organizationName: 'StarConnect',
+          isVisible: true,
+        },
       ];
 
       const onProviderChangeStub = sinon.stub();

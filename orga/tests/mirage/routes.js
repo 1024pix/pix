@@ -695,7 +695,7 @@ export default function routes() {
       data: [
         {
           type: 'oidc-identity-providers',
-          id: 'oidc-partner',
+          id: 'OIDC_PARTNER',
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',

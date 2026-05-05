@@ -42,9 +42,9 @@ module('Unit | Authenticator | oidc', function (hooks) {
         ok: true,
       });
       const oidcPartner = {
-        id: identityProviderSlug,
-        slug: identityProviderSlug,
+        id: identityProviderCode,
         code: identityProviderCode,
+        slug: identityProviderSlug,
         organizationName: 'Partenaire OIDC',
         shouldCloseSession,
         source,
