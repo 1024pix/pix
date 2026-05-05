@@ -1,5 +1,6 @@
-import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import {HttpInstrumentation} from "@opentelemetry/instrumentation-http";
+import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { NodeSDK, resources } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
@@ -22,7 +23,13 @@ export function setupOtel(serviceName) {
       [ATTR_SERVICE_NAME]: serviceName,
     }),
     traceExporter: exporter,
-    instrumentations: [getNodeAutoInstrumentations()],
+    instrumentations: [
+      new HttpInstrumentation(),
+      new PgInstrumentation({
+        requireParentSpan: true,
+        enhancedDatabaseReporting: true,
+      }),
+    ],
   });
 
   try {
