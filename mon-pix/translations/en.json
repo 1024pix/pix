@@ -78,19 +78,19 @@
     "companion": {
       "check": {
         "detected": {
-          "description": "Pix Companion extension{version}<br />installed and activated.",
+          "description": "Pix Companion extension{version}<br>installed and activated.",
           "version": " (version {version})"
         },
         "not-detected": {
-          "description": "Pix Companion extension not installed/activated or in an obsolete version,<br /> which is no longer supported for certification session access.",
+          "description": "Pix Companion extension not installed/activated or in an obsolete version,<br> which is no longer supported for certification session access.",
           "link": "Go to documentation"
         }
       },
       "install-documentation-url": "https://cloud.pix.fr/s/KocingDC4mFJ3R6",
       "not-detected": {
-        "description": " The extension may not be installed or enabled. Read the following documentation in order to resume your certification session.  If necessary ask your invigilator.",
+        "description": "The extension may not be installed or enabled. Read the following documentation in order to resume your certification session. If necessary ask your invigilator.",
         "link": "Go to documentation",
-        "title": "The Pix Companion extension<br />is not detected"
+        "title": "The Pix Companion extension<br>is not detected"
       }
     },
     "data-protection-policy-information-banner": {
@@ -295,7 +295,7 @@
           "trainings": "Identifying useful training customised tests"
         },
         "subtitle": "One moment, please! I'll be as quick as I can.",
-        "title": "Calculate your current score..."
+        "title": "Calculate your current score…"
       },
       "start-landing-page": {
         "steps": {
@@ -317,7 +317,7 @@
     "invited": {
       "reconciliation": {
         "error-message": {
-          "date-field": "Please use this format mm/dd/yyyy for the {fieldName} field.",
+          "date-field": "Please use this format dd/mm/yyyy for the {fieldName} field",
           "invalid-reconciliation-error": "Check your information ({fields}) or contact a teacher.",
           "mandatory-field": "Please fill the {fieldName} field"
         },
@@ -349,7 +349,7 @@
       "help-center": "Help center",
       "label": "Footer menu",
       "legal-notice": "Legal notice",
-      "server-status": "Status service",
+      "server-status": "Services Status",
       "sitemap": "Site map",
       "student-data-protection-policy": "Student data protection policy",
       "student-data-protection-policy-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves"
@@ -444,7 +444,7 @@
           "good-news": "Good news { firstName } !"
         },
         "conflict": {
-          "found-you-but": "{ firstName }, we found you but ...",
+          "found-you-but": "{ firstName }, we found you but …",
           "title": "Conflict",
           "warning": "As a precaution, we need to check your details together."
         },
@@ -690,12 +690,12 @@
       },
       "frameworks": {
         "EDU": {
-          "results-infos": "'<p>'The certification takes place in two stages:'</p><ol><li>'Pix assessment: just completed.'</li><li>'Oral assessment: organised outside of Pix before a panel.'</li></ol><p>'At the end of the oral, your final certification level will be awarded (Expert, Advanced, etc.).'<br/>'Contact your certification centre to organise the oral assessment.'</p>'",
+          "results-infos": "'<p>'The certification takes place in two stages:'</p><ol><li>'Pix assessment: just completed.'</li><li>'Oral assessment: organised outside of Pix before a panel.'</li></ol><p>'At the end of the oral, your final certification level will be awarded (Expert, Advanced, etc.).'</p>'",
           "results-sub-title": "The candidate is eligible for the 2nd stage of the Pix+ Édu certification!",
           "status": "Valid certificate",
           "steps": {
             "1": "Pix component",
-            "2": "Professional'<br/>'practice component",
+            "2": "Professional'<br>'practice component",
             "3": "Final result"
           },
           "sub-title": "The candidate is eligible for the 2nd stage!"
@@ -726,7 +726,7 @@
       "jury-title": "Notes from the examining body",
       "learn-about-certification-results": "How to interpret the results?",
       "obtained-certification": "The candidate has obtained the {frameworkLabel} certification",
-      "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix.",
+      "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix",
       "results": {
         "sub-title": "The candidate is eligible for {framework} certification.",
         "title": "Reading the result:"
@@ -799,7 +799,7 @@
             "strong-text": "32 QUESTIONS"
           },
           "paragraphs": {
-            "1": "The certification includes '<strong>'32 questions'</strong>'.",
+            "1": "The certification includes '<strong>'32 questions'</strong>'",
             "2": "You have '<strong>'{duration}'</strong>' maximum to answer*",
             "3": "*Except those entitled to extra time",
             "4": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
@@ -830,7 +830,7 @@
             "3": "Click on “Yes, I'm sure”",
             "4": "Call the invigilator who will intervene to help you"
           },
-          "text": "'<strong>'If you encounter a technical issue'</strong>' (for example, the picture can’t be viewed), follow these steps:",
+          "text": "'<strong>'If you encounter a technical issue'</strong>' (for example, the picture can’t be viewed), follow these steps: ",
           "title": "What to do in case of a problem?"
         },
         "5": {
@@ -856,7 +856,7 @@
       "congratulation-banner": {
         "double-certification": {
           "eligible": "You are also eligible for the following complementary certification:",
-          "outdated": "<strong>Vous n'êtes plus éligible à la certification {doubleCertificationName} suite à son évolution.</strong><br />Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
+          "outdated": "<strong>Vous n'êtes plus éligible à la certification {doubleCertificationName} suite à son évolution.</strong><br>Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
         },
         "link": {
           "text": "How do I certify my digital skills?"
@@ -879,7 +879,7 @@
           "label": "How to find the account linked to the school/organisation ?",
           "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
         },
-        "wrong-domain-for-pix-plus": "Pix+ certifications are only available in French for now, so they are not available on https://pix.org.<br/>Please log out and log back in via '<a href=\"https://app.pix.fr/connexion\">this link.</a>'"
+        "wrong-domain-for-pix-plus": "Pix+ certifications are only available in French for now, so they are not available on https://pix.org.<br>Please log out and log back in via '<a href=\"https://app.pix.fr/connexion\">this link.</a>'"
       },
       "first-title": "Join a session",
       "form": {
@@ -998,7 +998,7 @@
         "skip-go-to-next": "Skip and go to the next question",
         "validate": "Validate",
         "validate-go-to-next": "Validate and go to the next question",
-        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
+        "wait-for-invigilator": "Activities are on hold pending the arrival of the supervisor"
       },
       "already-answered": "You have already answered this question",
       "answer-input": {
@@ -1006,7 +1006,7 @@
       },
       "certification": {
         "banner": {
-          "certification-number": "Certification no."
+          "certification-number": "Certification no"
         },
         "title": "Certification {certificationNumber}"
       },
@@ -1068,7 +1068,7 @@
                   },
                   "lost": {
                     "label": "I cannot find the downloaded file",
-                    "solution": "By default, files you download will be saved in your “Downloads” folder. It may also have been saved to the same location as your last download..."
+                    "solution": "By default, files you download will be saved in your “Downloads” folder. It may also have been saved to the same location as your last download…"
                   },
                   "open-failure": {
                     "label": "I cannot open the file on a computer",
@@ -1086,7 +1086,7 @@
                 },
                 "embed-not-displayed": {
                   "label": "I cannot see the simulator/app",
-                  "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
+                  "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\">' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
                 },
                 "embed-other": "There is another problem with the simulator/app",
                 "link-other": "The link doesn’t work or has another problem",
@@ -1152,13 +1152,13 @@
           "message": "Notify your invigilator so that they can confirm the presence of the extension."
         },
         "refresh": "Refresh the page",
-        "waiting-information": "Waiting for the invigilator..."
+        "waiting-information": "Waiting for the invigilator…"
       },
       "parts": {
         "answer-input": "Your answer",
         "answer-instructions": {
           "qcm": "Select several answers",
-          "qcu": "Select one answer"
+          "qcu": "Select one answer."
         },
         "feedback": "Report a problem",
         "feedback-v3": "Report a problem with the question",
@@ -1207,7 +1207,7 @@
           "aria-label": "Show question's warning",
           "close": "Ok, got it",
           "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Stay on this page to answer!'</strong><br/>' Do not use the internet or any application to answer. Any activity outside this zone will be detected.",
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Stay on this page to answer!'</strong><br>' Do not use the internet or any application to answer. Any activity outside this zone will be detected.",
             "title": "Focus Mode"
           },
           "other": {
@@ -1235,7 +1235,7 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "You have already answered these questions in previous test. You can jump straight to your results.\n \n Want to improve your score? Click on \"See my results\" and you will be able to retake the test.",
+          "explanation": "You have already answered these questions in previous test. You can jump straight to your results.\n\nWant to improve your score? Click on \"See my results\" and you will be able to retake the test.",
           "info": "You have already answered !"
         },
         "header": "your answers"
@@ -1257,7 +1257,7 @@
         "description": "Well done! You have taken an important step toward navigating the digital world.",
         "retry-text": "Want to review? You can replay all the modules freely!",
         "survey-button": "Answer the survey",
-        "survey-button-description": "Complete the survey to give your opinion on the course.",
+        "survey-button-description": "Complete the survey to give your opinion on the course",
         "title": "Congratulations! You're done!"
       },
       "content": {
@@ -1333,7 +1333,7 @@
           "tooltip": "Question answered correctly "
         },
         "solutions": {
-          "end": "or...",
+          "end": "or…",
           "or": "or"
         },
         "timedout": {
@@ -1430,7 +1430,7 @@
           "text": "Unused, but cannot be empty.",
           "url": "Unused, but cannot be empty."
         },
-        "message": "<h2>Hi, welcome to your dashboard.</h2><p>Quickly and easily access all your tests in progress.<br/>Follow the evolution of your Pix score and check if your profile is ready for certification.</p>"
+        "message": "<h2>Hi, welcome to your dashboard.</h2><p>Quickly and easily access all your tests in progress.<br>Follow the evolution of your Pix score and check if your profile is ready for certification.</p>"
       },
       "recommended-competences": {
         "extra-information": "Access all recommended competences",
@@ -1811,7 +1811,7 @@
       },
       "qab": {
         "correct-answer": "Correct answer",
-        "incorrect-answer": "Incorrect answer",
+        "incorrect-answer": "Incorrect answer.",
         "retry": "Retry",
         "score": {
           "title": "Series completed",
@@ -2211,7 +2211,7 @@
         "notification": "Retry the failed questions to improve your result or reset and restart from the beginning. The organiser will continue to have access to your previously submitted results."
       },
       "send-status": {
-        "in-progress": "Results are being shared..."
+        "in-progress": "Results are being shared…"
       },
       "stage": {
         "caption": "Details of your results in percentage and stars according to competences",
@@ -2285,11 +2285,11 @@
       "pages": {
         "page0": {
           "explanation": "If you do not know the answer to a question, \nyou can probably find it on the internet.",
-          "title": "You can search online..."
+          "title": "You can search online…"
         },
         "page1": {
-          "explanation": "If you see this picture, only use your own knowledge! \nDon’t search the internet or use your other equipments.\n",
-          "title": "... with the exception of specific questions"
+          "explanation": "If you see this picture, only use your own knowledge!\nDon’t search the internet or use your other equipments.",
+          "title": "… with the exception of specific questions"
         },
         "page2": {
           "explanation": "Take all the time you need to finish your customised test. \nIf a question is timed, we will let you know.",
@@ -2395,7 +2395,7 @@
         "code-legend": "Input the verification code you received by email",
         "confirmation-message": "Email sent!",
         "description": "Enter the verification code you received at the following email address:",
-        "did-not-receive": "You haven’t received anything?",
+        "did-not-receive": "I haven’t received anything,",
         "errors": {
           "email-modification-demand-expired": "This code has expired. Please renew your request.",
           "incorrect-code": "The code entered is incorrect.",
