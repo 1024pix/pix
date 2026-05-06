@@ -44,7 +44,6 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content 
 
       const frameworkRepository = {
         saveMany: sinon.stub(),
-        clearCache: sinon.stub(),
       };
       const areaRepository = {
         saveMany: sinon.stub(),
@@ -118,7 +117,6 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content 
       expect(missionRepository.saveMany).to.have.been.calledOnceWithExactly(missions);
       expect(moduleRepository.saveMany).to.have.been.calledOnceWithExactly(modules);
 
-      expect(frameworkRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(areaRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(competenceRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(thematicRepository.clearCache).to.have.been.calledOnceWithExactly();

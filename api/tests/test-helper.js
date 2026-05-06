@@ -19,7 +19,6 @@ import * as areaRepository from '../src/shared/infrastructure/repositories/area-
 import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../src/shared/infrastructure/repositories/course-repository.js';
-import * as frameworkRepository from '../src/shared/infrastructure/repositories/framework-repository.js';
 import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../src/shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../src/shared/infrastructure/repositories/tube-repository.js';
@@ -51,7 +50,6 @@ before(async function () {
 afterEach(async function () {
   sinon.restore();
   nock.cleanAll();
-  frameworkRepository.clearCache();
   areaRepository.clearCache();
   competenceRepository.clearCache();
   thematicRepository.clearCache();

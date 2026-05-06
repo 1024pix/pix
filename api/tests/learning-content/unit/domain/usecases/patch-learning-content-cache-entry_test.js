@@ -20,7 +20,6 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
   beforeEach(function () {
     frameworkRepository = {
       save: sinon.stub().rejects('should not be called'),
-      clearCache: sinon.stub().rejects('should not be called'),
     };
     areaRepository = {
       save: sinon.stub().rejects('should not be called'),
@@ -86,27 +85,27 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
 
   describe('#patchLearningContentCacheEntry', function () {
     [
-      'frameworks',
-      'areas',
-      'competences',
-      'thematics',
-      'tubes',
-      'skills',
-      'challenges',
-      'courses',
-      'tutorials',
-      'missions',
-    ].forEach((modelName) => {
+      { modelName: 'frameworks', hasCache: false },
+      { modelName: 'areas', hasCache: true },
+      { modelName: 'competences', hasCache: true },
+      { modelName: 'thematics', hasCache: true },
+      { modelName: 'tubes', hasCache: true },
+      { modelName: 'skills', hasCache: true },
+      { modelName: 'challenges', hasCache: true },
+      { modelName: 'courses', hasCache: true },
+      { modelName: 'tutorials', hasCache: true },
+      { modelName: 'missions', hasCache: true },
+    ].forEach(({ modelName, hasCache }) => {
       describe(`when model is ${modelName}`, function () {
         const recordId = 'recId';
         const updatedRecord = Symbol('updated record');
 
         beforeEach(function () {
           repositoriesByModel[modelName].save.withArgs(updatedRecord).resolves();
-          repositoriesByModel[modelName].clearCache.withArgs(recordId).returns();
+          if (hasCache) repositoriesByModel[modelName].clearCache.withArgs(recordId).returns();
         });
 
-        it(`should call save and clearCache on appropriate repository`, async function () {
+        it(`should call save and optionally clearCache on appropriate repository`, async function () {
           // when
           await patchLearningContentCacheEntry({
             recordId,
@@ -117,7 +116,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
 
           // then
           expect(repositoriesByModel[modelName].save).to.have.been.calledOnceWithExactly(updatedRecord);
-          expect(repositoriesByModel[modelName].clearCache).to.have.been.calledOnceWithExactly(recordId);
+          if (hasCache) expect(repositoriesByModel[modelName].clearCache).to.have.been.calledOnceWithExactly(recordId);
         });
       });
     });

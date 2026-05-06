@@ -31,7 +31,6 @@ export async function createLearningContentRelease({
     await moduleRepository.saveMany(newLearningContent.modules);
   });
 
-  frameworkRepository.clearCache();
   areaRepository.clearCache();
   competenceRepository.clearCache();
   thematicRepository.clearCache();

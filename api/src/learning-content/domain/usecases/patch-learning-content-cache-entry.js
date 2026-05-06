@@ -28,5 +28,5 @@ export async function patchLearningContentCacheEntry({
   }[modelName];
 
   await repository.save(updatedRecord);
-  repository.clearCache(recordId);
+  repository.clearCache?.(recordId);
 }
