@@ -1901,10 +1901,10 @@
       "signup-form": {
         "button": "Konto erstellen",
         "claims": {
-          "discipline": "Disziplin",
-          "employeeNumber": "Nummer des Mitarbeiters",
           "FrEduFonctAdm": "Administrative Funktion",
           "FrEduNumenHash": "Technische Identifikation",
+          "discipline": "Disziplin",
+          "employeeNumber": "Nummer des Mitarbeiters",
           "population": "Bevölkerung",
           "rne": "Zuweisende Einrichtung",
           "title": "Funktion"

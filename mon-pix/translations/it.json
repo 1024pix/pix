@@ -1894,10 +1894,10 @@
       "signup-form": {
         "button": "Creo il mio account",
         "claims": {
-          "discipline": "Disciplina",
-          "employeeNumber": "Numero di dipendenti",
           "FrEduFonctAdm": "Funzione amministrativa",
           "FrEduNumenHash": "Identificatore tecnico",
+          "discipline": "Disciplina",
+          "employeeNumber": "Numero di dipendenti",
           "population": "Popolazione",
           "rne": "Luogo di lavoro",
           "title": "Funzione"
