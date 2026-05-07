@@ -415,6 +415,30 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         );
       });
     });
+
+    describe('when an OIDC provider is the authentication provider', function () {
+      it('brings along a OIDC authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+          userId: user.id,
+          identityProvider: 'OIDC_PARTNER',
+          authenticationComplement: { hello: 'world' },
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const oidcAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: 'OIDC_PARTNER',
+        });
+
+        // then
+        expect(oidcAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.OidcAuthenticationComplement({ hello: 'world' }),
+        );
+      });
+    });
   });
 
   describe('#findOneByExternalIdentifierAndIdentityProvider', function () {

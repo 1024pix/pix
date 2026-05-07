@@ -218,12 +218,6 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
     });
 
     context('OidcAuthenticationComplement', function () {
-      it('cannot be created without properties', function () {
-        // when
-        expect(() => new AuthenticationMethod.OidcAuthenticationComplement()).to.throw(ObjectValidationError);
-        expect(() => new AuthenticationMethod.OidcAuthenticationComplement({})).to.throw(ObjectValidationError);
-      });
-
       it('can hold any properties', function () {
         // given
         const properties = { family_name: 'AAAAA', given_name: 'BBBBBB' };
@@ -232,7 +226,21 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(properties);
 
         // then
-        expect(authenticationComplement).to.be.instanceOf(Object);
+        expect(authenticationComplement).to.be.instanceOf(AuthenticationMethod.OidcAuthenticationComplement);
+        expect(authenticationComplement.family_name).to.equal('AAAAA');
+        expect(authenticationComplement.given_name).to.equal('BBBBBB');
+      });
+
+      context('when no properties', function () {
+        [undefined, null, {}].forEach((value) => {
+          it(`returns the OidcAuthenticationComplement for input: "${value}"`, function () {
+            // when
+            const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(value);
+
+            // then
+            expect(authenticationComplement).to.be.instanceOf(AuthenticationMethod.OidcAuthenticationComplement);
+          });
+        });
       });
     });
 

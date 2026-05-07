@@ -22,7 +22,8 @@ class PixAuthenticationComplement {
 
 class OidcAuthenticationComplement {
   constructor(properties) {
-    validateEntity(Joi.object().required().min(1), properties);
+    validateEntity(Joi.object().optional().allow(null), properties);
+    if (!properties) return;
 
     Object.entries(properties).forEach(([key, value]) => {
       this[key] = value;

@@ -374,5 +374,5 @@ function _toAuthenticationComplement(identityProvider, authenticationComplement)
     return new AuthenticationMethod.GARAuthenticationComplement(authenticationComplement);
   }
 
-  return undefined;
+  return new AuthenticationMethod.OidcAuthenticationComplement(authenticationComplement);
 }

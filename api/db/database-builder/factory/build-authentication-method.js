@@ -147,6 +147,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
   externalIdentifier,
   userId,
   identityProvider,
+  authenticationComplement,
   lastLoggedAt = new Date(),
 }) {
   userId = isUndefined(userId) ? buildUser().id : userId;
@@ -160,10 +161,12 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
     identityProvider,
     externalIdentifier: generatedIdentifier,
     userId,
-    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
-      firstName: 'oidc',
-      lastName: 'user',
-    }),
+    authenticationComplement:
+      authenticationComplement ??
+      new AuthenticationMethod.OidcAuthenticationComplement({
+        firstName: 'oidc',
+        lastName: 'user',
+      }),
     createdAt: new Date('2020-01-01'),
     updatedAt: new Date('2020-01-02'),
     lastLoggedAt,
