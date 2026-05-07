@@ -78,11 +78,11 @@
     "companion": {
       "check": {
         "detected": {
-          "description": "Extension Pix Companion{version}<br>installée et activée.",
+          "description": "Extension Pix Companion{version}<br />installée et activée.",
           "version": " (version {version})"
         },
         "not-detected": {
-          "description": "Extension Pix Companion non installée/activée ou dans une version obsolète,<br> qui n'est plus supportée pour l'accès en session de certification.",
+          "description": "Extension Pix Companion non installée/activée ou dans une version obsolète,<br /> qui n'est plus supportée pour l'accès en session de certification.",
           "link": "Accéder à la documentation"
         }
       },
@@ -90,7 +90,7 @@
       "not-detected": {
         "description": "L’extension n’est peut-être pas installée ou activée. Consultez le document suivant afin de reprendre votre session de certification. Si besoin contactez le surveillant.",
         "link": "Accéder à la documentation",
-        "title": "L’extension Pix Companion<br>n’est pas détectée"
+        "title": "L’extension Pix Companion<br />n’est pas détectée"
       }
     },
     "data-protection-policy-information-banner": {
@@ -295,7 +295,7 @@
           "trainings": "Identification des formations utiles"
         },
         "subtitle": "Un instant, s’il vous plaît ! Je vais faire au plus vite.",
-        "title": "Calcul de votre score en cours…"
+        "title": "Calcul de votre score en cours..."
       },
       "start-landing-page": {
         "steps": {
@@ -444,7 +444,7 @@
           "good-news": "Bonne nouvelle { firstName } !"
         },
         "conflict": {
-          "found-you-but": "{ firstName }, on vous a retrouvé mais …",
+          "found-you-but": "{ firstName }, on vous a retrouvé mais ...",
           "title": "Conflit",
           "warning": "Par précaution nous devons vérifier vos données ensemble."
         },
@@ -690,12 +690,12 @@
       },
       "frameworks": {
         "EDU": {
-          "results-infos": "'<p>'La certification se déroule en deux étapes&nbsp;:'</p><ol><li>'Volet Pix&nbsp;: il/elle vient de le passer.'</li><li>'Volet de pratique professionnelle&nbsp;: organisé en dehors de Pix devant un jury.'</li></ol><p>'À l'issue de ce 2'<sup>'ème'</sup>' volet, le niveau de la certification Pix+ Edu du/de la candidat(e) sera attribué (Avancé ou Expert).'</p>'",
+          "results-infos": "'<p>'La certification se déroule en deux étapes&nbsp;:'</p><ol><li>'Volet Pix&nbsp;: il/elle vient de le passer.'</li><li>'Volet de pratique professionnelle&nbsp;: organisé en dehors de Pix devant un jury.'</li></ol><p>'À l'issue de ce 2'<sup>'ème'</sup>' volet, le niveau de la certification Pix+ Edu  du/de la candidat(e) sera attribué (Avancé ou Expert).'</p>'",
           "results-sub-title": "Le/la candidat(e) est admissible au volet 2 de pratique professionnelle de la certification Pix+ Édu !",
           "status": "Certificat valide",
           "steps": {
             "1": "Volet Pix",
-            "2": "Volet pratique'<br>'professionnelle",
+            "2": "Volet pratique'<br/>'professionnelle",
             "3": "Résultat final"
           },
           "sub-title": "Le/la candidat(e) est admissible au volet 2 de pratique professionnelle !"
@@ -856,7 +856,7 @@
       "congratulation-banner": {
         "double-certification": {
           "eligible": "Vous êtes également éligible à la certification complémentaire :",
-          "outdated": "<strong>Vous n'êtes plus éligible à la certification {doubleCertificationName} suite à son évolution.</strong><br>Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
+          "outdated": "<strong>Vous n'êtes plus éligible à la certification {doubleCertificationName} suite à son évolution.</strong><br />Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
         },
         "link": {
           "text": "Comment se certifier ?"
@@ -879,7 +879,7 @@
           "label": "Comment trouver le compte lié à l'établissement ?",
           "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
         },
-        "wrong-domain-for-pix-plus": "Les certifications Pix+ n'étant disponibles qu'en français pour le moment, elles ne sont pas disponibles sur https://pix.org.<br>Merci de vous déconnecter puis de vous reconnecter via '<a href=\"https://app.pix.fr/connexion\">ce lien.</a>'"
+        "wrong-domain-for-pix-plus": "Les certifications Pix+ n'étant disponibles qu'en français pour le moment, elles ne sont pas disponibles sur https://pix.org.<br/>Merci de vous déconnecter puis de vous reconnecter via '<a href=\"https://app.pix.fr/connexion\">ce lien.</a>'"
       },
       "first-title": "Rejoindre une session",
       "form": {
@@ -1068,7 +1068,7 @@
                   },
                   "lost": {
                     "label": "Je ne retrouve pas le fichier téléchargé",
-                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement…"
+                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement..."
                   },
                   "open-failure": {
                     "label": "Je n’arrive pas à ouvrir le fichier sur un ordinateur",
@@ -1082,7 +1082,7 @@
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
-                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette…), votre système d'exploitation et votre navigateur."
+                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
                 },
                 "embed-not-displayed": {
                   "label": "Le simulateur / l’application ne s’affiche pas",
@@ -1091,8 +1091,8 @@
                 "embed-other": "Le simulateur / l’application a un autre problème",
                 "link-other": "Le lien ne fonctionne pas ou a un autre problème",
                 "link-unauthorized": {
-                  "label": "Le lien est bloqué par mon organisation / établissement…",
-                  "solution": "Vous appartenez peut-être à une organisation (établissements scolaires, universitaires, entreprises, administrations, association…) qui protège ses utilisateurs et ses équipements en limitant les pages Internet auxquelles vous avez accès.'<br>'"
+                  "label": "Le lien est bloqué par mon organisation / établissement...",
+                  "solution": "Vous appartenez peut-être à une organisation (établissements scolaires, universitaires, entreprises, administrations, association...) qui protège ses utilisateurs et ses équipements en limitant les pages Internet auxquelles vous avez accès.'<br>'"
                 },
                 "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
                 "other-difficulty": "J’ai un autre problème",
@@ -1152,7 +1152,7 @@
           "message": "Merci de contacter votre surveillant afin qu’il confirme la présence de l’extension."
         },
         "refresh": "Rafraîchir la page",
-        "waiting-information": "En attente du surveillant…"
+        "waiting-information": "En attente du surveillant..."
       },
       "parts": {
         "answer-input": "Votre réponse",
@@ -1207,7 +1207,7 @@
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
           "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</strong><br>' Cette question ne nécessite ni internet, ni application.",
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</strong><br/>' Cette question ne nécessite ni internet, ni application.",
             "title": "Mode Focus"
           },
           "other": {
@@ -1235,7 +1235,7 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.",
+          "explanation": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.",
           "info": "Vous avez déjà répondu !"
         },
         "header": "vos réponses"
@@ -1333,7 +1333,7 @@
           "tooltip": "Épreuve réussie"
         },
         "solutions": {
-          "end": "ou…",
+          "end": "ou...",
           "or": "ou"
         },
         "timedout": {
@@ -1430,7 +1430,7 @@
           "text": "En savoir plus",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Bonjour, découvrez votre tableau de bord.</h2><p>Accédez rapidement et facilement à vos parcours et vos tests de compétence déjà commencés.<br>Retrouvez l’évolution de votre score Pix et vérifiez si votre profil est prêt pour la certification Pix.</p>"
+        "message": "<h2>Bonjour, découvrez votre tableau de bord.</h2><p>Accédez rapidement et facilement à vos parcours et vos tests de compétence déjà commencés.<br/>Retrouvez l’évolution de votre score Pix et vérifiez si votre profil est prêt pour la certification Pix.</p>"
       },
       "recommended-competences": {
         "extra-information": "Accéder à toutes les compétences recommandées",
@@ -1782,7 +1782,7 @@
       "navigation": {
         "buttons": {
           "aria-label": {
-            "disabled": "Non disponible. Terminer l'étape précédente.",
+            "disabled": "Non disponible. Terminer l'étape précédente",
             "enabled": "Accéder à l'étape {sectionTitle}",
             "steps": "Étape {indexSection} sur {totalSections}."
           }
@@ -2285,11 +2285,11 @@
       "pages": {
         "page0": {
           "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.",
-          "title": "Vous pouvez rechercher sur internet …"
+          "title": "Vous pouvez rechercher sur internet ..."
         },
         "page1": {
-          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\nVous ne devez utiliser ni internet ni vos logiciels.",
-          "title": "… sauf pour certaines questions"
+          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels.",
+          "title": "... sauf pour certaines questions"
         },
         "page2": {
           "explanation": "Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.",
