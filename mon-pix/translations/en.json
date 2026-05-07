@@ -2211,7 +2211,7 @@
         "notification": "Retry the failed questions to improve your result or reset and restart from the beginning. The organiser will continue to have access to your previously submitted results."
       },
       "send-status": {
-        "in-progress": "Results are being shared…"
+        "in-progress": "Results are being shared..."
       },
       "stage": {
         "caption": "Details of your results in percentage and stars according to competences",
@@ -2289,7 +2289,7 @@
         },
         "page1": {
           "explanation": "If you see this picture, only use your own knowledge!\nDon’t search the internet or use your other equipments.",
-          "title": "… with the exception of specific questions"
+          "title": "... with the exception of specific questions"
         },
         "page2": {
           "explanation": "Take all the time you need to finish your customised test. \nIf a question is timed, we will let you know.",

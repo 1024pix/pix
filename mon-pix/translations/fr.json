@@ -295,7 +295,7 @@
           "trainings": "Identification des formations utiles"
         },
         "subtitle": "Un instant, s’il vous plaît ! Je vais faire au plus vite.",
-        "title": "Calcul de votre score en cours…"
+        "title": "Calcul de votre score en cours..."
       },
       "start-landing-page": {
         "steps": {
@@ -444,7 +444,7 @@
           "good-news": "Bonne nouvelle { firstName } !"
         },
         "conflict": {
-          "found-you-but": "{ firstName }, on vous a retrouvé mais …",
+          "found-you-but": "{ firstName }, on vous a retrouvé mais ...",
           "title": "Conflit",
           "warning": "Par précaution nous devons vérifier vos données ensemble."
         },
@@ -1068,7 +1068,7 @@
                   },
                   "lost": {
                     "label": "Je ne retrouve pas le fichier téléchargé",
-                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement…"
+                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement..."
                   },
                   "open-failure": {
                     "label": "Je n’arrive pas à ouvrir le fichier sur un ordinateur",
@@ -1082,7 +1082,7 @@
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
-                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br />'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette…), votre système d'exploitation et votre navigateur."
+                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br />'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
                 },
                 "embed-not-displayed": {
                   "label": "Le simulateur / l’application ne s’affiche pas",
@@ -1091,8 +1091,8 @@
                 "embed-other": "Le simulateur / l’application a un autre problème",
                 "link-other": "Le lien ne fonctionne pas ou a un autre problème",
                 "link-unauthorized": {
-                  "label": "Le lien est bloqué par mon organisation / établissement…",
-                  "solution": "Vous appartenez peut-être à une organisation (établissements scolaires, universitaires, entreprises, administrations, association…) qui protège ses utilisateurs et ses équipements en limitant les pages Internet auxquelles vous avez accès.'<br />'"
+                  "label": "Le lien est bloqué par mon organisation / établissement...",
+                  "solution": "Vous appartenez peut-être à une organisation (établissements scolaires, universitaires, entreprises, administrations, association...) qui protège ses utilisateurs et ses équipements en limitant les pages Internet auxquelles vous avez accès.'<br />'"
                 },
                 "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
                 "other-difficulty": "J’ai un autre problème",
@@ -1152,7 +1152,7 @@
           "message": "Merci de contacter votre surveillant afin qu’il confirme la présence de l’extension."
         },
         "refresh": "Rafraîchir la page",
-        "waiting-information": "En attente du surveillant…"
+        "waiting-information": "En attente du surveillant..."
       },
       "parts": {
         "answer-input": "Votre réponse",
@@ -1333,7 +1333,7 @@
           "tooltip": "Épreuve réussie"
         },
         "solutions": {
-          "end": "ou…",
+          "end": "ou...",
           "or": "ou"
         },
         "timedout": {
@@ -2285,11 +2285,11 @@
       "pages": {
         "page0": {
           "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.",
-          "title": "Vous pouvez rechercher sur internet …"
+          "title": "Vous pouvez rechercher sur internet ..."
         },
         "page1": {
           "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\nVous ne devez utiliser ni internet ni vos logiciels.",
-          "title": "… sauf pour certaines questions"
+          "title": "... sauf pour certaines questions"
         },
         "page2": {
           "explanation": "Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.",

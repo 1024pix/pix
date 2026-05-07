@@ -1012,7 +1012,7 @@
       },
       "certification-feedback-panel": {
         "actions": {
-          "no-send-feedback": "No, torno al test…",
+          "no-send-feedback": "No, torno al test...",
           "open-close": "Segnalare un problema con la domanda",
           "send-feedback": "Sì, sono sicuro"
         },
@@ -1082,7 +1082,7 @@
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "Su un telefono o un tablet, il simulatore viene visualizzato ma presenta un problema",
-                  "solution": "Facciamo del nostro meglio per garantire che i simulatori funzionino su tutti i dispositivi, tutti i sistemi operativi e tutti i browser, ma è possibile che stiate utilizzando un sistema particolare.'<br />'Specificate il vostro problema indicando il tipo di dispositivo (smartphone, tablet…), il sistema operativo e il browser."
+                  "solution": "Facciamo del nostro meglio per garantire che i simulatori funzionino su tutti i dispositivi, tutti i sistemi operativi e tutti i browser, ma è possibile che stiate utilizzando un sistema particolare.'<br />'Specificate il vostro problema indicando il tipo di dispositivo (smartphone, tablet...), il sistema operativo e il browser."
                 },
                 "embed-not-displayed": {
                   "label": "Il simulatore/applicazione non viene visualizzato",
@@ -2282,7 +2282,7 @@
         },
         "page1": {
           "explanation": "Se viene visualizzata questa immagine, utilizzare solo ciò che si conosce!\nNon dovete usare Internet o il vostro software.",
-          "title": "… tranne che per alcune domande"
+          "title": "... tranne che per alcune domande"
         },
         "page2": {
           "explanation": "Prendete tutto il tempo necessario per completare il corso.\nSe una domanda è a tempo, ciò sarà indicato.",

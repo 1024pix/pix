@@ -1082,7 +1082,7 @@
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "Auf dem Telefon oder Tablet wird die Anwendung ngezeigt, hat aber ein Problem",
-                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest.'<br />'Bitte spezifiziere dein Problem, indem du deinen Gerätetyp (Smartphone, Tablet …), dein Betriebssystem und deinen Browser angibst."
+                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest.'<br />'Bitte spezifiziere dein Problem, indem du deinen Gerätetyp (Smartphone, Tablet ...), dein Betriebssystem und deinen Browser angibst."
                 },
                 "embed-not-displayed": {
                   "label": "Die Anwendung wird nicht angezeigt",
@@ -1092,7 +1092,7 @@
                 "link-other": "Der Link funktioniert nicht oder hat ein anderes Problem",
                 "link-unauthorized": {
                   "label": "Der Link wird von meiner Organisation / Einrichtung blockiert…",
-                  "solution": "Du gehörst vielleicht einer Organisation an (Schulen, Universitäten, Unternehmen, Behörden, Vereine …), die deine Accounts und Geräte schützt, indem sie die Internetseiten, auf die du Zugriff hast, einschränkt.'<br />'"
+                  "solution": "Du gehörst vielleicht einer Organisation an (Schulen, Universitäten, Unternehmen, Behörden, Vereine ...), die deine Accounts und Geräte schützt, indem sie die Internetseiten, auf die du Zugriff hast, einschränkt.'<br />'"
                 },
                 "other-challenge-proposal": "Ich habe eine (geniale) Idee für eine Prüfung",
                 "other-difficulty": "Ich habe ein anderes Problem",
@@ -2289,7 +2289,7 @@
         },
         "page1": {
           "explanation": "Wenn dieses Bild angezeigt wird, verwende nur dein eigenes Wissen!\nDu darfst weder das Internet noch andere Programme verwenden.",
-          "title": "… außer bei bestimmten Fragen"
+          "title": "... außer bei bestimmten Fragen"
         },
         "page2": {
           "explanation": "Nimm dir die Zeit, die du brauchst, um deinen Lernpfad zu beenden.\nWenn eine Frage mit einer Zeitmessung versehen ist, wird dir dies angezeigt.",

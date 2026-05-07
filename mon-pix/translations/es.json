@@ -1058,7 +1058,7 @@
                   },
                   "lost": {
                     "label": "No encuentro el archivo descargado",
-                    "solution": "Por defecto, un archivo descargado se guarda en una carpeta «Descargas» o «Downloads». También puede que se haya descargado en la misma ubicación de tu última descarga…"
+                    "solution": "Por defecto, un archivo descargado se guarda en una carpeta «Descargas» o «Downloads». También puede que se haya descargado en la misma ubicación de tu última descarga..."
                   },
                   "open-failure": {
                     "label": "No puedo abrir el archivo en un ordenador",
