@@ -1,11 +1,11 @@
 {
   "api-error-messages": {
     "join-error": {
-      "r11": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br>'{ value }'<br><br>'Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Documentation - Code R11)",
-      "r12": "Du hast bereits ein Pix-Konto, das mit dem Benutzernamen in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br>'{ value }'<br><br>'Um fortzufahren, logge dich in dieses Konto ein oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für Lehrkräfte: siehe 'Troubleshooting Kit' in Pix Orga > Dokumentation - Code R12)",
-      "r13": "Du hast bereits ein Pix-Konto über das ENT in einer anderen Schule.'<br><br>'Um fortzufahren, wende dich an eine Lehrkraft, die dir mithilfe von Pix Orga Zugang zu diesem Konto verschaffen kann.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Dokumentation - Code R13)",
-      "r31": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br>'{ value }'<br><br>' Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Documentation - Code R31)",
-      "r32": "Du hast bereits ein Pix-Konto, das mit der ID in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br>'{ value }'<br><br>'Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für Lehrkräfte: siehe 'Problemlösungsset' in Pix Orga > Dokumentation - Code R32)",
+      "r11": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br />'{ value }'<br /><br />'Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Documentation - Code R11)",
+      "r12": "Du hast bereits ein Pix-Konto, das mit dem Benutzernamen in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br />'{ value }'<br /><br />'Um fortzufahren, logge dich in dieses Konto ein oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für Lehrkräfte: siehe 'Troubleshooting Kit' in Pix Orga &gt; Dokumentation - Code R12)",
+      "r13": "Du hast bereits ein Pix-Konto über das ENT in einer anderen Schule.'<br /><br />'Um fortzufahren, wende dich an eine Lehrkraft, die dir mithilfe von Pix Orga Zugang zu diesem Konto verschaffen kann.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Dokumentation - Code R13)",
+      "r31": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br />'{ value }'<br /><br />' Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Documentation - Code R31)",
+      "r32": "Du hast bereits ein Pix-Konto, das mit der ID in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br />'{ value }'<br /><br />'Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für Lehrkräfte: siehe 'Problemlösungsset' in Pix Orga &gt; Dokumentation - Code R32)",
       "r33": "Du hast bereits ein Pix-Konto über das ENT. Benutze es, um am Lernpfad teilzunehmen.",
       "r70": "Es ist ein Fehler aufgetreten. Melde dich ab und versuche es erneut.",
       "r90": {
@@ -13,26 +13,26 @@
         "details": {
           "code": "(unter Angabe des Codes R90)",
           "contact-support": {
-            "link-text": " Wende dich an den Support",
+            "link-text": " Wende dich an den Support ",
             "link-url": "https://support.pix.org/fr/support/tickets/new"
           },
-          "disconnect-user": "Melde dich ansonsten ab und nimm von deinem Konto aus an der Kampagne teil.",
+          "disconnect-user": "Melde dich ansonsten ab und nimm von deinem Konto aus an der Kampagne teil",
           "if-account-belonging-to-user": "Wenn das Konto dir gehört,"
         }
       }
     },
     "register-error": {
       "s50": "Dieser Nutzer existiert bereits",
-      "s51": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br>'{ value }'<br><br>' Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Documentation - Code R51)",
-      "s52": "Du hast bereits ein Pix-Konto, das mit der ID in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br>' { value }'<br><br>'Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für Lehrkräfte: siehe 'Troubleshooting Kit' in Pix Orga > Dokumentation - Code R52)",
-      "s53": "Du besitzt bereits ein Pix-Konto über das ENT.'<br>'Verwende es, um dich dem Lernpfad anzuschließen.",
-      "s61": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br>'{ value }'<br><br>' Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Documentation - Code R61)",
-      "s62": "Du hast bereits ein Pix-Konto, das mit der ID in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br>' { value }'<br><br>'Um fortzufahren, logge dich in dieses Konto ein oder bitte eine Lehrkraft um Hilfe.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Dokumentation - Code R62)",
-      "s63": "Du hast bereits ein Pix-Konto über das ENT in einer anderen Schule.'<br><br>'Um fortzufahren, wende dich an eine Lehrkraft, die dir mithilfe von Pix Orga Zugang zu diesem Konto verschaffen kann.'<br><br>'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga > Dokumentation - Code R63)"
+      "s51": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br />'{ value }'<br /><br />' Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Documentation - Code R51)",
+      "s52": "Du hast bereits ein Pix-Konto, das mit der ID in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br />'{ value }'<br /><br />'Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für Lehrkräfte: siehe 'Troubleshooting Kit' in Pix Orga &gt; Dokumentation - Code R52)",
+      "s53": "Du besitzt bereits ein Pix-Konto über das ENT.'<br />'Verwende es, um dich dem Lernpfad anzuschließen.",
+      "s61": "Du hast bereits ein Pix-Konto mit der E-Mail-Adresse'<br />'{ value }'<br /><br />' Um fortzufahren, melde dich bei diesem Konto an oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Documentation - Code R61)",
+      "s62": "Du hast bereits ein Pix-Konto, das mit der ID in der Form Vorname.Nachname gefolgt von 4 Ziffern verwendet wird:'<br />' { value }'<br /><br />'Um fortzufahren, logge dich in dieses Konto ein oder bitte eine Lehrkraft um Hilfe.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Dokumentation - Code R62)",
+      "s63": "Du hast bereits ein Pix-Konto über das ENT in einer anderen Schule.'<br /><br />'Um fortzufahren, wende dich an eine Lehrkraft, die dir mithilfe von Pix Orga Zugang zu diesem Konto verschaffen kann.'<br /><br />'(Für die Lehrkraft: siehe 'Troubleshooting Kit' in Pix Orga &gt; Dokumentation - Code R63)"
     }
   },
   "application": {
-    "description": "Pix ist eine Online-Plattform zur Bewertung und Zertifizierung der digitalen Kompetenzen von französischsprachigen Bürger:innen (Schüler:innen, Student:innenen, Schulabbrecher:innen, Arbeitssuchende, Senioren)."
+    "description": "Pix ist eine Online-Plattform zur Bewertung und Zertifizierung der digitalen Kompetenzen von französischsprachigen Bürger:innen (Schüler:innen, Student:innenen, Schulabbrecher:innen, Arbeitssuchende, Senioren)"
   },
   "common": {
     "actions": {
@@ -59,13 +59,13 @@
       "internal-server-error": "Es ist ein interner Fehler aufgetreten. Unsere Mitarbeiter:innen sind dabei, das Problem zu beheben. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
       "login-unauthorized-error": "Die eingegebene E-Mail-Adresse oder der Benutzername und/oder das Passwort sind falsch.",
       "login-unauthorized-remaining-attempts-error": "Achtung: Du hast noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuche} other {# Versuche}}, bevor dein Pix-Konto endgültig gesperrt wird.",
-      "login-unauthorized-remaining-attempts-with-user-name-error": "Achtung: Du hast noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuch} other {# Versuche}}, bevor dein Pix-Konto endgültig gesperrt wird.'<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen wiederzuerlangen.",
-      "login-unauthorized-with-user-name-error": "Der eingegebene Benutzername und/oder das Passwort sind falsch.'<br>'Wenn du es vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen wiederzuerlangen.",
+      "login-unauthorized-remaining-attempts-with-user-name-error": "Achtung: Du hast noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuch} other {# Versuche}}, bevor dein Pix-Konto endgültig gesperrt wird.'<br />'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen wiederzuerlangen.",
+      "login-unauthorized-with-user-name-error": "Der eingegebene Benutzername und/oder das Passwort sind falsch.'<br />'Wenn du es vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen wiederzuerlangen.",
       "login-unexpected-error": "Es kann keine Verbindung hergestellt werden. Bitte versuche es in Kürze erneut. Wenn das Problem weiterhin besteht, '<'a href=\"{supportHomeUrl}\" target=\"blank\"'>'kontaktiere uns über das Hilfecenter'</a>'.",
       "login-user-blocked-error": "Dein Konto ist gesperrt, weil du zu viele Anmeldeversuche unternommen hast. Um es zu entsperren, '<'a href=\"{url}\"'>'kontaktiere uns'</a>'.",
       "login-user-blocked-with-username-error": "Dein Konto ist gesperrt, weil du zu viele Anmeldeversuche unternommen hast. Um es zu entsperren, '<strong>'wende dich bitte an deine Lehrkraft'</strong>'. Sollte dieser nicht erreichbar sein, '<'a href=\"{url}\"'>'kontaktiere uns bitte'</a>'.",
       "login-user-temporary-blocked-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt. Versuche es später noch einmal oder klicke auf '<'a href=\"{url}\"'>'Passwort vergessen'</a>', um es zurückzusetzen.",
-      "login-user-temporary-blocked-with-username-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt.'<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen abzurufen."
+      "login-user-temporary-blocked-with-username-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt.'<br />'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen abzurufen."
     },
     "cgu": {
       "cgu": "Nutzungsbedingungen",
@@ -94,7 +94,7 @@
       }
     },
     "data-protection-policy-information-banner": {
-      "title": "Unsere Datenschutzrichtlinie hat sich geändert. Bitte nimm die Änderungen zur Kenntnis:",
+      "title": "Unsere Datenschutzrichtlinie hat sich geändert. Bitte nimm die Änderungen zur Kenntnis: ",
       "url-label": "Datenschutzrichtlinie."
     },
     "display": {
@@ -295,7 +295,7 @@
           "trainings": "Identifikation nützlicher Übungen"
         },
         "subtitle": "Einen Moment, bitte! Wir beeilen uns.",
-        "title": "Berechnung deines aktuellen Punktestands..."
+        "title": "Berechnung deines aktuellen Punktestands…"
       },
       "start-landing-page": {
         "steps": {
@@ -317,7 +317,7 @@
     "invited": {
       "reconciliation": {
         "error-message": {
-          "date-field": "Bitte verwende das Format tt/mm/jjjj für die Eingabe des Feldes {fieldName}.",
+          "date-field": "Bitte verwende das Format tt/mm/jjjj für die Eingabe des Feldes {fieldName}",
           "invalid-reconciliation-error": "Überprüfe deine Angaben ({fields}) oder wende dich an eine Lehrkraft.",
           "mandatory-field": "Bitte fülle das Feld {fieldName} aus"
         },
@@ -393,7 +393,7 @@
     "account-recovery": {
       "errors": {
         "account-exists": "Es existiert bereits ein Konto mit dieser E-Mail-Adresse.",
-        "key-expired": "Der Wiederherstellungslink ist abgelaufen,",
+        "key-expired": "Der Wiederherstellungslink ist abgelaufen, ",
         "key-expired-renew-demand-link": "erneuere deine Anfrage hier.",
         "key-invalid": "Der Link zur Wiederherstellung existiert nicht.",
         "key-used": "Dieses Konto wurde bereits abgerufen.",
@@ -433,7 +433,7 @@
             "confirm": "Bestätigen"
           },
           "certify-account": "Ich bestätige ehrenwörtlich, dass das mit diesen Daten verknüpfte Konto mir gehört.",
-          "contact-support": "Wenn du einen Fehler feststellst oder wenn diese Daten nicht von dir stammen,",
+          "contact-support": "Wenn du einen Fehler feststellst oder wenn diese Daten nicht von dir stammen, ",
           "fields": {
             "first-name": "dein Vorname",
             "last-name": "dein Nachname",
@@ -444,7 +444,7 @@
           "good-news": "Gute Nachrichten { firstName }!"
         },
         "conflict": {
-          "found-you-but": "{ firstName }, wir haben dich gefunden, aber ...",
+          "found-you-but": "{ firstName }, wir haben dich gefunden, aber …",
           "title": "Konflikt",
           "warning": "Vorsichtshalber müssen wir deine Daten gemeinsam überprüfen."
         },
@@ -464,7 +464,7 @@
             "empty-ine-ina": "Das INE-Feld ist ein Pflichtfeld.",
             "empty-last-name": "Das Feld Nachname ist ein Pflichtfeld.",
             "invalid-ine-ina-format": "Das INE-Feld hat nicht das richtige Format.",
-            "not-found": "Pix erkennt deine Daten nicht. Überprüfe, ob sie korrekt sind, sonst"
+            "not-found": "Pix erkennt deine Daten nicht. Überprüfe, ob sie korrekt sind, sonst "
           },
           "form": {
             "birthdate": "Geburtsdatum",
@@ -487,9 +487,9 @@
           "mandatory-all-fields": "Alle Felder sind Pflichtfelder.",
           "subtitle": {
             "link": "Setze dein Passwort hier zurück.",
-            "text": "Wenn du ein Konto mit einer gültigen E-Mail-Adresse hast,"
+            "text": "Wenn du ein Konto mit einer gültigen E-Mail-Adresse hast, "
           },
-          "title": "Du hast das Schulsystem verlassen und möchtest deinen Zugang zu Pix wiedererlangen."
+          "title": "Du hast das Schulsystem verlassen und möchtest deinen Zugang zu Pix wiedererlangen"
         },
         "title": "Mein Konto abrufen"
       },
@@ -529,7 +529,7 @@
         "content": "Alle deine Fortschritte werden gespeichert. Du kannst dort weitermachen, wo du aufgehört hast.",
         "title": "Brauchst du eine Pause?"
       },
-      "title": "Prüfung der Bewertung :"
+      "title": "Prüfung der Bewertung : "
     },
     "assessment-results": {
       "actions": {
@@ -571,7 +571,7 @@
         },
         "texts": {
           "first-course": "Ist dies dein erster Pix-Pfad?",
-          "legal-informations": "Mit oder ohne Pix-Konto werden Informationen über deinen Fortschritt auf dem Pfad an uns weitergeleitet.'<br>'Diese Informationen werden von Pix zur Verbesserung des Dienstes verwendet.",
+          "legal-informations": "Mit oder ohne Pix-Konto werden Informationen über deinen Fortschritt auf dem Pfad an uns weitergeleitet.'<br />'Diese Informationen werden von Pix zur Verbesserung des Dienstes verwendet.",
           "title": "Beginne den Lernpfad :"
         }
       }
@@ -602,17 +602,17 @@
           "description": "Du wirst im Internet recherchieren, deine digitale Arbeitsumgebung nutzen, dein Wissen testen usw.",
           "title": "Miss deine digitalen Kompetenzen mit spielerischen und lernenden Herausforderungen, die sich an deinen Kenntnisstand anpassen (über einen adaptiven Algorithmus)."
         },
-        "exam-notice": "Während dieses Lernpfad wird Ihr Kompetenzprofil weder berücksichtigt noch geändert. Ihre Antworten haben keinen Einfluss auf Ihre Stufen oder Ihre Gesamtpunktzahl bei Pix.",
         "legal": "Wenn du auf \"Beginnen\" klickst, werden die Informationen über deinen Fortschritt auf dem Pfad an den Organisator der Pfade weitergeleitet, damit er dich begleiten kann. Am Ende des Lernpfads werden deine Ergebnisse automatisch an den Organisator weitergeleitet.",
         "title": "Beginne deinen Pix-Lernpfad",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' bereit, deine digitalen Kompetenzen zu bewerten?"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br />' bereit, deine digitalen Kompetenzen zu bewerten?",
+        "exam-notice": "Während dieses Lernpfad wird Ihr Kompetenzprofil weder berücksichtigt noch geändert. Ihre Antworten haben keinen Einfluss auf Ihre Stufen oder Ihre Gesamtpunktzahl bei Pix."
       },
       "profiles-collection": {
         "action": "Los geht's!",
         "announcement": "Registrier dich oder logge dich auf der Pix-Plattform ein und sende dein Profil an die Empfängerorganisation.",
         "legal": "Die Informationen über dein PIX-Profil werden an den Organisator weitergeleitet, damit dieser dich begleiten kann. Du wirst nur mit deiner Zustimmung weitergegeben.",
         "title": "Sende dein Profil",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' sende dein Profil"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br />' sende dein Profil"
       },
       "title": "Präsentation",
       "warning-message": "Du bist nicht { firstName } { lastName }?",
@@ -626,7 +626,7 @@
         "finished-at": "Beendet am {date}.",
         "results": "{result, number, ::percent} des Erfolgs",
         "resume": {
-          "extra-information": "Fortsetzen des Lernpfads {campaignTitle}.",
+          "extra-information": "Fortsetzen des Lernpfads {campaignTitle}",
           "information": "Übernehmen"
         },
         "retry": "Erneut versuchen",
@@ -639,8 +639,8 @@
           "finished": "Abgeschlossen",
           "started": "In Arbeit"
         },
-        "text-deleted": "Pfad von deiner Organisation deaktiviert.'<br>'Du kannst nicht mehr auf diesen Pfad einwirken.",
-        "text-disabled": "Pfad von deiner Organisation deaktiviert.'<br>'Du kannst deine Ergebnisse nicht mehr versenden."
+        "text-deleted": "Pfad von deiner Organisation deaktiviert.'<br />'Du kannst nicht mehr auf diesen Pfad einwirken.",
+        "text-disabled": "Pfad von deiner Organisation deaktiviert.'<br />'Du kannst deine Ergebnisse nicht mehr versenden."
       },
       "title": "Pfad"
     },
@@ -652,7 +652,7 @@
       "back-link": "Zurück zu meinen Zertifizierungen",
       "candidate": "Kandidat:in:",
       "candidate-birth": "Geboren am {birthdate}.",
-      "candidate-birth-complete": "Geboren am {birthdate} in {birthplace}.",
+      "candidate-birth-complete": "Geboren am {birthdate} in {birthplace}",
       "certification-center": "Zertifizierungsstelle :",
       "certification-date": "Datum der Zertifizierung :",
       "certification-value": {
@@ -690,12 +690,12 @@
       },
       "frameworks": {
         "EDU": {
-          "results-infos": "'<p>'Die Zertifizierung erfolgt in zwei Stufen:'</p><ol><li>'Pix-Prüfung: gerade abgeschlossen.'</li><li>'Mündliche Prüfung: außerhalb von Pix vor einer Jury organisiert.'</li></ol><p>'Am Ende der mündlichen Prüfung wird dein endgültiges Zertifizierungsniveau vergeben (Expert:in, Fortgeschritten usw.).'<br/>'Wende dich an dein Zertifizierungszentrum, um die mündliche Prüfung zu organisieren.'</p>'",
+          "results-infos": "'<p>'Die Zertifizierung erfolgt in zwei Stufen:'</p><ol><li>'Pix-Prüfung: gerade abgeschlossen.'</li><li>'Mündliche Prüfung: außerhalb von Pix vor einer Jury organisiert.'</li></ol><p>'Am Ende der mündlichen Prüfung wird dein endgültiges Zertifizierungsniveau vergeben (Expertin, Fortgeschritten usw.). Wende dich an dein Zertifizierungszentrum, um die mündliche Prüfung zu organisieren.'</p>'",
           "results-sub-title": "Der Kandidat/Die Kandidatin ist für die 2. Stufe der Pix+ Édu-Zertifizierung zugelassen!",
           "status": "Gültiges Zertifikat",
           "steps": {
             "1": "Pix-Teil",
-            "2": "Berufspraktischer'<br/>'Teil",
+            "2": "Berufspraktischer'<br />'Teil",
             "3": "Endergebnis"
           },
           "sub-title": "Der Kandidat/Die Kandidatin ist für die 2. Stufe zugelassen!"
@@ -714,7 +714,7 @@
           "level": "Deine Stufe"
         },
         "progress-bar-explanation": {
-          "default": "Fortschrittsbalken, der deine erreichte Stufe ( {level}, oder Stufe {globalLevelLabel} ) auf einer maximal erreichbaren Stufe von 7 ( Stufe Expert 1 ) anzeigt.",
+          "default": "Fortschrittsbalken, der deine erreichte Stufe ( {level}, oder Stufe {globalLevelLabel} ) auf einer maximal erreichbaren Stufe von 7 ( Stufe Expert 1 ) anzeigt",
           "pre-beginner-level": "Fortschrittsbalken, der die maximale Stufe anzeigt, die man in der Zertifizierung erreichen kann (entweder, 7 oder Expert 1 )"
         }
       },
@@ -726,7 +726,7 @@
       "jury-title": "Bemerkungen der Jury",
       "learn-about-certification-results": "Wie sind die Ergebnisse zu interpretieren?",
       "obtained-certification": "Der Kandidat hat das {frameworkLabel}-Zertifikat erhalten",
-      "professionalizing-warning": "Das Pix-Zertifikat wird von France compétences ab einer Mindestpunktzahl von 120 Pix als berufsqualifizierend anerkannt.",
+      "professionalizing-warning": "Das Pix-Zertifikat wird von France compétences ab einer Mindestpunktzahl von 120 Pix als berufsqualifizierend anerkannt",
       "results": {
         "sub-title": "Der Kandidat ist für die Zertifizierung {framework} zugelassen.",
         "title": "Ergebnis:"
@@ -740,7 +740,7 @@
         "information": "Dein einmaliger Verifizierungscode",
         "share": "Dein Zertifikat teilen",
         "title": "Verifizierungscode",
-        "tooltip": "Gib diesen Code weiter, damit Dritte die Echtheit deines Zertifikats überprüfen können."
+        "tooltip": "Gib diesen Code weiter, damit Dritte die Echtheit deines Zertifikats überprüfen können"
       }
     },
     "certification-ender": {
@@ -753,7 +753,7 @@
         "title": "Test beendet!"
       },
       "results": {
-        "disclaimer": "Deine Ergebnisse, die noch auf die Bestätigung durch die Pix-Teams warten, werden bald in deinem Pix-Konto verfügbar sein.",
+        "disclaimer": "Deine Ergebnisse, die noch auf die Bestätigung durch die Pix-Teams warten, werden bald in deinem Pix-Konto verfügbar sein",
         "step-1": "Logge dich in deinem Pix-Konto ein und finde deine Ergebnisse in der Rubrik \"Meine Zertifizierungen\" (erreichbar durch Anklicken deines Vornamens oben rechts auf dem Bildschirm).",
         "step-2": "Du kannst dein Zertifikat herunterladen und weiterleiten oder den Verifizierungscode, den du verwenden musst, auf der Pix-Website eingeben.",
         "title": "Wie kann ich meine Zertifizierungsergebnisse einsehen und weiterleiten?"
@@ -792,15 +792,15 @@
             "pix-plus-1": "Die Zertifizierung {certificationName} ist ein '<strong>'adaptiver Test'</strong>', der dein Niveau in '<strong>'allen Kompetenzen des Zertifizierungsrahmens {certificationName}'</strong>' bewertet."
           },
           "question": "Wie läuft der Test ab?",
-          "title": "Willkommen bei der Zertifizierung {certificationName}."
+          "title": "Willkommen bei der Zertifizierung {certificationName}"
         },
         "2": {
           "legend": {
             "strong-text": "32 FRAGEN"
           },
           "paragraphs": {
-            "1": "Der Zertifizierungstest besteht aus '<strong>'32 Fragen'</strong>'.",
-            "2": "Du hast maximal '<strong>'{duration}'</strong>' Zeit, um darauf zu antworten*.",
+            "1": "Der Zertifizierungstest besteht aus '<strong>'32 Fragen'</strong>'",
+            "2": "Du hast maximal '<strong>'{duration}'</strong>' Zeit, um darauf zu antworten*",
             "3": "*ohne eventuelle Zeitzuschläge",
             "4": "Wenn du '<strong>'weniger als 20 Fragen bearbeitest, können wir dir keine Punktzahl ausstellen'</strong>'."
           },
@@ -813,7 +813,7 @@
           },
           "paragraphs": {
             "1": {
-              "text": "Bei Fragen im '<strong>'Freien Modus'</strong>', die mit einem grünen Symbol gekennzeichnet sind: Du darfst im Internet recherchieren und die zur Verfügung stehende digitale Umgebung nutzen.'<br>'Allerdings werden '<strong>'bestimmte Websites nicht in Zertifizierung zugänglich sein'</strong>'.",
+              "text": "Bei Fragen im '<strong>'Freien Modus'</strong>', die mit einem grünen Symbol gekennzeichnet sind: Du darfst im Internet recherchieren und die zur Verfügung stehende digitale Umgebung nutzen.'<br />'Allerdings werden '<strong>'bestimmte Websites nicht in Zertifizierung zugänglich sein'</strong>'.",
               "title": "Freier Modus :"
             },
             "2": {
@@ -826,11 +826,11 @@
         "4": {
           "list": {
             "1": "Gehe unten auf der Seite",
-            "2": "Wähle \"Ein Problem mit der Frage melden\".",
-            "3": "Klicke auf \"Ja, ich bin mir sicher\".",
+            "2": "Wähle \"Ein Problem mit der Frage melden\"",
+            "3": "Klicke auf \"Ja, ich bin mir sicher\"",
             "4": "Bitte die Aufsichtsperson um Hilfe"
           },
-          "text": "'<strong>'Bei technischen Problemen'</strong>' (z. B. das Bild wird nicht angezeigt), führe die folgenden Schritte aus:",
+          "text": "'<strong>'Bei technischen Problemen'</strong>' (z. B. das Bild wird nicht angezeigt), führe die folgenden Schritte aus: ",
           "title": "Was tun, wenn ein Problem auftritt?"
         },
         "5": {
@@ -850,7 +850,7 @@
         }
       },
       "title": "Erklärung der Zertifizierung",
-      "vocal-step-identifier": "Seite {pageId} von {pageCount}."
+      "vocal-step-identifier": "Seite {pageId} von {pageCount}"
     },
     "certification-joiner": {
       "congratulation-banner": {
@@ -869,7 +869,7 @@
           "check-session-number": "Überprüfe die Sitzungsnummer.",
           "disclaimer": "Die eingegebenen Informationen stimmen mit keinen der für die Testung angemeldeten Bewerber:innen überein."
         },
-        "language-not-supported": "Die Pix-Zertifizierung ist derzeit nicht in {userLanguage} verfügbar. '<br>' Die derzeit verfügbaren Sprachen, um die Zertifizierung zu absolvieren, sind : {availableLanguages}. '<br>' Du kannst eine andere Sprache von der Seite",
+        "language-not-supported": "Die Pix-Zertifizierung ist derzeit nicht in {userLanguage} verfügbar. '<br />' Die derzeit verfügbaren Sprachen, um die Zertifizierung zu absolvieren, sind : {availableLanguages}. '<br />' Du kannst eine andere Sprache von der Seite ",
         "language-not-supported-link": "Mein Konto",
         "missing-center-habilitation": "Du kannst nicht an der Testung teilnehmen. Die Zertifizierungsstelle ist nicht berechtigt, dich zu dieser Zertifizierung zuzulassen.",
         "session-not-accessible": "Die Testung, an der du versuchst teilzunehmen, ist nicht mehr zugänglich.",
@@ -879,7 +879,7 @@
           "label": "Wie finde ich das mit der Einrichtung verknüpfte Konto?",
           "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
         },
-        "wrong-domain-for-pix-plus": "Da die Pix+ Zertifizierungen derzeit nur auf Französisch verfügbar sind, sind sie nicht auf https://pix.org verfügbar.<br/>Bitte logge dich aus und dann wieder ein über '<a href=\"https://app.pix.fr/connexion\">diesen Link.</a>'."
+        "wrong-domain-for-pix-plus": "Da die Pix+ Zertifizierungen derzeit nur auf Französisch verfügbar sind, sind sie nicht auf https://pix.org verfügbar.<br />Bitte logge dich aus und dann wieder ein über '<a href=\"https://app.pix.fr/connexion\">diesen Link.</a>'"
       },
       "first-title": "An einer Testung teilnehmen",
       "form": {
@@ -894,7 +894,7 @@
           "birth-year": "Geburtsjahr (JJJJ)",
           "first-name": "Vorname",
           "session-number": "Sitzungsnummer",
-          "session-number-information": "Wird nur von der Aufsichtsperson zu Beginn der Testung mitgeteilt."
+          "session-number-information": "Wird nur von der Aufsichtsperson zu Beginn der Testung mitgeteilt"
         },
         "fields-validation": {
           "session-number-error": "Die Sitzungsnummer besteht nur aus Zahlen."
@@ -938,7 +938,7 @@
       "cgu": {
         "contact": {
           "email": "dpo@pix.fr",
-          "info": "Gemäß dem Gesetz \"Informatik und Freiheiten\" kannst du dein Recht auf Zugang zu den dich betreffenden Daten ausüben und diese berichtigen lassen, indem du eine E-Mail sendest an"
+          "info": "Gemäß dem Gesetz \"Informatik und Freiheiten\" kannst du dein Recht auf Zugang zu den dich betreffenden Daten ausüben und diese berichtigen lassen, indem du eine E-Mail sendest an "
         },
         "info": "Indem ich auf \"Meinen Test beginnen\" klicke, stimme ich zu, dass meine Identitätsdaten, die Zertifizierungsnummer und die Umstände der Prüfung, wie sie von der Aufsichtsperson ausgefüllt wurden, an Pix weitergegeben werden. Pix wird sie während der Beratung des Prüfungsausschusses verwenden, um meine Ergebnisse zu erstellen und zu archivieren und um mein Zertifikat auszugeben. Wenn mir diese Zertifizierung von einer Organisation vorgeschrieben wurde, bin ich damit einverstanden, dass Pix meine Ergebnisse an diese Organisation weiterleitet."
       },
@@ -955,6 +955,14 @@
         }
       },
       "first-title": "Zertifizierungstest beginnen",
+      "language-selector": {
+        "confirmation-label": "Ich bestätige, dass ich mit der ausgewählten Sprache für die Beantwortung der Fragen vertraut bin.'<br />'Die Sprachauswahl ist '<strong>'endgültig'</strong>'.",
+        "label": "Zertifizierungssprache",
+        "options": {
+          "english": "Englisch - EN",
+          "french": "Französisch - FR"
+        }
+      },
       "link-to-user-certification": "Meine Zertifizierungen ansehen",
       "non-eligible-subscription": "Du bist nicht für {complementarySubscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
       "title": "An einer Zertifizierungstestung teilnehmen"
@@ -998,9 +1006,9 @@
       },
       "certification": {
         "banner": {
-          "certification-number": "Zertifizierungs-Nr."
+          "certification-number": "Zertifizierungs-Nr"
         },
-        "title": "Zertifizierung {certificationNumber}."
+        "title": "Zertifizierung {certificationNumber}"
       },
       "certification-feedback-panel": {
         "actions": {
@@ -1056,42 +1064,42 @@
                 "download": {
                   "edit-failure": {
                     "label": "Ich kann die Datei nicht bearbeiten",
-                    "solution": "Die Datei ist wahrscheinlich im \"Schreibgeschützten Modus\" oder \"Geschützten Modus\" geöffnet. '<br>'Klicke auf \"Bearbeitung aktivieren\" oder \"Dokument bearbeiten\" auf dem Banner am oberen Rand der Datei, wenn es angezeigt wird. '<br>'Andernfalls speicheré die Datei unter einem anderen Namen und öffne diese neue Datei."
+                    "solution": "Die Datei ist wahrscheinlich im \"Schreibgeschützten Modus\" oder \"Geschützten Modus\" geöffnet. '<br />'Klicke auf \"Bearbeitung aktivieren\" oder \"Dokument bearbeiten\" auf dem Banner am oberen Rand der Datei, wenn es angezeigt wird. '<br />'Andernfalls speicheré die Datei unter einem anderen Namen und öffne diese neue Datei."
                   },
                   "lost": {
                     "label": "Ich kann die heruntergeladene Datei nicht finden",
-                    "solution": "Standardmäßig wird eine heruntergeladene Datei in einem Ordner \"Downloads\" oder \"Downloads\" gespeichert. Es kann aber auch sein, dass sie am selben Ort wie dein letzter Download..."
+                    "solution": "Standardmäßig wird eine heruntergeladene Datei in einem Ordner \"Downloads\" oder \"Downloads\" gespeichert. Es kann aber auch sein, dass sie am selben Ort wie dein letzter Download…"
                   },
                   "open-failure": {
                     "label": "Ich kann die Datei nicht auf einem Computer öffnen",
-                    "solution": "Wenn du eine Datei nicht öffnen kannst, sieh dir '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'die Hilfe unter der Schaltfläche \"Herunterladen\"'</a>' an. Dort findest du empfohlene Software oder Online-Tools."
+                    "solution": "Wenn du eine Datei nicht öffnen kannst, sieh dir '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\">'die Hilfe unter der Schaltfläche \"Herunterladen\"'</a>' an. Dort findest du empfohlene Software oder Online-Tools."
                   },
                   "other": "Ich habe ein weiteres Problem mit der Datei"
                 },
                 "embed-displayed-on-desktop-with-problems": {
                   "label": "Auf dem Computer wird die Anwendung angezeigt, hat aber ein Problem",
-                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest. Du kannst hier aufhören und auf einem Computer fortfahren. '<br>'Spezifiziere dein Problem, indem du deinen Browser und dein Betriebssystem angibst."
+                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest. Du kannst hier aufhören und auf einem Computer fortfahren. '<br />'Spezifiziere dein Problem, indem du deinen Browser und dein Betriebssystem angibst."
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "Auf dem Telefon oder Tablet wird die Anwendung ngezeigt, hat aber ein Problem",
-                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest.'<br>'Bitte spezifiziere dein Problem, indem du deinen Gerätetyp (Smartphone, Tablet ...), dein Betriebssystem und deinen Browser angibst."
+                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest.'<br />'Bitte spezifiziere dein Problem, indem du deinen Gerätetyp (Smartphone, Tablet …), dein Betriebssystem und deinen Browser angibst."
                 },
                 "embed-not-displayed": {
                   "label": "Die Anwendung wird nicht angezeigt",
-                  "solution": "Deine Internetverbindung ist vielleicht zu schwach.'<br>'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird der Simulator angezeigt. '<br><br>'Falls nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung erneut versuchen?"
+                  "solution": "Deine Internetverbindung ist vielleicht zu schwach.'<br />'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\">' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird der Simulator angezeigt. '<br /><br />'Falls nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung erneut versuchen?"
                 },
                 "embed-other": "Die Anwendung hat ein anderes Problem",
                 "link-other": "Der Link funktioniert nicht oder hat ein anderes Problem",
                 "link-unauthorized": {
-                  "label": "Der Link wird von meiner Organisation / Einrichtung blockiert...",
-                  "solution": "Du gehörst vielleicht einer Organisation an (Schulen, Universitäten, Unternehmen, Behörden, Vereine ...), die deine Accounts und Geräte schützt, indem sie die Internetseiten, auf die du Zugriff hast, einschränkt.'<br>'"
+                  "label": "Der Link wird von meiner Organisation / Einrichtung blockiert…",
+                  "solution": "Du gehörst vielleicht einer Organisation an (Schulen, Universitäten, Unternehmen, Behörden, Vereine …), die deine Accounts und Geräte schützt, indem sie die Internetseiten, auf die du Zugriff hast, einschränkt.'<br />'"
                 },
                 "other-challenge-proposal": "Ich habe eine (geniale) Idee für eine Prüfung",
                 "other-difficulty": "Ich habe ein anderes Problem",
                 "other-site-improvement": "Ich habe einen Verbesserungsvorschlag für die Plattform",
                 "picture-not-displayed": {
                   "label": "Das Bild wird nicht angezeigt",
-                  "solution": "Deine Internetverbindung ist vielleicht zu schwach. '<br>'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird das Bild angezeigt. '<br><br>'Wenn nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung aus erneut versuchen?"
+                  "solution": "Deine Internetverbindung ist vielleicht zu schwach. '<br />'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\">' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird das Bild angezeigt. '<br /><br />'Wenn nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung aus erneut versuchen?"
                 },
                 "picture-other": "Das Bild hat ein weiteres Problem",
                 "question-improvement": "Ich möchte eine Verbesserung der Frage vorschlagen",
@@ -1183,7 +1191,7 @@
           },
           "description": "Pix überlässt dir die Wahl des Dateiformats für den Download. Wenn du dir nicht sicher bist, welche Option du wählen sollst, behalte die Standardauswahl bei. Sie entspricht dem Dateiformat, das von den meisten Programmen unterstützt wird.",
           "file-type": ".{fileExtension}-Datei",
-          "help": "Brauchst du Hilfe beim '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"Öffnen, Bearbeiten oder Finden dieser Datei (öffnet sich in einem neuen Fenster)\">'diese Datei öffnen, bearbeiten oder finden'</a>'?"
+          "help": "Brauchst du Hilfe beim '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"Öffnen, Bearbeiten oder Finden dieser Datei (öffnet sich in einem neuen Fenster)\">'diese Datei öffnen, bearbeiten oder finden'</a>'?"
         },
         "sr-only": {
           "alternative-instruction": "Dieser Probedruck enthält eine Illustration mit einer Textalternative.",
@@ -1199,7 +1207,7 @@
           "aria-label": "Zeige einen Hinweisan.",
           "close": "Verstanden",
           "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Versuche auf dieser Seite zu bleiben, um zu antworten!'</strong><br/>' Für diese Frage ist weder Internet noch eine Anwendung erforderlich.",
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Versuche auf dieser Seite zu bleiben, um zu antworten!'</strong><br />' Für diese Frage ist weder Internet noch eine Anwendung erforderlich.",
             "title": "Focus-Modus"
           },
           "other": {
@@ -1212,8 +1220,8 @@
         "cannot-answer": "Die Zeit ist abgelaufen. Deine Antwort wird nicht miteinbezogen."
       },
       "title": {
-        "default": "Freier Modus - Frage {stepNumber} zu {totalChallengeNumber}.",
-        "focused": "Fokusmodus - Frage {stepNumber} zu {totalChallengeNumber}.",
+        "default": "Freier Modus - Frage {stepNumber} zu {totalChallengeNumber}",
+        "focused": "Fokusmodus - Frage {stepNumber} zu {totalChallengeNumber}",
         "focused-out": "Gestrandet - Fokusmodus - Frage {stepNumber} zu {totalChallengeNumber}",
         "timed-out": "Verstrichene Zeit - Frage {stepNumber} zu {totalChallengeNumber}"
       }
@@ -1249,7 +1257,7 @@
         "description": "Gut gemacht! Du hast einen wichtigen Schritt getan, um in der digitalen Welt zu navigieren.",
         "retry-text": "Lust auf eine Wiederholung? Du kannst alle Tests frei wiederholen!",
         "survey-button": "Beantwortung des Fragebogens",
-        "survey-button-description": "Beantworte den Fragebogen, um deine Meinung über den Pfad zu äußern.",
+        "survey-button-description": "Beantworte den Fragebogen, um deine Meinung über den Pfad zu äußern",
         "title": "Herzlichen Glückwunsch! Du bist fertig!"
       },
       "content": {
@@ -1258,8 +1266,8 @@
         "step": "Schritt {stepNumber}."
       },
       "items": {
-        "aria-label-completed-campaign": "Dieses Element wird mit einer Erfolgsquote von {value, number, ::percent} abgeschlossen.",
-        "aria-label-completed-campaign-with-stages": "Du hast {acquired, plural, =0 {keinen Stern} =1 {# Stern} other {# Sterne}} von {total} erhalten.",
+        "aria-label-completed-campaign": "Dieses Element wird mit einer Erfolgsquote von {value, number, ::percent} abgeschlossen",
+        "aria-label-completed-campaign-with-stages": "Du hast {acquired, plural, =0 {keinen Stern} =1 {# Stern} other {# Sterne}} von {total} erhalten",
         "aria-label-duration": "Geschätzte Dauer: {duration} Minuten",
         "completed": "Beendet!",
         "duration": "≈ {duration} min",
@@ -1302,7 +1310,7 @@
         },
         "feedback": {
           "correct": "Richtige Antwort",
-          "wrong": "Die Antwort ist nicht korrekt. '<br>'Die richtige Antwort ist :"
+          "wrong": "Die Antwort ist nicht korrekt. '<br />'Die richtige Antwort ist : "
         },
         "focusedOut": {
           "title": "Du hast die Prüfung abgeschlossen",
@@ -1362,7 +1370,7 @@
             "title": "Zurücksetzen der Kompetenzen",
             "warning": {
               "certification": "wenn du dein Profil und deine verschiedenen Ergebnisse zertifizieren lassen möchtest, könnte dies deine Zertifizierung beeinträchtigen.",
-              "header": "Achtung :",
+              "header": "Achtung : ",
               "ongoing-assessment": "Wenn du gerade einen Assessment-Course absolvierst, können dir einige Fragen erneut gestellt werden."
             }
           }
@@ -1372,7 +1380,7 @@
           "label": "Beginnen"
         }
       },
-      "for-competence": "die Kompetenz {competence}.",
+      "for-competence": "die Kompetenz {competence}",
       "next-level-info": "{ remainingPixToNextLevel } pix vor der Ebene { level }.",
       "title": "Kompetenz",
       "tutorials": {
@@ -1422,7 +1430,7 @@
           "text": "Mehr erfahren",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Hallo, lerne dein Dashboard kennen.</h2><p>Greif schnell und einfach auf deine bereits begonnenen Lernpfade und Kompetenztests.<br/> Finde heraus, wie sich dein Pix-Score entwickelt und überprüfe, ob dein Profil für die Pix-Zertifizierung bereit ist.</p>."
+        "message": "<h2>Hallo, lerne dein Dashboard kennen.</h2><p>Greif schnell und einfach auf deine bereits begonnenen Lernpfade und Kompetenztests.<br /> Finde heraus, wie sich dein Pix-Score entwickelt und überprüfe, ob dein Profil für die Pix-Zertifizierung bereit ist.</p>"
       },
       "recommended-competences": {
         "extra-information": "Zugriff auf alle empfohlenen Kompetenzen",
@@ -1438,7 +1446,7 @@
         "title": "Eine Kompetenz übernehmen"
       },
       "title": "Startseite",
-      "welcome": "Hallo { firstName }."
+      "welcome": "Hallo { firstName }"
     },
     "download-session-results": {
       "button": {
@@ -1450,7 +1458,7 @@
       "title": "Herunterladen der Sitzungsinformationen"
     },
     "error": {
-      "content-text": "'<p>'Wir bitten dich, diese Seite neu zu laden oder zur Startseite zurückzukehren.'</p><p>'Du kannst uns auch über '<a href=\"https://support.pix.fr/support/tickets/new\">'das Hilfe-Center-Formular'</a>' kontaktieren und uns in der Beschreibung den untenstehenden Fehlercode mitteilen.'</p><p>'Wir bitten dich, die Unannehmlichkeiten zu entschuldigen.'</p><p>'Das Pix-Team.'</p><p>'",
+      "content-text": "'<p>'Wir bitten dich, diese Seite neu zu laden oder zur Startseite zurückzukehren.'</p><p>'Du kannst uns auch über '<a href=\"https://pix.org/en/contact-form\">'das Hilfe-Center-Formular'</a>' kontaktieren und uns in der Beschreibung den untenstehenden Fehlercode mitteilen.'</p><p>'Wir bitten dich, die Unannehmlichkeiten zu entschuldigen.'</p><p>'Das Pix-Team.'</p>'",
       "first-title": "Ups, ein Fehler ist aufgetreten!"
     },
     "evaluation-results": {
@@ -1483,7 +1491,7 @@
         },
         "message": "Um auf die Pfade zuzugreifen :",
         "message-footer": "Logge dich über dein Mediacentre in Pix ein.",
-        "organised-by": "vorgeschlagen von",
+        "organised-by": "vorgeschlagen von ",
         "title": "Zugang zum Lernpfad über Mediacentre"
       },
       "start": "Zum Lernpfad gelangen",
@@ -1555,10 +1563,10 @@
       "sco": {
         "associate": "Verbinden",
         "continue-with-pix": "Mit meinem Pix-Konto fortfahren",
-        "error-not-found": "Bist du ein Schüler oder eine Schülerin? '<br>' Überprüfe deine Angaben (Vorname, Nachname und Geburtsdatum) oder wende dich an eine Lehrkraft.'<br><br>' Du bist eine Lehrkraft? '<br>' Der Zugriff auf einen Lernpfad ist derzeit nicht verfügbar.",
+        "error-not-found": "Bist du ein Schüler oder eine Schülerin? '<br />' Überprüfe deine Angaben (Vorname, Nachname und Geburtsdatum) oder wende dich an eine Lehrkraft.'<br /><br />' Du bist eine Lehrkraft? '<br />' Der Zugriff auf einen Lernpfad ist derzeit nicht verfügbar.",
         "first-title": "Tritt der Organisation { organizationName } bei",
-        "invalid-reconciliation-error": "Es ist ein Fehler aufgetreten. '<br>' Bitte wende dich an den Support.",
-        "login-information-message": "Das Pix-Konto '<b>'{ connectionMethod }'</b>' wird mit dem Schüler/der Schülerin verknüpft: '<b>'{ firstName } { lastName }'</b>'.'<br><br>'Wenn es sich dabei um dich handelt, klicke auf \"Verknüpfen\", andernfalls melde dich ab.",
+        "invalid-reconciliation-error": "Es ist ein Fehler aufgetreten. '<br />' Bitte wende dich an den Support.",
+        "login-information-message": "Das Pix-Konto '<b>'{ connectionMethod }'</b>' wird mit dem Schüler/der Schülerin verknüpft: '<b>'{ firstName } { lastName }'</b>'.'<br /><br />'Wenn es sich dabei um dich handelt, klicke auf \"Verknüpfen\", andernfalls melde dich ab.",
         "login-information-title": "Anmeldeinformationen",
         "subtitle": "Fülle die fehlenden Informationen aus"
       },
@@ -1709,7 +1717,7 @@
         },
         "direction": "Suche nach der Antwort und drehe dann die Karte um",
         "navigation": {
-          "longCurrentStep": "Schritt {current} von {total}.",
+          "longCurrentStep": "Schritt {current} von {total}",
           "shortCurrentStep": "{current}/{total}"
         },
         "position": "Karte {currentCardPosition}/{totalCards}"
@@ -1774,8 +1782,8 @@
       "navigation": {
         "buttons": {
           "aria-label": {
-            "disabled": "Nicht verfügbar. Vorherigen Schritt beenden",
-            "enabled": "Gehe zu Schritt {sectionTitle}.",
+            "disabled": "Nicht verfügbar. Vorherigen Schritt beenden.",
+            "enabled": "Gehe zu Schritt {sectionTitle}",
             "steps": "Schritt {indexSection} von {totalSections}."
           }
         },
@@ -1845,7 +1853,7 @@
       "stepper": {
         "aria-role-description": "Schrittfolge",
         "step": {
-          "aria-label": "{currentStep} auf {totalSteps}.",
+          "aria-label": "{currentStep} auf {totalSteps}",
           "aria-role-description": "Schritt"
         }
       },
@@ -1856,7 +1864,7 @@
       }
     },
     "not-connected": {
-      "message": "Deine Abmeldung war erfolgreich.'<br>'Danke, bis bald.",
+      "message": "Deine Abmeldung war erfolgreich.'<br />'Danke, bis bald.",
       "title": "Offline"
     },
     "oidc-reconciliation": {
@@ -1866,9 +1874,9 @@
       "email": "E-Mail-Adresse",
       "external-connection": "Externe Verbindung",
       "external-connection-via": "Verbindung über",
-      "information": "Da die Kompetenzbewertung personalisiert ist, muss dein Konto strikt vertraulich bleiben.",
+      "information": "Da die Kompetenzbewertung personalisiert ist, muss dein Konto strikt vertraulich bleiben",
       "return": "Zurück",
-      "sub-title": "Deinem Pix-Konto wird bald eine neue Anmeldemethode hinzugefügt.",
+      "sub-title": "Deinem Pix-Konto wird bald eine neue Anmeldemethode hinzugefügt",
       "switch-account": "Konto wechseln",
       "title": "Achtung!",
       "username": "Username"
@@ -1893,15 +1901,15 @@
       "signup-form": {
         "button": "Konto erstellen",
         "claims": {
-          "discipline": "Disziplin",
-          "employeeNumber": "Nummer des Mitarbeiters",
           "FrEduFonctAdm": "Administrative Funktion",
           "FrEduNumenHash": "Technische Identifikation",
+          "discipline": "Disziplin",
+          "employeeNumber": "Nummer des Mitarbeiters",
           "population": "Bevölkerung",
           "rne": "Zuweisende Einrichtung",
           "title": "Funktion"
         },
-        "description": "Ein Konto wird anhand der von der Organisation übermittelten Elemente erstellt.",
+        "description": "Ein Konto wird anhand der von der Organisation übermittelten Elemente erstellt",
         "error": "Es war uns nicht möglich, deine Identitätsinformationen von der verwendeten Abteilung abzurufen. Wir bitten dich an den IT-Support deiner Organisation zu wenden.",
         "first-name-label-and-value": "Vorname: {firstName}",
         "last-name-label-and-value": "Name: {lastName}.",
@@ -1928,7 +1936,7 @@
         }
       },
       "description": "Bewerte dich in deinem eigenen Tempo in 16 digitalen Kompetenzen. Wähle eine Kompetenz und beginne, Pixel zu verdienen.",
-      "first-title": "Du hast 16 Kompetenzen, die du testen müssen. '<br>'Konzentriere dich und los geht's !",
+      "first-title": "Du hast 16 Kompetenzen, die du testen müssen. '<br />'Konzentriere dich und los geht's !",
       "resume-campaign-banner": {
         "accessibility": {
           "resume": "Fortsetzen",
@@ -1939,7 +1947,7 @@
           "resume": "Fortsetzen"
         },
         "reminder-continue-campaign": "Du hast deinen Lernpfad nicht abgeschlossen",
-        "reminder-continue-campaign-with-title": "Du hast die Testung \"{title}\" nicht abgeschlossen.",
+        "reminder-continue-campaign-with-title": "Du hast die Testung \"{title}\" nicht abgeschlossen",
         "reminder-send-campaign": "Vergiss nicht, deine Testung abzuschließen!",
         "reminder-send-campaign-with-title": "Lernpfad \"{title}\" abgeschlossen. Vergiss nicht, deine Testung abzuschließen!"
       },
@@ -1955,7 +1963,7 @@
       "actions": {
         "continue": "Setze deine Pix-Erfahrung fort"
       },
-      "explanation": "Du hast das untenstehende Profil bereits an die Organisation {organization}'<br>'am {date} an {hour,time,hhmm} gesendet.",
+      "explanation": "Du hast das untenstehende Profil bereits an die Organisation {organization}'<br />'am {date} an {hour,time,hhmm} gesendet",
       "first-title": "Es läuft nicht alles nach Plan",
       "retry": {
         "button": "Mein Profil zurückschicken",
@@ -2000,7 +2008,7 @@
           "reset-link": "Zum Zurücksetzen hier klicken"
         },
         "title": "Ich habe bereits ein Pix-Konto",
-        "unexpected-user-account-error": "Die E-Mail-Adresse oder der Benutzername ist falsch. Um fortzufahren, musst du dich in dein Konto einloggen, das in der Form :"
+        "unexpected-user-account-error": "Die E-Mail-Adresse oder der Benutzername ist falsch. Um fortzufahren, musst du dich in dein Konto einloggen, das in der Form : "
       },
       "signup-form": {
         "button": "Anmelden",
@@ -2024,7 +2032,7 @@
               "placeholder": "AAAA"
             }
           },
-          "cgu": "Ich akzeptiere die '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'Nutzungsbedingungen von Pix'</a>'.",
+          "cgu": "Ich akzeptiere die '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'Nutzungsbedingungen von Pix'</a>'",
           "email": {
             "error": "Deine E-Mail ist ungültig.",
             "help": "(z.B. nom@exemple.fr)",
@@ -2073,7 +2081,7 @@
         "send": "Profil senden",
         "shared": "Danke, dein Profil wurde erfolgreich gesendet!"
       },
-      "instructions": "Du wirst die in deinem Pix-Profil vorhandene Punktzahl und die Niveausstufen übermitteln. '<br>' Alle Änderungen in deinem Profil nach dieser Übermittlung werden nicht weitergeleitet. '<br>' Denk daran, dies vor dem Versenden zu überprüfen!",
+      "instructions": "Du wirst die in deinem Pix-Profil vorhandene Punktzahl und die Niveausstufen übermitteln. '<br />' Alle Änderungen in deinem Profil nach dieser Übermittlung werden nicht weitergeleitet. '<br />' Denk daran, dies vor dem Versenden zu überprüfen!",
       "title": "Mein Profil senden"
     },
     "shared-certification": {
@@ -2126,7 +2134,7 @@
       "title": "Sitemap"
     },
     "skill-review": {
-      "abstract": "Du beherrscht '<strong>'{rate, number, ::percent}'</strong><br>'der getesteten Kompetenzen.",
+      "abstract": "Du beherrscht '<strong>'{rate, number, ::percent}'</strong><br />'der getesteten Kompetenzen.",
       "abstract-title": "Dein Ergebnis für diesen Kurs",
       "actions": {
         "back-to-pix": "Beenden und zu Pix zurückkehren",
@@ -2211,7 +2219,7 @@
         "recommendedEngine": {
           "starsAcquired": "{acquired} / {total, plural, =0 {Stern} =1 {# Stern} other {# Sterne}}"
         },
-        "starsAcquired": "{acquired, plural, =0 {kein Stern erworben} =1 {# Stern erworben} other {# Sterne erworben}} auf {total}.",
+        "starsAcquired": "{acquired, plural, =0 {kein Stern erworben} =1 {# Stern erworben} other {# Sterne erworben}} auf {total}",
         "title": "Details zu Kompetenzen"
       },
       "tabs": {
@@ -2239,7 +2247,7 @@
       }
     },
     "terms-of-service": {
-      "cgu": "Ich akzeptiere die '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'Nutzungsbedingungen für Pix'</a>'.",
+      "cgu": "Ich akzeptiere die '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\">'Nutzungsbedingungen für Pix'</a>'",
       "form": {
         "button": "Fortfahren",
         "error-message": "Bitte akzeptiere die Nutzungsbedingungen von Pix."
@@ -2252,7 +2260,7 @@
       "primary": "Du hast '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' zur Verfügung, um die nächste Frage zu bestehen.",
       "secondary": "Du kannst danach weiter machen, aber die Frage gilt nicht als bestanden.",
       "time": {
-        "and": " und",
+        "and": " und ",
         "minutes": "{minutes, plural, =0 {} =1 {# Minute} other {# Minuten}}",
         "seconds": "{seconds, plural, =0 {} =1 {# Sekunden} other {# Sekunden}}"
       }
@@ -2269,19 +2277,19 @@
       }
     },
     "tutorial": {
-      "dot-action-description": "Gehe zu Schritt {stepNumber} von {stepsCount}.",
-      "dot-action-title": "Schritt {stepNumber} von {stepsCount}.",
+      "dot-action-description": "Gehe zu Schritt {stepNumber} von {stepsCount}",
+      "dot-action-title": "Schritt {stepNumber} von {stepsCount}",
       "dots-nav-label": "Schritte im Lernprogramm",
       "next": "Weiter zu",
       "next-title": "Nächsten Schritt anzeigen",
       "pages": {
         "page0": {
           "explanation": "Wenn du eine Antwort nicht weißt,\nfindest du sie wahrscheinlich im Internet.",
-          "title": "Du kannst im Internet suchen ..."
+          "title": "Du kannst im Internet suchen …"
         },
         "page1": {
-          "explanation": "Wenn dieses Bild angezeigt wird, verwende nur dein eigenes Wissen!\n Du darfst weder das Internet noch andere Programme verwenden.",
-          "title": "... außer bei bestimmten Fragen"
+          "explanation": "Wenn dieses Bild angezeigt wird, verwende nur dein eigenes Wissen!\nDu darfst weder das Internet noch andere Programme verwenden.",
+          "title": "… außer bei bestimmten Fragen"
         },
         "page2": {
           "explanation": "Nimm dir die Zeit, die du brauchst, um deinen Lernpfad zu beenden.\nWenn eine Frage mit einer Zeitmessung versehen ist, wird dir dies angezeigt.",
@@ -2373,7 +2381,7 @@
           "warning-1": "Bitte beachte, dass das Konto nach der Löschung nicht wiederhergestellt werden kann.",
           "warning-2": "Nach deiner Bestätigung wirst du automatisch abgemeldet und dein Antrag wird sofort bearbeitet."
         },
-        "more-information": "Weitere Informationen,",
+        "more-information": "Weitere Informationen, ",
         "more-information-contact-support": "Du kannst dich an den Support wenden.",
         "title": "Mein Konto endgültig löschen",
         "warning-email": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Kompetenzen, Pfade und {pixScore} Pix, die du erhalten hast, werden für das PIX-Konto, das die E-Mail-Adresse <strong>{email}</strong> verwendet, dauerhaft gelöscht.",
