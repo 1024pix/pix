@@ -1,17 +1,23 @@
 import { AreaForAdmin } from '../../../shared/domain/models/LearningContentForAdmin.js';
 
-const getFrameworkAreas = async function ({
+/** @param {import('./dependencies.js').Dependencies & {
+ *   frameworkId: string
+ *   frameworkName: string
+ *   locale: string
+ * }}
+ */
+export async function getFrameworkAreas({
   frameworkId,
   frameworkName,
   locale,
   sharedAreaRepository,
-  sharedFrameworkRepository,
+  frameworkRepository,
   sharedSkillRepository,
   sharedThematicRepository,
   sharedTubeRepository,
 }) {
   if (!frameworkId) {
-    const framework = await sharedFrameworkRepository.getByName(frameworkName);
+    const framework = await frameworkRepository.getByName(frameworkName);
     frameworkId = framework.id;
   }
 
@@ -42,6 +48,4 @@ const getFrameworkAreas = async function ({
         allSkills: skills,
       }),
   );
-};
-
-export { getFrameworkAreas };
+}

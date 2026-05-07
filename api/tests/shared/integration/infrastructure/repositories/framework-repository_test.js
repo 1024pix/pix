@@ -1,9 +1,7 @@
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as frameworkRepository from '../../../../../src/shared/infrastructure/repositories/framework-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | framework-repository', function () {
   const frameworkData0 = {
@@ -24,31 +22,6 @@ describe('Integration | Repository | framework-repository', function () {
       frameworks: [frameworkData0, frameworkData2, frameworkData1],
     });
     await databaseBuilder.commit();
-  });
-
-  describe('#getByName', function () {
-    it('should return a framework', async function () {
-      // when
-      const framework = await frameworkRepository.getByName('mon framework 1');
-
-      // then
-      const expectedFramework = domainBuilder.buildFramework({ ...frameworkData1, areas: [] });
-      expect(framework).to.deepEqualInstance(expectedFramework);
-    });
-
-    context('when framework is not found', function () {
-      it('should return a rejection', async function () {
-        //given
-        const frameworkName = 'frameworkData123';
-
-        // when
-        const error = await catchErr(frameworkRepository.getByName)(frameworkName);
-
-        // then
-        expect(error).to.be.an.instanceof(NotFoundError);
-        expect(error.message).to.equal('Framework not found for name frameworkData123');
-      });
-    });
   });
 
   describe('#findByRecordIds', function () {
