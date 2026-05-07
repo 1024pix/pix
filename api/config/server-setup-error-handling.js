@@ -4,6 +4,7 @@ import { evaluationDomainErrorMappingConfiguration } from '../src/evaluation/app
 import { authenticationDomainErrorMappingConfiguration } from '../src/identity-access-management/application/http-error-mapper-configuration.js';
 import { legalDocumentsDomainErrorMappingConfiguration } from '../src/legal-documents/application/http-error-mapper-configuration.js';
 import { llmDomainErrorMappingConfiguration } from '../src/llm/application/http-error-mapper-configuration.js';
+import { maddoDomainErrorMappingConfiguration } from '../src/maddo/application/http-error-mapper-configuration.js';
 import { organizationalEntitiesDomainErrorMappingConfiguration } from '../src/organizational-entities/application/http-error-mapper-configuration.js';
 import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription/shared/application/http-error-mapper-configuration.js';
 import { stagesDomainErrorMappingConfiguration } from '../src/prescription/stages/application/http-error-mapper-configuration.js';
@@ -27,6 +28,7 @@ const setupErrorHandling = function (server) {
     ...prescriptionDomainErrorMappingConfiguration,
     ...schoolDomainErrorMappingConfiguration,
     ...profileDomainErrorMappingConfiguration,
+    ...maddoDomainErrorMappingConfiguration,
   ];
 
   const registry = new ErrorMappingRegistry();
