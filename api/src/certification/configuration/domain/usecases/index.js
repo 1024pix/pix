@@ -45,7 +45,6 @@ import { updateVersion } from './update-version.js';
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  * @typedef {frameworkChallengesRepository} FrameworkChallengesRepository
- * @typedef {consolidatedFrameworkRepository} ConsolidatedFrameworkRepository
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  * @typedef {learningContentRepository} LearningContentRepository
  * @typedef {mailService} MailService
