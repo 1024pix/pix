@@ -2288,7 +2288,7 @@
           "title": "Vous pouvez rechercher sur internet ..."
         },
         "page1": {
-          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\nVous ne devez utiliser ni internet ni vos logiciels.",
+          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels.",
           "title": "... sauf pour certaines questions"
         },
         "page2": {
