@@ -77,6 +77,44 @@ describe('Learning Content | Integration | Repositories | Framework', function (
         });
       });
     });
+
+    describe('#findByIds', function () {
+      it('returns frameworks for ids ordered by name', async function () {
+        // given
+        const ids = [frameworkData2.id, frameworkData0.id];
+        const expectedFramework0 = domainBuilder.learningContent.buildFramework(frameworkData0);
+        const expectedFramework2 = domainBuilder.learningContent.buildFramework(frameworkData2);
+
+        // when
+        const frameworks = await frameworkRepository.findByIds(ids);
+
+        // then
+        expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework2]);
+      });
+
+      it('returns frameworks it managed to find once', async function () {
+        // given
+        const ids = [frameworkData2.id, 'recIdCAVA', frameworkData2.id];
+        const expectedFramework2 = domainBuilder.learningContent.buildFramework(frameworkData2);
+
+        // when
+        const frameworks = await frameworkRepository.findByIds(ids);
+
+        // then
+        expect(frameworks).to.deepEqualArray([expectedFramework2]);
+      });
+
+      it('should return an empty array when no frameworks found for ids', async function () {
+        // given
+        const ids = ['recIdCOUCOU', 'recIdCAVA'];
+
+        // when
+        const frameworks = await frameworkRepository.findByIds(ids);
+
+        // then
+        expect(frameworks).to.deepEqualArray([]);
+      });
+    });
   });
 
   describe('#saveMany', function () {

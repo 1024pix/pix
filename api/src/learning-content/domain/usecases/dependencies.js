@@ -1,6 +1,5 @@
 import { lcmsClient } from '../../../shared/infrastructure/lcms-client.js';
 import * as sharedAreaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
-import * as sharedFrameworkRepository from '../../../shared/infrastructure/repositories/framework-repository.js';
 import * as sharedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as sharedThematicRepository from '../../../shared/infrastructure/repositories/thematic-repository.js';
 import * as sharedTubeRepository from '../../../shared/infrastructure/repositories/tube-repository.js';
@@ -30,7 +29,6 @@ export const dependencies = {
   missionRepository,
   moduleRepository,
   sharedAreaRepository,
-  sharedFrameworkRepository,
   sharedSkillRepository,
   sharedThematicRepository,
   sharedTubeRepository,

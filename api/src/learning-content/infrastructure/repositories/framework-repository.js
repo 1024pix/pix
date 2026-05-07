@@ -30,6 +30,11 @@ class FrameworkRepository extends LearningContentRepository {
     return toDomain(frameworkDto);
   }
 
+  async findByIds(ids) {
+    const frameworkDtos = await knex.select('*').from(tableName).whereIn('id', ids).orderBy('name');
+    return frameworkDtos.map(toDomain);
+  }
+
   toDto({ id, name }) {
     return { id, name };
   }

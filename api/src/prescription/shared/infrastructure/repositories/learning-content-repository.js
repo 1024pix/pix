@@ -1,15 +1,16 @@
 import _ from 'lodash';
 
 import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
+import * as frameworksAPI from '../../../../learning-content/application/api/frameworks-api.js';
 import * as campaignRepository from '../../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import { PIX_ORIGIN } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignLearningContent } from '../../../../shared/domain/models/CampaignLearningContent.js';
+import { Framework } from '../../../../shared/domain/models/Framework.js';
 import { LearningContent } from '../../../../shared/domain/models/LearningContent.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
-import * as frameworkRepository from '../../../../shared/infrastructure/repositories/framework-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../../../../shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
@@ -151,12 +152,14 @@ async function _getLearningContentByTubes(tubes, locale) {
   }
 
   const frameworkIds = _.uniq(areas.map((area) => area.frameworkId));
-  const frameworks = await frameworkRepository.findByRecordIds(frameworkIds);
-  for (const framework of frameworks) {
-    framework.areas = areas.filter((area) => {
-      return area.frameworkId === framework.id;
-    });
-  }
+  const frameworkDtos = await frameworksAPI.findByIds({ ids: frameworkIds });
 
-  return frameworks;
+  return frameworkDtos.map(
+    ({ id, name }) =>
+      new Framework({
+        id,
+        name,
+        areas: areas.filter((area) => area.frameworkId === id),
+      }),
+  );
 }
