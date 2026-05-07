@@ -1235,7 +1235,7 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.",
+          "explanation": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.",
           "info": "Vous avez déjà répondu !"
         },
         "header": "vos réponses"
