@@ -645,6 +645,10 @@
       "title": "Test"
     },
     "certificate": {
+      "actions": {
+        "download-attestation": "Descargar certificado",
+        "download-certificate": "Descargar certificado"
+      },
       "back-link": "Volver a mis certificaciones",
       "candidate": "Candidato :",
       "candidate-birth": "Nacido/a el {birthdate}",
@@ -728,10 +732,6 @@
         "share": "Share your certificate",
         "title": "Código de comprobación",
         "tooltip": "Facilita este código para que un tercero pueda comprobar la autenticidad de tu certificado"
-      },
-      "actions": {
-        "download-attestation": "Descargar certificado",
-        "download-certificate": "Descargar certificado"
       }
     },
     "certification-ender": {

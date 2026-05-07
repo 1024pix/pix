@@ -1797,10 +1797,10 @@
           "grain-label": "Grain {index} : {title}",
           "label": "Scegli il grain da testare"
         },
+        "modulix-editor": "Modulix Editor",
         "showJson": "Visualizzare JSON",
         "stepper": "Anteprima: stepper {direction}",
-        "textarea-label": "Contenuto del modulo",
-        "modulix-editor": "Modulix Editor"
+        "textarea-label": "Contenuto del modulo"
       },
       "qab": {
         "correct-answer": "Ottima risposta!",
@@ -1894,10 +1894,10 @@
       "signup-form": {
         "button": "Creo il mio account",
         "claims": {
-          "FrEduFonctAdm": "Funzione amministrativa",
-          "FrEduNumenHash": "Identificatore tecnico",
           "discipline": "Disciplina",
           "employeeNumber": "Numero di dipendenti",
+          "FrEduFonctAdm": "Funzione amministrativa",
+          "FrEduNumenHash": "Identificatore tecnico",
           "population": "Popolazione",
           "rne": "Luogo di lavoro",
           "title": "Funzione"

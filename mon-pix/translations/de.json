@@ -602,10 +602,10 @@
           "description": "Du wirst im Internet recherchieren, deine digitale Arbeitsumgebung nutzen, dein Wissen testen usw.",
           "title": "Miss deine digitalen Kompetenzen mit spielerischen und lernenden Herausforderungen, die sich an deinen Kenntnisstand anpassen (über einen adaptiven Algorithmus)."
         },
+        "exam-notice": "Während dieses Lernpfad wird Ihr Kompetenzprofil weder berücksichtigt noch geändert. Ihre Antworten haben keinen Einfluss auf Ihre Stufen oder Ihre Gesamtpunktzahl bei Pix.",
         "legal": "Wenn du auf \"Beginnen\" klickst, werden die Informationen über deinen Fortschritt auf dem Pfad an den Organisator der Pfade weitergeleitet, damit er dich begleiten kann. Am Ende des Lernpfads werden deine Ergebnisse automatisch an den Organisator weitergeleitet.",
         "title": "Beginne deinen Pix-Lernpfad",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br />' bereit, deine digitalen Kompetenzen zu bewerten?",
-        "exam-notice": "Während dieses Lernpfad wird Ihr Kompetenzprofil weder berücksichtigt noch geändert. Ihre Antworten haben keinen Einfluss auf Ihre Stufen oder Ihre Gesamtpunktzahl bei Pix."
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br />' bereit, deine digitalen Kompetenzen zu bewerten?"
       },
       "profiles-collection": {
         "action": "Los geht's!",
@@ -1901,10 +1901,10 @@
       "signup-form": {
         "button": "Konto erstellen",
         "claims": {
-          "FrEduFonctAdm": "Administrative Funktion",
-          "FrEduNumenHash": "Technische Identifikation",
           "discipline": "Disziplin",
           "employeeNumber": "Nummer des Mitarbeiters",
+          "FrEduFonctAdm": "Administrative Funktion",
+          "FrEduNumenHash": "Technische Identifikation",
           "population": "Bevölkerung",
           "rne": "Zuweisende Einrichtung",
           "title": "Funktion"
