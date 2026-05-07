@@ -1,4 +1,4 @@
-export class LcmsRefreshCacheJob {
+export class RefreshLearningContentJob {
   constructor({ userId }) {
     this.userId = userId;
   }

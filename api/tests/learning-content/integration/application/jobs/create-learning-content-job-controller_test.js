@@ -1,17 +1,17 @@
 import nock from 'nock';
 
-import { LcmsCreateReleaseJobController } from '../../../../../src/learning-content/application/jobs/lcms-create-release-job-controller.js';
+import { CreateLearningContentReleaseJobController } from '../../../../../src/learning-content/application/jobs/create-learning-content-release-job-controller.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Learning Content | Integration | Application | Jobs | Create release', function () {
-  let lcmsCreateReleaseJobController;
+  let controller;
   let lcmsApiCall;
   let newLearningContent;
 
   beforeEach(async function () {
-    lcmsCreateReleaseJobController = new LcmsCreateReleaseJobController();
+    controller = new CreateLearningContentReleaseJobController();
     newLearningContent = {
       frameworks: [
         { id: 'aboutToBeRefreshedFrameworkId', name: 'name About to be refreshed Framework - new' },
@@ -1104,7 +1104,7 @@ describe('Learning Content | Integration | Application | Jobs | Create release',
 
       it("should update learning content in database with what's in the newly created release", async function () {
         // when
-        await lcmsCreateReleaseJobController.handle();
+        await controller.handle();
 
         // then
         const updatedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
@@ -1842,7 +1842,7 @@ describe('Learning Content | Integration | Application | Jobs | Create release',
 
       it('should update nothing', async function () {
         // when
-        await catchErr(lcmsCreateReleaseJobController.handle)();
+        await catchErr(controller.handle)();
 
         // then
         const updatedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');

@@ -1,5 +1,5 @@
 /** @param {import('./dependencies.js').Dependencies} */
-export async function patchLearningContentCacheEntry({
+export async function patchLearningContentEntry({
   recordId,
   updatedRecord,
   modelName,

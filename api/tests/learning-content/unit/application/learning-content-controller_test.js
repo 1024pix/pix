@@ -42,13 +42,13 @@ describe('Learning Content | Unit | Controller | learning-content-controller', f
 
     it('should call the usecase and return 204', async function () {
       // given
-      sinon.stub(usecases, 'patchLearningContentCacheEntry');
+      sinon.stub(usecases, 'patchLearningContentEntry');
 
       // when
       const response = await learningContentController.patchCacheEntry(request, hFake);
 
       // then
-      expect(usecases.patchLearningContentCacheEntry).to.have.been.calledWithExactly({
+      expect(usecases.patchLearningContentEntry).to.have.been.calledWithExactly({
         recordId: 'recId',
         updatedRecord: {
           property: 'updatedValue',
@@ -63,7 +63,7 @@ describe('Learning Content | Unit | Controller | learning-content-controller', f
     context('nominal case', function () {
       it('should reply with http status 202', async function () {
         // given
-        sinon.stub(usecases, 'scheduleRefreshLearningContentCacheJob').resolves();
+        sinon.stub(usecases, 'scheduleRefreshLearningContentJob').resolves();
 
         // when
         const response = await learningContentController.refreshCache(
@@ -78,8 +78,8 @@ describe('Learning Content | Unit | Controller | learning-content-controller', f
         );
 
         // then
-        expect(usecases.scheduleRefreshLearningContentCacheJob).to.have.been.calledOnce;
-        expect(usecases.scheduleRefreshLearningContentCacheJob).to.have.been.calledWithExactly({ userId: 123 });
+        expect(usecases.scheduleRefreshLearningContentJob).to.have.been.calledOnce;
+        expect(usecases.scheduleRefreshLearningContentJob).to.have.been.calledWithExactly({ userId: 123 });
         expect(response.statusCode).to.equal(202);
       });
     });

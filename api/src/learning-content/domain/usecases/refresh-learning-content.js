@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 /** @param {import('./dependencies.js').Dependencies} */
-export async function refreshLearningContentCache({
+export async function refreshLearningContent({
   lcmsClient,
   frameworkRepository,
   areaRepository,

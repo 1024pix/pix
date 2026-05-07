@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 
-import { patchLearningContentCacheEntry } from '../../../../../src/learning-content/domain/usecases/patch-learning-content-cache-entry.js';
+import { patchLearningContentEntry } from '../../../../../src/learning-content/domain/usecases/patch-learning-content-entry.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Learning Content | Unit | Domain | Usecase | Patch learning content cache entry', function () {
+describe('Learning Content | Unit | Domain | Usecase | Patch learning content entry', function () {
   let frameworkRepository,
     areaRepository,
     competenceRepository,
@@ -83,7 +83,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
     };
   });
 
-  describe('#patchLearningContentCacheEntry', function () {
+  describe('#patchLearningContentEntry', function () {
     [
       { modelName: 'frameworks', hasCache: false },
       { modelName: 'areas', hasCache: true },
@@ -107,7 +107,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content ca
 
         it(`should call save and optionally clearCache on appropriate repository`, async function () {
           // when
-          await patchLearningContentCacheEntry({
+          await patchLearningContentEntry({
             recordId,
             updatedRecord,
             modelName,

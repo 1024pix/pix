@@ -1,11 +1,11 @@
 import { JobController } from '../../../shared/application/jobs/job-controller.js';
 import { logger, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
-import { LcmsCreateReleaseJob } from '../../domain/models/LcmsCreateReleaseJob.js';
+import { CreateLearningContentReleaseJob } from '../../domain/models/CreateLearningReleaseJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-export class LcmsCreateReleaseJobController extends JobController {
+export class CreateLearningContentReleaseJobController extends JobController {
   constructor() {
-    super(LcmsCreateReleaseJob.name);
+    super(CreateLearningContentReleaseJob.name);
   }
 
   async handle() {

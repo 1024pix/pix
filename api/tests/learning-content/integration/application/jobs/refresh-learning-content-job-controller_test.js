@@ -1,17 +1,17 @@
 import nock from 'nock';
 
-import { LcmsRefreshCacheJobController } from '../../../../../src/learning-content/application/jobs/lcms-refresh-cache-job-controller.js';
+import { RefreshLearningContentJobController } from '../../../../../src/learning-content/application/jobs/refresh-learning-content-job-controller.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Learning Content | Integration | Application | Jobs | Refresh cache', function () {
-  let lcmsRefreshCacheJobController;
+describe('Learning Content | Integration | Application | Jobs | Refresh', function () {
+  let controller;
   let lcmsApiCall;
   let newLearningContent;
 
   beforeEach(async function () {
-    lcmsRefreshCacheJobController = new LcmsRefreshCacheJobController();
+    controller = new RefreshLearningContentJobController();
     newLearningContent = {
       frameworks: [
         { id: 'aboutToBeRefreshedFrameworkId', name: 'name About to be refreshed Framework - new' },
@@ -1104,7 +1104,7 @@ describe('Learning Content | Integration | Application | Jobs | Refresh cache', 
 
       it("should update learning content in database with what's in the latest release", async function () {
         // when
-        await lcmsRefreshCacheJobController.handle();
+        await controller.handle();
 
         // then
         const refreshedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');
@@ -1843,7 +1843,7 @@ describe('Learning Content | Integration | Application | Jobs | Refresh cache', 
 
       it('should update nothing', async function () {
         // when
-        await catchErr(lcmsRefreshCacheJobController.handle)();
+        await catchErr(controller.handle)();
 
         // then
         const refreshedFrameworks = await knex.select('*').from('learningcontent.frameworks').orderBy('name');

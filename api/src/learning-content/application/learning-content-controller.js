@@ -8,7 +8,7 @@ const createRelease = async function (request, h) {
 
 const refreshCache = async function (request, h) {
   const { userId } = request.auth.credentials;
-  await usecases.scheduleRefreshLearningContentCacheJob({ userId });
+  await usecases.scheduleRefreshLearningContentJob({ userId });
   return h.response({}).code(202);
 };
 
@@ -16,7 +16,7 @@ const patchCacheEntry = async function (request, h) {
   const updatedRecord = request.payload;
   const recordId = request.params.id;
   const modelName = request.params.model;
-  await usecases.patchLearningContentCacheEntry({ recordId, updatedRecord, modelName });
+  await usecases.patchLearningContentEntry({ recordId, updatedRecord, modelName });
   return h.response().code(204);
 };
 

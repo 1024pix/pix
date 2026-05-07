@@ -23,7 +23,7 @@ export class RefreshCache extends Script {
 
   async handle({ logger }) {
     try {
-      await usecases.refreshLearningContentCache();
+      await usecases.refreshLearningContent();
       logger.info('Learning Content refreshed');
     } catch {
       logger.error('Error while reloading cache');

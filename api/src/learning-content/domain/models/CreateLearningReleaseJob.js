@@ -1,4 +1,4 @@
-export class LcmsCreateReleaseJob {
+export class CreateLearningContentReleaseJob {
   constructor({ userId }) {
     this.userId = userId;
   }

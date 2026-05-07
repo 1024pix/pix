@@ -9,8 +9,8 @@ import { challengeRepository } from '../../infrastructure/repositories/challenge
 import { competenceRepository } from '../../infrastructure/repositories/competence-repository.js';
 import { courseRepository } from '../../infrastructure/repositories/course-repository.js';
 import { frameworkRepository } from '../../infrastructure/repositories/framework-repository.js';
-import { lcmsCreateReleaseJobRepository } from '../../infrastructure/repositories/jobs/lcms-create-release-job-repository.js';
-import { lcmsRefreshCacheJobRepository } from '../../infrastructure/repositories/jobs/lcms-refresh-cache-job-repository.js';
+import { createLearningContentReleaseJobRepository } from '../../infrastructure/repositories/jobs/create-learning-content-release-job-repository.js';
+import { refreshLearningContentJobRepository } from '../../infrastructure/repositories/jobs/refresh-learning-content-job-repository.js';
 import { missionRepository } from '../../infrastructure/repositories/mission-repository.js';
 import { moduleRepository } from '../../infrastructure/repositories/module-repository.js';
 import { skillRepository } from '../../infrastructure/repositories/skill-repository.js';
@@ -25,8 +25,8 @@ export const dependencies = {
   courseRepository,
   frameworkRepository,
   lcmsClient,
-  lcmsCreateReleaseJobRepository,
-  lcmsRefreshCacheJobRepository,
+  createLearningContentReleaseJobRepository,
+  refreshLearningContentJobRepository,
   missionRepository,
   moduleRepository,
   sharedAreaRepository,
