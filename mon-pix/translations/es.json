@@ -678,18 +678,18 @@
       "framework-title": {
         "CLEA": "Certificado Pix",
         "CORE": "Certificado Pix",
+        "DROIT": "Certificado Pix+ Derecho",
         "EDU_1ER_DEGRE": "Certificado Pix+ Edu 1.er grado",
         "EDU_2ND_DEGRE": "Certificado Pix+ Edu 2.º grado",
         "EDU_CPE": "Certificado Pix+ Edu CPE",
-        "DROIT": "Certificado Pix+ Derecho",
         "PRO_SANTE": "Certificado Pix+ Profesionales de Salud"
       },
       "frameworks": {
         "EDU": {
           "results-infos": "'<p>'La certificación se desarrolla en dos etapas:'</p><ol><li>'Prueba Pix: acaba de realizarla.'</li><li>'Prueba oral: organizada fuera de Pix ante un tribunal.'</li></ol><p>'Al finalizar la prueba oral, se te otorgará tu nivel de certificación definitivo (Experto, Avanzado, etc.).'<br/>'Contacta con tu centro de certificación para organizar la prueba oral.'</p>'",
+          "results-sub-title": "¡El candidato es admisible para la 2.ª etapa de la certificación Pix+ Édu!",
           "status": "Certificado válido",
-          "sub-title": "¡El candidato es admisible para la 2.ª etapa!",
-          "results-sub-title": "¡El candidato es admisible para la 2.ª etapa de la certificación Pix+ Édu!"
+          "sub-title": "¡El candidato es admisible para la 2.ª etapa!"
         }
       },
       "global": {
@@ -712,12 +712,14 @@
       "jury-info": "Las observaciones del tribunal no se comparten en la página de comprobación de tu certificado.",
       "jury-title": "Observaciones del tribunal",
       "learn-about-certification-results": "¿Cómo interpretar los resultados?",
+      "obtained-certification": "El candidato ha obtenido la certificación {frameworkLabel}",
       "professionalizing-warning": "El certificado Pix está reconocido como cualificación profesional por France Compétences una vez alcanzada una puntuación mínima de 120 pix.",
       "results": {
         "sub-title": "El candidato es admisible para la certificación {framework}.",
         "title": "Lectura del resultado:"
       },
       "title": "Certificado Pix",
+      "valid-status": "Certificado válido",
       "verification-code": {
         "alt": "Copiar",
         "copied": "¡Código copiado!",
@@ -726,9 +728,7 @@
         "share": "Share your certificate",
         "title": "Código de comprobación",
         "tooltip": "Facilita este código para que un tercero pueda comprobar la autenticidad de tu certificado"
-      },
-      "obtained-certification": "El candidato ha obtenido la certificación {frameworkLabel}",
-      "valid-status": "Certificado válido"
+      }
     },
     "certification-ender": {
       "candidate": {
@@ -1684,16 +1684,6 @@
           }
         }
       },
-      "grain": {
-        "tag": {
-          "key-points": "Puntos clave",
-          "activity": "Actividad"
-        },
-        "title": {
-          "lesson": "Lección",
-          "summary": "Resumen"
-        }
-      },
       "flashcards": {
         "answerDirection": "¿Tienes la respuesta?",
         "completed": "Finalizado",
@@ -1708,6 +1698,16 @@
           "shortCurrentStep": "{current}/{total}"
         },
         "position": "{currentCardPosition}Tarjeta /{totalCards}"
+      },
+      "grain": {
+        "tag": {
+          "activity": "Actividad",
+          "key-points": "Puntos clave"
+        },
+        "title": {
+          "lesson": "Lección",
+          "summary": "Resumen"
+        }
       },
       "interactiveElement": {
         "label": "Elemento interactivo"
@@ -1776,15 +1776,15 @@
           },
           "label": "Mostrar ID de los elementos"
         },
-        "modulix-editor": "Modulix Editor",
-        "showJson": "Show JSON",
-        "stepper": "Preview : stepper {direction}",
-        "textarea-label": "Contenido del módulo",
         "grain-select": {
           "button": "Probar el grain",
           "grain-label": "Grain {index} : {title}",
           "label": "Elige el grain a probar"
-        }
+        },
+        "modulix-editor": "Modulix Editor",
+        "showJson": "Show JSON",
+        "stepper": "Preview : stepper {direction}",
+        "textarea-label": "Contenido del módulo"
       },
       "qab": {
         "correct-answer": "Respuesta correcta",
@@ -1879,9 +1879,9 @@
         "button": "Creo una cuenta",
         "description": "Se va a crear una cuenta utilizando la información facilitada por la organización",
         "error": "No hemos podido recuperar tu información de identificación del servicio utilizado. Te invitamos a que te pongas en contacto con el servicio de asistencia informática de esta organización. Nombre: {firstName}",
+        "first-name-label-and-value": "Nombre: {firstName}",
         "last-name-label-and-value": "Apellidos: {lastName}",
-        "title": "No tengo una cuenta Pix",
-        "first-name-label-and-value": "Nombre: {firstName}"
+        "title": "No tengo una cuenta Pix"
       },
       "title": "Crea una cuenta Pix"
     },
@@ -2133,6 +2133,7 @@
         "explanations": {
           "trainings": "Para ayudarte a progresar, echa un vistazo a nuestros cursos de formación recomendados y encuentra los que más le convienen."
         },
+        "hidden-badges": "{ count, plural, =1 {insignia adicional obtenida no mostrada} other {insignias adicionales obtenidas no mostradas} }",
         "mastery-rate": "de éxito en las preguntas",
         "retry": {
           "actions": {
@@ -2145,8 +2146,7 @@
         },
         "see-trainings": "Ver los cursos",
         "shared-message": "Tus resultados se enviaron el {date} a las {time}.",
-        "thanks": "¡Gracias, {name}, por participar!",
-        "hidden-badges": "{ count, plural, =1 {insignia adicional obtenida no mostrada} other {insignias adicionales obtenidas no mostradas} }"
+        "thanks": "¡Gracias, {name}, por participar!"
       },
       "improve": {
         "description": "Puedes volver a intentar algunas de las preguntas",
@@ -2184,11 +2184,11 @@
       "stage": {
         "caption": "Detalles de tus resultados en porcentaje y estrellas según las competencias",
         "masteryPercentage": "{rate, number, ::percent} de éxito",
-        "starsAcquired": "{acquired, plural, =0 {ninguna estrella obtenida} =1 {# estrella obtenida} other {# estrellas obtenidas}} de {total}",
-        "title": "Detalles de las competencias",
         "recommendedEngine": {
           "starsAcquired": "{acquired} / {total, plural, =0 {estrella} =1 {# estrella} other {# estrellas}}"
-        }
+        },
+        "starsAcquired": "{acquired, plural, =0 {ninguna estrella obtenida} =1 {# estrella obtenida} other {# estrellas obtenidas}} de {total}",
+        "title": "Detalles de las competencias"
       },
       "tabs": {
         "aria-label": "3 pestañas con los resultados",
@@ -2296,15 +2296,8 @@
     },
     "user-account": {
       "account-add-or-update-email-with-validation": {
+        "code-reception-information": "Al confirmar tu solicitud para añadir una dirección de correo electrónico, recibirás un código por correo electrónico.",
         "fields": {
-          "errors": {
-            "unknown-error": "Se ha producido un error. Vuelve a intentarlo o ponte en contacto con el servicio de asistencia.",
-            "empty-password": "Tu contraseña no puede estar vacía.",
-            "invalid-email": "Tu dirección de correo electrónico no es válida.",
-            "invalid-or-already-used-email": "Dirección de correo electrónico no válida o ya utilizada",
-            "invalid-password": "La contraseña que has introducido no es válida.",
-            "new-email-already-exist": "Esta dirección de correo electrónico ya se está utilizando."
-          },
           "email": {
             "add-email": {
               "label": "Nueva dirección de correo electrónico"
@@ -2313,12 +2306,19 @@
               "label": "Nueva dirección de correo electrónico"
             }
           },
+          "errors": {
+            "empty-password": "Tu contraseña no puede estar vacía.",
+            "invalid-email": "Tu dirección de correo electrónico no es válida.",
+            "invalid-or-already-used-email": "Dirección de correo electrónico no válida o ya utilizada",
+            "invalid-password": "La contraseña que has introducido no es válida.",
+            "new-email-already-exist": "Esta dirección de correo electrónico ya se está utilizando.",
+            "unknown-error": "Se ha producido un error. Vuelve a intentarlo o ponte en contacto con el servicio de asistencia."
+          },
           "password": {
             "label": "Contraseña",
             "security-information": "La seguridad de tu información personal es esencial. Por ello, tenemos que comprobar que eres el autor de esta solicitud. Introduce tu contraseña para recibir un código de comprobación."
           }
         },
-        "code-reception-information": "Al confirmar tu solicitud para añadir una dirección de correo electrónico, recibirás un código por correo electrónico.",
         "save-button": "Recibir un código de comprobación",
         "title": {
           "add-email": "Añadir una dirección de correo electrónico",
@@ -2327,9 +2327,9 @@
       },
       "connexion-methods": {
         "authentication-methods": {
+          "connection-via": "a través de {identityProviderOrganizationName}",
           "gar": "a través de ENT/Mediacentre",
           "label": "Conexión externa",
-          "connection-via": "a través de {identityProviderOrganizationName}",
           "other-authentication-label": "Otro método de conexión"
         },
         "edit-button": "Modificar",
@@ -2357,6 +2357,7 @@
       },
       "email-confirmed": "Dirección de correo electrónico verificada.",
       "email-verification": {
+        "add-successful": "¡Tu dirección de correo electrónico ya está registrada!",
         "code-explanation-of-use": "Para pasar de un campo a otro, utiliza el tabulador o las flechas izquierda y derecha del teclado. Para rellenar un campo, introduce dígitos del 1 al 9 o utiliza las flechas arriba y abajo del teclado.",
         "code-label": "Campo",
         "code-legend": "Introducir el código de comprobación enviado por correo electrónico",
@@ -2367,14 +2368,13 @@
           "email-modification-demand-expired": "Este código ha caducado. Por favor, renueva la solicitud.",
           "incorrect-code": "El código introducido es incorrecto.",
           "new-email-already-exist": "Esta dirección de correo electrónico ya se está utilizando.",
-          "unknown-error": "Se ha producido un error. Vuelve a intentarlo o ponte en contacto con el servicio de asistencia.",
-          "no-code": "Por favor, introduce el código de {numInputs} dígitos que has recibido por correo electrónico."
+          "no-code": "Por favor, introduce el código de {numInputs} dígitos que has recibido por correo electrónico.",
+          "unknown-error": "Se ha producido un error. Vuelve a intentarlo o ponte en contacto con el servicio de asistencia."
         },
         "send-back-the-code": "volver a enviarme el código",
         "time-code-validation": "El código recibido es válido durante 10 minutos",
         "title": "Comprobación de tu dirección de correo electrónico",
         "update-successful": "Tu dirección de correo electrónico ha sido modificada.",
-        "add-successful": "¡Tu dirección de correo electrónico ya está registrada!",
         "validate-new-email": "Validar nuevo correo electrónico"
       },
       "language": {
@@ -2391,24 +2391,24 @@
     },
     "user-certifications": {
       "meshes": {
-        "EDU_1ER_DEGRE": {
-          "BELOW_MINIMUM": "No admisible",
-          "ADMISSIBLE": "Admisible"
-        },
-        "EDU_2ND_DEGRE": {
-          "BELOW_MINIMUM": "No admisible",
-          "ADMISSIBLE": "Admisible"
-        },
-        "EDU_CPE": {
-          "BELOW_MINIMUM": "No admisible",
-          "ADMISSIBLE": "Admisible"
-        },
         "DROIT": {
           "ADVANCED": "Avanzado",
           "BELOW_MINIMUM": "No obtenido",
           "CONFIRMED": "Confirmado",
           "EXPERT": "Experto",
           "INDEPENDENT": "Independiente"
+        },
+        "EDU_1ER_DEGRE": {
+          "ADMISSIBLE": "Admisible",
+          "BELOW_MINIMUM": "No admisible"
+        },
+        "EDU_2ND_DEGRE": {
+          "ADMISSIBLE": "Admisible",
+          "BELOW_MINIMUM": "No admisible"
+        },
+        "EDU_CPE": {
+          "ADMISSIBLE": "Admisible",
+          "BELOW_MINIMUM": "No admisible"
         },
         "PRO_SANTE": {
           "ADVANCED": "Avanzado",
