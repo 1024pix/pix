@@ -1,5 +1,4 @@
-const getFrameworks = async function ({ sharedFrameworkRepository }) {
-  return sharedFrameworkRepository.list();
-};
-
-export { getFrameworks };
+/** @param {import('./dependencies.js').Dependencies} */
+export async function getFrameworks({ frameworkRepository }) {
+  return frameworkRepository.list();
+}

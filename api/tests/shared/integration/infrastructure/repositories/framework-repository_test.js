@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as frameworkRepository from '../../../../../src/shared/infrastructure/repositories/framework-repository.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -24,30 +24,6 @@ describe('Integration | Repository | framework-repository', function () {
       frameworks: [frameworkData0, frameworkData2, frameworkData1],
     });
     await databaseBuilder.commit();
-  });
-
-  describe('#list', function () {
-    it('should return all frameworks when there are some in DB', async function () {
-      // when
-      const frameworks = await frameworkRepository.list();
-
-      // then
-      const expectedFramework0 = domainBuilder.buildFramework({ ...frameworkData0, areas: [] });
-      const expectedFramework1 = domainBuilder.buildFramework({ ...frameworkData1, areas: [] });
-      const expectedFramework2 = domainBuilder.buildFramework({ ...frameworkData2, areas: [] });
-      expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework1, expectedFramework2]);
-    });
-
-    it('should return an empty array when no frameworks in DB', async function () {
-      // given
-      await knex('learningcontent.frameworks').truncate();
-
-      // when
-      const frameworks = await frameworkRepository.list();
-
-      // then
-      expect(frameworks).to.deep.equal([]);
-    });
   });
 
   describe('#getByName', function () {

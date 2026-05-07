@@ -7,11 +7,6 @@ const TABLE_NAME = 'learningcontent.frameworks';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
-export async function list() {
-  const frameworkDtos = await knex.select('*').from(TABLE_NAME).orderBy('name');
-  return frameworkDtos.map(toDomain);
-}
-
 export async function getByName(name) {
   const frameworkDto = await knex.select('*').from(TABLE_NAME).where('name', name).first();
   if (!frameworkDto) {
