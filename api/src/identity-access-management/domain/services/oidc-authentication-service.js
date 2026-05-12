@@ -336,7 +336,7 @@ export class OidcAuthenticationService {
       )}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
 
       _monitorOidcError(message, {
-        data: { missingFields: missingClaims.join(', '), userInfo },
+        data: { missingFields: missingClaims.join(', '), userInfo, organizationName: this.organizationName },
         event: 'find-missing-required-claims',
       });
 

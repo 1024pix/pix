@@ -872,6 +872,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
               given_name: 'givenName',
               family_name: undefined,
             },
+            organizationName: 'Oidc Example',
           },
           event: 'find-missing-required-claims',
           message: errorMessage,
