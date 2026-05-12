@@ -5,27 +5,29 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
   describe('#serialize', function () {
     it('should convert oidc providers into JSON API data', function () {
       // given
-      const code = 'OIDC_PARTNER';
-      const organizationName = 'Partenaire OIDC';
-      const oidc = {
+      const oidcIdentityProvider = {
+        code: 'OIDC_PARTNER',
+        application: 'app',
+        applicationTld: '.org',
+        organizationName: 'Partenaire OIDC',
         slug: 'oidc-partner',
-        code,
-        organizationName,
         source: 'oidc-external',
         shouldCloseSession: true,
         isVisible: true,
       };
 
       // when
-      const json = serializer.serialize(oidc);
+      const json = serializer.serialize(oidcIdentityProvider);
 
       // then
-      const expectedJSON = {
+      expect(json).to.deep.equal({
         data: {
           type: 'oidc-identity-providers',
           id: 'OIDC_PARTNER',
           attributes: {
             code: 'OIDC_PARTNER',
+            application: 'app',
+            'application-tld': '.org',
             'organization-name': 'Partenaire OIDC',
             slug: 'oidc-partner',
             'should-close-session': true,
@@ -33,8 +35,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
             'is-visible': true,
           },
         },
-      };
-      expect(json).to.deep.equal(expectedJSON);
+      });
     });
   });
 });

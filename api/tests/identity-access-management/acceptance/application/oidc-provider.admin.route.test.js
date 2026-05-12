@@ -102,7 +102,25 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   describe('GET /api/admin/oidc/identity-providers', function () {
     it('returns the list of all oidc providers with an HTTP status code 200', async function () {
       // given
-      await createMockedTestOidcProviders([{ application: 'admin', applicationTld: '.fr' }]);
+      await createMockedTestOidcProviders([
+        {
+          identityProvider: 'IDP',
+          application: 'app',
+          applicationTld: '.fr',
+          organizationName: 'Idp',
+          slug: 'idp',
+          source: 'idp',
+        },
+        {
+          identityProvider: 'IDP_ORGA',
+          application: 'orga',
+          applicationTld: '.fr',
+          organizationName: 'Idp',
+          slug: 'idp',
+          connectionMethodCode: 'IDP_1',
+          source: 'idp',
+        },
+      ]);
       server = await createServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
@@ -119,60 +137,34 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.deep.equal([
-        {
-          type: 'oidc-identity-providers',
-          id: 'OIDC_EXAMPLE_NET',
-          attributes: {
-            code: 'OIDC_EXAMPLE_NET',
-            'organization-name': 'OIDC Example',
-            slug: 'oidc-example-net',
-            'should-close-session': true,
-            source: 'oidcexamplenet',
-            'is-visible': true,
-          },
+      expect(response.result.data.length).to.equal(2);
+      expect(response.result.data.at(0)).to.deep.equal({
+        type: 'oidc-identity-providers',
+        id: 'IDP',
+        attributes: {
+          code: 'IDP',
+          application: 'app',
+          'application-tld': '.fr',
+          'organization-name': 'Idp',
+          slug: 'idp',
+          'should-close-session': true,
+          source: 'idp',
+          'is-visible': true,
         },
-      ]);
-    });
-
-    context('when there is a provider referencing another one with connectionMethodCode setting', function () {
-      it('returns only the referenced oidc provider', async function () {
-        // given
-        await createMockedTestOidcProviders([
-          {
-            identityProvider: 'IDP_1',
-            slug: 'idp-1',
-            source: 'IDP_1',
-            application: 'app',
-            applicationTld: '.fr',
-          },
-          {
-            identityProvider: 'IDP_2',
-            slug: 'idp-2',
-            source: 'IDP_2',
-            application: 'app',
-            applicationTld: '.fr',
-            connectionMethodCode: 'IDP_1',
-          },
-        ]);
-        server = await createServer();
-
-        const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'GET',
-          url: '/api/admin/oidc/identity-providers',
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.length).to.equal(1);
-        expect(response.result.data.at(0).id).to.equal('IDP_1');
+      });
+      expect(response.result.data.at(1)).to.deep.equal({
+        type: 'oidc-identity-providers',
+        id: 'IDP_ORGA',
+        attributes: {
+          code: 'IDP_ORGA',
+          application: 'orga',
+          'application-tld': '.fr',
+          'organization-name': 'Idp',
+          slug: 'idp',
+          'should-close-session': true,
+          source: 'idp',
+          'is-visible': true,
+        },
       });
     });
   });
