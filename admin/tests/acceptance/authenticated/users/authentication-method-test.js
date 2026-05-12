@@ -131,4 +131,45 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
     });
   });
+
+  module('when reassignAuthenticationMethod fails', function () {
+    test('it displays an error message', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      const oidcAuthenticationMethod = server.create('authentication-method', {
+        identityProvider: 'OIDC_PARTNER',
+      });
+      const user = server.create('user', {
+        firstName: 'Raymond',
+        lastName: 'Padechance',
+        authenticationMethods: [oidcAuthenticationMethod],
+      });
+
+      this.server.post(
+        `/admin/users/${user.id}/authentication-methods/${oidcAuthenticationMethod.id}`,
+        () => ({
+          errors: [
+            {
+              status: '422',
+            },
+          ],
+        }),
+        422,
+      );
+
+      // when
+      const screen = await visit(`/users/${user.id}/authentication-methods`);
+
+      await click(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
+
+      await screen.findByRole('dialog');
+
+      await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
+      await click(screen.getByRole('button', { name: 'Valider le déplacement' }));
+
+      // then
+      assert.dom(screen.getByText("L'utilisateur a déjà une méthode de connexion Partenaire OIDC")).exists();
+    });
+  });
 });
