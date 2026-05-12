@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import sinon from 'sinon';
 
 /**
  * Stubs the oidcIdentityProviders service.
@@ -21,8 +20,6 @@ export function stubOidcIdentityProvidersService(owner, { oidcIdentityProviders,
       });
 
       this.featuredIdentityProviderCode = featuredIdentityProviderCode;
-
-      this.shouldDisplayAccountRecoveryBanner = sinon.stub();
     }
 
     load() {
