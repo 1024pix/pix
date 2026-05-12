@@ -17,11 +17,12 @@ const register = async function (server) {
             campaignId: identifiersType.campaignId,
           }),
           query: Joi.object({
-            since: Joi.date().iso(),
+            since: Joi.date().iso().optional(),
             page: Joi.object({
               number: Joi.number().integer().empty('').allow(null).optional(),
               size: Joi.number().integer().max(200).empty('').allow(null).optional(),
             }).default({}),
+            authenticationData: Joi.alternatives(Joi.array().items(Joi.string()), Joi.string()).optional(),
           }),
         },
         pre: [organizationPreHandler, isCampaignInJurisdictionPreHandler],
@@ -44,6 +45,11 @@ const register = async function (server) {
                     authenticationId: Joi.number().description(
                       'Si le participant a du utiliser un service SSO externe pour accéder à la campagne, on retourne son identifiant',
                     ),
+                    authenticationData: Joi.object()
+                      .optional()
+                      .description(
+                        "Données d'authentification du provider demandées via le paramètre de requête `authenticationData`",
+                      ),
                     participantId: Joi.number().description('ID du participant'),
                     participantFirstName: Joi.string().description('Prénom du participant'),
                     participantLastName: Joi.string().description('Nom du participant'),

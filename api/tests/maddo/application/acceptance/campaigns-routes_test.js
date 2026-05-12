@@ -578,5 +578,145 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
         });
       });
     });
+
+    context('when authentication data are requested', function () {
+      let campaign;
+      let authorization;
+
+      beforeEach(async function () {
+        // Build oidc provider
+        const oidcProvider = await databaseBuilder.factory.buildOidcProvider({
+          identityProvider: 'IDENTITY_PROVIDER_EXAMPLE',
+          claimsToStore: 'employeeNumber,population',
+          accessTokenLifespan: '7d',
+          clientId: 'client',
+          clientSecret: 'plainTextSecret',
+          openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+          organizationName: 'Identity Provider Example',
+          redirectUri: 'https://orga.dev.pix.org/connexion/oidc-example-net',
+          scope: 'openid profile campaigns',
+          slug: 'oidc-example-net',
+          source: 'oidcexamplenet',
+        });
+
+        // Build organization
+        const organization = databaseBuilder.factory.buildOrganization({
+          identityProviderForCampaigns: oidcProvider.identityProvider,
+        });
+        const tag = databaseBuilder.factory.buildTag();
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId: tag.id });
+
+        // Build client application for maddo
+        databaseBuilder.factory.buildClientApplication({
+          clientId: 'app-client-id',
+          jurisdiction: { rules: [{ name: 'tags', value: [tag.name] }] },
+        });
+
+        // Build user and authentication method
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+          authenticationComplement: { population: 'MCF', employeeNumber: 'MCFCH' },
+          externalIdentifier: 'externalIdentifier-1',
+          identityProvider: 'IDENTITY_PROVIDER_EXAMPLE',
+          userId,
+        });
+
+        // Build learner in organization
+        const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          userId,
+        });
+
+        // Build campaign and participation
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        const skillId = databaseBuilder.factory.learningContent.buildSkill({ status: 'actif' }).id;
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, targetProfileId });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          status: CampaignParticipationStatuses.SHARED,
+          organizationLearnerId: organizationLearner1.id,
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        authorization = generateValidRequestAuthorizationHeaderForApplication(
+          'app-client-id',
+          'pix-client',
+          'campaigns meta',
+        );
+      });
+
+      it('returns the campaign participations with authentication data', async function () {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/participations?authenticationData=employeeNumber`,
+          headers: { authorization },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.campaignParticipations[0].authenticationData).to.deep.equal({ employeeNumber: 'MCFCH' });
+      });
+
+      context('when no authentication data are requested', function () {
+        it('returns the campaign participations without authentication data', async function () {
+          // when
+          const response = await server.inject({
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/participations`,
+            headers: { authorization },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.campaignParticipations[0].authenticationData).to.deep.equal({});
+        });
+      });
+
+      context('when multiple authentication data are requested', function () {
+        it('returns the campaign participations with multiple authentication data', async function () {
+          // when
+          const response = await server.inject({
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/participations?authenticationData=employeeNumber&authenticationData=population`,
+            headers: { authorization },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.campaignParticipations[0].authenticationData).to.deep.equal({
+            population: 'MCF',
+            employeeNumber: 'MCFCH',
+          });
+        });
+      });
+
+      context('when invalid authentication data are requested', function () {
+        it('returns a bad request error', async function () {
+          // when
+          const response = await server.inject({
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/participations?authenticationData=foo`,
+            headers: { authorization },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
+          expect(JSON.parse(response.payload)).to.deep.equal({
+            errors: [
+              {
+                status: '400',
+                code: 'INVALID_AUTHENTICATION_DATA',
+                title: 'Bad Request',
+                detail: 'Invalid authenticationData, must be some of: employeeNumber, population',
+              },
+            ],
+          });
+        });
+      });
+    });
   });
 });

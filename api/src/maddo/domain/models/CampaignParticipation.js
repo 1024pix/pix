@@ -8,6 +8,7 @@ class CampaignParticipation {
     participantLastName,
     participantExternalId,
     authenticationId,
+    authenticationData,
     status,
     createdAt,
     sharedAt,
@@ -23,6 +24,7 @@ class CampaignParticipation {
     this.id = id;
     this.status = status;
     this.authenticationId = authenticationId ?? null;
+    this.authenticationData = authenticationData;
     this.participantFirstName = participantFirstName;
     this.participantLastName = participantLastName;
     this.participantExternalId = participantExternalId;
