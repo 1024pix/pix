@@ -4,7 +4,7 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
-import * as oidcSerializer from '../../infrastructure/serializers/jsonapi/oidc-serializer.js';
+import * as userOidcAuthenticationRequestSerializer from '../../infrastructure/serializers/jsonapi/user-oidc-authentication-request.serializer.js';
 import { getForwardedOrigin, RequestedApplication } from '../../infrastructure/utils/network.js';
 
 /**
@@ -83,7 +83,7 @@ async function createUser(request, h) {
  * @param dependencies
  * @return {Promise<*>}
  */
-async function findUserForReconciliation(request, h, dependencies = { oidcSerializer }) {
+async function findUserForReconciliation(request, h, dependencies = { userOidcAuthenticationRequestSerializer }) {
   const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
 
   const result = await usecases.findUserForOidcReconciliation({
@@ -93,7 +93,7 @@ async function findUserForReconciliation(request, h, dependencies = { oidcSerial
     authenticationKey,
   });
 
-  return h.response(dependencies.oidcSerializer.serialize(result)).code(200);
+  return h.response(dependencies.userOidcAuthenticationRequestSerializer.serialize(result)).code(200);
 }
 
 /**
