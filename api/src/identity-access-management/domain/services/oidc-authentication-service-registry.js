@@ -32,6 +32,7 @@ export class OidcAuthenticationServiceRegistry {
 
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
     await this.#loadAllOidcProviderServices();
+
     await this.#configureReadyOidcProviderServiceByCode(identityProviderCode);
 
     const oidcProviderServices = await this.getReadyOidcProviderServicesByRequestedApplication(requestedApplication);
