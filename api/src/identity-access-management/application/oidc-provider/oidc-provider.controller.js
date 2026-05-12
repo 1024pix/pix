@@ -83,7 +83,7 @@ async function createUser(request, h) {
  * @param dependencies
  * @return {Promise<*>}
  */
-async function findUserForReconciliation(request, h, dependencies = { userOidcAuthenticationRequestSerializer }) {
+async function findUserForReconciliation(request, h) {
   const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
 
   const result = await usecases.findUserForOidcReconciliation({
@@ -93,7 +93,7 @@ async function findUserForReconciliation(request, h, dependencies = { userOidcAu
     authenticationKey,
   });
 
-  return h.response(dependencies.userOidcAuthenticationRequestSerializer.serialize(result)).code(200);
+  return h.response(userOidcAuthenticationRequestSerializer.serialize(result)).code(200);
 }
 
 /**
