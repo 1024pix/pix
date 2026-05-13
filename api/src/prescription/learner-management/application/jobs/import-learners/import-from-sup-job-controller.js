@@ -4,6 +4,7 @@ import { withTransaction } from '../../../../../shared/domain/DomainTransaction.
 import { DomainError } from '../../../../../shared/domain/errors.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
 import { logger as l } from '../../../../../shared/infrastructure/utils/logger.js';
+import { SUP_IMPORT_TYPES } from '../../../domain/constants.js';
 import { ImportFromSupJob } from '../../../domain/models/jobs/ImportFromSupJob.js';
 import { usecases } from '../../../domain/usecases/index.js';
 
@@ -24,7 +25,7 @@ class ImportFromSupJobController extends JobController {
     const i18n = getI18n(locale);
 
     try {
-      if (type === 'REPLACE_STUDENT') {
+      if (type === SUP_IMPORT_TYPES.REPLACE_STUDENT) {
         const learnerIdsToDelete = await usecases.getDeltaOrganizationLearnerIds({
           organizationImportId,
           i18n,

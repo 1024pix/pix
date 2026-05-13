@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { ImportFromSupJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/import-learners/import-from-sup-job-controller.js';
+import { SUP_IMPORT_TYPES } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
@@ -48,7 +49,7 @@ describe('Unit | Prescription | Application | Jobs | ImportFromSupJobController'
       // given
       const errorStub = sinon.stub();
       const handler = new ImportFromSupJobController({ logger: { error: errorStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'ADDITIONAL_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
 
       // when & then
       await expect(handler.handle({ data })).fulfilled;
@@ -62,7 +63,7 @@ describe('Unit | Prescription | Application | Jobs | ImportFromSupJobController'
       // given
       const errorStub = sinon.stub();
       const handler = new ImportFromSupJobController({ logger: { error: errorStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'ADDITIONAL_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
 
       // when
       const result = await catchErr(handler.handle)({ data });

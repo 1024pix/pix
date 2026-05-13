@@ -1,5 +1,6 @@
 import * as fs from 'node:fs/promises';
 
+import { SUP_IMPORT_TYPES } from '../domain/constants.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
@@ -17,7 +18,7 @@ const importSupOrganizationLearners = async function (request, h, dependencies =
       organizationId,
       userId,
       i18n,
-      type: 'ADDITIONAL_STUDENT',
+      type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
     });
   } catch (error) {
     dependencies.logger.warn(error);
@@ -46,7 +47,7 @@ const replaceSupOrganizationLearners = async function (request, h, dependencies 
       organizationId,
       userId,
       i18n,
-      type: 'REPLACE_STUDENT',
+      type: SUP_IMPORT_TYPES.REPLACE_STUDENT,
     });
   } catch (error) {
     dependencies.logger.warn(error);

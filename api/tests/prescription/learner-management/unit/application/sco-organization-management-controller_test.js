@@ -133,10 +133,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         // given
         request.query.format = 'txt';
         // when
-        const error = await catchErr(scoOrganizationManagementController.uploadSiecleOrFregataFile)(
-          request,
-          hFake,
-        );
+        const error = await catchErr(scoOrganizationManagementController.uploadSiecleOrFregataFile)(request, hFake);
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('INVALID_FILE_EXTENSION');

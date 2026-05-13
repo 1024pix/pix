@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { supOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sup-organization-management-controller.js';
+import { SUP_IMPORT_TYPES } from '../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
@@ -36,7 +37,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         i18n,
       };
       usecases.uploadSupFile
-        .withArgs({ userId, organizationId, payload: request.payload, i18n, type: 'ADDITIONAL_STUDENT' })
+        .withArgs({ userId, organizationId, payload: request.payload, i18n, type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT })
         .resolves();
 
       // when
@@ -105,7 +106,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         i18n,
       };
       usecases.uploadSupFile
-        .withArgs({ userId, organizationId, payload: request.payload, i18n, type: 'REPLACE_STUDENT' })
+        .withArgs({ userId, organizationId, payload: request.payload, i18n, type: SUP_IMPORT_TYPES.REPLACE_STUDENT })
         .resolves();
 
       // when

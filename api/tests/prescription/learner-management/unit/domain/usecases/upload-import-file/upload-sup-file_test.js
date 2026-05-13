@@ -1,6 +1,7 @@
 import iconv from 'iconv-lite';
 import sinon from 'sinon';
 
+import { SUP_IMPORT_TYPES } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { ValidateSupFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSupFileJob.js';
 import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { uploadSupFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/upload-import-file/upload-sup-file.js';
@@ -86,7 +87,7 @@ describe('Unit | UseCase | uploadSupFile', function () {
   context('when there is no error', function () {
     it('should trigger validateSupFileJob with type ADDITIONAL_STUDENT', async function () {
       // given
-      const type = 'ADDITIONAL_STUDENT';
+      const type = SUP_IMPORT_TYPES.ADDITIONAL_STUDENT;
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filename);
       importStorageStub.getParser
         .withArgs({ Parser: SupParser, filename: s3Filename }, organizationId, i18n)
@@ -116,7 +117,7 @@ describe('Unit | UseCase | uploadSupFile', function () {
 
     it('should trigger validateSupFileJob with type REPLACE_STUDENT', async function () {
       // given
-      const type = 'REPLACE_STUDENT';
+      const type = SUP_IMPORT_TYPES.REPLACE_STUDENT;
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filename);
       importStorageStub.getParser
         .withArgs({ Parser: SupParser, filename: s3Filename }, organizationId, i18n)
@@ -153,7 +154,7 @@ describe('Unit | UseCase | uploadSupFile', function () {
         userId,
         organizationId,
         i18n,
-        type: 'ADDITIONAL_STUDENT',
+        type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
         validateSupFileJobRepository: validateSupFileJobRepositoryStub,

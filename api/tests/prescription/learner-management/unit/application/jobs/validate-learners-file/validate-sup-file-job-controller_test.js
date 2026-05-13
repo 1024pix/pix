@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { ValidateSupFileJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/validate-learners-file/validate-sup-file-job-controller.js';
+import { SUP_IMPORT_TYPES } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { SupParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/sup-parser.js';
 import { S3FileDoesNotExistError } from '../../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
@@ -39,7 +40,7 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
       sinon.stub(usecases, 'validateSupFile');
       // given
       const handler = new ValidateSupFileJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'ADDITIONAL_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
 
       // when
       await handler.handle({ data });
@@ -57,7 +58,7 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
       sinon.stub(usecases, 'validateSupFile');
       // given
       const handler = new ValidateSupFileJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'REPLACE_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
 
       // when
       await handler.handle({ data });
@@ -78,7 +79,7 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
       // given
       const warnStub = sinon.stub();
       const handler = new ValidateSupFileJobController({ logger: { warn: warnStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'ADDITIONAL_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
 
       // when
       await handler.handle({ data });
@@ -93,7 +94,7 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
 
       // given
       const handler = new ValidateSupFileJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'ADDITIONAL_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
 
       // when
       const result = await catchErr(handler.handle)({ data });

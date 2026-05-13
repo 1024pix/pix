@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { ImportFromFregataJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/import-learners/import-from-fregata-job-controller.js';
+import { SUP_IMPORT_TYPES } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../../src/shared/domain/errors.js';
@@ -39,7 +40,7 @@ describe('Unit | Prescription | Application | Jobs | ImportFromFregataJobControl
 
       // given
       const handler = new ImportFromFregataJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'REPLACE_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
 
       // when
       await handler.handle({ data });
@@ -59,7 +60,7 @@ describe('Unit | Prescription | Application | Jobs | ImportFromFregataJobControl
       // given
       const errorStub = sinon.stub();
       const handler = new ImportFromFregataJobController({ logger: { error: errorStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'REPLACE_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
 
       // when & then
       await handler.handle({ data });
@@ -73,7 +74,7 @@ describe('Unit | Prescription | Application | Jobs | ImportFromFregataJobControl
 
       // given
       const handler = new ImportFromFregataJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: 'REPLACE_STUDENT' };
+      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
 
       // when
       const result = await catchErr(handler.handle)({ data });
