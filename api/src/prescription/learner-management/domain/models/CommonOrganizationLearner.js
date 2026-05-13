@@ -1,4 +1,4 @@
-import { ReconcileCommonOrganizationLearnerError } from '../errors.js';
+import { ReconcileLearnerFromGenericImportError } from '../errors.js';
 
 class CommonOrganizationLearner {
   constructor({ id, userId, lastName, firstName, organizationId, ...attributes } = {}) {
@@ -27,7 +27,7 @@ class CommonOrganizationLearner {
 
   reconcileUser(userId) {
     if (this.userId) {
-      throw new ReconcileCommonOrganizationLearnerError('USER_ALREADY_RECONCILED');
+      throw new ReconcileLearnerFromGenericImportError('USER_ALREADY_RECONCILED');
     }
     this.userId = userId;
   }

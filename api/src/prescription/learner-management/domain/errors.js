@@ -33,7 +33,7 @@ class OrganizationLearnerImportFormatNotFoundError extends DomainError {
   }
 }
 
-class ReconcileCommonOrganizationLearnerError extends DomainError {
+class ReconcileLearnerFromGenericImportError extends DomainError {
   reason = null;
   constructor(reason) {
     super(`Can't reconcile user (${reason})`);
@@ -67,6 +67,6 @@ export {
   OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerImportFormatNotFoundError,
   OrganizationLearnersCouldNotBeSavedError,
-  ReconcileCommonOrganizationLearnerError,
+  ReconcileLearnerFromGenericImportError,
   SiecleXmlImportError,
 };

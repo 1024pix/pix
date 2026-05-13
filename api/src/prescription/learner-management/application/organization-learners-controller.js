@@ -47,11 +47,11 @@ const uploadGenericFile = async function (request, h) {
   return h.response().code(204);
 };
 
-const reconcileCommonOrganizationLearner = async function (request, h) {
+const reconcileLearnerFromGenericImport = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
   const { organizationId, reconciliationInfos } = request.deserializedPayload;
 
-  await usecases.reconcileCommonOrganizationLearner({
+  await usecases.reconcileLearnerFromGenericImport({
     organizationId,
     userId: authenticatedUserId,
     reconciliationInfos,
@@ -106,7 +106,7 @@ const getOrganizationLearnerFilters = async function (
 };
 
 const organizationLearnersController = {
-  reconcileCommonOrganizationLearner,
+  reconcileLearnerFromGenericImport,
   deleteOrganizationLearners,
   deleteOrganizationLearnerFromAdmin,
   getOrganizationLearnerFilters,

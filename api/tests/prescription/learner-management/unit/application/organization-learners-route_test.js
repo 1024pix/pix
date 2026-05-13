@@ -159,7 +159,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
       headers = generateAuthenticatedUserRequestHeaders({ userId: 666 });
 
       reconcileCommonOrganizationLearnerStub = sinon
-        .stub(organizationLearnersController, 'reconcileCommonOrganizationLearner')
+        .stub(organizationLearnersController, 'reconcileLearnerFromGenericImport')
         .resolves('ok');
 
       httpTestServer = new HttpTestServer();

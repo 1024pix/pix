@@ -190,7 +190,7 @@ const register = async (server) => {
             },
           }),
         },
-        handler: organizationLearnersController.reconcileCommonOrganizationLearner,
+        handler: organizationLearnersController.reconcileLearnerFromGenericImport,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Elle permet de mettre se réconcilier auprès d'une organisation ayant la fonctionnalité d'import.",

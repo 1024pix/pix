@@ -1,4 +1,4 @@
-import { ReconcileCommonOrganizationLearnerError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { ReconcileLearnerFromGenericImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
 import { expect } from '../../../../../test-helper.js';
 
@@ -71,7 +71,7 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
       });
 
       // then
-      expect(() => learner.reconcileUser(1)).to.throw(ReconcileCommonOrganizationLearnerError);
+      expect(() => learner.reconcileUser(1)).to.throw(ReconcileLearnerFromGenericImportError);
     });
 
     it('should update the userId', function () {

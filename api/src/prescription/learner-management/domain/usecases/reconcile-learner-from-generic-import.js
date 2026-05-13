@@ -1,4 +1,4 @@
-import { ReconcileCommonOrganizationLearnerError } from '../errors.js';
+import { ReconcileLearnerFromGenericImportError } from '../errors.js';
 
 /**
  * La réconciliation se passe en 2 étapes :
@@ -6,7 +6,7 @@ import { ReconcileCommonOrganizationLearnerError } from '../errors.js';
  *  2. On identifie le bon prescrit sur la base du nom prénom en utilisant le service de réconciliation
  *     Cela nous permet d'éviter les coquilles typographiques (prénom accentué ou caractère autres qu'alphanumérique...)
 
- * @name reconcileCommonOrganizationLearner
+ * @name reconcileLearnerFromGenericImport
  * @param {Object} params
  * @param {string} params.code
  * @param {number} params.userId
@@ -14,7 +14,7 @@ import { ReconcileCommonOrganizationLearnerError } from '../errors.js';
  *
  * @returns {Promise<void>}
  */
-const reconcileCommonOrganizationLearner = async function ({
+const reconcileLearnerFromGenericImport = async function ({
   organizationId,
   userId,
   reconciliationInfos,
@@ -25,13 +25,13 @@ const reconcileCommonOrganizationLearner = async function ({
 }) {
   const features = await organizationFeatureApi.getAllFeaturesFromOrganization(organizationId);
   if (!features.hasLearnersImportFeature) {
-    throw new ReconcileCommonOrganizationLearnerError('MISSING_IMPORT_FEATURE');
+    throw new ReconcileLearnerFromGenericImportError('MISSING_IMPORT_FEATURE');
   }
 
   const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
 
   if (!importFormat) {
-    throw new ReconcileCommonOrganizationLearnerError('IMPORT_FORMAT_NOT_FOUND');
+    throw new ReconcileLearnerFromGenericImportError('IMPORT_FORMAT_NOT_FOUND');
   }
 
   const transformedReconciliationData = importFormat.transformReconciliationData(reconciliationInfos);
@@ -42,7 +42,7 @@ const reconcileCommonOrganizationLearner = async function ({
   });
 
   if (matchingLearners.length === 0) {
-    throw new ReconcileCommonOrganizationLearnerError('NO_MATCH');
+    throw new ReconcileLearnerFromGenericImportError('NO_MATCH');
   }
 
   const learnerId = userReconciliationService.findMatchingCandidateIdForGivenUser(
@@ -51,7 +51,7 @@ const reconcileCommonOrganizationLearner = async function ({
   );
 
   if (!learnerId) {
-    throw new ReconcileCommonOrganizationLearnerError('NO_MATCH');
+    throw new ReconcileLearnerFromGenericImportError('NO_MATCH');
   }
 
   const learnerToReconcile = matchingLearners.find((matchingLearner) => matchingLearner.id === learnerId);
@@ -60,4 +60,4 @@ const reconcileCommonOrganizationLearner = async function ({
   await organizationLearnerRepository.update(learnerToReconcile);
 };
 
-export { reconcileCommonOrganizationLearner };
+export { reconcileLearnerFromGenericImport };

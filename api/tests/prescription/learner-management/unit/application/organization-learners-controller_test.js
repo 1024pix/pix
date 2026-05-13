@@ -35,11 +35,11 @@ describe('Unit | Prescription | Learner Management | Application | organization-
     });
   });
 
-  describe('#reconcileCommonOrganizationLearner', function () {
+  describe('#reconcileLearnerFromGenericImport', function () {
     let reconcileCommonOrganizationLearnerStub;
 
     beforeEach(function () {
-      reconcileCommonOrganizationLearnerStub = sinon.stub(usecases, 'reconcileCommonOrganizationLearner');
+      reconcileCommonOrganizationLearnerStub = sinon.stub(usecases, 'reconcileLearnerFromGenericImport');
     });
 
     it('called usecases with correct parameters', async function () {
@@ -54,11 +54,11 @@ describe('Unit | Prescription | Learner Management | Application | organization-
         },
       };
 
-      const response = await organizationLearnersController.reconcileCommonOrganizationLearner(request, hFake);
+      const response = await organizationLearnersController.reconcileLearnerFromGenericImport(request, hFake);
 
       expect(
         reconcileCommonOrganizationLearnerStub.calledWithExactly({ userId, organizationId, reconciliationInfos }),
-        'reconcileCommonOrganizationLearner',
+        'reconcileLearnerFromGenericImport',
       ).to.be.true;
       expect(response.statusCode).to.be.equal(204);
     });

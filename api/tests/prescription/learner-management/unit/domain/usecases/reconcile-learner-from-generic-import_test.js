@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { ReconcileCommonOrganizationLearnerError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { ReconcileLearnerFromGenericImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
-import { reconcileCommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/usecases/reconcile-common-organization-learner.js';
+import { reconcileLearnerFromGenericImport } from '../../../../../../src/prescription/learner-management/domain/usecases/reconcile-learner-from-generic-import.js';
 import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | reconcile-common-organization-learner', function () {
+describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
   let organizationId,
     importFormat,
     userId,
@@ -51,7 +51,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       organizationFeatureApi.getAllFeaturesFromOrganization.resolves([]);
 
       // when
-      const error = await catchErr(reconcileCommonOrganizationLearner)({
+      const error = await catchErr(reconcileLearnerFromGenericImport)({
         organizationId,
         userId,
         reconcileInfos,
@@ -62,7 +62,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       });
 
       //then
-      expect(error).to.be.an.instanceOf(ReconcileCommonOrganizationLearnerError);
+      expect(error).to.be.an.instanceOf(ReconcileLearnerFromGenericImportError);
       expect(error.reason).to.equal('MISSING_IMPORT_FEATURE');
     });
   });
@@ -75,7 +75,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
         .resolves({ hasLearnersImportFeature: false });
 
       //when
-      const error = await catchErr(reconcileCommonOrganizationLearner)({
+      const error = await catchErr(reconcileLearnerFromGenericImport)({
         organizationId,
         userId,
         reconcileInfos,
@@ -86,7 +86,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       });
 
       //then
-      expect(error).to.be.an.instanceOf(ReconcileCommonOrganizationLearnerError);
+      expect(error).to.be.an.instanceOf(ReconcileLearnerFromGenericImportError);
       expect(error.reason).to.equal('MISSING_IMPORT_FEATURE');
     });
   });
@@ -100,7 +100,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       organizationLearnerImportFormatRepository.get.resolves(null);
 
       //when
-      const error = await catchErr(reconcileCommonOrganizationLearner)({
+      const error = await catchErr(reconcileLearnerFromGenericImport)({
         organizationId,
         userId,
         reconcileInfos,
@@ -111,7 +111,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       });
 
       //then
-      expect(error).to.be.an.instanceOf(ReconcileCommonOrganizationLearnerError);
+      expect(error).to.be.an.instanceOf(ReconcileLearnerFromGenericImportError);
       expect(error.reason).to.equal('IMPORT_FORMAT_NOT_FOUND');
     });
   });
@@ -136,7 +136,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
           .resolves([]);
 
         //when
-        const error = await catchErr(reconcileCommonOrganizationLearner)({
+        const error = await catchErr(reconcileLearnerFromGenericImport)({
           organizationId,
           userId,
           reconcileInfos,
@@ -147,7 +147,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
         });
 
         //then
-        expect(error).to.be.an.instanceOf(ReconcileCommonOrganizationLearnerError);
+        expect(error).to.be.an.instanceOf(ReconcileLearnerFromGenericImportError);
         expect(error.reason).to.equal('NO_MATCH');
       });
     });
@@ -170,7 +170,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
           .withArgs(matchingLearners, reconcilePayload)
           .returns(null);
         //when
-        const error = await catchErr(reconcileCommonOrganizationLearner)({
+        const error = await catchErr(reconcileLearnerFromGenericImport)({
           organizationId,
           userId,
           reconcileInfos,
@@ -182,7 +182,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
         });
 
         //then
-        expect(error).to.be.an.instanceOf(ReconcileCommonOrganizationLearnerError);
+        expect(error).to.be.an.instanceOf(ReconcileLearnerFromGenericImportError);
         expect(error.reason).to.equal('NO_MATCH');
       });
     });
@@ -213,7 +213,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
         organizationLearnerRepository.update.withArgs(learner).resolves();
 
         //when
-        const result = await reconcileCommonOrganizationLearner({
+        const result = await reconcileLearnerFromGenericImport({
           organizationId,
           userId,
           reconcileInfos,

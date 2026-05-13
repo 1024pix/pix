@@ -93,7 +93,7 @@ import { importLearnersFromFregataFile } from './import-learners/import-learners
 import { importLearnersFromGenericFile } from './import-learners/import-learners-from-generic-file.js';
 import { importLearnersFromSiecleFile } from './import-learners/import-learners-from-siecle-file.js';
 import { importLearnersFromSupFile } from './import-learners/import-learners-from-sup-file.js';
-import { reconcileCommonOrganizationLearner } from './reconcile-common-organization-learner.js';
+import { reconcileLearnerFromGenericImport } from './reconcile-learner-from-generic-import.js';
 import { reconcileScoOrganizationLearnerAutomatically } from './reconcile-sco-organization-learner-automatically.js';
 import { reconcileScoOrganizationLearnerManually } from './reconcile-sco-organization-learner-manually.js';
 import { reconcileSupOrganizationLearner } from './reconcile-sup-organization-learner.js';
@@ -128,7 +128,7 @@ const usecasesWithoutInjectedDependencies = {
   hasBeenLearner,
   importLearnersFromFregataFile,
   importLearnersFromSupFile,
-  reconcileCommonOrganizationLearner,
+  reconcileLearnerFromGenericImport,
   reconcileScoOrganizationLearnerAutomatically,
   reconcileScoOrganizationLearnerManually,
   reconcileSupOrganizationLearner,
