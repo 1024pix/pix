@@ -1,15 +1,15 @@
 import iconv from 'iconv-lite';
 import sinon from 'sinon';
 
-import { ValidateFregataFileJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateFregataFileJob.js';
-import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
-import { uploadFregataFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-fregata-file.js';
-import { FregataParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/fregata-parser.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
-import { createTempFile, removeTempFile } from '../../../../../tooling/test-utils/file.js';
+import { ValidateFregataFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateFregataFileJob.js';
+import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
+import { uploadFregataFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/upload-import-file/upload-fregata-file.js';
+import { FregataParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/fregata-parser.js';
+import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
+import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
+import { expect } from '../../../../../../test-helper.js';
+import { catchErr } from '../../../../../../tooling/test-utils/error.js';
+import { createTempFile, removeTempFile } from '../../../../../../tooling/test-utils/file.js';
 
 const i18n = getI18n();
 

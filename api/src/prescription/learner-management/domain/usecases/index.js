@@ -100,10 +100,10 @@ import { reconcileSupOrganizationLearner } from './reconcile-sup-organization-le
 import { saveOrganizationLearnerImportFormats } from './save-organization-learner-import-formats.js';
 import { updateOrganizationLearnerName } from './update-organization-learner-name.js';
 import { updateStudentNumber } from './update-student-number.js';
-import { uploadFregataFile } from './upload-fregata-file.js';
-import { uploadSupFile } from './upload-sup-file.js';
-import { uploadGenericFile } from './upload-generic-file.js';
-import { uploadSiecleFile } from './upload-siecle-file.js';
+import { uploadFregataFile } from './upload-import-file/upload-fregata-file.js';
+import { uploadGenericFile } from './upload-import-file/upload-generic-file.js';
+import { uploadSiecleFile } from './upload-import-file/upload-siecle-file.js';
+import { uploadSupFile } from './upload-import-file/upload-sup-file.js';
 import { validateFregataFile } from './validate-learners-file/validate-fregata-file.js';
 import { validateGenericFile } from './validate-learners-file/validate-generic-file.js';
 import { validateSiecleFile } from './validate-learners-file/validate-siecle-file.js';

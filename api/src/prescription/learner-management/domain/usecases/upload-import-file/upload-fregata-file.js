@@ -1,16 +1,15 @@
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { SupParser } from '../../infrastructure/serializers/csv/parsers/sup-parser.js';
-import { ValidateSupFileJob } from '../models/jobs/ValidateSupFileJob.js';
-import { OrganizationImportStatus } from '../models/OrganizationImportStatus.js';
+import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
+import { FregataParser } from '../../../infrastructure/serializers/csv/parsers/fregata-parser.js';
+import { ValidateFregataFileJob } from '../../models/jobs/ValidateFregataFileJob.js';
+import { OrganizationImportStatus } from '../../models/OrganizationImportStatus.js';
 
-const uploadSupFile = async function ({
+const uploadFregataFile = async function ({
   payload,
   userId,
   organizationId,
-  type,
   i18n,
   organizationImportRepository,
-  validateSupFileJobRepository,
+  validateFregataFileJobRepository,
   importStorage,
 }) {
   const organizationImportId = await DomainTransaction.execute(async () => {
@@ -26,7 +25,7 @@ const uploadSupFile = async function ({
     try {
       filename = await importStorage.sendFile({ filepath: payload.path });
 
-      const parserEncoding = await importStorage.getParser({ Parser: SupParser, filename }, organizationId, i18n);
+      const parserEncoding = await importStorage.getParser({ Parser: FregataParser, filename }, organizationId, i18n);
       encoding = parserEncoding.getFileEncoding();
 
       return organizationImport.id;
@@ -39,9 +38,9 @@ const uploadSupFile = async function ({
     }
   });
 
-  await validateSupFileJobRepository.performAsync(
-    new ValidateSupFileJob({ organizationImportId, type, locale: i18n.getLocale() }),
+  await validateFregataFileJobRepository.performAsync(
+    new ValidateFregataFileJob({ organizationImportId, locale: i18n.getLocale() }),
   );
 };
 
-export { uploadSupFile };
+export { uploadFregataFile };

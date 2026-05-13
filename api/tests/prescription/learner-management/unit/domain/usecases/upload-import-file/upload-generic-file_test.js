@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { AggregateImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
-import { ValidateGenericFileJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateGenericFileJob.js';
-import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
-import { uploadGenericFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-generic-file.js';
-import { GenericParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
-import { expect } from '../../../../../test-helper.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { ValidateGenericFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateGenericFileJob.js';
+import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
+import { uploadGenericFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/upload-import-file/upload-generic-file.js';
+import { GenericParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
+import { expect } from '../../../../../../test-helper.js';
+import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | uploadGenericFile', function () {
   let organizationImportRepositoryStub,

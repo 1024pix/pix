@@ -2,11 +2,11 @@ import fs from 'node:fs/promises';
 
 import sinon from 'sinon';
 
-import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
-import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../test-helper.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
+import { uploadSiecleFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/upload-import-file/upload-siecle-file.js';
+import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
+import { expect } from '../../../../../../test-helper.js';
+import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | upload-siecle-file', function () {
   const userId = 123;
