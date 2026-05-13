@@ -9,7 +9,7 @@ import * as scoOrganizationLearnerSerializer from '../infrastructure/serializers
 
 const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
 
-const importOrganizationLearnersFromSIECLE = async function (request, h, dependencies = { logger }) {
+const uploadSiecleOrFregataFile = async function (request, h, dependencies = { logger }) {
   const i18n = getI18nFromRequest(request);
 
   const authenticatedUserId = request.auth.credentials.userId;
@@ -87,7 +87,7 @@ const reconcileScoOrganizationLearnerManually = async function (
 };
 
 const scoOrganizationManagementController = {
-  importOrganizationLearnersFromSIECLE,
+  uploadSiecleOrFregataFile,
   reconcileScoOrganizationLearnerManually,
 };
 

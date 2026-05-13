@@ -18,7 +18,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
         .callsFake((request, h) => h.response(true));
       sinon
-        .stub(scoOrganizationManagementController, 'importOrganizationLearnersFromSIECLE')
+        .stub(scoOrganizationManagementController, 'uploadSiecleOrFregataFile')
         .callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -27,7 +27,7 @@ describe('Unit | Router | organization-router', function () {
       const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(scoOrganizationManagementController.importOrganizationLearnersFromSIECLE).to.have.been.calledOnce;
+      expect(scoOrganizationManagementController.uploadSiecleOrFregataFile).to.have.been.calledOnce;
       expect(response.statusCode).to.equal(201);
     });
 

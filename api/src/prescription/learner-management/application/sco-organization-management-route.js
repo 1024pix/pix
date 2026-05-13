@@ -67,13 +67,16 @@ const register = async function (server) {
             const authenticatedUserId = request.auth.credentials.userId;
             const organizationId = request.params.id;
             try {
-              await usecases.handlePayloadTooLargeError({ organizationId, userId: authenticatedUserId });
+              await usecases.handlePayloadTooLargeError({
+                organizationId,
+                userId: authenticatedUserId,
+              });
             } catch (error) {
               return sendJsonApiError(error, h);
             }
           },
         },
-        handler: scoOrganizationManagementController.importOrganizationLearnersFromSIECLE,
+        handler: scoOrganizationManagementController.uploadSiecleOrFregataFile,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
             "- Elle permet d'importer des inscriptions d'élèves, en masse, depuis un fichier au format XML ou CSV de SIECLE\n" +
