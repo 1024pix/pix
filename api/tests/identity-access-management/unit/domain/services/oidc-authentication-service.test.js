@@ -365,7 +365,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const sessionState = 'sessionState';
         const state = 'state';
 
-        const errorThrown = new Error('A low-level server error with potential information');
+        const errorThrown = new Error('A low-level server error with potential information', {
+          cause: new Error('An optional cause'),
+        });
         errorThrown.error_uri = '/oauth2/token';
         errorThrown.response = 'api call response here';
         openidClient.authorizationCodeGrant.callsFake(() => {
@@ -409,6 +411,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             name: errorThrown.name,
             message: errorThrown.message,
             stack: sinon.match.string,
+            cause: sinon.match.any,
+            causeStack: sinon.match.any,
             errorUri: '/oauth2/token',
             response: 'api call response here',
           },

@@ -365,6 +365,8 @@ function _monitorOidcError(message, { data, error, event, startDate }) {
       name: error.constructor.name,
       message: error.message,
       stack: error.stack,
+      ...(error.cause && { cause: error.cause }),
+      ...(error.cause?.stack && { causeStack: error.cause.stack }),
       ...(error.error_uri && { errorUri: error.error_uri }),
       ...(error.response && { response: error.response }),
     };
