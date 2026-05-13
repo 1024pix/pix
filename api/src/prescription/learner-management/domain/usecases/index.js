@@ -100,7 +100,8 @@ import { reconcileSupOrganizationLearner } from './reconcile-sup-organization-le
 import { saveOrganizationLearnerImportFormats } from './save-organization-learner-import-formats.js';
 import { updateOrganizationLearnerName } from './update-organization-learner-name.js';
 import { updateStudentNumber } from './update-student-number.js';
-import { uploadCsvFile } from './upload-csv-file.js';
+import { uploadFregataFile } from './upload-fregata-file.js';
+import { uploadSupFile } from './upload-sup-file.js';
 import { uploadGenericFile } from './upload-generic-file.js';
 import { uploadSiecleFile } from './upload-siecle-file.js';
 import { validateFregataFile } from './validate-learners-file/validate-fregata-file.js';
@@ -135,7 +136,8 @@ const usecasesWithoutInjectedDependencies = {
   saveOrganizationLearnerImportFormats,
   updateOrganizationLearnerName,
   updateStudentNumber,
-  uploadCsvFile,
+  uploadFregataFile,
+  uploadSupFile,
   uploadSiecleFile,
   validateFregataFile,
   validateSupFile,

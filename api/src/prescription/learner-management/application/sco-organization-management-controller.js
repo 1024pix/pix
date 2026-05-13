@@ -4,7 +4,6 @@ import { FileValidationError } from '../../../../src/shared/domain/errors.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
-import { FregataParser } from '../infrastructure/serializers/csv/parsers/fregata-parser.js';
 import * as scoOrganizationLearnerSerializer from '../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 
 const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
@@ -27,12 +26,10 @@ const uploadSiecleOrFregataFile = async function (request, h, dependencies = { l
         payload: request.payload,
       });
     } else if (format === 'csv') {
-      await usecases.uploadCsvFile({
-        Parser: FregataParser,
+      await usecases.uploadFregataFile({
         payload: request.payload,
         organizationId,
         userId,
-        type: 'FREGATA',
         i18n,
       });
     }

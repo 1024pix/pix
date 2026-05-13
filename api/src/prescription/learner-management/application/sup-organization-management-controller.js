@@ -4,7 +4,6 @@ import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
-import { SupParser } from '../infrastructure/serializers/csv/parsers/sup-parser.js';
 
 const importSupOrganizationLearners = async function (request, h, dependencies = { logger, unlink: fs.unlink }) {
   const i18n = getI18nFromRequest(request);
@@ -13,8 +12,7 @@ const importSupOrganizationLearners = async function (request, h, dependencies =
   const userId = request.auth.credentials.userId;
 
   try {
-    await usecases.uploadCsvFile({
-      Parser: SupParser,
+    await usecases.uploadSupFile({
       payload: request.payload,
       organizationId,
       userId,
@@ -43,8 +41,7 @@ const replaceSupOrganizationLearners = async function (request, h, dependencies 
   const organizationId = request.params.organizationId;
 
   try {
-    await usecases.uploadCsvFile({
-      Parser: SupParser,
+    await usecases.uploadSupFile({
       payload: request.payload,
       organizationId,
       userId,

@@ -1,10 +1,9 @@
 import iconv from 'iconv-lite';
 import sinon from 'sinon';
 
-import { ValidateFregataFileJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateFregataFileJob.js';
 import { ValidateSupFileJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSupFileJob.js';
 import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
-import { uploadCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-csv-file.js';
+import { uploadSupFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-sup-file.js';
 import { SupHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/headers/sup-header.js';
 import { SupParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/sup-parser.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
@@ -17,7 +16,7 @@ const i18n = getI18n();
 
 const supOrganizationLearnerImportHeader = new SupHeader(i18n).columns.map((column) => column.name).join(';');
 
-describe('Unit | UseCase | uploadCsvFile', function () {
+describe('Unit | UseCase | uploadSupFile', function () {
   const organizationId = 1;
   const userId = 2;
   let timer,
@@ -28,7 +27,6 @@ describe('Unit | UseCase | uploadCsvFile', function () {
     filepath,
     s3Filename,
     csvContent,
-    validateFregataFileJobRepositoryStub,
     validateSupFileJobRepositoryStub,
     organizationImportStub,
     organizationImportSavedStub,
@@ -77,7 +75,6 @@ describe('Unit | UseCase | uploadCsvFile', function () {
       .withArgs(organizationId)
       .resolves(organizationImportSavedStub);
 
-    validateFregataFileJobRepositoryStub = { performAsync: sinon.stub() };
     validateSupFileJobRepositoryStub = { performAsync: sinon.stub() };
   });
 
@@ -86,40 +83,8 @@ describe('Unit | UseCase | uploadCsvFile', function () {
     await removeTempFile(filepath);
   });
 
-  context('when there is no errors', function () {
-    it('should trigger validateFregataFileJob when type is FREGATA', async function () {
-      // given
-      importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filename);
-      importStorageStub.getParser
-        .withArgs({ Parser: SupParser, filename: s3Filename }, organizationId, i18n)
-        .resolves(SupParser.buildParser(csvContent, organizationId, i18n));
-
-      // when
-      await uploadCsvFile({
-        Parser: SupParser,
-        payload,
-        userId,
-        organizationId,
-        i18n,
-        type: 'FREGATA',
-        organizationImportRepository: organizationImportRepositoryStub,
-        importStorage: importStorageStub,
-        validateFregataFileJobRepository: validateFregataFileJobRepositoryStub,
-        validateSupFileJobRepository: validateSupFileJobRepositoryStub,
-      });
-
-      // then
-      expect(organizationImportRepositoryStub.save.getCall(0)).to.have.been.calledWithExactly(organizationImportStub);
-      expect(organizationImportRepositoryStub.save.getCall(1)).to.have.been.calledWithExactly(
-        organizationImportSavedStub,
-      );
-      expect(validateFregataFileJobRepositoryStub.performAsync).to.have.been.calledWithExactly(
-        new ValidateFregataFileJob({ organizationImportId, locale: i18n.getLocale() }),
-      );
-      expect(validateSupFileJobRepositoryStub.performAsync).not.called;
-    });
-
-    it('should trigger validateSupFileJob when type is not FREGATA', async function () {
+  context('when there is no error', function () {
+    it('should trigger validateSupFileJob with type ADDITIONAL_STUDENT', async function () {
       // given
       const type = 'ADDITIONAL_STUDENT';
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filename);
@@ -128,8 +93,7 @@ describe('Unit | UseCase | uploadCsvFile', function () {
         .resolves(SupParser.buildParser(csvContent, organizationId, i18n));
 
       // when
-      await uploadCsvFile({
-        Parser: SupParser,
+      await uploadSupFile({
         payload,
         userId,
         organizationId,
@@ -137,7 +101,36 @@ describe('Unit | UseCase | uploadCsvFile', function () {
         type,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
-        validateFregataFileJobRepository: validateFregataFileJobRepositoryStub,
+        validateSupFileJobRepository: validateSupFileJobRepositoryStub,
+      });
+
+      // then
+      expect(organizationImportRepositoryStub.save.getCall(0)).to.have.been.calledWithExactly(organizationImportStub);
+      expect(organizationImportRepositoryStub.save.getCall(1)).to.have.been.calledWithExactly(
+        organizationImportSavedStub,
+      );
+      expect(validateSupFileJobRepositoryStub.performAsync).to.have.been.calledWithExactly(
+        new ValidateSupFileJob({ organizationImportId, type, locale: i18n.getLocale() }),
+      );
+    });
+
+    it('should trigger validateSupFileJob with type REPLACE_STUDENT', async function () {
+      // given
+      const type = 'REPLACE_STUDENT';
+      importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filename);
+      importStorageStub.getParser
+        .withArgs({ Parser: SupParser, filename: s3Filename }, organizationId, i18n)
+        .resolves(SupParser.buildParser(csvContent, organizationId, i18n));
+
+      // when
+      await uploadSupFile({
+        payload,
+        userId,
+        organizationId,
+        i18n,
+        type,
+        organizationImportRepository: organizationImportRepositoryStub,
+        importStorage: importStorageStub,
         validateSupFileJobRepository: validateSupFileJobRepositoryStub,
       });
 
@@ -145,29 +138,25 @@ describe('Unit | UseCase | uploadCsvFile', function () {
       expect(validateSupFileJobRepositoryStub.performAsync).to.have.been.calledWithExactly(
         new ValidateSupFileJob({ organizationImportId, type, locale: i18n.getLocale() }),
       );
-      expect(validateFregataFileJobRepositoryStub.performAsync).not.called;
     });
   });
 
   context('when there is an upload error', function () {
-    it('save UPLOAD_ERROR state in database', async function () {
+    it('should save UPLOAD_ERROR state in database', async function () {
       // given
       const errorS3 = new Error('s3ErrorUpload');
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).rejects(errorS3);
 
-      importStorageStub.getParser
-        .withArgs({ Parser: SupParser, filename: s3Filename }, organizationId, i18n)
-        .resolves(SupParser.buildParser(csvContent, organizationId, i18n));
-
       // when
-      await catchErr(uploadCsvFile)({
-        Parser: SupParser,
+      await catchErr(uploadSupFile)({
         payload,
         userId,
         organizationId,
         i18n,
+        type: 'ADDITIONAL_STUDENT',
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
+        validateSupFileJobRepository: validateSupFileJobRepositoryStub,
       });
 
       // then

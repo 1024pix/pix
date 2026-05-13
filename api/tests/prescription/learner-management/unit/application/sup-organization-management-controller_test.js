@@ -21,13 +21,13 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     i18n = Symbol('i18n');
     userId = Symbol('userId');
 
-    sinon.stub(usecases, 'uploadCsvFile');
+    sinon.stub(usecases, 'uploadSupFile');
     loggerStub = { error: sinon.stub() };
     unlinkStub = sinon.stub();
   });
 
   context('#importLearnersFromSupFile', function () {
-    it('should call uploadCsvFile usecase and return 200', async function () {
+    it('should call uploadSupFile usecase and return 200', async function () {
       const params = { id: organizationId };
       const request = {
         auth: { credentials: { userId } },
@@ -35,7 +35,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile
+      usecases.uploadSupFile
         .withArgs({ userId, organizationId, payload: request.payload, i18n, type: 'ADDITIONAL_STUDENT' })
         .resolves();
 
@@ -59,7 +59,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.rejects();
+      usecases.uploadSupFile.rejects();
 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
@@ -104,7 +104,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile
+      usecases.uploadSupFile
         .withArgs({ userId, organizationId, payload: request.payload, i18n, type: 'REPLACE_STUDENT' })
         .resolves();
 
@@ -128,7 +128,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.rejects();
+      usecases.uploadSupFile.rejects();
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
