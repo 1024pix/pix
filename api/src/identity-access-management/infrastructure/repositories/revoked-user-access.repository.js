@@ -12,9 +12,10 @@ const revokedUserAccessLifespanMs = config.authentication.revokedUserAccessLifes
  *
  * @param {Object} params - The params object.
  * @param {string} params.userId - The ID of the user to revoke access for.
+ * @param {string} [params.sessionId] - aaaa
  * @param {Date} params.revokeUntil - The date until the user's access should be revoked.
  */
-const saveForUser = async function ({ userId, revokeUntil }) {
+const revokeAll = async function ({ userId, revokeUntil }) {
   if (!userId) {
     throw new UserIdIsRequiredError();
   }
@@ -24,10 +25,22 @@ const saveForUser = async function ({ userId, revokeUntil }) {
   }
 
   await revokedUserAccessTemporaryStorage.save({
-    key: userId,
+    key: `${userId}:all`,
     value: Math.floor(revokeUntil.getTime() / 1000),
     expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
   });
+};
+
+const revokeSession = async function ({ userId, sessionId }) {
+  if (!userId) {
+    throw new UserIdIsRequiredError();
+  }
+
+  await revokedUserAccessTemporaryStorage.save({
+    key: `${userId}:${sessionId}`,
+    value: sessionId,
+    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
+  };
 };
 
 /**
@@ -36,9 +49,16 @@ const saveForUser = async function ({ userId, revokeUntil }) {
  * @param {string} userId - The ID of the user to retrieve the revocation date for.
  * @returns {Promise<RevokedUserAccess>} - The revoked user access object.
  */
-const findByUserId = async function (userId) {
-  const value = await revokedUserAccessTemporaryStorage.get(userId);
-  return new RevokedUserAccess(value);
+const findByUserId = async function ({ userId }) {
+  let redisKey
+  if (FT) {
+    redisKey = `${userId} * `
+  } else {
+    redisKey = userId
+  }
+  const values = await revokedUserAccessTemporaryStorage.get(redisKey);
+  return new RevokedUserAccess(values);
 };
 
 export const revokedUserAccessRepository = { saveForUser, findByUserId };
+

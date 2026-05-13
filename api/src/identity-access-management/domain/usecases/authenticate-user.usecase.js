@@ -67,13 +67,16 @@ const authenticateUser = async function ({
 
     await _assertAccessToRequestedApplication({ requestedApplication, user, adminMemberRepository });
 
-    const refreshToken = RefreshToken.generate({ userId: user.id, source, audience });
+    const sessionId = new SessionId()
+
+    const refreshToken = RefreshToken.generate({ userId: user.id, source, audience, sessionId });
     await refreshTokenRepository.save({ refreshToken });
 
     const { accessToken, expirationDelaySeconds } = UserAccessToken.generateUserToken({
       userId: user.id,
       source,
       audience,
+      sessionId,
     });
 
     await _updateUserLocaleIfNeeded({ user, locale, userRepository });

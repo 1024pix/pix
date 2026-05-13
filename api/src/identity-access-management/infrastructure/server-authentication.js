@@ -63,11 +63,12 @@ const strategies = {
 
 async function validateUserAccessToken(decodedAccessToken, { request, revokedUserAccessRepository }) {
   const userId = decodedAccessToken.user_id;
+  const sessionId = decodedAccessToken.sid;
   if (!userId) {
     return { isValid: false };
   }
 
-  const revokedUserAccess = await revokedUserAccessRepository.findByUserId(userId);
+  const revokedUserAccess = await revokedUserAccessRepository.findByUserId({ userId, sessionId });
   if (revokedUserAccess.isAccessTokenRevoked(decodedAccessToken)) {
     logger.warn({
       message: 'Revoked user AccessToken usage',

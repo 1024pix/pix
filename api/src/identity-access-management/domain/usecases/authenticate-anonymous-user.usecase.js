@@ -31,6 +31,6 @@ export const authenticateAnonymousUser = async function ({
   const userToCreate = UserToCreate.createAnonymous({ lang, locale });
   const anonymousUser = await userToCreateRepository.create({ user: userToCreate });
 
-  const { accessToken } = UserAccessToken.generateAnonymousUserToken({ userId: anonymousUser.id, audience });
+  const { accessToken } = UserAccessToken.generateAnonymousUserToken({ userId: anonymousUser.id, audience, sessionId });
   return accessToken;
 };

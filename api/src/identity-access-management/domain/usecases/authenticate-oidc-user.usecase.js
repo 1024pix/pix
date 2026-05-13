@@ -102,7 +102,7 @@ async function authenticateOidcUser({
 
   await _updateUserLocaleIfNeeded({ user, locale, userRepository });
 
-  const pixAccessToken = oidcAuthenticationService.createAccessToken({ userId: user.id, audience });
+  const pixAccessToken = oidcAuthenticationService.createAccessToken({ userId: user.id, audience, sessionId });
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {

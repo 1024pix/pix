@@ -18,11 +18,12 @@ const createAccessTokenFromRefreshToken = async function ({
   refreshTokenRepository,
   userRepository,
 }) {
-  const foundRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
+  // const foundRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
 
-  if (!foundRefreshToken) {
-    throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-  }
+  // if (!foundRefreshToken) {
+  //   throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+  // }
+  assertRefreshTokenIsValid(refreshToken) // using tokenService.getDecodedToken
 
   if (!foundRefreshToken.hasSameAudience(audience)) {
     throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
@@ -38,6 +39,7 @@ const createAccessTokenFromRefreshToken = async function ({
     userId: foundRefreshToken.userId,
     source: foundRefreshToken.source,
     audience,
+    sid: refreshToken.sid,
   });
 };
 

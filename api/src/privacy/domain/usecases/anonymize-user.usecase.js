@@ -1,3 +1,4 @@
+import { revokedUserAccessRepository } from '../../../identity-access-management/infrastructure/repositories/revoked-user-access.repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
@@ -44,7 +45,8 @@ const anonymizeUser = async function ({
 
     await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
-    await refreshTokenRepository.revokeAllByUserId({ userId });
+    // await refreshTokenRepository.revokeAllByUserId({ userId });
+    await revokedUserAccessRepository.revokeAll(userId)
 
     if (user.email) {
       await resetPasswordDemandRepository.removeAllByEmail(user.email);
