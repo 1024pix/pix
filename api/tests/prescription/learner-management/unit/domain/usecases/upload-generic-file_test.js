@@ -1,14 +1,14 @@
 import sinon from 'sinon';
 
-import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
-import { ValidateGenericFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateGenericFileJob.js';
-import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
-import { sendOrganizationLearnersFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/import-from-feature/send-organization-learners-file.js';
-import { GenericParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
-import { expect } from '../../../../../../test-helper.js';
-import { catchErr } from '../../../../../../tooling/test-utils/error.js';
+import { AggregateImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { ValidateGenericFileJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateGenericFileJob.js';
+import { OrganizationImportStatus } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
+import { uploadGenericFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-generic-file.js';
+import { GenericParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
+import { expect } from '../../../../../test-helper.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
+describe('Unit | UseCase | uploadGenericFile', function () {
   let organizationImportRepositoryStub,
     organizationLearnerImportFormatRepositoryStub,
     validateGenericFileJobRepositoryStub,
@@ -104,7 +104,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filepath);
 
       // when
-      await sendOrganizationLearnersFile({
+      await uploadGenericFile({
         payload,
         userId,
         organizationId,
@@ -131,7 +131,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
       organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(null);
 
       // when
-      const sendError = await catchErr(sendOrganizationLearnersFile)({
+      const sendError = await catchErr(uploadGenericFile)({
         payload,
         userId,
         organizationId,
@@ -167,7 +167,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).rejects(error);
 
         // when
-        await catchErr(sendOrganizationLearnersFile)({
+        await catchErr(uploadGenericFile)({
           payload,
           userId,
           organizationId,
@@ -196,7 +196,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).rejects([error, error]);
 
         // when
-        await catchErr(sendOrganizationLearnersFile)({
+        await catchErr(uploadGenericFile)({
           payload,
           userId,
           organizationId,
@@ -237,7 +237,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
 
         // when
         try {
-          await sendOrganizationLearnersFile({
+          await uploadGenericFile({
             payload,
             userId,
             organizationId,
@@ -262,7 +262,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         organizationImportRepositoryStub.save.withArgs(organizationImportStub).rejects();
         // when
         try {
-          await sendOrganizationLearnersFile({
+          await uploadGenericFile({
             payload,
             userId,
             organizationId,

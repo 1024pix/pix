@@ -7,11 +7,11 @@ import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Prescription | Learner Management | Application | organization-learner-controller', function () {
-  describe('#importOrganizationLearnerFromFeature', function () {
+  describe('#uploadGenericFile', function () {
     let sendOrganizationLearnersFileStub;
 
     beforeEach(function () {
-      sendOrganizationLearnersFileStub = sinon.stub(usecases, 'sendOrganizationLearnersFile');
+      sendOrganizationLearnersFileStub = sinon.stub(usecases, 'uploadGenericFile');
     });
 
     it('should call usecases in correct order', async function () {
@@ -24,7 +24,7 @@ describe('Unit | Prescription | Learner Management | Application | organization-
         payload,
       };
 
-      const response = await organizationLearnersController.importOrganizationLearnerFromFeature(request, hFake);
+      const response = await organizationLearnersController.uploadGenericFile(request, hFake);
 
       expect(
         sendOrganizationLearnersFileStub.calledWithExactly({ payload, organizationId, userId }),

@@ -34,11 +34,15 @@ const deleteOrganizationLearnerFromAdmin = async function (request, h) {
   return h.response().code(200);
 };
 
-const importOrganizationLearnerFromFeature = async function (request, h) {
+const uploadGenericFile = async function (request, h) {
   const organizationId = request.params.organizationId;
   const userId = request.auth.credentials.userId;
 
-  await usecases.sendOrganizationLearnersFile({ payload: request.payload, organizationId, userId });
+  await usecases.uploadGenericFile({
+    payload: request.payload,
+    organizationId,
+    userId,
+  });
 
   return h.response().code(204);
 };
@@ -106,7 +110,7 @@ const organizationLearnersController = {
   deleteOrganizationLearners,
   deleteOrganizationLearnerFromAdmin,
   getOrganizationLearnerFilters,
-  importOrganizationLearnerFromFeature,
+  uploadGenericFile,
   dissociate,
   reconcileScoOrganizationLearnerAutomatically,
   updateOrganizationLearnerName,

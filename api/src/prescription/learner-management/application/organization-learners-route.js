@@ -158,13 +158,16 @@ const register = async (server) => {
             const authenticatedUserId = request.auth.credentials.userId;
             const organizationId = request.params.organizationId;
             try {
-              await usecases.handlePayloadTooLargeError({ organizationId, userId: authenticatedUserId });
+              await usecases.handlePayloadTooLargeError({
+                organizationId,
+                userId: authenticatedUserId,
+              });
             } catch (error) {
               return sendJsonApiError(error, h);
             }
           },
         },
-        handler: organizationLearnersController.importOrganizationLearnerFromFeature,
+        handler: organizationLearnersController.uploadGenericFile,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation**\n" +
             "- Elle permet de mettre à jour la liste des participants de l'organisation.",
@@ -190,7 +193,7 @@ const register = async (server) => {
         handler: organizationLearnersController.reconcileCommonOrganizationLearner,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Elle permet de mettre se reconcilier auprès d'une organisation ayant la fonctionnalité d'import.",
+            "- Elle permet de mettre se réconcilier auprès d'une organisation ayant la fonctionnalité d'import.",
         ],
         tags: ['api', 'organization-learners', 'reconciliation'],
       },

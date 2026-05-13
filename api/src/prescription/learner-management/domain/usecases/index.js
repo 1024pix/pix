@@ -89,7 +89,6 @@ import { getOrganizationLearnerFilters } from './get-organization-learner-filter
 import { getOrganizationLearnersCsvTemplate } from './get-organization-learners-csv-template.js';
 import { handlePayloadTooLargeError } from './handle-payload-too-large-error.js';
 import { hasBeenLearner } from './has-been-learner.js';
-import { sendOrganizationLearnersFile } from './import-from-feature/send-organization-learners-file.js';
 import { importLearnersFromFregataFile } from './import-learners/import-learners-from-fregata-file.js';
 import { importLearnersFromGenericFile } from './import-learners/import-learners-from-generic-file.js';
 import { importLearnersFromSiecleFile } from './import-learners/import-learners-from-siecle-file.js';
@@ -102,6 +101,7 @@ import { saveOrganizationLearnerImportFormats } from './save-organization-learne
 import { updateOrganizationLearnerName } from './update-organization-learner-name.js';
 import { updateStudentNumber } from './update-student-number.js';
 import { uploadCsvFile } from './upload-csv-file.js';
+import { uploadGenericFile } from './upload-generic-file.js';
 import { uploadSiecleFile } from './upload-siecle-file.js';
 import { validateFregataFile } from './validate-learners-file/validate-fregata-file.js';
 import { validateGenericFile } from './validate-learners-file/validate-generic-file.js';
@@ -110,7 +110,7 @@ import { validateSupFile } from './validate-learners-file/validate-sup-file.js';
 
 const usecasesWithoutInjectedDependencies = {
   importLearnersFromGenericFile,
-  sendOrganizationLearnersFile,
+  uploadGenericFile,
   validateOrganizationLearnersFile: validateGenericFile,
   importLearnersFromSiecleFile,
   anonymizeUser,

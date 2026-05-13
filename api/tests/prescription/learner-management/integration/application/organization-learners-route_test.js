@@ -116,7 +116,7 @@ describe('Integration | Application | Organization Learners Management | Routes'
 
     beforeEach(async function () {
       buffer = Buffer.alloc(1048576 * 1, 'B'); // 1Mo
-      sinon.stub(organizationLearnersController, 'importOrganizationLearnerFromFeature').returns('ok');
+      sinon.stub(organizationLearnersController, 'uploadGenericFile').returns('ok');
       httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       httpTestServer.setupAuthentication();
