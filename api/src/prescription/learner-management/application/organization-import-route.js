@@ -36,7 +36,7 @@ const register = async (server) => {
         handler: organizationImportController.getOrganizationImportStatus,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables d'une organisation avec import**\n" +
-            "- Elle permet de récupérer l'état du dernier réalisé pour l'organization",
+            "- Elle permet de récupérer l'état du dernier réalisé pour l'organisation",
         ],
         tags: ['api', 'organization-imports'],
       },
