@@ -93,8 +93,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
-  describe('#isReady', function () {
-    context('when enabled in config', function () {
+  describe('#isEnabled', function () {
+    context('when enabled is true', function () {
       it('returns true', function () {
         // given
         const oidcAuthenticationService = new OidcAuthenticationService(
@@ -112,20 +112,45 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         );
 
         // when
-        const isOidcAuthenticationServiceReady = oidcAuthenticationService.isReady;
+        const result = oidcAuthenticationService.isEnabled;
 
         // then
-        expect(isOidcAuthenticationServiceReady).to.be.true;
+        expect(result).to.be.true;
       });
     });
 
-    context('when not enabled in config', function () {
+    context('when enabledForPixAdmin is true', function () {
+      it('returns true', function () {
+        // given
+        const oidcAuthenticationService = new OidcAuthenticationService(
+          {
+            clientId: 'anId',
+            clientSecret: 'aSecret',
+            additionalRequiredProperties: {
+              aProperty: 'a property value',
+            },
+            enabledForPixAdmin: true,
+            openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
+            redirectUri: 'https://example.net/connexion/redirect',
+          },
+          { openidClient },
+        );
+
+        // when
+        const result = oidcAuthenticationService.isEnabled;
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when neither enabled nor enabledForPixAdmin is true', function () {
       it('returns false', function () {
         // given
         const oidcAuthenticationService = new OidcAuthenticationService({}, { openidClient });
 
         // when
-        const result = oidcAuthenticationService.isReady;
+        const result = oidcAuthenticationService.isEnabled;
 
         // then
         expect(result).to.be.false;

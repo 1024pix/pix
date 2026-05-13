@@ -15,7 +15,7 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
 
   describe('#constructor', function () {
     describe('when additionalRequiredProperties is not defined', function () {
-      it('is not ready', async function () {
+      it('is disabled', async function () {
         // when
         const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService(
           {
@@ -25,12 +25,14 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
             shouldCloseSession: true,
             slug: 'pole-emploi',
             source: 'pole_emploi_connect',
+            enabled: false,
+            enabledForPixAdmin: false,
           },
           { openidClient },
         );
 
         // then
-        expect(oidcAuthenticationService.isReady).to.be.false;
+        expect(oidcAuthenticationService.isEnabled).to.be.false;
       });
     });
   });

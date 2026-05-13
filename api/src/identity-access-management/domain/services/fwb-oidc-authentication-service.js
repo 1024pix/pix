@@ -6,7 +6,7 @@ export class FwbOidcAuthenticationService extends OidcAuthenticationService {
     super(oidcProvider, dependencies);
 
     if (!oidcProvider.additionalRequiredProperties) {
-      this.isReady = false;
+      this.enabled = false;
       logger.error(
         `OIDC Provider "${this.identityProvider}" has been DISABLED because of missing "additionalRequiredProperties" object.`,
       );

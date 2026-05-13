@@ -26,8 +26,6 @@ const DEFAULT_CLAIM_MAPPING = {
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
 export class OidcAuthenticationService {
-  #isReady = false;
-  #isReadyForPixAdmin = false;
   #openidClient;
   #openidClientConfig;
 
@@ -91,32 +89,17 @@ export class OidcAuthenticationService {
 
     this.claimManager = new ClaimManager({ claimMapping, additionalClaims });
 
-    if (!enabled && !enabledForPixAdmin) {
-      return;
-    }
-
     const accessTokenLifespanSeconds = this.accessTokenLifespanMs / 1000;
     this.accessTokenJwtOptions = { expiresIn: accessTokenLifespanSeconds };
     this.sessionDurationSeconds = accessTokenLifespanSeconds;
-
-    this.#isReady = enabled;
-    this.#isReadyForPixAdmin = enabledForPixAdmin;
   }
 
   get code() {
     return this.identityProvider;
   }
 
-  get isReady() {
-    return this.#isReady;
-  }
-
-  set isReady(isReady) {
-    this.#isReady = isReady;
-  }
-
-  get isReadyForPixAdmin() {
-    return this.#isReadyForPixAdmin;
+  get isEnabled() {
+    return Boolean(this.enabled || this.enabledForPixAdmin);
   }
 
   async initializeClientConfig() {
