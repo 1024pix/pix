@@ -82,7 +82,7 @@ import { deleteOrganizationLearners } from './delete-organization-learners.js';
 import { dissociateUserFromOrganizationLearner } from './dissociate-user-from-organization-learner.js';
 import { findAllOrganizationLearnerImportFormats } from './find-all-organization-learner-import-format.js';
 import { findOrganizationLearnersBeforeImportFeature } from './find-organization-learners-before-import-feature.js';
-import { getDeltaOrganizationLearnerIds } from './get-delta-organization-learner-ids.js';
+import { findSupLearnerIdsToDelete } from './find-sup-learner-ids-to-delete.js';
 import { getOrganizationImport } from './get-organization-import.js';
 import { getOrganizationImportStatus } from './get-organization-import-status.js';
 import { getOrganizationLearnerFilters } from './get-organization-learner-filters.js';
@@ -121,7 +121,7 @@ const usecasesWithoutInjectedDependencies = {
   findAllOrganizationLearnerImportFormats,
   getOrganizationLearnerFilters,
   findOrganizationLearnersBeforeImportFeature,
-  getDeltaOrganizationLearnerIds,
+  findSupLearnerIdsToDelete,
   getOrganizationImportStatus,
   getOrganizationImport,
   getOrganizationLearnersCsvTemplate,

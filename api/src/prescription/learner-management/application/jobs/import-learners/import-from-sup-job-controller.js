@@ -26,7 +26,7 @@ class ImportFromSupJobController extends JobController {
 
     try {
       if (type === SUP_IMPORT_TYPES.REPLACE_STUDENT) {
-        const learnerIdsToDelete = await usecases.getDeltaOrganizationLearnerIds({
+        const learnerIdsToDelete = await usecases.findSupLearnerIdsToDelete({
           organizationImportId,
           i18n,
         });

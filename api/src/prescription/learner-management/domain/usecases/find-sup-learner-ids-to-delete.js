@@ -1,7 +1,7 @@
 import { SupParser } from '../../infrastructure/serializers/csv/parsers/sup-parser.js';
 import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 
-const getDeltaOrganizationLearnerIds = async function ({
+const findSupLearnerIdsToDelete = async function ({
   organizationImportId,
   i18n,
   supOrganizationLearnerRepository,
@@ -18,8 +18,8 @@ const getDeltaOrganizationLearnerIds = async function ({
 
   return supOrganizationLearnerRepository.getOrganizationLearnerIdsNotInList({
     organizationId: organizationImport.organizationId,
-    studentNumberList: learners.map((learner) => learner.studentNumber),
+    studentNumberList: learners.map(({ studentNumber }) => studentNumber),
   });
 };
 
-export { getDeltaOrganizationLearnerIds };
+export { findSupLearnerIdsToDelete };
