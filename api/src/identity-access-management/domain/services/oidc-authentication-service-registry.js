@@ -87,8 +87,12 @@ export class OidcAuthenticationServiceRegistry {
 
     this.#allOidcProviderServices = oidcProviderServices;
 
+    const enabledOidcProviderServices = this.#allOidcProviderServices.filter(
+      (oidcProviderService) => oidcProviderService.isEnabled,
+    );
+
     this.#readyOidcProviderServicesByRequestedApplications = Object.groupBy(
-      this.#allOidcProviderServices.filter((oidcProviderService) => oidcProviderService.isEnabled),
+      enabledOidcProviderServices,
       (oidcProviderService) => generateGroupByKey(oidcProviderService.application, oidcProviderService.applicationTld),
     );
   }
