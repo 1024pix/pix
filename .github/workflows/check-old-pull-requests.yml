@@ -16,31 +16,6 @@ jobs:
   check-inactive-prs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Close old pull requests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ONE_MONTH_AGO=$(date -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
-          echo "Searching opened pull requests from $ONE_MONTH_AGO"
-          OPENED_PRS=$(gh pr list --json number,updatedAt --limit 100)
-          PR_COUNT=$(echo "$OPENED_PRS" | jq '. | length')
-          echo "Found $PR_COUNT PRs opened"
-
-          echo "$OPENED_PRS" | jq -c '.[]' | while read -r PR; do
-            PR_NUMBER=$(echo "$PR" | jq -r '.number')
-            UPDATED_AT=$(echo "$PR" | jq -r '.updatedAt')
-
-            if [[ "$UPDATED_AT" < "$ONE_MONTH_AGO" ]]; then
-              echo "[#$PR_NUMBER] inactive PR since $UPDATED_AT"
-
-              gh pr close "$PR_NUMBER" --comment "Cette pull request a été fermée car elle est inactive depuis un mois. Vous pouvez la réouvrir ou la mettre en draft pour éviter qu'elle ne soit refermée." --delete-branch
-
-              echo "[#$PR_NUMBER] PR closed."
-            else
-              echo "[#$PR_NUMBER] active PR since $UPDATED_AT"
-            fi
-          done
-          echo "All inactive pull requests have been processed."
+      - uses: 1024pix/pix-actions/close-old-pull-requests@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
