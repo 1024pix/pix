@@ -8,7 +8,7 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 
 export class OidcAuthenticationServiceRegistry {
   #allOidcProviderServices = null;
-  #readyOidcProviderServicesByRequestedApplications = {};
+  #readyOidcProviderServicesByRequestedApplication = {};
 
   constructor(dependencies = {}) {
     this.oidcProviderRepository = dependencies.oidcProviderRepository ?? oidcProviderRepository;
@@ -27,7 +27,7 @@ export class OidcAuthenticationServiceRegistry {
     await this.#loadAllOidcProviderServices();
 
     const groupByKey = generateGroupByKey(requestedApplication.applicationName, requestedApplication.applicationTld);
-    return this.#readyOidcProviderServicesByRequestedApplications[groupByKey] || [];
+    return this.#readyOidcProviderServicesByRequestedApplication[groupByKey] || [];
   }
 
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
@@ -47,7 +47,7 @@ export class OidcAuthenticationServiceRegistry {
 
   async testOnly_reset(oidcProviderServices) {
     this.#allOidcProviderServices = null;
-    this.#readyOidcProviderServicesByRequestedApplications = {};
+    this.#readyOidcProviderServicesByRequestedApplication = {};
 
     if (oidcProviderServices) {
       await this.#loadAllOidcProviderServices(oidcProviderServices);
@@ -91,7 +91,7 @@ export class OidcAuthenticationServiceRegistry {
       (oidcProviderService) => oidcProviderService.isEnabled,
     );
 
-    this.#readyOidcProviderServicesByRequestedApplications = Object.groupBy(
+    this.#readyOidcProviderServicesByRequestedApplication = Object.groupBy(
       enabledOidcProviderServices,
       (oidcProviderService) => generateGroupByKey(oidcProviderService.application, oidcProviderService.applicationTld),
     );
