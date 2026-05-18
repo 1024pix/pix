@@ -47,13 +47,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.load();
 
       // then
-      assert.strictEqual(oidcIdentityProvidersService['OIDC_PARTNER'].code, oidcPartner.code);
-      assert.strictEqual(oidcIdentityProvidersService['OIDC_PARTNER'].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(
-        oidcIdentityProvidersService['OIDC_PARTNER'].shouldCloseSession,
-        oidcPartner.shouldCloseSession,
-      );
-      assert.strictEqual(oidcIdentityProvidersService['OIDC_PARTNER'].source, oidcPartner.source);
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].shouldCloseSession, oidcPartner.shouldCloseSession);
